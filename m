@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2866F25DEBF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:56:56 +0200 (CEST)
-Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3A625DEC6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:58:53 +0200 (CEST)
+Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEE59-0005Lg-5e
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58626)
+	id 1kEE73-00082l-0X
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kEE2l-00017g-Ln
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:54:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52800
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kEE2j-0000gH-0L
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:54:26 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-3KdcvWwTMtSPiz-DIqEyfA-1; Fri, 04 Sep 2020 11:54:20 -0400
-X-MC-Unique: 3KdcvWwTMtSPiz-DIqEyfA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2A4D1017DC0;
- Fri,  4 Sep 2020 15:54:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
- [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4A9C5D9CC;
- Fri,  4 Sep 2020 15:54:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3DB581132B59; Fri,  4 Sep 2020 17:54:18 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v5 00/20] Convert QAPI doc comments to generate rST
- instead of texinfo
-References: <20200810195019.25427-1-peter.maydell@linaro.org>
- <CAFEAcA9cyKVwONYuzG3oPcQQ9sibpdtetCjcBe3133gd09Aa9w@mail.gmail.com>
- <87d0314nmp.fsf@dusky.pond.sub.org>
- <CAFEAcA9ABUwa_TnyczsO+TtSncX0hHwN7_zgyGGWP6nWtEkdDQ@mail.gmail.com>
-Date: Fri, 04 Sep 2020 17:54:18 +0200
-In-Reply-To: <CAFEAcA9ABUwa_TnyczsO+TtSncX0hHwN7_zgyGGWP6nWtEkdDQ@mail.gmail.com>
- (Peter Maydell's message of "Fri, 4 Sep 2020 15:48:35 +0100")
-Message-ID: <87eenhzget.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kEE3c-00039b-O8
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:55:20 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kEE3a-0000tH-Rd
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:55:20 -0400
+Received: by mail-pf1-x443.google.com with SMTP id f18so4820397pfa.10
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:55:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RXCiU18LJsFTwbNA/U867gAKdb5fbjfff4KmWalj/8A=;
+ b=EgrL0YV3fTJA/zvWF1bmMIXh996eDmk8jI4XMtDCyMAn55iE8hFuRdU8JKOm875Lr8
+ DH32rpvT7O41I8x0RvDGxGp3DxwwnKfYBqb2oJK1U4uVgZshErEfcPU9kB9rxv0rAwnr
+ txw11DGW8Bf/HBY8YjnHOHBjEXlVRJ1I8Nk46tVkqIaT77NYJpxEExYRGloXOPBgpxdl
+ Sxd7kuRoh47ka1zskFSO59d6QFj7JmZd+91uS0IjNH9IcqGrbzDtzFquvKJweUzEyyQc
+ TIkhZcdvw4GzsCritkBqcEW8rk7O5LKBvJSS5Cm5thYvOcrdo8eR0zYs5PCEB0h2oeoa
+ 5pNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RXCiU18LJsFTwbNA/U867gAKdb5fbjfff4KmWalj/8A=;
+ b=RhLb3dp28iqyKNZgxnfgecrbQWy1OifIyllQJNBBnpzgkxKLWdgEAMK4TEckSyKEkc
+ VWEZccevifpSwdTRp5Ll6KE5Nwhtsz1OdMtyr9QoLJeIL2LQXP/MS0kG7KvGYwSPiDVs
+ BXVzbQFVXEvDmZ+wkyBkq9SN0HjNIZGxAfQ2TOyhvdfg3UhoBpbrugETI4Mz011yRmRp
+ CwuKgVb5KElB3LHI4ii7HQbLOzf1uWbC+UXiFENZQgvPx178j2w5geJ7Geu0zbqqj07g
+ gHEyX1ry7mqqkjdgid3wL951Uyb0rJS36emvmulzTcrjHJfc1eNZUfeJqknjwnZZJyXV
+ 1SoA==
+X-Gm-Message-State: AOAM531UVSMStrdUNSLDHOxlrW7MJgt1XkyKvNdvySnl2EXAZOIAoxM9
+ 0bjhlxczN+n/QuolDTJ/vestQA==
+X-Google-Smtp-Source: ABdhPJxLMiis9rqjZY3JVLe/XADASpBDKgBjcTKW4MZoJkvwYzTbHSPr/K6iuPhKoQMzz4kFN/sugQ==
+X-Received: by 2002:a63:c64c:: with SMTP id x12mr7809501pgg.433.1599234916900; 
+ Fri, 04 Sep 2020 08:55:16 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id l12sm5560349pjq.31.2020.09.04.08.55.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Sep 2020 08:55:16 -0700 (PDT)
+Subject: Re: [PATCH v1 2/4] plugins: add API to return a name for a IO device
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200904134007.4175-1-alex.bennee@linaro.org>
+ <20200904134007.4175-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d497d2b9-3107-dae7-e6bd-21b9be580359@linaro.org>
+Date: Fri, 4 Sep 2020 08:55:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200904134007.4175-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.107,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,74 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: robert.foley@linaro.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org, Clement Deschamps <clement.deschamps@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On 9/4/20 6:40 AM, Alex Bennée wrote:
+> +        return g_intern_string("RAM");
+> +    }
+> +#else
+> +    return g_intern_string("Invalid");
 
-> On Fri, 4 Sep 2020 at 15:34, Markus Armbruster <armbru@redhat.com> wrote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->> > I'm not sure whether the scripts/qapi code supports telling
->> > a consumer of the parsed info about this -- is it sufficient
->> > for QAPISchemaGenRSTVisitor to implement the 'visit_include'
->> > method, find the path to the included .qapi file from the
->> > arguments and call Sphinx's env.notedependency(), or do we
->> > need to do something more complicated to get the list of
->> > all the included .qapi files ?
->>
->> Visitors can implement visit_include() to see include directives.
->> QAPISchemaModularCVisitor does, to generate #include that mirror the
->> source schema.  This is not what your want.
->
-> Why not? Surely "see include directives" is exactly what I want?
-> Any time the QAPI parser opens a file that's different from the
-> initial one we want to know about it.
->
->> You want visit_module().  The appended hack makes qapi-gen.py spit out
->> the modules when it generates types, e.g.:
->>
->>     $ python3 -B scripts/qapi-gen.py -o scratch tests/qapi-schema/qapi-schema-test.json
->>     ### None
->>     ### 'qapi-schema-test.json'
->>     ### 'include/sub-module.json'
->>     ### 'sub-sub-module.json'
->
-> What's a "module" here ?
+g_intern_static_string.
 
-Initially, the include directive was just that: include another file's
-contents right here.
 
-Back in 2018, we switched from generating monolithic code to generating
-modular code.  What does that mean?
-
-Instead of generating the kitchen sink into a single qapi-types.c, we
-split out the stuff generated for each FOO.json included by
-qapi-schema.json into qapi-types-FOO.c.
-
-Same for qapi-types.h, but with #include stitching that mirrors the
-schema's include directives.  So, if FOO.json includes SUB.json, then
-qapi-types-FOO.h will include qapi-types-SUB.h.
-
-Same for qapi-{commands,events,visit}.{c,h}.
-
-The qapi-schema.json (rather: the file you pass to qapi-gen.py) is the
-main module.
-
-The .json it includes are the sub-modules.
-
-visit_module() lets you see the modules.
-
-visit_include() lets you see the includes.  The same module can be
-included multiple times.  Having to filter that out would be annoying.
-
->                          Does this still produce output if the
-> top level .json file includes a sub-json file that doesn't actually
-> have any contents ? (We still want to generate the dependency
-> then, so we update the docs if the included file is edited to
-> add content.)
-
-If it doesn't, I'd be willing to call it a bug.  I dimly remember fixing
-this (or a similar bug) before.
-
+r~
 
