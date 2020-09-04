@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972A125CFFA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:51:32 +0200 (CEST)
-Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BAA525D00F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:55:03 +0200 (CEST)
+Received: from localhost ([::1]:33784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2l9-0000ac-LW
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54750)
+	id 1kE2oY-0007Io-3a
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hZ-0002dB-Dq; Thu, 03 Sep 2020 23:47:49 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:51105)
+ id 1kE2ha-0002gU-Lf; Thu, 03 Sep 2020 23:47:50 -0400
+Received: from ozlabs.org ([203.11.71.1]:58961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hU-0004ux-M2; Thu, 03 Sep 2020 23:47:49 -0400
+ id 1kE2hY-0004wZ-Jg; Thu, 03 Sep 2020 23:47:50 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsq19Pfz9sVq; Fri,  4 Sep 2020 13:47:27 +1000 (AEST)
+ id 4BjNsq4Pwkz9sVx; Fri,  4 Sep 2020 13:47:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599191247;
- bh=x72XkQdCKwl+nzDKBcPHb5FwlHCdlLNuP3qoPMFwXdc=;
+ bh=PeIhZBLtydKrEKfpTxjVJjL8zkvkMJjiCuSHLy0Dyv4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jEeTZevWfLWBxC2MzJQkPwFtW0OET3L4NvtIKOlOU06QG6pDzJsbL1FaEBe+gmTRL
- ekamfmoQAh0HWubs73OHX8NTr+qPaHurKPYD3+keH6VUH/HMewhdnZXpFw8MocIfwc
- eXxo9STyhdb+7+hI8HA33k9eMewyVcawPqgXombU=
+ b=SzNjqsalhdrYeZTL95OUmCNP5C0LsI0/F3kBZT4+yaKxraJtdAyiYvEr0IzZHx2ha
+ xHw1gg6hpV9GQVc1zKBN0Ju9j1SBrSn/P/GQqP7S87ZidSPi5LKzD5ME5XxWDYtoD9
+ OUs+QeciBCMsr85oLkOAmH1WH45BnlW+t+pXxkKE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/30] ppc/spapr_nvdimm: use g_autofree in
- spapr_nvdimm_validate_opts()
-Date: Fri,  4 Sep 2020 13:47:01 +1000
-Message-Id: <20200904034719.673626-13-david@gibson.dropbear.id.au>
+Subject: [PULL 13/30] spapr,
+ spapr_nvdimm: fold NVDIMM validation in the same place
+Date: Fri,  4 Sep 2020 13:47:02 +1000
+Message-Id: <20200904034719.673626-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 23:47:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -67,37 +67,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Since we're using the string just once, just use g_autofree and
-avoid leaking it without calling g_free().
+NVDIMM has different contraints and conditions than the regular
+DIMM and we'll need to add at least one more.
+
+Instead of relying on 'if (nvdimm)' conditionals in the body of
+spapr_memory_pre_plug(), use the existing spapr_nvdimm_validate_opts()
+and put all NVDIMM handling code there. Rename it to
+spapr_nvdimm_validate() to reflect that the function is now checking
+more than the nvdimm device options. This makes spapr_memory_pre_plug()
+a bit easier to follow, and we can tune in NVDIMM parameters
+and validation in the same place.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200825215749.213536-2-danielhb413@gmail.com>
+Message-Id: <20200825215749.213536-3-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_nvdimm.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/ppc/spapr.c                | 18 ++++++------------
+ hw/ppc/spapr_nvdimm.c         | 10 ++++++++--
+ include/hw/ppc/spapr_nvdimm.h |  4 ++--
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index dd2fa4826b..b0a04443fb 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3520,7 +3520,6 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+ {
+     const SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(hotplug_dev);
+     SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
+-    const MachineClass *mc = MACHINE_CLASS(smc);
+     bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
+     PCDIMMDevice *dimm = PC_DIMM(dev);
+     Error *local_err = NULL;
+@@ -3533,27 +3532,22 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+         return;
+     }
+ 
+-    if (is_nvdimm && !mc->nvdimm_supported) {
+-        error_setg(errp, "NVDIMM hotplug not supported for this machine");
+-        return;
+-    }
+-
+     size = memory_device_get_region_size(MEMORY_DEVICE(dimm), &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+-    if (!is_nvdimm && size % SPAPR_MEMORY_BLOCK_SIZE) {
+-        error_setg(errp, "Hotplugged memory size must be a multiple of "
+-                   "%" PRIu64 " MB", SPAPR_MEMORY_BLOCK_SIZE / MiB);
+-        return;
+-    } else if (is_nvdimm) {
+-        spapr_nvdimm_validate_opts(NVDIMM(dev), size, &local_err);
++    if (is_nvdimm) {
++        spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             return;
+         }
++    } else if (size % SPAPR_MEMORY_BLOCK_SIZE) {
++        error_setg(errp, "Hotplugged memory size must be a multiple of "
++                   "%" PRIu64 " MB", SPAPR_MEMORY_BLOCK_SIZE / MiB);
++        return;
+     }
+ 
+     memdev = object_property_get_link(OBJECT(dimm), PC_DIMM_MEMDEV_PROP,
 diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index 81410aa63f..9a20a65640 100644
+index 9a20a65640..bc2b65420c 100644
 --- a/hw/ppc/spapr_nvdimm.c
 +++ b/hw/ppc/spapr_nvdimm.c
-@@ -33,7 +33,7 @@
- void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
-                                 Error **errp)
+@@ -30,13 +30,19 @@
+ #include "hw/ppc/fdt.h"
+ #include "qemu/range.h"
+ 
+-void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
+-                                Error **errp)
++void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
++                           uint64_t size, Error **errp)
  {
--    char *uuidstr = NULL;
-+    g_autofree char *uuidstr = NULL;
++    const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
+     g_autofree char *uuidstr = NULL;
      QemuUUID uuid;
      int ret;
  
-@@ -54,7 +54,6 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
-                                       &error_abort);
-     ret = qemu_uuid_parse(uuidstr, &uuid);
-     g_assert(!ret);
--    g_free(uuidstr);
++    if (!mc->nvdimm_supported) {
++        error_setg(errp, "NVDIMM hotplug not supported for this machine");
++        return;
++    }
++
+     if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
+                                 &error_abort) == 0) {
+         error_setg(errp, "PAPR requires NVDIMM devices to have label-size set");
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index b3330cc485..fd1736634c 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -29,8 +29,8 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+                            void *fdt, int *fdt_start_offset, Error **errp);
+ int spapr_dt_nvdimm(void *fdt, int parent_offset, NVDIMMDevice *nvdimm);
+ void spapr_dt_persistent_memory(void *fdt);
+-void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
+-                                Error **errp);
++void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
++                           uint64_t size, Error **errp);
+ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
+ void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr);
  
-     if (qemu_uuid_is_null(&uuid)) {
-         error_setg(errp, "NVDIMM device requires the uuid to be set");
 -- 
 2.26.2
 
