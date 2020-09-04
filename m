@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A791625DCAD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:02:12 +0200 (CEST)
-Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FAD25DCB6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:03:47 +0200 (CEST)
+Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEDEB-0003C1-LT
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
+	id 1kEDFi-0005ti-O7
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:03:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8G-0000rl-Pu
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33409
+ id 1kED8K-00010W-9x
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:08 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29060
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8E-0007E2-Ap
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:04 -0400
+ id 1kED8G-0007Ec-JP
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:07 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-M6o4meO-Mn-bAiiyl1Y6mQ-1; Fri, 04 Sep 2020 10:54:53 -0400
-X-MC-Unique: M6o4meO-Mn-bAiiyl1Y6mQ-1
+ us-mta-145-v0gl_LOIO02kxjU2HmFvSA-1; Fri, 04 Sep 2020 10:54:57 -0400
+X-MC-Unique: v0gl_LOIO02kxjU2HmFvSA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55F548D3287
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:54:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2825B1084D62
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:54:56 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAA437E416;
- Fri,  4 Sep 2020 14:54:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC9097A1F4;
+ Fri,  4 Sep 2020 14:54:54 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 10/22] i386: add reserved
- FEAT_HV_RECOMM_ECX/FEAT_HV_RECOMM_EDX CPUID leaves
-Date: Fri,  4 Sep 2020 16:54:19 +0200
-Message-Id: <20200904145431.196885-11-vkuznets@redhat.com>
+Subject: [PATCH RFC 12/22] i386: always fill Hyper-V CPUID feature leaves from
+ X86CPU data
+Date: Fri,  4 Sep 2020 16:54:21 +0200
+Message-Id: <20200904145431.196885-13-vkuznets@redhat.com>
 In-Reply-To: <20200904145431.196885-1-vkuznets@redhat.com>
 References: <20200904145431.196885-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -74,74 +74,44 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As a preparation to expanding Hyper-V CPU features early, add reserved
-FEAT_HV_RECOMM_ECX/FEAT_HV_RECOMM_EDX CPUID leaves.
+We have all the required data in X86CPU already and as we are about to
+split hyperv_handle_properties() into hyperv_expand_features()/
+hyperv_fill_cpuids() we can remove the blind copy. The functional change
+is that QEMU won't pass CPUID leaves it doesn't currently know about
+to the guest but arguably this is a good change.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c | 10 ++++++++++
- target/i386/cpu.h |  2 ++
- target/i386/kvm.c |  5 +++++
- 3 files changed, 17 insertions(+)
+ target/i386/kvm.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 70588571ccb1..3665f22093e9 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1021,6 +1021,16 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .cpuid = { .eax = 0x40000004, .reg = R_EAX, },
-     },
-+    [FEAT_HV_RECOMM_ECX] = {
-+        .type = CPUID_FEATURE_WORD,
-+        /* reserved */
-+        .cpuid = { .eax = 0x40000004, .reg = R_ECX, },
-+    },
-+    [FEAT_HV_RECOMM_EDX] = {
-+        .type = CPUID_FEATURE_WORD,
-+        /* reserved */
-+        .cpuid = { .eax = 0x40000004, .reg = R_EDX, },
-+    },
-     [FEAT_HV_NESTED_EAX] = {
-         .type = CPUID_FEATURE_WORD,
-         .cpuid = { .eax = 0x4000000A, .reg = R_EAX, },
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 39e0e89aa41f..0668fe74df4f 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -524,6 +524,8 @@ typedef enum FeatureWord {
-     FEAT_HYPERV_ECX,    /* CPUID[4000_0003].ECX */
-     FEAT_HYPERV_EDX,    /* CPUID[4000_0003].EDX */
-     FEAT_HV_RECOMM_EAX, /* CPUID[4000_0004].EAX */
-+    FEAT_HV_RECOMM_ECX, /* CPUID[4000_0004].ECX */
-+    FEAT_HV_RECOMM_EDX, /* CPUID[4000_0004].EDX */
-     FEAT_HV_NESTED_EAX, /* CPUID[4000_000A].EAX */
-     FEAT_SVM,           /* CPUID[8000_000A].EDX */
-     FEAT_XSAVE,         /* CPUID[EAX=0xd,ECX=1].EAX */
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 259be2d514dd..c18f221cd301 100644
+index 87b83a2aa2cb..b7f0e200a75f 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -1267,7 +1267,10 @@ static int hyperv_handle_properties(CPUState *cs,
-         if (c) {
-             env->features[FEAT_HV_RECOMM_EAX] = c->eax;
-             cpu->hyperv_spinlock_attempts = c->ebx;
-+            env->features[FEAT_HV_RECOMM_ECX] = c->ecx;
-+            env->features[FEAT_HV_RECOMM_EDX] = c->edx;
-         }
-+
-         c = cpuid_find_entry(cpuid, HV_CPUID_NESTED_FEATURES, 0);
-         if (c) {
-             env->features[FEAT_HV_NESTED_EAX] = c->eax;
-@@ -1358,6 +1361,8 @@ static int hyperv_handle_properties(CPUState *cs,
-     c->function = HV_CPUID_ENLIGHTMENT_INFO;
-     c->eax = env->features[FEAT_HV_RECOMM_EAX];
-     c->ebx = cpu->hyperv_spinlock_attempts;
-+    c->ecx = env->features[FEAT_HV_RECOMM_ECX];
-+    c->edx = env->features[FEAT_HV_RECOMM_EDX];
+@@ -1221,9 +1221,6 @@ static int hyperv_handle_properties(CPUState *cs,
+     }
  
+     if (cpu->hyperv_passthrough) {
+-        memcpy(cpuid_ent, &cpuid->entries[0],
+-               cpuid->nent * sizeof(cpuid->entries[0]));
+-
+         c = cpuid_find_entry(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, 0);
+         if (c) {
+             cpu->hyperv_vendor_id[0] = c->ebx;
+@@ -1325,12 +1322,6 @@ static int hyperv_handle_properties(CPUState *cs,
+         goto free;
+     }
+ 
+-    if (cpu->hyperv_passthrough) {
+-        /* We already copied all feature words from KVM as is */
+-        r = cpuid->nent;
+-        goto free;
+-    }
+-
      c = &cpuid_ent[cpuid_i++];
-     c->function = HV_CPUID_IMPLEMENT_LIMITS;
+     c->function = HV_CPUID_VENDOR_AND_MAX_FUNCTIONS;
+     c->eax = hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) ?
 -- 
 2.25.4
 
