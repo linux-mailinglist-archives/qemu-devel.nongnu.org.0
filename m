@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B76625D00C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:54:16 +0200 (CEST)
-Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE03525D009
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:53:27 +0200 (CEST)
+Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2nn-0005nS-9g
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:54:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54802)
+	id 1kE2n0-0003Td-K5
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hb-0002jh-QK; Thu, 03 Sep 2020 23:47:51 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:48803)
+ id 1kE2hd-0002n3-0D; Thu, 03 Sep 2020 23:47:53 -0400
+Received: from ozlabs.org ([203.11.71.1]:40113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hZ-0004wu-Qb; Thu, 03 Sep 2020 23:47:51 -0400
+ id 1kE2ha-0004xH-W4; Thu, 03 Sep 2020 23:47:52 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsr282wz9sW0; Fri,  4 Sep 2020 13:47:28 +1000 (AEST)
+ id 4BjNsr50J4z9sW6; Fri,  4 Sep 2020 13:47:28 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599191248;
- bh=WHUZRE8xBkBhoLgTp8c17urX6r5gVdkN3abjLoZHMUE=;
+ bh=Ed8eNmI6TeOF00ug4vwXg3Ihw5WGZ2MpoWZJgwfPLvg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Qwsajg/q15lklvtp6sxvjoNcyVdI+a0jh1tUVIa3588J2LjOtgJNHvAkm3e/f+Qez
- OlrF1ZcjODs1TFpmQn5ASgU/ZAr4ik5WqhIyW4o6snE3rb4J5xgQs3xca1T7MU7Bag
- AUXlt5PmHUDiPsR6/N1SVqtsIwQWpl2KHXpOmR4Q=
+ b=eJELicU8YoHUPSL3z+u97ttGXNVHhgNt0QpRwsWZi7NRRwtF7lfd4QTCshjO7IRQr
+ udVFqn/NLSUg9ALTElcRSq6W/yNe32EwhKFDS1/ShHxZL+RfXpJZo7x3xmsWkQinza
+ oBPV/VJcdpDuE+LUV3+byjj0qzbGh/wa377ck5fM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 17/30] ppc/spapr: Use start-powered-off CPUState property
-Date: Fri,  4 Sep 2020 13:47:06 +1000
-Message-Id: <20200904034719.673626-18-david@gibson.dropbear.id.au>
+Subject: [PULL 18/30] ppc/e500: Use start-powered-off CPUState property
+Date: Fri,  4 Sep 2020 13:47:07 +1000
+Message-Id: <20200904034719.673626-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 23:47:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -58,74 +59,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-PowerPC sPAPR CPUs start in the halted state, and spapr_reset_vcpu()
-attempts to implement this by setting CPUState::halted to 1. But that's too
-late for the case of hotplugged CPUs in a machine configure with 2 or more
-threads per core.
+Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
+the start-powered-off property which makes cpu_common_reset() initialize it
+to 1 in common code.
 
-By then, other parts of QEMU have already caused the vCPU to run in an
-unitialized state a couple of times. For example, ppc_cpu_reset() calls
-ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). This
-kicks the new vCPU while it has CPUState::halted = 0, causing QEMU to issue
-a KVM_RUN ioctl on the new vCPU before the guest is able to make the
-start-cpu RTAS call to initialize its register state.
+Also change creation of CPU object from cpu_create() to object_new() and
+qdev_realize_and_unref() because cpu_create() realizes the CPU and it's not
+possible to set a property after the object is realized.
 
-This problem doesn't seem to cause visible issues for regular guests, but
-on a secure guest running under the Ultravisor it does. The Ultravisor
-relies on being able to snoop on the start-cpu RTAS call to map vCPUs to
-guests, and this issue causes it to see a stray vCPU that doesn't belong to
-any guest.
-
-Fix by setting the start-powered-off CPUState property in
-spapr_create_vcpu(), which makes cpu_common_reset() initialize
-CPUState::halted to 1 at an earlier moment.
-
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Message-Id: <20200826055535.951207-4-bauerman@linux.ibm.com>
+Message-Id: <20200826055535.951207-5-bauerman@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_cpu_core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/ppc/e500.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index c4f47dcc04..2125fdac34 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -36,11 +36,6 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index ab9884e315..ae39b9358e 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
  
      cpu_reset(cs);
  
--    /* All CPUs start halted.  CPU0 is unhalted from the machine level
--     * reset code and the rest are explicitly started up by the guest
--     * using an RTAS call */
+-    /* Secondary CPU starts in halted state for now. Needs to change when
+-       implementing non-kernel boot. */
 -    cs->halted = 1;
--
-     env->spr[SPR_HIOR] = 0;
+     cs->exception_index = EXCP_HLT;
+ }
  
-     lpcr = env->spr[SPR_LPCR];
-@@ -274,6 +269,11 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
+@@ -865,7 +862,7 @@ void ppce500_init(MachineState *machine)
+         CPUState *cs;
+         qemu_irq *input;
  
-     cs = CPU(obj);
-     cpu = POWERPC_CPU(obj);
-+    /*
-+     * All CPUs start halted. CPU0 is unhalted from the machine level reset code
-+     * and the rest are explicitly started up by the guest using an RTAS call.
-+     */
-+    cs->start_powered_off = true;
-     cs->cpu_index = cc->core_id + i;
-     spapr_set_vcpu_id(cpu, cs->cpu_index, &local_err);
-     if (local_err) {
+-        cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
++        cpu = POWERPC_CPU(object_new(machine->cpu_type));
+         env = &cpu->env;
+         cs = CPU(cpu);
+ 
+@@ -875,6 +872,14 @@ void ppce500_init(MachineState *machine)
+             exit(1);
+         }
+ 
++        /*
++         * Secondary CPU starts in halted state for now. Needs to change
++         * when implementing non-kernel boot.
++         */
++        object_property_set_bool(OBJECT(cs), "start-powered-off", i != 0,
++                                 &error_fatal);
++        qdev_realize_and_unref(DEVICE(cs), NULL, &error_fatal);
++
+         if (!firstenv) {
+             firstenv = env;
+         }
 -- 
 2.26.2
 
