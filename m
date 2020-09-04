@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5964925D012
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:56:02 +0200 (CEST)
-Received: from localhost ([::1]:38642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C7B25D015
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:57:43 +0200 (CEST)
+Received: from localhost ([::1]:44914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2pV-0000pd-Di
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54654)
+	id 1kE2r8-0003Z7-3X
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hV-0002T2-El; Thu, 03 Sep 2020 23:47:45 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42773 helo=ozlabs.org)
+ id 1kE2hW-0002WO-Rt; Thu, 03 Sep 2020 23:47:46 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55029 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hT-0004uP-9N; Thu, 03 Sep 2020 23:47:45 -0400
+ id 1kE2hU-0004uo-4P; Thu, 03 Sep 2020 23:47:46 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsp0VV5z9sVb; Fri,  4 Sep 2020 13:47:25 +1000 (AEST)
+ id 4BjNsp2F2dz9sVf; Fri,  4 Sep 2020 13:47:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599191246;
- bh=ugr0WxY1CRWShk3/UQfX+l/l8XSozOlyduL+5OhU5iA=;
+ bh=L+ql0mFkJJ6RIqHIX4UIYSGet1NsQYu3ApRmEert8Mg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MgXT8Ip8E4/cQUgLRsWWMm3Fl4c16h3xB9yafwj/uZ7rNePBi/9MsemqpZY5socG1
- uZrvURPR3UH/8+pFSQo0GtfuLMmciTqlZfnrYfiWVsFpBaYC05UUmTw7h+nP6xfWl2
- 0l64BgXObT9d7h8kXX1A7JoKYQwe6RxJA8StJRUU=
+ b=e+6hw/qNEs2FgLUaR8VnPIjq87TXgukaUkiSNLrIsF9PgiAFIHO7ystW7Mlo4jYGd
+ X3oPEnB1WSgxk3AFVsMFKmW2avsdRDBQpPZVzBawCe/m4E4lf7k4cyWitRMV0BeBX8
+ 5ytxLEYYTLwNRGb0DHLKlfMkEdoK2U0WVBAoHUfg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/30] spapr_vscsi: do not allow device hotplug
-Date: Fri,  4 Sep 2020 13:46:55 +1000
-Message-Id: <20200904034719.673626-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/30] spapr/xive: Use the xics flag to check for XIVE-only IRQ
+ backends
+Date: Fri,  4 Sep 2020 13:46:56 +1000
+Message-Id: <20200904034719.673626-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -59,45 +61,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-We do not implement hotplug in the vscsi bus, but we forgot to
-tell qdev about it. The result is that users are able to hotplug
-devices in the vscsi bus, the devices appear in qdev, but they
-aren't usable by the guest OS unless the user reboots it first.
+The sPAPR machine has four different IRQ backends, each implementing
+the XICS or XIVE interrupt mode or both in the case of the 'dual'
+backend.
 
-Setting qbus hotplug_handler to NULL will tell qdev-monitor, via
-qbus_is_hotpluggable(), that we do not support hotplug operations
-in spapr_vscsi.
+If a machine is started in P8 compat mode, QEMU should necessarily
+support the XICS interrupt mode and in that case, the XIVE-only IRQ
+backend is invalid. Currently, spapr_irq_check() tests the pointer
+value to the IRQ backend to check for this condition, instead use the
+'xics' flag. It's equivalent and it will ease the introduction of new
+XIVE-only IRQ backends if needed.
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1862059
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200820190635.379657-1-danielhb413@gmail.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200820140106.2357228-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/scsi/spapr_vscsi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/ppc/spapr_irq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
-index d17dc03c73..57f0a1336f 100644
---- a/hw/scsi/spapr_vscsi.c
-+++ b/hw/scsi/spapr_vscsi.c
-@@ -1219,6 +1219,9 @@ static void spapr_vscsi_realize(SpaprVioDevice *dev, Error **errp)
- 
-     scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
-                  &vscsi_scsi_info, NULL);
-+
-+    /* ibmvscsi SCSI bus does not allow hotplug. */
-+    qbus_set_hotplug_handler(BUS(&s->bus), NULL);
- }
- 
- void spapr_vscsi_create(SpaprVioBus *bus)
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 72bb938375..f59960339e 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -172,7 +172,7 @@ static int spapr_irq_check(SpaprMachineState *spapr, Error **errp)
+          * To cover both and not confuse the OS, add an early failure in
+          * QEMU.
+          */
+-        if (spapr->irq == &spapr_irq_xive) {
++        if (!spapr->irq->xics) {
+             error_setg(errp, "XIVE-only machines require a POWER9 CPU");
+             return -1;
+         }
 -- 
 2.26.2
 
