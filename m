@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67D525E0AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:25:46 +0200 (CEST)
-Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F4E25E0AF
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:25:50 +0200 (CEST)
+Received: from localhost ([::1]:39530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEFT7-0006Yv-PO
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
+	id 1kEFTB-0006hS-Tt
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:25:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kEFRz-0005RP-Hc; Fri, 04 Sep 2020 13:24:35 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:39067)
+ id 1kEFS2-0005TQ-5E; Fri, 04 Sep 2020 13:24:38 -0400
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:38681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kEFRx-0005At-QQ; Fri, 04 Sep 2020 13:24:35 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id w12so7020171qki.6;
- Fri, 04 Sep 2020 10:24:33 -0700 (PDT)
+ id 1kEFS0-0005CM-3M; Fri, 04 Sep 2020 13:24:37 -0400
+Received: by mail-qk1-x730.google.com with SMTP id d20so7028637qka.5;
+ Fri, 04 Sep 2020 10:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ioPF2xjxWz+fRYUfPk4cN/IvhOdPaHrWHpRLGdcB5H4=;
- b=AZL7J0RKY7GV7/bhlaamhjzVSzarxC685nBUbYJfu3C6zzju91/sP0x2AFWvc+sUaP
- MeL3cPuJUHo/nHQo/iGIhPxq/VHPpNyMcaSUUPCHbCLv6+wMH1y4bG+xJW5PeL9eSPm6
- wbeoPysw6R7scNGUNwsO6qrxiXG+PnTjRgDSynb38Dlb9McvgAX99VE/+1RLpaQ88XFq
- k7a4V6wIFHNtPIBpIi013BRWe9mO+kKgjBuRCN+oblnL/IALB7lWSBbcj/ghbUIHbzSc
- oDc5GUwcrVeQw3Vi3IdF8hjVyY8DRL/3rruogbrDOAPayjk3ZdoP24rPVKVF8TJoOD2o
- I4Yw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Algq3dgij7WJPgSn72cXErD3mDE4VJisbpLxFJRfzcI=;
+ b=CVKhUqVseTU0Iqb3NsAwIYF/XySJ8esnLq5WSPJhk97FxBAS8zwp0VZzdNabN20bcy
+ zYTeojqpvmokuCJs54Zv3vPxHWcdzz/jXuDvnqY2XyZ9GR8tLR0PGDPKjyAMBvX9SGxG
+ 4crosf32JJWqm+YrR29NuAz+CQ1SDIuVvny0lbPcvrGncRVOvLVJ++oN+xyAasmdK/mp
+ FScZ+fQYmAyeFzqWPwKt5TbLFKwL+ySu4XQS/PYyKbMA13eX3t7CuEyv1RguunB7cLv4
+ VyzDycMnZ+r24F+xYbPyQ4wbJh3wMRTiz9R6orq4n+L3pyzMi9bXkmv4KePdScITr8/n
+ ZX4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ioPF2xjxWz+fRYUfPk4cN/IvhOdPaHrWHpRLGdcB5H4=;
- b=HZooZPHP4gq2LVfd0HISEKYWiL+Y3F5As5QSzSHuPtFUTLyRXApUhsP//6ZnVje6Ku
- 5QZOn+oyHHytcftiqKSdeM3V9tgu4TtZmTaxtVsXDLw9A0YxASjLoHaNvG8j7Nt+C9Uy
- kSPdx+ZlKTT1TaXDFjiOuKUAlKn4HSS1/QgJIaJ7iWR62JHOYp3+Q7H66wPJnCMcFi1b
- kPlkzzNoGJEX9aXjp2xa0QV4kZ1jFoaYwO1niIWlSCud0qd6SsRZr8DaSX5quYEHdQvL
- J9KFgckHOaTaG/ikYEeiG7CY1EzLcsgICk222M4iPsCArJWx3Hz8htM1hcXqvg9Sfl32
- J/jA==
-X-Gm-Message-State: AOAM530FM43R9Fv2Utxj4Ha/NkiEVg6s6sWmWhQtS9u/xYHbsYZYzyY0
- vUDpYEzHxxh9jB+wgkEaT5S7oijgsi8=
-X-Google-Smtp-Source: ABdhPJwXxjki1EovpyyrCVDq1WfGyEchwVR4eStrJuiN/WtmG8cYZpHs38qKDzNtDKhzw/Z5xf+d8w==
-X-Received: by 2002:a37:6393:: with SMTP id x141mr8820051qkb.238.1599240272276; 
- Fri, 04 Sep 2020 10:24:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Algq3dgij7WJPgSn72cXErD3mDE4VJisbpLxFJRfzcI=;
+ b=maMkOv01HV+NrjKaWmsdYXGjMvc5KgD5oS1VTZeZqJOICTUHDL9oG99XvRFXIjhwU8
+ to/SyRgMKqmQK4MYOsoXvr6KuJPhflDskpbKdDuR9N1R/GznV5ihanTBXrr7dXvm7eKa
+ tnspPbCIbejxQ5qMuumDYgWgXZ44QeiErW3TXFl26PrsZ8J6F0WrwPTykD78vBN9QaHP
+ 6P1wVmTPOSP0iH9/V78plH+7YZ4IL67vuegtEGLM6wq0frlsbE70sg78S8rjelk0WIOz
+ Y0B3rYwujn6z7uW4tVcwWy+JqZZtRW9jyRvdrOIeCznLWoPw5tU7v502Z9Dseqx4ohJ5
+ OgbA==
+X-Gm-Message-State: AOAM532OcCfhAKiGEvZ7jy+iangNvfZrmUtwtHwrtBoiFpXDPJ14zod3
+ qOX/fjoMAJTlPd/7As54fN56IHXz/mk=
+X-Google-Smtp-Source: ABdhPJz8Ul9qAb/jIRtPtjRi/S4vDLh+Vo//JS3gyK4quxCDgCiLNWdYn7xd4dzjPt4AzGeSnNZHHQ==
+X-Received: by 2002:a05:620a:211b:: with SMTP id
+ l27mr8557333qkl.56.1599240274532; 
+ Fri, 04 Sep 2020 10:24:34 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:1dc:ffbd:d3fb:97ff:aaca])
- by smtp.gmail.com with ESMTPSA id s192sm3269245qke.50.2020.09.04.10.24.30
+ by smtp.gmail.com with ESMTPSA id s192sm3269245qke.50.2020.09.04.10.24.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 10:24:31 -0700 (PDT)
+ Fri, 04 Sep 2020 10:24:33 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 0/3] pseries NUMA distance rework
-Date: Fri,  4 Sep 2020 14:24:19 -0300
-Message-Id: <20200904172422.617460-1-danielhb413@gmail.com>
+Subject: [PATCH v6 1/3] spapr: move h_home_node_associativity to spapr_numa.c
+Date: Fri,  4 Sep 2020 14:24:20 -0300
+Message-Id: <20200904172422.617460-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200904172422.617460-1-danielhb413@gmail.com>
+References: <20200904172422.617460-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -86,24 +89,128 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-changes from v5, all suggested by Greg:
-- patch 2:
-    * changed g_malloc() to g_new()
-    * removed the unneeded g_assert()
-- all patches: added Greg's R-b
+The implementation of this hypercall will be modified to use
+spapr->numa_assoc_arrays input. Moving it to spapr_numa.c makes
+make more sense.
 
-v5 link: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01978.html
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_hcall.c | 40 ---------------------------------------
+ hw/ppc/spapr_numa.c  | 45 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 40 deletions(-)
 
-Daniel Henrique Barboza (3):
-  spapr: move h_home_node_associativity to spapr_numa.c
-  spapr_numa: create a vcpu associativity helper
-  spapr_numa: use spapr_numa_get_vcpu_assoc() in home_node hcall
-
- hw/ppc/spapr_hcall.c   |  40 ----------------
- hw/ppc/spapr_numa.c    | 101 +++++++++++++++++++++++++++++++++++------
- include/hw/ppc/spapr.h |   7 ++-
- 3 files changed, 94 insertions(+), 54 deletions(-)
-
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index c1d01228c6..c2776b6a7d 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1873,42 +1873,6 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+     return ret;
+ }
+ 
+-static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
+-                                              SpaprMachineState *spapr,
+-                                              target_ulong opcode,
+-                                              target_ulong *args)
+-{
+-    target_ulong flags = args[0];
+-    target_ulong procno = args[1];
+-    PowerPCCPU *tcpu;
+-    int idx;
+-
+-    /* only support procno from H_REGISTER_VPA */
+-    if (flags != 0x1) {
+-        return H_FUNCTION;
+-    }
+-
+-    tcpu = spapr_find_cpu(procno);
+-    if (tcpu == NULL) {
+-        return H_P2;
+-    }
+-
+-    /* sequence is the same as in the "ibm,associativity" property */
+-
+-    idx = 0;
+-#define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
+-                             ((uint64_t)(b) & 0xffffffff))
+-    args[idx++] = ASSOCIATIVITY(0, 0);
+-    args[idx++] = ASSOCIATIVITY(0, tcpu->node_id);
+-    args[idx++] = ASSOCIATIVITY(procno, -1);
+-    for ( ; idx < 6; idx++) {
+-        args[idx] = -1;
+-    }
+-#undef ASSOCIATIVITY
+-
+-    return H_SUCCESS;
+-}
+-
+ static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
+                                               SpaprMachineState *spapr,
+                                               target_ulong opcode,
+@@ -2139,10 +2103,6 @@ static void hypercall_register_types(void)
+     spapr_register_hypercall(KVMPPC_H_CAS, h_client_architecture_support);
+ 
+     spapr_register_hypercall(KVMPPC_H_UPDATE_DT, h_update_dt);
+-
+-    /* Virtual Processor Home Node */
+-    spapr_register_hypercall(H_HOME_NODE_ASSOCIATIVITY,
+-                             h_home_node_associativity);
+ }
+ 
+ type_init(hypercall_register_types)
+diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+index 93a000b729..368c1a494d 100644
+--- a/hw/ppc/spapr_numa.c
++++ b/hw/ppc/spapr_numa.c
+@@ -165,3 +165,48 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
+     _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+                      maxdomains, sizeof(maxdomains)));
+ }
++
++static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
++                                              SpaprMachineState *spapr,
++                                              target_ulong opcode,
++                                              target_ulong *args)
++{
++    target_ulong flags = args[0];
++    target_ulong procno = args[1];
++    PowerPCCPU *tcpu;
++    int idx;
++
++    /* only support procno from H_REGISTER_VPA */
++    if (flags != 0x1) {
++        return H_FUNCTION;
++    }
++
++    tcpu = spapr_find_cpu(procno);
++    if (tcpu == NULL) {
++        return H_P2;
++    }
++
++    /* sequence is the same as in the "ibm,associativity" property */
++
++    idx = 0;
++#define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
++                             ((uint64_t)(b) & 0xffffffff))
++    args[idx++] = ASSOCIATIVITY(0, 0);
++    args[idx++] = ASSOCIATIVITY(0, tcpu->node_id);
++    args[idx++] = ASSOCIATIVITY(procno, -1);
++    for ( ; idx < 6; idx++) {
++        args[idx] = -1;
++    }
++#undef ASSOCIATIVITY
++
++    return H_SUCCESS;
++}
++
++static void spapr_numa_register_types(void)
++{
++    /* Virtual Processor Home Node */
++    spapr_register_hypercall(H_HOME_NODE_ASSOCIATIVITY,
++                             h_home_node_associativity);
++}
++
++type_init(spapr_numa_register_types)
 -- 
 2.26.2
 
