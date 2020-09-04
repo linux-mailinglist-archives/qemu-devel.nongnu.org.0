@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F68425D7A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:43:29 +0200 (CEST)
-Received: from localhost ([::1]:33886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8EF25D7BE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:47:15 +0200 (CEST)
+Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEA7s-0001bn-L7
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:43:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42420)
+	id 1kEABW-0008W1-3d
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA63-00089x-Ok
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:36 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27529
+ id 1kEA68-0008Cm-U6
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:43 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50210
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA5x-0005B1-K9
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:35 -0400
+ id 1kEA5x-0005B9-LD
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:40 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-zvPwHASjMVSUXDDPK10Hlw-1; Fri, 04 Sep 2020 07:41:27 -0400
-X-MC-Unique: zvPwHASjMVSUXDDPK10Hlw-1
+ us-mta-551-0b0kqKP1Pu2IFVknbn-Z5Q-1; Fri, 04 Sep 2020 07:41:27 -0400
+X-MC-Unique: 0b0kqKP1Pu2IFVknbn-Z5Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07D6685EE95
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65209420F3
  for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:26 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C12C85D9F7
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2928B5D9F7
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:26 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/46] mtest2make: hide output of successful tests
-Date: Fri,  4 Sep 2020 07:40:42 -0400
-Message-Id: <20200904114122.31307-7-pbonzini@redhat.com>
+Subject: [PULL 07/46] mtest2make: unify tests that appear in multiple suites
+Date: Fri,  4 Sep 2020 07:40:43 -0400
+Message-Id: <20200904114122.31307-8-pbonzini@redhat.com>
 In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
 References: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -72,72 +72,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The softfloat tests are quite noisy; before the Meson conversion
-they buffered the output in a file and emitted the output only
-if the test failed.  Tweak mtest2make.py so that the courtesy
-is extended to all non-TAP tests.
+Whenever a test appears in multiple suites, the rules generated
+by mtest2make are currently running it twice.  Instead, after
+this patch we generate a phony target for each test and we have
+a generic "run-tests" target depend on all the tests that were
+chosen on the command line.  Tests that appear in multiple suites
+will be added to the prerequisites just once.
+
+This has other advantages: it removes the handling of -k and
+it increases parallelism.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/mtest2make.py  |  2 +-
- scripts/test-driver.py | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 scripts/test-driver.py
+ scripts/mtest2make.py | 74 ++++++++++++++++++++++---------------------
+ 1 file changed, 38 insertions(+), 36 deletions(-)
 
 diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index c709b37f28..27425080cf 100644
+index 27425080cf..af6dd0d3b1 100644
 --- a/scripts/mtest2make.py
 +++ b/scripts/mtest2make.py
-@@ -21,7 +21,7 @@ SPEED = quick
- 
- # $1 = environment, $2 = test command, $3 = test name, $4 = dir
- .test-human-tap = $1 $(if $4,(cd $4 && $2),$2) < /dev/null | ./scripts/tap-driver.pl --test-name="$3" $(if $(V),,--show-failures-only)
--.test-human-exitcode = $1 $(if $4,(cd $4 && $2),$2) < /dev/null
-+.test-human-exitcode = $1 $(PYTHON) scripts/test-driver.py $(if $4,-C$4) $(if $(V),--verbose) -- $2 < /dev/null
+@@ -24,33 +24,20 @@ SPEED = quick
+ .test-human-exitcode = $1 $(PYTHON) scripts/test-driver.py $(if $4,-C$4) $(if $(V),--verbose) -- $2 < /dev/null
  .test-tap-tap = $1 $(if $4,(cd $4 && $2),$2) < /dev/null | sed "s/^[a-z][a-z]* [0-9]*/& $3/" || true
  .test-tap-exitcode = printf "%s\\n" 1..1 "`$1 $(if $4,(cd $4 && $2),$2) < /dev/null > /dev/null || echo "not "`ok 1 $3"
- .test.print = echo $(if $(V),'$1 $2','Running test $3') >&3
-diff --git a/scripts/test-driver.py b/scripts/test-driver.py
-new file mode 100644
-index 0000000000..eef74b29a8
---- /dev/null
-+++ b/scripts/test-driver.py
-@@ -0,0 +1,35 @@
-+#! /usr/bin/env python3
+-.test.print = echo $(if $(V),'$1 $2','Running test $3') >&3
++.test.human-print = echo $(if $(V),'$1 $2','Running test $3') &&
+ .test.env = MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))}
+ 
+ # $1 = test name, $2 = test target (human or tap)
+-.test.run = $(call .test.print,$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1)) && $(call .test-$2-$(.test.driver.$1),$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1),$(.test.dir.$1))
++.test.run = $(call .test.$2-print,$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1)) $(call .test-$2-$(.test.driver.$1),$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1),$(.test.dir.$1))
+ 
+-define .test.human_k
+-        @exec 3>&1; rc=0; $(foreach TEST, $1, $(call .test.run,$(TEST),human) || rc=$$?;) \\
+-              exit $$rc
+-endef
+-define .test.human_no_k
+-        $(foreach TEST, $1, @exec 3>&1; $(call .test.run,$(TEST),human)
+-)
+-endef
+-.test.human = \\
+-        $(if $(findstring k, $(MAKEFLAGS)), $(.test.human_k), $(.test.human_no_k))
+-
+-define .test.tap
+-        @exec 3>&1; { $(foreach TEST, $1, $(call .test.run,$(TEST),tap); ) } \\
+-              | ./scripts/tap-merge.pl | tee "$@" \\
+-              | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only)
+-endef
++.test.output-format = human
+ ''')
+ 
+-suites = defaultdict(Suite)
++introspect = json.load(sys.stdin)
+ i = 0
+-for test in json.load(sys.stdin):
 +
-+# Wrapper for tests that hides the output if they succeed.
-+# Used by "make check"
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# Author: Paolo Bonzini <pbonzini@redhat.com>
++def process_tests(test, suites):
++    global i
+     env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
+                     for k, v in test['env'].items()))
+     executable = test['cmd'][0]
+@@ -75,6 +62,9 @@ for test in json.load(sys.stdin):
+     print('.test.driver.%d := %s' % (i, driver))
+     print('.test.env.%d := $(.test.env) %s' % (i, env))
+     print('.test.cmd.%d := %s' % (i, cmd))
++    print('.PHONY: run-test-%d' % (i,))
++    print('run-test-%d: all' % (i,))
++    print('\t@$(call .test.run,%d,$(.test.output-format))' % (i,))
+ 
+     test_suites = test['suite'] or ['default']
+     is_slow = any(s.endswith('-slow') for s in test_suites)
+@@ -89,22 +79,34 @@ for test in json.load(sys.stdin):
+             suites[s].tests.append(i)
+         suites[s].executables.add(executable)
+ 
+-print('.PHONY: check check-report.tap')
+-print('check:')
+-print('check-report.tap:')
+-print('\t@cat $^ | scripts/tap-merge.pl >$@')
+-for name, suite in suites.items():
++def emit_prolog(suites, prefix):
++    all_tap = ' '.join(('%s-report-%s.tap' % (prefix, k) for k in suites.keys()))
++    print('.PHONY: %s %s-report.tap %s' % (prefix, prefix, all_tap))
++    print('%s: run-tests' % (prefix,))
++    print('%s-report.tap %s: %s-report%%.tap: all' % (prefix, all_tap, prefix))
++    print('''\t$(MAKE) .test.output-format=tap --quiet -Otarget V=1 %s$* | ./scripts/tap-merge.pl | tee "$@" \\
++              | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only)''' % (prefix, ))
 +
-+import subprocess
-+import sys
-+import os
-+import argparse
++def emit_suite(name, suite, prefix):
+     executables = ' '.join(suite.executables)
+     slow_test_numbers = ' '.join((str(x) for x in suite.slow_tests))
+     test_numbers = ' '.join((str(x) for x in suite.tests))
+-    print('.test.suite-quick.%s := %s' % (name, test_numbers))
+-    print('.test.suite-slow.%s := $(.test.suite-quick.%s) %s' % (name, name, slow_test_numbers))
+-    print('check-build: %s' % executables)
+-    print('.PHONY: check-%s' % name)
+-    print('.PHONY: check-report-%s.tap' % name)
+-    print('check: check-%s' % name)
+-    print('check-%s: all %s' % (name, executables))
+-    print('\t$(call .test.human, $(.test.suite-$(SPEED).%s))' % (name, ))
+-    print('check-report.tap: check-report-%s.tap' % name)
+-    print('check-report-%s.tap: %s' % (name, executables))
+-    print('\t$(call .test.tap, $(.test.suite-$(SPEED).%s))' % (name, ))
++    target = '%s-%s' % (prefix, name)
++    print('.test.quick.%s := %s' % (target, test_numbers))
++    print('.test.slow.%s := $(.test.quick.%s) %s' % (target, target, slow_test_numbers))
++    print('%s-build: %s' % (prefix, executables))
++    print('.PHONY: %s' % (target, ))
++    print('.PHONY: %s-report-%s.tap' % (prefix, name))
++    print('%s: run-tests' % (target, ))
++    print('ifneq ($(filter %s %s, $(MAKECMDGOALS)),)' % (target, prefix))
++    print('.tests += $(.test.$(SPEED).%s)' % (target, ))
++    print('endif')
 +
-+parser = argparse.ArgumentParser(description='Test driver for QEMU')
-+parser.add_argument('-C', metavar='DIR', dest='dir', default='.',
-+                    help='change to DIR before doing anything else')
-+parser.add_argument('-v', '--verbose', dest='verbose', action='store_true',
-+                    help='be more verbose')
-+parser.add_argument('test_args', nargs=argparse.REMAINDER)
++testsuites = defaultdict(Suite)
++for test in introspect:
++    process_tests(test, testsuites)
++emit_prolog(testsuites, 'check')
++for name, suite in testsuites.items():
++    emit_suite(name, suite, 'check')
 +
-+args = parser.parse_args()
-+os.chdir(args.dir)
-+
-+test_args = args.test_args
-+if test_args[0] == '--':
-+    test_args = test_args[1:]
-+
-+if args.verbose:
-+    result = subprocess.run(test_args, stdout=None, stderr=None)
-+else:
-+    result = subprocess.run(test_args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-+    if result.returncode:
-+        sys.stdout.buffer.write(result.stdout)
-+sys.exit(result.returncode)
++print('run-tests: $(patsubst %, run-test-%, $(.tests))')
 -- 
 2.26.2
 
