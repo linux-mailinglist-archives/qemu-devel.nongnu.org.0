@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A9B25CFF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:50:42 +0200 (CEST)
-Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A12C625D00D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:54:21 +0200 (CEST)
+Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2kL-0007Yz-Iq
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
+	id 1kE2ns-00060i-NX
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:54:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hR-0002Kk-FA; Thu, 03 Sep 2020 23:47:41 -0400
-Received: from ozlabs.org ([203.11.71.1]:43877)
+ id 1kE2hR-0002Kp-LD; Thu, 03 Sep 2020 23:47:41 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:57385 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hN-0004sJ-JO; Thu, 03 Sep 2020 23:47:41 -0400
+ id 1kE2hN-0004sI-Ju; Thu, 03 Sep 2020 23:47:41 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsn206Pz9sVK; Fri,  4 Sep 2020 13:47:25 +1000 (AEST)
+ id 4BjNsn13y6z9sTR; Fri,  4 Sep 2020 13:47:25 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599191245;
- bh=qgx6z9rQQE1xqJs/Hitt+hn4TaVazW9OJAaF7qJoeT4=;
+ bh=/JhSp1HFdD3zltLdv6KRNXQgS9TzRkKxf8RYmADUDS8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VSTaUJ9wbCfFzx6O4p5797IKztGmTv3foshyz/xlD2OEX/5voMVmM3gnptCsW46X5
- DVJ+bY4gF6unuofLShuIs3QtOeLjKL7LbijRC2a9dfNlnQr1LYGA2VY22E7x2SpGPX
- EC69/On4Nw15VBNGWDVqtgQq4bizQ+jMWg+uoAaM=
+ b=OTP51pMa4jUnjODutymeXoQg0VZauL2apDZLB3tltHHmLfg9NaTTDLjQ95EC49j4I
+ FuMFwBwBhyXRxzOj+osa6oaZF6eiV1KBE6wMspj5DD8dNNW/1u07WzimrfVWijWc0Q
+ mQdXh5l0AeslXWzkyOHKagRn+H0mg/QTxokgyY10=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/30] adb: Correct class size on TYPE_ADB_DEVICE
-Date: Fri,  4 Sep 2020 13:46:50 +1000
-Message-Id: <20200904034719.673626-2-david@gibson.dropbear.id.au>
+Subject: [PULL 02/30] ppc/pnv: Fix TypeInfo of PnvLpcController abstract class
+Date: Fri,  4 Sep 2020 13:46:51 +1000
+Message-Id: <20200904034719.673626-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
@@ -59,36 +59,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TypeInfo incorrectly just lets the class size be inherited.  It won't
-actually break things, since the class is abstract, but we should get it
-right.
+From: Cédric Le Goater <clg@kaod.org>
 
+It was missing the instance_size field.
+
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200822083920.2668930-1-clg@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/input/adb.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/pnv_lpc.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/input/adb.c b/hw/input/adb.c
-index 013fcc9c54..84331b9fce 100644
---- a/hw/input/adb.c
-+++ b/hw/input/adb.c
-@@ -309,6 +309,7 @@ static void adb_device_class_init(ObjectClass *oc, void *data)
- static const TypeInfo adb_device_type_info = {
-     .name = TYPE_ADB_DEVICE,
-     .parent = TYPE_DEVICE,
-+    .class_size = sizeof(ADBDeviceClass),
-     .instance_size = sizeof(ADBDevice),
-     .abstract = true,
-     .class_init = adb_device_class_init,
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index b5ffa48dac..23f1e09492 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -646,7 +646,6 @@ static void pnv_lpc_power8_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_lpc_power8_info = {
+     .name          = TYPE_PNV8_LPC,
+     .parent        = TYPE_PNV_LPC,
+-    .instance_size = sizeof(PnvLpcController),
+     .class_init    = pnv_lpc_power8_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_PNV_XSCOM_INTERFACE },
+@@ -687,7 +686,6 @@ static void pnv_lpc_power9_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_lpc_power9_info = {
+     .name          = TYPE_PNV9_LPC,
+     .parent        = TYPE_PNV_LPC,
+-    .instance_size = sizeof(PnvLpcController),
+     .class_init    = pnv_lpc_power9_class_init,
+ };
+ 
+@@ -768,6 +766,7 @@ static void pnv_lpc_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_lpc_info = {
+     .name          = TYPE_PNV_LPC,
+     .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(PnvLpcController),
+     .class_init    = pnv_lpc_class_init,
+     .class_size    = sizeof(PnvLpcClass),
+     .abstract      = true,
 -- 
 2.26.2
 
