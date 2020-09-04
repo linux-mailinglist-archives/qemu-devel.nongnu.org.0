@@ -2,86 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56C425DA33
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:43:47 +0200 (CEST)
-Received: from localhost ([::1]:55784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B3325DA65
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:49:17 +0200 (CEST)
+Received: from localhost ([::1]:45252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEC0J-0001Eg-0z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
+	id 1kEC5c-0000Bf-6V
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kEByb-0008ER-A6
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:42:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24740
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kEByZ-00065V-Hx
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:42:00 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-aT0GoTylPqKQm1Z83M0g1g-1; Fri, 04 Sep 2020 09:41:55 -0400
-X-MC-Unique: aT0GoTylPqKQm1Z83M0g1g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B00F41074654;
- Fri,  4 Sep 2020 13:41:53 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-156.ams2.redhat.com
- [10.36.114.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A366E7E40A;
- Fri,  4 Sep 2020 13:41:51 +0000 (UTC)
-Subject: Re: [PATCH v8 7/7] block: apply COR-filter to block-stream jobs
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kEC4d-0007DK-VY; Fri, 04 Sep 2020 09:48:16 -0400
+Received: from mail-eopbgr40130.outbound.protection.outlook.com
+ ([40.107.4.130]:24332 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kEC4a-0006yc-0i; Fri, 04 Sep 2020 09:48:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S/a19MVjHrtAADhXbS/NZHZbMEVLaWznogusbljv7DbIV5ZGkml3/eGm3ogxN8QqI7n9gb/FjcrKD5e/qJWiDrSks87mNsmGQ0GQkqMqYKk5pNmkw8wCpYgQ9S+jzObyiW0A53EJ7ANXUhrJjpBrHg42td312RSSpWa8EIAztIETd6NO3FgeHA2jkk0UNuFIOsKcBH4yUyAYw5KNFo7JacIQ4d2Bk4iV6eBy0iVrHzq33gDf1qQdY8kkuqPtqTTT+C+9Pmk464AZY/486lYhao6aHX1bLXTkuL3v/vBtEjuMYe8tu3uTS4qEK64jcgYeQlv+f+npHOxXaBsMXkyQAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TR45clhdX7Qc2y5qnm4lszsWmbHYrbctP8QT066rUPk=;
+ b=mmoT8spTMo0QskkAzhISubqCFHryjmSlRcwFXB8+7ZSuOypFCMUpnjFVORYTMR988xGXgLZuRgtQaf53EbFH9cEQy6z+oIUnOxewJgTJXTRDQ/K3BDGSi9kgcrCJfhxXspb2DzSa7IiVvVxPyrMCS9aUnqDzUp6lUpf//BF06P+sYqNxSNhO5oRpsYXFehItWo6xGV2EJR1ojEwwahE0/qRrL1btm3WfmUy0xxUFrPFJYYzWMsZ/kucMe+JXX9vRLcE+k/YbGx97vxNNsCuV2Ijlm6LcXQprR8rVl0a4gQu8UR3HnYbaDwGFdudjU+xJ9OzYSwc/mzBdOTev7t0wZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TR45clhdX7Qc2y5qnm4lszsWmbHYrbctP8QT066rUPk=;
+ b=LufHRgvIF36Q48g4mxOSEro96cZGtjp/V/FZ7NsRlNRbZkCAm20eYV4ZLcuds2gj6uX4fRkXKFxgAUS/YCtmTr4c7kY4wdAv/dCDD39E17YJq2onqTqFp3c0JSVaD4z3sdMobUcdScrtETuG1Y9P+Sn9qMvPMqDChDhw4FaWqs4=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB2984.eurprd08.prod.outlook.com (2603:10a6:209:4e::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Fri, 4 Sep
+ 2020 13:48:08 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%7]) with mapi id 15.20.3348.017; Fri, 4 Sep 2020
+ 13:48:08 +0000
+Subject: Re: [PATCH v8 6/7] block-stream: freeze link to base node during
+ stream job
+To: Max Reitz <mreitz@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, armbru@redhat.com,
+ jsnow@redhat.com, eblake@redhat.com, den@openvz.org
 References: <1598633579-221780-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1598633579-221780-8-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <8751c312-0f28-9c9e-34cd-b407f767d095@redhat.com>
-Date: Fri, 4 Sep 2020 15:41:49 +0200
+ <1598633579-221780-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <9739719d-0681-d839-cf8d-398b78b6d323@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <3a52e54e-22fe-6eee-439a-dc1db0a1bf63@virtuozzo.com>
+Date: Fri, 4 Sep 2020 16:48:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.12.0
+In-Reply-To: <9739719d-0681-d839-cf8d-398b78b6d323@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR07CA0004.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <1598633579-221780-8-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="86PVL7GSlrhcIOzYdzTAoNdFVliZVstel"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.143) by
+ AM0PR07CA0004.eurprd07.prod.outlook.com (2603:10a6:208:ac::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.9 via Frontend Transport; Fri, 4 Sep 2020 13:48:07 +0000
+X-Originating-IP: [185.215.60.143]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5036884a-a040-418c-94e2-08d850d9282a
+X-MS-TrafficTypeDiagnostic: AM6PR08MB2984:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB2984272B46012F818CC61F69C12D0@AM6PR08MB2984.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /ZR3/RnYm93NQ2jGRJaNXfGUSdkc5f/tPFPa/t9jgrFV/68HAj1LnKSzDqd7ySq3a1sZlTCn36WG0cNgq5g0CbqQ2cf0pHlYZXQUNOvQoC7QFmRC0ucLIGWofBxQNIk+rt4ZRsDDVaQjlA624BzwiVURKRlgJgy6HAEZ9wXRW6Q6Vsmn74OvkMCkHFJsk/5v6Aw9rdsZvDzQw1xPvA2sqCjtnGM5118BESefenxDF4odbF9dT8tMJCAv5FabL9GuM6FqPu/zxg3gP4kR0uX0rWrxZt2qyV2UpNwIpwTSyrMoMK1Wr21xA1HNfK1vyu5Ukikh/kPtSz44TAIbbxC4/IGziV6kQJRxK9LapYawbPx/z+AVRwWWXSApc1oYLyjl
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(39840400004)(366004)(396003)(346002)(86362001)(26005)(66556008)(478600001)(31686004)(8676002)(83380400001)(36756003)(53546011)(16526019)(66476007)(8936002)(6486002)(186003)(2906002)(31696002)(316002)(16576012)(66946007)(956004)(110136005)(52116002)(6666004)(5660300002)(2616005)(4326008)(107886003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: w1CBa6paGc5klBlsZi26+jfBK7DnighmMrjBu2NQKVIH1S4lW5LaLjiNOVdoj/QdV7MhmwO0MSaVMdWQUlPIRpRmdbbse60DymsyPrvl+OM2ZmRC9JhgJE0RgLzU0lAcEvaaUC+DZ50sHzyLN4h5U06qbfHuPqANnGf1wkDL+L1/Mu7QdkrQabKPb5565FL9odYRkiUXVtLboXcrdKrKajQoYX2BRmuijGYjOnBsC1AJlJVkOe7AA8A7WVAM0MAJvBrk8NckdTpuiAofHxuTYsNKRzibDjp0Q5kPYvunEyN3MFmSXmFlv1aWHb86h5O9uj1/b1KEtu9byjpYMfvbr4Mn9A+bTqjW3dFWOAbDXr6FpvGpSIwrQFiXruQrDeNkJ/e8QczccJg1KJN46H+Meo9AzhPFgyEt+Jo0kGjpGcels+SOl2ch9uNDR5paRYkaiaDNHRj+1VhCHunV5qZdGNBG12jWUWcFm42VHry6tWWlYEm5HkNz3diT77d969SKYUQ3twYx2IWduOp49yp57nEDGT6cW3uh1p6CTAU00DMN1oFV5ledcfqyw6x0hOQqofojAc7AuTZ3QGQo96zZpGM+ZirPnJ4TPQ6LMjvY0MczRPSgMWfAo51EcPfZvUZzkLseIGwI1CcpyEOy33Ziug==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5036884a-a040-418c-94e2-08d850d9282a
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2020 13:48:08.6492 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7f/7Wogp8ZnBl0mn8xJSpIYOHyrNxU8tQXvnlF9Z4YR/iB8Jlcgc3mEYc84QAf8/1Qa2ItK07bC4yr03fhmWYg2r4dR63+lwAoOc1qo7MvI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB2984
+Received-SPF: pass client-ip=40.107.4.130;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 09:48:09
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.107,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,74 +121,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---86PVL7GSlrhcIOzYdzTAoNdFVliZVstel
-Content-Type: multipart/mixed; boundary="9ZXqAwk3h7eUrO38lAZqzPqcSH1qxTYZC"
+04.09.2020 16:21, Max Reitz wrote:
+> On 28.08.20 18:52, Andrey Shinkevich wrote:
+>> To keep the base node unchanged during the block-stream operation,
+>> freeze it as the other part of the backing chain with the intermediate
+>> nodes related to the job.
+>> This patch revers the change made with the commit c624b015bf as the
+>> correct base file name and its format have to be written down to the
+>> QCOW2 header on the disk when the backing file is being changed after
+>> the stream job completes.
+>> This reversion incurs changes in the tests 030, 245 and discards the
+>> test 258 where concurrent stream/commit jobs are tested. When the link
+>> to a base node is frozen, the concurrent job cannot change the common
+>> backing chain.
+>>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   block/stream.c             |  29 ++------
+>>   tests/qemu-iotests/030     |  10 +--
+>>   tests/qemu-iotests/245     |   2 +-
+>>   tests/qemu-iotests/258     | 161 ---------------------------------------------
+>>   tests/qemu-iotests/258.out |  33 ----------
+>>   5 files changed, 14 insertions(+), 221 deletions(-)
+>>   delete mode 100755 tests/qemu-iotests/258
+>>   delete mode 100644 tests/qemu-iotests/258.out
+> 
+> Does this need to be in this series?  (I’m not entirely sure, based on
+> what I can see in patch 7.)
+> 
+> When doing this, should we introduce a @bottom-node option alongside, so
+> that we can make all the tests that are deleted here pass still, just
+> with changes?
+> 
 
---9ZXqAwk3h7eUrO38lAZqzPqcSH1qxTYZC
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+That's a question to discuss, and I asked Andrey to make this patch in this
+simple way to see, how much damage we have with this change.
 
-On 28.08.20 18:52, Andrey Shinkevich wrote:
-> This patch completes the series with the COR-filter insertion for
-> block-stream operations. Adding the filter makes it possible for copied
-> regions to be discarded in backing files during the block-stream job,
-> what will reduce the disk overuse.
-> The COR-filter insertion incurs changes in the iotests case
-> 245:test_block_stream_4 that reopens the backing chain during a
-> block-stream job. There are changes in the iotests #030 as well.
-> The iotests case 030:test_stream_parallel was deleted due to multiple
-> conflicts between the concurrent job operations over the same backing
-> chain. The base backing node for one job is the top node for another
-> job. It may change due to the filter node inserted into the backing
-> chain while both jobs are running. Another issue is that the parts of
-> the backing chain are being frozen by the running job and may not be
-> changed by the concurrent job when needed. The concept of the parallel
-> jobs with common nodes is considered vital no more.
->=20
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->  block/stream.c             | 78 +++++++++++++++++++++++++++-------------=
-------
->  tests/qemu-iotests/030     | 50 +++--------------------------
->  tests/qemu-iotests/030.out |  4 +--
->  tests/qemu-iotests/245     | 19 ++++++++---
->  4 files changed, 67 insertions(+), 84 deletions(-)
+Honestly, I doubt that we need the new option. Previously, we decided that
+we can make this change without a deprecation. If we still going to do it,
+we shouldn't care about these use cases. So, if we freeze base again wituhout
+a depreaction and:
 
-I=E2=80=99m not sure I can really review this, when I don=E2=80=99t know wh=
-at the COR
-filter really does.  For example, as it is in this version, it
-unconditionally performs COR, and so on guest reads will copy everything
-from the bottom layers even when they are below the base node.
+1. add bottom-node
 
-Max
+  - we keep the iotests
+  - If (unlikely) someone will came and say: hey, you've broken my working scenario, we will say "use bottom-node option, sorry"
+  - Most likely we'll have unused option and corresponding unused logic, making code more complex for nothing (and we'll have to say "sorry" anyway)
+
+2. without option
+
+  - we loose the iotests. this looks scary, but it is honest: we drop use-cases and corresponding iotests
+  - If (unlikely) someone will came and say: hey, you've broken my working scenario, he will have to wait for next release / package version / or update the downstream himself
+  - Most likely all will be OK.
 
 
---9ZXqAwk3h7eUrO38lAZqzPqcSH1qxTYZC--
+Hmm. OK, and the hard-way:
 
---86PVL7GSlrhcIOzYdzTAoNdFVliZVstel
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+3. Enable all the new logic (filter insertion, freezing base, etc.) only when filter-node-name option specified. And immediately deprecate not-specifying the option.
+  [Note, that in way [3] we don't need bottom-node option]
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9SRB0ACgkQ9AfbAGHV
-z0CCKQgAp7R/4zS/XTX23XdRQDMZf6l8Z9fDiwMZaGzzCh3AoBdQ7M3W/irK6Qs6
-sOetawxUFnp6oEGiqYPPKHVoVPae++tW7UwYdfDj/3PsUFN/TukeveX4y4w8NMIK
-/JG84pp0j3EaJiLb0ZEaz1nBpq7EvrMz5Rw3AIqZAV39/ZNoVbVLMiQN1cjIWDjr
-jJQXBqT73lrdAppJCFYASjVm8/rn568UOXYegfweOFvi9mCzCfDKBYOUFj/Qv9TU
-XAfuqpyecJGy4WpMrRmVCcnAExggxWaYJn4AjuHGLYsXp0WO3auIaNpbevhjqQkt
-Fk8AGnVWhcBFKJGzdn54Al8VVN89jA==
-=31uR
------END PGP SIGNATURE-----
 
---86PVL7GSlrhcIOzYdzTAoNdFVliZVstel--
-
+-- 
+Best regards,
+Vladimir
 
