@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB87A25D1C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 09:07:49 +0200 (CEST)
-Received: from localhost ([::1]:47954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C60425D24A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 09:24:59 +0200 (CEST)
+Received: from localhost ([::1]:33298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE5p6-0008Rt-Hh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 03:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59478)
+	id 1kE65i-0007qn-M6
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 03:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kE5oA-0007dg-4c
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:06:50 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kE5o5-0002pz-9V
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:06:47 -0400
-Received: by mail-pg1-x541.google.com with SMTP id 7so3849156pgm.11
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 00:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=uQrg1REyMjiUFdnwANv+hN+vv/GKYugaQbmL1Bq+zcc=;
- b=v9029UNjqKXghW5tuQ8sPiKfTZabmkbhly/wiK0AkAWjeBDsTEUVNHrwj850Fro89u
- qtgvaPpgoXJ+1oeBACWdl+32HLPTOPMEl+oKR9B0HV4BDfa2wfxAtGokKugagXAtkruT
- fJZXYoNlZ7ZZ1oDBXdfN5bPfka/iXxhsIC2MK4/eVBmC41T5IDY37o5Iy/rzuQJBi56Y
- r7zyQcYZupaGZZWjTgoKLuJV1bLR+aMoCM7nifSD/MFRJkAIf6kU4Xs5770FVjHhoIAy
- vwwO1JR6KJGQ2rNZMq4PYdjOFDkw1euhUsHYmLOa9sRWLAQduPZn7Uja1Si/jz7YU3zj
- 4Q6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=uQrg1REyMjiUFdnwANv+hN+vv/GKYugaQbmL1Bq+zcc=;
- b=QnIwuTqI1IN/qPkAu5E67rm6mNo4dimzf+jreHSwa3V25vpDDe7zrb8pgW2+xx0azg
- /245zum16KtkIrO5iQ5kPxCAUwywZHxgaACpE8TbYeEXu9Y7o1PcHXuDEt5LalvIvxKh
- HVpW0BqHQj5eYnF7dBjfvvxf4j7sYplUqCVvAI9YDxtMTmkKVHDv82i7cdxsiyF4tK6Y
- 1Y0D7mFn2acUAOhKyJrNnr6T+r4c5aNfB3ws/wRuy2/y8ZyP/De8eredhYsM6NK9e+oP
- 35fjAmmNeXCuAhLp/VtCgzYgyvZL6vH8kkdhXM9JljHc8jpzqOk53C6OeIr0ILBOWx83
- IXXw==
-X-Gm-Message-State: AOAM532ZfislOVq+Lv+ObqGAEJix+aXK7rUacs/QtBSKrELcleUGRft5
- ku7K5tzf/USRWy34hXFAfDSSUg==
-X-Google-Smtp-Source: ABdhPJwVU1oXhQj+vOm0w0kTqs/NX6lfZQWW6JeBT1qXOOzzIKtGhUa8IbUs4R2goBztlmkkSSE0rw==
-X-Received: by 2002:a62:4ec9:: with SMTP id c192mr7344485pfb.188.1599203202380; 
- Fri, 04 Sep 2020 00:06:42 -0700 (PDT)
-Received: from libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id k5sm19793137pjl.3.2020.09.04.00.06.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 04 Sep 2020 00:06:41 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: pbonzini@redhat.com,
-	ehabkost@redhat.com
-Subject: [PATCH] target-i386: seperate MCIP & MCE_MASK error reason
-Date: Fri,  4 Sep 2020 15:06:35 +0800
-Message-Id: <20200904070635.51318-1-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.11.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kE650-0007CW-Rc
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:24:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46000
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kE64y-0004oS-E9
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:24:14 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-QLO0Uy5LOluJH6lzz4Mdvg-1; Fri, 04 Sep 2020 03:24:09 -0400
+X-MC-Unique: QLO0Uy5LOluJH6lzz4Mdvg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 662E42FD04;
+ Fri,  4 Sep 2020 07:24:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5695C196FD;
+ Fri,  4 Sep 2020 07:24:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CED801132B59; Fri,  4 Sep 2020 09:24:03 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] meson: install ivshmem-client and ivshmem-server
+References: <20200903153524.98168-1-brogers@suse.com>
+ <4eba2feb-a9b3-8bb7-6ed7-6b02c79519b1@redhat.com>
+ <20200903154906.GA441291@redhat.com>
+ <69f279ce-30e8-e83c-718b-021d3e6b264d@redhat.com>
+Date: Fri, 04 Sep 2020 09:24:03 +0200
+In-Reply-To: <69f279ce-30e8-e83c-718b-021d3e6b264d@redhat.com> (Paolo
+ Bonzini's message of "Thu, 3 Sep 2020 19:55:14 +0200")
+Message-ID: <87a6y6dmy4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,66 +74,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pizhenwei@bytedance.com
+Cc: marcandre.lureau@redhat.com,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously we can only get a simple string "Triple fault" in qemu
-log. Add detailed message for the two reasons to describe why qemu
-has to reset the guest.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- target/i386/helper.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+> On 03/09/20 17:49, Daniel P. Berrang=C3=A9 wrote:
+>> On Thu, Sep 03, 2020 at 05:44:25PM +0200, Paolo Bonzini wrote:
+>>> On 03/09/20 17:35, Bruce Rogers wrote:
+>>>> Turn on the meson install flag for these executables
+>>>>
+>>>> Signed-off-by: Bruce Rogers <brogers@suse.com>
+>>>> ---
+>>>>  contrib/ivshmem-client/meson.build | 2 +-
+>>>>  contrib/ivshmem-server/meson.build | 2 +-
+>>>>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/contrib/ivshmem-client/meson.build b/contrib/ivshmem-clie=
+nt/meson.build
+>>>> index 1b171efb4f..83a559117f 100644
+>>>> --- a/contrib/ivshmem-client/meson.build
+>>>> +++ b/contrib/ivshmem-client/meson.build
+>>>> @@ -1,4 +1,4 @@
+>>>>  executable('ivshmem-client', files('ivshmem-client.c', 'main.c'),
+>>>>             dependencies: glib,
+>>>>             build_by_default: targetos =3D=3D 'linux',
+>>>> -           install: false)
+>>>> +           install: true)
+>>>> diff --git a/contrib/ivshmem-server/meson.build b/contrib/ivshmem-serv=
+er/meson.build
+>>>> index 3a53942201..a1c39aa3b3 100644
+>>>> --- a/contrib/ivshmem-server/meson.build
+>>>> +++ b/contrib/ivshmem-server/meson.build
+>>>> @@ -1,4 +1,4 @@
+>>>>  executable('ivshmem-server', files('ivshmem-server.c', 'main.c'),
+>>>>             dependencies: [qemuutil, rt],
+>>>>             build_by_default: targetos =3D=3D 'linux',
+>>>> -           install: false)
+>>>> +           install: true)
+>>>>
+>>>
+>>> They weren't installed before the conversion, were they?
+>>=20
+>> Unfortunately they were historically installed with --enable-tools.
+>>=20
+>> IMHO nothing in contrib/ should be installed by default. If we consider
+>> something maintained and high enough quality for end users, it should
+>> migrate out of contrib/ into tools/.
+>
+> Ah, via the tools variable in configure.  Nice maze.  I've queued the pat=
+ch.
 
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 70be53e2c3..0c7fd32491 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -857,6 +857,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *cenv = &cpu->env;
-     uint64_t *banks = cenv->mce_banks + 4 * params->bank;
-+    char msg[64];
-+    bool need_reset = false;
- 
-     cpu_synchronize_state(cs);
- 
-@@ -894,16 +896,25 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-             return;
-         }
- 
--        if ((cenv->mcg_status & MCG_STATUS_MCIP) ||
--            !(cenv->cr[4] & CR4_MCE_MASK)) {
--            monitor_printf(params->mon,
--                           "CPU %d: Previous MCE still in progress, raising"
--                           " triple fault\n",
--                           cs->cpu_index);
--            qemu_log_mask(CPU_LOG_RESET, "Triple fault\n");
-+        if (cenv->mcg_status & MCG_STATUS_MCIP) {
-+            need_reset = true;
-+            snprintf(msg, sizeof(msg), "CPU %d: Previous MCE still in progress,"
-+                     " raising triple fault", cs->cpu_index);
-+        }
-+
-+        if (!(cenv->cr[4] & CR4_MCE_MASK)) {
-+            need_reset = true;
-+            snprintf(msg, sizeof(msg), "CPU %d: MCE capability is not enabled,"
-+                     " raising triple fault", cs->cpu_index);
-+        }
-+
-+        if (need_reset) {
-+            monitor_printf(params->mon, "%s", msg);
-+            qemu_log_mask(CPU_LOG_RESET, "%s\n", msg);
-             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-             return;
-         }
-+
-         if (banks[1] & MCI_STATUS_VAL) {
-             params->status |= MCI_STATUS_OVER;
-         }
--- 
-2.11.0
+Please don't.
+
+These programs are examples to help people understand how the ivhsmem
+device works.  They might even be useful for debugging.  They are *not*
+to be used in production.
+
+docs/specs/ivshmem-spec.txt:
+
+    Example server code is in contrib/ivshmem-server/.  Not to be used in
+    production.  It assumes all clients use the same number of interrupt
+    vectors.
+
+    A standalone client is in contrib/ivshmem-client/.  It can be useful
+    for debugging.
+
+Installing example *source* might make sense (but I doubt it).
+Installing the binaries does not.
 
 
