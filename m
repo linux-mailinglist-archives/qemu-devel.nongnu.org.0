@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8088A25DE89
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:51:13 +0200 (CEST)
-Received: from localhost ([::1]:34510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774F225DE97
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:54:07 +0200 (CEST)
+Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEDzc-0002HT-Gz
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
+	id 1kEE2Q-0007Yr-DC
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDuG-0001vV-D5
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:45:40 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59033
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDuL-00026S-32
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:45:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37779
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDuC-0007g7-Kq
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:45:40 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-9JDt-5nYPT-ctL1wpN0mOg-1; Fri, 04 Sep 2020 11:45:35 -0400
-X-MC-Unique: 9JDt-5nYPT-ctL1wpN0mOg-1
-Received: by mail-wr1-f72.google.com with SMTP id 3so2471837wrm.4
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:45:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDuI-0007jO-71
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:45:44 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-XjPgIMXFMXe028GnSSqiug-1; Fri, 04 Sep 2020 11:45:40 -0400
+X-MC-Unique: XjPgIMXFMXe028GnSSqiug-1
+Received: by mail-wr1-f70.google.com with SMTP id g6so2464132wrv.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:45:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2AmcRETA9oKsnKY8UnfQs5f8OyuGwuYLNWaynUgMlWs=;
- b=Rl59+IjU8nn5YWghPMF5VIl6K2NVyMlkFpG/+rJezUBmKEOvDOjOqMx/V5MtKqOtbB
- oKPBjaEkhMKyq7qMEU4BjpEYGFl0nUi2n6W7Hl/5BX8cXT4XnRUEF3hojhuGKOKe2L47
- kx7kJC1/d5Ypu0t0BP5oOHn62PLfRO8yS/sK1g0yJym1CyeUL8ufIQKHuKLWh22q1HKo
- 3Ged/mRKOla5IRCG4LZKLSVppXLmF2ZnaVXjGlEMmlxEHEaWyBUQYpEY4etF14WtJkSS
- UeKvTTB6ZayvxL8ZuX6cKcKCgz2foUIM2Pei85HidrawGDACY4OO3Zms8wcse+VC4ZlV
- SWKQ==
-X-Gm-Message-State: AOAM531q7En1Un65WOpc+vfirdlF7rB1q6uSeO+XVL3moxzIffde8hUd
- iPH8O/x7s8//4MXcjldCPSVObQgMfdB6hrrXAR6mhHgfQJXcN0gbJCzj3i3RqNPlyQrS325XlI9
- RiAqlr3IG9pzqslQ=
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr8837886wmh.177.1599234333471; 
- Fri, 04 Sep 2020 08:45:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzyaUuqzBsy5mhs9NpcMoj7Eyv0YrRiNFzxz6psHid+BPNYwWOB0q+ockmdVg6Y8ecRU5kqaQ==
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr8837832wmh.177.1599234333203; 
- Fri, 04 Sep 2020 08:45:33 -0700 (PDT)
+ bh=JUQPC6DgM2FCUEnyNd7bTPLA1Qde172FQ2i4S8gYY7A=;
+ b=LthP5asBCP9MqWHBZzhP7Vj/42waJKzorrfkVgcueaXapmAOxUW0+iJsNqFPi8ydqE
+ yiU4rpSVyfFFfObNMmUqqoFpW6co4NmPKZ5N3w0DGVFtZQUZfKKexusoAyrtwZXOEyGF
+ O7RLLuEhBAeoV652jGBU1qQgapO9DrMYbU8QtMxDbE8q0U+0ZYsS/8zji0i9bZGtsR2h
+ v8bFUQLPbJ8vJPnttOaV+1Y+z9e1Ee+vNJNyBvZdbowxrI/RET9dYuA1kqHagpRvcXdF
+ pCS+J+ZQQnBwgT96kGjGO5r2KHv/QnK5BfIYMQQk7/c7ykTvzeuk5bUPUHUVhjz18bPA
+ 47Fg==
+X-Gm-Message-State: AOAM532Ct0P8nhAASLowxfQKD8C6FL0qe/sec+uMXc8+zMXOkkj7M6ZL
+ gtGAKerf+xmY7HayJeA5g+2e3xrzf3XfOAmI0rZZfPF9bF82ZvgMbezKSL/f8sDk64dQ9gRNbgV
+ 11iVvZqtu0rsv9To=
+X-Received: by 2002:a1c:1d52:: with SMTP id d79mr8773914wmd.82.1599234339203; 
+ Fri, 04 Sep 2020 08:45:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCz582qIvV6nyW0Orl7VeZ8MxN3J0CJZxJsqhj60xKXsv5sen8ldh7Jsjv0l4hVXnzFcZ7DQ==
+X-Received: by 2002:a1c:1d52:: with SMTP id d79mr8773874wmd.82.1599234339018; 
+ Fri, 04 Sep 2020 08:45:39 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id t16sm12218159wrm.57.2020.09.04.08.45.31
+ by smtp.gmail.com with ESMTPSA id q18sm12234247wre.78.2020.09.04.08.45.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 08:45:32 -0700 (PDT)
+ Fri, 04 Sep 2020 08:45:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 09/13] dma: Let dma_memory_set() take MemTxAttrs argument
-Date: Fri,  4 Sep 2020 17:44:35 +0200
-Message-Id: <20200904154439.643272-10-philmd@redhat.com>
+Subject: [PATCH 10/13] dma: Let dma_memory_rw_relaxed() take MemTxAttrs
+ argument
+Date: Fri,  4 Sep 2020 17:44:36 +0200
+Message-Id: <20200904154439.643272-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904154439.643272-1-philmd@redhat.com>
 References: <20200904154439.643272-1-philmd@redhat.com>
@@ -63,15 +64,15 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:11
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,84 +106,64 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let devices specify transaction attributes when calling
-dma_memory_set().
+We will add the MemTxAttrs argument to dma_memory_rw() in
+the next commit. Since dma_memory_rw_relaxed() is only used
+by dma_memory_rw(), modify it first in a separate commit to
+keep the next commit easier to review.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/ppc/spapr_vio.h | 3 ++-
- include/sysemu/dma.h       | 3 ++-
- dma-helpers.c              | 5 ++---
- hw/nvram/fw_cfg.c          | 3 ++-
- 4 files changed, 8 insertions(+), 6 deletions(-)
+ include/sysemu/dma.h | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-index f134f6cf574..6e5c0840248 100644
---- a/include/hw/ppc/spapr_vio.h
-+++ b/include/hw/ppc/spapr_vio.h
-@@ -116,7 +116,8 @@ static inline int spapr_vio_dma_write(SpaprVioDevice *dev, uint64_t taddr,
- static inline int spapr_vio_dma_set(SpaprVioDevice *dev, uint64_t taddr,
-                                     uint8_t c, uint32_t size)
- {
--    return (dma_memory_set(&dev->as, taddr, c, size) != 0) ?
-+    return (dma_memory_set(&dev->as, taddr,
-+                           c, size, MEMTXATTRS_UNSPECIFIED) != 0) ?
-         H_DEST_PARM : H_SUCCESS;
- }
- 
 diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index b322aa5947b..d0381f9ae9b 100644
+index d0381f9ae9b..59331ec0bd3 100644
 --- a/include/sysemu/dma.h
 +++ b/include/sysemu/dma.h
-@@ -175,9 +175,10 @@ static inline MemTxResult dma_memory_write(AddressSpace *as, dma_addr_t addr,
-  * @addr: address within that address space
-  * @c: constant byte to fill the memory
-  * @len: the number of bytes to fill with the constant byte
-+ * @attrs: memory transaction attributes
-  */
- MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
--                           uint8_t c, dma_addr_t len);
-+                           uint8_t c, dma_addr_t len, MemTxAttrs attrs);
+@@ -83,9 +83,10 @@ static inline bool dma_memory_valid(AddressSpace *as,
+ static inline MemTxResult dma_memory_rw_relaxed(AddressSpace *as,
+                                                 dma_addr_t addr,
+                                                 void *buf, dma_addr_t len,
+-                                                DMADirection dir)
++                                                DMADirection dir,
++                                                MemTxAttrs attrs)
+ {
+-    return address_space_rw(as, addr, MEMTXATTRS_UNSPECIFIED,
++    return address_space_rw(as, addr, attrs,
+                             buf, len, dir == DMA_DIRECTION_FROM_DEVICE);
+ }
+ 
+@@ -93,7 +94,9 @@ static inline MemTxResult dma_memory_read_relaxed(AddressSpace *as,
+                                                   dma_addr_t addr,
+                                                   void *buf, dma_addr_t len)
+ {
+-    return dma_memory_rw_relaxed(as, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
++    return dma_memory_rw_relaxed(as, addr, buf, len,
++                                 DMA_DIRECTION_TO_DEVICE,
++                                 MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+ static inline MemTxResult dma_memory_write_relaxed(AddressSpace *as,
+@@ -102,7 +105,8 @@ static inline MemTxResult dma_memory_write_relaxed(AddressSpace *as,
+                                                    dma_addr_t len)
+ {
+     return dma_memory_rw_relaxed(as, addr, (void *)buf, len,
+-                                 DMA_DIRECTION_FROM_DEVICE);
++                                 DMA_DIRECTION_FROM_DEVICE,
++                                 MEMTXATTRS_UNSPECIFIED);
+ }
  
  /**
-  * address_space_map: Map a physical memory region into a DMA controller
-diff --git a/dma-helpers.c b/dma-helpers.c
-index 4a9e37d6d06..6a9735386dc 100644
---- a/dma-helpers.c
-+++ b/dma-helpers.c
-@@ -19,7 +19,7 @@
- /* #define DEBUG_IOMMU */
- 
- MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
--                           uint8_t c, dma_addr_t len)
-+                           uint8_t c, dma_addr_t len, MemTxAttrs attrs)
+@@ -124,7 +128,8 @@ static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
  {
-     dma_barrier(as, DMA_DIRECTION_FROM_DEVICE);
+     dma_barrier(as, dir);
  
-@@ -31,8 +31,7 @@ MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
-     memset(fillbuf, c, FILLBUF_SIZE);
-     while (len > 0) {
-         l = len < FILLBUF_SIZE ? len : FILLBUF_SIZE;
--        error |= address_space_write(as, addr, MEMTXATTRS_UNSPECIFIED,
--                                     fillbuf, l);
-+        error |= address_space_write(as, addr, attrs, fillbuf, l);
-         len -= l;
-         addr += l;
-     }
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index f3a4728288e..a15de06a10c 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -397,7 +397,8 @@ static void fw_cfg_dma_transfer(FWCfgState *s)
-              * tested before.
-              */
-             if (read) {
--                if (dma_memory_set(s->dma_as, dma.address, 0, len)) {
-+                if (dma_memory_set(s->dma_as, dma.address, 0, len,
-+                                   MEMTXATTRS_UNSPECIFIED)) {
-                     dma.control |= FW_CFG_DMA_CTL_ERROR;
-                 }
-             }
+-    return dma_memory_rw_relaxed(as, addr, buf, len, dir);
++    return dma_memory_rw_relaxed(as, addr, buf, len, dir,
++                                 MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+ /**
 -- 
 2.26.2
 
