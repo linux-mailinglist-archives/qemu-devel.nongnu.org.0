@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDF925E00F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:44:15 +0200 (CEST)
-Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119CE25E011
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:44:17 +0200 (CEST)
+Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEEow-0007w6-4U
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41228)
+	id 1kEEoy-00081p-3T
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnu-0006fp-7r
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52599
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnz-0006iI-DI
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22287
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEns-00009y-1d
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:09 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnv-0000Ao-VS
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:15 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-DXNR1ytmOHeaqBqVnSDGXg-1; Fri, 04 Sep 2020 12:43:05 -0400
-X-MC-Unique: DXNR1ytmOHeaqBqVnSDGXg-1
+ us-mta-482-opbDeT5uOLOd14OCXWwJ_g-1; Fri, 04 Sep 2020 12:43:06 -0400
+X-MC-Unique: opbDeT5uOLOd14OCXWwJ_g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DF828015FA;
- Fri,  4 Sep 2020 16:43:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3B521074660;
+ Fri,  4 Sep 2020 16:43:04 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-120-166.rdu2.redhat.com
  [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC5B019C59;
- Fri,  4 Sep 2020 16:42:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C952719C59;
+ Fri,  4 Sep 2020 16:43:03 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 0/7] gitlab pipeline check/watch script improvements
-Date: Fri,  4 Sep 2020 12:42:51 -0400
-Message-Id: <20200904164258.240278-1-crosa@redhat.com>
+Subject: [PATCH 1/7] scripts/ci/gitlab-pipeline-status: make branch name
+ configurable
+Date: Fri,  4 Sep 2020 12:42:52 -0400
+Message-Id: <20200904164258.240278-2-crosa@redhat.com>
+In-Reply-To: <20200904164258.240278-1-crosa@redhat.com>
+References: <20200904164258.240278-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=crosa@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
@@ -74,29 +77,56 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a collection of refactors and improvements based on feedback=0D
-received.=0D
-=0D
-The biggest difference is that now the script can be used right after=0D
-a git push, despite the pipeline having been created yet or not.  The=0D
-proper status of the pipeline (not created, pending, etc) will be=0D
-given as output.=0D
-=0D
-Cleber Rosa (7):=0D
-  scripts/ci/gitlab-pipeline-status: make branch name configurable=0D
-  scripts/ci/gitlab-pipeline-status: improve message regarding timeout=0D
-  scripts/ci/gitlab-pipeline-status: give early feedback on running=0D
-    pipelines=0D
-  scripts/ci/gitlab-pipeline-status: refactor parser creation=0D
-  scripts/ci/gitlab-pipeline-status: handle keyboard interrupts=0D
-  scripts/ci/gitlab-pipeline-status: use more descriptive exceptions=0D
-  scripts/ci/gitlab-pipeline-status: wait for pipeline creation=0D
-=0D
- scripts/ci/gitlab-pipeline-status | 63 +++++++++++++++++++++----------=0D
- 1 file changed, 44 insertions(+), 19 deletions(-)=0D
-=0D
---=20=0D
-2.25.4=0D
-=0D
+With the utility function `get_local_staging_branch_commit()`, the
+name of the branch is hard coded (including in the function name).
+
+For extensibility reasons, let's make that configurable.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ scripts/ci/gitlab-pipeline-status | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
+index 348a49b6a4..194dd4d0bb 100755
+--- a/scripts/ci/gitlab-pipeline-status
++++ b/scripts/ci/gitlab-pipeline-status
+@@ -23,20 +23,20 @@ import time
+ import sys
+ 
+ 
+-def get_local_staging_branch_commit():
++def get_local_branch_commit(branch='staging'):
+     """
+     Returns the commit sha1 for the *local* branch named "staging"
+     """
+-    result = subprocess.run(['git', 'rev-parse', 'staging'],
++    result = subprocess.run(['git', 'rev-parse', branch],
+                             stdin=subprocess.DEVNULL,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.DEVNULL,
+                             cwd=os.path.dirname(__file__),
+                             universal_newlines=True).stdout.strip()
+-    if result == 'staging':
+-        raise ValueError("There's no local branch named 'staging'")
++    if result == branch:
++        raise ValueError("There's no local branch named '%s'" % branch)
+     if len(result) != 40:
+-        raise ValueError("Branch staging HEAD doesn't look like a sha1")
++        raise ValueError("Branch '%s' HEAD doesn't look like a sha1" % branch)
+     return result
+ 
+ 
+@@ -110,7 +110,7 @@ def main():
+                               'for https://gitlab.com/qemu-project/qemu, that '
+                               'is, "%(default)s"'))
+     try:
+-        default_commit = get_local_staging_branch_commit()
++        default_commit = get_local_branch_commit()
+         commit_required = False
+     except ValueError:
+         default_commit = ''
+-- 
+2.25.4
 
 
