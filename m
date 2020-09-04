@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D70F25E1D7
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 21:18:25 +0200 (CEST)
-Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D5525E1CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 21:15:10 +0200 (CEST)
+Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEHE8-0007g6-Ao
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 15:18:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41760)
+	id 1kEHAz-0002f8-HY
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 15:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kEH58-0001sx-5f
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 15:09:06 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:40268)
+ id 1kEH5B-00021H-77
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 15:09:09 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kEH56-0000pj-Hc
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 15:09:05 -0400
-Received: by mail-pl1-x644.google.com with SMTP id z15so1591596plo.7
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 12:09:04 -0700 (PDT)
+ id 1kEH58-0000qR-TV
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 15:09:08 -0400
+Received: by mail-pl1-x642.google.com with SMTP id m15so483771pls.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 12:09:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5XnCVImZ5QTsJteNC1vb4alnlrpbIu8SO5P2TYSi0sE=;
- b=gMB4zzqxfrczxB2RfGO22uUZO3agZtGBD2C+AYTc4ycM3ib13mcHjs/WDQAh3f6a0/
- 0iYDQ0MgkV2s7zKwQhsJGUKidym64vGz+vtM3M3dNLyOzuczAuPvx0j63XgQuaOEyj0n
- bVqGEPvNcMdSXCI6G/EMRwMgU/aIqrCVTeWPJ52IRfrpvEiiTG+KZYWB69No07owXsWi
- TYZUIqXlY1NvSn6estv4wjTIOR99lkZRxcb/ZYnrWqdh2KfPtYwX2QjJ2b0F7ScxA8BC
- 3unjXZl+PaiJppK6GvLwx6HjdHTdllg8NffqJfbgRG8OM3yvwcY74iTbBeN2PCHRK+WP
- WWkA==
+ bh=bhVfNpuPA7q1XAfzFFC9Ghe9VEOKRFgTrExxhOw/TII=;
+ b=ApVZpAqdHOtHrvVuOxUkNTnXqt1dvU3qx0An51sKTC8Ar04NdAJsVy1aoI6qa5EAa/
+ GmaD2LIXHn1Q5smsgvFsUT9fEHj7/fldLOdTvTlz7y97FT8c1kLlq++B+qhMZIBLPJS+
+ v0I9RhhmuB58dvRoL/hMHvCXtvVEQ8i3IWkUiJqUds0SwJ8bHkoOBmZaQidqXL2CxbJl
+ JMNf1PfZqn4b2yHaGGaa2NaONU1s0lanvgzec/FM6FcWu6Nw/NCKO3qRejU6Wn6fSvCC
+ GXIY/SO3wnjN9Cnc5SmOga3r2BHj4YX761O9jTZTKKWraLcoiPoUAH3cOA0tfjV+PiOg
+ HSMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5XnCVImZ5QTsJteNC1vb4alnlrpbIu8SO5P2TYSi0sE=;
- b=WT9JOp7QRUUL4apvH76HYFtpWCM/rPw1yoCB+6NX2HKkR0ugAnpsKX90hXyOGWPBDk
- 2JHZzY5Vf9KtYfbjjGTdnMB6TJT1stHWKgeU/PpkwAaZ3swSbkZSO3SojQtNQvIVuMdE
- tDBktCBWAdUrAZFjqFfaOwKGGa2K5DMC5L4zD3xNLrw7yJ7Bfsg5CC9wuve/AUhrvb7R
- HMdiB2Yh4wGsVMpyqkcZgaS/DRr+XV5hJYN4uUuZbEi2SxrI9PgwVuTTVfjtYQpgmBh/
- wcrZVNFM8j6Dzkdj5n1fFi0hyOWg0Qy7PzCkV7XatnljwwcKFf48wWMrAWfrMPGuwDgc
- uQuQ==
-X-Gm-Message-State: AOAM533GHlbYKzi96oOdORr1hB7NIbAhsU/oTl9eT0fdepC6MGzueejb
- C6TV6PAtlkp6MjWZN+kvJomJJHXzy/Vl3A==
-X-Google-Smtp-Source: ABdhPJyBzc0JSclVDE0alKaxYxDZgB/R7XIiBRCIsj8FqUd3aqeBrfZBmrEiTLUVcGZ00IU5s2U7sA==
-X-Received: by 2002:a17:90a:4ec6:: with SMTP id
- v6mr9017941pjl.12.1599246542804; 
- Fri, 04 Sep 2020 12:09:02 -0700 (PDT)
+ bh=bhVfNpuPA7q1XAfzFFC9Ghe9VEOKRFgTrExxhOw/TII=;
+ b=RNWiTRfIW6XfS12UBdWc1s9qxZ84tyq6IkqVDu0LF8+ixlUlt2fLnwByo2er4vbHJT
+ xs/fJWsu2Zd2R15SujepoUGgd30ZHa4jT+A5cLRtc7APQt739AHX5lITkZg5CaatBWau
+ 56zVBb12nrZe3/qnR5QcZFIjV7K0/+HEAZ11DcJtsmVvi7/5WkeatsrjFlAjGwMZjUt0
+ /3Izqi7vBSkpbkh3pAG4FJee0MGomjpAY5wOg3n4i1KPC+qL3ctDy/u/N5WEMde1iCBH
+ w4vjVMUYcfQbDQ7h9ZuIAnNrqW4U0BtfGhg4PLq5YVANASpP5qW6733XDNixWbgCHwT0
+ s90Q==
+X-Gm-Message-State: AOAM531GZOMEC54/NIh5UsWOLJ2816jhq8bkNxtxrF0qRBLQQZQUmE/c
+ 7tsfV/QLkWdds3rHMF6erHn0Kxb344xoZg==
+X-Google-Smtp-Source: ABdhPJy7sWu9XrYYP/2OvvwXIMKMgykX4erZx9SCKvrloo4OrXHAVNWbN4sY3OJE2AXHMCUTswSQ4w==
+X-Received: by 2002:a17:90a:ead5:: with SMTP id
+ ev21mr2904642pjb.188.1599246544665; 
+ Fri, 04 Sep 2020 12:09:04 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id x19sm1897941pge.22.2020.09.04.12.09.01
+ by smtp.gmail.com with ESMTPSA id x19sm1897941pge.22.2020.09.04.12.09.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 12:09:02 -0700 (PDT)
+ Fri, 04 Sep 2020 12:09:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/19] target/microblaze: Reorg MicroBlazeCPUConfig to
- minimize holes
-Date: Fri,  4 Sep 2020 12:08:36 -0700
-Message-Id: <20200904190842.2282109-14-richard.henderson@linaro.org>
+Subject: [PATCH v3 14/19] target/microblaze: Move pvr regs to
+ MicroBlazeCPUConfig
+Date: Fri,  4 Sep 2020 12:08:37 -0700
+Message-Id: <20200904190842.2282109-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200904190842.2282109-1-richard.henderson@linaro.org>
 References: <20200904190842.2282109-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,53 +90,243 @@ Cc: edgar.iglesias@xilinx.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sort the elements by type and size, removing a number of holes
-and reducing the size of the entire struct.
+These values are constant, and are derived from the other
+configuration knobs.  Move them into MicroBlazeCPUConfig
+to emphasize that they are not variable.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ target/microblaze/cpu.h             |  5 +-
+ hw/microblaze/petalogix_ml605_mmu.c |  6 +-
+ target/microblaze/cpu.c             | 92 ++++++++++++++---------------
+ target/microblaze/gdbstub.c         |  4 +-
+ target/microblaze/helper.c          |  2 +-
+ target/microblaze/op_helper.c       |  2 +-
+ target/microblaze/translate.c       |  3 +-
+ 7 files changed, 54 insertions(+), 60 deletions(-)
 
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 59d2a079c4..4d53345f23 100644
+index 4d53345f23..ef96f2fe02 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -293,13 +293,22 @@ struct CPUMBState {
+@@ -285,10 +285,6 @@ struct CPUMBState {
+     struct {} end_reset_fields;
+ 
+     /* These fields are preserved on reset.  */
+-
+-    struct {
+-        uint32_t regs[13];
+-    } pvr;
+ };
  
  /*
-  * Microblaze Configuration Settings
-+ *
-+ * Note that the structure is sorted by type and size to minimize holes.
-  */
- typedef struct {
--    bool stackprot;
-+    char *version;
-+
+@@ -301,6 +297,7 @@ typedef struct {
+ 
      uint32_t base_vectors;
-+    uint32_t pvr_user2;
-+
+     uint32_t pvr_user2;
++    uint32_t pvr_regs[13];
+ 
      uint8_t addr_size;
      uint8_t use_fpu;
-     uint8_t use_hw_mul;
-+    uint8_t pvr_user1;
-+    uint8_t pvr;
-+
-+    bool stackprot;
-     bool use_barrel;
-     bool use_div;
-     bool use_msr_instr;
-@@ -313,10 +322,6 @@ typedef struct {
-     bool opcode_0_illegal;
-     bool div_zero_exception;
-     bool unaligned_exceptions;
--    uint8_t pvr_user1;
--    uint32_t pvr_user2;
--    char *version;
--    uint8_t pvr;
- } MicroBlazeCPUConfig;
+diff --git a/hw/microblaze/petalogix_ml605_mmu.c b/hw/microblaze/petalogix_ml605_mmu.c
+index e49fc86eb8..159db6cbe2 100644
+--- a/hw/microblaze/petalogix_ml605_mmu.c
++++ b/hw/microblaze/petalogix_ml605_mmu.c
+@@ -200,9 +200,9 @@ petalogix_ml605_init(MachineState *machine)
+     }
  
- /**
+     /* setup PVR to match kernel settings */
+-    cpu->env.pvr.regs[4] = 0xc56b8000;
+-    cpu->env.pvr.regs[5] = 0xc56be000;
+-    cpu->env.pvr.regs[10] = 0x0e000000; /* virtex 6 */
++    cpu->cfg.pvr_regs[4] = 0xc56b8000;
++    cpu->cfg.pvr_regs[5] = 0xc56be000;
++    cpu->cfg.pvr_regs[10] = 0x0e000000; /* virtex 6 */
+ 
+     microblaze_load_kernel(cpu, MEMORY_BASEADDR, ram_size,
+                            machine->initrd_filename,
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 6392524135..b9bb7f0cc7 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -153,7 +153,6 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+     CPUState *cs = CPU(dev);
+     MicroBlazeCPUClass *mcc = MICROBLAZE_CPU_GET_CLASS(dev);
+     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+-    CPUMBState *env = &cpu->env;
+     uint8_t version_code = 0;
+     const char *version;
+     int i = 0;
+@@ -173,16 +172,6 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+ 
+     qemu_init_vcpu(cs);
+ 
+-    env->pvr.regs[0] = PVR0_USE_EXC_MASK
+-                       | PVR0_USE_ICACHE_MASK
+-                       | PVR0_USE_DCACHE_MASK;
+-    env->pvr.regs[2] = PVR2_D_OPB_MASK
+-                        | PVR2_D_LMB_MASK
+-                        | PVR2_I_OPB_MASK
+-                        | PVR2_I_LMB_MASK
+-                        | PVR2_FPU_EXC_MASK
+-                        | 0;
+-
+     version = cpu->cfg.version ? cpu->cfg.version : DEFAULT_CPU_VERSION;
+     for (i = 0; mb_cpu_lookup[i].name && version; i++) {
+         if (strcmp(mb_cpu_lookup[i].name, version) == 0) {
+@@ -195,46 +184,53 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+         qemu_log("Invalid MicroBlaze version number: %s\n", cpu->cfg.version);
+     }
+ 
+-    env->pvr.regs[0] |= (cpu->cfg.stackprot ? PVR0_SPROT_MASK : 0) |
+-                        (cpu->cfg.use_fpu ? PVR0_USE_FPU_MASK : 0) |
+-                        (cpu->cfg.use_hw_mul ? PVR0_USE_HW_MUL_MASK : 0) |
+-                        (cpu->cfg.use_barrel ? PVR0_USE_BARREL_MASK : 0) |
+-                        (cpu->cfg.use_div ? PVR0_USE_DIV_MASK : 0) |
+-                        (cpu->cfg.use_mmu ? PVR0_USE_MMU_MASK : 0) |
+-                        (cpu->cfg.endi ? PVR0_ENDI_MASK : 0) |
+-                        (version_code << PVR0_VERSION_SHIFT) |
+-                        (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0) |
+-                        cpu->cfg.pvr_user1;
++    cpu->cfg.pvr_regs[0] =
++        (PVR0_USE_EXC_MASK |
++         PVR0_USE_ICACHE_MASK |
++         PVR0_USE_DCACHE_MASK |
++         (cpu->cfg.stackprot ? PVR0_SPROT_MASK : 0) |
++         (cpu->cfg.use_fpu ? PVR0_USE_FPU_MASK : 0) |
++         (cpu->cfg.use_hw_mul ? PVR0_USE_HW_MUL_MASK : 0) |
++         (cpu->cfg.use_barrel ? PVR0_USE_BARREL_MASK : 0) |
++         (cpu->cfg.use_div ? PVR0_USE_DIV_MASK : 0) |
++         (cpu->cfg.use_mmu ? PVR0_USE_MMU_MASK : 0) |
++         (cpu->cfg.endi ? PVR0_ENDI_MASK : 0) |
++         (version_code << PVR0_VERSION_SHIFT) |
++         (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0) |
++         cpu->cfg.pvr_user1);
+ 
+-    env->pvr.regs[1] = cpu->cfg.pvr_user2;
+-    env->pvr.regs[2] |= (cpu->cfg.use_fpu ? PVR2_USE_FPU_MASK : 0) |
+-                        (cpu->cfg.use_fpu > 1 ? PVR2_USE_FPU2_MASK : 0) |
+-                        (cpu->cfg.use_hw_mul ? PVR2_USE_HW_MUL_MASK : 0) |
+-                        (cpu->cfg.use_hw_mul > 1 ? PVR2_USE_MUL64_MASK : 0) |
+-                        (cpu->cfg.use_barrel ? PVR2_USE_BARREL_MASK : 0) |
+-                        (cpu->cfg.use_div ? PVR2_USE_DIV_MASK : 0) |
+-                        (cpu->cfg.use_msr_instr ? PVR2_USE_MSR_INSTR : 0) |
+-                        (cpu->cfg.use_pcmp_instr ? PVR2_USE_PCMP_INSTR : 0) |
+-                        (cpu->cfg.dopb_bus_exception ?
+-                                                 PVR2_DOPB_BUS_EXC_MASK : 0) |
+-                        (cpu->cfg.iopb_bus_exception ?
+-                                                 PVR2_IOPB_BUS_EXC_MASK : 0) |
+-                        (cpu->cfg.div_zero_exception ?
+-                                                 PVR2_DIV_ZERO_EXC_MASK : 0) |
+-                        (cpu->cfg.illegal_opcode_exception ?
+-                                                PVR2_ILL_OPCODE_EXC_MASK : 0) |
+-                        (cpu->cfg.unaligned_exceptions ?
+-                                                PVR2_UNALIGNED_EXC_MASK : 0) |
+-                        (cpu->cfg.opcode_0_illegal ?
+-                                                 PVR2_OPCODE_0x0_ILL_MASK : 0);
++    cpu->cfg.pvr_regs[1] = cpu->cfg.pvr_user2;
+ 
+-    env->pvr.regs[5] |= cpu->cfg.dcache_writeback ?
+-                                        PVR5_DCACHE_WRITEBACK_MASK : 0;
++    cpu->cfg.pvr_regs[2] =
++        (PVR2_D_OPB_MASK |
++         PVR2_D_LMB_MASK |
++         PVR2_I_OPB_MASK |
++         PVR2_I_LMB_MASK |
++         PVR2_FPU_EXC_MASK |
++         (cpu->cfg.use_fpu ? PVR2_USE_FPU_MASK : 0) |
++         (cpu->cfg.use_fpu > 1 ? PVR2_USE_FPU2_MASK : 0) |
++         (cpu->cfg.use_hw_mul ? PVR2_USE_HW_MUL_MASK : 0) |
++         (cpu->cfg.use_hw_mul > 1 ? PVR2_USE_MUL64_MASK : 0) |
++         (cpu->cfg.use_barrel ? PVR2_USE_BARREL_MASK : 0) |
++         (cpu->cfg.use_div ? PVR2_USE_DIV_MASK : 0) |
++         (cpu->cfg.use_msr_instr ? PVR2_USE_MSR_INSTR : 0) |
++         (cpu->cfg.use_pcmp_instr ? PVR2_USE_PCMP_INSTR : 0) |
++         (cpu->cfg.dopb_bus_exception ? PVR2_DOPB_BUS_EXC_MASK : 0) |
++         (cpu->cfg.iopb_bus_exception ? PVR2_IOPB_BUS_EXC_MASK : 0) |
++         (cpu->cfg.div_zero_exception ? PVR2_DIV_ZERO_EXC_MASK : 0) |
++         (cpu->cfg.illegal_opcode_exception ? PVR2_ILL_OPCODE_EXC_MASK : 0) |
++         (cpu->cfg.unaligned_exceptions ? PVR2_UNALIGNED_EXC_MASK : 0) |
++         (cpu->cfg.opcode_0_illegal ? PVR2_OPCODE_0x0_ILL_MASK : 0));
+ 
+-    env->pvr.regs[10] = 0x0c000000 | /* Default to spartan 3a dsp family.  */
+-                        (cpu->cfg.addr_size - 32) << PVR10_ASIZE_SHIFT;
+-    env->pvr.regs[11] = (cpu->cfg.use_mmu ? PVR11_USE_MMU : 0) |
+-                        16 << 17;
++    cpu->cfg.pvr_regs[5] |=
++        cpu->cfg.dcache_writeback ? PVR5_DCACHE_WRITEBACK_MASK : 0;
++
++    cpu->cfg.pvr_regs[10] =
++        (0x0c000000 | /* Default to spartan 3a dsp family.  */
++         (cpu->cfg.addr_size - 32) << PVR10_ASIZE_SHIFT);
++
++    cpu->cfg.pvr_regs[11] = ((cpu->cfg.use_mmu ? PVR11_USE_MMU : 0) |
++                             16 << 17);
+ 
+     mcc->parent_realize(dev, errp);
+ }
+diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
+index 08d6a0e807..9e3b9ac824 100644
+--- a/target/microblaze/gdbstub.c
++++ b/target/microblaze/gdbstub.c
+@@ -78,7 +78,7 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+         break;
+     case GDB_PVR0 ... GDB_PVR11:
+         /* PVR12 is intentionally skipped */
+-        val = env->pvr.regs[n - GDB_PVR0];
++        val = cpu->cfg.pvr_regs[n - GDB_PVR0];
+         break;
+     case GDB_EDR:
+         val = env->edr;
+@@ -134,7 +134,7 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+         break;
+     case GDB_PVR0 ... GDB_PVR11:
+         /* PVR12 is intentionally skipped */
+-        env->pvr.regs[n - GDB_PVR0] = tmp;
++        cpu->cfg.pvr_regs[n - GDB_PVR0] = tmp;
+         break;
+     case GDB_EDR:
+         env->edr = tmp;
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index 3c2fd388fb..c9f236c897 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -122,7 +122,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
+ 
+     switch (cs->exception_index) {
+     case EXCP_HW_EXCP:
+-        if (!(env->pvr.regs[0] & PVR0_USE_EXC_MASK)) {
++        if (!(cpu->cfg.pvr_regs[0] & PVR0_USE_EXC_MASK)) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "Exception raised on system without exceptions!\n");
+             return;
+diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+index 4614e99db3..757f3ff04b 100644
+--- a/target/microblaze/op_helper.c
++++ b/target/microblaze/op_helper.c
+@@ -134,7 +134,7 @@ static void update_fpu_flags(CPUMBState *env, int flags, uintptr_t ra)
+         raise = 1;
+     }
+     if (raise
+-        && (env->pvr.regs[2] & PVR2_FPU_EXC_MASK)
++        && (env_archcpu(env)->cfg.pvr_regs[2] & PVR2_FPU_EXC_MASK)
+         && (env->msr & MSR_EE)) {
+         raise_fpu_exception(env, ra);
+     }
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index ff0cb7dbb6..9e4551d99b 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -1539,7 +1539,8 @@ static bool trans_mfs(DisasContext *dc, arg_mfs *arg)
+ 
+     case 0x2000 ... 0x200c:
+         tcg_gen_ld_i32(dest, cpu_env,
+-                       offsetof(CPUMBState, pvr.regs[arg->rs - 0x2000]));
++                       offsetof(MicroBlazeCPU, cfg.pvr_regs[arg->rs - 0x2000])
++                       - offsetof(MicroBlazeCPU, env));
+         break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "Invalid mfs reg 0x%x\n", arg->rs);
 -- 
 2.25.1
 
