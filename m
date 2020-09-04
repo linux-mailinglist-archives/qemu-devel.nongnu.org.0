@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145BB25D993
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:25:18 +0200 (CEST)
-Received: from localhost ([::1]:39350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3772C25D99D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:29:24 +0200 (CEST)
+Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEBiP-00071A-5Z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47504)
+	id 1kEBmM-0008SX-P4
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kEBhg-0006YG-CP
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:24:32 -0400
-Resent-Date: Fri, 04 Sep 2020 09:24:32 -0400
-Resent-Message-Id: <E1kEBhg-0006YG-CP@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21757)
+ id 1kEBlV-0007xP-Ln
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:28:29 -0400
+Resent-Date: Fri, 04 Sep 2020 09:28:29 -0400
+Resent-Message-Id: <E1kEBlV-0007xP-Ln@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kEBha-0003gk-EW
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:24:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1599225857; cv=none; 
+ id 1kEBlS-00048y-O0
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:28:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1599226102; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=EnALITGmoqFYLQqKFsr0k9j+u+FBzZDio6xdhZk4S8udE074scQcYtvcUVzIxUgdVQJbNDfPOR4ooKJWG/3nKMoAkW4Hu5fFvuRsZbyq2PF60CoSp3Ab0U3rsm8Z1Qs7TCho6IR6z7EnD7Rx4tdeqsGaV+/Xv7Rg082SNsPlD3E=
+ b=KCW2FjL85vpYJFhRvLx+gZ0kXLli/l6KhseRrlP2Jh96o52M9OrZMQmy7/BUafrrAcCK4VIzucteetCr+AQtak/hPiskAsaG/zn3n3SFZoc6G1Vq6iPYWeIM+fa5eni1BUv3xhzK1/tYrKS4Ryi+5AqAWdj8sTqYWk3y2pTYgD0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1599225857;
+ s=zohoarc; t=1599226102;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Ur5r0fbQBwIe9/Qf0kXZclSu4FeX/GB19xcrAXJNmis=; 
- b=itSzN1rUPYbTn/DumM9lHBYPdcGCxyKATP25hQyMAVyt910XqRfmJZpPftjlr7oCOoTZ989nRjluoJ5Lnk4KOGd8ru1O2LRFYkr64yF9R3Gm35ZDW9zNmYU5Cs1wZ49y1A2oVy0NndQyCgO3W+KtC3MsWvk/w2rVrmjwI5lumE8=
+ bh=2MijjdVOtqfIRvv7zaCxPa8t81rrS61QBaLvNF4bwDI=; 
+ b=YfssPeUD9ZANlPJl519KjX3AuCvLSxNNAsg8fGU/IzWi6wnVFXnzGvFe6CSklmiavnj31dzVV4Z913nR1yRG8k0X71MWMsf6W+a/pgkRf5G8hteJsSST9cKMnr8ve16e7y0tf+rCEPjRyMGZWnDxJPni8LUPtBDKBeh8XCY3y9M=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  spf=pass  smtp.mailfrom=no-reply@patchew.org;
  dmarc=pass header.from=<no-reply@patchew.org>
  header.from=<no-reply@patchew.org>
 Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1599225856123562.9080868234041;
- Fri, 4 Sep 2020 06:24:16 -0700 (PDT)
+ mx.zohomail.com with SMTPS id 1599226100353137.44917451978029;
+ Fri, 4 Sep 2020 06:28:20 -0700 (PDT)
 Subject: Re: [PATCH 0/2] vhost-vdpa: improve parameters error management
-Message-ID: <159922585496.11986.7100544074835236774@66eaa9a8a123>
+Message-ID: <159922609905.11986.7761234044237873654@66eaa9a8a123>
 In-Reply-To: <20200903185327.774708-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -45,7 +45,7 @@ Content-Transfer-Encoding: base64
 Resent-From: 
 From: no-reply@patchew.org
 To: lvivier@redhat.com
-Date: Fri, 4 Sep 2020 06:24:16 -0700 (PDT)
+Date: Fri, 4 Sep 2020 06:28:20 -0700 (PDT)
 X-ZohoMailClient: External
 Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
  helo=sender4-of-o57.zoho.com
@@ -76,12 +76,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkwMzE4NTMyNy43NzQ3
-MDgtMS1sdml2aWVyQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKCk4vQS4gSW50ZXJuYWwgZXJyb3Igd2hpbGUgcmVhZGluZyBsb2cgZmlsZQoK
-CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
-MjAwOTAzMTg1MzI3Ljc3NDcwOC0xLWx2aXZpZXJAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0
-Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
-dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
-byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+MDgtMS1sdml2aWVyQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
+b2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNv
+bW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxs
+ZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgoKCgoKClRoZSBmdWxs
+IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA5MDMxODUz
+MjcuNzc0NzA4LTEtbHZpdmllckByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9y
+YS8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
+Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
+IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
