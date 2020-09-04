@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4D925E1E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 21:19:28 +0200 (CEST)
-Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA4425E1E9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 21:21:30 +0200 (CEST)
+Received: from localhost ([::1]:54058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEHF9-0001eN-F5
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 15:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
+	id 1kEHH7-00049P-Dx
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 15:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kEH5F-0002D6-Tf
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 15:09:13 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38072)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kEHFb-0002sh-Bw; Fri, 04 Sep 2020 15:19:55 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:36227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kEH5E-0000sF-As
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 15:09:13 -0400
-Received: by mail-pf1-x443.google.com with SMTP id d22so5118930pfn.5
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 12:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MI85xgpGyBSBN9cbj9PllJj9cCeDay9VieIb0EKJa4A=;
- b=KLdQWUW1UV+GGbMLKgvyDi+K0dkS3KswCfGsc7nljvyB3Qhk/BC9hqLatG6iYSYc2X
- //fvodfGkI6rEDDpXf101xSNDpQBrYP9E0U4Ry4sMw7fMMMzGBa7mNI5+D9SU9M4XZCL
- I8bs53nY/tsg8of2F1qjLewXAIoIqnqOh2IvmSa2y8eTwXKjD6mhN28E6uz/H5XTjWRZ
- SvJLH4s1QudP49H7ATZPp/3lfbIYSNWh5MQbtzy+4zCul+OFaG2rTiMokw5AdUqhxu3Q
- Y1uQ1a7zZjekkNaRIZUypdmEFSy6SDbb5yKq115VHt8t0+hgmkMaJU+zaLwf/4gyVI/r
- t1mw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kEHFZ-0002C4-88; Fri, 04 Sep 2020 15:19:54 -0400
+Received: by mail-io1-xd43.google.com with SMTP id d190so8273859iof.3;
+ Fri, 04 Sep 2020 12:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pP7iO7ntIZfxVbioWU2+lnG7XSvtKjf3vslR62sBxmc=;
+ b=rfrGbaq/pJ8jtjqA/4GH1kZIZ5miAJykW3dQepohrLV9VDRS3w9sCjtq5syf2iV5zO
+ gR0pWEiD3SVLGvU95FoXoZMrjQgnPv/B39Sgb3LhioEspp/8mipXfMjhN2NzZvunG7JC
+ QHT8nyXR1IlHNxI3mje3myNZonJwaMeZPNIg8yV1UpWxPAld/+NQyhT40xm+UqIO6p/+
+ MN+UXuSCgQOnIbXx5LbCqne4wqNpcR82qt9SmEPhiUft6fW6hjq/vCLpZmypxWHZAFkY
+ RMotyvtRrJJIcwQbmr8vGUqiXJP8m/85HpNOqy5tFm0wZrnYBmXk/ym7HMo1dZJZaLLP
+ 5keA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MI85xgpGyBSBN9cbj9PllJj9cCeDay9VieIb0EKJa4A=;
- b=V+oQTCpl8TTR2JOksWtvaZ/1+f5Yqi5rWgj8nj+QOwvVsOeGtSh9AycWMZrw2JlG9d
- MZaOQ65NdIjsF1HZ+YjKtcd1gVOCZBV/1jLeGzcPVDtLPfvwooYjNvYfzLjxhnUWRQYj
- LMmts1mMm8WRl+jDVs/vaJ5fF643vETaEUeFx5MQwX12+cMg8RA9zHUC4FO2x34a+Ofy
- lfRaYombGXkpgVmAimbJ93V4ElcPfBvyKkr071EFw9AmKGBB52Qe/Cnou3Ne8+cvhhVD
- LnNODAnNfs1eAvBRXUYbLkFbc4qey9tVEHeaI3EIoz9tIdZJLOarj6kS3gh68nBPg6Ea
- 0INg==
-X-Gm-Message-State: AOAM530ZL7z0dwroo+MzhIT/y2CDJYdrbODsuvfRFAJlVo8Eexd09SjP
- 7GfvaWV7hy2V4yvEHm2IlgqInwY5ravmzA==
-X-Google-Smtp-Source: ABdhPJz2D2R12i2qksXSprBlINT5XObh8bVnwKcySbr42tkT0kEgpUQ6baTmeaJtPJeeX8lnQZ0dDA==
-X-Received: by 2002:a63:fe06:: with SMTP id p6mr8287927pgh.337.1599246550673; 
- Fri, 04 Sep 2020 12:09:10 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id x19sm1897941pge.22.2020.09.04.12.09.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 12:09:09 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/19] configure: Do not set TARGET_ABI32 for microblaze
-Date: Fri,  4 Sep 2020 12:08:42 -0700
-Message-Id: <20200904190842.2282109-20-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200904190842.2282109-1-richard.henderson@linaro.org>
-References: <20200904190842.2282109-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pP7iO7ntIZfxVbioWU2+lnG7XSvtKjf3vslR62sBxmc=;
+ b=VL0I+AKBYTsfOTAHsS7W45cNU3QKDWuCfrXgk15dCe9Pxiwyf0T5oajcgaWx/WIEt/
+ GCZ8rAda/my0eeDL4/ZCBRiBt5bx6NKjVJyEiJ5hNlMr2Wy33Nzc1Z40JN7qcvOs96HQ
+ KPco/8mCboukwim5Ip2r+xdYF/BuJkcq/7uXk/fJqeG9HkWCF2ElFqvrqpb5GV2yR+OD
+ MV1cWFPAWPeBKOtvOHD62/kzZePJj5pL54mkNRJUcKFp35UMHRxsq9Y4Beo/W9GszFAI
+ LL+iWvf+gdPlR1aSn+fgRCiWhyJqt7vgxwXbWvZRYG7aZOOcYu2KGX/B7/McQLVX3hJH
+ 84TA==
+X-Gm-Message-State: AOAM5330exSD7rei3dXdw+DydHfZmZEDFC7zpNIaEJGaho/lDFF4Anso
+ Jm027z2u1XnodbFSc8M0f9VU8LHRz2G051CFcGk=
+X-Google-Smtp-Source: ABdhPJwrLtgMdo4TF8Q8MLiKR7mCa3vhrNmaqY9i8an97zDA9mQzJJlGuQxVAn0+YrILmeIoCAmjDO0qpmxg4QBfX48=
+X-Received: by 2002:a02:85e1:: with SMTP id d88mr9674239jai.8.1599247191754;
+ Fri, 04 Sep 2020 12:19:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+References: <1598924352-89526-1-git-send-email-bmeng.cn@gmail.com>
+ <1598924352-89526-9-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1598924352-89526-9-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 4 Sep 2020 12:08:56 -0700
+Message-ID: <CAKmqyKNcDtCsfToVf3tagwH66j6Hd_4-k0=VmS2RWELfOW6Ejg@mail.gmail.com>
+Subject: Re: [PATCH v3 08/16] hw/riscv: microchip_pfsoc: Connect a Cadence
+ SDHCI controller and an SD card
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,34 +79,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
- f4bug@amsat.org
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 19f27b6c2493 TARGET_ABI_LONG was reduced to 32 bits for
-CONFIG_USER_ONLY.  There is no need to set this by hand; it will
-now be set automatically by include/exec/user/abitypes.h.
+On Mon, Aug 31, 2020 at 6:47 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Microchip PolarFire SoC integrates one Cadence SDHCI controller.
+> On the Icicle Kit board, one eMMC chip and an external SD card
+> connect to this controller depending on different configuration.
+>
+> As QEMU does not support eMMC yet, we just emulate the SD card
+> configuration. To test this, the Hart Software Services (HSS)
+> should choose the SD card configuration:
+>
+> $ cp boards/icicle-kit-es/def_config.sdcard .config
+> $ make BOARD=icicle-kit-es
+>
+> The SD card image can be built from the Yocto BSP at:
+> https://github.com/polarfire-soc/meta-polarfire-soc-yocto-bsp
+>
+> Note the generated SD card image should be resized before use:
+> $ qemu-img resize /path/to/sdcard.img 4G
+>
+> Launch QEMU with the following command:
+> $ qemu-system-riscv64 -nographic -M microchip-icicle-kit -sd sdcard.img
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- configure | 1 -
- 1 file changed, 1 deletion(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/configure b/configure
-index f555923311..fbe34dfbbc 100755
---- a/configure
-+++ b/configure
-@@ -7740,7 +7740,6 @@ case "$target_name" in
-     TARGET_SYSTBL_ABI=common
-     mttcg="yes"
-     bflt="yes"
--    echo "TARGET_ABI32=y" >> $config_target_mak
-   ;;
-   mips|mipsel)
-     mttcg="yes"
--- 
-2.25.1
+Alistair
 
+>
+> ---
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> - do not initialize TYPE_SYSBUS_SDHCI in the SoC instance_init(),
+>   instead move that to the cadence_sdhci model
+> - do not access generic-sdhci's state directly,
+>   instead move that to the cadence_sdhci model
+>
+>  include/hw/riscv/microchip_pfsoc.h |  4 ++++
+>  hw/riscv/microchip_pfsoc.c         | 23 +++++++++++++++++++++++
+>  hw/riscv/Kconfig                   |  1 +
+>  3 files changed, 28 insertions(+)
+>
+> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+> index a5efa1d..d810ee8 100644
+> --- a/include/hw/riscv/microchip_pfsoc.h
+> +++ b/include/hw/riscv/microchip_pfsoc.h
+> @@ -23,6 +23,7 @@
+>  #define HW_MICROCHIP_PFSOC_H
+>
+>  #include "hw/char/mchp_pfsoc_mmuart.h"
+> +#include "hw/sd/cadence_sdhci.h"
+>
+>  typedef struct MicrochipPFSoCState {
+>      /*< private >*/
+> @@ -39,6 +40,7 @@ typedef struct MicrochipPFSoCState {
+>      MchpPfSoCMMUartState *serial2;
+>      MchpPfSoCMMUartState *serial3;
+>      MchpPfSoCMMUartState *serial4;
+> +    CadenceSDHCIState sdhci;
+>  } MicrochipPFSoCState;
+>
+>  #define TYPE_MICROCHIP_PFSOC    "microchip.pfsoc"
+> @@ -74,6 +76,7 @@ enum {
+>      MICROCHIP_PFSOC_MMUART0,
+>      MICROCHIP_PFSOC_SYSREG,
+>      MICROCHIP_PFSOC_MPUCFG,
+> +    MICROCHIP_PFSOC_EMMC_SD,
+>      MICROCHIP_PFSOC_MMUART1,
+>      MICROCHIP_PFSOC_MMUART2,
+>      MICROCHIP_PFSOC_MMUART3,
+> @@ -85,6 +88,7 @@ enum {
+>  };
+>
+>  enum {
+> +    MICROCHIP_PFSOC_EMMC_SD_IRQ = 88,
+>      MICROCHIP_PFSOC_MMUART0_IRQ = 90,
+>      MICROCHIP_PFSOC_MMUART1_IRQ = 91,
+>      MICROCHIP_PFSOC_MMUART2_IRQ = 92,
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index cee959a..0b2e9ca 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -12,6 +12,7 @@
+>   * 1) PLIC (Platform Level Interrupt Controller)
+>   * 2) eNVM (Embedded Non-Volatile Memory)
+>   * 3) MMUARTs (Multi-Mode UART)
+> + * 4) Cadence eMMC/SDHC controller and an SD card connected to it
+>   *
+>   * This board currently generates devicetree dynamically that indicates at least
+>   * two harts and up to five harts.
+> @@ -75,6 +76,7 @@ static const struct MemmapEntry {
+>      [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
+>      [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
+>      [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
+> +    [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
+>      [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
+>      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
+>      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
+> @@ -111,6 +113,9 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
+>      qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type",
+>                           TYPE_RISCV_CPU_SIFIVE_U54);
+>      qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", RESET_VECTOR);
+> +
+> +    object_initialize_child(obj, "sd-controller", &s->sdhci,
+> +                            TYPE_CADENCE_SDHCI);
+>  }
+>
+>  static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+> @@ -223,6 +228,13 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>          memmap[MICROCHIP_PFSOC_MPUCFG].base,
+>          memmap[MICROCHIP_PFSOC_MPUCFG].size);
+>
+> +    /* SDHCI */
+> +    sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
+> +                    memmap[MICROCHIP_PFSOC_EMMC_SD].base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
+> +        qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_EMMC_SD_IRQ));
+> +
+>      /* MMUARTs */
+>      s->serial0 = mchp_pfsoc_mmuart_create(system_memory,
+>          memmap[MICROCHIP_PFSOC_MMUART0].base,
+> @@ -290,6 +302,7 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+>      MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
+>      MemoryRegion *system_memory = get_system_memory();
+>      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+> +    DriveInfo *dinfo = drive_get_next(IF_SD);
+>
+>      /* Sanity check on RAM size */
+>      if (machine->ram_size < mc->default_ram_size) {
+> @@ -312,6 +325,16 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+>
+>      /* Load the firmware */
+>      riscv_find_and_load_firmware(machine, BIOS_FILENAME, RESET_VECTOR, NULL);
+> +
+> +    /* Attach an SD card */
+> +    if (dinfo) {
+> +        CadenceSDHCIState *sdhci = &(s->soc.sdhci);
+> +        DeviceState *card = qdev_new(TYPE_SD_CARD);
+> +
+> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo),
+> +                                &error_fatal);
+> +        qdev_realize_and_unref(card, sdhci->bus, &error_fatal);
+> +    }
+>  }
+>
+>  static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
+> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> index ceb7c16..7412db9 100644
+> --- a/hw/riscv/Kconfig
+> +++ b/hw/riscv/Kconfig
+> @@ -55,3 +55,4 @@ config MICROCHIP_PFSOC
+>      select SIFIVE
+>      select UNIMP
+>      select MCHP_PFSOC_MMUART
+> +    select CADENCE_SDHCI
+> --
+> 2.7.4
+>
+>
 
