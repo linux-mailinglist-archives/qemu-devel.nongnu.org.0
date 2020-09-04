@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CA725D821
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:56:53 +0200 (CEST)
-Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB5025D7E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:52:58 +0200 (CEST)
+Received: from localhost ([::1]:51582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEAKq-0003Xf-A2
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:56:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42834)
+	id 1kEAH3-0003O5-CB
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6p-0000zS-EL
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46269
+ id 1kEA6r-00010C-At
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38994
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6m-0005Hg-E2
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:22 -0400
+ id 1kEA6o-0005Hp-DS
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:25 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-2QwVqzXSMTmnBOw0AMDlIQ-1; Fri, 04 Sep 2020 07:42:18 -0400
-X-MC-Unique: 2QwVqzXSMTmnBOw0AMDlIQ-1
+ us-mta-496-vqQgOQ8NP9CLw7bbSTB-yQ-1; Fri, 04 Sep 2020 07:42:19 -0400
+X-MC-Unique: vqQgOQ8NP9CLw7bbSTB-yQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 313351933127
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8266F1934A3D
  for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:44 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49BBF838D2
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1F6C805E0
  for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:43 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/46] meson: keep all compiler flags detection together
-Date: Fri,  4 Sep 2020 07:41:09 -0400
-Message-Id: <20200904114122.31307-34-pbonzini@redhat.com>
+Subject: [PULL 34/46] configure: move -ldl test to meson
+Date: Fri,  4 Sep 2020 07:41:10 -0400
+Message-Id: <20200904114122.31307-35-pbonzini@redhat.com>
 In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
 References: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -47,9 +47,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,68 +74,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ accel/tcg/meson.build | 2 +-
+ configure             | 1 -
+ meson.build           | 4 ++++
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
+index 2a335b50f2..96a76ed23d 100644
+--- a/accel/tcg/meson.build
++++ b/accel/tcg/meson.build
+@@ -9,7 +9,7 @@ tcg_ss.add(files(
+ ))
+ tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
+ tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
+-tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: files('plugin-gen.c'))
++tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: [files('plugin-gen.c'), libdl])
+ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+ 
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files('tcg-all.c', 'cputlb.c'))
+diff --git a/configure b/configure
+index 2837eb6a74..d9e11a04ab 100755
+--- a/configure
++++ b/configure
+@@ -7401,7 +7401,6 @@ fi
+ 
+ if test "$plugins" = "yes" ; then
+     echo "CONFIG_PLUGIN=y" >> $config_host_mak
+-    LIBS="-ldl $LIBS"
+     # Copy the export object list to the build dir
+     if test "$ld_dynamic_list" = "yes" ; then
+ 	echo "CONFIG_HAS_LD_DYNAMIC_LIST=yes" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index a222a50a23..a1705d33af 100644
+index a1705d33af..532babff33 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -32,6 +32,23 @@ endforeach
- have_tools = 'CONFIG_TOOLS' in config_host
- have_block = have_system or have_tools
- 
-+python = import('python').find_installation()
-+
-+supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
-+supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
-+  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+
-+cpu = host_machine.cpu_family()
-+targetos = host_machine.system()
-+
-+configure_file(input: files('scripts/ninjatool.py'),
-+               output: 'ninjatool',
-+               configuration: config_host)
-+
-+##################
-+# Compiler flags #
-+##################
-+
- add_project_arguments(config_host['QEMU_CFLAGS'].split(),
-                       native: false, language: ['c', 'objc'])
- add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
-@@ -39,12 +56,6 @@ add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
- add_project_arguments(config_host['QEMU_INCLUDES'].split(),
-                       language: ['c', 'cpp', 'objc'])
- 
--python = import('python').find_installation()
--
--##################
--# Compiler flags #
--##################
--
- link_language = 'c'
- if add_languages('cpp', required: false, native: false)
-   cxx = meson.get_compiler('cpp')
-@@ -78,17 +89,6 @@ if 'SPARSE_CFLAGS' in config_host
-                        'compile_commands.json'])
+@@ -222,6 +222,10 @@ libmpathpersist = not_found
+ if config_host.has_key('CONFIG_MPATH')
+   libmpathpersist = cc.find_library('mpathpersist')
  endif
- 
--configure_file(input: files('scripts/ninjatool.py'),
--               output: 'ninjatool',
--               configuration: config_host)
--
--supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
--supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
--
--cpu = host_machine.cpu_family()
--targetos = host_machine.system()
--
- m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
- winmm = []
++libdl = not_found
++if 'CONFIG_PLUGIN' in config_host
++  libdl = cc.find_library('dl', required: true)
++endif
+ libiscsi = not_found
+ if 'CONFIG_LIBISCSI' in config_host
+   libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
 -- 
 2.26.2
 
