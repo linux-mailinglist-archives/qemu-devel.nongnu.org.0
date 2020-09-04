@@ -2,103 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F45025D9A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:30:28 +0200 (CEST)
-Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD5925DA24
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:41:43 +0200 (CEST)
+Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEBnP-0001RC-IL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:30:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
+	id 1kEByI-0006cE-Vn
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEBmV-0000av-H7
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:29:31 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47878
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEBmR-0004De-50
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:29:30 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-nV9aH7dsNcC233I4UgZnZw-1; Fri, 04 Sep 2020 09:29:23 -0400
-X-MC-Unique: nV9aH7dsNcC233I4UgZnZw-1
-Received: by mail-wr1-f70.google.com with SMTP id v12so2329334wrm.9
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 06:29:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=hYKOT3gzTCUJU53IryTj1pF5m2Knb1m76Xv2YrstHnA=;
- b=cNHqLB1zDhWfcpWGVT2Z4Vekp21Sp/DWmIkXr2lFizkZ/Lzsx73A7Fl3h0UruqfMGj
- mYdNcxQ5A99ZDQKy0YtK9iYu61LBSfN9b15Udn8AHgFWHc0vglg+aFxNVxl2NA2nRO5o
- v7P81+qo3BLJ7lGcxovtPeWH2T/FLeT5sDKKVWWEJxfudRNtR++vPyB+5pCFDQshV2/w
- pjjYPr7G5SDbnQh7IFFUW8amLV2ZI8FAxYwrvhC/Pms78Z3FKomruyVhWgR0+DQDOVQy
- 1u24O/7pGIOTP61DYts1mm9PCK7Svue/FEfqHqhBF/j2KqfrO9lIqC/eihIXm4Wdfj/a
- QWYg==
-X-Gm-Message-State: AOAM533X3SYmCqML3aAOZ0q6uNpwA6DhRfYpj2Xh/N2TQg/4ePqJ7aQ2
- 8vvSLY2FqD0o0znqFkfTRPBOe7qNvmHArsa6GK0M8KXtyHk8L6CxLjjBVX/2uKbI8/6ZKFWzajx
- +VWruH82JsJqR2+c=
-X-Received: by 2002:a7b:c24b:: with SMTP id b11mr7998043wmj.134.1599226161796; 
- Fri, 04 Sep 2020 06:29:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxY+upMu9y75nBktQ1xypT7tJWE9OuUyLbZUvbGDuucRV3MZtiq0M495a39nQpqwEzz/mrGwg==
-X-Received: by 2002:a7b:c24b:: with SMTP id b11mr7998003wmj.134.1599226161244; 
- Fri, 04 Sep 2020 06:29:21 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id d5sm11984828wrb.28.2020.09.04.06.29.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Sep 2020 06:29:20 -0700 (PDT)
-Subject: Re: [PATCH v2] i440fx/acpi: disable hotplug of cold plugged bridges
- regarldless of hotplug switch
-To: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org
-References: <20200904124404.9894-1-ani@anisinha.ca>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <2ba66be7-d4f2-6994-7794-c07fbb50151f@redhat.com>
-Date: Fri, 4 Sep 2020 15:29:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <xieby1@outlook.com>)
+ id 1kEBCC-0008Nu-GX
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:52:00 -0400
+Received: from mail-oln040092254042.outbound.protection.outlook.com
+ ([40.92.254.42]:6116 helo=APC01-PU1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xieby1@outlook.com>)
+ id 1kEBC9-00080H-QZ
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:52:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iKNTJmXO9ofCZOkqMLAHlsxEpZtIvr3LAKX++gKVNATzA6MmNL2WWgN928nT4v/GrKw0OUc+kmUhwIS3xWAI9ur0O+CIVWQxx5x4yyt40lXUvFWEmhvwfRPqI18YZFq/k4iP6c7XlVv1HT40VGGan/37L7enlkwzwPZPxFAMxVQYkSw1O5YdRHNE7xcHc86kE4/fH2CI0Zb5rCZ5gEAtteUWTcYEtBdvadDaaxR8NaR9uHF4pjGESBcS3skr0REIi1uDFcZgOcjJaublsVCGd4MpmqeFYXdjkt5DTn2zWXfGUYDwOkklExKmEqqccYTmDb4LBYrKX/d2LdvZOMM6uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fAXWXHgjpw744eVKukOUu2jTxbEVSUyIt674GtuASkg=;
+ b=lyEbdWGOnJGNgJPmZ/6cT7ya5Oro1gcLXPsVPIULrSkT6uZSxYk4dbwx/JK/eRTK3CmmlyyHxbJaQwsJb92bBgBYenu3qi7Cg1UViRPVLGEpAxW9QVWuqEDJak7NenxA6GvWNdVn29cgWBnnXGDawAkXixJgsmXu12/zoLFzDEetwWP6+BFpfNhZE2BiSZGx+pUSXoqBFEaAtsYjpMASTjTWkfl0jtPfsdPhvquDGd9AhLQ9knJorNxcDP7WyiHBhG4xZXgB7bv5flfgSXYkC850u5vA89sq9oVQa/qoAZj6vD/684g1j0sQ3eVP2UkEt5a3dcJnOk3ggirdkwzw5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fAXWXHgjpw744eVKukOUu2jTxbEVSUyIt674GtuASkg=;
+ b=djDV4a9ZEY7ZMhfHMAsAj9iU2t+vdIPOeAdQHUbVUwDSSWdvC9uHWhnyyBFA83Dc3jHCBlJXDLIU0i1G6PIu060wz+8/fH3lhXgshKw9uZnV5ylAZmv9i2ZTzokX+mt3AGvTpFU957vJ88QSJIkhitw1qmSdmQYba/CE1KiZrNcmWOHwZuk1KkVhRAGvIXZlTV4kkDxumHNSCovtLWqZPt7sFS8sqYZaLpe8OzRuiHoqraZfxJeom5uDogepMtqMg+oSSP3weBa10t1Bi8Z86yxAZLtlOaVoNKjrxTQuJpU9YUwr23FAFK+ukk9HlZXGYuWSMFbeltIjx0T75Ry3iQ==
+Received: from HK2APC01FT034.eop-APC01.prod.protection.outlook.com
+ (2a01:111:e400:7ebc::41) by
+ HK2APC01HT037.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::345)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Fri, 4 Sep
+ 2020 12:36:35 +0000
+Received: from TYAPR03MB3214.apcprd03.prod.outlook.com
+ (2a01:111:e400:7ebc::49) by HK2APC01FT034.mail.protection.outlook.com
+ (2a01:111:e400:7ebc::191) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16 via Frontend
+ Transport; Fri, 4 Sep 2020 12:36:35 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:4B0FBDE920605730933162D0F42BE0D17ADADE2F3F918D746E90C8162E9B6444;
+ UpperCasedChecksum:7B0A0CC6378C1A1E9917EB594F1ECF8F1DB867AF7C453DBF5BB57DC1CDC91CC8;
+ SizeAsReceived:3284; Count:46
+Received: from TYAPR03MB3214.apcprd03.prod.outlook.com
+ ([fe80::20e6:9040:b49a:ec5d]) by TYAPR03MB3214.apcprd03.prod.outlook.com
+ ([fe80::20e6:9040:b49a:ec5d%3]) with mapi id 15.20.3370.012; Fri, 4 Sep 2020
+ 12:36:35 +0000
+From: Xie Benyi <xieby1@outlook.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Linux-user: umap redundant reserved memory in loading ELF
+Date: Fri,  4 Sep 2020 20:36:25 +0800
+Message-ID: <TYAPR03MB32149CA1C06336080FDBDFA3822D0@TYAPR03MB3214.apcprd03.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR06CA0001.apcprd06.prod.outlook.com
+ (2603:1096:202:2e::13) To TYAPR03MB3214.apcprd03.prod.outlook.com
+ (2603:1096:404:18::21)
+X-Microsoft-Original-Message-ID: <20200904123625.30273-1-xieby1@outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200904124404.9894-1-ani@anisinha.ca>
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.107,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (202.189.3.253) by
+ HK2PR06CA0001.apcprd06.prod.outlook.com (2603:1096:202:2e::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3348.15 via Frontend Transport; Fri, 4 Sep 2020 12:36:34 +0000
+X-Mailer: git-send-email 2.25.1
+X-Microsoft-Original-Message-ID: <20200904123625.30273-1-xieby1@outlook.com>
+X-TMN: [2h4SHPjpWyvAoI1LntMX/UhGUTvSq8xn]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 46
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 253b80df-954e-46ae-5a2d-08d850cf2904
+X-MS-TrafficTypeDiagnostic: HK2APC01HT037:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PBj648qAvmTDePGIvh2WkO+ELLJF6MxeCjipn9KaRmR/oa14M9LOtxKVLpSNHOOxhm31VsgQ8hyxXDWZ8QmqET7pGNWfmZkcgx2MrdwcGP9Hlc/kz0q4RPJq0TbVHYp2XV0+tKae8WlGRWSqxbvRJyVcmu9lxsYmjzKt5Ttyt0qmhmfkdu131+jrrOi9QuGm
+X-MS-Exchange-AntiSpam-MessageData: UZHcV1mM28mTodrCtjAzV75ZJN56GrCdkL9YpPMWG+z8IqOYCMG1x12e+20bxtLb1sMQpkLLVnvcxuYG5YqMNHFSL9BgHg1V4xR4eb2cFp0K1eemZ3lvpjq4KyZPW8XxaIgxSoCAk65hsJM4dsoiSw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 253b80df-954e-46ae-5a2d-08d850cf2904
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2020 12:36:35.2426 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT034.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT037
+Received-SPF: pass client-ip=40.92.254.42; envelope-from=xieby1@outlook.com;
+ helo=APC01-PU1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 08:51:54
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 04 Sep 2020 09:38:16 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,88 +117,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Xie Benyi <xieby1@outlook.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ani,
+When loading ELF, linux-user reserves address space, from the lowest
+address of all segments in the ELF, to the highest address of all
+segments in the ELF. If the segments in some ELF file (for example,
+wine) scatter among the whole guest address space, then Linux-user
+will reserve almost the whole guest memory. As a result, the guest
+application has nearly no memory, which causing mmap system failed.
+So unmaps redundant memory which are not needed by the ELF segments.
 
-On 9/4/20 2:44 PM, Ani Sinha wrote:
-> Cold plugged bridges should not be hot unpluggable, even when their hotplug
-> property (acpi-pci-hotplug-with-bridge-support) is turned off. However, with
-> the current implementaton, windows would try to hot-unplug a pci bridge when
-> it's hotplug switch is off. This is regardless of whether there are devices
-> attached to the bridge. When devices are attached to the bridge, the bridge
-> is ultimately not hot-unpluggable. We have a demo video here:
-> https://youtu.be/pME2sjyQweo
-> 
-> In this fix, we identify a cold plugged bridge and for cold plugged bridges,
-> we do not add the appropriate amls and acpi methods that are used by the OS
-> to identify a hot-unpluggable pci device. After this change, Windows does not
-> show an option to eject the PCI bridge. A demo video is here:
-> https://youtu.be/kbgej5B9Hgs
-> 
-> While at it, I have also updated a stale comment.
-> 
-> This change is tested with a Windows 2012R2 guest image and Windows 2019 server
-> guest image running on Ubuntu 18.04 host. This change is based off of upstream
-> qemu master branch tag v5.1.0.
+Signed-off-by: Xie Benyi <xieby1@outlook.com>
+---
+ linux-user/elfload.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Can you add a test reproducer?
-
-Looking at tests/qtest/virtio-rng-test.c it shouldn't be that
-hard / time consuming.
-
-Thanks!
-
-Phil.
-
-> 
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> ---
->  hw/i386/acpi-build.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> Changelog:
-> v2: cosmetic commit log update.
-> v1: initial patch.
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index b7bcbbbb2a..90b863f4ec 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
->          int slot = PCI_SLOT(i);
->          bool hotplug_enabled_dev;
->          bool bridge_in_acpi;
-> +        bool cold_plugged_bridge;
->  
->          if (!pdev) {
->              if (bsel) { /* add hotplug slots for non present devices */
-> @@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
->          pc = PCI_DEVICE_GET_CLASS(pdev);
->          dc = DEVICE_GET_CLASS(pdev);
->  
-> -        /* When hotplug for bridges is enabled, bridges are
-> -         * described in ACPI separately (see build_pci_bus_end).
-> -         * In this case they aren't themselves hot-pluggable.
-> +        /*
-> +         * Cold plugged bridges aren't themselves hot-pluggable.
->           * Hotplugged bridges *are* hot-pluggable.
->           */
-> -        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
-> -            !DEVICE(pdev)->hotplugged;
-> +        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
-> +        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
->  
-> -        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
-> +        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
->  
->          if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
->              continue;
-> 
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 04c28cb..6c5d449 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2494,6 +2494,26 @@ static void load_elf_image(const char *image_name, int image_fd,
+         goto exit_perror;
+     }
+     load_bias = load_addr - loaddr;
++    /*
++     * Unmap the memory which not needed by ELF segments.
++     *
++     * Instead of directly reserving the needed memory space,
++     * we first target_mmap all space betwenn loaddr and hiaddr,
++     * then target_munmap the holes between space needed by segments.
++     * It is because directly reserving the needed memory will call
++     * target_mmap several times, which may result in different
++     * load_bias for different segments.
++     */
++    abi_ulong munmap_start = -1, munmap_end = 0;
++    for (i = 0; i < ehdr->e_phnum; ++i) {
++        if (phdr[i].p_type == PT_LOAD) {
++            munmap_end = phdr[i].p_vaddr - phdr[i].p_offset;
++            if (munmap_start != -1 && munmap_end > munmap_start) {
++                target_munmap(munmap_start, munmap_end - munmap_start);
++            }
++            munmap_start = phdr[i].p_vaddr + phdr[i].p_memsz;
++        }
++    }
+ 
+     if (elf_is_fdpic(ehdr)) {
+         struct elf32_fdpic_loadseg *loadsegs = info->loadsegs =
+-- 
+2.25.1
 
 
