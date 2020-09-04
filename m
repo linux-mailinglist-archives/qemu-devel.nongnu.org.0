@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C4A25D8D4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:43:14 +0200 (CEST)
-Received: from localhost ([::1]:40496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C3E25D8E0
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:45:26 +0200 (CEST)
+Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEB3h-0007Wz-Aa
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35284)
+	id 1kEB5p-000236-Fa
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2K-00069n-8W
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22932)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2L-0006Bb-I6
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2G-0006YV-TI
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:47 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2J-0006Z0-Dl
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599223302;
+ s=mimecast20190719; t=1599223306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sb4uXiFvtrqRn/GlqalTIrcUPoERtLqLldrd535gyMg=;
- b=G5sApBY7ycCOYBOzrOsSJsIlYJ2qgUyuMM5i+JU4cUqgvY9Sw3hBD2eL5bqHo018TIP2L4
- +EFnhS0nK3pj5xyW2+Llaef+Ltwu3RgiO7aDfHc7NqE6PJ5jpo1V3v031UXYTqXDbyz3A2
- PaakpFk0EYL5xZUmXnbvWKpCkePbEiE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-i6YFI_OcNyO67MYh-Ku1iA-1; Fri, 04 Sep 2020 08:41:39 -0400
-X-MC-Unique: i6YFI_OcNyO67MYh-Ku1iA-1
-Received: by mail-wm1-f69.google.com with SMTP id g79so3357322wmg.0
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 05:41:39 -0700 (PDT)
+ bh=7VufwieRg1JhzJ8aiEIPGgbaappTVL2Md8brdGSxPk4=;
+ b=gnyHtz7+7M446FMfoS4HHJSFt+t5eIrbZiwCMb0AFc9O4iwPOG8mwemhhRN0yWagxNEDT2
+ n/b1ay9aR5IEY4HJlKW1KmetDP5GJybXSMQ9BjE9mRQUkRhNVOgFJQLT4IoZMx54Nck/S0
+ q7yeUAShGs3d+lzfqV+3IewRrNT3wrI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-rkzPP4T8N8iVGvBW2n_WTQ-1; Fri, 04 Sep 2020 08:41:45 -0400
+X-MC-Unique: rkzPP4T8N8iVGvBW2n_WTQ-1
+Received: by mail-wm1-f70.google.com with SMTP id s24so1685224wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 05:41:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sb4uXiFvtrqRn/GlqalTIrcUPoERtLqLldrd535gyMg=;
- b=gKOOtJNjoxNPr/fKSDsg5QiX821707lfG9VK0j6miOmkeYDP+PxJ/zk5DBozUDepLh
- lAXIRDWFJ6epT8oz7cTVg1QVhvbbCm0rgj+FC0anD3glEehYLC/2X6BXOf5WaVdtdo8X
- FKiOoH2CDcaeMJdgCr1KnH1SfWYBn1Y7oCgPaIUJUc4ZXGx8tnTZEaXJ221mKPI9iKlM
- MW/iipeSJ/8iyWRhxbWInNRWuzF6p7aJmwym7FHSDYdbNrluvWy0TQ5Q1lQoAgsQLmwu
- RLrG7cYuiH8I6HartEcm16GPlcMDzkdFo4lZkFQgm6JqX2unw8gkYg2w5NlfmJlPQUak
- Ji6g==
-X-Gm-Message-State: AOAM530gp3ZKjzwzmk1sWwkeCQIQiEjiKSxzpCOtGFpyB0f8HPabd8uC
- 5m5klTo4EHAchHzWOMM2gnSNA9p4WR+IXrqIWx1Al99SjnetUmXPweDWem7ebEV+g4xkrHpRX6F
- Cpuv5F3ui+hCPHuw=
-X-Received: by 2002:a1c:6145:: with SMTP id v66mr7792026wmb.171.1599223298259; 
- Fri, 04 Sep 2020 05:41:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2AWjwRNhrOuxy5aVntw74Dd2eAwFLf58CSi/Y0Z9nEHjuMs6mZ20121sSBuFKRE61s1PTuw==
-X-Received: by 2002:a1c:6145:: with SMTP id v66mr7792003wmb.171.1599223298008; 
- Fri, 04 Sep 2020 05:41:38 -0700 (PDT)
+ bh=7VufwieRg1JhzJ8aiEIPGgbaappTVL2Md8brdGSxPk4=;
+ b=QTdXmm3PEIOYEWcZXM2kcy/IGCUro58RZxY0CYV+HDvbBA5+eLwzm0pcnMDye2ru77
+ mDUfRTI1rIvcApKBCixkQD1U/PGPd6g+bMFQwm7IGC8GGL/iDz9OUxDD7a1TvmS0/BMK
+ kD3SWDWO916Fx0Ltn1iqrhCzH6mR9LbwylVHznggUmNLT3nuMY0yXZYVI+WGr2qUoGZm
+ ET7b2Zg4GwsKDkYwlElEOMmioPUYUdGpy2V67+/EevW2dS4H7STaE/Kb6/iskXtcKONA
+ IWkRFafS4rSjEXoAJPp4E7dOGK3OQ2nabdbiFjOguVgzGec9rEidu+I2yLt9Eu/SZ3zP
+ wdpg==
+X-Gm-Message-State: AOAM530dzBlEURwHjsoj6mcqtSa7khJQRkMdFg+8tPD2erxbQ4YSPSFB
+ U1yN4oM2txwo53YHbzkZkrDXPQGj2BtdEUHYzv70jO5eGRz9GiePYIjMrsYxAVdi/N6gsloByLL
+ dVKXgCdWe0LsM8Mk=
+X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr7071083wmf.115.1599223303840; 
+ Fri, 04 Sep 2020 05:41:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVi/GUgffyREeodIUQafcx6gCUFbKZYQ9L5hsgCZmvitYkx7UDwU4aWagX61dklCdT5ZXTew==
+X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr7071066wmf.115.1599223303648; 
+ Fri, 04 Sep 2020 05:41:43 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id 185sm3626889wma.18.2020.09.04.05.41.36
+ by smtp.gmail.com with ESMTPSA id u66sm11118306wmg.44.2020.09.04.05.41.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 05:41:37 -0700 (PDT)
+ Fri, 04 Sep 2020 05:41:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] block/nvme: Group controller registers in NVMeRegs
- structure
-Date: Fri,  4 Sep 2020 14:41:28 +0200
-Message-Id: <20200904124130.583838-2-philmd@redhat.com>
+Subject: [PATCH 2/3] block/nvme: Use generic NvmeBar structure
+Date: Fri,  4 Sep 2020 14:41:29 +0200
+Message-Id: <20200904124130.583838-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904124130.583838-1-philmd@redhat.com>
 References: <20200904124130.583838-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
@@ -105,105 +104,57 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to use the NvmeBar structure from "block/nvme.h" in the
-next commit. As a preliminary step, group all the NVMe controller
-registers in the 'ctrl' field, keeping the doorbells registers
-out of it.
+Commit f3c507adcd7 ("NVMe: Initial commit for new storage interface")
+introduced the NvmeBar structure. Unfortunately in commit bdd6a90a9e5
+("block: Add VFIO based NVMe driver") we duplicated it.
+
+Apparently in commit a3d9a352d48 ("block: Move NVMe constants to
+a separate header") we tried to unify headers but forgot to remove
+the structure declared in the block/nvme.c source file.
+
+Do it now, and remove the structure size check which is redundant
+with the header check added in commit 74e18435c0e ("hw/block/nvme:
+Align I/O BAR to 4 KiB").
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 48 +++++++++++++++++++++++++-----------------------
- 1 file changed, 25 insertions(+), 23 deletions(-)
+ block/nvme.c | 20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 24e6e7f0866..c9c3fc02fed 100644
+index c9c3fc02fed..a216cc407f6 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -83,21 +83,23 @@ typedef struct {
+@@ -83,28 +83,10 @@ typedef struct {
  
  /* Memory mapped registers */
  typedef volatile struct {
--    uint64_t cap;
--    uint32_t vs;
--    uint32_t intms;
--    uint32_t intmc;
--    uint32_t cc;
--    uint32_t reserved0;
--    uint32_t csts;
--    uint32_t nssr;
--    uint32_t aqa;
--    uint64_t asq;
--    uint64_t acq;
--    uint32_t cmbloc;
--    uint32_t cmbsz;
--    uint8_t  reserved1[0xec0];
--    uint8_t  cmd_set_specfic[0x100];
-+    struct {
-+        uint64_t cap;
-+        uint32_t vs;
-+        uint32_t intms;
-+        uint32_t intmc;
-+        uint32_t cc;
-+        uint32_t reserved0;
-+        uint32_t csts;
-+        uint32_t nssr;
-+        uint32_t aqa;
-+        uint64_t asq;
-+        uint64_t acq;
-+        uint32_t cmbloc;
-+        uint32_t cmbsz;
-+        uint8_t  reserved1[0xec0];
-+        uint8_t  cmd_set_specfic[0x100];
-+    } ctrl;
+-    struct {
+-        uint64_t cap;
+-        uint32_t vs;
+-        uint32_t intms;
+-        uint32_t intmc;
+-        uint32_t cc;
+-        uint32_t reserved0;
+-        uint32_t csts;
+-        uint32_t nssr;
+-        uint32_t aqa;
+-        uint64_t asq;
+-        uint64_t acq;
+-        uint32_t cmbloc;
+-        uint32_t cmbsz;
+-        uint8_t  reserved1[0xec0];
+-        uint8_t  cmd_set_specfic[0x100];
+-    } ctrl;
++    NvmeBar ctrl;
      uint32_t doorbells[];
  } NVMeRegs;
  
-@@ -734,7 +736,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     /* Perform initialize sequence as described in NVMe spec "7.6.1
-      * Initialization". */
+-QEMU_BUILD_BUG_ON(offsetof(NVMeRegs, doorbells) != 0x1000);
+-
+ #define INDEX_ADMIN     0
+ #define INDEX_IO(n)     (1 + n)
  
--    cap = le64_to_cpu(s->regs->cap);
-+    cap = le64_to_cpu(s->regs->ctrl.cap);
-     if (!(cap & (1ULL << 37))) {
-         error_setg(errp, "Device doesn't support NVMe command set");
-         ret = -EINVAL;
-@@ -747,10 +749,10 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     timeout_ms = MIN(500 * ((cap >> 24) & 0xFF), 30000);
- 
-     /* Reset device to get a clean state. */
--    s->regs->cc = cpu_to_le32(le32_to_cpu(s->regs->cc) & 0xFE);
-+    s->regs->ctrl.cc = cpu_to_le32(le32_to_cpu(s->regs->ctrl.cc) & 0xFE);
-     /* Wait for CSTS.RDY = 0. */
-     deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * SCALE_MS;
--    while (le32_to_cpu(s->regs->csts) & 0x1) {
-+    while (le32_to_cpu(s->regs->ctrl.csts) & 0x1) {
-         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
-             error_setg(errp, "Timeout while waiting for device to reset (%"
-                              PRId64 " ms)",
-@@ -771,18 +773,18 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     }
-     s->nr_queues = 1;
-     QEMU_BUILD_BUG_ON(NVME_QUEUE_SIZE & 0xF000);
--    s->regs->aqa = cpu_to_le32((NVME_QUEUE_SIZE << 16) | NVME_QUEUE_SIZE);
--    s->regs->asq = cpu_to_le64(s->queues[INDEX_ADMIN]->sq.iova);
--    s->regs->acq = cpu_to_le64(s->queues[INDEX_ADMIN]->cq.iova);
-+    s->regs->ctrl.aqa = cpu_to_le32((NVME_QUEUE_SIZE << 16) | NVME_QUEUE_SIZE);
-+    s->regs->ctrl.asq = cpu_to_le64(s->queues[INDEX_ADMIN]->sq.iova);
-+    s->regs->ctrl.acq = cpu_to_le64(s->queues[INDEX_ADMIN]->cq.iova);
- 
-     /* After setting up all control registers we can enable device now. */
--    s->regs->cc = cpu_to_le32((ctz32(NVME_CQ_ENTRY_BYTES) << 20) |
-+    s->regs->ctrl.cc = cpu_to_le32((ctz32(NVME_CQ_ENTRY_BYTES) << 20) |
-                               (ctz32(NVME_SQ_ENTRY_BYTES) << 16) |
-                               0x1);
-     /* Wait for CSTS.RDY = 1. */
-     now = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-     deadline = now + timeout_ms * 1000000;
--    while (!(le32_to_cpu(s->regs->csts) & 0x1)) {
-+    while (!(le32_to_cpu(s->regs->ctrl.csts) & 0x1)) {
-         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
-             error_setg(errp, "Timeout while waiting for device to start (%"
-                              PRId64 " ms)",
 -- 
 2.26.2
 
