@@ -2,110 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD5925DA24
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:41:43 +0200 (CEST)
-Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E968825D9A8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:33:25 +0200 (CEST)
+Received: from localhost ([::1]:51974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEByI-0006cE-Vn
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38610)
+	id 1kEBqG-0004ZS-OZ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:33:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieby1@outlook.com>)
- id 1kEBCC-0008Nu-GX
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:52:00 -0400
-Received: from mail-oln040092254042.outbound.protection.outlook.com
- ([40.92.254.42]:6116 helo=APC01-PU1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieby1@outlook.com>)
- id 1kEBC9-00080H-QZ
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:52:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iKNTJmXO9ofCZOkqMLAHlsxEpZtIvr3LAKX++gKVNATzA6MmNL2WWgN928nT4v/GrKw0OUc+kmUhwIS3xWAI9ur0O+CIVWQxx5x4yyt40lXUvFWEmhvwfRPqI18YZFq/k4iP6c7XlVv1HT40VGGan/37L7enlkwzwPZPxFAMxVQYkSw1O5YdRHNE7xcHc86kE4/fH2CI0Zb5rCZ5gEAtteUWTcYEtBdvadDaaxR8NaR9uHF4pjGESBcS3skr0REIi1uDFcZgOcjJaublsVCGd4MpmqeFYXdjkt5DTn2zWXfGUYDwOkklExKmEqqccYTmDb4LBYrKX/d2LdvZOMM6uA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fAXWXHgjpw744eVKukOUu2jTxbEVSUyIt674GtuASkg=;
- b=lyEbdWGOnJGNgJPmZ/6cT7ya5Oro1gcLXPsVPIULrSkT6uZSxYk4dbwx/JK/eRTK3CmmlyyHxbJaQwsJb92bBgBYenu3qi7Cg1UViRPVLGEpAxW9QVWuqEDJak7NenxA6GvWNdVn29cgWBnnXGDawAkXixJgsmXu12/zoLFzDEetwWP6+BFpfNhZE2BiSZGx+pUSXoqBFEaAtsYjpMASTjTWkfl0jtPfsdPhvquDGd9AhLQ9knJorNxcDP7WyiHBhG4xZXgB7bv5flfgSXYkC850u5vA89sq9oVQa/qoAZj6vD/684g1j0sQ3eVP2UkEt5a3dcJnOk3ggirdkwzw5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fAXWXHgjpw744eVKukOUu2jTxbEVSUyIt674GtuASkg=;
- b=djDV4a9ZEY7ZMhfHMAsAj9iU2t+vdIPOeAdQHUbVUwDSSWdvC9uHWhnyyBFA83Dc3jHCBlJXDLIU0i1G6PIu060wz+8/fH3lhXgshKw9uZnV5ylAZmv9i2ZTzokX+mt3AGvTpFU957vJ88QSJIkhitw1qmSdmQYba/CE1KiZrNcmWOHwZuk1KkVhRAGvIXZlTV4kkDxumHNSCovtLWqZPt7sFS8sqYZaLpe8OzRuiHoqraZfxJeom5uDogepMtqMg+oSSP3weBa10t1Bi8Z86yxAZLtlOaVoNKjrxTQuJpU9YUwr23FAFK+ukk9HlZXGYuWSMFbeltIjx0T75Ry3iQ==
-Received: from HK2APC01FT034.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebc::41) by
- HK2APC01HT037.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::345)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Fri, 4 Sep
- 2020 12:36:35 +0000
-Received: from TYAPR03MB3214.apcprd03.prod.outlook.com
- (2a01:111:e400:7ebc::49) by HK2APC01FT034.mail.protection.outlook.com
- (2a01:111:e400:7ebc::191) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16 via Frontend
- Transport; Fri, 4 Sep 2020 12:36:35 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:4B0FBDE920605730933162D0F42BE0D17ADADE2F3F918D746E90C8162E9B6444;
- UpperCasedChecksum:7B0A0CC6378C1A1E9917EB594F1ECF8F1DB867AF7C453DBF5BB57DC1CDC91CC8;
- SizeAsReceived:3284; Count:46
-Received: from TYAPR03MB3214.apcprd03.prod.outlook.com
- ([fe80::20e6:9040:b49a:ec5d]) by TYAPR03MB3214.apcprd03.prod.outlook.com
- ([fe80::20e6:9040:b49a:ec5d%3]) with mapi id 15.20.3370.012; Fri, 4 Sep 2020
- 12:36:35 +0000
-From: Xie Benyi <xieby1@outlook.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Linux-user: umap redundant reserved memory in loading ELF
-Date: Fri,  4 Sep 2020 20:36:25 +0800
-Message-ID: <TYAPR03MB32149CA1C06336080FDBDFA3822D0@TYAPR03MB3214.apcprd03.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR06CA0001.apcprd06.prod.outlook.com
- (2603:1096:202:2e::13) To TYAPR03MB3214.apcprd03.prod.outlook.com
- (2603:1096:404:18::21)
-X-Microsoft-Original-Message-ID: <20200904123625.30273-1-xieby1@outlook.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kEBpP-0003Xg-H2; Fri, 04 Sep 2020 09:32:31 -0400
+Resent-Date: Fri, 04 Sep 2020 09:32:31 -0400
+Resent-Message-Id: <E1kEBpP-0003Xg-H2@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kEBpM-0004fR-7E; Fri, 04 Sep 2020 09:32:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1599226331; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KVyuhG/bBMbKFjGk6tBcdZFWW3SV1mQGubxpArWbXt3BjFEeS7B8str1my65f3zKBZW2L+bmhpHUi3IbIHP/ns0bCkL+hEGJzP0Gc6Xjq8+yal6VnyTz/s1//UX3ySkwbWSSzLdTI27VhYuGRQHUuMoktcYsQ5DgOn51dGZn5FU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1599226331;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=hSKvuSqyl1CbValAjc8y+DEQHaqcMN9YwYBaq9CgPiY=; 
+ b=Urm3pWmFqQI48qQs0ejE5X/LLetGY5K6M7tzKotm+7i0y08T9EY3W+2VDYhm48I8UzCiuPxNQLARPOiB8qI5WXmn9KAM+OxqMgS820DN5mNYPeaVHVWUxzsm46a+P+QB6ZA+B8wXLIz8h25adnqbRhFWyPdQQUSKQkjNzzP0ezk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1599226329593454.973130602914;
+ Fri, 4 Sep 2020 06:32:09 -0700 (PDT)
+Subject: Re: [PATCH 0/4] nbd reconnect new fixes
+Message-ID: <159922632826.11986.14148820580932678804@66eaa9a8a123>
+In-Reply-To: <20200903190301.367620-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (202.189.3.253) by
- HK2PR06CA0001.apcprd06.prod.outlook.com (2603:1096:202:2e::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3348.15 via Frontend Transport; Fri, 4 Sep 2020 12:36:34 +0000
-X-Mailer: git-send-email 2.25.1
-X-Microsoft-Original-Message-ID: <20200904123625.30273-1-xieby1@outlook.com>
-X-TMN: [2h4SHPjpWyvAoI1LntMX/UhGUTvSq8xn]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 46
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 253b80df-954e-46ae-5a2d-08d850cf2904
-X-MS-TrafficTypeDiagnostic: HK2APC01HT037:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PBj648qAvmTDePGIvh2WkO+ELLJF6MxeCjipn9KaRmR/oa14M9LOtxKVLpSNHOOxhm31VsgQ8hyxXDWZ8QmqET7pGNWfmZkcgx2MrdwcGP9Hlc/kz0q4RPJq0TbVHYp2XV0+tKae8WlGRWSqxbvRJyVcmu9lxsYmjzKt5Ttyt0qmhmfkdu131+jrrOi9QuGm
-X-MS-Exchange-AntiSpam-MessageData: UZHcV1mM28mTodrCtjAzV75ZJN56GrCdkL9YpPMWG+z8IqOYCMG1x12e+20bxtLb1sMQpkLLVnvcxuYG5YqMNHFSL9BgHg1V4xR4eb2cFp0K1eemZ3lvpjq4KyZPW8XxaIgxSoCAk65hsJM4dsoiSw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 253b80df-954e-46ae-5a2d-08d850cf2904
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2020 12:36:35.2426 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT034.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT037
-Received-SPF: pass client-ip=40.92.254.42; envelope-from=xieby1@outlook.com;
- helo=APC01-PU1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 08:51:54
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Fri, 4 Sep 2020 06:32:09 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 09:24:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 04 Sep 2020 09:38:16 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -117,55 +67,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xie Benyi <xieby1@outlook.com>, Laurent Vivier <laurent@vivier.eu>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When loading ELF, linux-user reserves address space, from the lowest
-address of all segments in the ELF, to the highest address of all
-segments in the ELF. If the segments in some ELF file (for example,
-wine) scatter among the whole guest address space, then Linux-user
-will reserve almost the whole guest memory. As a result, the guest
-application has nearly no memory, which causing mmap system failed.
-So unmaps redundant memory which are not needed by the ELF segments.
-
-Signed-off-by: Xie Benyi <xieby1@outlook.com>
----
- linux-user/elfload.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 04c28cb..6c5d449 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2494,6 +2494,26 @@ static void load_elf_image(const char *image_name, int image_fd,
-         goto exit_perror;
-     }
-     load_bias = load_addr - loaddr;
-+    /*
-+     * Unmap the memory which not needed by ELF segments.
-+     *
-+     * Instead of directly reserving the needed memory space,
-+     * we first target_mmap all space betwenn loaddr and hiaddr,
-+     * then target_munmap the holes between space needed by segments.
-+     * It is because directly reserving the needed memory will call
-+     * target_mmap several times, which may result in different
-+     * load_bias for different segments.
-+     */
-+    abi_ulong munmap_start = -1, munmap_end = 0;
-+    for (i = 0; i < ehdr->e_phnum; ++i) {
-+        if (phdr[i].p_type == PT_LOAD) {
-+            munmap_end = phdr[i].p_vaddr - phdr[i].p_offset;
-+            if (munmap_start != -1 && munmap_end > munmap_start) {
-+                target_munmap(munmap_start, munmap_end - munmap_start);
-+            }
-+            munmap_start = phdr[i].p_vaddr + phdr[i].p_memsz;
-+        }
-+    }
- 
-     if (elf_is_fdpic(ehdr)) {
-         struct elf32_fdpic_loadseg *loadsegs = info->loadsegs =
--- 
-2.25.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkwMzE5MDMwMS4zNjc2
+MjAtMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVk
+IGJ1aWxkIHRlc3Qgb24gRnJlZUJTRCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0YWlscyBiZWxv
+dy4KCgoKCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcv
+bG9ncy8yMDIwMDkwMzE5MDMwMS4zNjc2MjAtMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vdGVz
+dGluZy5GcmVlQlNELz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
+YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
+ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
