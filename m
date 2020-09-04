@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940C325D7BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:47:23 +0200 (CEST)
-Received: from localhost ([::1]:51186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC2F525D7E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:53:52 +0200 (CEST)
+Received: from localhost ([::1]:56468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEABe-0000Ey-Kp
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42650)
+	id 1kEAHv-0005MP-R9
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6X-0000UL-VB
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55235
- helo=us-smtp-1.mimecast.com)
+ id 1kEA6Z-0000Yw-JT
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33970
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6W-0005G1-8Q
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:05 -0400
+ id 1kEA6X-0005GD-Rk
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:07 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-Om0uxd6JP-G8cPLWHvm0fQ-1; Fri, 04 Sep 2020 07:42:02 -0400
-X-MC-Unique: Om0uxd6JP-G8cPLWHvm0fQ-1
+ us-mta-229-nxVilYBQON-9sKPFxmlRiw-1; Fri, 04 Sep 2020 07:42:04 -0400
+X-MC-Unique: nxVilYBQON-9sKPFxmlRiw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAC4E1096CBC
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62E181019C67
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:39 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 305D47CD71;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A18AF756B5;
  Fri,  4 Sep 2020 11:41:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/46] tests/migration/stress: remove unused exit_success
-Date: Fri,  4 Sep 2020 07:41:00 -0400
-Message-Id: <20200904114122.31307-25-pbonzini@redhat.com>
+Subject: [PULL 25/46] meson: fix migration/stress compilation with glibc>=2.30
+Date: Fri,  4 Sep 2020 07:41:01 -0400
+Message-Id: <20200904114122.31307-26-pbonzini@redhat.com>
 In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
 References: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -47,9 +47,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,36 +75,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+gettid() was introduced with glibc 2.30.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200828110734.1638685-15-marcandre.lureau@redhat.com>
+Message-Id: <20200828110734.1638685-16-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/migration/stress.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ meson.build              | 3 +++
+ tests/migration/stress.c | 2 ++
+ 2 files changed, 5 insertions(+)
 
+diff --git a/meson.build b/meson.build
+index 7c714bb49c..b71f561c96 100644
+--- a/meson.build
++++ b/meson.build
+@@ -413,6 +413,8 @@ endif
+ keyutils = dependency('libkeyutils', required: false,
+                       method: 'pkg-config', static: enable_static)
+ 
++has_gettid = cc.has_function('gettid')
++
+ # Create config-host.h
+ 
+ config_host_data.set('CONFIG_SDL', sdl.found())
+@@ -423,6 +425,7 @@ config_host_data.set('CONFIG_VNC_PNG', png.found())
+ config_host_data.set('CONFIG_VNC_SASL', sasl.found())
+ config_host_data.set('CONFIG_XKBCOMMON', xkbcommon.found())
+ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
++config_host_data.set('CONFIG_GETTID', has_gettid)
+ config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
+ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
+ config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
 diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-index a062ef6b55..05d85051e3 100644
+index 05d85051e3..0c72a420be 100644
 --- a/tests/migration/stress.c
 +++ b/tests/migration/stress.c
-@@ -47,19 +47,6 @@ static __attribute__((noreturn)) void exit_failure(void)
-     }
- }
+@@ -29,10 +29,12 @@ const char *argv0;
  
--static __attribute__((noreturn)) void exit_success(void)
--{
--    if (getpid() == 1) {
--        sync();
--        reboot(RB_POWER_OFF);
--        fprintf(stderr, "%s (%05d): ERROR: cannot reboot: %s\n",
--                argv0, gettid(), strerror(errno));
--        abort();
--    } else {
--        exit(0);
--    }
--}
--
- static int get_command_arg_str(const char *name,
-                                char **val)
+ #define PAGE_SIZE 4096
+ 
++#ifndef CONFIG_GETTID
+ static int gettid(void)
+ {
+     return syscall(SYS_gettid);
+ }
++#endif
+ 
+ static __attribute__((noreturn)) void exit_failure(void)
  {
 -- 
 2.26.2
