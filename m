@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100B725DBAF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:29:09 +0200 (CEST)
-Received: from localhost ([::1]:37372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E3F25DB71
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:24:03 +0200 (CEST)
+Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kECiC-0001z6-41
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32832)
+	id 1kECdG-0000Fl-DS
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:24:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECaO-0003RQ-AB; Fri, 04 Sep 2020 10:21:04 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48030)
+ id 1kECaO-0003SM-Mw; Fri, 04 Sep 2020 10:21:04 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECaL-0002jo-Jw; Fri, 04 Sep 2020 10:21:03 -0400
+ id 1kECaL-0002jh-FE; Fri, 04 Sep 2020 10:21:04 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id E5B1CBFB14;
- Fri,  4 Sep 2020 14:20:35 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 4FE7FBFB54;
+ Fri,  4 Sep 2020 14:20:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
  s=default; t=1599229236;
- bh=ULU7lIQRoJxUpQ9KR9VWBQNkz+YpY+nCXiz6yhnMBlE=;
+ bh=S0gbzHUcsCyIvbaedPZcFblTZFt6MpvV2k1wK6JvNRQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fse/9A+x4vXrp9NLBj1ILzNtSI0I09r2RuXlGZ6WTVZ5+lQaKHxtYmjw7l0N6v21Y
- zL8TKvw3g2lGmR9ZmcQ6o8k9ssQBQ4TKPNAqnEn/OwtMZiAx40/t503ZtlPOoTGc+4
- /71JHWBgiDTSfYSw52K3bh4mDYAygDwBwl8REVTK42HoUGsIGJH+rMEw4ddh8FcUMt
- HKBM+wmxQ/9k+StUlFdZkkr0z8HLzTNS+oAH2By/2KV8lq7QHS+mFuXDiB32+101Vm
- pSMFNo9uCTn8oXdtIDb0aeH/9BVtE5gqjWLsQXNiT1Kbko4tgULpWmOtSACQAbQtyb
- Oc1agnwAfKgmQ==
+ b=YOpt66dr4Y3myH2wWOtO9/qJFBUkAjlpRuqPNVsoEcQFPXyGVHNMouHpeqr+Yz3bG
+ 3E/ZvV7uX/Ys6V26m9KicXjxSB0qMpbZOqs2Ii08MWIoGhrti6onlV9QIB/RFcntO/
+ eMoLplY5nF5a+MxdpHfeDyQokcViGNrDpYxAR7S7D71DfMWVc0CQihEkw5Z3a2+lRo
+ LKV7107wveaOBMVbZvGJQ2UO7fhl7kE2PppL8k1BWrbqrb7SYIjs5JL8p2dqiiGgMD
+ n5gWCfMqRAYlGfza8fFWHX1uJmun9S6D4Rh5HdTT5X3Ko8AN8gLgJsNxxiVFnRFEuv
+ RI8f0BI7A0NPg==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/17] hw/block/nvme: add support for sgl bit bucket descriptor
-Date: Fri,  4 Sep 2020 16:19:52 +0200
-Message-Id: <20200904141956.576630-14-its@irrelevant.dk>
+Subject: [PATCH 14/17] hw/block/nvme: refactor identify active namespace id
+ list
+Date: Fri,  4 Sep 2020 16:19:53 +0200
+Message-Id: <20200904141956.576630-15-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200904141956.576630-1-its@irrelevant.dk>
 References: <20200904141956.576630-1-its@irrelevant.dk>
@@ -65,119 +66,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This adds support for SGL descriptor type 0x1 (bit bucket descriptor).
-See the NVM Express v1.3d specification, Section 4.4 ("Scatter Gather
-List (SGL)").
+Prepare to support inactive namespaces.
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
+ hw/block/nvme.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 9bdcfeb901d9..6340af226341 100644
+index 6340af226341..4155cb797856 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -431,6 +431,10 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-         uint8_t type = NVME_SGL_TYPE(segment[i].type);
+@@ -1538,7 +1538,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+     uint32_t min_nsid = le32_to_cpu(c->nsid);
+     uint32_t *list;
+     uint16_t ret;
+-    int i, j = 0;
++    int j = 0;
  
-         switch (type) {
-+        case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
-+            if (req->cmd.opcode == NVME_CMD_WRITE) {
-+                continue;
-+            }
-         case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
-             break;
-         case NVME_SGL_DESCR_TYPE_SEGMENT:
-@@ -441,6 +445,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-         }
+     trace_pci_nvme_identify_nslist(min_nsid);
  
-         dlen = le32_to_cpu(segment[i].len);
-+
-         if (!dlen) {
-             continue;
-         }
-@@ -461,6 +466,11 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-         }
- 
-         trans_len = MIN(*len, dlen);
-+
-+        if (type == NVME_SGL_DESCR_TYPE_BIT_BUCKET) {
-+            goto next;
-+        }
-+
-         addr = le64_to_cpu(segment[i].addr);
- 
-         if (UINT64_MAX - addr < dlen) {
-@@ -472,6 +482,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-             return status;
-         }
- 
-+next:
-         *len -= trans_len;
+@@ -1553,11 +1553,11 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
      }
  
-@@ -541,7 +552,8 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
-         seg_len = le32_to_cpu(sgld->len);
- 
-         /* check the length of the (Last) Segment descriptor */
--        if (!seg_len || seg_len & 0xf) {
-+        if ((!seg_len || seg_len & 0xf) &&
-+            (NVME_SGL_TYPE(sgld->type) != NVME_SGL_DESCR_TYPE_BIT_BUCKET)) {
-             return NVME_INVALID_SGL_SEG_DESCR | NVME_DNR;
+     list = g_malloc0(data_len);
+-    for (i = 0; i < n->num_namespaces; i++) {
+-        if (i < min_nsid) {
++    for (int i = 1; i <= n->num_namespaces; i++) {
++        if (i <= min_nsid) {
+             continue;
          }
- 
-@@ -578,19 +590,27 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
- 
-         last_sgld = &segment[nsgld - 1];
- 
--        /* if the segment ends with a Data Block, then we are done */
--        if (NVME_SGL_TYPE(last_sgld->type) == NVME_SGL_DESCR_TYPE_DATA_BLOCK) {
-+        /*
-+         * If the segment ends with a Data Block or Bit Bucket Descriptor Type,
-+         * then we are done.
-+         */
-+        switch (NVME_SGL_TYPE(last_sgld->type)) {
-+        case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
-+        case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
-             status = nvme_map_sgl_data(n, qsg, iov, segment, nsgld, &len, req);
-             if (status) {
-                 goto unmap;
-             }
- 
-             goto out;
-+
-+        default:
-+            break;
+-        list[j++] = cpu_to_le32(i + 1);
++        list[j++] = cpu_to_le32(i);
+         if (j == data_len / sizeof(uint32_t)) {
+             break;
          }
- 
-         /*
--         * If the last descriptor was not a Data Block, then the current
--         * segment must not be a Last Segment.
-+         * If the last descriptor was not a Data Block or Bit Bucket, then the
-+         * current segment must not be a Last Segment.
-          */
-         if (NVME_SGL_TYPE(sgld->type) == NVME_SGL_DESCR_TYPE_LAST_SEGMENT) {
-             status = NVME_INVALID_SGL_SEG_DESCR | NVME_DNR;
-@@ -2721,7 +2741,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->nn = cpu_to_le32(n->num_namespaces);
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
-                            NVME_ONCS_FEATURES);
--    id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN);
-+    id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
-+                           NVME_CTRL_SGLS_BITBUCKET);
- 
-     subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
-     strpadcpy((char *)id->subnqn, sizeof(id->subnqn), subnqn, '\0');
 -- 
 2.28.0
 
