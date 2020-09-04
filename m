@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A20B25D00E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:54:44 +0200 (CEST)
-Received: from localhost ([::1]:60962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B41F25D020
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 06:01:48 +0200 (CEST)
+Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2oF-0006sx-7e
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54972)
+	id 1kE2v5-0000Ze-GS
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 00:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2i1-0003a5-9Y; Thu, 03 Sep 2020 23:48:17 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52997 helo=ozlabs.org)
+ id 1kE2hb-0002iS-CE; Thu, 03 Sep 2020 23:47:51 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hy-0004yo-S1; Thu, 03 Sep 2020 23:48:16 -0400
+ id 1kE2hZ-0004wi-9C; Thu, 03 Sep 2020 23:47:51 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNst2qq9z9sWB; Fri,  4 Sep 2020 13:47:30 +1000 (AEST)
+ id 4BjNsq6f0Qz9sVy; Fri,  4 Sep 2020 13:47:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599191250;
- bh=w0gaD0fnoCPcwqc7oF2cauElCoYD0AjnH+kJtJ0zhA8=;
+ d=gibson.dropbear.id.au; s=201602; t=1599191247;
+ bh=gMiAtQjsk/Rf8aQpgZPjpS1b6eRF/e1DiGSzGhHBsJ4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oeXikVsbn7fL4HGFTA7ZroWs+X+eBrFTFiblMNPWgI2hKueaYdxeNNuQZnTg5Na6f
- aS/mD+AI2X9OWrBPc/LSg6B7cXoJ08BUDyB70rS/+X5Zxm+MitnGo3LTBYZ6GML0vr
- s4ioB+LIBVmcZO8FMKrfFrFQhvVs5F3asUu9U1/k=
+ b=Y1JISe4A0pk3vSHwfvCc5D/S917UE27vRuqXYJkMPiFSBqmM4F1aUfhAleuCP+cBA
+ Hq5xGhIxIKPthviG//6dZhBvrTfmdfR62FA6/PdRd66UKtb6YZHlNknEGbX/PQYjdw
+ /rSI5wjxde/ZUBhP/UQB/eoOJiXyHjABlEVykTmk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 25/30] ppc: introducing spapr_numa.c NUMA code helper
-Date: Fri,  4 Sep 2020 13:47:14 +1000
-Message-Id: <20200904034719.673626-26-david@gibson.dropbear.id.au>
+Subject: [PULL 15/30] target/arm: Move start-powered-off property to generic
+ CPUState
+Date: Fri,  4 Sep 2020 13:47:04 +1000
+Message-Id: <20200904034719.673626-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -58,201 +60,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-We're going to make changes in how spapr handles all
-ibm,associativity* related properties to enhance our current NUMA
-support.
+There are other platforms which also have CPUs that start powered off, so
+generalize the start-powered-off property so that it can be used by them.
 
-At this moment we have associativity code scattered all around
-spapr_* files, with hardcoded values and array sizes. This
-makes it harder to change any NUMA specific parameters in
-the future. Having everything in the same place allows not
-only for easier tuning, but also easier understanding since all
-NUMA related code is on the same file.
+Note that ARMv7MState also has a property of the same name but this patch
+doesn't change it because that class isn't a subclass of CPUState so it
+wouldn't be a trivial change.
 
-This patch introduces a new file to gather all NUMA/associativity
-handling code in spapr, spapr_numa.c. To get things started, let's
-remove associativity-reference-points and max-associativity-domains
-code from spapr_dt_rtas() to a new helper called spapr_numa_write_rtas_dt().
-This will decouple spapr_dt_rtas() from the NUMA changes that
-are going to happen in those two properties.
+This change should not cause any change in behavior.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200901125645.118026-2-danielhb413@gmail.com>
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Message-Id: <20200826055535.951207-2-bauerman@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/meson.build          |  3 ++-
- hw/ppc/spapr.c              | 26 ++-----------------
- hw/ppc/spapr_numa.c         | 50 +++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr_numa.h | 20 +++++++++++++++
- 4 files changed, 74 insertions(+), 25 deletions(-)
- create mode 100644 hw/ppc/spapr_numa.c
- create mode 100644 include/hw/ppc/spapr_numa.h
+ exec.c                | 1 +
+ include/hw/core/cpu.h | 4 ++++
+ target/arm/cpu.c      | 5 ++---
+ target/arm/cpu.h      | 3 ---
+ target/arm/kvm32.c    | 2 +-
+ target/arm/kvm64.c    | 2 +-
+ 6 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index 918969b320..ffa2ec37fa 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -25,7 +25,8 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-   'spapr_irq.c',
-   'spapr_tpm_proxy.c',
-   'spapr_nvdimm.c',
--  'spapr_rtas_ddw.c'
-+  'spapr_rtas_ddw.c',
-+  'spapr_numa.c',
- ))
- ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
- ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index b0a04443fb..a45912acac 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -81,6 +81,7 @@
- #include "hw/mem/memory-device.h"
- #include "hw/ppc/spapr_tpm_proxy.h"
- #include "hw/ppc/spapr_nvdimm.h"
-+#include "hw/ppc/spapr_numa.h"
+diff --git a/exec.c b/exec.c
+index 7683afb6a8..e34b602bdf 100644
+--- a/exec.c
++++ b/exec.c
+@@ -899,6 +899,7 @@ Property cpu_common_props[] = {
+     DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+ #endif
++    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- #include "monitor/monitor.h"
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 8f145733ce..9fc2696db5 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -374,6 +374,10 @@ struct CPUState {
+     bool created;
+     bool stop;
+     bool stopped;
++
++    /* Should CPU start in powered-off state? */
++    bool start_powered_off;
++
+     bool unplug;
+     bool crash_occurred;
+     bool exit_request;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index c179e0752d..9f814194fb 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -174,8 +174,8 @@ static void arm_cpu_reset(DeviceState *dev)
+     env->vfp.xregs[ARM_VFP_MVFR1] = cpu->isar.mvfr1;
+     env->vfp.xregs[ARM_VFP_MVFR2] = cpu->isar.mvfr2;
  
-@@ -891,16 +892,9 @@ static int spapr_dt_rng(void *fdt)
- static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
- {
-     MachineState *ms = MACHINE(spapr);
--    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(ms);
-     int rtas;
-     GString *hypertas = g_string_sized_new(256);
-     GString *qemu_hypertas = g_string_sized_new(256);
--    uint32_t refpoints[] = {
--        cpu_to_be32(0x4),
--        cpu_to_be32(0x4),
--        cpu_to_be32(0x2),
--    };
--    uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-     uint64_t max_device_addr = MACHINE(spapr)->device_memory->base +
-         memory_region_size(&MACHINE(spapr)->device_memory->mr);
-     uint32_t lrdr_capacity[] = {
-@@ -910,14 +904,6 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-         cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE & 0xffffffff),
-         cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
-     };
--    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
--    uint32_t maxdomains[] = {
--        cpu_to_be32(4),
--        maxdomain,
--        maxdomain,
--        maxdomain,
--        cpu_to_be32(spapr->gpu_numa_id),
--    };
+-    cpu->power_state = cpu->start_powered_off ? PSCI_OFF : PSCI_ON;
+-    s->halted = cpu->start_powered_off;
++    cpu->power_state = s->start_powered_off ? PSCI_OFF : PSCI_ON;
++    s->halted = s->start_powered_off;
  
-     _FDT(rtas = fdt_add_subnode(fdt, 0, "rtas"));
+     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+         env->iwmmxt.cregs[ARM_IWMMXT_wCID] = 0x69051000 | 'Q';
+@@ -2186,7 +2186,6 @@ static const ARMCPUInfo arm_cpus[] = {
+ };
  
-@@ -953,15 +939,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-                      qemu_hypertas->str, qemu_hypertas->len));
-     g_string_free(qemu_hypertas, TRUE);
+ static Property arm_cpu_properties[] = {
+-    DEFINE_PROP_BOOL("start-powered-off", ARMCPU, start_powered_off, false),
+     DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
+     DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
+     DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index a1c7d8ebae..6036f61d60 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -817,9 +817,6 @@ struct ARMCPU {
+      */
+     uint32_t psci_version;
  
--    if (smc->pre_5_1_assoc_refpoints) {
--        nr_refpoints = 2;
--    }
+-    /* Should CPU start in PSCI powered-off state? */
+-    bool start_powered_off;
 -
--    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
--                     refpoints, nr_refpoints * sizeof(refpoints[0])));
--
--    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
--                     maxdomains, sizeof(maxdomains)));
-+    spapr_numa_write_rtas_dt(spapr, fdt, rtas);
+     /* Current power state, access guarded by BQL */
+     ARMPSCIState power_state;
  
-     /*
-      * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-new file mode 100644
-index 0000000000..cdf3288cbd
---- /dev/null
-+++ b/hw/ppc/spapr_numa.c
-@@ -0,0 +1,50 @@
-+/*
-+ * QEMU PowerPC pSeries Logical Partition NUMA associativity handling
-+ *
-+ * Copyright IBM Corp. 2020
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "hw/ppc/spapr_numa.h"
-+#include "hw/ppc/fdt.h"
-+
-+/*
-+ * Helper that writes ibm,associativity-reference-points and
-+ * max-associativity-domains in the RTAS pointed by @rtas
-+ * in the DT @fdt.
-+ */
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-+{
-+    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-+    uint32_t refpoints[] = {
-+        cpu_to_be32(0x4),
-+        cpu_to_be32(0x4),
-+        cpu_to_be32(0x2),
-+    };
-+    uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-+    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-+    uint32_t maxdomains[] = {
-+        cpu_to_be32(4),
-+        maxdomain,
-+        maxdomain,
-+        maxdomain,
-+        cpu_to_be32(spapr->gpu_numa_id),
-+    };
-+
-+    if (smc->pre_5_1_assoc_refpoints) {
-+        nr_refpoints = 2;
-+    }
-+
-+    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
-+                     refpoints, nr_refpoints * sizeof(refpoints[0])));
-+
-+    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-+                     maxdomains, sizeof(maxdomains)));
-+}
-diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-new file mode 100644
-index 0000000000..7a370a8768
---- /dev/null
-+++ b/include/hw/ppc/spapr_numa.h
-@@ -0,0 +1,20 @@
-+/*
-+ * QEMU PowerPC pSeries Logical Partition NUMA associativity handling
-+ *
-+ * Copyright IBM Corp. 2020
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef HW_SPAPR_NUMA_H
-+#define HW_SPAPR_NUMA_H
-+
-+#include "hw/ppc/spapr.h"
-+
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
-+
-+#endif /* HW_SPAPR_NUMA_H */
+diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+index 0af46b41c8..1f2b8f8b7a 100644
+--- a/target/arm/kvm32.c
++++ b/target/arm/kvm32.c
+@@ -218,7 +218,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+     /* Determine init features for this CPU */
+     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
+-    if (cpu->start_powered_off) {
++    if (cs->start_powered_off) {
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
+     }
+     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index ef1e960285..987b35e33f 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -774,7 +774,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+     /* Determine init features for this CPU */
+     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
+-    if (cpu->start_powered_off) {
++    if (cs->start_powered_off) {
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
+     }
+     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
 -- 
 2.26.2
 
