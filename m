@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBBF25D56D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 11:51:36 +0200 (CEST)
-Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5F025D54A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 11:42:09 +0200 (CEST)
+Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE8Nb-0005Iq-4f
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 05:51:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47754)
+	id 1kE8ES-0006dg-Jx
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 05:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kE8Mm-0004Oe-AT
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:50:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53768)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kE89Z-0000SS-LM; Fri, 04 Sep 2020 05:37:05 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:36991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kE8Mk-0008Ev-6J
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:50:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kE8Mi-0004VP-2P
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 09:50:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0FC292E8023
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 09:50:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kE89X-0006Lq-4t; Fri, 04 Sep 2020 05:37:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=1z5xYG6tjkfa9+JGnhMVMjqiWC8EYbFQr72JoXcNoZI=; 
+ b=K41l9OHeS9fKAziOuHsgfdx8dHRNY43fWTUXtQ0P1gZLcgWyh5Fvnv7AT4VK7bYQwOhSUfl1J0WSBoblN2I/bvHjQ8CwdfIObHQMRjaBGtGlKdalByPaqPJ+13eF2rQftlVHtaTWvz016JPmnoKWpgIJfN9ZK4ro5yiGDRjD+ph4Ohxlc87l7LuN9haxPgGdC4gO4aHJFoOZLhi7rdKeT1zVI7ULXKD8RQ5iYhrnXV1Fbvkj8J7TF6aJQSZS1RE/NybfTDDbw1Cn8kCVWZiO4yAIDIAbnE23o0NwNL9mwFkrS+A/+jXs4wd6ZUymb5I65psG5iyXHmm5+EzR2ud6Dg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kE899-0000kX-M9; Fri, 04 Sep 2020 11:36:39 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kE899-00020S-CH; Fri, 04 Sep 2020 11:36:39 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 3/3] qcow2: Rewrite the documentation of
+ qcow2_alloc_cluster_offset()
+In-Reply-To: <9355b4ef-be80-b8eb-6697-24125caea920@redhat.com>
+References: <cover.1599150873.git.berto@igalia.com>
+ <bb5bd06f07c5a05b0818611de0d06ec5b66c8df3.1599150873.git.berto@igalia.com>
+ <9355b4ef-be80-b8eb-6697-24125caea920@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 04 Sep 2020 11:36:39 +0200
+Message-ID: <w51blilano8.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 04 Sep 2020 09:36:16 -0000
-From: "Tony.LI" <1894071@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bigboy0822 laurent-vivier
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
-References: <159912571834.28358.2492164063235416189.malonedeb@soybean.canonical.com>
-Message-Id: <159921217630.17429.861001040295026847.malone@soybean.canonical.com>
-Subject: [Bug 1894071] Re: qemu-i386-static ioctl return -14 (Bad Address)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: efd4ea6b3f06a98c2c190801ec20e73506a0f307
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 05:50:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 05:36:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,99 +65,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894071 <1894071@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,I found some problems, but I don't know if how to solve it better(I'm
-not really familiar with the source code).
+On Fri 04 Sep 2020 11:28:18 AM CEST, Max Reitz wrote:
+>> + * If any clusters or subclusters were allocated then @m contains a
+>> + * list with the information of all the affected regions. Note that
+>> + * this can happen regardless of whether this function succeeds or
+>> + * not. The caller is responsible for updating the L2 metadata of the
+>> + * allocated clusters (on success) or freeing them (on failure), and
+>> + * for clearing the contents of @m afterwards in both cases.
+>
+> It=E2=80=99s too bad that preallocate_co() doesn=E2=80=99t do that then, =
+isn=E2=80=99t it...
 
-When I use ioctl() and use a structure like this:
+I was planning to have a closer look at that function next week.
 
-struct drm_mode_card_res {
-        __u64 fb_id_ptr;
-        __u64 crtc_id_ptr;
-        __u64 connector_id_ptr;
-        __u64 encoder_id_ptr;
-        __u32 count_fbs;
-        ....
-};
-And in syscall_types.h
-STRUCT(drm_mode_card_res,
-        TYPE_PTRVOID,
-        TYPE_PTRVOID,
-        TYPE_PTRVOID,
-        TYPE_PTRVOID,
-        TYPE_INT,
-        ...
-        )
-Some code:
-        ...
-	if (res.count_fbs) {
-		res.fb_id_ptr =3D VOID2U64(drmMalloc(res.count_fbs*sizeof(uint32_t)));
-		if (!res.fb_id_ptr)
-			goto err_allocs;
-	}
-        ...
-
-This is strace:
-openat(AT_FDCWD,"/dev/dri/card0",O_RDWR|O_LARGEFILE|O_CLOEXEC) =3D 4
-9469 ioctl(4,DRM_IOCTL_GET_CAP,{1,0}) =3D 0 ({1,1})
-9469 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0x0,0x0,0x0,0x0,0,0,0,0,0,0,0,0})=
- =3D 0 ({0x0,0x0,0x0,0x0,0,2,2,2,0,16384,0,16384})
-9469 brk(NULL) =3D 0x40006000
-9469 brk(0x40027000) =3D 0x40027000
-9469 brk(0x40028000) =3D 0x40028000
-9469 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0x0,0x0,0x400061a0,0x0,0,2,107383=
-2368,0,0,16384,0,16384}) =3D -1 errno=3D14 (Bad address)
-9469 brk(0x40027000) =3D 0x40027000
-
-Look
-9469 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0x0,0x0,0x400061a0,0x0,0,2,107383=
-2368,0,0,16384,0,16384}) =3D -1 errno=3D14 (Bad address)
-
-Why does memory overrun occur here???
-I think this is right:
-{0x0,0x400061a0,1073832368(0x400061a0),0x400061c0,0,2,2,2,0,16384,0,16384}
-
-Who can help me? Thank you!
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894071
-
-Title:
-  qemu-i386-static ioctl return -14 (Bad Address)
-
-Status in QEMU:
-  New
-
-Bug description:
-  I use qemu-i386-static on 64 bit ARM.But I don't know how to solve some p=
-roblems.
-  First I added some ioctl operations.
-  Then I tried to do some DRM operations like test.c.
-  This is successful when I use qemu-x86_64-static,but it failed when I use=
- qemu-i386-static.
-  I can get some strace info like this:
-
-  403 openat(AT_FDCWD,"/dev/dri/card0",O_RDWR|O_LARGEFILE|O_CLOEXEC) =3D 4
-  403 ioctl(4,DRM_IOCTL_GET_CAP,{1,0}) =3D 0 ({1,1})
-  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,0,0,0,0,0,0,0,0,0,0,0}) =3D 0 =
-({0,0,0,0,0,2,2,2,0,16384,0,16384})
-  403 brk(NULL) =3D 0x40006000
-  403 brk(0x40027000) =3D 0x40027000
-  403 brk(0x40028000) =3D 0x40028000
-  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,1073766816,1073766832,10737668=
-48,0,2,2,2,0,16384,0,16384}) =3D -1 errno=3D14 (Bad address)
-
-  And there are similar errors in other self driven operations.
-  I want to know if it is QEMU's problem, so I hope to get some help. =
-
-  Thank you!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894071/+subscriptions
+Berto
 
