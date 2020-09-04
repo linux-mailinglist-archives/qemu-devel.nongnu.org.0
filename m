@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2CB25CEF4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 03:06:37 +0200 (CEST)
-Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4087A25CF1A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 03:34:07 +0200 (CEST)
+Received: from localhost ([::1]:41494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE0BY-00055G-3a
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 21:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54016)
+	id 1kE0c9-0004Bs-T0
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 21:34:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kE09z-0002RD-GE
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 21:04:59 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4677 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kE09x-0002jR-CS
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 21:04:59 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 07104F7496714BEE0720;
- Fri,  4 Sep 2020 09:04:46 +0800 (CST)
-Received: from [127.0.0.1] (10.174.187.160) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0;
- Fri, 4 Sep 2020 09:04:39 +0800
-Message-ID: <5F5192A7.4030805@huawei.com>
-Date: Fri, 4 Sep 2020 09:04:39 +0800
-From: AlexChen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <tom.ty89@gmail.com>)
+ id 1kE0bN-0003jX-O9; Thu, 03 Sep 2020 21:33:17 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tom.ty89@gmail.com>)
+ id 1kE0bM-000631-7S; Thu, 03 Sep 2020 21:33:17 -0400
+Received: by mail-pl1-x644.google.com with SMTP id c3so123325plz.5;
+ Thu, 03 Sep 2020 18:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LTKQBbgj8r6sHyXKfna5ZlCDFNvh5xC8gEHwgncf6ro=;
+ b=px8QE351uybDWNqxrzrOaxLZyEUp3ebTHz02h7S0JftuZSXVMkethn1PGKBQil/9qA
+ mq2wLHAeekHKZAsop7Bkh+kpaLj2hJmgEiNBACzdlNFaEtK2vV6Fez/otDpPmpJ76O0U
+ 37IfIzT8/AGbYKIykbDzFVDHBURfPKrymJQ3VAx1iO8bHFB8ziQtoYw0b+QSf9+rW8az
+ H/3Fj2LA+NxyAC0F/Im2t0R32yuNLKWVeKw+cXT9tait+Qp6L50Ls8dLhxajBxeSJCal
+ V46c4D91JXiMych6LU2JGkJ55J3S9zX31Y1fe+vK0MwzzQEtT161Z5V4YFjIfJf2pFVh
+ WzRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LTKQBbgj8r6sHyXKfna5ZlCDFNvh5xC8gEHwgncf6ro=;
+ b=UpmdqwYrzO5g9uP3krifbE4774hGYHyr6lXzoct0d9/mux/ubUjPHh8og78wD4PEQf
+ oEBRyy8AnEeZF+ryJ1eQujlagnHXkhKR0qRahgQUxQjtMpT27xvK20ZbqmskNKQvn1iB
+ hBYKMbVDDUhxL0jRAJONC6s/g5sl+PjY11zyQBf8E5k8UZXncfFRO7xnkp+krTLc91On
+ HmE9D3LaxDovKnOpEA1DZ2VoHauJQqINu+f9Rd0OAhVlbSBkfc45tPPA7hGdJKxpnT4y
+ P/vAawLnHrB8W+gKXrocIgNsIcijirOK8syQgWuuA5u6joTrFDvAhJoIbxBTBypyO4ze
+ S5tg==
+X-Gm-Message-State: AOAM533bRXhq9YLV0Aj9VXAYTxbb4idVv2MsOKerkzdh0KGajDOAelvw
+ aDwYJ2tDI8xD/DfCy0lf/YKpNC4jlLQ=
+X-Google-Smtp-Source: ABdhPJxcRTKilBZvR5//ok1ltNLwkrVeush/b6XTqwNq1SoYT9iU5F+UTEBAfAIoCvtRbS7W0qBGlA==
+X-Received: by 2002:a17:90a:6903:: with SMTP id
+ r3mr5534917pjj.169.1599183193821; 
+ Thu, 03 Sep 2020 18:33:13 -0700 (PDT)
+Received: from localhost.localdomain ([161.81.62.213])
+ by smtp.gmail.com with ESMTPSA id gj16sm3643158pjb.13.2020.09.03.18.33.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Sep 2020 18:33:13 -0700 (PDT)
+From: Tom Yan <tom.ty89@gmail.com>
+To: qemu-block@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH RESEND v2 1/2] file-posix: split hdev_refresh_limits from
+ raw_refresh_limits
+Date: Fri,  4 Sep 2020 09:33:03 +0800
+Message-Id: <20200904013304.220336-1-tom.ty89@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-To: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Subject: Re: elf2dmp: Fix memory leak on main() error paths
-References: <5F463659.8080101@huawei.com>
-In-Reply-To: <5F463659.8080101@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.160]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=alex.chen@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 21:04:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.403,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=tom.ty89@gmail.com; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,44 +84,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: Tom Yan <tom.ty89@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly ping.
+We can and should get max transfer length and max segments for all host
+devices / cdroms (on Linux).
 
-On 2020/8/26 18:15, AlexChen wrote:
-> From: AlexChen <alex.chen@huawei.com>
-> 
-> The 'kdgb' is allocating memory in get_kdbg(), but it is not freed
-> in both fill_header() and fill_context() failed branches, fix it.
-> 
-> Signed-off-by: AlexChen <alex.chen@huawei.com>
-> ---
->  contrib/elf2dmp/main.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-> index 9a2dbc2902..ac746e49e0 100644
-> --- a/contrib/elf2dmp/main.c
-> +++ b/contrib/elf2dmp/main.c
-> @@ -568,12 +568,12 @@ int main(int argc, char *argv[])
->      if (fill_header(&header, &ps, &vs, KdDebuggerDataBlock, kdbg,
->              KdVersionBlock, qemu_elf.state_nr)) {
->          err = 1;
-> -        goto out_pdb;
-> +        goto out_kdbg;
->      }
-> 
->      if (fill_context(kdbg, &vs, &qemu_elf)) {
->          err = 1;
-> -        goto out_pdb;
-> +        goto out_kdbg;
->      }
-> 
->      if (write_dump(&ps, &header, argv[2])) {
-> 
+Also use MIN_NON_ZERO instead when we clamp max transfer length against
+max segments.
 
+Signed-off-by: Tom Yan <tom.ty89@gmail.com>
+---
+v2: fix get_max_transfer_length for non-sg devices; also add/fix
+sg_get_max_segments for sg devices
+ block/file-posix.c | 56 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 40 insertions(+), 16 deletions(-)
+
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 9a00d4190a..0c9124c8aa 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1178,7 +1178,23 @@ static int sg_get_max_transfer_length(int fd)
+ #endif
+ }
+ 
+-static int sg_get_max_segments(int fd)
++static int get_max_transfer_length(int fd)
++{
++#if defined(BLKSECTGET) && defined(BLKSSZGET)
++    int sect = 0;
++    int ssz = 0;
++
++    if (ioctl(fd, BLKSECTGET, &sect) == 0 && ioctl(fd, BLKSSZGET, &ssz)) {
++        return sect * ssz;
++    } else {
++        return -errno;
++    }
++#else
++    return -ENOSYS;
++#endif
++}
++
++static int get_max_segments(int fd)
+ {
+ #ifdef CONFIG_LINUX
+     char buf[32];
+@@ -1233,23 +1249,31 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+ {
+     BDRVRawState *s = bs->opaque;
+ 
+-    if (bs->sg) {
+-        int ret = sg_get_max_transfer_length(s->fd);
++    raw_probe_alignment(bs, s->fd, errp);
++    bs->bl.min_mem_alignment = s->buf_align;
++    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
++}
++
++static void hdev_refresh_limits(BlockDriverState *bs, Error **errp)
++{
++    BDRVRawState *s = bs->opaque;
++
++    /* BLKSECTGET has always been implemented wrongly in the sg driver
++       and BLKSSZGET has never been supported by it*/
++    int ret = bs->sg ? sg_get_max_transfer_length(s->fd) :
++                       get_max_transfer_length(s->fd);
+ 
+-        if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
+-            bs->bl.max_transfer = pow2floor(ret);
+-        }
++    if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
++        bs->bl.max_transfer = pow2floor(ret);
++    }
+ 
+-        ret = sg_get_max_segments(s->fd);
+-        if (ret > 0) {
+-            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
+-                                      ret * qemu_real_host_page_size);
+-        }
++    ret = get_max_segments(s->fd);
++    if (ret > 0) {
++        bs->bl.max_transfer = MIN_NON_ZERO(bs->bl.max_transfer,
++                                           ret * qemu_real_host_page_size);
+     }
+ 
+-    raw_probe_alignment(bs, s->fd, errp);
+-    bs->bl.min_mem_alignment = s->buf_align;
+-    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
++    raw_refresh_limits(bs, errp);
+ }
+ 
+ static int check_for_dasd(int fd)
+@@ -3604,7 +3628,7 @@ static BlockDriver bdrv_host_device = {
+     .bdrv_co_pdiscard       = hdev_co_pdiscard,
+     .bdrv_co_copy_range_from = raw_co_copy_range_from,
+     .bdrv_co_copy_range_to  = raw_co_copy_range_to,
+-    .bdrv_refresh_limits = raw_refresh_limits,
++    .bdrv_refresh_limits = hdev_refresh_limits,
+     .bdrv_io_plug = raw_aio_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+@@ -3728,7 +3752,7 @@ static BlockDriver bdrv_host_cdrom = {
+     .bdrv_co_preadv         = raw_co_preadv,
+     .bdrv_co_pwritev        = raw_co_pwritev,
+     .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
+-    .bdrv_refresh_limits = raw_refresh_limits,
++    .bdrv_refresh_limits = hdev_refresh_limits,
+     .bdrv_io_plug = raw_aio_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+-- 
+2.28.0
 
 
