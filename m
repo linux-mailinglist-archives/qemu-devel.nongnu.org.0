@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D67325E174
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 20:22:17 +0200 (CEST)
-Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A0D25E181
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 20:33:22 +0200 (CEST)
+Received: from localhost ([::1]:39050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEGLn-0000Lv-Kn
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 14:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
+	id 1kEGWX-00052O-9Z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 14:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kEGL2-0008DS-JZ
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:21:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40140
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kEGVW-0004Mq-Q8
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:32:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kEGL1-0003bJ-3M
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:21:28 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kEGVU-0004ny-Qo
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:32:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599243686;
+ s=mimecast20190719; t=1599244335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cIjWVwWvOUkifggHK6dGctDQFkg9TU6ogza8cNMQC7Y=;
- b=TmM7qO/lsYmOn4WEMLmiqGTcw1BdQ6L1Jy1DKyiQwHpjfln2mTCAKSJ+Xk+b9lXUPCw4Cp
- A9IEhj1mBAFY5MYqUnIaALhpqxCZrsTJQNxpkjQI3LQVJhegqB8iiL927BzdP91eeaG5lc
- +46HYsPb1/ZP1gNYtAFnmIRDIvEqU9g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-WV4kQxqsN0yz6y3EH1XC7A-1; Fri, 04 Sep 2020 14:21:22 -0400
-X-MC-Unique: WV4kQxqsN0yz6y3EH1XC7A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 324171074650;
- Fri,  4 Sep 2020 18:21:21 +0000 (UTC)
-Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE9BF60BF1;
- Fri,  4 Sep 2020 18:21:11 +0000 (UTC)
-Date: Fri, 4 Sep 2020 14:21:11 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/6] qom: Use typedefs instead of struct names on
- instance_size/class_size
-Message-ID: <20200904182111.GD1618070@habkost.net>
-References: <20200824215936.2961951-1-ehabkost@redhat.com>
+ bh=vzpqcPteGfr6abqNT9T6vmLthKYLeGhaKGRpVY103II=;
+ b=fCEXrxsQ93qVSbYdoNJfxF5+iMo6dV7iuimXj2wR/j/N1lvR7ZYzD+arJfeekNLx7c5/yy
+ zB7Egt/Cvb3BPTAkhInyrfZCw1J93Ui3haeN9O5WhziePwJ9gdBoEQXLvfHcZgXb3oWn5q
+ 8DBfQVQ5ViZgvyHfuWaeR/F3Vs2ITYY=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-bieTVGaAMFuDlWk_dS0kwQ-1; Fri, 04 Sep 2020 14:32:13 -0400
+X-MC-Unique: bieTVGaAMFuDlWk_dS0kwQ-1
+Received: by mail-qt1-f199.google.com with SMTP id f5so4898578qtk.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 11:32:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=vzpqcPteGfr6abqNT9T6vmLthKYLeGhaKGRpVY103II=;
+ b=oKrOPLXAypyxyT7BCrE7U6MBkxtasT15hw7q9r+J/4gTus9MvHa4V2XcdoqedKeuu8
+ NizUkGC9LoxDQ+X3vW0lJ+oK57AfISSge+EJ9Fo6s/wy31ASzvtXMPmFrrQSs+UE16Kj
+ GPHN7gJgPFvpDMyC3AlF19Bx09ZpGDZZi/7GBZ+MvmimwCMBzsGZQYC3qh3cAHdkyju0
+ Ax1FDfbVsILFgVCaEfG1YfnWqn2IckkAkIYIiKE/0GnJDUKdx+JOW0Qrc9XPKw3sVCK0
+ mjFOOF015WR8rre5WBsy8T1eTW2Ux7goyoSn+WeV7raFQ1xVKb2Xjz8b12V5xX9P89st
+ WHkQ==
+X-Gm-Message-State: AOAM531EXRE+art8O+U+AstPRRlBOmdNJDthnQmQ9KXcspQdhhLflW/Y
+ IRkF4FKOKynfSryZ+sr1hd5NP8VxHUKohKO3J/Je1c52zMzT/xdoBDYdz4jjSGSWQcr9ByuPlku
+ cS6x8eyI5B5BWjVc=
+X-Received: by 2002:a37:a09:: with SMTP id 9mr9640628qkk.258.1599244333096;
+ Fri, 04 Sep 2020 11:32:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxIwjKDe+q51Sa4Du1MQdgdnUMAOetVM2J1hsYQlrT+NHgOr9THBrYYXcfYsKeZaWOSehddQ==
+X-Received: by 2002:a37:a09:: with SMTP id 9mr9640592qkk.258.1599244332727;
+ Fri, 04 Sep 2020 11:32:12 -0700 (PDT)
+Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
+ [70.53.122.15])
+ by smtp.gmail.com with ESMTPSA id g123sm4909284qkd.127.2020.09.04.11.32.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Sep 2020 11:32:11 -0700 (PDT)
+Date: Fri, 4 Sep 2020 14:32:10 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
+Subject: Re: [PATCH 4/5] intel_iommu: Skip page walking on device iotlb
+ invalidations
+Message-ID: <20200904183210.GA148776@xz-x1>
+References: <20200625191651.5817-1-eperezma@redhat.com>
+ <20200903161446.29615-1-eperezma@redhat.com>
+ <20200903161446.29615-5-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200824215936.2961951-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200903161446.29615-5-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 11:45:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,24 +100,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ Juan Quintela <quintela@redhat.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>, qemu-devel@nongnu.org,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 24, 2020 at 05:59:30PM -0400, Eduardo Habkost wrote:
-> This changes existing QOM boilerplate to use existing typedef
-> names when setting instance_size and class_size on TypeInfo
-> variables.  This makes the code more consistent and will make
-> future conversion to QOM type declaration macros easier.
+On Thu, Sep 03, 2020 at 06:14:45PM +0200, Eugenio Pérez wrote:
+> Although they didn't reach the notifier because of the filtering in
+> memory_region_notify_iommu_one, the vt-d was still splitting huge
+> memory invalidations in chunks. Skipping it.
+> 
+> This improves performance in case of netperf with vhost-net:
+> * TCP_STREAM: From 1923.6Mbit/s to 2175.13Mbit/s (13%)
+> * TCP_RR: From 8464.73 trans/s to 8932.703333 trans/s (5.5%)
+> * UDP_RR: From 8562.08 trans/s to 9005.62/s (5.1%)
+> * UDP_STREAM: No change observed (insignificant 0.1% improvement)
+> 
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 
-I'm queueing this series, as I consider the patches trivial
-cleanups.
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
-Eduardo
+Peter Xu
 
 
