@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E47225DB85
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:25:45 +0200 (CEST)
-Received: from localhost ([::1]:49898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DEBC25DBB1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:29:39 +0200 (CEST)
+Received: from localhost ([::1]:40000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kECeu-0003rB-2R
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:25:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
+	id 1kECig-00036l-64
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECaP-0003Vg-QV; Fri, 04 Sep 2020 10:21:05 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECaM-0002kF-Fk; Fri, 04 Sep 2020 10:21:05 -0400
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id AC944BFBE9;
- Fri,  4 Sep 2020 14:20:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1599229238;
- bh=5ZjDoTIIr492u+clFrXjEhMBLTXUh19lollxZUe3VI8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UWTRuxdWg+SN9qos0NbTmmMnmIbqDh6x9Yn53B/nGsh5FJP6eMypccPYrYzQMPQIY
- UJPUAUxI4Z+VAUgwg7/wQPpZIHCI9+muiCgofgLBwbwKKJbXCf8lhSggMAzD4vbkvs
- aX767w+ALtWMsyYjGnecnhtwTHpYEtL55oY95IQ2gXsYBB+qOa/jTlZWKRHghIsx5k
- AZeQCr4osjNuV2SHCozX0iAFQLxduR4N+JA/KQQwdgN8EQ/wU+gfuDVzubKZWhVbGy
- DgZ8plO4Ke3JnhGkigQVTTOfKbYkya330fZ33VbnWKXNai+4dVyeMVFNM+y3pc0XmN
- k0muURni4S2fg==
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 17/17] hw/block/nvme: change controller pci id
-Date: Fri,  4 Sep 2020 16:19:56 +0200
-Message-Id: <20200904141956.576630-18-its@irrelevant.dk>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200904141956.576630-1-its@irrelevant.dk>
-References: <20200904141956.576630-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kECgo-000117-Tn
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:27:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41266
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kECgl-0003Yi-Qk
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:27:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599229657;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SkdmzbIuZbxlwvgJUYMzYokQsK2472CkYuqMxWz1Rnw=;
+ b=P7rTduFYlO6Maqn+rC9inKDrxr/kBFoltPoGzAPH1D4VLNihNyQ/e8yb2AButrymMDtH9S
+ yeXJa+w7dMJXuOQ5WRv7ThfQ2dMsFBhReQebRYcpoJcOm163eAh5sM7d78/OwJbulEmqBR
+ vROUtdov1nDQ1bRIGM7tykW1EZLTY8U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-BN026mUCNBuLsMENLISMvQ-1; Fri, 04 Sep 2020 10:27:34 -0400
+X-MC-Unique: BN026mUCNBuLsMENLISMvQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 169C81084D63;
+ Fri,  4 Sep 2020 14:27:33 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-120-166.rdu2.redhat.com
+ [10.10.120.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB93F7FB7C;
+ Fri,  4 Sep 2020 14:27:28 +0000 (UTC)
+Date: Fri, 4 Sep 2020 10:27:27 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Subject: Re: [PATCH v2 2/2] GitLab Gating CI: initial set of jobs,
+ documentation and scripts
+Message-ID: <20200904142727.GA232153@localhost.localdomain>
+References: <20200709024657.2500558-1-crosa@redhat.com>
+ <20200709024657.2500558-3-crosa@redhat.com>
+ <20200709085507.GA536480@nautilus.usersys.redhat.com>
+ <20200903211211.GC55646@localhost.localdomain>
+ <547ef390fe84bd919f2601d5a29c98f345c6c881.camel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 10:20:31
+In-Reply-To: <547ef390fe84bd919f2601d5a29c98f345c6c881.camel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lrZ03NoBR/3+SXJZ"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=crosa@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,103 +85,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+--lrZ03NoBR/3+SXJZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There are two reasons for changing this:
+On Fri, Sep 04, 2020 at 11:11:25AM +0200, Andrea Bolognani wrote:
+> On Thu, 2020-09-03 at 17:12 -0400, Cleber Rosa wrote:
+> > On Thu, Jul 09, 2020 at 10:55:07AM +0200, Erik Skultety wrote:
+> > > On Wed, Jul 08, 2020 at 10:46:57PM -0400, Cleber Rosa wrote:
+> > > > +.. note:: there are currently limitations to gitlab-runner itself =
+when
+> > > > +          setting up a service under FreeBSD systems.  You will ne=
+ed to
+> > > > +          perform steps 4 to 10 manually, as described at
+> > > > +          https://docs.gitlab.com/runner/install/freebsd.html
+> > >=20
+> > > What kinds of limitations? Is it architecture constrained maybe? I'm =
+asking
+> > > because we have all of the steps covered by an Ansible playbook, so I=
+ kinda got
+> > > triggered by the word "manually". Also, the document only mentions 9 =
+steps
+> > > overall.
+> >=20
+> > FreeBSD's "service management" (systemd/sys-v like) is not covered by
+> > the GO library[1] used on gitlab-runner.  It's not ideal, and the
+> > second best solution would be to script the equivalent handling within
+> > the playbook, but I remember trying and finding some inconsistencies.
+> > Then, I had to give it up and defer to whenever a FreeBSD job is
+> > actually added.
+> >=20
+> > [1] - https://github.com/ayufan/golang-kardianos-service
+>=20
+> Note that this is a fork of
+>=20
+>   https://github.com/kardianos/service
+>=20
+> where FreeBSD support was added recently with
+>=20
+>   https://github.com/kardianos/service/commit/14b2cc59a290407a6f1cb3daba5=
+9069429d9665b
+>
 
-  1. The nvme device currently uses an internal Intel device id.
+That's good news!
 
-  2. Since commits "nvme: fix write zeroes offset and count" and "nvme:
-     support multiple namespaces" the controller device no longer has
-     the quirks that the Linux kernel think it has.
+> I'm not sure why gitlab-runner would use a fork rather than the
+> primary repository, but perhaps they can be convinced to switch and
+> gain better FreeBSD support in the process.
+>
 
-     As the quirks are applied based on pci vendor and device id, change
-     them to get rid of the quirks.
+I can only imagine they were using the fork because the primary
+repository did not have the bits they needed there... and were not
+willing or were not successful and getting them there.
 
-To keep backward compatibility, add a new 'x-use-intel-id' parameter to
-the nvme device to force use of the Intel vendor and device id. This is
-off by default but add a compat property to set this for 5.1 machines
-and older.
+We can ask/hope/wait for gitlab to switch, and then this will no
+longer be an issue indeed.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- hw/block/nvme.c   | 12 ++++++++++--
- hw/block/nvme.h   |  1 +
- hw/core/machine.c |  1 +
- 3 files changed, 12 insertions(+), 2 deletions(-)
+Thanks,
+- Cleber.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 453d3a89d475..8018f8679366 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2749,6 +2749,15 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- 
-     pci_conf[PCI_INTERRUPT_PIN] = 1;
-     pci_config_set_prog_interface(pci_conf, 0x2);
-+
-+    if (n->params.use_intel_id) {
-+        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
-+        pci_config_set_device_id(pci_conf, 0x5846);
-+    } else {
-+        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_REDHAT);
-+        pci_config_set_device_id(pci_conf, PCI_DEVICE_ID_REDHAT_NVME);
-+    }
-+
-     pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
-     pcie_endpoint_cap_init(pci_dev, 0x80);
- 
-@@ -2903,6 +2912,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("aerl", NvmeCtrl, params.aerl, 3),
-     DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
-     DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
-+    DEFINE_PROP_BOOL("x-use-intel-id", NvmeCtrl, params.use_intel_id, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -2919,8 +2929,6 @@ static void nvme_class_init(ObjectClass *oc, void *data)
-     pc->realize = nvme_realize;
-     pc->exit = nvme_exit;
-     pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
--    pc->vendor_id = PCI_VENDOR_ID_INTEL;
--    pc->device_id = 0x5845;
-     pc->revision = 2;
- 
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 72260f2e8ea9..a734a5e1370d 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -15,6 +15,7 @@ typedef struct NvmeParams {
-     uint8_t  aerl;
-     uint32_t aer_max_queued;
-     uint8_t  mdts;
-+    bool     use_intel_id;
- } NvmeParams;
- 
- typedef struct NvmeAsyncEvent {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index ea26d612374d..67990232528c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -34,6 +34,7 @@ GlobalProperty hw_compat_5_1[] = {
-     { "vhost-user-scsi", "num_queues", "1"},
-     { "virtio-blk-device", "num-queues", "1"},
-     { "virtio-scsi-device", "num_queues", "1"},
-+    { "nvme", "x-use-intel-id", "on"},
- };
- const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
- 
--- 
-2.28.0
+> --=20
+> Andrea Bolognani / Red Hat / Virtualization
+>=20
+
+--lrZ03NoBR/3+SXJZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9STssACgkQZX6NM6Xy
+CfO2bBAAu6aA/y1N6qyH6QCIT9tFD2+KUJmnRuPMXsYDy3BaZH75NgMZh1UQ3WPB
+WsdUlVnR2aaAOPYRl3sQKNHCXb23svjiqiG5fvGU+FGz1+OqTC8shQm3d/+AwOld
+enWByfaH0C56t/j1YPrMkX3OVSsw+dAYZJg1GSGAZRduuKnv4EkHPy7tgaoiHAJn
+7uOdInI0TWU/2VaHMzdoxLF32EJeK4CH2xO94gsRrvTpt4aKTvBjULN6mSLfTeg3
+kq1oBT0xIFcUPk1eL6SlOWJ0F9gGyEo7U6zHtTBd4PjNUezrndFQSP/g5SFt+woo
+gmwahc/R56SZyIe9ZJJzzDqSRMyhgq1mSy011tXo5/MyPj9x/oLowfMTAb1ngTxB
+M80kSg2WpV8i4HAyxjIqWnJ9ZRbRmbDs9j2im26GPPpbuKlVasUhkdNN/QfVpksh
+c2s5GwmjLiZ7XfTJ6OSgo5uhODequ/rOw0eHl4q623K6ZJivZbWYdoYkRn8pycED
+rBEDSf6yXRWWgEjrmtOWriK14YpIZK3Npmen8uF0aCquUJuHag1tPdGPNlqSWRYe
+3gnH5lHimYor2kBWuW8+qU6V9ws4DPwp58vuHU9GeRN4KIL80fHfrEBdspggtyE/
+kJBRg6+NhJgVfK6L3aVicHCADZsCORSoeJs1g2Og+uPh4b6Mc1Q=
+=bcyk
+-----END PGP SIGNATURE-----
+
+--lrZ03NoBR/3+SXJZ--
 
 
