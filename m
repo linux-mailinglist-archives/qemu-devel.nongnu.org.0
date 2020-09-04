@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC8F25CFFB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:52:01 +0200 (CEST)
-Received: from localhost ([::1]:47026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972A125CFFA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:51:32 +0200 (CEST)
+Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2lc-0001K2-6g
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54734)
+	id 1kE2l9-0000ac-LW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hY-0002ax-Gf; Thu, 03 Sep 2020 23:47:48 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:41129)
+ id 1kE2hZ-0002dB-Dq; Thu, 03 Sep 2020 23:47:49 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:51105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hU-0004us-NW; Thu, 03 Sep 2020 23:47:48 -0400
+ id 1kE2hU-0004ux-M2; Thu, 03 Sep 2020 23:47:49 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsp5s1Pz9sVl; Fri,  4 Sep 2020 13:47:26 +1000 (AEST)
+ id 4BjNsq19Pfz9sVq; Fri,  4 Sep 2020 13:47:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599191246;
- bh=oNqINut4m7yPkBkTE4WEvkmXs8Ug4gFGqv9k3XWsOTQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1599191247;
+ bh=x72XkQdCKwl+nzDKBcPHb5FwlHCdlLNuP3qoPMFwXdc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TrFwB6NbgRNQZHoMelmynaUaRKnyQCeLn9s++JQjUEb84ZyS7giFlQYx8P95XzBLH
- 2nDvFoT3yWULyTs5+M2MpWWcym6ylOaIjyA+KmnQ4Y/8kXvPYQChaVKtin2IEUUHpf
- KkjhQ4I7dFHZJNc7Eof5cAhTJ18U2RAgMTpsZxb4=
+ b=jEeTZevWfLWBxC2MzJQkPwFtW0OET3L4NvtIKOlOU06QG6pDzJsbL1FaEBe+gmTRL
+ ekamfmoQAh0HWubs73OHX8NTr+qPaHurKPYD3+keH6VUH/HMewhdnZXpFw8MocIfwc
+ eXxo9STyhdb+7+hI8HA33k9eMewyVcawPqgXombU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 11/30] spapr/xive: Allocate vCPU IPIs from the vCPU contexts
-Date: Fri,  4 Sep 2020 13:47:00 +1000
-Message-Id: <20200904034719.673626-12-david@gibson.dropbear.id.au>
+Subject: [PULL 12/30] ppc/spapr_nvdimm: use g_autofree in
+ spapr_nvdimm_validate_opts()
+Date: Fri,  4 Sep 2020 13:47:01 +1000
+Message-Id: <20200904034719.673626-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -60,93 +60,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-When QEMU switches to the XIVE interrupt mode, it creates all the
-guest interrupts at the level of the KVM device. These interrupts are
-backed by real HW interrupts from the IPI interrupt pool of the XIVE
-controller.
+Since we're using the string just once, just use g_autofree and
+avoid leaking it without calling g_free().
 
-Currently, this is done from the QEMU main thread, which results in
-allocating all interrupts from the chip on which QEMU is running. IPIs
-are not distributed across the system and the load is not well
-balanced across the interrupt controllers.
-
-Change the vCPU IPI allocation to run from the vCPU context. The
-associated XIVE IPI interrupt will be allocated on the chip on which
-the vCPU is running and improve distribution of the IPIs in the system.
-When the vCPUs are pinned, this will make the IPI local to the chip of
-the vCPU. It will reduce rerouting between interrupt controllers and
-gives better performance.
-
-Device interrupts are still treated the same. To improve placement, we
-would need some information on the chip owning the virtual source or
-the HW source in case of a passthrough device but this reuires
-changes in PAPR.
-
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20200820134547.2355743-5-clg@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20200825215749.213536-2-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 36 +++++++++++++++++++++++++++++++++---
- 1 file changed, 33 insertions(+), 3 deletions(-)
+ hw/ppc/spapr_nvdimm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 507637d51e..66bf4c06fe 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -146,13 +146,43 @@ int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
-     return s.ret;
- }
- 
--static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, Error **errp)
-+/*
-+ * Allocate the vCPU IPIs from the vCPU context. This will allocate
-+ * the XIVE IPI interrupt on the chip on which the vCPU is running.
-+ * This gives a better distribution of IPIs when the guest has a lot
-+ * of vCPUs. When the vCPUs are pinned, this will make the IPI local
-+ * to the chip of the vCPU. It will reduce rerouting between interrupt
-+ * controllers and gives better performance.
-+ */
-+typedef struct {
-+    SpaprXive *xive;
-+    Error *err;
-+    int rc;
-+} XiveInitIPI;
-+
-+static void kvmppc_xive_reset_ipi_on_cpu(CPUState *cs, run_on_cpu_data arg)
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 81410aa63f..9a20a65640 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -33,7 +33,7 @@
+ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
+                                 Error **errp)
  {
-     unsigned long ipi = kvm_arch_vcpu_id(cs);
-+    XiveInitIPI *s = arg.host_ptr;
-     uint64_t state = 0;
+-    char *uuidstr = NULL;
++    g_autofree char *uuidstr = NULL;
+     QemuUUID uuid;
+     int ret;
  
--    return kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_SOURCE, ipi,
--                              &state, true, errp);
-+    s->rc = kvm_device_access(s->xive->fd, KVM_DEV_XIVE_GRP_SOURCE, ipi,
-+                              &state, true, &s->err);
-+}
-+
-+static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, Error **errp)
-+{
-+    XiveInitIPI s = {
-+        .xive = xive,
-+        .err  = NULL,
-+        .rc   = 0,
-+    };
-+
-+    run_on_cpu(cs, kvmppc_xive_reset_ipi_on_cpu, RUN_ON_CPU_HOST_PTR(&s));
-+    if (s.err) {
-+        error_propagate(errp, s.err);
-+    }
-+    return s.rc;
- }
+@@ -54,7 +54,6 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
+                                       &error_abort);
+     ret = qemu_uuid_parse(uuidstr, &uuid);
+     g_assert(!ret);
+-    g_free(uuidstr);
  
- int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
+     if (qemu_uuid_is_null(&uuid)) {
+         error_setg(errp, "NVDIMM device requires the uuid to be set");
 -- 
 2.26.2
 
