@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368AA25DEC9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:00:02 +0200 (CEST)
-Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2866F25DEBF
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:56:56 +0200 (CEST)
+Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEE89-0001Jr-94
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:00:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58472)
+	id 1kEE59-0005Lg-5e
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kEE26-00080r-Kp
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:53:46 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kEE24-0000Yv-HO
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:53:46 -0400
-Received: by mail-wm1-x344.google.com with SMTP id u18so6503873wmc.3
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Afwu29ZYyRmTHxYU/ozHLflVOIUX6KaMCX7RuNIc0tY=;
- b=qfPKNA486dHAa5m/ipk0PqiQ6EB+o+ycOeZkBvSs5co58Y0CqjbOrP+oh+jECEPFNl
- nzOyAgYVEadXYyGAva37U1VoWUGA8kwkByf2gWiXAFNvyMOX2M/lbeuJQ7fsXs5V6dFU
- 1kSTdsEmW5ezrtCgLZD+R7iwhD0Fz7/mgWRKc+9AGVNBmNnS6MWWhjlftggejgCHej+S
- hGJwBdBSEa4sw6PTj/01OGRJQuiTnaP1Q/o4Z2FUHnuz8FT85GccSgzU4lJVMHwwZ0Hv
- 4QgaUJADI8kgAn0JCVifUoYILp+usVr9v/SGxgGHmcnvNQ32WBNb2fneWnUSyeuRTBhZ
- nNNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Afwu29ZYyRmTHxYU/ozHLflVOIUX6KaMCX7RuNIc0tY=;
- b=ewf9pt7A0xGqobhsDZaEF84ZzRLPQ8YbsxU/9SYVFFI5SkD6IChEM6yaDZ6WHY37nN
- K/xUAoLCFNddcigDDLpAiZEuX+QD3kP9pTN5/quw8Vlrc24LoY0L2mqR5i8qMaDG5Rmg
- jcojgmNLJkHoNnriEk1yBQv68yaEPCi486Wbi4odbtblOSOGjLnzKAM72O3FyfbheZ+6
- 6fBuGhWg5jy4e7mzgi4LO2B0SW2tLJTlZyGUvK94ypzJqGBUPF7JMiURUk4wpgi60G40
- 3n2IZA/RlNODDg9YdSHSqhQT2u8Ewz10t87fMn1l6ISD2VEsXHOSyA9TthpNFoixlIul
- JmrA==
-X-Gm-Message-State: AOAM533WIPPsz0aJRRBcJQgIusnB7XVyPxiq7I04jb22ltLO60VXXnTR
- n3ftOvyA8N19c6a3NyOogJjH9p9DBgw/YhPR5M4Q7A==
-X-Google-Smtp-Source: ABdhPJyFd089MlGrr5T258U/hy5TlbHtGsAOlmElwe9EPCM+8UqxsGnAthhD5sARgpLmiiipSc75bzWSA0CMslzGAjY=
-X-Received: by 2002:a1c:b407:: with SMTP id d7mr8759172wmf.59.1599234822825;
- Fri, 04 Sep 2020 08:53:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kEE2l-00017g-Ln
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:54:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52800
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kEE2j-0000gH-0L
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:54:26 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-3KdcvWwTMtSPiz-DIqEyfA-1; Fri, 04 Sep 2020 11:54:20 -0400
+X-MC-Unique: 3KdcvWwTMtSPiz-DIqEyfA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2A4D1017DC0;
+ Fri,  4 Sep 2020 15:54:19 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C4A9C5D9CC;
+ Fri,  4 Sep 2020 15:54:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3DB581132B59; Fri,  4 Sep 2020 17:54:18 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v5 00/20] Convert QAPI doc comments to generate rST
+ instead of texinfo
+References: <20200810195019.25427-1-peter.maydell@linaro.org>
+ <CAFEAcA9cyKVwONYuzG3oPcQQ9sibpdtetCjcBe3133gd09Aa9w@mail.gmail.com>
+ <87d0314nmp.fsf@dusky.pond.sub.org>
+ <CAFEAcA9ABUwa_TnyczsO+TtSncX0hHwN7_zgyGGWP6nWtEkdDQ@mail.gmail.com>
+Date: Fri, 04 Sep 2020 17:54:18 +0200
+In-Reply-To: <CAFEAcA9ABUwa_TnyczsO+TtSncX0hHwN7_zgyGGWP6nWtEkdDQ@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 4 Sep 2020 15:48:35 +0100")
+Message-ID: <87eenhzget.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20200904082451.1043-1-ani@anisinha.ca>
- <20200904082451.1043-2-ani@anisinha.ca>
- <CAMDeoFUVoJ9hN7DaMBZ2RyS5jLNJACB-Uq6C6XXih8-9RDCj_g@mail.gmail.com>
-In-Reply-To: <CAMDeoFUVoJ9hN7DaMBZ2RyS5jLNJACB-Uq6C6XXih8-9RDCj_g@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 4 Sep 2020 21:23:31 +0530
-Message-ID: <CAARzgwxpA8rO44SbXiagJy3f1w1FZfwmij5PB7EF6krKieixfg@mail.gmail.com>
-Subject: Re: [PATCH v1] i440fx/acpi: don't hot-unplug cold plugged bridges
- when their hotplug switch is off
-To: Julia Suvorova <jusual@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::344;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,85 +74,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 4, 2020 at 9:18 PM Julia Suvorova <jusual@redhat.com> wrote:
->
-> On Fri, Sep 4, 2020 at 10:25 AM Ani Sinha <ani@anisinha.ca> wrote:
-> >
-> > Cold plugged bridges should not be hot unpluggable, even when their hotplug property
-> > (acpi-pci-hotplug-with-bridge-support) is turned off.
->
-> Unplugging a cold-plugged bridge is impossible already, see
-> acpi_pcihp_pc_no_hotplug().
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Ah cool. So all the more reason we should fix this because guest OSes
-should not think that the device is hot-unpluggable.
+> On Fri, 4 Sep 2020 at 15:34, Markus Armbruster <armbru@redhat.com> wrote:
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>> > I'm not sure whether the scripts/qapi code supports telling
+>> > a consumer of the parsed info about this -- is it sufficient
+>> > for QAPISchemaGenRSTVisitor to implement the 'visit_include'
+>> > method, find the path to the included .qapi file from the
+>> > arguments and call Sphinx's env.notedependency(), or do we
+>> > need to do something more complicated to get the list of
+>> > all the included .qapi files ?
+>>
+>> Visitors can implement visit_include() to see include directives.
+>> QAPISchemaModularCVisitor does, to generate #include that mirror the
+>> source schema.  This is not what your want.
+>
+> Why not? Surely "see include directives" is exactly what I want?
+> Any time the QAPI parser opens a file that's different from the
+> initial one we want to know about it.
+>
+>> You want visit_module().  The appended hack makes qapi-gen.py spit out
+>> the modules when it generates types, e.g.:
+>>
+>>     $ python3 -B scripts/qapi-gen.py -o scratch tests/qapi-schema/qapi-schema-test.json
+>>     ### None
+>>     ### 'qapi-schema-test.json'
+>>     ### 'include/sub-module.json'
+>>     ### 'sub-sub-module.json'
+>
+> What's a "module" here ?
 
->
-> Best regards, Julia Suvorova.
->
-> > However, with the current
-> > implementaton, windows would try to hot-unplug a pci bridge when it's hotplug switch
-> > is off. This is regardless of whether there are devices attached to the bridge. When
-> > devices are attached to the bridge, the bridge is ultimately not hot-unpluggable. We
-> > have a demo video here: https://youtu.be/pME2sjyQweo
-> >
-> > In this fix, we identify a cold plugged bridge and for cold plugged bridges, we do not
-> > add the appropriate amls and acpi methods that are used by the OS to identify a hot-
-> > unpluggable pci device. After this change, Windows does not show an option to eject the
-> > PCI bridge. A demo video is here:  https://youtu.be/kbgej5B9Hgs
-> >
-> > While at it, I have also updated a stale comment.
-> >
-> > This change is tested with a Windows 2012R2 guest image running on Ubuntu host. This
-> > change is based off of upstream qemu master branch tag v5.1.0.
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  hw/i386/acpi-build.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index b7bcbbbb2a..90b863f4ec 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >          int slot = PCI_SLOT(i);
-> >          bool hotplug_enabled_dev;
-> >          bool bridge_in_acpi;
-> > +        bool cold_plugged_bridge;
-> >
-> >          if (!pdev) {
-> >              if (bsel) { /* add hotplug slots for non present devices */
-> > @@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >          pc = PCI_DEVICE_GET_CLASS(pdev);
-> >          dc = DEVICE_GET_CLASS(pdev);
-> >
-> > -        /* When hotplug for bridges is enabled, bridges are
-> > -         * described in ACPI separately (see build_pci_bus_end).
-> > -         * In this case they aren't themselves hot-pluggable.
-> > +        /*
-> > +         * Cold plugged bridges aren't themselves hot-pluggable.
-> >           * Hotplugged bridges *are* hot-pluggable.
-> >           */
-> > -        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
-> > -            !DEVICE(pdev)->hotplugged;
-> > +        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
-> > +        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
-> >
-> > -        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
-> > +        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
-> >
-> >          if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
-> >              continue;
-> > --
-> > 2.17.1
-> >
->
+Initially, the include directive was just that: include another file's
+contents right here.
+
+Back in 2018, we switched from generating monolithic code to generating
+modular code.  What does that mean?
+
+Instead of generating the kitchen sink into a single qapi-types.c, we
+split out the stuff generated for each FOO.json included by
+qapi-schema.json into qapi-types-FOO.c.
+
+Same for qapi-types.h, but with #include stitching that mirrors the
+schema's include directives.  So, if FOO.json includes SUB.json, then
+qapi-types-FOO.h will include qapi-types-SUB.h.
+
+Same for qapi-{commands,events,visit}.{c,h}.
+
+The qapi-schema.json (rather: the file you pass to qapi-gen.py) is the
+main module.
+
+The .json it includes are the sub-modules.
+
+visit_module() lets you see the modules.
+
+visit_include() lets you see the includes.  The same module can be
+included multiple times.  Having to filter that out would be annoying.
+
+>                          Does this still produce output if the
+> top level .json file includes a sub-json file that doesn't actually
+> have any contents ? (We still want to generate the dependency
+> then, so we update the docs if the included file is edited to
+> add content.)
+
+If it doesn't, I'd be willing to call it a bug.  I dimly remember fixing
+this (or a similar bug) before.
+
 
