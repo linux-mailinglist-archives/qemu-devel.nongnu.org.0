@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01BF25D517
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 11:31:30 +0200 (CEST)
-Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7A825D534
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 11:35:28 +0200 (CEST)
+Received: from localhost ([::1]:45936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE84A-0007cD-1j
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 05:31:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42006)
+	id 1kE87z-0004UF-Jm
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 05:35:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kE834-0006ts-1K
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:30:22 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47167
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kE832-0005XE-9L
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:30:21 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-iSbtFg8DOr23h6Lx-JsKpg-1; Fri, 04 Sep 2020 05:30:17 -0400
-X-MC-Unique: iSbtFg8DOr23h6Lx-JsKpg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4512664087;
- Fri,  4 Sep 2020 09:30:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-156.ams2.redhat.com
- [10.36.114.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 597E310013C4;
- Fri,  4 Sep 2020 09:30:15 +0000 (UTC)
-Subject: Re: [PATCH v2 0/3] qcow2: Fix removal of list members from
- BDRVQcow2State.cluster_allocs
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1599150873.git.berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <efd9f01a-27cb-2ff2-4113-5f050df789eb@redhat.com>
-Date: Fri, 4 Sep 2020 11:30:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1599150873.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="F9NcNkK3fzGeRM10ZHmsl3zDN2xxPBafb"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.403,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1kE84a-00086a-Q0; Fri, 04 Sep 2020 05:31:58 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:34222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1kE84T-0005lS-Ud; Fri, 04 Sep 2020 05:31:56 -0400
+Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
+ (vla1-fdfb804fb3f3.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id D2C2D2E16D6;
+ Fri,  4 Sep 2020 12:31:41 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ mwhVSNbSDo-VfwqgNSG; Fri, 04 Sep 2020 12:31:41 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1599211901; bh=Z0vflA2dBNw4aDq73FO8jpYAlMsPO4RBkFih9lWSnKs=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=cQsNq9qnwaRNB4EPLCOZaBMW7Ww4kiPnN/to+9ok7x2TBAuHvVbxwaHNZv3Rl3DdH
+ UvEQz6UWK71EzBWWWB2MpHFIrNG0Zkm4aQV3aNNOPBQvnjHs0N450nQY044HRMwRzP
+ qcZbZsMo6RmKOLbyc/NYww/qyyenghCwtrbycpaA=
+Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:8005::1:b])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ roLfhSDnvO-VflGxVR6; Fri, 04 Sep 2020 12:31:41 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (Client certificate not present)
+From: Dima Stepanov <dimastep@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/7] vhost-user-blk: fix the migration issue and enhance
+ qtests
+Date: Fri,  4 Sep 2020 12:31:12 +0300
+Message-Id: <cover.1599211479.git.dimastep@yandex-team.ru>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 05:31:42
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,56 +71,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, jasowang@redhat.com,
+ dgilbert@redhat.com, mreitz@redhat.com, fengli@smartx.com,
+ yc-core@yandex-team.ru, pbonzini@redhat.com, raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---F9NcNkK3fzGeRM10ZHmsl3zDN2xxPBafb
-Content-Type: multipart/mixed; boundary="KLkYBQ3ER4vJHCXyqMmNqOWe7gJfMu3wD"
+v3 -> v4:
+  - vhost: recheck dev state in the vhost_migration_log routine
+    Reviewed-by: Raphael Norwitz
+  - vhost: check queue state in the vhost_dev_set_log routine
+    Use "continue" instead of "break" to handle non-initialized
+    virtqueue case.
 
---KLkYBQ3ER4vJHCXyqMmNqOWe7gJfMu3wD
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+v2 -> v3:
+  - update commit message for the 
+    "vhost: recheck dev state in the vhost_migration_log routine" commit
+  - rename "started" field of the VhostUserBlk structure to
+    "started_vu", so there will be no confustion with the VHOST started
+    field
+  - update vhost-user-test.c to always initialize nq local variable
+    (spotted by patchew)
 
-On 03.09.20 18:37, Alberto Garcia wrote:
-> Hi,
->=20
-> here are the changes from v1:
->=20
-> - Split changes into three different patches.
-> - Rewrite the documentation of qcow2_alloc_cluster_offset() [Max]
-> - Use peek_file_be in the test case to read the offset of the refcount
->   table [Max].
-> - Extend the list of unsupported options for the test case [Max].
->=20
-> Berto
+v1 -> v2:
+  - add comments to connected/started fields in the header file
+  - move the "s->started" logic from the vhost_user_blk_disconnect
+    routine to the vhost_user_blk_stop routine
 
-Thanks, applied to my block branch:
+Reference e-mail threads:
+  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01509.html
+  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05241.html
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+If vhost-user daemon is used as a backend for the vhost device, then we
+should consider a possibility of disconnect at any moment. There was a general
+question here: should we consider it as an error or okay state for the vhost-user
+devices during migration process?
+I think the disconnect event for the vhost-user devices should not break the
+migration process, because:
+  - the device will be in the stopped state, so it will not be changed
+    during migration
+  - if reconnect will be made the migration log will be reinitialized as
+    part of reconnect/init process:
+    #0  vhost_log_global_start (listener=0x563989cf7be0)
+    at hw/virtio/vhost.c:920
+    #1  0x000056398603d8bc in listener_add_address_space (listener=0x563989cf7be0,
+        as=0x563986ea4340 <address_space_memory>)
+    at softmmu/memory.c:2664
+    #2  0x000056398603dd30 in memory_listener_register (listener=0x563989cf7be0,
+        as=0x563986ea4340 <address_space_memory>)
+    at softmmu/memory.c:2740
+    #3  0x0000563985fd6956 in vhost_dev_init (hdev=0x563989cf7bd8,
+        opaque=0x563989cf7e30, backend_type=VHOST_BACKEND_TYPE_USER,
+        busyloop_timeout=0)
+    at hw/virtio/vhost.c:1385
+    #4  0x0000563985f7d0b8 in vhost_user_blk_connect (dev=0x563989cf7990)
+    at hw/block/vhost-user-blk.c:315
+    #5  0x0000563985f7d3f6 in vhost_user_blk_event (opaque=0x563989cf7990,
+        event=CHR_EVENT_OPENED)
+    at hw/block/vhost-user-blk.c:379
+The first patch in the patchset fixes this issue by setting vhost device to the
+stopped state in the disconnect handler and check it the vhost_migration_log()
+routine before returning from the function.
+qtest framework was updated to test vhost-user-blk functionality. The
+vhost-user-blk/vhost-user-blk-tests/migrate_reconnect test was added to reproduce
+the original issue found.
 
+Dima Stepanov (7):
+  vhost: recheck dev state in the vhost_migration_log routine
+  vhost: check queue state in the vhost_dev_set_log routine
+  tests/qtest/vhost-user-test: prepare the tests for adding new dev
+    class
+  tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
+  tests/qtest/vhost-user-test: add support for the vhost-user-blk device
+  tests/qtest/vhost-user-test: add migrate_reconnect test
+  tests/qtest/vhost-user-test: enable the reconnect tests
 
---KLkYBQ3ER4vJHCXyqMmNqOWe7gJfMu3wD--
+ hw/block/vhost-user-blk.c          |  19 ++-
+ hw/virtio/vhost.c                  |  39 ++++-
+ include/hw/virtio/vhost-user-blk.h |  10 ++
+ tests/qtest/libqos/virtio-blk.c    |  14 ++
+ tests/qtest/vhost-user-test.c      | 290 +++++++++++++++++++++++++++++++------
+ 5 files changed, 323 insertions(+), 49 deletions(-)
 
---F9NcNkK3fzGeRM10ZHmsl3zDN2xxPBafb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9SCSUACgkQ9AfbAGHV
-z0AR9wgAuz3DHB4XrldGoYIkTEgRCT9LUIIJQgl+PVojRD4qzO5Q0VDvDolIpzHe
-bMu62TakF1FDwvO3o3bCglXYzt1MWqirABgjPGDIbPQERhUmR/dbHu7As4ehYnGE
-ausCwv9PTXaVLn12DRFUaTUGm11tpXexvpXuoZA+6VCMwI9oXf45wswVxXe0fvxf
-JCOb0yD/LxfpsYv+fArP9uv7w2xeTV4NTMg6qvAEXx+sMNWnX525ocDBU5Fx0iHY
-/l7heZEdXnJL0M9NA4dX3bBbTxnCPkDV7UCx5x9RuEFtL3ubxyFupsww8AG4fwGn
-inhiVOoAGuRm3DNPQgkWT5/FVMvTsg==
-=Eueq
------END PGP SIGNATURE-----
-
---F9NcNkK3fzGeRM10ZHmsl3zDN2xxPBafb--
+-- 
+2.7.4
 
 
