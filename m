@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD5625E0A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:19:02 +0200 (CEST)
-Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AEF25E0A9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:22:55 +0200 (CEST)
+Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEFMb-0001kH-3f
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:19:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48672)
+	id 1kEFQL-0004ir-S3
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kEFLk-0001Ge-6j; Fri, 04 Sep 2020 13:18:08 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48292)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kEFLh-0004VC-5x; Fri, 04 Sep 2020 13:18:07 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 2732FBF7D3;
- Fri,  4 Sep 2020 17:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1599239882;
- bh=E579wGZx7XEvccA1emNNVA2p75ag4h0P8tr/8HsnL4U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CsJPh9t5FB6JRGuh7q1zhVmrUdEr569h982OUYkum917Sv4DJCxJrSrAZ3IDvdkBa
- /dxltuRIjX1eF/eYzNmiH87ZCnaaKuhJTbnOWgk2Uy5go9kyDPF1cMeKNRr3K9gmqQ
- SwiBYF3krEkrrvQeeDW0nvLf9M3H+03Gc1mfB2aTUfr0kn9vdjV1aZqhpxnvOV9cJp
- 3VsY3pUmdBN6hyC2sHJHMTF4kk0Jz2PgPBYmjjA6Yw3JJ74vqjWVQpterbahhw7Cn3
- I0Nvg2+DQFnZp64PammdpSLT7g10T5Rs/HbpxsLVgCR80G8YjIIlfCBg86QFfmBY+S
- dsD4P525Bh/ZQ==
-Date: Fri, 4 Sep 2020 19:17:59 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 00/17] hw/block/nvme: multiple namespaces support
-Message-ID: <20200904171759.GB584438@apples.localdomain>
-References: <20200904141956.576630-1-its@irrelevant.dk>
- <b44b738e-db6f-e820-11ef-ad9c7615f9a3@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kEFP5-0002ur-9w
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:21:35 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kEFP3-0004q9-Ib
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:21:34 -0400
+Received: by mail-ej1-x641.google.com with SMTP id nw23so9636362ejb.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 10:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2oKg/ZiGY7j5xb0rpCpgtuLnfrfU527rasMOF9KTyeI=;
+ b=GghXn3Ibadx0omzzzXtQ9FO/PqUemhbHJpj8PeQiiwdN4z9YF2KqSa/3uyXlAQ2Kb/
+ +pSA2d+8GVby+JCmoBy8VTpXV2+jPyLZEAWJ8XptebXXJIADK88vz6k3zkyvSMGCLMI7
+ aWZvFavOxYGgw6ZggSqafLdzCxwmbwkEfZkQLJazvxUsMcoJHYGbIE4hT4hVyf55fvuL
+ xSH0bNq5Cke0VDGzy0Oi6NcM/mM3nEaJIvPWk1zg4ThdLpfvP9b7jbzjOKp/1+W5jGBz
+ xkW5lCQimVpM6zkyS7Nx4PrDgTKRow+WsDatPv53BTau+5pg8s7KBCbDyG40ihkGLKgy
+ fudw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2oKg/ZiGY7j5xb0rpCpgtuLnfrfU527rasMOF9KTyeI=;
+ b=Yw8FUMRdldvQRb2KmXdKQyGJEreUJ89P89e467N2bQmNrvTIKEIVSRGZ4M2j72mvFf
+ KVmKTjdXjUUvwItZgiXifqy16MNPZmOwr/XGgHwsBB7dVviSaujIvyBxGkG8iEMRv0Cu
+ KX7FmetPepuVyRBJ3vxcLLyTbWyLOa4cAn2gYqFPrkI5+Wsq93xHGUYhEOt0iV0bVQhV
+ Z33HVr8t4z+lTEoqqmnubLrz+hteSmysMIwzjrUPZmYOrfBx9gDLPuwZtSavm3fj5eE/
+ MhYr9KP/CsczuKWLcGLsk9gRoaK+9A196Z8mhBPWb0zsbAqui19vxrAbbds7UOGhQy9y
+ Z61Q==
+X-Gm-Message-State: AOAM530NkgeeqO4UigvQBPb5TY7SnKW2As4OLi0Px43vjTR5wNnxTWM5
+ fMhP7B8/38vHRRR78oYBSAYAAXDz4rV3+F5d7VPDOQ==
+X-Google-Smtp-Source: ABdhPJyQ4/L9WLhaC2GVni/dsWXHO4NQBkGk8tZ2E1kpYcE/FQoIRLksmDVfIggX/whLJPJpPfToMOjniYHFgttUE84=
+X-Received: by 2002:a17:907:20d9:: with SMTP id
+ qq25mr4434207ejb.382.1599240091538; 
+ Fri, 04 Sep 2020 10:21:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="z6Eq5LdranGa6ru8"
-Content-Disposition: inline
-In-Reply-To: <b44b738e-db6f-e820-11ef-ad9c7615f9a3@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 10:20:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200904165140.10962-1-alex.bennee@linaro.org>
+In-Reply-To: <20200904165140.10962-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 4 Sep 2020 18:21:20 +0100
+Message-ID: <CAFEAcA9+hoPrkDNg21b03CT=YmTXuOLwKrornYn6J12bZ=B+OQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] docs/system/deprecated: mark ppc64abi32-linux-user
+ for deprecation
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,107 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 4 Sep 2020 at 17:52, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> It's buggy and we are not sure anyone uses it.
 
---z6Eq5LdranGa6ru8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +``ppc64abi32`` CPUs (since 5.2.0)
+> +'''''''''''''''''''''''''''''''''
+> +
+> +The ``ppc64abi32`` architecture has a number of issues which regularly
+> +trip up our CI testing and is suspected to be quite broken.
+> +Furthermore the maintainers are unsure what the correct behaviour
+> +should be and strongly suspect no one actually uses it.
 
-On Sep  4 18:12, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi Klaus,
->=20
-> On 9/4/20 4:19 PM, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > This is the next round of my patches for the nvme device.
-> >=20
-> > This includes a bit of cleanup and three new features:
-> >=20
-> >   * refactored aio submission
-> >     This also adds support for multiple parallel AIOs per request which=
- is in
-> >     preparation for DULBE, ZNS and metadata support. If it is found
-> >     controversial, it can easily be dropped from this series.
-> >=20
-> >   * support for scatter/gather lists
-> >=20
-> >   * multiple namespaces support through a new nvme-ns device
-> >=20
-> > Finally, the series ends with changing the PCI vendor and device ID to =
-get rid
-> > of the internal Intel id and as a side-effect get rid of some Linux ker=
-nel
-> > quirks that no longer applies.
-> >=20
-> > "pci: pass along the return value of dma_memory_rw" has already been po=
-sted by
-> > Philippe in another series, but since it is not applied yet, I am inclu=
-ding it
-> > here.
-> >=20
-> > Gollu Appalanaidu (1):
-> >   hw/block/nvme: add support for sgl bit bucket descriptor
-> >=20
-> > Klaus Jensen (16):
-> >   pci: pass along the return value of dma_memory_rw
-> >   hw/block/nvme: handle dma errors
-> >   hw/block/nvme: commonize nvme_rw error handling
-> >   hw/block/nvme: alignment style fixes
-> >   hw/block/nvme: add a lba to bytes helper
-> >   hw/block/nvme: fix endian conversion
-> >   hw/block/nvme: add symbolic command name to trace events
-> >   hw/block/nvme: refactor aio submission
-> >   hw/block/nvme: default request status to success
-> >   hw/block/nvme: support multiple parallel aios per request
-> >   hw/block/nvme: harden cmb access
-> >   hw/block/nvme: add support for scatter gather lists
-> >   hw/block/nvme: refactor identify active namespace id list
-> >   hw/block/nvme: support multiple namespaces
-> >   pci: allocate pci id for nvme
-> >   hw/block/nvme: change controller pci id
-> >=20
-> >  MAINTAINERS            |   1 +
-> >  docs/specs/nvme.txt    |  23 +
-> >  docs/specs/pci-ids.txt |   1 +
-> >  hw/block/meson.build   |   2 +-
-> >  hw/block/nvme-ns.c     | 185 +++++++++
-> >  hw/block/nvme-ns.h     |  74 ++++
-> >  hw/block/nvme.c        | 923 +++++++++++++++++++++++++++++++----------
-> >  hw/block/nvme.h        | 126 +++++-
-> >  hw/block/trace-events  |  21 +-
-> >  hw/core/machine.c      |   1 +
-> >  include/block/nvme.h   |   8 +-
-> >  include/hw/pci/pci.h   |   4 +-
->=20
-> To ease the review, consider setup'ing scripts/git.orderfile,
-> as it avoid reviewers to scroll patches in their email client.
->=20
+IRC discussion suggests we do know what the correct behaviour
+is -- it should be "what the compat32 interface of a 64-bit
+PPC kernel gives you", it's just that the code doesn't do that
+(and never has?). It's like the mipsn32, mipsn32el, sparc32plus
+ABIs which we also implement (hopefully correctly...)
 
-Oh wow. You learn something new everyday. That's really neat!
+But "this has always been broken and nobody complained" is
+a good reason to deprecate anyway.
 
-Thanks!
-
---z6Eq5LdranGa6ru8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9SdsQACgkQTeGvMW1P
-DekkKwf/dQT7zgJ1xQauyXzPxSf+NX4yo+7+ZLhVVyk0tqWS8u3Foy5s9ken27V3
-jbph7qiJ4GvS76j9ogQ9V1yoKdPXIbJbTa7ICukMJV2fSYzYcHEGoWmvMrXybeBl
-KRgByUmXu8wv0jnfZ2pWWiFpJjBZC6NWWieZRlQy9d921FDAZ4HCiU4mHdr9avvQ
-GqzjBFvPYvPXOkqcJybr75t/sw/x2qvpCDbKUF0NzVMUBnhL83CFXoKyDv7PZQl/
-zjLAf5SAEpyuRE4W8LjV3Xic7D7yeJDd2eCkwcM3JdTfkhbyHpfETXxfwXHUEzSV
-RPQguR9O/oCTmt0vsFZIWfqL+FJ4Xw==
-=Qv0Q
------END PGP SIGNATURE-----
-
---z6Eq5LdranGa6ru8--
+thanks
+-- PMM
 
