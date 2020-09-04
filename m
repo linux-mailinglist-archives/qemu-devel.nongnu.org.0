@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBD325D8D8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:44:49 +0200 (CEST)
-Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E2D25D8E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:46:37 +0200 (CEST)
+Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEB5E-0001V2-JE
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
+	id 1kEB6y-0003bU-3J
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:46:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kEB3j-0008VL-5N
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:43:15 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41883)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kEB4m-0001JW-Gr
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:44:20 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:39164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kEB3g-0006l2-Nj
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:43:14 -0400
-Received: by mail-wr1-x443.google.com with SMTP id w5so6612699wrp.8
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 05:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XOYK2LNZrbY7uLOwOomLIdV+XRY5uWBmgOIPdTTlwNA=;
- b=sNPOpmGjsJQVNnlj74g6rcmU/o1Y6DciklPe9wuXIYDhxQm6GlvEU4Ejis79j1zT9U
- 6wnmCJ01KtwwxkYBSk2qT8gbEQXGG4STtIvdbRJqa91EZnRrauqCOocg0mqGbd1IynTC
- WJQ6vLnesBAPeUMs/xe1eN3pdUsv3wuqQDEfL7mvXoTDlhNogF3O0Pcu13ZhsSXIkDzl
- eZv++3Y97n75LQpSGrac2OVPqCGVIZ5weKVS2q+c1BdWfofO/Mr4PLMM90BJvBeCA7+N
- V3raz9dg4b8M1PY+a/LPSs2qq+oYdsl140DeUA6nV7EBpupeY2235KOV5drX2YTJykMJ
- uMfA==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kEB4k-0006ss-Ge
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:44:20 -0400
+Received: by mail-pf1-x444.google.com with SMTP id u128so4542705pfb.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 05:44:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=EJICNcVaN8n/5BgYLiEvYlWcKYMBBQ0Y7yIYu9xdZs8=;
+ b=vrqNa6Ek0Vu1TW5QFfk5X6BjPFGkeGAuzWzd6MPHSBFKot0puGPLdXn02Rri9D6/Tv
+ qf5h/FzEqCQFYZ+kj6yttFMKs8ssx9qccFcdyomV8ELCNFumE5lgfucUucRKPRvpbElW
+ PHUBk1x8A1cAXmIgLxSc9Nkxa2npdKNEI5932yd0Amz40KixurDKVnrf6kK0Qu0ao15D
+ sHqFqxAIZCexyJeGDzXNTMz2Ixc10e3uakXsw1bl7ziQOlqBffiQg8ggEcuA+/WW9Rk7
+ M3vK3uitCBfewvtug/9PrQX6Ms8EPvaog6P59Ev7eeKfEmYgTRltfjxWhxgyxb3VkAa/
+ pnfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XOYK2LNZrbY7uLOwOomLIdV+XRY5uWBmgOIPdTTlwNA=;
- b=Fm8f8NA8bvd6mc9ntHMw96Ub25QWj68WKXj12cElGwIDi1bpNuQ3LSt1va1tiAvXM9
- i1iy87o/LuQBg16gLfS9Py5GbMBIQGKPsRWO7+w/MK3BwUbsJzOSNjXUjAqi6p+WFJMJ
- sM8maaLpr9FRzzMBw5MZiut1gn/ElK6JDuXGYL09tRlc5VjSbtcMHWAbiAbMdNaQ/NxI
- 9dKUHWx8dB+iWwyphnq0tWOXUYN4EUkAsCTx0nl1wxXfRSCvQjRBRWT488BeeJSuiuqW
- PIfkdJRXwnczAwdHutjYt45g3bhTl3DQ2WfXUrpkmWLP3VUh/J4c3Dz/IwM7NeFMMi15
- PbgQ==
-X-Gm-Message-State: AOAM530/8O27UAc1ILJSXSkB4lzpv9UEEaLuamGUP2zUgzXR246iEFz3
- y3e/er/ahrm6hW1t7TifAcs=
-X-Google-Smtp-Source: ABdhPJz5NSeEVFKySOaIqFjgOf1LOb6Olg69bJLbY2+MB4Gwq6M4a8s0H5yrhTUo6pplKaP5pon3ag==
-X-Received: by 2002:a05:6000:11c5:: with SMTP id
- i5mr7672796wrx.18.1599223390850; 
- Fri, 04 Sep 2020 05:43:10 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id t16sm11245981wrm.57.2020.09.04.05.43.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Sep 2020 05:43:10 -0700 (PDT)
-Subject: Re: [PATCH v2 04/12] target/microblaze: Rename mmu structs
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200903072650.1360454-1-richard.henderson@linaro.org>
- <20200903072650.1360454-5-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b9a4acfd-8bc2-ca5d-e5f2-6ed7583d8012@amsat.org>
-Date: Fri, 4 Sep 2020 14:43:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200903072650.1360454-5-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=EJICNcVaN8n/5BgYLiEvYlWcKYMBBQ0Y7yIYu9xdZs8=;
+ b=BLGiIyzkNCr/w98ir5jgLiW0sECkh86wdgPvl/aMeVWFPzAI8cCiybxPI9Di8MGcns
+ WVT0wryo2KwcCb469boODuI0WNRgRZGeS3VNicoDNsBiwU93e1J9vZPSnu6OYnZ5mjHh
+ Ac7dv1cL/oiudQsIsYkSEHDjg/GneTR4yg7XLIuSUC0HdbXEmr8lxM2ArSx8Vr7JId7z
+ VxbZPUF31cA7FRutb6sAuke/SmuPMb49VFQdCEOEWQZqHLN/YIE/iTfCFEvPKaJtNspX
+ hl6Wlit2w+0n1lU90JHwjm/4SSO6QVoM3LsgSsD1tzl7qsVqyP84aLA31h7odq6/8FeF
+ /wBQ==
+X-Gm-Message-State: AOAM533NmJk/zKG4j7okjvgQ71fg3tk8MK/kwS2f7qQ8F59d11bPBGJ+
+ 862MH2QftWzqlNRMVhjNGVpL6rSaLg5Zpw==
+X-Google-Smtp-Source: ABdhPJzXdjGHrvuLUWAkHhS1BrnqOlXAwBO48h6FNaIq/U3FlM37UzL+wdh1HycKNeVyOsmkbf7rqw==
+X-Received: by 2002:a63:4404:: with SMTP id r4mr6573679pga.29.1599223456218;
+ Fri, 04 Sep 2020 05:44:16 -0700 (PDT)
+Received: from localhost.localdomain ([115.96.104.172])
+ by smtp.googlemail.com with ESMTPSA id i20sm6063695pgk.77.2020.09.04.05.44.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Sep 2020 05:44:15 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] i440fx/acpi: disable hotplug of cold plugged bridges
+ regarldless of hotplug switch
+Date: Fri,  4 Sep 2020 18:14:04 +0530
+Message-Id: <20200904124404.9894-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2607:f8b0:4864:20::444;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-0.107,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,22 +77,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, thuth@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/20 9:26 AM, Richard Henderson wrote:
-> Introduce typedefs and follow CODING_STYLE for naming.
-> Rename struct microblaze_mmu to MicroBlazeMMU.
-> Rename struct microblaze_mmu_lookup to MicroBlazeMMULookup.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/microblaze/cpu.h    |  2 +-
->  target/microblaze/mmu.h    | 15 ++++++---------
->  target/microblaze/helper.c |  4 ++--
->  target/microblaze/mmu.c    | 11 +++++------
->  4 files changed, 14 insertions(+), 18 deletions(-)
+Cold plugged bridges should not be hot unpluggable, even when their hotplug
+property (acpi-pci-hotplug-with-bridge-support) is turned off. However, with
+the current implementaton, windows would try to hot-unplug a pci bridge when
+it's hotplug switch is off. This is regardless of whether there are devices
+attached to the bridge. When devices are attached to the bridge, the bridge
+is ultimately not hot-unpluggable. We have a demo video here:
+https://youtu.be/pME2sjyQweo
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+In this fix, we identify a cold plugged bridge and for cold plugged bridges,
+we do not add the appropriate amls and acpi methods that are used by the OS
+to identify a hot-unpluggable pci device. After this change, Windows does not
+show an option to eject the PCI bridge. A demo video is here:
+https://youtu.be/kbgej5B9Hgs
+
+While at it, I have also updated a stale comment.
+
+This change is tested with a Windows 2012R2 guest image and Windows 2019 server
+guest image running on Ubuntu 18.04 host. This change is based off of upstream
+qemu master branch tag v5.1.0.
+
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/i386/acpi-build.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+Changelog:
+v2: cosmetic commit log update.
+v1: initial patch.
+
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index b7bcbbbb2a..90b863f4ec 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         int slot = PCI_SLOT(i);
+         bool hotplug_enabled_dev;
+         bool bridge_in_acpi;
++        bool cold_plugged_bridge;
+ 
+         if (!pdev) {
+             if (bsel) { /* add hotplug slots for non present devices */
+@@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         pc = PCI_DEVICE_GET_CLASS(pdev);
+         dc = DEVICE_GET_CLASS(pdev);
+ 
+-        /* When hotplug for bridges is enabled, bridges are
+-         * described in ACPI separately (see build_pci_bus_end).
+-         * In this case they aren't themselves hot-pluggable.
++        /*
++         * Cold plugged bridges aren't themselves hot-pluggable.
+          * Hotplugged bridges *are* hot-pluggable.
+          */
+-        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
+-            !DEVICE(pdev)->hotplugged;
++        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
++        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
+ 
+-        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
++        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
+ 
+         if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
+             continue;
+-- 
+2.17.1
+
 
