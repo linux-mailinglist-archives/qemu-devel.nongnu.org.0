@@ -2,48 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C436625DF6A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:11:18 +0200 (CEST)
-Received: from localhost ([::1]:45682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A463F25DEF8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:05:29 +0200 (CEST)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEEJ2-0006cf-5P
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:11:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60148)
+	id 1kEEDQ-00009M-5x
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:05:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1kEE8j-0002fn-FD
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:00:37 -0400
-Received: from foss.arm.com ([217.140.110.172]:45966)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1kEE8f-0001gK-Ed
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:00:36 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D3C313D5;
- Fri,  4 Sep 2020 09:00:32 -0700 (PDT)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0724E3F66F;
- Fri,  4 Sep 2020 09:00:29 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v2 2/2] arm64: kvm: Introduce MTE VCPU feature
-Date: Fri,  4 Sep 2020 17:00:18 +0100
-Message-Id: <20200904160018.29481-3-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200904160018.29481-1-steven.price@arm.com>
-References: <20200904160018.29481-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEE9p-0003tL-B8
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:01:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47717
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEE9m-00024L-Qk
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:01:44 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-n0P_qf0eMieUIt7YnMR_GA-1; Fri, 04 Sep 2020 12:01:37 -0400
+X-MC-Unique: n0P_qf0eMieUIt7YnMR_GA-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so2440277wrs.17
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 09:01:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zo7IzfvzyB3E05Wp35PQK3UTkZUYbuig2D3JBn7up5s=;
+ b=fa2ggQolXbfydJZqP8Gn7KxgxaFPeuIeVL+lzvy8P3+Ne0TODuTD6VCJZ/gSBzN+9A
+ A3cPYS2SBTvIbpQC5c9T+Pe+ch2bnGBLcF0GqFtK7F09uPLm0Xliy/eRfD5hy9WYynKK
+ 5890Vde6ha0c5fA5OBy/qBq25y7vFX5a/8hv/XkqOn5Ytm5xAoaeJztKHqDMhAPXcCCt
+ AoHz+oI7/qZDzb89bsEoEWSF0xesHiN7WYO26NdaDi3FzBywKml6sQvFrcNWYZKAY6ma
+ 6JJUmBpiyMonxQAD2uAEVzMkaP6hVEv2XEzT+1zAuFONYnVniLEG/x6KBBUlH+3FtOQk
+ yavA==
+X-Gm-Message-State: AOAM531nzHYcciFkLLq+cKRfvg32Kv13stbYghcrUumItCfo2g4FUy8S
+ bKG+qGbcNqocuoQEZGsBo6MvpLuThsb+rU7buCPuhuOf2ZQMFoZXf5rT9pCgkSAka31kOcyURzd
+ rFA13urURG16rdVQ=
+X-Received: by 2002:adf:dfd1:: with SMTP id q17mr9138406wrn.347.1599235296214; 
+ Fri, 04 Sep 2020 09:01:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaPG/GPz7sOWDiFVw45nMdNfjkQXgXBwK3kBofk0YEn3naszgP82r8vx8Iqdx1AkoUrFRY1A==
+X-Received: by 2002:adf:dfd1:: with SMTP id q17mr9138356wrn.347.1599235295818; 
+ Fri, 04 Sep 2020 09:01:35 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id g143sm11450301wme.0.2020.09.04.09.01.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Sep 2020 09:01:35 -0700 (PDT)
+Subject: Re: [PATCH 2/2] target/arm: Remove no-longer-reachable 32-bit KVM code
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200904154156.31943-1-peter.maydell@linaro.org>
+ <20200904154156.31943-3-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <11457fd8-725f-5836-e2ef-6c60aee344e5@redhat.com>
+Date: Fri, 4 Sep 2020 18:01:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <20200904154156.31943-3-peter.maydell@linaro.org>
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 12:00:27
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.107,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,153 +111,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <Peter.Maydell@arm.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new VCPU features 'KVM_ARM_VCPU_MTE' which enables memory tagging
-on a VCPU. When enabled on any VCPU in the virtual machine this causes
-all pages that are faulted into the VM to have the PG_mte_tagged flag
-set (and the tag storage cleared if this is the first use).
+On 9/4/20 5:41 PM, Peter Maydell wrote:
+> Now that 32-bit KVM host support is gone, KVM can never
+> be enabled unless CONFIG_AARCH64 is true, and some code
+> paths are no longer reachable and can be deleted.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+[...]
+>  static void arm_max_initfn(Object *obj)
+>  {
+>      ARMCPU *cpu = ARM_CPU(obj);
+>  
+> -    if (kvm_enabled()) {
+> -        kvm_arm_set_cpu_features_from_host(cpu);
+> -    } else {
+> -        cortex_a15_initfn(obj);
+> +    cortex_a15_initfn(obj);
+>  
+> -        /* old-style VFP short-vector support */
+> -        cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
+> +    /* old-style VFP short-vector support */
+> +    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
+>  
+>  #ifdef CONFIG_USER_ONLY
+> -        /* We don't set these in system emulation mode for the moment,
+> -         * since we don't correctly set (all of) the ID registers to
+> -         * advertise them.
+> -         */
+> -        set_feature(&cpu->env, ARM_FEATURE_V8);
+> -        {
+> -            uint32_t t;
+> +    /* We don't set these in system emulation mode for the moment,
 
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- arch/arm64/include/asm/kvm_emulate.h |  3 +++
- arch/arm64/include/asm/kvm_host.h    |  5 ++++-
- arch/arm64/include/uapi/asm/kvm.h    |  1 +
- arch/arm64/kvm/mmu.c                 | 15 +++++++++++++++
- arch/arm64/kvm/reset.c               |  8 ++++++++
- arch/arm64/kvm/sys_regs.c            |  6 +++++-
- 6 files changed, 36 insertions(+), 2 deletions(-)
+checkpatch might warn "block comment ... separate line" :/
 
-diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
-index 49a55be2b9a2..0042323a4b7f 100644
---- a/arch/arm64/include/asm/kvm_emulate.h
-+++ b/arch/arm64/include/asm/kvm_emulate.h
-@@ -79,6 +79,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
- 	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
- 	    vcpu_el1_is_32bit(vcpu))
- 		vcpu->arch.hcr_el2 |= HCR_TID2;
-+
-+	if (test_bit(KVM_ARM_VCPU_MTE, vcpu->arch.features))
-+		vcpu->arch.hcr_el2 |= HCR_ATA;
- }
- 
- static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
-diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-index 4f4360dd149e..b1190366242b 100644
---- a/arch/arm64/include/asm/kvm_host.h
-+++ b/arch/arm64/include/asm/kvm_host.h
-@@ -37,7 +37,7 @@
- 
- #define KVM_MAX_VCPUS VGIC_V3_MAX_CPUS
- 
--#define KVM_VCPU_MAX_FEATURES 7
-+#define KVM_VCPU_MAX_FEATURES 8
- 
- #define KVM_REQ_SLEEP \
- 	KVM_ARCH_REQ_FLAGS(0, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
-@@ -110,6 +110,9 @@ struct kvm_arch {
- 	 * supported.
- 	 */
- 	bool return_nisv_io_abort_to_user;
-+
-+	/* If any VCPU has MTE enabled then all memory must be MTE enabled */
-+	bool vcpu_has_mte;
- };
- 
- struct kvm_vcpu_fault_info {
-diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-index ba85bb23f060..2677e1ab8c16 100644
---- a/arch/arm64/include/uapi/asm/kvm.h
-+++ b/arch/arm64/include/uapi/asm/kvm.h
-@@ -106,6 +106,7 @@ struct kvm_regs {
- #define KVM_ARM_VCPU_SVE		4 /* enable SVE for this CPU */
- #define KVM_ARM_VCPU_PTRAUTH_ADDRESS	5 /* VCPU uses address authentication */
- #define KVM_ARM_VCPU_PTRAUTH_GENERIC	6 /* VCPU uses generic authentication */
-+#define KVM_ARM_VCPU_MTE		7 /* VCPU supports Memory Tagging */
- 
- struct kvm_vcpu_init {
- 	__u32 target;
-diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-index ba00bcc0c884..e8891bacd76f 100644
---- a/arch/arm64/kvm/mmu.c
-+++ b/arch/arm64/kvm/mmu.c
-@@ -1949,6 +1949,21 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 	if (vma_pagesize == PAGE_SIZE && !force_pte)
- 		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
- 							   &pfn, &fault_ipa);
-+	if (system_supports_mte() && kvm->arch.vcpu_has_mte && pfn_valid(pfn)) {
-+		/*
-+		 * VM will be able to see the page's tags, so we must ensure
-+		 * they have been initialised.
-+		 */
-+		struct page *page = pfn_to_page(pfn);
-+		long i, nr_pages = compound_nr(page);
-+
-+		/* if PG_mte_tagged is set, tags have already been initialised */
-+		for (i = 0; i < nr_pages; i++, page++) {
-+			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-+				mte_clear_page_tags(page_address(page));
-+		}
-+	}
-+
- 	if (writable)
- 		kvm_set_pfn_dirty(pfn);
- 
-diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-index ee33875c5c2a..82f3883d717f 100644
---- a/arch/arm64/kvm/reset.c
-+++ b/arch/arm64/kvm/reset.c
-@@ -274,6 +274,14 @@ int kvm_reset_vcpu(struct kvm_vcpu *vcpu)
- 		}
- 	}
- 
-+	if (test_bit(KVM_ARM_VCPU_MTE, vcpu->arch.features)) {
-+		if (!system_supports_mte()) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+		vcpu->kvm->arch.vcpu_has_mte = true;
-+	}
-+
- 	switch (vcpu->arch.target) {
- 	default:
- 		if (test_bit(KVM_ARM_VCPU_EL1_32BIT, vcpu->arch.features)) {
-diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index a655f172b5ad..6a971b201e81 100644
---- a/arch/arm64/kvm/sys_regs.c
-+++ b/arch/arm64/kvm/sys_regs.c
-@@ -1132,7 +1132,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
- 			val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
- 		val &= ~(0xfUL << ID_AA64PFR0_AMU_SHIFT);
- 	} else if (id == SYS_ID_AA64PFR1_EL1) {
--		val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
-+		if (!test_bit(KVM_ARM_VCPU_MTE, vcpu->arch.features))
-+			val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
- 	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
- 		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
- 			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
-@@ -1394,6 +1395,9 @@ static bool access_mte_regs(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
- static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
- 				   const struct sys_reg_desc *rd)
- {
-+	if (test_bit(KVM_ARM_VCPU_MTE, vcpu->arch.features))
-+		return 0;
-+
- 	return REG_HIDDEN_USER | REG_HIDDEN_GUEST;
- }
- 
--- 
-2.20.1
+> +     * since we don't correctly set (all of) the ID registers to
+> +     * advertise them.
+> +     */
+> +    set_feature(&cpu->env, ARM_FEATURE_V8);
+> +    {
+> +        uint32_t t;
+>  
+> -            t = cpu->isar.id_isar5;
+> -            t = FIELD_DP32(t, ID_ISAR5, AES, 2);
+> -            t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
+> -            t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
+> -            t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
+> -            t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
+> -            t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
+> -            cpu->isar.id_isar5 = t;
+> +        t = cpu->isar.id_isar5;
+> +        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
+> +        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
+> +        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
+> +        cpu->isar.id_isar5 = t;
+>  
+> -            t = cpu->isar.id_isar6;
+> -            t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
+> -            t = FIELD_DP32(t, ID_ISAR6, DP, 1);
+> -            t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
+> -            t = FIELD_DP32(t, ID_ISAR6, SB, 1);
+> -            t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
+> -            cpu->isar.id_isar6 = t;
+> +        t = cpu->isar.id_isar6;
+> +        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
+> +        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
+> +        cpu->isar.id_isar6 = t;
+>  
+> -            t = cpu->isar.mvfr1;
+> -            t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
+> -            t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
+> -            cpu->isar.mvfr1 = t;
+> +        t = cpu->isar.mvfr1;
+> +        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
+> +        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
+> +        cpu->isar.mvfr1 = t;
+>  
+> -            t = cpu->isar.mvfr2;
+> -            t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
+> -            t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
+> -            cpu->isar.mvfr2 = t;
+> +        t = cpu->isar.mvfr2;
+> +        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
+> +        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
+> +        cpu->isar.mvfr2 = t;
+>  
+> -            t = cpu->isar.id_mmfr3;
+> -            t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
+> -            cpu->isar.id_mmfr3 = t;
+> +        t = cpu->isar.id_mmfr3;
+> +        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
+> +        cpu->isar.id_mmfr3 = t;
+>  
+> -            t = cpu->isar.id_mmfr4;
+> -            t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
+> -            t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
+> -            t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+> -            t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
+> -            cpu->isar.id_mmfr4 = t;
+> -        }
+> -#endif
+> +        t = cpu->isar.id_mmfr4;
+> +        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
+> +        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
+> +        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+> +        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
+> +        cpu->isar.id_mmfr4 = t;
+>      }
+> +#endif
+
+Scary :) This is the if {} else {} removed, OK.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>  }
+>  #endif
+>  
+> @@ -2269,11 +2265,7 @@ static void arm_host_initfn(Object *obj)
+>  
+>  static const TypeInfo host_arm_cpu_type_info = {
+>      .name = TYPE_ARM_HOST_CPU,
+> -#ifdef TARGET_AARCH64
+>      .parent = TYPE_AARCH64_CPU,
+> -#else
+> -    .parent = TYPE_ARM_CPU,
+> -#endif
+>      .instance_init = arm_host_initfn,
+>  };
+[...]
 
 
