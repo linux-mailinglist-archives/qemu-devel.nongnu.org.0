@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09A225E12D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:52:32 +0200 (CEST)
-Received: from localhost ([::1]:55908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2889E25E146
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 20:04:14 +0200 (CEST)
+Received: from localhost ([::1]:48112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEFt1-0001s1-Qf
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
+	id 1kEG4K-0003Kr-Kh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 14:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kEFs2-0001QR-Jz
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:51:30 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58624
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kEFrz-0008LJ-O2
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:51:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599241885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FquuQCl3+2MDqTZOPKn2zfHIx42gh/jI9PA5OqnHSsg=;
- b=XB9YJGYJcxhhcyR1MOXjdbPd5LTKuaSJzNWYIBK+LqRP099OdXXMuhaYduXFXblNqBOBU7
- NpW2fcKNbQ71EtBuxpjMipsAXCc83xL/avz6rO5oU+BbdC/kq2heaeLAfT3KQGgLS7tUv3
- 02SNY/CxKVXmxhjtztBq/z/GbAufdZQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-OnJUszeZOo2zjzIoLgT82w-1; Fri, 04 Sep 2020 13:51:22 -0400
-X-MC-Unique: OnJUszeZOo2zjzIoLgT82w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14E6957054
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 17:51:22 +0000 (UTC)
-Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C89735D9CC;
- Fri,  4 Sep 2020 17:51:09 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qom: Remove ParentClassType argument from
- OBJECT_DECLARE_SIMPLE_TYPE
-Date: Fri,  4 Sep 2020 13:51:09 -0400
-Message-Id: <20200904175109.2436673-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kEG3D-0002QG-UE
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:03:03 -0400
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:38756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kEG3C-0001Oh-7J
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:03:03 -0400
+Received: by mail-il1-x12b.google.com with SMTP id w3so7133643ilh.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 11:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wODF9eKvbIQ2ZCV+3tzpm1GsE56FsFyCpeSPorBvJCY=;
+ b=HrZ1qeTx83mmuuDmctN6LNlFxtmt1q33NmpgQQp0dZnmrzaT5V5/ymdBVvGwnBc9Wi
+ WtynVaNfY+WpVp9YpTCJU65SrPSbn9U0B3PTYHMt1LvSMBkVC4EBAtaaPuXYq0E6oCtf
+ 677+JK+fshr8yR/1r4ujN4sx+ST18S0jzHoVtkUkJ64/1gOzrcfj9TwGm/5+Ga4AHdUU
+ PfnD0opr8EIHkvQkLIsD9gotCRwEE4W+oKD2hkTvz2q5kYT6lxz3cpebrpeDyZ/H7RI9
+ fOeoSdrFpE9BQ7lC8qLHMC8ptZTefHzwS+JBO+LE+0N+Zpd+MIx1IZ8LyLM/DXQUJwnw
+ ihPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wODF9eKvbIQ2ZCV+3tzpm1GsE56FsFyCpeSPorBvJCY=;
+ b=L0fMqxAwA65nIneZukNLa2px22Tag+KUgoUk4bo9VRDBY0MnmIjryBLYCX+LA4r67p
+ LtTjc/Uf9Rx1UaMvpSELjsLYoIqiP6Ck9lqXeT3AMR0qD6N8KFv2zufELLMOZYJIvrLe
+ eGuYs0S9pdRsY7Cx9PDmQGb2ckT8MrIhgQBkplxOsNiTFi/Qys2yCUe7Hm+iskDtVfmQ
+ dFS3tmi1khm/MrkqnRlI0tJ8J1fWEkcZSip3ATn7XGkSrac/iNut8rOxP/wqJLSXMg2C
+ /2F/J/LzFAm7SBOl4xV/ncV0WhoF+BEpnDTk0XKlQDXhB5IEvBXWZB4UXVRHQXrRkPKN
+ I9TQ==
+X-Gm-Message-State: AOAM532mK7azMoqlXWSKcPjX3LTQEEqClCg8Eajm6+aTlYAUWDd8Jb+B
+ +wsvA3rpl93tPL3ZikZaF+ZeV8JX4u5Ft7L0I8c=
+X-Google-Smtp-Source: ABdhPJyiZjZXFoT25u3p+cUcHS9cH3gJeBzOqJ9CYFj9Z8v/4jdjxCC3I6yX92iwWKwibIyVs4Fvu2/tDHxjQz3ehA0=
+X-Received: by 2002:a05:6e02:ca3:: with SMTP id
+ 3mr9503747ilg.227.1599242581150; 
+ Fri, 04 Sep 2020 11:03:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <bbdacc80-a321-5f06-e430-973a38e7e037@amsat.org>
+ <CAFEAcA8mwjWP-KhJ5bp_Qo_h81Mt_yn8k_5oepgMas9COBQgWQ@mail.gmail.com>
+ <f7b28480-c841-f0d7-a848-b5f1775ec12d@amsat.org>
+ <CAFEAcA-3bkPkxuMXN7Wd-zBKajzXOr+Vib7XzCzsT_8YYQzTzQ@mail.gmail.com>
+ <78ed6915-e941-247f-7333-8944249a10ed@amsat.org>
+In-Reply-To: <78ed6915-e941-247f-7333-8944249a10ed@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 4 Sep 2020 10:52:06 -0700
+Message-ID: <CAKmqyKOft-F8psJ-rO65-CEjJ+s9yXG9BzSa4_cz8KfRM3FRKQ@mail.gmail.com>
+Subject: Re: hw/clock: What clock rate for virt machines?
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,354 +86,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The requirement to specify the parent class type makes the macro
-harder to use and easy to misuse (by indicating the wrong parent
-class type).
+On Wed, Sep 2, 2020 at 12:48 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 9/2/20 8:18 PM, Peter Maydell wrote:
+> > On Wed, 2 Sep 2020 at 18:03, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+> >>
+> >> On 9/2/20 6:49 PM, Peter Maydell wrote:
+> >>> On Wed, 2 Sep 2020 at 17:35, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
+.org> wrote:
+> >>>> Peter said "'clock' is basically meaningless for virt machines",
+> >>>>
+> >>>> I understand and agree. But how to make that explicit/obvious in
+> >>>> the code, when a device expects a clock frequency/period?
+> >>>
+> >>> When a particular *device* needs a clock, then presumably
+> >>> it has a defined purpose for it, and we can pick a
+> >>> frequency for it then.
+> >>>
+> >>>> See for example hw/riscv/virt.c, it uses the following (confusing
+> >>>> to me) in virt_machine_init():
+> >>>>
+> >>>>    serial_mm_init(system_memory, memmap[VIRT_UART0].base,
+> >>>>        0, qdev_get_gpio_in(DEVICE(mmio_plic), UART0_IRQ), 399193,
+> >>>>        serial_hd(0), DEVICE_LITTLE_ENDIAN);
+> >>>
+> >>> In this case, the board has a model of a 16550A UART on it,
+> >>> which uses its input clock to determine what the actual baud
+> >>> rate is for particular guest settings of the divisor registers.
+> >>> So we need to look at:
+> >>>  * what does guest software expect the frequency to be?
+> >>
+> >> QEMU is supposed to model machine with no knowledge of the guest,
+> >> but the virt case is a particular one indeed... as it has to know
+> >> it is virtualized.
+> >>
+> >>>  * what is a "good" frequency which gives the guest the best
+> >>>    possible choices of baud rate?
+> >>
+> >> I'll think about it...
+> >
+> > My guess is that guest code assumes "same frequency an
+> > x86 PC uses", but a risc-v person might know better...
+> >
+> > (For QEMU I think it only makes a visible difference when
+> > you pass a host serial port through to the guest as
+> > otherwise we ignore whatever baud rate the guest sets.)
 
-Simplify the macro by just not declaring any class struct,
-allowing us to remove the class_size field from the TypeInfo
-variables for those types.
+I think that's the case. I suspect we just ignore whatever the guest
+sets. I have never really looked into it though.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-This patch is based on the machine-next branch, and can be
-fetched from the git branch at:
-  https://github.com/ehabkost/qemu-hacks work/qom-simplify-declare-simple-type
----
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
----
- include/authz/list.h                |  2 +-
- include/authz/listfile.h            |  2 +-
- include/authz/pamacct.h             |  2 +-
- include/authz/simple.h              |  2 +-
- include/crypto/secret_keyring.h     |  2 +-
- include/io/dns-resolver.h           |  2 +-
- include/io/net-listener.h           |  2 +-
- include/qom/object.h                | 16 ++++++++--------
- include/sysemu/vhost-user-backend.h |  2 +-
- authz/list.c                        |  1 -
- authz/listfile.c                    |  1 -
- authz/pamacct.c                     |  1 -
- authz/simple.c                      |  1 -
- backends/dbus-vmstate.c             |  3 +--
- backends/vhost-user.c               |  1 -
- crypto/secret_keyring.c             |  1 -
- io/dns-resolver.c                   |  1 -
- io/net-listener.c                   |  1 -
- ui/input-barrier.c                  |  3 +--
- ui/input-linux.c                    |  3 +--
- 20 files changed, 19 insertions(+), 30 deletions(-)
+>
+> It makes a difference with low baudrates (TBH I only tested
+> what the firmwares I have use: 9600-8N1). No clue why (from
+> design PoV) but some odd fw use the time spent to display
+> chars to have a nicer 'user experience' (using polling).
+> With incorrect timing everything is displayed at once partly
+> scrambled.
+>
+> The following devices are modeled with timers limiting the
+> transmit rate:
+>
+> $ git grep qemu_clock_get_ns hw/char/
+> hw/char/cadence_uart.c:269:    uint64_t new_rx_time =3D
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> hw/char/exynos4210_uart.c:393:
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + timeout);
+> hw/char/ibex_uart.c:155:    uint64_t current_time =3D
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
 
-diff --git a/include/authz/list.h b/include/authz/list.h
-index 5676bb375c..c5eda0f1bf 100644
---- a/include/authz/list.h
-+++ b/include/authz/list.h
-@@ -28,7 +28,7 @@
- #define TYPE_QAUTHZ_LIST "authz-list"
- 
- OBJECT_DECLARE_SIMPLE_TYPE(QAuthZList, qauthz_list,
--                           QAUTHZ_LIST, QAuthZClass)
-+                           QAUTHZ_LIST)
- 
- 
- 
-diff --git a/include/authz/listfile.h b/include/authz/listfile.h
-index b491227bbe..83d78cfa50 100644
---- a/include/authz/listfile.h
-+++ b/include/authz/listfile.h
-@@ -28,7 +28,7 @@
- #define TYPE_QAUTHZ_LIST_FILE "authz-list-file"
- 
- OBJECT_DECLARE_SIMPLE_TYPE(QAuthZListFile, qauthz_list_file,
--                           QAUTHZ_LIST_FILE, QAuthZClass)
-+                           QAUTHZ_LIST_FILE)
- 
- 
- 
-diff --git a/include/authz/pamacct.h b/include/authz/pamacct.h
-index 7804853ddf..18087cee20 100644
---- a/include/authz/pamacct.h
-+++ b/include/authz/pamacct.h
-@@ -28,7 +28,7 @@
- #define TYPE_QAUTHZ_PAM "authz-pam"
- 
- OBJECT_DECLARE_SIMPLE_TYPE(QAuthZPAM, qauthz_pam,
--                           QAUTHZ_PAM, QAuthZClass)
-+                           QAUTHZ_PAM)
- 
- 
- 
-diff --git a/include/authz/simple.h b/include/authz/simple.h
-index 346fcb0c6c..d3ed05b36f 100644
---- a/include/authz/simple.h
-+++ b/include/authz/simple.h
-@@ -27,7 +27,7 @@
- #define TYPE_QAUTHZ_SIMPLE "authz-simple"
- 
- OBJECT_DECLARE_SIMPLE_TYPE(QAuthZSimple, qauthz_simple,
--                           QAUTHZ_SIMPLE, QAuthZClass)
-+                           QAUTHZ_SIMPLE)
- 
- 
- 
-diff --git a/include/crypto/secret_keyring.h b/include/crypto/secret_keyring.h
-index 73d2a8f501..803f3fc28b 100644
---- a/include/crypto/secret_keyring.h
-+++ b/include/crypto/secret_keyring.h
-@@ -27,7 +27,7 @@
- 
- #define TYPE_QCRYPTO_SECRET_KEYRING "secret_keyring"
- OBJECT_DECLARE_SIMPLE_TYPE(QCryptoSecretKeyring, qcrypto_secret_keyring,
--                           QCRYPTO_SECRET_KEYRING, QCryptoSecretCommonClass)
-+                           QCRYPTO_SECRET_KEYRING)
- 
- 
- struct QCryptoSecretKeyring {
-diff --git a/include/io/dns-resolver.h b/include/io/dns-resolver.h
-index e248fba5bd..9d14a8d98f 100644
---- a/include/io/dns-resolver.h
-+++ b/include/io/dns-resolver.h
-@@ -27,7 +27,7 @@
- 
- #define TYPE_QIO_DNS_RESOLVER "qio-dns-resolver"
- OBJECT_DECLARE_SIMPLE_TYPE(QIODNSResolver, qio_dns_resolver,
--                           QIO_DNS_RESOLVER, ObjectClass)
-+                           QIO_DNS_RESOLVER)
- 
- 
- /**
-diff --git a/include/io/net-listener.h b/include/io/net-listener.h
-index 60fad29ff4..8145962fbb 100644
---- a/include/io/net-listener.h
-+++ b/include/io/net-listener.h
-@@ -26,7 +26,7 @@
- 
- #define TYPE_QIO_NET_LISTENER "qio-net-listener"
- OBJECT_DECLARE_SIMPLE_TYPE(QIONetListener, qio_net_listener,
--                           QIO_NET_LISTENER, ObjectClass)
-+                           QIO_NET_LISTENER)
- 
- 
- typedef void (*QIONetListenerClientFunc)(QIONetListener *listener,
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 056f67ab3b..4a23fed586 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -639,19 +639,19 @@ struct Object
-  * @InstanceType: instance struct name
-  * @module_obj_name: the object name in lowercase with underscore separators
-  * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-- * @ParentClassType: class struct name of parent type
-  *
-- * This does the same as OBJECT_DECLARE_TYPE(), but also declares
-- * the class struct, thus only the object struct needs to be declare
-- * manually.
-+ * This does the same as OBJECT_DECLARE_TYPE(), but with no class struct
-+ * declared.
-  *
-  * This macro should be used unless the class struct needs to have
-  * virtual methods declared.
-  */
--#define OBJECT_DECLARE_SIMPLE_TYPE(InstanceType, module_obj_name, \
--                                   MODULE_OBJ_NAME, ParentClassType) \
--    OBJECT_DECLARE_TYPE(InstanceType, InstanceType##Class, module_obj_name, MODULE_OBJ_NAME) \
--    struct InstanceType##Class { ParentClassType parent_class; };
-+#define OBJECT_DECLARE_SIMPLE_TYPE(InstanceType, module_obj_name, MODULE_OBJ_NAME) \
-+    typedef struct InstanceType InstanceType; \
-+    \
-+    G_DEFINE_AUTOPTR_CLEANUP_FUNC(InstanceType, object_unref) \
-+    \
-+    DECLARE_INSTANCE_CHECKER(InstanceType, MODULE_OBJ_NAME, TYPE_##MODULE_OBJ_NAME)
- 
- 
- /**
-diff --git a/include/sysemu/vhost-user-backend.h b/include/sysemu/vhost-user-backend.h
-index 23205edeb8..41d5ff43bd 100644
---- a/include/sysemu/vhost-user-backend.h
-+++ b/include/sysemu/vhost-user-backend.h
-@@ -23,7 +23,7 @@
- 
- #define TYPE_VHOST_USER_BACKEND "vhost-user-backend"
- OBJECT_DECLARE_SIMPLE_TYPE(VhostUserBackend, vhost_user_backend,
--                           VHOST_USER_BACKEND, ObjectClass)
-+                           VHOST_USER_BACKEND)
- 
- 
- 
-diff --git a/authz/list.c b/authz/list.c
-index 8e904bfc93..28b990931a 100644
---- a/authz/list.c
-+++ b/authz/list.c
-@@ -252,7 +252,6 @@ static const TypeInfo qauthz_list_info = {
-     .name = TYPE_QAUTHZ_LIST,
-     .instance_size = sizeof(QAuthZList),
-     .instance_finalize = qauthz_list_finalize,
--    .class_size = sizeof(QAuthZListClass),
-     .class_init = qauthz_list_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_USER_CREATABLE },
-diff --git a/authz/listfile.c b/authz/listfile.c
-index 666df872ad..cd6163aa40 100644
---- a/authz/listfile.c
-+++ b/authz/listfile.c
-@@ -263,7 +263,6 @@ static const TypeInfo qauthz_list_file_info = {
-     .instance_init = qauthz_list_file_init,
-     .instance_size = sizeof(QAuthZListFile),
-     .instance_finalize = qauthz_list_file_finalize,
--    .class_size = sizeof(QAuthZListFileClass),
-     .class_init = qauthz_list_file_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_USER_CREATABLE },
-diff --git a/authz/pamacct.c b/authz/pamacct.c
-index 3c6be43916..c91593bbd8 100644
---- a/authz/pamacct.c
-+++ b/authz/pamacct.c
-@@ -129,7 +129,6 @@ static const TypeInfo qauthz_pam_info = {
-     .name = TYPE_QAUTHZ_PAM,
-     .instance_size = sizeof(QAuthZPAM),
-     .instance_finalize = qauthz_pam_finalize,
--    .class_size = sizeof(QAuthZPAMClass),
-     .class_init = qauthz_pam_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_USER_CREATABLE },
-diff --git a/authz/simple.c b/authz/simple.c
-index 84954b80a5..ee061e980d 100644
---- a/authz/simple.c
-+++ b/authz/simple.c
-@@ -96,7 +96,6 @@ static const TypeInfo qauthz_simple_info = {
-     .name = TYPE_QAUTHZ_SIMPLE,
-     .instance_size = sizeof(QAuthZSimple),
-     .instance_finalize = qauthz_simple_finalize,
--    .class_size = sizeof(QAuthZSimpleClass),
-     .class_init = qauthz_simple_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_USER_CREATABLE },
-diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
-index a13461edea..5bffbc4906 100644
---- a/backends/dbus-vmstate.c
-+++ b/backends/dbus-vmstate.c
-@@ -24,7 +24,7 @@
- 
- #define TYPE_DBUS_VMSTATE "dbus-vmstate"
- OBJECT_DECLARE_SIMPLE_TYPE(DBusVMState, dbus_vmstate,
--                           DBUS_VMSTATE, ObjectClass)
-+                           DBUS_VMSTATE)
- 
- 
- struct DBusVMState {
-@@ -483,7 +483,6 @@ static const TypeInfo dbus_vmstate_info = {
-     .parent = TYPE_OBJECT,
-     .instance_size = sizeof(DBusVMState),
-     .instance_finalize = dbus_vmstate_finalize,
--    .class_size = sizeof(DBusVMStateClass),
-     .class_init = dbus_vmstate_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_USER_CREATABLE },
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index 9e6e198546..ae8362d721 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -197,7 +197,6 @@ static const TypeInfo vhost_user_backend_info = {
-     .instance_size = sizeof(VhostUserBackend),
-     .instance_init = vhost_user_backend_init,
-     .instance_finalize = vhost_user_backend_finalize,
--    .class_size = sizeof(VhostUserBackendClass),
- };
- 
- static void register_types(void)
-diff --git a/crypto/secret_keyring.c b/crypto/secret_keyring.c
-index 8bfc58ebf4..10d8bc48a0 100644
---- a/crypto/secret_keyring.c
-+++ b/crypto/secret_keyring.c
-@@ -129,7 +129,6 @@ static const TypeInfo qcrypto_secret_info = {
-     .parent = TYPE_QCRYPTO_SECRET_COMMON,
-     .name = TYPE_QCRYPTO_SECRET_KEYRING,
-     .instance_size = sizeof(QCryptoSecretKeyring),
--    .class_size = sizeof(QCryptoSecretKeyringClass),
-     .class_init = qcrypto_secret_keyring_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_USER_CREATABLE },
-diff --git a/io/dns-resolver.c b/io/dns-resolver.c
-index 6ebe2a5650..b55d8cc3fe 100644
---- a/io/dns-resolver.c
-+++ b/io/dns-resolver.c
-@@ -267,7 +267,6 @@ static const TypeInfo qio_dns_resolver_info = {
-     .parent = TYPE_OBJECT,
-     .name = TYPE_QIO_DNS_RESOLVER,
-     .instance_size = sizeof(QIODNSResolver),
--    .class_size = sizeof(QIODNSResolverClass),
- };
- 
- 
-diff --git a/io/net-listener.c b/io/net-listener.c
-index 5d8a226872..46c2643d00 100644
---- a/io/net-listener.c
-+++ b/io/net-listener.c
-@@ -307,7 +307,6 @@ static const TypeInfo qio_net_listener_info = {
-     .name = TYPE_QIO_NET_LISTENER,
-     .instance_size = sizeof(QIONetListener),
-     .instance_finalize = qio_net_listener_finalize,
--    .class_size = sizeof(QIONetListenerClass),
- };
- 
- 
-diff --git a/ui/input-barrier.c b/ui/input-barrier.c
-index 87543a3399..b76697be93 100644
---- a/ui/input-barrier.c
-+++ b/ui/input-barrier.c
-@@ -21,7 +21,7 @@
- 
- #define TYPE_INPUT_BARRIER "input-barrier"
- OBJECT_DECLARE_SIMPLE_TYPE(InputBarrier, input_barrier,
--                           INPUT_BARRIER, ObjectClass)
-+                           INPUT_BARRIER)
- 
- 
- #define MAX_HELLO_LENGTH 1024
-@@ -723,7 +723,6 @@ static void input_barrier_class_init(ObjectClass *oc, void *data)
- static const TypeInfo input_barrier_info = {
-     .name = TYPE_INPUT_BARRIER,
-     .parent = TYPE_OBJECT,
--    .class_size = sizeof(InputBarrierClass),
-     .class_init = input_barrier_class_init,
-     .instance_size = sizeof(InputBarrier),
-     .instance_init = input_barrier_instance_init,
-diff --git a/ui/input-linux.c b/ui/input-linux.c
-index 5d501c8360..f02557b012 100644
---- a/ui/input-linux.c
-+++ b/ui/input-linux.c
-@@ -32,7 +32,7 @@ static bool linux_is_button(unsigned int lnx)
- 
- #define TYPE_INPUT_LINUX "input-linux"
- OBJECT_DECLARE_SIMPLE_TYPE(InputLinux, input_linux,
--                           INPUT_LINUX, ObjectClass)
-+                           INPUT_LINUX)
- 
- 
- struct InputLinux {
-@@ -514,7 +514,6 @@ static void input_linux_class_init(ObjectClass *oc, void *data)
- static const TypeInfo input_linux_info = {
-     .name = TYPE_INPUT_LINUX,
-     .parent = TYPE_OBJECT,
--    .class_size = sizeof(InputLinuxClass),
-     .class_init = input_linux_class_init,
-     .instance_size = sizeof(InputLinux),
-     .instance_init = input_linux_instance_init,
--- 
-2.26.2
+For the Ibex UART we want  to apply back pressure on the guest (as
+that's what the main OT software expects) which is why we use this. I
+think most other guest software doesn't care as much.
 
+Alistair
+
+> hw/char/renesas_sci.c:74:    if (sci->rx_next >
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)) {
+> hw/char/renesas_sci.c:84:    sci->rx_next =3D
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + sci->trtime;
+> hw/char/serial.c:290:    s->last_xmit_ts =3D
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> hw/char/serial.c:899:    s->last_xmit_ts =3D
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> hw/char/sh_serial.c:352:
+> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 15 * s->etu);
+>
+> >
+> > thanks
+> > -- PMM
+> >
+>
 
