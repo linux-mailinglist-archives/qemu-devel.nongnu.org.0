@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A070825D021
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 06:02:28 +0200 (CEST)
-Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57CB25D036
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 06:06:53 +0200 (CEST)
+Received: from localhost ([::1]:48538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2vj-0001uB-MU
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 00:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
+	id 1kE300-0000Z6-Ox
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 00:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kE2uH-0000FG-Sz
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 00:00:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53424)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kE2o6-0007fQ-IE
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 23:54:34 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:36755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kE2uF-0006e2-BW
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 00:00:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kE2uC-0005ww-9X
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 04:00:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4255F2E80E9
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 04:00:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kE2o4-0005gN-Kh
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 23:54:34 -0400
+Received: by mail-lj1-x235.google.com with SMTP id t23so6311477ljc.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 20:54:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=xVOo1tNfQCHLsg5vHnI156ZyqSCR8GXsnsXDsW4Q1cg=;
+ b=U9s/qi0OP4cT3pzR7K4quV3BAtF6avNcbQz35CnvIa1Bvy2RrVtxQHtHzdD6EaVURK
+ UAWcZs76bb6YNLzq4fXBry+scs8INiEMVCozC4WuZjBoH9dz8MqrIu2n8EFdRvlGa41p
+ Tj+okK5eGT9kIuJL20eoQ/5Qjg7v/eS+18UT54MG82uvlycWmYns0SRBUYlS3I9ZJOdI
+ 1XV8vHhFNJx+MAVql3/SMjEk78sujkQOrCpo3B7Tis0hIL+QHqV37695Bd5XMsmjS+RR
+ aR7N7y9TUXhyC2tsosYjS+KeWdmO9fE//i0W8h5UXS7pOkwIqUKs0ONj4iXdrRI2ZmnD
+ FdLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=xVOo1tNfQCHLsg5vHnI156ZyqSCR8GXsnsXDsW4Q1cg=;
+ b=XN72GLFq7I+ydHSiw6wkTo+79KYFaSC3sjGlsu73sD6pZy+jYvSHdf5QLNjlLVkg6C
+ Ddt8u9EnCg6VRDtvDNK2WQ6is/CP9obnHVdIi6QLPMIx+3HQy5ZPyrRlchzICarsM10b
+ aD/NQUU5hR5TXUwpEBpYzBR09ry8sQjTOIQpkVXjSVFvv195PwKruFip4hmVWdi9CBjT
+ EtLdrK/ssdi6GGDwI8bgmNsFySH+Cc5nM2Op2SjdCkp64ehZ/87kUziL3plHD1QppU8g
+ Jihut0FxBGSTRmGTokGs/9/qF7BTlI/D0BdQo21PKhW4rwrpgEgmJUd01cl2owYYBczb
+ xU6w==
+X-Gm-Message-State: AOAM530FGPMRbyrh9QBqNEuvJY5u2wGY87STak3uVYuX2jNPXAt3836l
+ nt0NI5UUz2rDDC+1WlLVqnyO5uh8Tz4JxzOEXZA=
+X-Google-Smtp-Source: ABdhPJxDYWqDJEayfU+ZGcGmCgnCIMIIdamBzU4KNLqSJ4v3c9toc5hYMD8iTjLMhuA/7A5fkh3PGznJoUw3sbhGKNQ=
+X-Received: by 2002:a05:651c:1119:: with SMTP id
+ d25mr2559129ljo.300.1599191670647; 
+ Thu, 03 Sep 2020 20:54:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 04 Sep 2020 03:51:17 -0000
-From: "Tony.LI" <1894071@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bigboy0822 laurent-vivier
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
-References: <159912571834.28358.2492164063235416189.malonedeb@soybean.canonical.com>
-Message-Id: <159919147735.31371.4646694417422436127.malone@wampee.canonical.com>
-Subject: [Bug 1894071] Re: qemu-i386-static ioctl return -14 (Bad Address)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: 73b2ca484ecb58d2ce5fe27eb34696c79f3546aa
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 00:00:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200903220622.504-1-luoyonggang@gmail.com>
+ <CABgObfb8xOr6JstG0MLTwqeNZJXDC7LiecrFQje9VbwZD96Mvg@mail.gmail.com>
+In-Reply-To: <CABgObfb8xOr6JstG0MLTwqeNZJXDC7LiecrFQje9VbwZD96Mvg@mail.gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Fri, 4 Sep 2020 11:54:21 +0800
+Message-ID: <CAE2XoE9n3KU-bQ4SKhKCjjQVER=b4-4em3HfxCj6qYU+XkBdWw@mail.gmail.com>
+Subject: Re: [PATCH] configure: the error info not consistence with option.
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000074edc105ae74d3a8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x235.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,67 +81,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894071 <1894071@bugs.launchpad.net>
+Reply-To: luoyonggang@gmail.com
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,I found some problems, but I don't know if how to solve it better(I'm
-not really familiar with the source code).
+--00000000000074edc105ae74d3a8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When I use ioctl() and use a structure like this:
+On Fri, Sep 4, 2020 at 8:18 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-struct drm_mode_card_res {
-        __u64 fb_id_ptr;
-        __u64 crtc_id_ptr;
-        __u64 connector_id_ptr;
-        __u64 encoder_id_ptr;
-        __u32 count_fbs;
-        ....
-};
+>  test "$vhost_net_user" =3D "" && vhost_net_user=3D$vhost_user
+>>  if test "$vhost_net_user" =3D "yes" && test "$vhost_user" =3D "no"; the=
+n
+>> -  error_exit "--enable-vhost-net-user requires --enable-vhost-user"
+>> +  error_exit "--enable-vhost-net requires --enable-vhost-user"
+>>  fi
+>>
+>
+> This change seems wrong.
+>
+I didn't found --enable-vhost-net-user option handling?
+you may grep it?
 
-Look,"fb_id_ptr" is a pointer,and apply for memory allocation through mallo=
-c.But I use qemu-i386 on 64 bit ARM.As a result, my pointer has no problem =
-in QEMU, but it is wrong when I use ioctl(bad address).This address is actu=
-ally an address in QEMU, but it is not the correct address in a 64 bit mach=
-ine.
-Is there any better way to solve this problem?
+>
+> Paolo
+>
+>  test "$vhost_crypto" =3D "" && vhost_crypto=3D$vhost_user
+>>  if test "$vhost_crypto" =3D "yes" && test "$vhost_user" =3D "no"; then
+>> --
+>> 2.28.0.windows.1
+>>
+>>
 
--- =
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894071
+--00000000000074edc105ae74d3a8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Title:
-  qemu-i386-static ioctl return -14 (Bad Address)
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 4, 2020 at 8:18 AM Paolo =
+Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"auto"><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">=C2=A0test &quot;$vhost_net_user&quot; =3D &quot;&quot;=
+ &amp;&amp; vhost_net_user=3D$vhost_user<br>
+=C2=A0if test &quot;$vhost_net_user&quot; =3D &quot;yes&quot; &amp;&amp; te=
+st &quot;$vhost_user&quot; =3D &quot;no&quot;; then<br>
+-=C2=A0 error_exit &quot;--enable-vhost-net-user requires --enable-vhost-us=
+er&quot;<br>
++=C2=A0 error_exit &quot;--enable-vhost-net requires --enable-vhost-user&qu=
+ot;<br>
+=C2=A0fi<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">This change seems wrong.</div></div></blockquote><div>I didn&#39;=
+t found=C2=A0<span style=3D"color:rgb(80,0,80)">--enable-vhost-net-user opt=
+ion handling?</span></div><div>you may grep it?=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><div dir=3D"auto"><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+=C2=A0test &quot;$vhost_crypto&quot; =3D &quot;&quot; &amp;&amp; vhost_cryp=
+to=3D$vhost_user<br>
+=C2=A0if test &quot;$vhost_crypto&quot; =3D &quot;yes&quot; &amp;&amp; test=
+ &quot;$vhost_user&quot; =3D &quot;no&quot;; then<br>
+-- <br>
+2.28.0.windows.1<br>
+<br>
+</blockquote></div></div></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div></div>
 
-Status in QEMU:
-  New
-
-Bug description:
-  I use qemu-i386-static on 64 bit ARM.But I don't know how to solve some p=
-roblems.
-  First I added some ioctl operations.
-  Then I tried to do some DRM operations like test.c.
-  This is successful when I use qemu-x86_64-static,but it failed when I use=
- qemu-i386-static.
-  I can get some strace info like this:
-
-  403 openat(AT_FDCWD,"/dev/dri/card0",O_RDWR|O_LARGEFILE|O_CLOEXEC) =3D 4
-  403 ioctl(4,DRM_IOCTL_GET_CAP,{1,0}) =3D 0 ({1,1})
-  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,0,0,0,0,0,0,0,0,0,0,0}) =3D 0 =
-({0,0,0,0,0,2,2,2,0,16384,0,16384})
-  403 brk(NULL) =3D 0x40006000
-  403 brk(0x40027000) =3D 0x40027000
-  403 brk(0x40028000) =3D 0x40028000
-  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,1073766816,1073766832,10737668=
-48,0,2,2,2,0,16384,0,16384}) =3D -1 errno=3D14 (Bad address)
-
-  And there are similar errors in other self driven operations.
-  I want to know if it is QEMU's problem, so I hope to get some help. =
-
-  Thank you!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894071/+subscriptions
+--00000000000074edc105ae74d3a8--
 
