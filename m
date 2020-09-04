@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8AA25CFE6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:49:00 +0200 (CEST)
-Received: from localhost ([::1]:33638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5964925D012
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:56:02 +0200 (CEST)
+Received: from localhost ([::1]:38642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2ig-0004MH-PQ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54682)
+	id 1kE2pV-0000pd-Di
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:56:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hW-0002Ue-67; Thu, 03 Sep 2020 23:47:46 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54823 helo=ozlabs.org)
+ id 1kE2hV-0002T2-El; Thu, 03 Sep 2020 23:47:45 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42773 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hT-0004uQ-LA; Thu, 03 Sep 2020 23:47:45 -0400
+ id 1kE2hT-0004uP-9N; Thu, 03 Sep 2020 23:47:45 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsn5qTfz9sVR; Fri,  4 Sep 2020 13:47:25 +1000 (AEST)
+ id 4BjNsp0VV5z9sVb; Fri,  4 Sep 2020 13:47:25 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599191245;
- bh=qRvDkKeGN3ISEoYcHLWQNMPIJ9YGM+/j4ALri4j7g1A=;
+ d=gibson.dropbear.id.au; s=201602; t=1599191246;
+ bh=ugr0WxY1CRWShk3/UQfX+l/l8XSozOlyduL+5OhU5iA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R9a1rR8CCxor1A2B4Fm2CYiesC3cS1ZrlPdxdYMNJLVG0t3V7XqmpKIjKqzB+M5d9
- fXAn5U6G7rLuTlgVQoLsVKg9tEzNIoewr0IkobI8j5/4zgsszrZ26CT241lL3Wjv4C
- 0/eyZG5KL84OdTxuRMd9EPBbK759Wg4D08qe7SoE=
+ b=MgXT8Ip8E4/cQUgLRsWWMm3Fl4c16h3xB9yafwj/uZ7rNePBi/9MsemqpZY5socG1
+ uZrvURPR3UH/8+pFSQo0GtfuLMmciTqlZfnrYfiWVsFpBaYC05UUmTw7h+nP6xfWl2
+ 0l64BgXObT9d7h8kXX1A7JoKYQwe6RxJA8StJRUU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/30] ppc/pnv: Add a HIOMAP erase command
-Date: Fri,  4 Sep 2020 13:46:54 +1000
-Message-Id: <20200904034719.673626-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/30] spapr_vscsi: do not allow device hotplug
+Date: Fri,  4 Sep 2020 13:46:55 +1000
+Message-Id: <20200904034719.673626-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -59,97 +58,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, danielhb413@gmail.com,
- qemu-devel@nongnu.org, groug@kaod.org,
- Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, bauerman@linux.ibm.com,
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The OPAL test suite runs a read-erase-write test on the PNOR :
+We do not implement hotplug in the vscsi bus, but we forgot to
+tell qdev about it. The result is that users are able to hotplug
+devices in the vscsi bus, the devices appear in qdev, but they
+aren't usable by the guest OS unless the user reboots it first.
 
-  https://github.com/open-power/op-test/blob/master/testcases/OpTestPNOR.py
+Setting qbus hotplug_handler to NULL will tell qdev-monitor, via
+qbus_is_hotpluggable(), that we do not support hotplug operations
+in spapr_vscsi.
 
-which revealed that the IPMI HIOMAP handlers didn't support
-HIOMAP_C_ERASE. Implement the sector erase command by writing 0xFF in
-the PNOR memory region.
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1862059
 
-Cc: Corey Minyard <cminyard@mvista.com>
-Reported-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20200820164638.2515681-1-clg@kaod.org>
-Acked-by: Corey Minyard <cminyard@mvista.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20200820190635.379657-1-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv_bmc.c       | 29 ++++++++++++++++++++++++++++-
- include/hw/ipmi/ipmi.h |  1 +
- 2 files changed, 29 insertions(+), 1 deletion(-)
+ hw/scsi/spapr_vscsi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-index 2e1a03daa4..67ebb16c4d 100644
---- a/hw/ppc/pnv_bmc.c
-+++ b/hw/ppc/pnv_bmc.c
-@@ -140,6 +140,27 @@ static uint16_t bytes_to_blocks(uint32_t bytes)
-     return bytes >> BLOCK_SHIFT;
+diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
+index d17dc03c73..57f0a1336f 100644
+--- a/hw/scsi/spapr_vscsi.c
++++ b/hw/scsi/spapr_vscsi.c
+@@ -1219,6 +1219,9 @@ static void spapr_vscsi_realize(SpaprVioDevice *dev, Error **errp)
+ 
+     scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
+                  &vscsi_scsi_info, NULL);
++
++    /* ibmvscsi SCSI bus does not allow hotplug. */
++    qbus_set_hotplug_handler(BUS(&s->bus), NULL);
  }
  
-+static uint32_t blocks_to_bytes(uint16_t blocks)
-+{
-+    return blocks << BLOCK_SHIFT;
-+}
-+
-+static int hiomap_erase(PnvPnor *pnor, uint32_t offset, uint32_t size)
-+{
-+    MemTxResult result;
-+    int i;
-+
-+    for (i = 0; i < size / 4; i++) {
-+        result = memory_region_dispatch_write(&pnor->mmio, offset + i * 4,
-+                                              0xFFFFFFFF, MO_32,
-+                                              MEMTXATTRS_UNSPECIFIED);
-+        if (result != MEMTX_OK) {
-+            return -1;
-+        }
-+    }
-+    return 0;
-+}
-+
- static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cmd, unsigned int cmd_len,
-                        RspBuffer *rsp)
- {
-@@ -155,10 +176,16 @@ static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cmd, unsigned int cmd_len,
-     switch (cmd[2]) {
-     case HIOMAP_C_MARK_DIRTY:
-     case HIOMAP_C_FLUSH:
--    case HIOMAP_C_ERASE:
-     case HIOMAP_C_ACK:
-         break;
- 
-+    case HIOMAP_C_ERASE:
-+        if (hiomap_erase(pnor, blocks_to_bytes(cmd[5] << 8 | cmd[4]),
-+                        blocks_to_bytes(cmd[7] << 8 | cmd[6]))) {
-+            rsp_buffer_set_error(rsp, IPMI_CC_UNSPECIFIED);
-+        }
-+        break;
-+
-     case HIOMAP_C_GET_INFO:
-         rsp_buffer_push(rsp, 2);  /* Version 2 */
-         rsp_buffer_push(rsp, BLOCK_SHIFT); /* block size */
-diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
-index 8a99d958bb..c1efdaa4cb 100644
---- a/include/hw/ipmi/ipmi.h
-+++ b/include/hw/ipmi/ipmi.h
-@@ -53,6 +53,7 @@ enum ipmi_op {
- #define IPMI_CC_INVALID_DATA_FIELD                       0xcc
- #define IPMI_CC_BMC_INIT_IN_PROGRESS                     0xd2
- #define IPMI_CC_COMMAND_NOT_SUPPORTED                    0xd5
-+#define IPMI_CC_UNSPECIFIED                              0xff
- 
- #define IPMI_NETFN_APP                0x06
- #define IPMI_NETFN_OEM                0x3a
+ void spapr_vscsi_create(SpaprVioBus *bus)
 -- 
 2.26.2
 
