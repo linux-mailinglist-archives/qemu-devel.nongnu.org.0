@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B41F25D020
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 06:01:48 +0200 (CEST)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DEB25D02F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 06:04:29 +0200 (CEST)
+Received: from localhost ([::1]:42508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2v5-0000Ze-GS
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 00:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
+	id 1kE2xg-0006HR-V1
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 00:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hb-0002iS-CE; Thu, 03 Sep 2020 23:47:51 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:40781)
+ id 1kE2hd-0002pW-Vg; Thu, 03 Sep 2020 23:47:55 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:34129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hZ-0004wi-9C; Thu, 03 Sep 2020 23:47:51 -0400
+ id 1kE2hc-0004xl-1a; Thu, 03 Sep 2020 23:47:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsq6f0Qz9sVy; Fri,  4 Sep 2020 13:47:27 +1000 (AEST)
+ id 4BjNsr74sLz9sW4; Fri,  4 Sep 2020 13:47:28 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599191247;
- bh=gMiAtQjsk/Rf8aQpgZPjpS1b6eRF/e1DiGSzGhHBsJ4=;
+ d=gibson.dropbear.id.au; s=201602; t=1599191249;
+ bh=dJYbB/H9k9W6ajF6ItZ9vfEbGgJTvyYQif11q+Ws2WE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Y1JISe4A0pk3vSHwfvCc5D/S917UE27vRuqXYJkMPiFSBqmM4F1aUfhAleuCP+cBA
- Hq5xGhIxIKPthviG//6dZhBvrTfmdfR62FA6/PdRd66UKtb6YZHlNknEGbX/PQYjdw
- /rSI5wjxde/ZUBhP/UQB/eoOJiXyHjABlEVykTmk=
+ b=aKdIiO9aimy5LOmpjE8DueiJqrK4Ct2cZy2VsQrbd4PlYQTrSwf7luxK0Kiv+VxgM
+ sLeB4s1y78XpH5U205Itbhy13DUrwYD/2PWgGX/fotwKplgMmicYbt7iiM7AbC7hVi
+ 6fmjuWQjLi8lnyU6PV+0QNn9U14y9r2NYCJX+ZRY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/30] target/arm: Move start-powered-off property to generic
- CPUState
-Date: Fri,  4 Sep 2020 13:47:04 +1000
-Message-Id: <20200904034719.673626-16-david@gibson.dropbear.id.au>
+Subject: [PULL 20/30] sparc/sun4m: Don't set cs->halted = 0 in main_cpu_reset()
+Date: Fri,  4 Sep 2020 13:47:09 +1000
+Message-Id: <20200904034719.673626-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
@@ -60,8 +59,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -69,121 +68,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-There are other platforms which also have CPUs that start powered off, so
-generalize the start-powered-off property so that it can be used by them.
+We rely on cpu_common_reset() to set cs->halted to 0, it's redundant to do
+it in main_cpu_reset().
 
-Note that ARMv7MState also has a property of the same name but this patch
-doesn't change it because that class isn't a subclass of CPUState so it
-wouldn't be a trivial change.
-
-This change should not cause any change in behavior.
-
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Message-Id: <20200826055535.951207-2-bauerman@linux.ibm.com>
+Message-Id: <20200826055535.951207-7-bauerman@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- exec.c                | 1 +
- include/hw/core/cpu.h | 4 ++++
- target/arm/cpu.c      | 5 ++---
- target/arm/cpu.h      | 3 ---
- target/arm/kvm32.c    | 2 +-
- target/arm/kvm64.c    | 2 +-
- 6 files changed, 9 insertions(+), 8 deletions(-)
+ hw/sparc/sun4m.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/exec.c b/exec.c
-index 7683afb6a8..e34b602bdf 100644
---- a/exec.c
-+++ b/exec.c
-@@ -899,6 +899,7 @@ Property cpu_common_props[] = {
-     DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
- #endif
-+    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index cf7dfa4af5..7484aa4438 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -224,7 +224,6 @@ static void main_cpu_reset(void *opaque)
+     CPUState *cs = CPU(cpu);
  
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 8f145733ce..9fc2696db5 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -374,6 +374,10 @@ struct CPUState {
-     bool created;
-     bool stop;
-     bool stopped;
-+
-+    /* Should CPU start in powered-off state? */
-+    bool start_powered_off;
-+
-     bool unplug;
-     bool crash_occurred;
-     bool exit_request;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index c179e0752d..9f814194fb 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -174,8 +174,8 @@ static void arm_cpu_reset(DeviceState *dev)
-     env->vfp.xregs[ARM_VFP_MVFR1] = cpu->isar.mvfr1;
-     env->vfp.xregs[ARM_VFP_MVFR2] = cpu->isar.mvfr2;
+     cpu_reset(cs);
+-    cs->halted = 0;
+ }
  
--    cpu->power_state = cpu->start_powered_off ? PSCI_OFF : PSCI_ON;
--    s->halted = cpu->start_powered_off;
-+    cpu->power_state = s->start_powered_off ? PSCI_OFF : PSCI_ON;
-+    s->halted = s->start_powered_off;
- 
-     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
-         env->iwmmxt.cregs[ARM_IWMMXT_wCID] = 0x69051000 | 'Q';
-@@ -2186,7 +2186,6 @@ static const ARMCPUInfo arm_cpus[] = {
- };
- 
- static Property arm_cpu_properties[] = {
--    DEFINE_PROP_BOOL("start-powered-off", ARMCPU, start_powered_off, false),
-     DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
-     DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
-     DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a1c7d8ebae..6036f61d60 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -817,9 +817,6 @@ struct ARMCPU {
-      */
-     uint32_t psci_version;
- 
--    /* Should CPU start in PSCI powered-off state? */
--    bool start_powered_off;
--
-     /* Current power state, access guarded by BQL */
-     ARMPSCIState power_state;
- 
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index 0af46b41c8..1f2b8f8b7a 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -218,7 +218,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-     /* Determine init features for this CPU */
-     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
--    if (cpu->start_powered_off) {
-+    if (cs->start_powered_off) {
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
-     }
-     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index ef1e960285..987b35e33f 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -774,7 +774,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-     /* Determine init features for this CPU */
-     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
--    if (cpu->start_powered_off) {
-+    if (cs->start_powered_off) {
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
-     }
-     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
+ static void secondary_cpu_reset(void *opaque)
 -- 
 2.26.2
 
