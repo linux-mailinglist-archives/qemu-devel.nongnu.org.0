@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FBC25DB5D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:21:55 +0200 (CEST)
-Received: from localhost ([::1]:58738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7D225DB70
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:23:43 +0200 (CEST)
+Received: from localhost ([::1]:40174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kECbB-0004E3-Li
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:21:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60816)
+	id 1kECcw-0008BB-N3
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECZy-0002Q5-Uw; Fri, 04 Sep 2020 10:20:38 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47858)
+ id 1kECZz-0002QQ-MV; Fri, 04 Sep 2020 10:20:39 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:47874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECZv-0002gY-67; Fri, 04 Sep 2020 10:20:38 -0400
+ id 1kECZv-0002gp-BJ; Fri, 04 Sep 2020 10:20:39 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 33033BF86A;
+ by charlie.dont.surf (Postfix) with ESMTPSA id AC157BF8E7;
  Fri,  4 Sep 2020 14:20:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1599229231;
- bh=hwu6doMnOXapU+iu6OF0pVkM5orkUgvHjDUFvp/qW1w=;
+ s=default; t=1599229232;
+ bh=+LVYT8u/sgy2SdJk+2GYEVmsu8mUtbPV7TqY7WEojSE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aK/EdPfMbjjAaQFHLBq1dzziiXekAlH6yNQ5L0KLNQkmp0IelGphA6+AIHjcI9/3h
- JKYwGSNls5om4cmcQaS8Cma4DMsxrTeq9n6xBHrCXIxI1vwXbMqIFOPhcFNQpo2ATC
- sAAVkQzWZsA2npV0jCMDG5Fqo120IOUWjUB3kzA7XqMemeViw4wet78Tdwgbq/ezqK
- 1IqEOhexn6LUBjeuVYNa6UH6sne1HqASp2n6hA41oa/MAuHgTus/SleokoCg+YY4+X
- H8h+ZnfCrOjUhEXQpCeT/+jLP2mXn0yDGOrYV28jBVFYAuOgJdYCpFi6l2oIC3Gi6T
- 20fZ9aBVGgBow==
+ b=cFn43aX0QajOqyc6ZcSnPk348A+mO4vVO0Fw6Q0NlCnH+t9cueD9c6NRqnkojhx/a
+ xWJLJIZ1bfk0pKVQlgk5O9wfE4mXvqyeBnzoBIEcc380udGe7qB2EbR+FBV8p0uScG
+ Ir1LBjJeNDU5xp7SVshtsP9bXXNlTFnjPimRXIGfVLlU43J5UOnlodKgvSKwn+baKx
+ rfSRvs3NKBykJWU9c5Y9zeYBWcqH32EH4ikBuqlWSxmbQczWT/U9jF11/Hj4pElZfO
+ E2pwZKMAqKZ2JGAKltCtkW2HVytQ4+/6dVpnhNZCi6aXfZQqkFsOCL4gOaqyhfmud3
+ Oe7ahbX/MARMA==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/17] pci: pass along the return value of dma_memory_rw
-Date: Fri,  4 Sep 2020 16:19:40 +0200
-Message-Id: <20200904141956.576630-2-its@irrelevant.dk>
+Subject: [PATCH 02/17] hw/block/nvme: handle dma errors
+Date: Fri,  4 Sep 2020 16:19:41 +0200
+Message-Id: <20200904141956.576630-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200904141956.576630-1-its@irrelevant.dk>
 References: <20200904141956.576630-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
  helo=charlie.dont.surf
@@ -68,40 +67,173 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Some devices might want to know the return value of dma_memory_rw, so
-pass it along instead of ignoring it.
+Handling DMA errors gracefully is required for the device to pass the
+block/011 test ("disable PCI device while doing I/O") in the blktests
+suite.
 
-There are no existing users of the return value, so this patch should be
-safe.
+With this patch the device passes the test by retrying "critical"
+transfers (posting of completion entries and processing of submission
+queue entries).
+
+If DMA errors occur at any other point in the execution of the command
+(say, while mapping the PRPs), the command is aborted with a Data
+Transfer Error status code.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- include/hw/pci/pci.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/block/nvme.c       | 43 ++++++++++++++++++++++++++++++++-----------
+ hw/block/trace-events |  2 ++
+ include/block/nvme.h  |  2 +-
+ 3 files changed, 35 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 4ca7258b5b71..896cef9ad476 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -788,8 +788,7 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
- static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                              void *buf, dma_addr_t len, DMADirection dir)
- {
--    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
--    return 0;
-+    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 63078f600920..49bcdf31ced6 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -140,14 +140,14 @@ static inline void *nvme_addr_to_cmb(NvmeCtrl *n, hwaddr addr)
+     return &n->cmbuf[addr - n->ctrl_mem.addr];
  }
  
- static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
+-static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
++static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+ {
+     if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr)) {
+         memcpy(buf, nvme_addr_to_cmb(n, addr), size);
+-        return;
++        return 0;
+     }
+ 
+-    pci_dma_read(&n->parent_obj, addr, buf, size);
++    return pci_dma_read(&n->parent_obj, addr, buf, size);
+ }
+ 
+ static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+@@ -253,7 +253,7 @@ static uint16_t nvme_map_addr_cmb(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
+     trace_pci_nvme_map_addr_cmb(addr, len);
+ 
+     if (!nvme_addr_is_cmb(n, addr) || !nvme_addr_is_cmb(n, addr + len - 1)) {
+-        return NVME_DATA_TRAS_ERROR;
++        return NVME_DATA_TRANSFER_ERROR;
+     }
+ 
+     qemu_iovec_add(iov, nvme_addr_to_cmb(n, addr), len);
+@@ -307,6 +307,7 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+     int num_prps = (len >> n->page_bits) + 1;
+     uint16_t status;
+     bool prp_list_in_cmb = false;
++    int ret;
+ 
+     QEMUSGList *qsg = &req->qsg;
+     QEMUIOVector *iov = &req->iov;
+@@ -347,7 +348,11 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+ 
+             nents = (len + n->page_size - 1) >> n->page_bits;
+             prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
+-            nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
++            ret = nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
++            if (ret) {
++                trace_pci_nvme_err_addr_read(prp2);
++                return NVME_DATA_TRANSFER_ERROR;
++            }
+             while (len != 0) {
+                 uint64_t prp_ent = le64_to_cpu(prp_list[i]);
+ 
+@@ -364,8 +369,12 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+                     i = 0;
+                     nents = (len + n->page_size - 1) >> n->page_bits;
+                     prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
+-                    nvme_addr_read(n, prp_ent, (void *)prp_list,
+-                        prp_trans);
++                    ret = nvme_addr_read(n, prp_ent, (void *)prp_list,
++                                         prp_trans);
++                    if (ret) {
++                        trace_pci_nvme_err_addr_read(prp_ent);
++                        return NVME_DATA_TRANSFER_ERROR;
++                    }
+                     prp_ent = le64_to_cpu(prp_list[i]);
+                 }
+ 
+@@ -457,6 +466,7 @@ static void nvme_post_cqes(void *opaque)
+     NvmeCQueue *cq = opaque;
+     NvmeCtrl *n = cq->ctrl;
+     NvmeRequest *req, *next;
++    int ret;
+ 
+     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+         NvmeSQueue *sq;
+@@ -466,15 +476,21 @@ static void nvme_post_cqes(void *opaque)
+             break;
+         }
+ 
+-        QTAILQ_REMOVE(&cq->req_list, req, entry);
+         sq = req->sq;
+         req->cqe.status = cpu_to_le16((req->status << 1) | cq->phase);
+         req->cqe.sq_id = cpu_to_le16(sq->sqid);
+         req->cqe.sq_head = cpu_to_le16(sq->head);
+         addr = cq->dma_addr + cq->tail * n->cqe_size;
++        ret = pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
++                            sizeof(req->cqe));
++        if (ret) {
++            trace_pci_nvme_err_addr_write(addr);
++            timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++                      500 * SCALE_MS);
++            break;
++        }
++        QTAILQ_REMOVE(&cq->req_list, req, entry);
+         nvme_inc_cq_tail(cq);
+-        pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
+-            sizeof(req->cqe));
+         nvme_req_exit(req);
+         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+     }
+@@ -1611,7 +1627,12 @@ static void nvme_process_sq(void *opaque)
+ 
+     while (!(nvme_sq_empty(sq) || QTAILQ_EMPTY(&sq->req_list))) {
+         addr = sq->dma_addr + sq->head * n->sqe_size;
+-        nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd));
++        if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd))) {
++            trace_pci_nvme_err_addr_read(addr);
++            timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++                      500 * SCALE_MS);
++            break;
++        }
+         nvme_inc_sq_head(sq);
+ 
+         req = QTAILQ_FIRST(&sq->req_list);
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 72cf2d15cb8e..50d5702e6b80 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -86,6 +86,8 @@ pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+ 
+ # nvme traces for error conditions
+ pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
++pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
++pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
+ pci_nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
+ pci_nvme_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is null or not page aligned: 0x%"PRIx64""
+ pci_nvme_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned: 0x%"PRIx64""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 65e68a82c897..c8d0a3473f0d 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -630,7 +630,7 @@ enum NvmeStatusCodes {
+     NVME_INVALID_OPCODE         = 0x0001,
+     NVME_INVALID_FIELD          = 0x0002,
+     NVME_CID_CONFLICT           = 0x0003,
+-    NVME_DATA_TRAS_ERROR        = 0x0004,
++    NVME_DATA_TRANSFER_ERROR    = 0x0004,
+     NVME_POWER_LOSS_ABORT       = 0x0005,
+     NVME_INTERNAL_DEV_ERROR     = 0x0006,
+     NVME_CMD_ABORT_REQ          = 0x0007,
 -- 
 2.28.0
 
