@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC2C25DA3C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:45:01 +0200 (CEST)
-Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56C425DA33
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:43:47 +0200 (CEST)
+Received: from localhost ([::1]:55784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEC1U-0003ZI-P6
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:45:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51520)
+	id 1kEC0J-0001Eg-0z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEByI-0007WM-0e
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:41:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41061
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kEByb-0008ER-A6
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:42:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24740
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEByF-00064S-Jz
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:41:41 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-mSWziQuTOU6WtlP8VBuM1w-1; Fri, 04 Sep 2020 09:41:37 -0400
-X-MC-Unique: mSWziQuTOU6WtlP8VBuM1w-1
-Received: by mail-wr1-f70.google.com with SMTP id x15so1501439wrm.7
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 06:41:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=EsaUEID8sXWLbDAlgpxx9ibc7q6qTw5nUaimjO39UYs=;
- b=hit3yaHNAivpTyd6VA1K+yvvl5xVjFB5dxmi+XTQBd3p67356qnzVTU0s99PhPEyS5
- k7UXnguTCd8S63bDJpp3/p4FZ6MsDo/0jJQqbMkkYCGGcRynzmnSf1ibJnh39cn37cgI
- 9fY7BnK3rwiloJEvVZGy+cA9zqC9XyKz9DyCJCv5QCKhsdRGgo5wd4IjzcrGrz924TgU
- KKb8ri6ISpA8snQ8YJqSgAgfQ+LCvRZSpE4WD0zdo/4Seu97D7JUfU6M0+ylZdaLPEZg
- XumK5070yAQHMwgWXMVqj68sSwFKI/f9u/nDOvziC5o2CDvNjyF0QL1R0/2B0WTxFdot
- q5iQ==
-X-Gm-Message-State: AOAM531l7XGzxENtfao+T7YDY4/twlUVZ5mPmMFnVcJHiWru3sLBzW0Q
- KVSYMCziDQabN9QpQqzME3jBj0UOOpN1eLQ8MnnrFjht5htbedfiuGcwy+0Sfic4HZHpjrwbOUI
- VrxQDeifAnR8fRag=
-X-Received: by 2002:adf:e58b:: with SMTP id l11mr8235070wrm.210.1599226896203; 
- Fri, 04 Sep 2020 06:41:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4YObwBDJlb5OgoqiIxYRscOdl335xw+/UNWyZBLY2tBeHbClDfwuBAmKkryriUbhls1c5Hg==
-X-Received: by 2002:adf:e58b:: with SMTP id l11mr8235048wrm.210.1599226895937; 
- Fri, 04 Sep 2020 06:41:35 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id g7sm12753751wrv.82.2020.09.04.06.41.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Sep 2020 06:41:35 -0700 (PDT)
-Subject: Re: [PATCH 2/2] vhost-vdpa: improve error reporting
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20200903185327.774708-1-lvivier@redhat.com>
- <20200903185327.774708-3-lvivier@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <8085ec62-737d-6596-bd00-78ebf6ac001f@redhat.com>
-Date: Fri, 4 Sep 2020 15:41:34 +0200
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kEByZ-00065V-Hx
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:42:00 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-aT0GoTylPqKQm1Z83M0g1g-1; Fri, 04 Sep 2020 09:41:55 -0400
+X-MC-Unique: aT0GoTylPqKQm1Z83M0g1g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B00F41074654;
+ Fri,  4 Sep 2020 13:41:53 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-156.ams2.redhat.com
+ [10.36.114.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A366E7E40A;
+ Fri,  4 Sep 2020 13:41:51 +0000 (UTC)
+Subject: Re: [PATCH v8 7/7] block: apply COR-filter to block-stream jobs
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1598633579-221780-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1598633579-221780-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <8751c312-0f28-9c9e-34cd-b407f767d095@redhat.com>
+Date: Fri, 4 Sep 2020 15:41:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200903185327.774708-3-lvivier@redhat.com>
-X-Mimecast-Spam-Score: 0.002
+In-Reply-To: <1598633579-221780-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="86PVL7GSlrhcIOzYdzTAoNdFVliZVstel"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -110,67 +95,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/20 8:53 PM, Laurent Vivier wrote:
-> Use Error framework to report the id of the device and the details of
-> the error (vhostdev name and errno).
-> 
-> For instance:
-> 
->  qemu-system-x86_64 ... -netdev vhost-vdpa,id=hostnet1 ...
->  hostnet1: Cannot open '/dev/vhost-vdpa-0': No such file or directory
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--86PVL7GSlrhcIOzYdzTAoNdFVliZVstel
+Content-Type: multipart/mixed; boundary="9ZXqAwk3h7eUrO38lAZqzPqcSH1qxTYZC"
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--9ZXqAwk3h7eUrO38lAZqzPqcSH1qxTYZC
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+On 28.08.20 18:52, Andrey Shinkevich wrote:
+> This patch completes the series with the COR-filter insertion for
+> block-stream operations. Adding the filter makes it possible for copied
+> regions to be discarded in backing files during the block-stream job,
+> what will reduce the disk overuse.
+> The COR-filter insertion incurs changes in the iotests case
+> 245:test_block_stream_4 that reopens the backing chain during a
+> block-stream job. There are changes in the iotests #030 as well.
+> The iotests case 030:test_stream_parallel was deleted due to multiple
+> conflicts between the concurrent job operations over the same backing
+> chain. The base backing node for one job is the top node for another
+> job. It may change due to the filter node inserted into the backing
+> chain while both jobs are running. Another issue is that the parts of
+> the backing chain are being frozen by the running job and may not be
+> changed by the concurrent job when needed. The concept of the parallel
+> jobs with common nodes is considered vital no more.
+>=20
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 > ---
->  net/vhost-vdpa.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 24103ef241e4..8260902334ae 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -176,7 +176,8 @@ static NetClientInfo net_vhost_vdpa_info = {
->  };
->  
->  static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
-> -                               const char *name, const char *vhostdev)
-> +                               const char *name, const char *vhostdev,
-> +                               Error **errp)
->  {
->      NetClientState *nc = NULL;
->      VhostVDPAState *s;
-> @@ -189,11 +190,15 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
->      s = DO_UPCAST(VhostVDPAState, nc, nc);
->      vdpa_device_fd = qemu_open(vhostdev, O_RDWR);
->      if (vdpa_device_fd == -1) {
-> -        return -errno;
-> +        error_setg_errno(errp, errno, "%s: Cannot open '%s'", name, vhostdev);
-> +        return -1;
->      }
->      s->vhost_vdpa.device_fd = vdpa_device_fd;
->      ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
-> -    assert(s->vhost_net);
-> +    if (ret == -1) {
-> +        error_setg(errp, "%s: Cannot add vhost-vdpa '%s'", name, vhostdev);
-> +        return -1;
-> +    }
->      return ret;
->  }
->  
-> @@ -229,5 +234,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->      }
->      return net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
->                                 opts->has_vhostdev ?
-> -                               opts->vhostdev : VHOST_VDPA_DEFAULT_VHOSTDEV);
-> +                               opts->vhostdev : VHOST_VDPA_DEFAULT_VHOSTDEV,
-> +                               errp);
->  }
-> 
+>  block/stream.c             | 78 +++++++++++++++++++++++++++-------------=
+------
+>  tests/qemu-iotests/030     | 50 +++--------------------------
+>  tests/qemu-iotests/030.out |  4 +--
+>  tests/qemu-iotests/245     | 19 ++++++++---
+>  4 files changed, 67 insertions(+), 84 deletions(-)
+
+I=E2=80=99m not sure I can really review this, when I don=E2=80=99t know wh=
+at the COR
+filter really does.  For example, as it is in this version, it
+unconditionally performs COR, and so on guest reads will copy everything
+from the bottom layers even when they are below the base node.
+
+Max
+
+
+--9ZXqAwk3h7eUrO38lAZqzPqcSH1qxTYZC--
+
+--86PVL7GSlrhcIOzYdzTAoNdFVliZVstel
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9SRB0ACgkQ9AfbAGHV
+z0CCKQgAp7R/4zS/XTX23XdRQDMZf6l8Z9fDiwMZaGzzCh3AoBdQ7M3W/irK6Qs6
+sOetawxUFnp6oEGiqYPPKHVoVPae++tW7UwYdfDj/3PsUFN/TukeveX4y4w8NMIK
+/JG84pp0j3EaJiLb0ZEaz1nBpq7EvrMz5Rw3AIqZAV39/ZNoVbVLMiQN1cjIWDjr
+jJQXBqT73lrdAppJCFYASjVm8/rn568UOXYegfweOFvi9mCzCfDKBYOUFj/Qv9TU
+XAfuqpyecJGy4WpMrRmVCcnAExggxWaYJn4AjuHGLYsXp0WO3auIaNpbevhjqQkt
+Fk8AGnVWhcBFKJGzdn54Al8VVN89jA==
+=31uR
+-----END PGP SIGNATURE-----
+
+--86PVL7GSlrhcIOzYdzTAoNdFVliZVstel--
 
 
