@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6544B25D38E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 10:26:22 +0200 (CEST)
-Received: from localhost ([::1]:40168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533F625D395
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 10:27:32 +0200 (CEST)
+Received: from localhost ([::1]:43786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE737-0003Ba-Fb
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 04:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48234)
+	id 1kE74F-0004di-Dh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 04:27:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kE727-0002JL-Ad
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 04:25:19 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:45048)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kE72F-0002La-9q
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 04:25:27 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:44571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kE723-00040v-AZ
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 04:25:18 -0400
-Received: by mail-pg1-x534.google.com with SMTP id 7so3945152pgm.11
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 01:25:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kE72A-00041l-TF
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 04:25:26 -0400
+Received: by mail-pf1-x434.google.com with SMTP id o20so4193484pfp.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 01:25:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=QGwLk9vEmgl3YoDW8qnNwPyQqpLpwmDofsveguiqT2I=;
- b=04noX4vnVYLHAuT833Hc+OYnouj17sZwLF1sCJB7reSnAn3OIgcCd3L1GStuWgqF+0
- XF3+ASge6ivLRzI2oK+S3agfbToKFnMyeP9K4olMw6lnKiLsNUcN5cxFyfwn5wCX70xa
- 9c4/IBxvTca6UFUAtJn/qLx5ZhNoeqi8ycCjVbKik/ZI7o0uSw9BFKzDqsQompcPftdN
- UdzijX4n3XShMR5NBwXRkBk4N86bot5mGpUOaLi6BtQGPJ3zb+/2Cu5BltWqyEXkD1wn
- QusStoclo29/Cl97vbrAK2VFuMRjNTLD0dM+RRl0gTT25/ZT6EBKZyFC7BMnR9fxGbDa
- 1aQQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=l6H9TdFBTaIJQuOiKqxbPbEeHp6Rmtm1RlfMmkyZP3k=;
+ b=WJgjmqiq79iO9fh/QC0LEKE5DgkUFnlfejPHbY8gneyD+9fAmSLNI9OitxzOH77522
+ IEEHg3c+N5zDwwiAIBgt2FLBTbDhejj6AJpMHX96fMr6fiXf6tD9VB03w0CvtdfdivQ+
+ sNXYR9+GKINb1NedHiJ2IpDlbAKAYFC6ji0twnVwUF0nBJVaT2Agfv7deGZP9EODR9wo
+ tGsma8E0+IkqWeNQwsMW1r20u/baG/uTqgXnopdtQra+K7eTJCXWN7yFoBa7aytcf5sv
+ dVmEMqiFPKcfe2bVP5Ma8XTOeRz41BuGo6ydfBK9lKG3WVdLtDMl5NYu856BwZMzh2hB
+ 0B9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=QGwLk9vEmgl3YoDW8qnNwPyQqpLpwmDofsveguiqT2I=;
- b=Ctwh+CoF5Qark/15DO5KPn28TxZiTAIliFtKUgoh+eCroGEXHFImIrbBrXymaLqzhS
- ryDNIYX5yRkUYBBlcM6SOwY76EUNBYRkHmMdN6+AI1nECJe9wAv03JJDCc0cc7A29a1p
- qcs4MbYHj1pFJetipnc3tGv6XfdYw/vpnLp2C9P2W50VQ0iS2SCxNsx6R+cU9rgDH9Tm
- +NtBNl+0pmW9Q2ihgyn3YwxWNnGYCSVCY9GE6uBvTcXS0CcboYK+UWmTBZN/fSdTfkpn
- TpSVFEHN94O8Vb6ZDECdyQWQNFBMiFQGxipqyNAk54UVfpIQ1lkJTfd2dQIX1xYvM9w/
- Otxw==
-X-Gm-Message-State: AOAM533914NfC+00jqOcqO0j9VPCqeEWUm3kGZ4wxb0a7U34aKzjhH+5
- EBKR3/unQMelJD9t+r9uF9d+Kp7yTNbcVA==
-X-Google-Smtp-Source: ABdhPJyRnf7CZtCfixVwrkNotzkXTjcgEfyNbOuIdoZkKER3SMniiXnmExol049tFICjeII2nIwFPw==
-X-Received: by 2002:a05:6a00:148b:: with SMTP id
- v11mr7602147pfu.88.1599207912497; 
- Fri, 04 Sep 2020 01:25:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=l6H9TdFBTaIJQuOiKqxbPbEeHp6Rmtm1RlfMmkyZP3k=;
+ b=buUET6TfZLSOc85a4nubJkHi9U4axEJ3rhmGESu9UZZ3nEzRCAc9N6NbSMKPOBOEoU
+ rPV3MSguEGso6xOrMAlxx0gE1We81306fgzgKQLBxFBgcd/hPkL0GUNI7NnRTvKXiRc4
+ g91o11cnQq4akRYJXCJQR9N3ySDFkXUZvOzI1Ae7y6/XiHVaYQTr2ZFr5dwbDtOrjxE3
+ X45aWaShMFDjyE9K946zH143Qbak2xPLXHAqDwW0jIO6+s0L03RXIYQ9M8N3kAGTeSiq
+ zY25w4vRF9442dWd0PAxsi3TFcGP5LDo24cs1saZDeAF52jH3jHcs4C8L3DM6T9kX4Yt
+ SgrQ==
+X-Gm-Message-State: AOAM531Wch4XDfXoqsopZxuqwl3kWKuCCtkvEBE4Yq7CbzOVpGvpFRgb
+ zz5QYCQggyrwB6Yf+xWCEgL1ei3knZXwyw==
+X-Google-Smtp-Source: ABdhPJwam5Dw2ypF7pPlIkt9TG+MN4L5e9Ug8Qu6ClOxkZd3erY9ViHbcv6wWFR8RrLcRTgXvij3vA==
+X-Received: by 2002:a63:5ec6:: with SMTP id s189mr6383974pgb.40.1599207920760; 
+ Fri, 04 Sep 2020 01:25:20 -0700 (PDT)
 Received: from localhost.localdomain ([115.96.135.14])
- by smtp.googlemail.com with ESMTPSA id bj2sm4733098pjb.20.2020.09.04.01.25.07
+ by smtp.googlemail.com with ESMTPSA id bj2sm4733098pjb.20.2020.09.04.01.25.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 01:25:11 -0700 (PDT)
+ Fri, 04 Sep 2020 01:25:20 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: i440fx/acpi: don't hot-unplug cold plugged bridges when their hotplug
- switch is off
-Date: Fri,  4 Sep 2020 13:54:50 +0530
-Message-Id: <20200904082451.1043-1-ani@anisinha.ca>
+Subject: [PATCH v1] i440fx/acpi: don't hot-unplug cold plugged bridges when
+ their hotplug switch is off
+Date: Fri,  4 Sep 2020 13:54:51 +0530
+Message-Id: <20200904082451.1043-2-ani@anisinha.ca>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2607:f8b0:4864:20::534;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x534.google.com
+In-Reply-To: <20200904082451.1043-1-ani@anisinha.ca>
+References: <20200904082451.1043-1-ani@anisinha.ca>
+Received-SPF: none client-ip=2607:f8b0:4864:20::434;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -80,26 +82,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have seen that when hotplug for pci bridge devices are turned off and devices are attached
-behind the bridge, I still see Windows trying to hot remove the pci bridge and failing. Today
-looking at the AML disassembly, I realized that we are addding slot enumeration and EJ0
-methods even for the slot where the bridge is attached. 
+Cold plugged bridges should not be hot unpluggable, even when their hotplug property
+(acpi-pci-hotplug-with-bridge-support) is turned off. However, with the current
+implementaton, windows would try to hot-unplug a pci bridge when it's hotplug switch
+is off. This is regardless of whether there are devices attached to the bridge. When
+devices are attached to the bridge, the bridge is ultimately not hot-unpluggable. We
+have a demo video here: https://youtu.be/pME2sjyQweo
 
-Please see the video: https://youtu.be/pME2sjyQweo
+In this fix, we identify a cold plugged bridge and for cold plugged bridges, we do not
+add the appropriate amls and acpi methods that are used by the OS to identify a hot-
+unpluggable pci device. After this change, Windows does not show an option to eject the
+PCI bridge. A demo video is here:  https://youtu.be/kbgej5B9Hgs
 
-This does not seem right. A cold-plugged bridge should not be hot removable under any
-conditions. Hence, this patch tries to address this. After the change, as the demo video
-shows, Windows no longer shows the bridge device as hot removable:  https://youtu.be/kbgej5B9Hgs
-under the same test settings.
+While at it, I have also updated a stale comment.
 
-Requesting comments for this fix.
+This change is tested with a Windows 2012R2 guest image running on Ubuntu host. This
+change is based off of upstream qemu master branch tag v5.1.0.
 
---Ani
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/i386/acpi-build.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index b7bcbbbb2a..90b863f4ec 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         int slot = PCI_SLOT(i);
+         bool hotplug_enabled_dev;
+         bool bridge_in_acpi;
++        bool cold_plugged_bridge;
  
+         if (!pdev) {
+             if (bsel) { /* add hotplug slots for non present devices */
+@@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         pc = PCI_DEVICE_GET_CLASS(pdev);
+         dc = DEVICE_GET_CLASS(pdev);
+ 
+-        /* When hotplug for bridges is enabled, bridges are
+-         * described in ACPI separately (see build_pci_bus_end).
+-         * In this case they aren't themselves hot-pluggable.
++        /*
++         * Cold plugged bridges aren't themselves hot-pluggable.
+          * Hotplugged bridges *are* hot-pluggable.
+          */
+-        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
+-            !DEVICE(pdev)->hotplugged;
++        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
++        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
+ 
+-        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
++        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
+ 
+         if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
+             continue;
+-- 
+2.17.1
 
 
