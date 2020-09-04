@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E693D25D735
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:28:07 +0200 (CEST)
-Received: from localhost ([::1]:50926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957BB25D7B1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:45:08 +0200 (CEST)
+Received: from localhost ([::1]:42652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE9t0-0003ec-Ux
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39736)
+	id 1kEA9T-00058L-KC
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:45:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kE9s2-0002Iy-41
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:27:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49197)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kEA65-0008Bz-J5
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49168
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kE9s0-0003MD-2a
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:27:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599218822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hngWtsFTxn3LMsGtKA6PdjFT1F6IOvfAQrgr0SqAr5A=;
- b=W+0hqFlTmFCDjII0kHe1F3970QCPecOSjYzwD0e0yqK/eog/nCrAgh7sptQ9KHPYT3Jqxp
- 2wqStcMbK6ebgS5VdjyPQf6QDEtC/6lMAdkEJPSsEKYESBU0YaL5FTWXqieSPJYIz0hnWS
- f+xk4NdtS2/hxkpcq3agfl+ujdVxU1k=
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kEA5v-0005Ae-DB
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:37 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-rWpNN7NdMb-X3jC4c9JIdw-1; Fri, 04 Sep 2020 07:26:57 -0400
-X-MC-Unique: rWpNN7NdMb-X3jC4c9JIdw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-171-QClWKxk0P5iizaAJXktIjg-1; Fri, 04 Sep 2020 07:41:24 -0400
+X-MC-Unique: QClWKxk0P5iizaAJXktIjg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1660107465A;
- Fri,  4 Sep 2020 11:26:55 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
- [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13FDD7E41B;
- Fri,  4 Sep 2020 11:26:49 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3C1C245AE; Fri,  4 Sep 2020 13:26:48 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20E3F8712F5
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:23 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D947D5DD6E
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:22 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] cirrus: handle wraparound in cirrus_invalidate_region
-Date: Fri,  4 Sep 2020 13:26:48 +0200
-Message-Id: <20200904112648.10259-3-kraxel@redhat.com>
-In-Reply-To: <20200904112648.10259-1-kraxel@redhat.com>
-References: <20200904112648.10259-1-kraxel@redhat.com>
+Subject: [PULL 00/46] Next round of Meson bugfixes and cleanups
+Date: Fri,  4 Sep 2020 07:40:36 -0400
+Message-Id: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 06:46:59
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +67,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@163.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code simply asserts that there is no wraparound instead of handling
-it properly.  The assert() can be triggered by the guest (must be
-privilidged inside the guest though).  Fix it.
+The following changes since commit 67a7bfe560a1bba59efab085cb3430f45176d382:
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1880189
-Cc: Li Qiang <liq3ea@163.com>
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@163.com>
-Message-id: 20200901140944.24101-1-kraxel@redhat.com
----
- hw/display/cirrus_vga.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-09-03' into staging (2020-09-03 16:58:25 +0100)
 
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 02d9ed0bd465..41e71af08a0f 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -640,10 +640,16 @@ static void cirrus_invalidate_region(CirrusVGAState * s, int off_begin,
-     }
- 
-     for (y = 0; y < lines; y++) {
--        off_cur = off_begin;
-+        off_cur = off_begin & s->cirrus_addr_mask;
-         off_cur_end = ((off_cur + bytesperline - 1) & s->cirrus_addr_mask) + 1;
--        assert(off_cur_end >= off_cur);
--        memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
-+        if (off_cur_end >= off_cur) {
-+            memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
-+        } else {
-+            /* wraparound */
-+            memory_region_set_dirty(&s->vga.vram, off_cur,
-+                                    s->cirrus_addr_mask + 1 - off_cur);
-+            memory_region_set_dirty(&s->vga.vram, 0, off_cur_end);
-+        }
-         off_begin += off_pitch;
-     }
- }
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 4be1987db8b361f17c50bea582c6056cd54c4752:
+
+  meson: remove linkage of sdl to baum (2020-09-04 07:33:28 -0400)
+
+Finally a favorable diffstat appears...
+
+----------------------------------------------------------------
+meson related:
+* convert unit tests
+* bugfixes for mtest2make
+* miscellaneous bugfixes
+* dead code removal and configure cleanups
+* oss-fuzz fixes
+* msys fixes
+
+----------------------------------------------------------------
+Alexander Bulekov (3):
+      oss-fuzz: fix rpath
+      meson: specify fuzz linker script as a project arg
+      fuzz: Add support for custom fuzzing library
+
+Bruce Rogers (1):
+      meson: remove linkage of sdl to baum
+
+Marc-André Lureau (12):
+      meson: build qapi tests library
+      meson: declare tasn1 dependency
+      meson: declare keyutils dependency
+      meson: convert qht-bench
+      meson: move keyutils dependency check
+      meson: remove old socket_scm_helper rule
+      meson: convert vhost-user-bridge
+      meson: convert atomic*-bench
+      tests: do not print benchmark output to stdout
+      tests/migration/stress: remove unused exit_success
+      meson: fix migration/stress compilation with glibc>=2.30
+      meson: convert migration/initrd-stress
+
+Paolo Bonzini (25):
+      qemu-iotests: move check-block back to Makefiles
+      mtest2make: split environment from test command
+      mtest2make: split working directory from test command
+      mtest2make: hide output of successful tests
+      mtest2make: unify tests that appear in multiple suites
+      meson: remove b_lundef option
+      configure: do not include absolute paths in -I and -L paths
+      configure: include cross sdl2-config in meson cross file
+      ninjatool: use constant names for stamp files
+      meson: fix libqos linking
+      meson: convert the speed tests
+      configure: remove dead code for in-tree builds
+      meson: compute config_all_devices directly
+      Makefile: remove dead variables and includes
+      Makefile: inline the relevant parts of rules.mak
+      configure: move disassembler configuration to meson
+      configure: move C++ compiler handling to meson
+      meson: keep all compiler flags detection together
+      configure: move -ldl test to meson
+      configure: remove unnecessary libm test
+      configure: do not look for install(1)
+      meson: get glib compilation flags from GLIB_CFLAGS
+      configure: do not include dependency flags in QEMU_CFLAGS and LIBS
+      configure: drop dead variables and functions
+      docs: suggest Meson replacements for various configure functions
+
+Thomas Huth (2):
+      tests/Makefile: test-image-locking needs CONFIG_POSIX
+      meson: convert the unit tests
+
+Yonggang Luo (3):
+      tests: handling signal on win32 properly
+      configure: update dtc submodule
+      meson: Convert undefsym.sh to undefsym.py
+
+ .gitignore                       |   2 -
+ Makefile                         |  63 +++---
+ Makefile.objs                    |  34 ----
+ accel/tcg/meson.build            |   2 +-
+ chardev/meson.build              |   4 +-
+ configure                        | 353 ++++-----------------------------
+ disas/meson.build                |   4 +-
+ docs/devel/build-system.rst      |  18 +-
+ hw/arm/meson.build               |   2 +-
+ hw/mips/meson.build              |   2 +-
+ hw/riscv/meson.build             |   2 +-
+ meson.build                      | 153 +++++++++++----
+ monitor/meson.build              |   2 +-
+ rules.mak                        | 158 ---------------
+ scripts/empty.c                  |   6 +
+ scripts/grepy.sh                 |   3 -
+ scripts/mtest2make.py            | 100 +++++-----
+ scripts/ninjatool.py             |   8 +-
+ scripts/oss-fuzz/build.sh        |   2 +-
+ scripts/test-driver.py           |  35 ++++
+ scripts/undefsym.py              |  49 +++++
+ scripts/undefsym.sh              |  20 --
+ tests/Makefile.include           | 414 ++-------------------------------------
+ tests/benchmark-crypto-cipher.c  |   8 +-
+ tests/benchmark-crypto-hash.c    |   2 +-
+ tests/benchmark-crypto-hmac.c    |   8 +-
+ tests/docker/Makefile.include    |   4 +
+ tests/include/meson.build        |  16 ++
+ tests/meson.build                | 257 ++++++++++++++++++++++++
+ tests/migration/initrd-stress.sh |  10 +
+ tests/migration/meson.build      |  14 ++
+ tests/migration/stress.c         |  15 +-
+ tests/qemu-iotests/meson.build   |   4 -
+ tests/qtest/fuzz/meson.build     |   7 +-
+ tests/qtest/libqos/meson.build   |   9 +-
+ tests/tcg/Makefile.qemu          |   2 -
+ tests/test-crypto-secret.c       |  10 +-
+ tests/test-qga.c                 |   2 +-
+ tests/test-replication.c         |   4 +
+ 39 files changed, 686 insertions(+), 1122 deletions(-)
+ delete mode 100644 Makefile.objs
+ delete mode 100644 rules.mak
+ create mode 100644 scripts/empty.c
+ delete mode 100755 scripts/grepy.sh
+ create mode 100644 scripts/test-driver.py
+ create mode 100644 scripts/undefsym.py
+ delete mode 100755 scripts/undefsym.sh
+ create mode 100644 tests/include/meson.build
+ create mode 100755 tests/migration/initrd-stress.sh
+ create mode 100644 tests/migration/meson.build
 -- 
-2.27.0
+2.26.2
 
 
