@@ -2,60 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D6A25D828
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:58:15 +0200 (CEST)
-Received: from localhost ([::1]:52548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408B225D835
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:59:50 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEAMA-000713-RL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42974)
+	id 1kEANh-000281-9s
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6x-0001BD-Nc
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33065
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kEAFT-0001Ue-TL
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:51:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6v-0005JP-Rg
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:31 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kEAFR-0006ma-Kk
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:51:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599220276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ucf/Y7fduYAkvaRsJro5JLsgfdxqyxAKIYkwnCcqHpU=;
+ b=Ytui0OJR/4kvY7LoC+uh8MuhGRiXfTmgo7vd5GuZpWgbshHXTHweDEiUNfAwj0MuQjucI/
+ UVX7Kr+V+NwW/Jt3Qjy9Oy9NZmT0DMvnKXfnHQWNaATZl0oHyJ0Jh+fCW7L2EaXh/Tfs4X
+ esil3vvKEVP7fle7w22Cbm8usPLjsHU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-Agg0RxJLPeGbNKcOUCxSeA-1; Fri, 04 Sep 2020 07:42:28 -0400
-X-MC-Unique: Agg0RxJLPeGbNKcOUCxSeA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-72-CWG_7jBaMQ-x69XNdjXGwQ-1; Fri, 04 Sep 2020 07:51:12 -0400
+X-MC-Unique: CWG_7jBaMQ-x69XNdjXGwQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AD11109109D;
- Fri,  4 Sep 2020 11:41:48 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BED861002D4C;
- Fri,  4 Sep 2020 11:41:47 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 44/46] fuzz: Add support for custom fuzzing library
-Date: Fri,  4 Sep 2020 07:41:20 -0400
-Message-Id: <20200904114122.31307-45-pbonzini@redhat.com>
-In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
-References: <20200904114122.31307-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99E32AF203;
+ Fri,  4 Sep 2020 11:51:11 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-159.ams2.redhat.com [10.36.112.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B13C1A800;
+ Fri,  4 Sep 2020 11:51:10 +0000 (UTC)
+Subject: Re: [PATCH] iotests: Remove 030 from the auto group
+To: Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20200904055701.462482-1-thuth@redhat.com>
+ <20200904082513.GA6237@linux.fritz.box>
+ <51e03521-f0b7-bf29-1ab8-9025f2f4ce94@redhat.com>
+ <0c90a606-c697-332d-a3b7-12aec7c67f85@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <f4f3818a-e808-fc98-8c98-dfcfebe8c9e4@redhat.com>
+Date: Fri, 4 Sep 2020 13:51:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <0c90a606-c697-332d-a3b7-12aec7c67f85@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 06:46:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,80 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+On 04/09/2020 12.38, Max Reitz wrote:
+> On 04.09.20 12:14, Thomas Huth wrote:
+>> On 04/09/2020 10.25, Kevin Wolf wrote:
+>>> Am 04.09.2020 um 07:57 hat Thomas Huth geschrieben:
+>>>> Test 030 is still occasionally failing in the CI ... so for the
+>>>> time being, let's disable it in the "auto" group. We can add it
+>>>> back once it got more stable.
+>>>>
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>
+>>> I would rather just disable this one test function as 030 is a pretty
+>>> important one that tends to catch bugs.
+>>
+>> Ok, ... should it always get disabled, or shall we try to come up with
+>> some magic checks so that it only gets disabled in the CI pipelines (...
+>> though I don't have a clue how to check for Peter's merge test
+>> environment...)?
+> 
+> I suppose we could let check-block.sh set some environment variable.
 
-On oss-fuzz, we must use the LIB_FUZZING_ENGINE and CFLAGS environment
-variables, rather than -fsanitize=fuzzer. With this change, when
-LIB_FUZZING_ENGINE is set, the --enable-fuzzing configure option will
-use that environment variable during the linking stage, rather than
--fsanitize=fuzzer
+Sounds like a plan! I'll try to cook a patch.
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20200902173652.307222-3-alxndr@bu.edu>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure                    | 12 ++++++++++--
- tests/qtest/fuzz/meson.build |  4 ++--
- 2 files changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/configure b/configure
-index c71bceb8e8..d3495e107f 100755
---- a/configure
-+++ b/configure
-@@ -6023,7 +6023,7 @@ fi
- 
- ##########################################
- # checks for fuzzer
--if test "$fuzzing" = "yes" ; then
-+if test "$fuzzing" = "yes" && test -z "${LIB_FUZZING_ENGINE+xxx}"; then
-   write_c_fuzzer_skeleton
-   if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
-     have_fuzzer=yes
-@@ -7291,7 +7291,14 @@ if test "$have_mlockall" = "yes" ; then
-   echo "HAVE_MLOCKALL=y" >> $config_host_mak
- fi
- if test "$fuzzing" = "yes" ; then
--  QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
-+  # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
-+  # needed CFLAGS have already been provided
-+  if test -z "${LIB_FUZZING_ENGINE+xxx}" ; then
-+    QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
-+    FUZZ_EXE_LDFLAGS="-fsanitize=fuzzer"
-+  else
-+    FUZZ_EXE_LDFLAGS="$LIB_FUZZING_ENGINE"
-+  fi
- fi
- 
- if test "$plugins" = "yes" ; then
-@@ -7392,6 +7399,7 @@ fi
- if test "$fuzzing" != "no"; then
-     echo "CONFIG_FUZZ=y" >> $config_host_mak
- fi
-+echo "FUZZ_EXE_LDFLAGS=$FUZZ_EXE_LDFLAGS" >> $config_host_mak
- 
- if test "$edk2_blobs" = "yes" ; then
-   echo "DECOMPRESS_EDK2_BLOBS=y" >> $config_host_mak
-diff --git a/tests/qtest/fuzz/meson.build b/tests/qtest/fuzz/meson.build
-index bcc393828e..b31ace7d5a 100644
---- a/tests/qtest/fuzz/meson.build
-+++ b/tests/qtest/fuzz/meson.build
-@@ -7,8 +7,8 @@ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio_net_fuzz.
- specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio_scsi_fuzz.c'))
- 
- fork_fuzz = declare_dependency(
--  link_args: ['-fsanitize=fuzzer',
--              '-Wl,-wrap,qtest_inb',
-+  link_args: config_host['FUZZ_EXE_LDFLAGS'].split() +
-+             ['-Wl,-wrap,qtest_inb',
-               '-Wl,-wrap,qtest_inw',
-               '-Wl,-wrap,qtest_inl',
-               '-Wl,-wrap,qtest_outb',
--- 
-2.26.2
-
+ Thomas
 
 
