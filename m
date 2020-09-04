@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C434925D846
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:01:26 +0200 (CEST)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2520D25D84F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:02:56 +0200 (CEST)
+Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEAPF-0004Qt-Os
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:01:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42926)
+	id 1kEAQh-00077h-7F
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6v-00014n-9E
+ id 1kEA6v-00016O-TU
  for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60233
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40972
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6o-0005I3-PU
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:28 -0400
+ id 1kEA6t-0005Im-My
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:29 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-rr7bPQsmM-WamYusKba1Kw-1; Fri, 04 Sep 2020 07:42:20 -0400
-X-MC-Unique: rr7bPQsmM-WamYusKba1Kw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-214-HghdD28iNjy4i9ZOdWkXaw-1; Fri, 04 Sep 2020 07:42:25 -0400
+X-MC-Unique: HghdD28iNjy4i9ZOdWkXaw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA29390175C
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2F5C89BBC2;
+ Fri,  4 Sep 2020 11:41:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF0946FDB6
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A356110013C4;
+ Fri,  4 Sep 2020 11:41:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/46] configure: drop dead variables and functions
-Date: Fri,  4 Sep 2020 07:41:15 -0400
-Message-Id: <20200904114122.31307-40-pbonzini@redhat.com>
+Subject: [PULL 41/46] configure: update dtc submodule
+Date: Fri,  4 Sep 2020 07:41:17 -0400
+Message-Id: <20200904114122.31307-42-pbonzini@redhat.com>
 In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
 References: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0.001
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,86 +69,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Yonggang Luo <luoyonggang@gmail.com>
+
+Update the dtc submodule in configure already and symlink dtc after
+git submodule update, because on win32 symlinks to non-existing folders
+are forbidden.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Message-Id: <20200902170054.810-2-luoyonggang@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+ configure | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index 0ca0eaf266..8e749ae38a 100755
+index 8e749ae38a..c71bceb8e8 100755
 --- a/configure
 +++ b/configure
-@@ -313,7 +313,6 @@ audio_drv_list=""
- block_drv_rw_whitelist=""
- block_drv_ro_whitelist=""
- host_cc="cc"
--libs_tools=""
- audio_win_int=""
- libs_qga=""
- debug_info="yes"
-@@ -421,7 +420,6 @@ mingw32="no"
- gcov="no"
- EXESUF=""
- HOST_DSOSUF=".so"
--LDFLAGS_SHARED="-shared"
- modules="no"
- module_upgrades="no"
- prefix="/usr/local"
-@@ -845,7 +843,6 @@ Darwin)
-   darwin="yes"
-   hax="yes"
-   hvf="yes"
--  LDFLAGS_SHARED="-bundle -undefined dynamic_lookup"
-   if [ "$cpu" = "x86_64" ] ; then
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
-@@ -4922,7 +4919,7 @@ elif compile_prog "" "$pthread_lib -lrt" ; then
-   LIBS="$LIBS -lrt"
+@@ -1984,9 +1984,6 @@ fi
+ if test "$meson" = git; then
+     git_submodules="${git_submodules} meson"
  fi
+-if test "$git_update" = yes; then
+-    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
+-fi
  
--# Check whether we need to link libutil for openpty()
-+# Check whether we have openpty() in either libc or libutil
- cat > $TMPC << EOF
- extern int openpty(int *am, int *as, char *name, void *termp, void *winp);
- int main(void) { return openpty(0, 0, 0, 0, 0); }
-@@ -4933,7 +4930,6 @@ if compile_prog "" "" ; then
-   have_openpty="yes"
- else
-   if compile_prog "" "-lutil" ; then
--    libs_tools="-lutil $libs_tools"
-     have_openpty="yes"
-   fi
- fi
-@@ -6449,12 +6445,6 @@ if test "$cpu" = "s390x" ; then
+ case "$meson" in
+     git | internal)
+@@ -4165,7 +4162,6 @@ EOF
+       if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
+           fdt=git
+           mkdir -p dtc
+-          symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+           fdt_cflags="-I${source_path}/dtc/libfdt"
+           fdt_ldflags="-Ldtc/libfdt"
+           fdt_libs="$fdt_libs"
+@@ -6445,6 +6441,13 @@ if test "$cpu" = "s390x" ; then
    fi
  fi
  
--echo_version() {
--    if test "$1" = "yes" ; then
--        echo "($2)"
--    fi
--}
--
++if test $git_update = 'yes' ; then
++    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
++fi
++if test "$fdt" = "git" ; then
++    symlink "$source_path/dtc/Makefile" "dtc/Makefile"
++fi
++
  config_host_mak="config-host.mak"
  
  echo "# Automatically generated by configure - do not modify" > $config_host_mak
-@@ -7380,13 +7370,10 @@ if test "$sparse" = "yes" ; then
- fi
- echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
- echo "LDFLAGS_NOPIE=$LDFLAGS_NOPIE" >> $config_host_mak
--echo "LD_REL_FLAGS=$LD_REL_FLAGS" >> $config_host_mak
- echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
--echo "LIBS_TOOLS+=$libs_tools" >> $config_host_mak
- echo "PTHREAD_LIB=$PTHREAD_LIB" >> $config_host_mak
- echo "EXESUF=$EXESUF" >> $config_host_mak
- echo "HOST_DSOSUF=$HOST_DSOSUF" >> $config_host_mak
--echo "LDFLAGS_SHARED=$LDFLAGS_SHARED" >> $config_host_mak
- echo "LIBS_QGA=$libs_qga" >> $config_host_mak
- echo "TASN1_LIBS=$tasn1_libs" >> $config_host_mak
- echo "TASN1_CFLAGS=$tasn1_cflags" >> $config_host_mak
 -- 
 2.26.2
 
