@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2449225DA25
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:41:57 +0200 (CEST)
-Received: from localhost ([::1]:49586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40ED125DA4E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 15:46:51 +0200 (CEST)
+Received: from localhost ([::1]:37838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEByW-00078A-79
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51122)
+	id 1kEC3G-0005VL-C9
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 09:46:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kEBww-00053m-TZ
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:40:18 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52079)
+ id 1kEBwx-00055q-QQ
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:40:19 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kEBwt-0005iH-MH
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:40:18 -0400
-Received: by mail-wm1-x336.google.com with SMTP id w2so6137344wmi.1
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 06:40:15 -0700 (PDT)
+ id 1kEBwv-0005jS-5v
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 09:40:19 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c15so6756762wrs.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 06:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1HD7X9SbhYs6fGl3q12O38vXP04Gsb9f3vmT+04c5ec=;
- b=UcyU49PMY5f+n/yWE3tAx9XDNpB3bI11dI3IN52CocSlwpdwUgc+n6+kPQiHwQEMnf
- aZct18Z2yH3tl5NPIb4lKzEQJErBhiqb9mNEGvppSmdCexq94U8kUyKyk3Tg5S1kgAWl
- P2D+iqhoaCJi/clEPrqFuER+vZlZEWPz8kq7yq/xZjbnR1PrUeCWhc+GKYVDnJLziFsD
- tbD6gCr1ilsyAlSH7+h7u+wzjBwm4FPdFfFpSRojYMQHxJGFKEBFgmfF69I3xzUxyPtg
- BbxtaxzY2rYKofaDYd7EtCIDBpHXew7wCUbrgYjHdL+X7s6mmtFy2qd5Gxl+ui0ix+QO
- ECdA==
+ bh=PxtiIAwJ1kjUeew0ERcC6AvTCfyYiyLhyq+ziAl/hGc=;
+ b=OSQ2q91Vm33Pjw6Ot3tzHDgsOPn153a8bPUNHhBfkNsS8jL9xKa/rjl4iiGbJ7McaR
+ 5eO1tBn8XbM8eTOV/oxgRHWzZRHXjKkGUPPIOO16MmAcvYq5z4ytGjtbP1fA/25rzgZe
+ RUTX8S8bUr77swyMU8NpFvV8lze5u5k3kGhVvWx61Ha8uUomIIrSjGPHDM0Vr5IinIoU
+ Lbr80FI8dQ9MhrlkIwaoST1G1cyNpooWq7FovbwNDbh6PExLXREz/n8DNuYDSsI7oyZ3
+ 7r7xgnV3hdKekzG05XtS+vOvOZCpj6194Dkt+Wpf5/+O+3VyaA20n7vQciaj5LplPsF2
+ sgFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1HD7X9SbhYs6fGl3q12O38vXP04Gsb9f3vmT+04c5ec=;
- b=DLR2hCT7GerZcduO8Gf00Z0ja40fy4pMjBKfEfFs8FsMMJnVbH2Qewcnv2rPdO90Uu
- Tvl2t2venWfSGh9K2QJ5rYEl17REEbw3RMRyZm1nBWITcLHNE7tGgEtXkSBqQaAPUZyv
- QNk+WaB76PRYY7rQRIr7VOLKVPPlECpC7jvA0jbhqkhHSm5HFjU8Zn91XJANmTVssFyG
- 2ciBBf+wykajFgHMQWCbr6uIGP6uE/Rn7DV4hWSMf9ii/UIvqDSHJpVgnGxWYRRWe7EX
- VPV91I4q1Yn26+cz+X35QsTVZJ8htTgr5J9xptassBF6Xk90E6oVL6G5QxxQVOuJXwNY
- zBiQ==
-X-Gm-Message-State: AOAM5337FsyBbt3zZptE3l+9TSulZlfJZnp5yqFrsBJJE6wEzZSYYGv0
- EhuVfkW4g5hI3lWRpfhc5eyc/g==
-X-Google-Smtp-Source: ABdhPJyB29zyFrI4WPILgBh0oUxGr0NO1NT0SkoFeQB/1iRymFWPnGDXhisy1QF/B6T3uqJ+pJpXiQ==
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr7730566wmb.170.1599226813982; 
- Fri, 04 Sep 2020 06:40:13 -0700 (PDT)
+ bh=PxtiIAwJ1kjUeew0ERcC6AvTCfyYiyLhyq+ziAl/hGc=;
+ b=R4CJGjblyvNjXb4rOWwB0KVGpBhmWNU//Pnyhhk0YIS1Sjk5bFGYaIVok7MdxReGxD
+ DYcuBWLr66XtOmLOkNEJ1YpPV/ewR+Bt0EtnuVTorm7w9lktrB56JJFCwKIBsdwQGpRW
+ acSXOtmKArH9EBEBLnn9TAAWWhjr+tvdWVH1xsG1lWis0y53AAtn9G0m4f3zZOCHAWax
+ i3eGNUDcBwHN8VelgEjsyd5Gt5WLNO7A+ZdmOfNECVKdso6UwU3fEDFLavzDr8EFZgfw
+ ZjvuAVw6nJ2k/ckbEiuIdbnQxPAQowaCnrId2SPxunFyy6/cfDoO3U1jnE1wiYxAxwHh
+ xxGg==
+X-Gm-Message-State: AOAM530d0Eto31PCO2SmWpbV+6O9VD3Qz4G0va1mtPko5PxqrG93NPOA
+ vLdahrFHsivjvLisYtJdtW6lnQ==
+X-Google-Smtp-Source: ABdhPJzEVNcsN1lcNONnBed52WDz/RVuuKoWxG3hJ0ZxO8FSLPgSxLkiiWwFsaRcB0Cb0RqJxIg8ew==
+X-Received: by 2002:adf:9e8d:: with SMTP id a13mr7339768wrf.94.1599226815571; 
+ Fri, 04 Sep 2020 06:40:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h185sm11751475wme.25.2020.09.04.06.40.08
+ by smtp.gmail.com with ESMTPSA id c14sm11223431wrv.12.2020.09.04.06.40.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 04 Sep 2020 06:40:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1F8A31FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 3BD0D1FF90;
  Fri,  4 Sep 2020 14:40:08 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 3/4] plugins: move the more involved plugins to contrib
-Date: Fri,  4 Sep 2020 14:40:06 +0100
-Message-Id: <20200904134007.4175-4-alex.bennee@linaro.org>
+Subject: [PATCH  v1 4/4] plugins: new hwprofile plugin
+Date: Fri,  4 Sep 2020 14:40:07 +0100
+Message-Id: <20200904134007.4175-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200904134007.4175-1-alex.bennee@linaro.org>
 References: <20200904134007.4175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,360 +88,432 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- robhenry@microsoft.com, aaron@os.amperecomputing.com, cota@braap.org,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+Cc: robert.foley@linaro.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have an exploding complexity problem in the testing so lets just
-move the more involved plugins into contrib. tests/plugins still exist
-for the basic plugins that exercise the API. We restore the old
-pre-meson style Makefile for contrib as it also doubles as a guide for
-out-of-tree plugin builds.
+This is a plugin intended to help with profiling access to various
+bits of system hardware. It only really makes sense for system
+emulation.
 
-While we are at it add some examples to the documentation and a
-specific plugins build target.
+It takes advantage of the recently exposed helper API that allows us
+to see the device name (memory region name) associated with a device.
+
+You can specify arg=read or arg=write to limit the tracking to just
+reads or writes (by default it does both).
+
+The pattern option:
+
+  -plugin ./tests/plugin/libhwprofile.so,arg=pattern
+
+will allow you to see the access pattern to devices, eg:
+
+  gic_cpu @ 0xffffffc010040000
+    off:00000000, 8, 1, 8, 1
+    off:00000000, 4, 1, 4, 1
+    off:00000000, 2, 1, 2, 1
+    off:00000000, 1, 1, 1, 1
+
+The source option:
+
+  -plugin ./tests/plugin/libhwprofile.so,arg=source
+
+will track the virtual source address of the instruction making the
+access:
+
+  pl011 @ 0xffffffc010031000
+    pc:ffffffc0104c785c, 1, 4, 0, 0
+    pc:ffffffc0104c7898, 1, 4, 0, 0
+    pc:ffffffc010512bcc, 2, 1867, 0, 0
+
+You cannot mix source and pattern.
+
+Finally the match option allow you to limit the tracking to just the
+devices you care about.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Tested-by: Robert Foley <robert.foley@linaro.org>
+Message-Id: <20200713200415.26214-12-alex.bennee@linaro.org>
+
 ---
- docs/devel/tcg-plugins.rst                    | 142 ++++++++++++++++++
- configure                                     |   2 +
- Makefile                                      |  11 ++
- {tests/plugin => contrib/plugins}/hotblocks.c |   0
- {tests/plugin => contrib/plugins}/hotpages.c  |   0
- {tests/plugin => contrib/plugins}/howvec.c    |   0
- {tests/plugin => contrib/plugins}/lockstep.c  |   0
- MAINTAINERS                                   |   1 +
- contrib/plugins/Makefile                      |  42 ++++++
- tests/Makefile.include                        |   2 +-
- tests/plugin/meson.build                      |   4 +-
- tests/tcg/Makefile.target                     |   3 +-
- 12 files changed, 202 insertions(+), 5 deletions(-)
- rename {tests/plugin => contrib/plugins}/hotblocks.c (100%)
- rename {tests/plugin => contrib/plugins}/hotpages.c (100%)
- rename {tests/plugin => contrib/plugins}/howvec.c (100%)
- rename {tests/plugin => contrib/plugins}/lockstep.c (100%)
- create mode 100644 contrib/plugins/Makefile
+vN
+  - add some notes to tcg-plugins.rst
+---
+ docs/devel/tcg-plugins.rst  |  34 ++++
+ contrib/plugins/hwprofile.c | 305 ++++++++++++++++++++++++++++++++++++
+ contrib/plugins/Makefile    |   1 +
+ 3 files changed, 340 insertions(+)
+ create mode 100644 contrib/plugins/hwprofile.c
 
 diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index a05990906cc..e079695caf9 100644
+index e079695caf9..4af6d609c98 100644
 --- a/docs/devel/tcg-plugins.rst
 +++ b/docs/devel/tcg-plugins.rst
-@@ -134,3 +134,145 @@ longer want to instrument the code. This operation is asynchronous
- which means callbacks may still occur after the uninstall operation is
- requested. The plugin isn't completely uninstalled until the safe work
- has executed while all vCPUs are quiescent.
-+
-+Example Plugins
-+===============
-+
-+There are a number of plugins included with QEMU and you are
-+encouraged to contribute them upstream. There is a `contrib/plugins`
-+directory where they can go.
-+
-+- tests/plugins
-+
-+These are some basic plugins that are used to test and exercise the
-+API during the `make check-tcg` target.
-+
-+- contrib/plugins/hotblocks.c
-+
-+The hotblocks plugin allows you to examine the where hot paths of
-+execution are in your program. Once the program has finished you will
-+get a sorted list of blocks reporting the starting PC, translation
-+count, number of instructions and execution count. This will work best
-+with linux-user execution as system emulation tends to generate
-+re-translations as blocks from different programs get swapped in and
-+out of system memory.
-+
-+If your program is single-threaded you can use the `inline` option for
-+slightly faster (but not thread safe) counters.
-+
-+Example::
-+
-+  ./aarch64-linux-user/qemu-aarch64 -plugin contrib/plugins/libhotblocks.so -d plugin ./tests/tcg/aarch64-linux-user/sha1
-+  SHA1=15dd99a1991e0b3826fede3deffc1feba42278e6
-+  collected 903 entries in the hash table
-+  pc, tcount, icount, ecount
-+  0x0000000041ed10, 1, 5, 66087
-+  0x000000004002b0, 1, 4, 66087
-+  ...
-+
-+- contrib/plugins/hotpages.c
-+
-+Similar to hotblocks but this time tracks memory accesses::
-+
-+  ./aarch64-linux-user/qemu-aarch64 -plugin contrib/plugins/libhotpages.so -d plugin ./tests/tcg/aarch64-linux-user/sha1
-+  SHA1=15dd99a1991e0b3826fede3deffc1feba42278e6
-+  Addr, RCPUs, Reads, WCPUs, Writes
-+  0x000055007fe000, 0x0001, 31747952, 0x0001, 8835161
-+  0x000055007ff000, 0x0001, 29001054, 0x0001, 8780625
-+  0x00005500800000, 0x0001, 687465, 0x0001, 335857
-+  0x0000000048b000, 0x0001, 130594, 0x0001, 355
-+  0x0000000048a000, 0x0001, 1826, 0x0001, 11
-+
-+- contrib/plugins/howvec.c
-+
-+This is an instruction classifier so can be used to count different
-+types of instructions. It has a number of options to refine which get
-+counted. You can give an argument for a class of instructions to break
-+it down fully, so for example to see all the system registers
-+accesses::
-+
-+  ./aarch64-softmmu/qemu-system-aarch64 $(QEMU_ARGS) \
-+    -append "root=/dev/sda2 systemd.unit=benchmark.service" \
-+    -smp 4 -plugin ./contrib/plugins/libhowvec.so,arg=sreg -d plugin
-+
-+which will lead to a sorted list after the class breakdown::
-+
-+  Instruction Classes:
-+  Class:   UDEF                   not counted
-+  Class:   SVE                    (68 hits)
-+  Class:   PCrel addr             (47789483 hits)
-+  Class:   Add/Sub (imm)          (192817388 hits)
-+  Class:   Logical (imm)          (93852565 hits)
-+  Class:   Move Wide (imm)        (76398116 hits)
-+  Class:   Bitfield               (44706084 hits)
-+  Class:   Extract                (5499257 hits)
-+  Class:   Cond Branch (imm)      (147202932 hits)
-+  Class:   Exception Gen          (193581 hits)
-+  Class:     NOP                  not counted
-+  Class:   Hints                  (6652291 hits)
-+  Class:   Barriers               (8001661 hits)
-+  Class:   PSTATE                 (1801695 hits)
-+  Class:   System Insn            (6385349 hits)
-+  Class:   System Reg             counted individually
-+  Class:   Branch (reg)           (69497127 hits)
-+  Class:   Branch (imm)           (84393665 hits)
-+  Class:   Cmp & Branch           (110929659 hits)
-+  Class:   Tst & Branch           (44681442 hits)
-+  Class:   AdvSimd ldstmult       (736 hits)
-+  Class:   ldst excl              (9098783 hits)
-+  Class:   Load Reg (lit)         (87189424 hits)
-+  Class:   ldst noalloc pair      (3264433 hits)
-+  Class:   ldst pair              (412526434 hits)
-+  Class:   ldst reg (imm)         (314734576 hits)
-+  Class: Loads & Stores           (2117774 hits)
-+  Class: Data Proc Reg            (223519077 hits)
-+  Class: Scalar FP                (31657954 hits)
-+  Individual Instructions:
-+  Instr: mrs x0, sp_el0           (2682661 hits)  (op=0xd5384100/  System Reg)
-+  Instr: mrs x1, tpidr_el2        (1789339 hits)  (op=0xd53cd041/  System Reg)
-+  Instr: mrs x2, tpidr_el2        (1513494 hits)  (op=0xd53cd042/  System Reg)
-+  Instr: mrs x0, tpidr_el2        (1490823 hits)  (op=0xd53cd040/  System Reg)
-+  Instr: mrs x1, sp_el0           (933793 hits)   (op=0xd5384101/  System Reg)
-+  Instr: mrs x2, sp_el0           (699516 hits)   (op=0xd5384102/  System Reg)
-+  Instr: mrs x4, tpidr_el2        (528437 hits)   (op=0xd53cd044/  System Reg)
-+  Instr: mrs x30, ttbr1_el1       (480776 hits)   (op=0xd538203e/  System Reg)
-+  Instr: msr ttbr1_el1, x30       (480713 hits)   (op=0xd518203e/  System Reg)
-+  Instr: msr vbar_el1, x30        (480671 hits)   (op=0xd518c01e/  System Reg)
-+  ...
-+
-+To find the argument shorthand for the class you need to examine the
-+source code of the plugin at the moment, specifically the `*opt`
-+argument in the InsnClassExecCount tables.
-+
-+- contrib/plugins/lockstep.c
-+
-+This is a debugging tool for developers who want to find out when and
-+where execution diverges after a subtle change to TCG code generation.
-+It is not an exact science and results are likely to be mixed once
-+asynchronous events are introduced. While the use of -icount can
-+introduce determinism to the execution flow it doesn't always follow
-+the translation sequence will be exactly the same. Typically this is
-+caused by a timer firing to service the GUI causing a block to end
-+early. However in some cases it has proved to be useful in pointing
-+people at roughly where execution diverges. The only argument you need
-+for the plugin is a path for the socket the two instances will
-+communicate over::
-+
-+
-+  ./sparc-softmmu/qemu-system-sparc -monitor none -parallel none \
-+    -net none -M SS-20 -m 256 -kernel day11/zImage.elf \
-+    -plugin ./contrib/plugins/liblockstep.so,arg=lockstep-sparc.sock \
-+  -d plugin,nochain
-+
-+which will eventually report::
-+
-+  qemu-system-sparc: warning: nic lance.0 has no peer
-+  @ 0x000000ffd06678 vs 0x000000ffd001e0 (2/1 since last)
-+  @ 0x000000ffd07d9c vs 0x000000ffd06678 (3/1 since last)
-+  Δ insn_count @ 0x000000ffd07d9c (809900609) vs 0x000000ffd06678 (809900612)
-+    previously @ 0x000000ffd06678/10 (809900609 insns)
-+    previously @ 0x000000ffd001e0/4 (809900599 insns)
-+    previously @ 0x000000ffd080ac/2 (809900595 insns)
-+    previously @ 0x000000ffd08098/5 (809900593 insns)
-+    previously @ 0x000000ffd080c0/1 (809900588 insns)
-+
-diff --git a/configure b/configure
-index f555923311f..2e4d3898012 100755
---- a/configure
-+++ b/configure
-@@ -8073,6 +8073,7 @@ DIRS="$DIRS tests/qtest tests/qemu-iotests tests/vm tests/fp tests/qgraph"
- DIRS="$DIRS docs docs/interop fsdev scsi"
- DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
- DIRS="$DIRS roms/seabios"
-+DIRS="$DIRS contrib/plugins/"
- LINKS="Makefile"
- LINKS="$LINKS tests/tcg/lm32/Makefile"
- LINKS="$LINKS tests/tcg/Makefile.target"
-@@ -8084,6 +8085,7 @@ LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
- LINKS="$LINKS tests/acceptance tests/data"
- LINKS="$LINKS tests/qemu-iotests/check"
- LINKS="$LINKS python"
-+LINKS="$LINKS contrib/plugins/Makefile "
- UNLINK="pc-bios/keymaps"
- for bios_file in \
-     $source_path/pc-bios/*.bin \
-diff --git a/Makefile b/Makefile
-index ed354c43b0b..2f1b18327dc 100644
---- a/Makefile
-+++ b/Makefile
-@@ -98,6 +98,12 @@ config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios $(SRC_PATH)/VERSION
- # Force configure to re-run if the API symbols are updated
- ifeq ($(CONFIG_PLUGIN),y)
- config-host.mak: $(SRC_PATH)/plugins/qemu-plugins.symbols
-+
-+.PHONY: plugins
-+plugins:
-+	$(call quiet-command,\
-+		$(MAKE) $(SUBDIR_MAKEFLAGS) -C contrib/plugins V="$(V)", \
-+		"BUILD", "example plugins")
- endif
+@@ -276,3 +276,37 @@ which will eventually report::
+     previously @ 0x000000ffd08098/5 (809900593 insns)
+     previously @ 0x000000ffd080c0/1 (809900588 insns)
  
- else
-@@ -276,6 +282,11 @@ help:
- 	$(call print-help,cscope,Generate cscope index)
- 	$(call print-help,sparse,Run sparse on the QEMU source)
- 	@echo  ''
-+ifeq ($(CONFIG_PLUGIN),y)
-+	@echo  'Plugin targets:'
-+	$(call print-help,plugins,Build the example TCG plugins)
-+	@echo  ''
-+endif
- 	@echo  'Cleaning targets:'
- 	$(call print-help,clean,Remove most generated files but keep the config)
- 	$(call print-help,distclean,Remove all generated files)
-diff --git a/tests/plugin/hotblocks.c b/contrib/plugins/hotblocks.c
-similarity index 100%
-rename from tests/plugin/hotblocks.c
-rename to contrib/plugins/hotblocks.c
-diff --git a/tests/plugin/hotpages.c b/contrib/plugins/hotpages.c
-similarity index 100%
-rename from tests/plugin/hotpages.c
-rename to contrib/plugins/hotpages.c
-diff --git a/tests/plugin/howvec.c b/contrib/plugins/howvec.c
-similarity index 100%
-rename from tests/plugin/howvec.c
-rename to contrib/plugins/howvec.c
-diff --git a/tests/plugin/lockstep.c b/contrib/plugins/lockstep.c
-similarity index 100%
-rename from tests/plugin/lockstep.c
-rename to contrib/plugins/lockstep.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b233da2a737..8d8eeac61f5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2746,6 +2746,7 @@ S: Maintained
- F: docs/devel/tcg-plugins.rst
- F: plugins/
- F: tests/plugin
-+F: contrib/plugins
- 
- AArch64 TCG target
- M: Richard Henderson <richard.henderson@linaro.org>
-diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
++- contrib/plugins/hwprofile
++
++The hwprofile tool can only be used with system emulation and allows
++the user to see what hardware is accessed how often. It has a number of options:
++
++ * arg=read or arg=write
++
++ By default the plugin tracks both reads and writes. You can use one
++ of these options to limit the tracking to just one class of accesses.
++
++ * arg=source
++
++ Will include a detailed break down of what the guest PC that made the
++ access was. Not compatible with arg=pattern. Example output::
++
++   cirrus-low-memory @ 0xfffffd00000a0000
++    pc:fffffc0000005cdc, 1, 256
++    pc:fffffc0000005ce8, 1, 256
++    pc:fffffc0000005cec, 1, 256
++
++ * arg=pattern
++
++ Instead break down the accesses based on the offset into the HW
++ region. This can be useful for seeing the most used registers of a
++ device. Example output::
++
++    pci0-conf @ 0xfffffd01fe000000
++      off:00000004, 1, 1
++      off:00000010, 1, 3
++      off:00000014, 1, 3
++      off:00000018, 1, 2
++      off:0000001c, 1, 2
++      off:00000020, 1, 2
++      ...
+diff --git a/contrib/plugins/hwprofile.c b/contrib/plugins/hwprofile.c
 new file mode 100644
-index 00000000000..7801b08b0d6
+index 00000000000..6dac1d5f854
 --- /dev/null
++++ b/contrib/plugins/hwprofile.c
+@@ -0,0 +1,305 @@
++/*
++ * Copyright (C) 2020, Alex Bennée <alex.bennee@linaro.org>
++ *
++ * HW Profile - breakdown access patterns for IO to devices
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <inttypes.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <glib.h>
++
++#include <qemu-plugin.h>
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
++#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
++
++typedef struct {
++    uint64_t cpu_read;
++    uint64_t cpu_write;
++    uint64_t reads;
++    uint64_t writes;
++} IOCounts;
++
++typedef struct {
++    uint64_t off_or_pc;
++    IOCounts counts;
++} IOLocationCounts;
++
++typedef struct {
++    const char *name;
++    uint64_t   base;
++    IOCounts   totals;
++    GHashTable *detail;
++} DeviceCounts;
++
++static GMutex lock;
++static GHashTable *devices;
++
++/* track the access pattern to a piece of HW */
++static bool pattern;
++/* track the source address of access to HW */
++static bool source;
++/* track only matched regions of HW */
++static bool check_match;
++static gchar **matches;
++
++static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
++
++static inline bool track_reads(void)
++{
++    return rw == QEMU_PLUGIN_MEM_RW || rw == QEMU_PLUGIN_MEM_R;
++}
++
++static inline bool track_writes(void)
++{
++    return rw == QEMU_PLUGIN_MEM_RW || rw == QEMU_PLUGIN_MEM_W;
++}
++
++static void plugin_init(void)
++{
++    devices = g_hash_table_new(NULL, NULL);
++}
++
++static gint sort_cmp(gconstpointer a, gconstpointer b)
++{
++    DeviceCounts *ea = (DeviceCounts *) a;
++    DeviceCounts *eb = (DeviceCounts *) b;
++    return ea->totals.reads + ea->totals.writes >
++           eb->totals.reads + eb->totals.writes ? -1 : 1;
++}
++
++static gint sort_loc(gconstpointer a, gconstpointer b)
++{
++    IOLocationCounts *ea = (IOLocationCounts *) a;
++    IOLocationCounts *eb = (IOLocationCounts *) b;
++    return ea->off_or_pc > eb->off_or_pc;
++}
++
++static void fmt_iocount_record(GString *s, IOCounts *rec)
++{
++    if (track_reads()) {
++        g_string_append_printf(s, ", %"PRIx64", %"PRId64,
++                               rec->cpu_read, rec->reads);
++    }
++    if (track_writes()) {
++        g_string_append_printf(s, ", %"PRIx64", %"PRId64,
++                               rec->cpu_write, rec->writes);
++    }
++}
++
++static void fmt_dev_record(GString *s, DeviceCounts *rec)
++{
++    g_string_append_printf(s, "%s, 0x%"PRIx64,
++                           rec->name, rec->base);
++    fmt_iocount_record(s, &rec->totals);
++    g_string_append_c(s, '\n');
++}
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    g_autoptr(GString) report = g_string_new("");
++    GList *counts;
++
++    if (!(pattern || source)) {
++        g_string_printf(report, "Device, Address");
++        if (track_reads()) {
++            g_string_append_printf(report, ", RCPUs, Reads");
++        }
++        if (track_writes()) {
++            g_string_append_printf(report, ",  WCPUs, Writes");
++        }
++        g_string_append_c(report, '\n');
++    }
++
++    counts = g_hash_table_get_values(devices);
++    if (counts && g_list_next(counts)) {
++        GList *it;
++
++        it = g_list_sort(counts, sort_cmp);
++
++        while (it) {
++            DeviceCounts *rec = (DeviceCounts *) it->data;
++            if (rec->detail) {
++                GList *accesses = g_hash_table_get_values(rec->detail);
++                GList *io_it = g_list_sort(accesses, sort_loc);
++                const char *prefix = pattern ? "off" : "pc";
++                g_string_append_printf(report, "%s @ 0x%"PRIx64"\n",
++                                       rec->name, rec->base);
++                while (io_it) {
++                    IOLocationCounts *loc = (IOLocationCounts *) io_it->data;
++                    g_string_append_printf(report, "  %s:%08"PRIx64,
++                                           prefix, loc->off_or_pc);
++                    fmt_iocount_record(report, &loc->counts);
++                    g_string_append_c(report, '\n');
++                    io_it = io_it->next;
++                }
++            } else {
++                fmt_dev_record(report, rec);
++            }
++            it = it->next;
++        };
++        g_list_free(it);
++    }
++
++    qemu_plugin_outs(report->str);
++}
++
++static DeviceCounts *new_count(const char *name, uint64_t base)
++{
++    DeviceCounts *count = g_new0(DeviceCounts, 1);
++    count->name = name;
++    count->base = base;
++    if (pattern || source) {
++        count->detail = g_hash_table_new(NULL, NULL);
++    }
++    g_hash_table_insert(devices, (gpointer) name, count);
++    return count;
++}
++
++static IOLocationCounts *new_location(GHashTable *table, uint64_t off_or_pc)
++{
++    IOLocationCounts *loc = g_new0(IOLocationCounts, 1);
++    loc->off_or_pc = off_or_pc;
++    g_hash_table_insert(table, (gpointer) off_or_pc, loc);
++    return loc;
++}
++
++static void hwprofile_match_hit(DeviceCounts *rec, uint64_t off)
++{
++    g_autoptr(GString) report = g_string_new("hwprofile: match @ offset");
++    g_string_append_printf(report, "%"PRIx64", previous hits\n", off);
++    fmt_dev_record(report, rec);
++    qemu_plugin_outs(report->str);
++}
++
++static void inc_count(IOCounts *count, bool is_write, unsigned int cpu_index)
++{
++    if (is_write) {
++        count->writes++;
++        count->cpu_write |= (1 << cpu_index);
++    } else {
++        count->reads++;
++        count->cpu_read |= (1 << cpu_index);
++    }
++}
++
++static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
++                       uint64_t vaddr, void *udata)
++{
++    struct qemu_plugin_hwaddr *hwaddr = qemu_plugin_get_hwaddr(meminfo, vaddr);
++
++    if (!hwaddr || !qemu_plugin_hwaddr_is_io(hwaddr)) {
++        return;
++    } else {
++        const char *name = qemu_plugin_hwaddr_device_name(hwaddr);
++        uint64_t off = qemu_plugin_hwaddr_device_offset(hwaddr);
++        bool is_write = qemu_plugin_mem_is_store(meminfo);
++        DeviceCounts *counts;
++
++        g_mutex_lock(&lock);
++        counts = (DeviceCounts *) g_hash_table_lookup(devices, name);
++
++        if (!counts) {
++            uint64_t base = vaddr - off;
++            counts = new_count(name, base);
++        }
++
++        if (check_match) {
++            if (g_strv_contains((const char * const *)matches, counts->name)) {
++                hwprofile_match_hit(counts, off);
++                inc_count(&counts->totals, is_write, cpu_index);
++            }
++        } else {
++            inc_count(&counts->totals, is_write, cpu_index);
++        }
++
++        /* either track offsets or source of access */
++        if (source) {
++            off = (uint64_t) udata;
++        }
++
++        if (pattern || source) {
++            IOLocationCounts *io_count = g_hash_table_lookup(counts->detail,
++                                                             (gpointer) off);
++            if (!io_count) {
++                io_count = new_location(counts->detail, off);
++            }
++            inc_count(&io_count->counts, is_write, cpu_index);
++        }
++
++        g_mutex_unlock(&lock);
++    }
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    size_t n = qemu_plugin_tb_n_insns(tb);
++    size_t i;
++
++    for (i = 0; i < n; i++) {
++        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
++        gpointer udata = (gpointer) (source ? qemu_plugin_insn_vaddr(insn) : 0);
++        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_haddr,
++                                         QEMU_PLUGIN_CB_NO_REGS,
++                                         rw, udata);
++    }
++}
++
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
++{
++    int i;
++
++    for (i = 0; i < argc; i++) {
++        char *opt = argv[i];
++        if (g_strcmp0(opt, "read") == 0) {
++            rw = QEMU_PLUGIN_MEM_R;
++        } else if (g_strcmp0(opt, "write") == 0) {
++            rw = QEMU_PLUGIN_MEM_W;
++        } else if (g_strcmp0(opt, "pattern") == 0) {
++            pattern = true;
++        } else if (g_strcmp0(opt, "source") == 0) {
++            source = true;
++        } else if (g_str_has_prefix(opt, "match")) {
++            gchar **parts = g_strsplit(opt, "=", 2);
++            check_match = true;
++            matches = g_strsplit(parts[1], ",", -1);
++            g_strfreev(parts);
++        } else {
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
++        }
++    }
++
++    if (source && pattern) {
++        fprintf(stderr, "can only currently track either source or pattern.\n");
++        return -1;
++    }
++
++    if (!info->system_emulation) {
++        fprintf(stderr, "hwprofile: plugin only useful for system emulation\n");
++        return -1;
++    }
++
++    /* Just warn about overflow */
++    if (info->system.smp_vcpus > 64 ||
++        info->system.max_vcpus > 64) {
++        fprintf(stderr, "hwprofile: can only track up to 64 CPUs\n");
++    }
++
++    plugin_init();
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
+diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+index 7801b08b0d6..b9d7935e5ef 100644
+--- a/contrib/plugins/Makefile
 +++ b/contrib/plugins/Makefile
-@@ -0,0 +1,42 @@
-+# -*- Mode: makefile -*-
-+#
-+# This Makefile example is fairly independent from the main makefile
-+# so users can take and adapt it for their build. We only really
-+# include config-host.mak so we don't have to repeat probing for
-+# cflags that the main configure has already done for us.
-+#
-+
-+BUILD_DIR := $(CURDIR)/../..
-+
-+include $(BUILD_DIR)/config-host.mak
-+
-+VPATH += $(SRC_PATH)/contrib/plugins
-+
-+NAMES :=
-+NAMES += hotblocks
-+NAMES += hotpages
-+NAMES += howvec
-+NAMES += lockstep
-+
-+SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
-+
-+# The main QEMU uses Glib extensively so it's perfectly fine to use it
-+# in plugins (which many example do).
-+CFLAGS = $(GLIB_CFLAGS)
-+CFLAGS += -fPIC
-+CFLAGS += $(if $(findstring no-psabi,$(QEMU_CFLAGS)),-Wpsabi)
-+CFLAGS += -I$(SRC_PATH)/include/qemu
-+
-+all: $(SONAMES)
-+
-+%.o: %.c
-+	$(CC) $(CFLAGS) -c -o $@ $<
-+
-+lib%.so: %.o
-+	$(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
-+
-+clean:
-+	rm -f *.o *.so *.d
-+	rm -Rf .libs
-+
-+.PHONY: all clean
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9ac8f5b86a6..5a961d366e5 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -439,7 +439,7 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
- $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
- 	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.prereqs))
+@@ -17,6 +17,7 @@ NAMES += hotblocks
+ NAMES += hotpages
+ NAMES += howvec
+ NAMES += lockstep
++NAMES += hwprofile
  
--build-tcg-tests-%: $(if $(CONFIG_PLUGIN),plugins)
-+build-tcg-tests-%: $(if $(CONFIG_PLUGIN),test-plugins)
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
- 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
- 		SRC_PATH=$(SRC_PATH) \
-diff --git a/tests/plugin/meson.build b/tests/plugin/meson.build
-index dbbdcbaa670..1eacfa6e355 100644
---- a/tests/plugin/meson.build
-+++ b/tests/plugin/meson.build
-@@ -1,7 +1,7 @@
- t = []
--foreach i : ['bb', 'empty', 'insn', 'mem', 'hotblocks', 'howvec', 'hotpages', 'lockstep']
-+foreach i : ['bb', 'empty', 'insn', 'mem']
-   t += shared_module(i, files(i + '.c'),
-                      include_directories: '../../include/qemu',
-                      dependencies: glib)
- endforeach
--alias_target('plugins', t)
-+alias_target('test-plugins', t)
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 4b2b696fcee..2ae86776cdc 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -129,8 +129,7 @@ ifeq ($(CONFIG_PLUGIN),y)
- PLUGIN_SRC=$(SRC_PATH)/tests/plugin
- PLUGIN_LIB=../../plugin
- VPATH+=$(PLUGIN_LIB)
--PLUGINS=$(filter-out liblockstep.so,\
--		$(patsubst %.c, lib%.so, $(notdir $(wildcard $(PLUGIN_SRC)/*.c))))
-+PLUGINS=$(patsubst %.c, lib%.so, $(notdir $(wildcard $(PLUGIN_SRC)/*.c)))
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
  
- # We need to ensure expand the run-plugin-TEST-with-PLUGIN
- # pre-requistes manually here as we can't use stems to handle it. We
 -- 
 2.20.1
 
