@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775F625D7BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:47:03 +0200 (CEST)
-Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8686525D7DB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:51:54 +0200 (CEST)
+Received: from localhost ([::1]:47014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEABK-0008O3-Fj
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:47:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
+	id 1kEAG1-0001YQ-Fb
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA64-0008A0-0j
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:36 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50119
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kEA6E-0008Dj-8M
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31532
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA5y-0005C7-O9
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:35 -0400
+ id 1kEA61-0005Cf-GH
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:41:45 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-3qb8Cu36Mr6VUjrJvRlZCg-1; Fri, 04 Sep 2020 07:41:28 -0400
-X-MC-Unique: 3qb8Cu36Mr6VUjrJvRlZCg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-149-V8WdtPSbOz6ZbtKL45uAYw-1; Fri, 04 Sep 2020 07:41:30 -0400
+X-MC-Unique: V8WdtPSbOz6ZbtKL45uAYw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DD901084D7B;
- Fri,  4 Sep 2020 11:41:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A273618B9F5A
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:28 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E19565D9F7;
- Fri,  4 Sep 2020 11:41:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 303C778819
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/46] configure: do not include absolute paths in -I and -L
- paths
-Date: Fri,  4 Sep 2020 07:40:45 -0400
-Message-Id: <20200904114122.31307-10-pbonzini@redhat.com>
+Subject: [PULL 10/46] configure: include cross sdl2-config in meson cross file
+Date: Fri,  4 Sep 2020 07:40:46 -0400
+Message-Id: <20200904114122.31307-11-pbonzini@redhat.com>
 In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
 References: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,62 +69,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On msys2, paths such as -L/e/path/to/qemu are not recognized by
-the linker.  Fortunately we do not need absolute paths at all in a
-non-recursive build system.
-
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ configure | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/configure b/configure
-index f555923311..644e2c923d 100755
+index 644e2c923d..e65662a3b3 100755
 --- a/configure
 +++ b/configure
-@@ -943,7 +943,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   kvm="yes"
--  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
-   libudev="yes"
- ;;
- esac
-@@ -4265,7 +4265,7 @@ EOF
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-           fi
-           fdt_cflags="-I${source_path}/dtc/libfdt"
--          fdt_ldflags="-L$PWD/dtc/libfdt"
-+          fdt_ldflags="-Ldtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -5250,7 +5250,7 @@ case "$capstone" in
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    capstone_libs="-L$PWD/capstone -lcapstone"
-+    capstone_libs="-Lcapstone -lcapstone"
-     capstone_cflags="-I${source_path}/capstone/include"
-     ;;
- 
-@@ -6250,8 +6250,8 @@ case "$slirp" in
-       git_submodules="${git_submodules} slirp"
-     fi
-     mkdir -p slirp
--    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
--    slirp_libs="-L$PWD/slirp -lslirp"
-+    slirp_cflags="-I${source_path}/slirp/src -Islirp/src"
-+    slirp_libs="-Lslirp -lslirp"
-     if test "$mingw32" = "yes" ; then
-       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
-     fi
+@@ -8156,6 +8156,9 @@ echo "ar = $(meson_quote $ar)" >> $cross
+ echo "nm = $(meson_quote $nm)" >> $cross
+ echo "pkgconfig = $(meson_quote $pkg_config_exe)" >> $cross
+ echo "ranlib = $(meson_quote $ranlib)" >> $cross
++if has $sdl2_config; then
++  echo "sdl2-config = $(meson_quote $sdl2_config)" >> $cross
++fi
+ echo "strip = $(meson_quote $strip)" >> $cross
+ echo "windres = $(meson_quote $windres)" >> $cross
+ if test -n "$cross_prefix"; then
 -- 
 2.26.2
 
