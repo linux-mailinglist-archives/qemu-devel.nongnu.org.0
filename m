@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F117D25E02D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:49:02 +0200 (CEST)
-Received: from localhost ([::1]:59736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2734425E03A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:52:43 +0200 (CEST)
+Received: from localhost ([::1]:36914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEEta-0004tS-1w
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41328)
+	id 1kEEx8-0007St-7V
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEo1-0006jp-I0
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35825
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnz-0000BZ-Rr
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599237795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rHHf3/LDAtbo5xhGvAYZ98cUty3t4ZOTgFXkNR2xX2g=;
- b=iJaT1YQ1LS/Wc4cSuKEVAeZrXpbXcM7f5KfOevR+KwA3d9zuitqVj881wDani+hxPqgIfM
- +8qJepdXi+Hwm2LktQZx2pmzhuv8zvPehNcCdIMowa81p3kqPfL6vmVO9i4N/JPcfNohO4
- QS5wCgQ9l190KGobyPyIrISc59NQJMU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-92-aIOyD_UsNhS50HbIP2RRaQ-1; Fri, 04 Sep 2020 12:43:13 -0400
-X-MC-Unique: aIOyD_UsNhS50HbIP2RRaQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 942B81074650;
- Fri,  4 Sep 2020 16:43:12 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-120-166.rdu2.redhat.com
- [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A4F319C59;
- Fri,  4 Sep 2020 16:43:11 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 7/7] scripts/ci/gitlab-pipeline-status: wait for pipeline
- creation
-Date: Fri,  4 Sep 2020 12:42:58 -0400
-Message-Id: <20200904164258.240278-8-crosa@redhat.com>
-In-Reply-To: <20200904164258.240278-1-crosa@redhat.com>
-References: <20200904164258.240278-1-crosa@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kEEwP-0006xK-PW
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:51:57 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kEEwN-0001Od-NL
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:51:57 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e16so7414368wrm.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 09:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4duUGoQXDKkk+15r/4jG9Yu6iIkSZXmDV4hH5PvDtEs=;
+ b=HrGAhPlnd+GnJNGVH24tf+F5+4TDmJP2B0QKL/VtXo0/kMBHv3CyXIPXc9Zj2C9VBB
+ POnyYZHP2+KfufFNS4rYHDMeDM7631Nb8P6XqxriWHN3aPRv3Mj1MVazmyfuhsQAgMAY
+ sHnEus9VB8x3moEY6eRHii3kM4cTisVOyASmmljEGoRBklVB9KdD4KXkdgUvw9pYeboY
+ vqrcMfrgKM+eI+Pi6TFW/wa1l2xYDYUKn3IbLhWL2IOKUGu5Q1UxuxYUVtSpu17fIzxv
+ QPwBV5D8uNIqazVqHwuxbxTc9YBwC8zLGKgZ1YTxtcwxl9Edz8i6xdcYLipGItEQjRY1
+ DkpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4duUGoQXDKkk+15r/4jG9Yu6iIkSZXmDV4hH5PvDtEs=;
+ b=HD6HFvAuIjX3gJDIiNjDBPhgobQzbsMuftLEcYj9U+Vc/dUlpiyQK3RYnBknyPKb/8
+ l/5H/3G33QUtJQEsMDAjcgrSRMYQC0wNXVo+hg5zdCQnFeba6V+LOHfAD0vMMtGF264h
+ 8ogE4+bdfcykGp9BLzM2IZlnX2U4Ynl5iNjKFyNa+jPhomC05BLRru1nBW5WJaRXrcPI
+ 2IruygQ5X5razVyaaLopsIWPxNCdaRXAIZTDbEFCWRXLbUZ5RJ0koqeso/pazKzUUSnU
+ OuBCcHY8Rh34qiApqg6caVfR+r73dKGF1XAn5cCDJ8bx8R/zQRXgzE8CfmpG8vuQt66o
+ 3CFA==
+X-Gm-Message-State: AOAM531Q0FdjXo313CH4b5PuMNxp2ghvtBWpSjCO7/8+g9dIRyomgwO5
+ LMf1cdx39WVX7ZgAU60E9AEFQQ==
+X-Google-Smtp-Source: ABdhPJw5YI7d9zcjRZMbILfy13U1idmGoJPQVzEuyC1veU3z7KfdIXe7VIUYqAmgEqykk0KYGf1YHg==
+X-Received: by 2002:a05:6000:83:: with SMTP id
+ m3mr8396292wrx.165.1599238313154; 
+ Fri, 04 Sep 2020 09:51:53 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q15sm12900162wrr.8.2020.09.04.09.51.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Sep 2020 09:51:51 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 66D381FF7E;
+ Fri,  4 Sep 2020 17:51:51 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] docs/system/deprecated: mark ppc64abi32-linux-user for
+ deprecation
+Date: Fri,  4 Sep 2020 17:51:40 +0100
+Message-Id: <20200904165140.10962-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=crosa@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,56 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When called in wait mode, this script will also wait for the pipeline
-to be get to a "running" state.  Because many more status may be seen
-until a pipeline gets to "running", and those need to be handle too.
+It's buggy and we are not sure anyone uses it.
 
-Reference: https://docs.gitlab.com/ee/api/pipelines.html#list-project-pipelines
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Richard Henderson <rth@twiddle.net>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/ci/gitlab-pipeline-status | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ docs/system/deprecated.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
-index 628150ce0b..bac8233079 100755
---- a/scripts/ci/gitlab-pipeline-status
-+++ b/scripts/ci/gitlab-pipeline-status
-@@ -83,13 +83,22 @@ def wait_on_pipeline_success(timeout, interval,
-             print(msg)
-             return False
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 851dbdeb8ab..11c763383d9 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -424,6 +424,15 @@ linux-user mode) is deprecated and will be removed in a future version
+ of QEMU. Support for this CPU was removed from the upstream Linux
+ kernel in 2018, and has also been dropped from glibc.
  
--        status = get_pipeline_status(project_id, commit_sha)
--        if status['status'] == 'running':
--            print('running...')
-+        try:
-+            status = get_pipeline_status(project_id, commit_sha)
-+        except NoPipelineFound:
-+            print('Pipeline has not been found, it may not have been created yet.')
-+            time.sleep(1)
-+            continue
++``ppc64abi32`` CPUs (since 5.2.0)
++'''''''''''''''''''''''''''''''''
 +
-+        pipeline_status = status['status']
-+        status_to_wait = ('created', 'waiting_for_resource', 'preparing',
-+                          'pending', 'running')
-+        if pipeline_status in status_to_wait:
-+            print('%s...' % pipeline_status)
-             time.sleep(interval)
-             continue
++The ``ppc64abi32`` architecture has a number of issues which regularly
++trip up our CI testing and is suspected to be quite broken.
++Furthermore the maintainers are unsure what the correct behaviour
++should be and strongly suspect no one actually uses it.
++
++
+ Related binaries
+ ----------------
  
--        if status['status'] == 'success':
-+        if pipeline_status == 'success':
-             return True
- 
-         msg = "Pipeline failed, check: %s" % status['web_url']
 -- 
-2.25.4
+2.20.1
 
 
