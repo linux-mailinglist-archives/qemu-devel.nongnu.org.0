@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8887325DFC8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:27:46 +0200 (CEST)
-Received: from localhost ([::1]:58820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AEE25DFCB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:28:52 +0200 (CEST)
+Received: from localhost ([::1]:36104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEEYz-00082i-JE
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38214)
+	id 1kEEa3-0001uf-2H
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEEXy-0006jA-4N
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:26:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43013
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEEXw-0006E2-KF
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:26:41 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-532-_HiUvyFyNJqDWPlxJn9QwA-1; Fri, 04 Sep 2020 12:26:38 -0400
-X-MC-Unique: _HiUvyFyNJqDWPlxJn9QwA-1
-Received: by mail-wm1-f69.google.com with SMTP id m25so2380826wmi.0
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 09:26:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kEEYP-0007aO-5N
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:27:09 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kEEYN-0006HQ-Bh
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:27:08 -0400
+Received: by mail-wm1-x342.google.com with SMTP id a9so6635771wmm.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 09:27:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=FDgjATz2hkLLkr5+NwdHM1uLmFg0lD0qlJ/FT8CZRsE=;
+ b=JC2nMATXE91UYLXbMubeDttAZbd33+HiDNrqobW8EmuO8ts2qXB5sPhbXBBYz0R7nR
+ 5owbI6gKRwyeQ7xfyV9PoJEQ2wzDhX2UShbIcwYMNcAfnSxVQSdxfo4AJA1xRqCUlo0r
+ D5u5/EPn0tKg/mDZHc2mCs/tX21HWS/uE51LfoIpeLInxioJ1lWSA4ccFhp+ssmYQMWM
+ 0MZBX6fJPA0PG3ceHDKGtulWKGtqoBOSJcGy4jS5fBLfDnqmyoyfkD+uN9/DuR5oc3my
+ dlIZnskRfqaumOC05JbLe8+LAuxsPD89fzhw9y1y/GvKEQ0tr5ysxTbNiqpirEqMLH5h
+ MrjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GdvdfUi8dGdv0X8iaMX8T8wTAWC4cqEFs01+jCQjKC4=;
- b=X1Zp5ZCV8LuVeJVYK5RRjddLJDgoIe8z8CucacXLSopZseeh9K//I46Bn8DCHSnMdI
- nDzAp9VqSOc3HyHOWnXHJ1VldzXWugm/BVhF7H+P1HmPC2lkaM6SiogELDWnUsRe2EXY
- RzyW4HVMPUz+zPcaSTPYES3f9D/6F6E0TNqIMXKdsTSdvymVpIZ3GGOR9dBvU50AmoxY
- Zg0ye6idfTvce8lXOv2RLk92muDp51oENf1a8Ij+hA7w1mC5+PnTIReuODILa5FqMkYH
- ZVZPSLq3Q8BxhvL2NXLOuN1qTjOcjbzq6N1Q7/zNIAIxPOYbYWad6l3/cPIfQJD2Sg8o
- xgKQ==
-X-Gm-Message-State: AOAM532yDsAgYsJqOp2FjCx48zDuJxS6lng1X9l/n+mXZbYgSGigWr20
- 9g6bFzrAGwgLtvIf2B33Ji0pg02CdBzDYZkalNEe32mE+X+sczD9zDOyeqon/MRX3YbyWiI1AVt
- 66csM7jUVqLGli30=
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr5323041wmc.154.1599236796732; 
- Fri, 04 Sep 2020 09:26:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9Qj9qQ2RsQJL+8y+3agMRElI17bTJ7XjUIbySjwHTCX/9+uTnZDOkfoFuyP6BiiHl1SuKXQ==
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr5323027wmc.154.1599236796567; 
- Fri, 04 Sep 2020 09:26:36 -0700 (PDT)
-Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id 189sm12479473wmb.3.2020.09.04.09.26.35
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=FDgjATz2hkLLkr5+NwdHM1uLmFg0lD0qlJ/FT8CZRsE=;
+ b=lY8itVIIgTUA1Ch10FMFrEfVk4IZeeiFxG50rNLxuZr4v/PvohRyfvOGogkrpVOVk4
+ 4l2QNRxYRezYfd8xRSj2Met7uQOzycr0uiW3lpGgjalcErxSg0xvqECVkQHvMsINA8F8
+ oFkkzk2b3C4vXqENLxBl3B18h85qZv+3tDx00hebAKp77hZQfy5nSgIAcbyEfH1FdeNz
+ c4xsbEa7pRbCnxHgvOtRoXaFtDi2kkQNEUQ3sT4RPbQJ7+ZsyrbDBIlK4ALGjIznC17L
+ 9/bEMwfSM/HG3vh0f2fS+Mu2XceWIERHetOL3ji1q3EIGKd4oMS+yBLZZsfbNWeV7kA/
+ C7jw==
+X-Gm-Message-State: AOAM530ZNBF2b0PuxNkXN4nk8BFj534RD6VntWhLZd0BinpyzNQYbFfF
+ vhg9nHsXHvuA+hA2KYEwtnbpMw==
+X-Google-Smtp-Source: ABdhPJwh4B11XrL2UdfHAjwkQNyC0u1YMqdecT9lgLidWTJOSBZ8ugwaevYdK/9p5JAQPGoGZFS1Bw==
+X-Received: by 2002:a1c:998c:: with SMTP id b134mr8210036wme.59.1599236825261; 
+ Fri, 04 Sep 2020 09:27:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v2sm13378741wrn.44.2020.09.04.09.27.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 09:26:36 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] pci: Let pci_dma_write() propagate MemTxResult
-Date: Fri,  4 Sep 2020 18:26:20 +0200
-Message-Id: <20200904162620.657726-4-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200904162620.657726-1-philmd@redhat.com>
-References: <20200904162620.657726-1-philmd@redhat.com>
+ Fri, 04 Sep 2020 09:27:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7E8D61FF7E;
+ Fri,  4 Sep 2020 17:27:03 +0100 (BST)
+References: <20200904134007.4175-1-alex.bennee@linaro.org>
+ <20200904134007.4175-3-alex.bennee@linaro.org>
+ <d497d2b9-3107-dae7-e6bd-21b9be580359@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v1 2/4] plugins: add API to return a name for a IO device
+In-reply-to: <d497d2b9-3107-dae7-e6bd-21b9be580359@linaro.org>
+Date: Fri, 04 Sep 2020 17:27:03 +0100
+Message-ID: <875z8t4ieg.fsf@linaro.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,47 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: robert.foley@linaro.org, qemu-devel@nongnu.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org, Clement Deschamps <clement.deschamps@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pci_dma_rw() returns a MemTxResult type.
-Do not discard it, return it to the caller.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/hw/pci/pci.h | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index bb57525dffd..76826e240a9 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -824,8 +824,20 @@ static inline MemTxResult pci_dma_read(PCIDevice *dev, dma_addr_t addr,
-     return pci_dma_rw(dev, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
- }
- 
--static inline int pci_dma_write(PCIDevice *dev, dma_addr_t addr,
--                                const void *buf, dma_addr_t len)
-+/**
-+ * pci_dma_write: Write to address space from PCI device.
-+ *
-+ * Return a MemTxResult indicating whether the operation succeeded
-+ * or failed (eg unassigned memory, device rejected the transaction,
-+ * IOMMU fault).
-+ *
-+ * @dev: #PCIDevice doing the memory access
-+ * @addr: address within the #PCIDevice address space
-+ * @buf: buffer with the data transferred
-+ * @len: the number of bytes to write
-+ */
-+static inline MemTxResult pci_dma_write(PCIDevice *dev, dma_addr_t addr,
-+                                        const void *buf, dma_addr_t len)
- {
-     return pci_dma_rw(dev, addr, (void *) buf, len, DMA_DIRECTION_FROM_DEVICE);
- }
--- 
-2.26.2
+> On 9/4/20 6:40 AM, Alex Benn=C3=A9e wrote:
+>> +        return g_intern_string("RAM");
+>> +    }
+>> +#else
+>> +    return g_intern_string("Invalid");
+>
+> g_intern_static_string.
 
+doh - I'm sure I missed that from last time. Sorry.
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
