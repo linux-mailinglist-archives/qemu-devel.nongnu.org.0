@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C2125DC8A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:57:32 +0200 (CEST)
-Received: from localhost ([::1]:40388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD58725DC9D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:59:24 +0200 (CEST)
+Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kED9f-00038n-Tq
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41398)
+	id 1kEDBT-0006eP-Mn
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8U-0001PP-Qb
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:18 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50874
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kED8c-0001dh-2g
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38284
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8T-0007Fd-6U
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:18 -0400
+ id 1kED8a-0007G9-CN
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599231376;
+ s=mimecast20190719; t=1599231382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/z9vb+EyV5Sv3SSatE4EZlOo7VZJ2a2YjWLkr5W6TfE=;
- b=a3TmVG1ZWJ827wwF+w/vlSpzfhPIBtRT9YWQCcA54XdI5WKvjEXOi2OAqDdtgef+SOY1ho
- 6p3Khfg+OvE49Yb7IzpRVUc8RuOO/ApL7QdDOiFW/47JJI+nwQTy3bWRhArPfzHBwLvy9a
- F19ahrqlttmR/CcWW8E0H/IZDaqVz/U=
+ bh=ZQCpSNO7veoJhtMx8Ih+Np7ociwkxkz+29u6+xfj2qo=;
+ b=iOp6R/uepCeH3CuD8Gu1Eb0FZGMK0dHE0ZNXKh9YnIj9/ihTw3SwFJUt7g9ZA1HHl6gFX8
+ G7bRConmSGS+rPJu8D6D8zaHUs0r+v19D/xSF5wJS2GwhfuP0SCoflu32VdyreS0uAg+1i
+ vAUZxLpCxmouwOR+Y4evVimaR5oOs+8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-ss_cc6wsOECNYzUG3MVDOg-1; Fri, 04 Sep 2020 10:55:09 -0400
-X-MC-Unique: ss_cc6wsOECNYzUG3MVDOg-1
+ us-mta-520-e1eVaAbeP_KCXn6BQYr99g-1; Fri, 04 Sep 2020 10:55:15 -0400
+X-MC-Unique: e1eVaAbeP_KCXn6BQYr99g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B34301084D62
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:55:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 401C518BA284
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:55:14 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 167627E416;
- Fri,  4 Sep 2020 14:55:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5B547A1F4;
+ Fri,  4 Sep 2020 14:55:12 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 18/22] i386: prefer system KVM_GET_SUPPORTED_HV_CPUID
- ioctl over vCPU's one
-Date: Fri,  4 Sep 2020 16:54:27 +0200
-Message-Id: <20200904145431.196885-19-vkuznets@redhat.com>
+Subject: [PATCH RFC 21/22] i386: record if Hyper-V features were already
+ expanded
+Date: Fri,  4 Sep 2020 16:54:30 +0200
+Message-Id: <20200904145431.196885-22-vkuznets@redhat.com>
 In-Reply-To: <20200904145431.196885-1-vkuznets@redhat.com>
 References: <20200904145431.196885-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,70 +85,53 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM_GET_SUPPORTED_HV_CPUID was made a system wide ioctl which can be called
-prior to creating vCPUs and we are going to use that to expand Hyper-V cpu
-features early. Use it when it is supported by KVM.
+Introduce a per cpu hyperv_features_expaned flag indicating that Hyper-V
+related CPUIDs were already acquired from KVM. We are going to start
+doing the expansion prior to creating KVM vCPU but in case KVM doesn't
+support sustem wide KVM_GET_SUPPORTED_HV_CPUID ioctl this can't happen.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ target/i386/cpu.h | 1 +
+ target/i386/kvm.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 0aad60e0c707..c72755139047 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1669,6 +1669,7 @@ struct X86CPU {
+     uint32_t hyperv_interface_id[4];
+     uint32_t hyperv_version_id[4];
+     uint32_t hyperv_limits[3];
++    bool hyperv_features_expaned;
+ 
+     bool check_cpuid;
+     bool enforce_cpuid;
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 70db2ca26313..b76d4a5a147b 100644
+index 0945983498b2..961241528a5c 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -940,7 +940,8 @@ static struct {
-     },
- };
+@@ -1225,6 +1225,10 @@ static void hyperv_expand_features(CPUState *cs, Error **errp)
+     if (!hyperv_enabled(cpu))
+         return;
  
--static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
-+static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max,
-+                                           bool do_sys_ioctl)
- {
-     struct kvm_cpuid2 *cpuid;
-     int r, size;
-@@ -949,7 +950,11 @@ static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
-     cpuid = g_malloc0(size);
-     cpuid->nent = max;
- 
--    r = kvm_vcpu_ioctl(cs, KVM_GET_SUPPORTED_HV_CPUID, cpuid);
-+    if (do_sys_ioctl) {
-+        r = kvm_ioctl(kvm_state, KVM_GET_SUPPORTED_HV_CPUID, cpuid);
-+    } else {
-+        r = kvm_vcpu_ioctl(cs, KVM_GET_SUPPORTED_HV_CPUID, cpuid);
++    if (cpu->hyperv_features_expaned) {
++        return;
 +    }
-     if (r == 0 && cpuid->nent >= max) {
-         r = -E2BIG;
-     }
-@@ -976,13 +981,17 @@ static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
-     /* 0x40000000..0x40000005, 0x4000000A, 0x40000080..0x40000080 leaves */
-     int max = 10;
-     int i;
-+    bool do_sys_ioctl;
 +
-+    do_sys_ioctl =
-+        kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID) > 0;
+     if (kvm_check_extension(kvm_state, KVM_CAP_HYPERV_CPUID) > 0) {
+         cpuid = get_supported_hv_cpuid(cs);
+     } else {
+@@ -1361,6 +1365,8 @@ static void hyperv_expand_features(CPUState *cs, Error **errp)
+     /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
+     env->features[FEAT_HYPERV_EDX] |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
  
-     /*
-      * When the buffer is too small, KVM_GET_SUPPORTED_HV_CPUID fails with
-      * -E2BIG, however, it doesn't report back the right size. Keep increasing
-      * it and re-trying until we succeed.
-      */
--    while ((cpuid = try_get_hv_cpuid(cs, max)) == NULL) {
-+    while ((cpuid = try_get_hv_cpuid(cs, max, do_sys_ioctl)) == NULL) {
-         max++;
-     }
++    cpu->hyperv_features_expaned = true;
++
+ out:
  
-@@ -992,7 +1001,7 @@ static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
-      * information early, just check for the capability and set the bit
-      * manually.
-      */
--    if (kvm_check_extension(cs->kvm_state,
-+    if (!do_sys_ioctl && kvm_check_extension(cs->kvm_state,
-                             KVM_CAP_HYPERV_ENLIGHTENED_VMCS) > 0) {
-         for (i = 0; i < cpuid->nent; i++) {
-             if (cpuid->entries[i].function == HV_CPUID_ENLIGHTMENT_INFO) {
+     g_free(cpuid);
 -- 
 2.25.4
 
