@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB86025DB99
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:27:08 +0200 (CEST)
-Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CC425DBAE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:29:04 +0200 (CEST)
+Received: from localhost ([::1]:36942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kECgF-00077f-Ry
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32792)
+	id 1kECi7-0001o5-UO
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECaM-0003Mm-HH; Fri, 04 Sep 2020 10:21:02 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48020)
+ id 1kECa3-0002Xm-3P; Fri, 04 Sep 2020 10:20:43 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kECaK-0002jC-M7; Fri, 04 Sep 2020 10:21:02 -0400
+ id 1kECa0-0002j9-Hc; Fri, 04 Sep 2020 10:20:42 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 6ECC3BFAFF;
+ by charlie.dont.surf (Postfix) with ESMTPSA id C6F6FBFB07;
  Fri,  4 Sep 2020 14:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1599229234;
- bh=ghTHzL0RGC/yyl0C9NlaoYrGykOslGwT28dRWldXulQ=;
+ s=default; t=1599229235;
+ bh=kq9SZ7rxoSp0pOdHatuuNolGXaFd09h9ScnJjZG7sWM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d202gZnCwAOlL/ykE0opM+Iadinc+JeMZPfEi81ds9GlG/gB0yWPpEs9BwKonhfNX
- xBQkSWlaQhBl56vVvwIeqVQbEAcECdFmtOn9dkUEoDAqQ2yBzfqf0E5lMgqNgG5hOz
- ShHD+xJeI5mrru3EHc0rk0tpovU1UpU4mEr0gdEg/Zn4IdQMnmroCyZmn3CC9//VQd
- 5sWapkp5xAU+EtgiDMAwcB8ASDILOybQtYT1FOqcxzwbEGbAvFWSSC86ySJcKyaAb2
- pmGbKhIAEAWPwF+Bs7k99LdPJE2xnmDRFCngdbTvp522MnKxEyyvxmAtqzN+Cvlxm3
- uVlRgndplfw/Q==
+ b=IxrQUm89KYDz8wsutcBMQ3WUaEk2UkMiy+FQ0Q+QFAVqT1ycwkilsi/qssK5bBul5
+ /9A1cxWso/bsOipS79gbf4wTjS/rH9sC3+PtOckhdMtbiYWRuIHthWJvrSTqtwW6KD
+ nMpG0+ViARS/LKWU2xT2D7K4D93cGj192uSsAgjm81TOEgzf/pEr7mOBPi5/JHOBH9
+ 2Afo6GkrMqkJB34bh1fn8ohJH2xbBYALZzf+yyftBRfpOP/k6A1zHE3BzOWt3Qb5Lq
+ +PjZp3RdY+pvEDVM/a8AvjpujgHzG6lGmVD9yzrVCdi8km4q3aXLjef3gvgoAdfFhR
+ Ss9AP65KNmhzQ==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/17] hw/block/nvme: default request status to success
-Date: Fri,  4 Sep 2020 16:19:48 +0200
-Message-Id: <20200904141956.576630-10-its@irrelevant.dk>
+Subject: [PATCH 10/17] hw/block/nvme: support multiple parallel aios per
+ request
+Date: Fri,  4 Sep 2020 16:19:49 +0200
+Message-Id: <20200904141956.576630-11-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200904141956.576630-1-its@irrelevant.dk>
 References: <20200904141956.576630-1-its@irrelevant.dk>
@@ -72,43 +73,184 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Make the default request status NVME_SUCCESS so only error status codes
-has to be set.
+Move the BlockAIOCB to NvmeAIO and add a queue of pending AIOs to the
+NvmeRequest. Only when the queue is empty is a completion enqueued.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/block/nvme.c | 44 ++++++++++++++++++++++++++++++--------------
+ hw/block/nvme.h |  6 ++++--
+ 2 files changed, 34 insertions(+), 16 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 3e32f39c7c1d..64c8f232e3ea 100644
+index 64c8f232e3ea..36ec8cbb1168 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -231,6 +231,7 @@ static void nvme_req_clear(NvmeRequest *req)
+@@ -629,10 +629,8 @@ static void nvme_aio_destroy(NvmeAIO *aio)
+ 
+ static uint16_t nvme_do_aio(NvmeAIO *aio)
  {
-     req->ns = NULL;
-     memset(&req->cqe, 0x0, sizeof(req->cqe));
-+    req->status = NVME_SUCCESS;
+-    NvmeRequest *req = aio->req;
+-
+     BlockBackend *blk = aio->blk;
+-    BlockAcctCookie *acct = &req->acct;
++    BlockAcctCookie *acct = &aio->acct;
+     BlockAcctStats *stats = blk_get_stats(blk);
+ 
+     bool is_write;
+@@ -640,12 +638,12 @@ static uint16_t nvme_do_aio(NvmeAIO *aio)
+     switch (aio->opc) {
+     case NVME_AIO_OPC_FLUSH:
+         block_acct_start(stats, acct, 0, BLOCK_ACCT_FLUSH);
+-        req->aiocb = blk_aio_flush(blk, nvme_aio_cb, aio);
++        aio->aiocb = blk_aio_flush(blk, nvme_aio_cb, aio);
+         break;
+ 
+     case NVME_AIO_OPC_WRITE_ZEROES:
+         block_acct_start(stats, acct, aio->len, BLOCK_ACCT_WRITE);
+-        req->aiocb = blk_aio_pwrite_zeroes(blk, aio->offset, aio->len,
++        aio->aiocb = blk_aio_pwrite_zeroes(blk, aio->offset, aio->len,
+                                            BDRV_REQ_MAY_UNMAP, nvme_aio_cb,
+                                            aio);
+         break;
+@@ -661,20 +659,20 @@ static uint16_t nvme_do_aio(NvmeAIO *aio)
+             QEMUSGList *qsg = (QEMUSGList *)aio->payload;
+ 
+             if (is_write) {
+-                req->aiocb = dma_blk_write(blk, qsg, aio->offset,
++                aio->aiocb = dma_blk_write(blk, qsg, aio->offset,
+                                            BDRV_SECTOR_SIZE, nvme_aio_cb, aio);
+             } else {
+-                req->aiocb = dma_blk_read(blk, qsg, aio->offset,
++                aio->aiocb = dma_blk_read(blk, qsg, aio->offset,
+                                           BDRV_SECTOR_SIZE, nvme_aio_cb, aio);
+             }
+         } else {
+             QEMUIOVector *iov = (QEMUIOVector *)aio->payload;
+ 
+             if (is_write) {
+-                req->aiocb = blk_aio_pwritev(blk, aio->offset, iov, 0,
++                aio->aiocb = blk_aio_pwritev(blk, aio->offset, iov, 0,
+                                              nvme_aio_cb, aio);
+             } else {
+-                req->aiocb = blk_aio_preadv(blk, aio->offset, iov, 0,
++                aio->aiocb = blk_aio_preadv(blk, aio->offset, iov, 0,
+                                             nvme_aio_cb, aio);
+             }
+         }
+@@ -693,6 +691,8 @@ static uint16_t nvme_aio_add(NvmeRequest *req, NvmeAIO *aio)
+                            aio->offset, aio->len, nvme_aio_opc_str(aio),
+                            req);
+ 
++    QTAILQ_INSERT_TAIL(&req->aio_tailq, aio, entry);
++
+     return nvme_do_aio(aio);
  }
  
- static void nvme_req_exit(NvmeRequest *req)
-@@ -547,8 +548,6 @@ static void nvme_process_aers(void *opaque)
-         result->log_page = event->result.log_page;
-         g_free(event);
+@@ -702,7 +702,7 @@ static void nvme_aio_cb(void *opaque, int ret)
+     NvmeRequest *req = aio->req;
  
--        req->status = NVME_SUCCESS;
--
-         trace_pci_nvme_aer_post_cqe(result->event_type, result->event_info,
-                                     result->log_page);
+     BlockBackend *blk = aio->blk;
+-    BlockAcctCookie *acct = &req->acct;
++    BlockAcctCookie *acct = &aio->acct;
+     BlockAcctStats *stats = blk_get_stats(blk);
  
-@@ -713,7 +712,6 @@ static void nvme_aio_cb(void *opaque, int ret)
+     Error *local_err = NULL;
+@@ -710,6 +710,8 @@ static void nvme_aio_cb(void *opaque, int ret)
+     trace_pci_nvme_aio_cb(nvme_cid(req), aio, blk_name(blk), aio->offset,
+                           aio->len, nvme_aio_opc_str(aio), req);
  
++    QTAILQ_REMOVE(&req->aio_tailq, aio, entry);
++
      if (!ret) {
          block_acct_done(stats, acct);
--        req->status = NVME_SUCCESS;
      } else {
-         uint16_t status;
+@@ -738,10 +740,19 @@ static void nvme_aio_cb(void *opaque, int ret)
+         error_setg_errno(&local_err, -ret, "aio failed");
+         error_report_err(local_err);
  
+-        req->status = status;
++        /*
++         * An Internal Error trumps all other errors. For other errors, only
++         * set the first encountered.
++         */
++        if (!req->status || (status & 0xfff) == NVME_INTERNAL_DEV_ERROR) {
++            req->status = status;
++        }
++    }
++
++    if (QTAILQ_EMPTY(&req->aio_tailq)) {
++        nvme_enqueue_req_completion(nvme_cq(req), req);
+     }
+ 
+-    nvme_enqueue_req_completion(nvme_cq(req), req);
+     nvme_aio_destroy(aio);
+ }
+ 
+@@ -872,6 +883,7 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
+     NvmeRequest *r, *next;
+     NvmeSQueue *sq;
+     NvmeCQueue *cq;
++    NvmeAIO *aio;
+     uint16_t qid = le16_to_cpu(c->qid);
+ 
+     if (unlikely(!qid || nvme_check_sqid(n, qid))) {
+@@ -884,8 +896,11 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
+     sq = n->sq[qid];
+     while (!QTAILQ_EMPTY(&sq->out_req_list)) {
+         r = QTAILQ_FIRST(&sq->out_req_list);
+-        assert(r->aiocb);
+-        blk_aio_cancel(r->aiocb);
++        while (!QTAILQ_EMPTY(&r->aio_tailq)) {
++            aio = QTAILQ_FIRST(&r->aio_tailq);
++            assert(aio->aiocb);
++            blk_aio_cancel(aio->aiocb);
++        }
+     }
+     if (!nvme_check_cqid(n, sq->cqid)) {
+         cq = n->cq[sq->cqid];
+@@ -923,6 +938,7 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+     for (i = 0; i < sq->size; i++) {
+         sq->io_req[i].sq = sq;
+         QTAILQ_INSERT_TAIL(&(sq->req_list), &sq->io_req[i], entry);
++        QTAILQ_INIT(&(sq->io_req[i].aio_tailq));
+     }
+     sq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, sq);
+ 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 7a11b0b37317..baedcb226cb1 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -22,14 +22,13 @@ typedef struct NvmeAsyncEvent {
+ typedef struct NvmeRequest {
+     struct NvmeSQueue       *sq;
+     struct NvmeNamespace    *ns;
+-    BlockAIOCB              *aiocb;
+     uint16_t                status;
+     NvmeCqe                 cqe;
+     NvmeCmd                 cmd;
+-    BlockAcctCookie         acct;
+     QEMUSGList              qsg;
+     QEMUIOVector            iov;
+     QTAILQ_ENTRY(NvmeRequest)entry;
++    QTAILQ_HEAD(, NvmeAIO)  aio_tailq;
+ } NvmeRequest;
+ 
+ static inline bool nvme_req_is_write(NvmeRequest *req)
+@@ -86,10 +85,13 @@ typedef struct NvmeAIO {
+     NvmeAIOOp       opc;
+     NvmeRequest     *req;
+     BlockBackend    *blk;
++    BlockAcctCookie acct;
++    BlockAIOCB      *aiocb;
+     int64_t         offset;
+     size_t          len;
+     int             flags;
+     void            *payload;
++    QTAILQ_ENTRY(NvmeAIO) entry;
+ } NvmeAIO;
+ 
+ static inline const char *nvme_aio_opc_str(NvmeAIO *aio)
 -- 
 2.28.0
 
