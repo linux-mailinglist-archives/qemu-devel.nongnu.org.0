@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D9E25E033
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:49:52 +0200 (CEST)
-Received: from localhost ([::1]:33558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6790F25E026
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:48:01 +0200 (CEST)
+Received: from localhost ([::1]:57570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEEuN-0005lc-Ax
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:49:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41392)
+	id 1kEEsa-0003wN-D4
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEoA-0006xV-U1
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26377
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEo1-0006jJ-6O
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39996
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEo9-0000Dd-96
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:26 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnz-0000BN-2m
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:16 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-Nq7w6g46MMeMHxK51sw-5w-1; Fri, 04 Sep 2020 12:43:11 -0400
-X-MC-Unique: Nq7w6g46MMeMHxK51sw-5w-1
+ us-mta-547-pZuFRBWLMYObZAG_DiMNcA-1; Fri, 04 Sep 2020 12:43:12 -0400
+X-MC-Unique: pZuFRBWLMYObZAG_DiMNcA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08C5D8015FA;
- Fri,  4 Sep 2020 16:43:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DBF81074662;
+ Fri,  4 Sep 2020 16:43:11 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-120-166.rdu2.redhat.com
  [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E4EFB19C59;
- Fri,  4 Sep 2020 16:43:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3312519C59;
+ Fri,  4 Sep 2020 16:43:10 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 5/7] scripts/ci/gitlab-pipeline-status: handle keyboard
- interrupts
-Date: Fri,  4 Sep 2020 12:42:56 -0400
-Message-Id: <20200904164258.240278-6-crosa@redhat.com>
+Subject: [PATCH 6/7] scripts/ci/gitlab-pipeline-status: use more descriptive
+ exceptions
+Date: Fri,  4 Sep 2020 12:42:57 -0400
+Message-Id: <20200904164258.240278-7-crosa@redhat.com>
 In-Reply-To: <20200904164258.240278-1-crosa@redhat.com>
 References: <20200904164258.240278-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -77,39 +77,49 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So that exits based on user requests are handled more gracefully.
+For two very different error conditions.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/ci/gitlab-pipeline-status | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/ci/gitlab-pipeline-status | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
-index 8355b6a427..ced488f27c 100755
+index ced488f27c..628150ce0b 100755
 --- a/scripts/ci/gitlab-pipeline-status
 +++ b/scripts/ci/gitlab-pipeline-status
-@@ -132,7 +132,7 @@ def main():
-     """
-     parser = create_parser()
-     args = parser.parse_args()
--
-+    success = False
-     try:
-         if args.wait:
-             success = wait_on_pipeline_success(
-@@ -145,9 +145,11 @@ def main():
-                                          args.commit)
-             success = status['status'] == 'success'
-     except Exception as error:      # pylint: disable=W0703
--        success = False
-         if args.verbose:
-             print("ERROR: %s" % error.args[0])
-+    except KeyboardInterrupt:
-+        if args.verbose:
-+            print("Exiting on user's request")
+@@ -23,6 +23,14 @@ import time
+ import sys
  
-     if success:
-         if args.verbose:
+ 
++class CommunicationFailure(Exception):
++    """Failed to communicate to gitlab.com APIs."""
++
++
++class NoPipelineFound(Exception):
++    """Communication is successfull but pipeline is not found."""
++
++
+ def get_local_branch_commit(branch='staging'):
+     """
+     Returns the commit sha1 for the *local* branch named "staging"
+@@ -50,14 +58,14 @@ def get_pipeline_status(project_id, commit_sha1):
+     connection.request('GET', url=url)
+     response = connection.getresponse()
+     if response.code != http.HTTPStatus.OK:
+-        raise ValueError("Failed to receive a successful response")
++        raise CommunicationFailure("Failed to receive a successful response")
+     json_response = json.loads(response.read())
+ 
+     # As far as I can tell, there should be only one pipeline for the same
+     # project + commit. If this assumption is false, we can add further
+     # filters to the url, such as username, and order_by.
+     if not json_response:
+-        raise ValueError("No pipeline found")
++        raise NoPipelineFound("No pipeline found")
+     return json_response[0]
+ 
+ 
 -- 
 2.25.4
 
