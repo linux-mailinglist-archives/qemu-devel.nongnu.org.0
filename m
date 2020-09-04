@@ -2,116 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A614525E078
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:02:54 +0200 (CEST)
-Received: from localhost ([::1]:46198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5CB25E093
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:11:42 +0200 (CEST)
+Received: from localhost ([::1]:51438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEF6z-0004e9-NG
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:02:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
+	id 1kEFFU-0007eS-Ol
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEF6A-00046q-TP
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:02:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEF68-0002hu-VW
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:02:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599238919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=H/BmVtXqwmiRQle8AnEhf0VuCVo9nDWOQRAO9ksuSp8=;
- b=aqOUHAkwV4KCHpnFdL+a2w0I5C9Tl5EUaYg9blGtzjO4mypDKkdL9QHQ0B0sGBp0pJTktR
- KHIXVl5t9kkNBudaNW7IATBJLgFqVeudo0c89zXHg9oIRDYj63tZc2jQUnGDuhmPUzmMPG
- J5nwZKIDXCynG9OiNV3FhsnuFVrEBv4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-TYxxh3mHNjeI0vsF28ya9w-1; Fri, 04 Sep 2020 13:01:55 -0400
-X-MC-Unique: TYxxh3mHNjeI0vsF28ya9w-1
-Received: by mail-wr1-f71.google.com with SMTP id r16so2494643wrm.18
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 10:01:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kEFEl-0007Du-7e
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:10:55 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kEFEj-0003kh-3P
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:10:54 -0400
+Received: by mail-wr1-x443.google.com with SMTP id z4so7452593wrr.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 10:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ZQpJQVvdvL9MZGsVC4//doU5p2FSHvHYpSM+qQymIX8=;
+ b=TMLPwmQufAUAMxHZrvqQ5spXVJqggzfg3PjVzctSmnPFKYIXpJ2Icp8EXwLu4TgGhk
+ mkvLD46So+1U6CZdfCYBPHpnLj9Q731ahzRFuDfiSV3C0HssdVC0fzwoypXwl7R2KtSE
+ Ljqj5IN4jf6dcc+IZDmDi26qpOOn47y5h2n2JSbKTe5RxNy16hBnNppf2x3RvF+Shtb0
+ WUIYMZDcaIZpaKyufwCeOiT/tnQnaVyHGMYWm0LpYEqgmKh4P427uCT+cwmRAq5jEz+n
+ 03BGKPPKxkaYbcUJgCSMEyFQCm9CuPlUTOjlDcS6jtoY37RB+HfyeOCX0++8BJWd8U3i
+ W8IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=H/BmVtXqwmiRQle8AnEhf0VuCVo9nDWOQRAO9ksuSp8=;
- b=nJBJzEJKGHzGUlM/sZn0QQ6RPwNXnwxAHminwRFQtBiHFtDMNNhj8W11seob/RJTkw
- cBNQGUckM5KDm1CzMFqrdBIAjmD3Uw7Vn7BCRULr5oOzeq0TLmYbwfh+IB60LoW3ZeXV
- xS/ii5LAJiA/qIjDar4bLX5nXhu7ZiVHy5jh57RQadI2Ax4N2HrGXjHRifTH9FjotaSX
- jnz5y8MNI9YVZwzIcmBrNvcqQxGfL4fh4YrdHfYFr4SY1KYik3+g1YsPPSkrLcxylNax
- dLZwmA2B0QXsbNSrbfh9kJSwWes4+mRx6cH6jK6HPPNtqAAURjbSVaSTkfTLuzoj/WyE
- JPdQ==
-X-Gm-Message-State: AOAM531Qfn1r1bOIOf5Rm2RS/GgA4XF7JPZ11GbcPhWgdfjJryJ2ylBC
- /nsjqny+AKQzlJLJ0ZGDeWb/oi4fONyDh9TnEqRaQCwFsPQf23IVhf/s66xp9R+1YkS8vPYY9DH
- YJVQp+PhBAqkjkOI=
-X-Received: by 2002:a1c:9d4b:: with SMTP id g72mr8686052wme.68.1599238912391; 
- Fri, 04 Sep 2020 10:01:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwbrSL9m2sGrF2rPPZ3lCG5AVw+Z1mUoyjcpTpr3haOFxIoybkiEwOY6PNeGxFHMI28tQpJcQ==
-X-Received: by 2002:a1c:9d4b:: with SMTP id g72mr8686031wme.68.1599238912215; 
- Fri, 04 Sep 2020 10:01:52 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id q20sm11795030wmj.5.2020.09.04.10.01.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Sep 2020 10:01:51 -0700 (PDT)
-Subject: Re: [PATCH 1/7] scripts/ci/gitlab-pipeline-status: make branch name
- configurable
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200904164258.240278-1-crosa@redhat.com>
- <20200904164258.240278-2-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <89a0e149-76a1-697e-5895-76e949861ab9@redhat.com>
-Date: Fri, 4 Sep 2020 19:01:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=ZQpJQVvdvL9MZGsVC4//doU5p2FSHvHYpSM+qQymIX8=;
+ b=eIZErvHDaMr/liHbFa9xlTPuUBSawRUS5wUvMjNtSrZ8rnsHEiATPyRbJRbAbtAJ+O
+ LeL6X2pOQNXJ3oisTOYWQLDu1dkxTo5L8wxKonbRz/T+KKO/kxF2TzVg5EXRaDVjBAx1
+ SoQDbNR/nEtgpS1eMy1oCV+Z0fOBCoX3srZkoPU9V0UJ40EHF3M54n0uT1SSqKsJp1Zg
+ /BGM0lXQJX3PEcIEyDjoZRhifsf6Y7PvIysezJVyJdz8GzI5yloPee3+YUJHI8TaAzxR
+ qMsRH02wBi46MsVrht+xPYJDxDN5UWQhTI441bpEqviYps3LLIjWo1NqtGqep0DV7ER/
+ 32xQ==
+X-Gm-Message-State: AOAM533u3axXM4nVvpXmmIQIDj7gS5rSF+i75bFQh6KzcvNFVgJ1KLCl
+ 4FCAjrktxfIIcfaV4I/JjFrB9g==
+X-Google-Smtp-Source: ABdhPJzK5qr0qSfZO4daIAkL1l+94x08FMIuJ9GQh2rEBU3IZc3/NVQmQI+nNicyUx1VcNX3SRUKig==
+X-Received: by 2002:adf:f8d0:: with SMTP id f16mr9269636wrq.66.1599239450961; 
+ Fri, 04 Sep 2020 10:10:50 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q3sm21728774wmq.1.2020.09.04.10.10.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Sep 2020 10:10:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 08DBA1FF7E;
+ Fri,  4 Sep 2020 18:10:49 +0100 (BST)
+References: <20200904165140.10962-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH] docs/system/deprecated: mark ppc64abi32-linux-user
+ for deprecation
+In-reply-to: <20200904165140.10962-1-alex.bennee@linaro.org>
+Date: Fri, 04 Sep 2020 18:10:48 +0100
+Message-ID: <87363x4gdj.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200904164258.240278-2-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 06:46:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,66 +89,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/4/20 6:42 PM, Cleber Rosa wrote:
-> With the utility function `get_local_staging_branch_commit()`, the
-> name of the branch is hard coded (including in the function name).
-> 
-> For extensibility reasons, let's make that configurable.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> ---
->  scripts/ci/gitlab-pipeline-status | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
-> index 348a49b6a4..194dd4d0bb 100755
-> --- a/scripts/ci/gitlab-pipeline-status
-> +++ b/scripts/ci/gitlab-pipeline-status
-> @@ -23,20 +23,20 @@ import time
->  import sys
->  
->  
-> -def get_local_staging_branch_commit():
-> +def get_local_branch_commit(branch='staging'):
->      """
->      Returns the commit sha1 for the *local* branch named "staging"
->      """
-> -    result = subprocess.run(['git', 'rev-parse', 'staging'],
-> +    result = subprocess.run(['git', 'rev-parse', branch],
->                              stdin=subprocess.DEVNULL,
->                              stdout=subprocess.PIPE,
->                              stderr=subprocess.DEVNULL,
->                              cwd=os.path.dirname(__file__),
->                              universal_newlines=True).stdout.strip()
-> -    if result == 'staging':
-> -        raise ValueError("There's no local branch named 'staging'")
-> +    if result == branch:
-> +        raise ValueError("There's no local branch named '%s'" % branch)
->      if len(result) != 40:
-> -        raise ValueError("Branch staging HEAD doesn't look like a sha1")
-> +        raise ValueError("Branch '%s' HEAD doesn't look like a sha1" % branch)
->      return result
->  
->  
-> @@ -110,7 +110,7 @@ def main():
->                                'for https://gitlab.com/qemu-project/qemu, that '
->                                'is, "%(default)s"'))
->      try:
-> -        default_commit = get_local_staging_branch_commit()
-> +        default_commit = get_local_branch_commit()
->          commit_required = False
->      except ValueError:
->          default_commit = ''
-> 
+> It's buggy and we are not sure anyone uses it.
+>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+A more aggressive follow-up patch which would also solve the CI failures
+across the board:
+
+--8<---------------cut here---------------start------------->8---
+configure: don't enable ppc64abi32-linux-user by default
+
+The user can still enable this explicitly but they will get a warning
+at the end of configure for their troubles. This also drops any builds
+of ppc64abi32 from our CI tests.
+
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+1 file changed, 27 insertions(+), 19 deletions(-)
+configure | 46 +++++++++++++++++++++++++++-------------------
+
+modified   configure
+@@ -574,6 +574,8 @@ gettext=3D""
+ bogus_os=3D"no"
+ malloc_trim=3D""
+=20
++deprecated_features=3D""
++
+ # parse CC options first
+ for opt do
+   optarg=3D$(expr "x$opt" : 'x[^=3D]*=3D\(.*\)')
+@@ -1769,26 +1771,25 @@ if [ "$bsd_user" =3D "yes" ]; then
+     mak_wilds=3D"${mak_wilds} $source_path/default-configs/*-bsd-user.mak"
+ fi
+=20
+-if test -z "$target_list_exclude"; then
+-    for config in $mak_wilds; do
+-        default_target_list=3D"${default_target_list} $(basename "$config"=
+ .mak)"
+-    done
+-else
+-    exclude_list=3D$(echo "$target_list_exclude" | sed -e 's/,/ /g')
+-    for config in $mak_wilds; do
+-        target=3D"$(basename "$config" .mak)"
+-        exclude=3D"no"
+-        for excl in $exclude_list; do
+-            if test "$excl" =3D "$target"; then
+-                exclude=3D"yes"
+-                break;
+-            fi
+-        done
+-        if test "$exclude" =3D "no"; then
+-            default_target_list=3D"${default_target_list} $target"
++if test -z "$target_list_exclude" -a -z "$target_list"; then
++    # if the user doesn't specify anything lets skip deprecating stuff
++    target_list_exclude=3Dppc64abi32-linux-user
++fi
++
++exclude_list=3D$(echo "$target_list_exclude" | sed -e 's/,/ /g')
++for config in $mak_wilds; do
++    target=3D"$(basename "$config" .mak)"
++    exclude=3D"no"
++    for excl in $exclude_list; do
++        if test "$excl" =3D "$target"; then
++            exclude=3D"yes"
++            break;
+         fi
+     done
+-fi
++    if test "$exclude" =3D "no"; then
++        default_target_list=3D"${default_target_list} $target"
++    fi
++done
+=20
+ # Enumerate public trace backends for --help output
+ trace_backend_list=3D$(echo $(grep -le '^PUBLIC =3D True$' "$source_path"/=
+scripts/tracetool/backend/*.py | sed -e 's/^.*\/\(.*\)\.py$/\1/'))
+@@ -7691,7 +7692,7 @@ TARGET_SYSTBL=3D""
+ case "$target_name" in
+   i386)
+     mttcg=3D"yes"
+-	gdb_xml_files=3D"i386-32bit.xml"
++    gdb_xml_files=3D"i386-32bit.xml"
+     TARGET_SYSTBL_ABI=3Di386
+     TARGET_SYSTBL=3Dsyscall_32.tbl
+   ;;
+@@ -7802,6 +7803,7 @@ case "$target_name" in
+     TARGET_SYSTBL_ABI=3Dcommon,nospu,32
+     echo "TARGET_ABI32=3Dy" >> $config_target_mak
+     gdb_xml_files=3D"power64-core.xml power-fpu.xml power-altivec.xml powe=
+r-spe.xml power-vsx.xml"
++    deprecated_features=3D"ppc64abi32 ${deprecated_features}"
+   ;;
+   riscv32)
+     TARGET_BASE_ARCH=3Driscv
+@@ -8232,6 +8234,12 @@ fi
+ touch ninjatool.stamp
+ fi
+=20
++if test -n "${deprecated_features}"; then
++    echo "Warning, deprecated features enabled."
++    echo "Please see docs/system/deprecated.rst"
++    echo "  features: ${deprecated_features}"
++fi
++
+ # Save the configure command line for later reuse.
+ cat <<EOD >config.status
+ #!/bin/sh
+--8<---------------cut here---------------end--------------->8---
+
+--=20
+Alex Benn=C3=A9e
 
