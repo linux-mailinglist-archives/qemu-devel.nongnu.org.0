@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951BC25DE1A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:46:53 +0200 (CEST)
-Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB3425DE3F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:48:29 +0200 (CEST)
+Received: from localhost ([::1]:52434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEDvQ-0002xX-Id
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:46:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55174)
+	id 1kEDwy-0006UK-0d
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtS-0000QP-Om
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31657
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtV-0000X3-BO
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47497
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtQ-0007Oe-QF
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599234287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=g1F57r74saSn+8lv2kyxtVMUYEXy6WA3Nk2z6wkeOh8=;
- b=LXEi1kMC6Y58WptiQKOCV6Tlvih/ee8tfLucavCCs8pq8LthFo9ZVFca2Nhs7DxMdlEQpN
- ax0ocbHhZd9WlM/D7FWlNjGtKJmI1u5Niq+6JSOiFgzSDDDHe241Fty5PpgTH4LbZX1Wr3
- Nb6dzabTyJ40pN6PRyuOHvrmyETuhic=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-x1wJU3DvNDihi3c9z2R-YQ-1; Fri, 04 Sep 2020 11:44:44 -0400
-X-MC-Unique: x1wJU3DvNDihi3c9z2R-YQ-1
-Received: by mail-wm1-f70.google.com with SMTP id z1so2342001wmk.1
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:44:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtT-0007PE-Mh
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:52 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-YSxVbkdrM7idMhW0YXzCDQ-1; Fri, 04 Sep 2020 11:44:50 -0400
+X-MC-Unique: YSxVbkdrM7idMhW0YXzCDQ-1
+Received: by mail-wm1-f71.google.com with SMTP id g79so3510757wmg.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:44:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=g1F57r74saSn+8lv2kyxtVMUYEXy6WA3Nk2z6wkeOh8=;
- b=CQx93tpFH6lXLKhXvvlX6t4pRdpYxfH++fBCkIxBUzNCngMWhJzBhV/qV7d6YNc7+3
- SAGqFMygtVNm2M0BP3rCo3ijYSRSp1aDz9yZFW94vo1VGg0W4I5D/s1AlcpVEHfeGbay
- uRt29mK7McKi2D6SMx38RSmvczq5nDPTAXbi6Ie9RbTlGBCakhLgYCccMuJcDPW3bGWy
- oMkFctEVLvADokXRBSwE7zI4TQ9rzGeiKWNMS5r33blsG61roDtPswbPWlzRcZwg6VWK
- Hkpdr3yZohHzRofc07FpxfeZPG7CKPXZqvw+sxtgD6If8CfQ0QcojM9wLg9/Bl4n0oRp
- 9L8w==
-X-Gm-Message-State: AOAM532HSV/wesW7r0nVD+i/YrL6hUQTFEgktwfzIf0D7CBaOjphohEV
- neHD9TxZ7rpVAsogqUXNszw8Rmu65pV+boKt+qoDo/IF5HCSci+gFPvhMEnlmh2hzsfOoLSXIfa
- 8WyQvRy+V1A0cy+Q=
-X-Received: by 2002:adf:e407:: with SMTP id g7mr8122161wrm.349.1599234283017; 
- Fri, 04 Sep 2020 08:44:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+ut36PUobyCYkj6dPdh3OXABSVf0r43fgGRQ77pHeTQnD+Wt+1Dnx6EgHfLprRaracwSz4Q==
-X-Received: by 2002:adf:e407:: with SMTP id g7mr8122128wrm.349.1599234282832; 
- Fri, 04 Sep 2020 08:44:42 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TrCc5tJ7tNpb4UHqNYewv5YRJY1ciA4UDwcY4eIZ444=;
+ b=RxxrIJgWxqWfaOS5HsFOXqXa+6noGOvF0MPWqJ8iCgnww6Rr0BNRouGdeVHgi+Z1zA
+ PzsfAspc8hlr2jcVq/p+P4r9j52RKkW/fyJFqL7QIEARXJ98Dk/DptVFSfqBh8ZST6bk
+ ax1AaKf8O4EUr0jpCmkqZ+GljLgnEF141bROCoc3Uk3hnSi1sEgwHns9Xnpzxzx9b25Z
+ GVZeaSGjNX35BLrOb/43sqOxwwMq6bdHUKL2uyxlpwqeY+Fg9nsA2SMCf1loavoFgt+c
+ mG74UXtv9unbjM21ic0i/7CRgqfv8+DCotAvkuIXwnnaWyY9OYcibfE6DFMc+c7dGm5X
+ BCFA==
+X-Gm-Message-State: AOAM530Cd4LA8Wr0SoXShCGGUfpe2M7Tx0rRosQY+GnCL3Ziqi9H8EWU
+ eHUQ64wm3RGiHJBGqLYc8hvKAdO2rLitwy+xKBvzDcIYUVqQl9xORIJmcvW0mFJlKPwGO3f2udT
+ bB8CXjScKnEE+q1k=
+X-Received: by 2002:a1c:27c2:: with SMTP id n185mr8593973wmn.78.1599234288843; 
+ Fri, 04 Sep 2020 08:44:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWt0j1+5wK7OtPvPaxvmJd8OsgUvichtFEb5bIDtgbPicgVYbf/DpTQDxMB9r5GvcT1bHz+g==
+X-Received: by 2002:a1c:27c2:: with SMTP id n185mr8593957wmn.78.1599234288655; 
+ Fri, 04 Sep 2020 08:44:48 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id v2sm13178874wrn.44.2020.09.04.08.44.40
+ by smtp.gmail.com with ESMTPSA id t22sm3697253wmt.1.2020.09.04.08.44.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 08:44:42 -0700 (PDT)
+ Fri, 04 Sep 2020 08:44:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 00/13] dma: Let the DMA API take MemTxAttrs argument and
- propagate MemTxResult
-Date: Fri,  4 Sep 2020 17:44:26 +0200
-Message-Id: <20200904154439.643272-1-philmd@redhat.com>
+Subject: [PATCH 01/13] pci: pass along the return value of dma_memory_rw
+Date: Fri,  4 Sep 2020 17:44:27 +0200
+Message-Id: <20200904154439.643272-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200904154439.643272-1-philmd@redhat.com>
+References: <20200904154439.643272-1-philmd@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:11
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,76 +97,47 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
  qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Andrew Jeffery <andrew@aj.id.au>, Laszlo Ersek <lersek@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Laszlo Ersek <lersek@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>
+ Klaus Jensen <k.jensen@samsung.com>, Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Salvaging cleanups patches from the RFC series "Forbid DMA write
-accesses to MMIO regions" [*], propagating MemTxResult and
-adding documentation.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-[*] https://www.mail-archive.com/qemu-block@nongnu.org/msg72924.html
+Some might actually care about the return value of dma_memory_rw. So
+let us pass it along instead of ignoring it.
 
-Klaus Jensen (1):
-  pci: pass along the return value of dma_memory_rw
+There are no existing users of the return value, so this patch should be
+safe.
 
-Philippe Mathieu-Daudé (12):
-  docs/devel/loads-stores: Add regexp for DMA functions
-  dma: Document address_space_map/address_space_unmap() prototypes
-  dma: Let dma_memory_set() propagate MemTxResult
-  dma: Let dma_memory_rw() propagate MemTxResult
-  dma: Let dma_memory_read() propagate MemTxResult
-  dma: Let dma_memory_write() propagate MemTxResult
-  dma: Let dma_memory_valid() take MemTxAttrs argument
-  dma: Let dma_memory_set() take MemTxAttrs argument
-  dma: Let dma_memory_rw_relaxed() take MemTxAttrs argument
-  dma: Let dma_memory_rw() take MemTxAttrs argument
-  dma: Let dma_memory_read/write() take MemTxAttrs argument
-  dma: Let dma_memory_map() take MemTxAttrs argument
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Keith Busch <kbusch@kernel.org>
+Message-Id: <20191011070141.188713-2-its@irrelevant.dk>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/hw/pci/pci.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
- docs/devel/loads-stores.rst   |   2 +
- include/hw/pci/pci.h          |   7 +-
- include/hw/ppc/spapr_vio.h    |  11 ++-
- include/sysemu/dma.h          | 156 +++++++++++++++++++++++++++-------
- dma-helpers.c                 |  16 ++--
- hw/arm/musicpal.c             |  13 +--
- hw/arm/smmu-common.c          |   3 +-
- hw/arm/smmuv3.c               |  14 +--
- hw/core/generic-loader.c      |   3 +-
- hw/display/virtio-gpu.c       |   8 +-
- hw/dma/pl330.c                |  12 ++-
- hw/dma/sparc32_dma.c          |  16 ++--
- hw/dma/xlnx-zynq-devcfg.c     |   6 +-
- hw/dma/xlnx_dpdma.c           |  10 ++-
- hw/hyperv/vmbus.c             |   8 +-
- hw/i386/amd_iommu.c           |  16 ++--
- hw/i386/intel_iommu.c         |  28 +++---
- hw/ide/ahci.c                 |   9 +-
- hw/ide/macio.c                |   2 +-
- hw/intc/spapr_xive.c          |   3 +-
- hw/intc/xive.c                |   7 +-
- hw/misc/bcm2835_property.c    |   3 +-
- hw/misc/macio/mac_dbdma.c     |  10 ++-
- hw/net/allwinner-sun8i-emac.c |  21 +++--
- hw/net/ftgmac100.c            |  25 ++++--
- hw/net/imx_fec.c              |  32 ++++---
- hw/nvram/fw_cfg.c             |  12 ++-
- hw/pci-host/pnv_phb3.c        |   5 +-
- hw/pci-host/pnv_phb3_msi.c    |   9 +-
- hw/pci-host/pnv_phb4.c        |   7 +-
- hw/sd/allwinner-sdhost.c      |  14 +--
- hw/sd/sdhci.c                 |  35 +++++---
- hw/usb/hcd-dwc2.c             |   8 +-
- hw/usb/hcd-ehci.c             |   6 +-
- hw/usb/hcd-ohci.c             |  28 +++---
- hw/usb/libhw.c                |   3 +-
- hw/virtio/virtio.c            |   6 +-
- 37 files changed, 385 insertions(+), 189 deletions(-)
-
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 4ca7258b5b7..896cef9ad47 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -788,8 +788,7 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir)
+ {
+-    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+-    return 0;
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+ }
+ 
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
 -- 
 2.26.2
 
