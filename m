@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054ED25CFF7
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:50:46 +0200 (CEST)
-Received: from localhost ([::1]:42144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DE325D00A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:53:37 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2kO-0007ho-Ro
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54722)
+	id 1kE2nA-0003xU-A4
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:53:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hX-0002Xx-Do; Thu, 03 Sep 2020 23:47:47 -0400
-Received: from ozlabs.org ([203.11.71.1]:59619)
+ id 1kE2hZ-0002dl-NT; Thu, 03 Sep 2020 23:47:49 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40103 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hU-0004uu-AO; Thu, 03 Sep 2020 23:47:47 -0400
+ id 1kE2hU-0004ut-9Y; Thu, 03 Sep 2020 23:47:49 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsp3b8dz9sVg; Fri,  4 Sep 2020 13:47:26 +1000 (AEST)
+ id 4BjNsp4qSrz9sVd; Fri,  4 Sep 2020 13:47:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599191246;
- bh=+i8c6x+g1I/0BlMD1P5giE77/kh1mmlq1iXBC8Cnpfk=;
+ bh=jcnikD43TknD0h7PbZyyb0oDHmtpwlFiVMarcY7U0tU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GoaRwCq06m0DSv1loMN+nwJtqt4gRrXkGu97JahZyYxUw6lPg16d6X41BQq4OSOqO
- mTGVB1N+0T5v6RhK6FY6uGZRpUmwFNMKByNwULxeDLzmF2S4d+7iXM+NqdBoTlU5nc
- J77+sa0rnjdcF/xwmS3swkeYp2NApBfPSa7YarVE=
+ b=EKkeFwJqBYXRWehRiY+DgpxbvRFzioFBGpMVB6ZP5ShCb+lM/8tRGrisIp/IIVMaW
+ uiEdLmkEoLhpoTwPY+07TKv1hsKpCwsPf0CG8zzBk37JHIKBskVwiivnjmtdsd7pa4
+ Ul4QI+ehLIgDiP+fMgLVOPhqKtrytJEKu5Na/9mg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/30] spapr/xive: Use kvmppc_xive_source_reset() in post_load
-Date: Fri,  4 Sep 2020 13:46:58 +1000
-Message-Id: <20200904034719.673626-10-david@gibson.dropbear.id.au>
+Subject: [PULL 10/30] spapr/xive: Allocate IPIs independently from the other
+ sources
+Date: Fri,  4 Sep 2020 13:46:59 +1000
+Message-Id: <20200904034719.673626-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
@@ -67,56 +68,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-This is doing an extra loop but should be equivalent.
+The vCPU IPIs are now allocated in kvmppc_xive_cpu_connect() when the
+vCPU connects to the KVM device and not when all the sources are reset
+in kvmppc_xive_source_reset()
 
-It also differentiate the reset of the sources from the restore of the
-sources configuration. This will help in allocating the vCPU IPIs
-independently.
+This requires extra care for hotplug vCPUs and VM restore.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20200820134547.2355743-3-clg@kaod.org>
+Message-Id: <20200820134547.2355743-4-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 47 +++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 42 insertions(+), 5 deletions(-)
 
 diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 0e834b4b71..3e80ea0ce9 100644
+index 3e80ea0ce9..507637d51e 100644
 --- a/hw/intc/spapr_xive_kvm.c
 +++ b/hw/intc/spapr_xive_kvm.c
-@@ -646,22 +646,22 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
-         }
+@@ -146,6 +146,15 @@ int kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp)
+     return s.ret;
+ }
+ 
++static int kvmppc_xive_reset_ipi(SpaprXive *xive, CPUState *cs, Error **errp)
++{
++    unsigned long ipi = kvm_arch_vcpu_id(cs);
++    uint64_t state = 0;
++
++    return kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_SOURCE, ipi,
++                              &state, true, errp);
++}
++
+ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
+ {
+     ERRP_GUARD();
+@@ -175,6 +184,12 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
+         return ret;
      }
  
-+    /*
-+     * We can only restore the source config if the source has been
-+     * previously set in KVM. Since we don't do that at reset time
-+     * when restoring a VM, let's do it now.
-+     */
-+    ret = kvmppc_xive_source_reset(&xive->source, &local_err);
++    /* Create/reset the vCPU IPI */
++    ret = kvmppc_xive_reset_ipi(xive, tctx->cs, errp);
 +    if (ret < 0) {
-+        goto fail;
++        return ret;
 +    }
 +
-     /* Restore the EAT */
-     for (i = 0; i < xive->nr_irqs; i++) {
+     kvm_cpu_enable(tctx->cs);
+     return 0;
+ }
+@@ -234,6 +249,12 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
+ 
+     assert(xive->fd != -1);
+ 
++    /*
++     * The vCPU IPIs are now allocated in kvmppc_xive_cpu_connect()
++     * and not with all sources in kvmppc_xive_source_reset()
++     */
++    assert(srcno >= SPAPR_XIRQ_BASE);
++
+     if (xive_source_irq_is_lsi(xsrc, srcno)) {
+         state |= KVM_XIVE_LEVEL_SENSITIVE;
+         if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
+@@ -245,12 +266,28 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
+                              true, errp);
+ }
+ 
++/*
++ * To be valid, a source must have been claimed by the machine (valid
++ * entry in the EAS table) and if it is a vCPU IPI, the vCPU should
++ * have been enabled, which means the IPI has been allocated in
++ * kvmppc_xive_cpu_connect().
++ */
++static bool xive_source_is_valid(SpaprXive *xive, int i)
++{
++    return xive_eas_is_valid(&xive->eat[i]) &&
++        (i >= SPAPR_XIRQ_BASE || kvm_cpu_is_enabled(i));
++}
++
+ static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
+ {
+     SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
+     int i;
+ 
+-    for (i = 0; i < xsrc->nr_irqs; i++) {
++    /*
++     * Skip the vCPU IPIs. These are created/reset when the vCPUs are
++     * connected in kvmppc_xive_cpu_connect()
++     */
++    for (i = SPAPR_XIRQ_BASE; i < xsrc->nr_irqs; i++) {
+         int ret;
+ 
          if (!xive_eas_is_valid(&xive->eat[i])) {
+@@ -332,7 +369,7 @@ static void kvmppc_xive_source_get_state(XiveSource *xsrc)
+     for (i = 0; i < xsrc->nr_irqs; i++) {
+         uint8_t pq;
+ 
+-        if (!xive_eas_is_valid(&xive->eat[i])) {
++        if (!xive_source_is_valid(xive, i)) {
              continue;
          }
  
--        /*
--         * We can only restore the source config if the source has been
--         * previously set in KVM. Since we don't do that for all interrupts
--         * at reset time anymore, let's do it now.
--         */
--        ret = kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
--        if (ret < 0) {
--            goto fail;
--        }
--
-         ret = kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err);
-         if (ret < 0) {
-             goto fail;
+@@ -515,7 +552,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, int running,
+             uint8_t pq;
+             uint8_t old_pq;
+ 
+-            if (!xive_eas_is_valid(&xive->eat[i])) {
++            if (!xive_source_is_valid(xive, i)) {
+                 continue;
+             }
+ 
+@@ -543,7 +580,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, int running,
+     for (i = 0; i < xsrc->nr_irqs; i++) {
+         uint8_t pq;
+ 
+-        if (!xive_eas_is_valid(&xive->eat[i])) {
++        if (!xive_source_is_valid(xive, i)) {
+             continue;
+         }
+ 
+@@ -658,7 +695,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
+ 
+     /* Restore the EAT */
+     for (i = 0; i < xive->nr_irqs; i++) {
+-        if (!xive_eas_is_valid(&xive->eat[i])) {
++        if (!xive_source_is_valid(xive, i)) {
+             continue;
+         }
+ 
 -- 
 2.26.2
 
