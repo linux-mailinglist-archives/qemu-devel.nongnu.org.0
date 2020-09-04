@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1541F25D01E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 06:01:13 +0200 (CEST)
-Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796AE25D02A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 06:03:15 +0200 (CEST)
+Received: from localhost ([::1]:37526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2uW-00081p-0t
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 00:01:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
+	id 1kE2wU-0003w2-HX
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 00:03:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hz-0003Vt-LT; Thu, 03 Sep 2020 23:48:15 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55777 helo=ozlabs.org)
+ id 1kE2i2-0003cr-5Q; Thu, 03 Sep 2020 23:48:18 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:37643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hx-0004yI-Qc; Thu, 03 Sep 2020 23:48:15 -0400
+ id 1kE2hz-0004ys-9G; Thu, 03 Sep 2020 23:48:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNss5BZDz9sW9; Fri,  4 Sep 2020 13:47:29 +1000 (AEST)
+ id 4BjNst3q4bz9sWD; Fri,  4 Sep 2020 13:47:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599191249;
- bh=xuFY3bXkzkBea1Tgmyi1BGotOMR2WR1yFAUIQhfgKzk=;
+ d=gibson.dropbear.id.au; s=201602; t=1599191250;
+ bh=lcJl+18AADR+U6YFsMe0OcdCykc44CX/5zvHrK7DkR0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PJn6BGWMs7FtAphVKGvxGxIi4S3eEz54BTh8/Ykt6/QcDcSFKUhpyTbY7/dPSDqOO
- YJjs4JNEhhWOfahFvqfjR2gZa0/QM2resEFC1i64MHVOzzSmV2/OdQiO6u8dFcqSo7
- LXC4CijLUeagHWyCfeIACTehVh2RMEU/BHL/fZOQ=
+ b=IaTwK/2lf+K8SbwjkDC7n+PAv5ydgR9R6wKLt06S/cQHFRQWoOVLFGm018f+W5scz
+ Dwx0CFpNZrR9zpxovrORNMjazzivuxJ48cEXo9xeySZN5YAPr9qOatw2QkVTrwdDds
+ MOD6bXwDhOJFrUsGk0N9MH1ZNNfmAIZ7GUrcDy+s=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 23/30] hw/ppc/ppc4xx_pci: Use ARRAY_SIZE() instead of magic
- value
-Date: Fri,  4 Sep 2020 13:47:12 +1000
-Message-Id: <20200904034719.673626-24-david@gibson.dropbear.id.au>
+Subject: [PULL 26/30] ppc/spapr_nvdimm: turn spapr_dt_nvdimm() static
+Date: Fri,  4 Sep 2020 13:47:15 +1000
+Message-Id: <20200904034719.673626-27-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 23:47:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -60,41 +58,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, bauerman@linux.ibm.com,
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Replace the magic '4' by ARRAY_SIZE(s->irq) which is more explicit.
+This function is only used inside spapr_nvdimm.c.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200901104043.91383-4-f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20200901125645.118026-3-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc4xx_pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/ppc/spapr_nvdimm.c         | 22 +++++++++++-----------
+ include/hw/ppc/spapr_nvdimm.h |  1 -
+ 2 files changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-index 3ea47df71f..cd3f192a13 100644
---- a/hw/ppc/ppc4xx_pci.c
-+++ b/hw/ppc/ppc4xx_pci.c
-@@ -320,7 +320,8 @@ static void ppc4xx_pcihost_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 95cbc30528..5188e2f503 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -106,16 +106,6 @@ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
+     }
+ }
  
-     b = pci_register_root_bus(dev, NULL, ppc4xx_pci_set_irq,
-                               ppc4xx_pci_map_irq, s->irq, get_system_memory(),
--                              get_system_io(), 0, 4, TYPE_PCI_BUS);
-+                              get_system_io(), 0, ARRAY_SIZE(s->irq),
-+                              TYPE_PCI_BUS);
-     h->bus = b;
+-int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+-                           void *fdt, int *fdt_start_offset, Error **errp)
+-{
+-    NVDIMMDevice *nvdimm = NVDIMM(drc->dev);
+-
+-    *fdt_start_offset = spapr_dt_nvdimm(fdt, 0, nvdimm);
+-
+-    return 0;
+-}
+-
+ void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr)
+ {
+     MachineState *machine = MACHINE(spapr);
+@@ -127,7 +117,7 @@ void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr)
+ }
  
-     pci_create_simple(b, 0, "ppc4xx-host-bridge");
+ 
+-int spapr_dt_nvdimm(void *fdt, int parent_offset,
++static int spapr_dt_nvdimm(void *fdt, int parent_offset,
+                            NVDIMMDevice *nvdimm)
+ {
+     int child_offset;
+@@ -184,6 +174,16 @@ int spapr_dt_nvdimm(void *fdt, int parent_offset,
+     return child_offset;
+ }
+ 
++int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
++                           void *fdt, int *fdt_start_offset, Error **errp)
++{
++    NVDIMMDevice *nvdimm = NVDIMM(drc->dev);
++
++    *fdt_start_offset = spapr_dt_nvdimm(fdt, 0, nvdimm);
++
++    return 0;
++}
++
+ void spapr_dt_persistent_memory(void *fdt)
+ {
+     int offset = fdt_subnode_offset(fdt, 0, "persistent-memory");
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index fd1736634c..10a6d9dbbc 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -27,7 +27,6 @@ QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE);
+ 
+ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+                            void *fdt, int *fdt_start_offset, Error **errp);
+-int spapr_dt_nvdimm(void *fdt, int parent_offset, NVDIMMDevice *nvdimm);
+ void spapr_dt_persistent_memory(void *fdt);
+ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp);
 -- 
 2.26.2
 
