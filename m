@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A008D25E01E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:46:55 +0200 (CEST)
-Received: from localhost ([::1]:55376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502EC25E012
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:44:17 +0200 (CEST)
+Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEErW-0002uy-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
+	id 1kEEoy-00080w-Cy
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnx-0006gp-Mt
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21461
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnz-0006is-Ml
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46523
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnu-0000AT-Hj
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:13 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kEEnw-0000An-1W
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:43:15 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-kiPXpiAaOo6UKGwVRCqigg-1; Fri, 04 Sep 2020 12:43:08 -0400
-X-MC-Unique: kiPXpiAaOo6UKGwVRCqigg-1
+ us-mta-576-9LTyus_2OFqPuv1_T9XX3Q-1; Fri, 04 Sep 2020 12:43:09 -0400
+X-MC-Unique: 9LTyus_2OFqPuv1_T9XX3Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76CD91074650;
- Fri,  4 Sep 2020 16:43:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB361425E1;
+ Fri,  4 Sep 2020 16:43:08 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-120-166.rdu2.redhat.com
  [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D86019C59;
- Fri,  4 Sep 2020 16:43:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A23AB19D7D;
+ Fri,  4 Sep 2020 16:43:07 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 3/7] scripts/ci/gitlab-pipeline-status: give early feedback on
- running pipelines
-Date: Fri,  4 Sep 2020 12:42:54 -0400
-Message-Id: <20200904164258.240278-4-crosa@redhat.com>
+Subject: [PATCH 4/7] scripts/ci/gitlab-pipeline-status: refactor parser
+ creation
+Date: Fri,  4 Sep 2020 12:42:55 -0400
+Message-Id: <20200904164258.240278-5-crosa@redhat.com>
 In-Reply-To: <20200904164258.240278-1-crosa@redhat.com>
 References: <20200904164258.240278-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -47,9 +47,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=crosa@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -77,31 +77,43 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When waiting for a pipeline to run and finish, it's better to give
-early feedback, and then sleep and wait, than the other wait around.
-
-Specially for the first iteration, it's frustrating to see nothing
-while the script is sleeping.
+Out of the main function.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/ci/gitlab-pipeline-status | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/ci/gitlab-pipeline-status | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
-index 2a36f74696..18609553be 100755
+index 18609553be..8355b6a427 100755
 --- a/scripts/ci/gitlab-pipeline-status
 +++ b/scripts/ci/gitlab-pipeline-status
-@@ -77,8 +77,8 @@ def wait_on_pipeline_success(timeout, interval,
+@@ -89,10 +89,7 @@ def wait_on_pipeline_success(timeout, interval,
+         return False
  
-         status = get_pipeline_status(project_id, commit_sha)
-         if status['status'] == 'running':
--            time.sleep(interval)
-             print('running...')
-+            time.sleep(interval)
-             continue
  
-         if status['status'] == 'success':
+-def main():
+-    """
+-    Script entry point
+-    """
++def create_parser():
+     parser = argparse.ArgumentParser(
+         prog='pipeline-status',
+         description='check or wait on a pipeline status')
+@@ -127,7 +124,13 @@ def main():
+     parser.add_argument('--verbose', action='store_true', default=False,
+                         help=('A minimal verbosity level that prints the '
+                               'overall result of the check/wait'))
++    return parser
+ 
++def main():
++    """
++    Script entry point
++    """
++    parser = create_parser()
+     args = parser.parse_args()
+ 
+     try:
 -- 
 2.25.4
 
