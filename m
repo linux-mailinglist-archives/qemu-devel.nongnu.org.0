@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE13625E0E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:34:36 +0200 (CEST)
-Received: from localhost ([::1]:50748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B47A25E127
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:47:14 +0200 (CEST)
+Received: from localhost ([::1]:46028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEFbf-000485-PR
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51054)
+	id 1kEFns-00064A-N4
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kEFZd-0003bW-AI
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:32:29 -0400
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:37249)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kEFZa-0006An-TB
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:32:28 -0400
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 084HV6tw071097;
- Fri, 4 Sep 2020 19:31:06 +0200 (CEST)
- (envelope-from pisa@cmp.felk.cvut.cz)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 084HV6Gj028456; Fri, 4 Sep 2020 19:31:06 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 084HV5ck028448;
- Fri, 4 Sep 2020 19:31:05 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 0/7] CTU CAN FD core support - patchew problem
-Date: Fri, 4 Sep 2020 19:31:05 +0200
-User-Agent: KMail/1.9.10
-References: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
-In-Reply-To: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
-X-KMail-QuotePrefix: > 
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kEFmZ-0005Ad-Fu; Fri, 04 Sep 2020 13:45:51 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:46774)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kEFmW-0007eg-NA; Fri, 04 Sep 2020 13:45:51 -0400
+Received: by mail-qt1-x841.google.com with SMTP id b3so5203025qtg.13;
+ Fri, 04 Sep 2020 10:45:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nkifHhBLQpkdqUHyoA7iPbH+94nw4BQ2Rw2O8Fp8jpg=;
+ b=A8R7lkKwAQMtYozYnVA6A71JrVPOvTs3PC4jqFQzmeQe+9sSK+DYBipPJ4THILSWzr
+ LqFlo72rLMV0cstjzV27pbHhwRWt8mHD2wM7ay6rrpZmglwQBU45eyVsE2obC82hBQK/
+ uiUbvD+p1cAWezvLpEhlSExzJJ9HpKaOPbKOoUygEQlU+8I7gOx0dNKiijSaNCSHdvn0
+ 0WDRwpYdu67IbgRcJCakCHrg580FLYAnrxACrAR6rpC1emQ+Mo7tU/uaxee4LyFoFifS
+ hOZ+5Uf/2DFo9n9gez5ufZ/T6rZsqlGiy8IS4SflLnElMtZDvk0OyCsPv3VXdmneY8nc
+ EQRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nkifHhBLQpkdqUHyoA7iPbH+94nw4BQ2Rw2O8Fp8jpg=;
+ b=LcVlR+CCaIx3/U2Z9mQKga/m9CcQo+1cszGgnkTr9bJ2IxCqai6WLB4IOY3bhdN8rY
+ DuIpZWbb2w54ERhkjF4hLAllvnHDChwB3C5HcdlL4v6XYQF9O1VpXplXpnDh4tjWcvqD
+ RbeSJf9DxvuqYZbHZX5Ls22arHtCq5Xza2l0MwGDLtAbQXWqQcz6rM72L16HzvjHCg5M
+ TAlFaQgupSEZNXHdWDvctc23oCAt82AnNxqkyRFHy3oP74AoIUsIxbtU69O1lHVATzYn
+ F/v4iqq+orJ06tUFkhtYzr6PrwjczuGrV7K18bjf22hN4bprHy9wnIysYXIfTQZHl+M3
+ 5z8w==
+X-Gm-Message-State: AOAM532P3fZ1q7WFkZxViwkagka5QJqqTLyvJZLpbwbMH78P6Kq7tZSr
+ olZEf3+Ezepj8VB7r23JEj4E0neiZ4al6ydqs5Q=
+X-Google-Smtp-Source: ABdhPJxFkrpbjoZ8i+PGEJ+KAskS5OBXdFL3ARuKQcyJYor5amYqNA9KOSOIsdWNnjSPa8DN48NV227igynMWruai+I=
+X-Received: by 2002:aed:3a42:: with SMTP id n60mr9631551qte.125.1599241547198; 
+ Fri, 04 Sep 2020 10:45:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202009041931.05173.pisa@cmp.felk.cvut.cz>
-X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 084HV6tw071097
-X-FELK-MailScanner: Found to be clean
-X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-2.501, required 6, autolearn=not spam, BAYES_00 -0.50,
- KHOP_HELO_FCRDNS 0.40, NICE_REPLY_A -2.40, SPF_HELO_NONE 0.00,
- SPF_NONE 0.00)
-X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1599845469.6108@Y5CJgmYNj2tOx+B7GOglNw
-Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
- envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 13:32:23
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.107,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <1599129623-68957-1-git-send-email-bmeng.cn@gmail.com>
+ <1599129623-68957-7-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1599129623-68957-7-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 4 Sep 2020 10:34:52 -0700
+Message-ID: <CAKmqyKMrstOPy1Uw6EB_QuhBuX5fC+r01Tt=ALsy2HzdEzNt0g@mail.gmail.com>
+Subject: Re: [PATCH 06/12] hw/riscv: Move sifive_plic model to hw/intc
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
+ envelope-from=alistair23@gmail.com; helo=mail-qt1-x841.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,62 +78,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Jiri Novak <jnovak@fel.cvut.cz>, Oliver Hartkopp <socketcan@hartkopp.net>,
- Deniz Eren <deniz.eren@icloud.com>, Markus Armbruster <armbru@redhat.com>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Konrad Frederic <frederic.konrad@adacore.com>,
- Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
- Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Ondrej Ille <ondrej.ille@gmail.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello everybody,
-
-On Thursday 03 of September 2020 23:37:17 pisa@cmp.felk.cvut.cz wrote:
-> From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+On Thu, Sep 3, 2020 at 3:44 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> CTU CAN FD is an open source soft core written in VHDL.
-> It originated in 2015 as Ondrej Ille's project at the
-> Department of Measurement of FEE at CTU.
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This is an effort to clean up the hw/riscv directory. Ideally it
+> should only contain the RISC-V SoC / machine codes plus generic
+> codes. Let's move sifive_plic model to hw/intc directory.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-It seems that there has been problem with QEMU CI
-run by patchew
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-   No space left on device
+Alistair
 
-It seems it is resolved for later patches
-
-Please, can somebody restart pipe for our CAN FD series
-
-  https://patchew.org/QEMU/cover.1599168753.git.pisa@cmp.felk.cvut.cz/
-
-Please, is there somebody willing to look and apply series
-to mainline if it passes CI OK?
-
-Changes are only in CAN subsystem so if there is no
-problem with breaking build on some system then
-patches can break only the subsystem which I have planned,
-found funding for initial CAN implementation provided
-by RTEMS GSoC slot and where I have tutor our university
-studnet to work on CAN FD support. If something is wrong
-then it break only this subsystem, all functionality is
-activated only when explicitly selected by command line option.
-
-It seems that subsystem has users at Xilinx, Pengutronix
-and more.
-
-I have some longer time plans how to implement back-pressure
-from SocketCAN, prioritization of the bus transfers when
-multiple controllers are active at one and even emulate
-bus tansmittion delay and blocking when message is on its way.
-But these are more intrusive changes and would require time
-or some other student work and I do not invest my time
-before I would know that there is no more request for
-series on which future work is based on.
-
-Thanks much in advance,
-
-Pavel
+> ---
+>
+>  {include/hw/riscv => hw/intc}/sifive_plic.h | 0
+>  hw/{riscv => intc}/sifive_plic.c            | 2 +-
+>  hw/riscv/microchip_pfsoc.c                  | 2 +-
+>  hw/riscv/sifive_e.c                         | 2 +-
+>  hw/riscv/sifive_u.c                         | 2 +-
+>  hw/riscv/virt.c                             | 2 +-
+>  hw/intc/Kconfig                             | 3 +++
+>  hw/intc/meson.build                         | 1 +
+>  hw/riscv/Kconfig                            | 5 +++++
+>  hw/riscv/meson.build                        | 1 -
+>  10 files changed, 14 insertions(+), 6 deletions(-)
+>  rename {include/hw/riscv => hw/intc}/sifive_plic.h (100%)
+>  rename hw/{riscv => intc}/sifive_plic.c (99%)
+>
+> diff --git a/include/hw/riscv/sifive_plic.h b/hw/intc/sifive_plic.h
+> similarity index 100%
+> rename from include/hw/riscv/sifive_plic.h
+> rename to hw/intc/sifive_plic.h
+> diff --git a/hw/riscv/sifive_plic.c b/hw/intc/sifive_plic.c
+> similarity index 99%
+> rename from hw/riscv/sifive_plic.c
+> rename to hw/intc/sifive_plic.c
+> index 11ef147..af611f8 100644
+> --- a/hw/riscv/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -27,9 +27,9 @@
+>  #include "hw/pci/msi.h"
+>  #include "hw/boards.h"
+>  #include "hw/qdev-properties.h"
+> +#include "hw/intc/sifive_plic.h"
+>  #include "target/riscv/cpu.h"
+>  #include "sysemu/sysemu.h"
+> -#include "hw/riscv/sifive_plic.h"
+>
+>  #define RISCV_DEBUG_PLIC 0
+>
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 131eea1..4627179 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -48,9 +48,9 @@
+>  #include "hw/misc/unimp.h"
+>  #include "hw/riscv/boot.h"
+>  #include "hw/riscv/riscv_hart.h"
+> -#include "hw/riscv/sifive_plic.h"
+>  #include "hw/riscv/microchip_pfsoc.h"
+>  #include "hw/intc/sifive_clint.h"
+> +#include "hw/intc/sifive_plic.h"
+>  #include "sysemu/sysemu.h"
+>
+>  /*
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index 3bdb16e..0ddcf15 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -39,11 +39,11 @@
+>  #include "hw/misc/unimp.h"
+>  #include "target/riscv/cpu.h"
+>  #include "hw/riscv/riscv_hart.h"
+> -#include "hw/riscv/sifive_plic.h"
+>  #include "hw/riscv/sifive_uart.h"
+>  #include "hw/riscv/sifive_e.h"
+>  #include "hw/riscv/boot.h"
+>  #include "hw/intc/sifive_clint.h"
+> +#include "hw/intc/sifive_plic.h"
+>  #include "hw/misc/sifive_e_prci.h"
+>  #include "chardev/char.h"
+>  #include "sysemu/arch_init.h"
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 7187d1a..faca2e8 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -46,11 +46,11 @@
+>  #include "hw/misc/unimp.h"
+>  #include "target/riscv/cpu.h"
+>  #include "hw/riscv/riscv_hart.h"
+> -#include "hw/riscv/sifive_plic.h"
+>  #include "hw/riscv/sifive_uart.h"
+>  #include "hw/riscv/sifive_u.h"
+>  #include "hw/riscv/boot.h"
+>  #include "hw/intc/sifive_clint.h"
+> +#include "hw/intc/sifive_plic.h"
+>  #include "chardev/char.h"
+>  #include "net/eth.h"
+>  #include "sysemu/arch_init.h"
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index bce2020..0caab8e 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -30,12 +30,12 @@
+>  #include "hw/char/serial.h"
+>  #include "target/riscv/cpu.h"
+>  #include "hw/riscv/riscv_hart.h"
+> -#include "hw/riscv/sifive_plic.h"
+>  #include "hw/riscv/sifive_test.h"
+>  #include "hw/riscv/virt.h"
+>  #include "hw/riscv/boot.h"
+>  #include "hw/riscv/numa.h"
+>  #include "hw/intc/sifive_clint.h"
+> +#include "hw/intc/sifive_plic.h"
+>  #include "chardev/char.h"
+>  #include "sysemu/arch_init.h"
+>  #include "sysemu/device_tree.h"
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index f499d0f..d079540 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -70,3 +70,6 @@ config LOONGSON_LIOINTC
+>
+>  config SIFIVE_CLINT
+>      bool
+> +
+> +config SIFIVE_PLIC
+> +    bool
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 1e20daa..3f82cc2 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -48,6 +48,7 @@ specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: files('s390_flic.c'))
+>  specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
+>  specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
+>  specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
+> +specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
+>  specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+>  specific_ss.add(when: 'CONFIG_XICS_KVM', if_true: files('xics_kvm.c'))
+>  specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
+> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> index f8bb7e7..23b7027 100644
+> --- a/hw/riscv/Kconfig
+> +++ b/hw/riscv/Kconfig
+> @@ -17,6 +17,7 @@ config SIFIVE_E
+>      select SIFIVE
+>      select SIFIVE_CLINT
+>      select SIFIVE_GPIO
+> +    select SIFIVE_PLIC
+>      select SIFIVE_E_PRCI
+>      select UNIMP
+>
+> @@ -28,6 +29,7 @@ config SIFIVE_U
+>      select SIFIVE_CLINT
+>      select SIFIVE_GPIO
+>      select SIFIVE_PDMA
+> +    select SIFIVE_PLIC
+>      select SIFIVE_U_OTP
+>      select SIFIVE_U_PRCI
+>      select UNIMP
+> @@ -38,6 +40,7 @@ config SPIKE
+>      select HTIF
+>      select SIFIVE
+>      select SIFIVE_CLINT
+> +    select SIFIVE_PLIC
+>
+>  config OPENTITAN
+>      bool
+> @@ -58,6 +61,7 @@ config RISCV_VIRT
+>      select PFLASH_CFI01
+>      select SIFIVE
+>      select SIFIVE_CLINT
+> +    select SIFIVE_PLIC
+>
+>  config MICROCHIP_PFSOC
+>      bool
+> @@ -67,4 +71,5 @@ config MICROCHIP_PFSOC
+>      select UNIMP
+>      select MCHP_PFSOC_MMUART
+>      select SIFIVE_PDMA
+> +    select SIFIVE_PLIC
+>      select CADENCE_SDHCI
+> diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
+> index ea72178..535a142 100644
+> --- a/hw/riscv/meson.build
+> +++ b/hw/riscv/meson.build
+> @@ -4,7 +4,6 @@ riscv_ss.add(files('numa.c'))
+>  riscv_ss.add(when: 'CONFIG_HART', if_true: files('riscv_hart.c'))
+>  riscv_ss.add(when: 'CONFIG_OPENTITAN', if_true: files('opentitan.c'))
+>  riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c'))
+> -riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_plic.c'))
+>  riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_test.c'))
+>  riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_uart.c'))
+>  riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
+> --
+> 2.7.4
+>
+>
 
