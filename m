@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48B625E13F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:59:31 +0200 (CEST)
-Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09A225E12D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:52:32 +0200 (CEST)
+Received: from localhost ([::1]:55908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEFzm-0000JT-O1
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56100)
+	id 1kEFt1-0001s1-Qf
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kEFyc-00085L-Av; Fri, 04 Sep 2020 13:58:18 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:35969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kEFya-0000j9-1Q; Fri, 04 Sep 2020 13:58:17 -0400
-Received: by mail-io1-xd43.google.com with SMTP id d190so8040027iof.3;
- Fri, 04 Sep 2020 10:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G1bM40015bksxd+x19QhiYyqakI9yFwrcxIueYMAw1c=;
- b=nW7X75OAlZoqJ/Vt84dN5h3LUJ6EgxVb9SOvmy27iP7agyWbZPXosnjIYczuv51IXj
- 5VW0oEaPUPq526uYln1QwNyOoENgyP3G27gRaEl/JjziirMn3KPQijMu8hhnOOOJZiqI
- BnzczZIgcSgunIEpuaVXoUjTRKJogdb0IXW+hpQdIpmXD5/de8xMRB7MEaeiGUqcwOSD
- QN5C9YsMBE+jDdInIRsC4O90wxDk8uFvNr6Q21XDXHKGVekM7ThIKThi58EOtCzQ46QC
- 6CcrVbregyvpGJQCwaLbjsYeiPWE7xBi5Nzz/f6E6xEF+tNNqbEOJsVYJkpq4oba8uEe
- fjyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=G1bM40015bksxd+x19QhiYyqakI9yFwrcxIueYMAw1c=;
- b=NqGBKGGX35wqdk1ugbFALWX0pCKN0xUcCuZa1CO60c7EryTEbsBtUUxZj31E4DHUGc
- cZo6Hh0pZ9iiZgJLSfPb+mK2GExq/AERLh1qAImzqNeCmbCXu4akoQS6EuRhVi1kKRmK
- 3npTC39Y1kx+QJqIuCbyLekbv6qTrkB1tWISzA/VVeJwU/pbtHh1Ey6ZmSrXvV/gTnMP
- 8bfgKrNZkeIxBNgqqAsydlF5H5/5lyMGFctLYpOsGsZcUMiTAcf37I+gI/5hO9///MJe
- qxeQZLmQDnCuF/D0xZTkt6xeJKU48wVwqmO4Kb9PRJS8Y8aamhtaPYjB0cDnB/gBA7qp
- iRVw==
-X-Gm-Message-State: AOAM531u5N8iQY/QjLj5wCAZ2VYmQc16KTCf+qgxRlW5IEnguP5FetWa
- aCMJcNCNBqq/bDjkFfGoh7V5U1OnT0f97We1Sg4=
-X-Google-Smtp-Source: ABdhPJxjTQXbdxFP32NK9WUjpFZmwsCcBBLObdL3OAiMZAj3WOhYnoRRwAn1ucVfhoo0ej4ZW2JZjuLFMgr8VbEfwj4=
-X-Received: by 2002:a02:85e1:: with SMTP id d88mr9369135jai.8.1599242293089;
- Fri, 04 Sep 2020 10:58:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kEFs2-0001QR-Jz
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:51:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58624
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kEFrz-0008LJ-O2
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:51:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599241885;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FquuQCl3+2MDqTZOPKn2zfHIx42gh/jI9PA5OqnHSsg=;
+ b=XB9YJGYJcxhhcyR1MOXjdbPd5LTKuaSJzNWYIBK+LqRP099OdXXMuhaYduXFXblNqBOBU7
+ NpW2fcKNbQ71EtBuxpjMipsAXCc83xL/avz6rO5oU+BbdC/kq2heaeLAfT3KQGgLS7tUv3
+ 02SNY/CxKVXmxhjtztBq/z/GbAufdZQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-OnJUszeZOo2zjzIoLgT82w-1; Fri, 04 Sep 2020 13:51:22 -0400
+X-MC-Unique: OnJUszeZOo2zjzIoLgT82w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14E6957054
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 17:51:22 +0000 (UTC)
+Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C89735D9CC;
+ Fri,  4 Sep 2020 17:51:09 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qom: Remove ParentClassType argument from
+ OBJECT_DECLARE_SIMPLE_TYPE
+Date: Fri,  4 Sep 2020 13:51:09 -0400
+Message-Id: <20200904175109.2436673-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <1598924352-89526-1-git-send-email-bmeng.cn@gmail.com>
- <1598924352-89526-6-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1598924352-89526-6-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 4 Sep 2020 10:47:18 -0700
-Message-ID: <CAKmqyKPF3YXNiU5V9NO7wQGqwBRdhBW1Rwq5W8A4NkDnQHwy9g@mail.gmail.com>
-Subject: Re: [PATCH v3 05/16] hw/char: Add Microchip PolarFire SoC MMUART
- emulation
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,248 +79,354 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 31, 2020 at 6:44 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Microchip PolarFire SoC MMUART is ns16550 compatible, with some
-> additional registers. Create a simple MMUART model built on top
-> of the existing ns16550 model.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+The requirement to specify the parent class type makes the macro
+harder to use and easy to misuse (by indicating the wrong parent
+class type).
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Simplify the macro by just not declaring any class struct,
+allowing us to remove the class_size field from the TypeInfo
+variables for those types.
 
-Alistair
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+This patch is based on the machine-next branch, and can be
+fetched from the git branch at:
+  https://github.com/ehabkost/qemu-hacks work/qom-simplify-declare-simple-type
+---
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
+---
+ include/authz/list.h                |  2 +-
+ include/authz/listfile.h            |  2 +-
+ include/authz/pamacct.h             |  2 +-
+ include/authz/simple.h              |  2 +-
+ include/crypto/secret_keyring.h     |  2 +-
+ include/io/dns-resolver.h           |  2 +-
+ include/io/net-listener.h           |  2 +-
+ include/qom/object.h                | 16 ++++++++--------
+ include/sysemu/vhost-user-backend.h |  2 +-
+ authz/list.c                        |  1 -
+ authz/listfile.c                    |  1 -
+ authz/pamacct.c                     |  1 -
+ authz/simple.c                      |  1 -
+ backends/dbus-vmstate.c             |  3 +--
+ backends/vhost-user.c               |  1 -
+ crypto/secret_keyring.c             |  1 -
+ io/dns-resolver.c                   |  1 -
+ io/net-listener.c                   |  1 -
+ ui/input-barrier.c                  |  3 +--
+ ui/input-linux.c                    |  3 +--
+ 20 files changed, 19 insertions(+), 30 deletions(-)
 
->
-> ---
->
-> (no changes since v2)
->
-> Changes in v2:
-> - change to update hw/char/meson.build
-> - add impl.min_access_size and impl.max_access_size as part of
->   MemoryRegionOps and remove the allignment check
->
->  include/hw/char/mchp_pfsoc_mmuart.h | 61 ++++++++++++++++++++++++++
->  hw/char/mchp_pfsoc_mmuart.c         | 86 +++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                         |  2 +
->  hw/char/Kconfig                     |  3 ++
->  hw/char/meson.build                 |  1 +
->  5 files changed, 153 insertions(+)
->  create mode 100644 include/hw/char/mchp_pfsoc_mmuart.h
->  create mode 100644 hw/char/mchp_pfsoc_mmuart.c
->
-> diff --git a/include/hw/char/mchp_pfsoc_mmuart.h b/include/hw/char/mchp_pfsoc_mmuart.h
-> new file mode 100644
-> index 0000000..f619902
-> --- /dev/null
-> +++ b/include/hw/char/mchp_pfsoc_mmuart.h
-> @@ -0,0 +1,61 @@
-> +/*
-> + * Microchip PolarFire SoC MMUART emulation
-> + *
-> + * Copyright (c) 2020 Wind River Systems, Inc.
-> + *
-> + * Author:
-> + *   Bin Meng <bin.meng@windriver.com>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
-> +
-> +#ifndef HW_MCHP_PFSOC_MMUART_H
-> +#define HW_MCHP_PFSOC_MMUART_H
-> +
-> +#include "hw/char/serial.h"
-> +
-> +#define MCHP_PFSOC_MMUART_REG_SIZE  52
-> +
-> +typedef struct MchpPfSoCMMUartState {
-> +    MemoryRegion iomem;
-> +    hwaddr base;
-> +    qemu_irq irq;
-> +
-> +    SerialMM *serial;
-> +
-> +    uint32_t reg[MCHP_PFSOC_MMUART_REG_SIZE / sizeof(uint32_t)];
-> +} MchpPfSoCMMUartState;
-> +
-> +/**
-> + * mchp_pfsoc_mmuart_create - Create a Microchip PolarFire SoC MMUART
-> + *
-> + * This is a helper routine for board to create a MMUART device that is
-> + * compatible with Microchip PolarFire SoC.
-> + *
-> + * @sysmem: system memory region to map
-> + * @base: base address of the MMUART registers
-> + * @irq: IRQ number of the MMUART device
-> + * @chr: character device to associate to
-> + *
-> + * @return: a pointer to the device specific control structure
-> + */
-> +MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
-> +    hwaddr base, qemu_irq irq, Chardev *chr);
-> +
-> +#endif /* HW_MCHP_PFSOC_MMUART_H */
-> diff --git a/hw/char/mchp_pfsoc_mmuart.c b/hw/char/mchp_pfsoc_mmuart.c
-> new file mode 100644
-> index 0000000..8a002b0
-> --- /dev/null
-> +++ b/hw/char/mchp_pfsoc_mmuart.c
-> @@ -0,0 +1,86 @@
-> +/*
-> + * Microchip PolarFire SoC MMUART emulation
-> + *
-> + * Copyright (c) 2020 Wind River Systems, Inc.
-> + *
-> + * Author:
-> + *   Bin Meng <bin.meng@windriver.com>
-> + *
-> + * This program is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU General Public License as
-> + * published by the Free Software Foundation; either version 2 or
-> + * (at your option) version 3 of the License.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along
-> + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "chardev/char.h"
-> +#include "exec/address-spaces.h"
-> +#include "hw/char/mchp_pfsoc_mmuart.h"
-> +
-> +static uint64_t mchp_pfsoc_mmuart_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    MchpPfSoCMMUartState *s = opaque;
-> +
-> +    if (addr >= MCHP_PFSOC_MMUART_REG_SIZE) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: read: addr=0x%" HWADDR_PRIx "\n",
-> +                      __func__, addr);
-> +        return 0;
-> +    }
-> +
-> +    return s->reg[addr / sizeof(uint32_t)];
-> +}
-> +
-> +static void mchp_pfsoc_mmuart_write(void *opaque, hwaddr addr,
-> +                                    uint64_t value, unsigned size)
-> +{
-> +    MchpPfSoCMMUartState *s = opaque;
-> +    uint32_t val32 = (uint32_t)value;
-> +
-> +    if (addr >= MCHP_PFSOC_MMUART_REG_SIZE) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write: addr=0x%" HWADDR_PRIx
-> +                      " v=0x%x\n", __func__, addr, val32);
-> +        return;
-> +    }
-> +
-> +    s->reg[addr / sizeof(uint32_t)] = val32;
-> +}
-> +
-> +static const MemoryRegionOps mchp_pfsoc_mmuart_ops = {
-> +    .read = mchp_pfsoc_mmuart_read,
-> +    .write = mchp_pfsoc_mmuart_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +};
-> +
-> +MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
-> +    hwaddr base, qemu_irq irq, Chardev *chr)
-> +{
-> +    MchpPfSoCMMUartState *s;
-> +
-> +    s = g_new0(MchpPfSoCMMUartState, 1);
-> +
-> +    memory_region_init_io(&s->iomem, NULL, &mchp_pfsoc_mmuart_ops, s,
-> +                          "mchp.pfsoc.mmuart", 0x1000);
-> +
-> +    s->base = base;
-> +    s->irq = irq;
-> +
-> +    s->serial = serial_mm_init(sysmem, base, 2, irq, 399193, chr,
-> +                               DEVICE_LITTLE_ENDIAN);
-> +
-> +    memory_region_add_subregion(sysmem, base + 0x20, &s->iomem);
-> +
-> +    return s;
-> +}
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5359b39..4002d51 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1320,7 +1320,9 @@ M: Bin Meng <bin.meng@windriver.com>
->  L: qemu-riscv@nongnu.org
->  S: Supported
->  F: hw/riscv/microchip_pfsoc.c
-> +F: hw/char/mchp_pfsoc_mmuart.c
->  F: include/hw/riscv/microchip_pfsoc.h
-> +F: include/hw/char/mchp_pfsoc_mmuart.h
->
->  RX Machines
->  -----------
-> diff --git a/hw/char/Kconfig b/hw/char/Kconfig
-> index b7e0e4d..1d64555 100644
-> --- a/hw/char/Kconfig
-> +++ b/hw/char/Kconfig
-> @@ -52,3 +52,6 @@ config RENESAS_SCI
->
->  config AVR_USART
->      bool
-> +
-> +config MCHP_PFSOC_MMUART
-> +    bool
-> diff --git a/hw/char/meson.build b/hw/char/meson.build
-> index e888215..ae27932 100644
-> --- a/hw/char/meson.build
-> +++ b/hw/char/meson.build
-> @@ -32,6 +32,7 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
->  softmmu_ss.add(when: 'CONFIG_RENESAS_SCI', if_true: files('renesas_sci.c'))
->  softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
->  softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
-> +softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmuart.c'))
->
->  specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
->  specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
-> --
-> 2.7.4
->
->
+diff --git a/include/authz/list.h b/include/authz/list.h
+index 5676bb375c..c5eda0f1bf 100644
+--- a/include/authz/list.h
++++ b/include/authz/list.h
+@@ -28,7 +28,7 @@
+ #define TYPE_QAUTHZ_LIST "authz-list"
+ 
+ OBJECT_DECLARE_SIMPLE_TYPE(QAuthZList, qauthz_list,
+-                           QAUTHZ_LIST, QAuthZClass)
++                           QAUTHZ_LIST)
+ 
+ 
+ 
+diff --git a/include/authz/listfile.h b/include/authz/listfile.h
+index b491227bbe..83d78cfa50 100644
+--- a/include/authz/listfile.h
++++ b/include/authz/listfile.h
+@@ -28,7 +28,7 @@
+ #define TYPE_QAUTHZ_LIST_FILE "authz-list-file"
+ 
+ OBJECT_DECLARE_SIMPLE_TYPE(QAuthZListFile, qauthz_list_file,
+-                           QAUTHZ_LIST_FILE, QAuthZClass)
++                           QAUTHZ_LIST_FILE)
+ 
+ 
+ 
+diff --git a/include/authz/pamacct.h b/include/authz/pamacct.h
+index 7804853ddf..18087cee20 100644
+--- a/include/authz/pamacct.h
++++ b/include/authz/pamacct.h
+@@ -28,7 +28,7 @@
+ #define TYPE_QAUTHZ_PAM "authz-pam"
+ 
+ OBJECT_DECLARE_SIMPLE_TYPE(QAuthZPAM, qauthz_pam,
+-                           QAUTHZ_PAM, QAuthZClass)
++                           QAUTHZ_PAM)
+ 
+ 
+ 
+diff --git a/include/authz/simple.h b/include/authz/simple.h
+index 346fcb0c6c..d3ed05b36f 100644
+--- a/include/authz/simple.h
++++ b/include/authz/simple.h
+@@ -27,7 +27,7 @@
+ #define TYPE_QAUTHZ_SIMPLE "authz-simple"
+ 
+ OBJECT_DECLARE_SIMPLE_TYPE(QAuthZSimple, qauthz_simple,
+-                           QAUTHZ_SIMPLE, QAuthZClass)
++                           QAUTHZ_SIMPLE)
+ 
+ 
+ 
+diff --git a/include/crypto/secret_keyring.h b/include/crypto/secret_keyring.h
+index 73d2a8f501..803f3fc28b 100644
+--- a/include/crypto/secret_keyring.h
++++ b/include/crypto/secret_keyring.h
+@@ -27,7 +27,7 @@
+ 
+ #define TYPE_QCRYPTO_SECRET_KEYRING "secret_keyring"
+ OBJECT_DECLARE_SIMPLE_TYPE(QCryptoSecretKeyring, qcrypto_secret_keyring,
+-                           QCRYPTO_SECRET_KEYRING, QCryptoSecretCommonClass)
++                           QCRYPTO_SECRET_KEYRING)
+ 
+ 
+ struct QCryptoSecretKeyring {
+diff --git a/include/io/dns-resolver.h b/include/io/dns-resolver.h
+index e248fba5bd..9d14a8d98f 100644
+--- a/include/io/dns-resolver.h
++++ b/include/io/dns-resolver.h
+@@ -27,7 +27,7 @@
+ 
+ #define TYPE_QIO_DNS_RESOLVER "qio-dns-resolver"
+ OBJECT_DECLARE_SIMPLE_TYPE(QIODNSResolver, qio_dns_resolver,
+-                           QIO_DNS_RESOLVER, ObjectClass)
++                           QIO_DNS_RESOLVER)
+ 
+ 
+ /**
+diff --git a/include/io/net-listener.h b/include/io/net-listener.h
+index 60fad29ff4..8145962fbb 100644
+--- a/include/io/net-listener.h
++++ b/include/io/net-listener.h
+@@ -26,7 +26,7 @@
+ 
+ #define TYPE_QIO_NET_LISTENER "qio-net-listener"
+ OBJECT_DECLARE_SIMPLE_TYPE(QIONetListener, qio_net_listener,
+-                           QIO_NET_LISTENER, ObjectClass)
++                           QIO_NET_LISTENER)
+ 
+ 
+ typedef void (*QIONetListenerClientFunc)(QIONetListener *listener,
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 056f67ab3b..4a23fed586 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -639,19 +639,19 @@ struct Object
+  * @InstanceType: instance struct name
+  * @module_obj_name: the object name in lowercase with underscore separators
+  * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
+- * @ParentClassType: class struct name of parent type
+  *
+- * This does the same as OBJECT_DECLARE_TYPE(), but also declares
+- * the class struct, thus only the object struct needs to be declare
+- * manually.
++ * This does the same as OBJECT_DECLARE_TYPE(), but with no class struct
++ * declared.
+  *
+  * This macro should be used unless the class struct needs to have
+  * virtual methods declared.
+  */
+-#define OBJECT_DECLARE_SIMPLE_TYPE(InstanceType, module_obj_name, \
+-                                   MODULE_OBJ_NAME, ParentClassType) \
+-    OBJECT_DECLARE_TYPE(InstanceType, InstanceType##Class, module_obj_name, MODULE_OBJ_NAME) \
+-    struct InstanceType##Class { ParentClassType parent_class; };
++#define OBJECT_DECLARE_SIMPLE_TYPE(InstanceType, module_obj_name, MODULE_OBJ_NAME) \
++    typedef struct InstanceType InstanceType; \
++    \
++    G_DEFINE_AUTOPTR_CLEANUP_FUNC(InstanceType, object_unref) \
++    \
++    DECLARE_INSTANCE_CHECKER(InstanceType, MODULE_OBJ_NAME, TYPE_##MODULE_OBJ_NAME)
+ 
+ 
+ /**
+diff --git a/include/sysemu/vhost-user-backend.h b/include/sysemu/vhost-user-backend.h
+index 23205edeb8..41d5ff43bd 100644
+--- a/include/sysemu/vhost-user-backend.h
++++ b/include/sysemu/vhost-user-backend.h
+@@ -23,7 +23,7 @@
+ 
+ #define TYPE_VHOST_USER_BACKEND "vhost-user-backend"
+ OBJECT_DECLARE_SIMPLE_TYPE(VhostUserBackend, vhost_user_backend,
+-                           VHOST_USER_BACKEND, ObjectClass)
++                           VHOST_USER_BACKEND)
+ 
+ 
+ 
+diff --git a/authz/list.c b/authz/list.c
+index 8e904bfc93..28b990931a 100644
+--- a/authz/list.c
++++ b/authz/list.c
+@@ -252,7 +252,6 @@ static const TypeInfo qauthz_list_info = {
+     .name = TYPE_QAUTHZ_LIST,
+     .instance_size = sizeof(QAuthZList),
+     .instance_finalize = qauthz_list_finalize,
+-    .class_size = sizeof(QAuthZListClass),
+     .class_init = qauthz_list_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
+diff --git a/authz/listfile.c b/authz/listfile.c
+index 666df872ad..cd6163aa40 100644
+--- a/authz/listfile.c
++++ b/authz/listfile.c
+@@ -263,7 +263,6 @@ static const TypeInfo qauthz_list_file_info = {
+     .instance_init = qauthz_list_file_init,
+     .instance_size = sizeof(QAuthZListFile),
+     .instance_finalize = qauthz_list_file_finalize,
+-    .class_size = sizeof(QAuthZListFileClass),
+     .class_init = qauthz_list_file_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
+diff --git a/authz/pamacct.c b/authz/pamacct.c
+index 3c6be43916..c91593bbd8 100644
+--- a/authz/pamacct.c
++++ b/authz/pamacct.c
+@@ -129,7 +129,6 @@ static const TypeInfo qauthz_pam_info = {
+     .name = TYPE_QAUTHZ_PAM,
+     .instance_size = sizeof(QAuthZPAM),
+     .instance_finalize = qauthz_pam_finalize,
+-    .class_size = sizeof(QAuthZPAMClass),
+     .class_init = qauthz_pam_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
+diff --git a/authz/simple.c b/authz/simple.c
+index 84954b80a5..ee061e980d 100644
+--- a/authz/simple.c
++++ b/authz/simple.c
+@@ -96,7 +96,6 @@ static const TypeInfo qauthz_simple_info = {
+     .name = TYPE_QAUTHZ_SIMPLE,
+     .instance_size = sizeof(QAuthZSimple),
+     .instance_finalize = qauthz_simple_finalize,
+-    .class_size = sizeof(QAuthZSimpleClass),
+     .class_init = qauthz_simple_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
+diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+index a13461edea..5bffbc4906 100644
+--- a/backends/dbus-vmstate.c
++++ b/backends/dbus-vmstate.c
+@@ -24,7 +24,7 @@
+ 
+ #define TYPE_DBUS_VMSTATE "dbus-vmstate"
+ OBJECT_DECLARE_SIMPLE_TYPE(DBusVMState, dbus_vmstate,
+-                           DBUS_VMSTATE, ObjectClass)
++                           DBUS_VMSTATE)
+ 
+ 
+ struct DBusVMState {
+@@ -483,7 +483,6 @@ static const TypeInfo dbus_vmstate_info = {
+     .parent = TYPE_OBJECT,
+     .instance_size = sizeof(DBusVMState),
+     .instance_finalize = dbus_vmstate_finalize,
+-    .class_size = sizeof(DBusVMStateClass),
+     .class_init = dbus_vmstate_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
+diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+index 9e6e198546..ae8362d721 100644
+--- a/backends/vhost-user.c
++++ b/backends/vhost-user.c
+@@ -197,7 +197,6 @@ static const TypeInfo vhost_user_backend_info = {
+     .instance_size = sizeof(VhostUserBackend),
+     .instance_init = vhost_user_backend_init,
+     .instance_finalize = vhost_user_backend_finalize,
+-    .class_size = sizeof(VhostUserBackendClass),
+ };
+ 
+ static void register_types(void)
+diff --git a/crypto/secret_keyring.c b/crypto/secret_keyring.c
+index 8bfc58ebf4..10d8bc48a0 100644
+--- a/crypto/secret_keyring.c
++++ b/crypto/secret_keyring.c
+@@ -129,7 +129,6 @@ static const TypeInfo qcrypto_secret_info = {
+     .parent = TYPE_QCRYPTO_SECRET_COMMON,
+     .name = TYPE_QCRYPTO_SECRET_KEYRING,
+     .instance_size = sizeof(QCryptoSecretKeyring),
+-    .class_size = sizeof(QCryptoSecretKeyringClass),
+     .class_init = qcrypto_secret_keyring_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
+diff --git a/io/dns-resolver.c b/io/dns-resolver.c
+index 6ebe2a5650..b55d8cc3fe 100644
+--- a/io/dns-resolver.c
++++ b/io/dns-resolver.c
+@@ -267,7 +267,6 @@ static const TypeInfo qio_dns_resolver_info = {
+     .parent = TYPE_OBJECT,
+     .name = TYPE_QIO_DNS_RESOLVER,
+     .instance_size = sizeof(QIODNSResolver),
+-    .class_size = sizeof(QIODNSResolverClass),
+ };
+ 
+ 
+diff --git a/io/net-listener.c b/io/net-listener.c
+index 5d8a226872..46c2643d00 100644
+--- a/io/net-listener.c
++++ b/io/net-listener.c
+@@ -307,7 +307,6 @@ static const TypeInfo qio_net_listener_info = {
+     .name = TYPE_QIO_NET_LISTENER,
+     .instance_size = sizeof(QIONetListener),
+     .instance_finalize = qio_net_listener_finalize,
+-    .class_size = sizeof(QIONetListenerClass),
+ };
+ 
+ 
+diff --git a/ui/input-barrier.c b/ui/input-barrier.c
+index 87543a3399..b76697be93 100644
+--- a/ui/input-barrier.c
++++ b/ui/input-barrier.c
+@@ -21,7 +21,7 @@
+ 
+ #define TYPE_INPUT_BARRIER "input-barrier"
+ OBJECT_DECLARE_SIMPLE_TYPE(InputBarrier, input_barrier,
+-                           INPUT_BARRIER, ObjectClass)
++                           INPUT_BARRIER)
+ 
+ 
+ #define MAX_HELLO_LENGTH 1024
+@@ -723,7 +723,6 @@ static void input_barrier_class_init(ObjectClass *oc, void *data)
+ static const TypeInfo input_barrier_info = {
+     .name = TYPE_INPUT_BARRIER,
+     .parent = TYPE_OBJECT,
+-    .class_size = sizeof(InputBarrierClass),
+     .class_init = input_barrier_class_init,
+     .instance_size = sizeof(InputBarrier),
+     .instance_init = input_barrier_instance_init,
+diff --git a/ui/input-linux.c b/ui/input-linux.c
+index 5d501c8360..f02557b012 100644
+--- a/ui/input-linux.c
++++ b/ui/input-linux.c
+@@ -32,7 +32,7 @@ static bool linux_is_button(unsigned int lnx)
+ 
+ #define TYPE_INPUT_LINUX "input-linux"
+ OBJECT_DECLARE_SIMPLE_TYPE(InputLinux, input_linux,
+-                           INPUT_LINUX, ObjectClass)
++                           INPUT_LINUX)
+ 
+ 
+ struct InputLinux {
+@@ -514,7 +514,6 @@ static void input_linux_class_init(ObjectClass *oc, void *data)
+ static const TypeInfo input_linux_info = {
+     .name = TYPE_INPUT_LINUX,
+     .parent = TYPE_OBJECT,
+-    .class_size = sizeof(InputLinuxClass),
+     .class_init = input_linux_class_init,
+     .instance_size = sizeof(InputLinux),
+     .instance_init = input_linux_instance_init,
+-- 
+2.26.2
+
 
