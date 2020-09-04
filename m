@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE03525D009
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:53:27 +0200 (CEST)
-Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5415125D013
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:56:06 +0200 (CEST)
+Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2n0-0003Td-K5
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
+	id 1kE2pZ-0000zI-Dv
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hd-0002n3-0D; Thu, 03 Sep 2020 23:47:53 -0400
-Received: from ozlabs.org ([203.11.71.1]:40113)
+ id 1kE2hd-0002pS-QU; Thu, 03 Sep 2020 23:47:55 -0400
+Received: from ozlabs.org ([203.11.71.1]:34617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2ha-0004xH-W4; Thu, 03 Sep 2020 23:47:52 -0400
+ id 1kE2hb-0004xe-V6; Thu, 03 Sep 2020 23:47:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsr50J4z9sW6; Fri,  4 Sep 2020 13:47:28 +1000 (AEST)
+ id 4BjNsr6Mrwz9sW3; Fri,  4 Sep 2020 13:47:28 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599191248;
- bh=Ed8eNmI6TeOF00ug4vwXg3Ihw5WGZ2MpoWZJgwfPLvg=;
+ bh=nJoBs/BV0XUu7Aj0kMHw1zqSmXlXG1x5Ion9wGnErAY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eJELicU8YoHUPSL3z+u97ttGXNVHhgNt0QpRwsWZi7NRRwtF7lfd4QTCshjO7IRQr
- udVFqn/NLSUg9ALTElcRSq6W/yNe32EwhKFDS1/ShHxZL+RfXpJZo7x3xmsWkQinza
- oBPV/VJcdpDuE+LUV3+byjj0qzbGh/wa377ck5fM=
+ b=Oa+Fh3pExtd8QzuGsMh/KVDGk3AliNe+2pP3aTdGLZtTLMW3kFxlFHcuxZ3wBL3BG
+ TJGd0gHt6Rq/QfVtyamRjuE17w/cFGhOF/ad75Izk+8G7lhN5wW6k/OeirLBuXZONf
+ wkolxKxF90vdU/SL1bDRlT76XMu4D0FJ8R3F6clk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/30] ppc/e500: Use start-powered-off CPUState property
-Date: Fri,  4 Sep 2020 13:47:07 +1000
-Message-Id: <20200904034719.673626-19-david@gibson.dropbear.id.au>
+Subject: [PULL 19/30] mips/cps: Use start-powered-off CPUState property
+Date: Fri,  4 Sep 2020 13:47:08 +1000
+Message-Id: <20200904034719.673626-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
@@ -68,8 +68,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
-the start-powered-off property which makes cpu_common_reset() initialize it
+Instead of setting CPUState::halted to 1 in main_cpu_reset(), use the
+start-powered-off property which makes cpu_common_reset() initialize it
 to 1 in common code.
 
 Also change creation of CPU object from cpu_create() to object_new() and
@@ -77,51 +77,46 @@ qdev_realize_and_unref() because cpu_create() realizes the CPU and it's not
 possible to set a property after the object is realized.
 
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Message-Id: <20200826055535.951207-5-bauerman@linux.ibm.com>
+Message-Id: <20200826055535.951207-6-bauerman@linux.ibm.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/e500.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ hw/mips/cps.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index ab9884e315..ae39b9358e 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index 615e1a1ad2..23c0f87e41 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -52,9 +52,6 @@ static void main_cpu_reset(void *opaque)
+     CPUState *cs = CPU(cpu);
  
      cpu_reset(cs);
- 
--    /* Secondary CPU starts in halted state for now. Needs to change when
--       implementing non-kernel boot. */
+-
+-    /* All VPs are halted on reset. Leave powering up to CPC. */
 -    cs->halted = 1;
-     cs->exception_index = EXCP_HLT;
  }
  
-@@ -865,7 +862,7 @@ void ppce500_init(MachineState *machine)
-         CPUState *cs;
-         qemu_irq *input;
+ static bool cpu_mips_itu_supported(CPUMIPSState *env)
+@@ -76,7 +73,17 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     bool saar_present = false;
  
--        cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
-+        cpu = POWERPC_CPU(object_new(machine->cpu_type));
-         env = &cpu->env;
-         cs = CPU(cpu);
- 
-@@ -875,6 +872,14 @@ void ppce500_init(MachineState *machine)
-             exit(1);
-         }
- 
-+        /*
-+         * Secondary CPU starts in halted state for now. Needs to change
-+         * when implementing non-kernel boot.
-+         */
-+        object_property_set_bool(OBJECT(cs), "start-powered-off", i != 0,
-+                                 &error_fatal);
-+        qdev_realize_and_unref(DEVICE(cs), NULL, &error_fatal);
+     for (i = 0; i < s->num_vp; i++) {
+-        cpu = MIPS_CPU(cpu_create(s->cpu_type));
++        cpu = MIPS_CPU(object_new(s->cpu_type));
 +
-         if (!firstenv) {
-             firstenv = env;
-         }
++        /* All VPs are halted on reset. Leave powering up to CPC. */
++        if (!object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
++                                      errp)) {
++            return;
++        }
++
++        if (!qdev_realize_and_unref(DEVICE(cpu), NULL, errp)) {
++            return;
++        }
+ 
+         /* Init internal devices */
+         cpu_mips_irq_init_cpu(cpu);
 -- 
 2.26.2
 
