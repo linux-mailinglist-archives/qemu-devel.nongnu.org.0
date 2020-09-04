@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284B125D018
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:59:49 +0200 (CEST)
-Received: from localhost ([::1]:51366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949FE25D014
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 05:57:07 +0200 (CEST)
+Received: from localhost ([::1]:41882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE2t7-0006Ct-Co
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54766)
+	id 1kE2qY-0002Ke-ML
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 23:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2ha-0002ea-22; Thu, 03 Sep 2020 23:47:50 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:45491)
+ id 1kE2hc-0002lz-MW; Thu, 03 Sep 2020 23:47:52 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40231 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kE2hX-0004wM-Pb; Thu, 03 Sep 2020 23:47:49 -0400
+ id 1kE2hZ-0004wn-Ej; Thu, 03 Sep 2020 23:47:52 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjNsq2lBCz9sRK; Fri,  4 Sep 2020 13:47:27 +1000 (AEST)
+ id 4BjNsr0vH6z9sVt; Fri,  4 Sep 2020 13:47:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599191247;
- bh=K/XOjeGYSlZyMS1PfORGCBWpuW2vS31qvW4gcdn1dfM=;
+ d=gibson.dropbear.id.au; s=201602; t=1599191248;
+ bh=P6w2VcCYj0cQ8uhhqzjGXWRtMd9iDsSuS8MezV7lEKU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GYEGVgs/oDe/RqmwYv+GOzajXBEIl+4adp62dPtqwIaqJoXoWvcdEcd75KhM29F+A
- 7GuvMPwhG7FPILPmeDO4zPreu2bDaJ25YvR0wyMATZODXOmuNpXqEREWhOndOxDStP
- Z4eRgbt24jBAtX9Vufo4rg7Z1J4YQYNrJtIEtd8E=
+ b=PdaJ+Wn1P2lnS99T3LL8dOTpNIJ+y9lTskKpSB1SwZX9CHcbdtctWApbSjnyHqaca
+ U8Bg+G8x2+rOoYkrwp4u+n0mkMuS3zh8VUJroCOAxgfI/yRTKxUROuY4NuMVhTy9HC
+ TunDGJed6LBWIYiYVXtG3mQBJmI6okiMOAg+oGb8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 14/30] ppc/spapr_nvdimm: do not enable support with 'nvdimm=off'
-Date: Fri,  4 Sep 2020 13:47:03 +1000
-Message-Id: <20200904034719.673626-15-david@gibson.dropbear.id.au>
+Subject: [PULL 16/30] target/arm: Move setting of CPU halted state to generic
+ code
+Date: Fri,  4 Sep 2020 13:47:05 +1000
+Message-Id: <20200904034719.673626-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 23:47:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -58,96 +60,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-The NVDIMM support for pSeries was introduced in 5.1, but it
-didn't contemplate the 'nvdimm' machine option that other
-archs uses. For every other arch, if no '-machine nvdimm(=on)'
-is present, it is assumed that the NVDIMM support is disabled.
-The user must explictly inform that the machine supports
-NVDIMM. For pseries-5.1 the 'nvdimm' option is completely
-ignored, and support is always assumed to exist. This
-leads to situations where the user is able to set 'nvdimm=off'
-but the guest boots up with the NVDIMMs anyway.
+This change is in a separate patch because it's not so obvious that it
+won't cause a regression.
 
-Fixing this now, after 5.1 launch, can put the overall NVDIMM
-support for pseries in a strange place regarding this 'nvdimm'
-machine option. If we force everything to be like other archs,
-existing pseries-5.1 guests that didn't use 'nvdimm' to use NVDIMM
-devices will break. If we attempt to make the newer pseries
-machines (5.2+) behave like everyone else, but keep pseries-5.1
-untouched, we'll have consistency problems on machine upgrade
-(5.1 will have different default values for NVDIMM support than
-5.2).
-
-The common ground here is, if the user sets 'nvdimm=off', we
-must comply regardless of being 5.1 or 5.2+. This patch
-changes spapr_nvdimm_validate() to verify if the user set
-NVDIMM support off in the machine options and, in that
-case, error out if we have a NVDIMM device. The default
-value for 5.2+ pseries machines will still be 'nvdimm=on'
-when there is no 'nvdimm' option declared, just like it is today
-with pseries-5.1. In the end we'll have different default
-semantics from everyone else in the absence of the 'nvdimm'
-machine option, but this boat has sailed.
-
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1848887
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200825215749.213536-4-danielhb413@gmail.com>
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Message-Id: <20200826055535.951207-3-bauerman@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_nvdimm.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ hw/core/cpu.c    | 2 +-
+ target/arm/cpu.c | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index bc2b65420c..95cbc30528 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -27,13 +27,17 @@
- #include "hw/ppc/spapr_nvdimm.h"
- #include "hw/mem/nvdimm.h"
- #include "qemu/nvdimm-utils.h"
-+#include "qemu/option.h"
- #include "hw/ppc/fdt.h"
- #include "qemu/range.h"
-+#include "sysemu/sysemu.h"
- 
- void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp)
- {
-     const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
-+    const MachineState *ms = MACHINE(hotplug_dev);
-+    const char *nvdimm_opt = qemu_opt_get(qemu_get_machine_opts(), "nvdimm");
-     g_autofree char *uuidstr = NULL;
-     QemuUUID uuid;
-     int ret;
-@@ -43,6 +47,20 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-         return;
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 22bc3f974a..8f65383ffb 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -258,7 +258,7 @@ static void cpu_common_reset(DeviceState *dev)
      }
  
-+    /*
-+     * NVDIMM support went live in 5.1 without considering that, in
-+     * other archs, the user needs to enable NVDIMM support with the
-+     * 'nvdimm' machine option and the default behavior is NVDIMM
-+     * support disabled. It is too late to roll back to the standard
-+     * behavior without breaking 5.1 guests. What we can do is to
-+     * ensure that, if the user sets nvdimm=off, we error out
-+     * regardless of being 5.1 or newer.
-+     */
-+    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
-+        error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
-+        return;
-+    }
-+
-     if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
-                                 &error_abort) == 0) {
-         error_setg(errp, "PAPR requires NVDIMM devices to have label-size set");
+     cpu->interrupt_request = 0;
+-    cpu->halted = 0;
++    cpu->halted = cpu->start_powered_off;
+     cpu->mem_io_pc = 0;
+     cpu->icount_extra = 0;
+     atomic_set(&cpu->icount_decr_ptr->u32, 0);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 9f814194fb..6b4e708c08 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -175,7 +175,6 @@ static void arm_cpu_reset(DeviceState *dev)
+     env->vfp.xregs[ARM_VFP_MVFR2] = cpu->isar.mvfr2;
+ 
+     cpu->power_state = s->start_powered_off ? PSCI_OFF : PSCI_ON;
+-    s->halted = s->start_powered_off;
+ 
+     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+         env->iwmmxt.cregs[ARM_IWMMXT_wCID] = 0x69051000 | 'Q';
 -- 
 2.26.2
 
