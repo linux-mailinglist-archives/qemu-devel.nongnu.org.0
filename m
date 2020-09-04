@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA6E25DCCA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:06:08 +0200 (CEST)
-Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195C025DDB1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:28:32 +0200 (CEST)
+Received: from localhost ([::1]:45860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEDHz-0001Ud-8M
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41428)
+	id 1kEDdf-0005yQ-6b
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8Y-0001ZH-H8
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22484
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8W-0007Fs-Q7
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:22 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-4gqRsJDcOKis7-rI5CC2pQ-1; Fri, 04 Sep 2020 10:55:17 -0400
-X-MC-Unique: 4gqRsJDcOKis7-rI5CC2pQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 338F864087
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:55:16 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.194.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8FAA87A1F4;
- Fri,  4 Sep 2020 14:55:14 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 22/22] i386: expand Hyper-V features early
-Date: Fri,  4 Sep 2020 16:54:31 +0200
-Message-Id: <20200904145431.196885-23-vkuznets@redhat.com>
-In-Reply-To: <20200904145431.196885-1-vkuznets@redhat.com>
-References: <20200904145431.196885-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1kEDBT-0007nF-6Z; Fri, 04 Sep 2020 10:59:23 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1kEDBM-0007Ql-VK; Fri, 04 Sep 2020 10:59:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1599231488; cv=none; d=zoho.com.cn; s=zohoarc; 
+ b=nmO8f7UA5CvomRG9HoHiMTkJXHPfAnL+nVpU4k8OpjLNQNTa1JN8dN80c2TyMe/FLl5Y8Y43gKYNfcT35srWI1TW53+NWNdCz9x/VoeQXrT1JY7AJq28q+L4D7XpEZkCEveUWrCbjM88UHf40u0El52J5FhOUaCOSHiQLlx+h2I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
+ s=zohoarc; t=1599231488;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=PhDfXRkCeGlPv/Ht8rlUSc0qy49TKLiY4ktJqOc9h0s=; 
+ b=HKP07L/HVJbWhYVSk32wG/5Jr9eEfYUu9Hd3tA9vYCsJFxwajBE8PYplvlwj4gyTjGL6DKik8Tfoyvt2OU1nTtboyHxSYnzQcyFjb2vyzmsyGvAKzGZd5bS/0p7mgUMopO3bDcs2ET0VWxF7DnxN6anGDBRWmdaLMw7TbN0wWPc=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+ dkim=pass  header.i=euphon.net;
+ spf=pass  smtp.mailfrom=fam@euphon.net;
+ dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1599231488; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Date:From:To:Cc:Message-ID:Subject:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ bh=PhDfXRkCeGlPv/Ht8rlUSc0qy49TKLiY4ktJqOc9h0s=;
+ b=fQoQn+VaAvhgC90bPsYXt15QtRsAcz7G85bBuQPfXzxxFR99hdsF12VYoFf93d+e
+ CHD1uJESwEHpBXw4dU0zWd6wJ1uRocGd6L+9AeEfvm7l35JhqedsLZGrPD45twhfSS/
+ Hatj6RWMcbN4yvw7Wg0bszL6tdu8xxe3tN7h8+LU=
+Received: from localhost (ec2-52-56-101-76.eu-west-2.compute.amazonaws.com
+ [52.56.101.76]) by mx.zoho.com.cn
+ with SMTPS id 1599231485716490.9781603438166;
+ Fri, 4 Sep 2020 22:58:05 +0800 (CST)
+Date: Fri, 4 Sep 2020 14:57:57 +0000
+From: Fam Zheng <fam@euphon.net>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20200904145757.h6blvetg6rnw7xig@dev>
+Subject: Re: [PATCH 0/3] block/nvme: Use NvmeBar structure from "block/nvme.h"
+References: <20200904124130.583838-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200904124130.583838-1-philmd@redhat.com>
+X-ZohoCNMailClient: External
+Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
+ helo=sender2-op-o12.zoho.com.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 10:58:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 04 Sep 2020 11:27:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,118 +75,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
-need to expand and set the corresponding CPUID leaves early. Modify
-x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
-specific kvm_hv_get_supported_cpuid() instead of
-kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
-as Hyper-V specific CPUID leaves intersect with KVM's.
+On 2020-09-04 14:41, Philippe Mathieu-Daud=E9 wrote:
+> Cleanups in the NVMeRegs structure:
+> - Use the already existing NvmeBar structure from "block/nvme.h"
+> - Pair doorbell registers
+>=20
+> Based-on: <20200903122803.405265-1-philmd@redhat.com>
+>=20
+> Philippe Mathieu-Daud=E9 (3):
+>   block/nvme: Group controller registers in NVMeRegs structure
+>   block/nvme: Use generic NvmeBar structure
+>   block/nvme: Pair doorbell registers
+>=20
+>  block/nvme.c | 43 +++++++++++++++----------------------------
+>  1 file changed, 15 insertions(+), 28 deletions(-)
+>=20
+> --=20
+> 2.26.2
+>=20
+>=20
 
-Note, early expansion will only happen when KVM supports system wide
-KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
-
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- target/i386/cpu.c      | 15 +++++++++------
- target/i386/kvm.c      | 15 +++++++++++++++
- target/i386/kvm_i386.h |  7 +++++++
- 3 files changed, 31 insertions(+), 6 deletions(-)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 479c4bbbf459..d3c4ecb3535c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5147,7 +5147,7 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-     return cpu_list;
- }
- 
--static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-+static uint64_t x86_cpu_get_supported_feature_word(X86CPU *cpu, FeatureWord w,
-                                                    bool migratable_only)
- {
-     FeatureWordInfo *wi = &feature_word_info[w];
-@@ -5156,9 +5156,12 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-     if (kvm_enabled()) {
-         switch (wi->type) {
-         case CPUID_FEATURE_WORD:
--            r = kvm_arch_get_supported_cpuid(kvm_state, wi->cpuid.eax,
--                                                        wi->cpuid.ecx,
--                                                        wi->cpuid.reg);
-+            if (hyperv_feature_word(w))
-+                r = kvm_hv_get_supported_cpuid(cpu, w);
-+            else
-+                r = kvm_arch_get_supported_cpuid(kvm_state, wi->cpuid.eax,
-+                                                 wi->cpuid.ecx,
-+                                                 wi->cpuid.reg);
-             break;
-         case MSR_FEATURE_WORD:
-             r = kvm_arch_get_supported_msr_feature(kvm_state,
-@@ -6485,7 +6488,7 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-              * by the user.
-              */
-             env->features[w] |=
--                x86_cpu_get_supported_feature_word(w, cpu->migratable) &
-+                x86_cpu_get_supported_feature_word(cpu, w, cpu->migratable) &
-                 ~env->user_features[w] &
-                 ~feature_word_info[w].no_autoenable_flags;
-         }
-@@ -6589,7 +6592,7 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
- 
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         uint64_t host_feat =
--            x86_cpu_get_supported_feature_word(w, false);
-+            x86_cpu_get_supported_feature_word(cpu, w, false);
-         uint64_t requested_features = env->features[w];
-         uint64_t unavailable_features = requested_features & ~host_feat;
-         mark_unavailable_features(cpu, w, unavailable_features, prefix);
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 961241528a5c..764b96fbbb7d 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1449,6 +1449,21 @@ static int hyperv_fill_cpuids(CPUState *cs,
-     return cpuid_i;
- }
- 
-+uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w)
-+{
-+    CPUState *cs = CPU(cpu);
-+    CPUX86State *env = &cpu->env;
-+    Error *local_err = NULL;
-+
-+    hyperv_expand_features(cs, &local_err);
-+
-+    if (local_err) {
-+            error_report_err(local_err);
-+    }
-+
-+    return env->features[w];
-+}
-+
- static Error *hv_passthrough_mig_blocker;
- static Error *hv_no_nonarch_cs_mig_blocker;
- 
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 064b8798a26c..2e7da4f39668 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -48,4 +48,11 @@ bool kvm_has_waitpkg(void);
- 
- bool kvm_hv_vpindex_settable(void);
- 
-+static inline bool hyperv_feature_word(enum FeatureWord w)
-+{
-+    return w >= FEAT_HYPERV_EAX && w <= FEAT_HV_NESTED_EDX;
-+}
-+
-+uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w);
-+
- #endif
--- 
-2.25.4
+Reviewed-by: Fam Zheng <fam@euphon.net>
 
 
