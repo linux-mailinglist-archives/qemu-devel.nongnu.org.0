@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB3425DE3F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:48:29 +0200 (CEST)
-Received: from localhost ([::1]:52434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F5F25DE83
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:51:03 +0200 (CEST)
+Received: from localhost ([::1]:33454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEDwy-0006UK-0d
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55200)
+	id 1kEDzS-0001pg-1p
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtV-0000X3-BO
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47497
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtb-0000nh-SK
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34835
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtT-0007PE-Mh
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:52 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-YSxVbkdrM7idMhW0YXzCDQ-1; Fri, 04 Sep 2020 11:44:50 -0400
-X-MC-Unique: YSxVbkdrM7idMhW0YXzCDQ-1
-Received: by mail-wm1-f71.google.com with SMTP id g79so3510757wmg.0
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:44:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEDtZ-0007Q1-BF
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:44:59 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-rscFQFtPOS6JQl7WZuvTpg-1; Fri, 04 Sep 2020 11:44:55 -0400
+X-MC-Unique: rscFQFtPOS6JQl7WZuvTpg-1
+Received: by mail-wr1-f70.google.com with SMTP id b7so2458247wrn.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:44:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TrCc5tJ7tNpb4UHqNYewv5YRJY1ciA4UDwcY4eIZ444=;
- b=RxxrIJgWxqWfaOS5HsFOXqXa+6noGOvF0MPWqJ8iCgnww6Rr0BNRouGdeVHgi+Z1zA
- PzsfAspc8hlr2jcVq/p+P4r9j52RKkW/fyJFqL7QIEARXJ98Dk/DptVFSfqBh8ZST6bk
- ax1AaKf8O4EUr0jpCmkqZ+GljLgnEF141bROCoc3Uk3hnSi1sEgwHns9Xnpzxzx9b25Z
- GVZeaSGjNX35BLrOb/43sqOxwwMq6bdHUKL2uyxlpwqeY+Fg9nsA2SMCf1loavoFgt+c
- mG74UXtv9unbjM21ic0i/7CRgqfv8+DCotAvkuIXwnnaWyY9OYcibfE6DFMc+c7dGm5X
- BCFA==
-X-Gm-Message-State: AOAM530Cd4LA8Wr0SoXShCGGUfpe2M7Tx0rRosQY+GnCL3Ziqi9H8EWU
- eHUQ64wm3RGiHJBGqLYc8hvKAdO2rLitwy+xKBvzDcIYUVqQl9xORIJmcvW0mFJlKPwGO3f2udT
- bB8CXjScKnEE+q1k=
-X-Received: by 2002:a1c:27c2:: with SMTP id n185mr8593973wmn.78.1599234288843; 
- Fri, 04 Sep 2020 08:44:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWt0j1+5wK7OtPvPaxvmJd8OsgUvichtFEb5bIDtgbPicgVYbf/DpTQDxMB9r5GvcT1bHz+g==
-X-Received: by 2002:a1c:27c2:: with SMTP id n185mr8593957wmn.78.1599234288655; 
- Fri, 04 Sep 2020 08:44:48 -0700 (PDT)
+ bh=QoQLqcCGXTEq/TAmIUw2m4awB0M5QrT2MRC6GDSSjNM=;
+ b=rb5dVcfZ2HQrg+h2qbiTDhUx0PrgEkS36FFfcY4hdgK+rsPKoK7nDhmwfuWnwJY5J6
+ uFbX0/aMD+ErkULPkugvqSPMRv+QmcLHI0pmMIqBYAPXWPXplIcWHu/lAAP14Hv3rCWk
+ nrlHrYsgxsSxJJBhwt0/dDL+iHD8vJLA3O7cT2GZhMIPNkZOWbHxGmeXO/NlRFD8wlS1
+ mlg+nxYIN6IXi+lwtwAIoIOD/0PgG0fmAJ/VQ0Doa6wsHbaHpa+Qdh6bYgDgAlrOrK7q
+ MV53EEJjN3OhIUKqv0qr1UZhvOUTtAOYA0CNJcFqi6y65SUDHnQg+usqOatNBJ+HMMr9
+ bTPw==
+X-Gm-Message-State: AOAM530AIiVYb1Jaby4m2VkBdCL7U2X7Uu1HWyg1rmsOIWhN2Wto6sBp
+ A9LFfs5hokoSj8giF/9Ui/AD878qvGjEdOh0QgprhC1B+xgGYP/In5v0xM6fOecrBAo8esnimvh
+ L0zIUtC2g5Y0S1T0=
+X-Received: by 2002:a05:600c:2182:: with SMTP id
+ e2mr8345376wme.102.1599234294309; 
+ Fri, 04 Sep 2020 08:44:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYDa0GY7GzDzgRg+yuhtOFf4hxrO2dPMQc4n/kolPVvy5pKPI6BkjHk2dX/8yf8kZX2PvBVg==
+X-Received: by 2002:a05:600c:2182:: with SMTP id
+ e2mr8345340wme.102.1599234294134; 
+ Fri, 04 Sep 2020 08:44:54 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id t22sm3697253wmt.1.2020.09.04.08.44.46
+ by smtp.gmail.com with ESMTPSA id n8sm12759448wra.32.2020.09.04.08.44.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 08:44:47 -0700 (PDT)
+ Fri, 04 Sep 2020 08:44:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 01/13] pci: pass along the return value of dma_memory_rw
-Date: Fri,  4 Sep 2020 17:44:27 +0200
-Message-Id: <20200904154439.643272-2-philmd@redhat.com>
+Subject: [PATCH 02/13] docs/devel/loads-stores: Add regexp for DMA functions
+Date: Fri,  4 Sep 2020 17:44:28 +0200
+Message-Id: <20200904154439.643272-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904154439.643272-1-philmd@redhat.com>
 References: <20200904154439.643272-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,47 +99,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
  qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Keith Busch <kbusch@kernel.org>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Andrew Jeffery <andrew@aj.id.au>,
- Laszlo Ersek <lersek@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Andrew Jeffery <andrew@aj.id.au>, Laszlo Ersek <lersek@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Peter Chubb <peter.chubb@nicta.com.au>
+ Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
-
-Some might actually care about the return value of dma_memory_rw. So
-let us pass it along instead of ignoring it.
-
-There are no existing users of the return value, so this patch should be
-safe.
-
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20191011070141.188713-2-its@irrelevant.dk>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/pci/pci.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ docs/devel/loads-stores.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 4ca7258b5b7..896cef9ad47 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -788,8 +788,7 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
- static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                              void *buf, dma_addr_t len, DMADirection dir)
- {
--    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
--    return 0;
-+    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
- }
+diff --git a/docs/devel/loads-stores.rst b/docs/devel/loads-stores.rst
+index 9a944ef1af6..5b20f907e4d 100644
+--- a/docs/devel/loads-stores.rst
++++ b/docs/devel/loads-stores.rst
+@@ -477,6 +477,8 @@ make sure our existing code is doing things correctly.
  
- static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
+ Regexes for git grep
+  - ``\<dma_memory_\(read\|write\|rw\)\>``
++ - ``\<ldu\?[bwlq]\(_[bl]e\)\?_dma\>``
++ - ``\<st[bwlq]\(_[bl]e\)\?_dma\>``
+ 
+ ``pci_dma_*`` and ``{ld,st}*_pci_dma``
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 2.26.2
 
