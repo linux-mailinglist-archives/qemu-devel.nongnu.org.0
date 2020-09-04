@@ -2,53 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD58725DC9D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:59:24 +0200 (CEST)
-Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD15025DCBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:05:05 +0200 (CEST)
+Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEDBT-0006eP-Mn
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41454)
+	id 1kEDGy-0008D6-Ou
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:05:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8c-0001dh-2g
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38284
- helo=us-smtp-1.mimecast.com)
+ id 1kED8H-0000tt-MV
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52256
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED8a-0007G9-CN
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599231382;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZQCpSNO7veoJhtMx8Ih+Np7ociwkxkz+29u6+xfj2qo=;
- b=iOp6R/uepCeH3CuD8Gu1Eb0FZGMK0dHE0ZNXKh9YnIj9/ihTw3SwFJUt7g9ZA1HHl6gFX8
- G7bRConmSGS+rPJu8D6D8zaHUs0r+v19D/xSF5wJS2GwhfuP0SCoflu32VdyreS0uAg+1i
- vAUZxLpCxmouwOR+Y4evVimaR5oOs+8=
+ id 1kED8E-0007E1-C9
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:05 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-e1eVaAbeP_KCXn6BQYr99g-1; Fri, 04 Sep 2020 10:55:15 -0400
-X-MC-Unique: e1eVaAbeP_KCXn6BQYr99g-1
+ us-mta-523-NyzZYUcwNhGm1SiEmqmX1Q-1; Fri, 04 Sep 2020 10:54:38 -0400
+X-MC-Unique: NyzZYUcwNhGm1SiEmqmX1Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 401C518BA284
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:55:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F9121017DC0
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:54:37 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5B547A1F4;
- Fri,  4 Sep 2020 14:55:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F34D7A1F4;
+ Fri,  4 Sep 2020 14:54:36 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 21/22] i386: record if Hyper-V features were already
- expanded
-Date: Fri,  4 Sep 2020 16:54:30 +0200
-Message-Id: <20200904145431.196885-22-vkuznets@redhat.com>
+Subject: [PATCH RFC 02/22] i386: drop x86_cpu_get_supported_feature_word()
+ forward declaration
+Date: Fri,  4 Sep 2020 16:54:11 +0200
+Message-Id: <20200904145431.196885-3-vkuznets@redhat.com>
 In-Reply-To: <20200904145431.196885-1-vkuznets@redhat.com>
 References: <20200904145431.196885-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +47,15 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,53 +74,28 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a per cpu hyperv_features_expaned flag indicating that Hyper-V
-related CPUIDs were already acquired from KVM. We are going to start
-doing the expansion prior to creating KVM vCPU but in case KVM doesn't
-support sustem wide KVM_GET_SUPPORTED_HV_CPUID ioctl this can't happen.
+We only use x86_cpu_get_supported_feature_word() after its implementation,
+no forward declaration needed.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.h | 1 +
- target/i386/kvm.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+ target/i386/cpu.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 0aad60e0c707..c72755139047 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1669,6 +1669,7 @@ struct X86CPU {
-     uint32_t hyperv_interface_id[4];
-     uint32_t hyperv_version_id[4];
-     uint32_t hyperv_limits[3];
-+    bool hyperv_features_expaned;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 49d89585288d..14489def2177 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4283,9 +4283,6 @@ void x86_cpu_change_kvm_default(const char *prop, const char *value)
+     assert(pv->prop);
+ }
  
-     bool check_cpuid;
-     bool enforce_cpuid;
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 0945983498b2..961241528a5c 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1225,6 +1225,10 @@ static void hyperv_expand_features(CPUState *cs, Error **errp)
-     if (!hyperv_enabled(cpu))
-         return;
- 
-+    if (cpu->hyperv_features_expaned) {
-+        return;
-+    }
-+
-     if (kvm_check_extension(kvm_state, KVM_CAP_HYPERV_CPUID) > 0) {
-         cpuid = get_supported_hv_cpuid(cs);
-     } else {
-@@ -1361,6 +1365,8 @@ static void hyperv_expand_features(CPUState *cs, Error **errp)
-     /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
-     env->features[FEAT_HYPERV_EDX] |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
- 
-+    cpu->hyperv_features_expaned = true;
-+
- out:
- 
-     g_free(cpuid);
+-static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+-                                                   bool migratable_only);
+-
+ static bool lmce_supported(void)
+ {
+     uint64_t mce_cap = 0;
 -- 
 2.25.4
 
