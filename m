@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F1525D834
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 13:59:40 +0200 (CEST)
-Received: from localhost ([::1]:60278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C989E25D83D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:00:29 +0200 (CEST)
+Received: from localhost ([::1]:35500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEANX-0001k7-2z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 07:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42924)
+	id 1kEAOK-0003Bd-QW
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:00:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6v-00014L-3B
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:29 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57488
+ id 1kEA6w-00017h-FE
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:30 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60284
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6r-0005IY-UR
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:28 -0400
+ id 1kEA6u-0005Iw-KD
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:30 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-Y_CF8AlgMFuClPbqI9mU4g-1; Fri, 04 Sep 2020 07:42:23 -0400
-X-MC-Unique: Y_CF8AlgMFuClPbqI9mU4g-1
+ us-mta-246-QiKz7tUoNwSx3FO5Pp-qwA-1; Fri, 04 Sep 2020 07:42:26 -0400
+X-MC-Unique: QiKz7tUoNwSx3FO5Pp-qwA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A23710A59C8
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4D2496E54D;
+ Fri,  4 Sep 2020 11:41:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57BBD10843E9
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 11:41:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63FDC1002D4C;
+ Fri,  4 Sep 2020 11:41:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/46] docs: suggest Meson replacements for various configure
- functions
-Date: Fri,  4 Sep 2020 07:41:16 -0400
-Message-Id: <20200904114122.31307-41-pbonzini@redhat.com>
+Subject: [PULL 43/46] meson: specify fuzz linker script as a project arg
+Date: Fri,  4 Sep 2020 07:41:19 -0400
+Message-Id: <20200904114122.31307-44-pbonzini@redhat.com>
 In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
 References: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -70,49 +69,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Alexander Bulekov <alxndr@bu.edu>
+
+With this change, the fuzzer-linker script should be specified outside
+any --start-group/--end-group pairs. We need this on oss-fuzz, where
+partially applying the linker-script results in a linker failure
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200902173652.307222-2-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/build-system.rst | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meson.build                  | 9 ++++++++-
+ tests/qtest/fuzz/meson.build | 3 ---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 28492cfcae..591e93f4b4 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -125,23 +125,27 @@ developers in checking for system features:
- `compile_object $CFLAGS`
-    Attempt to compile a test program with the system C compiler using
-    $CFLAGS. The test program must have been previously written to a file
--   called $TMPC.
-+   called $TMPC.  The replacement in Meson is the compiler object `cc`,
-+   which has methods such as `cc.compiles()`,
-+   `cc.check_header()`, `cc.has_function()`.
+diff --git a/meson.build b/meson.build
+index a10239cfa4..9473b42da3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -56,6 +56,14 @@ add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
+ add_project_arguments(config_host['QEMU_INCLUDES'].split(),
+                       language: ['c', 'cpp', 'objc'])
  
- `compile_prog $CFLAGS $LDFLAGS`
-    Attempt to compile a test program with the system C compiler using
-    $CFLAGS and link it with the system linker using $LDFLAGS. The test
-    program must have been previously written to a file called $TMPC.
-+   The replacement in Meson is `cc.find_library()` and `cc.links()`.
++# Specify linker-script with add_project_link_arguments so that it is not placed
++# within a linker --start-group/--end-group pair
++if 'CONFIG_FUZZ' in config_host
++   add_project_link_arguments(['-Wl,-T,',
++                               (meson.current_source_dir() / 'tests/qtest/fuzz/fork_fuzz.ld')],
++                              native: false, language: ['c', 'cpp', 'objc'])
++endif
++
+ link_language = 'c'
+ if add_languages('cpp', required: false, native: false)
+   cxx = meson.get_compiler('cpp')
+@@ -1094,7 +1102,6 @@ foreach target : target_dirs
+         'gui': false,
+         'sources': specific_fuzz.sources(),
+         'dependencies': specific_fuzz.dependencies(),
+-        'link_depends': [files('tests/qtest/fuzz/fork_fuzz.ld')],
+       }]
+     endif
+   else
+diff --git a/tests/qtest/fuzz/meson.build b/tests/qtest/fuzz/meson.build
+index bb0a3f271d..bcc393828e 100644
+--- a/tests/qtest/fuzz/meson.build
++++ b/tests/qtest/fuzz/meson.build
+@@ -6,11 +6,8 @@ specific_fuzz_ss.add(when: 'CONFIG_I440FX', if_true: files('i440fx_fuzz.c'))
+ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio_net_fuzz.c'))
+ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio_scsi_fuzz.c'))
  
- `has $COMMAND`
-    Determine if $COMMAND exists in the current environment, either as a
--   shell builtin, or executable binary, returning 0 on success.
-+   shell builtin, or executable binary, returning 0 on success.  The
-+   replacement in Meson is `find_program()`.
- 
- `check_define $NAME`
-    Determine if the macro $NAME is defined by the system C compiler
- 
- `check_include $NAME`
-    Determine if the include $NAME file is available to the system C
--   compiler
-+   compiler.  The replacement in Meson is `cc.has_header()`.
- 
- `write_c_skeleton`
-    Write a minimal C program main() function to the temporary file
+-# unfortunately declare_dependency does not support link_depends, so
+-# this will be duplicated in meson.build
+ fork_fuzz = declare_dependency(
+   link_args: ['-fsanitize=fuzzer',
+-              '-Wl,-T,' + (meson.current_source_dir() / 'fork_fuzz.ld'),
+               '-Wl,-wrap,qtest_inb',
+               '-Wl,-wrap,qtest_inw',
+               '-Wl,-wrap,qtest_inl',
 -- 
 2.26.2
 
