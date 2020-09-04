@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C3E25D8E0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:45:26 +0200 (CEST)
-Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A87225D8D5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:43:16 +0200 (CEST)
+Received: from localhost ([::1]:40776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEB5p-000236-Fa
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
+	id 1kEB3j-0007di-DH
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:43:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2L-0006Bb-I6
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35066)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2P-0006Kl-R9
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33458
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2J-0006Z0-Dl
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599223306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7VufwieRg1JhzJ8aiEIPGgbaappTVL2Md8brdGSxPk4=;
- b=gnyHtz7+7M446FMfoS4HHJSFt+t5eIrbZiwCMb0AFc9O4iwPOG8mwemhhRN0yWagxNEDT2
- n/b1ay9aR5IEY4HJlKW1KmetDP5GJybXSMQ9BjE9mRQUkRhNVOgFJQLT4IoZMx54Nck/S0
- q7yeUAShGs3d+lzfqV+3IewRrNT3wrI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-rkzPP4T8N8iVGvBW2n_WTQ-1; Fri, 04 Sep 2020 08:41:45 -0400
-X-MC-Unique: rkzPP4T8N8iVGvBW2n_WTQ-1
-Received: by mail-wm1-f70.google.com with SMTP id s24so1685224wmh.1
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 05:41:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEB2O-0006b4-3F
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 08:41:53 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-Feofc5LqNgG0TbNn5kBJFQ-1; Fri, 04 Sep 2020 08:41:50 -0400
+X-MC-Unique: Feofc5LqNgG0TbNn5kBJFQ-1
+Received: by mail-wr1-f72.google.com with SMTP id g6so2291646wrv.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 05:41:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7VufwieRg1JhzJ8aiEIPGgbaappTVL2Md8brdGSxPk4=;
- b=QTdXmm3PEIOYEWcZXM2kcy/IGCUro58RZxY0CYV+HDvbBA5+eLwzm0pcnMDye2ru77
- mDUfRTI1rIvcApKBCixkQD1U/PGPd6g+bMFQwm7IGC8GGL/iDz9OUxDD7a1TvmS0/BMK
- kD3SWDWO916Fx0Ltn1iqrhCzH6mR9LbwylVHznggUmNLT3nuMY0yXZYVI+WGr2qUoGZm
- ET7b2Zg4GwsKDkYwlElEOMmioPUYUdGpy2V67+/EevW2dS4H7STaE/Kb6/iskXtcKONA
- IWkRFafS4rSjEXoAJPp4E7dOGK3OQ2nabdbiFjOguVgzGec9rEidu+I2yLt9Eu/SZ3zP
- wdpg==
-X-Gm-Message-State: AOAM530dzBlEURwHjsoj6mcqtSa7khJQRkMdFg+8tPD2erxbQ4YSPSFB
- U1yN4oM2txwo53YHbzkZkrDXPQGj2BtdEUHYzv70jO5eGRz9GiePYIjMrsYxAVdi/N6gsloByLL
- dVKXgCdWe0LsM8Mk=
-X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr7071083wmf.115.1599223303840; 
- Fri, 04 Sep 2020 05:41:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVi/GUgffyREeodIUQafcx6gCUFbKZYQ9L5hsgCZmvitYkx7UDwU4aWagX61dklCdT5ZXTew==
-X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr7071066wmf.115.1599223303648; 
- Fri, 04 Sep 2020 05:41:43 -0700 (PDT)
+ bh=vI7vDBHGjLnbO6/DwFRox42IeAyuzSp/xvHpN9rz7no=;
+ b=FGNkqHGhTwNCmksMN04TGkePxDMeLmGHdg8jloC/10v+Gi5uMlmG2afm4t6vCQqQR4
+ EjhFAtelPPZsAaREW7AvieYECWS5oeaA+6jp4mhdGDzKn4WCoV64dBs7MrPuXm3UkFMn
+ EmGWDJ/FrKw/ynmqvFQix3vz4v0cWTQYvDhTh+sk/Jf/vg6tNRsLjbcTuHuiuVX/oZ3L
+ +qDNzUHN0qcnGf1XFTJyjy92flCZjvzS6ExGzwnEuQW3T8QSLx+ISK0nwJmpF/M8N7jO
+ z1f6irgzWp48zO87Toqd4njX9CNpeRGe1qWa48xEgyuOq2AYZH/l6cgSfXoRsID1XxxY
+ /m/A==
+X-Gm-Message-State: AOAM532oV3bj3ApEjoQbXTA/Vy1d9nuJk63InMzi0ek0YCkG6z08bsfc
+ 6r+JbD4hO3WcVTwwaUN57Hf0+I8QA9xJz8J1+KkXRmHZ4zc/XCYzGyNvvGHeQVwKKxN/rdfV1W1
+ 5Ir8YFX1qylDQPmo=
+X-Received: by 2002:adf:f149:: with SMTP id y9mr7231689wro.93.1599223308696;
+ Fri, 04 Sep 2020 05:41:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwr2Oql+aA4tcJvUwjQLKvdfqF5/OyAsHprOOCST9QcoK61j4ErACC69/gxHO9HQERNTNQB3w==
+X-Received: by 2002:adf:f149:: with SMTP id y9mr7231675wro.93.1599223308554;
+ Fri, 04 Sep 2020 05:41:48 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id u66sm11118306wmg.44.2020.09.04.05.41.42
+ by smtp.gmail.com with ESMTPSA id d18sm11184478wrm.10.2020.09.04.05.41.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 05:41:43 -0700 (PDT)
+ Fri, 04 Sep 2020 05:41:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] block/nvme: Use generic NvmeBar structure
-Date: Fri,  4 Sep 2020 14:41:29 +0200
-Message-Id: <20200904124130.583838-3-philmd@redhat.com>
+Subject: [PATCH 3/3] block/nvme: Pair doorbell registers
+Date: Fri,  4 Sep 2020 14:41:30 +0200
+Message-Id: <20200904124130.583838-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200904124130.583838-1-philmd@redhat.com>
 References: <20200904124130.583838-1-philmd@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 07:42:07
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,57 +92,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit f3c507adcd7 ("NVMe: Initial commit for new storage interface")
-introduced the NvmeBar structure. Unfortunately in commit bdd6a90a9e5
-("block: Add VFIO based NVMe driver") we duplicated it.
+For each queue doorbell registers are paired as:
+- Submission Queue Tail Doorbell
+- Completion Queue Head Doorbell
 
-Apparently in commit a3d9a352d48 ("block: Move NVMe constants to
-a separate header") we tried to unify headers but forgot to remove
-the structure declared in the block/nvme.c source file.
-
-Do it now, and remove the structure size check which is redundant
-with the header check added in commit 74e18435c0e ("hw/block/nvme:
-Align I/O BAR to 4 KiB").
+Reflect that in the NVMeRegs structure, and adapt
+nvme_create_queue_pair() accordingly.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+ block/nvme.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index c9c3fc02fed..a216cc407f6 100644
+index a216cc407f6..f4f27b6da7d 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -83,28 +83,10 @@ typedef struct {
- 
+@@ -84,7 +84,10 @@ typedef struct {
  /* Memory mapped registers */
  typedef volatile struct {
--    struct {
--        uint64_t cap;
--        uint32_t vs;
--        uint32_t intms;
--        uint32_t intmc;
--        uint32_t cc;
--        uint32_t reserved0;
--        uint32_t csts;
--        uint32_t nssr;
--        uint32_t aqa;
--        uint64_t asq;
--        uint64_t acq;
--        uint32_t cmbloc;
--        uint32_t cmbsz;
--        uint8_t  reserved1[0xec0];
--        uint8_t  cmd_set_specfic[0x100];
--    } ctrl;
-+    NvmeBar ctrl;
-     uint32_t doorbells[];
+     NvmeBar ctrl;
+-    uint32_t doorbells[];
++    struct {
++        uint32_t sq_tail;
++        uint32_t cq_head;
++    } doorbells[];
  } NVMeRegs;
  
--QEMU_BUILD_BUG_ON(offsetof(NVMeRegs, doorbells) != 0x1000);
--
  #define INDEX_ADMIN     0
- #define INDEX_IO(n)     (1 + n)
+@@ -244,14 +247,14 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+-    q->sq.doorbell = &s->regs->doorbells[idx * 2 * s->doorbell_scale];
++    q->sq.doorbell = &s->regs->doorbells[idx * s->doorbell_scale].sq_tail;
  
+     nvme_init_queue(s, &q->cq, size, NVME_CQ_ENTRY_BYTES, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+-    q->cq.doorbell = &s->regs->doorbells[(idx * 2 + 1) * s->doorbell_scale];
++    q->cq.doorbell = &s->regs->doorbells[idx * s->doorbell_scale].cq_head;
+ 
+     return q;
+ fail:
 -- 
 2.26.2
 
