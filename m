@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2520D25D84F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:02:56 +0200 (CEST)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAAD25D85A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 14:04:08 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEAQh-00077h-7F
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42948)
+	id 1kEARr-0000nA-Of
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 08:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6v-00016O-TU
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40972
+ id 1kEA6y-0001DX-Ik
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51598
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kEA6t-0005Im-My
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:29 -0400
+ id 1kEA6u-0005J0-O1
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 07:42:32 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-HghdD28iNjy4i9ZOdWkXaw-1; Fri, 04 Sep 2020 07:42:25 -0400
-X-MC-Unique: HghdD28iNjy4i9ZOdWkXaw-1
+ us-mta-382-_AfdZF4fNN2Q5Z1dcW_YNg-1; Fri, 04 Sep 2020 07:42:26 -0400
+X-MC-Unique: _AfdZF4fNN2Q5Z1dcW_YNg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2F5C89BBC2;
- Fri,  4 Sep 2020 11:41:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 496271084D9F;
+ Fri,  4 Sep 2020 11:41:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A356110013C4;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0930310013C4;
  Fri,  4 Sep 2020 11:41:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/46] configure: update dtc submodule
-Date: Fri,  4 Sep 2020 07:41:17 -0400
-Message-Id: <20200904114122.31307-42-pbonzini@redhat.com>
+Subject: [PULL 42/46] oss-fuzz: fix rpath
+Date: Fri,  4 Sep 2020 07:41:18 -0400
+Message-Id: <20200904114122.31307-43-pbonzini@redhat.com>
 In-Reply-To: <20200904114122.31307-1-pbonzini@redhat.com>
 References: <20200904114122.31307-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -69,59 +69,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Update the dtc submodule in configure already and symlink dtc after
-git submodule update, because on win32 symlinks to non-existing folders
-are forbidden.
+Prior to this change,
+readelf -d build/out/qemu/qemu-fuzz-i386-target-virtio-net-slirp
+...
+0x000000000000000f (RPATH)  Library rpath: ['$$ORIGIN/lib':$ORIGIN/migration:$ORIGIN/]
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20200902170054.810-2-luoyonggang@gmail.com>
+As of 1a4db552d8 ("ninjatool: quote dollars in variables"), we don't
+need to manually double the dollars. Also, remove the single-quotes as
+they are copied into the rpath.
+
+After this change:
+0x000000000000000f (RPATH)  Library rpath: [$ORIGIN/lib:$ORIGIN/migration:$ORIGIN/]
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200902142657.112879-3-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ scripts/oss-fuzz/build.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 8e749ae38a..c71bceb8e8 100755
---- a/configure
-+++ b/configure
-@@ -1984,9 +1984,6 @@ fi
- if test "$meson" = git; then
-     git_submodules="${git_submodules} meson"
- fi
--if test "$git_update" = yes; then
--    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
--fi
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index f0b7442c96..d16207eb67 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -81,7 +81,7 @@ rm qemu-fuzz-i386
+ # Build a second time to build the final binary with correct rpath
+ ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
+     --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
+-    --extra-cflags="$EXTRA_CFLAGS" --extra-ldflags="-Wl,-rpath,'\$\$ORIGIN/lib'" \
++    --extra-cflags="$EXTRA_CFLAGS" --extra-ldflags="-Wl,-rpath,\$ORIGIN/lib" \
+     --target-list="i386-softmmu"
+ make "-j$(nproc)" qemu-fuzz-i386 V=1
  
- case "$meson" in
-     git | internal)
-@@ -4165,7 +4162,6 @@ EOF
-       if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
-           fdt=git
-           mkdir -p dtc
--          symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-           fdt_cflags="-I${source_path}/dtc/libfdt"
-           fdt_ldflags="-Ldtc/libfdt"
-           fdt_libs="$fdt_libs"
-@@ -6445,6 +6441,13 @@ if test "$cpu" = "s390x" ; then
-   fi
- fi
- 
-+if test $git_update = 'yes' ; then
-+    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
-+fi
-+if test "$fdt" = "git" ; then
-+    symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-+fi
-+
- config_host_mak="config-host.mak"
- 
- echo "# Automatically generated by configure - do not modify" > $config_host_mak
 -- 
 2.26.2
 
