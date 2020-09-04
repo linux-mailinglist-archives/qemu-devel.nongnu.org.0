@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B331D25DCCF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:07:11 +0200 (CEST)
-Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA6E25DCCA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:06:08 +0200 (CEST)
+Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEDJ0-0003mZ-QL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
+	id 1kEDHz-0001Ud-8M
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:06:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED9F-0003C8-2Y
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:57:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46598
+ id 1kED8Y-0001ZH-H8
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22484
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kED9C-0007J0-3m
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:57:04 -0400
+ id 1kED8W-0007Fs-Q7
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:56:22 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-y9M9axFyMdKbA_yvj6zOvg-1; Fri, 04 Sep 2020 10:55:13 -0400
-X-MC-Unique: y9M9axFyMdKbA_yvj6zOvg-1
+ us-mta-527-4gqRsJDcOKis7-rI5CC2pQ-1; Fri, 04 Sep 2020 10:55:17 -0400
+X-MC-Unique: 4gqRsJDcOKis7-rI5CC2pQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66E7A80EDA4
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:55:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 338F864087
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:55:16 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBD317A1F4;
- Fri,  4 Sep 2020 14:55:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FAA87A1F4;
+ Fri,  4 Sep 2020 14:55:14 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 20/22] i386: use global kvm_state in hyperv_enabled() check
-Date: Fri,  4 Sep 2020 16:54:29 +0200
-Message-Id: <20200904145431.196885-21-vkuznets@redhat.com>
+Subject: [PATCH RFC 22/22] i386: expand Hyper-V features early
+Date: Fri,  4 Sep 2020 16:54:31 +0200
+Message-Id: <20200904145431.196885-23-vkuznets@redhat.com>
 In-Reply-To: <20200904145431.196885-1-vkuznets@redhat.com>
 References: <20200904145431.196885-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -73,29 +73,112 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need to use vCPU-specific kvm state in hyperv_enabled() check
-and we need to do that when feature expansion happens early, before vCPU
-specific KVM state is created.
+To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
+need to expand and set the corresponding CPUID leaves early. Modify
+x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
+specific kvm_hv_get_supported_cpuid() instead of
+kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
+as Hyper-V specific CPUID leaves intersect with KVM's.
+
+Note, early expansion will only happen when KVM supports system wide
+KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/i386/cpu.c      | 15 +++++++++------
+ target/i386/kvm.c      | 15 +++++++++++++++
+ target/i386/kvm_i386.h |  7 +++++++
+ 3 files changed, 31 insertions(+), 6 deletions(-)
 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 479c4bbbf459..d3c4ecb3535c 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5147,7 +5147,7 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+     return cpu_list;
+ }
+ 
+-static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
++static uint64_t x86_cpu_get_supported_feature_word(X86CPU *cpu, FeatureWord w,
+                                                    bool migratable_only)
+ {
+     FeatureWordInfo *wi = &feature_word_info[w];
+@@ -5156,9 +5156,12 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+     if (kvm_enabled()) {
+         switch (wi->type) {
+         case CPUID_FEATURE_WORD:
+-            r = kvm_arch_get_supported_cpuid(kvm_state, wi->cpuid.eax,
+-                                                        wi->cpuid.ecx,
+-                                                        wi->cpuid.reg);
++            if (hyperv_feature_word(w))
++                r = kvm_hv_get_supported_cpuid(cpu, w);
++            else
++                r = kvm_arch_get_supported_cpuid(kvm_state, wi->cpuid.eax,
++                                                 wi->cpuid.ecx,
++                                                 wi->cpuid.reg);
+             break;
+         case MSR_FEATURE_WORD:
+             r = kvm_arch_get_supported_msr_feature(kvm_state,
+@@ -6485,7 +6488,7 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+              * by the user.
+              */
+             env->features[w] |=
+-                x86_cpu_get_supported_feature_word(w, cpu->migratable) &
++                x86_cpu_get_supported_feature_word(cpu, w, cpu->migratable) &
+                 ~env->user_features[w] &
+                 ~feature_word_info[w].no_autoenable_flags;
+         }
+@@ -6589,7 +6592,7 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+ 
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         uint64_t host_feat =
+-            x86_cpu_get_supported_feature_word(w, false);
++            x86_cpu_get_supported_feature_word(cpu, w, false);
+         uint64_t requested_features = env->features[w];
+         uint64_t unavailable_features = requested_features & ~host_feat;
+         mark_unavailable_features(cpu, w, unavailable_features, prefix);
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index c17e7db5e627..0945983498b2 100644
+index 961241528a5c..764b96fbbb7d 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -728,8 +728,7 @@ unsigned long kvm_arch_vcpu_id(CPUState *cs)
- 
- static bool hyperv_enabled(X86CPU *cpu)
- {
--    CPUState *cs = CPU(cpu);
--    return kvm_check_extension(cs->kvm_state, KVM_CAP_HYPERV) > 0 &&
-+    return kvm_check_extension(kvm_state, KVM_CAP_HYPERV) > 0 &&
-         ((cpu->hyperv_spinlock_attempts != HYPERV_SPINLOCK_NEVER_RETRY) ||
-          cpu->hyperv_features || cpu->hyperv_passthrough);
+@@ -1449,6 +1449,21 @@ static int hyperv_fill_cpuids(CPUState *cs,
+     return cpuid_i;
  }
+ 
++uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w)
++{
++    CPUState *cs = CPU(cpu);
++    CPUX86State *env = &cpu->env;
++    Error *local_err = NULL;
++
++    hyperv_expand_features(cs, &local_err);
++
++    if (local_err) {
++            error_report_err(local_err);
++    }
++
++    return env->features[w];
++}
++
+ static Error *hv_passthrough_mig_blocker;
+ static Error *hv_no_nonarch_cs_mig_blocker;
+ 
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+index 064b8798a26c..2e7da4f39668 100644
+--- a/target/i386/kvm_i386.h
++++ b/target/i386/kvm_i386.h
+@@ -48,4 +48,11 @@ bool kvm_has_waitpkg(void);
+ 
+ bool kvm_hv_vpindex_settable(void);
+ 
++static inline bool hyperv_feature_word(enum FeatureWord w)
++{
++    return w >= FEAT_HYPERV_EAX && w <= FEAT_HV_NESTED_EDX;
++}
++
++uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w);
++
+ #endif
 -- 
 2.25.4
 
