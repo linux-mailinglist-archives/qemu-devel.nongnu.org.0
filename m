@@ -2,105 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1109D25D544
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 11:39:38 +0200 (CEST)
-Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA5625D55B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 11:45:17 +0200 (CEST)
+Received: from localhost ([::1]:50350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE8C1-0003c2-3s
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 05:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44250)
+	id 1kE8HV-00014s-1Q
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 05:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kE8AY-0001fg-83
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:38:06 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49124
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kE8GJ-0000Ds-K8
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:44:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27473
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kE8AW-0006RM-9H
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:38:05 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-DHftipXEO6aeDdXB9V_igg-1; Fri, 04 Sep 2020 05:38:01 -0400
-X-MC-Unique: DHftipXEO6aeDdXB9V_igg-1
-Received: by mail-wr1-f70.google.com with SMTP id 33so2119905wrk.12
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 02:38:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=U0Y4H3aO3NKQExvXZmGFVpyfxOYpPDCKH0OxifGRReY=;
- b=MOsHhhp+p1trgn8cJzHmdmnqK8jquK69MAFUqO0ZHXapdLseW/zfcbEQ80BXm7yspi
- Ff87RbQ9WERt9g3EMXsmFxUP9V4erfsTrPLMvYT0mmKtmgpgF2gycPP5SY3//MGAQz+U
- L+Fq/Tu7Cf3IM7kIo+SOVjyF5uMjH0iZK5PI0Yt14ZOf83TBMjZ/KLcJMEfBbceWoA1W
- 1OaJU7Gm5D1G66jz05fmgNoHIWFghE7OpUPs8vfgkz6EYpi6qlKxhiXXJIYJSIp3s5hN
- wIprgXQTwQr9fh9svNZIuA0ain6r5aNKF+ZFPhWp0t/eIVEqy/oLN8UzcuT5Vvnf7No2
- r8Kw==
-X-Gm-Message-State: AOAM533c9jzR2i02Rj+KThUDuZePQ10WU8xuqIpU7hbmr+wYdrPjQfRA
- ig6eihmv2/vkNq1O7zKi2Rf4247ytF/54jLxGqkwzWMXX7FGKveW5bTXDHjrQieWWP4dcFcj+WH
- boQUt/ZX6xIWPilg=
-X-Received: by 2002:adf:f5ce:: with SMTP id k14mr6499492wrp.286.1599212280002; 
- Fri, 04 Sep 2020 02:38:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzL6O5H8M06IILTcUNKo74I126a6Hrgw/P2D9fUiHW7GKZXc0o5iiV4AizFpFWYSwpIXKkD4A==
-X-Received: by 2002:adf:f5ce:: with SMTP id k14mr6499474wrp.286.1599212279776; 
- Fri, 04 Sep 2020 02:37:59 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id k4sm10068260wrx.51.2020.09.04.02.37.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Sep 2020 02:37:59 -0700 (PDT)
-Subject: Re: [PATCH] meson: install ivshmem-client and ivshmem-server
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20200903153524.98168-1-brogers@suse.com>
- <4eba2feb-a9b3-8bb7-6ed7-6b02c79519b1@redhat.com>
- <20200903154906.GA441291@redhat.com>
- <69f279ce-30e8-e83c-718b-021d3e6b264d@redhat.com>
- <87a6y6dmy4.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <22ec640f-a9e4-22ad-020c-e035e8143e6c@redhat.com>
-Date: Fri, 4 Sep 2020 11:37:58 +0200
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kE8GH-00079w-DS
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 05:44:02 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-nJ7D-xcDNbeyuDgS0IUFJw-1; Fri, 04 Sep 2020 05:43:58 -0400
+X-MC-Unique: nJ7D-xcDNbeyuDgS0IUFJw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A838801FC6;
+ Fri,  4 Sep 2020 09:43:57 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-156.ams2.redhat.com
+ [10.36.114.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BB9060C0F;
+ Fri,  4 Sep 2020 09:43:56 +0000 (UTC)
+Subject: Re: [PATCH v2 3/3] qcow2: Rewrite the documentation of
+ qcow2_alloc_cluster_offset()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1599150873.git.berto@igalia.com>
+ <bb5bd06f07c5a05b0818611de0d06ec5b66c8df3.1599150873.git.berto@igalia.com>
+ <9355b4ef-be80-b8eb-6697-24125caea920@redhat.com>
+ <w51blilano8.fsf@maestria.local.igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <164b6f7e-55b2-cbc4-e90e-c057364a53a7@redhat.com>
+Date: Fri, 4 Sep 2020 11:43:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87a6y6dmy4.fsf@dusky.pond.sub.org>
+In-Reply-To: <w51blilano8.fsf@maestria.local.igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:11
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="zcYYTcOxrPT1GATqAnUali4oC2jDDnsnU"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.403,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,79 +98,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Bruce Rogers <brogers@suse.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/4/20 9:24 AM, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> On 03/09/20 17:49, Daniel P. Berrangé wrote:
->>> On Thu, Sep 03, 2020 at 05:44:25PM +0200, Paolo Bonzini wrote:
->>>> On 03/09/20 17:35, Bruce Rogers wrote:
->>>>> Turn on the meson install flag for these executables
->>>>>
->>>>> Signed-off-by: Bruce Rogers <brogers@suse.com>
->>>>> ---
->>>>>  contrib/ivshmem-client/meson.build | 2 +-
->>>>>  contrib/ivshmem-server/meson.build | 2 +-
->>>>>  2 files changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/contrib/ivshmem-client/meson.build b/contrib/ivshmem-client/meson.build
->>>>> index 1b171efb4f..83a559117f 100644
->>>>> --- a/contrib/ivshmem-client/meson.build
->>>>> +++ b/contrib/ivshmem-client/meson.build
->>>>> @@ -1,4 +1,4 @@
->>>>>  executable('ivshmem-client', files('ivshmem-client.c', 'main.c'),
->>>>>             dependencies: glib,
->>>>>             build_by_default: targetos == 'linux',
->>>>> -           install: false)
->>>>> +           install: true)
->>>>> diff --git a/contrib/ivshmem-server/meson.build b/contrib/ivshmem-server/meson.build
->>>>> index 3a53942201..a1c39aa3b3 100644
->>>>> --- a/contrib/ivshmem-server/meson.build
->>>>> +++ b/contrib/ivshmem-server/meson.build
->>>>> @@ -1,4 +1,4 @@
->>>>>  executable('ivshmem-server', files('ivshmem-server.c', 'main.c'),
->>>>>             dependencies: [qemuutil, rt],
->>>>>             build_by_default: targetos == 'linux',
->>>>> -           install: false)
->>>>> +           install: true)
->>>>>
->>>>
->>>> They weren't installed before the conversion, were they?
->>>
->>> Unfortunately they were historically installed with --enable-tools.
->>>
->>> IMHO nothing in contrib/ should be installed by default. If we consider
->>> something maintained and high enough quality for end users, it should
->>> migrate out of contrib/ into tools/.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--zcYYTcOxrPT1GATqAnUali4oC2jDDnsnU
+Content-Type: multipart/mixed; boundary="NWWo1s39uwl1pnTqmPRoQmRcNUP2EYtnp"
+
+--NWWo1s39uwl1pnTqmPRoQmRcNUP2EYtnp
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 04.09.20 11:36, Alberto Garcia wrote:
+> On Fri 04 Sep 2020 11:28:18 AM CEST, Max Reitz wrote:
+>>> + * If any clusters or subclusters were allocated then @m contains a
+>>> + * list with the information of all the affected regions. Note that
+>>> + * this can happen regardless of whether this function succeeds or
+>>> + * not. The caller is responsible for updating the L2 metadata of the
+>>> + * allocated clusters (on success) or freeing them (on failure), and
+>>> + * for clearing the contents of @m afterwards in both cases.
 >>
->> Ah, via the tools variable in configure.  Nice maze.  I've queued the patch.
-> 
-> Please don't.
-> 
-> These programs are examples to help people understand how the ivhsmem
-> device works.  They might even be useful for debugging.  They are *not*
-> to be used in production.
-> 
-> docs/specs/ivshmem-spec.txt:
-> 
->     Example server code is in contrib/ivshmem-server/.  Not to be used in
->     production.  It assumes all clients use the same number of interrupt
->     vectors.
-> 
->     A standalone client is in contrib/ivshmem-client/.  It can be useful
->     for debugging.
+>> It=E2=80=99s too bad that preallocate_co() doesn=E2=80=99t do that then,=
+ isn=E2=80=99t it...
+>=20
+> I was planning to have a closer look at that function next week.
 
-Renaming the file names to contain "example" would make this clear.
+Great! :)
 
-> 
-> Installing example *source* might make sense (but I doubt it).
-> Installing the binaries does not.
-> 
-> 
+Max
+
+
+--NWWo1s39uwl1pnTqmPRoQmRcNUP2EYtnp--
+
+--zcYYTcOxrPT1GATqAnUali4oC2jDDnsnU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9SDFoACgkQ9AfbAGHV
+z0D03AgAnB6Bz0W845IRY/Rm2ZNO79dJ/CB7P6XM8SCLZOPPlGOhSDtNE4Xjl6sH
+++kdKBJU4EigPKkO2sUgBzfmkjuvUFO7949LwSgsa1mR099JNlc4mRHIOeu45fKN
+g/oi6dMA6ELOiO0WjkdPUhv5c/BRMkJabnwCFRbm0NJO9Vy5BvOQSjVEXY5aCbwU
+auboyuibLo5bRRjJGUnVbUh3z6jcKoong/CQrOEZwnYFDoi19/KwhR7FHf7tqjYY
+eZ+XB9qbRubSSg01Oq0i3Bg1/41m0IWGwawU9xnBNCXi0CkrIESzSS41rNhHkiQP
+gmGVCgnKQEVmDM1QZPlfSzQ8nFGE+A==
+=SzBr
+-----END PGP SIGNATURE-----
+
+--zcYYTcOxrPT1GATqAnUali4oC2jDDnsnU--
 
 
