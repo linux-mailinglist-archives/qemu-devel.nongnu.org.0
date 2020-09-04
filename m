@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8811025E177
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 20:27:12 +0200 (CEST)
-Received: from localhost ([::1]:35296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D67325E174
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 20:22:17 +0200 (CEST)
+Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEGQZ-0002zL-4C
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 14:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60840)
+	id 1kEGLn-0000Lv-Kn
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 14:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kEGPL-00027k-AL
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:25:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53086)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kEGPJ-00044h-2b
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:25:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kEGPG-0000aC-83
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 18:25:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F064D2E80EA
- for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 18:25:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 04 Sep 2020 18:20:02 -0000
-From: Jordan Williams <1838390@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kEGL2-0008DS-JZ
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:21:28 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40140
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kEGL1-0003bJ-3M
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 14:21:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599243686;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cIjWVwWvOUkifggHK6dGctDQFkg9TU6ogza8cNMQC7Y=;
+ b=TmM7qO/lsYmOn4WEMLmiqGTcw1BdQ6L1Jy1DKyiQwHpjfln2mTCAKSJ+Xk+b9lXUPCw4Cp
+ A9IEhj1mBAFY5MYqUnIaALhpqxCZrsTJQNxpkjQI3LQVJhegqB8iiL927BzdP91eeaG5lc
+ +46HYsPb1/ZP1gNYtAFnmIRDIvEqU9g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-WV4kQxqsN0yz6y3EH1XC7A-1; Fri, 04 Sep 2020 14:21:22 -0400
+X-MC-Unique: WV4kQxqsN0yz6y3EH1XC7A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 324171074650;
+ Fri,  4 Sep 2020 18:21:21 +0000 (UTC)
+Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE9BF60BF1;
+ Fri,  4 Sep 2020 18:21:11 +0000 (UTC)
+Date: Fri, 4 Sep 2020 14:21:11 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: hvf macos
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: felipe-1 jimmyj jwillikers smartrejames
-X-Launchpad-Bug-Reporter: James Smart (smartrejames)
-X-Launchpad-Bug-Modifier: Jordan Williams (jwillikers)
-References: <156448241864.18390.18158373201974266058.malonedeb@gac.canonical.com>
-Message-Id: <159924360216.19910.2057178873290053995.malone@gac.canonical.com>
-Subject: [Bug 1838390] Re: vmx_write_mem: mmu_gva_to_gpa failed when using hvf
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: 6d78d44b46ddfd1bb990375aaea236df83d44f8c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 14:25:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH 0/6] qom: Use typedefs instead of struct names on
+ instance_size/class_size
+Message-ID: <20200904182111.GD1618070@habkost.net>
+References: <20200824215936.2961951-1-ehabkost@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200824215936.2961951-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,60 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838390 <1838390@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think I was able to fix this crash by specifying the exact host model
-for the cpu argument.
+On Mon, Aug 24, 2020 at 05:59:30PM -0400, Eduardo Habkost wrote:
+> This changes existing QOM boilerplate to use existing typedef
+> names when setting instance_size and class_size on TypeInfo
+> variables.  This makes the code more consistent and will make
+> future conversion to QOM type declaration macros easier.
 
-1. Determine the CPU type of the host machine.
+I'm queueing this series, as I consider the patches trivial
+cleanups.
 
-$ sysctl -a | grep machdep.cpu.brand_string
-machdep.cpu.brand_string: Intel(R) Core(TM) i5-4690 CPU @ 3.50GHz
+-- 
+Eduardo
 
-2. Find the matching CPU model supported by QEMU.
-
-$ qemu-system-x86_64 -cpu help
-
-
-This CPU corresponds to "x86 Haswell-v4" in this instance.
-
-3. Substitute the CPU model in the QEMU command.
-
-$ qemu-system-x86_64 -cpu Haswell-v4 ...
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838390
-
-Title:
-  vmx_write_mem: mmu_gva_to_gpa failed when using hvf
-
-Status in QEMU:
-  New
-
-Bug description:
-  Installed qemu 4.0.0 by homebrew, used below commands:
-
-  1. qemu-img create -f raw arch-vm.img 100G
-  2. qemu-system-x86_64 -show-cursor -only-migratable -nodefaults -boot ord=
-er=3Dd -cdrom archlinux-2019.07.01-x86_64.iso -cpu host -device virtio-keyb=
-oard -device virtio-mouse -device virtio-tablet -drive file=3Darch-vm.img,f=
-ormat=3Draw,if=3Dvirtio -m 4096 -machine q35,accel=3Dhvf,vmport=3Doff -nic =
-user,ipv6=3Doff,model=3Dvirtio -smp 4,sockets=3D1,cores=3D2,threads=3D2 -so=
-undhw hda -vga virtio
-
-  Displayed bootloader menu successfully, select "Boot Arch Linux" then
-  crashed with message: vmx_write_mem: mmu_gva_to_gpa ffff91953b540000
-  failed.
-
-  Use tcg accelerator has no problem but very slow.
-
-  See attachment for full crash report.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838390/+subscriptions
 
