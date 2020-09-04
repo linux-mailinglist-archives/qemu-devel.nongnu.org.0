@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE8225DEBE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:56:52 +0200 (CEST)
-Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E7E25DEC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 17:58:51 +0200 (CEST)
+Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEE55-0005Cp-UD
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
+	id 1kEE70-0007xb-P2
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 11:58:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kEDxL-0008Vi-4F
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:48:51 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37143
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kEDxI-0008FG-Jq
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:48:50 -0400
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-kcYLyhCyPeC9_AvD2eQr1g-1; Fri, 04 Sep 2020 11:48:46 -0400
-X-MC-Unique: kcYLyhCyPeC9_AvD2eQr1g-1
-Received: by mail-yb1-f199.google.com with SMTP id b127so6519036ybh.21
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:48:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kEDyl-00029B-9f
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:50:19 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kEDyi-0008Qw-Mx
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 11:50:18 -0400
+Received: by mail-pl1-x642.google.com with SMTP id m15so237359pls.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 08:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=THJZW21FF74Vq1VvI0l1acAlfjvztbbRt1pw9mIYjeE=;
+ b=KmY+x1TI1ccqeNhLDsK8mrDrmpiIE8Lk7BgM+apCzHbapjYs9UXkw3EwnK7NsqjIiO
+ AVAgbSmBQcSvJDQocs13Bz9/OtTHOtrs9jrZpp6/GS2AQ4ov00dz3/fAk/lfjZooQmzW
+ KCWJpbPY1fDm5gQjbqfASsraFGo7x5stWFJrzfAErZZi7y+ZuXKzfRsDQp65cPlZdLrA
+ EzdSn0S+Spx3D29BshuZxPbDOg2QuuoMLRkV/Dp5VS4ZPv/jWypD2Osz5my7wn4hSmVA
+ iaYbTwf59+l8r8qMiHUf1zmR9Vfpqur7FaPdE7Olgy3sq14s+IGd7TZiVoycoHyuhOnu
+ jxZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5S5h+CEUALHPXVW1OEpQyPdAdtqJpgsXAt28NEzalJ4=;
- b=HCZG77tp4brwZXT/1XSqQRihDuKQg3/wIaFqD/wMX3Q15OYk62eOlz2bLmSiFUXLFd
- 7YSduVokirltEJWe+hisQejXmIGcm/ly9+2VTTndMDdgRQNXWHwI7N1iuNsaIYvDBwi8
- KTCPn6RyyBqeppeY6/xV3nXjrWx3Nb8AW55QaX9NpGgpgbRHEtldFV8SAdXdFOwXGE6F
- Q4agjLk7yRsqgMbA+V70zJxt9B2BJjcl52U72n08DZKc/oUdbUjqlq43JtMYd6OoRjJU
- /uvDEh8HQpT0zph6HTXUy+uNklXdme/Mm4q/6cGG6usHuw4UlbPeN1hJxD4hBVrvvHWl
- ileA==
-X-Gm-Message-State: AOAM533facjMp5VyeCZkrg5xCLngEjcHUutUu/BYZefiPg3xfO4tvzsi
- 5znGjoiPbieJRbPEP6C2fFpoHWMv/1YPU9mO2dHkPETdVPOZ3NRixhvJuj7ze/kizGj1+hAxu5g
- F6AFtw7lu0Srt0no3YQXZNHyuxLFhYVo=
-X-Received: by 2002:a5b:b05:: with SMTP id z5mr11025124ybp.321.1599234526121; 
- Fri, 04 Sep 2020 08:48:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBymKp+xJPUXt2zoC9mwCJSDvMnIcPmD6CeRkP40EKmz8+0cotgM320u/Tyr9+qbqdsA6YhkWa9fIgakIyDaU=
-X-Received: by 2002:a5b:b05:: with SMTP id z5mr11025099ybp.321.1599234525903; 
- Fri, 04 Sep 2020 08:48:45 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=THJZW21FF74Vq1VvI0l1acAlfjvztbbRt1pw9mIYjeE=;
+ b=npu8qYxn+lAIuKgIe8ho9dvn5kL3htZpN5inrReYATXcsrCnbSWIKWSw2FsrnSae8c
+ RWN/2onWrOb8l/lbhaF9kmSkXvf7Xemq0MK2tN6jGrIuyWEnxeLwSegIHQlZRPB6jIW5
+ mXps/zq81pQ/riSsnNstDbspdDnI9HQ5UZi1s6A47ETRADqiwET6elJVjoE5sUj4TL+l
+ e8gugDJHuiQ583LNmiuaFOzMhv040gnlIcLKLgOTTwVa/o6loIrfxIVchN3Qso6tJQVr
+ +IkotLJerjcH2fut719GPyAYUY58oPOdQXQYz6tWTrGFXm66ru3Eecoh9BitWrz9W37r
+ VBzw==
+X-Gm-Message-State: AOAM531hGqI7Kim6T16slbx0NyaE8HP/cFFLX3vWoLRenCn6zrE0Rq+V
+ GGrVZFqSwYv01arkRcMaak9WYCrPmHZ4FQ==
+X-Google-Smtp-Source: ABdhPJzno5MQCOeBwr6zdvY9wFHPK/LGmU7B5NzMll8EEbp8DjC+DIDzo5k4FaFuJPd2ku7aj29Qng==
+X-Received: by 2002:a17:90a:530c:: with SMTP id
+ x12mr7844355pjh.223.1599234614913; 
+ Fri, 04 Sep 2020 08:50:14 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id n2sm7149574pfe.208.2020.09.04.08.50.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Sep 2020 08:50:14 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Remove KVM support for 32-bit Arm hosts
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200904154156.31943-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e8ad0832-8891-6398-7b9e-d844b4f6eaa1@linaro.org>
+Date: Fri, 4 Sep 2020 08:50:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200904082451.1043-1-ani@anisinha.ca>
- <20200904082451.1043-2-ani@anisinha.ca>
-In-Reply-To: <20200904082451.1043-2-ani@anisinha.ca>
-From: Julia Suvorova <jusual@redhat.com>
-Date: Fri, 4 Sep 2020 17:48:34 +0200
-Message-ID: <CAMDeoFUVoJ9hN7DaMBZ2RyS5jLNJACB-Uq6C6XXih8-9RDCj_g@mail.gmail.com>
-Subject: Re: [PATCH v1] i440fx/acpi: don't hot-unplug cold plugged bridges
- when their hotplug switch is off
-To: Ani Sinha <ani@anisinha.ca>
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsuvorov@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:57:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200904154156.31943-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.107,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,79 +90,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 4, 2020 at 10:25 AM Ani Sinha <ani@anisinha.ca> wrote:
->
-> Cold plugged bridges should not be hot unpluggable, even when their hotplug property
-> (acpi-pci-hotplug-with-bridge-support) is turned off.
+On 9/4/20 8:41 AM, Peter Maydell wrote:
+> Peter Maydell (2):
+>   target/arm: Remove KVM support for 32-bit Arm hosts
+>   target/arm: Remove no-longer-reachable 32-bit KVM code
 
-Unplugging a cold-plugged bridge is impossible already, see
-acpi_pcihp_pc_no_hotplug().
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Best regards, Julia Suvorova.
-
-> However, with the current
-> implementaton, windows would try to hot-unplug a pci bridge when it's hotplug switch
-> is off. This is regardless of whether there are devices attached to the bridge. When
-> devices are attached to the bridge, the bridge is ultimately not hot-unpluggable. We
-> have a demo video here: https://youtu.be/pME2sjyQweo
->
-> In this fix, we identify a cold plugged bridge and for cold plugged bridges, we do not
-> add the appropriate amls and acpi methods that are used by the OS to identify a hot-
-> unpluggable pci device. After this change, Windows does not show an option to eject the
-> PCI bridge. A demo video is here:  https://youtu.be/kbgej5B9Hgs
->
-> While at it, I have also updated a stale comment.
->
-> This change is tested with a Windows 2012R2 guest image running on Ubuntu host. This
-> change is based off of upstream qemu master branch tag v5.1.0.
->
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> ---
->  hw/i386/acpi-build.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index b7bcbbbb2a..90b863f4ec 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
->          int slot = PCI_SLOT(i);
->          bool hotplug_enabled_dev;
->          bool bridge_in_acpi;
-> +        bool cold_plugged_bridge;
->
->          if (!pdev) {
->              if (bsel) { /* add hotplug slots for non present devices */
-> @@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
->          pc = PCI_DEVICE_GET_CLASS(pdev);
->          dc = DEVICE_GET_CLASS(pdev);
->
-> -        /* When hotplug for bridges is enabled, bridges are
-> -         * described in ACPI separately (see build_pci_bus_end).
-> -         * In this case they aren't themselves hot-pluggable.
-> +        /*
-> +         * Cold plugged bridges aren't themselves hot-pluggable.
->           * Hotplugged bridges *are* hot-pluggable.
->           */
-> -        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
-> -            !DEVICE(pdev)->hotplugged;
-> +        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
-> +        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
->
-> -        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
-> +        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
->
->          if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
->              continue;
-> --
-> 2.17.1
->
-
+r~
 
