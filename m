@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AEF25E0A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:22:55 +0200 (CEST)
-Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67D525E0AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:25:46 +0200 (CEST)
+Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEFQL-0004ir-S3
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49108)
+	id 1kEFT7-0006Yv-PO
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kEFP5-0002ur-9w
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:21:35 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37372)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kEFRz-0005RP-Hc; Fri, 04 Sep 2020 13:24:35 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:39067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kEFP3-0004q9-Ib
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:21:34 -0400
-Received: by mail-ej1-x641.google.com with SMTP id nw23so9636362ejb.4
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 10:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2oKg/ZiGY7j5xb0rpCpgtuLnfrfU527rasMOF9KTyeI=;
- b=GghXn3Ibadx0omzzzXtQ9FO/PqUemhbHJpj8PeQiiwdN4z9YF2KqSa/3uyXlAQ2Kb/
- +pSA2d+8GVby+JCmoBy8VTpXV2+jPyLZEAWJ8XptebXXJIADK88vz6k3zkyvSMGCLMI7
- aWZvFavOxYGgw6ZggSqafLdzCxwmbwkEfZkQLJazvxUsMcoJHYGbIE4hT4hVyf55fvuL
- xSH0bNq5Cke0VDGzy0Oi6NcM/mM3nEaJIvPWk1zg4ThdLpfvP9b7jbzjOKp/1+W5jGBz
- xkW5lCQimVpM6zkyS7Nx4PrDgTKRow+WsDatPv53BTau+5pg8s7KBCbDyG40ihkGLKgy
- fudw==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kEFRx-0005At-QQ; Fri, 04 Sep 2020 13:24:35 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id w12so7020171qki.6;
+ Fri, 04 Sep 2020 10:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ioPF2xjxWz+fRYUfPk4cN/IvhOdPaHrWHpRLGdcB5H4=;
+ b=AZL7J0RKY7GV7/bhlaamhjzVSzarxC685nBUbYJfu3C6zzju91/sP0x2AFWvc+sUaP
+ MeL3cPuJUHo/nHQo/iGIhPxq/VHPpNyMcaSUUPCHbCLv6+wMH1y4bG+xJW5PeL9eSPm6
+ wbeoPysw6R7scNGUNwsO6qrxiXG+PnTjRgDSynb38Dlb9McvgAX99VE/+1RLpaQ88XFq
+ k7a4V6wIFHNtPIBpIi013BRWe9mO+kKgjBuRCN+oblnL/IALB7lWSBbcj/ghbUIHbzSc
+ oDc5GUwcrVeQw3Vi3IdF8hjVyY8DRL/3rruogbrDOAPayjk3ZdoP24rPVKVF8TJoOD2o
+ I4Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2oKg/ZiGY7j5xb0rpCpgtuLnfrfU527rasMOF9KTyeI=;
- b=Yw8FUMRdldvQRb2KmXdKQyGJEreUJ89P89e467N2bQmNrvTIKEIVSRGZ4M2j72mvFf
- KVmKTjdXjUUvwItZgiXifqy16MNPZmOwr/XGgHwsBB7dVviSaujIvyBxGkG8iEMRv0Cu
- KX7FmetPepuVyRBJ3vxcLLyTbWyLOa4cAn2gYqFPrkI5+Wsq93xHGUYhEOt0iV0bVQhV
- Z33HVr8t4z+lTEoqqmnubLrz+hteSmysMIwzjrUPZmYOrfBx9gDLPuwZtSavm3fj5eE/
- MhYr9KP/CsczuKWLcGLsk9gRoaK+9A196Z8mhBPWb0zsbAqui19vxrAbbds7UOGhQy9y
- Z61Q==
-X-Gm-Message-State: AOAM530NkgeeqO4UigvQBPb5TY7SnKW2As4OLi0Px43vjTR5wNnxTWM5
- fMhP7B8/38vHRRR78oYBSAYAAXDz4rV3+F5d7VPDOQ==
-X-Google-Smtp-Source: ABdhPJyQ4/L9WLhaC2GVni/dsWXHO4NQBkGk8tZ2E1kpYcE/FQoIRLksmDVfIggX/whLJPJpPfToMOjniYHFgttUE84=
-X-Received: by 2002:a17:907:20d9:: with SMTP id
- qq25mr4434207ejb.382.1599240091538; 
- Fri, 04 Sep 2020 10:21:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ioPF2xjxWz+fRYUfPk4cN/IvhOdPaHrWHpRLGdcB5H4=;
+ b=HZooZPHP4gq2LVfd0HISEKYWiL+Y3F5As5QSzSHuPtFUTLyRXApUhsP//6ZnVje6Ku
+ 5QZOn+oyHHytcftiqKSdeM3V9tgu4TtZmTaxtVsXDLw9A0YxASjLoHaNvG8j7Nt+C9Uy
+ kSPdx+ZlKTT1TaXDFjiOuKUAlKn4HSS1/QgJIaJ7iWR62JHOYp3+Q7H66wPJnCMcFi1b
+ kPlkzzNoGJEX9aXjp2xa0QV4kZ1jFoaYwO1niIWlSCud0qd6SsRZr8DaSX5quYEHdQvL
+ J9KFgckHOaTaG/ikYEeiG7CY1EzLcsgICk222M4iPsCArJWx3Hz8htM1hcXqvg9Sfl32
+ J/jA==
+X-Gm-Message-State: AOAM530FM43R9Fv2Utxj4Ha/NkiEVg6s6sWmWhQtS9u/xYHbsYZYzyY0
+ vUDpYEzHxxh9jB+wgkEaT5S7oijgsi8=
+X-Google-Smtp-Source: ABdhPJwXxjki1EovpyyrCVDq1WfGyEchwVR4eStrJuiN/WtmG8cYZpHs38qKDzNtDKhzw/Z5xf+d8w==
+X-Received: by 2002:a37:6393:: with SMTP id x141mr8820051qkb.238.1599240272276; 
+ Fri, 04 Sep 2020 10:24:32 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:1dc:ffbd:d3fb:97ff:aaca])
+ by smtp.gmail.com with ESMTPSA id s192sm3269245qke.50.2020.09.04.10.24.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Sep 2020 10:24:31 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/3] pseries NUMA distance rework
+Date: Fri,  4 Sep 2020 14:24:19 -0300
+Message-Id: <20200904172422.617460-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200904165140.10962-1-alex.bennee@linaro.org>
-In-Reply-To: <20200904165140.10962-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Sep 2020 18:21:20 +0100
-Message-ID: <CAFEAcA9+hoPrkDNg21b03CT=YmTXuOLwKrornYn6J12bZ=B+OQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] docs/system/deprecated: mark ppc64abi32-linux-user
- for deprecation
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,34 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Sep 2020 at 17:52, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> It's buggy and we are not sure anyone uses it.
+changes from v5, all suggested by Greg:
+- patch 2:
+    * changed g_malloc() to g_new()
+    * removed the unneeded g_assert()
+- all patches: added Greg's R-b
 
-> +``ppc64abi32`` CPUs (since 5.2.0)
-> +'''''''''''''''''''''''''''''''''
-> +
-> +The ``ppc64abi32`` architecture has a number of issues which regularly
-> +trip up our CI testing and is suspected to be quite broken.
-> +Furthermore the maintainers are unsure what the correct behaviour
-> +should be and strongly suspect no one actually uses it.
+v5 link: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01978.html
 
-IRC discussion suggests we do know what the correct behaviour
-is -- it should be "what the compat32 interface of a 64-bit
-PPC kernel gives you", it's just that the code doesn't do that
-(and never has?). It's like the mipsn32, mipsn32el, sparc32plus
-ABIs which we also implement (hopefully correctly...)
+Daniel Henrique Barboza (3):
+  spapr: move h_home_node_associativity to spapr_numa.c
+  spapr_numa: create a vcpu associativity helper
+  spapr_numa: use spapr_numa_get_vcpu_assoc() in home_node hcall
 
-But "this has always been broken and nobody complained" is
-a good reason to deprecate anyway.
+ hw/ppc/spapr_hcall.c   |  40 ----------------
+ hw/ppc/spapr_numa.c    | 101 +++++++++++++++++++++++++++++++++++------
+ include/hw/ppc/spapr.h |   7 ++-
+ 3 files changed, 94 insertions(+), 54 deletions(-)
 
-thanks
--- PMM
+-- 
+2.26.2
+
 
