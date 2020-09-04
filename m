@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A463F25DEF8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:05:29 +0200 (CEST)
-Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D92A25DF82
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 18:13:58 +0200 (CEST)
+Received: from localhost ([::1]:60348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEEDQ-00009M-5x
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:05:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60564)
+	id 1kEELd-0004kL-8g
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 12:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEE9p-0003tL-B8
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:01:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47717
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEEAF-0004DI-Ar
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:02:11 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36874
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEE9m-00024L-Qk
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:01:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kEEA9-00027l-9y
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 12:02:07 -0400
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-n0P_qf0eMieUIt7YnMR_GA-1; Fri, 04 Sep 2020 12:01:37 -0400
-X-MC-Unique: n0P_qf0eMieUIt7YnMR_GA-1
-Received: by mail-wr1-f70.google.com with SMTP id v5so2440277wrs.17
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 09:01:37 -0700 (PDT)
+ us-mta-168-zlZ87qNwM3eaLSGsGvgl0A-1; Fri, 04 Sep 2020 12:02:03 -0400
+X-MC-Unique: zlZ87qNwM3eaLSGsGvgl0A-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so2440788wrs.17
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 09:02:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zo7IzfvzyB3E05Wp35PQK3UTkZUYbuig2D3JBn7up5s=;
- b=fa2ggQolXbfydJZqP8Gn7KxgxaFPeuIeVL+lzvy8P3+Ne0TODuTD6VCJZ/gSBzN+9A
- A3cPYS2SBTvIbpQC5c9T+Pe+ch2bnGBLcF0GqFtK7F09uPLm0Xliy/eRfD5hy9WYynKK
- 5890Vde6ha0c5fA5OBy/qBq25y7vFX5a/8hv/XkqOn5Ytm5xAoaeJztKHqDMhAPXcCCt
- AoHz+oI7/qZDzb89bsEoEWSF0xesHiN7WYO26NdaDi3FzBywKml6sQvFrcNWYZKAY6ma
- 6JJUmBpiyMonxQAD2uAEVzMkaP6hVEv2XEzT+1zAuFONYnVniLEG/x6KBBUlH+3FtOQk
- yavA==
-X-Gm-Message-State: AOAM531nzHYcciFkLLq+cKRfvg32Kv13stbYghcrUumItCfo2g4FUy8S
- bKG+qGbcNqocuoQEZGsBo6MvpLuThsb+rU7buCPuhuOf2ZQMFoZXf5rT9pCgkSAka31kOcyURzd
- rFA13urURG16rdVQ=
-X-Received: by 2002:adf:dfd1:: with SMTP id q17mr9138406wrn.347.1599235296214; 
- Fri, 04 Sep 2020 09:01:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyaPG/GPz7sOWDiFVw45nMdNfjkQXgXBwK3kBofk0YEn3naszgP82r8vx8Iqdx1AkoUrFRY1A==
-X-Received: by 2002:adf:dfd1:: with SMTP id q17mr9138356wrn.347.1599235295818; 
- Fri, 04 Sep 2020 09:01:35 -0700 (PDT)
+ bh=eaMwwPscNwGdRDRGK3gfyO/PfIaqPkiI3ZFAWEt4LbM=;
+ b=Wb/9jcUNi/JnSUymlnQz8ECS08sfSXXmBHDHo0dBI5QKWAwk++LKww2BJNT6IasUYV
+ 13oSUCrZ3WaAEJ2cT+BQuGosStWTqMang3vIJikhq0OpYttvl1cf/HfaNGgromPQDJnb
+ X1pLAICxwFMqnYu2QzRP775fyf9U8FNJVtvFrjFBU/RDPwqiXMlom+3xc0yT8HgdAZjw
+ 6iUhwIOkYqB24Lg8YKD11Fj8SGOF6NemCUjx+5jP7Ma8OwuISn7nHeKJvxJ7gGRSviFo
+ vmVJmO6HC/eKq6t0UNSWRXXrhcQqXY4W1cDaQBbC9nOWIngI4BM+mtoIoZcTmRVQeOiX
+ onRg==
+X-Gm-Message-State: AOAM530IoRtURcBQANyv6YOHp1xvfQ1MFI4pyXYAYxlcN2mNqAmN/row
+ tsJu+keXk0xJMjH2UUGcvebSp0KKgW79w1BOPZZkRBppRiP/w/Ik6k41l1m3KKzg1G0G0FdBy6i
+ 0EuBH9E578F1PpL0=
+X-Received: by 2002:a1c:e917:: with SMTP id q23mr8033159wmc.125.1599235321469; 
+ Fri, 04 Sep 2020 09:02:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPPmRJQt3nMH0qClWiS7OeRhIv3/9W4BZuDL3E+BAfTJw/4kCCoa05dNUA/B/p9mgWNl+KQg==
+X-Received: by 2002:a1c:e917:: with SMTP id q23mr8033128wmc.125.1599235321131; 
+ Fri, 04 Sep 2020 09:02:01 -0700 (PDT)
 Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id g143sm11450301wme.0.2020.09.04.09.01.35
+ by smtp.gmail.com with ESMTPSA id j14sm12642417wrr.66.2020.09.04.09.02.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Sep 2020 09:01:35 -0700 (PDT)
-Subject: Re: [PATCH 2/2] target/arm: Remove no-longer-reachable 32-bit KVM code
+ Fri, 04 Sep 2020 09:02:00 -0700 (PDT)
+Subject: Re: [PATCH 1/2] target/arm: Remove KVM support for 32-bit Arm hosts
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200904154156.31943-1-peter.maydell@linaro.org>
- <20200904154156.31943-3-peter.maydell@linaro.org>
+ <20200904154156.31943-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -78,27 +78,27 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <11457fd8-725f-5836-e2ef-6c60aee344e5@redhat.com>
-Date: Fri, 4 Sep 2020 18:01:34 +0200
+Message-ID: <2ee5f790-87ed-5a17-efef-5b428e783ba8@redhat.com>
+Date: Fri, 4 Sep 2020 18:01:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200904154156.31943-3-peter.maydell@linaro.org>
-X-Mimecast-Spam-Score: 0.002
+In-Reply-To: <20200904154156.31943-2-peter.maydell@linaro.org>
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:58:24
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.107,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,139 +115,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/4/20 5:41 PM, Peter Maydell wrote:
-> Now that 32-bit KVM host support is gone, KVM can never
-> be enabled unless CONFIG_AARCH64 is true, and some code
-> paths are no longer reachable and can be deleted.
+> We deprecated the support for KVM on 32-bit Arm hosts in time
+> for release 5.0, which means that our deprecation policy allows
+> us to drop it in release 5.2. Remove the code.
+> 
+> To repeat the rationale from the deprecation note: the Linux
+> kernel dropped support for 32-bit Arm KVM hosts in 5.7.
+> 
+> Running 32-bit guests on a 64-bit Arm host remains supported.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-[...]
->  static void arm_max_initfn(Object *obj)
->  {
->      ARMCPU *cpu = ARM_CPU(obj);
->  
-> -    if (kvm_enabled()) {
-> -        kvm_arm_set_cpu_features_from_host(cpu);
-> -    } else {
-> -        cortex_a15_initfn(obj);
-> +    cortex_a15_initfn(obj);
->  
-> -        /* old-style VFP short-vector support */
-> -        cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
-> +    /* old-style VFP short-vector support */
-> +    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
->  
->  #ifdef CONFIG_USER_ONLY
-> -        /* We don't set these in system emulation mode for the moment,
-> -         * since we don't correctly set (all of) the ID registers to
-> -         * advertise them.
-> -         */
-> -        set_feature(&cpu->env, ARM_FEATURE_V8);
-> -        {
-> -            uint32_t t;
-> +    /* We don't set these in system emulation mode for the moment,
-
-checkpatch might warn "block comment ... separate line" :/
-
-> +     * since we don't correctly set (all of) the ID registers to
-> +     * advertise them.
-> +     */
-> +    set_feature(&cpu->env, ARM_FEATURE_V8);
-> +    {
-> +        uint32_t t;
->  
-> -            t = cpu->isar.id_isar5;
-> -            t = FIELD_DP32(t, ID_ISAR5, AES, 2);
-> -            t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
-> -            t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
-> -            t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
-> -            t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
-> -            t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
-> -            cpu->isar.id_isar5 = t;
-> +        t = cpu->isar.id_isar5;
-> +        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
-> +        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
-> +        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
-> +        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
-> +        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
-> +        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
-> +        cpu->isar.id_isar5 = t;
->  
-> -            t = cpu->isar.id_isar6;
-> -            t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
-> -            t = FIELD_DP32(t, ID_ISAR6, DP, 1);
-> -            t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-> -            t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-> -            t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-> -            cpu->isar.id_isar6 = t;
-> +        t = cpu->isar.id_isar6;
-> +        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
-> +        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
-> +        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-> +        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-> +        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-> +        cpu->isar.id_isar6 = t;
->  
-> -            t = cpu->isar.mvfr1;
-> -            t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-> -            t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-> -            cpu->isar.mvfr1 = t;
-> +        t = cpu->isar.mvfr1;
-> +        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-> +        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-> +        cpu->isar.mvfr1 = t;
->  
-> -            t = cpu->isar.mvfr2;
-> -            t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-> -            t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-> -            cpu->isar.mvfr2 = t;
-> +        t = cpu->isar.mvfr2;
-> +        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-> +        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-> +        cpu->isar.mvfr2 = t;
->  
-> -            t = cpu->isar.id_mmfr3;
-> -            t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-> -            cpu->isar.id_mmfr3 = t;
-> +        t = cpu->isar.id_mmfr3;
-> +        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-> +        cpu->isar.id_mmfr3 = t;
->  
-> -            t = cpu->isar.id_mmfr4;
-> -            t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-> -            t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-> -            t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-> -            t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-> -            cpu->isar.id_mmfr4 = t;
-> -        }
-> -#endif
-> +        t = cpu->isar.id_mmfr4;
-> +        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-> +        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-> +        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-> +        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-> +        cpu->isar.id_mmfr4 = t;
->      }
-> +#endif
-
-Scary :) This is the if {} else {} removed, OK.
+>  docs/system/deprecated.rst |  16 +-
+>  configure                  |   2 +-
+>  target/arm/kvm32.c         | 595 -------------------------------------
+>  target/arm/meson.build     |   5 +-
+>  4 files changed, 10 insertions(+), 608 deletions(-)
+>  delete mode 100644 target/arm/kvm32.c
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
->  }
->  #endif
->  
-> @@ -2269,11 +2265,7 @@ static void arm_host_initfn(Object *obj)
->  
->  static const TypeInfo host_arm_cpu_type_info = {
->      .name = TYPE_ARM_HOST_CPU,
-> -#ifdef TARGET_AARCH64
->      .parent = TYPE_AARCH64_CPU,
-> -#else
-> -    .parent = TYPE_ARM_CPU,
-> -#endif
->      .instance_init = arm_host_initfn,
->  };
-[...]
 
 
