@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEBC25DBB1
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:29:39 +0200 (CEST)
-Received: from localhost ([::1]:40000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE2525DC20
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 16:41:52 +0200 (CEST)
+Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kECig-00036l-64
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
+	id 1kECuV-00050e-Vq
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 10:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kECgo-000117-Tn
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:27:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41266
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kECgl-0003Yi-Qk
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:27:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599229657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SkdmzbIuZbxlwvgJUYMzYokQsK2472CkYuqMxWz1Rnw=;
- b=P7rTduFYlO6Maqn+rC9inKDrxr/kBFoltPoGzAPH1D4VLNihNyQ/e8yb2AButrymMDtH9S
- yeXJa+w7dMJXuOQ5WRv7ThfQ2dMsFBhReQebRYcpoJcOm163eAh5sM7d78/OwJbulEmqBR
- vROUtdov1nDQ1bRIGM7tykW1EZLTY8U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-BN026mUCNBuLsMENLISMvQ-1; Fri, 04 Sep 2020 10:27:34 -0400
-X-MC-Unique: BN026mUCNBuLsMENLISMvQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 169C81084D63;
- Fri,  4 Sep 2020 14:27:33 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-120-166.rdu2.redhat.com
- [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB93F7FB7C;
- Fri,  4 Sep 2020 14:27:28 +0000 (UTC)
-Date: Fri, 4 Sep 2020 10:27:27 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH v2 2/2] GitLab Gating CI: initial set of jobs,
- documentation and scripts
-Message-ID: <20200904142727.GA232153@localhost.localdomain>
-References: <20200709024657.2500558-1-crosa@redhat.com>
- <20200709024657.2500558-3-crosa@redhat.com>
- <20200709085507.GA536480@nautilus.usersys.redhat.com>
- <20200903211211.GC55646@localhost.localdomain>
- <547ef390fe84bd919f2601d5a29c98f345c6c881.camel@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kECtc-0003tl-CB
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:40:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kECta-0005I5-4L
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 10:40:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kECtX-0004hF-ID
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 14:40:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 880212E80DB
+ for <qemu-devel@nongnu.org>; Fri,  4 Sep 2020 14:40:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <547ef390fe84bd919f2601d5a29c98f345c6c881.camel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lrZ03NoBR/3+SXJZ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=crosa@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 04 Sep 2020 14:33:00 -0000
+From: Laurent Vivier <1894071@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bigboy0822 laurent-vivier
+X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159912571834.28358.2492164063235416189.malonedeb@soybean.canonical.com>
+Message-Id: <159922998038.11462.13185688483020440060.malone@chaenomeles.canonical.com>
+Subject: [Bug 1894071] Re: qemu-i386-static ioctl return -14 (Bad Address)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
+X-Launchpad-Hash: dcccd72b807342d2ebe2ed469ea7e58a6ed75c36
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 10:40:52
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,101 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1894071 <1894071@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---lrZ03NoBR/3+SXJZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You need to use IOCTL_SPECIAL() or STRUCT_SPECIAL() macro to convert the
+target address to the host address.
 
-On Fri, Sep 04, 2020 at 11:11:25AM +0200, Andrea Bolognani wrote:
-> On Thu, 2020-09-03 at 17:12 -0400, Cleber Rosa wrote:
-> > On Thu, Jul 09, 2020 at 10:55:07AM +0200, Erik Skultety wrote:
-> > > On Wed, Jul 08, 2020 at 10:46:57PM -0400, Cleber Rosa wrote:
-> > > > +.. note:: there are currently limitations to gitlab-runner itself =
-when
-> > > > +          setting up a service under FreeBSD systems.  You will ne=
-ed to
-> > > > +          perform steps 4 to 10 manually, as described at
-> > > > +          https://docs.gitlab.com/runner/install/freebsd.html
-> > >=20
-> > > What kinds of limitations? Is it architecture constrained maybe? I'm =
-asking
-> > > because we have all of the steps covered by an Ansible playbook, so I=
- kinda got
-> > > triggered by the word "manually". Also, the document only mentions 9 =
-steps
-> > > overall.
-> >=20
-> > FreeBSD's "service management" (systemd/sys-v like) is not covered by
-> > the GO library[1] used on gitlab-runner.  It's not ideal, and the
-> > second best solution would be to script the equivalent handling within
-> > the playbook, but I remember trying and finding some inconsistencies.
-> > Then, I had to give it up and defer to whenever a FreeBSD job is
-> > actually added.
-> >=20
-> > [1] - https://github.com/ayufan/golang-kardianos-service
->=20
-> Note that this is a fork of
->=20
->   https://github.com/kardianos/service
->=20
-> where FreeBSD support was added recently with
->=20
->   https://github.com/kardianos/service/commit/14b2cc59a290407a6f1cb3daba5=
-9069429d9665b
->
+Again, share your patches on the qemu-devel mailing list if you want
+help.
 
-That's good news!
+-- =
 
-> I'm not sure why gitlab-runner would use a fork rather than the
-> primary repository, but perhaps they can be convinced to switch and
-> gain better FreeBSD support in the process.
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1894071
 
-I can only imagine they were using the fork because the primary
-repository did not have the bits they needed there... and were not
-willing or were not successful and getting them there.
+Title:
+  qemu-i386-static ioctl return -14 (Bad Address)
 
-We can ask/hope/wait for gitlab to switch, and then this will no
-longer be an issue indeed.
+Status in QEMU:
+  New
 
-Thanks,
-- Cleber.
+Bug description:
+  I use qemu-i386-static on 64 bit ARM.But I don't know how to solve some p=
+roblems.
+  First I added some ioctl operations.
+  Then I tried to do some DRM operations like test.c.
+  This is successful when I use qemu-x86_64-static,but it failed when I use=
+ qemu-i386-static.
+  I can get some strace info like this:
 
-> --=20
-> Andrea Bolognani / Red Hat / Virtualization
->=20
+  403 openat(AT_FDCWD,"/dev/dri/card0",O_RDWR|O_LARGEFILE|O_CLOEXEC) =3D 4
+  403 ioctl(4,DRM_IOCTL_GET_CAP,{1,0}) =3D 0 ({1,1})
+  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,0,0,0,0,0,0,0,0,0,0,0}) =3D 0 =
+({0,0,0,0,0,2,2,2,0,16384,0,16384})
+  403 brk(NULL) =3D 0x40006000
+  403 brk(0x40027000) =3D 0x40027000
+  403 brk(0x40028000) =3D 0x40028000
+  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,1073766816,1073766832,10737668=
+48,0,2,2,2,0,16384,0,16384}) =3D -1 errno=3D14 (Bad address)
 
---lrZ03NoBR/3+SXJZ
-Content-Type: application/pgp-signature; name="signature.asc"
+  And there are similar errors in other self driven operations.
+  I want to know if it is QEMU's problem, so I hope to get some help. =
 
------BEGIN PGP SIGNATURE-----
+  Thank you!
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9STssACgkQZX6NM6Xy
-CfO2bBAAu6aA/y1N6qyH6QCIT9tFD2+KUJmnRuPMXsYDy3BaZH75NgMZh1UQ3WPB
-WsdUlVnR2aaAOPYRl3sQKNHCXb23svjiqiG5fvGU+FGz1+OqTC8shQm3d/+AwOld
-enWByfaH0C56t/j1YPrMkX3OVSsw+dAYZJg1GSGAZRduuKnv4EkHPy7tgaoiHAJn
-7uOdInI0TWU/2VaHMzdoxLF32EJeK4CH2xO94gsRrvTpt4aKTvBjULN6mSLfTeg3
-kq1oBT0xIFcUPk1eL6SlOWJ0F9gGyEo7U6zHtTBd4PjNUezrndFQSP/g5SFt+woo
-gmwahc/R56SZyIe9ZJJzzDqSRMyhgq1mSy011tXo5/MyPj9x/oLowfMTAb1ngTxB
-M80kSg2WpV8i4HAyxjIqWnJ9ZRbRmbDs9j2im26GPPpbuKlVasUhkdNN/QfVpksh
-c2s5GwmjLiZ7XfTJ6OSgo5uhODequ/rOw0eHl4q623K6ZJivZbWYdoYkRn8pycED
-rBEDSf6yXRWWgEjrmtOWriK14YpIZK3Npmen8uF0aCquUJuHag1tPdGPNlqSWRYe
-3gnH5lHimYor2kBWuW8+qU6V9ws4DPwp58vuHU9GeRN4KIL80fHfrEBdspggtyE/
-kJBRg6+NhJgVfK6L3aVicHCADZsCORSoeJs1g2Og+uPh4b6Mc1Q=
-=bcyk
------END PGP SIGNATURE-----
-
---lrZ03NoBR/3+SXJZ--
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1894071/+subscriptions
 
