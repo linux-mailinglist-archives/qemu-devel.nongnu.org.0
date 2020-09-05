@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DE925E5CC
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:25:42 +0200 (CEST)
-Received: from localhost ([::1]:57172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFB025E5D2
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:27:46 +0200 (CEST)
+Received: from localhost ([::1]:37644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kERdt-0008GC-Pp
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:25:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49404)
+	id 1kERft-0003jJ-8x
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcB-0006Su-OJ; Sat, 05 Sep 2020 02:23:55 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:40784)
+ id 1kERcF-0006d8-RZ; Sat, 05 Sep 2020 02:23:59 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42294)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcA-0003UZ-6F; Sat, 05 Sep 2020 02:23:55 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id gf14so3998485pjb.5;
- Fri, 04 Sep 2020 23:23:53 -0700 (PDT)
+ id 1kERcE-0003VU-1a; Sat, 05 Sep 2020 02:23:59 -0400
+Received: by mail-pg1-x543.google.com with SMTP id m5so5410071pgj.9;
+ Fri, 04 Sep 2020 23:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bM8au98PWoeNJSV4TV/fhw7ws62pAWVvuMLjtZdOgq4=;
- b=WhStefGg3ym29O/azclYOzuYCMZ0N6D6h1xo9lyj/yjz9m2PS5/J/N63htH61/2lLe
- 7Q5pQFQfZEEQxw/V36MPQHr3Q4eFbuiXjNXvAVr4LifZ82Dns8IogVtYySpQgrQnjq9a
- rdbJa37LLCQkMNX2+2C5s2dDMTKYJo2TZI9HYXGLKp9k1jhfJDSqac40mDEZWltwpq3d
- iCDgyiUKS9F0pQHYGuAUHSGBgmUT+LfcVHplosK9+jV8KZAfXWSExs66PhDhRHC/kCEd
- dpZWzZuBsffOtqzJlPC1qFBYDU3ecBCQJjopRAUmA5rWiUTArIMToaa7LHHf6B+gTTXb
- RduQ==
+ bh=bscWSrwzBlA91ho91MKRFqbKOrFCfnhQG9RPGa7f72A=;
+ b=aY0RsVob/SJYu2MYTAzRf9jyHOAFu1wfwV9SpQMXVQd6kgWAmG841k2AjQ90Vv3wSC
+ 7Yv2EMxKTQbL3TrAzPIUcYSTtf3K7VhXiIrqYnH2XKtPrrdRxEoj/v4h1UprVpiPX1Em
+ JT52XQYvZkfujQAjbbRbwwV8pTP6eMbZDK4O979RXKReWDV1uqKF0ozROZWwHmwEq+0n
+ XjlWefV/dE+kT8f1iGnhIeJk6tNRoO8UTGvUJEfuaN/06bqEFZxGCJx1jg0skP8Xu/TY
+ epu7u8e1fl1yekmA4UP86dr3hNJobyQwxJ3gA253TosnyhtVBYSd4el4uXaTpjHUlLaz
+ sL3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bM8au98PWoeNJSV4TV/fhw7ws62pAWVvuMLjtZdOgq4=;
- b=Ph+sB5a4jLcnRNzxpjwFbKFGea0oU8QgGcVwgdqQp7gEnpgp76KMP+/Ib3OmT/4CsI
- Rlr3D+Ohg6o9veqzRFoW3MadkpYzJfwEBc7/8dWOZqkBvKju1ZTXEqMWdzD23CbHubmC
- NKX1IIN+4QYOmNx0aVbNV0O8W85wAKmoTtWg/tpTC2lU4rg6P3mc3S+X3EGG8SjqVLWB
- zhZYrLAuagzRpIkzvpaNn6WMn9iN7sU/xIYnn0Vv4+J6yExCPF4/CeriLDaGxbCZI2Xf
- hQG6HBb/LV5igkH8GxaK/i2HyGp1DTRV1FE+uYQEbh5I3lc+1O4WFj+PKWsXySHf93E7
- nsTA==
-X-Gm-Message-State: AOAM531myjB38Kr9sYxjypnIAxe5IH103GTqsl9sk4xjyv8BcYTZPavE
- we/0f6sIBpTtEvd8Odr4axdiLVPb8xWvtg==
-X-Google-Smtp-Source: ABdhPJwcAwwpvAE7Bhdq/x4vcM2OU4LCzkgaePdpLrtb54QjYzxKj3l7RsGsdyw8jrPhUoy7d/oI3g==
-X-Received: by 2002:a17:90a:7f8a:: with SMTP id
- m10mr11739392pjl.47.1599287031969; 
- Fri, 04 Sep 2020 23:23:51 -0700 (PDT)
+ bh=bscWSrwzBlA91ho91MKRFqbKOrFCfnhQG9RPGa7f72A=;
+ b=QdbKIeeBxfhCDKYQ0eT4EiUcu2gfTQ+Yt+ofXtoo6kN+vMiDyor8C7ow8DUTUEjfE1
+ Z38AvL3j+Szp3pQo73eLjBcVT+O30rgnFvET4g7U7yeOhkI0AmOLsl8sMAVAze+cqEju
+ lLk032wBUBJfKbzs+86AubiUbpl3fe2RtuY+/IYz/HsAnAbHaNjwuF9Nx0P4B+Tzbcoc
+ w1nKMCCfpYQZcyr+Gj4mBF5BobDeh/nNWDnQLQLo+mpA8/k1TeOtxv+xeR4fQ2/AcgR8
+ NBfe8NWAU4ksX9dXTAskytriR0BCvWdeORKOjpaJXiV6cDV3LxLccgwd/3j2OjC4xcs4
+ jf5w==
+X-Gm-Message-State: AOAM532BG2agKpNslSR8pF0PgXruLhbZ6DKBrAv83j6/XZdX0DtsRGPt
+ ooq/4xK7JgENxJeHprYxq/k8HcSs8pOoYLAZ
+X-Google-Smtp-Source: ABdhPJysbaa/8tzmzVw7fLth/Vhz8OeJF41mhOCi9dtBbd419rSY9piDKanXzRp7KvxAiGsLL5LXOg==
+X-Received: by 2002:a63:780a:: with SMTP id t10mr10170735pgc.184.1599287034925; 
+ Fri, 04 Sep 2020 23:23:54 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id v8sm21436381pju.1.2020.09.04.23.23.49
+ by smtp.googlemail.com with ESMTPSA id v8sm21436381pju.1.2020.09.04.23.23.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 23:23:51 -0700 (PDT)
+ Fri, 04 Sep 2020 23:23:54 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/11] Revert "configure: add --ninja option"
-Date: Sat,  5 Sep 2020 14:23:23 +0800
-Message-Id: <20200905062333.1087-2-luoyonggang@gmail.com>
+Subject: [PATCH v5 02/11] block: Fixes nfs on msys2/mingw
+Date: Sat,  5 Sep 2020 14:23:24 +0800
+Message-Id: <20200905062333.1087-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200905062333.1087-1-luoyonggang@gmail.com>
 References: <20200905062333.1087-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,68 +89,115 @@ Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Block <qemu-block@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 48328880fddf0145bdccc499160fb24dfabfbd41.
-
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- configure | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ block/nfs.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/configure b/configure
-index d3495e107f..5d8bf4d8bb 100755
---- a/configure
-+++ b/configure
-@@ -517,7 +517,6 @@ rng_none="no"
- secret_keyring=""
- libdaxctl=""
- meson=""
--ninja=""
- skip_meson=no
- gettext=""
+diff --git a/block/nfs.c b/block/nfs.c
+index 61a249a9fc..34b2cd5708 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -24,7 +24,9 @@
  
-@@ -984,8 +983,6 @@ for opt do
-   ;;
-   --meson=*) meson="$optarg"
-   ;;
--  --ninja=*) ninja="$optarg"
--  ;;
-   --smbd=*) smbd="$optarg"
-   ;;
-   --extra-cflags=*)
-@@ -1758,7 +1755,6 @@ Advanced options (experts only):
-   --python=PYTHON          use specified python [$python]
-   --sphinx-build=SPHINX    use specified sphinx-build [$sphinx_build]
-   --meson=MESON            use specified meson [$meson]
--  --ninja=NINJA            use specified ninja [$ninja]
-   --smbd=SMBD              use specified smbd [$smbd]
-   --with-git=GIT           use specified git [$git]
-   --static                 enable static build [$static]
-@@ -1995,16 +1991,6 @@ case "$meson" in
-     *) meson=$(command -v meson) ;;
- esac
+ #include "qemu/osdep.h"
  
--# Probe for ninja (used for compdb)
--
--if test -z "$ninja"; then
--    for c in ninja ninja-build samu; do
--        if has $c; then
--            ninja=$(command -v "$c")
--            break
--        fi
--    done
--fi
++#if !defined(_WIN32)
+ #include <poll.h>
++#endif
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+@@ -51,6 +53,12 @@
+ #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)
+ #define QEMU_NFS_MAX_DEBUG_LEVEL 2
  
- # Check that the C compiler works. Doing this here before testing
- # the host CPU ensures that we had a valid CC to autodetect the
-@@ -7917,7 +7903,7 @@ fi
- mv $cross config-meson.cross
++#if defined (_WIN32)
++#define nfs_stat __stat64
++#else
++#define nfs_stat stat
++#endif
++
+ typedef struct NFSClient {
+     struct nfs_context *context;
+     struct nfsfh *fh;
+@@ -58,7 +66,7 @@ typedef struct NFSClient {
+     bool has_zero_init;
+     AioContext *aio_context;
+     QemuMutex mutex;
+-    blkcnt_t st_blocks;
++    int64_t st_size;
+     bool cache_used;
+     NFSServer *server;
+     char *path;
+@@ -70,7 +78,7 @@ typedef struct NFSRPC {
+     int ret;
+     int complete;
+     QEMUIOVector *iov;
+-    struct stat *st;
++    struct nfs_stat *st;
+     Coroutine *co;
+     NFSClient *client;
+ } NFSRPC;
+@@ -419,7 +427,7 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+                                int flags, int open_flags, Error **errp)
+ {
+     int64_t ret = -EINVAL;
+-    struct stat st;
++    struct nfs_stat st;
+     char *file = NULL, *strp = NULL;
  
- rm -rf meson-private meson-info meson-logs
--NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-+NINJA=$PWD/ninjatool $meson setup \
-         --prefix "${pre_prefix}$prefix" \
-         --libdir "${pre_prefix}$libdir" \
-         --libexecdir "${pre_prefix}$libexecdir" \
+     qemu_mutex_init(&client->mutex);
+@@ -545,7 +553,7 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+     }
+ 
+     ret = DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
+-    client->st_blocks = st.st_blocks;
++    client->st_size = st.st_size;
+     client->has_zero_init = S_ISREG(st.st_mode);
+     *strp = '/';
+     goto out;
+@@ -729,11 +737,11 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
+ {
+     NFSClient *client = bs->opaque;
+     NFSRPC task = {0};
+-    struct stat st;
++    struct nfs_stat st;
+ 
+     if (bdrv_is_read_only(bs) &&
+         !(bs->open_flags & BDRV_O_NOCACHE)) {
+-        return client->st_blocks * 512;
++        return client->st_size;
+     }
+ 
+     task.bs = bs;
+@@ -746,7 +754,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
+     nfs_set_events(client);
+     BDRV_POLL_WHILE(bs, !task.complete);
+ 
+-    return (task.ret < 0 ? task.ret : st.st_blocks * 512);
++    return (task.ret < 0 ? task.ret : st.st_size);
+ }
+ 
+ static int coroutine_fn
+@@ -778,7 +786,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                               BlockReopenQueue *queue, Error **errp)
+ {
+     NFSClient *client = state->bs->opaque;
+-    struct stat st;
++    struct nfs_stat st;
+     int ret = 0;
+ 
+     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
+@@ -800,7 +808,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                        nfs_get_error(client->context));
+             return ret;
+         }
+-        client->st_blocks = st.st_blocks;
++        client->st_size = st.st_size;
+     }
+ 
+     return 0;
 -- 
 2.28.0.windows.1
 
