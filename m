@@ -2,66 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C8625E605
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 09:51:33 +0200 (CEST)
-Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5297825E660
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 10:24:02 +0200 (CEST)
+Received: from localhost ([::1]:36902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kESyy-0004Bq-32
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 03:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59322)
+	id 1kETUO-0006yA-RH
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 04:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kESy9-0003l2-EI
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 03:50:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kESy7-0003w5-6I
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 03:50:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kESy4-0005tR-9p
- for <qemu-devel@nongnu.org>; Sat, 05 Sep 2020 07:50:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 451BF2E80AD
- for <qemu-devel@nongnu.org>; Sat,  5 Sep 2020 07:50:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kETTN-0005xs-Ny
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 04:22:57 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kETTK-0007Gw-7h
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 04:22:57 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Bk6wy4hTKz9sTM; Sat,  5 Sep 2020 18:22:42 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1599294162;
+ bh=LTVoev1denB9hio2a5SKPMXqfrJuE/XRRP8RdbsXNko=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FLH0oDu1rrCozIZqiZrSSUtOT19oKbzf7HGOkG/F6dIrHNyTW6YuLqiEhI3bOPCbu
+ 1rUBPPz94FJjc3iU62pKHF/UPKQ55Qcju+bGzPvK+aW5bbMs1aZUzpk4OKDINDm74I
+ PFmH3RDtKuu4KyOxYz3eOklX0EWZnQKU7zHIOokE=
+Date: Sat, 5 Sep 2020 17:47:22 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH] docs/system/deprecated: mark ppc64abi32-linux-user
+ for deprecation
+Message-ID: <20200905074722.GI341806@yekko.fritz.box>
+References: <20200904165140.10962-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 05 Sep 2020 07:43:04 -0000
-From: Serge Belyshev <1894361@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: belyshev
-X-Launchpad-Bug-Reporter: Serge Belyshev (belyshev)
-X-Launchpad-Bug-Modifier: Serge Belyshev (belyshev)
-Message-Id: <159929178448.19565.970547378217785267.malonedeb@gac.canonical.com>
-Subject: [Bug 1894361] [NEW] linux-user: syscall.c lacks pselect6_time64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: ed9df888f79f862372c4840e36088e85aeddd09a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/05 03:50:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mXDO3udm/xYWQeMQ"
+Content-Disposition: inline
+In-Reply-To: <20200904165140.10962-1-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,63 +62,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894361 <1894361@bugs.launchpad.net>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 ("linux-user/riscv:
-Update the syscall_nr's to the 5.5 kernel") legacy pselect6 definition
-for riscv32 was removed in favour of pselect6_time64, but
-pselect6_time64 is not available in syscall.c, thus leaving riscv32
-without pselect syscall.
+--mXDO3udm/xYWQeMQ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+On Fri, Sep 04, 2020 at 05:51:40PM +0100, Alex Benn=E9e wrote:
+> It's buggy and we are not sure anyone uses it.
+>=20
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
 
-** Description changed:
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-- in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 legacy pselect6 defini=
-tion
-- for riscv32 was removed in favour of pselect6_time64, but pselect6_time64=
- is
-- not available in syscall.c, thus leaving riscv32 without pselect syscall.
-+ in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 legacy pselect6
-+ definition for riscv32 was removed in favour of pselect6_time64, but
-+ pselect6_time64 is not available in syscall.c, thus leaving riscv32
-+ without pselect syscall.
+> ---
+>  docs/system/deprecated.rst | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>=20
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 851dbdeb8ab..11c763383d9 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -424,6 +424,15 @@ linux-user mode) is deprecated and will be removed i=
+n a future version
+>  of QEMU. Support for this CPU was removed from the upstream Linux
+>  kernel in 2018, and has also been dropped from glibc.
+> =20
+> +``ppc64abi32`` CPUs (since 5.2.0)
+> +'''''''''''''''''''''''''''''''''
+> +
+> +The ``ppc64abi32`` architecture has a number of issues which regularly
+> +trip up our CI testing and is suspected to be quite broken.
+> +Furthermore the maintainers are unsure what the correct behaviour
+> +should be and strongly suspect no one actually uses it.
+> +
+> +
+>  Related binaries
+>  ----------------
+> =20
 
-** Description changed:
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-- in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 legacy pselect6
-- definition for riscv32 was removed in favour of pselect6_time64, but
-+ in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 ("linux-user/riscv:
-+ Update the syscall_nr's to the 5.5 kernel") legacy pselect6 definition
-+ for riscv32 was removed in favour of pselect6_time64, but
-  pselect6_time64 is not available in syscall.c, thus leaving riscv32
-  without pselect syscall.
+--mXDO3udm/xYWQeMQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- =
+-----BEGIN PGP SIGNATURE-----
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894361
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9TQoYACgkQbDjKyiDZ
+s5IJHhAAvLbJ9Wjnp3uR2itk2UgZS6/hKmnw+bBtdZ9ODkzIUYQ0c/poLm7hBYv0
+Fv2mrt3sDuNT6Kely4WgzPbV4j1ARlBCAD+C0JJBeo2rx8f0EBoQSLZjDxJkUeE+
+L20jqUB7zEqoSPLi6ilwFwW3FAr4DsBgCim48zEOC/fcD9GPfYHaB4TamIdkx9Xt
+zno/WZANREezokCtqxIvqK6vIRjy19+1T/S1qF8NKs2iNP8VEELnDCqi9y+4xNfP
+9tdKasXoRRLdbHTWE4YEsbzlj8ea9paNgGVGLpA73Sc/LNDvkAMEG5de60bPFptC
+y+fcv+8PpCQIK74ehtVMIAL1PTwQrRST8lkRn1RO+dxNtw+Ev+Q+QWOLkOhPQfzc
+Updwk67VbMDI/FAlN/xn14V+0W5M3tpzN9WOSYwLJ4+msDkz2+40IKkoWQV1isic
+SELB9kQTfZju9GUkZjStV5bUJRI4GPbmsOPObJ9pmD1s46CprZd+vMyoBY6Fuer8
+821WJNyN3cWcDzkMe5jI/ijMU7m0KPLotjs1cmUMQxIVwBbitAvYPYqL26CxkS8n
+osXaqqVoulduKFQnmdumzfgPy2BqZbGdS5QmKzRVgEMJt9cLFjIM6QiONzOv39Vl
+RJDViAd1mL2B6zV23xDRi5vQlCF43heRkC0u5xArqP9Q7uElXFk=
+=QYCO
+-----END PGP SIGNATURE-----
 
-Title:
-  linux-user: syscall.c lacks pselect6_time64
-
-Status in QEMU:
-  New
-
-Bug description:
-  in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 ("linux-user/riscv:
-  Update the syscall_nr's to the 5.5 kernel") legacy pselect6 definition
-  for riscv32 was removed in favour of pselect6_time64, but
-  pselect6_time64 is not available in syscall.c, thus leaving riscv32
-  without pselect syscall.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894361/+subscriptions
+--mXDO3udm/xYWQeMQ--
 
