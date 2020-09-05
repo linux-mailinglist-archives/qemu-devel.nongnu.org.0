@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944B825E6DA
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 11:51:55 +0200 (CEST)
-Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B275925E6DB
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 11:52:28 +0200 (CEST)
+Received: from localhost ([::1]:47688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEUrS-0006e7-5r
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 05:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47434)
+	id 1kEUrz-0007QU-RA
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 05:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kEUqM-0005jk-8h
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 05:50:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58074)
+ id 1kEUqK-0005hl-PY
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 05:50:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kEUqI-0007ne-Ky
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 05:50:46 -0400
+ id 1kEUqI-0007nf-Lw
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 05:50:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kEUqG-0001pC-I2
+ id 1kEUqG-0001tY-8u
  for <qemu-devel@nongnu.org>; Sat, 05 Sep 2020 09:50:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 867832E80EA
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F1232E8106
  for <qemu-devel@nongnu.org>; Sat,  5 Sep 2020 09:50:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 05 Sep 2020 09:43:17 -0000
-From: Thomas Huth <1715203@bugs.launchpad.net>
+Date: Sat, 05 Sep 2020 09:43:55 -0000
+From: Thomas Huth <1715573@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kallisti5 pmaydell th-huth
-X-Launchpad-Bug-Reporter: kallisti5 (kallisti5)
+X-Launchpad-Bug-Commenters: marc.2377 th-huth
+X-Launchpad-Bug-Reporter: Marc Ranolfi (marc.2377)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150463414707.19543.9931062189110648888.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159929899708.11040.6789507752466575904.malone@chaenomeles.canonical.com>
-Subject: [Bug 1715203] Re: Maintain Haiku support
+References: <150476969887.8690.16755555210360995739.malonedeb@soybean.canonical.com>
+Message-Id: <159929903684.18709.965321711930829362.launchpad@soybean.canonical.com>
+Subject: [Bug 1715573] Re: Android-x86_64 guest - "Could not disable
+ RealTimeClock events (20160831/evxfevnt-267)";
+ UI sluggish, ACPI doesn't work with QEMU 2.10.0
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: 7342eeb4fd9b54ac7217341ef864163a6f38026d
+X-Launchpad-Hash: 51bb7e725e1d412f0dfa5a53e0eb40d8c2594502
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/05 03:50:36
@@ -72,41 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1715203 <1715203@bugs.launchpad.net>
+Reply-To: Bug 1715573 <1715573@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is there any update on this? Could you provide a machine with ssh login
-to the QEMU project where QEMU could be built and tested on Haiku? Or
-can Haiku be installed automatically without graphical UI interactions?
-In that case, would it be feasible that you provide a VM setup for our
-tests/vm/ files in QEMU?
-
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1715203
+https://bugs.launchpad.net/bugs/1715573
 
 Title:
-  Maintain Haiku support
+  Android-x86_64 guest - "Could not disable RealTimeClock events
+  (20160831/evxfevnt-267)"; UI sluggish, ACPI doesn't work with QEMU
+  2.10.0
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  It was pointed out that the 2.10 release notes are pushing to drop
-  Haiku support.  The qemu port is currently working as-is under Haiku.
+  I'm running a custom-built Android-x86_64 guest in an Arch Linux host
+  with the 4.12.10 kernel.
 
-  Was there a reason this was recommended? Is there anything Haiku can
-  do to keep it from being dropped?
+  Following the latest Arch Linux upgrade to QEMU 2.10.0-1, upon booting
+  the virtual machine, I get the error mentioned in the title.
+  Afterwards, the virtual machine becomes slower and slower. The ACPI
+  functions (the libvirt's Shutdown button, for example) don't work.
 
-  We're working on a docker container to cross-compile rust-lang for
-  Haiku, could this be of some use to qemu when complete?
+  When I downgrade to QEMU 2.9.0-3 everything works fine once again.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1715203/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1715573/+subscriptions
 
