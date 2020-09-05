@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692AE25E5DA
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:32:48 +0200 (CEST)
-Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A411525E5DE
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:39:40 +0200 (CEST)
+Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kERkl-0000D3-Ft
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49640)
+	id 1kERrP-0005JB-Nd
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcf-0007QS-Pg; Sat, 05 Sep 2020 02:24:25 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38388)
+ id 1kERqL-0004tc-0O
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 02:38:33 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:37808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcd-0003Yv-Vi; Sat, 05 Sep 2020 02:24:25 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id c3so1863643plz.5;
- Fri, 04 Sep 2020 23:24:23 -0700 (PDT)
+ id 1kERqJ-00059l-H1
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 02:38:32 -0400
+Received: by mail-pf1-x430.google.com with SMTP id w7so5798521pfi.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 23:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Wj+Yr1ojVwv967bfAJb6JSFv1AmJxc96MtVHTxvr4+4=;
- b=T/MsKliWg2sRL4/K6Deq4W7T5vAlFTNji/sRCl2TvVsEj+UK//5bQcUSri+uxh8zPR
- ZJeTjbODywXw8JZ2JlZQX+tsh8IpHqW4j5I4vSqQaSqecOhsz2azENK0+6xpx7CugHOM
- B1CsPwig3jk92P/zri8qG/EC3F0RszWg0ymwn5b/Il+PRqu+pkHTb3kxFDh4lIdSZVh+
- 7iL30CvyIvcFympD6KHjGx6vZAZf4HAeaCiLJQ7RUm8W13EaW8Gz5YbCqd2Q2NMM+czK
- /znrARICtMjo0cuWepiGwCRZHNJIWBDq5QZqCgyHTeTf0YgNHFL8B8Cm1ClQBDGjOFyx
- VDQg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XNYSamI+iIMf0aV+bExJz9RJkd68vYHfLwHJYVN/lQs=;
+ b=Th41kNbWoz5Ib+YqW1zTTylx/aChU32gL8OfeNQEHfkgw24ycWjoNcgM3mDUAjnWjd
+ pqZ8chFKjpKh4BcVg1z38WscRFiCdQG7U5JVWM05MQHkJS2feKTLj4/RhZSaphXw8nDr
+ h+s5TmrGpfNIUYN9AHg3aigH7SiIliA9m5FC2YiEfFFwiegpC8LpxqgXQ4ODW8L7X/Zo
+ SvUT/UBGv6aCagSx/WNxmaIWZgdi9JHJ47SZd6LK+68oimOK5gqXw4MbFnwZwQYhbi7H
+ CLYNKjAnB7xatP6FzYoKsoOW4L9LZIQNMbhDfhtvjwpdNcw4YG7zX9m7PjB4hC6jF1AS
+ bwXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Wj+Yr1ojVwv967bfAJb6JSFv1AmJxc96MtVHTxvr4+4=;
- b=iVUx7R5yHpOdF5qrXhBxTOuXNbL1gxJUwKvl3cvKwg3pJDqRwWdDs39i2fCFdUaahX
- /G1QX/y5g6M2TIQZ3RrOM9VDV6Yqt3zRMaATQHn675CbJz8IYuictqEDjyGT0MmcLNvz
- u1UFKw0pOKPePJCiWj+gwXNjO+SsAA2gkaNWoEfBXq4waEWSm9qYNq/enNXkbVybtOAs
- 7LeM3gpzwbcM62R9XmBIL5dvxiUmuRnpS8u1UPohCqawqyLQGBQ3jXQJ6nkegvETPfPR
- 2Pg6MzdZCB0uBjdrMbzyoz164jzF3efEFWHFRPJDlyCqDC5c/9r+t8xhifpfpNohC8Ib
- 5u4A==
-X-Gm-Message-State: AOAM530rF+X1aPfT0bmluOi8xslaLEu9z1q3Vc5EL7esEmDeTEGB40YT
- qer4Imnad3QzpXTXLFkvG3nFHrxhq6Y8i4ug
-X-Google-Smtp-Source: ABdhPJwNLzba9j1GjbOsJw39l8dvPJFWSIl/NRowNmSCuaS5aszefhK/m72BJMwaCrsgpQYohocusA==
-X-Received: by 2002:a17:90b:108e:: with SMTP id
- gj14mr11690122pjb.225.1599287061802; 
- Fri, 04 Sep 2020 23:24:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XNYSamI+iIMf0aV+bExJz9RJkd68vYHfLwHJYVN/lQs=;
+ b=JV9SIh7Ugia9jmKNO7UPU2ZhGoGBWZkhcsOeeexaRBKV4LYfhn4nir5ZZKqbD+cnHZ
+ 4heicHXlE/48yBDt5cIJ/gR+GdQTGv9u/BUU5Q30T12uIS3Z7wECafFGUdnGW+0oA6RG
+ UZ6y0oPJyPT8/BllnAKK560VnEBS1LTyl38QnBE+4MqUk0mhBCmVArh/9zbCTw/PPYId
+ z/VN18xFJiheL6h1G3DiiFDJMy8dUfDdJ0wxLLT6b4Lzk8EmPz2xPMH/gXis+c5a2cI6
+ RaP9ZkxdATsXlV/xhgqPKa4rFL4SjKmMMwiVbeRVJcIrqLRMznDlAVO212AzcoIwKCuD
+ b8qg==
+X-Gm-Message-State: AOAM531QkyuMTicJAlxbpaoo4VPhpAiTpjCKg5w2w2TyTiwuMn1Z9q+i
+ KgoJGsywOtUESdfvPC4arOGtO2D+7PlYXmL/
+X-Google-Smtp-Source: ABdhPJx3m0YBDVIo4xvYNMIwqxzPuMW9cxjmg7WcufZmZ9BLE8bMyqrXnbLTQus7SFBoBN8+KVIm/Q==
+X-Received: by 2002:a62:80c2:: with SMTP id j185mr2975283pfd.2.1599287909722; 
+ Fri, 04 Sep 2020 23:38:29 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id v8sm21436381pju.1.2020.09.04.23.24.19
+ by smtp.googlemail.com with ESMTPSA id 193sm8213918pfu.169.2020.09.04.23.38.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 23:24:21 -0700 (PDT)
+ Fri, 04 Sep 2020 23:38:28 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/11] ci: Enable Github actions.
-Date: Sat,  5 Sep 2020 14:23:33 +0800
-Message-Id: <20200905062333.1087-12-luoyonggang@gmail.com>
+Subject: [PATCH] tests: fixes test-vmstate.c compile error on msys2
+Date: Sat,  5 Sep 2020 14:38:13 +0800
+Message-Id: <20200905063813.1875-1-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200905062333.1087-1-luoyonggang@gmail.com>
-References: <20200905062333.1087-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,68 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Block <qemu-block@nongnu.org>,
- Stefan Weil <sw@weilnetz.de>, Peter Lieven <pl@kamp.de>,
- Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+../tests/test-vmstate.c: In function 'int_cmp':
+../tests/test-vmstate.c:884:5: error: unknown type name 'uint'; did you mean 'uInt'?
+  884 |     uint ua = GPOINTER_TO_UINT(a);
+      |     ^~~~
+      |     uInt
+../tests/test-vmstate.c:885:5: error: unknown type name 'uint'; did you mean 'uInt'?
+  885 |     uint ub = GPOINTER_TO_UINT(b);
+      |     ^~~~
+      |     uInt
+make: *** [Makefile.ninja:5461：tests/test-vmstate.exe.p/test-vmstate.c.obj] 错误 1
+
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- .github/workflows/main.yml            | 31 +++++++++++++++++++++++++++
- scripts/ci/windows/msys2-download.bat |  4 ++++
- 2 files changed, 35 insertions(+)
- create mode 100644 .github/workflows/main.yml
- create mode 100644 scripts/ci/windows/msys2-download.bat
+ tests/test-vmstate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
-new file mode 100644
-index 0000000000..758bbf6641
---- /dev/null
-+++ b/.github/workflows/main.yml
-@@ -0,0 +1,31 @@
-+# This is a basic workflow to help you get started with Actions
-+
-+name: CI
-+
-+# Controls when the action will run. Triggers the workflow on push or pull request
-+# events but only for the master branch
-+on:
-+  push:
-+    branches: [ master, msys2 ]
-+  pull_request:
-+    branches: [ master ]
-+
-+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-+jobs:
-+  msys2-build:
-+    name: C++ msys2 (Windows)
-+    runs-on: windows-latest
-+    strategy:
-+      fail-fast: false
-+    steps:
-+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-+      - uses: actions/checkout@v2
-+      - name: Install MSYS2
-+        run: scripts/ci/windows/msys2-download
-+      - name: Build
-+        env:
-+          MSYS: winsymlinks:nativestrict
-+          MSYSTEM: MINGW64
-+          CHERE_INVOKING: 1
-+        run: C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2-build.sh"
-+
-diff --git a/scripts/ci/windows/msys2-download.bat b/scripts/ci/windows/msys2-download.bat
-new file mode 100644
-index 0000000000..2c7c41899e
---- /dev/null
-+++ b/scripts/ci/windows/msys2-download.bat
-@@ -0,0 +1,4 @@
-+mkdir C:\tools
-+cd /d C:\tools
-+curl -LJ -s https://github.com/lygstate/qemu/releases/download/v5.1.0/msys64-v5.1.0.7z --output msys64.7z
-+7z -mmt8 x msys64.7z
+diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
+index f7b3868881..f8de709a0b 100644
+--- a/tests/test-vmstate.c
++++ b/tests/test-vmstate.c
+@@ -881,8 +881,8 @@ static gint interval_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
+ /* ID comparison function */
+ static gint int_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
+ {
+-    uint ua = GPOINTER_TO_UINT(a);
+-    uint ub = GPOINTER_TO_UINT(b);
++    guint ua = GPOINTER_TO_UINT(a);
++    guint ub = GPOINTER_TO_UINT(b);
+     return (ua > ub) - (ua < ub);
+ }
+ 
 -- 
 2.28.0.windows.1
 
