@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB6D25E5D8
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:30:12 +0200 (CEST)
-Received: from localhost ([::1]:45082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A788C25E5DB
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:33:11 +0200 (CEST)
+Received: from localhost ([::1]:50208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kERiF-0006ma-Va
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:30:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
+	id 1kERl8-0000e8-EW
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcc-0007Iu-VC; Sat, 05 Sep 2020 02:24:22 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33392)
+ id 1kERcU-00077Y-CD; Sat, 05 Sep 2020 02:24:15 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcb-0003Yi-5q; Sat, 05 Sep 2020 02:24:22 -0400
-Received: by mail-pg1-x543.google.com with SMTP id e33so5435900pgm.0;
- Fri, 04 Sep 2020 23:24:20 -0700 (PDT)
+ id 1kERcS-0003Xt-Iv; Sat, 05 Sep 2020 02:24:14 -0400
+Received: by mail-pg1-x543.google.com with SMTP id d19so5401705pgl.10;
+ Fri, 04 Sep 2020 23:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/soWbwhyXIQvyhXLT89cpgQV3vO3BDPhxGB8xLxnnps=;
- b=XoKHfsD5apDeI6vKAScjSIkWVr85sdTufj5elAMdNbFx49e+po5LvYsiXWj1Oa3ChD
- 1yWqEfQafp8iD7v/UIO1MBg6/3Tl6RrcIDUfvh6Sy5e5yaSEjQ1rO9PTz9bN62LEQHlt
- Kjnp6uUL8gnUsLitbxqiZO9LiVLKZ73kfc7exA6zDqLLr25dB8nq/9VupxZ0NLoY9UEs
- 45oh3R0xGoyBlDBWN8R2t8537CGXDQwWWUp3383Phpu77kbrQSp+uonEFkumttcuxzGK
- CcyUpFk8s+0vDZrWfFdcera96hdxYGCaKvTinK6HfKUmbc+cJJOTQNgrZRptL96PCNmu
- ey1Q==
+ bh=ptTGH2qI85N+szgczRA8YGLjVKH01noRoeLoG/lJ5SE=;
+ b=Tm7nYRFxnPJsDqIyA9OeScujNzxou/2ZoWhYCAGM7dEcXSp6WAk/M0VFrSlWTTWVB6
+ JjIHK3M3xmXfHD6tsiRsi4YeBKb+uIkvPAkoSYlpWLr5mgIBgcGvP6G686lACLUv18Fr
+ V5yZbRy+bL5Sc0ZQyGKmrXvPCbO0CY7m6X3QI8AoMBMmE49Nbzh0eveMfltlYBkG1gmK
+ d4jlWE0o4ClA2ppBN4ioaPw6xMibfl0XMR0w84+rtlhOZkWQPuEAanvpacmS3dw/LmVD
+ t4pirq39PXENI7t2ouhOGLlhpY+TmyaSMMWn/62FCL63/nu+FLr1CIWM4jNP4wdIt08c
+ 6L+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/soWbwhyXIQvyhXLT89cpgQV3vO3BDPhxGB8xLxnnps=;
- b=P+6BUVuS8zPFSD96MVsvtap0j52d9CgAIbXAxKxj0rm2EXaPK33QfVGPNAJoLE5/ha
- npCA3oNruGZr89O/RCopsPTfInq0koL0cc8AmGwvN3uclrwXw4NNwydWUVuXZMJwcr2c
- cFN1wLVqc+aEdbov/p8+OWRB5AYD6FJIRxl+0yfYxuzIz8LSp+3bachnu7K2qP1CnvrZ
- 9eh8QsYUelsgztuQ3RwgjUrS+aN95sHmSR3bgsJgTBpQWYZs32N2wnRH6mMWkT5A16p/
- SLpKI4qDk+gxaf6mGJpRSNHVjDElRSO078R+ivPHy+ZJNnw5kHZuIyAUEey9bsQiMXW6
- zWpQ==
-X-Gm-Message-State: AOAM530JnAjKu8+/ESM6fS499YjUHDxdqlhLS9zrbcE52ne4zvl1O0oI
- MXr3835lNiIbO3M/DvL61WrVTMbz6IRZyGJf
-X-Google-Smtp-Source: ABdhPJyXWItJfDicUN6q5RkHu+5yWQnfCsu18VldMLtTTULt7quJtcpsjFqvSKgCyWCsSl1dvoW24A==
-X-Received: by 2002:a63:4621:: with SMTP id t33mr10124064pga.32.1599287058907; 
- Fri, 04 Sep 2020 23:24:18 -0700 (PDT)
+ bh=ptTGH2qI85N+szgczRA8YGLjVKH01noRoeLoG/lJ5SE=;
+ b=VDLJ156dy/rz72+Xkttppe5wODovy6jWUFygDpbVyPYI7TbncaPdnvnUIenkPOaVBY
+ Rx+11cXWA2VBhGwvJ/p+QvBDu4JXFEnstCJQzM4gedh7P8GbYTjXoaj1own13vlRcnis
+ WnN63nfguC+WUKz8SvP4j2RmnAfzg68w36gXNb9j7VtxIZ4Q9w9/Z2nJSwI/wY4VYjJP
+ /K2Rr+boXufH70QUVtmjAjJLTe2jVX4Vvd0Ep2oRBE9dgjhXadm4RwjKJ78MfgOERTox
+ QuHmFEeqIneyx4eOai+9sN1603uHE0KjC+HW1rxqPvnrcFrU47YUyYLSyYSYG6Y/PAdN
+ Wi2g==
+X-Gm-Message-State: AOAM530rqHK3Qkz03cZLCzR/byIK0+yhoNWOMBeSyiuu2mg6UFe6EhsU
+ c0g4yJBvXBNAVWwbu5ThzKEBsGpCXx4RSwoM
+X-Google-Smtp-Source: ABdhPJz2IcaSrrolwIbbd0a0f2NPNAGN527a9mYy7zoxiKtNJ6Xjw+Mn1gWkl41DoLHeSSQPKLEpEQ==
+X-Received: by 2002:a65:6a0f:: with SMTP id m15mr464718pgu.93.1599287050039;
+ Fri, 04 Sep 2020 23:24:10 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id v8sm21436381pju.1.2020.09.04.23.24.16
+ by smtp.googlemail.com with ESMTPSA id v8sm21436381pju.1.2020.09.04.23.24.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 23:24:18 -0700 (PDT)
+ Fri, 04 Sep 2020 23:24:09 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/11] docker: Add win32/msys2/mingw64 docker
-Date: Sat,  5 Sep 2020 14:23:32 +0800
-Message-Id: <20200905062333.1087-11-luoyonggang@gmail.com>
+Subject: [PATCH v5 07/11] block: get file-win32.c handle locking option
+ consistence with file-posix.c
+Date: Sat,  5 Sep 2020 14:23:29 +0800
+Message-Id: <20200905062333.1087-8-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200905062333.1087-1-luoyonggang@gmail.com>
 References: <20200905062333.1087-1-luoyonggang@gmail.com>
@@ -91,27 +92,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/docker/dockerfiles/msys2.docker | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 tests/docker/dockerfiles/msys2.docker
+ block/file-win32.c | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/msys2.docker b/tests/docker/dockerfiles/msys2.docker
-new file mode 100644
-index 0000000000..f898e0803d
---- /dev/null
-+++ b/tests/docker/dockerfiles/msys2.docker
-@@ -0,0 +1,11 @@
-+FROM cirrusci/windowsservercore:cmake
-+RUN echo | choco install -y --no-progress --ignore-package-exit-codes --params "/NoUpdate /InstallDir:C:\tools\msys64" msys2
-+COPY msys2_install.sh C:/tools
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "grep -rl 'repo.msys2.org/' /etc/pacman.d/mirrorlist.* | xargs sed -i 's/repo.msys2.org\//mirrors.ustc.edu.cn\/msys2\//g'"
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Sy"
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "sh /c/tools/msys2_install.sh"
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "rm -rf /var/cache/pacman/pkg/*"
-+
-+# docker build --tag lygstate/windowsservercore:msys2 -f "../../../tests/docker/dockerfiles/msys2.docker" .
-+# docker run -it lygstate/windowsservercore:msys2 cmd
-+# docker push lygstate/windowsservercore:msys2
+diff --git a/block/file-win32.c b/block/file-win32.c
+index ab69bd811a..14e5f5c3b5 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
+             .type = QEMU_OPT_STRING,
+             .help = "host AIO implementation (threads, native)",
+         },
++        {
++            .name = "locking",
++            .type = QEMU_OPT_STRING,
++            .help = "file locking mode (on/off/auto, default: auto)",
++        },
+         { /* end of list */ }
+     },
+ };
+@@ -334,6 +339,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     const char *filename;
+     bool use_aio;
+     int ret;
++    OnOffAuto locking;
+ 
+     s->type = FTYPE_FILE;
+ 
+@@ -342,11 +348,24 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+         ret = -EINVAL;
+         goto fail;
+     }
+-
+-    if (qdict_get_try_bool(options, "locking", false)) {
++    locking = qapi_enum_parse(&OnOffAuto_lookup,
++                              qemu_opt_get(opts, "locking"),
++                              ON_OFF_AUTO_AUTO, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        ret = -EINVAL;
++        goto fail;
++    }
++    switch (locking) {
++    case ON_OFF_AUTO_ON:
+         error_setg(errp, "locking=on is not supported on Windows");
+         ret = -EINVAL;
+         goto fail;
++    case ON_OFF_AUTO_OFF:
++    case ON_OFF_AUTO_AUTO:
++        break;
++    default:
++        g_assert_not_reached();
+     }
+ 
+     filename = qemu_opt_get(opts, "filename");
 -- 
 2.28.0.windows.1
 
