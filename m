@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A788C25E5DB
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:33:11 +0200 (CEST)
-Received: from localhost ([::1]:50208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F3725E5DD
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 08:34:09 +0200 (CEST)
+Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kERl8-0000e8-EW
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49560)
+	id 1kERm5-0002Na-1J
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 02:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcU-00077Y-CD; Sat, 05 Sep 2020 02:24:15 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43903)
+ id 1kERca-0007DR-D0; Sat, 05 Sep 2020 02:24:20 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:36673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kERcS-0003Xt-Iv; Sat, 05 Sep 2020 02:24:14 -0400
-Received: by mail-pg1-x543.google.com with SMTP id d19so5401705pgl.10;
- Fri, 04 Sep 2020 23:24:11 -0700 (PDT)
+ id 1kERcY-0003YR-4Y; Sat, 05 Sep 2020 02:24:19 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id m8so5790838pfh.3;
+ Fri, 04 Sep 2020 23:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ptTGH2qI85N+szgczRA8YGLjVKH01noRoeLoG/lJ5SE=;
- b=Tm7nYRFxnPJsDqIyA9OeScujNzxou/2ZoWhYCAGM7dEcXSp6WAk/M0VFrSlWTTWVB6
- JjIHK3M3xmXfHD6tsiRsi4YeBKb+uIkvPAkoSYlpWLr5mgIBgcGvP6G686lACLUv18Fr
- V5yZbRy+bL5Sc0ZQyGKmrXvPCbO0CY7m6X3QI8AoMBMmE49Nbzh0eveMfltlYBkG1gmK
- d4jlWE0o4ClA2ppBN4ioaPw6xMibfl0XMR0w84+rtlhOZkWQPuEAanvpacmS3dw/LmVD
- t4pirq39PXENI7t2ouhOGLlhpY+TmyaSMMWn/62FCL63/nu+FLr1CIWM4jNP4wdIt08c
- 6L+A==
+ bh=Bq1eYS85B3lVfUWOPYt+//P+vJhXogDV3XY3bX1W5SI=;
+ b=HuONuXGpUAzuMPwrSAueD74wQQy5qHeVO/lPP+88LwzK0pVBVSxlVz8RMRJSc9nb+h
+ PG2Ud3cB+oNtjoFNjIruwZU0ZkMHdwS0a1wBbQ2IZk9zVM0+crRwtVaXdTKyj6m8Hzux
+ EwuQcaxhVadS8KUje58zphiKjUuhQAgzJtFNS099nwh2upG7cf878jxTdwkD8/9L5I/r
+ MC0zFLWvBpUvtyEKX4te5C7/Z322iK7oOdldVWKgWfGKdyUexLU5ycGK67jSQNax45u3
+ pBqIbdjeuzkGakV/Smqj/bxY1sVasJROE4x8XnZnpy6k0l7MmbFySlHwtSSuIRXP1iV9
+ Lrmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ptTGH2qI85N+szgczRA8YGLjVKH01noRoeLoG/lJ5SE=;
- b=VDLJ156dy/rz72+Xkttppe5wODovy6jWUFygDpbVyPYI7TbncaPdnvnUIenkPOaVBY
- Rx+11cXWA2VBhGwvJ/p+QvBDu4JXFEnstCJQzM4gedh7P8GbYTjXoaj1own13vlRcnis
- WnN63nfguC+WUKz8SvP4j2RmnAfzg68w36gXNb9j7VtxIZ4Q9w9/Z2nJSwI/wY4VYjJP
- /K2Rr+boXufH70QUVtmjAjJLTe2jVX4Vvd0Ep2oRBE9dgjhXadm4RwjKJ78MfgOERTox
- QuHmFEeqIneyx4eOai+9sN1603uHE0KjC+HW1rxqPvnrcFrU47YUyYLSyYSYG6Y/PAdN
- Wi2g==
-X-Gm-Message-State: AOAM530rqHK3Qkz03cZLCzR/byIK0+yhoNWOMBeSyiuu2mg6UFe6EhsU
- c0g4yJBvXBNAVWwbu5ThzKEBsGpCXx4RSwoM
-X-Google-Smtp-Source: ABdhPJz2IcaSrrolwIbbd0a0f2NPNAGN527a9mYy7zoxiKtNJ6Xjw+Mn1gWkl41DoLHeSSQPKLEpEQ==
-X-Received: by 2002:a65:6a0f:: with SMTP id m15mr464718pgu.93.1599287050039;
- Fri, 04 Sep 2020 23:24:10 -0700 (PDT)
+ bh=Bq1eYS85B3lVfUWOPYt+//P+vJhXogDV3XY3bX1W5SI=;
+ b=EB2Pu1YAKI/fgQRLAqaPYP74f+EJlzKAsrFUMXNV1I4qUHCtHj8ihkHY43P+E5XmIG
+ mYYmZyX1A4VhNF3SBcWAdwJ30P1sVpU3exDdM+hxtBNvT+sTFGLTwA3YtG9syNC6vbC8
+ tUHyi5MU1OxrHEdLfU2PR+Q1CX8JOJA/hmwrFSowrs/VVAbCDxS11f46UNbwnDvXrP9P
+ 2mljAJRFjEv4DhgQ66WyrZKQPFIFdQZtbXgba7wMybUhUFRlKZZVW0oZDxPFKDN4NodK
+ jj6MeLdB+nJJY0Ncg0aDha6qwLx1piIPfA20aNtKuNCnGxyGCyEthXqi57jTLXqXr4zP
+ irSQ==
+X-Gm-Message-State: AOAM530WeCTk5dm4KUsLCxqVlOl73Bjm/Qq2EibS4HYVQMeXxvMaiZb+
+ fmbe16io/ki7go3V6JAHkkFMdvjXBLlpTL27
+X-Google-Smtp-Source: ABdhPJykUqv8G5QXcVj/KLG8WPZwAhiVCO95ZimWMbyZkZ7AGnUVrNLBJyiUIAkaP21CGZ0rFnMrIA==
+X-Received: by 2002:a63:4c:: with SMTP id 73mr10121113pga.286.1599287055936;
+ Fri, 04 Sep 2020 23:24:15 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id v8sm21436381pju.1.2020.09.04.23.24.07
+ by smtp.googlemail.com with ESMTPSA id v8sm21436381pju.1.2020.09.04.23.24.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 23:24:09 -0700 (PDT)
+ Fri, 04 Sep 2020 23:24:15 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 07/11] block: get file-win32.c handle locking option
- consistence with file-posix.c
-Date: Sat,  5 Sep 2020 14:23:29 +0800
-Message-Id: <20200905062333.1087-8-luoyonggang@gmail.com>
+Subject: [PATCH v5 09/11] meson: Fixes qapi tests.
+Date: Sat,  5 Sep 2020 14:23:31 +0800
+Message-Id: <20200905062333.1087-10-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200905062333.1087-1-luoyonggang@gmail.com>
 References: <20200905062333.1087-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,62 +89,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Block <qemu-block@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The error are:
++@end table
++
++@end deftypefn
++
+make: *** [Makefile.mtest:63: check-qapi-schema] Error 1
+
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- block/file-win32.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ tests/qapi-schema/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/block/file-win32.c b/block/file-win32.c
-index ab69bd811a..14e5f5c3b5 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
-             .type = QEMU_OPT_STRING,
-             .help = "host AIO implementation (threads, native)",
-         },
-+        {
-+            .name = "locking",
-+            .type = QEMU_OPT_STRING,
-+            .help = "file locking mode (on/off/auto, default: auto)",
-+        },
-         { /* end of list */ }
-     },
- };
-@@ -334,6 +339,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-     const char *filename;
-     bool use_aio;
-     int ret;
-+    OnOffAuto locking;
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index c87d141417..67ba0a5ebd 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -220,6 +220,7 @@ qapi_doc = custom_target('QAPI doc',
  
-     s->type = FTYPE_FILE;
- 
-@@ -342,11 +348,24 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-         ret = -EINVAL;
-         goto fail;
-     }
--
--    if (qdict_get_try_bool(options, "locking", false)) {
-+    locking = qapi_enum_parse(&OnOffAuto_lookup,
-+                              qemu_opt_get(opts, "locking"),
-+                              ON_OFF_AUTO_AUTO, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        ret = -EINVAL;
-+        goto fail;
-+    }
-+    switch (locking) {
-+    case ON_OFF_AUTO_ON:
-         error_setg(errp, "locking=on is not supported on Windows");
-         ret = -EINVAL;
-         goto fail;
-+    case ON_OFF_AUTO_OFF:
-+    case ON_OFF_AUTO_AUTO:
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     filename = qemu_opt_get(opts, "filename");
+ # "full_path()" needed here to work around
+ # https://github.com/mesonbuild/meson/issues/7585
+-test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
++test('QAPI doc', diff, args: ['--strip-trailing-cr',
++                              '-u', files('doc-good.texi'), qapi_doc[0].full_path()],
+      depends: qapi_doc,
+      suite: ['qapi-schema', 'qapi-doc'])
 -- 
 2.28.0.windows.1
 
