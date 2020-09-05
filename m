@@ -2,28 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C8C25EAE0
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 22:52:43 +0200 (CEST)
-Received: from localhost ([::1]:32990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13FF25EAE4
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 23:02:55 +0200 (CEST)
+Received: from localhost ([::1]:38844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEfAw-0005kr-Ob
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 16:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58770)
+	id 1kEfKo-0000pG-V7
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 17:02:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kEfAG-0005KE-70
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 16:52:00 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:59387)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kEfJz-0000Nx-RZ
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 17:02:03 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:53969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kEfAE-0004Sl-6L
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 16:51:59 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kEfJx-0005nb-Tn
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 17:02:03 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MqK2d-1krFIe3tf1-00nQmR; Sat, 05 Sep 2020 22:51:56 +0200
-Subject: Re: [PATCH] linux-user: Correctly start brk after executable
-To: Timothy E Baldwin <T.E.Baldwin99@members.leeds.ac.uk>,
- qemu-devel@nongnu.org
-References: <20200728224615.326675-1-T.E.Baldwin99@members.leeds.ac.uk>
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MsrV2-1kYFTT2UxM-00tBAU; Sat, 05 Sep 2020 23:01:59 +0200
+Subject: Re: [PATCH] linux-user: Map signal numbers in fcntl
+To: Timothy Baldwin <T.E.Baldwin99@members.leeds.ac.uk>, qemu-devel@nongnu.org
+References: <72cc725c-f344-b7f1-d559-401867067d80@members.leeds.ac.uk>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,35 +66,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <da754c0c-d54b-86ce-f978-57159d7a4459@vivier.eu>
-Date: Sat, 5 Sep 2020 22:51:55 +0200
+Message-ID: <5fa595ee-1fbc-8ff2-4363-cfa069a23ebb@vivier.eu>
+Date: Sat, 5 Sep 2020 23:01:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200728224615.326675-1-T.E.Baldwin99@members.leeds.ac.uk>
+In-Reply-To: <72cc725c-f344-b7f1-d559-401867067d80@members.leeds.ac.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cFWAy1G2E6gKx6QsfgjmwQHfZ4BgMqdXqeIwZv2ofgoTqerHB5X
- FglYkJWlleF8llgZIBaiqYamElUdhQ2DU7rltEZvmqqX/vAZ1evPIVErGxPlDUofGL/uTDu
- JJRaOaOzsbPYJAnl8coSq2uO3cPAiiJqDXXoJl7HKWcle9ZVsEEzlMPH3emh+7OZsVl9yVG
- 7GQ+R1WYZIIvN/CDRPiVQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iKcCvheiKRY=:zB6lKTEeE6me85FIi5aBen
- PSIkI9iNXKyRe/7/L/D1e4/Ez/FKqbcB0JVcQvP6h2+Uo8yILPEb2bMv5HDnA+X7ddQ0XvFL9
- q9+K+GMYdotkXid5gcrzpipdwmP6BhWFqWwfNOnJFWgK01OZp4r4qBxWCDjN1vOnyMuySll/t
- GwnHM1uaaHrBVpPp0TZq/1DB5Ab+D+txRfbsgPjBE2aeJE3gA0fYLa3FJVgQxrMPTpONdzDky
- gIuV3NW7vhFqNFRXkNSaJ25CG/MHE5qdKChirV9580YxEhA2zgqnMDGryVrwNMCeQgrTP8oRG
- yUV1sNoJQ6IDEMq84IQgBiGveNAr1H/aLQrc7UGOCDUpLQpZ/l+0e00A8/NsRQtzoaNLxieI4
- qTP9szc6fgwlV14ruUxYnEzyCyPv3m86SFPFIrSqUyCpKm4T2xQF91AvfjbhJH/7hnUdkIbNw
- y1c6cz8Sxuvdo/I29qtBcomUjFayruOhc3b2O+teKcVqk1/522lrDgOUsc8e5ZkXNQx8uRzjR
- lTAeANSDm3JkaiVYT+QLmkGD0ZS9RQVNzob+DMRsgMSMS83xLrsGRhXOueBxI8M1YdA8mHXhx
- +MBDfLj4i8ZInHvmucb6ZYl5gw2ZpHRNMUHrhIWMQjA0/8NnnI6dXQAIJ0YOxJvOfuRZu/UDh
- m8+l7MeQMBtNzBun2lLgZxfxn4/OX4Ipvie1dTR/RONTnQaECg1Q2bTAl8dXC6uF6rBTW8k9z
- uJIssRhs/QqiKMrLf3Jm/6BqqhlnxrMmay+zHbxhHJadOYaPfpsYqjtJfG3WFuSmUD8CsCuY1
- YXcAcSu1Kq9bpSwVVVZsH7t7lTgXAo1/nT3prqhhxvF950viSGOTcf3KxxAYQ/ELkxZ0YEd
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Uxt2DzWZidSRC1u1diIdBHUmAq09PNvlNGV++mWHA13m6GVxSgf
+ FcqYBe4FA1+8CRQjZWZprv3VKAcuT/Di4agFlX71xSBOUi7E6a7PYmMMkCGpGBJ8EaoDE7Y
+ Gk1goe6AJeNnN2l3Js70TXCGEwL6ii62ij0+kxLTXNkaXNCe+U3HhOZHfIoDOTDuw7S1rYo
+ 6GlPVoxy8ovMHb3wY545g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UiHGRBk4Uyg=:8QVHu8/EgIzylqk82nxPmR
+ f3uvDZ570wZPT12w3wOmJWAunGZHPLSd5IYJ6Hn6YvyBv/D46ARwQGVkq9d0Lln04+0kA2Iqe
+ /Z7GXk2rx722aukaPgVd7NgcarfZTdjW5+Eyc8UKZ/MpcwmqwP/RnCjYyDJdTCJ5FoR7PxvEV
+ y3cNtE3XSPEP6kM01Dx2YX74jbTzmwy2ED10CMNFRT2uj1zDCkBLFf+MftW8K+kRPxuyEue8/
+ 7Kj90ixs2W/fYosHFRcHKyRJWOPH8RdCeTQTSOJPOB1UyR1ctBYTwQokehNBb+HKF8mu2doua
+ YookAy4x/IGCBGTTP3Gxb1ljQ2pVem4Gy4qJpkP2m8t6pJZr3BsY+/VJUo6MR2DLedBjTlnQA
+ cuPQfAobTtZv/yhBnN495XFlAtHT1bNJXXCKv6D5gDU4HzWp8k6k/NbYlHeLzPi9ZEmYJ0V08
+ P2HknL8I4gz0gwPGus51bQW9FgPu6Wm1nGRrx33+GrMcdjTOz6PfNzmAU+7Al3i/qFM8zvGmk
+ Sk6fcHJb/7d0SxsShRsZBxHc+2jOBubJIHFxkZplCdq9kMzJy6l7qbSTyx8C0q4YDSlIf77wt
+ DDE90VY4Hbu9HkKyBFbvriqgriH89Mw6nr53zCny5vcGn0sbJlqYzNtan+Xnx7HK5OA2iFX6E
+ bFgLl04/dC7rGfwxAzPgoNeRmekKNwmrJbul58tl1hsrST4yFW8boWZIzcKUjOhAwY8sO2MjL
+ zUJalEy0jyNZQP7sm9cADpKlw1C+r7ask4oVZ/1SCGJuTgu/lEPK4uWVyVljT7q5kc7+vZP+8
+ YOea0x6UZta9x6MiTqY8phkPxm+Y1YDOdkjf/11/bcbXzX7Q/XaC4vhlymcyPM/Brd/295w
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/05 16:51:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/05 17:02:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -118,49 +117,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/07/2020 à 00:46, Timothy E Baldwin a écrit :
-> info->brk was erroneously set to the end of highest addressed
-> writable segment which could result it in overlapping the executable.
-> 
-> As per load_elf_binary in fs/binfmt_elf.c in Linux, it should be
-> set to end of highest addressed segment.
+Le 29/07/2020 à 22:06, Timothy Baldwin a écrit :
+> Map signal numbers in fcntl F_SETSIG and F_GETSIG.
 > 
 > Signed-off-by: Timothy E Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
 > ---
->  linux-user/elfload.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  linux-user/syscall.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 7e7f642332..d5d444f698 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2564,9 +2564,9 @@ static void load_elf_image(const char *image_name, int image_fd,
->                  if (vaddr_ef > info->end_data) {
->                      info->end_data = vaddr_ef;
->                  }
-> -                if (vaddr_em > info->brk) {
-> -                    info->brk = vaddr_em;
-> -                }
-> +            }
-> +            if (vaddr_em > info->brk) {
-> +                info->brk = vaddr_em;
->              }
->          } else if (eppnt->p_type == PT_INTERP && pinterp_name) {
->              char *interp_name;
-> @@ -2621,7 +2621,6 @@ static void load_elf_image(const char *image_name, int image_fd,
->      if (info->end_data == 0) {
->          info->start_data = info->end_code;
->          info->end_data = info->end_code;
-> -        info->brk = info->end_code;
->      }
->  
->      if (qemu_log_enabled()) {
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 945fc25279..8456bad109 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -6583,10 +6583,16 @@ static abi_long do_fcntl(int fd, int cmd,
+> abi_ulong arg)
+>          break;
+>  #endif
 > 
+> -    case TARGET_F_SETOWN:
+> -    case TARGET_F_GETOWN:
+>      case TARGET_F_SETSIG:
+> +        ret = get_errno(safe_fcntl(fd, host_cmd,
+> target_to_host_signal(arg)));
+> +        break;
+> +
+>      case TARGET_F_GETSIG:
+> +        ret = host_to_target_signal(get_errno(safe_fcntl(fd, host_cmd,
+> arg)));
+> +        break;
+> +
+> +    case TARGET_F_SETOWN:
+> +    case TARGET_F_GETOWN:
+>      case TARGET_F_SETLEASE:
+>      case TARGET_F_GETLEASE:
+>      case TARGET_F_SETPIPE_SZ:
 
-Applied to my linux-user-for-5.2 branch.
-
-Thanks,
-Laurent
-
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
