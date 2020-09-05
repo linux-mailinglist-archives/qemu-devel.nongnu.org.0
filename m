@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61CC25E6DE
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 11:57:13 +0200 (CEST)
-Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DE325E71C
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 12:41:43 +0200 (CEST)
+Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEUwa-0001Ta-OL
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 05:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48160)
+	id 1kEVde-00013y-DQ
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 06:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kEUvO-0000DI-7O
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 05:55:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59074)
+ id 1kEVcw-0000cP-15
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 06:40:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kEUvM-00007W-GC
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 05:55:57 -0400
+ id 1kEVct-0004Sl-TK
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 06:40:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kEUvL-0002LG-0P
- for <qemu-devel@nongnu.org>; Sat, 05 Sep 2020 09:55:55 +0000
+ id 1kEVcs-0000Kx-0h
+ for <qemu-devel@nongnu.org>; Sat, 05 Sep 2020 10:40:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EE8292E80EA
- for <qemu-devel@nongnu.org>; Sat,  5 Sep 2020 09:55:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AB0782E80EA
+ for <qemu-devel@nongnu.org>; Sat,  5 Sep 2020 10:40:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 05 Sep 2020 09:49:19 -0000
-From: Thomas Huth <1717414@bugs.launchpad.net>
+Date: Sat, 05 Sep 2020 10:31:47 -0000
+From: Laurent Vivier <1894361@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: iiordanov th-huth
-X-Launchpad-Bug-Reporter: Iordan Iordanov (iiordanov)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150544685826.29673.14944456813287969209.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159929935944.19700.15934794035277589088.malone@gac.canonical.com>
-Subject: [Bug 1717414] Re: Sending certain keysyms results in wrong symbol
- input
+X-Launchpad-Bug-Commenters: belyshev laurent-vivier
+X-Launchpad-Bug-Reporter: Serge Belyshev (belyshev)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159929178448.19565.970547378217785267.malonedeb@gac.canonical.com>
+Message-Id: <159930190750.17847.11969500031162790724.malone@soybean.canonical.com>
+Subject: [Bug 1894361] Re: linux-user: syscall.c lacks pselect6_time64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: 49a19f90c2d9a9f3449e65f90ca642122d3216c6
+X-Launchpad-Hash: d29ccabfa5ae55a72129059abe384819ee563eac
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/05 03:50:36
@@ -73,63 +71,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1717414 <1717414@bugs.launchpad.net>
+Reply-To: Bug 1894361 <1894361@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There have been quite a bunch of improvements in the keysyms handling
-during the past years ... can you still reproduce your issue with the
-latest version of QEMU?
+pselect6_time64() has been implemented but it has not been merged
+because during the test I've seen it breaks ARM target.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+https://patchew.org/QEMU/20200824223050.92032-1-Filip.Bozuta@syrmia.com/202=
+00824223050.92032-2-Filip.Bozuta@syrmia.com/
+
+I try to fix that and merge that soon.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1717414
+https://bugs.launchpad.net/bugs/1894361
 
 Title:
-  Sending certain keysyms results in wrong symbol input
+  linux-user: syscall.c lacks pselect6_time64
 
 Status in QEMU:
-  Incomplete
+  New
 
 Bug description:
-  I develop bVNC, an Android VNC client. I noticed that when I connect
-  to qemu VMs that have a VNC console, Keysyms that are usually sent
-  over with SHIFT modifier when connecting from a PC have wrong symbols
-  typed within the VM. A very short list of examples:
-
-  exclam                              33     0x0021
-
-  results in "1" typed in the VM.
-
-  at                                  64     0x0040
-
-  results in "2"
-
-  plus                                43     0x002b
-
-  results in "=3D"
-
-  asterisk                            42     0x002a
-
-  results in "8"
-
-  On Android, KEYCODEs that correspond to the above keysyms do not come
-  with SHIFT metastate. Therefore, the keysyms that they correspond to
-  are not sent over with any modifiers and must just work.
-
-  The issue was reproduced with bVNC and RealVNC viewers connecting to
-  many versions of qemu (Ubuntu 14.04, oVirt 3.4, oVirt 4.1, etc.). The
-  qemu version that comes with oVirt 4.1 is 2.6.0, commit hash
-  bfc766d38e1fae5767d43845c15c79ac8fa6d6af.
-
-  Sincerely,
-  iordan
+  in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 ("linux-user/riscv:
+  Update the syscall_nr's to the 5.5 kernel") legacy pselect6 definition
+  for riscv32 was removed in favour of pselect6_time64, but
+  pselect6_time64 is not available in syscall.c, thus leaving riscv32
+  without pselect syscall.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1717414/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1894361/+subscriptions
 
