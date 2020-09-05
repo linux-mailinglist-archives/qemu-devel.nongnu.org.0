@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC00325E77E
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 14:17:29 +0200 (CEST)
-Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E23025E785
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Sep 2020 14:27:24 +0200 (CEST)
+Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEX8K-0001gn-PP
-	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 08:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38006)
+	id 1kEXHv-0004At-4G
+	for lists+qemu-devel@lfdr.de; Sat, 05 Sep 2020 08:27:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kEX6s-0000rv-V2
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 08:15:58 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29374
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kEX6m-0006HG-Fo
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 08:15:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599308151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n0uEUA85X+MCWMWu2Nvn8t7hQWmnqZMSGsU+rkFYFvE=;
- b=RgDC1C9epnkz8C2FenhvZVKIBhzbBXWx8J5z4xDlOGy7KlFblQRhwb7385HoGCq596lG+e
- I4yYQ7Tcq/8yHhrVHpWxNEEOu4nFaFatpRZWNgCWwYb8eLRhbHcD6HOIDX2tX2QPPS5YVX
- Ad4VgBt9jtrhA3UNNJnMZ2jSLGoTkO0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-3Nnv8yYIM26scF1jpBv_Ow-1; Sat, 05 Sep 2020 08:15:47 -0400
-X-MC-Unique: 3Nnv8yYIM26scF1jpBv_Ow-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 978EF1005E72;
- Sat,  5 Sep 2020 12:15:46 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-27.ams2.redhat.com [10.36.112.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BCD260C05;
- Sat,  5 Sep 2020 12:15:45 +0000 (UTC)
-Subject: Re: [RFC PATCH] travis.yml: Drop the default softmmu builds
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20200805185403.15227-1-thuth@redhat.com>
-Message-ID: <c1927c74-da26-a17d-e92e-1e052540733f@redhat.com>
-Date: Sat, 5 Sep 2020 14:15:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kEXGM-0003G5-FF
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 08:25:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kEXGH-0007E8-Lg
+ for qemu-devel@nongnu.org; Sat, 05 Sep 2020 08:25:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kEXGC-0001VR-R9
+ for <qemu-devel@nongnu.org>; Sat, 05 Sep 2020 12:25:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A32C82E80E8
+ for <qemu-devel@nongnu.org>; Sat,  5 Sep 2020 12:25:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200805185403.15227-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/05 07:24:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 05 Sep 2020 12:17:39 -0000
+From: Thomas Huth <1715162@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ross th-huth
+X-Launchpad-Bug-Reporter: Ross Burton (ross)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <150462068248.17409.85035777459599057.malonedeb@gac.canonical.com>
+Message-Id: <159930825955.32377.3992392825653129283.malone@wampee.canonical.com>
+Subject: [Bug 1715162] Re: qemu-user crashing when writing core dump
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
+X-Launchpad-Hash: e3999ef617e99e62fd64b43113b37e99dbf4f45e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/05 03:50:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,56 +72,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Bug 1715162 <1715162@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/08/2020 20.54, Thomas Huth wrote:
-> The total runtime of all Travis jobs is very long and we are testing
-> all softmmu targets in the gitlab-CI already - so we can speed up the
-> Travis testing a little bit by not testing the softmmu targets here
-> anymore.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Well, ok, we do not test all the softmmu targets on gitlab-CI with
->  that same ancient version of Ubuntu ... but do we still care about
->  testing all softmmut targets on Ubuntu Xenial at all? ... at least
->  according to our support policy, we do not care about Xenial anymore.
-> 
->  .travis.yml | 14 --------------
->  1 file changed, 14 deletions(-)
-> 
-> diff --git a/.travis.yml b/.travis.yml
-> index 6695c0620f..18290bc51d 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -123,20 +123,6 @@ jobs:
->          - CONFIG="--disable-system --static"
->          - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
->  
-> -
-> -    # we split the system builds as it takes a while to build them all
-> -    - name: "GCC (main-softmmu)"
-> -      env:
-> -        - CONFIG="--disable-user --target-list=${MAIN_SOFTMMU_TARGETS}"
-> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-> -
-> -
-> -    - name: "GCC (other-softmmu)"
-> -      env:
-> -       - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
-> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-> -
-> -
->      # Just build tools and run minimal unit and softfloat checks
->      - name: "GCC check-softfloat (user)"
->        env:
-> 
+Looking through old bug tickets... is this still an issue with the
+latest version of QEMU? Or could we close this ticket nowadays?
 
-Ping?
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
- Thomas
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1715162
+
+Title:
+  qemu-user crashing when writing core dump
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I've a binary I'm running in qemux86-64 but it is segfaulting.  Whilst
+  qemu writes the core dump for that, qemu itself is segfaulting.
+
+  (gdb) bt full
+  #0  0x00007efdd962e32e in sigsuspend () from /data/poky-tmp/master/build/=
+sysroots-uninative/x86_64-linux/lib/libc.so.6
+  No symbol table info available.
+  #1  0x0000559176d74da4 in dump_core_and_abort (target_sig=3Dtarget_sig@en=
+try=3D11)
+      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
+0/qemu-2.10.0/linux-user/signal.c:598
+          cpu =3D <optimized out>
+          env =3D <optimized out>
+          ts =3D 0x55917a42d160
+          core_dumped =3D <optimized out>
+          act =3D {__sigaction_handler =3D {sa_handler =3D 0x0, sa_sigactio=
+n =3D 0x0}, sa_mask =3D {__val =3D {18446744067267099647,
+                18446744073709551615 <repeats 15 times>}}, sa_flags =3D 0, =
+sa_restorer =3D 0x559100004010}
+  #2  0x0000559176d75a38 in handle_pending_signal (cpu_env=3Dcpu_env@entry=
+=3D0x55917a41c2a0, sig=3Dsig@entry=3D11,
+      k=3Dk@entry=3D0x55917a42d190)
+      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
+0/qemu-2.10.0/linux-user/signal.c:6596
+          handler =3D <optimized out>
+          set =3D {__val =3D {4294967297, 4294967297, 94083256460867, 14, 1=
+28, 0, 8, 3, 0, 1, 0, 4243635, 139628765215104,
+              94083255852784, 94083309703424, 3351315493}}
+          target_old_set =3D {sig =3D {0}}
+          sa =3D <optimized out>
+          ts =3D 0x55917a42d160
+  #3  0x0000559176d765ac in process_pending_signals (cpu_env=3D<optimized o=
+ut>)
+      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
+0/qemu-2.10.0/linux-user/signal.c:6674
+          sig =3D 11
+          ts =3D 0x55917a42d160
+          set =3D {__val =3D {18446744067267100671, 18446744073709551615 <r=
+epeats 15 times>}}
+          blocked_set =3D <optimized out>
+  #4  0x0000559176d5e0d8 in cpu_loop (env=3D0x55917a41c2a0)
+      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
+0/qemu-2.10.0/linux-user/main.c:369
+          trapnr =3D 14
+          pc =3D <optimized out>
+          ret =3D <optimized out>
+          info =3D {si_signo =3D 11, si_errno =3D 0, si_code =3D 196609, _s=
+ifields =3D {_pad =3D {101897450, 192, -647518572, 32509,
+                842, 0, 1993519912, 21905, 2051194736, 21905, 1997320506, 2=
+1905, 2051195440, 21905, 1993546713, 0,
+                12767276, 64, 1997233696, 21905, 42, 0, 1997233824, 21905, =
+1997320464, 21905, 350755584, -1438022877},
+              _kill =3D {_pid =3D 101897450, _uid =3D 192}, _timer =3D {_ti=
+mer1 =3D 101897450, _timer2 =3D 192}, _rt =3D {
+                _pid =3D 101897450, _uid =3D 192, _sigval =3D {sival_int =
+=3D -647518572, sival_ptr =3D 139628739274388}},
+              _sigchld =3D {_pid =3D 101897450, _uid =3D 192, _status =3D -=
+647518572, _utime =3D 842, _stime =3D 94083252138792},
+              _sigfault =3D {_addr =3D 824735618282}, _sigpoll =3D {_band =
+=3D 101897450, _fd =3D 192}}}
+  #5  0x0000559176d2a4b8 in main (argc=3D<optimized out>, argv=3D<optimized=
+ out>, envp=3D<optimized out>)
+      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
+0/qemu-2.10.0/linux-user/main.c:4862
+          regs1 =3D {r15 =3D 0, r14 =3D 0, r13 =3D 0, r12 =3D 0, rbp =3D 0,=
+ rbx =3D 0, r11 =3D 0, r10 =3D 0, r9 =3D 0, r8 =3D 0, rax =3D 0,
+            rcx =3D 0, rdx =3D 0, rsi =3D 0, rdi =3D 0, orig_rax =3D 0, rip=
+ =3D 274888416832, cs =3D 0, eflags =3D 0,
+            rsp =3D 274888401360, ss =3D 0}
+          regs =3D 0x7ffda5b29fc0
+          info1 =3D {load_bias =3D 274888413184, load_addr =3D 274877906944=
+, start_code =3D 274877906944,
+            end_code =3D 274877917360, start_data =3D 274880015120, end_dat=
+a =3D 274880016400, start_brk =3D 0,
+            brk =3D 274880016472, start_mmap =3D 183251939328, start_stack =
+=3D 274888401360, stack_limit =3D 274880024576,
+            entry =3D 274888416832, code_offset =3D 0, data_offset =3D 0, s=
+aved_auxv =3D 274888402256,
+            auxv_len =3D 18446744073709550728, arg_start =3D 274888401368, =
+arg_end =3D 274888401408,
+            arg_strings =3D 274888402550, env_strings =3D 274888402788, fil=
+e_string =3D 274888413067, elf_flags =3D 0,
+            personality =3D 0}
+          info =3D 0x7ffda5b2a070
+          bprm =3D {
+            buf =3D "\177ELF\002\001\001\000\000\000\000\000\000\000\000\00=
+0\003\000>\000\001\000\000\000@\016\000\000\000\000\000\000@\000\000\000\00=
+0\000\000\000\230`\002\000\000\000\000\000\000\000\000\000@\000\070\000\006=
+\000@\000\027\000\026\000\001\000\000\000\005", '\000' <repeats 27 times>, =
+"\264C\002\000\000\000\000\000\264C\002\000\000\000\000\000\000\000 \000\00=
+0\000\000\000\001\000\000\000\006\000\000\000\240G\002\000\000\000\000\000\=
+240G\"\000\000\000\000\000\240G\"\000\000\000\000\000\330\027\000\000\000\0=
+00\000\000p\031\000\000\000\000\000\000\000\000 \000\000\000\000\000\002\00=
+0\000\000\006\000\000\000\030N\002\000\000\000\000\000\030N\"\000\000\000\0=
+00\000"..., p =3D 274888401360, fd =3D 3,
+            e_uid =3D 1000, e_gid =3D 1000, argc =3D 5, envc =3D 104, argv =
+=3D 0x55917a42d120, envp =3D 0x55917a42a8f0,
+            filename =3D 0x7ffda5b2c683 "/data/poky-tmp/master/build/work/i=
+ntel_corei7_64-poky-linux/core-image-weston/1.0-r0/rootfs/usr/bin/fc-cache"=
+, core_dump =3D 0x559176d76ed0 <elf_core_dump>}
+          ts =3D <optimized out>
+          env =3D 0x55917a41c2a0
+          cpu =3D 0x55917a414010
+          target_environ =3D 0x55917a42a8f0
+          wrk =3D 0x55917a42ac30
+          target_argv =3D 0x55917a42d120
+          target_argc =3D 5
+          i =3D <optimized out>
+          ret =3D <optimized out>
+          execfd =3D <optimized out>
+
+  (I'll reproduce this with glibc debug symbols shortly)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1715162/+subscriptions
 
