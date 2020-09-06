@@ -2,51 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0968F25EF60
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Sep 2020 19:43:35 +0200 (CEST)
-Received: from localhost ([::1]:33600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF58425EF6A
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Sep 2020 19:55:57 +0200 (CEST)
+Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEyhR-0005Dm-L4
-	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 13:43:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53664)
+	id 1kEytR-0001dl-0V
+	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 13:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <91c3186ce6ccb46fdbe685acd9bc625d74bef677@lizzy.crudebyte.com>)
- id 1kEyfB-0003Va-Id
- for qemu-devel@nongnu.org; Sun, 06 Sep 2020 13:41:13 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:51951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <91c3186ce6ccb46fdbe685acd9bc625d74bef677@lizzy.crudebyte.com>)
- id 1kEyf7-0007TG-Fb
- for qemu-devel@nongnu.org; Sun, 06 Sep 2020 13:41:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=eRrjvCzXfFXowRhJ0uBJ6VJh4iZ0wJFfSLdgREgeH+s=; b=jcPi+
- 4QoDHDWzjIn/2aZUBBL2upLXwnkYp6IIqfAJozudOuCLl7ca4kCAEsMDNuBXfrqijGF8cpvH+PlE6
- GxjACdT82YtQ7B740fhVPivzzDtsGuoK20R3/t2lwTV9/Ce5z4aA3RzCenwa43CqqmVWj9msrWju0
- 3vhqx6bAwDkgCxBnJ8lVlCU9WZvhaJHjI2vTHkCQA1Pi6SpbedQW/YZVuOfhCDKDTztfckLiApHJ+
- kgfIk6sRovCCubgUsLAIBDOpwPTlfSHwrTsu5g2MSQo77Xt3or5kua5sEzAg+sV87fzhoyGFErpk2
- B8dkuAgSG0T0SZQ7NfO2796CZDgag==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 6 Sep 2020 18:50:32 +0200
-Subject: [PATCH] 9pfs: disable msize warning for synth driver
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kEyrM-0008SO-Oc
+ for qemu-devel@nongnu.org; Sun, 06 Sep 2020 13:53:48 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46090)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kEyrK-00006R-Tn
+ for qemu-devel@nongnu.org; Sun, 06 Sep 2020 13:53:48 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id a12so10432421eds.13
+ for <qemu-devel@nongnu.org>; Sun, 06 Sep 2020 10:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7AS8KhYdrnDBR9hWgRBcDx2cZFXGSdP3aDhKp5qip0g=;
+ b=TbljFSU5C0kKm5AKTY5vFQ6UFCGbb54o8OFD4pNCeHFpD6przaehkME2cI7drheXe0
+ p78POYeWykdek/2+XLElW6g96bcBRxW4ijnPhU2hlDIbg47IIAi797uS5JtwTQfIIonf
+ wiXjQTsGPwPLi0OGKAVkulHFVpWOy6gVSRZBVE5pPEZDlkc2vmZD+Fspzu5BNTXq3en9
+ 4mDA8klONuEtkb0SGuuVj6JekFkZOf9eTFrRVFlLHOeUeaXQG3+DZ5I0NIZiLxYuOTHr
+ Rjv8b1SB5VSDtIXxkBs40KGQz6Ab7sAm72F21oXXa4tpTqqEShYdVpc4XKWWDu8iw42q
+ QIXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=7AS8KhYdrnDBR9hWgRBcDx2cZFXGSdP3aDhKp5qip0g=;
+ b=E2KRkM5nnK8lnUOTS5xfJWqwm8Brry5H3FHfPY4O/hFt8WAMdZMaqt38SdqypJkWuM
+ jptXGX+x+kQx+Qtk+i429u6uqBqaOHF3P18VGD1U7Ue54QKM1wBDs+TUs6EuWyeKRcpF
+ jm7ufZT3SDxdIjiDdombXyJIuUojEZjOpQoAJ4i1hQqm6eyVoDkv5a7ehUPkjyV8k8i8
+ rg5pCORCcSv2tAvmYcyz3BCpH/jRuW6QZ83MAqK6V3WDIateSleqGvGE6mfgg4nu2fYy
+ xu8yUE2jZQoxAnl1SXSpqR0tlzA2i+Z4ImGum94i6nIXoOoMqO1Ur7ps3NuoA5Nb4cWB
+ EDRg==
+X-Gm-Message-State: AOAM532V32kdey4HrDE0zoGWbfC91koeehAxIRnvXqiB2SlPSO2yI/x3
+ bUDBk6YAzWIU6p2DzmchQ7R9reFC4aY=
+X-Google-Smtp-Source: ABdhPJz3ZPtPZTpuhOFd5hfZ3VylcALx6/Z7uU5IshVkuol5M0x3Vd65jrjIbecjg0pLH+/5+OFmyg==
+X-Received: by 2002:aa7:dcc6:: with SMTP id w6mr5938057edu.10.1599414824361;
+ Sun, 06 Sep 2020 10:53:44 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:b2e3:b609:246c:e7e8])
+ by smtp.gmail.com with ESMTPSA id m4sm13680390ejn.31.2020.09.06.10.53.43
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Sep 2020 10:53:43 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Message-Id: <E1kEyDy-0006nN-5A@lizzy.crudebyte.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=91c3186ce6ccb46fdbe685acd9bc625d74bef677@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 13:13:06
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PULL v2 00/46] Next round of Meson bugfixes and cleanups
+Date: Sun,  6 Sep 2020 19:53:43 +0200
+Message-Id: <20200906175344.5042-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,69 +88,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patch introduced a performance warning being logged on host
-side if client connected with an 'msize' <= 8192. Disable this
-performance warning for the synth driver to prevent that warning from
-being printed whenever the 9pfs (qtest) test cases are running.
+The following changes since commit 227de21ed0759e275a469394af72c999d0134bb5:
 
-Introduce a new export flag V9FS_NO_PERF_WARN for that purpose, which
-might also be used to disable such warnings from the CLI in future.
+  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20200903' into staging (2020-09-05 15:30:41 +0100)
 
-We could have also prevented the warning by simply raising P9_MAX_SIZE
-in virtio-9p-test.c to any value larger than 8192, however in the
-context of test cases it makes sense running for edge cases, which
-includes the lowest 'msize' value supported by the server which is
-4096, hence we want to preserve an msize of 4096 for the test client.
+are available in the Git repository at:
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- fsdev/file-op-9p.h | 4 ++++
- hw/9pfs/9p-synth.c | 2 ++
- hw/9pfs/9p.c       | 2 +-
- 3 files changed, 7 insertions(+), 1 deletion(-)
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-index f2f7772c86..d51cec2f3b 100644
---- a/fsdev/file-op-9p.h
-+++ b/fsdev/file-op-9p.h
-@@ -64,6 +64,10 @@ typedef struct ExtendedOps {
-  */
- #define V9FS_REMAP_INODES           0x00000200
- #define V9FS_FORBID_MULTIDEVS       0x00000400
-+/*
-+ * Disables certain performance warnings from being logged on host side.
-+ */
-+#define V9FS_NO_PERF_WARN           0x00000800
- 
- #define V9FS_SEC_MASK               0x0000003C
- 
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index 7eb210ffa8..cec8c0eefc 100644
---- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -541,6 +541,8 @@ static int synth_init(FsContext *ctx, Error **errp)
-     QLIST_INIT(&synth_root.child);
-     qemu_mutex_init(&synth_mutex);
- 
-+    ctx->export_flags |= V9FS_NO_PERF_WARN;
-+
-     /* Add "." and ".." entries for root */
-     v9fs_add_dir_node(&synth_root, synth_root.attr->mode,
-                       "..", synth_root.attr, synth_root.attr->inode);
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 99b6f24fd6..741d222c3f 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -1354,7 +1354,7 @@ static void coroutine_fn v9fs_version(void *opaque)
-     }
- 
-     /* 8192 is the default msize of Linux clients */
--    if (s->msize <= 8192) {
-+    if (s->msize <= 8192 && !(s->ctx.export_flags & V9FS_NO_PERF_WARN)) {
-         warn_report_once(
-             "9p: degraded performance: a reasonable high msize should be "
-             "chosen on client/guest side (chosen msize is <= 8192). See "
+for you to fetch changes up to 6264b35324d3766d3c2ff369c4e8ecba8bd5b571:
+
+  meson: remove linkage of sdl to baum (2020-09-06 19:50:57 +0200)
+
+----------------------------------------------------------------
+meson related:
+* convert unit tests
+* bugfixes for mtest2make
+* miscellaneous bugfixes
+* dead code removal and configure cleanups
+* oss-fuzz fixes
+* msys fixes
+
+----------------------------------------------------------------
+Alexander Bulekov (3):
+      oss-fuzz: fix rpath
+      meson: specify fuzz linker script as a project arg
+      fuzz: Add support for custom fuzzing library
+
+Bruce Rogers (1):
+      meson: remove linkage of sdl to baum
+
+Marc-André Lureau (12):
+      meson: build qapi tests library
+      meson: declare tasn1 dependency
+      meson: declare keyutils dependency
+      meson: convert qht-bench
+      meson: move keyutils dependency check
+      meson: remove old socket_scm_helper rule
+      meson: convert vhost-user-bridge
+      meson: convert atomic*-bench
+      tests: do not print benchmark output to stdout
+      tests/migration/stress: remove unused exit_success
+      meson: fix migration/stress compilation with glibc>=2.30
+      meson: convert migration/initrd-stress
+
+Paolo Bonzini (25):
+      qemu-iotests: move check-block back to Makefiles
+      mtest2make: split environment from test command
+      mtest2make: split working directory from test command
+      mtest2make: hide output of successful tests
+      mtest2make: unify tests that appear in multiple suites
+      meson: remove b_lundef option
+      configure: do not include absolute paths in -I and -L paths
+      configure: include cross sdl2-config in meson cross file
+      ninjatool: use constant names for stamp files
+      meson: fix libqos linking
+      meson: convert the speed tests
+      configure: remove dead code for in-tree builds
+      meson: compute config_all_devices directly
+      Makefile: remove dead variables and includes
+      Makefile: inline the relevant parts of rules.mak
+      configure: move disassembler configuration to meson
+      configure: move C++ compiler handling to meson
+      meson: keep all compiler flags detection together
+      configure: move -ldl test to meson
+      configure: remove unnecessary libm test
+      configure: do not look for install(1)
+      meson: get glib compilation flags from GLIB_CFLAGS
+      configure: do not include dependency flags in QEMU_CFLAGS and LIBS
+      configure: drop dead variables and functions
+      docs: suggest Meson replacements for various configure functions
+
+Thomas Huth (2):
+      tests/Makefile: test-image-locking needs CONFIG_POSIX
+      meson: convert the unit tests
+
+Yonggang Luo (3):
+      tests: handling signal on win32 properly
+      configure: update dtc submodule
+      meson: Convert undefsym.sh to undefsym.py
+
+ .gitignore                       |   2 -
+ Makefile                         |  63 +++---
+ Makefile.objs                    |  34 ----
+ accel/tcg/meson.build            |   2 +-
+ chardev/meson.build              |   4 +-
+ configure                        | 353 ++++-----------------------------
+ disas/meson.build                |   4 +-
+ docs/devel/build-system.rst      |  18 +-
+ hw/arm/meson.build               |   2 +-
+ hw/mips/meson.build              |   2 +-
+ hw/riscv/meson.build             |   2 +-
+ meson.build                      | 152 ++++++++++----
+ monitor/meson.build              |   2 +-
+ rules.mak                        | 158 ---------------
+ scripts/empty.c                  |   6 +
+ scripts/grepy.sh                 |   3 -
+ scripts/mtest2make.py            | 100 +++++-----
+ scripts/ninjatool.py             |   8 +-
+ scripts/oss-fuzz/build.sh        |   2 +-
+ scripts/test-driver.py           |  35 ++++
+ scripts/undefsym.py              |  49 +++++
+ scripts/undefsym.sh              |  20 --
+ tests/Makefile.include           | 414 ++-------------------------------------
+ tests/benchmark-crypto-cipher.c  |   8 +-
+ tests/benchmark-crypto-hash.c    |   2 +-
+ tests/benchmark-crypto-hmac.c    |   8 +-
+ tests/docker/Makefile.include    |   4 +
+ tests/include/meson.build        |  16 ++
+ tests/meson.build                | 257 ++++++++++++++++++++++++
+ tests/migration/initrd-stress.sh |  10 +
+ tests/migration/meson.build      |  14 ++
+ tests/migration/stress.c         |  15 +-
+ tests/qemu-iotests/meson.build   |   4 -
+ tests/qtest/fuzz/meson.build     |   7 +-
+ tests/qtest/libqos/meson.build   |   9 +-
+ tests/tcg/Makefile.qemu          |   2 -
+ tests/test-crypto-secret.c       |  10 +-
+ tests/test-qga.c                 |   2 +-
+ tests/test-replication.c         |   4 +
+ 39 files changed, 686 insertions(+), 1121 deletions(-)
+ delete mode 100644 Makefile.objs
+ delete mode 100644 rules.mak
+ create mode 100644 scripts/empty.c
+ delete mode 100755 scripts/grepy.sh
+ create mode 100644 scripts/test-driver.py
+ create mode 100644 scripts/undefsym.py
+ delete mode 100755 scripts/undefsym.sh
+ create mode 100644 tests/include/meson.build
+ create mode 100755 tests/migration/initrd-stress.sh
+ create mode 100644 tests/migration/meson.build
 -- 
-2.20.1
+2.26.2
 
 
