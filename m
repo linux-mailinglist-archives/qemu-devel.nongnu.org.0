@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2A525EC64
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Sep 2020 06:01:17 +0200 (CEST)
-Received: from localhost ([::1]:60920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DA425EC65
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Sep 2020 06:02:36 +0200 (CEST)
+Received: from localhost ([::1]:35576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kElrg-0000oj-JH
-	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 00:01:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
+	id 1kElsx-00021v-8b
+	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 00:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kElqS-0008PH-0p
- for qemu-devel@nongnu.org; Sun, 06 Sep 2020 00:00:00 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:53043)
+ id 1kElrB-0000qU-PW
+ for qemu-devel@nongnu.org; Sun, 06 Sep 2020 00:00:45 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kElqP-00057T-On
- for qemu-devel@nongnu.org; Sat, 05 Sep 2020 23:59:59 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id o16so5034794pjr.2
- for <qemu-devel@nongnu.org>; Sat, 05 Sep 2020 20:59:57 -0700 (PDT)
+ id 1kElr6-0005Bt-SZ
+ for qemu-devel@nongnu.org; Sun, 06 Sep 2020 00:00:45 -0400
+Received: by mail-pl1-x644.google.com with SMTP id a8so2948456plm.2
+ for <qemu-devel@nongnu.org>; Sat, 05 Sep 2020 21:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5lybWbpOHe/PDWuXx4ITu7hdnEIIfq2Qd0mXlGdbAfk=;
- b=m0WPo3/zoh/ujdrUw5tueEGqrVuvEoneL1l6my7dBoD3rU5h2e+gaa205FgJ8952GJ
- 08r5nfG0ZGP35uKitFukky+6ZuX3mMuvzjWcS1ct3l1f7yQ0l76s8WVgulOxr2riMdIq
- eItwwwWfim0Llat8RPPIcEStuoO4h9/b1QOMpz7S8BCyw4GNiSY83ST80CDL/ItEO0Oc
- QmEgFHwmtQtyZ5l4pFNK7N/hrj4R65icFQkNtskThCr4Y8Az8YRGSnvZQ0twQeW92O8z
- mhyNvaMZTM/X0uWt+yNlLZthYT3O0u3BZsqxCGCdxk3k7aRZ84cqyWN5qZ5l4xXYxSvq
- YF0A==
+ bh=BqgMualDv57fOos3mfS0fAxCz8frh8Smz0o2lIy1Rxc=;
+ b=muYf3MN+s7hIbLpkM0s6/hvlfbOQ8THCWWg5FHNgU2B9zmS9bRuEl5OceFPr9ScTgs
+ S1wrFp/RUwn/mpL+zPR6TOX9XaayyBypDk6NpH/umek1o35B+fgKS/AR2N3DDQXo5RCQ
+ vco+RqS2DL2faYAZ6IlX5+iolU3XR7GYk1xZPn60QkUz5Jr15I1/VzPxz82Y4cej54Kw
+ Th4MTpQyyxW9Rz35NMD11tvKKlyy30qwcNGt8oCoaNm2u/1YN4r9cN93bG2VczU1GrB+
+ lZlKPl8KEjEYLsLa1Hj5O3EkLUAkqZZ63/e2H5fXOdktbscKUlRUQnVwuARn797BvvGP
+ BD+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5lybWbpOHe/PDWuXx4ITu7hdnEIIfq2Qd0mXlGdbAfk=;
- b=Y4kUq9k0tGXYPRSMUBP1x8qTrQgZRYEaw6BOnz4eOlfZ12jDAnGIMk5hc4LvfTyddJ
- +uv9nhCmLnV2+Ob4JltDud/1PGoGgwdjKrQY+dOAaiX2DtAcvAYT+HM4tSiAdCWHzLRD
- Q20213ePVWZidTqEsXyzd6fdTmjJ6oQP2YZBPSbX4w94INZj5oZnmt7tG/4NhokFl2TE
- GSfahWDzYcCp+0Dyfijjc2jy5X16BkMoMDOa/UMEmuuJc2oJC9jeYWURMlrVOCaqxstL
- fKqq02F0YGVKDFXZsZlKLljFugAnwtb1p7prC9/VjE2N2xlexQix9EsVlnz1IX+cbW7y
- j0vQ==
-X-Gm-Message-State: AOAM530EGiuEoBJPVJEl3YUAHs8Nwx+d2yjJPMpPBaQBhm+bzdQDctE3
- ZAqK32TxDnX8G2ujoNUCpAqzLw==
-X-Google-Smtp-Source: ABdhPJzBQHtR0vjDsv3ORxzhx2rh0mhv+lm3rW4IVT9Eol+2Aauif9RIaynsOGH4glbr3I+G+Qa/rg==
-X-Received: by 2002:a17:90a:ad48:: with SMTP id
- w8mr14820945pjv.179.1599364796430; 
- Sat, 05 Sep 2020 20:59:56 -0700 (PDT)
+ bh=BqgMualDv57fOos3mfS0fAxCz8frh8Smz0o2lIy1Rxc=;
+ b=NdBAkMRw8M8LuYTKd0jRPUDK+LNsVfaqh9l3kK70pTauKuHdphFyP46gIa4KeqECvl
+ gpMgk2iUV5UGfFJAPnoq1qU32eUGMVMWxg/GqWJvA5Hx3vDmP0lDdWrJRCzW64hdxuCo
+ NtoSTCqkJYfmYVpIOJP3gmiVw5skjdoAgF03ucW/LQNPsTsR+spVCUe/Gkd/qg1W32NG
+ 97w1FXu7WkcaWDk4bfq8xD1Bq9VQLoFUU7vDtASZOcY+AR8Bgpp1Shtg9kEXe9NoUL7B
+ JGYcWWsXpY7ddTDzuqDxqkcNpqEU2E5DvQaKATjkCZqk4x+lISVkj3P6zEWm+J1Poc1A
+ W+NQ==
+X-Gm-Message-State: AOAM530ubwVsGY1zuP2IgeJxdaQcL71GRvKc68ImKiZsBl6z7dWmvErm
+ WRY7PbN7RmdwKnS+FUJqpemhUQ==
+X-Google-Smtp-Source: ABdhPJyMdBVDYshJY8UytZafu91UkSV2Hzy/pLppnb+z0Huj/sHx9Ef/gF0IVjnICDzqId2x8zxEcw==
+X-Received: by 2002:a17:902:988f:: with SMTP id
+ s15mr14698750plp.26.1599364839449; 
+ Sat, 05 Sep 2020 21:00:39 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id t5sm8710221pji.51.2020.09.05.20.59.54
+ by smtp.gmail.com with ESMTPSA id h14sm10514702pfe.67.2020.09.05.21.00.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Sep 2020 20:59:55 -0700 (PDT)
-Subject: Re: [PATCH 08/13] dma: Let dma_memory_valid() take MemTxAttrs argument
+ Sat, 05 Sep 2020 21:00:38 -0700 (PDT)
+Subject: Re: [PATCH 09/13] dma: Let dma_memory_set() take MemTxAttrs argument
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 References: <20200904154439.643272-1-philmd@redhat.com>
- <20200904154439.643272-9-philmd@redhat.com>
+ <20200904154439.643272-10-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5adab944-14a8-6f68-bbcc-92d193db554c@linaro.org>
-Date: Sat, 5 Sep 2020 20:59:53 -0700
+Message-ID: <7b780bd3-ddb3-b493-00c2-e980860ea98c@linaro.org>
+Date: Sat, 5 Sep 2020 21:00:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200904154439.643272-9-philmd@redhat.com>
+In-Reply-To: <20200904154439.643272-10-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -21
@@ -111,13 +111,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/4/20 8:44 AM, Philippe Mathieu-Daudé wrote:
 > Let devices specify transaction attributes when calling
-> dma_memory_valid().
+> dma_memory_set().
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  include/hw/ppc/spapr_vio.h | 2 +-
->  include/sysemu/dma.h       | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  include/hw/ppc/spapr_vio.h | 3 ++-
+>  include/sysemu/dma.h       | 3 ++-
+>  dma-helpers.c              | 5 ++---
+>  hw/nvram/fw_cfg.c          | 3 ++-
+>  4 files changed, 8 insertions(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
