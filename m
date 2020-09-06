@@ -2,68 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E90725F015
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Sep 2020 21:21:24 +0200 (CEST)
-Received: from localhost ([::1]:33570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D8C25F045
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Sep 2020 21:51:32 +0200 (CEST)
+Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kF0E7-0000mU-2P
-	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 15:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37402)
+	id 1kF0hG-0005cy-KM
+	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 15:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1kF0DC-0000G6-GN
- for qemu-devel@nongnu.org; Sun, 06 Sep 2020 15:20:26 -0400
-Received: from do158-143.mg.gitlab.com ([192.237.158.143]:51662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (envelope-from <prvs=511e27070=Dmitry.Fomichev@wdc.com>)
+ id 1kF0gG-00056J-5x; Sun, 06 Sep 2020 15:50:28 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:4353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1kF0DA-0000Tc-1s
- for qemu-devel@nongnu.org; Sun, 06 Sep 2020 15:20:25 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
- q=dns/txt; 
- s=mailo; t=1599420022; h=List-Id: Content-Transfer-Encoding:
- Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
- Sender; bh=F9jyjkP4MtiUanDSJ+bgoWhVBrBCSFQezeq5glOHARA=;
- b=WE8MA8QOxEpw0IIDOmDxoUrPO5LOU5nyetgzjGI4Qmgkmf3Qlg+T/kVBT2lmqRfLm9KuVSwh
- KhWIxDD44pdBWlV8ecceyIJb1qMFIUb1pEcdZbjHY1AA9dDU2dIgRsBheNdgmS3qlZyFw2wE
- 1fqcCOjMMOi5zqwrqWzlaOdtjH0=
-X-Mailgun-Sending-Ip: 192.237.158.143
-X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
-Received: from mg.gitlab.com (66.90.74.34.bc.googleusercontent.com
- [34.74.90.66]) by smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5f553675947f606f7ea75526 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Sun, 06 Sep 2020 19:20:21 GMT
-Date: Sun, 06 Sep 2020 19:20:21 +0000
-Message-ID: <5f5536756dc1f_7d7e3f8d71b87e1c139491@sidekiq-catchall-02-sv-gprd.mail>
-Subject: QEMU | Pipeline #186543266 has failed for master | 7c37270b
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="--==_mimepart_5f5536756454e_7d7e3f8d71b87e1c1393d8";
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitLab-Project: QEMU
-X-GitLab-Project-Id: 11167699
-X-GitLab-Project-Path: qemu-project/qemu
-X-GitLab-Pipeline-Id: 186543266
-X-GitLab-Pipeline-Ref: master
-X-GitLab-Pipeline-Status: failed
-Auto-Submitted: auto-generated
-X-Auto-Response-Suppress: All
-Received-SPF: pass client-ip=192.237.158.143;
- envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
- helo=do158-143.mg.gitlab.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 03:56:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_MED=-2.3, REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, WEIRD_PORT=0.001 autolearn=no autolearn_force=no
+ (envelope-from <prvs=511e27070=Dmitry.Fomichev@wdc.com>)
+ id 1kF0gA-0003Qc-5N; Sun, 06 Sep 2020 15:50:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1599421823; x=1630957823;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=d9oOPypsyufOuBu2svScmYsvIwodnEtjjbCCXZl8YU0=;
+ b=h9HGW5DQS1KyqukaBkseo4m/RytXLv5Mi1XQ7y/5f4vgkTZlB0KwhPzr
+ K1OCeGuoiYsqBPKcHHqBlw7Fn1fO8igWW33b9hrLy3JccQy7iFtaJcVLh
+ FYas5HFz3IIyyrqZiELR1JIOeMjhNbWYpuOLiE4Q2M1XOPK1dVfO1kyY8
+ qg1Ex+dl7c2ihPvyeIp5vAEAcwbQlra1BjQb9PTIH0viG1NdQIGv6OurN
+ kEbE8pJcHM2/1Tk2tUgBZKCu5Cg4a5QhuXjBqFWbrLdMkSdZfjEMpLLxI
+ yZd8wPGrYr4ve9By8oi9rRhT1LxOuVNfrnH65YmHb4mtn2IxgyxFtOLgE w==;
+IronPort-SDR: tRD4IgGG1IDbx4Lo0I29QMWeSMkpYpzSNppTQXZxY9Su5t6H7kDlT2QafMkXqndmEWpXrodKs9
+ 8B+9yuoRdqE6EAi0zC5wMJ05aIDKk7PJeQE0Y+6FjMo3krgRZ3ZuBKbQ/h70uBnhI1fKXa+5Km
+ AFOItPVtfbAfnxolTc5W5i1yis222TB5gUjEms4EpAIoPI0B4k0yxCyxwITQx0GKKS/SXeAfh3
+ +t9cycXD7Ka97pQlRmRqPQf0QXLqnMYMRWjdplArDsWkXDK3T8NSCKNg/xu4Olc2KsD8iDs/V2
+ DBA=
+X-IronPort-AV: E=Sophos;i="5.76,399,1592841600"; d="scan'208";a="147906061"
+Received: from mail-dm6nam10lp2104.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.104])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2020 03:50:17 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JO900N9b9Q8CpldXISQbk0KP6RfTXKDTuAL9PO/ty+PYMmnTaCxxRud6JqhYnlQdE9C7ItwuKdkkqXLS6POk1DknhhRbbd5pXFx76zPiziPx5QNSUrlnQhdZs4BV87o+oevc/yYRaQQCce5fKGwAdgfoDEdzAY1MXyvLkq7218VOBNKcqD9dJnNlVh7p97uNtIzE2p9+2FcCWKVYSYb2+mljEesq3ubz1ZwbOIBYDDE/Dx2VVfDVsRC2/WUO4nRFbxsHWTzhOxIyvXXbhVsFviGTwG0ofxiwCkepk0RsMGvugixpQVzrlnbE8ee6MKrhliZCWLGNybeIDa4JWOjMTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d9oOPypsyufOuBu2svScmYsvIwodnEtjjbCCXZl8YU0=;
+ b=YyxwOs7LF4waLba8YypYJAAADTYoSdwXpKaakQ4PvjUamc9qSwFIh7oit9NAQNtlFpBGogj5ihCbmRMTQEnXjER1V9j+zMxMR2OX6dn3AZIS9kqwM/3SvWrkvWbjG9xTC5UgZFgCCxw0T8429zSHQWzfHixmyERzgpcu69fP/bPXEh3A3VPg48Gc+sVBlcgrJGw7FVRm8ER05jfe8LQPGkrietDUYI6kMXDnm0kUnuqheqRZoW/Nn7Vy0UTGK4i6zR8wNU06Fs8YkZWxjqkI2oDUPQKVBFaai3xuWeoOok7kJeEyGENTThXDaT+ovIPsYf1PZ6QwooFxy8w/V9yPTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d9oOPypsyufOuBu2svScmYsvIwodnEtjjbCCXZl8YU0=;
+ b=AVaIpeJNvE9fzM6Sz6XTNWX0xqArXGQsoRcUp1+N4S1vHQgNHbWID2x6UaOQ2zXJ2U88etBdtDbRY/9Xb6Ut8rRgNQlhVKVWIgEGd6L6mCH4QOuiBkvjEta4Y8Vfx0nOgP7K/JHTISADX7b41C7EoJ3WgHbB3x4qKTDL33V+fpo=
+Received: from MN2PR04MB5951.namprd04.prod.outlook.com (2603:10b6:208:3f::13)
+ by MN2PR04MB5680.namprd04.prod.outlook.com (2603:10b6:208:3a::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.17; Sun, 6 Sep
+ 2020 19:50:13 +0000
+Received: from MN2PR04MB5951.namprd04.prod.outlook.com
+ ([fe80::44d8:522e:db29:bb94]) by MN2PR04MB5951.namprd04.prod.outlook.com
+ ([fe80::44d8:522e:db29:bb94%6]) with mapi id 15.20.3348.019; Sun, 6 Sep 2020
+ 19:50:13 +0000
+From: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, Tom Yan <tom.ty89@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ "anielhb@linux.vnet.ibm.com" <anielhb@linux.vnet.ibm.com>, "kwolf@redhat.com"
+ <kwolf@redhat.com>, "mreitz@redhat.com" <mreitz@redhat.com>
+Subject: RE: [PATCH v4 2/2] file-posix: add sg_get_max_segments that actually
+ works with sg
+Thread-Topic: [PATCH v4 2/2] file-posix: add sg_get_max_segments that actually
+ works with sg
+Thread-Index: AQHWgmCqZXNHz4t/1kKDFv3XFB7gGKlbdHEAgAAB44CAAB5EgIAAKuiAgAAbqACAACasIA==
+Date: Sun, 6 Sep 2020 19:50:12 +0000
+Message-ID: <MN2PR04MB59515F55488E14F1859D7C42E12B0@MN2PR04MB5951.namprd04.prod.outlook.com>
+References: <20200904020907.241550-1-tom.ty89@gmail.com>
+ <20200904020907.241550-2-tom.ty89@gmail.com>
+ <CAGnHSEnF--OJ9biTx_ZxgqizVtr+0rBL8o-b9wY9+XNsnLPV=A@mail.gmail.com>
+ <CAGnHSE=qnj8a8qaS6eiFdevp6ya0GjqXHuDgAV12B0tEAajddg@mail.gmail.com>
+ <f5f5a6e2f4cc75c84e1364ab1276ee22aa5e3748.camel@redhat.com>
+ <CAGnHSEkdTBBdT-Dm1Ztazq-ZxkLU5zq=3kYa_uiqna2uzm0Gkg@mail.gmail.com>
+ <46216704388f0c33c18e3a1d54505ab5e71c8cb2.camel@redhat.com>
+In-Reply-To: <46216704388f0c33c18e3a1d54505ab5e71c8cb2.camel@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 629d1a22-bf15-4895-bbee-08d8529e1207
+x-ms-traffictypediagnostic: MN2PR04MB5680:
+x-microsoft-antispam-prvs: <MN2PR04MB568033C5052D37DFF3E7B51AE12B0@MN2PR04MB5680.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zM7IFBLvhlq2ncxeyfAIkkDOgtcgK5KbXH6qvaJGw253ZFRrkM/iH9LDhn17AFgdMO9mhZbV5+oSY9TMZ1EZDMQ3ANLKIKindKQzKLVsQY8LLVyrj9y1BY3M+AIwKFbod7Z7bsQ45Na2K4o008RBQcnWqCt/C4nKuyGOXVctrP5JMaIuNxFNYFh6Mx3l+H2AnR0mb8Y8sOHme46QbxQggHHedtbhnXG+xBD7HgXolJWo4fB7P0lpAfMY+SHKrfIHZwgPkmQkzzc0sz127pJe2Gg0WP6+OFGAiZrxFSmKqAQvzzXoKYvdO1QcVTubDLrnkzMskKz9BAkwDGSyzo/jMJubYapAlraQ7qTdHmIIFvAAl1GK4mGy76O6HDpTIEh3NNWI5aQOtzUYCZL4qnbTrw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR04MB5951.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(376002)(346002)(396003)(39850400004)(64756008)(7416002)(66476007)(966005)(55016002)(9686003)(7696005)(2906002)(26005)(186003)(8936002)(76116006)(316002)(110136005)(54906003)(53546011)(4326008)(6506007)(8676002)(66946007)(478600001)(66446008)(86362001)(5660300002)(52536014)(66556008)(33656002)(83380400001)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: fpB6P9RR0xEHqm97kJbB/FxVeff+Yk/QJ5xqFEhHkxUS5VnJt/1hWQJEi3YeAh6/ld8Q7DQ9QADDkFQFRC07X3WzYTnQf+aVl7WwvrRgnidbCMZNdwOHaRFthQ50Bd4uyUOyAJmczUP/A5mqYBDyzJg+7KSMkFNw5WZALts4oBLpIrlo83Znwn0X4nyatAVVugq6ouPzk42zhs3XL10laU2FpGMuuJ1wEovo+nAHJU+Lmfby7iDg29nQKb9V4ieiGVPFMDVgTz8xWGoPV3xOvF3qNc3DriA9AU6O0z44a+baaKX9+M1aDdb3oAfHGf32FPrtQJsjwkeOj4MxwV/Bi1CsdX8bqREyQNQTJI4VtQnyYlo1lVOwEzYbeMy0rmVTlTvt5T5qFs3ksoTgfuAvSXyn75y3q5ciRswioKBedDRZJ75R7sTrgTDMTvziMbZsOiijvkV081Cu2UfI7MaEoegh8FQC0o84lQoPm6FZDsGxWO083ap5WNK135T1udC1giMsFaEnLOQSXTepeQBD+nqGBF6AomYoorV/toKRVGPPYnd5aNQvqlu1Qj/RYchFrk586miCfpf/8EQBFpaXqFshMRXQZmG9K0QG/ypR7FnbqWALGE/udpmpZ+TXog4o/HhzvumDAtsqYVXvGI3aUg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB5951.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 629d1a22-bf15-4895-bbee-08d8529e1207
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2020 19:50:13.0174 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: U/boiiVJMaPupkCPy9Q46TVHoKXmIJLUgK68G/sMvWy5CJEQERyg+WPt9Key1CkPQVftHeP9JTIXKECSNxDCZw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5680
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=511e27070=Dmitry.Fomichev@wdc.com; helo=esa6.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 15:50:18
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,522 +144,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
-From: GitLab via <qemu-devel@nongnu.org>
 
-
-----==_mimepart_5f5536756454e_7d7e3f8d71b87e1c1393d8
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Your pipeline has failed.
-
-Project: QEMU ( https://gitlab.com/qemu-project/qemu )
-Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
-
-Commit: 7c37270b ( https://gitlab.com/qemu-project/qemu/-/commit/7c37270b=
-3fbe3d034ba80e488761461676e21eb4 )
-Commit Message: Merge remote-tracking branch 'remotes/kraxel/ta...
-Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
-
-Pipeline #186543266 ( https://gitlab.com/qemu-project/qemu/-/pipelines/18=
-6543266 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
-had 1 failed build.
-
-Job #723384547 ( https://gitlab.com/qemu-project/qemu/-/jobs/723384547/ra=
-w )
-
-Stage: test
-Name: acceptance-system-fedora
-Trace: 19:03:06 ERROR| =
-
-19:03:06 ERROR| Reproduced traceback from: /builds/qemu-project/qemu/buil=
-d/tests/venv/lib64/python3.8/site-packages/avocado/core/test.py:846
-19:03:06 ERROR| Traceback (most recent call last):
-19:03:06 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/=
-avocado_qemu/__init__.py", line 171, in setUp
-19:03:06 ERROR|     self.cancel("No QEMU binary defined or found in the b=
-uild tree")
-19:03:06 ERROR|   File "/builds/qemu-project/qemu/build/tests/venv/lib64/=
-python3.8/site-packages/avocado/core/test.py", line 1081, in cancel
-19:03:06 ERROR|     raise exceptions.TestCancel(message)
-19:03:06 ERROR| avocado.core.exceptions.TestCancel: No QEMU binary define=
-d or found in the build tree
-19:03:06 ERROR| =
-
-19:03:06 ERROR| CANCEL 31-tests/acceptance/vnc.py:Vnc.test_change_passwor=
-d_requires_a_password -> TestCancel: No QEMU binary defined or found in t=
-he build tree
-19:03:06 INFO | =
-
-19:03:06 DEBUG| PARAMS (key=3Darch, path=3D*, default=3DNone) =3D> None
-19:03:06 DEBUG| PARAMS (key=3Dmachine, path=3D*, default=3DNone) =3D> Non=
-e
-19:03:06 DEBUG| PARAMS (key=3Dqemu_bin, path=3D*, default=3DNone) =3D> No=
-ne
-19:03:06 ERROR| =
-
-19:03:06 ERROR| Reproduced traceback from: /builds/qemu-project/qemu/buil=
-d/tests/venv/lib64/python3.8/site-packages/avocado/core/test.py:846
-19:03:06 ERROR| Traceback (most recent call last):
-19:03:06 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/=
-avocado_qemu/__init__.py", line 171, in setUp
-19:03:06 ERROR|     self.cancel("No QEMU binary defined or found in the b=
-uild tree")
-19:03:06 ERROR|   File "/builds/qemu-project/qemu/build/tests/venv/lib64/=
-python3.8/site-packages/avocado/core/test.py", line 1081, in cancel
-19:03:06 ERROR|     raise exceptions.TestCancel(message)
-19:03:06 ERROR| avocado.core.exceptions.TestCancel: No QEMU binary define=
-d or found in the build tree
-19:03:06 ERROR| =
-
-19:03:06 ERROR| CANCEL 32-tests/acceptance/vnc.py:Vnc.test_change_passwor=
-d -> TestCancel: No QEMU binary defined or found in the build tree
-19:03:06 INFO | =
-
-=1B[32;1m$ du -chs ${CI_PROJECT_DIR}/avocado-cache=1B[0;m
-323M	/builds/qemu-project/qemu/avocado-cache
-323M	total
-section_end:1599418988:after_script
-=1B[0K=1B[31;1mERROR: Job failed: exit code 1
-=1B[0;m
-
-
--- =
-
-You're receiving this email because of your account on gitlab.com.
-
-
-
-
-----==_mimepart_5f5536756454e_7d7e3f8d71b87e1c1393d8
-Content-Type: text/html;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
-w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
-
-<head>
-<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
-/>
-<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
-t" />
-<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
-<title>QEMU | Pipeline #186543266 has failed for master | 7c37270b</title=
->
-<style data-premailer=3D"ignore" type=3D"text/css">
-body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
-able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
-ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
-a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
-important;font-size:inherit !important;font-family:inherit !important;fon=
-t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
-margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
-39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
-ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
-ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
-ing-left:10px !important;padding-right:10px !important}}
-
-</style>
-
-<style>body {
-margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
-center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
-ica Neue", Helvetica, Arial, sans-serif;
-}
-</style></head>
-<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
- 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
-rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
-=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
-: 0;" bgcolor=3D"#fafafa">
-<tbody>
-<tr class=3D"line">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
-4fbb"></td>
-</tr>
-<tr class=3D"header">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-
-<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
-r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
-if" width=3D"55" height=3D"50" />
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
- style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
-gin: 0 auto;">
-<tbody>
-<tr>
-<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
-t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
-adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
-#fff">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
- style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
-<tbody>
-<tr class=3D"alert">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
-lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
-n=3D"middle">
-<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
-175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
-=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff;" align=3D"center" valign=3D"middle">
-Your pipeline has failed.
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
-deded;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
-fo" style=3D"width: 100%;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
-: 0; padding: 14px 0;">Project</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; margin: 0; padding: 14px 0 14px 5px;">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
-r: #333333; text-decoration: none;">
-QEMU
-</a>
-/
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
-"color: #333333; text-decoration: none;">
-QEMU
-</a>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Branch</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
-9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
-/master" style=3D"color: #333333; text-decoration: none;">
-master
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
-506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/7c37270b3fbe3d03=
-4ba80e488761461676e21eb4" style=3D"color: #3777b0; text-decoration: none;=
-">
-7c37270b
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
-Merge remote-tracking branch 'remotes/kraxel/ta...
-</div>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit Author</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
-333; text-decoration: none;">
-Peter Maydell
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"pre-section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
-g: 15px 5px 0;" align=3D"center">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-Pipeline
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/186543266" st=
-yle=3D"color: #3777b0; text-decoration: none;">
-#186543266
-</a>
-triggered by
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
-width=3D"24" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
-33333; text-decoration: none;">
-Alex Benn&#233;e
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
-t: 1.4; padding: 0 8px 16px;" align=3D"center">
-had
-1
-failed
-build.
-</td>
-</tr>
-<tr class=3D"table-warning">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
-px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
-yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
-">
-Logs may contain sensitive data. Please consider before forwarding this e=
-mail.
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
-erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
-: #ededed; border-style: solid; border-width: 0 1px 1px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
-style=3D"width: 100%; border-collapse: collapse;">
-<tbody>
-<tr class=3D"build-state">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
--height: 10px;" valign=3D"middle">
-<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
-6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
->
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
-test
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
-l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
- 16px 0;">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/723384547" style=3D=
-"color: #3777b0; text-decoration: none;">
-acceptance-system-fedora
-</a>
-
-</td>
-</tr>
-<tr class=3D"build-log">
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; padding: 0 0 16px;">
-<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
-monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
-n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
-ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>19:03:06 =
-ERROR| <br />19:03:06 ERROR| Reproduced traceback from: /builds/qemu-proj=
-ect/qemu/build/tests/venv/lib64/python3.8/site-packages/avocado/core/test=
-.py:846<br />19:03:06 ERROR| Traceback (most recent call last):<br />19:0=
-3:06 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/avoc=
-ado_qemu/__init__.py", line 171, in setUp<br />19:03:06 ERROR|     self.c=
-ancel("No QEMU binary defined or found in the build tree")<br />19:03:06 =
-ERROR|   File "/builds/qemu-project/qemu/build/tests/venv/lib64/python3.8=
-/site-packages/avocado/core/test.py", line 1081, in cancel<br />19:03:06 =
-ERROR|     raise exceptions.TestCancel(message)<br />19:03:06 ERROR| avoc=
-ado.core.exceptions.TestCancel: No QEMU binary defined or found in the bu=
-ild tree<br />19:03:06 ERROR| <br />19:03:06 ERROR| CANCEL 31-tests/accep=
-tance/vnc.py:Vnc.test_change_password_requires_a_password -&gt; TestCance=
-l: No QEMU binary defined or found in the build tree<br />19:03:06 INFO |=
- <br />19:03:06 DEBUG| PARAMS (key=3Darch, path=3D*, default=3DNone) =3D&=
-gt; None<br />19:03:06 DEBUG| PARAMS (key=3Dmachine, path=3D*, default=3D=
-None) =3D&gt; None<br />19:03:06 DEBUG| PARAMS (key=3Dqemu_bin, path=3D*,=
- default=3DNone) =3D&gt; None<br />19:03:06 ERROR| <br />19:03:06 ERROR| =
-Reproduced traceback from: /builds/qemu-project/qemu/build/tests/venv/lib=
-64/python3.8/site-packages/avocado/core/test.py:846<br />19:03:06 ERROR| =
-Traceback (most recent call last):<br />19:03:06 ERROR|   File "/builds/q=
-emu-project/qemu/build/tests/acceptance/avocado_qemu/__init__.py", line 1=
-71, in setUp<br />19:03:06 ERROR|     self.cancel("No QEMU binary defined=
- or found in the build tree")<br />19:03:06 ERROR|   File "/builds/qemu-p=
-roject/qemu/build/tests/venv/lib64/python3.8/site-packages/avocado/core/t=
-est.py", line 1081, in cancel<br />19:03:06 ERROR|     raise exceptions.T=
-estCancel(message)<br />19:03:06 ERROR| avocado.core.exceptions.TestCance=
-l: No QEMU binary defined or found in the build tree<br />19:03:06 ERROR|=
- <br />19:03:06 ERROR| CANCEL 32-tests/acceptance/vnc.py:Vnc.test_change_=
-password -&gt; TestCancel: No QEMU binary defined or found in the build t=
-ree<br />19:03:06 INFO | <br /></span><span class=3D"term-fg-l-green term=
--bold">$ du -chs ${CI_PROJECT_DIR}/avocado-cache</span><span><br />323M	/=
-builds/qemu-project/qemu/avocado-cache<br />323M	total<br /></span><span =
-class=3D"term-fg-l-red term-bold">ERROR: Job failed: exit code 1<br /></s=
-pan></pre>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-<tr class=3D"footer">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
-s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
-414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
-m;" />
-<div>
-You're receiving this email because of your account on gitlab.com. <a cla=
-ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
-tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
-/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
-"color: #3777b0; text-decoration: none;">Help</a>
-</div>
-</td>
-</tr>
-
-<tr>
-<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
-uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
-lor: #5c5c5c; padding: 25px 0;">
-
-</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-
-----==_mimepart_5f5536756454e_7d7e3f8d71b87e1c1393d8--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUWVtdS1ibG9jayA8cWVt
+dS1ibG9jay0NCj4gYm91bmNlcytkbWl0cnkuZm9taWNoZXY9d2RjLmNvbUBub25nbnUub3JnPiBP
+biBCZWhhbGYgT2YgTWF4aW0NCj4gTGV2aXRza3kNCj4gU2VudDogU3VuZGF5LCBTZXB0ZW1iZXIg
+NiwgMjAyMCAxOjA2IFBNDQo+IFRvOiBUb20gWWFuIDx0b20udHk4OUBnbWFpbC5jb20+OyBlYmxh
+a2VAcmVkaGF0LmNvbTsNCj4gcGJvbnppbmlAcmVkaGF0LmNvbTsgZmFtQGV1cGhvbi5uZXQ7IGFu
+aWVsaGJAbGludXgudm5ldC5pYm0uY29tOw0KPiBrd29sZkByZWRoYXQuY29tOyBtcmVpdHpAcmVk
+aGF0LmNvbQ0KPiBDYzogcWVtdS1kZXZlbEBub25nbnUub3JnOyBxZW11LWJsb2NrQG5vbmdudS5v
+cmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NCAyLzJdIGZpbGUtcG9zaXg6IGFkZCBzZ19nZXRf
+bWF4X3NlZ21lbnRzIHRoYXQNCj4gYWN0dWFsbHkgd29ya3Mgd2l0aCBzZw0KPiANCj4gT24gU3Vu
+LCAyMDIwLTA5LTA2IGF0IDIzOjI2ICswODAwLCBUb20gWWFuIHdyb3RlOg0KPiA+IEkgZG9uJ3Qg
+ZGlzYWdyZWUgd2l0aCB5b3VyIHByb3Bvc2FsLCBidXQgdGhlIHRoaW5nIGlzLCBkbyB3ZSBldmVu
+IG5lZWQNCj4gPiBhbm90aGVyIGZpZWxkL2xpbWl0IGZvciBjYXNlIDE/IEZvciBleGFtcGxlLCBk
+byB3ZSAqcmVhbGx5KiBuZWVkIHRvDQo+ID4gY2xhbXAgc2l6ZXNbMl0gKE5CRF9JTkZPX0JMT0NL
+X1NJWkUpIGluIG5iZC9zZXJ2ZXIuYyBhbmQNCj4gPiBtYXhfaW9fc2VjdG9ycyAoU0NTSUJsb2Nr
+TGltaXRzKSBpbiBody9zY3NpL3Njc2ktZGlzay5jIHRvIHRvIGFueSBraW5kDQo+ID4gb2YgImR5
+bmFtaWMiIGxpbWl0Pw0KPiANCj4gSXQgZGVwZW5kcyBvbiBpZiB3ZSBoYXZlIG90aGVyIGJsb2Nr
+IGRyaXZlcnMgdGhhdCBoYXZlIElPIHNlZ21lbnQvbWF4DQo+IHRyYW5zZmVyIHNpemVzLA0KPiB0
+aGF0IHdlIG5lZWQgdG8gZW5mb3JjZSwgb3RoZXIgdGhhbiB0aGUgU0dfSU8gY2FzZS4NCj4gDQo+
+IEtub3dpbmcgdGhhdCB0aGUgY29tbWl0IHRoYXQgYWRkZWQgdGhlc2UgbGltaXRzIHRvIGZpbGUt
+cG9zaXgsIHdoaWNoIEkgd2FzDQo+IGZpeGluZyBpcyByZWxhdGl2ZWx5DQo+IG5ldywgSSBndWVz
+cyB0aGVyZSBhcmUgb3RoZXIgY2FzZXMgZm9yIHRoZXNlIGxpbWl0cy4NCj4gDQo+IEknbGwgY2hl
+Y2sgdGhpcyB0b21vcnJvdy4NCj4gDQo+ID4NCj4gPiBFaXRoZXIgd2F5IEkgY2FuIGFkZCBhbm90
+aGVyIGZpZWxkIChgbWF4X3B3cml0ZWAsIG1heWJlPykgdG8NCj4gPiBCbG9ja0xpbWl0cywgYXMg
+YW4gaW5mcmFzdHJ1Y3R1cmUvaGludCwgYnV0IHdoYXQgc2hvdWxkIGJlIHN3aXRjaGVkIHRvDQo+
+ID4gaXQsIGFuZCB3aGF0IHZhbHVlIHNob3VsZCBlYWNoIGJsb2NrIGRyaXZlciBzZXQgaXQgdG8s
+IGlzIHByb2JhYmx5DQo+ID4gYmV5b25kIHdoYXQgSSBjYW4gdGFrZS4NCj4gDQo+IEltcGxlbWVu
+dGF0aW9uIHdpc2UsIEkgdGhpbmsgSSBjYW4gZG8gdGhpcywgYnV0IEknbGwgd2FpdCBmZXcgZGF5
+cyBmb3IgdGhlDQo+IGZlZWRiYWNrIG9uIG15IHByb3Bvc2FsLg0KPiANCj4gVGhhbmtzIGZvciBm
+aW5kaW5nIHRoaXMgYnVnIQ0KDQpUaGVyZSB3YXMgYWxzbyBodHRwczovL2xvcmUua2VybmVsLm9y
+Zy9xZW11LWRldmVsLzIwMjAwODExMjI1MTIyLjE3MzQyLTItZG1pdHJ5LmZvbWljaGV2QHdkYy5j
+b20vDQpwb3N0ZWQgdGhyZWUgd2Vla3MgYWdvLCBidXQsIHNlZW1pbmdseSwgaXQgd2FzIGlnbm9y
+ZWQuLi4gc29ycnkgaWYgdGhpcw0KYnVnIGlzIGFscmVhZHkgYmVpbmcgZml4ZWQgaW4gYSBkaWZm
+ZXJlbnQgd2F5LCBidXQgSSB0aGluayB0aGUgZml4IHByZXNlbnRlZA0KaW4gdGhhdCBwYXRjaCBp
+cyB3b3J0aCBjb25zaWRlcmluZy4NCg0KVmVyeSBiZXN0LA0KRG1pdHJ5DQoNCj4gDQo+IEJlc3Qg
+cmVnYXJkcywNCj4gCU1heGltIExldml0c2t5DQo+IA0KPiA+DQo+ID4gSU1ITyBteSBwYXRjaGVz
+IHNob3VsZCBiZSBtZXJnZWQgZmlyc3QgKHRoZXkgYXJlIHJlYWxseSBqdXN0IGZpeGluZyBhDQo+
+ID4gcmVncmVzc2lvbiBhbmQgc29tZSBidWdzKS4gSWYgYW55b25lIGZpbmRzIGl0IG5lY2Vzc2Fy
+eSBhbmQgaXMgY2FwYWJsZQ0KPiA+IGFuZCB3aWxsaW5nIHRvIGZpeCB0aGUgaW5zdWZmaWNpZW5j
+eSBvZiBCbG9ja0xpbWl0cywgdGhleSBjYW4gZG8gaXQNCj4gPiBhZnRlcndhcmRzIHdpdGggYW5v
+dGhlciBwYXRjaCBzZXJpZXMgYXMgYW4gaW1wcm92ZW1lbnQuIEkgY2FuIGFkZCBhDQo+ID4gcGF0
+Y2ggdG8gcmVtb3ZlIHRoZSBjbGFtcGluZyBpbiBuYmQvc2VydmVyLmMgYXMgYSBwZXJoYXBzLXRl
+bXBvcmFyeQ0KPiA+IG1lYXN1cmUgdG8gYWRkcmVzcyB0aGUgb3JpZ2luYWwgaXNzdWUsIGlmIGRl
+c2lyZWQuDQo+ID4NCj4gPiBPbiBTdW4sIDYgU2VwIDIwMjAgYXQgMjA6NTMsIE1heGltIExldml0
+c2t5IDxtbGV2aXRza0ByZWRoYXQuY29tPg0KPiB3cm90ZToNCj4gPiA+IE9uIFN1biwgMjAyMC0w
+OS0wNiBhdCAxOTowNCArMDgwMCwgVG9tIFlhbiB3cm90ZToNCj4gPiA+ID4gTWF5YmUgeW91IHdh
+bnQgdG8gYWRkIHNvbWUgY29uZGl0aW9uIGZvciB0aGlzOg0KPiA+ID4gPiBodHRwczovL2dpdGh1
+Yi5jb20vcWVtdS9xZW11L2Jsb2IvdjUuMS4wL25iZC9zZXJ2ZXIuYyNMNjU5DQo+ID4gPiA+IE9y
+IG5vdCBjbGFtcCBpdCBhdCBhbGwuDQo+ID4gPiA+DQo+ID4gPiA+IE9uIFN1biwgNiBTZXAgMjAy
+MCBhdCAxODo1OCwgVG9tIFlhbiA8dG9tLnR5ODlAZ21haWwuY29tPiB3cm90ZToNCj4gPiA+ID4g
+PiBJbiBjb21taXQgODY3ZWNjZmVkODRmOTZiNTRmNGE0MzJjNTEwYTAyYzJjZTAzYjQzMCwgTGV2
+aXRza3kNCj4gYXBwZWFycw0KPiA+ID4gPiA+IHRvIGhhdmUgYXNzdW1lZCB0aGF0IHRoZSBvbmx5
+ICJTQ1NJIFBhc3N0aHJvdWdoIiBpcyBgLWRldmljZQ0KPiA+ID4gPiA+IHNjc2ktZ2VuZXJpY2As
+IHdoaWxlIHRoZSBmYWN0IGlzIHRoZXJlJ3MgYWxzbyBgLWRldmljZSBzY3NpLWJsb2NrYA0KPiA+
+ID4gPiA+IChwYXNzdGhyb3VnaCB3aXRob3V0IHRoZSBzZyBkcml2ZXIpLiBVbmxpa2UgYC1kZXZp
+Y2Ugc2NzaS1oZGAsIGdldHRpbmcNCj4gPiA+ID4gPiBtYXhfc2VjdG9ycyBpcyBuZWNlc3Nhcnkg
+dG8gaXQgKG1vcmUgcHJlY2lzZWx5LCBod19tYXhfc2VjdG9ycw0KPiBtaWdodA0KPiA+ID4gPiA+
+IHdoYXQgbWF0dGVycywgYnV0IEJMS1NFQ1RHRVQgcmVwb3J0cyBtYXhfc2VjdG9ycywgc28pLg0K
+PiA+ID4gPiA+DQo+ID4gPiA+ID4gSSdtIHVuc3VyZSBhYm91dCBob3cgcWVtdS1uYmQgd29ya3Ms
+IGJ1dCB0aGUgY29tbWl0IGNsZWFybHkNCj4gd2Fzbid0IHRoZQ0KPiA+ID4gPiA+IHJpZ2h0IGFw
+cHJvYWNoIHRvIGZpeCB0aGUgb3JpZ2luYWwgaXNzdWUgaXQgYWRkcmVzc2VzLiAoSXQgc2hvdWxk
+IGZvcg0KPiA+ID4gPiA+IGV4YW1wbGUgaWdub3JlIHRoZSBtYXhfdHJhbnNmZXIgaWYgaXQgd2ls
+bCBuZXZlciBtYXR0ZXIgaW4gdG8gaXQsIG9yDQo+ID4gPiA+ID4gb3ZlcnJpZGVzIGl0IGluIGNl
+cnRhaW4gY2FzZXM7IHdoZW4gSSBnbGltcHNlZCBvdmVyDQo+ID4gPiA+ID4gaHR0cHM6Ly9idWd6
+aWxsYS5yZWRoYXQuY29tL3Nob3dfYnVnLmNnaT9pZD0xNjQ3MTA0LCBJIGRvbid0IHNlZQ0KPiBo
+b3cNCj4gPiA+ID4gPiBpdCBjb3VsZCBiZSBmaWxlLXBvc2l4IHByb2JsZW0gd2hlbiBpdCBpcyBy
+ZXBvcnRpbmcgdGhlIHJpZ2h0IHRoaW5nLA0KPiA+ID4gPiA+IHJlZ2FyZGxlc3Mgb2Ygd2hldGhl
+ciAicmVtb3ZpbmciIHRoZSBjb2RlIGhlbHBzLikNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEkgZG9u
+J3QgdGhpbmsgd2Ugd2FudCB0byAibWFyayIgYC1kZXZpY2Ugc2NzaS1ibG9ja2AgYXMgc2cgZWl0
+aGVyLiBJdA0KPiA+ID4gPiA+IHdpbGwgcHJvYmFibHkgYnJpbmcgZXZlbiBtb3JlIHVuZXhwZWN0
+ZWQgcHJvYmxlbXMsIGJlY2F1c2UgdGhleQ0KPiBhcmUNCj4gPiA+ID4gPiBsaXRlcmFsbHkgZGlm
+ZmVyZW50IHNldHMgb2YgdGhpbmdzIGJlaGluZCB0aGUgc2NlbmUgLyBpbiB0aGUga2VybmVsLg0K
+PiA+ID4NCj4gPiA+IFllcywgSSBkaWQgb3Zlcmxvb2sgdGhlIGZhY3QgdGhhdCBzY3NpLWJsb2Nr
+IGlzIGtpbmQgb2YgaHlicmlkIHBhc3N0aG91Z2gNCj4gZGV2aWNlLA0KPiA+ID4gZG9pbmcgU0df
+SU8gZm9yIHNvbWUgdGhpbmdzIGFuZCByZWd1bGFyIElPIGZvciBvdGhlcnMuDQo+ID4gPg0KPiA+
+ID4gSSBkb24ndCB0aGluayB0aGF0IG15IGFwcHJvYWNoIHdhcyB3cm9uZyB3YXkgdG8gZml4IHRo
+ZSBwcm9ibGVtLCBidXQgYXMNCj4geW91IGZvdW5kDQo+ID4gPiBvdXQsIGFidXNpbmcgJ2JzLT5z
+ZycgaGFjayAod2hpY2ggSSB3b3VsZCBiZSB2ZXJ5IGhhcHB5IHRvIHJlbW92ZQ0KPiBjb21wbGV0
+ZWx5KQ0KPiA+ID4gd2Fzbid0IGEgZ29vZCBpZGVhLg0KPiA+ID4gSSBhY3R1YWx5IHdhcyBhd2Fy
+ZSBvZiBzY3NpLWJsb2NrIGFuZCB0aGF0IGl0IGRvZXMgU0dfSU8gYnV0IGl0DQo+ID4gPiB3YXMg
+Zm9yZ290dGVuIHNvbWUgd2hlcmUgb24gdGhlIHdheS4NCj4gPiA+DQo+ID4gPiBTbyBpbiBzdW1t
+YXJ5IHdoYXQgdGhlIHByb2JsZW0gaXMgYW5kIHdoYXQgSSB0aGluayBpcyB0aGUgcmlnaHQgc29s
+dXRpb246DQo+ID4gPg0KPiA+ID4NCj4gPiA+IEVhY2ggcWVtdSBibG9jayBkcml2ZXIgZXhwb3Nl
+cyBibG9jayBsaW1pdHMgYW5kIGFzc3VtZXMgdGhhdCB0aGV5IGFyZQ0KPiB0aGUgc2FtZQ0KPiA+
+ID4gZm9yIHR3byBJTyBpbnRlcmZhY2VzIHRoZSBibG9jayBkcml2ZXIgY2FuIGV4cG9zZToNCj4g
+PiA+DQo+ID4gPiAxLiBSZWd1bGFyIHFlbXUgYmxrX3ByZWFkL3B3cml0ZSBhbGlrZSBmdW5jdGlv
+bnMNCj4gPiA+IDIuIGJsa19pb2N0bCAodGlueSB3cmFwcGVyIGFnYWluc3QgU0dfSU8pLCBzdXBw
+b3J0ZWQgYnkgcG9zaXgtcmF3IG9uDQo+ID4gPiAgICBob3N0IGJsb2NrIGRldmljZXMvc2cgY2hh
+ciBkZXZpY2VzLCBhbmQgYnkgaXNjc2kNCj4gPiA+DQo+ID4gPiBUaGUgcHJvYmxlbSBpcyB0aGF0
+IHRoZXNlIHR3byBpbnRlcmZhY2VzIGNhbiBoYXZlIGRpZmZlcmVudCBibG9jayBsaW1pdHMuDQo+
+ID4gPg0KPiA+ID4gSSBkb24ndCBrbm93IGFib3V0IGlzY3NpLCBidXQgZm9yIGZpbGVzLCBkb2lu
+ZyByZWd1bGFyIElPIGlzIGFsd2F5cyB1bmxpbWl0ZWQsDQo+ID4gPiBzaW5jZSBpdCBwYXNzZXMg
+dGhyb3VnaCB0aGUga2VybmVsIGJsb2NrIGxheWVyIGFuZCBzZWdlbWVudGVkIHRoZXJlIG9uDQo+
+ID4gPiBkZW1hbmQgd2hpY2ggaXMgZmFzdGVyIHRoYXQgZG9pbmcgaXQgaW4gdXNlcnNwYWNlLCB3
+aGlsZSBTR19JTyBpcyBwYXNzZWQNCj4gYXMgaXMNCj4gPiA+IHRvIHRoZSB1bmRlcmx5aW5nIFND
+U0kgZGV2aWNlIGFuZCBsYWNrcyB0aGlzIHNlZ21lbnRhdGlvbi4NCj4gPiA+DQo+ID4gPiBSZWdh
+cmRsZXNzIG9mIGhvdyBOQkQgdXNlcyB0aGVzZSBsaW1pdHMsIEkgdGhpbmsgdGhhdCB0aGVzZSBs
+aW1pdHMgc2hvdWxkDQo+IGJlIGNvcnJlY3RseQ0KPiA+ID4gZXhwb3NlZCBieSB0aGUgYmxvY2sg
+ZHJpdmVycywgYW5kIHRoZXJlZm9yZSBJIHByb3Bvc2UgaXMgdGhhdCBlYWNoIHFlbXUNCj4gYmxv
+Y2sgZHJpdmVyDQo+ID4gPiB3b3VsZCBleHBvc2UgYSBwYWlyIG9mIGJsb2NrIGxpbWl0cy4NCj4g
+PiA+IE9uZSBmb3IgdGhlIHJlZ3VsYXIgYmxvY2sgSU8sIGFuZCBvdGhlciBmb3IgU0dfSU8uDQo+
+ID4gPg0KPiA+ID4gVGhlbiBibG9jayBkcml2ZXIgY2xpZW50cyAobGlrZSBzY3NpIGRldmljZXMg
+dGhhdCB5b3UgbWVudGlvbiwgbmJkLCBldGMpDQo+ID4gPiBjYW4gY2hvb3NlIHdoaWNoIGxpbWl0
+IHRvIHVzZSwgZGVwZW5kaW5nIG9uIHdoaWNoIElPIGFwaSB0aGV5IHVzZS4NCj4gPiA+IFRoZSBz
+Y3NpLWdlbmVyaWMsIGFuZCBzY3NpLWJsb2NrIGNhbiB1c2UgdGhlIFNHX0lPIGxpbWl0cywNCj4g
+PiA+IHdoaWxlIHRoZSByZXN0ICBjYW4gdXNlIHRoZSBub3JtYWwgKHVubGltaXRlZCBmb3IgZmls
+ZSBJL08pIGxpbWl0cywgaW5jbHVkaW5nDQo+IHRoZSBOQkQuDQo+ID4gPg0KPiA+ID4gQmVzdCBy
+ZWdhcmRzLA0KPiA+ID4gICAgICAgICBNYXhpbSBMZXZpdHNreQ0KPiA+ID4NCj4gPiA+ID4gPiBP
+biBGcmksIDQgU2VwIDIwMjAgYXQgMTA6MDksIFRvbSBZYW4gPHRvbS50eTg5QGdtYWlsLmNvbT4g
+d3JvdGU6DQo+ID4gPiA+ID4gPiBzZyBkZXZpY2VzIGhhdmUgZGlmZmVyZW50IG1ham9yL21pbm9y
+IHRoYW4gdGhlaXIgY29ycmVzcG9uZGluZw0KPiA+ID4gPiA+ID4gYmxvY2sgZGV2aWNlcy4gVXNp
+bmcgc3lzZnMgdG8gZ2V0IG1heCBzZWdtZW50cyBuZXZlciByZWFsbHkgd29ya2VkDQo+ID4gPiA+
+ID4gPiBmb3IgdGhlbS4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBGb3J0dW5hdGVseSB0aGUg
+c2cgZHJpdmVyIHByb3ZpZGVzIGFuIGlvY3RsIHRvIGdldCBzZ190YWJsZXNpemUsDQo+ID4gPiA+
+ID4gPiB3aGljaCBpcyBhcHBhcmVudGx5IGVxdWl2YWxlbnQgdG8gbWF4IHNlZ21lbnRzLg0KPiA+
+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IFRvbSBZYW4gPHRvbS50eTg5QGdt
+YWlsLmNvbT4NCj4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+ID4gIGJsb2NrL2ZpbGUtcG9zaXgu
+YyB8IDE3ICsrKysrKysrKysrKysrKystDQo+ID4gPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDE2
+IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBk
+aWZmIC0tZ2l0IGEvYmxvY2svZmlsZS1wb3NpeC5jIGIvYmxvY2svZmlsZS1wb3NpeC5jDQo+ID4g
+PiA+ID4gPiBpbmRleCA0MTFhMjNjZjk5Li45ZTM3NTk0MTQ1IDEwMDY0NA0KPiA+ID4gPiA+ID4g
+LS0tIGEvYmxvY2svZmlsZS1wb3NpeC5jDQo+ID4gPiA+ID4gPiArKysgYi9ibG9jay9maWxlLXBv
+c2l4LmMNCj4gPiA+ID4gPiA+IEBAIC0xMTc4LDYgKzExNzgsMjEgQEAgc3RhdGljIGludA0KPiBz
+Z19nZXRfbWF4X3RyYW5zZmVyX2xlbmd0aChpbnQgZmQpDQo+ID4gPiA+ID4gPiAgI2VuZGlmDQo+
+ID4gPiA+ID4gPiAgfQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ICtzdGF0aWMgaW50IHNnX2dl
+dF9tYXhfc2VnbWVudHMoaW50IGZkKQ0KPiA+ID4gPiA+ID4gK3sNCj4gPiA+ID4gPiA+ICsjaWZk
+ZWYgU0dfR0VUX1NHX1RBQkxFU0laRQ0KPiA+ID4gPiA+ID4gKyAgICBsb25nIG1heF9zZWdtZW50
+cyA9IDA7DQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiArICAgIGlmIChpb2N0bChmZCwgU0df
+R0VUX1NHX1RBQkxFU0laRSwgJm1heF9zZWdtZW50cykgPT0gMCkgew0KPiA+ID4gPiA+ID4gKyAg
+ICAgICAgcmV0dXJuIG1heF9zZWdtZW50czsNCj4gPiA+ID4gPiA+ICsgICAgfSBlbHNlIHsNCj4g
+PiA+ID4gPiA+ICsgICAgICAgIHJldHVybiAtZXJybm87DQo+ID4gPiA+ID4gPiArICAgIH0NCj4g
+PiA+ID4gPiA+ICsjZWxzZQ0KPiA+ID4gPiA+ID4gKyAgICByZXR1cm4gLUVOT1NZUzsNCj4gPiA+
+ID4gPiA+ICsjZW5kaWYNCj4gPiA+ID4gPiA+ICt9DQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
+PiAgc3RhdGljIGludCBnZXRfbWF4X3RyYW5zZmVyX2xlbmd0aChpbnQgZmQpDQo+ID4gPiA+ID4g
+PiAgew0KPiA+ID4gPiA+ID4gICNpZiBkZWZpbmVkKEJMS1NFQ1RHRVQpICYmIGRlZmluZWQoQkxL
+U1NaR0VUKQ0KPiA+ID4gPiA+ID4gQEAgLTEyNjgsNyArMTI4Myw3IEBAIHN0YXRpYyB2b2lkDQo+
+IGhkZXZfcmVmcmVzaF9saW1pdHMoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIEVycm9yICoqZXJycCkN
+Cj4gPiA+ID4gPiA+ICAgICAgICAgIGJzLT5ibC5tYXhfdHJhbnNmZXIgPSBwb3cyZmxvb3IocmV0
+KTsNCj4gPiA+ID4gPiA+ICAgICAgfQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IC0gICAgcmV0
+ID0gZ2V0X21heF9zZWdtZW50cyhzLT5mZCk7DQo+ID4gPiA+ID4gPiArICAgIHJldCA9IGJzLT5z
+ZyA/IHNnX2dldF9tYXhfc2VnbWVudHMocy0+ZmQpIDoNCj4gZ2V0X21heF9zZWdtZW50cyhzLT5m
+ZCk7DQo+ID4gPiA+ID4gPiAgICAgIGlmIChyZXQgPiAwKSB7DQo+ID4gPiA+ID4gPiAgICAgICAg
+ICBicy0+YmwubWF4X3RyYW5zZmVyID0gTUlOX05PTl9aRVJPKGJzLT5ibC5tYXhfdHJhbnNmZXIs
+DQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHJldCAqIHFlbXVfcmVhbF9ob3N0X3BhZ2Vfc2l6ZSk7DQo+ID4gPiA+ID4gPiAtLQ0KPiA+ID4g
+PiA+ID4gMi4yOC4wDQo+ID4gPiA+ID4gPg0KPiANCj4gDQoNCg==
 
