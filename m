@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983D026C13C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:57:43 +0200 (CEST)
-Received: from localhost ([::1]:36968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF2926C136
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:56:22 +0200 (CEST)
+Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIUC6-0005aj-KQ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53982)
+	id 1kIUAn-0002wY-SL
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <62777d825ba6a7f9ba749588a9e1e7b273f7e967@lizzy.crudebyte.com>)
- id 1kIU8A-00081W-4o
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:53:38 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:45719)
+ (envelope-from <c418f935ac6aed9aa1dc0ceb4b19044a9b7b7968@lizzy.crudebyte.com>)
+ id 1kIU9A-0001BL-G4
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:54:40 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:37623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <62777d825ba6a7f9ba749588a9e1e7b273f7e967@lizzy.crudebyte.com>)
- id 1kIU88-0000fG-HS
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:53:37 -0400
+ (envelope-from <c418f935ac6aed9aa1dc0ceb4b19044a9b7b7968@lizzy.crudebyte.com>)
+ id 1kIU99-0000jl-3Y
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=IOxEdH7P12wqsQCMQXkcjSgsqCj59UF4YaQI8tHT/fE=; b=NmLpv
- V0YG5bbsMlo42pNRSY4xDSK0yF9nWneWlv8XaqZh65pgUE4191Tr+aoXtYhirIVTeZ7hmFilJoIaW
- PP21I5r/5gHvKubQYFR3C240PDorO38sO0dWATiZ2pv0ZQSOrG4ohbls67m7ULwV3s813Zu1cAVv3
- 1ORGfwEFxLo5WPJJBJ4s7rzUYQoLVDizL0BQj6kuNjvn38/Gpf2QgWWB6EnV7fv0RpB1pEwdD/SKK
- zB4M2v8ICPlX97AtHzvQYzwPVUy76VoBgdc72TSs894Pg0Fx6Fw6O+YdKOiBjizfxxNv0PAJCaeHN
- ck0lkJc9+va+sJM19h3HV35QRS9SA==;
-Message-Id: <62777d825ba6a7f9ba749588a9e1e7b273f7e967.1600166281.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=DqzpM+VGQVKR7OCnZLPpx0lh9Fsm7b5Rfn+2RWn2HXo=; b=eMcv9
+ KjmDBWAUk66OF+1ExXWM2iN6sANkmjUb4zbh64cr8DVDeGWPXwfAoI3CeBm3kit5cztVJYLaz0zRk
+ 9h+l7N3IRmlaSmacgeNRCxzgmZpANz+cajF3lTEm5PZsxrC2OV8BoC15NMFRyuswW0tlCtLiV7yPP
+ Dm84VazLwZyTttR3yED9kZm8Vzx+hWPdA7p+CjDsfVvv8BzQ8dr3ZR8ALBviKPMMFXsrRgmO3HCMY
+ H3BoEYSU7CLZ4yTsGgwJQ031fM/DS403TtjlUVHISVDT9Go8KW55iG6fH7yYz6q+XuBgg99wI9wxK
+ 432FGFk9jFCbqUGHmvdT5ENJZWoWQ==;
+Message-Id: <c418f935ac6aed9aa1dc0ceb4b19044a9b7b7968.1600166281.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1600166281.git.qemu_oss@crudebyte.com>
 References: <cover.1600166281.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 3 Sep 2020 16:20:21 +0200
-Subject: [PULL 1/2] 9pfs: log warning if msize <= 8192
+Date: Sun, 6 Sep 2020 18:50:32 +0200
+Subject: [PULL 2/2] 9pfs: disable msize warning for synth driver
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=62777d825ba6a7f9ba749588a9e1e7b273f7e967@lizzy.crudebyte.com;
+ envelope-from=c418f935ac6aed9aa1dc0ceb4b19044a9b7b7968@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 05:20:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,53 +65,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is essential to choose a reasonable high value for 'msize' to avoid
-severely degraded file I/O performance. This parameter can only be
-chosen on client/guest side, and a Linux client defaults to an 'msize'
-of only 8192 if the user did not explicitly specify a value for 'msize',
-which results in very poor file I/O performance.
+Previous patch introduced a performance warning being logged on host
+side if client connected with an 'msize' <= 8192. Disable this
+performance warning for the synth driver to prevent that warning from
+being printed whenever the 9pfs (qtest) test cases are running.
 
-Unfortunately many users are not aware that they should specify an
-appropriate value for 'msize' to avoid severe performance issues, so
-log a performance warning (with a QEMU wiki link explaining this issue
-in detail) on host side in that case to make it more clear.
+Introduce a new export flag V9FS_NO_PERF_WARN for that purpose, which
+might also be used to disable such warnings from the CLI in future.
 
-Currently a client cannot automatically pick a reasonable value for
-'msize', because a good value for 'msize' depends on the file I/O
-potential of the underlying storage on host side, i.e. a feature
-invisible to the client, and even then a user would still need to trade
-off between performance profit and additional RAM costs, i.e. with
-growing 'msize' (RAM occupation), performance still increases, but
-performance delta will shrink continuously.
+We could have also prevented the warning by simply raising P9_MAX_SIZE
+in virtio-9p-test.c to any value larger than 8192, however in the
+context of test cases it makes sense running for edge cases, which
+includes the lowest 'msize' value supported by the server which is
+4096, hence we want to preserve an msize of 4096 for the test client.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f.1599144062.git.qemu_oss@crudebyte.com>
+Message-Id: <E1kEyDy-0006nN-5A@lizzy.crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ fsdev/file-op-9p.h | 4 ++++
+ hw/9pfs/9p-synth.c | 2 ++
+ hw/9pfs/9p.c       | 2 +-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+index f2f7772c86..d51cec2f3b 100644
+--- a/fsdev/file-op-9p.h
++++ b/fsdev/file-op-9p.h
+@@ -64,6 +64,10 @@ typedef struct ExtendedOps {
+  */
+ #define V9FS_REMAP_INODES           0x00000200
+ #define V9FS_FORBID_MULTIDEVS       0x00000400
++/*
++ * Disables certain performance warnings from being logged on host side.
++ */
++#define V9FS_NO_PERF_WARN           0x00000800
+ 
+ #define V9FS_SEC_MASK               0x0000003C
+ 
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index 7eb210ffa8..cec8c0eefc 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -541,6 +541,8 @@ static int synth_init(FsContext *ctx, Error **errp)
+     QLIST_INIT(&synth_root.child);
+     qemu_mutex_init(&synth_mutex);
+ 
++    ctx->export_flags |= V9FS_NO_PERF_WARN;
++
+     /* Add "." and ".." entries for root */
+     v9fs_add_dir_node(&synth_root, synth_root.attr->mode,
+                       "..", synth_root.attr, synth_root.attr->inode);
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 7bb994bbf2..99b6f24fd6 100644
+index 99b6f24fd6..741d222c3f 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1353,6 +1353,15 @@ static void coroutine_fn v9fs_version(void *opaque)
-         goto out;
+@@ -1354,7 +1354,7 @@ static void coroutine_fn v9fs_version(void *opaque)
      }
  
-+    /* 8192 is the default msize of Linux clients */
-+    if (s->msize <= 8192) {
-+        warn_report_once(
-+            "9p: degraded performance: a reasonable high msize should be "
-+            "chosen on client/guest side (chosen msize is <= 8192). See "
-+            "https://wiki.qemu.org/Documentation/9psetup#msize for details."
-+        );
-+    }
-+
- marshal:
-     err = pdu_marshal(pdu, offset, "ds", s->msize, &version);
-     if (err < 0) {
+     /* 8192 is the default msize of Linux clients */
+-    if (s->msize <= 8192) {
++    if (s->msize <= 8192 && !(s->ctx.export_flags & V9FS_NO_PERF_WARN)) {
+         warn_report_once(
+             "9p: degraded performance: a reasonable high msize should be "
+             "chosen on client/guest side (chosen msize is <= 8192). See "
 -- 
 2.20.1
 
