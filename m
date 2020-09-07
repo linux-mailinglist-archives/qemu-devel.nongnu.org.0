@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32131260717
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 01:03:26 +0200 (CEST)
-Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82F926073F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 01:52:02 +0200 (CEST)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFQAW-0000he-OA
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 19:03:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38648)
+	id 1kFQvZ-0000xo-IT
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 19:52:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kFQ9o-0000FR-JR
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 19:02:40 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kFQ9m-00051E-JS
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 19:02:40 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a17so17125022wrn.6
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 16:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:mime-version:from:to:date:subject;
- bh=eAaWfWMvahp+7+lJ4K0MQot7D+S14lBzTYCfor6Jtuc=;
- b=hWk5HGHToTK0KczIldK5NrME0u2mSo30b/AQjbHmOePM6Dq+vPBm7am2JMu7yEB5JI
- kJAVgB7X0VANb1HZkfFUElv127i4VMJ0lU9U7n1XdGzwaVr3Y0of0iwwh+0UzwiPxMkV
- pV4Y7v7NEfX8GF53sHU9jNNODm1Le7EYEkyEm7o5ed9BtuQj7uXacgw8YiLKBx3ZCpRo
- B1AdoLwIevoajgr462KJw9WGLZjWBpvH0TRirv9pYt/kFRRLlQnTwOpQ0M9XhDzoY2OD
- L45rUdundZj7MXuJCzXkh6MqC8y+ruLAmOx3Cio1ve2dHa411KSAiq+n2q1g2M1Zceb+
- IL7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
- bh=eAaWfWMvahp+7+lJ4K0MQot7D+S14lBzTYCfor6Jtuc=;
- b=FHM+JB2+79QQxl+yXXQPASuLhQZ4kiyA6tCoJJBjna3MIHwMypRutxFUSluGeF64w/
- D+K/OswO8gB/DsAEYHF67yNVPGhZim4PLkWqGh4/Q/k2GB4vn2mUPo3PeaFhdovjW0wS
- 7cvamOK129d+oW1ohJzTDdvbcxBni0OSLaNVJvvgn79+DrT0tFYRwkKAc6RVv0V9rymK
- 22XghVtMdz8Xf4Dw9iCSBKAhC/lW/GlPycFx8+oWP7A8i0jCrkUwjiuL8fEhhz1L/1fr
- i4mxY4KLBze0A82SGIu6+PQIiQgZAqUWMtXo6rwjqHS10eDamZYkkhZY433CetVhtBJu
- 74Tg==
-X-Gm-Message-State: AOAM532rClAnGjrksKHdRzsL68Ka1EjRFmmvsI+2DQejxCvO6ufcYCgJ
- d6fRmDERrXJk3J0RHMH9nFm/umEK5KG0tw==
-X-Google-Smtp-Source: ABdhPJyvNHAdXIWc+m49w3dv0fPtDdFaQTtTzgyJhB4YbNXyxqcJuUROj3tjf15pCfKQB6I28oJAPg==
-X-Received: by 2002:adf:df05:: with SMTP id y5mr25625056wrl.39.1599519756348; 
- Mon, 07 Sep 2020 16:02:36 -0700 (PDT)
-Received: from [127.0.1.1] ([102.46.34.193])
- by smtp.gmail.com with ESMTPSA id z15sm30401142wrv.94.2020.09.07.16.02.35
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 16:02:35 -0700 (PDT)
-Message-ID: <5f56bc0b.1c69fb81.1af86.c01f@mx.google.com>
-Content-Type: multipart/alternative;
- boundary="===============9069312668133021054=="
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kFQur-0000Ws-6z; Mon, 07 Sep 2020 19:51:17 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56023 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kFQun-0001gH-GP; Mon, 07 Sep 2020 19:51:16 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BllRG1PHfz9sTK; Tue,  8 Sep 2020 09:51:06 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1599522666;
+ bh=qD454x6JcxFguVNpjv/cmg5ZwHuCt9VHMjWmODsm1zQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TE7iqe5cdt8ogekpOflqbp6h3TpqOmQdflc8JNjCzUiPpQVRvtyuf9CWsePBSpc59
+ zBH1z4QMhlYINL+Ta7LJjr5I59DG2uTwA32h9DHL/5ypTo/sPiXhT0egaKl+QcJXUw
+ ovFttUp00yjSyjUCRLUpRNvcFRZOLingZhR4B/uo=
+Date: Tue, 8 Sep 2020 09:50:59 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL 00/30] ppc-for-5.2 queue 20200904
+Message-ID: <20200907235059.GL341806@yekko.fritz.box>
+References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
+ <CAFEAcA8xCpRBcsCaozEXnCuM5SqWr5ZEDrwLjs+8va=316_70Q@mail.gmail.com>
+ <20200907023800.GJ341806@yekko.fritz.box>
+ <675253df-b750-1a0a-5447-9dadef1accba@redhat.com>
+ <7c287125-70b3-4330-fd5c-8e644e1c347d@redhat.com>
+ <ffee957d-0428-d167-c1ab-3fe67b4d8c7c@redhat.com>
+ <20200907165132.683d2880.cohuck@redhat.com>
+ <f93673f9-3e83-ef5f-9628-819b25908e43@redhat.com>
+ <77b63a31-48a8-c77f-9956-7511db170594@redhat.com>
+ <0bca4e6e-f4ba-2108-ecaf-c3daaadbdb26@redhat.com>
 MIME-Version: 1.0
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 08 Sep 2020 01:02:34 +0200
-Subject: [REPORT] Nightly Performance Tests - Monday, September 7, 2020
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x435.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dpynvXbW/eW9Tpc3"
+Content-Disposition: inline
+In-Reply-To: <0bca4e6e-f4ba-2108-ecaf-c3daaadbdb26@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
- MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,241 +68,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---===============9069312668133021054==
-Content-Type: text/html; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 
-<html><body><pre>
-Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
-Host Memory      : 15.49 GB
+--dpynvXbW/eW9Tpc3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Start Time (UTC) : 2020-09-07 22:30:02
-End Time (UTC)   : 2020-09-07 23:02:34
-Execution Time   : 0:32:31.848707
+On Mon, Sep 07, 2020 at 09:46:28PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 9/7/20 7:26 PM, Laurent Vivier wrote:
+> > On 07/09/2020 18:29, Laurent Vivier wrote:
+> >> On 07/09/2020 16:51, Cornelia Huck wrote:
+> >>> On Mon, 7 Sep 2020 16:31:24 +0200
+> >>> Laurent Vivier <lvivier@redhat.com> wrote:
+> >>>
+> >>>> On 07/09/2020 16:05, Philippe Mathieu-Daud=E9 wrote:
+> >>>>> Hi Thiago,
+> >>>>>
+> >>>>> On 9/7/20 3:29 PM, Laurent Vivier wrote: =20
+> >>>>>> On 07/09/2020 04:38, David Gibson wrote: =20
+> >>>>>>> On Sun, Sep 06, 2020 at 04:20:10PM +0100, Peter Maydell wrote: =
+=20
+> >>>
+> >>>>>>>> The 'check-tcg' tests for the linux-user static build also
+> >>>>>>>> failed on an s390x test:
+> >>>>>>>>
+> >>>>>>>>   CHECK   debian-s390x-cross
+> >>>>>>>>   BUILD   s390x-linux-user guest-tests with docker qemu/debian-s=
+390x-cross
+> >>>>>>>>   RUN     tests for s390x
+> >>>>>>>>   TEST    threadcount on s390x
+> >>>>>>>> Unhandled trap: 0x10003 =20
+> >>>>>>
+> >>>>>> This is EXCP_HALTED (include/exec/cpu-all.h)
+> >>>>>>
+> >>>>>> The message error comes from cpu_loop() in linux-user/s390x/cpu_lo=
+op.c.
+> >>>>>>
+> >>>>>> The trap can only come from accel/tcg/cpu-exec.c
+> >>>>>>
+> >>>>>>     679 int cpu_exec(CPUState *cpu)
+> >>>>>>     680 {
+> >>>>>> ...
+> >>>>>>     688     if (cpu_handle_halt(cpu)) {
+> >>>>>>     689         return EXCP_HALTED;
+> >>>>>>     690     }
+> >>>>>>
+> >>>>>> and
+> >>>>>>
+> >>>>>>     428 static inline bool cpu_handle_halt(CPUState *cpu)
+> >>>>>>     429 {
+> >>>>>>     430     if (cpu->halted) {
+> >>>>>> ...
+> >>>>>>     441         if (!cpu_has_work(cpu)) {
+> >>>>>>     442             return true;
+> >>>>>>     443         }
+> >>>>>>
+> >>>>>> and
+> >>>>>>
+> >>>>>>      58 static bool s390_cpu_has_work(CPUState *cs)
+> >>>>>>      59 {
+> >>>>>>      60     S390CPU *cpu =3D S390_CPU(cs);
+> >>>>>>      61
+> >>>>>>      62     /* STOPPED cpus can never wake up */
+> >>>>>>      63     if (s390_cpu_get_state(cpu) !=3D S390_CPU_STATE_LOAD &&
+> >>>>>>      64         s390_cpu_get_state(cpu) !=3D S390_CPU_STATE_OPERAT=
+ING) {
+> >>>>>>      65         return false;
+> >>>>>>      66     }
+> >>>>>>      67
+> >>>>>>      68     if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
+> >>>>>>      69         return false;
+> >>>>>>      70     }
+> >>>>>>      71
+> >>>>>>      72     return s390_cpu_has_int(cpu);
+> >>>>>>      73 }
+> >>>>>>
+> >>>>>> and in target/s390x/cpu.h:
+> >>>>>>
+> >>>>>>     772 #ifndef CONFIG_USER_ONLY
+> >>>>>>     773 unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU=
+ *cpu);
+> >>>>>>     774 #else
+> >>>>>>     775 static inline unsigned int s390_cpu_set_state(uint8_t cpu_=
+state,
+> >>>>>> S390CPU *cpu)
+> >>>>>>     776 {
+> >>>>>>     777     return 0;
+> >>>>>>     778 }
+> >>>>>>     779 #endif /* CONFIG_USER_ONLY */
+> >>>>>>     780 static inline uint8_t s390_cpu_get_state(S390CPU *cpu)
+> >>>>>>     781 {
+> >>>>>>     782     return cpu->env.cpu_state;
+> >>>>>>     783 }
+> >>>>>>
+> >>>>>> As cpu_state is never set, perhaps in case of linux-user it should
+> >>>>>> always return S390_CPU_STATE_OPERATING?
+> >>>
+> >>> Possibly, we should not have any state handling for linux-user.
+> >>>
+> >>
+> >> I did that, but now 390_cpu_has_work() is false because
+> >> CPU_INTERRUPT_HARD is not set in cs->interrupt_request.
+> >>
+> >> I think we should not enter in cpu_loop() with halted set to 1.
+> >>
+> >> Before the patch of this series, s390_cpu_reset() is called twice, and
+> >> on the second call, halted is already 0.
+> >>
+> >> With start_powered_off set to true in initfn, on the first reset
+> >> "halted" is 0 and on the second it is 1 (because it has been copied fr=
+om
+> >> start_powered_off) and so cpu_loop() starts with halted set to 1 and f=
+ails.
+> >=20
+> > What is happening:
+> >=20
+> > [without start_powered_off]
+> >=20
+> >   1- halted is set to 1 in s390x_cpu_initfn()
+> >   2- halted is set to 0 in s390x_cpu_reset() by parent_reset()
+> >      (cpu_common_reset()
+> >   3- cpu_loop() is always entered with halted set to 0
+> >=20
+> > [with start_powered_off]
+> >=20
+> >   1- halted is set to start_powered_off (1) in s390x_cpu_reset() by
+> >      parent_reset() (cpu_common_reset()
+> >   2- cpu_loop() is always entered with halted set to 1
+> >=20
+> > So in the first case, cpu_loop() is always started with halted set to 0
+> > and in the second case with halted set to 1.
+> >=20
+> > And I think, with linux-user, it should never be started with halted set
+> > to 1.
+> >=20
+> > We can't add a "#ifdef CONFIG_USER_ONLY" in hw/core/cpu.c to set halted
+> > to 0 because it is in the common files, but we can do:
+> >=20
+> > diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> > index 73d7d6007e8e..749cd548f0f3 100644
+> > --- a/target/s390x/cpu.c
+> > +++ b/target/s390x/cpu.c
+> > @@ -291,9 +291,9 @@ static void s390_cpu_initfn(Object *obj)
+> >      S390CPU *cpu =3D S390_CPU(obj);
+> >=20
+> >      cpu_set_cpustate_pointers(cpu);
+> > -    cs->start_powered_off =3D true;
+> >      cs->exception_index =3D EXCP_HLT;
+> >  #if !defined(CONFIG_USER_ONLY)
+> > +    cs->start_powered_off =3D true;
+> >      object_property_add(obj, "crash-information", "GuestPanicInformati=
+on",
+> >                          s390_cpu_get_crash_info_qom, NULL, NULL, NULL);
+> >      cpu->env.tod_timer =3D
+>=20
+> This looks like the correct fix indeed :)
+> (Maybe worth adding a comment around).
+>=20
+> Thanks for investigating!
 
-Status           : SUCCESS
+Yes, thanks for figuring this out.  I'll fix up my PR accordingly and
+resend today.
 
-Note:
-Changes denoted by '-----' are less than 0.01%.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
---------------------------------------------------------
-            SUMMARY REPORT - COMMIT e11bd71f
---------------------------------------------------------
-                    AVERAGE RESULTS
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 158 376 909       -----     +1.694%
-alpha              1 914 987 215       -----     +3.526%
-arm                8 076 559 412       -----     +2.309%
-hppa               4 261 667 542       -----     +3.163%
-m68k               2 690 305 241       -----     +7.135%
-mips               1 862 066 070       -----     +2.496%
-mipsel             2 008 237 631       -----     +2.676%
-mips64             1 918 633 887       -----     +2.818%
-mips64el           2 051 563 013       -----     +3.026%
-ppc                2 480 186 076       -----      +3.11%
-ppc64              2 576 712 418       -----     +3.143%
-ppc64le            2 558 867 616       -----     +3.174%
-riscv64            1 406 730 247       -----     +2.652%
-s390x              3 158 142 650       -----     +3.119%
-sh4                2 364 490 038       -----     +3.333%
-sparc64            3 318 815 234       -----     +3.861%
-x86_64             1 775 821 957       -----     +2.157%
---------------------------------------------------------
+--dpynvXbW/eW9Tpc3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                   DETAILED RESULTS
---------------------------------------------------------
-Test Program: dijkstra_double
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            3 062 610 271       -----     +1.425%
-alpha              3 191 884 386       -----     +3.697%
-arm               16 357 323 255       -----     +2.348%
-hppa               7 228 383 429       -----     +3.086%
-m68k               4 294 071 402       -----     +9.693%
-mips               3 051 478 106       -----     +2.429%
-mipsel             3 231 545 860       -----      +2.87%
-mips64             3 245 823 176       -----     +2.596%
-mips64el           3 414 224 497       -----     +3.021%
-ppc                4 914 571 558       -----     +4.741%
-ppc64              5 098 150 107       -----     +4.565%
-ppc64le            5 082 428 296       -----      +4.58%
-riscv64            2 192 315 793       -----     +1.956%
-s390x              4 584 591 383       -----     +2.898%
-sh4                3 949 081 784       -----     +3.465%
-sparc64            4 586 221 241       -----     +4.238%
-x86_64             2 484 126 935       -----     +1.752%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: dijkstra_int32
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 210 225 365       -----     +1.495%
-alpha              1 494 152 973       -----     +2.152%
-arm                8 263 076 066       -----     +2.667%
-hppa               5 207 301 102       -----     +3.046%
-m68k               1 725 889 780       -----     +2.529%
-mips               1 495 270 793       -----     +1.495%
-mipsel             1 497 165 711       -----      +1.48%
-mips64             1 715 427 272       -----     +1.894%
-mips64el           1 695 219 297       -----      +1.91%
-ppc                2 014 612 375       -----     +1.822%
-ppc64              2 206 269 047       -----     +2.139%
-ppc64le            2 198 015 652       -----     +2.147%
-riscv64            1 354 926 118       -----     +2.397%
-s390x              2 916 099 522       -----     +1.236%
-sh4                1 990 577 118       -----     +2.672%
-sparc64            2 874 256 944       -----     +3.831%
-x86_64             1 554 019 603       -----     +2.122%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: matmult_double
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            1 412 282 569       -----     +0.302%
-alpha              3 234 011 219       -----     +7.474%
-arm                8 545 334 711       -----      +1.09%
-hppa               3 483 512 094       -----     +4.466%
-m68k               3 919 123 098       -----    +18.433%
-mips               2 344 810 281       -----     +4.092%
-mipsel             3 329 918 767       -----     +5.178%
-mips64             2 359 040 228       -----     +4.076%
-mips64el           3 343 649 717       -----     +5.166%
-ppc                3 209 508 557       -----     +3.248%
-ppc64              3 287 502 625       -----     +3.173%
-ppc64le            3 287 187 579       -----     +3.173%
-riscv64            1 221 648 961       -----     +0.281%
-s390x              2 874 167 080       -----     +5.826%
-sh4                3 543 988 473       -----     +6.417%
-sparc64            3 426 211 323       -----     +7.141%
-x86_64             1 248 955 123       -----     +0.325%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: matmult_int32
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64              598 709 111       -----      +0.59%
-alpha                372 460 161       -----     +0.683%
-arm                  746 733 432       -----     +1.483%
-hppa                 674 254 606       -----      +1.18%
-m68k                 410 582 437       -----     +0.922%
-mips                 499 735 189       -----     +0.538%
-mipsel               499 530 478       -----     +0.503%
-mips64               481 547 261       -----     +0.598%
-mips64el             465 062 178       -----      +0.62%
-ppc                  341 385 624       -----     +0.959%
-ppc64                393 795 233       -----     +0.965%
-ppc64le              393 991 577       -----     +0.968%
-riscv64              351 729 050       -----      +0.79%
-s390x                494 454 428       -----     +0.605%
-sh4                  402 715 426       -----     +0.911%
-sparc64              495 977 081       -----     +1.197%
-x86_64               402 968 780       -----     +0.843%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: qsort_double
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 709 707 073       -----     +2.418%
-alpha              1 969 482 464       -----     +3.682%
-arm                8 323 197 297       -----      +2.59%
-hppa               3 188 298 880       -----       +2.9%
-m68k               4 953 959 851       -----    +15.153%
-mips               2 123 955 660       -----     +3.057%
-mipsel             2 124 241 908       -----     +3.049%
-mips64             1 999 042 023       -----     +3.405%
-mips64el           1 996 429 186       -----     +3.409%
-ppc                2 819 305 010       -----     +5.436%
-ppc64              2 768 184 080       -----     +5.513%
-ppc64le            2 724 818 496       -----     +5.604%
-riscv64            1 638 358 705       -----     +4.023%
-s390x              2 519 124 609       -----     +3.364%
-sh4                2 595 589 966       -----     +2.996%
-sparc64            3 989 009 601       -----     +2.748%
-x86_64             2 033 503 143       -----     +3.236%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: qsort_int32
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 193 429 897       -----     +2.917%
-alpha              1 521 311 547       -----     +4.194%
-arm                3 465 611 245       -----     +2.761%
-hppa               2 280 019 743       -----      +3.82%
-m68k               1 843 195 993       -----     +3.584%
-mips               1 558 065 235       -----     +3.865%
-mipsel             1 560 655 117       -----     +3.851%
-mips64             1 563 411 799       -----     +4.412%
-mips64el           1 542 682 411       -----     +4.474%
-ppc                1 728 751 280       -----     +3.668%
-ppc64              1 842 442 922       -----     +3.555%
-ppc64le            1 791 836 334       -----     +3.662%
-riscv64            1 348 915 604       -----     +4.657%
-s390x              2 184 090 336       -----      +3.32%
-sh4                1 946 537 611       -----     +3.626%
-sparc64            3 452 237 238       -----     +2.938%
-x86_64             1 813 581 963       -----     +3.539%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: qsort_string
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 592 227 670       -----     +2.468%
-alpha              1 855 851 684       -----     +3.488%
-arm                7 347 855 824       -----     +2.684%
-hppa               4 758 740 523       -----     +3.542%
-m68k               2 376 793 841       -----     +3.566%
-mips               2 166 612 218       -----     +2.532%
-mipsel             2 163 389 834       -----     +2.528%
-mips64             2 029 245 328       -----     +3.117%
-mips64el           2 011 633 597       -----     +3.145%
-ppc                2 492 975 041       -----     +2.674%
-ppc64              2 464 700 877       -----     +2.488%
-ppc64le            2 445 267 770       -----     +2.506%
-riscv64            1 625 069 371       -----     +3.954%
-s390x              4 194 622 121       -----     +6.623%
-sh4                2 164 166 717       -----     +3.168%
-sparc64            4 299 511 690       -----     +4.065%
-x86_64             2 940 042 540       -----     +2.634%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: search_string
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 487 823 323       -----      +1.94%
-alpha              1 680 743 288       -----     +2.837%
-arm               11 563 343 467       -----      +2.85%
-hppa               7 272 829 963       -----     +3.263%
-m68k               1 998 825 528       -----     +3.199%
-mips               1 656 601 082       -----      +1.96%
-mipsel             1 659 453 373       -----     +1.947%
-mips64             1 955 534 011       -----     +2.447%
-mips64el           1 943 603 224       -----     +2.462%
-ppc                2 320 379 164       -----     +2.333%
-ppc64              2 552 654 453       -----     +2.742%
-ppc64le            2 547 395 230       -----     +2.749%
-riscv64            1 520 878 374       -----      +3.16%
-s390x              5 497 991 722       -----     +1.078%
-sh4                2 323 263 215       -----     +3.412%
-sparc64            3 427 096 760       -----      +4.73%
-x86_64             1 729 377 571       -----     +2.807%
---------------------------------------------------------
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9Wx2MACgkQbDjKyiDZ
+s5JmPxAAxcW9xvfNS5AhmrDMBwNiFrmgej40Q6eQUJh3yphWxiog/x3PYPnjH8l+
+D1LnIBJFfZIvk0rkaEiHeK66RV8OqCLbvZY6qfXjG02Rc6+4UObe3teV9GeQQf1K
+eAP4UFzbyibVIS4RaKt4Y38GkuV0m/8NdPu+jW8zyinhCmpVfJarIIjspI/4x3k2
+a6w5O4TMrpPr1FKpVO88q3kK+JHQzmNxeZyFKirVmvGdJqDJXVS3lxKbGPZ8wxmk
+0NdMdU/Uzru4LhhBdJDj60ifTPWU5ZJkl4SEEyHHkVYC4EL2wS9hCJ4qtNwxNHwI
+kghAsRDEte0K31UOVOwhSyaAngbFvQp040qasOnwhrDoLux8I1PZaJlpF9Az9YQE
+0Lvi3IegZDhxBv+i2tPmOT1sLC2kED7fy60B6rrwX+w1MzwVNXFxtpQmfNBlYflv
+fCSqz5if6HuxMvrpnxhYvDsrudMv0PmLuJ3kTnNmS/mv9Dk6C6b9YxGysSw/H3f2
+5rLsmW5CF8eK9vKO8Vyg6n8o1MliSJLLNfkZ0g/fSbr3nBSrEF82tblmYOHhQ69C
+jQTRz5fqwI8/r12iyY0HwpHfkeB7EBvHh/cJ584GZGzKgfVAQ8lydr9WWzNKb99F
+TK8e1zxlzDuu4Hr+c65R1cOCsceMLUfOJLzvqwJr1KZywzkbjjk=
+=opko
+-----END PGP SIGNATURE-----
 
-</pre></body></html>
-
---===============9069312668133021054==--
+--dpynvXbW/eW9Tpc3--
 
