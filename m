@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A751425F615
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:16:06 +0200 (CEST)
-Received: from localhost ([::1]:49226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7386925F621
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:17:10 +0200 (CEST)
+Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDFt-0002yE-PS
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1kFDGv-0004SQ-I9
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tgolembi@redhat.com>)
- id 1kFDEf-00029n-R0
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:14:49 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26000
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kFDEh-00029x-8E
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:14:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34645
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tgolembi@redhat.com>)
- id 1kFDEe-00029G-74
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:14:49 -0400
+ id 1kFDEf-00029K-JT
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:14:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599470086;
+ s=mimecast20190719; t=1599470088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DcUt+UH83ylqUp+RroyQwxpLqBv8WcypyGpqNzZar7k=;
- b=gwaI8AfiFv7l+U98vX8U8ldKYWZRGAFsMpJ2Fs8A7cw5l9mIiq3yOWXxTrC04o99ba6Bt2
- QfpLZdLwa1ljku2H0sKjw5ccAV23P7haweopDMrlsdWEerV+FnQsgSB+1AuBNd/MgEhDiS
- 5bwnJ9zdL9NBRnhAuqs0K5L0mdr9SFw=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-eo09NBxjMw2M913fzmCo6w-1; Mon, 07 Sep 2020 05:14:45 -0400
-X-MC-Unique: eo09NBxjMw2M913fzmCo6w-1
-Received: by mail-ed1-f72.google.com with SMTP id c3so1407726eds.6
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 02:14:45 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7iaVzSDtj2xbAOGzu8HgRwFZokiSOmmlRvyGqNZEfqc=;
+ b=f1AK9ailv4wdYNPNKjRzyaoMgB6+0pMHeN2IVkzXTKK9rMJzwPW3NCotLL8J60rMixRZ1c
+ lMD9MWQEFXhPxiIwHMaSG0UkTXx3yEXCqOqDaYrhalOW7BDEa7lA3ce4DhteTrVsumE6+4
+ SM6qWtpCKtzksYMPyWKIR2aQWOw4QoE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-KrRulgA6N_Ow0ivwQE3YwA-1; Mon, 07 Sep 2020 05:14:46 -0400
+X-MC-Unique: KrRulgA6N_Ow0ivwQE3YwA-1
+Received: by mail-ej1-f72.google.com with SMTP id qn7so5403461ejb.15
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 02:14:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DcUt+UH83ylqUp+RroyQwxpLqBv8WcypyGpqNzZar7k=;
- b=q9DcP45MmNXhPpJkLCVhnbpNiNj6nxEQPoLUKU/bhCKzirzP6ZwePxQ9OKznLyiDJq
- onn6ZU4TTqMvHoSVLiYsOCcvBi1pTVRqUc3Mp0fkWF01TmDrIiIKFQJGMzBQ9e5FzDma
- TSz26M/PiFKvSEpsiGeFrSH5xHSM8txx9KDZov0MWjjC2nYfW9Y+6hO21iW0Z/X7CEVs
- UcE+HvyNJ6rw5mHQXkzmPZ0MNOeeDjCZJBpkJ3tOg/VoP1ov/Dua7qxQc3k3JIu5sr6q
- bt+RbDn1nxmxx230t0kSPM5YRO5sOpk1JRgtD2jiU8fOwKfAsFNQZuKhIWH5WXqMOtqZ
- NZLg==
-X-Gm-Message-State: AOAM530URJ7b/D9/fOkNqx50qXoau9OydH5XQgMNTODIpevda2s+tXGP
- A5rUhb3DHUag3KmVvZ3xSWJUSUQzQ1CU5vQvpyHH989T9l4n0mRUfGsRP0ZZZfC4N3uW7nRUy3r
- IqG2v7Aqb6zBEkNI=
-X-Received: by 2002:a17:906:756:: with SMTP id
- z22mr7144389ejb.31.1599470084182; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7iaVzSDtj2xbAOGzu8HgRwFZokiSOmmlRvyGqNZEfqc=;
+ b=m86q7PatDGNnZd9Lg106ARcuAcCz8eFaVKAxM/g+t08UaQl17Yixmjp8Z8mJNpvg5p
+ MTjx9XYFUnQamX9medpJ+QIwoQTfaxZkNTgPpi/c4g4sM88bYZRo7coSWc0lwC+tsjrA
+ JOnld/VZyMi99UexzHWsoiSfBYmIxP2okFYX/mlpOBJtfemdEbQ0NLvfgYaPmlG8MAh5
+ X7kcCfvpZO1Wqz44A6aDj8/uO2+RzPF1exOg2caRS6yfewqZN9FhvQe899a+zt7SPfuu
+ 67dMB/qtDmRaQcfJTokbTtA55LaumXQGHL6BmveLlrGoMGGTDNxi5Dej/oSnMJxtJ9fD
+ cFHg==
+X-Gm-Message-State: AOAM530RcG+AYo2idp1uekgrjm+y8JrnVHFXZa7yXF+aMBE3Q6d3EWap
+ Z/SMB/ZpfTcapZ6K4kkwXFDX/3qxcdcHDSdnpCnpIFUSJPbxJksH09Wqivlo8hO29rpxr8GVhvh
+ IwWs7Yf/bhWoIfmc=
+X-Received: by 2002:a17:906:fb97:: with SMTP id
+ lr23mr6005031ejb.257.1599470085126; 
+ Mon, 07 Sep 2020 02:14:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7Zp9W/F8N2Z7zj9RxiSnDWn1ywIjqD6re3HipxXVSvZZmt7EnfCJjvdeXOmExYKdzVJKyuA==
+X-Received: by 2002:a17:906:fb97:: with SMTP id
+ lr23mr6005018ejb.257.1599470084895; 
  Mon, 07 Sep 2020 02:14:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw47NnweanmpsKw7vy1WUL8JfWxf6Kb88VGMqpgiWrQD9+87q9181m4hnR3V6UFExV4ldR4GQ==
-X-Received: by 2002:a17:906:756:: with SMTP id
- z22mr7144372ejb.31.1599470083982; 
- Mon, 07 Sep 2020 02:14:43 -0700 (PDT)
 Received: from auriga.localdomain (ip-89-176-41-222.net.upcbroadband.cz.
  [89.176.41.222])
- by smtp.gmail.com with ESMTPSA id d6sm14394910edm.31.2020.09.07.02.14.43
+ by smtp.gmail.com with ESMTPSA id d6sm14394910edm.31.2020.09.07.02.14.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 02:14:43 -0700 (PDT)
+ Mon, 07 Sep 2020 02:14:44 -0700 (PDT)
 From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
 To: Michael Roth <mdroth@linux.vnet.ibm.com>, Thomas Huth <thuth@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] qga: add command guest-get-disk
-Date: Mon,  7 Sep 2020 11:14:39 +0200
-Message-Id: <cover.1599470071.git.tgolembi@redhat.com>
+Subject: [PATCH v2 1/3] qga: add command guest-get-disks
+Date: Mon,  7 Sep 2020 11:14:40 +0200
+Message-Id: <d8573ee72572ba586c285472789243b37527e2b9.1599470071.git.tgolembi@redhat.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <cover.1599470071.git.tgolembi@redhat.com>
+References: <cover.1599470071.git.tgolembi@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=tgolembi@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=tgolembi@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:05:01
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=tgolembi@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:19:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,29 +105,90 @@ Cc: =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds command to list disks of the VM.
+Add API and stubs for new guest-get-disks command.
 
-The patch does compile on master but to work properly it requires changes to
-qemu-ga by Thomas Huth in series: Allow guest-get-fsinfo also for non-PCI
-devices.
+The command guest-get-fsinfo can be used to list information about disks
+and partitions but it is limited only to mounted disks with filesystem.
+This new command should allow listing information about disks of the VM
+regardles whether they are mounted or not. This can be usefull for
+management applications for mapping virtualized devices or pass-through
+devices to device names in the guest OS.
 
-v2:
-- added new struct in API to handle the information
-- split changes into several patches
-- for Linux list also slaves, partitions and virtual disks so that the disk
-  hierarchy is preserved
-- fixed issues pointed out by Michael
+Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
+---
+ qga/commands-posix.c |  6 ++++++
+ qga/commands-win32.c |  6 ++++++
+ qga/qapi-schema.json | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 41 insertions(+)
 
-Tomáš Golembiovský (3):
-  qga: add command guest-get-disks
-  qga: add implementation of guest-get-disks for Linux
-  qga: add implementation of guest-get-disks for Windows
-
- qga/commands-posix.c | 241 ++++++++++++++++++++++++++++++++++++++++++-
- qga/commands-win32.c |  91 ++++++++++++++++
- qga/qapi-schema.json |  29 ++++++
- 3 files changed, 360 insertions(+), 1 deletion(-)
-
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 744c2b5a5d..f99731af51 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -3042,3 +3042,9 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+ 
+     return info;
+ }
++
++GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index aaa71f147b..e9976a0c46 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -2229,3 +2229,9 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+ 
+     return info;
+ }
++
++GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 408a662ea5..70b54e0d07 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -862,6 +862,35 @@
+            'bus': 'int', 'target': 'int', 'unit': 'int',
+            '*serial': 'str', '*dev': 'str'} }
+ 
++##
++# @GuestDiskInfo:
++#
++# @name: device node (Linux) or device UNC (Windows)
++# @partition: whether this is a partition or disk
++# @slaves: list of slave devices (Linux)
++# @address: disk address information (only for non-virtual devices)
++# @alias: optional alias assigned to the disk, on Linux this is a name assigned
++#         by device mapper
++#
++# Since 5.2
++##
++{ 'struct': 'GuestDiskInfo',
++  'data': {'name': 'str', 'partition': 'bool', 'slaves': ['str'],
++           '*address': 'GuestDiskAddress', '*alias': 'str'} }
++
++##
++# @guest-get-disks:
++#
++# Returns: The list of disks in the guest. For Windows these are only the
++#          physical disks. On Linux these are all root block devices of
++#          non-zero size including e.g. removable devices, loop devices,
++#          NBD, etc.
++#
++# Since: 5.2
++##
++{ 'command': 'guest-get-disks',
++  'returns': ['GuestDiskInfo'] }
++
+ ##
+ # @GuestFilesystemInfo:
+ #
 -- 
 2.25.0
 
