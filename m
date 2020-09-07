@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9C225F82F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 12:28:39 +0200 (CEST)
-Received: from localhost ([::1]:44232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC31725F811
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 12:26:22 +0200 (CEST)
+Received: from localhost ([::1]:37964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFEO6-00006J-4O
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 06:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49474)
+	id 1kFELt-0005y5-Ue
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 06:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kFEKQ-0004hw-Kx; Mon, 07 Sep 2020 06:24:50 -0400
+ id 1kFEKT-0004nt-3A; Mon, 07 Sep 2020 06:24:53 -0400
 Received: from mail-eopbgr40097.outbound.protection.outlook.com
  ([40.107.4.97]:49945 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kFEKO-0002LE-Nv; Mon, 07 Sep 2020 06:24:50 -0400
+ id 1kFEKR-0002LE-76; Mon, 07 Sep 2020 06:24:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JzwUBFVr0DHLxmpDQaSVZQaLMI29CJXD+kuqfCcZ7XCamm8MeuGIjyQkvBSMC7PPr/hz1tXxFF14LgOMsUhu9q/etJUArGWRsijvlFjcF34ZDuq+enEc5e/GgADD7ewr4DKBEXubGfWYgkKyLZvd/WY7uwZUy/nXHOl3kRweXmV1KzTHnDCFRLcB0Jg9KGxMYyaf4eiF/T2BCy35h/hH27psQfpW+D4Kg3e7vgEttflA4niZiE3aYL0nO7zKHmz0hTn1Kx1QSZwgrZIDsE2Q4rJsy0ViA+Qm4csDDwaQRGMmcfvydosrZm7bSCeSW0byECKsaZ7DkktC7q5CCU/fNQ==
+ b=lSP77MuJgGaH/PKZUnDMtEkDipHAt1PbGWP+be+ky5bIC6ZCS7rdwloJ1yOrBSD0ueAkGjDIH/lBOILVzIUTQorW7+htmACNjYa+c1wnhfJaef52beDQGoW9M74Yo/iPBTvnRz083PhW6s6j0whkNzVo5iyABxij7zM2ZXcFVfzA9CfsXRabxDXSNFrsOfgG2Ns19l9az44K4pQy2Yd/DtanTDx32O3gDUxBM+vHZGf2glcgHNFn7psppyfFQCbEeuwa7CZIOOJOv8u/1sFjSdmCenhAkG2Ke5Lx7/D4QEB06Xdf6W0lU3oKdeO3qTlnoJFjxsDDio2yi2/xMnA8eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7h6LK50eevMYosi2nNQG+vN2FqmSAWpH4vvJtWHzFeI=;
- b=X+3ZRAL5Cj0oolN4DMWOO6zgxzZ8NKR4Pv12iK6/06ZAtZ5+jRlHgl32qnOkVBYNcvFoASaW0rHYhz5dFFW4s5Pkit32SlY17HMjiNxOm5XFJp5qOYzokjJWQCIc8cxyo0FezSQCdpoSnCPHcq2yEA2dpX+b0rY0Xvj9RIwUBkTdwzQ+XPWhmXhQBdaNMoSMYZLjdHcygWgyE/S6FPn4eBww0Ou/LM6fGwGXJ7DtYLZz+f1bdw4nnT/pvGtQ4Er7mdBvmNQ5u+MmDybKbER2+VkColVyAsdkUwHg5rcvYbqUZTtCwnXIsuHDLOUqrkCXSo986nUHR/ySNGZoo/fRvA==
+ bh=7TKbFVer4TurpEd5qveeLYaHbgbytE+KlVSwHoHGWYg=;
+ b=VOUyvbXMm1z3eHLEGJp5oMyI21dfJ7dZ+KhEJhme6QVPe0xRx+PeFvVEXAq25vUApGNiNV2RmcsumLLQpKxFrqeKLjS9/KCzNgyx64z7oU/hL1f0f90K9L2rnQLTAPtcyLeeDk/tk1+6DQf+B3cASiyJ+HDE45hxoSfNwF8cqpY/3rf6x458nBLrwzD0/rO+JD3WoX1XQ33XnLQ5X7hy0uD8BNPCWoAi3v/DTOIAF71ALjX4MF3YsV6Wt1JX8umhwDVssQ3kS0370UOsd+yElrwppizWZzF+gH1ISmXrRCr1JwXPenodNkCOPH1v6JEX9gvQ3DuY7qhBIX9HZETtvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7h6LK50eevMYosi2nNQG+vN2FqmSAWpH4vvJtWHzFeI=;
- b=pOwC3SLSeD1fQhKQ9vIUULmuxoo5zAUmWkrj3NUg2p7sJk0Joax9W4Zhem40nJgwa8ZKwhN93bWbuzXm5W6dShsREjWegtkZ3lnORKRK9Biczu6pAKRZzOj8lViKmakcNUQuhhmR5Vxd89kbGiVQokr/SIFO8lsVW4IFo1IIt2I=
+ bh=7TKbFVer4TurpEd5qveeLYaHbgbytE+KlVSwHoHGWYg=;
+ b=Z/MekvNYnjOhz0eNFkSIRifjRh3LuQ53WT+XGJEffWuBA4L9uvNb8MqnKhVI1h5bgzwJ4da7fZ3o5xT4Mqa4Xm2h40BHLAj7bFUrSokDZwRMoGEVkGBQSvYQXY60LJcgG18j+IUdThZwkajdAlpYIc0BW5d1MxuJzOEYc7UjPuw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -48,9 +48,10 @@ From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  eblake@redhat.com, vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH 1/3] block/nbd: move initial connect to coroutine
-Date: Mon,  7 Sep 2020 13:24:24 +0300
-Message-Id: <20200907102426.24766-2-vsementsov@virtuozzo.com>
+Subject: [PATCH 2/3] nbd: allow reconnect on open,
+ with corresponding new options
+Date: Mon,  7 Sep 2020 13:24:25 +0300
+Message-Id: <20200907102426.24766-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200907102426.24766-1-vsementsov@virtuozzo.com>
 References: <20200907102426.24766-1-vsementsov@virtuozzo.com>
@@ -64,32 +65,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.137) by
  AM0PR10CA0070.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3348.15 via Frontend Transport; Mon, 7 Sep 2020 10:24:40 +0000
+ 15.20.3348.15 via Frontend Transport; Mon, 7 Sep 2020 10:24:41 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.137]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 825da04b-d2b4-426e-d589-08d853183af2
+X-MS-Office365-Filtering-Correlation-Id: 96873242-ecd7-4441-9c7e-08d853183b6b
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4722:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB47229F1FEDEF7EE92C70F43DC1280@AM6PR08MB4722.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB472258B912E736D1D10DD111C1280@AM6PR08MB4722.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:353;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QfuDCfoJ7UMBS47HjtiVnTtOTeCE84l9tFn/XECH00TNPDC+y+rKwJRNIzZRaAfBwYrCDg+SlRcmCT4N9eeZJeB5wTka/2BJ+rlpYr6wV9D44caEATONgn24zluQaIkSXwuMb7eIdkCy1WmJvs3JcDK5o/XT9zmYxXDV3wGO/zVZmWy5NaKUzQRfdOozJX7aEOO//eJRQMA+U4c7YZoO5wQq98mqwPyh7eACRNrpP/3uCWwy7ppiCmBmxleENFC65w7koqhOCtg4eIhPP3lnP+IpsI3AZVpYliP54XfZ39foDteqCwIdAqTq56rSkZopiOcdQ4OrsCyqEk8DGfm69A==
+X-Microsoft-Antispam-Message-Info: wuaBfGFFY1yktXosoqHq039fHkIl5MTMQFpw7/AK6VoglgsEYpX1sZQAQQ92tlrE4WxRJreeO3Tt50Jomt8VzQ9ib19mbz4NE0EWHhXBjUCzxzoK2uwjg9QLVeBlFGt9AsfJTU3m6sc41l6hOAE6gwh4CTGXrcoK3nLVzKi02IxTVEBUNbmJaAAqAOh7kCmBsVFmxiX2OgIz7myuB5fqrM34IAjsCtrhAUgOVDFkiujnY3pDBLNJpyTlXf4T3Xs8nhTEPtSs9srcjB0oEUEzkamAUt3MBKPLeHIIfkLVSrxWi5c85bDk89htEbiR773IlgtIcGQmLqJQIW6B8VZANw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39840400004)(396003)(136003)(346002)(376002)(366004)(4326008)(86362001)(83380400001)(36756003)(956004)(2616005)(2906002)(6916009)(16526019)(186003)(107886003)(8676002)(8936002)(66556008)(66476007)(66946007)(5660300002)(478600001)(6486002)(1076003)(6506007)(6666004)(316002)(52116002)(26005)(6512007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Gq0CykFXJSTldTbxlarnic5vbcisrvU/4VUtvbi4bB5ZgQzkxohELcwUGZu61kRhX6D4pmvVhMLCNA/ihefCY3CMi9Mv4uFl5lWD8ngo4hZQZBNRa2YWvrOFX3uISeV/sW8fm4aHRVxxqGjDg2t2q48DNR58W45UnWGUyX5IKJJ2LR1Erevps4cebLIZPbIwbT7Z1Twn5/9GQM2Zf2wfPkeFoF2tQ1PlQh/ADVX1w6i+h4Dsu7wOSFNKiM+51svT4bYfPAeHNGoc+gF9b5555jLF1po1KHBj2wK6Hf6ccKGFGtw/lBC0OEXLEbpmfZj+yxl/p+MKWNxeqqYogC/U3uHAyUEkt41Bk6eR8yoDnMjS7UCrKjiJFJ0+/DJgkLOkdoQ3GCJ2dFp1BMzeyBTd+fPgOHcMWwU9e8+6D8ojjHav5PYK+ALx3zgDTx63m5b0EynhB6zen/AkafZkCmztfSs+GujDdZherdss6yEFyXH23AL8d+2f6102gQIAgTgA4zsE0TjY9xXAxoNvuez8K/hqF2UH8I+Q2sHjp04ZkjiiaEDE9fO5yjsYBgG5dJpLZAedrMIDcLOB1aUiOyfkcttfjEU9M299LnUv7oLReeUYhj74qD3ItXkfyr8UXGlUSdcEdsX2EgBWFhiRnsV+Rg==
+X-MS-Exchange-AntiSpam-MessageData: LU4cw2tCb5iyKaodbZ+ptKzbB71uAtsfp99elnYIb8F8yA2HeqxtRtqCYH04mea0hWs2yJdicgqCTQAQsyvT+Dxe71EpiwVZTP5vl14kEGPAz4pYjVkzRQcNFaGpzdURDWPcicj+lB21m3RWo+jPXZMReQD1c6SWKUU+DaVcW1/K0hNAVM4wk8Q6KHuX/65y/8VLxek0Mt1MSF4cHUA6P3406rdkq3jdSsvhJGb7lkp32Zknl1XSmG9x9bjRkVmEugoUI+m8rJQXAgLcsLRNcumsa5Ru9PIdZqxuNoFyv3nq8sFk5mj//Jek2bIA7QNFTCz9fJ//r9XppTqSCSPANSMyVH8/td6gQcvjvX9tZCratBmqC2NmlMNHvBwE4AQn6c8H0S76ivd/nfKTnhmKsDjPxJL39p6G98CJjoCgKBR/9I5AK7BpLfmxRszBKy3WMvtTkG96vvisPHr+xo9Z4Sxmfk2cObgSdT9dadRx1Jlv/2cbBbVEny/OihssC1w607Vz/vNR1N4V/FaGEH3U16CuO3vO1HiP+d3fvIkvgtKdWGLYi47PcuuvgX/hkhd5fqQuOXH7jz4V08F/6TXqHDmkC5UO0TPcDvPtb/U25Tdtg1UUppraWYbpWWm6Xf2Jm/CVvokuEjfsdNSrPxY+nA==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 825da04b-d2b4-426e-d589-08d853183af2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96873242-ecd7-4441-9c7e-08d853183b6b
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2020 10:24:40.8667 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2020 10:24:41.5766 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yz9xUnYA05UY+V2As1vVzI4h1Yj7iDXqFwJL6zDnT6+WUiPhfyvK9K1uX1Kne7WrDs1T3/BmPIXK5/NuI9tqN5x8lrD2xxNlmESyHfYImDM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: RSfbTTjAwriRInBut3ANCz4O2fhkEeN8qcq0Gmb9sXqGaaDciO7zhUMLC9/w0EjidIdYw4ngjFus04/EvVrHKyppiEsBDIDVjFTLuIPgbm8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4722
 Received-SPF: pass client-ip=40.107.4.97;
  envelope-from=vsementsov@virtuozzo.com;
@@ -119,189 +120,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to implement reconnect-on-open. Let's reuse existing
-reconnect loop. For this, do initial connect in connection coroutine.
+Note: currently, using new option with long timeout in qmp command
+blockdev-add is not good idea, as qmp interface is blocking, so,
+don't add it now, let's add it later after
+"monitor: Optionally run handlers in coroutines" series merged.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/nbd.c | 94 ++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 53 insertions(+), 41 deletions(-)
+ block/nbd.c | 115 +++++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 92 insertions(+), 23 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index 4548046cd7..16f039b7dc 100644
+index 16f039b7dc..8fea5ededb 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -57,6 +57,7 @@ typedef struct {
- } NBDClientRequest;
+@@ -125,12 +125,14 @@ typedef struct BDRVNBDState {
+     bool wait_in_flight;
  
- typedef enum NBDClientState {
-+    NBD_CLIENT_OPENING,
-     NBD_CLIENT_CONNECTING_WAIT,
-     NBD_CLIENT_CONNECTING_NOWAIT,
-     NBD_CLIENT_CONNECTED,
-@@ -113,6 +114,7 @@ typedef struct BDRVNBDState {
-     CoQueue free_sema;
-     Coroutine *connection_co;
-     Coroutine *teardown_co;
-+    Coroutine *open_co;
-     QemuCoSleepState *connection_co_sleep_ns_state;
-     bool drained;
-     bool wait_drained_end;
-@@ -140,8 +142,6 @@ typedef struct BDRVNBDState {
-     NBDConnectThread *connect_thread;
- } BDRVNBDState;
+     QEMUTimer *reconnect_delay_timer;
++    QEMUTimer *open_timer;
  
--static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
--                                                  Error **errp);
- static QIOChannelSocket *nbd_co_establish_connection(BlockDriverState *bs,
-                                                      Error **errp);
- static void nbd_co_establish_connection_cancel(BlockDriverState *bs,
-@@ -338,7 +338,8 @@ static void nbd_teardown_connection(BlockDriverState *bs)
- static bool nbd_client_connecting(BDRVNBDState *s)
- {
-     return s->state == NBD_CLIENT_CONNECTING_WAIT ||
--        s->state == NBD_CLIENT_CONNECTING_NOWAIT;
-+        s->state == NBD_CLIENT_CONNECTING_NOWAIT ||
-+        s->state == NBD_CLIENT_OPENING;
+     NBDClientRequest requests[MAX_NBD_REQUESTS];
+     NBDReply reply;
+     BlockDriverState *bs;
+ 
+     /* Connection parameters */
++    uint64_t open_timeout;
+     uint32_t reconnect_delay;
+     SocketAddress *saddr;
+     char *export, *tlscredsid;
+@@ -304,7 +306,7 @@ static void coroutine_fn nbd_client_co_drain_end(BlockDriverState *bs)
  }
  
- static bool nbd_client_connecting_wait(BDRVNBDState *s)
-@@ -638,6 +639,7 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
+ 
+-static void nbd_teardown_connection(BlockDriverState *bs)
++static void nbd_teardown_connection_async(BlockDriverState *bs)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+ 
+@@ -324,6 +326,14 @@ static void nbd_teardown_connection(BlockDriverState *bs)
+         }
+         nbd_co_establish_connection_cancel(bs, true);
+     }
++}
++
++static void nbd_teardown_connection(BlockDriverState *bs)
++{
++    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
++
++    nbd_teardown_connection_async(bs);
++
+     if (qemu_in_coroutine()) {
+         s->teardown_co = qemu_coroutine_self();
+         /* connection_co resumes us when it terminates */
+@@ -473,6 +483,11 @@ nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
+     s->wait_connect = true;
+     qemu_coroutine_yield();
+ 
++    if (!s->connect_thread) {
++        error_setg(errp, "Connection attempt cancelled by other operation");
++        return NULL;
++    }
++
+     qemu_mutex_lock(&thr->mutex);
+ 
+     switch (thr->state) {
+@@ -528,6 +543,12 @@ static void nbd_co_establish_connection_cancel(BlockDriverState *bs,
+     bool wake = false;
+     bool do_free = false;
+ 
++    if (!thr) {
++        /* already detached or finished */
++        assert(!s->wait_connect);
++        return;
++    }
++
+     qemu_mutex_lock(&thr->mutex);
+ 
+     if (thr->state == CONNECT_THREAD_RUNNING) {
+@@ -623,10 +644,15 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+     bdrv_inc_in_flight(s->bs);
+ 
+ out:
+-    s->connect_status = ret;
+-    error_free(s->connect_err);
+-    s->connect_err = NULL;
+-    error_propagate(&s->connect_err, local_err);
++    if (s->connect_status == -ETIMEDOUT) {
++        /* Don't rewrite timeout error by following cancel-provoked error */
++        error_free(local_err);
++    } else {
++        s->connect_status = ret;
++        error_free(s->connect_err);
++        s->connect_err = NULL;
++        error_propagate(&s->connect_err, local_err);
++    }
+ 
+     if (ret >= 0) {
+         /* successfully connected */
+@@ -635,11 +661,44 @@ out:
+     }
+ }
+ 
++static void open_timer_del(BDRVNBDState *s)
++{
++    if (s->open_timer) {
++        timer_del(s->open_timer);
++        timer_free(s->open_timer);
++        s->open_timer = NULL;
++    }
++}
++
++static void open_timer_cb(void *opaque)
++{
++    BDRVNBDState *s = opaque;
++
++    if (!s->connect_status) {
++        /* First attempt was not finished. We should set an error */
++        s->connect_status = -ETIMEDOUT;
++        error_setg(&s->connect_err, "First connection attempt is cancelled by "
++                   "timeout");
++    }
++
++    nbd_teardown_connection_async(s->bs);
++    open_timer_del(s);
++}
++
++static void open_timer_init(BDRVNBDState *s, uint64_t expire_time_ns)
++{
++    assert(!s->open_timer && s->state == NBD_CLIENT_OPENING);
++    s->open_timer = aio_timer_new(bdrv_get_aio_context(s->bs),
++                                  QEMU_CLOCK_REALTIME,
++                                  SCALE_NS,
++                                  open_timer_cb, s);
++    timer_mod(s->open_timer, expire_time_ns);
++}
++
+ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
  {
      uint64_t timeout = 1 * NANOSECONDS_PER_SECOND;
      uint64_t max_timeout = 16 * NANOSECONDS_PER_SECOND;
-+    bool initial_connect = s->state == NBD_CLIENT_OPENING;
+-    bool initial_connect = s->state == NBD_CLIENT_OPENING;
  
      if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
          reconnect_delay_timer_init(s, qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
-@@ -646,6 +648,25 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
+@@ -648,23 +707,9 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
  
      nbd_reconnect_attempt(s);
  
-+    if (initial_connect) {
-+        if (s->state == NBD_CLIENT_CONNECTED) {
-+            /* All good. Just kick nbd_open() to successfully return */
-+            if (s->open_co) {
-+                aio_co_wake(s->open_co);
-+                s->open_co = NULL;
-+            }
-+            aio_wait_kick();
-+            return;
-+        } else {
-+            /*
-+             * Failed. Currently, reconnect on open is not allowed, so quit.
-+             * nbd_open() will be kicked in the end of nbd_connection_entry()
-+             */
-+            s->state = NBD_CLIENT_QUIT;
-+            return;
-+        }
-+    }
-+
-     while (nbd_client_connecting(s)) {
-         if (s->drained) {
-             bdrv_dec_in_flight(s->bs);
-@@ -758,6 +779,11 @@ static coroutine_fn void nbd_connection_entry(void *opaque)
-         s->ioc = NULL;
+-    if (initial_connect) {
+-        if (s->state == NBD_CLIENT_CONNECTED) {
+-            /* All good. Just kick nbd_open() to successfully return */
+-            if (s->open_co) {
+-                aio_co_wake(s->open_co);
+-                s->open_co = NULL;
+-            }
+-            aio_wait_kick();
+-            return;
+-        } else {
+-            /*
+-             * Failed. Currently, reconnect on open is not allowed, so quit.
+-             * nbd_open() will be kicked in the end of nbd_connection_entry()
+-             */
+-            s->state = NBD_CLIENT_QUIT;
+-            return;
+-        }
++    if (s->state == NBD_CLIENT_OPENING && !s->open_timeout) {
++        s->state = NBD_CLIENT_QUIT;
++        return;
      }
  
-+    if (s->open_co) {
-+        aio_co_wake(s->open_co);
-+        s->open_co = NULL;
-+    }
-+
-     if (s->teardown_co) {
-         aio_co_wake(s->teardown_co);
+     while (nbd_client_connecting(s)) {
+@@ -694,6 +739,16 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
      }
-@@ -1746,26 +1772,6 @@ static void nbd_client_close(BlockDriverState *bs)
-     nbd_teardown_connection(bs);
+ 
+     reconnect_delay_timer_del(s);
++    open_timer_del(s);
++
++    if (s->state == NBD_CLIENT_CONNECTED) {
++        /* All good. Just kick nbd_open() to successfully return */
++        if (s->open_co) {
++            aio_co_wake(s->open_co);
++            s->open_co = NULL;
++        }
++        aio_wait_kick();
++    }
  }
  
--static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
--                                                  Error **errp)
--{
--    ERRP_GUARD();
--    QIOChannelSocket *sioc;
--
--    sioc = qio_channel_socket_new();
--    qio_channel_set_name(QIO_CHANNEL(sioc), "nbd-client");
--
--    qio_channel_socket_connect_sync(sioc, saddr, errp);
--    if (*errp) {
--        object_unref(OBJECT(sioc));
--        return NULL;
--    }
--
--    qio_channel_set_delay(QIO_CHANNEL(sioc), false);
--
--    return sioc;
--}
--
- /* nbd_client_handshake takes ownership on sioc. On failure it is unref'ed. */
- static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
-                                 Error **errp)
-@@ -2229,7 +2235,6 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
- {
-     int ret;
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
--    QIOChannelSocket *sioc;
+ static coroutine_fn void nbd_connection_entry(void *opaque)
+@@ -2164,6 +2219,14 @@ static QemuOptsList nbd_runtime_opts = {
+                     "future requests before a successful reconnect will "
+                     "immediately fail. Default 0",
+         },
++        {
++            .name = "open-timeout",
++            .type = QEMU_OPT_NUMBER,
++            .help = "In seconds. If zero, nbd driver tries to establish "
++                    "connection only once, on fail open fails. If non-zero, "
++                    "nbd driver may do several attempts until success or "
++                    "@open-timeout seconds passed. Default 0",
++        },
+         { /* end of list */ }
+     },
+ };
+@@ -2219,6 +2282,7 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
+     }
  
-     ret = nbd_process_options(bs, options, errp);
-     if (ret < 0) {
-@@ -2239,23 +2244,7 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
-     s->bs = bs;
-     qemu_co_mutex_init(&s->send_mutex);
-     qemu_co_queue_init(&s->free_sema);
--
--    /*
--     * establish TCP connection, return error if it fails
--     * TODO: Configurable retry-until-timeout behaviour.
--     */
--    sioc = nbd_establish_connection(s->saddr, errp);
--    if (!sioc) {
--        return -ECONNREFUSED;
--    }
--
--    ret = nbd_client_handshake(bs, sioc, errp);
--    if (ret < 0) {
--        nbd_clear_bdrvstate(s);
--        return ret;
--    }
--    /* successfully connected */
--    s->state = NBD_CLIENT_CONNECTED;
-+    s->state = NBD_CLIENT_OPENING;
+     s->reconnect_delay = qemu_opt_get_number(opts, "reconnect-delay", 0);
++    s->open_timeout = qemu_opt_get_number(opts, "open-timeout", 0);
  
-     nbd_init_connect_thread(s);
+     ret = 0;
  
-@@ -2263,6 +2252,29 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+@@ -2252,6 +2316,11 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
      bdrv_inc_in_flight(bs);
      aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
  
-+    if (qemu_in_coroutine()) {
-+        s->open_co = qemu_coroutine_self();
-+        qemu_coroutine_yield();
-+    } else {
-+        BDRV_POLL_WHILE(bs, s->state == NBD_CLIENT_OPENING);
++    if (s->open_timeout) {
++        open_timer_init(s, qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
++                        s->open_timeout * NANOSECONDS_PER_SECOND);
 +    }
 +
-+    if (s->state != NBD_CLIENT_CONNECTED && s->connect_status < 0) {
-+        /*
-+         * It's possible that state != NBD_CLIENT_CONNECTED, but connect_status
-+         * is 0. This means that initial connecting succeed, but failed later
-+         * (during BDRV_POLL_WHILE). It's a rare case, but it happen in iotest
-+         * 83. Let's don't care and just report success in this case: it not
-+         * much differs from the case when connection failed immediately after
-+         * succeeded open.
-+         */
-+        assert(s->connect_err);
-+        error_propagate(errp, s->connect_err);
-+        s->connect_err = NULL;
-+        nbd_clear_bdrvstate(s);
-+        return s->connect_status;
-+    }
-+
-     return 0;
- }
- 
+     if (qemu_in_coroutine()) {
+         s->open_co = qemu_coroutine_self();
+         qemu_coroutine_yield();
 -- 
 2.21.3
 
