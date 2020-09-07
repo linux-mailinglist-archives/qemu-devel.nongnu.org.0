@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DE925FA3B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 14:14:26 +0200 (CEST)
-Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3238125FA45
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 14:16:15 +0200 (CEST)
+Received: from localhost ([::1]:57180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFG2T-0000QF-59
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 08:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45332)
+	id 1kFG4E-0003A5-99
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 08:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFFzr-0003to-E1
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43523
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFFzt-00040s-Ml
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53544
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFFzp-0007uU-TK
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:43 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFFzr-0007un-NQ
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599480701;
+ s=mimecast20190719; t=1599480703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIgycSa+wKs9Dk+gcs/FjJ23Ge3BvWYk+MUgbb8jKZE=;
- b=MjwP/daO44TaHMyYrWp9PdHOvkhQ0/A7UCYvwWnnclSnkWRb2L6/FtDfH3lQY8MzKnlqGW
- cn6SHVrkO9J51LC3TlQyuyCur90PFBPgCq9SeLwtCItiWHXQTcaV/Rmi74uGFKPC74ybnj
- n/w0mCEIeheXDsd+VooInH+NTQfscWE=
+ bh=JNZGqbsbfDwsTrMCxJJe8eJaJAvzaF7hs1fj1GhTtYs=;
+ b=ZKk+CmGNRGOqXWvF8wrN1/SpwYUPVyp9ELrCpGM2EZDcneylmpJnrI57cv2DhdCJ5jsacK
+ lg+W4GtQJkYU46HlwPdEjxAfIPwExkr+/bvbaYYh5Uz4Bt81LrWwjIwQ73klqAZ27drMCE
+ cZid/pXgTPEX83mkIlFL9qb5CppHOlw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-ASOlsZU1MkGZOs_SxJ4AOw-1; Mon, 07 Sep 2020 08:11:38 -0400
-X-MC-Unique: ASOlsZU1MkGZOs_SxJ4AOw-1
+ us-mta-513-6yt0596yM5GWPlUZ9wSoOg-1; Mon, 07 Sep 2020 08:11:40 -0400
+X-MC-Unique: 6yt0596yM5GWPlUZ9wSoOg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA8B8640EB;
- Mon,  7 Sep 2020 12:11:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58C3E640C1;
+ Mon,  7 Sep 2020 12:11:39 +0000 (UTC)
 Received: from thuth.com (ovpn-112-193.ams2.redhat.com [10.36.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0C0A5C1BB;
- Mon,  7 Sep 2020 12:11:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24A705C1BB;
+ Mon,  7 Sep 2020 12:11:37 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/14] tests/Makefile: test-image-locking needs CONFIG_POSIX
-Date: Mon,  7 Sep 2020 14:11:18 +0200
-Message-Id: <20200907121127.136243-6-thuth@redhat.com>
+Subject: [PULL 06/14] dockerfiles/debian-win64-cross: Download WHPX MinGW
+ headers
+Date: Mon,  7 Sep 2020 14:11:19 +0200
+Message-Id: <20200907121127.136243-7-thuth@redhat.com>
 In-Reply-To: <20200907121127.136243-1-thuth@redhat.com>
 References: <20200907121127.136243-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,33 +85,40 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test-image-locking.c uses the qemu_lock_fd_test() function which is
-only available on POSIX-like systems.
+To compile-test the WHPX accelerator, we need to download these system
+headers first (they are unfortunately not part of any released and
+packaged MinGW toolchain yet).
 
-Message-Id: <20200804170055.2851-4-thuth@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20200823111757.72002-4-thuth@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Idea taken from another patch by Stefan Weil.
+
+Message-Id: <20200804170055.2851-12-thuth@redhat.com>
+Message-Id: <20200823111757.72002-6-thuth@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/Makefile.include | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/docker/dockerfiles/debian-win64-cross.docker | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9ac8f5b86a..497f1f21ff 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -87,7 +87,9 @@ check-unit-$(CONFIG_BLOCK) += tests/test-blockjob$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-blockjob-txn$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-block-backend$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-block-iothread$(EXESUF)
-+ifeq ($(CONFIG_POSIX),y)
- check-unit-$(CONFIG_BLOCK) += tests/test-image-locking$(EXESUF)
-+endif
- check-unit-y += tests/test-x86-cpuid$(EXESUF)
- # all code tested by test-x86-cpuid is inside topology.h
- ifeq ($(CONFIG_SOFTMMU),y)
+diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b/tests/docker/dockerfiles/debian-win64-cross.docker
+index 2fc9cfcbc6..4cc4a3f365 100644
+--- a/tests/docker/dockerfiles/debian-win64-cross.docker
++++ b/tests/docker/dockerfiles/debian-win64-cross.docker
+@@ -32,7 +32,14 @@ RUN apt-get update && \
+         mxe-$TARGET-w64-mingw32.shared-sdl2 \
+         mxe-$TARGET-w64-mingw32.shared-sdl2-mixer \
+         mxe-$TARGET-w64-mingw32.shared-sdl2-gfx \
+-        mxe-$TARGET-w64-mingw32.shared-zlib
++        mxe-$TARGET-w64-mingw32.shared-zlib \
++        curl && \
++    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvEmulation.h \
++        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvemulation.h?format=raw" && \
++    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvPlatform.h \
++        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvplatform.h?format=raw" && \
++    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/winhvplatformdefs.h \
++        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvplatformdefs.h?format=raw"
+ 
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32.shared-
 -- 
 2.18.2
 
