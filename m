@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A6426049F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:33:46 +0200 (CEST)
-Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7743260497
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:31:35 +0200 (CEST)
+Received: from localhost ([::1]:50760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLxZ-00032d-1u
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42836)
+	id 1kFLvS-0007oP-PP
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlK-0005qS-3B
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:21:06 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45882
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlJ-0005pM-Kt
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:21:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54815
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlH-0004fw-WA
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlH-0004gE-G0
  for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:21:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599502861;
+ s=mimecast20190719; t=1599502862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bK+ifR3wkt+Es7s9DRYwoq1Qk7xHQcwwhiFnJO3KQZ4=;
- b=LP3RqbZjQoYn4CSG7YXGcP9OtJN6pMoJmSUzvz0FMUpSRo5B3ZAhFQObzW3M4M3xt6P/AZ
- WlxToS9w6A/3X16Dy2jJ7n12aRwiQ0qav/b4EjKVgijdFMavkaH8IWCgqrY7z68L3R6SU3
- tWITeyA15tzvx+yUjEW8wPByjFOYuXg=
+ bh=S6gjb9Vj7DCIsY88aG5bXdrBiLmdI/L9yZvA/orI7vA=;
+ b=Kdw4G0EG6yccmFKHByB6ST+W2bWIxxNOFV4uzj9mxJb6x24MUDG/Yx8E5+YvUQXH5eOgW6
+ QWpL250GDZGLpMuHZhw+TYzQxM/rxY6BkgpbtK7xyieMRa6RKOvVOzNYAmOpnHW+ECl7HE
+ gginFOQ64C042wK9KRramf/D+AkOUVY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-8x0SeIdaOceRNUg7Z-dP9Q-1; Mon, 07 Sep 2020 14:20:59 -0400
-X-MC-Unique: 8x0SeIdaOceRNUg7Z-dP9Q-1
+ us-mta-533-mneAY5-JNm-UeszfyjcCWA-1; Mon, 07 Sep 2020 14:21:01 -0400
+X-MC-Unique: mneAY5-JNm-UeszfyjcCWA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2FAF8030A7;
- Mon,  7 Sep 2020 18:20:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3244B1084C96;
+ Mon,  7 Sep 2020 18:21:00 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 981E26198E;
- Mon,  7 Sep 2020 18:20:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10BE960C0F;
+ Mon,  7 Sep 2020 18:20:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 24/29] block/export: Add query-block-exports
-Date: Mon,  7 Sep 2020 20:20:06 +0200
-Message-Id: <20200907182011.521007-25-kwolf@redhat.com>
+Subject: [PATCH 25/29] block/export: Move writable to BlockExportOptions
+Date: Mon,  7 Sep 2020 20:20:07 +0200
+Message-Id: <20200907182011.521007-26-kwolf@redhat.com>
 In-Reply-To: <20200907182011.521007-1-kwolf@redhat.com>
 References: <20200907182011.521007-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 22:29:02
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 02:54:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -67,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,85 +84,203 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a simple QMP command to query the list of block exports.
+The 'writable' option is a basic option that will probably be applicable
+to most if not all export types that we will implement. Move it from NBD
+to the generic BlockExport layer.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-export.json | 32 ++++++++++++++++++++++++++++++++
- block/export/export.c  | 23 +++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
+ qapi/block-export.json | 15 ++++++++++-----
+ block/export/export.c  | 16 +++++++++++++++-
+ blockdev-nbd.c         | 18 +++++-------------
+ nbd/server.c           |  5 -----
+ qemu-nbd.c             |  4 ++--
+ 5 files changed, 32 insertions(+), 26 deletions(-)
 
 diff --git a/qapi/block-export.json b/qapi/block-export.json
-index dac3250f08..d4e9290210 100644
+index d4e9290210..ebdfa978e0 100644
 --- a/qapi/block-export.json
 +++ b/qapi/block-export.json
-@@ -245,3 +245,35 @@
+@@ -74,9 +74,6 @@
+ # @description: Free-form description of the export, up to 4096 bytes.
+ #               (Since 5.0)
+ #
+-# @writable: Whether clients should be able to write to the device via the
+-#            NBD connection (default false).
+-#
+ # @bitmap: Also export the dirty bitmap reachable from @device, so the
+ #          NBD client can use NBD_OPT_SET_META_CONTEXT with
+ #          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
+@@ -85,7 +82,7 @@
  ##
- { 'event': 'BLOCK_EXPORT_DELETED',
-   'data': { 'id': 'str' } }
-+
-+##
-+# @BlockExportInfo:
+ { 'struct': 'BlockExportOptionsNbd',
+   'data': { '*name': 'str', '*description': 'str',
+-            '*writable': 'bool', '*bitmap': 'str' } }
++            '*bitmap': 'str' } }
+ 
+ ##
+ # @NbdServerAddOptions:
+@@ -94,11 +91,15 @@
+ #
+ # @device: The device name or node name of the node to be exported
+ #
++# @writable: Whether clients should be able to write to the device via the
++#            NBD connection (default false).
 +#
-+# Information about a single block export.
+ # Since: 5.0
+ ##
+ { 'struct': 'NbdServerAddOptions',
+   'base': 'BlockExportOptionsNbd',
+-  'data': { 'device': 'str' } }
++  'data': { 'device': 'str',
++            '*writable': 'bool' } }
+ 
+ ##
+ # @nbd-server-add:
+@@ -188,6 +189,9 @@
+ #
+ # @node-name: The node name of the block node to be exported (since: 5.2)
+ #
++# @writable: True if clients should be able to write to the export
++#            (default false)
 +#
-+# @id: The unique identifier for the block export
-+#
-+# @type: The block export type
-+#
-+# @node-name: The node name of the block node that is exported
-+#
-+# @shutting-down: True if the export is shutting down (e.g. after a
-+#                 block-export-del command, but before the shutdown has
-+#                 completed)
-+#
-+# Since:  5.2
-+##
-+{ 'struct': 'BlockExportInfo',
-+  'data': { 'id': 'str',
-+            'type': 'BlockExportType',
-+            'node-name': 'str',
-+            'shutting-down': 'bool' } }
-+
-+##
-+# @query-block-exports:
-+#
-+# Returns: A list of BlockExportInfo describing all block exports
-+#
-+# Since: 5.2
-+##
-+{ 'command': 'query-block-exports', 'returns': ['BlockExportInfo'] }
+ # @writethrough: If true, caches are flushed after every write request to the
+ #                export before completion is signalled. (since: 5.2;
+ #                default: false)
+@@ -198,6 +202,7 @@
+   'base': { 'type': 'BlockExportType',
+             'id': 'str',
+             'node-name': 'str',
++            '*writable': 'bool',
+             '*writethrough': 'bool' },
+   'discriminator': 'type',
+   'data': {
 diff --git a/block/export/export.c b/block/export/export.c
-index 52ec00dfcf..bbdb256267 100644
+index bbdb256267..87516d1e05 100644
 --- a/block/export/export.c
 +++ b/block/export/export.c
-@@ -279,3 +279,26 @@ void qmp_block_export_del(const char *id,
+@@ -62,6 +62,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     BlockDriverState *bs;
+     BlockBackend *blk;
+     AioContext *ctx;
++    uint64_t perm;
+     int ret;
  
-     blk_exp_request_shutdown(exp);
- }
-+
-+BlockExportInfoList *qmp_query_block_exports(Error **errp)
-+{
-+    BlockExportInfoList *head = NULL, **p_next = &head;
-+    BlockExport *exp;
-+
-+    QLIST_FOREACH(exp, &block_exports, next) {
-+        BlockExportInfoList *entry = g_new0(BlockExportInfoList, 1);
-+        BlockExportInfo *info = g_new(BlockExportInfo, 1);
-+        *info = (BlockExportInfo) {
-+            .id             = g_strdup(exp->id),
-+            .type           = exp->drv->type,
-+            .node_name      = g_strdup(bdrv_get_node_name(blk_bs(exp->blk))),
-+            .shutting_down  = !exp->user_owned,
-+        };
-+
-+        entry->value = info;
-+        *p_next = entry;
-+        p_next = &entry->next;
+     if (!id_wellformed(export->id)) {
+@@ -84,6 +85,14 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+         return NULL;
+     }
+ 
++    if (!export->has_writable) {
++        export->writable = false;
++    }
++    if (bdrv_is_read_only(bs) && export->writable) {
++        error_setg(errp, "Cannot export read-only node as writable");
++        return NULL;
 +    }
 +
-+    return head;
-+}
+     ctx = bdrv_get_aio_context(bs);
+     aio_context_acquire(ctx);
+ 
+@@ -95,7 +104,12 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+      */
+     bdrv_invalidate_cache(bs, NULL);
+ 
+-    blk = blk_new(ctx, BLK_PERM_CONSISTENT_READ, BLK_PERM_ALL);
++    perm = BLK_PERM_CONSISTENT_READ;
++    if (export->writable) {
++        perm |= BLK_PERM_WRITE;
++    }
++
++    blk = blk_new(ctx, perm, BLK_PERM_ALL);
+     ret = blk_insert_bs(blk, bs, errp);
+     if (ret < 0) {
+         goto fail;
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index cdbbcdb958..30e165c23f 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -204,16 +204,8 @@ int nbd_export_create(BlockExport *exp, BlockExportOptions *exp_args,
+         return -EEXIST;
+     }
+ 
+-    if (!arg->has_writable) {
+-        arg->writable = false;
+-    }
+-    if (blk_is_read_only(exp->blk) && arg->writable) {
+-        error_setg(errp, "Cannot export read-only node as writable");
+-        return -EINVAL;
+-    }
+-
+     return nbd_export_new(exp, arg->name, arg->description, arg->bitmap,
+-                          !arg->writable, !arg->writable, errp);
++                          !exp_args->writable, !exp_args->writable, errp);
+ }
+ 
+ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+@@ -241,13 +233,13 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+         .type                   = BLOCK_EXPORT_TYPE_NBD,
+         .id                     = g_strdup(arg->name),
+         .node_name              = g_strdup(bdrv_get_node_name(bs)),
++        .has_writable           = arg->has_writable,
++        .writable               = arg->writable,
+         .u.nbd = {
+             .has_name           = true,
+             .name               = g_strdup(arg->name),
+             .has_description    = arg->has_description,
+             .description        = g_strdup(arg->description),
+-            .has_writable       = arg->has_writable,
+-            .writable           = arg->writable,
+             .has_bitmap         = arg->has_bitmap,
+             .bitmap             = g_strdup(arg->bitmap),
+         },
+@@ -259,8 +251,8 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+      * block-export-add.
+      */
+     if (bdrv_is_read_only(bs)) {
+-        export_opts->u.nbd.has_writable = true;
+-        export_opts->u.nbd.writable = false;
++        export_opts->has_writable = true;
++        export_opts->writable = false;
+     }
+ 
+     export = blk_exp_add(export_opts, errp);
+diff --git a/nbd/server.c b/nbd/server.c
+index 6c8532de23..465ec9e762 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1530,11 +1530,6 @@ int nbd_export_new(BlockExport *blk_exp,
+     /* Don't allow resize while the NBD server is running, otherwise we don't
+      * care what happens with the node. */
+     blk_get_perm(blk, &perm, &shared_perm);
+-
+-    if (!readonly) {
+-        perm |= BLK_PERM_WRITE;
+-    }
+-
+     ret = blk_set_perm(blk, perm, shared_perm & ~BLK_PERM_RESIZE, errp);
+     if (ret < 0) {
+         return ret;
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index ac82acb4ac..6d7ac7490f 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -1068,13 +1068,13 @@ int main(int argc, char **argv)
+         .node_name          = g_strdup(bdrv_get_node_name(bs)),
+         .has_writethrough   = true,
+         .writethrough       = writethrough,
++        .has_writable       = true,
++        .writable           = !readonly,
+         .u.nbd = {
+             .has_name           = true,
+             .name               = g_strdup(export_name),
+             .has_description    = !!export_description,
+             .description        = g_strdup(export_description),
+-            .has_writable       = true,
+-            .writable           = !readonly,
+             .has_bitmap         = !!bitmap,
+             .bitmap             = g_strdup(bitmap),
+         },
 -- 
 2.25.4
 
