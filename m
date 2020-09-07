@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FF725FD8E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 17:52:18 +0200 (CEST)
-Received: from localhost ([::1]:39132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0511325FD69
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 17:47:44 +0200 (CEST)
+Received: from localhost ([::1]:55978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFJRJ-0003qy-4u
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 11:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36944)
+	id 1kFJMt-0007P7-3y
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 11:47:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kFJPj-0001kL-JH
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 11:50:39 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:37604)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kFJPh-00024y-BJ
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 11:50:39 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 5DE5640A2059;
- Mon,  7 Sep 2020 15:41:47 +0000 (UTC)
-Subject: Re: [PATCH v3 05/15] iotests: update snapshot test for new output
- format
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
- <159903457617.28509.2649326029575134141.stgit@pasha-ThinkPad-X280>
- <87k0x5r4jg.fsf@linaro.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <1afbeab2-e363-9be3-a751-2692263e80d2@ispras.ru>
-Date: Mon, 7 Sep 2020 18:41:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kFJLp-0006j4-9m
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 11:46:37 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:49139)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kFJLm-0001bg-TO
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 11:46:36 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 087FjuBL014878
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 7 Sep 2020 11:45:59 -0400
+Date: Mon, 7 Sep 2020 11:45:56 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Darren Kenny <darren.kenny@oracle.com>
+Subject: Re: [PATCH v2 04/15] fuzz: Add DMA support to the generic-fuzzer
+Message-ID: <20200907154556.ktqdhzpytzuni6v6@mozz.bu.edu>
+References: <20200819061110.1320568-1-alxndr@bu.edu>
+ <20200819061110.1320568-5-alxndr@bu.edu>
+ <m21rjjtfmq.fsf@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <87k0x5r4jg.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 11:46:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <m21rjjtfmq.fsf@oracle.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 11:40:30
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.825,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,168 +58,323 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
- philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, f4bug@amsat.org, bsd@redhat.com, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.09.2020 18:26, Alex Bennée wrote:
+On 200903 0943, Darren Kenny wrote:
+> On Wednesday, 2020-08-19 at 02:10:59 -04, Alexander Bulekov wrote:
+> > When a virtual-device tries to access some buffer in memory over DMA, we
+> > add call-backs into the fuzzer(next commit). The fuzzer checks verifies
+> > that the DMA request maps to a physical RAM address and fills the memory
+> > with fuzzer-provided data. The patterns that we use to fill this memory
+> > are specified using add_dma_pattern and clear_dma_patterns operations.
+> >
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >  tests/qtest/fuzz/general_fuzz.c | 178 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 178 insertions(+)
+> >
+> > diff --git a/tests/qtest/fuzz/general_fuzz.c b/tests/qtest/fuzz/general_fuzz.c
+> > index 17b572a439..36d41acea0 100644
+> > --- a/tests/qtest/fuzz/general_fuzz.c
+> > +++ b/tests/qtest/fuzz/general_fuzz.c
+> > @@ -25,6 +25,8 @@
+> >  #include "exec/address-spaces.h"
+> >  #include "hw/qdev-core.h"
+> >  #include "hw/pci/pci.h"
+> > +#include "hw/boards.h"
+> > +#include "exec/memory-internal.h"
+> >  
+> >  /*
+> >   * SEPARATOR is used to separate "operations" in the fuzz input
+> > @@ -38,12 +40,16 @@ enum cmds{
+> >      OP_WRITE,
+> >      OP_PCI_READ,
+> >      OP_PCI_WRITE,
+> > +    OP_ADD_DMA_PATTERN,
+> > +    OP_CLEAR_DMA_PATTERNS,
+> >      OP_CLOCK_STEP,
+> >  };
+> >  
+> >  #define DEFAULT_TIMEOUT_US 100000
+> >  #define USEC_IN_SEC 100000000
+> >  
+> > +#define MAX_DMA_FILL_SIZE 0x10000
+> > +
+> >  #define PCI_HOST_BRIDGE_CFG 0xcf8
+> >  #define PCI_HOST_BRIDGE_DATA 0xcfc
+> >  
+> > @@ -53,6 +59,24 @@ typedef struct {
+> >  } address_range;
+> >  
+> >  static useconds_t timeout = 100000;
+> > +/*
+> > + * A pattern used to populate a DMA region or perform a memwrite. This is
+> > + * useful for e.g. populating tables of unique addresses.
+> > + * Example {.index = 1; .stride = 2; .len = 3; .data = "\x00\x01\x02"}
+> > + * Renders as: 00 01 02   00 03 03   00 05 03   00 07 03 ...
 > 
-> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
-> 
->> From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
->>
->> This patch updates iotests that verify qemu monitor output.
->> New output format for snapshot listing include ICOUNT column.
-> 
-> I was curious if the monitor should still function during replay. In my
-> setup:
-> 
->    ./qemu-system-aarch64 -cpu cortex-a53 -display none -serial mon:stdio -machine virt -kernel zephyr.elf -net none -icount shift=6,align=off,sleep=off,rr=replay,rrfile=record.out -drive file=record.qcow2,if=none,snapshot,id=rr -s -S
->    *** Booting Zephyr OS build zephyr-v2.3.0-1183-ge5628ad0faf3  ***
->    Hello World! qemu_cortex_a53
->    qemu-system-aarch64: Missing character write event in the replay log
+> TYPO: I think this wrong, and that the last digit should be 02 not 03 in
+>       each group.
+>
 
-And what about -monitor stdio instead of -serial mon:stdio?
+Ah thanks for catching that.
 
+> > + */
+> > +typedef struct {
+> > +    uint8_t index;      /* Index of a byte to increment by stride */
+> > +    uint8_t stride;     /* Increment each index'th byte by this amount */
+> > +    size_t len;
+> > +    const uint8_t *data;
+> > +} pattern;
+> > +
+> > +/* Avoid filling the same DMA region between MMIO/PIO commands ? */
+> > +static bool avoid_double_fetches;
+> > +
+> > +static QTestState *qts_global; /* Need a global for the DMA callback */
+> > +
+> >  /*
+> >   * List of memory regions that are children of QOM objects specified by the
+> >   * user for fuzzing.
+> > @@ -60,6 +84,116 @@ static useconds_t timeout = 100000;
+> >  static GPtrArray *fuzzable_memoryregions;
+> >  static GPtrArray *fuzzable_pci_devices;
+> >  
+> > +/*
+> > + * List of dma regions populated since the last fuzzing command. Used to ensure
+> > + * that we only write to each DMA address once, to avoid race conditions when
+> > + * building reproducers.
+> > + */
+> > +static GArray *dma_regions;
+> > +
+> > +static GArray *dma_patterns;
+> > +static int dma_pattern_index;
+> > +
+> > +void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write);
+> > +
+> > +/*
+> > + * Allocate a block of memory and populate it with a pattern.
+> > + */
+> > +static void *pattern_alloc(pattern p, size_t len)
+> > +{
+> > +    int i;
+> > +    uint8_t *buf = g_malloc(len);
+> > +    uint8_t sum = 0;
+> > +
+> > +    for (i = 0; i < len; ++i) {
+> > +        buf[i] = p.data[i % p.len];
+> > +        if ((i % p.len) == p.index) {
+> > +            buf[i] += sum;
+> > +            sum += p.stride;
+> > +        }
+> > +    }
+> > +    return buf;
+> > +}
+> > +
+> > +/*
+> > + * Call-back for functions that perform DMA reads from guest memory. Confirm
+> > + * that the region has not already been populated since the last loop in
+> > + * general_fuzz(), avoiding potential race-conditions, which we don't have
+> > + * a good way for reproducing right now.
+> > + */
+> > +void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
+> > +{
+> > +    /* Are we in the general-fuzzer or are we using another fuzz-target? */
+> > +    if (!qts_global) {
+> > +        return;
+> > +    }
+> > +
+> > +    /*
+> > +     * Return immediately if:
+> > +     * - We have no DMA patterns defined
+> > +     * - The length of the DMA read request is zero
+> > +     * - The DMA read is hitting an MR other than the machine's main RAM
+> > +     * - The DMA request is not a read (what happens for a address_space_map
+> > +     *   with is_write=True? Can the device use the same pointer to do reads?)
+> > +     * - The DMA request hits past the bounds of our RAM
+> > +     */
+> > +    if (dma_patterns->len == 0
+> > +        || len == 0
+> > +        || (mr != MACHINE(qdev_get_machine())->ram && !(mr->ops == &unassigned_mem_ops))
+> > +        || is_write
+> > +        || addr > current_machine->ram_size) {
+> > +        return;
+> > +    }
+> > +
+> > +    /*
+> > +     * If we overlap with any existing dma_regions, split the range and only
+> > +     * populate the non-overlapping parts.
+> > +     */
+> > +    for (int i = 0; i < dma_regions->len && avoid_double_fetches; ++i) {
+> > +        address_range region = g_array_index(dma_regions, address_range, i);
 > 
-> although technically the C-a shouldn't be a character that ever makes it
-> to the guest.
+> NIT: Can be slightly more expensive to declare a variable on each
+> iteration, but also tends to be cleaner not to do this.
+
+Ok, I'll fix that.
+
+> > +        if (addr < region.addr + region.len && addr + len > region.addr) {
+> > +            if (addr < region.addr) {
+> > +                fuzz_dma_read_cb(addr, region.addr - addr, mr, is_write);
+> > +            }
+> > +            if (addr + len > region.addr + region.len) {
+> > +                fuzz_dma_read_cb(region.addr + region.len,
+> > +                        addr + len - (region.addr + region.len), mr, is_write);
+> > +            }
+> > +            return;
+> > +        }
+> > +    }
+> > +
+> > +    /* Cap the length of the DMA access to something reasonable */
+> > +    len = MIN(len, MAX_DMA_FILL_SIZE);
+> > +
+> > +    address_range ar = {addr, len};
+> > +    g_array_append_val(dma_regions, ar);
+> > +    pattern p = g_array_index(dma_patterns, pattern, dma_pattern_index);
+> > +    void *buf = pattern_alloc(p, ar.len);
+> > +    if (getenv("QTEST_LOG")) {
 > 
->>
->> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
->> ---
->>   tests/qemu-iotests/267.out |   48 ++++++++++++++++++++++----------------------
->>   1 file changed, 24 insertions(+), 24 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
->> index 215902b3ad..27471ffae8 100644
->> --- a/tests/qemu-iotests/267.out
->> +++ b/tests/qemu-iotests/267.out
->> @@ -33,8 +33,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->> @@ -44,8 +44,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->> @@ -69,8 +69,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->> @@ -94,8 +94,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->> @@ -105,8 +105,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->> @@ -119,8 +119,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->> @@ -134,8 +134,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->> @@ -145,15 +145,15 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->>   Internal snapshots on overlay:
->>   Snapshot list:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> -1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   Internal snapshots on backing file:
->>   
->>   === -blockdev with NBD server on the backing file ===
->> @@ -166,17 +166,17 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->>   (qemu) info snapshots
->>   List of snapshots present on all disks:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   (qemu) loadvm snap0
->>   (qemu) quit
->>   
->>   Internal snapshots on overlay:
->>   Snapshot list:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> -1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   Internal snapshots on backing file:
->>   Snapshot list:
->> -ID        TAG                 VM SIZE                DATE       VM CLOCK
->> -1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->> +ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> +1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->>   *** done
+> NIT: It might be cleaner to put any testing of env vars in to
+> the code in general_fuzz() where most others are being tested, and
+> instead set a static global boolean which can be used here instead.
+> Depending on how many times this is called, it may also be slightly
+> faster since getenv() has to search an array of strings, etc. to get the
+> value.
+
+True. I think the env-variables, in-general, need to be
+handled/documented in some consistent location.
+
+> > +        /*
+> > +         * With QTEST_LOG, use a normal, slow QTest memwrite. Prefix the log
+> > +         * that will be written by qtest.c with a DMA tag, so we can reorder
+> > +         * the resulting QTest trace so the DMA fills precede the last PIO/MMIO
+> > +         * command.
+> > +         */
+> > +        fprintf(stderr, "[DMA] ");
+> > +        fflush(stderr);
+> > +        qtest_memwrite(qts_global, ar.addr, buf, ar.len);
+> > +    } else {
+> > +       /*
+> > +        * Populate the region using address_space_write_rom to avoid writing to
+> > +        * any IO MemoryRegions
+> > +        */
+> > +        address_space_write_rom(first_cpu->as, ar.addr, MEMTXATTRS_UNSPECIFIED,
+> > +                buf, ar.len);
+> > +    }
+> > +    free(buf);
 > 
+> NIT: For consistency, this probably should be a g_free(), since the memory
+> was allocated using g_malloc().
 > 
 
+Oops - I'll fix that.
+
+> > +
+> > +    /* Increment the index of the pattern for the next DMA access */
+> > +    dma_pattern_index = (dma_pattern_index + 1) % dma_patterns->len;
+> > +}
+> > +
+> >  /*
+> >   * Here we want to convert a fuzzer-provided [io-region-index, offset] to
+> >   * a physical address. To do this, we iterate over all of the matched
+> > @@ -350,6 +484,35 @@ static void op_pci_write(QTestState *s, const unsigned char * data, size_t len)
+> >      }
+> >  }
+> >  
+> > +static void op_add_dma_pattern(QTestState *s,
+> > +                               const unsigned char *data, size_t len)
+> > +{
+> > +    struct {
+> > +        /*
+> > +         * index and stride can be used to increment the index-th byte of the
+> > +         * pattern by the value stride, for each loop of the pattern.
+> > +         */
+> > +        uint8_t index;
+> > +        uint8_t stride;
+> > +    } a;
+> > +
+> > +    if (len < sizeof(a) + 1) {
+> > +        return;
+> > +    }
+> > +    memcpy(&a, data, sizeof(a));
+> > +    pattern p = {a.index, a.stride, len - sizeof(a), data + sizeof(a)};
+> > +    p.index = a.index % p.len;
+> > +    g_array_append_val(dma_patterns, p);
+> > +    return;
+> > +}
+> > +
+> > +static void op_clear_dma_patterns(QTestState *s,
+> > +                                  const unsigned char *data, size_t len)
+> > +{
+> > +    g_array_set_size(dma_patterns, 0);
+> > +    dma_pattern_index = 0;
+> > +}
+> > +
+> >  static void op_clock_step(QTestState *s, const unsigned char *data, size_t len)
+> >  {
+> >      qtest_clock_step_next(s);
+> > @@ -396,6 +559,8 @@ static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+> >          [OP_WRITE]              = op_write,
+> >          [OP_PCI_READ]           = op_pci_read,
+> >          [OP_PCI_WRITE]          = op_pci_write,
+> > +        [OP_ADD_DMA_PATTERN]    = op_add_dma_pattern,
+> > +        [OP_CLEAR_DMA_PATTERNS] = op_clear_dma_patterns,
+> >          [OP_CLOCK_STEP]         = op_clock_step,
+> >      };
+> >      const unsigned char *cmd = Data;
+> > @@ -425,6 +590,8 @@ static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+> >              setitimer(ITIMER_VIRTUAL, &timer, NULL);
+> >          }
+> >  
+> > +        op_clear_dma_patterns(s, NULL, 0);
+> > +
+> >          while (cmd && Size) {
+> >              /* Get the length until the next command or end of input */
+> >              nextcmd = memmem(cmd, Size, SEPARATOR, strlen(SEPARATOR));
+> > @@ -441,6 +608,7 @@ static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+> >              /* Advance to the next command */
+> >              cmd = nextcmd ? nextcmd + sizeof(SEPARATOR) - 1 : nextcmd;
+> >              Size = Size - (cmd_len + sizeof(SEPARATOR) - 1);
+> > +            g_array_set_size(dma_regions, 0);
+> >          }
+> >          _Exit(0);
+> >      } else {
+> > @@ -455,6 +623,9 @@ static void usage(void)
+> >      printf("QEMU_FUZZ_ARGS= the command line arguments passed to qemu\n");
+> >      printf("QEMU_FUZZ_OBJECTS= "
+> >              "a space separated list of QOM type names for objects to fuzz\n");
+> > +    printf("Optionally: QEMU_AVOID_DOUBLE_FETCH= "
+> > +            "Try to avoid racy DMA double fetch bugs? %d by default\n",
+> > +            avoid_double_fetches);
+> >      printf("Optionally: QEMU_FUZZ_TIMEOUT= Specify a custom timeout (us). "
+> >              "0 to disable. %d by default\n", timeout);
+> >      exit(0);
+> > @@ -522,9 +693,16 @@ static void general_pre_fuzz(QTestState *s)
+> >      if (!getenv("QEMU_FUZZ_OBJECTS")) {
+> >          usage();
+> >      }
+> > +    if (getenv("QEMU_AVOID_DOUBLE_FETCH")) {
+> > +        avoid_double_fetches = 1;
+> > +    }
+> >      if (getenv("QEMU_FUZZ_TIMEOUT")) {
+> >          timeout = g_ascii_strtoll(getenv("QEMU_FUZZ_TIMEOUT"), NULL, 0);
+> >      }
+> > +    qts_global = s;
+> > +
+> > +    dma_regions = g_array_new(false, false, sizeof(address_range));
+> > +    dma_patterns = g_array_new(false, false, sizeof(pattern));
+> >  
+> >      fuzzable_memoryregions = g_ptr_array_new();
+> >      fuzzable_pci_devices   = g_ptr_array_new();
+> 
+> Since mostly nits and typos:
+> 
+> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+> 
+> Thanks,
+> 
+> Darren.
 
