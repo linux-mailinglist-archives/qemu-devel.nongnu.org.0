@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9B4260548
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 21:52:00 +0200 (CEST)
-Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18AEB26054C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 21:53:04 +0200 (CEST)
+Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFNBH-0008M7-65
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 15:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59054)
+	id 1kFNCJ-0002D5-6G
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 15:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFNA8-000744-S7
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:48 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46243)
+ id 1kFNAB-00078Z-03
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:51 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:45617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFNA7-0006d4-6J
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:48 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id b124so9069730pfg.13
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 12:50:46 -0700 (PDT)
+ id 1kFNA9-0006eN-DK
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:50 -0400
+Received: by mail-pg1-x530.google.com with SMTP id 67so8441776pgd.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 12:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iJ6QI4m7DsgRi/lAvD95Zw1TA6Kk8bxB1iMoGihMwx0=;
- b=SaAAp/LUHHDEj9yOLRAq0uMXnY8SognxdUA4r7PemLgHKV3qRDF44uAeLWhV48XQY8
- STZ0uZSX4rk47WmfZNgPO4KG1X7y7J1vL0ZjKQ24VGdtKFhZ858UeFebA3fD0AIeJB8n
- RBCArDbp6TsqnRnUGp3dCYh9RYKCskVlhe/CMpd+6kwQVw26avpjudvuZXoSgey6R3Oc
- IYIdi4VaMo/ie2UcvW7QtCR1ZyxLxXcPvcaAI5vcOJAbFYubWS9sBDyBCBaQWo/2x7PZ
- Y6QDUZGjT8fxGDgeR0F3dxornVdc2TmJxYfrfAWhzNEFKtIYe7yU31uCn/A3AWvT8Jti
- /O6g==
+ bh=LvgBmVo5Tzfa2ETkxK8CQ+jBfbey6Ap12eTwlbT45c8=;
+ b=lsV8rnmh3jy16Zhzfcu+krTZUipYE4fSkmE4vUDh2XDFFI2PDEVbnA2ifBmo/ypFzo
+ o2boICgLwel9d4IPx6E4+sHEFlFwtivalbOGGiZ1q5VCAP7HYgbFNOThjJSz7Jhg1PgY
+ 5RokD19IYjP5/ab/hyxH3jgGiulg5/K5hT33x98RQy/YHKMcxAF78MFUZfypAu8aT6Yy
+ 3oXMX083NLT9qXAv4f6miZh4i3NYwNhvfX/JbJM0i3PWQRFBaXANvG7l1DRL44rLFJId
+ 9yGheNx3EW+0YRftWXUgAxuKsOfgN7yWKf3hhh3NvLCWVJCQ+oKu1DkcelAMGa2hkAWI
+ Pjuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iJ6QI4m7DsgRi/lAvD95Zw1TA6Kk8bxB1iMoGihMwx0=;
- b=ngD6q6LHep4mpHXYLxfIGJHA3fcziKKRljfVgGvPHVheYcLfhDn3RmJDUsPIGa59Mt
- TjXDV4at/oU/yQAMg8CpCd370qgYCt806EN+rAnd7eZ2leOsrXsWJ4KP88saB6B8pdl8
- sXuxYAMO/0NAfRNUSZx/G7SyhXnJGYfse+2+Bd4YFjwMGS3J0jXasm/2i+HEa7zMkf7j
- 9Xtg9+Q4KGeW5C9cpYBxrnlQiQFIcunNRQmyHuMZgydr1jzwN1AoEW5VTc+wkKKnXq+U
- P2RhIEVFNUHBx6nJp6O1p3QVwgeUQ2PaB8599jim5cdmexrOOw9QwiEtveZtF177jjJB
- FWKw==
-X-Gm-Message-State: AOAM533Rrh2e5XH2WnxEm0uBO54SK72WsUFQpuTfxgywLjgFCmNwO1Sc
- HfFsOwMCCdcsiw60qSqiKYZj5gpG/hmq5ZkN
-X-Google-Smtp-Source: ABdhPJz+vpIejBWOOoB76rSgtAlAEkcABYnIqbTyj/BhNtVDBCvsI2YnriD0lkJwkfLqdrpk5/YnLQ==
-X-Received: by 2002:a17:902:aa89:: with SMTP id
- d9mr21032751plr.192.1599508245224; 
- Mon, 07 Sep 2020 12:50:45 -0700 (PDT)
+ bh=LvgBmVo5Tzfa2ETkxK8CQ+jBfbey6Ap12eTwlbT45c8=;
+ b=GAshK99ma0BxOLe7ic6TGj3cAGtV3VycXxB2wwYUij29eF3opCL7s3UIdfvFz9ZgmL
+ qmJL5fi2iKU+/NZ4mdPtZ7ZROcEE7gSzTCCImip9K8BSeWOQCjYgOyj1TGzqUKVxIhO1
+ ODMwKdan2kws+NhSumD8nj6XGg4LoCrGckZIDjjEGl7U9WeScDJr5GJb2FX/7SC02e/e
+ zLSSRnijzQXIDqn8vCDoKug3WApeei24krXS/w5WqTIqZLa7APSuqqTrcrlRT0sdYTaE
+ /3C8M/K6ZtD0ct20vNRsXXFw67W3B4O8F80zKqFZ+FHnILTU3rE8xsOLqOccMDvzmhEs
+ wfmw==
+X-Gm-Message-State: AOAM533MLzZNcgPFh4+JjNZC+W64B3bDjJqilfRFZD3fz1HTWRE19wx9
+ +VVLzRsploLQ0V/uhfI4DTQtQQyiZ6VZp11h
+X-Google-Smtp-Source: ABdhPJxjoSoztLlhvL1WtEgnRnGwwMgzBrAW7pVdGf7Yp3OhU3gqt43MKsTLpG/6vkSadWMhQmKDmA==
+X-Received: by 2002:a17:902:bc44:: with SMTP id
+ t4mr19673305plz.77.1599508247620; 
+ Mon, 07 Sep 2020 12:50:47 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id ev19sm4818990pjb.42.2020.09.07.12.50.43
+ by smtp.googlemail.com with ESMTPSA id ev19sm4818990pjb.42.2020.09.07.12.50.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 12:50:44 -0700 (PDT)
+ Mon, 07 Sep 2020 12:50:46 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/4] meson: Fixes jemalloc and tcmalloc can not building.
-Date: Tue,  8 Sep 2020 03:50:23 +0800
-Message-Id: <20200907195025.2308-3-luoyonggang@gmail.com>
+Subject: [PATCH v3 3/4] meson: remove empty else and duplicated gio deps
+Date: Tue,  8 Sep 2020 03:50:24 +0800
+Message-Id: <20200907195025.2308-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200907195025.2308-1-luoyonggang@gmail.com>
 References: <20200907195025.2308-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x530.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,67 +91,35 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the LIBS are not exposed to meson and meson didn't use that
-Use base_lib = declare_dependency(link_args: config_host['LIBS'].split())
-to force use it
-
-
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- configure   | 9 +++++++++
- meson.build | 5 ++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ meson.build | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/configure b/configure
-index 823756f4a4..7b2f3d64b0 100755
---- a/configure
-+++ b/configure
-@@ -7245,6 +7245,14 @@ if test "$libxml2" = "yes" ; then
-   echo "LIBXML2_LIBS=$libxml2_libs" >> $config_host_mak
- fi
- 
-+if test "$tcmalloc" = "yes" ; then
-+  echo "CONFIG_TCMALLOC=y" >> $config_host_mak
-+fi
-+
-+if test "$jemalloc" = "yes" ; then
-+  echo "CONFIG_JEMALLOC=y" >> $config_host_mak
-+fi
-+
- if test "$replication" = "yes" ; then
-   echo "CONFIG_REPLICATION=y" >> $config_host_mak
- fi
-@@ -7416,6 +7424,7 @@ echo "PKG_CONFIG=$pkg_config_exe" >> $config_host_mak
- echo "WINDRES=$windres" >> $config_host_mak
- echo "CFLAGS=$CFLAGS" >> $config_host_mak
- echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
-+echo "LIBS=$LIBS" >> $config_host_mak
- echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
- echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
- echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 5421eca66a..6e909213ee 100644
+index 6e909213ee..d6a1949b2f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -116,6 +116,9 @@ endif
- # grandfathered in from the QEMU Makefiles.
- add_project_arguments(config_host['GLIB_CFLAGS'].split(),
-                       native: false, language: ['c', 'cpp', 'objc'])
-+
-+base_lib = declare_dependency(link_args: config_host['LIBS'].split())
-+
- glib = declare_dependency(link_args: config_host['GLIB_LIBS'].split())
- gio = not_found
- if 'CONFIG_GIO' in config_host
-@@ -818,7 +821,7 @@ util_ss.add_all(trace_ss)
- util_ss = util_ss.apply(config_all, strict: false)
- libqemuutil = static_library('qemuutil',
-                              sources: util_ss.sources() + stub_ss.sources() + genh,
--                             dependencies: [util_ss.dependencies(), m, glib, socket])
-+                             dependencies: [util_ss.dependencies(), m, base_lib, glib, socket])
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
- 
+@@ -320,7 +320,6 @@ opengl = not_found
+ if 'CONFIG_OPENGL' in config_host
+   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
+                               link_args: config_host['OPENGL_LIBS'].split())
+-else
+ endif
+ gtk = not_found
+ if 'CONFIG_GTK' in config_host
+@@ -347,11 +346,6 @@ if 'CONFIG_ICONV' in config_host
+   iconv = declare_dependency(compile_args: config_host['ICONV_CFLAGS'].split(),
+                              link_args: config_host['ICONV_LIBS'].split())
+ endif
+-gio = not_found
+-if 'CONFIG_GIO' in config_host
+-  gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
+-                           link_args: config_host['GIO_LIBS'].split())
+-endif
+ vnc = not_found
+ png = not_found
+ jpeg = not_found
 -- 
 2.28.0.windows.1
 
