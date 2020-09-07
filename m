@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2B825FFC0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:38:21 +0200 (CEST)
-Received: from localhost ([::1]:39982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC3B25FFE5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:41:20 +0200 (CEST)
+Received: from localhost ([::1]:47640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFK9s-0008Ag-J8
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47934)
+	id 1kFKCm-00032I-2l
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:41:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4y-0008Tw-Ai; Mon, 07 Sep 2020 12:33:16 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:40790)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kFKBQ-0002Ua-Gn
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 12:39:56 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:39690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4w-0007e4-Ar; Mon, 07 Sep 2020 12:33:15 -0400
-Received: by mail-ej1-x642.google.com with SMTP id z22so18909553ejl.7;
- Mon, 07 Sep 2020 09:33:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kFKBO-0008RL-Nx
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 12:39:56 -0400
+Received: by mail-ej1-x641.google.com with SMTP id p9so18936276ejf.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 09:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=39vGPecl12q7amHLWo3+1dhvTYjWZnqSb7DebE6TMyI=;
- b=c4ORQXt5p3mIsNygpyg8uGyXK2YdhgONePrYj9xNLEyo2y+IlL/DhZrcsR9aKI1A62
- XpNHdReeRbZl+tnopgaVfG5JApL2ygDwLgrWz39hlj1MLRhjmeFxduRenhCB8enxLyi9
- axXPgq9VWtqSfj52BAOxDmC8bnKLuir64hTNSMtP5inmjEQI1gdzHlCZby3SB6+RP94N
- 1ZUIwcx4Omyk6ZT87EABhnREynU00JGJlFvZ1YUxr7yXHC8rP+fYdznvHxoH2kwwVZhX
- Ywcvt2nX/b1dq6DoFAuOf1e/TRUdIb8bC4RjQk7q7hog4rvnrLKZoTUWlKmBWeXmxBC8
- FIKg==
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n3B1PcPbtXyRKDvhkufpceOeW+LHKvTC04HSYKxTByM=;
+ b=dxMs8FGPTSULW2Y1Unz1o3tMQR2YEhgJjMLBxsLdHU3yJnO5OfxeAGVEVtjvzV+5GQ
+ a/gOhWCk5qk/Do9pyeTqwHMhudGORnXY72zvb2M5Dr644s/oLG09me+/+yUIIYDaHri1
+ uqvmZq8QWneHVqej6uzH9D9eiZYQ7jFnxl0MjJxyg8xQtcFGMFATe6ZCQmUBVmPzHj0M
+ ZKJdI4N+H+3L5QNSUNDtqKeFtUPI4eId2DSHhidKCaGJZIxUBMpchdFuCvhvp1723Pao
+ piFEahBAtt3ZjYUVV8M4hVffl0aFOhoVB2aKGdBxflLmN5eW+Ykd8l6+WDWFXC+VxUhk
+ pXkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=39vGPecl12q7amHLWo3+1dhvTYjWZnqSb7DebE6TMyI=;
- b=P1oixbyteBRUNTz3jtYd5XcGfevrFwa99KNadUM3JtqJzoEc2ehQqraQYk58VUKzq9
- a3lbg2YpbmTNlvNDDMRYYm924LoB8TxaaKsBf6dkN4YUETufsS1aU/bS99eipPf7ZTmv
- hX+POP/kE0avn+09pN7CTw9Y3+wIY8w+YqZxm45gWn1yCKTKGkKYQ+i4Csht1qeg87A6
- ruUeoDGkAAR95LjPNjgbMJiY9Kq12akXozJzyUScaJw7fvb51lavBe+dcq+hP7AODMmA
- od2Vha/PguPuWF9z9v/rqwWKe+j02L62sy/mAF/FXB+8asYvnValXiu8ts0ajII7HFZ1
- wWaA==
-X-Gm-Message-State: AOAM5309McLz5Dkdk8NWOvzgCfrQ7n55oxs92sJOHH/l4JYvmtAoksgV
- Ss5PXObb0kVQN9t/Raukoe8FsodnRnQ=
-X-Google-Smtp-Source: ABdhPJxt1MMTkOVhjFJfnCIZZ7Uhj7zI8VlZiYK9WpwlPX97EA2DNAe9Tcvb3pTJLs8imJricYxiQA==
-X-Received: by 2002:a17:906:8d8:: with SMTP id
- o24mr21240332eje.384.1599496392492; 
- Mon, 07 Sep 2020 09:33:12 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u13sm15700199ejn.82.2020.09.07.09.33.11
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=n3B1PcPbtXyRKDvhkufpceOeW+LHKvTC04HSYKxTByM=;
+ b=VrzSc3v6TA1CvowTsJsDJhKxlLRG3tstga+dn3R0lVf/ZH+m9oGgS03nFdN4O9sTWw
+ UhTDtAcUI4JCrgDkIR7MUjfiuzAa8dAYkzCWJ0utqRIfzN62FJxWZ3cRgr0lEOJZ9Aa0
+ xAXI3nDnpwhxwKbvCyxoL5OfWhShAebm2jaJQPCj+ChPeF9nuPRBOL+yj7gfn0aIsuMO
+ 6zlOjnKtsJX/fD+VfynCowT8ebNapDuMloWyHtdyteVJ+7T3pegwwExRB7rLJHuV8ax0
+ wFvSJPCqqy32egLLhpH4qGsmN87nVPWrUuMU5jIgCwg0hMvHz9NNNLBAg2JQwBn+8k7b
+ D/dA==
+X-Gm-Message-State: AOAM533ta5sBOnKTkZlyrnDRkPhUkPAm0P3L5BBiXSJOYq/R6cpPAeAW
+ ye8BY3tgKwulMhNtzB9T4E8xcukTnFI=
+X-Google-Smtp-Source: ABdhPJybCaaQLlbZe2vlw+b0XuGpiMSWrwPBMHYZR6e0W6dD2mza9jGsXEyzaX8xhPDjtaw2pUXniA==
+X-Received: by 2002:a17:906:b47:: with SMTP id
+ v7mr21121237ejg.310.1599496792485; 
+ Mon, 07 Sep 2020 09:39:52 -0700 (PDT)
+Received: from donizetti.lan ([2001:b07:6468:f312:6891:d6db:f6ec:d1df])
+ by smtp.gmail.com with ESMTPSA id y24sm15424308eds.35.2020.09.07.09.39.51
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 09:33:11 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Mon, 07 Sep 2020 09:39:52 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 8/8] hw/arm/tosa: Make TYPE_TOSA_MISC_GPIO a plain QDev
-Date: Mon,  7 Sep 2020 18:32:57 +0200
-Message-Id: <20200907163257.46527-9-f4bug@amsat.org>
+Subject: [PATCH] docs: update build system documentation
+Date: Mon,  7 Sep 2020 18:39:53 +0200
+Message-Id: <20200907163953.19097-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200907163257.46527-1-f4bug@amsat.org>
-References: <20200907163257.46527-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -87,81 +85,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Luc Michel <luc.michel@greensocs.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TYPE_TOSA_MISC_GPIO doesn't need to be a SysBus device,
-make it a plain QDev.
+Most of the Makefile bits are obsolete and can be removed.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
-RFC because having to pass MachineState and call
-object_property_add_child() simply makes things more
-complex... but it seems to cleaner QOM design.
+ docs/devel/build-system.rst | 97 +++++--------------------------------
+ 1 file changed, 11 insertions(+), 86 deletions(-)
 
-Cc: Markus Armbruster <armbru@redhat.com>
----
- hw/arm/tosa.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index f23651fd775..524d5fcd10b 100644
---- a/hw/arm/tosa.c
-+++ b/hw/arm/tosa.c
-@@ -79,7 +79,7 @@ static void tosa_microdrive_attach(PXA2xxState *cpu)
-     OBJECT_CHECK(TosaMiscGPIOState, (obj), TYPE_TOSA_MISC_GPIO)
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 591e93f4b4..08e85c69e1 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -179,7 +179,7 @@ process for:
  
- typedef struct TosaMiscGPIOState {
--    SysBusDevice parent_obj;
-+    DeviceState parent_obj;
- } TosaMiscGPIOState;
+    - Userspace emulators - qemu-$ARCH
  
- static void tosa_reset(void *opaque, int line, int level)
-@@ -96,7 +96,7 @@ static void tosa_misc_gpio_init(Object *obj)
-     qdev_init_gpio_in_named(dev, tosa_reset, "reset", 1);
- }
+-   - Some (but not all) unit tests
++   - Unit tests
  
--static void tosa_gpio_setup(PXA2xxState *cpu,
-+static void tosa_gpio_setup(MachineState *machine, PXA2xxState *cpu,
-                 DeviceState *scp0,
-                 DeviceState *scp1,
-                 TC6393xbState *tmio)
-@@ -104,7 +104,10 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
-     DeviceState *misc_gpio;
-     LEDState *led[4];
+ 2) documentation
  
--    misc_gpio = sysbus_create_simple(TYPE_TOSA_MISC_GPIO, -1, NULL);
-+    misc_gpio = qdev_new(TYPE_TOSA_MISC_GPIO);
-+    object_property_add_child(OBJECT(machine), "pcb-container",
-+                              OBJECT(misc_gpio));
-+    qdev_realize_and_unref(misc_gpio, NULL, &error_fatal);
+@@ -204,8 +204,9 @@ are then turned into static libraries as follows::
  
-     /* MMC/SD host */
-     pxa2xx_mmci_handlers(cpu->mmc,
-@@ -253,7 +256,7 @@ static void tosa_init(MachineState *machine)
-     scp0 = sysbus_create_simple("scoop", 0x08800000, NULL);
-     scp1 = sysbus_create_simple("scoop", 0x14800040, NULL);
+     chardev = declare_dependency(link_whole: libchardev)
  
--    tosa_gpio_setup(mpu, scp0, scp1, tmio);
-+    tosa_gpio_setup(machine, mpu, scp0, scp1, tmio);
+-The special `.fa` suffix is needed as long as unit tests are built with
+-the older Makefile infrastructure, and will go away later.
++As of Meson 0.55.1, the special `.fa` suffix should be used for everything
++that is used with `link_whole`, to ensure that the link flags are placed
++correctly in the command line.
  
-     tosa_microdrive_attach(mpu);
+ Files linked into emulator targets there can be split into two distinct groups
+ of files, those which are independent of the QEMU emulation target and
+@@ -221,7 +222,8 @@ only in system emulators, `user_ss` only in user-mode emulators.
  
-@@ -307,7 +310,7 @@ static const TypeInfo tosa_ssp_info = {
+ In the target-dependent set lives CPU emulation, device emulation and
+ much glue code. This sometimes also has to be compiled multiple times,
+-once for each target being built.
++once for each target being built.  Target-dependent files are included
++in the `specific_ss` sourceset.
  
- static const TypeInfo tosa_misc_gpio_info = {
-     .name          = TYPE_TOSA_MISC_GPIO,
--    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .parent        = TYPE_DEVICE,
-     .instance_size = sizeof(TosaMiscGPIOState),
-     .instance_init = tosa_misc_gpio_init,
-     /*
+ All binaries link with a static library `libqemuutil.a`, which is then
+ linked to all the binaries.  `libqemuutil.a` is built from several
+@@ -300,84 +302,9 @@ The resulting build system is largely non-recursive in nature, in
+ contrast to common practices seen with automake.
+ 
+ Tests are also ran by the Makefile with the traditional `make check`
+-phony target.  Meson test suites such as `unit` can be ran with `make
+-check-unit` too.  It is also possible to run tests defined in meson.build
+-with `meson test`.
+-
+-The following text is only relevant for unit tests which still have to
+-be converted to Meson.
+-
+-All binaries should link to `libqemuutil.a`, e.g.:
+-
+-   qemu-img$(EXESUF): qemu-img.o ..snip.. libqemuutil.a
+-
+-On Windows, all binaries have the suffix `.exe`, so all Makefile rules
+-which create binaries must include the $(EXESUF) variable on the binary
+-name. e.g.
+-
+-   qemu-img$(EXESUF): qemu-img.o ..snip..
+-
+-This expands to `.exe` on Windows, or an empty string on other platforms.
+-
+-Variable naming
+----------------
+-
+-The QEMU convention is to define variables to list different groups of
+-object files. These are named with the convention $PREFIX-obj-y.  The
+-Meson `chardev` variable in the previous example corresponds to a
+-variable 'chardev-obj-y'.
+-
+-Likewise, tests that are executed by `make check-unit` are grouped into
+-a variable check-unit-y, like this:
+-
+-  check-unit-y += tests/test-visitor-serialization$(EXESUF)
+-  check-unit-y += tests/test-iov$(EXESUF)
+-  check-unit-y += tests/test-bitmap$(EXESUF)
+-
+-When a test or object file which needs to be conditionally built based
+-on some characteristic of the host system, the configure script will
+-define a variable for the conditional. For example, on Windows it will
+-define $(CONFIG_POSIX) with a value of 'n' and $(CONFIG_WIN32) with a
+-value of 'y'. It is now possible to use the config variables when
+-listing object files. For example,
+-
+-  check-unit-$(CONFIG_POSIX) += tests/test-vmstate$(EXESUF)
+-
+-On Windows this expands to
+-
+-  check-unit-n += tests/vmstate.exe
+-
+-Since the `check-unit` target only runs tests included in `$(check-unit-y)`,
+-POSIX specific tests listed in `$(util-obj-n)` are ignored on the Windows
+-platform builds.
+-
+-
+-CFLAGS / LDFLAGS / LIBS handling
+---------------------------------
+-
+-There are many different binaries being built with differing purposes,
+-and some of them might even be 3rd party libraries pulled in via git
+-submodules. As such the use of the global CFLAGS variable is generally
+-avoided in QEMU, since it would apply to too many build targets.
+-
+-Flags that are needed by any QEMU code (i.e. everything *except* GIT
+-submodule projects) are put in $(QEMU_CFLAGS) variable. For linker
+-flags the $(LIBS) variable is sometimes used, but a couple of more
+-targeted variables are preferred.
+-
+-In addition to these variables, it is possible to provide cflags and
+-libs against individual source code files, by defining variables of the
+-form $FILENAME-cflags and $FILENAME-libs. For example, the test
+-test-crypto-tlscredsx509 needs to link to the libtasn1 library,
+-so tests/Makefile.include defines some variables:
+-
+-  tests/crypto-tls-x509-helpers.o-cflags := $(TASN1_CFLAGS)
+-  tests/crypto-tls-x509-helpers.o-libs := $(TASN1_LIBS)
+-
+-The scope is a little different between the two variables. The libs get
+-used when linking any target binary that includes the curl.o object
+-file, while the cflags get used when compiling the curl.c file only.
+-
++phony target, while benchmarks are run with `make bench`.  Meson test
++suites such as `unit` can be ran with `make check-unit` too.  It is also
++possible to run tests defined in meson.build with `meson test`.
+ 
+ Important files for the build system
+ ====================================
+@@ -402,10 +329,8 @@ number of dynamically created files listed later.
+   other meson.build files spread throughout the QEMU source tree.
+ 
+ `tests/Makefile.include`
+-  Rules for building the unit tests. This file is included directly by the
+-  top level Makefile, so anything defined in this file will influence the
+-  entire build system. Care needs to be taken when writing rules for tests
+-  to ensure they only apply to the unit test execution / build.
++  Rules for external test harnesses. These include the TCG tests,
++  `qemu-iotests` and the Avocado-based acceptance tests.
+ 
+ `tests/docker/Makefile.include`
+   Rules for Docker tests. Like tests/Makefile, this file is included
 -- 
 2.26.2
 
