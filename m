@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588FF25F9C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:47:15 +0200 (CEST)
-Received: from localhost ([::1]:38694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C94B25F994
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:35:44 +0200 (CEST)
+Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFFcA-00088J-FT
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34706)
+	id 1kFFR1-00043C-Ai
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kFFFo-0005U9-7g
+ id 1kFFFo-0005Ve-NS
  for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:24:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54503
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kFFFl-0001PD-J9
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:24:07 -0400
+ id 1kFFFm-0001PJ-Q8
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:24:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599477844;
+ s=mimecast20190719; t=1599477846;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4TLJo7nynTabhq9F+M6OLF62vf/KQEZsxsmu63BFIWs=;
- b=Z5kR1RWtl0Wq2vcNCGFnqlZzkLii3lFQyf8HVVswlsRubaB/EaSabLi/9cAqY/3usgRLqv
- Nryyp3xSLORxnwhHhbY7jLgfjMjRMAZMhFcbsSjkynTBeFXUcwfR7tgXRIKW7eUeEH06OG
- i+grWay7HtjLrqULpWqO5/c+pNp0+Y8=
+ bh=A25icNiHaVw/f0aC3oKZnjbi4BsnTnr/X/xOX76lHNY=;
+ b=YMGwARp4+jQpwJf2Ceku/YOUtcX2SM9akxpW506+adhccvqABVEUsJxHeynFfR7e5UhA4L
+ KbBVPASsfgQLW4G1Lid5FyoeiMu5DJiai4JsuUNlSaYFcFhZ4sgSANVT6wTAiDV9DZy1TL
+ vJ21LTT8VR/zGMUGpYjS39XM/8qyh5M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-e4qyfSXfPfGuXgFYnurOng-1; Mon, 07 Sep 2020 07:24:03 -0400
-X-MC-Unique: e4qyfSXfPfGuXgFYnurOng-1
+ us-mta-295-Q1dXKgbuMn6jp-IBtRBeZg-1; Mon, 07 Sep 2020 07:24:04 -0400
+X-MC-Unique: Q1dXKgbuMn6jp-IBtRBeZg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B05A100854F;
- Mon,  7 Sep 2020 11:24:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DFDB805EE4;
+ Mon,  7 Sep 2020 11:24:03 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38B815D9D2;
- Mon,  7 Sep 2020 11:23:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4A095D9D2;
+ Mon,  7 Sep 2020 11:24:02 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 07/10] x86: acpi: introduce AcpiPmInfo::smi_on_cpuhp
-Date: Mon,  7 Sep 2020 07:23:45 -0400
-Message-Id: <20200907112348.530921-8-imammedo@redhat.com>
+Subject: [PATCH v5 08/10] x86: acpi: introduce the PCI0.SMI0 ACPI device
+Date: Mon,  7 Sep 2020 07:23:46 -0400
+Message-Id: <20200907112348.530921-9-imammedo@redhat.com>
 In-Reply-To: <20200907112348.530921-1-imammedo@redhat.com>
 References: <20200907112348.530921-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 02:54:37
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:27:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,52 +85,77 @@ Cc: boris.ostrovsky@oracle.com, lersek@redhat.com, aaron.young@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Translate the "CPU hotplug with SMI" feature bit, from the property
-added in the last patch, to a dedicated boolean in AcpiPmInfo.
+When CPU hotplug with SMI has been negotiated, describe the SMI
+register block in the DSDT. Pass the ACPI name of the SMI control
+register to build_cpus_aml(), so that CPU_SCAN_METHOD can access the
+register in the next patch.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 ---
- hw/i386/acpi-build.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/acpi/cpu.h |  1 +
+ hw/i386/acpi-build.c  | 29 ++++++++++++++++++++++++++++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
+index 62f0278ba2..0eeedaa491 100644
+--- a/include/hw/acpi/cpu.h
++++ b/include/hw/acpi/cpu.h
+@@ -50,6 +50,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object *owner,
+ typedef struct CPUHotplugFeatures {
+     bool acpi_1_compatible;
+     bool has_legacy_cphp;
++    const char *smi_path;
+ } CPUHotplugFeatures;
+ 
+ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 7a5a8b3521..e61c17a484 100644
+index e61c17a484..7a33ef193e 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
-     bool s3_disabled;
-     bool s4_disabled;
-     bool pcihp_bridge_en;
-+    bool smi_on_cpuhp;
-     uint8_t s4_val;
-     AcpiFadtData fadt;
-     uint16_t cpu_hp_io_base;
-@@ -194,6 +195,7 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-     pm->cpu_hp_io_base = 0;
-     pm->pcihp_io_base = 0;
-     pm->pcihp_io_len = 0;
-+    pm->smi_on_cpuhp = false;
+@@ -1521,6 +1521,32 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+         aml_append(dev, build_q35_osc_method());
+         aml_append(sb_scope, dev);
++
++        if (pm->smi_on_cpuhp) {
++            /* reserve SMI block resources, IO ports 0xB2, 0xB3 */
++            dev = aml_device("PCI0.SMI0");
++            aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A06")));
++            aml_append(dev, aml_name_decl("_UID", aml_string("SMI resources")));
++            crs = aml_resource_template();
++            aml_append(crs,
++                aml_io(
++                       AML_DECODE16,
++                       ACPI_PORT_SMI_CMD,
++                       ACPI_PORT_SMI_CMD,
++                       1,
++                       2)
++            );
++            aml_append(dev, aml_name_decl("_CRS", crs));
++            aml_append(dev, aml_operation_region("SMIR", AML_SYSTEM_IO,
++                aml_int(ACPI_PORT_SMI_CMD), 2));
++            field = aml_field("SMIR", AML_BYTE_ACC, AML_NOLOCK,
++                              AML_WRITE_AS_ZEROS);
++            aml_append(field, aml_named_field("SMIC", 8));
++            aml_append(field, aml_reserved_field(8));
++            aml_append(dev, field);
++            aml_append(sb_scope, dev);
++        }
++
+         aml_append(dsdt, sb_scope);
  
-     assert(obj);
-     init_common_fadt_data(machine, obj, &pm->fadt);
-@@ -207,12 +209,16 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-             object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
-     }
-     if (lpc) {
-+        uint64_t smi_features = object_property_get_uint(lpc,
-+            ICH9_LPC_SMI_NEGOTIATED_FEAT_PROP, NULL);
-         struct AcpiGenericAddress r = { .space_id = AML_AS_SYSTEM_IO,
-             .bit_width = 8, .address = ICH9_RST_CNT_IOPORT };
-         pm->fadt.reset_reg = r;
-         pm->fadt.reset_val = 0xf;
-         pm->fadt.flags |= 1 << ACPI_FADT_F_RESET_REG_SUP;
-         pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
-+        pm->smi_on_cpuhp =
-+            !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT));
-     }
- 
-     /* The above need not be conditional on machine type because the reset port
+         build_hpet_aml(dsdt);
+@@ -1536,7 +1562,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
+     } else {
+         CPUHotplugFeatures opts = {
+-            .acpi_1_compatible = true, .has_legacy_cphp = true
++            .acpi_1_compatible = true, .has_legacy_cphp = true,
++            .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" : NULL,
+         };
+         build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
+                        "\\_SB.PCI0", "\\_GPE._E02");
 -- 
 2.27.0
 
