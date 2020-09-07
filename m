@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202E525F192
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 03:57:19 +0200 (CEST)
-Received: from localhost ([::1]:37438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D441825F195
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 03:58:53 +0200 (CEST)
+Received: from localhost ([::1]:46528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kF6PG-0007lM-5B
-	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 21:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59798)
+	id 1kF6Qm-000309-UM
+	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 21:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kF6Nk-00061i-1G; Sun, 06 Sep 2020 21:55:44 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41857)
+ id 1kF6Np-0006F1-AP; Sun, 06 Sep 2020 21:55:49 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kF6Ni-0007Ij-GG; Sun, 06 Sep 2020 21:55:43 -0400
-Received: by mail-wr1-x443.google.com with SMTP id w5so14073618wrp.8;
- Sun, 06 Sep 2020 18:55:41 -0700 (PDT)
+ id 1kF6Nm-0007Ll-Oa; Sun, 06 Sep 2020 21:55:48 -0400
+Received: by mail-wm1-x341.google.com with SMTP id x23so2943843wmi.3;
+ Sun, 06 Sep 2020 18:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JF7kT9Jakz5MXZ7s85w029ixb/+6fikTUFTZrRv4yoU=;
- b=ATpKEDrJ7K9awH1N2zYTl4yBM9vwgdywoDL8jJwFb0map4kJ1wW5Z6SzgmkBLz6Di1
- 4+J89Zkp0QYSl/r/M91ckYgeDfnshUAdYUAwDZ3jkVqeaC5CbtrEPPKLwoHihsv1pcmG
- /tyiLuSpV9SCW9XFjVC1ifDvER1j9gedYUd1vK1QWQQd4onN5NYyUXPI2KEj/go04Yhp
- Zr4ScnsbSukE3j4I63uUQDzIW1OJlr7uwAlYA0kUv7ChD/LtZbe1m1F/jpYDX6ESedGO
- IOu21GsUwvi4leEM8WIe359yXNL2rInLotpGuyvnwuKHnGyQ7xGMCL0gsnLrsUJsCRX9
- EmEg==
+ bh=ziCw1jrdbRRxzZUuAacPeDfn99gOs6JW3cbKwKy/6Wo=;
+ b=ZAKXwIlcheRQ7uF37G0Dw/DfnyfX5wqZKGp1+82B+xSifzGM6ZyoVOImVmIi4Rpc4q
+ RLKMsl7/hnNTi0WhrtNcucLt0F/WQNWJbD0P4RpyiGFAtGswN2Eya/MBpN59KOZbFN2/
+ p830v0NIPzfSaniixt1aM6PCSEl/bdp0p9N/ytv2nLHb0qYUmzL+zhwIeh1ru/TPR3t/
+ yAjXd1MajOZ4DC4q8nFMkMXJQQxsKBzvDVCo1kZCSFaPN+OrqV4yFLX1Y1z4I/+5iWPJ
+ kHsoNK5qP4nW5/nD5ZqzVdzQo6PYSTtyMr5Q/x/L5NrZwEx/coQH+2clx9c3VE2XrMWa
+ v8KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JF7kT9Jakz5MXZ7s85w029ixb/+6fikTUFTZrRv4yoU=;
- b=SaL2epDMLbMH9lxA9jrmyp18KQcN05ZMmyMh5myK5LMe5IuYjfDqKlczerMFS/oDFR
- fVz8cQLWWqs0dLPdt3UdaD6VP5Ku7cMR7PlFGAIEFbks/56aTDNnX3EWNubTV24ulb+i
- fHhbHphWn4p3DZeisWM/hyxprBPsdunG06YiabKlOUO9eyP4CXLjLlLo2Yn4F/vxg5bQ
- Wolw8peyTVTp2NCCSes9ffAroyNpbCYoWvc+TG9VriqysPd4cJoh9qzrLhvufgC4ZY6m
- 7mtsw6d1WwVmL4eSISpXSGLNESOdDlT6kYT2Ws93rpotNUSgM9+K4n06ToGCx8xAaYbY
- 6EGg==
-X-Gm-Message-State: AOAM5319pFsUpiYwZDYpJOC5J3G0pnXARzdqHteMs/UeZk6cEnkfIbFw
- ZlPkgpgSffaBPqokObHAkIkOgt7zQh0=
-X-Google-Smtp-Source: ABdhPJxdbJIbUhDSxyWa3OoBkrlsOphRHXMZU37nN6v0gCouNh4gRK5/N8Tw4mT/s7687uE4t+h37Q==
-X-Received: by 2002:adf:dfd1:: with SMTP id q17mr21031760wrn.347.1599443740620; 
- Sun, 06 Sep 2020 18:55:40 -0700 (PDT)
+ bh=ziCw1jrdbRRxzZUuAacPeDfn99gOs6JW3cbKwKy/6Wo=;
+ b=GWpQKoGgktMz4coMInEGyuIX93paISNoPpxZC9NdpdtZyTfvU6i6eelFweo1eQBMxZ
+ ysyzgeV1dN1LPPxYWQg3JIBlGAOHBiK9C/t6nR9vWVMfLchCYXVQIPbDTh4Uo/Ls2Cos
+ 1D2KvdR2obNo2ewE7wnIw9nK0sT3F34Y3eNbb6+THxNFehgqu/yBmqqJot9j5lvfiGd7
+ dgLi5DFeR86fjZxrP9bgstLDw4Ob4hP0X1FXt+6le38Oo4VqlvwviX/klikzciQycmbf
+ GcFvWz+QtrgQfXtPyS7YG3rgKr/yumsIP9ojsEi1AcLVfrpOPg/x5TTaRiNtcfUMPL26
+ n2fg==
+X-Gm-Message-State: AOAM533BKlF0zOTl1h6uMeDIjG8iXp/qtSp2I7S8+9/Lw5uUphG7sTIh
+ uUL+CiQXfcpQWHcRHWAI/tPN+7HhMvw=
+X-Google-Smtp-Source: ABdhPJwNPzGEimfV5QOVz6vrgn92szWy9wM++PUUZin7MUiYC/kpwkBNb+m+g9zmFtBocHxJClDB3A==
+X-Received: by 2002:a05:600c:2317:: with SMTP id
+ 23mr19335637wmo.183.1599443741827; 
+ Sun, 06 Sep 2020 18:55:41 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id b84sm29377773wmd.0.2020.09.06.18.55.39
+ by smtp.gmail.com with ESMTPSA id b84sm29377773wmd.0.2020.09.06.18.55.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Sep 2020 18:55:40 -0700 (PDT)
+ Sun, 06 Sep 2020 18:55:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] hw/char/serial: Replace commented DPRINTF() by trace event
-Date: Mon,  7 Sep 2020 03:55:30 +0200
-Message-Id: <20200907015535.827885-3-f4bug@amsat.org>
+Subject: [PATCH 3/7] hw/char/serial: Remove old DEBUG_SERIAL commented code
+Date: Mon,  7 Sep 2020 03:55:31 +0200
+Message-Id: <20200907015535.827885-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907015535.827885-1-f4bug@amsat.org>
 References: <20200907015535.827885-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -94,43 +95,52 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the old debug PRINTF() call to display the UART
-baudrate to a trace event.
+All useful DPRINTF() calls have been converted to trace
+events.  Remove a pointless one in the IOEventHandler,
+and drop the DEBUG_SERIAL ifdef'ry.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/serial.c     | 4 +---
- hw/char/trace-events | 1 +
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ hw/char/serial.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/hw/char/serial.c b/hw/char/serial.c
-index a855ef66ea2..fb41337b661 100644
+index fb41337b661..1e70294f28a 100644
 --- a/hw/char/serial.c
 +++ b/hw/char/serial.c
-@@ -187,9 +187,7 @@ static void serial_update_parameters(SerialState *s)
-     ssp.stop_bits = stop_bits;
-     s->char_transmit_time =  (NANOSECONDS_PER_SECOND / speed) * frame_size;
-     qemu_chr_fe_ioctl(&s->chr, CHR_IOCTL_SERIAL_SET_PARAMS, &ssp);
+@@ -36,8 +36,6 @@
+ #include "trace.h"
+ #include "hw/qdev-properties.h"
+ 
+-//#define DEBUG_SERIAL
 -
--    DPRINTF("speed=%.2f parity=%c data=%d stop=%d\n",
--           speed, parity, data_bits, stop_bits);
-+    trace_serial_update_parameters(speed, parity, data_bits, stop_bits);
+ #define UART_LCR_DLAB	0x80	/* Divisor latch access bit */
+ 
+ #define UART_IER_MSI	0x08	/* Enable Modem status interrupt */
+@@ -102,14 +100,6 @@
+ 
+ #define MAX_XMIT_RETRY      4
+ 
+-#ifdef DEBUG_SERIAL
+-#define DPRINTF(fmt, ...) \
+-do { fprintf(stderr, "serial: " fmt , ## __VA_ARGS__); } while (0)
+-#else
+-#define DPRINTF(fmt, ...) \
+-do {} while (0)
+-#endif
+-
+ static void serial_receive1(void *opaque, const uint8_t *buf, int size);
+ static void serial_xmit(SerialState *s);
+ 
+@@ -636,7 +626,6 @@ static void serial_receive1(void *opaque, const uint8_t *buf, int size)
+ static void serial_event(void *opaque, QEMUChrEvent event)
+ {
+     SerialState *s = opaque;
+-    DPRINTF("event %x\n", event);
+     if (event == CHR_EVENT_BREAK)
+         serial_receive_break(s);
  }
- 
- static void serial_update_msl(SerialState *s)
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index d20eafd56f8..85e39d9d62b 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -7,6 +7,7 @@ parallel_ioport_write(const char *desc, uint16_t addr, uint8_t value) "write [%s
- # serial.c
- serial_ioport_read(uint16_t addr, uint8_t value) "read addr 0x%02x val 0x%02x"
- serial_ioport_write(uint16_t addr, uint8_t value) "write addr 0x%02x val 0x%02x"
-+serial_update_parameters(uint64_t baudrate, char parity, int data_bits, int stop_bits) "baudrate=%"PRIu64" parity='%c' data=%d stop=%d"
- 
- # virtio-serial-bus.c
- virtio_serial_send_control_event(unsigned int port, uint16_t event, uint16_t value) "port %u, event %u, value %u"
 -- 
 2.26.2
 
