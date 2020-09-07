@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2241F26043E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:08:19 +0200 (CEST)
-Received: from localhost ([::1]:56304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B4F26042D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:06:23 +0200 (CEST)
+Received: from localhost ([::1]:49046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLYw-0008IU-6i
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:08:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38764)
+	id 1kFLX4-0005JX-BY
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:06:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLVu-0003kr-Bn
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:10 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:36271)
+ id 1kFLVw-0003pl-Pr
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:12 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:33943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLVp-0002NP-O5
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:10 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id k13so2794087plk.3
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 11:05:05 -0700 (PDT)
+ id 1kFLVu-0002Nb-0r
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:12 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id n3so7668781pjq.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 11:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BV7UzgSMM3A3H8QtCGnB/gl3FBbCJtYPNUPwgrX+UHQ=;
- b=sXN95DMJNz/SuqFVAmT0QvAY8b1QhUoEQyTSScvyvZOrbOg2BxiM8cyHrDtiwezM9O
- /aiVDDcHsjNzIBjHo7h4lcOCMYk2r03aZk+oTYLEZtjeesItby7qdtOwsP+XuHi5tYc2
- OUlhEno8mpkKLvBmZ1/bSnS20SLw65QYyJMUzJ/KsIXJ/DpKEr5JJmskJKtqLDkkmwvx
- dDrVUY9xzx+aaFyyulCGcdckTzXB1JtG3oZwLxLBa9w+dLR8ltsBMoIKdqdzq3GofDQW
- XF2VKEnboJVX11HBXDuPyAjYk3F7qANsyBrKgQPuB1XSFWtBnq8RWEwzasEvQZXEe2BJ
- npBw==
+ bh=lPpTfq2djWv2KtE9u88NEsXW+rPg4wV1NrdmvmqhTMc=;
+ b=BQB1Zif9FmmzTXKs59VNVu1nTiedajD+cffLaACTdrZ0H86wsjIHTg4esL2/7q5SBG
+ r7UhPVBzsSyq6WY9FqhuHTEaDo11Ab0mwiK0nawE5VUSdCaWQeUqZT2d3dS4zJHQPmCV
+ JD5pj7ZxaMZwMBoib3Qc2QeJUr7iTaxTG3Adu80I7sx16kRJMGHfgAz5DMMML7PKtZkD
+ u/u1gWHof39GAMQX56RCb15o/fkbtKqxE/38OCMmhkpjfh5+PPHLHBfpER3ZFc8yxJnJ
+ 96UgODrpcKJYk8Zu8qDlEYeuKQ3SlQi3QMjg336m2GpioonIRl3+es46jdTQw96wnnzN
+ xLSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BV7UzgSMM3A3H8QtCGnB/gl3FBbCJtYPNUPwgrX+UHQ=;
- b=NqylOlHTZoGiLnaxZ3KZV8IbhK/q1a9X53bcjSEWb2NGMSZcJyMFFgaVfK+1qJtSwf
- FHeQXACSPXuvgqYfkNm+r0HEr2uN01uFGgCplMo7SujIDFryP+fXJMkSw5PDFwwSi/4B
- JFJojXqJBFg4337SVoCdI+gVgE5AEuToCVQFcIk1hopikZc2J7mTpHt/Ev7EHRDC3LMr
- 7woJHM2YTy0TbV4aWYMoFXkQSlk/kflawoUgK8zgUvz92qDH9m3W+qlFtbkmnfPFex7r
- OAaNultAfjKenMnMoqEVsv0+Q/EFkCkKulyr5QPIg66jY9WByfe68idS3/ajTMnkHPwn
- 7MSA==
-X-Gm-Message-State: AOAM533yMRxTmtdQqpv3Ea+Y3qpZPAvU9CHpabHuhIsU4m+2JlqQkvLq
- 2LbCoESlJgRoI36UzHB0tKPlD9xN7J7zxQ==
-X-Google-Smtp-Source: ABdhPJwavj8eNmRDTI44lGjzX74kssBWPrdxH9jGbO2ZS5B/phOGsd7Eyn81hzkpsEM7m69a71nMKA==
-X-Received: by 2002:a17:90a:930e:: with SMTP id
- p14mr421362pjo.49.1599501903898; 
- Mon, 07 Sep 2020 11:05:03 -0700 (PDT)
+ bh=lPpTfq2djWv2KtE9u88NEsXW+rPg4wV1NrdmvmqhTMc=;
+ b=eXL7yeqB3v1sTyanvfVHA9aNy7urNm7cFPgnngYjPWUfyccuGiIJWrmOdqLkbpP1en
+ SaP0NBn7o/h8QoKpziNCIebeAUJdKb5m6EtIA7ZFUsjz0JYv3Hp+5PXHh8focHPvrEJH
+ Kat09FB2P6unIxIhuxkFSSNsgoL29kJlOH/FJnBg/y2uO/tvhH3EbCg98BIA7OlHx/tK
+ 6qIeRNuthGnYgs7RjptWRm9jA7sgLCFkpar3k+Z2Wjt9tUOf7OjsRpxTbZq77KbzmUzD
+ guosHNeTjsp3O90Vvz+GYfZJLm2hlQvdZWoaZ0RTvW7v2QhzGgjjbDRNVsoQTDGk+qWq
+ QS1g==
+X-Gm-Message-State: AOAM532doL+tnPONdt9LCxy22z7NA57Fm2uUjRCqqDYbQakh/eJ/qzCt
+ SYkpvDr4js0Xu/cFmVuzDu+BoiZALyRKrw==
+X-Google-Smtp-Source: ABdhPJzCLPCvswwIWo8qjyz2amjOY518IS9+jGNQxO08jrJpuRgk9+9zIkJ04C++Ll/HYhiN0u3ikg==
+X-Received: by 2002:a17:90a:e64e:: with SMTP id
+ ep14mr413620pjb.173.1599501905234; 
+ Mon, 07 Sep 2020 11:05:05 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v6sm11367768pfi.38.2020.09.07.11.05.02
+ by smtp.gmail.com with ESMTPSA id v6sm11367768pfi.38.2020.09.07.11.05.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 11:05:03 -0700 (PDT)
+ Mon, 07 Sep 2020 11:05:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/19] target/microblaze: Split out MicroBlazeCPUConfig
-Date: Mon,  7 Sep 2020 11:04:52 -0700
-Message-Id: <20200907180459.29025-3-richard.henderson@linaro.org>
+Subject: [PULL 13/19] target/microblaze: Reorg MicroBlazeCPUConfig to minimize
+ holes
+Date: Mon,  7 Sep 2020 11:04:53 -0700
+Message-Id: <20200907180459.29025-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907180459.29025-1-richard.henderson@linaro.org>
 References: <20200907175102.28027-1-richard.henderson@linaro.org>
  <20200907180459.29025-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,89 +91,55 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This struct was previously unnamed, and defined in MicroBlazeCPU.
-Pull it out to its own typedef so that we can reuse it.
+Sort the elements by type and size, removing a number of holes
+and reducing the size of the entire struct.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h | 55 ++++++++++++++++++++++-------------------
- 1 file changed, 29 insertions(+), 26 deletions(-)
+ target/microblaze/cpu.h | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 20c2979396..59d2a079c4 100644
+index 59d2a079c4..4d53345f23 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -291,6 +291,34 @@ struct CPUMBState {
-     } pvr;
- };
+@@ -293,13 +293,22 @@ struct CPUMBState {
  
-+/*
-+ * Microblaze Configuration Settings
-+ */
-+typedef struct {
-+    bool stackprot;
-+    uint32_t base_vectors;
-+    uint8_t addr_size;
-+    uint8_t use_fpu;
-+    uint8_t use_hw_mul;
-+    bool use_barrel;
-+    bool use_div;
-+    bool use_msr_instr;
-+    bool use_pcmp_instr;
-+    bool use_mmu;
-+    bool dcache_writeback;
-+    bool endi;
-+    bool dopb_bus_exception;
-+    bool iopb_bus_exception;
-+    bool illegal_opcode_exception;
-+    bool opcode_0_illegal;
-+    bool div_zero_exception;
-+    bool unaligned_exceptions;
-+    uint8_t pvr_user1;
-+    uint32_t pvr_user2;
+ /*
+  * Microblaze Configuration Settings
++ *
++ * Note that the structure is sorted by type and size to minimize holes.
+  */
+ typedef struct {
+-    bool stackprot;
 +    char *version;
-+    uint8_t pvr;
-+} MicroBlazeCPUConfig;
 +
+     uint32_t base_vectors;
++    uint32_t pvr_user2;
++
+     uint8_t addr_size;
+     uint8_t use_fpu;
+     uint8_t use_hw_mul;
++    uint8_t pvr_user1;
++    uint8_t pvr;
++
++    bool stackprot;
+     bool use_barrel;
+     bool use_div;
+     bool use_msr_instr;
+@@ -313,10 +322,6 @@ typedef struct {
+     bool opcode_0_illegal;
+     bool div_zero_exception;
+     bool unaligned_exceptions;
+-    uint8_t pvr_user1;
+-    uint32_t pvr_user2;
+-    char *version;
+-    uint8_t pvr;
+ } MicroBlazeCPUConfig;
+ 
  /**
-  * MicroBlazeCPU:
-  * @env: #CPUMBState
-@@ -305,32 +333,7 @@ struct MicroBlazeCPU {
- 
-     CPUNegativeOffsetState neg;
-     CPUMBState env;
--
--    /* Microblaze Configuration Settings */
--    struct {
--        bool stackprot;
--        uint32_t base_vectors;
--        uint8_t addr_size;
--        uint8_t use_fpu;
--        uint8_t use_hw_mul;
--        bool use_barrel;
--        bool use_div;
--        bool use_msr_instr;
--        bool use_pcmp_instr;
--        bool use_mmu;
--        bool dcache_writeback;
--        bool endi;
--        bool dopb_bus_exception;
--        bool iopb_bus_exception;
--        bool illegal_opcode_exception;
--        bool opcode_0_illegal;
--        bool div_zero_exception;
--        bool unaligned_exceptions;
--        uint8_t pvr_user1;
--        uint32_t pvr_user2;
--        char *version;
--        uint8_t pvr;
--    } cfg;
-+    MicroBlazeCPUConfig cfg;
- };
- 
- 
 -- 
 2.25.1
 
