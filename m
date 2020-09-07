@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939C22604BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:34:40 +0200 (CEST)
-Received: from localhost ([::1]:36526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A6426049F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:33:46 +0200 (CEST)
+Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLyR-0005cO-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42810)
+	id 1kFLxZ-00032d-1u
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlI-0005nI-Pb
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:21:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44724
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlK-0005qS-3B
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:21:06 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45882
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlF-0004ff-IV
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:21:04 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFLlH-0004fw-WA
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:21:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599502860;
+ s=mimecast20190719; t=1599502861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yk64AMLLHe7WJDpUa4dVKSdOPGFkuRbVGqup9pfHIEA=;
- b=Bf5IXua/KWD3mXjA3Qu/04f3Vbh4tqwqIRppeMD3Y2kSZkEATl/c4QqxE7Mp+ufGDxT3nZ
- ZIc1oJAwy6WzQRPpFisQnZbct3qC0wrHIUZZidgfY3pMDLpzdGO1ZlRunDqghn1FqCEnpA
- A1JUpQfZniHTKoH32edpEEEaRuRHjUs=
+ bh=bK+ifR3wkt+Es7s9DRYwoq1Qk7xHQcwwhiFnJO3KQZ4=;
+ b=LP3RqbZjQoYn4CSG7YXGcP9OtJN6pMoJmSUzvz0FMUpSRo5B3ZAhFQObzW3M4M3xt6P/AZ
+ WlxToS9w6A/3X16Dy2jJ7n12aRwiQ0qav/b4EjKVgijdFMavkaH8IWCgqrY7z68L3R6SU3
+ tWITeyA15tzvx+yUjEW8wPByjFOYuXg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-e5v0pJ-zO2eeBEVIRS8XyA-1; Mon, 07 Sep 2020 14:20:56 -0400
-X-MC-Unique: e5v0pJ-zO2eeBEVIRS8XyA-1
+ us-mta-271-8x0SeIdaOceRNUg7Z-dP9Q-1; Mon, 07 Sep 2020 14:20:59 -0400
+X-MC-Unique: 8x0SeIdaOceRNUg7Z-dP9Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD8191084C85;
- Mon,  7 Sep 2020 18:20:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2FAF8030A7;
+ Mon,  7 Sep 2020 18:20:58 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C152B60BF3;
- Mon,  7 Sep 2020 18:20:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 981E26198E;
+ Mon,  7 Sep 2020 18:20:57 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 22/29] block/export: Move blk to BlockExport
-Date: Mon,  7 Sep 2020 20:20:04 +0200
-Message-Id: <20200907182011.521007-23-kwolf@redhat.com>
+Subject: [PATCH 24/29] block/export: Add query-block-exports
+Date: Mon,  7 Sep 2020 20:20:06 +0200
+Message-Id: <20200907182011.521007-25-kwolf@redhat.com>
 In-Reply-To: <20200907182011.521007-1-kwolf@redhat.com>
 References: <20200907182011.521007-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,227 +84,85 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Every block export has a BlockBackend representing the disk that is
-exported. It should live in BlockExport therefore.
+This adds a simple QMP command to query the list of block exports.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/export.h |  3 +++
- block/export/export.c  |  3 +++
- nbd/server.c           | 43 +++++++++++++++++++++---------------------
- 3 files changed, 28 insertions(+), 21 deletions(-)
+ qapi/block-export.json | 32 ++++++++++++++++++++++++++++++++
+ block/export/export.c  | 23 +++++++++++++++++++++++
+ 2 files changed, 55 insertions(+)
 
-diff --git a/include/block/export.h b/include/block/export.h
-index ff54d35872..7feb02e10d 100644
---- a/include/block/export.h
-+++ b/include/block/export.h
-@@ -71,6 +71,9 @@ struct BlockExport {
-     /* The AioContext whose lock protects this BlockExport object. */
-     AioContext *ctx;
- 
-+    /* The block device to export */
-+    BlockBackend *blk;
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index dac3250f08..d4e9290210 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -245,3 +245,35 @@
+ ##
+ { 'event': 'BLOCK_EXPORT_DELETED',
+   'data': { 'id': 'str' } }
 +
-     /* List entry for block_exports */
-     QLIST_ENTRY(BlockExport) next;
- };
++##
++# @BlockExportInfo:
++#
++# Information about a single block export.
++#
++# @id: The unique identifier for the block export
++#
++# @type: The block export type
++#
++# @node-name: The node name of the block node that is exported
++#
++# @shutting-down: True if the export is shutting down (e.g. after a
++#                 block-export-del command, but before the shutdown has
++#                 completed)
++#
++# Since:  5.2
++##
++{ 'struct': 'BlockExportInfo',
++  'data': { 'id': 'str',
++            'type': 'BlockExportType',
++            'node-name': 'str',
++            'shutting-down': 'bool' } }
++
++##
++# @query-block-exports:
++#
++# Returns: A list of BlockExportInfo describing all block exports
++#
++# Since: 5.2
++##
++{ 'command': 'query-block-exports', 'returns': ['BlockExportInfo'] }
 diff --git a/block/export/export.c b/block/export/export.c
-index ae7879e6a9..40fc9d505f 100644
+index 52ec00dfcf..bbdb256267 100644
 --- a/block/export/export.c
 +++ b/block/export/export.c
-@@ -92,6 +92,8 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-         return NULL;
-     }
+@@ -279,3 +279,26 @@ void qmp_block_export_del(const char *id,
  
-+    assert(exp->blk != NULL);
-+
-     QLIST_INSERT_HEAD(&block_exports, exp, next);
-     return exp;
+     blk_exp_request_shutdown(exp);
  }
-@@ -114,6 +116,7 @@ static void blk_exp_delete_bh(void *opaque)
-     assert(exp->refcount == 0);
-     QLIST_REMOVE(exp, next);
-     exp->drv->delete(exp);
-+    blk_unref(exp->blk);
-     qapi_event_send_block_export_deleted(exp->id);
-     g_free(exp->id);
-     g_free(exp);
-diff --git a/nbd/server.c b/nbd/server.c
-index 1a0e1db401..f9af45c480 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -84,7 +84,6 @@ struct NBDRequestData {
- struct NBDExport {
-     BlockExport common;
- 
--    BlockBackend *blk;
-     char *name;
-     char *description;
-     uint64_t size;
-@@ -643,7 +642,7 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
-      * whether this is OPT_INFO or OPT_GO. */
-     /* minimum - 1 for back-compat, or actual if client will obey it. */
-     if (client->opt == NBD_OPT_INFO || blocksize) {
--        check_align = sizes[0] = blk_get_request_alignment(exp->blk);
-+        check_align = sizes[0] = blk_get_request_alignment(exp->common.blk);
-     } else {
-         sizes[0] = 1;
-     }
-@@ -652,7 +651,7 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
-      * TODO: is blk_bs(blk)->bl.opt_transfer appropriate? */
-     sizes[1] = MAX(4096, sizes[0]);
-     /* maximum - At most 32M, but smaller as appropriate. */
--    sizes[2] = MIN(blk_get_max_transfer(exp->blk), NBD_MAX_BUFFER_SIZE);
-+    sizes[2] = MIN(blk_get_max_transfer(exp->common.blk), NBD_MAX_BUFFER_SIZE);
-     trace_nbd_negotiate_handle_info_block_size(sizes[0], sizes[1], sizes[2]);
-     sizes[0] = cpu_to_be32(sizes[0]);
-     sizes[1] = cpu_to_be32(sizes[1]);
-@@ -684,7 +683,7 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
-      * tolerate all clients, regardless of alignments.
-      */
-     if (client->opt == NBD_OPT_INFO && !blocksize &&
--        blk_get_request_alignment(exp->blk) > 1) {
-+        blk_get_request_alignment(exp->common.blk) > 1) {
-         return nbd_negotiate_send_rep_err(client,
-                                           NBD_REP_ERR_BLOCK_SIZE_REQD,
-                                           errp,
-@@ -1557,7 +1556,7 @@ int nbd_export_new(BlockExport *blk_exp, BlockDriverState *bs,
-     blk_set_allow_aio_context_change(blk, true);
- 
-     QTAILQ_INIT(&exp->clients);
--    exp->blk = blk;
-+    exp->common.blk = blk;
-     exp->name = g_strdup(name);
-     assert(!desc || strlen(desc) <= NBD_MAX_STRING_SIZE);
-     exp->description = g_strdup(desc);
-@@ -1679,15 +1678,13 @@ static void nbd_export_delete(BlockExport *blk_exp)
-     g_free(exp->description);
-     exp->description = NULL;
- 
--    if (exp->blk) {
-+    if (exp->common.blk) {
-         if (exp->eject_notifier_blk) {
-             notifier_remove(&exp->eject_notifier);
-             blk_unref(exp->eject_notifier_blk);
-         }
--        blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
-+        blk_remove_aio_context_notifier(exp->common.blk, blk_aio_attached,
-                                         blk_aio_detach, exp);
--        blk_unref(exp->blk);
--        exp->blk = NULL;
-     }
- 
-     if (exp->export_bitmap) {
-@@ -1840,7 +1837,7 @@ static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
- 
-     while (progress < size) {
-         int64_t pnum;
--        int status = bdrv_block_status_above(blk_bs(exp->blk), NULL,
-+        int status = bdrv_block_status_above(blk_bs(exp->common.blk), NULL,
-                                              offset + progress,
-                                              size - progress, &pnum, NULL,
-                                              NULL);
-@@ -1872,7 +1869,8 @@ static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
-             stl_be_p(&chunk.length, pnum);
-             ret = nbd_co_send_iov(client, iov, 1, errp);
-         } else {
--            ret = blk_pread(exp->blk, offset + progress, data + progress, pnum);
-+            ret = blk_pread(exp->common.blk, offset + progress,
-+                            data + progress, pnum);
-             if (ret < 0) {
-                 error_setg_errno(errp, -ret, "reading from file failed");
-                 break;
-@@ -2136,7 +2134,8 @@ static int nbd_co_receive_request(NBDRequestData *req, NBDRequest *request,
-         }
- 
-         if (request->type != NBD_CMD_CACHE) {
--            req->data = blk_try_blockalign(client->exp->blk, request->len);
-+            req->data = blk_try_blockalign(client->exp->common.blk,
-+                                           request->len);
-             if (req->data == NULL) {
-                 error_setg(errp, "No memory");
-                 return -ENOMEM;
-@@ -2232,7 +2231,7 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
- 
-     /* XXX: NBD Protocol only documents use of FUA with WRITE */
-     if (request->flags & NBD_CMD_FLAG_FUA) {
--        ret = blk_co_flush(exp->blk);
-+        ret = blk_co_flush(exp->common.blk);
-         if (ret < 0) {
-             return nbd_send_generic_reply(client, request->handle, ret,
-                                           "flush failed", errp);
-@@ -2246,7 +2245,7 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
-                                        data, request->len, errp);
-     }
- 
--    ret = blk_pread(exp->blk, request->from, data, request->len);
-+    ret = blk_pread(exp->common.blk, request->from, data, request->len);
-     if (ret < 0) {
-         return nbd_send_generic_reply(client, request->handle, ret,
-                                       "reading from file failed", errp);
-@@ -2281,7 +2280,7 @@ static coroutine_fn int nbd_do_cmd_cache(NBDClient *client, NBDRequest *request,
- 
-     assert(request->type == NBD_CMD_CACHE);
- 
--    ret = blk_co_preadv(exp->blk, request->from, request->len,
-+    ret = blk_co_preadv(exp->common.blk, request->from, request->len,
-                         NULL, BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH);
- 
-     return nbd_send_generic_reply(client, request->handle, ret,
-@@ -2312,7 +2311,8 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-         if (request->flags & NBD_CMD_FLAG_FUA) {
-             flags |= BDRV_REQ_FUA;
-         }
--        ret = blk_pwrite(exp->blk, request->from, data, request->len, flags);
-+        ret = blk_pwrite(exp->common.blk, request->from, data, request->len,
-+                         flags);
-         return nbd_send_generic_reply(client, request->handle, ret,
-                                       "writing to file failed", errp);
- 
-@@ -2333,7 +2333,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-             int align = client->check_align ?: 1;
-             int len = MIN(request->len, QEMU_ALIGN_DOWN(BDRV_REQUEST_MAX_BYTES,
-                                                         align));
--            ret = blk_pwrite_zeroes(exp->blk, request->from, len, flags);
-+            ret = blk_pwrite_zeroes(exp->common.blk, request->from, len, flags);
-             request->len -= len;
-             request->from += len;
-         }
-@@ -2345,7 +2345,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-         abort();
- 
-     case NBD_CMD_FLUSH:
--        ret = blk_co_flush(exp->blk);
-+        ret = blk_co_flush(exp->common.blk);
-         return nbd_send_generic_reply(client, request->handle, ret,
-                                       "flush failed", errp);
- 
-@@ -2356,12 +2356,12 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-             int align = client->check_align ?: 1;
-             int len = MIN(request->len, QEMU_ALIGN_DOWN(BDRV_REQUEST_MAX_BYTES,
-                                                         align));
--            ret = blk_co_pdiscard(exp->blk, request->from, len);
-+            ret = blk_co_pdiscard(exp->common.blk, request->from, len);
-             request->len -= len;
-             request->from += len;
-         }
-         if (ret >= 0 && request->flags & NBD_CMD_FLAG_FUA) {
--            ret = blk_co_flush(exp->blk);
-+            ret = blk_co_flush(exp->common.blk);
-         }
-         return nbd_send_generic_reply(client, request->handle, ret,
-                                       "discard failed", errp);
-@@ -2379,7 +2379,8 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
- 
-             if (client->export_meta.base_allocation) {
-                 ret = nbd_co_send_block_status(client, request->handle,
--                                               blk_bs(exp->blk), request->from,
-+                                               blk_bs(exp->common.blk),
-+                                               request->from,
-                                                request->len, dont_fragment,
-                                                !client->export_meta.bitmap,
-                                                NBD_META_ID_BASE_ALLOCATION,
++
++BlockExportInfoList *qmp_query_block_exports(Error **errp)
++{
++    BlockExportInfoList *head = NULL, **p_next = &head;
++    BlockExport *exp;
++
++    QLIST_FOREACH(exp, &block_exports, next) {
++        BlockExportInfoList *entry = g_new0(BlockExportInfoList, 1);
++        BlockExportInfo *info = g_new(BlockExportInfo, 1);
++        *info = (BlockExportInfo) {
++            .id             = g_strdup(exp->id),
++            .type           = exp->drv->type,
++            .node_name      = g_strdup(bdrv_get_node_name(blk_bs(exp->blk))),
++            .shutting_down  = !exp->user_owned,
++        };
++
++        entry->value = info;
++        *p_next = entry;
++        p_next = &entry->next;
++    }
++
++    return head;
++}
 -- 
 2.25.4
 
