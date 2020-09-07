@@ -2,68 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B3125F674
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:28:45 +0200 (CEST)
-Received: from localhost ([::1]:50790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED4025F698
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:36:50 +0200 (CEST)
+Received: from localhost ([::1]:35058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDS8-0007Hr-3C
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36416)
+	id 1kFDZx-0004ap-MV
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFDRM-0006cv-0f
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:27:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36198)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFDRK-0003sp-HF
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:27:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599470873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xo6bv48hH09WDdwDkH4nKVl3IpCFoqDfyqZt4dQRDv8=;
- b=ZFbVAUtAHYW5HSfZtCGn0o5B9g1DW2Tv2ej8vwjjDY+nYsnvFN3/DjeSsenCSsSRE8Awoc
- 6k+WZx6NspgS0K/lx+bywHyRxT5niH6agenZrB0nep740AUo1iA+eAQ42Z+GrsHioMkA2o
- tSpv9xLLhqY3PVSC2bQMz0WuqjTupy4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-4Faf8ilDPt-BZEApUHPJMA-1; Mon, 07 Sep 2020 05:27:51 -0400
-X-MC-Unique: 4Faf8ilDPt-BZEApUHPJMA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D8A8800460;
- Mon,  7 Sep 2020 09:27:50 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
- [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A6C410013D7;
- Mon,  7 Sep 2020 09:27:48 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] file-win32: Fix "locking" option
-Date: Mon,  7 Sep 2020 11:27:39 +0200
-Message-Id: <20200907092739.9988-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kFDZ6-0003z2-Uv
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:35:56 -0400
+Received: from mail-bn8nam11on2047.outbound.protection.outlook.com
+ ([40.107.236.47]:1313 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kFDZ4-0004rS-G9
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:35:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G0yhmDk4jmuvAz0bDREW8a3wYaSp2C5XdgT4Y2f6az13rZ3McvaFQFwUcSXmfcQuO3IZmBcuvbFmWjUL3e30TJfktsBBY47Q3+Nmzemc99As6+ETZePXGTJ9/+NoEyq9AB+/cZLrjou37qJ+rUv0s0Qwp7x9xlnJYFC2BqLQwgN9qc6tnwevmyQIN0WgSCDvIfUBgpt2ed/5Fb4Hi8+OXxm/N1skXYmtvbdx2OQBeFncBA8M5lfICsSiMlHIxPQdpFq8xXZ2X02kQ3iF9qmqKALt8aj+f0V92e0OEgR1fuMexQer5NzO3bJK0tBDzRqjYj/GMc28hdH8Nltd6V103g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RjuQo7r3v2OHRf9PFp4cGVYSh4Soaq2GRlVnJMPYdoU=;
+ b=D1jIIyVblKVbwc3fRxCL6NYJWhnByujsHVBM7xpB6YF+zS/J/9ls4Zx495cKknwn0kjLda7BEbYXq2eAb473QIGkjLVguy6qIF56KZtum3W6aNoiT1gj03iip09OCkR+NN11FGv8k+EMwcuZaUqSpewPb7+UjLMsCylylfzfZxmfmM0CFkH3PS5ei+UEYl1lmyXzFg/YtdSPEMVHhFddcTS2pseb0JTS8HZ89JLaR4ETfKnMmseu+AQBqvzcIvsTa/Zng3+63q8rFtYo67XGAWfqMiQOmXeUPQKiSrH7WWDw1Cfhnpsfh+HbvW4WbxtzbZ5LH8/gvPvjR7kRlF31Zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RjuQo7r3v2OHRf9PFp4cGVYSh4Soaq2GRlVnJMPYdoU=;
+ b=Ex8eGB2/8UrRNcsP/hv0GFbT9Yy+Eb/6+8OaVnOieaUefj0K8WCKVcm9aMMW76CaFPMjBwCgc+crIx5GKGBwvehrwUPO7s2nXjjzDp2dT9yz4HiShCVDgVQPe+PgAwVCmrEomOB6hAhQVRhgyA53/I6vPgfuAWyB2oSADP8Ha5o=
+Received: from SA9PR03CA0012.namprd03.prod.outlook.com (2603:10b6:806:20::17)
+ by BN6PR02MB2465.namprd02.prod.outlook.com (2603:10b6:404:57::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Mon, 7 Sep
+ 2020 09:20:49 +0000
+Received: from SN1NAM02FT028.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:20:cafe::59) by SA9PR03CA0012.outlook.office365.com
+ (2603:10b6:806:20::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16 via Frontend
+ Transport; Mon, 7 Sep 2020 09:20:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT028.mail.protection.outlook.com (10.152.72.105) with Microsoft SMTP
+ Server id 15.20.3348.17 via Frontend Transport; Mon, 7 Sep 2020 09:20:49
+ +0000
+Received: from [149.199.38.66] (port=38846 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <edgar@xilinx.com>)
+ id 1kFDKH-00042H-Bd; Mon, 07 Sep 2020 02:20:37 -0700
+Received: from [127.0.0.1] (helo=xsj-pvapsmtp01)
+ by smtp.xilinx.com with esmtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1kFDKT-0005kD-Go; Mon, 07 Sep 2020 02:20:49 -0700
+Received: from [10.71.116.235] (helo=localhost)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1kFDKT-0005jq-0g; Mon, 07 Sep 2020 02:20:49 -0700
+Date: Mon, 7 Sep 2020 11:20:43 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 00/19] target/microblaze improvements
+Message-ID: <20200907092043.GV14249@toto>
+References: <20200904190842.2282109-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:27:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200904190842.2282109-1-richard.henderson@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c3f4a311-f14e-428e-9fb8-08d8530f4f95
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2465:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB246560E54A3690CC270AAFCCC2280@BN6PR02MB2465.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +zHxc7LMM0LP7swCrPoqbdZcjYiLvnONig75J48J12jbJs4J29k8cE6KjX85uGJzYFaMUzY0k11OV9dACwfwj1adXe3k19q5+x0uvY6V71rbYIK4VyCTODdy0ao9JpJj6hFoieEBj6moqsYoUNJXb0eeie11/KfPUZGJsjdPlJinTCUWgY/vH8UISVxtqLL4VSvARFZ4AGPcY3RXHTzb4f5NXwVBeytAeA76j7WZrr/rpTGxzz0cmaiJHTV0I9gv7fYvz0Oyk22XEpMrHFioplGDKYcNqwcd6STMx/rye/AOIfYkT7FHoFD7CVnWlaJQU1YDe00cIggcxxCNRJ6xhJ6vi+uuwf9Y2o5wppX0NH7sWJsy7HRwowUovic0/6Bv+xXFbpwbd9fDuqktsmb45g==
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(7916004)(39850400004)(346002)(396003)(136003)(376002)(46966005)(33656002)(81166007)(82740400003)(426003)(70586007)(356005)(336012)(186003)(70206006)(8936002)(1076003)(26005)(6666004)(316002)(9786002)(478600001)(33716001)(82310400003)(83380400001)(4326008)(9686003)(2906002)(5660300002)(47076004)(8676002)(6916009);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2020 09:20:49.7705 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3f4a311-f14e-428e-9fb8-08d8530f4f95
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT028.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2465
+Received-SPF: pass client-ip=40.107.236.47; envelope-from=edgar@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:35:53
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,76 +127,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, sw@weilnetz.de, luoyonggang@gmail.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The intended behaviour was that locking=off/auto work and have no
-effect (to remain compatible with file-posix), whereas locking=on would
-return an error. Unfortunately, the code forgot to remove "locking" from
-the options QDict, so any attempt to use the option would fail.
+On Fri, Sep 04, 2020 at 12:08:23PM -0700, Richard Henderson wrote:
+> Version 3:
+> 
+>  * Splits out MicroBlazeCPUConfig, and moves some values
+>    out of CPUMBState (env) that are constant configuration
+>    parameters, or derived from configuration parameters.
+> 
+>  * Do not save configuration parameters with vmstate.
+>  * Pass around MicroBlazeCPUConfig in the translator.
+>  * Do not set TARGET_ABI32 in configure.
+> 
+> Version 2:
+> 
+>  * Includes fixes for iflags that could cause lockups.
+> 
+>    It seems it was easier to do so with icount=7, which is what we
+>    do during the replay acceptance tests.  This causes TBs to contain
+>    no more than 7 insns, and often less to make up for an incomplete
+>    count elsewhere.  Which stressed the iflags bits around delay slots
+>    and imm in ways that pure single-step doesn't.
+> 
+>   * cpu vmstate is filled in
+>   * interrupt logging is tidied.
+> 
+> 
+> r~
 
-Replace the option parsing code for "locking" with something that is
-part of the raw_runtime_opts QemuOptsList (so it is properly removed
-from the QDict) and looks more like file-posix.
+Looks good, none of the test issues were relatd. Thanks Richard!
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/file-win32.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+On all the patches I had not previously reviewed:
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-diff --git a/block/file-win32.c b/block/file-win32.c
-index ab69bd811a..e2900c3a51 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
-             .type = QEMU_OPT_STRING,
-             .help = "host AIO implementation (threads, native)",
-         },
-+        {
-+            .name = "locking",
-+            .type = QEMU_OPT_STRING,
-+            .help = "file locking mode (on/off/auto, default: auto)",
-+        },
-         { /* end of list */ }
-     },
- };
-@@ -333,6 +338,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-     Error *local_err = NULL;
-     const char *filename;
-     bool use_aio;
-+    OnOffAuto locking;
-     int ret;
- 
-     s->type = FTYPE_FILE;
-@@ -343,10 +349,24 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-         goto fail;
-     }
- 
--    if (qdict_get_try_bool(options, "locking", false)) {
-+    locking = qapi_enum_parse(&OnOffAuto_lookup,
-+                              qemu_opt_get(opts, "locking"),
-+                              ON_OFF_AUTO_AUTO, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        ret = -EINVAL;
-+        goto fail;
-+    }
-+    switch (locking) {
-+    case ON_OFF_AUTO_ON:
-         error_setg(errp, "locking=on is not supported on Windows");
-         ret = -EINVAL;
-         goto fail;
-+    case ON_OFF_AUTO_OFF:
-+    case ON_OFF_AUTO_AUTO:
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     filename = qemu_opt_get(opts, "filename");
--- 
-2.25.4
+Can you take the pull-req via your trees?
 
+Cheers,
+Edgar
 
