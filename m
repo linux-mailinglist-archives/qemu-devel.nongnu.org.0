@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5013D25F91C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:14:09 +0200 (CEST)
-Received: from localhost ([::1]:44256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DBB25F91F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:15:36 +0200 (CEST)
+Received: from localhost ([::1]:50552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFF68-0000PS-BM
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58600)
+	id 1kFF7X-0002t9-4Z
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:15:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF22-0001t3-Vx
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:09:55 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42271
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF24-0001xg-Gh
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:09:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37116
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF21-0007s5-B3
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:09:54 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF22-0007sT-Np
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:09:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599476992;
+ s=mimecast20190719; t=1599476993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zW+8E6tlRKpbo+7YpEE7VAOUD8lrz7aUubA+tXWAGy0=;
- b=bwLB7PrczgPgqgxdxcviZtc7RDK/5Teu7sOOFprF+o6WMkoxDbPkMDepQS7MrpAxOFX8/L
- 8gXiYL7+2xVwRPbDDi8O3M4ACGjK60PwpcefJkJg/cvtefQMhkiAvR7Vot2qXhwE82bCON
- cvcJZ2cdnVqqljpnDMuUvDYnQPqD+lw=
+ bh=i0uKVqpxa7wGGtsTL+0P6si5G+VY/3o6ZWlaDQJN9cA=;
+ b=RCNBiAzlB9iH96ioVRFTQLC6dmAKOX3pu+VNmZ0LF6Xu5ttrboQkkaWuHZJsX710ihfWJN
+ 6y50+/AV3CGxve2y3dql687aCkX8ZzPSLtVUALPhoxwtBzJ4Hcjkp6CunqdW/7g3LS6ruC
+ H0LGKoLKfnIeW94wV7urqmYYYMQi6OQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-Z761qy9rM2Ov4kVqMfKSzg-1; Mon, 07 Sep 2020 07:09:50 -0400
-X-MC-Unique: Z761qy9rM2Ov4kVqMfKSzg-1
+ us-mta-298-Mt9T1ifJM02nXa16bJyjzA-1; Mon, 07 Sep 2020 07:09:51 -0400
+X-MC-Unique: Mt9T1ifJM02nXa16bJyjzA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 799E7801AE3;
- Mon,  7 Sep 2020 11:09:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3A2A1007469;
+ Mon,  7 Sep 2020 11:09:50 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FF5B7E43B;
- Mon,  7 Sep 2020 11:09:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C32C99CBA;
+ Mon,  7 Sep 2020 11:09:49 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/64] block/nvme: Improve error message when IO queue creation
- failed
-Date: Mon,  7 Sep 2020 13:08:38 +0200
-Message-Id: <20200907110936.261684-7-kwolf@redhat.com>
+Subject: [PULL 07/64] block/nvme: Use common error path in nvme_add_io_queue()
+Date: Mon,  7 Sep 2020 13:08:39 +0200
+Message-Id: <20200907110936.261684-8-kwolf@redhat.com>
 In-Reply-To: <20200907110936.261684-1-kwolf@redhat.com>
 References: <20200907110936.261684-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +57,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:05:01
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:19:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,40 +86,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Do not use the same error message for different failures.
-Display a different error whether it is the CQ or the SQ.
+Rearrange nvme_add_io_queue() by using a common error path.
+This will be proven useful in few commits where we add IRQ
+notification to the IO queues.
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200821195359.1285345-6-philmd@redhat.com>
+Message-Id: <20200821195359.1285345-7-philmd@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/nvme.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/nvme.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 488d4ddb3b..91dba4ec5d 100644
+index 91dba4ec5d..909a565184 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -648,7 +648,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
-         .cdw11 = cpu_to_le32(0x3),
+@@ -649,8 +649,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
      };
      if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
--        error_setg(errp, "Failed to create io queue [%d]", n);
-+        error_setg(errp, "Failed to create CQ io queue [%d]", n);
-         nvme_free_queue_pair(q);
-         return false;
+         error_setg(errp, "Failed to create CQ io queue [%d]", n);
+-        nvme_free_queue_pair(q);
+-        return false;
++        goto out_error;
      }
-@@ -659,7 +659,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
-         .cdw11 = cpu_to_le32(0x1 | (n << 16)),
+     cmd = (NvmeCmd) {
+         .opcode = NVME_ADM_CMD_CREATE_SQ,
+@@ -660,13 +659,15 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
      };
      if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
--        error_setg(errp, "Failed to create io queue [%d]", n);
-+        error_setg(errp, "Failed to create SQ io queue [%d]", n);
-         nvme_free_queue_pair(q);
-         return false;
+         error_setg(errp, "Failed to create SQ io queue [%d]", n);
+-        nvme_free_queue_pair(q);
+-        return false;
++        goto out_error;
      }
+     s->queues = g_renew(NVMeQueuePair *, s->queues, n + 1);
+     s->queues[n] = q;
+     s->nr_queues++;
+     return true;
++out_error:
++    nvme_free_queue_pair(q);
++    return false;
+ }
+ 
+ static bool nvme_poll_cb(void *opaque)
 -- 
 2.25.4
 
