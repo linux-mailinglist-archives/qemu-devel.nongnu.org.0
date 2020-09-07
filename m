@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2003325F976
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:31:16 +0200 (CEST)
-Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A5725F981
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:32:59 +0200 (CEST)
+Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFFMh-0003bS-0v
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:31:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59464)
+	id 1kFFOM-0007Iv-Sv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2n-0003Lw-Np
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47938
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2s-0003QX-5t
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32652
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2h-00086r-VX
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:41 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2p-00088Z-4Y
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599477035;
+ s=mimecast20190719; t=1599477042;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JXlVuOuwLJ4wSDILuH3/dlPY4IYCUkVNCsh0+woEqrc=;
- b=KBvgshNWgm2/TdtbVzJx8IEfhsHEBGjw5/RkaoJfc5gD+4Yiyxj1ShssrRk2Uf0uBRbSuN
- JhxtI9pAAaSDTlbP5qXw+GBEsVpcCn8Wsuy/tBYw/pUJybx7AN8sq/k9kYS2p2kqOoLo9s
- +9eOkRoD8wgcen1lTgdwAPUIPBV/wow=
+ bh=4T+A976Y3/RyQPca5qP7YaAhcaVxrgwgOabcSsvya00=;
+ b=jG2iqGHiJF54Ar1XmtQ8S/mDcJQ+5nMKPdEJMcjcb30E1luwLj52QgBAEjGPPHvuKQ0Bkn
+ 0CF7R6fM7tot1mE78GGTLf348L0SzIeynYsZxNmeeKer12i0h0p+nPQCjwsn+a/oNwxEKu
+ Lg13u6QY9S05MsBWgeehfLiQzGbe52s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-tKWJzOZ6OdqroRObsDH4Cg-1; Mon, 07 Sep 2020 07:10:31 -0400
-X-MC-Unique: tKWJzOZ6OdqroRObsDH4Cg-1
+ us-mta-270-e_OCIpmRM5qtuSZ3YNYjdg-1; Mon, 07 Sep 2020 07:10:37 -0400
+X-MC-Unique: e_OCIpmRM5qtuSZ3YNYjdg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E56D1007465;
- Mon,  7 Sep 2020 11:10:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95D1518B9EC1;
+ Mon,  7 Sep 2020 11:10:36 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B67F9CBA;
- Mon,  7 Sep 2020 11:10:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3A7D9CBA;
+ Mon,  7 Sep 2020 11:10:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 35/64] block: Use CAFs in bdrv_refresh_filename()
-Date: Mon,  7 Sep 2020 13:09:07 +0200
-Message-Id: <20200907110936.261684-36-kwolf@redhat.com>
+Subject: [PULL 40/64] block/null: Implement bdrv_get_allocated_file_size
+Date: Mon,  7 Sep 2020 13:09:12 +0200
+Message-Id: <20200907110936.261684-41-kwolf@redhat.com>
 In-Reply-To: <20200907110936.261684-1-kwolf@redhat.com>
 References: <20200907110936.261684-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 02:54:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:19:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -67,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,97 +86,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-bdrv_refresh_filename() and the kind of related bdrv_dirname() should
-look to the primary child when they wish to copy the underlying file's
-filename.
+It is trivial, so we might as well do it.
+
+Remove _filter_actual_image_size from iotest 184, so we get to see the
+result in its reference output.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+ block/null.c               | 7 +++++++
+ tests/qemu-iotests/153.out | 2 +-
+ tests/qemu-iotests/184     | 3 +--
+ tests/qemu-iotests/184.out | 6 ++++--
+ 4 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/block.c b/block.c
-index 660386795a..ed29d1edb4 100644
---- a/block.c
-+++ b/block.c
-@@ -6822,6 +6822,7 @@ void bdrv_refresh_filename(BlockDriverState *bs)
- {
-     BlockDriver *drv = bs->drv;
-     BdrvChild *child;
-+    BlockDriverState *primary_child_bs;
-     QDict *opts;
-     bool backing_overridden;
-     bool generate_json_filename; /* Whether our default implementation should
-@@ -6891,20 +6892,30 @@ void bdrv_refresh_filename(BlockDriverState *bs)
-     qobject_unref(bs->full_open_options);
-     bs->full_open_options = opts;
+diff --git a/block/null.c b/block/null.c
+index 15e1d56746..cc9b1d4ea7 100644
+--- a/block/null.c
++++ b/block/null.c
+@@ -262,6 +262,11 @@ static void null_refresh_filename(BlockDriverState *bs)
+              bs->drv->format_name);
+ }
  
-+    primary_child_bs = bdrv_primary_bs(bs);
++static int64_t null_allocated_file_size(BlockDriverState *bs)
++{
++    return 0;
++}
 +
-     if (drv->bdrv_refresh_filename) {
-         /* Obsolete information is of no use here, so drop the old file name
-          * information before refreshing it */
-         bs->exact_filename[0] = '\0';
+ static const char *const null_strong_runtime_opts[] = {
+     BLOCK_OPT_SIZE,
+     NULL_OPT_ZEROES,
+@@ -277,6 +282,7 @@ static BlockDriver bdrv_null_co = {
+     .bdrv_file_open         = null_file_open,
+     .bdrv_parse_filename    = null_co_parse_filename,
+     .bdrv_getlength         = null_getlength,
++    .bdrv_get_allocated_file_size = null_allocated_file_size,
  
-         drv->bdrv_refresh_filename(bs);
--    } else if (bs->file) {
--        /* Try to reconstruct valid information from the underlying file */
-+    } else if (primary_child_bs) {
-+        /*
-+         * Try to reconstruct valid information from the underlying
-+         * file -- this only works for format nodes (filter nodes
-+         * cannot be probed and as such must be selected by the user
-+         * either through an options dict, or through a special
-+         * filename which the filter driver must construct in its
-+         * .bdrv_refresh_filename() implementation).
-+         */
+     .bdrv_co_preadv         = null_co_preadv,
+     .bdrv_co_pwritev        = null_co_pwritev,
+@@ -297,6 +303,7 @@ static BlockDriver bdrv_null_aio = {
+     .bdrv_file_open         = null_file_open,
+     .bdrv_parse_filename    = null_aio_parse_filename,
+     .bdrv_getlength         = null_getlength,
++    .bdrv_get_allocated_file_size = null_allocated_file_size,
  
-         bs->exact_filename[0] = '\0';
+     .bdrv_aio_preadv        = null_aio_preadv,
+     .bdrv_aio_pwritev       = null_aio_pwritev,
+diff --git a/tests/qemu-iotests/153.out b/tests/qemu-iotests/153.out
+index 8a79e1ee87..fcaa71aeee 100644
+--- a/tests/qemu-iotests/153.out
++++ b/tests/qemu-iotests/153.out
+@@ -464,7 +464,7 @@ No conflict:
+ image: null-co://
+ file format: null-co
+ virtual size: 1 GiB (1073741824 bytes)
+-disk size: unavailable
++disk size: 0 B
  
-         /*
-          * We can use the underlying file's filename if:
-          * - it has a filename,
-+         * - the current BDS is not a filter,
-          * - the file is a protocol BDS, and
-          * - opening that file (as this BDS's format) will automatically create
-          *   the BDS tree we have right now, that is:
-@@ -6913,11 +6924,11 @@ void bdrv_refresh_filename(BlockDriverState *bs)
-          *   - no non-file child of this BDS has been overridden by the user
-          *   Both of these conditions are represented by generate_json_filename.
-          */
--        if (bs->file->bs->exact_filename[0] &&
--            bs->file->bs->drv->bdrv_file_open &&
--            !generate_json_filename)
-+        if (primary_child_bs->exact_filename[0] &&
-+            primary_child_bs->drv->bdrv_file_open &&
-+            !drv->is_filter && !generate_json_filename)
-         {
--            strcpy(bs->exact_filename, bs->file->bs->exact_filename);
-+            strcpy(bs->exact_filename, primary_child_bs->exact_filename);
-         }
-     }
- 
-@@ -6937,6 +6948,7 @@ void bdrv_refresh_filename(BlockDriverState *bs)
- char *bdrv_dirname(BlockDriverState *bs, Error **errp)
+ Conflict:
+ qemu-img: --force-share/-U conflicts with image options
+diff --git a/tests/qemu-iotests/184 b/tests/qemu-iotests/184
+index 33dd8d2a4f..eebb53faed 100755
+--- a/tests/qemu-iotests/184
++++ b/tests/qemu-iotests/184
+@@ -45,8 +45,7 @@ do_run_qemu()
+ run_qemu()
  {
-     BlockDriver *drv = bs->drv;
-+    BlockDriverState *child_bs;
+     do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_qmp\
+-                          | _filter_qemu_io | _filter_generated_node_ids \
+-                          | _filter_actual_image_size
++                          | _filter_qemu_io | _filter_generated_node_ids
+ }
  
-     if (!drv) {
-         error_setg(errp, "Node '%s' is ejected", bs->node_name);
-@@ -6947,8 +6959,9 @@ char *bdrv_dirname(BlockDriverState *bs, Error **errp)
-         return drv->bdrv_dirname(bs, errp);
-     }
- 
--    if (bs->file) {
--        return bdrv_dirname(bs->file->bs, errp);
-+    child_bs = bdrv_primary_bs(bs);
-+    if (child_bs) {
-+        return bdrv_dirname(child_bs, errp);
-     }
- 
-     bdrv_refresh_filename(bs);
+ test_throttle=$($QEMU_IMG --help|grep throttle)
+diff --git a/tests/qemu-iotests/184.out b/tests/qemu-iotests/184.out
+index 3deb3cfb94..dec4017ad5 100644
+--- a/tests/qemu-iotests/184.out
++++ b/tests/qemu-iotests/184.out
+@@ -29,7 +29,8 @@ Testing:
+             "image": {
+                 "virtual-size": 1073741824,
+                 "filename": "json:{\"throttle-group\": \"group0\", \"driver\": \"throttle\", \"file\": {\"driver\": \"null-co\"}}",
+-                "format": "throttle"
++                "format": "throttle",
++                "actual-size": 0
+             },
+             "iops_wr": 0,
+             "ro": false,
+@@ -56,7 +57,8 @@ Testing:
+             "image": {
+                 "virtual-size": 1073741824,
+                 "filename": "null-co://",
+-                "format": "null-co"
++                "format": "null-co",
++                "actual-size": 0
+             },
+             "iops_wr": 0,
+             "ro": false,
 -- 
 2.25.4
 
