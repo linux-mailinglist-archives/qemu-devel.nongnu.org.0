@@ -2,74 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3947D25F8D3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 12:50:20 +0200 (CEST)
-Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294E525F8E6
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 12:54:24 +0200 (CEST)
+Received: from localhost ([::1]:44926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFEj5-0001ub-7M
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 06:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
+	id 1kFEn1-0004qL-4R
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 06:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kFEiD-00014H-4A
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 06:49:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57020
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kFEiB-0005Za-C5
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 06:49:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599475762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BvulEHqay9wA5dsX54rFHJ+xBQUVLlTyV6TCxPMHgz4=;
- b=Azqu/qlRCw7XcgKyPXHSPAOTCOCFNZK6Y9jnu8gU1Xt3im3/IkCFsopjVvDlEcrQtobHuq
- bgzhOkwwQrdiui3aiz64CFAR4HRS/hTMTSiWXWx/YK3QhF6O+XJ6h6Tvcq+HsrG35rjmcH
- hlpTaTgZQVnXb6JWGe6ufkEfX2ldYNg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-8tb6Vb7UO6imPWlqSq0zmQ-1; Mon, 07 Sep 2020 06:49:20 -0400
-X-MC-Unique: 8tb6Vb7UO6imPWlqSq0zmQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC9DA1007466;
- Mon,  7 Sep 2020 10:49:19 +0000 (UTC)
-Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
- (ovpn-12-108.pek2.redhat.com [10.72.12.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2CF910013C4;
- Mon,  7 Sep 2020 10:49:17 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: mst@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH 3/3] vhost-vdpa: batch updating IOTLB mappings
-Date: Mon,  7 Sep 2020 18:49:03 +0800
-Message-Id: <20200907104903.31551-4-jasowang@redhat.com>
-In-Reply-To: <20200907104903.31551-1-jasowang@redhat.com>
-References: <20200907104903.31551-1-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kFEjM-0002mH-NN; Mon, 07 Sep 2020 06:50:36 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:34925)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kFEjK-0005d1-5d; Mon, 07 Sep 2020 06:50:36 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id 984DF363;
+ Mon,  7 Sep 2020 06:50:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Mon, 07 Sep 2020 06:50:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=0FhPyCkd7OtM4N/rm6PPZjba8vf
+ Ga6iqr/kWJS3F3bc=; b=IGc2lo/pqZklcHkDvBGSwLWjboa7KGKkdC9YL6aqyHH
+ mHemNjoaCIDFyGv3OkO8F1OUMAm3ctOYP5IDefPurDZrdvrPyBlstTuGmalaMpp9
+ bHDC3h4OHUoXfa/oVnmw84EYDIRWs6g4PkBCblsbbYTsKslwQyiPsE1Yff2j0EYN
+ h5PzTNJmXcUbsI2q6y3r3STw9RYxek5pm+iJ+LQW2PsLcXZk2ChAPoILFLh7yUvI
+ hj6kgsNe+Ww9VrGkuaruD1wD9T8Jvb/m/aoyQXMFsMxNImbruS7r/RHX57HiIyKd
+ FZl9fj8kJTBIuy7DJStF9V7/801MpjdBc+1seckpNjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0FhPyC
+ kd7OtM4N/rm6PPZjba8vfGa6iqr/kWJS3F3bc=; b=rhNCAIpk8hb1nEacM1952A
+ fSfrJCerT49tCvBFAKGiqR2k+MbtEKxhNYjjXTUr77s56/8dfbyJb/CBfyB8yQoK
+ tfA9ycDw8x+A1nZjJmbBHELWKE0e5AIpOE0oKMFvRPEcvbR011RLMjtnJNfuy1sd
+ 7hkaVR22x/ark6oE0NPa5RWr+9A5mmZ5SFHVlyHKtyiLbSxlGFT9sbr1mtQLMaci
+ UowubhRb8851nssMYtC2f7syxdz7bLI2g3/MZBbRTdtETxWD2DlWbiRSCgc/qQ8I
+ f9hT6etnTxoL8BRiPRIxY74Mmsc4ZmRbKeC4RV83+Ov5Kp2mqnTtDKYAu/0RGoKg
+ ==
+X-ME-Sender: <xms:dBBWX9c9oHdaW4tteiRRXetxr_xrdNO8TxVGhaNwEzTXc0TleMwUqA>
+ <xme:dBBWX7Oa86KVjLafzHURtwsUmKKiUDHmHLyuQbBHxamxs9Egs3li6KzZFakl0FnOw
+ 3ET_EOq-Kq39fIbxIc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehtddgfeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:dBBWX2gIGg3L6uVci9CH1gDwW1vdzuswIexDMmh71SOtPv8Dd374_Q>
+ <xmx:dBBWX29wZixP3abgvK7PmAldD-xZSVtY1XOAfdXhnyK1ws2UXeq9TA>
+ <xmx:dBBWX5tdORWuvvXXKApDMGwuJo0TTokk5wmNfZL0BGFJ3tTKH1NWcw>
+ <xmx:dBBWX_KKRMI6-Z0iB5o13kjjoxiHn2IuAgE20E-WuuO5F1CTVVX884QaFWvNFnihqZXheA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 95D6C328005E;
+ Mon,  7 Sep 2020 06:50:26 -0400 (EDT)
+Date: Mon, 7 Sep 2020 12:50:24 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 17/17] hw/block/nvme: change controller pci id
+Message-ID: <20200907105024.GA732668@apples.localdomain>
+References: <20200904141956.576630-1-its@irrelevant.dk>
+ <20200904141956.576630-18-its@irrelevant.dk>
+ <894711e0-7823-5cf0-5b5a-a84f15b458ce@redhat.com>
+ <20200907103708.GG2682@work-vm>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 22:29:02
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
+Content-Disposition: inline
+In-Reply-To: <20200907103708.GG2682@work-vm>
+Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
+ helo=wnew4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 06:50:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,149 +98,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elic@nvidia.com, Jason Wang <jasowang@redhat.com>, lulu@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To speed up the memory mapping updating between vhost-vDPA and vDPA
-device driver, this patch passes the IOTLB batching flags via IOTLB
-API. Two new flags was introduced, VHOST_IOTLB_BATCH_BEGIN is a hint
-that a bathced IOTLB updating may be initiated from the
-userspace. VHOST_IOTLB_BATCH_END is a hint that userspace has finished
-the updating:
 
-VHOST_IOTLB_BATCH_BEGIN
-VHOST_IOTLB_UPDATE/VHOST_IOTLB_INVALIDATE
-...
-VHOST_IOTLB_BATCH_END
+--PEIAKu/WMn1b1Hv9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Vhost-vDPA can then know that all mappings has been set and can do
-optimization like passing all the mappings to the vDPA device driver.
+On Sep  7 11:37, Dr. David Alan Gilbert wrote:
+> * Philippe Mathieu-Daud=C3=83=C2=A9 (philmd@redhat.com) wrote:
+> > +David in case
+> >=20
+> > On 9/4/20 4:19 PM, Klaus Jensen wrote:
+> > > From: Klaus Jensen <k.jensen@samsung.com>
+> > >=20
+> > > There are two reasons for changing this:
+> > >=20
+> > >   1. The nvme device currently uses an internal Intel device id.
+> > >=20
+> > >   2. Since commits "nvme: fix write zeroes offset and count" and "nvm=
+e:
+> > >      support multiple namespaces" the controller device no longer has
+> > >      the quirks that the Linux kernel think it has.
+> > >=20
+> > >      As the quirks are applied based on pci vendor and device id, cha=
+nge
+> > >      them to get rid of the quirks.
+> > >=20
+> > > To keep backward compatibility, add a new 'x-use-intel-id' parameter =
+to
+> > > the nvme device to force use of the Intel vendor and device id. This =
+is
+> > > off by default but add a compat property to set this for 5.1 machines
+> > > and older.
+> >=20
+> > So now what happens if you start a 5.1 machine with a recent kernel?
+> > Simply the kernel will use unnecessary quirks, or are there more
+> > changes in behavior?
+>=20
+> Seems reasonable to me...but...
+>=20
+> > >=20
+> > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > > Reviewed-by: Keith Busch <kbusch@kernel.org>
+> > > Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > ---
+> > >  hw/block/nvme.c   | 12 ++++++++++--
+> > >  hw/block/nvme.h   |  1 +
+> > >  hw/core/machine.c |  1 +
+> > >  3 files changed, 12 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > index 453d3a89d475..8018f8679366 100644
+> > > --- a/hw/block/nvme.c
+> > > +++ b/hw/block/nvme.c
+> > > @@ -2749,6 +2749,15 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevi=
+ce *pci_dev, Error **errp)
+> > > =20
+> > >      pci_conf[PCI_INTERRUPT_PIN] =3D 1;
+> > >      pci_config_set_prog_interface(pci_conf, 0x2);
+> > > +
+> > > +    if (n->params.use_intel_id) {
+> > > +        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
+> > > +        pci_config_set_device_id(pci_conf, 0x5846);
+>=20
+> Wasn't that magic number 5845 down there ?
+>=20
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/virtio/vhost-vdpa.c         | 66 ++++++++++++++++++++++++++++++++++
- include/hw/virtio/vhost-vdpa.h |  1 +
- 2 files changed, 67 insertions(+)
+Argh! My first version of this just bumbed the intel device id and it
+got left there.
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 4580f3efd8..ba1ae3ea44 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -78,6 +78,46 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-     return ret;
- }
- 
-+static void vhost_vdpa_listener_begin(MemoryListener *listener)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    struct vhost_dev *dev = v->dev;
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+
-+    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-+        return;
-+    }
-+
-+    msg.type = v->msg_type;
-+    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+                     fd, errno, strerror(errno));
-+    }
-+}
-+
-+static void vhost_vdpa_listener_commit(MemoryListener *listener)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    struct vhost_dev *dev = v->dev;
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+
-+    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-+        return;
-+    }
-+
-+    msg.type = v->msg_type;
-+    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+                     fd, errno, strerror(errno));
-+    }
-+}
-+
- static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                            MemoryRegionSection *section)
- {
-@@ -191,6 +231,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-  * depends on the addnop().
-  */
- static const MemoryListener vhost_vdpa_memory_listener = {
-+    .begin = vhost_vdpa_listener_begin,
-+    .commit = vhost_vdpa_listener_commit,
-     .region_add = vhost_vdpa_listener_region_add,
-     .region_del = vhost_vdpa_listener_region_del,
- };
-@@ -226,6 +268,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
-     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
- 
-     v = opaque;
-+    v->dev = dev;
-     dev->opaque =  opaque ;
-     vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
-     dev->backend_features = features;
-@@ -280,6 +323,28 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
-     return !(status & VIRTIO_CONFIG_S_FEATURES_OK);
- }
- 
-+static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
-+{
-+    uint64_t features;
-+    uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-+    int r;
-+
-+    if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-+        return 0;
-+    }
-+
-+    features &= f;
-+    r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
-+    if (r) {
-+        return 0;
-+    }
-+
-+    dev->backend_cap = features;
-+
-+    return 0;
-+}
-+
- int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-                                    uint32_t *device_id)
- {
-@@ -452,6 +517,7 @@ const VhostOps vdpa_ops = {
-         .vhost_set_vring_kick = vhost_vdpa_set_vring_kick,
-         .vhost_set_vring_call = vhost_vdpa_set_vring_call,
-         .vhost_get_features = vhost_vdpa_get_features,
-+        .vhost_set_backend_cap = vhost_vdpa_set_backend_cap,
-         .vhost_set_owner = vhost_vdpa_set_owner,
-         .vhost_set_vring_endian = NULL,
-         .vhost_backend_memslots_limit = vhost_vdpa_memslots_limit,
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 6455663388..9b81a409da 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -18,6 +18,7 @@ typedef struct vhost_vdpa {
-     int device_fd;
-     uint32_t msg_type;
-     MemoryListener listener;
-+    struct vhost_dev *dev;
- } VhostVDPA;
- 
- extern AddressSpace address_space_memory;
--- 
-2.20.1
+Good find! Thank you!
 
+--PEIAKu/WMn1b1Hv9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9WEG4ACgkQTeGvMW1P
+DekBDAf9EsxYjOSnlBo9+hAb8l1/hWZluQ70N2XcH9XUGj/gPLP6L/E99tWl1+ND
+y2nbtGKfacDXCC3yeBo05Io6yPnmSvdY/OYV8TZuDLbOe8+i5HKQLCvnCNbKR0/J
+ow7jIhoy++cyTpNlgGtgNZOeFQmXa7b8FaPN29akXrhjquEcC0Onr52FTsLY1EV3
+/KRG3m02UQhz+JSx36hN+bj6pvMys588nJl4/JHHfTaSoAVWzquuTUHa/6dUt++j
+fMKkwq/1TTpecjb+8YgXgzcZPiwUq0LLgi3Ei3UixaMJSYORix0rP31ekUemDSMy
+Jdz5NUmlkbnqeledBCEIb2pyN1B5Qg==
+=XdHR
+-----END PGP SIGNATURE-----
+
+--PEIAKu/WMn1b1Hv9--
 
