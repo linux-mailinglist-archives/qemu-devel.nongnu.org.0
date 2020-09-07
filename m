@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6F025F62F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:18:59 +0200 (CEST)
-Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D8625F641
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:20:21 +0200 (CEST)
+Received: from localhost ([::1]:36052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDIg-00071K-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
+	id 1kFDK0-0000k8-QC
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHl-0005Vs-8V
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHl-0005Vy-Bk
  for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:01 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:39529)
+Received: from mout.kundenserver.de ([212.227.126.135]:51277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHi-0002ag-9u
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:00 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHj-0002aw-MV
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:01 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M1rGy-1kHP9226vo-002JmW; Mon, 07 Sep 2020 11:17:56 +0200
+ id 1MjxW4-1kzEI03xea-00kPxU; Mon, 07 Sep 2020 11:17:57 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] linux-user: Map signal numbers in fcntl
-Date: Mon,  7 Sep 2020 11:17:46 +0200
-Message-Id: <20200907091748.376101-4-laurent@vivier.eu>
+Subject: [PULL 4/5] linux-user: fix ppc/termbits.h
+Date: Mon,  7 Sep 2020 11:17:47 +0200
+Message-Id: <20200907091748.376101-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907091748.376101-1-laurent@vivier.eu>
 References: <20200907091748.376101-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5I++V1PHEcNFxv/1ac2bZzma1ITTIKhJYuE8s/AfKGb4vpTiCw3
- YGroeprqgP2T2IC7BAs8yLq2OqzkW5wXeGuu6aHmX8V73lD5D7HDkyE7WV+tRbq7XOfVQe8
- V8pzkuT8r2q4Ytsr8iQKDDDhfmRh7bpdDF4bvnlUKY6KOCnruLFNUqdsgPjzIOYnj2YL9Wd
- HQxM0SI9pxIfLnk2p8r3g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:omUjcF4NAKc=:ZiK7KcfGJ4VdFphpz3bv5T
- QjDk1zQVs/ji+alkD+HVlHEUS6w/8TbVHOIW0fC4WV68iHBmO2XNi83e1+64MZsKl52olhn+l
- 98a+3Ar/+tBL/5QO52E3F5FKnTppjxTvFLt9XlI+dawq+cjf20xczSeWLTe0LeUUUmEwkojfm
- i2QgDM6S3dfmeTHzNL4x10rU3ep0WkbwPcwoJ58C54WZReQ8Cvtsxvu7omwO+cDJHMhfGeR9t
- 7T9kIco8jruh8sPtqgFlN7V0XRN8WP2zt61zVhyuyXWRk53MzlFRVD2d5j+JAhcy7KVM84Eqo
- 7QhRydGxhXXY6XxhsnsBcVTyVVk3pj8cNGWfSY2zRvkpTonWFJrDMEJS1tZNmzkcB5C+iRp3k
- ssvtVtEw2R6XSjlgtDIvceW6Zw/onJ4dZrXQ9yc07rD14R1klwE3Io+jmbpnZJ1TH/kg3kdLB
- U/5bmwWL3kzQbdwJ5bRVEUPGcoLfYJTwL0KexXF5OHBVUHfiB7xSJwB7NxNYiBF3fGibVQAwE
- fmPxL0OvmvH49xvKZflrRrCNUXYYaTl9lp9j0YXiiraHDQmD78BETTWmYBf0sOyViS3al4gvH
- bEdMHPmIliI204zuQx+u3evZB1oEr5FCAKKAglZf7UESaG4P725ES/XVEfhToWpeO2onoIbBM
- DpzieR40HqJtKaSHolZV1czD1cPEG+87j9yzPneXRvGPWKXKcsacW22kJuE9tHCW5JPPH3o0t
- a79CGRmOZJ7ShJpJFTrAKqW1rvMm0dzSUGd7SKPONtgJ+6b9uOl8ThlyrBc1g2+riLCOR/4Xs
- vPwc/6YBvZ/KHrA7D3cJ83IhdhqzKUWz7PCRCVV2IC7Bwj2B3ndlfLDmmrwFTPeR4tLjlgV
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:jbfamT63ByKgicL18n+NOk+WGLQ5ri9tl1iJxUTyhdVCJtk26up
+ QUAA7RbxsPcF0ALzWe9+6fR2VirMm2+Gb0ypvZ2LQL5LqvbTAYWSBU4GXjL4CYptmxvNiEi
+ 7tR5OsHD77b9AJm5FNyGN0PaZMW/JE4IUaeWhghozbq4nemENndf8yBevKq/vKxEVwmVbtM
+ QfuUEe1X19Ck/GOCiKxcQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EfuTBAaUjK8=:fY6Dpel4KIoCuH3NVoUfQH
+ +VKR2wWXPPRkghXhWWzHhOENfDR9I7jko8cLn57LBv549RNuNRcg22PMeb/qX6nzBSGjN15+q
+ cLDj/fR6wBm7LStVxbKCu95Gh/ns0P2U6TKrRtxyoFN/lMifIcG2aCnDihOj9c9nrUwz3JzMo
+ JS8pl8AQ2jZR4uQ2jgU5xsOcg4yrOlvUMJHUAJFP3JHtBuJRO1wv/qneLc41brfYTH0c3oyKh
+ SKgylYVohGrsExL+Mcf3Rna91vyZQy//Qk7N84eCV+vBJ5vyGiC6cuabMl0oNSLZU08UbKprq
+ P38UyoPEgHFzwVKnJ26V2omL5PS7dIvsUMcE/Qx5f7T7g97NVglXnG2O2KFf3EkK3FHxPThpb
+ 3g67Y5DAPKLlXmLgaEQTn+2QXXRtDXbPpSpoqVOZ783U2nCfSpryVRjEUwofKmP2PCx35OKcR
+ aekSI9Pzd0AwIQrD5TM3FWoC/jW5XtENOaOHPEcBOuk446QJ4tPpZLGJoF5m4IIvcsohGot1h
+ ATDqMzcj5mvRZOnGySXdvs/CyBbX+A4JQCaET1v9p1m4PMcyD4MKI6yeELiJPSVv0P/uvsuIF
+ RId4JetrmZQaseIjfMrQmgT3/Jlixoysv9A6+hdzn23SCiQ+mpwVW83CpUvL8cQEk0tmRz6pl
+ I1CPXLrtf/JpzAoaxqqlWw5DAT9i25rVwogTthPpJjOTFMAnU/9TPC6PWUhbiCWqI3OeV63Vz
+ /M/ueYplHcIZU/k/HhiF9A3GBocS8cJIHfoMogYBKP4WTyFdACbY7+HqI7BMgH9T6FzJ5+rK6
+ 51dK/DUJ5bZXbjzHHdmatcw2qUgLSA383LnQyzdX+cKzkLNmJw/HjIpRITecHxCpHMJ6ybg
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:17:57
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:17:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -69,46 +69,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Timothy Baldwin <T.E.Baldwin99@members.leeds.ac.uk>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>, Filip.Bozuta@syrmia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Timothy Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
+On ppc, in termios, c_line is after c_cc, not before .
 
-Map signal numbers in fcntl F_SETSIG and F_GETSIG.
-
-Signed-off-by: Timothy E Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <72cc725c-f344-b7f1-d559-401867067d80@members.leeds.ac.uk>
+Fixes: c218b4ede4f9 ("linux-user: Add missing termbits types and values definitions")
+Cc: Filip.Bozuta@syrmia.com
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200830181620.422036-1-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ linux-user/ppc/termbits.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 07220eee40c5..55ac5c320825 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6874,10 +6874,16 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
-         break;
- #endif
- 
--    case TARGET_F_SETOWN:
--    case TARGET_F_GETOWN:
-     case TARGET_F_SETSIG:
-+        ret = get_errno(safe_fcntl(fd, host_cmd, target_to_host_signal(arg)));
-+        break;
-+
-     case TARGET_F_GETSIG:
-+        ret = host_to_target_signal(get_errno(safe_fcntl(fd, host_cmd, arg)));
-+        break;
-+
-+    case TARGET_F_SETOWN:
-+    case TARGET_F_GETOWN:
-     case TARGET_F_SETLEASE:
-     case TARGET_F_GETLEASE:
-     case TARGET_F_SETPIPE_SZ:
+diff --git a/linux-user/ppc/termbits.h b/linux-user/ppc/termbits.h
+index 7066d1e5523d..eb226e099980 100644
+--- a/linux-user/ppc/termbits.h
++++ b/linux-user/ppc/termbits.h
+@@ -14,8 +14,8 @@ struct target_termios {
+     target_tcflag_t c_oflag;               /* output mode flags */
+     target_tcflag_t c_cflag;               /* control mode flags */
+     target_tcflag_t c_lflag;               /* local mode flags */
+-    target_cc_t c_line;                    /* line discipline */
+     target_cc_t c_cc[TARGET_NCCS];         /* control characters */
++    target_cc_t c_line;                    /* line discipline */
+     target_speed_t c_ispeed;               /* input speed */
+     target_speed_t c_ospeed;               /* output speed */
+ };
 -- 
 2.26.2
 
