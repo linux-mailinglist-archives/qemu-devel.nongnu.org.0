@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E1B25FFAF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:37:04 +0200 (CEST)
-Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2B825FFC0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:38:21 +0200 (CEST)
+Received: from localhost ([::1]:39982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFK8d-00053S-7Y
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47906)
+	id 1kFK9s-0008Ag-J8
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4w-0008Pp-Rc; Mon, 07 Sep 2020 12:33:14 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:46341)
+ id 1kFK4y-0008Tw-Ai; Mon, 07 Sep 2020 12:33:16 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:40790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4v-0007da-1m; Mon, 07 Sep 2020 12:33:14 -0400
-Received: by mail-ej1-x642.google.com with SMTP id z23so18871649ejr.13;
- Mon, 07 Sep 2020 09:33:12 -0700 (PDT)
+ id 1kFK4w-0007e4-Ar; Mon, 07 Sep 2020 12:33:15 -0400
+Received: by mail-ej1-x642.google.com with SMTP id z22so18909553ejl.7;
+ Mon, 07 Sep 2020 09:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jeiRRdPErRrtK9Gj9+R/jotAsL7dELgR1Q5VvxS+mnE=;
- b=qb6K7+ipyUmvsw9nZ2i/KdjQlDvSPjt8fLFlI/E5oQueKAPHguVSYrHQ2lWVhqoHbu
- TkSorb82zKPXbUUZK2aglcaDmoZjNDC1odPUktC5hkQellTK7KkiDu5N/xS4C3djRgRi
- GubSxwDFo9kq3xRxZSxFU4XbiDSJRlw+nhuO+f7RiwpQtv/W36s3TVsaV8L103yhUK4/
- 8ycwcj5Qawe8EcjJMs1UTjqemfoEbBJBXoLapRcMiZxD74ENYOUpJlkXgn0QfeB+Ke9c
- Rw0P177KQfM1Q6JcsA/UkDyr9yTBLkyfAbx4gwJeMyGf5OPBiXb5w1Q8DNLYkub+3CbZ
- /cDQ==
+ bh=39vGPecl12q7amHLWo3+1dhvTYjWZnqSb7DebE6TMyI=;
+ b=c4ORQXt5p3mIsNygpyg8uGyXK2YdhgONePrYj9xNLEyo2y+IlL/DhZrcsR9aKI1A62
+ XpNHdReeRbZl+tnopgaVfG5JApL2ygDwLgrWz39hlj1MLRhjmeFxduRenhCB8enxLyi9
+ axXPgq9VWtqSfj52BAOxDmC8bnKLuir64hTNSMtP5inmjEQI1gdzHlCZby3SB6+RP94N
+ 1ZUIwcx4Omyk6ZT87EABhnREynU00JGJlFvZ1YUxr7yXHC8rP+fYdznvHxoH2kwwVZhX
+ Ywcvt2nX/b1dq6DoFAuOf1e/TRUdIb8bC4RjQk7q7hog4rvnrLKZoTUWlKmBWeXmxBC8
+ FIKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jeiRRdPErRrtK9Gj9+R/jotAsL7dELgR1Q5VvxS+mnE=;
- b=HbNsnV5qhhj/c6nN8d77IlgXJdE/Cg+DuMyfV2E0+2ZFyv8mhLVRoH9KNqtAUWp/Hn
- pFAxdS9JS0If7qX5XVZ4yIF4F/pWvuPj++mn4jXxJ6NG2ir+XwgcHs6PaMnErwBUOKAE
- upceO3Sda5bd5Ajv0c6tycLqO+SFGAU6buzlb1bRVHCAG83BlK816irTYcLIo/1BLQfI
- ShWyMACoqefgXmcQ0djnLhBvD4CNuA3EGDLsUSR/PV3kzKhaLPJ37WRCTiZPOgyLBPPe
- nlP77URCyy2R2cJt4TNj6yp9OP77/w7I8E2eYvvRZghzR74F0uf7og+/Atv6bKJKI3aA
- 3StA==
-X-Gm-Message-State: AOAM530QSJXUR3IKyXmap160zjZkIQcjYdmlLGKX08Acbp2ugKVzJF77
- +vYfbYKp2k7xeUp0Tcqko3B3o8NHsno=
-X-Google-Smtp-Source: ABdhPJxif1S8WYd//dNJ5p0OU4D5QlgtDNoRmnZGFvKW7jsYMD3vA96jY2tc7MMFWZkQlwDI0h0L6Q==
-X-Received: by 2002:a17:906:63c9:: with SMTP id
- u9mr18426715ejk.82.1599496391020; 
- Mon, 07 Sep 2020 09:33:11 -0700 (PDT)
+ bh=39vGPecl12q7amHLWo3+1dhvTYjWZnqSb7DebE6TMyI=;
+ b=P1oixbyteBRUNTz3jtYd5XcGfevrFwa99KNadUM3JtqJzoEc2ehQqraQYk58VUKzq9
+ a3lbg2YpbmTNlvNDDMRYYm924LoB8TxaaKsBf6dkN4YUETufsS1aU/bS99eipPf7ZTmv
+ hX+POP/kE0avn+09pN7CTw9Y3+wIY8w+YqZxm45gWn1yCKTKGkKYQ+i4Csht1qeg87A6
+ ruUeoDGkAAR95LjPNjgbMJiY9Kq12akXozJzyUScaJw7fvb51lavBe+dcq+hP7AODMmA
+ od2Vha/PguPuWF9z9v/rqwWKe+j02L62sy/mAF/FXB+8asYvnValXiu8ts0ajII7HFZ1
+ wWaA==
+X-Gm-Message-State: AOAM5309McLz5Dkdk8NWOvzgCfrQ7n55oxs92sJOHH/l4JYvmtAoksgV
+ Ss5PXObb0kVQN9t/Raukoe8FsodnRnQ=
+X-Google-Smtp-Source: ABdhPJxt1MMTkOVhjFJfnCIZZ7Uhj7zI8VlZiYK9WpwlPX97EA2DNAe9Tcvb3pTJLs8imJricYxiQA==
+X-Received: by 2002:a17:906:8d8:: with SMTP id
+ o24mr21240332eje.384.1599496392492; 
+ Mon, 07 Sep 2020 09:33:12 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u13sm15700199ejn.82.2020.09.07.09.33.09
+ by smtp.gmail.com with ESMTPSA id u13sm15700199ejn.82.2020.09.07.09.33.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 09:33:10 -0700 (PDT)
+ Mon, 07 Sep 2020 09:33:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 7/8] hw/arm/tosa: Replace fprintf() calls by LED devices
-Date: Mon,  7 Sep 2020 18:32:56 +0200
-Message-Id: <20200907163257.46527-8-f4bug@amsat.org>
+Subject: [RFC PATCH v4 8/8] hw/arm/tosa: Make TYPE_TOSA_MISC_GPIO a plain QDev
+Date: Mon,  7 Sep 2020 18:32:57 +0200
+Message-Id: <20200907163257.46527-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907163257.46527-1-f4bug@amsat.org>
 References: <20200907163257.46527-1-f4bug@amsat.org>
@@ -90,117 +90,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
  Joaquin de Andres <me@xcancerberox.com.ar>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Luc Michel <luc.michel@greensocs.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The recently added LED device reports LED status changes with
-the 'led_set_intensity' trace event. It is less invasive than
-the fprintf() calls. We need however to have a binary built
-with tracing support.
+TYPE_TOSA_MISC_GPIO doesn't need to be a SysBus device,
+make it a plain QDev.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/tosa.c  | 40 +++++++++++++++-------------------------
- hw/arm/Kconfig |  1 +
- 2 files changed, 16 insertions(+), 25 deletions(-)
+RFC because having to pass MachineState and call
+object_property_add_child() simply makes things more
+complex... but it seems to cleaner QOM design.
+
+Cc: Markus Armbruster <armbru@redhat.com>
+---
+ hw/arm/tosa.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index 90eef1f14dd..f23651fd775 100644
+index f23651fd775..524d5fcd10b 100644
 --- a/hw/arm/tosa.c
 +++ b/hw/arm/tosa.c
-@@ -24,6 +24,7 @@
- #include "hw/irq.h"
- #include "hw/ssi/ssi.h"
- #include "hw/sysbus.h"
-+#include "hw/misc/led.h"
- #include "exec/address-spaces.h"
+@@ -79,7 +79,7 @@ static void tosa_microdrive_attach(PXA2xxState *cpu)
+     OBJECT_CHECK(TosaMiscGPIOState, (obj), TYPE_TOSA_MISC_GPIO)
  
- #define TOSA_RAM 0x04000000
-@@ -81,26 +82,6 @@ typedef struct TosaMiscGPIOState {
-     SysBusDevice parent_obj;
+ typedef struct TosaMiscGPIOState {
+-    SysBusDevice parent_obj;
++    DeviceState parent_obj;
  } TosaMiscGPIOState;
  
--static void tosa_gpio_leds(void *opaque, int line, int level)
--{
--    switch (line) {
--    case 0:
--        fprintf(stderr, "blue LED %s.\n", level ? "on" : "off");
--        break;
--    case 1:
--        fprintf(stderr, "green LED %s.\n", level ? "on" : "off");
--        break;
--    case 2:
--        fprintf(stderr, "amber LED %s.\n", level ? "on" : "off");
--        break;
--    case 3:
--        fprintf(stderr, "wlan LED %s.\n", level ? "on" : "off");
--        break;
--    default:
--        g_assert_not_reached();
--    }
--}
--
  static void tosa_reset(void *opaque, int line, int level)
- {
-     if (level) {
-@@ -112,7 +93,6 @@ static void tosa_misc_gpio_init(Object *obj)
- {
-     DeviceState *dev = DEVICE(obj);
- 
--    qdev_init_gpio_in_named(dev, tosa_gpio_leds, "leds", 4);
+@@ -96,7 +96,7 @@ static void tosa_misc_gpio_init(Object *obj)
      qdev_init_gpio_in_named(dev, tosa_reset, "reset", 1);
  }
  
-@@ -122,6 +102,7 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
+-static void tosa_gpio_setup(PXA2xxState *cpu,
++static void tosa_gpio_setup(MachineState *machine, PXA2xxState *cpu,
+                 DeviceState *scp0,
+                 DeviceState *scp1,
                  TC6393xbState *tmio)
- {
+@@ -104,7 +104,10 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
      DeviceState *misc_gpio;
-+    LEDState *led[4];
+     LEDState *led[4];
  
-     misc_gpio = sysbus_create_simple(TYPE_TOSA_MISC_GPIO, -1, NULL);
+-    misc_gpio = sysbus_create_simple(TYPE_TOSA_MISC_GPIO, -1, NULL);
++    misc_gpio = qdev_new(TYPE_TOSA_MISC_GPIO);
++    object_property_add_child(OBJECT(machine), "pcb-container",
++                              OBJECT(misc_gpio));
++    qdev_realize_and_unref(misc_gpio, NULL, &error_fatal);
  
-@@ -143,14 +124,23 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
-                         qdev_get_gpio_in(cpu->gpio, TOSA_GPIO_JC_CF_IRQ),
-                         NULL);
+     /* MMC/SD host */
+     pxa2xx_mmci_handlers(cpu->mmc,
+@@ -253,7 +256,7 @@ static void tosa_init(MachineState *machine)
+     scp0 = sysbus_create_simple("scoop", 0x08800000, NULL);
+     scp1 = sysbus_create_simple("scoop", 0x14800040, NULL);
  
-+    led[0] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_BLUE, "bluetooth");
-+    led[1] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_GREEN, "note");
-+    led[2] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_AMBER, "charger-error");
-+    led[3] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_GREEN, "wlan");
-+
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_BT_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 0));
-+                          qdev_get_gpio_in(DEVICE(led[0]), 0));
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_NOTE_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 1));
-+                          qdev_get_gpio_in(DEVICE(led[1]), 0));
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_CHRG_ERR_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 2));
-+                          qdev_get_gpio_in(DEVICE(led[2]), 0));
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_WLAN_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 3));
-+                          qdev_get_gpio_in(DEVICE(led[3]), 0));
+-    tosa_gpio_setup(mpu, scp0, scp1, tmio);
++    tosa_gpio_setup(machine, mpu, scp0, scp1, tmio);
  
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_TC6393XB_L3V_ON, tc6393xb_l3v_get(tmio));
+     tosa_microdrive_attach(mpu);
  
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 06ba1c355b1..bbcfa098ae2 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -150,6 +150,7 @@ config TOSA
-     select ZAURUS  # scoop
-     select MICRODRIVE
-     select PXA2XX
-+    select LED
+@@ -307,7 +310,7 @@ static const TypeInfo tosa_ssp_info = {
  
- config SPITZ
-     bool
+ static const TypeInfo tosa_misc_gpio_info = {
+     .name          = TYPE_TOSA_MISC_GPIO,
+-    .parent        = TYPE_SYS_BUS_DEVICE,
++    .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(TosaMiscGPIOState),
+     .instance_init = tosa_misc_gpio_init,
+     /*
 -- 
 2.26.2
 
