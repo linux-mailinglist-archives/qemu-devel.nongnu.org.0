@@ -2,61 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A859B25F65F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:21:57 +0200 (CEST)
-Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B3A25F668
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:25:41 +0200 (CEST)
+Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDLY-0002Pg-PY
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34096)
+	id 1kFDPA-0004ib-7W
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:25:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHm-0005Xp-D9
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:44743)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kFDKi-0002NT-SB; Mon, 07 Sep 2020 05:21:04 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:60783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHj-0002ay-QE
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:02 -0400
-Received: from localhost.localdomain ([82.252.135.186]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Md76B-1koXyA1bnP-00aGgh; Mon, 07 Sep 2020 11:17:57 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] linux-user: Protect btrfs ioctl target definitions
-Date: Mon,  7 Sep 2020 11:17:48 +0200
-Message-Id: <20200907091748.376101-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200907091748.376101-1-laurent@vivier.eu>
-References: <20200907091748.376101-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kFDKe-00030t-5G; Mon, 07 Sep 2020 05:21:04 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id DD6485E8;
+ Mon,  7 Sep 2020 05:20:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Mon, 07 Sep 2020 05:20:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=5s09mr/clJkvZJNs73Xl5XHy6tx
+ rVThIZjdFlcaKkQ0=; b=BmBxeqDR6VbG5k7G1F2rxcgUip9kQVYP/B4qMFti9vK
+ jkGvetloDg9Jw150+Neb30vCFZtYVVKJkG1FUaYkHZkgMx4/iJJafCKskiomK5gl
+ li+s/q/GADcGzi/6MHdKmtVny3YRhnFfMi8lfRNN5DIc2ZdHgDa4cQT4k7xRm6IM
+ HYjk9tGh7D4IB1UmM4qMCPLT6USn39ciKmWKB5kDsOhEsZV8HsFbIH40o3cvJboK
+ zXW9vq71hFLWL9Xs+L0jQKtcR1pUZ97HqTCzHy/Ghoqx4y6fFVdOuxRRFRrAcZeH
+ /7XStalIOQyryRql5mPMm/MNTIYD3tXLkq2PRTwsjcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5s09mr
+ /clJkvZJNs73Xl5XHy6txrVThIZjdFlcaKkQ0=; b=SCYyxbH0RwQwgxHADA+zac
+ dhSrBoMhaHEh5g9AQKTCm22yHr0Th+W2WR3ePimU1693fVcBfr2H3l2NwrfOPc6H
+ FVxEBxaVHIg2irKvzOi7xd4vy0z50ZtbL+dyeNU5EfW8GjlpFX8XN7BsbuOQ53wI
+ 6cENeQZkdOcfdAbCWUGLnu3fnloDlSCoJWNkP8f9ybtc16xFuX/U2ThRwkHMKIFk
+ Ph2vhca3eQCVT6e0WN5tpPXDzzGod3VGnDabql6Lx3tPKDUkNEIzyACxyI5cV7i/
+ spIEaOXVb4AnkBB25lwuS3z0lL4obvyAQnvxmmPjLGWYRpSgIKJE2S+PG4LwkHww
+ ==
+X-ME-Sender: <xms:d_tVX-s_jMGDsNl0nv_cgWZ-qJpisVpyD6ppcTjJiy7DKz8Uc-Wavg>
+ <xme:d_tVXzd1vmipm-QfssKqXbqx7Tbra44Daag6fOpjtA0ZASl-hCfXimhSqBCGPiKK1
+ 9htaUxUtaqbtwx7Pow>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehtddgudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:d_tVX5yqe261mMmxUC2rcHFZpvQIU1HdrbETpnJ2fBvgHeDovMvvZA>
+ <xmx:d_tVX5M4o_reZgeMrZ4ECy2tu1832MihXn37ILAtWaA3593EYCZ7qQ>
+ <xmx:d_tVX-_sGjpfBgGVoa6gOqKy8gPDTmpASbpDqpFWLHYBFVd-jWbWKg>
+ <xmx:ePtVXyRyGgtK2-Ct3jHvilX6wVgmvvafKOAdYE5l-ihRnrt_Gt1joM2yExiT0VD-GBriUg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id DD9EC3064680;
+ Mon,  7 Sep 2020 05:20:53 -0400 (EDT)
+Date: Mon, 7 Sep 2020 11:20:52 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 17/17] hw/block/nvme: change controller pci id
+Message-ID: <20200907092052.GA706837@apples.localdomain>
+References: <20200904141956.576630-1-its@irrelevant.dk>
+ <20200904141956.576630-18-its@irrelevant.dk>
+ <894711e0-7823-5cf0-5b5a-a84f15b458ce@redhat.com>
+ <20200907072332.GA690013@apples.localdomain>
+ <8651d3fa-becf-7b86-8c16-bbfb8926cec7@redhat.com>
+ <20200907085814.GA698329@apples.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9bTeDSuOVnORdAtmx/OWwYEKWqgey9U/ZpINi2pdSvTFbm6Lnd8
- xaCjsLmhsoaaIqAOxPmwIx+QIlBoJ5MpESjaNijkpgj51xpWbm41RTVur+97CLfRfHl12t/
- edg1gRKyWToVamSNhS7NDoO1TMnIOnQJODrxmyvog95/9TvCC0MAzQQBD0WPo+TlK5SaYeo
- IFgJJ1n/jjHWphtJkLgMw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nggVGtVBxcU=:3oFpqTkngSIWMbILRsmrlZ
- GHjQLIMcVPJkpETcDDylszV7AKPnALCSuKnFtq+tUT1UrFvKxGJ4eouQIBcgTXwHIzHw+5sBB
- xbJbwycRRM/xoIxX8jJTVE6d7hls0CceA/obc4w6mlTZ40hgkTDslI9h73evD6Lwfiyek1Qvt
- Q/r4ol2z/HOyMcfj1/7cUjPgbXPNp21LHlD5mshRJwt3jWodvFkS3t8Md/uVi6NZoOzK278RA
- RbsyuTabZjI3sHWf7orkRL1QjW9Yp1HsZnKV7UI8COiC35my1xjdL95irglWtZKIyUfn+6C5t
- /gP7cshpWV6MCVmUfSu6DMzdajDMqu9lwj3GSpZtiB6UA13t1iT9qK9LjUSL7Vqwo7FANv+8P
- FyGv+xqhqpUfPaWTwNRjY/fzPsDqcfK2KhfGTmixxkOqCBWEtLxqXnZDuoRjhj4q4e8OVhipT
- 09izLHL4Q6Rhtr3VKGLT9m4iZd1nbNCk3hlYqQaGJxmWzd7kDwnk24Xiu6ZAHVPzYeyIOLNa8
- W90JNrKyG6akk+doFW4g0neOa4z6KFztYaFqD7BGSouKWHoMrEQrBoY42G4djtZwj8eAJ4nIp
- GPSXw7SwjNuY7ST11IZtXaPZGsoMNfb8BKkh/66VM7Wi5dHAHmvGUU3kUQmYemgzTK6k64Vuk
- oOveavdgKGtICNsw3AkQcnk0cIA1aqVbQNjvRmJq97eiaSfXulY2nvZe9TRI/wYPmItlX+tZb
- ekTKSJnFbUGXH+IMADmDXQ/cCMQrkGBnsc1g6MVrOQb3NwrAsVEH1kcqQ9EI30cbIHNNc+5cy
- s8ZCqgRe2BVsvV4SMDsmdmRl64rBPhHYuO8Xvvzlr/HzQoKtJl21HYksGa3nKG9SA5kiLJf
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:17:57
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
+Content-Disposition: inline
+In-Reply-To: <20200907085814.GA698329@apples.localdomain>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:23:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,49 +100,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-Target definitions of btrfs ioctls in 'syscall_defs.h' use
-the value BTRFS_IOCTL_MAGIC that is defined header 'btrfs.h'.
-This header is not available in kernel versions before 3.9.
-For that reason, these target ioctl definitions should be
-enwrapped in an #ifdef directive to check whether the 'btrfs.h'
-header is available as to not cause build errors on older
-Linux systems.
+--Kj7319i9nmIyA2yE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200905163802.2666-1-Filip.Bozuta@syrmia.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall_defs.h | 2 ++
- 1 file changed, 2 insertions(+)
+On Sep  7 10:58, Klaus Jensen wrote:
+> On Sep  7 10:36, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 9/7/20 9:23 AM, Klaus Jensen wrote:
+> > > On Sep  7 04:28, Philippe Mathieu-Daud=C3=A9 wrote:
+> > >> +David in case
+> > >>
+> > >> On 9/4/20 4:19 PM, Klaus Jensen wrote:
+> > >>> From: Klaus Jensen <k.jensen@samsung.com>
+> > >>>
+> > >>> There are two reasons for changing this:
+> > >>>
+> > >>>   1. The nvme device currently uses an internal Intel device id.
+> > >>>
+> > >>>   2. Since commits "nvme: fix write zeroes offset and count" and "n=
+vme:
+> > >>>      support multiple namespaces" the controller device no longer h=
+as
+> > >>>      the quirks that the Linux kernel think it has.
+> > >>>
+> > >>>      As the quirks are applied based on pci vendor and device id, c=
+hange
+> > >>>      them to get rid of the quirks.
+> > >>>
+> > >>> To keep backward compatibility, add a new 'x-use-intel-id' paramete=
+r to
+> > >>> the nvme device to force use of the Intel vendor and device id. Thi=
+s is
+> > >>> off by default but add a compat property to set this for 5.1 machin=
+es
+> > >>> and older.
+> > >>
+> > >> So now what happens if you start a 5.1 machine with a recent kernel?
+> > >> Simply the kernel will use unnecessary quirks, or are there more
+> > >> changes in behavior?
+> > >>
+> > >=20
+> > > Yes, the kernel will then just apply unneccesary quirks, these are:
+> > >=20
+> > >   1. NVME_QUIRK_IDENTIFY_CNS which says that the device does not supp=
+ort
+> > >      anything else than values 0x0 and 0x1 for CNS (Identify Namespac=
+e and
+> > >      Identify Namespace). With multiple namespace support, this just
+> > >      means that the kernel will "scan" namespaces instead of using
+> > >      "Active Namespace ID list" (CNS 0x2).
+> > >=20
+> > >   2. NVME_QUIRK_DISABLE_WRITE_ZEROES. The nvme device started out wit=
+h a
+> > >      broken Write Zeroes implementation which has since been fixed in
+> > >      commit 9d6459d21a6e ("nvme: fix write zeroes offset and count").
+> >=20
+> > OK thanks. Can you amend that information in the commit
+> > description please?
+> >=20
+>=20
+> Yes, absolutely.
 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 33a414c50f19..731c3d5341a9 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1006,6 +1006,7 @@ struct target_rtc_pll_info {
- #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
- 
- /* btrfs ioctls */
-+#ifdef CONFIG_BTRFS
- #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
- #define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOWU(BTRFS_IOCTL_MAGIC, 4)
- #define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOWU(BTRFS_IOCTL_MAGIC, 5)
-@@ -1041,6 +1042,7 @@ struct target_rtc_pll_info {
- #define TARGET_BTRFS_IOC_GET_SUBVOL_INFO        TARGET_IORU(BTRFS_IOCTL_MAGIC, 60)
- #define TARGET_BTRFS_IOC_GET_SUBVOL_ROOTREF     TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 61)
- #define TARGET_BTRFS_IOC_INO_LOOKUP_USER        TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 62)
-+#endif
- 
- /* usb ioctls */
- #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
--- 
-2.26.2
+By the way. Is it correct use of an 'x-' parameter here - since it is
+something that we might remove in the future? I was unable to find any
+documentation on the purpose of the 'x-' prefix, but I was guessing it
+was for stuff like this.
 
+--Kj7319i9nmIyA2yE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9V+3EACgkQTeGvMW1P
+DemZlQf+ORzh6BABnfg8BiayCkHuexD0tv6k5u6cICBaQGS2CDWAQ6L2DgXDpQ8l
+giSs4oSqBOnY2dXiyyDC1a2a+Qn3p6ym+2p+aS0umtbmZEgqYnBLldcQKTySfPZd
+tH8gqhSi7PNHhhpJLxecc6/BTAh9R7s5NYr4QxkNPOwLquOD68elLLyneG7CMOak
+ZAOuxoATH6F2wH758a4SmNd6QWCVC71kWY1rxKT72a1u2VZKQ8EMAZ6lIENaUjZ0
+0KTmg083co8KYJI4YIIYRBKhag4fjLjMBt3l40zw+oSNf6K1ZdZOC/J+hnjwmD4h
+7Miajcxl+xrpGXdpr+Pi9+avBLhXXA==
+=98dv
+-----END PGP SIGNATURE-----
+
+--Kj7319i9nmIyA2yE--
 
