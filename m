@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8882603BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:54:02 +0200 (CEST)
-Received: from localhost ([::1]:49538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9405F2603D3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:55:27 +0200 (CEST)
+Received: from localhost ([::1]:57846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLL7-0001V2-LI
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:54:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35946)
+	id 1kFLMU-0004p3-Lx
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLJa-0007UV-AN
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:52:26 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45001)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFLJo-00087m-Kj
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:52:40 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:34989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLJX-0000qf-Gb
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:52:25 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 7so8308362pgm.11
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 10:52:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zx2XjH/yidDi5xMLNDfik+brcRFi+UyvHBopYQ/o2Os=;
- b=X/SOHZTyVRbNz0vdV6EGyy1w340XsL/gCXSf+QGdbDHen8/5j3GADG7S07qU/AWYAW
- iONDMpA+13/QX7hjIGMPvScdm++KdE+lBhSksgHJgkevjtSmUBVB8MqwfXPz1QB9tQ2N
- FAQec3iQgILwubdus0bIyJVlUvgESolMppik9RBzPZ3ldkH3DZksi+ulBi/3TngLHdrD
- tDZ4qf1XyGNZ6pDrnleuWsKPbz0to2Zxx6R1JjImGvMNtnPoSha6FJscPUvHvM/V/QOF
- TES2PeEVtZ1UJxgl66xPWtD8vX/s+5W/FkWfc6tRPjhQAFZw9QSCIFUxqQZuaWnAYtrx
- 6ViQ==
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFLJm-0000r8-Dm
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:52:40 -0400
+Received: by mail-lf1-x132.google.com with SMTP id w11so7882988lfn.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 10:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=uVCOUmVn5yFZWifRDuSrqGvFKaFGSvPXKSHiMJfANL4=;
+ b=CnJuuOQOY/ELxAWe94z8OUyVa/SJ35CXjL0Nx7HyeLVnqpR9KaOLHXNgljZvCUySyS
+ y5TIdOaq332rJmXGUSHQUIQ8C/pgvlJDRDFTP5tWIe6CrGWvUk1seTwnbu7SxGGkf90A
+ q3a32ynylb5CnqLv6Gk92JZoyAUBB0zmYUe9aQ39Sy1kw3ekPvHPfrvEJsse6GnKzt7q
+ fmO+ysw38/NEOOio0OqNC3CJ88dLyCyWNjwTpISl2RJYwyZXOvArac1nlX4ArYtOwoqe
+ vpMmN5++0S56rzeOMwMyWJb3OzPx0scEgMltvdV8GdyE+2CJQf0zFTC+ktcsWfhne6yn
+ meUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zx2XjH/yidDi5xMLNDfik+brcRFi+UyvHBopYQ/o2Os=;
- b=BvPfHOquyVm20AVh7y+TnC4Yayby1c8t2xr5TbuqAgDPkYnOjMMKSQUoLLIp+Ciy2w
- mpIwqVSXuopE/LFR3HlvPuBCUoFcNI9SpJ51vdNLHcB3WCIC8T3jwtk7yKgnbC2Obd5K
- aHKXNKPpPcpZQ6ouQ+txL3GXTlPwbcgtEEMctDoK642EJYZzabtxuGyCNQ5YKDgEZIm5
- h2s0YTkWYlnM7Voy/7QRMJr48FtTFsApU97rHTg/nhPbgAz28/2wJLE7N8YxLqnKjhTN
- 1lmLOaJVURIluYzQ6SN4Gz0rzPiYN64m3leYgFLESqmukhQnvh9KvgCpGVClOBDY2qit
- ekog==
-X-Gm-Message-State: AOAM531pbYKnDYxgDYxBMtaGrIlF+weADFhrCd3vXLdrJcrJ3/MGjllC
- 0nvEPVi5wJjgmkI5aXlM53xhLg==
-X-Google-Smtp-Source: ABdhPJxZb7nW/SSKEW88tTo7saJ7flkxE5AZ0UHB5v6enEHBPUqyDVgLlizYQBj65wGgSjML3UPyQA==
-X-Received: by 2002:a63:d003:: with SMTP id z3mr17796304pgf.424.1599501142024; 
- Mon, 07 Sep 2020 10:52:22 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id i9sm1318753pfq.53.2020.09.07.10.52.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Sep 2020 10:52:21 -0700 (PDT)
-Subject: Re: [PATCH] hw/hyperv: Fix 32-bit build error for vmbus.
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20200907175102.28027-1-richard.henderson@linaro.org>
- <20200907175102.28027-2-richard.henderson@linaro.org>
-Message-ID: <5002d30f-3663-cf01-8a92-eb46a9f299e5@linaro.org>
-Date: Mon, 7 Sep 2020 10:52:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=uVCOUmVn5yFZWifRDuSrqGvFKaFGSvPXKSHiMJfANL4=;
+ b=ofuJTYR6kiPUMfYwNcdR33AzVN1WejwUGqj6Qj5MmeExgOucXgKJhoNNDwzXPC0hIW
+ WTyDT6bR2sdY4kGYW1J0xIyvgnPlJxTLBHWK1aX7hQfwYyDMeKsF+pY8p0ibtdlw26ZE
+ VCmU3MkTcDucBd+c9Y79UOs9CZA9Y0/qVRSYAk6Qba1f7T0eCgA/mHyl5oDgJpaEU4WU
+ 8zNt/98UAJi+vqhM9TRf0azvkDtkdLvH1GiJYbFhvVv+Ixl6SKqI/wl2OSaTtJYvVU69
+ b7kDJTdUnpBp6T9rZ7JFmQITS7sFuVJPBufg3nXBIS4/bFo9egMw/rk8ksWF8UdmNO7B
+ gwew==
+X-Gm-Message-State: AOAM533jFk3j/I/P5NxoxKP9Ujx/EZptSdvMcIs1BAFC9qMEAnK1u9oF
+ 307HZEacf5iZtCVPSW/6XeZq6J49kWnftXEGJns=
+X-Google-Smtp-Source: ABdhPJww69Yv+iqjSZi6fAFQXi4I+pVb8Yccs+wSMCUNfYy+ZzKlKNI8ZlKEBFFvOnsqL7tbU87b2Og/92akaE3T8qg=
+X-Received: by 2002:ac2:42c2:: with SMTP id n2mr10651203lfl.117.1599501156234; 
+ Mon, 07 Sep 2020 10:52:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200907175102.28027-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+References: <20200907121127.136243-1-thuth@redhat.com>
+In-Reply-To: <20200907121127.136243-1-thuth@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Tue, 8 Sep 2020 01:52:24 +0800
+Message-ID: <CAE2XoE_99nATg7+3uz5rOqW08ZouiOaMzgo94CKrqVZ9CPtXNQ@mail.gmail.com>
+Subject: Re: [PULL 00/14] Gitlab-CI improvements and related fixes
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000003c3c3405aebce252"
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x132.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.825,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,26 +79,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Jon Doron <arilou@gmail.com>
+Reply-To: luoyonggang@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/20 10:50 AM, Richard Henderson wrote:
-> ../qemu/hw/hyperv/vmbus.c: In function ‘gpadl_iter_io’:
-> ../qemu/hw/hyperv/vmbus.c:383:13: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
->   383 |         p = (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) | off_in_page);
->       |             ^
-> cc1: all warnings being treated as errors
-> 
-> Fixes: 0d71f7082d7 ("vmbus: vmbus implementation")
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> Cc: Jon Doron <arilou@gmail.com>
-> ---
+--0000000000003c3c3405aebce252
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dangit.  Forgot to remove old patches from the directory; this isn't part of
-the pull request.
+On Mon, Sep 7, 2020 at 8:11 PM Thomas Huth <thuth@redhat.com> wrote:
 
+>  Hi Peter,
+>
+> the following changes since commit
+> 7c37270b3fbe3d034ba80e488761461676e21eb4:
+>
+>   Merge remote-tracking branch
+> 'remotes/kraxel/tags/ui-20200904-pull-request' into staging (2020-09-06
+> 16:23:55 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-07
+>
+> for you to fetch changes up to 88e74b6122bb40852b1c98befd47a572f0c06930:
+>
+>   target/microblaze: Collected fixes for env->iflags (2020-09-07 12:34:17
+> +0200)
+>
+> ----------------------------------------------------------------
+> * Fixes for cross-compiling with MinGW / compiling with MSYS2
+> * Enable cross-compiler builds in the Gitlab CI
+> * Improvements / fixes for the crypto tests in the Gitlab CI
+> * Fix for the "make check-acceptance" microblaze failure
+>   (required to get the Gitlab CI green again)
+> ----------------------------------------------------------------
+>
+> Alex Benn=C3=A9e (1):
+>       tests/docker: add python3-setuptools the docker images
+>
+> Daniel P. Berrang=C3=A9 (2):
+>       crypto: fix build with gcrypt enabled
+>       gitlab: expand test coverage for crypto builds
+>
+> Paolo Bonzini (1):
+>       tests/qtest: do not list ahci-test twice
+>
+> Richard Henderson (1):
+>       target/microblaze: Collected fixes for env->iflags
+>
+> Thomas Huth (6):
+>       tests/Makefile: test-image-locking needs CONFIG_POSIX
+>       dockerfiles/debian-win64-cross: Download WHPX MinGW headers
+>       configure: Allow automatic WHPX detection
+>       stubs: Move qemu_timer_notify_cb() and remove qemu_notify_event()
+> stub
+>       stubs: Move qemu_fd_register stub to util/main-loop.c
+>       gitlab-ci: Add cross-compiling build tests
+>
+> Yonggang Luo (3):
+>       tests: handling signal on win32 properly
+>
+Hi thomas, this have already been queued by Bonzini, you have to skip this.
 
-r~
+>       tests: fixes test-vmstate.c compile error on msys2
+>
+Hi Bonzini, the int compiling error are fixed by this commit
+
+>       tests: Fixes building test-util-filemonitor.c on msys2/mingw
+>
+Hi Bonzini, the mkdir error are fixed by this commit
+
+>
+>  .gitlab-ci.d/crossbuilds.yml                       | 113
+> +++++++++++++++++++++
+>  .gitlab-ci.yml                                     |  69 +++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  configure                                          |   3 +
+>  crypto/meson.build                                 |  42 ++++++--
+>  meson.build                                        |   5 +
+>  stubs/cpu-get-icount.c                             |   5 -
+>  stubs/fd-register.c                                |   6 --
+>  stubs/meson.build                                  |   3 +-
+>  stubs/notify-event.c                               |   6 --
+>  stubs/qemu-timer-notify-cb.c                       |   8 ++
+>  target/microblaze/cpu.c                            |  11 ++
+>  target/microblaze/cpu.h                            |   3 +-
+>  target/microblaze/helper.c                         |  17 ++--
+>  target/microblaze/translate.c                      |   4 +-
+>  tests/Makefile.include                             |   2 +
+>  tests/docker/dockerfiles/centos7.docker            |   2 +
+>  tests/docker/dockerfiles/centos8.docker            |   1 +
+>  tests/docker/dockerfiles/debian-win64-cross.docker |   9 +-
+>  tests/docker/dockerfiles/debian10.docker           |   1 +
+>  tests/docker/dockerfiles/debian9.docker            |   1 +
+>  tests/qtest/meson.build                            |   1 -
+>  tests/test-replication.c                           |   4 +
+>  tests/test-util-filemonitor.c                      |   4 +-
+>  tests/test-vmstate.c                               |   4 +-
+>  util/main-loop.c                                   |   4 +
+>  26 files changed, 285 insertions(+), 44 deletions(-)
+>  create mode 100644 .gitlab-ci.d/crossbuilds.yml
+>  delete mode 100644 stubs/fd-register.c
+>  delete mode 100644 stubs/notify-event.c
+>  create mode 100644 stubs/qemu-timer-notify-cb.c
+>
+>
+
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--0000000000003c3c3405aebce252
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 7, 2020 at 8:11 PM Thomas=
+ Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0Hi Pete=
+r,<br>
+<br>
+the following changes since commit 7c37270b3fbe3d034ba80e488761461676e21eb4=
+:<br>
+<br>
+=C2=A0 Merge remote-tracking branch &#39;remotes/kraxel/tags/ui-20200904-pu=
+ll-request&#39; into staging (2020-09-06 16:23:55 +0100)<br>
+<br>
+are available in the Git repository at:<br>
+<br>
+=C2=A0 <a href=3D"https://gitlab.com/huth/qemu.git" rel=3D"noreferrer" targ=
+et=3D"_blank">https://gitlab.com/huth/qemu.git</a> tags/pull-request-2020-0=
+9-07<br>
+<br>
+for you to fetch changes up to 88e74b6122bb40852b1c98befd47a572f0c06930:<br=
+>
+<br>
+=C2=A0 target/microblaze: Collected fixes for env-&gt;iflags (2020-09-07 12=
+:34:17 +0200)<br>
+<br>
+----------------------------------------------------------------<br>
+* Fixes for cross-compiling with MinGW / compiling with MSYS2<br>
+* Enable cross-compiler builds in the Gitlab CI<br>
+* Improvements / fixes for the crypto tests in the Gitlab CI<br>
+* Fix for the &quot;make check-acceptance&quot; microblaze failure<br>
+=C2=A0 (required to get the Gitlab CI green again)<br>
+----------------------------------------------------------------<br>
+<br>
+Alex Benn=C3=A9e (1):<br>
+=C2=A0 =C2=A0 =C2=A0 tests/docker: add python3-setuptools the docker images=
+<br>
+<br>
+Daniel P. Berrang=C3=A9 (2):<br>
+=C2=A0 =C2=A0 =C2=A0 crypto: fix build with gcrypt enabled<br>
+=C2=A0 =C2=A0 =C2=A0 gitlab: expand test coverage for crypto builds<br>
+<br>
+Paolo Bonzini (1):<br>
+=C2=A0 =C2=A0 =C2=A0 tests/qtest: do not list ahci-test twice<br>
+<br>
+Richard Henderson (1):<br>
+=C2=A0 =C2=A0 =C2=A0 target/microblaze: Collected fixes for env-&gt;iflags<=
+br>
+<br>
+Thomas Huth (6):<br>
+=C2=A0 =C2=A0 =C2=A0 tests/Makefile: test-image-locking needs CONFIG_POSIX<=
+br>
+=C2=A0 =C2=A0 =C2=A0 dockerfiles/debian-win64-cross: Download WHPX MinGW he=
+aders<br>
+=C2=A0 =C2=A0 =C2=A0 configure: Allow automatic WHPX detection<br>
+=C2=A0 =C2=A0 =C2=A0 stubs: Move qemu_timer_notify_cb() and remove qemu_not=
+ify_event() stub<br>
+=C2=A0 =C2=A0 =C2=A0 stubs: Move qemu_fd_register stub to util/main-loop.c<=
+br>
+=C2=A0 =C2=A0 =C2=A0 gitlab-ci: Add cross-compiling build tests<br>
+<br>
+Yonggang Luo (3):<br>
+=C2=A0 =C2=A0 =C2=A0 tests: handling signal on win32 properly<br></blockquo=
+te><div>Hi thomas, this have already been queued by Bonzini, you have to sk=
+ip this.=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 tests: fixes test-vmstate.c compile error on msys2<br>=
+</blockquote><div>Hi=C2=A0Bonzini, the int compiling error are fixed by thi=
+s commit=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 tests: Fixes building test-util-filemonitor.c on msys2=
+/mingw<br></blockquote><div>Hi=C2=A0Bonzini, the mkdir error are fixed by t=
+his commit</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"></blockqu=
+ote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+=C2=A0.gitlab-ci.d/crossbuilds.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 113 +++++++++++++++++++++<br>
+=C2=A0.gitlab-ci.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 69 +++++++++++++<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A03 +<br>
+=C2=A0crypto/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 42 ++++++--<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A05 +<br>
+=C2=A0stubs/cpu-get-icount.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 =
+-<br>
+=C2=A0stubs/fd-register.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A06 --<br>
+=C2=A0stubs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A03 +-<br>
+=C2=A0stubs/notify-event.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A06 --<br>
+=C2=A0stubs/qemu-timer-notify-cb.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A08 ++<br>
+=C2=A0target/microblaze/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 11 ++<br>
+=C2=A0target/microblaze/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
+=C2=A0target/microblaze/helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 17 ++--<br>
+=C2=A0target/microblaze/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A0tests/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 =
++<br>
+=C2=A0tests/docker/dockerfiles/centos7.docker=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0tests/docker/dockerfiles/centos8.docker=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0tests/docker/dockerfiles/debian-win64-cross.docker |=C2=A0 =C2=A09 +-=
+<br>
+=C2=A0tests/docker/dockerfiles/debian10.docker=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+=C2=A0tests/docker/dockerfiles/debian9.docker=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 -<br>
+=C2=A0tests/test-replication.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 +<br>
+=C2=A0tests/test-util-filemonitor.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A0tests/test-vmstate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A04 +-<br>
+=C2=A0util/main-loop.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A04 +<br>
+=C2=A026 files changed, 285 insertions(+), 44 deletions(-)<br>
+=C2=A0create mode 100644 .gitlab-ci.d/crossbuilds.yml<br>
+=C2=A0delete mode 100644 stubs/fd-register.c<br>
+=C2=A0delete mode 100644 stubs/notify-event.c<br>
+=C2=A0create mode 100644 stubs/qemu-timer-notify-cb.c<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div></div>
+
+--0000000000003c3c3405aebce252--
 
