@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE2E2603BA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:53:58 +0200 (CEST)
-Received: from localhost ([::1]:48964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D972603A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:52:33 +0200 (CEST)
+Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLL3-0001H2-E4
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:53:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35660)
+	id 1kFLJg-0006XY-AP
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:52:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLIP-0004mZ-Lv
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:51:13 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:35362)
+ id 1kFLIR-0004q2-0b
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:51:15 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:46822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLIN-0000l4-U6
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:51:13 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id g29so8326633pgl.2
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 10:51:11 -0700 (PDT)
+ id 1kFLIP-0000lB-Bo
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:51:14 -0400
+Received: by mail-pg1-x531.google.com with SMTP id 31so8298240pgy.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 10:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zy2FzO7iuFKd4JYIhnxO7lsGxmERptfll6SXeVwIiBI=;
- b=jLYgVtbsR0lOo4715OOOsM+3sxgZmkkslIANSxtrYeCHJwT7wNmz/yIx6Y7nTp6Vtd
- sb3w+MtEszBSLU6BVc8bCwug8lf/fK7EF0e16sBbHZb/CHkgdHK5rzP6V6qJPyFCakwP
- V9UlCSH1EeFKBiGv9MNGmwoqf9DeEiATAuaOFUmhOSr+FFozTr3gE/NTpmkBy3sG5ICo
- EIKrDGLUxaD8RtjqPpbdysJSJ5n8gIPFAzIPBhAit56p787q3Qaxu6vzkS+92P+FiSyY
- gNWiDHRFSvS9LdnpWxaDaioXptqu9Cs5a+KwrYoPCNFBG9m8kFZpbX05F9FSYzmJ1ytu
- 2PlQ==
+ bh=5SlIcFIM68w880BR4Kxx0NdCPJqMQrugFoEKlxU3Dhc=;
+ b=bjX4YVFrxtUbjnPvtOS2WCIhlHxp8FEjfy6BP+O28pqXDqtnCZcQ2Yp7goNnSKP3r0
+ VYiWgplKRHJ4L5jXZxLGBpZwem8MXhLzrXR62ePbUy8xuJoyLKPMhCNpkVnyBhx/Ydgj
+ s+paOadB50oSOrO5Rcqh3zRKiQO7kHMUA28NKhNDjf6VD7jQrk1qKxTrEqKjiYaTH7FW
+ esD/QfvPbXspq1H36p7u9Pb0XyEWKMHdkWbaSCama2nHjfU20j948WOQVbskEJjtRV2a
+ eWnM0ecLZ3Piyo1MOj1z3nFVe/PySX/DtMFnAn6trzf1muj63jkRfQB5K3YF38NoE3Pi
+ Jn9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zy2FzO7iuFKd4JYIhnxO7lsGxmERptfll6SXeVwIiBI=;
- b=JGpmychXDisKz806lf5KVHjRhIE/vJOr6c9AKShDOgJDI7FPnWLsEoPo2yRodktmhK
- o9h+hmrwW69VE71cZ3x7ECIILCCJnQy9PMEazepAwQrreRmqdGPQRsq5pjPCZetbp4lK
- u1fH4dM/usS7n61i6l6q5am4Bxol8qQs+sJZCrkvrDDQx1Ld963YIXq0t5CWW3yjC84Y
- gElyQ4cr1vzIZRxBP62rs6XdpniHuokKg3pS1nvy6500fxzeTzFk7Vtb6iW7sm+6RrSv
- HKQTogPo8jppE5++WprqsSMMXmxwA+pv3dyPG26u1uWLpozAWwQFVVPHUOLc/jhY8WES
- q64g==
-X-Gm-Message-State: AOAM530yyhS4OzIHA2IDutboZ34GF/Ohh9HC4WJ1cCyBpWZ4BQb57ODM
- 7yhZvEk47Tu0+7bQxtRGcadUb34i2hNldw==
-X-Google-Smtp-Source: ABdhPJyii9CBaTZ0cGTqpGeSiv2JnHVxPrO+GDCV7Y4fqPEapfIUTIrEVqGgwZdYgct/vmC+DJMujA==
-X-Received: by 2002:a62:7c82:0:b029:13c:1611:6525 with SMTP id
- x124-20020a627c820000b029013c16116525mr20149365pfc.5.1599501070139; 
- Mon, 07 Sep 2020 10:51:10 -0700 (PDT)
+ bh=5SlIcFIM68w880BR4Kxx0NdCPJqMQrugFoEKlxU3Dhc=;
+ b=X/LEJDV88TaRo9fHGob6o9lhS9BxtOVc4Q78lS17EtOOJBZ8yyKps+NMnYGBybPygH
+ AlHrUYAmAhyjMBhHV02l1BGLZKVkfKgXKCkB/RvOhcrgQ3dy/p6gnHmplN5Zmn4bZ7un
+ PcZM1SZcBBZtylXASbQcdPnddY2QFKLyfdWDqrhpQQkmzgrv5nBULBeGVc5eTt3XFu/I
+ cHNMwXXbDT9URr32fY6HKZFrF5ssGXi/YzDBt87ieLsIQGQP9wzechx1O0HZ32jXLSXt
+ u6HcxHzza80bTDgWuqbptaj3jxSCiDpk2Dgs5sWfXJ18N6o66Bv7o7HS/kdgO7FAZzxX
+ 8ACg==
+X-Gm-Message-State: AOAM533ODfPCcDGdMBdG6EzGRJkT8mFotO2qj1qvQz+kCeG5nBD3sDNZ
+ 12J2wINlfZoWmhFfwRyrsjKzWcs24kNkqg==
+X-Google-Smtp-Source: ABdhPJzt25uRw9FoQzBM95zcJGHIKzXVArgjRcHnWxiU+D/RRB5mf0BPyNGLSP3sKb5UhxkA3Cj5xQ==
+X-Received: by 2002:a62:e108:: with SMTP id q8mr3975683pfh.214.1599501071683; 
+ Mon, 07 Sep 2020 10:51:11 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id ga3sm1651496pjb.18.2020.09.07.10.51.09
+ by smtp.gmail.com with ESMTPSA id ga3sm1651496pjb.18.2020.09.07.10.51.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 10:51:09 -0700 (PDT)
+ Mon, 07 Sep 2020 10:51:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/19] target/microblaze: Rename mmu structs
-Date: Mon,  7 Sep 2020 10:50:47 -0700
-Message-Id: <20200907175102.28027-6-richard.henderson@linaro.org>
+Subject: [PULL 05/19] target/microblaze: Rename DISAS_UPDATE to DISAS_EXIT
+Date: Mon,  7 Sep 2020 10:50:48 -0700
+Message-Id: <20200907175102.28027-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907175102.28027-1-richard.henderson@linaro.org>
 References: <20200907175102.28027-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,150 +90,67 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce typedefs and follow CODING_STYLE for naming.
-Rename struct microblaze_mmu to MicroBlazeMMU.
-Rename struct microblaze_mmu_lookup to MicroBlazeMMULookup.
+The name "update" suggests that something needs updating, but
+this is not the case.  Use "exit" to emphasize that nothing
+needs doing except to exit.
 
-Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h    |  2 +-
- target/microblaze/mmu.h    | 15 ++++++---------
- target/microblaze/helper.c |  4 ++--
- target/microblaze/mmu.c    | 11 +++++------
- 4 files changed, 14 insertions(+), 18 deletions(-)
+ target/microblaze/translate.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 32811f773d..20c2979396 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -278,7 +278,7 @@ struct CPUMBState {
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index a8a3249185..8ceb04f4f0 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -37,7 +37,7 @@
  
- #if !defined(CONFIG_USER_ONLY)
-     /* Unified MMU.  */
--    struct microblaze_mmu mmu;
-+    MicroBlazeMMU mmu;
- #endif
+ /* is_jmp field values */
+ #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+-#define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
++#define DISAS_EXIT    DISAS_TARGET_1 /* all cpu state modified dynamically */
  
-     /* Fields up to this point are cleared by a CPU reset */
-diff --git a/target/microblaze/mmu.h b/target/microblaze/mmu.h
-index 75e5301c79..c1feb811b9 100644
---- a/target/microblaze/mmu.h
-+++ b/target/microblaze/mmu.h
-@@ -63,8 +63,7 @@
+ static TCGv_i32 cpu_R[32];
+ static TCGv_i32 cpu_pc;
+@@ -1161,7 +1161,7 @@ static bool trans_brk(DisasContext *dc, arg_typea_br *arg)
+     tcg_gen_ori_i32(cpu_msr, cpu_msr, MSR_BIP);
+     tcg_gen_movi_tl(cpu_res_addr, -1);
  
- #define TLB_ENTRIES    64
- 
--struct microblaze_mmu
--{
-+typedef struct {
-     /* Data and tag brams.  */
-     uint64_t rams[2][TLB_ENTRIES];
-     /* We keep a separate ram for the tids to avoid the 48 bit tag width.  */
-@@ -76,10 +75,9 @@ struct microblaze_mmu
-     int c_mmu_tlb_access;
-     int c_mmu_zones;
-     uint64_t c_addr_mask; /* Mask to apply to physical addresses.  */
--};
-+} MicroBlazeMMU;
- 
--struct microblaze_mmu_lookup
--{
-+typedef struct {
-     uint32_t paddr;
-     uint32_t vaddr;
-     unsigned int size;
-@@ -88,13 +86,12 @@ struct microblaze_mmu_lookup
-     enum {
-         ERR_PROT, ERR_MISS, ERR_HIT
-     } err;
--};
-+} MicroBlazeMMULookup;
- 
--unsigned int mmu_translate(struct microblaze_mmu *mmu,
--                           struct microblaze_mmu_lookup *lu,
-+unsigned int mmu_translate(MicroBlazeMMU *mmu, MicroBlazeMMULookup *lu,
-                            target_ulong vaddr, int rw, int mmu_idx);
- uint32_t mmu_read(CPUMBState *env, bool ea, uint32_t rn);
- void mmu_write(CPUMBState *env, bool ea, uint32_t rn, uint32_t v);
--void mmu_init(struct microblaze_mmu *mmu);
-+void mmu_init(MicroBlazeMMU *mmu);
- 
- #endif
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index 27a24bb99a..3c2fd388fb 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -52,7 +52,7 @@ bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-     CPUMBState *env = &cpu->env;
--    struct microblaze_mmu_lookup lu;
-+    MicroBlazeMMULookup lu;
-     unsigned int hit;
-     int prot;
- 
-@@ -235,7 +235,7 @@ hwaddr mb_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-     CPUMBState *env = &cpu->env;
-     target_ulong vaddr, paddr = 0;
--    struct microblaze_mmu_lookup lu;
-+    MicroBlazeMMULookup lu;
-     int mmu_idx = cpu_mmu_index(env, false);
-     unsigned int hit;
- 
-diff --git a/target/microblaze/mmu.c b/target/microblaze/mmu.c
-index 6e583d78d9..0546cfd0bc 100644
---- a/target/microblaze/mmu.c
-+++ b/target/microblaze/mmu.c
-@@ -35,7 +35,7 @@ static unsigned int tlb_decode_size(unsigned int f)
- static void mmu_flush_idx(CPUMBState *env, unsigned int idx)
- {
-     CPUState *cs = env_cpu(env);
--    struct microblaze_mmu *mmu = &env->mmu;
-+    MicroBlazeMMU *mmu = &env->mmu;
-     unsigned int tlb_size;
-     uint32_t tlb_tag, end, t;
- 
-@@ -55,7 +55,7 @@ static void mmu_flush_idx(CPUMBState *env, unsigned int idx)
- 
- static void mmu_change_pid(CPUMBState *env, unsigned int newpid) 
- {
--    struct microblaze_mmu *mmu = &env->mmu;
-+    MicroBlazeMMU *mmu = &env->mmu;
-     unsigned int i;
-     uint32_t t;
- 
-@@ -73,8 +73,7 @@ static void mmu_change_pid(CPUMBState *env, unsigned int newpid)
+-    dc->base.is_jmp = DISAS_UPDATE;
++    dc->base.is_jmp = DISAS_EXIT;
+     return true;
  }
  
- /* rw - 0 = read, 1 = write, 2 = fetch.  */
--unsigned int mmu_translate(struct microblaze_mmu *mmu,
--                           struct microblaze_mmu_lookup *lu,
-+unsigned int mmu_translate(MicroBlazeMMU *mmu, MicroBlazeMMULookup *lu,
-                            target_ulong vaddr, int rw, int mmu_idx)
- {
-     unsigned int i, hit = 0;
-@@ -290,7 +289,7 @@ void mmu_write(CPUMBState *env, bool ext, uint32_t rn, uint32_t v)
-             break;
-         case MMU_R_TLBSX:
-         {
--            struct microblaze_mmu_lookup lu;
-+            MicroBlazeMMULookup lu;
-             int hit;
+@@ -1202,7 +1202,7 @@ static bool trans_brki(DisasContext *dc, arg_typeb_br *arg)
+                          ~(MSR_VMS | MSR_UMS | MSR_VM | MSR_UM));
+     }
+     tcg_gen_ori_i32(cpu_msr, cpu_msr, msr_to_set);
+-    dc->base.is_jmp = DISAS_UPDATE;
++    dc->base.is_jmp = DISAS_EXIT;
+ #endif
  
-             if (env->mmu.c_mmu_tlb_access <= 1) {
-@@ -314,7 +313,7 @@ void mmu_write(CPUMBState *env, bool ext, uint32_t rn, uint32_t v)
-    }
+     return true;
+@@ -1712,7 +1712,7 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
+ 
+     /* Force an exit if the per-tb cpu state has changed.  */
+     if (dc->base.is_jmp == DISAS_NEXT && dc->cpustate_changed) {
+-        dc->base.is_jmp = DISAS_UPDATE;
++        dc->base.is_jmp = DISAS_EXIT;
+         tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
+     }
  }
+@@ -1733,7 +1733,7 @@ static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
+         gen_goto_tb(dc, 0, dc->base.pc_next);
+         return;
  
--void mmu_init(struct microblaze_mmu *mmu)
-+void mmu_init(MicroBlazeMMU *mmu)
- {
-     int i;
-     for (i = 0; i < ARRAY_SIZE(mmu->regs); i++) {
+-    case DISAS_UPDATE:
++    case DISAS_EXIT:
+         if (unlikely(cs->singlestep_enabled)) {
+             gen_raise_exception(dc, EXCP_DEBUG);
+         } else {
 -- 
 2.25.1
 
