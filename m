@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5563325F95C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:25:57 +0200 (CEST)
-Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D781825F93F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:23:09 +0200 (CEST)
+Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFFHX-0000nL-T7
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59430)
+	id 1kFFEq-0001iD-Pz
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2l-0003K7-Ut
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:40 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24261
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2u-0003XC-Hx
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57729
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2e-00086D-A4
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:39 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2n-000881-RT
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599477031;
+ s=mimecast20190719; t=1599477041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nCfPuMzPikOUocPpoI2jnb1CB5Wz16WJaggYaK6/fAk=;
- b=JajhEASykYboi0Tt+EM6I34msgq3jokOK3N9ag5u1gPHG87ZwoNgCt3ULrhZsYr84wKwzE
- yFW6UDnkGgGXgSUEhq8KWQFDS8WJj+ooB86buYBVdk7K/tEeG9EN9QQm2xQHeWe2AuqQ6+
- W4OKypquCd/M3Gw2AS73Gd1Z7brZrb4=
+ bh=jwYuyrCrAx/PDOqYEa2yXtvfWBMReT4sAV+avMPUkP4=;
+ b=gpPcbijg6fiEoH3rdE4Ls3dsut8s/lIHHAf5E8o00J77zn+mLNA6LlL0Et46kMOLRjLpwx
+ 24NPuxATsoJ/enuYWpwnOmwBdJPoi/mp65d0MKe83ihdAhsQoaxTeIDTjd8GyYIp65NGS1
+ VusMhZ5R2dU1XsAf3kq9VfKAtsR9qTM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-phmwGCcXNgG7ebjGiDpkKg-1; Mon, 07 Sep 2020 07:10:27 -0400
-X-MC-Unique: phmwGCcXNgG7ebjGiDpkKg-1
+ us-mta-415-cC0ZVHdTOxCNpEuiNXJBDw-1; Mon, 07 Sep 2020 07:10:28 -0400
+X-MC-Unique: cC0ZVHdTOxCNpEuiNXJBDw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DB4B1084C88;
- Mon,  7 Sep 2020 11:10:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C880E1084C95;
+ Mon,  7 Sep 2020 11:10:27 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B1AB7E42B;
- Mon,  7 Sep 2020 11:10:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D675C9CBA;
+ Mon,  7 Sep 2020 11:10:26 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 32/64] block: Flush all children in generic code
-Date: Mon,  7 Sep 2020 13:09:04 +0200
-Message-Id: <20200907110936.261684-33-kwolf@redhat.com>
+Subject: [PULL 33/64] vmdk: Drop vmdk_co_flush()
+Date: Mon,  7 Sep 2020 13:09:05 +0200
+Message-Id: <20200907110936.261684-34-kwolf@redhat.com>
 In-Reply-To: <20200907110936.261684-1-kwolf@redhat.com>
 References: <20200907110936.261684-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 22:29:02
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 02:54:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -86,86 +86,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-If the driver does not support .bdrv_co_flush() so bdrv_co_flush()
-itself has to flush the children of the given node, it should not flush
-just bs->file->bs, but in fact all children that might have been written
-to (judging from the permissions taken on them).
+Before HEAD^, we needed this because bdrv_co_flush() by itself would
+only flush bs->file.  With HEAD^, bdrv_co_flush() will flush all
+children on which a WRITE or WRITE_UNCHANGED permission has been taken.
+Thus, vmdk no longer needs to do it itself.
 
-This is a bug fix for qcow2 images with an external data file, as they
-so far did not flush that data_file node.
-
-In any case, the BLKDBG_EVENT() should be emitted on the primary child,
-because that is where a blkdebug node would be if there is any.
-
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ block/vmdk.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 6f9402117e..8d777cd0ec 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2771,6 +2771,8 @@ static int coroutine_fn bdrv_flush_co_entry(void *opaque)
+diff --git a/block/vmdk.c b/block/vmdk.c
+index d90855446a..8ec62c7ab7 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2803,21 +2803,6 @@ static void vmdk_close(BlockDriverState *bs)
+     error_free(s->migration_blocker);
+ }
  
- int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
+-static coroutine_fn int vmdk_co_flush(BlockDriverState *bs)
+-{
+-    BDRVVmdkState *s = bs->opaque;
+-    int i, err;
+-    int ret = 0;
+-
+-    for (i = 0; i < s->num_extents; i++) {
+-        err = bdrv_co_flush(s->extents[i].file->bs);
+-        if (err < 0) {
+-            ret = err;
+-        }
+-    }
+-    return ret;
+-}
+-
+ static int64_t vmdk_get_allocated_file_size(BlockDriverState *bs)
  {
-+    BdrvChild *primary_child = bdrv_primary_child(bs);
-+    BdrvChild *child;
-     int current_gen;
-     int ret = 0;
- 
-@@ -2800,7 +2802,7 @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
-     }
- 
-     /* Write back cached data to the OS even with cache=unsafe */
--    BLKDBG_EVENT(bs->file, BLKDBG_FLUSH_TO_OS);
-+    BLKDBG_EVENT(primary_child, BLKDBG_FLUSH_TO_OS);
-     if (bs->drv->bdrv_co_flush_to_os) {
-         ret = bs->drv->bdrv_co_flush_to_os(bs);
-         if (ret < 0) {
-@@ -2810,15 +2812,15 @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
- 
-     /* But don't actually force it to the disk with cache=unsafe */
-     if (bs->open_flags & BDRV_O_NO_FLUSH) {
--        goto flush_parent;
-+        goto flush_children;
-     }
- 
-     /* Check if we really need to flush anything */
-     if (bs->flushed_gen == current_gen) {
--        goto flush_parent;
-+        goto flush_children;
-     }
- 
--    BLKDBG_EVENT(bs->file, BLKDBG_FLUSH_TO_DISK);
-+    BLKDBG_EVENT(primary_child, BLKDBG_FLUSH_TO_DISK);
-     if (!bs->drv) {
-         /* bs->drv->bdrv_co_flush() might have ejected the BDS
-          * (even in case of apparent success) */
-@@ -2862,8 +2864,17 @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
-     /* Now flush the underlying protocol.  It will also have BDRV_O_NO_FLUSH
-      * in the case of cache=unsafe, so there are no useless flushes.
-      */
--flush_parent:
--    ret = bs->file ? bdrv_co_flush(bs->file->bs) : 0;
-+flush_children:
-+    ret = 0;
-+    QLIST_FOREACH(child, &bs->children, next) {
-+        if (child->perm & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED)) {
-+            int this_child_ret = bdrv_co_flush(child->bs);
-+            if (!ret) {
-+                ret = this_child_ret;
-+            }
-+        }
-+    }
-+
- out:
-     /* Notify any pending flushes that we have completed */
-     if (ret == 0) {
+     int i;
+@@ -3081,7 +3066,6 @@ static BlockDriver bdrv_vmdk = {
+     .bdrv_close                   = vmdk_close,
+     .bdrv_co_create_opts          = vmdk_co_create_opts,
+     .bdrv_co_create               = vmdk_co_create,
+-    .bdrv_co_flush_to_disk        = vmdk_co_flush,
+     .bdrv_co_block_status         = vmdk_co_block_status,
+     .bdrv_get_allocated_file_size = vmdk_get_allocated_file_size,
+     .bdrv_has_zero_init           = vmdk_has_zero_init,
 -- 
 2.25.4
 
