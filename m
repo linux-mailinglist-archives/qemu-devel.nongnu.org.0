@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6424C260447
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:09:28 +0200 (CEST)
-Received: from localhost ([::1]:60978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28044260451
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:13:01 +0200 (CEST)
+Received: from localhost ([::1]:42608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLa3-0001mq-GG
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:09:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38840)
+	id 1kFLdU-0005wZ-8b
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:13:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLVy-0003sU-85
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:14 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:37283)
+ id 1kFLVz-0003vF-FT
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:15 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:38327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLVw-0002ON-7K
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:13 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id kk9so4409914pjb.2
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 11:05:11 -0700 (PDT)
+ id 1kFLVx-0002Ok-IM
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:05:15 -0400
+Received: by mail-pf1-x435.google.com with SMTP id l126so1934908pfd.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 11:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dWk0u18HrFWEmO0Ek4pDOwsIb2E0YHnrPgMxsDRW+cA=;
- b=mq27g1oDg7Fa7RsvStGUPmszuAwud6AtXZVjqdWaEceJH7zleAqfadJIuF/GfJgZf1
- umQCuni7SmZrs27cIIBSaeQWpU3GmuvlI0s37d/QAKvgZl3UIT9Lm0EWq90tm++HgVXN
- aw5SUAa1WEX/36mN+EbYFreWua8MxDTyT9cIbgJtJVLWo0Lm7vBo6kuydj6qFXN0AOxa
- eYlaIoG07KxbOgyuO7EE7fFSPNkQLOWFEd50HgxFvUoGxDyu0xloyLCQTQ/Nt26kb09L
- TmZrMVXDtr9+/pP9mA6BgWakplVCqFeoo2j/6nVqmoMD+xBIVr4ZlAlH/AMkmb+aoOYs
- F8Fw==
+ bh=mCgjeXLmeN5hMfhXUcUPxa4AMIlfBZL76Mf1qDfxbvQ=;
+ b=zMVbP3oLWWgFM30PnOzJp2LqHHxqM/KwiridqzGv5Iezku2MXp5uQGack/MQbdp8C/
+ ZRmV0xJPJJHAPYFuKg6MHHZaBMv0IpFdpEeW6uzq7m03LMQCkq+1DMrGzM3BeB8+9+7+
+ 6YxaaYRo3k4G9K/w43SOR8odFpHEcW8WGy6U15yYF9kXvIhmvubPKZ4jSZfPjB8wjjn0
+ OLBDeHijSpQjSucxuTY0tQXAwuAcuPuOmtitV8IrWJGJ751rk3UxvOxGE5zf0GzC/cvd
+ 202hTyOdpF7V50ng2NrZeIiEZWLMfSVUexL4t3e1a7WfnKVb5hozmhSrQk8UZVxRIQHF
+ fjKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dWk0u18HrFWEmO0Ek4pDOwsIb2E0YHnrPgMxsDRW+cA=;
- b=sylZcjOuKZ84h9YdXgV2K5bfeUuosPB7Nu6TFOf3C6qG90o+0uGrp1l6qDLk1FRmUu
- 3WzNWlggpSbiRmIMY7/CDLRtDoB27ekyiaO9ZxN4idC9Rth33IMkxIJZbT49TgfbwW5W
- ssOOfT7QtweayJY8uwdOaUa6sP7fjtftuT14wZSItEg+zSNoTIiwFM1iWdPRfBZ8xwIO
- dW6c1ibHZGkpLm4z8omxo1LhdAgKIwaQkoLkqI9IlwCS0tN9CrGQ8PkXpl0b2/aFqWd6
- 9aPljS78MZ8LXVVdjlT8967Y9WcjmXDRaRr1gAZuHyMgE9e3IpArLyJdG2gK2sEun7OP
- kdCQ==
-X-Gm-Message-State: AOAM5335rVJa4qVI76QEFmTZ1Z5TlaiRfjwz0l2VOHWp7B34iFd/LXfp
- zgmJd2uo6VyYaxrwqrTFyRE8eaiwCgXYZw==
-X-Google-Smtp-Source: ABdhPJwVYX5Czt1wXjZuX9eJwKDG5jVZ+wcm83BZD1w9ptTEclLG1NpfkXkhVloBnzksa9e2620MWQ==
-X-Received: by 2002:a17:902:7895:b029:d0:89f4:621c with SMTP id
- q21-20020a1709027895b02900d089f4621cmr19090697pll.4.1599501910454; 
- Mon, 07 Sep 2020 11:05:10 -0700 (PDT)
+ bh=mCgjeXLmeN5hMfhXUcUPxa4AMIlfBZL76Mf1qDfxbvQ=;
+ b=IGQIRiTPhXs7EZXLFwyldRVoad2Uu6fgkmI49cbyGOSzzPVjPI3GTeYYPA6DcHIaxt
+ 5+Foj+CO7byOaVYd4XNPts/Q/CYGc0i29dM09dqT20+VtmSTUrglAfeLG71tSc6YNYRv
+ UKSBgSBJusC+b1QtUmBylR3FYQW8anXyUcIxbptz0huhCMZqc6yxxXhHMrPBGv3fqkKz
+ Gz9V5Sk9Gj3UdrWXklCKo5hKME7/TLVXA8oOP21sYTIQ6jnkD+5F0uUSonk91Vmi0tOv
+ aWc4o/Mji2ygy+NytkuCwKatpQJsZxLO4tGeSRSilINr5K92IMqFaYAO8KVcxNVZXYuN
+ +/gw==
+X-Gm-Message-State: AOAM531S6DH2lQA8el9pMTcOa1yrxOVUayl08G4Q1GY2aSRMqSgnJWle
+ bdx1HBuIxu5cjioLHhwp8PF5J0uePDnQ8A==
+X-Google-Smtp-Source: ABdhPJyuciwgiQhEkgbRM9gsEyirQGlMKKArijn/4A2qoJMNdLyLVxHJ3dlkCp7jzTv4gRKm2susyA==
+X-Received: by 2002:aa7:9aef:: with SMTP id y15mr671228pfp.119.1599501911800; 
+ Mon, 07 Sep 2020 11:05:11 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v6sm11367768pfi.38.2020.09.07.11.05.09
+ by smtp.gmail.com with ESMTPSA id v6sm11367768pfi.38.2020.09.07.11.05.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 11:05:09 -0700 (PDT)
+ Mon, 07 Sep 2020 11:05:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/19] target/microblaze: Fill in VMStateDescription for cpu
-Date: Mon,  7 Sep 2020 11:04:57 -0700
-Message-Id: <20200907180459.29025-8-richard.henderson@linaro.org>
+Subject: [PULL 18/19] target/microblaze: Put MicroBlazeCPUConfig into
+ DisasContext
+Date: Mon,  7 Sep 2020 11:04:58 -0700
+Message-Id: <20200907180459.29025-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907180459.29025-1-richard.henderson@linaro.org>
 References: <20200907175102.28027-1-richard.henderson@linaro.org>
  <20200907180459.29025-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,192 +90,132 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The bulk of the translator should not have access to the
+complete cpu state, to avoid the temptation to examine bits
+that are in run time, but not translation time context.
+
+We do need access to the constant cpu configuration, and
+that is sufficient, so put that into DisasContext.
+
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h       |   4 ++
- target/microblaze/cpu.c       |   8 +--
- target/microblaze/machine.c   | 106 ++++++++++++++++++++++++++++++++++
- target/microblaze/meson.build |   5 +-
- 4 files changed, 115 insertions(+), 8 deletions(-)
- create mode 100644 target/microblaze/machine.c
+ target/microblaze/translate.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index b54f99da61..297b36879a 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -429,4 +429,8 @@ static inline int cpu_mmu_index(CPUMBState *env, bool ifetch)
-     return MMU_KERNEL_IDX;
- }
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index eca422b3db..abfcc7e6c8 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -60,7 +60,7 @@ static TCGv_i32 cpu_res_val;
+ /* This is the state at translation time.  */
+ typedef struct DisasContext {
+     DisasContextBase base;
+-    MicroBlazeCPU *cpu;
++    const MicroBlazeCPUConfig *cfg;
  
-+#ifndef CONFIG_USER_ONLY
-+extern const VMStateDescription vmstate_mb_cpu;
-+#endif
-+
- #endif
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index fde646a7ad..9b2482159d 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -26,7 +26,6 @@
- #include "cpu.h"
- #include "qemu/module.h"
- #include "hw/qdev-properties.h"
--#include "migration/vmstate.h"
- #include "exec/exec-all.h"
- #include "fpu/softfloat-helpers.h"
+     /* TCG op of the current insn_start.  */
+     TCGOp *insn_start;
+@@ -159,7 +159,7 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+ static bool trap_illegal(DisasContext *dc, bool cond)
+ {
+     if (cond && (dc->tb_flags & MSR_EE)
+-        && dc->cpu->cfg.illegal_opcode_exception) {
++        && dc->cfg->illegal_opcode_exception) {
+         gen_raise_hw_excp(dc, ESR_EC_ILLEGAL_OP);
+     }
+     return cond;
+@@ -291,7 +291,7 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
  
-@@ -251,11 +250,6 @@ static void mb_cpu_initfn(Object *obj)
- #endif
- }
+ #define DO_TYPEA_CFG(NAME, CFG, SE, FN) \
+     static bool trans_##NAME(DisasContext *dc, arg_typea *a) \
+-    { return dc->cpu->cfg.CFG && do_typea(dc, a, SE, FN); }
++    { return dc->cfg->CFG && do_typea(dc, a, SE, FN); }
  
--static const VMStateDescription vmstate_mb_cpu = {
--    .name = "cpu",
--    .unmigratable = 1,
--};
--
- static Property mb_properties[] = {
-     DEFINE_PROP_UINT32("base-vectors", MicroBlazeCPU, cfg.base_vectors, 0),
-     DEFINE_PROP_BOOL("use-stack-protection", MicroBlazeCPU, cfg.stackprot,
-@@ -335,8 +329,8 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+ #define DO_TYPEA0(NAME, SE, FN) \
+     static bool trans_##NAME(DisasContext *dc, arg_typea0 *a) \
+@@ -299,7 +299,7 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
+ 
+ #define DO_TYPEA0_CFG(NAME, CFG, SE, FN) \
+     static bool trans_##NAME(DisasContext *dc, arg_typea0 *a) \
+-    { return dc->cpu->cfg.CFG && do_typea0(dc, a, SE, FN); }
++    { return dc->cfg->CFG && do_typea0(dc, a, SE, FN); }
+ 
+ #define DO_TYPEBI(NAME, SE, FNI) \
+     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
+@@ -307,7 +307,7 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
+ 
+ #define DO_TYPEBI_CFG(NAME, CFG, SE, FNI) \
+     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
+-    { return dc->cpu->cfg.CFG && do_typeb_imm(dc, a, SE, FNI); }
++    { return dc->cfg->CFG && do_typeb_imm(dc, a, SE, FNI); }
+ 
+ #define DO_TYPEBV(NAME, SE, FN) \
+     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
+@@ -683,7 +683,7 @@ static TCGv compute_ldst_addr_typea(DisasContext *dc, int ra, int rb)
+         tcg_gen_movi_tl(ret, 0);
+     }
+ 
+-    if ((ra == 1 || rb == 1) && dc->cpu->cfg.stackprot) {
++    if ((ra == 1 || rb == 1) && dc->cfg->stackprot) {
+         gen_helper_stackprot(cpu_env, ret);
+     }
+     return ret;
+@@ -703,7 +703,7 @@ static TCGv compute_ldst_addr_typeb(DisasContext *dc, int ra, int imm)
+         tcg_gen_movi_tl(ret, (uint32_t)imm);
+     }
+ 
+-    if (ra == 1 && dc->cpu->cfg.stackprot) {
++    if (ra == 1 && dc->cfg->stackprot) {
+         gen_helper_stackprot(cpu_env, ret);
+     }
+     return ret;
+@@ -712,7 +712,7 @@ static TCGv compute_ldst_addr_typeb(DisasContext *dc, int ra, int imm)
  #ifndef CONFIG_USER_ONLY
-     cc->do_transaction_failed = mb_cpu_transaction_failed;
-     cc->get_phys_page_debug = mb_cpu_get_phys_page_debug;
--#endif
-     dc->vmsd = &vmstate_mb_cpu;
-+#endif
-     device_class_set_props(dc, mb_properties);
-     cc->gdb_num_core_regs = 32 + 27;
+ static TCGv compute_ldst_addr_ea(DisasContext *dc, int ra, int rb)
+ {
+-    int addr_size = dc->cpu->cfg.addr_size;
++    int addr_size = dc->cfg->addr_size;
+     TCGv ret = tcg_temp_new();
  
-diff --git a/target/microblaze/machine.c b/target/microblaze/machine.c
-new file mode 100644
-index 0000000000..acdb8d0474
---- /dev/null
-+++ b/target/microblaze/machine.c
-@@ -0,0 +1,106 @@
-+/*
-+ *  Microblaze VMState for qemu.
-+ *
-+ *  Copyright (c) 2020 Linaro, Ltd.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "migration/cpu.h"
-+
-+
-+static VMStateField vmstate_mmu_fields[] = {
-+    VMSTATE_UINT64_2DARRAY(rams, MicroBlazeMMU, 2, TLB_ENTRIES),
-+    VMSTATE_UINT8_ARRAY(tids, MicroBlazeMMU, TLB_ENTRIES),
-+    VMSTATE_UINT32_ARRAY(regs, MicroBlazeMMU, 3),
-+    VMSTATE_END_OF_LIST()
-+};
-+
-+static const VMStateDescription vmstate_mmu = {
-+    .name = "mmu",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = vmstate_mmu_fields,
-+};
-+
-+static int get_msr(QEMUFile *f, void *opaque, size_t size,
-+                   const VMStateField *field)
-+{
-+    CPUMBState *env = container_of(opaque, CPUMBState, msr);
-+
-+    mb_cpu_write_msr(env, qemu_get_be32(f));
-+    return 0;
-+}
-+
-+static int put_msr(QEMUFile *f, void *opaque, size_t size,
-+                   const VMStateField *field, QJSON *vmdesc)
-+{
-+    CPUMBState *env = container_of(opaque, CPUMBState, msr);
-+
-+    qemu_put_be32(f, mb_cpu_read_msr(env));
-+    return 0;
-+}
-+
-+static const VMStateInfo vmstate_msr = {
-+    .name = "msr",
-+    .get = get_msr,
-+    .put = put_msr,
-+};
-+
-+static VMStateField vmstate_env_fields[] = {
-+    VMSTATE_UINT32_ARRAY(regs, CPUMBState, 32),
-+
-+    VMSTATE_UINT32(pc, CPUMBState),
-+    VMSTATE_SINGLE(msr, CPUMBState, 0, vmstate_msr, uint32_t),
-+    VMSTATE_UINT32(esr, CPUMBState),
-+    VMSTATE_UINT32(fsr, CPUMBState),
-+    VMSTATE_UINT32(btr, CPUMBState),
-+    VMSTATE_UINT32(edr, CPUMBState),
-+    VMSTATE_UINT32(slr, CPUMBState),
-+    VMSTATE_UINT32(shr, CPUMBState),
-+    VMSTATE_UINT64(ear, CPUMBState),
-+
-+    VMSTATE_UINT32(btarget, CPUMBState),
-+    VMSTATE_UINT32(imm, CPUMBState),
-+    VMSTATE_UINT32(iflags, CPUMBState),
-+
-+    VMSTATE_UINT32(res_val, CPUMBState),
-+    VMSTATE_UINTTL(res_addr, CPUMBState),
-+
-+    VMSTATE_STRUCT(mmu, CPUMBState, 0, vmstate_mmu, MicroBlazeMMU),
-+
-+    VMSTATE_END_OF_LIST()
-+};
-+
-+static const VMStateDescription vmstate_env = {
-+    .name = "env",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = vmstate_env_fields,
-+};
-+
-+static VMStateField vmstate_cpu_fields[] = {
-+    VMSTATE_CPU(),
-+    VMSTATE_STRUCT(env, MicroBlazeCPU, 1, vmstate_env, CPUMBState),
-+    VMSTATE_END_OF_LIST()
-+};
-+
-+const VMStateDescription vmstate_mb_cpu = {
-+    .name = "cpu",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = vmstate_cpu_fields,
-+};
-diff --git a/target/microblaze/meson.build b/target/microblaze/meson.build
-index 639c3f73a8..05ee0ec163 100644
---- a/target/microblaze/meson.build
-+++ b/target/microblaze/meson.build
-@@ -11,7 +11,10 @@ microblaze_ss.add(files(
- ))
+     if (addr_size == 32 || ra == 0) {
+@@ -772,7 +772,7 @@ static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
  
- microblaze_softmmu_ss = ss.source_set()
--microblaze_softmmu_ss.add(files('mmu.c'))
-+microblaze_softmmu_ss.add(files(
-+  'mmu.c',
-+  'machine.c',
-+))
+     if (size > MO_8 &&
+         (dc->tb_flags & MSR_EE) &&
+-        dc->cpu->cfg.unaligned_exceptions) {
++        dc->cfg->unaligned_exceptions) {
+         record_unaligned_ess(dc, rd, size, false);
+         mop |= MO_ALIGN;
+     }
+@@ -918,7 +918,7 @@ static bool do_store(DisasContext *dc, int rd, TCGv addr, MemOp mop,
  
- target_arch += {'microblaze': microblaze_ss}
- target_softmmu_arch += {'microblaze': microblaze_softmmu_ss}
+     if (size > MO_8 &&
+         (dc->tb_flags & MSR_EE) &&
+-        dc->cpu->cfg.unaligned_exceptions) {
++        dc->cfg->unaligned_exceptions) {
+         record_unaligned_ess(dc, rd, size, true);
+         mop |= MO_ALIGN;
+     }
+@@ -1325,7 +1325,7 @@ DO_RTS(rtsd, 0)
+ static bool trans_zero(DisasContext *dc, arg_zero *arg)
+ {
+     /* If opcode_0_illegal, trap.  */
+-    if (dc->cpu->cfg.opcode_0_illegal) {
++    if (dc->cfg->opcode_0_illegal) {
+         trap_illegal(dc, true);
+         return true;
+     }
+@@ -1658,7 +1658,7 @@ static void mb_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
+     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+     int bound;
+ 
+-    dc->cpu = cpu;
++    dc->cfg = &cpu->cfg;
+     dc->tb_flags = dc->base.tb->flags;
+     dc->ext_imm = dc->base.tb->cs_base;
+     dc->r0 = NULL;
 -- 
 2.25.1
 
