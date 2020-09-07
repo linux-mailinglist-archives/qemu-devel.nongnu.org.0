@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2516925F63D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:20:20 +0200 (CEST)
-Received: from localhost ([::1]:35978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6F025F62F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:18:59 +0200 (CEST)
+Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDJz-0000iK-78
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34090)
+	id 1kFDIg-00071K-Ah
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHl-0005Wb-OI
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHl-0005Vs-8V
  for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:01 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:38333)
+Received: from mout.kundenserver.de ([212.227.126.130]:39529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHi-0002ah-AJ
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:01 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHi-0002ag-9u
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:00 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MYLqs-1k2RRG0GHK-00VMwQ; Mon, 07 Sep 2020 11:17:56 +0200
+ id 1M1rGy-1kHP9226vo-002JmW; Mon, 07 Sep 2020 11:17:56 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] linux-user: Correctly start brk after executable
-Date: Mon,  7 Sep 2020 11:17:45 +0200
-Message-Id: <20200907091748.376101-3-laurent@vivier.eu>
+Subject: [PULL 3/5] linux-user: Map signal numbers in fcntl
+Date: Mon,  7 Sep 2020 11:17:46 +0200
+Message-Id: <20200907091748.376101-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907091748.376101-1-laurent@vivier.eu>
 References: <20200907091748.376101-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HLvEtCc5PtWXC2xo7Ndqgm+mYK96AUT4t6eH5zgwKk045TqSoB9
- c6h/Un65x8n32V5gK1YPWQVW1DxBfk4s0QF9DWPQx9b9W1p2AxygNz2lTP0Wsfk9LE0BkF+
- o1u1lJ0tR2pky9aG1t1rVg697oajUhNWfPSrbkeeXQFsclmot/52DfVE4dYM2TpprR4Fm2n
- xDvso3j/jof631DVgdliQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1qbchAxfz4I=:iMPVq6XjzZf2oP1FW46DYE
- +wzJPWgqCjlaezwMhbc15gskMs9fJeweEBb1RK8PaaYr/xnLU5677u/Yf804hwfz+i3LpXIfk
- kr3HuZ+brQUvP6cqwZpuu++LNSLoEEt51lLRJw45vjissKiyaARNzkOWes6mnYWZV7Ezh+ZQz
- pVRFgduJK75QumxgedgrzgzWZWNg/nYjzI9ziOmtZDnYPwTxOC0LsU3XLsHzPldP2Q3c2NQ8k
- 3/iAxvk0RBoFSntzhyIHB1tCfHVSh6jxhQSn33a1L7ZPhZ/EmAlogkDcwmEvAsMVSR56UolUN
- enw36cbQkKUksZaQakQoJ+zP5LtUl/8N0KY1n8EaPVt7ezDN/IRpXCQ38H0W+bZK9biwLelEg
- 5vqolg637i9ph8+G6OQRrS/7tu6pUqKkgZjJl2ut8EAG8n9RL25BFDSJkMfLnfcgjskMhNR+1
- 6/4VHkxAMfUg5JrcurWTpbAjMeaaQOZKDH0oaQMGmCk9nMglOgSVx+aU44wyf3+sZSmMbKWIm
- dfsVc4j0f5ScWmD/f5uY0ier758zhzToku3K4dNZmOkjqe1gLnedLNb0YzZdwWPXliBKA8TO7
- dtf0aLufeSevupE+lpNB0hTLS/lmWgV4i9bqSy9R/eIYt/Huo7zs462F7oiDIzTMDv2i5dbOX
- 5jI+pYQjtM+GAfnQnYWbBIuxOh1mKLzjj5+d0pfL5jbm3MEJEpuQyE9gDqVVT5uzuB+h63ebW
- Q99n9MiFzcb+YfJdLMZAcrRYAFi6NdKR8DhjvGf/zDa9mG6yn9YRuiadpzjSjwT4f43JpWflF
- QIEIUENTX4j5xmLXd1jUWYOEHd+rMEkUSjK326wWGnf59MfKH4G7E1ia3ZmFZLjHOE7kvsh
+X-Provags-ID: V03:K1:5I++V1PHEcNFxv/1ac2bZzma1ITTIKhJYuE8s/AfKGb4vpTiCw3
+ YGroeprqgP2T2IC7BAs8yLq2OqzkW5wXeGuu6aHmX8V73lD5D7HDkyE7WV+tRbq7XOfVQe8
+ V8pzkuT8r2q4Ytsr8iQKDDDhfmRh7bpdDF4bvnlUKY6KOCnruLFNUqdsgPjzIOYnj2YL9Wd
+ HQxM0SI9pxIfLnk2p8r3g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:omUjcF4NAKc=:ZiK7KcfGJ4VdFphpz3bv5T
+ QjDk1zQVs/ji+alkD+HVlHEUS6w/8TbVHOIW0fC4WV68iHBmO2XNi83e1+64MZsKl52olhn+l
+ 98a+3Ar/+tBL/5QO52E3F5FKnTppjxTvFLt9XlI+dawq+cjf20xczSeWLTe0LeUUUmEwkojfm
+ i2QgDM6S3dfmeTHzNL4x10rU3ep0WkbwPcwoJ58C54WZReQ8Cvtsxvu7omwO+cDJHMhfGeR9t
+ 7T9kIco8jruh8sPtqgFlN7V0XRN8WP2zt61zVhyuyXWRk53MzlFRVD2d5j+JAhcy7KVM84Eqo
+ 7QhRydGxhXXY6XxhsnsBcVTyVVk3pj8cNGWfSY2zRvkpTonWFJrDMEJS1tZNmzkcB5C+iRp3k
+ ssvtVtEw2R6XSjlgtDIvceW6Zw/onJ4dZrXQ9yc07rD14R1klwE3Io+jmbpnZJ1TH/kg3kdLB
+ U/5bmwWL3kzQbdwJ5bRVEUPGcoLfYJTwL0KexXF5OHBVUHfiB7xSJwB7NxNYiBF3fGibVQAwE
+ fmPxL0OvmvH49xvKZflrRrCNUXYYaTl9lp9j0YXiiraHDQmD78BETTWmYBf0sOyViS3al4gvH
+ bEdMHPmIliI204zuQx+u3evZB1oEr5FCAKKAglZf7UESaG4P725ES/XVEfhToWpeO2onoIbBM
+ DpzieR40HqJtKaSHolZV1czD1cPEG+87j9yzPneXRvGPWKXKcsacW22kJuE9tHCW5JPPH3o0t
+ a79CGRmOZJ7ShJpJFTrAKqW1rvMm0dzSUGd7SKPONtgJ+6b9uOl8ThlyrBc1g2+riLCOR/4Xs
+ vPwc/6YBvZ/KHrA7D3cJ83IhdhqzKUWz7PCRCVV2IC7Bwj2B3ndlfLDmmrwFTPeR4tLjlgV
 Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:17:57
@@ -69,53 +69,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Timothy E Baldwin <T.E.Baldwin99@members.leeds.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Timothy Baldwin <T.E.Baldwin99@members.leeds.ac.uk>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Timothy E Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
+From: Timothy Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
 
-info->brk was erroneously set to the end of highest addressed
-writable segment which could result it in overlapping the executable.
-
-As per load_elf_binary in fs/binfmt_elf.c in Linux, it should be
-set to end of highest addressed segment.
+Map signal numbers in fcntl F_SETSIG and F_GETSIG.
 
 Signed-off-by: Timothy E Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200728224615.326675-1-T.E.Baldwin99@members.leeds.ac.uk>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <72cc725c-f344-b7f1-d559-401867067d80@members.leeds.ac.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ linux-user/syscall.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 04c28cbb9ecb..4961e6119e24 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2580,9 +2580,9 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 if (vaddr_ef > info->end_data) {
-                     info->end_data = vaddr_ef;
-                 }
--                if (vaddr_em > info->brk) {
--                    info->brk = vaddr_em;
--                }
-+            }
-+            if (vaddr_em > info->brk) {
-+                info->brk = vaddr_em;
-             }
-         } else if (eppnt->p_type == PT_INTERP && pinterp_name) {
-             char *interp_name;
-@@ -2637,7 +2637,6 @@ static void load_elf_image(const char *image_name, int image_fd,
-     if (info->end_data == 0) {
-         info->start_data = info->end_code;
-         info->end_data = info->end_code;
--        info->brk = info->end_code;
-     }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 07220eee40c5..55ac5c320825 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6874,10 +6874,16 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
+         break;
+ #endif
  
-     if (qemu_log_enabled()) {
+-    case TARGET_F_SETOWN:
+-    case TARGET_F_GETOWN:
+     case TARGET_F_SETSIG:
++        ret = get_errno(safe_fcntl(fd, host_cmd, target_to_host_signal(arg)));
++        break;
++
+     case TARGET_F_GETSIG:
++        ret = host_to_target_signal(get_errno(safe_fcntl(fd, host_cmd, arg)));
++        break;
++
++    case TARGET_F_SETOWN:
++    case TARGET_F_GETOWN:
+     case TARGET_F_SETLEASE:
+     case TARGET_F_GETLEASE:
+     case TARGET_F_SETPIPE_SZ:
 -- 
 2.26.2
 
