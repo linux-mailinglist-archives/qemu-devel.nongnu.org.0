@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364D725F169
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 03:17:00 +0200 (CEST)
-Received: from localhost ([::1]:55444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E40225F16D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 03:18:27 +0200 (CEST)
+Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kF5mE-0006A5-VC
-	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 21:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54462)
+	id 1kF5ne-0000IM-6q
+	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 21:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kF5ka-0004cH-Sz; Sun, 06 Sep 2020 21:15:16 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kF5kZ-00034N-18; Sun, 06 Sep 2020 21:15:16 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a2so10982035otr.11;
- Sun, 06 Sep 2020 18:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1loAEISkJKUavZrT3lSKkYTAByy0U7cdnzxNpw76mIs=;
- b=RmpCfALI/msotsbAaGwvZ7Kdt/QVIiTAArVrTdum3I4sQ6aAy9j7yQgiFqy1GK03H7
- O4G2vwRRxgmoGRMipc1+xP2o8fwgNDTnwHeI61mb3JzxPxi4IbaS6sWTq7fvjg4C3EPw
- AxUt2QC8GxvJoL7MbTFhLQQhEshqeQ7VkfkVye74SWM1RQc/YzFMZNzDba70QPMZpIQW
- icQYqZkLEoZ1H1WaIJY5k99bHn/hrHDSFVZHWus7M7SJkJiTVEaCVU79HFKBigdKAChC
- BlXRFIc3Yzgofr+tCoxqH+bZFMPLlEifEWg65CFqFPH3F0FvZZYUJHgunEqPYmsl1O0e
- J5rw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kF5l8-0005D3-Q8
+ for qemu-devel@nongnu.org; Sun, 06 Sep 2020 21:15:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50142
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kF5l6-0003HO-AT
+ for qemu-devel@nongnu.org; Sun, 06 Sep 2020 21:15:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599441345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qIS5RL+Gs74fRPFtUy5AxKUGZXvhlPxPbHtxGys/y1I=;
+ b=X3lKlNVCIa0ClLg5ehkHZAsPYWJVhaQ2AmIufX69g9GFqb711pvGyruTypFcJEGKbBdkEU
+ 44vSgfkEVNZGvu3RMZ1yNCJNxEpc3UtT6TNcA2tWwk1Uh+qmSp71d/9FTY5mx2D7kLtob9
+ fThQvjSfXd2FKUA7S748+2qfTh3HMYk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-TbcGWhjtMLKMG9fWjfNnlw-1; Sun, 06 Sep 2020 21:15:42 -0400
+X-MC-Unique: TbcGWhjtMLKMG9fWjfNnlw-1
+Received: by mail-wr1-f69.google.com with SMTP id k13so3518529wrw.16
+ for <qemu-devel@nongnu.org>; Sun, 06 Sep 2020 18:15:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1loAEISkJKUavZrT3lSKkYTAByy0U7cdnzxNpw76mIs=;
- b=DWaBT8DRbpoGs7eET3kvLWESZ9cB31zd3fZBLj4wYLPVYQ5sJ2HYUctSTJ+0V3uMOB
- 2HyGtvzcux99H77HFaO0J50vrcRrYKPUYNqf0dIyxl6DUVsKH9Vw5IzE2rprFh7Y8JRV
- bG/UDNb0nvqu2BTzaz+NjJw2b2go3BBK48x589ssA37uOdx5ninDEP+Ru3xvWg8t1sHD
- jeky9CjopzHiPtzNct6IRY+HUbUJ4r6ugd7C/MV5j5B7VQSt6/z+FDG8E4PeUfm6zLo1
- qFuOzMYDgZFA1CCMFptfrZ7jmhsmCVx59CjfHzsnxoFZIDiCWx3it8MEKs6Ms9o61iVg
- tQ/Q==
-X-Gm-Message-State: AOAM533dlEF+dUKshyztxbJsuODI/776fFO8Jam/Gc+iSGs4j/UhssQp
- A698hZqeXuSEPeAsWT9pI25e+z3qGmxD11KyovU=
-X-Google-Smtp-Source: ABdhPJxZ42/b89IG6urApE+79qjxZCdOk+UTuy36+xOtx3jBLKaUmDuSQ0jNbkpCJOBMmHfQ89HS/M2lNfdhocjId8g=
-X-Received: by 2002:a05:6830:610:: with SMTP id
- w16mr12175814oti.353.1599441312796; 
- Sun, 06 Sep 2020 18:15:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qIS5RL+Gs74fRPFtUy5AxKUGZXvhlPxPbHtxGys/y1I=;
+ b=JyoXB0vc/4wKuzQ++xZapicuKH+uVRMf84hPZqIbtNs2Oob+01TrZHco9JdkQt54Le
+ 0BqBcmNKgHz12UG9jEjYknv8Z6KNC6SCc93ggJZ+uCM7XKClAilWtefyQNJ0OFvw84P4
+ W2k+JAdWrBMqXSDYI81dga8MIZha4JkgLFGuS/rZPJ9bHrmD/dn8Ui+hM0q7A1cTzq/q
+ XjaDsqLWi4N87MKQEfoT9vrcfBxj400r5AQ6DTxgtkTibJSk95Wo1RfXmlGLL4LHx2Rf
+ GCW0MeMOGWy3XfukbHXt+cO8AXodkl+GBbKQ+VdUhi0dahq/bzOJS70KdDcEts8gyUeg
+ UdqQ==
+X-Gm-Message-State: AOAM531pd9nROVQ06jWiJYXiCYqv+cxhw8fAcGVaP2JoUfSgDQ3QbDcn
+ yvyfq2oY59reBXC9EX8ywj3V+JbHYotxNUX1/3IysWkOYJ0RQeC5dwN+tjzkG0EH0fbckOgq3yS
+ PObUX8drsZINp3/o=
+X-Received: by 2002:a5d:40cd:: with SMTP id b13mr7940599wrq.297.1599441340943; 
+ Sun, 06 Sep 2020 18:15:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8UDacsew+zfAGWdeWP9PQWws6wwIvAC1nkTH8H79fBd+viulBuu83KP8wt4W6ykgcBohMAA==
+X-Received: by 2002:a5d:40cd:: with SMTP id b13mr7940583wrq.297.1599441340767; 
+ Sun, 06 Sep 2020 18:15:40 -0700 (PDT)
+Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id k22sm25872093wrd.29.2020.09.06.18.15.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Sep 2020 18:15:40 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] hw/char: Remove TYPE_SERIAL_IO
+Date: Mon,  7 Sep 2020 03:15:36 +0200
+Message-Id: <20200907011538.818996-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200904154439.643272-1-philmd@redhat.com>
- <20200904154439.643272-11-philmd@redhat.com>
-In-Reply-To: <20200904154439.643272-11-philmd@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Mon, 7 Sep 2020 09:14:36 +0800
-Message-ID: <CAKXe6SLOSnc-bJRZWsPV8=L8z5Se-j_H0HXiSpZwVxZUPDecGA@mail.gmail.com>
-Subject: Re: [PATCH 10/13] dma: Let dma_memory_rw_relaxed() take MemTxAttrs
- argument
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 21:15:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,99 +94,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Qemu Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>, Joel Stanley <joel@jms.id.au>,
- Richard Henderson <rth@twiddle.net>, Laszlo Ersek <lersek@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=
-=9C=884=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8811:53=E5=86=99=E9=81=
-=93=EF=BC=9A
->
-> We will add the MemTxAttrs argument to dma_memory_rw() in
-> the next commit. Since dma_memory_rw_relaxed() is only used
-> by dma_memory_rw(), modify it first in a separate commit to
-> keep the next commit easier to review.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Remove the TYPE_SERIAL_IO which is simply a superset of
+TYPE_SERIAL_MM, as suggested by Paolo and Peter here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg721806.html
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Since v1:
+- Reword migration comment (Marc-André)
 
-> ---
->  include/sysemu/dma.h | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-> index d0381f9ae9b..59331ec0bd3 100644
-> --- a/include/sysemu/dma.h
-> +++ b/include/sysemu/dma.h
-> @@ -83,9 +83,10 @@ static inline bool dma_memory_valid(AddressSpace *as,
->  static inline MemTxResult dma_memory_rw_relaxed(AddressSpace *as,
->                                                  dma_addr_t addr,
->                                                  void *buf, dma_addr_t le=
-n,
-> -                                                DMADirection dir)
-> +                                                DMADirection dir,
-> +                                                MemTxAttrs attrs)
->  {
-> -    return address_space_rw(as, addr, MEMTXATTRS_UNSPECIFIED,
-> +    return address_space_rw(as, addr, attrs,
->                              buf, len, dir =3D=3D DMA_DIRECTION_FROM_DEVI=
-CE);
->  }
->
-> @@ -93,7 +94,9 @@ static inline MemTxResult dma_memory_read_relaxed(Addre=
-ssSpace *as,
->                                                    dma_addr_t addr,
->                                                    void *buf, dma_addr_t =
-len)
->  {
-> -    return dma_memory_rw_relaxed(as, addr, buf, len, DMA_DIRECTION_TO_DE=
-VICE);
-> +    return dma_memory_rw_relaxed(as, addr, buf, len,
-> +                                 DMA_DIRECTION_TO_DEVICE,
-> +                                 MEMTXATTRS_UNSPECIFIED);
->  }
->
->  static inline MemTxResult dma_memory_write_relaxed(AddressSpace *as,
-> @@ -102,7 +105,8 @@ static inline MemTxResult dma_memory_write_relaxed(Ad=
-dressSpace *as,
->                                                     dma_addr_t len)
->  {
->      return dma_memory_rw_relaxed(as, addr, (void *)buf, len,
-> -                                 DMA_DIRECTION_FROM_DEVICE);
-> +                                 DMA_DIRECTION_FROM_DEVICE,
-> +                                 MEMTXATTRS_UNSPECIFIED);
->  }
->
->  /**
-> @@ -124,7 +128,8 @@ static inline MemTxResult dma_memory_rw(AddressSpace =
-*as, dma_addr_t addr,
->  {
->      dma_barrier(as, dir);
->
-> -    return dma_memory_rw_relaxed(as, addr, buf, len, dir);
-> +    return dma_memory_rw_relaxed(as, addr, buf, len, dir,
-> +                                 MEMTXATTRS_UNSPECIFIED);
->  }
->
->  /**
-> --
-> 2.26.2
->
->
+Philippe Mathieu-Daudé (2):
+  hw/mips/mipssim: Use MMIO serial device on fake ISA I/O
+  hw/char/serial: Remove TYPE_SERIAL_IO (superset of TYPE_SERIAL_MM)
+
+ include/hw/char/serial.h |  9 ---------
+ hw/char/serial.c         | 41 ----------------------------------------
+ hw/mips/mipssim.c        |  5 +++--
+ 3 files changed, 3 insertions(+), 52 deletions(-)
+
+-- 
+2.26.2
+
 
