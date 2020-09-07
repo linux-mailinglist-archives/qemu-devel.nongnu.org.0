@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1187F260546
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 21:51:58 +0200 (CEST)
-Received: from localhost ([::1]:34874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9B4260548
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 21:52:00 +0200 (CEST)
+Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFNBF-0008Ir-4T
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 15:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59032)
+	id 1kFNBH-0008M7-65
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 15:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFNA6-0006zG-4y
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:46 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:45461)
+ id 1kFNA8-000744-S7
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:48 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFNA4-0006Yp-Gl
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:45 -0400
-Received: by mail-pf1-x441.google.com with SMTP id k15so9075675pfc.12
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 12:50:44 -0700 (PDT)
+ id 1kFNA7-0006d4-6J
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 15:50:48 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id b124so9069730pfg.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 12:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QPausshj3ZNkBQJCNUTx4EMdHd3D/97lV817rLbvoFk=;
- b=OQGkVH/7Bqso913pf2wWr2CqPmcy6YDHWMVy74rfZ3Dk6d1Jr+B1svQWHh8WNzr1g4
- o0Il4IephQlQk69ebygh1m1nZjgEhq+QKo1Xr9TVrgH9nTupdtV4+Y9CPrcUGAAQ15fY
- Gn8O8SSdlGilhExgBs1L/OwuTsTz5WcBMEkeBB6A67YxtXUi2qeT+6R3eN4SPj27bJBx
- 0f1EkhtCn5JO24kBrRyK+7hI73C15FJuafDgE8Y/8xcxQ4+WrfCwM4uzU5zKsJI/nZpt
- OuTeSykoZn1uz2LgxVPlPBFOF5MdbG007GK/+ZYqbLpFf9/YoBlzzaYOtnwzJGe/T10y
- uppA==
+ bh=iJ6QI4m7DsgRi/lAvD95Zw1TA6Kk8bxB1iMoGihMwx0=;
+ b=SaAAp/LUHHDEj9yOLRAq0uMXnY8SognxdUA4r7PemLgHKV3qRDF44uAeLWhV48XQY8
+ STZ0uZSX4rk47WmfZNgPO4KG1X7y7J1vL0ZjKQ24VGdtKFhZ858UeFebA3fD0AIeJB8n
+ RBCArDbp6TsqnRnUGp3dCYh9RYKCskVlhe/CMpd+6kwQVw26avpjudvuZXoSgey6R3Oc
+ IYIdi4VaMo/ie2UcvW7QtCR1ZyxLxXcPvcaAI5vcOJAbFYubWS9sBDyBCBaQWo/2x7PZ
+ Y6QDUZGjT8fxGDgeR0F3dxornVdc2TmJxYfrfAWhzNEFKtIYe7yU31uCn/A3AWvT8Jti
+ /O6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QPausshj3ZNkBQJCNUTx4EMdHd3D/97lV817rLbvoFk=;
- b=f1Y+p2oQj3oJa18u9o56KMEPy9qeiiaYJm4up/ErrqmpvBkuX2Vge5F9Z3q/MctvFV
- rjJH97mkYRC6ASHyGxbYgEGEiLzHcBLcN68Ji3xDViQJaVZpO4VICZ/RuJwmU2xv8n7I
- ffOIVV29Magg/4AdY43GURwGbs8gocT5ZXXNvX+Y1QDq3mwnj+J2kIXXnUe8B0UK1pBO
- OLhA0JZY5k0fYgkWe2qJeWLSykWnzRyJH6QiCsHnbS2MLy123gy5Rikv9TtCIdbCAtnc
- K8MVp/Hor2RtrlRU++l8AfApySEo3LbHcJvyjAE9VqeV2rnkVz0C8JHmZ6VhUpu/NYeG
- hJKw==
-X-Gm-Message-State: AOAM530WRWbJ0nOZk/DCK+nMfMzbFFhRLWxn2mwx+/5rhFekoMXRCHFq
- GR11lEJLfxs/w+0Cq7k5bZjWkG4Dt3D0HGQG
-X-Google-Smtp-Source: ABdhPJybQe3QUBHFZP+o0o+QFkflTeN5Th89Y9iNTaP2RqvUQeH/MSxyyLH3u27TB3qNChQf63fw4A==
-X-Received: by 2002:a63:5b64:: with SMTP id l36mr1885842pgm.413.1599508242788; 
- Mon, 07 Sep 2020 12:50:42 -0700 (PDT)
+ bh=iJ6QI4m7DsgRi/lAvD95Zw1TA6Kk8bxB1iMoGihMwx0=;
+ b=ngD6q6LHep4mpHXYLxfIGJHA3fcziKKRljfVgGvPHVheYcLfhDn3RmJDUsPIGa59Mt
+ TjXDV4at/oU/yQAMg8CpCd370qgYCt806EN+rAnd7eZ2leOsrXsWJ4KP88saB6B8pdl8
+ sXuxYAMO/0NAfRNUSZx/G7SyhXnJGYfse+2+Bd4YFjwMGS3J0jXasm/2i+HEa7zMkf7j
+ 9Xtg9+Q4KGeW5C9cpYBxrnlQiQFIcunNRQmyHuMZgydr1jzwN1AoEW5VTc+wkKKnXq+U
+ P2RhIEVFNUHBx6nJp6O1p3QVwgeUQ2PaB8599jim5cdmexrOOw9QwiEtveZtF177jjJB
+ FWKw==
+X-Gm-Message-State: AOAM533Rrh2e5XH2WnxEm0uBO54SK72WsUFQpuTfxgywLjgFCmNwO1Sc
+ HfFsOwMCCdcsiw60qSqiKYZj5gpG/hmq5ZkN
+X-Google-Smtp-Source: ABdhPJz+vpIejBWOOoB76rSgtAlAEkcABYnIqbTyj/BhNtVDBCvsI2YnriD0lkJwkfLqdrpk5/YnLQ==
+X-Received: by 2002:a17:902:aa89:: with SMTP id
+ d9mr21032751plr.192.1599508245224; 
+ Mon, 07 Sep 2020 12:50:45 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id ev19sm4818990pjb.42.2020.09.07.12.50.40
+ by smtp.googlemail.com with ESMTPSA id ev19sm4818990pjb.42.2020.09.07.12.50.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 12:50:42 -0700 (PDT)
+ Mon, 07 Sep 2020 12:50:44 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/4] vmstate: Trying fixes test-vmstate.c
-Date: Tue,  8 Sep 2020 03:50:22 +0800
-Message-Id: <20200907195025.2308-2-luoyonggang@gmail.com>
+Subject: [PATCH v3 2/4] meson: Fixes jemalloc and tcmalloc can not building.
+Date: Tue,  8 Sep 2020 03:50:23 +0800
+Message-Id: <20200907195025.2308-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200907195025.2308-1-luoyonggang@gmail.com>
 References: <20200907195025.2308-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,33 +91,67 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vmstate should be valid on win32
+Currently, the LIBS are not exposed to meson and meson didn't use that
+Use base_lib = declare_dependency(link_args: config_host['LIBS'].split())
+to force use it
+
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/test-vmstate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure   | 9 +++++++++
+ meson.build | 5 ++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
-index f8de709a0b..4c453575bb 100644
---- a/tests/test-vmstate.c
-+++ b/tests/test-vmstate.c
-@@ -34,7 +34,6 @@
- #include "qemu/module.h"
- #include "io/channel-file.h"
+diff --git a/configure b/configure
+index 823756f4a4..7b2f3d64b0 100755
+--- a/configure
++++ b/configure
+@@ -7245,6 +7245,14 @@ if test "$libxml2" = "yes" ; then
+   echo "LIBXML2_LIBS=$libxml2_libs" >> $config_host_mak
+ fi
  
--static char temp_file[] = "/tmp/vmst.test.XXXXXX";
- static int temp_fd;
++if test "$tcmalloc" = "yes" ; then
++  echo "CONFIG_TCMALLOC=y" >> $config_host_mak
++fi
++
++if test "$jemalloc" = "yes" ; then
++  echo "CONFIG_JEMALLOC=y" >> $config_host_mak
++fi
++
+ if test "$replication" = "yes" ; then
+   echo "CONFIG_REPLICATION=y" >> $config_host_mak
+ fi
+@@ -7416,6 +7424,7 @@ echo "PKG_CONFIG=$pkg_config_exe" >> $config_host_mak
+ echo "WINDRES=$windres" >> $config_host_mak
+ echo "CFLAGS=$CFLAGS" >> $config_host_mak
+ echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
++echo "LIBS=$LIBS" >> $config_host_mak
+ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+ echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 5421eca66a..6e909213ee 100644
+--- a/meson.build
++++ b/meson.build
+@@ -116,6 +116,9 @@ endif
+ # grandfathered in from the QEMU Makefiles.
+ add_project_arguments(config_host['GLIB_CFLAGS'].split(),
+                       native: false, language: ['c', 'cpp', 'objc'])
++
++base_lib = declare_dependency(link_args: config_host['LIBS'].split())
++
+ glib = declare_dependency(link_args: config_host['GLIB_LIBS'].split())
+ gio = not_found
+ if 'CONFIG_GIO' in config_host
+@@ -818,7 +821,7 @@ util_ss.add_all(trace_ss)
+ util_ss = util_ss.apply(config_all, strict: false)
+ libqemuutil = static_library('qemuutil',
+                              sources: util_ss.sources() + stub_ss.sources() + genh,
+-                             dependencies: [util_ss.dependencies(), m, glib, socket])
++                             dependencies: [util_ss.dependencies(), m, base_lib, glib, socket])
+ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: genh + version_res)
  
- 
-@@ -1487,6 +1486,7 @@ static void test_tmp_struct(void)
- 
- int main(int argc, char **argv)
- {
-+    g_autofree char* temp_file = g_strdup_printf("%s/vmst.test.XXXXXX", g_get_tmp_dir());
-     temp_fd = mkstemp(temp_file);
- 
-     module_call_init(MODULE_INIT_QOM);
 -- 
 2.28.0.windows.1
 
