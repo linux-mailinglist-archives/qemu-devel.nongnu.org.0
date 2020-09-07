@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D8625F641
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:20:21 +0200 (CEST)
-Received: from localhost ([::1]:36052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A859B25F65F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:21:57 +0200 (CEST)
+Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDK0-0000k8-QC
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34084)
+	id 1kFDLY-0002Pg-PY
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:21:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHl-0005Vy-Bk
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:01 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:51277)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHm-0005Xp-D9
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:02 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:44743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHj-0002aw-MV
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:01 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kFDHj-0002ay-QE
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:18:02 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MjxW4-1kzEI03xea-00kPxU; Mon, 07 Sep 2020 11:17:57 +0200
+ id 1Md76B-1koXyA1bnP-00aGgh; Mon, 07 Sep 2020 11:17:57 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] linux-user: fix ppc/termbits.h
-Date: Mon,  7 Sep 2020 11:17:47 +0200
-Message-Id: <20200907091748.376101-5-laurent@vivier.eu>
+Subject: [PULL 5/5] linux-user: Protect btrfs ioctl target definitions
+Date: Mon,  7 Sep 2020 11:17:48 +0200
+Message-Id: <20200907091748.376101-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907091748.376101-1-laurent@vivier.eu>
 References: <20200907091748.376101-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jbfamT63ByKgicL18n+NOk+WGLQ5ri9tl1iJxUTyhdVCJtk26up
- QUAA7RbxsPcF0ALzWe9+6fR2VirMm2+Gb0ypvZ2LQL5LqvbTAYWSBU4GXjL4CYptmxvNiEi
- 7tR5OsHD77b9AJm5FNyGN0PaZMW/JE4IUaeWhghozbq4nemENndf8yBevKq/vKxEVwmVbtM
- QfuUEe1X19Ck/GOCiKxcQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EfuTBAaUjK8=:fY6Dpel4KIoCuH3NVoUfQH
- +VKR2wWXPPRkghXhWWzHhOENfDR9I7jko8cLn57LBv549RNuNRcg22PMeb/qX6nzBSGjN15+q
- cLDj/fR6wBm7LStVxbKCu95Gh/ns0P2U6TKrRtxyoFN/lMifIcG2aCnDihOj9c9nrUwz3JzMo
- JS8pl8AQ2jZR4uQ2jgU5xsOcg4yrOlvUMJHUAJFP3JHtBuJRO1wv/qneLc41brfYTH0c3oyKh
- SKgylYVohGrsExL+Mcf3Rna91vyZQy//Qk7N84eCV+vBJ5vyGiC6cuabMl0oNSLZU08UbKprq
- P38UyoPEgHFzwVKnJ26V2omL5PS7dIvsUMcE/Qx5f7T7g97NVglXnG2O2KFf3EkK3FHxPThpb
- 3g67Y5DAPKLlXmLgaEQTn+2QXXRtDXbPpSpoqVOZ783U2nCfSpryVRjEUwofKmP2PCx35OKcR
- aekSI9Pzd0AwIQrD5TM3FWoC/jW5XtENOaOHPEcBOuk446QJ4tPpZLGJoF5m4IIvcsohGot1h
- ATDqMzcj5mvRZOnGySXdvs/CyBbX+A4JQCaET1v9p1m4PMcyD4MKI6yeELiJPSVv0P/uvsuIF
- RId4JetrmZQaseIjfMrQmgT3/Jlixoysv9A6+hdzn23SCiQ+mpwVW83CpUvL8cQEk0tmRz6pl
- I1CPXLrtf/JpzAoaxqqlWw5DAT9i25rVwogTthPpJjOTFMAnU/9TPC6PWUhbiCWqI3OeV63Vz
- /M/ueYplHcIZU/k/HhiF9A3GBocS8cJIHfoMogYBKP4WTyFdACbY7+HqI7BMgH9T6FzJ5+rK6
- 51dK/DUJ5bZXbjzHHdmatcw2qUgLSA383LnQyzdX+cKzkLNmJw/HjIpRITecHxCpHMJ6ybg
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9bTeDSuOVnORdAtmx/OWwYEKWqgey9U/ZpINi2pdSvTFbm6Lnd8
+ xaCjsLmhsoaaIqAOxPmwIx+QIlBoJ5MpESjaNijkpgj51xpWbm41RTVur+97CLfRfHl12t/
+ edg1gRKyWToVamSNhS7NDoO1TMnIOnQJODrxmyvog95/9TvCC0MAzQQBD0WPo+TlK5SaYeo
+ IFgJJ1n/jjHWphtJkLgMw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nggVGtVBxcU=:3oFpqTkngSIWMbILRsmrlZ
+ GHjQLIMcVPJkpETcDDylszV7AKPnALCSuKnFtq+tUT1UrFvKxGJ4eouQIBcgTXwHIzHw+5sBB
+ xbJbwycRRM/xoIxX8jJTVE6d7hls0CceA/obc4w6mlTZ40hgkTDslI9h73evD6Lwfiyek1Qvt
+ Q/r4ol2z/HOyMcfj1/7cUjPgbXPNp21LHlD5mshRJwt3jWodvFkS3t8Md/uVi6NZoOzK278RA
+ RbsyuTabZjI3sHWf7orkRL1QjW9Yp1HsZnKV7UI8COiC35my1xjdL95irglWtZKIyUfn+6C5t
+ /gP7cshpWV6MCVmUfSu6DMzdajDMqu9lwj3GSpZtiB6UA13t1iT9qK9LjUSL7Vqwo7FANv+8P
+ FyGv+xqhqpUfPaWTwNRjY/fzPsDqcfK2KhfGTmixxkOqCBWEtLxqXnZDuoRjhj4q4e8OVhipT
+ 09izLHL4Q6Rhtr3VKGLT9m4iZd1nbNCk3hlYqQaGJxmWzd7kDwnk24Xiu6ZAHVPzYeyIOLNa8
+ W90JNrKyG6akk+doFW4g0neOa4z6KFztYaFqD7BGSouKWHoMrEQrBoY42G4djtZwj8eAJ4nIp
+ GPSXw7SwjNuY7ST11IZtXaPZGsoMNfb8BKkh/66VM7Wi5dHAHmvGUU3kUQmYemgzTK6k64Vuk
+ oOveavdgKGtICNsw3AkQcnk0cIA1aqVbQNjvRmJq97eiaSfXulY2nvZe9TRI/wYPmItlX+tZb
+ ekTKSJnFbUGXH+IMADmDXQ/cCMQrkGBnsc1g6MVrOQb3NwrAsVEH1kcqQ9EI30cbIHNNc+5cy
+ s8ZCqgRe2BVsvV4SMDsmdmRl64rBPhHYuO8Xvvzlr/HzQoKtJl21HYksGa3nKG9SA5kiLJf
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:17:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:17:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -69,35 +69,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Filip.Bozuta@syrmia.com
+Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On ppc, in termios, c_line is after c_cc, not before .
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-Fixes: c218b4ede4f9 ("linux-user: Add missing termbits types and values definitions")
-Cc: Filip.Bozuta@syrmia.com
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200830181620.422036-1-laurent@vivier.eu>
+Target definitions of btrfs ioctls in 'syscall_defs.h' use
+the value BTRFS_IOCTL_MAGIC that is defined header 'btrfs.h'.
+This header is not available in kernel versions before 3.9.
+For that reason, these target ioctl definitions should be
+enwrapped in an #ifdef directive to check whether the 'btrfs.h'
+header is available as to not cause build errors on older
+Linux systems.
+
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200905163802.2666-1-Filip.Bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ppc/termbits.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/syscall_defs.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/ppc/termbits.h b/linux-user/ppc/termbits.h
-index 7066d1e5523d..eb226e099980 100644
---- a/linux-user/ppc/termbits.h
-+++ b/linux-user/ppc/termbits.h
-@@ -14,8 +14,8 @@ struct target_termios {
-     target_tcflag_t c_oflag;               /* output mode flags */
-     target_tcflag_t c_cflag;               /* control mode flags */
-     target_tcflag_t c_lflag;               /* local mode flags */
--    target_cc_t c_line;                    /* line discipline */
-     target_cc_t c_cc[TARGET_NCCS];         /* control characters */
-+    target_cc_t c_line;                    /* line discipline */
-     target_speed_t c_ispeed;               /* input speed */
-     target_speed_t c_ospeed;               /* output speed */
- };
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 33a414c50f19..731c3d5341a9 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -1006,6 +1006,7 @@ struct target_rtc_pll_info {
+ #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+ 
+ /* btrfs ioctls */
++#ifdef CONFIG_BTRFS
+ #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
+ #define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOWU(BTRFS_IOCTL_MAGIC, 4)
+ #define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOWU(BTRFS_IOCTL_MAGIC, 5)
+@@ -1041,6 +1042,7 @@ struct target_rtc_pll_info {
+ #define TARGET_BTRFS_IOC_GET_SUBVOL_INFO        TARGET_IORU(BTRFS_IOCTL_MAGIC, 60)
+ #define TARGET_BTRFS_IOC_GET_SUBVOL_ROOTREF     TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 61)
+ #define TARGET_BTRFS_IOC_INO_LOOKUP_USER        TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 62)
++#endif
+ 
+ /* usb ioctls */
+ #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
 -- 
 2.26.2
 
