@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F51425F975
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:31:16 +0200 (CEST)
-Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC5425F990
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:35:10 +0200 (CEST)
+Received: from localhost ([::1]:39750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFFMh-0003Zx-0p
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:31:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59772)
+	id 1kFFQT-0002d7-Os
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF31-0003on-7O
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26259)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF32-0003th-Q9
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2x-0008F2-Ov
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:54 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF30-0008GI-CN
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599477050;
+ s=mimecast20190719; t=1599477053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CPPCjm4JyV7krEx1VqRUHZ9wfHPiTqjW8iAraUV9qLI=;
- b=cpR1kQpUXn7aoBnyCzWITKCFGAvy9ztQLw8Y5q43WlG5e4nwG98kqTltuHZCwV8Ovaosds
- hsQfOniZ4kRdMoVUgAZrpOup59XwJGQJv+0lOCcHb4Czcqk6gkx655hP5iGNHKc7Rz788u
- qq1SGT4q+xl5QgLYJeP0M2YgQExFOXI=
+ bh=/yQ7QSI1AfkPwN00Qa4u7oW1HjhsKBPwHb36qg1a30o=;
+ b=fkMJZ3CzAdMYGivFUp5YV9Qn6qDpLkjna807om5AbzNasQ0OgMcjNLDCK8qa/Fy5pec2Zu
+ H0dZ/V/QGkE0Q/N/WqdW3B8c6B/lCboIzeiFApX59AJxQwbuBVzxDMQXXFCJrjh3YHRks+
+ exQpBuglKNKEYTMrtQG6mtSe+odMPVg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-IZUF_06wNQiOpEqeFOwbEA-1; Mon, 07 Sep 2020 07:10:49 -0400
-X-MC-Unique: IZUF_06wNQiOpEqeFOwbEA-1
+ us-mta-86-lYTA0T_4OHiRtRW9Y0Ir_g-1; Mon, 07 Sep 2020 07:10:51 -0400
+X-MC-Unique: lYTA0T_4OHiRtRW9Y0Ir_g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0176A1007461;
- Mon,  7 Sep 2020 11:10:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9094B802B49;
+ Mon,  7 Sep 2020 11:10:50 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDFBF9CBA;
- Mon,  7 Sep 2020 11:10:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98DB57E435;
+ Mon,  7 Sep 2020 11:10:49 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 49/64] qemu-img: Use child access functions
-Date: Mon,  7 Sep 2020 13:09:21 +0200
-Message-Id: <20200907110936.261684-50-kwolf@redhat.com>
+Subject: [PULL 51/64] blockdev: Fix active commit choice
+Date: Mon,  7 Sep 2020 13:09:23 +0200
+Message-Id: <20200907110936.261684-52-kwolf@redhat.com>
 In-Reply-To: <20200907110936.261684-1-kwolf@redhat.com>
 References: <20200907110936.261684-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,157 +85,145 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-This changes iotest 204's output, because blkdebug on top of a COW node
-used to make qemu-img map disregard the rest of the backing chain (the
-backing chain was broken by the filter).  With this patch, the
-allocation in the base image is reported correctly.
+We have to perform an active commit whenever the top node has a parent
+that has taken the WRITE permission on it.
+
+This means that block-commit's @backing-file parameter is no longer
+allowed for such nodes, and that users will have to issue a
+block-job-complete command.  Neither should pose a problem in practice,
+because this case was basically just broken until now.
+
+(Since this commit already touches block-commit's documentation, it also
+moves up the chunk explaining general block-commit behavior that for
+some reason was situated under @backing-file.)
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qemu-img.c                 | 43 +++++++++++++++++++++++---------------
- tests/qemu-iotests/204.out |  1 +
- 2 files changed, 27 insertions(+), 17 deletions(-)
+ qapi/block-core.json | 39 ++++++++++++++++++++-------------------
+ blockdev.c           | 35 ++++++++++++++++++++++++++++++-----
+ 2 files changed, 50 insertions(+), 24 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index eb2fc1f862..d0b1c97562 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -1085,7 +1085,7 @@ static int img_commit(int argc, char **argv)
-         /* This is different from QMP, which by default uses the deepest file in
-          * the backing chain (i.e., the very base); however, the traditional
-          * behavior of qemu-img commit is using the immediate backing file. */
--        base_bs = backing_bs(bs);
-+        base_bs = bdrv_backing_chain_next(bs);
-         if (!base_bs) {
-             error_setg(&local_err, "Image does not have a backing file");
-             goto done;
-@@ -1732,18 +1732,20 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
-     if (s->sector_next_status <= sector_num) {
-         uint64_t offset = (sector_num - src_cur_offset) * BDRV_SECTOR_SIZE;
-         int64_t count;
-+        BlockDriverState *src_bs = blk_bs(s->src[src_cur]);
-+        BlockDriverState *base;
-+
-+        if (s->target_has_backing) {
-+            base = bdrv_cow_bs(bdrv_skip_filters(src_bs));
-+        } else {
-+            base = NULL;
-+        }
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index e34796d98f..0345f6f2d2 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1569,6 +1569,18 @@
+ # Live commit of data from overlay image nodes into backing nodes - i.e.,
+ # writes data between 'top' and 'base' into 'base'.
+ #
++# If top == base, that is an error.
++# If top has no overlays on top of it, or if it is in use by a writer,
++# the job will not be completed by itself.  The user needs to complete
++# the job with the block-job-complete command after getting the ready
++# event. (Since 2.0)
++#
++# If the base image is smaller than top, then the base image will be
++# resized to be the same size as top.  If top is smaller than the base
++# image, the base will not be truncated.  If you want the base image
++# size to match the size of the smaller top, you can safely truncate
++# it yourself once the commit operation successfully completes.
++#
+ # @job-id: identifier for the newly-created block job. If
+ #          omitted, the device name will be used. (Since 2.7)
+ #
+@@ -1593,14 +1605,15 @@
+ #       accepted
+ #
+ # @backing-file: The backing file string to write into the overlay
+-#                image of 'top'.  If 'top' is the active layer,
+-#                specifying a backing file string is an error. This
+-#                filename is not validated.
++#                image of 'top'.  If 'top' does not have an overlay
++#                image, or if 'top' is in use by a writer, specifying
++#                a backing file string is an error.
+ #
+-#                If a pathname string is such that it cannot be
+-#                resolved by QEMU, that means that subsequent QMP or
+-#                HMP commands must use node-names for the image in
+-#                question, as filename lookup methods will fail.
++#                This filename is not validated.  If a pathname string
++#                is such that it cannot be resolved by QEMU, that
++#                means that subsequent QMP or HMP commands must use
++#                node-names for the image in question, as filename
++#                lookup methods will fail.
+ #
+ #                If not specified, QEMU will automatically determine
+ #                the backing file string to use, or error out if
+@@ -1609,18 +1622,6 @@
+ #                filename or protocol.
+ #                (Since 2.1)
+ #
+-#                If top == base, that is an error.
+-#                If top == active, the job will not be completed by itself,
+-#                user needs to complete the job with the block-job-complete
+-#                command after getting the ready event. (Since 2.0)
+-#
+-#                If the base image is smaller than top, then the base image
+-#                will be resized to be the same size as top.  If top is
+-#                smaller than the base image, the base will not be
+-#                truncated.  If you want the base image size to match the
+-#                size of the smaller top, you can safely truncate it
+-#                yourself once the commit operation successfully completes.
+-#
+ # @speed: the maximum speed, in bytes per second
+ #
+ # @on-error: the action to take on an error. 'ignore' means that the request
+diff --git a/blockdev.c b/blockdev.c
+index f308adc9aa..7f2561081e 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2602,6 +2602,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+     AioContext *aio_context;
+     Error *local_err = NULL;
+     int job_flags = JOB_DEFAULT;
++    uint64_t top_perm, top_shared;
  
-         do {
-             count = n * BDRV_SECTOR_SIZE;
- 
--            if (s->target_has_backing) {
--                ret = bdrv_block_status(blk_bs(s->src[src_cur]), offset,
--                                        count, &count, NULL, NULL);
--            } else {
--                ret = bdrv_block_status_above(blk_bs(s->src[src_cur]), NULL,
--                                              offset, count, &count, NULL,
--                                              NULL);
--            }
-+            ret = bdrv_block_status_above(src_bs, base, offset, count, &count,
-+                                          NULL, NULL);
- 
-             if (ret < 0) {
-                 if (s->salvage) {
-@@ -2665,7 +2667,8 @@ static int img_convert(int argc, char **argv)
-          * s.target_backing_sectors has to be negative, which it will
-          * be automatically).  The backing file length is used only
-          * for optimizations, so such a case is not fatal. */
--        s.target_backing_sectors = bdrv_nb_sectors(out_bs->backing->bs);
-+        s.target_backing_sectors =
-+            bdrv_nb_sectors(bdrv_backing_chain_next(out_bs));
-     } else {
-         s.target_backing_sectors = -1;
+     if (!has_speed) {
+         speed = 0;
+@@ -2717,14 +2718,38 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+         goto out;
      }
-@@ -3035,6 +3038,7 @@ static int get_block_status(BlockDriverState *bs, int64_t offset,
  
-     depth = 0;
-     for (;;) {
-+        bs = bdrv_skip_filters(bs);
-         ret = bdrv_block_status(bs, offset, bytes, &bytes, &map, &file);
-         if (ret < 0) {
-             return ret;
-@@ -3043,7 +3047,7 @@ static int get_block_status(BlockDriverState *bs, int64_t offset,
-         if (ret & (BDRV_BLOCK_ZERO|BDRV_BLOCK_DATA)) {
-             break;
+-    if (top_bs == bs) {
++    /*
++     * Active commit is required if and only if someone has taken a
++     * WRITE permission on the top node.  Historically, we have always
++     * used active commit for top nodes, so continue that practice
++     * lest we possibly break clients that rely on this behavior, e.g.
++     * to later attach this node to a writing parent.
++     * (Active commit is never really wrong.)
++     */
++    bdrv_get_cumulative_perm(top_bs, &top_perm, &top_shared);
++    if (top_perm & BLK_PERM_WRITE ||
++        bdrv_skip_filters(top_bs) == bdrv_skip_filters(bs))
++    {
+         if (has_backing_file) {
+-            error_setg(errp, "'backing-file' specified,"
+-                             " but 'top' is the active layer");
++            if (bdrv_skip_filters(top_bs) == bdrv_skip_filters(bs)) {
++                error_setg(errp, "'backing-file' specified,"
++                                 " but 'top' is the active layer");
++            } else {
++                error_setg(errp, "'backing-file' specified, but 'top' has a "
++                                 "writer on it");
++            }
+             goto out;
          }
--        bs = backing_bs(bs);
-+        bs = bdrv_cow_bs(bs);
-         if (bs == NULL) {
-             ret = 0;
-             break;
-@@ -3425,6 +3429,7 @@ static int img_rebase(int argc, char **argv)
-     uint8_t *buf_old = NULL;
-     uint8_t *buf_new = NULL;
-     BlockDriverState *bs = NULL, *prefix_chain_bs = NULL;
-+    BlockDriverState *unfiltered_bs;
-     char *filename;
-     const char *fmt, *cache, *src_cache, *out_basefmt, *out_baseimg;
-     int c, flags, src_flags, ret;
-@@ -3559,6 +3564,8 @@ static int img_rebase(int argc, char **argv)
-     }
-     bs = blk_bs(blk);
- 
-+    unfiltered_bs = bdrv_skip_filters(bs);
-+
-     if (out_basefmt != NULL) {
-         if (bdrv_find_format(out_basefmt) == NULL) {
-             error_report("Invalid format name: '%s'", out_basefmt);
-@@ -3570,7 +3577,7 @@ static int img_rebase(int argc, char **argv)
-     /* For safe rebasing we need to compare old and new backing file */
-     if (!unsafe) {
-         QDict *options = NULL;
--        BlockDriverState *base_bs = backing_bs(bs);
-+        BlockDriverState *base_bs = bdrv_cow_bs(unfiltered_bs);
- 
-         if (base_bs) {
-             blk_old_backing = blk_new(qemu_get_aio_context(),
-@@ -3711,7 +3718,7 @@ static int img_rebase(int argc, char **argv)
-             n = MIN(IO_BUF_SIZE, size - offset);
- 
-             /* If the cluster is allocated, we don't need to take action */
--            ret = bdrv_is_allocated(bs, offset, n, &n);
-+            ret = bdrv_is_allocated(unfiltered_bs, offset, n, &n);
-             if (ret < 0) {
-                 error_report("error while reading image metadata: %s",
-                              strerror(-ret));
-@@ -3726,8 +3733,9 @@ static int img_rebase(int argc, char **argv)
-                  * If cluster wasn't changed since prefix_chain, we don't need
-                  * to take action
-                  */
--                ret = bdrv_is_allocated_above(backing_bs(bs), prefix_chain_bs,
--                                              false, offset, n, &n);
-+                ret = bdrv_is_allocated_above(bdrv_cow_bs(unfiltered_bs),
-+                                              prefix_chain_bs, false,
-+                                              offset, n, &n);
-                 if (ret < 0) {
-                     error_report("error while reading image metadata: %s",
-                                  strerror(-ret));
-@@ -3805,9 +3813,10 @@ static int img_rebase(int argc, char **argv)
-      * doesn't change when we switch the backing file.
-      */
-     if (out_baseimg && *out_baseimg) {
--        ret = bdrv_change_backing_file(bs, out_baseimg, out_basefmt, true);
-+        ret = bdrv_change_backing_file(unfiltered_bs, out_baseimg, out_basefmt,
-+                                       true);
+-        commit_active_start(has_job_id ? job_id : NULL, bs, base_bs,
+-                            job_flags, speed, on_error,
++        if (!has_job_id) {
++            /*
++             * Emulate here what block_job_create() does, because it
++             * is possible that @bs != @top_bs (the block job should
++             * be named after @bs, even if @top_bs is the actual
++             * source)
++             */
++            job_id = bdrv_get_device_name(bs);
++        }
++        commit_active_start(job_id, top_bs, base_bs, job_flags, speed, on_error,
+                             filter_node_name, NULL, NULL, false, &local_err);
      } else {
--        ret = bdrv_change_backing_file(bs, NULL, NULL, false);
-+        ret = bdrv_change_backing_file(unfiltered_bs, NULL, NULL, false);
-     }
- 
-     if (ret == -ENOSPC) {
-diff --git a/tests/qemu-iotests/204.out b/tests/qemu-iotests/204.out
-index 457f72df8f..4d903d20ea 100644
---- a/tests/qemu-iotests/204.out
-+++ b/tests/qemu-iotests/204.out
-@@ -59,5 +59,6 @@ Offset          Length          File
- 0x900000        0x2400000       TEST_DIR/t.IMGFMT
- 0x3c00000       0x1100000       TEST_DIR/t.IMGFMT
- 0x6a00000       0x400000        TEST_DIR/t.IMGFMT
-+0x6e00000       0x1200000       TEST_DIR/t.IMGFMT.base
- No errors were found on the image.
- *** done
+         BlockDriverState *overlay_bs = bdrv_find_overlay(bs, top_bs);
 -- 
 2.25.4
 
