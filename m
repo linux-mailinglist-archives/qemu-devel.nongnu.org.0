@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53AE425F924
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:17:22 +0200 (CEST)
-Received: from localhost ([::1]:59152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E176825F93E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:23:00 +0200 (CEST)
+Received: from localhost ([::1]:60270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFF9F-0006N9-CU
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:17:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59028)
+	id 1kFFEh-0001Ii-Tr
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2P-0002cd-7k
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59138
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2M-0002VZ-8E
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38091
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2H-0007ve-2U
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:16 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF2I-0007vu-JR
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:10:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599477008;
+ s=mimecast20190719; t=1599477009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XqeQAtrwuLeSFVRWmN1UxBAMnY/zUvyI12xGACYFF0w=;
- b=TVcB9UomVL3kKTBLL76arTX1gptu3UqQKlpEAUqJPqov0jemB+DeastuLqJGpGQSemgsWt
- f1T6F2BTaun5nt+IJcLpW7jMeEVOmXWcyqyEI7ywGXW9u7ZMTPL4jg4OiaY/x652tPRjTw
- GkEaq7YRCn6bTUPz+58XMmv4bLI0xjc=
+ bh=+mdgB0LWPDT398iDOMmCY8cZ18aEMjyvYilZN83e+S8=;
+ b=O/uvu8b1miBHI59l1k3Unw1abtftZcQNs7AiWaFygk5Z7nGKhppSBp9SgoW3jybkMsZ98n
+ wVUePy5+SLdeg4F/QVUEA0BATHniM0m+Tcad3+8pdrwO7oaukiohXodwX9tKyRscDF193Q
+ Ts2wjRXYsSEpNEWmjjM44Cn7H8CuvSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-Tnlc1GYrNjGceGYHgh4KWQ-1; Mon, 07 Sep 2020 07:10:06 -0400
-X-MC-Unique: Tnlc1GYrNjGceGYHgh4KWQ-1
+ us-mta-414-diSvPAMTM2S89kbdibN3bQ-1; Mon, 07 Sep 2020 07:10:07 -0400
+X-MC-Unique: diSvPAMTM2S89kbdibN3bQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B54F1007466;
- Mon,  7 Sep 2020 11:10:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB24F100746B;
+ Mon,  7 Sep 2020 11:10:06 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 557439CBA;
- Mon,  7 Sep 2020 11:10:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7A7B7E43B;
+ Mon,  7 Sep 2020 11:10:05 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/64] block/nvme: Use an array of EventNotifier
-Date: Mon,  7 Sep 2020 13:08:48 +0200
-Message-Id: <20200907110936.261684-17-kwolf@redhat.com>
+Subject: [PULL 17/64] block: Add child access functions
+Date: Mon,  7 Sep 2020 13:08:49 +0200
+Message-Id: <20200907110936.261684-18-kwolf@redhat.com>
 In-Reply-To: <20200907110936.261684-1-kwolf@redhat.com>
 References: <20200907110936.261684-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -67,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,124 +84,186 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-In preparation of using multiple IRQ (thus multiple eventfds)
-make BDRVNVMeState::irq_notifier an array (for now of a single
-element, the admin queue notifier).
+There are BDS children that the general block layer code can access,
+namely bs->file and bs->backing.  Since the introduction of filters and
+external data files, their meaning is not quite clear.  bs->backing can
+be a COW source, or it can be a filtered child; bs->file can be a
+filtered child, it can be data and metadata storage, or it can be just
+metadata storage.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200821195359.1285345-16-philmd@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+This overloading really is not helpful.  This patch adds functions that
+retrieve the correct child for each exact purpose.  Later patches in
+this series will make use of them.  Doing so will allow us to handle
+filter nodes in a meaningful way.
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/nvme.c | 31 +++++++++++++++++++++----------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+ include/block/block_int.h | 44 +++++++++++++++++--
+ block.c                   | 91 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 132 insertions(+), 3 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index e3719d3bd1..24e6e7f086 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -106,6 +106,12 @@ QEMU_BUILD_BUG_ON(offsetof(NVMeRegs, doorbells) != 0x1000);
- #define INDEX_ADMIN     0
- #define INDEX_IO(n)     (1 + n)
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 9da7a42927..f280a95b26 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -92,9 +92,17 @@ struct BlockDriver {
+     int instance_size;
  
-+/* This driver shares a single MSIX IRQ for the admin and I/O queues */
-+enum {
-+    MSIX_SHARED_IRQ_IDX = 0,
-+    MSIX_IRQ_COUNT = 1
-+};
+     /* set to true if the BlockDriver is a block filter. Block filters pass
+-     * certain callbacks that refer to data (see block.c) to their bs->file if
+-     * the driver doesn't implement them. Drivers that do not wish to forward
+-     * must implement them and return -ENOTSUP.
++     * certain callbacks that refer to data (see block.c) to their bs->file
++     * or bs->backing (whichever one exists) if the driver doesn't implement
++     * them. Drivers that do not wish to forward must implement them and return
++     * -ENOTSUP.
++     * Note that filters are not allowed to modify data.
++     *
++     * Filters generally cannot have more than a single filtered child,
++     * because the data they present must at all times be the same as
++     * that on their filtered child.  That would be impossible to
++     * achieve for multiple filtered children.
++     * (And this filtered child must then be bs->file or bs->backing.)
+      */
+     bool is_filter;
+     /*
+@@ -1382,4 +1390,34 @@ BdrvDirtyBitmap *block_dirty_bitmap_remove(const char *node, const char *name,
+                                            BlockDriverState **bitmap_bs,
+                                            Error **errp);
+ 
++BdrvChild *bdrv_cow_child(BlockDriverState *bs);
++BdrvChild *bdrv_filter_child(BlockDriverState *bs);
++BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs);
++BdrvChild *bdrv_primary_child(BlockDriverState *bs);
 +
- struct BDRVNVMeState {
-     AioContext *aio_context;
-     QEMUVFIOState *vfio;
-@@ -120,7 +126,7 @@ struct BDRVNVMeState {
-     /* How many uint32_t elements does each doorbell entry take. */
-     size_t doorbell_scale;
-     bool write_cache_supported;
--    EventNotifier irq_notifier;
-+    EventNotifier irq_notifier[MSIX_IRQ_COUNT];
++static inline BlockDriverState *child_bs(BdrvChild *child)
++{
++    return child ? child->bs : NULL;
++}
++
++static inline BlockDriverState *bdrv_cow_bs(BlockDriverState *bs)
++{
++    return child_bs(bdrv_cow_child(bs));
++}
++
++static inline BlockDriverState *bdrv_filter_bs(BlockDriverState *bs)
++{
++    return child_bs(bdrv_filter_child(bs));
++}
++
++static inline BlockDriverState *bdrv_filter_or_cow_bs(BlockDriverState *bs)
++{
++    return child_bs(bdrv_filter_or_cow_child(bs));
++}
++
++static inline BlockDriverState *bdrv_primary_bs(BlockDriverState *bs)
++{
++    return child_bs(bdrv_primary_child(bs));
++}
++
+ #endif /* BLOCK_INT_H */
+diff --git a/block.c b/block.c
+index b204b93a2e..9f866e8676 100644
+--- a/block.c
++++ b/block.c
+@@ -6943,3 +6943,94 @@ int bdrv_make_empty(BdrvChild *c, Error **errp)
  
-     uint64_t nsze; /* Namespace size reported by identify command */
-     int nsid;      /* The namespace id to read/write data. */
-@@ -631,7 +637,8 @@ static bool nvme_poll_queues(BDRVNVMeState *s)
- 
- static void nvme_handle_event(EventNotifier *n)
- {
--    BDRVNVMeState *s = container_of(n, BDRVNVMeState, irq_notifier);
-+    BDRVNVMeState *s = container_of(n, BDRVNVMeState,
-+                                    irq_notifier[MSIX_SHARED_IRQ_IDX]);
- 
-     trace_nvme_handle_event(s);
-     event_notifier_test_and_clear(n);
-@@ -683,7 +690,8 @@ out_error:
- static bool nvme_poll_cb(void *opaque)
- {
-     EventNotifier *e = opaque;
--    BDRVNVMeState *s = container_of(e, BDRVNVMeState, irq_notifier);
-+    BDRVNVMeState *s = container_of(e, BDRVNVMeState,
-+                                    irq_notifier[MSIX_SHARED_IRQ_IDX]);
- 
-     trace_nvme_poll_cb(s);
-     return nvme_poll_queues(s);
-@@ -705,7 +713,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     s->device = g_strdup(device);
-     s->nsid = namespace;
-     s->aio_context = bdrv_get_aio_context(bs);
--    ret = event_notifier_init(&s->irq_notifier, 0);
-+    ret = event_notifier_init(&s->irq_notifier[MSIX_SHARED_IRQ_IDX], 0);
-     if (ret) {
-         error_setg(errp, "Failed to init event notifier");
-         return ret;
-@@ -784,12 +792,13 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         }
-     }
- 
--    ret = qemu_vfio_pci_init_irq(s->vfio, &s->irq_notifier,
-+    ret = qemu_vfio_pci_init_irq(s->vfio, s->irq_notifier,
-                                  VFIO_PCI_MSIX_IRQ_INDEX, errp);
-     if (ret) {
-         goto out;
-     }
--    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
-+    aio_set_event_notifier(bdrv_get_aio_context(bs),
-+                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, nvme_handle_event, nvme_poll_cb);
- 
-     nvme_identify(bs, namespace, &local_err);
-@@ -872,9 +881,10 @@ static void nvme_close(BlockDriverState *bs)
-         nvme_free_queue_pair(s->queues[i]);
-     }
-     g_free(s->queues);
--    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
-+    aio_set_event_notifier(bdrv_get_aio_context(bs),
-+                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, NULL, NULL);
--    event_notifier_cleanup(&s->irq_notifier);
-+    event_notifier_cleanup(&s->irq_notifier[MSIX_SHARED_IRQ_IDX]);
-     qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, NVME_BAR_SIZE);
-     qemu_vfio_close(s->vfio);
- 
-@@ -1381,7 +1391,8 @@ static void nvme_detach_aio_context(BlockDriverState *bs)
-         q->completion_bh = NULL;
-     }
- 
--    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
-+    aio_set_event_notifier(bdrv_get_aio_context(bs),
-+                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, NULL, NULL);
+     return 0;
  }
- 
-@@ -1391,7 +1402,7 @@ static void nvme_attach_aio_context(BlockDriverState *bs,
-     BDRVNVMeState *s = bs->opaque;
- 
-     s->aio_context = new_context;
--    aio_set_event_notifier(new_context, &s->irq_notifier,
-+    aio_set_event_notifier(new_context, &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, nvme_handle_event, nvme_poll_cb);
- 
-     for (int i = 0; i < s->nr_queues; i++) {
++
++/*
++ * Return the child that @bs acts as an overlay for, and from which data may be
++ * copied in COW or COR operations.  Usually this is the backing file.
++ */
++BdrvChild *bdrv_cow_child(BlockDriverState *bs)
++{
++    if (!bs || !bs->drv) {
++        return NULL;
++    }
++
++    if (bs->drv->is_filter) {
++        return NULL;
++    }
++
++    if (!bs->backing) {
++        return NULL;
++    }
++
++    assert(bs->backing->role & BDRV_CHILD_COW);
++    return bs->backing;
++}
++
++/*
++ * If @bs acts as a filter for exactly one of its children, return
++ * that child.
++ */
++BdrvChild *bdrv_filter_child(BlockDriverState *bs)
++{
++    BdrvChild *c;
++
++    if (!bs || !bs->drv) {
++        return NULL;
++    }
++
++    if (!bs->drv->is_filter) {
++        return NULL;
++    }
++
++    /* Only one of @backing or @file may be used */
++    assert(!(bs->backing && bs->file));
++
++    c = bs->backing ?: bs->file;
++    if (!c) {
++        return NULL;
++    }
++
++    assert(c->role & BDRV_CHILD_FILTERED);
++    return c;
++}
++
++/*
++ * Return either the result of bdrv_cow_child() or bdrv_filter_child(),
++ * whichever is non-NULL.
++ *
++ * Return NULL if both are NULL.
++ */
++BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs)
++{
++    BdrvChild *cow_child = bdrv_cow_child(bs);
++    BdrvChild *filter_child = bdrv_filter_child(bs);
++
++    /* Filter nodes cannot have COW backing files */
++    assert(!(cow_child && filter_child));
++
++    return cow_child ?: filter_child;
++}
++
++/*
++ * Return the primary child of this node: For filters, that is the
++ * filtered child.  For other nodes, that is usually the child storing
++ * metadata.
++ * (A generally more helpful description is that this is (usually) the
++ * child that has the same filename as @bs.)
++ *
++ * Drivers do not necessarily have a primary child; for example quorum
++ * does not.
++ */
++BdrvChild *bdrv_primary_child(BlockDriverState *bs)
++{
++    BdrvChild *c, *found = NULL;
++
++    QLIST_FOREACH(c, &bs->children, next) {
++        if (c->role & BDRV_CHILD_PRIMARY) {
++            assert(!found);
++            found = c;
++        }
++    }
++
++    return found;
++}
 -- 
 2.25.4
 
