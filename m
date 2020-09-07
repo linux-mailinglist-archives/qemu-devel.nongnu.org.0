@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC0C26031B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:44:21 +0200 (CEST)
-Received: from localhost ([::1]:52848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B7A260375
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:49:42 +0200 (CEST)
+Received: from localhost ([::1]:33124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLBk-0007vu-7E
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
+	id 1kFLGv-0003EW-3E
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLAe-0006em-2e
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:43:12 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:43587)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFLG4-0002ZR-5Y; Mon, 07 Sep 2020 13:48:48 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFLAc-00086B-BP
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:43:11 -0400
-Received: by mail-pg1-x533.google.com with SMTP id t14so2866074pgl.10
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 10:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EJnK8m0ROXcp5RwFJMM1hO16MFAdhvGuXsqJ5FWXvI0=;
- b=wJ7I1EUidBwsD/n8d4Z8+cB/X5AIcA1fRWdn1R1VCeCYblxQQwffHelQV23yw2POiK
- qNZcVYefVJQ/g8qtQoEODXIoI8VXtXwd4BFT9OLJU+CX3NUMEtZjNtyrtp889Qf77/fo
- UA7BQD+NkdL/3wJ1Mk4WEhisZyzwrBKDPGzQABpgCnrDXb+iIcL4EiLaOE7rN0ZPnBti
- sffJTH4nq0tGGxDfE30sA01hgnqadb6U2bXAIEIR7iVjXnwy9nPps50GQiA3jlRHTKmL
- dc+xWiKZ+FpU6hNR3Cfbak4E9vpUsFatPGGyhmTmPw7/qAiW2lIXp8rGk6gEtjmbm00S
- m2SQ==
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFLG1-0000KB-BD; Mon, 07 Sep 2020 13:48:47 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id a9so3809638pjg.1;
+ Mon, 07 Sep 2020 10:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bcR6KqjaA/LUSrkPYJg7y52yR0MbnvsmmNCmafodfc8=;
+ b=ukyub8OUasqXd0ScXfdwuiJm3q++lagY2P/yvOgv5pyaUAsvsKFYmEXXe8/RgqIA+3
+ rkomiFmq/TFivSgGMTdIdYk0iWrL1pvFMWF0CedeH5fCrah/I0pp1SC7rzsInkRJcLKJ
+ crsCjkD6cge5KuNDT4v8srQoNgt203db4w3TNnolE1Ks/6fj0bmjekcyvLo7OvXJ7tAe
+ vbGFF9p1xArzjEGi0syzBwv1xNNJpDDiwNapt/FBv37CYollGouARuz+pjEuLG+Xnuti
+ oW7Um0hCdpysqQBUtbfYZyBybbVPv7qUydfr8FvG1gH6kpJW3YkltC1EvrfuCau5yaFt
+ iQfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=EJnK8m0ROXcp5RwFJMM1hO16MFAdhvGuXsqJ5FWXvI0=;
- b=iVoTnc7E5iiwMumLBdEqpfADWLCMp4xhJDgahzT9ZMZjCDXO7GtxJVku2SpKM8v6Pz
- 3ogL9GJ5fPCovUmQ4BMRgFy80hG7ik0El61Y3ijiQUGoLHN+WMDZZnBZ8FR3v+ng17cF
- CjRprdZDOx5wOBIwr+6/7YRzWjVirFnKRQluthN7bjcr1wGSOTCaDEglCQlG6p0hC7DM
- 0aoVrTxktO/h3KynegtuRz3pZCJjqWPGBRbNWSKBBln37sTMxfuKwrwhyZZzMXiOAEvw
- TavY8xABd/xwRGN/+Tmn09ag7AR/rl7dxz8c8HSOzXkvRLs8i46My/I0h4+UHx8mwwqI
- 4/8w==
-X-Gm-Message-State: AOAM5314GaELHDslhSXcNcMgmOZwxCpQ3xE/d2NEmOSMc01dKEwQ3yj/
- YTlaKzBQm1tUa40PS6dGrQ2VCA==
-X-Google-Smtp-Source: ABdhPJxw1I6DawfrYySFOposSfzkewUpW6Abdv897XGdLU78jeofneS+TJDc3Js+95O3o4TYwLtq6A==
-X-Received: by 2002:a62:33c2:: with SMTP id
- z185mr21373138pfz.242.1599500588758; 
- Mon, 07 Sep 2020 10:43:08 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j10sm16176028pff.171.2020.09.07.10.43.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Sep 2020 10:43:08 -0700 (PDT)
-Subject: Re: [PATCH v3 00/19] target/microblaze improvements
-To: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-References: <20200904190842.2282109-1-richard.henderson@linaro.org>
- <20200907092043.GV14249@toto>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f8133c2e-e38e-22e6-9528-27f9a5a3d826@linaro.org>
-Date: Mon, 7 Sep 2020 10:43:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=bcR6KqjaA/LUSrkPYJg7y52yR0MbnvsmmNCmafodfc8=;
+ b=a+FZuY9XN1nr/4B4h1w1FEffou4e0TptXRjK5a8E+NuGwiD12CKcfHHaRbta9P4kk8
+ rSsAmmGmFe0QEZu7yWVcLrx4W3indjCfXED8drmetbNAWcnf3RNX52c39owmOfPMpf5Y
+ vse/4vVyWpKR3e7K9Gb2fP3BZ0VLsnrgH5BW+4MUqRjwqS8KFKz2q9yAA4JG0gZeY3HX
+ d7PhTiUpAObT6X/PBTJUFfCYcR0Sd1P/RGES1QuR4lqFbDg1vX+82LBLZYHqn+52dnBI
+ keIFeFBewC1Wo+on4kpe3lrioOgzdlIoIMCOhZzJeSpbfm8iHp4ctPHEGXtrS3rG2MWz
+ F4Mw==
+X-Gm-Message-State: AOAM5331jVe+1ZJfFfxFDfSKlB++wayx9KL403ALiMeXMPqsvWbroW5M
+ IbtPkCpUmiWS+aJvvIx0x9hHhbQciAge/WT+
+X-Google-Smtp-Source: ABdhPJyeV7D4VWcuaJDLT18ErN1crDIMd+OD+W6MlpfcNvVExZytZc/VKMBFhv/KemcoVTCWWOUN+A==
+X-Received: by 2002:a17:90a:fa8b:: with SMTP id
+ cu11mr383834pjb.10.1599500922769; 
+ Mon, 07 Sep 2020 10:48:42 -0700 (PDT)
+Received: from localhost.localdomain ([222.95.248.6])
+ by smtp.googlemail.com with ESMTPSA id 72sm15339307pfx.79.2020.09.07.10.48.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Sep 2020 10:48:41 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] meson: Use -b to ignore CR vs. CR-LF issues on Windows
+Date: Tue,  8 Sep 2020 01:48:28 +0800
+Message-Id: <20200907174828.1768-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20200907092043.GV14249@toto>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1034.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.825,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,23 +81,1319 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/20 2:20 AM, Edgar E. Iglesias wrote:
-> Looks good, none of the test issues were relatd. Thanks Richard!
-> 
-> On all the patches I had not previously reviewed:
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Or the tests result would cause following test failure:
+Running test QAPI doc
+  LINK    tests/check-qdict.exe
+--- C:/Users/ContainerAdministrator/AppData/Local/Temp/qemu-build/../cirrus-ci-build/tests/qapi-schema/doc-good.texi	2020-09-02 10:26:02.396028200 -0700
++++ C:/Users/ContainerAdministrator/AppData/Local/Temp/qemu-build/tests/qapi-schema/doc-good-qapi-doc.texi	2020-09-02 10:43:09.849568200 -0700
+@@ -1,319 +1,319 @@
+-@c AUTOMATICALLY GENERATED, DO NOT MODIFY
+-
+-@section Section
+-
+-@subsection Subsection
+-
+-@strong{strong} @emph{with emphasis}
+-@code{var} @{in braces@}
+-@itemize @bullet
+-@item
+-List item one
+-@item
+-Two, multiple
+-lines
+-
+-@item
+-Three
+-Still in list
+-
+-@end itemize
+-
+-Not in list
+-@itemize @minus
+-@item
+-Second list
+-Note: still in list
+-
+-@end itemize
+-
+-Note: not in list
+-@enumerate
+-@item
+-Third list
+-is numbered
+-
+-@item
+-another item
+-
+-@example
+-example
+-@end example
+-
+-@example
+-multiple lines
+-@end example
+-
+-
+-@end enumerate
+-
+-Returns: the King
+-Since: the first age
+-Notes:
+-
+-@enumerate
+-@item
+-Lorem ipsum dolor sit amet
+-
+-@item
+-Ut enim ad minim veniam
+-
+-@end enumerate
+-
+-Duis aute irure dolor
+-
+-Example:
+-
+--> in
+-<- out
+-Examples:
+-@itemize @minus
+-@item
+-@strong{verbatim}
+-@item
+-@{braces@}
+-@end itemize
+-
+-
+-
+-@deftp {Enum} Enum
+-
+-
+-
+-@b{Values:}
+-@table @asis
+-@item @code{one}
+-The @emph{one} @{and only@}
+-@*@b{If:} @code{defined(IFONE)}
+-@item @code{two}
+-Not documented
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{enum-feat}
+-Also @emph{one} @{and only@}
+-@end table
+-@code{two} is undocumented
+-
+-@b{If:} @code{defined(IFCOND)}
+-@end deftp
+-
+-
+-
+-@deftp {Object} Base
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item @code{base1: Enum}
+-the first member
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} Variant1
+-
+-A paragraph
+-
+-Another paragraph (but no @code{var}: line)
+-
+-@b{Members:}
+-@table @asis
+-@item @code{var1: string}
+-Not documented
+-@*@b{If:} @code{defined(IFSTR)}
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{variant1-feat}
+-a feature
+-@item @code{member-feat}
+-a member feature
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} Variant2
+-
+-
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} Object
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item The members of @code{Base}
+-@item The members of @code{Variant1} when @code{base1} is @t{"one"}
+-@item The members of @code{Variant2} when @code{base1} is @t{"two"} (@b{If:} @code{IFTWO})
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{union-feat1}
+-a feature
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} SugaredUnion
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item @code{type}
+-One of @t{"one"}, @t{"two"}
+-@item @code{data: Variant1} when @code{type} is @t{"one"}
+-@item @code{data: Variant2} when @code{type} is @t{"two"} (@b{If:} @code{IFTWO})
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{union-feat2}
+-a feature
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Alternate} Alternate
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item @code{i: int}
+-an integer
+-@code{b} is undocumented
+-@item @code{b: boolean}
+-Not documented
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{alt-feat}
+-a feature
+-@end table
+-
+-@end deftp
+-
+-
+-@subsection Another subsection
+-
+-
+-@deftypefn Command {} cmd
+-
+-
+-
+-@b{Arguments:}
+-@table @asis
+-@item @code{arg1: int}
+-the first argument
+-@item @code{arg2: string} (optional)
+-the second
+-argument
+-@item @code{arg3: boolean}
+-Not documented
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{cmd-feat1}
+-a feature
+-@item @code{cmd-feat2}
+-another feature
+-@end table
+-
+-@b{Note:}
+-@code{arg3} is undocumented
+-
+-@b{Returns:}
+-@code{Object}
+-
+-@b{TODO:}
+-frobnicate
+-
+-@b{Notes:}
+-@itemize @minus
+-@item
+-Lorem ipsum dolor sit amet
+-@item
+-Ut enim ad minim veniam
+-
+-@end itemize
+-
+-Duis aute irure dolor
+-
+-@b{Example:}
+-@example
+--> in
+-<- out
+-@end example
+-
+-@b{Examples:}
+-@example
+-- *verbatim*
+-- @{braces@}
+-@end example
+-
+-@b{Since:}
+-2.10
+-
+-@end deftypefn
+-
+-
+-
+-@deftypefn Command {} cmd-boxed
+-
+-If you're bored enough to read this, go see a video of boxed cats
+-
+-@b{Arguments:} the members of @code{Object}
+-
+-@b{Features:}
+-@table @asis
+-@item @code{cmd-feat1}
+-a feature
+-@item @code{cmd-feat2}
+-another feature
+-@end table
+-
+-@b{Example:}
+-@example
+--> in
+-
+-<- out
+-@end example
+-
+-@end deftypefn
+-
+-
+-
+-@deftypefn Event {} EVT-BOXED
+-
+-
+-
+-@b{Arguments:} the members of @code{Object}
+-
+-@b{Features:}
+-@table @asis
+-@item @code{feat3}
+-a feature
+-@end table
+-
+-@end deftypefn
+-
++@c AUTOMATICALLY GENERATED, DO NOT MODIFY
++
++@section Section
++
++@subsection Subsection
++
++@strong{strong} @emph{with emphasis}
++@code{var} @{in braces@}
++@itemize @bullet
++@item
++List item one
++@item
++Two, multiple
++lines
++
++@item
++Three
++Still in list
++
++@end itemize
++
++Not in list
++@itemize @minus
++@item
++Second list
++Note: still in list
++
++@end itemize
++
++Note: not in list
++@enumerate
++@item
++Third list
++is numbered
++
++@item
++another item
++
++@example
++example
++@end example
++
++@example
++multiple lines
++@end example
++
++
++@end enumerate
++
++Returns: the King
++Since: the first age
++Notes:
++
++@enumerate
++@item
++Lorem ipsum dolor sit amet
++
++@item
++Ut enim ad minim veniam
++
++@end enumerate
++
++Duis aute irure dolor
++
++Example:
++
++-> in
++<- out
++Examples:
++@itemize @minus
++@item
++@strong{verbatim}
++@item
++@{braces@}
++@end itemize
++
++
++
++@deftp {Enum} Enum
++
++
++
++@b{Values:}
++@table @asis
++@item @code{one}
++The @emph{one} @{and only@}
++@*@b{If:} @code{defined(IFONE)}
++@item @code{two}
++Not documented
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{enum-feat}
++Also @emph{one} @{and only@}
++@end table
++@code{two} is undocumented
++
++@b{If:} @code{defined(IFCOND)}
++@end deftp
++
++
++
++@deftp {Object} Base
++
++
++
++@b{Members:}
++@table @asis
++@item @code{base1: Enum}
++the first member
++@end table
++
++@end deftp
++
++
++
++@deftp {Object} Variant1
++
++A paragraph
++
++Another paragraph (but no @code{var}: line)
++
++@b{Members:}
++@table @asis
++@item @code{var1: string}
++Not documented
++@*@b{If:} @code{defined(IFSTR)}
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{variant1-feat}
++a feature
++@item @code{member-feat}
++a member feature
++@end table
++
++@end deftp
++
++
++
++@deftp {Object} Variant2
++
++
++
++@end deftp
++
++
++
++@deftp {Object} Object
++
++
++
++@b{Members:}
++@table @asis
++@item The members of @code{Base}
++@item The members of @code{Variant1} when @code{base1} is @t{"one"}
++@item The members of @code{Variant2} when @code{base1} is @t{"two"} (@b{If:} @code{IFTWO})
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{union-feat1}
++a feature
++@end table
++
++@end deftp
++
++
++
++@deftp {Object} SugaredUnion
++
++
++
++@b{Members:}
++@table @asis
++@item @code{type}
++One of @t{"one"}, @t{"two"}
++@item @code{data: Variant1} when @code{type} is @t{"one"}
++@item @code{data: Variant2} when @code{type} is @t{"two"} (@b{If:} @code{IFTWO})
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{union-feat2}
++a feature
++@end table
++
++@end deftp
++
++
++
++@deftp {Alternate} Alternate
++
++
++
++@b{Members:}
++@table @asis
++@item @code{i: int}
++an integer
++@code{b} is undocumented
++@item @code{b: boolean}
++Not documented
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{alt-feat}
++a feature
++@end table
++
++@end deftp
++
++
++@subsection Another subsection
++
++
++@deftypefn Command {} cmd
++
++
++
++@b{Arguments:}
++@table @asis
++@item @code{arg1: int}
++the first argument
++@item @code{arg2: string} (optional)
++the second
++argument
++@item @code{arg3: boolean}
++Not documented
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{cmd-feat1}
++a feature
++@item @code{cmd-feat2}
++another feature
++@end table
++
++@b{Note:}
++@code{arg3} is undocumented
++
++@b{Returns:}
++@code{Object}
++
++@b{TODO:}
++frobnicate
++
++@b{Notes:}
++@itemize @minus
++@item
++Lorem ipsum dolor sit amet
++@item
++Ut enim ad minim veniam
++
++@end itemize
++
++Duis aute irure dolor
++
++@b{Example:}
++@example
++-> in
++<- out
++@end example
++
++@b{Examples:}
++@example
++- *verbatim*
++- @{braces@}
++@end example
++
++@b{Since:}
++2.10
++
++@end deftypefn
++
++
++
++@deftypefn Command {} cmd-boxed
++
++If you're bored enough to read this, go see a video of boxed cats
++
++@b{Arguments:} the members of @code{Object}
++
++@b{Features:}
++@table @asis
++@item @code{cmd-feat1}
++a feature
++@item @code{cmd-feat2}
++another feature
++@end table
++
++@b{Example:}
++@example
++-> in
++
++<- out
++@end example
++
++@end deftypefn
++
++
++
++@deftypefn Event {} EVT-BOXED
++
++
++
++@b{Arguments:} the members of @code{Object}
++
++@b{Features:}
++@table @asis
++@item @code{feat3}
++a feature
++@end table
++
++@end deftypefn
++
+make: *** [Makefile.mtest:85: check-qapi-doc] Error 1
+make: *** Waiting for unfinished jobs....
+Running test QAPI doc
+--- C:/Users/ContainerAdministrator/AppData/Local/Temp/qemu-build/../cirrus-ci-build/tests/qapi-schema/doc-good.texi	2020-09-02 10:26:02.396028200 -0700
++++ C:/Users/ContainerAdministrator/AppData/Local/Temp/qemu-build/tests/qapi-schema/doc-good-qapi-doc.texi	2020-09-02 10:43:09.849568200 -0700
+@@ -1,319 +1,319 @@
+-@c AUTOMATICALLY GENERATED, DO NOT MODIFY
+-
+-@section Section
+-
+-@subsection Subsection
+-
+-@strong{strong} @emph{with emphasis}
+-@code{var} @{in braces@}
+-@itemize @bullet
+-@item
+-List item one
+-@item
+-Two, multiple
+-lines
+-
+-@item
+-Three
+-Still in list
+-
+-@end itemize
+-
+-Not in list
+-@itemize @minus
+-@item
+-Second list
+-Note: still in list
+-
+-@end itemize
+-
+-Note: not in list
+-@enumerate
+-@item
+-Third list
+-is numbered
+-
+-@item
+-another item
+-
+-@example
+-example
+-@end example
+-
+-@example
+-multiple lines
+-@end example
+-
+-
+-@end enumerate
+-
+-Returns: the King
+-Since: the first age
+-Notes:
+-
+-@enumerate
+-@item
+-Lorem ipsum dolor sit amet
+-
+-@item
+-Ut enim ad minim veniam
+-
+-@end enumerate
+-
+-Duis aute irure dolor
+-
+-Example:
+-
+--> in
+-<- out
+-Examples:
+-@itemize @minus
+-@item
+-@strong{verbatim}
+-@item
+-@{braces@}
+-@end itemize
+-
+-
+-
+-@deftp {Enum} Enum
+-
+-
+-
+-@b{Values:}
+-@table @asis
+-@item @code{one}
+-The @emph{one} @{and only@}
+-@*@b{If:} @code{defined(IFONE)}
+-@item @code{two}
+-Not documented
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{enum-feat}
+-Also @emph{one} @{and only@}
+-@end table
+-@code{two} is undocumented
+-
+-@b{If:} @code{defined(IFCOND)}
+-@end deftp
+-
+-
+-
+-@deftp {Object} Base
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item @code{base1: Enum}
+-the first member
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} Variant1
+-
+-A paragraph
+-
+-Another paragraph (but no @code{var}: line)
+-
+-@b{Members:}
+-@table @asis
+-@item @code{var1: string}
+-Not documented
+-@*@b{If:} @code{defined(IFSTR)}
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{variant1-feat}
+-a feature
+-@item @code{member-feat}
+-a member feature
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} Variant2
+-
+-
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} Object
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item The members of @code{Base}
+-@item The members of @code{Variant1} when @code{base1} is @t{"one"}
+-@item The members of @code{Variant2} when @code{base1} is @t{"two"} (@b{If:} @code{IFTWO})
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{union-feat1}
+-a feature
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Object} SugaredUnion
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item @code{type}
+-One of @t{"one"}, @t{"two"}
+-@item @code{data: Variant1} when @code{type} is @t{"one"}
+-@item @code{data: Variant2} when @code{type} is @t{"two"} (@b{If:} @code{IFTWO})
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{union-feat2}
+-a feature
+-@end table
+-
+-@end deftp
+-
+-
+-
+-@deftp {Alternate} Alternate
+-
+-
+-
+-@b{Members:}
+-@table @asis
+-@item @code{i: int}
+-an integer
+-@code{b} is undocumented
+-@item @code{b: boolean}
+-Not documented
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{alt-feat}
+-a feature
+-@end table
+-
+-@end deftp
+-
+-
+-@subsection Another subsection
+-
+-
+-@deftypefn Command {} cmd
+-
+-
+-
+-@b{Arguments:}
+-@table @asis
+-@item @code{arg1: int}
+-the first argument
+-@item @code{arg2: string} (optional)
+-the second
+-argument
+-@item @code{arg3: boolean}
+-Not documented
+-@end table
+-
+-@b{Features:}
+-@table @asis
+-@item @code{cmd-feat1}
+-a feature
+-@item @code{cmd-feat2}
+-another feature
+-@end table
+-
+-@b{Note:}
+-@code{arg3} is undocumented
+-
+-@b{Returns:}
+-@code{Object}
+-
+-@b{TODO:}
+-frobnicate
+-
+-@b{Notes:}
+-@itemize @minus
+-@item
+-Lorem ipsum dolor sit amet
+-@item
+-Ut enim ad minim veniam
+-
+-@end itemize
+-
+-Duis aute irure dolor
+-
+-@b{Example:}
+-@example
+--> in
+-<- out
+-@end example
+-
+-@b{Examples:}
+-@example
+-- *verbatim*
+-- @{braces@}
+-@end example
+-
+-@b{Since:}
+-2.10
+-
+-@end deftypefn
+-
+-
+-
+-@deftypefn Command {} cmd-boxed
+-
+-If you're bored enough to read this, go see a video of boxed cats
+-
+-@b{Arguments:} the members of @code{Object}
+-
+-@b{Features:}
+-@table @asis
+-@item @code{cmd-feat1}
+-a feature
+-@item @code{cmd-feat2}
+-another feature
+-@end table
+-
+-@b{Example:}
+-@example
+--> in
+-
+-<- out
+-@end example
+-
+-@end deftypefn
+-
+-
+-
+-@deftypefn Event {} EVT-BOXED
+-
+-
+-
+-@b{Arguments:} the members of @code{Object}
+-
+-@b{Features:}
+-@table @asis
+-@item @code{feat3}
+-a feature
+-@end table
+-
+-@end deftypefn
+-
++@c AUTOMATICALLY GENERATED, DO NOT MODIFY
++
++@section Section
++
++@subsection Subsection
++
++@strong{strong} @emph{with emphasis}
++@code{var} @{in braces@}
++@itemize @bullet
++@item
++List item one
++@item
++Two, multiple
++lines
++
++@item
++Three
++Still in list
++
++@end itemize
++
++Not in list
++@itemize @minus
++@item
++Second list
++Note: still in list
++
++@end itemize
++
++Note: not in list
++@enumerate
++@item
++Third list
++is numbered
++
++@item
++another item
++
++@example
++example
++@end example
++
++@example
++multiple lines
++@end example
++
++
++@end enumerate
++
++Returns: the King
++Since: the first age
++Notes:
++
++@enumerate
++@item
++Lorem ipsum dolor sit amet
++
++@item
++Ut enim ad minim veniam
++
++@end enumerate
++
++Duis aute irure dolor
++
++Example:
++
++-> in
++<- out
++Examples:
++@itemize @minus
++@item
++@strong{verbatim}
++@item
++@{braces@}
++@end itemize
++
++
++
++@deftp {Enum} Enum
++
++
++
++@b{Values:}
++@table @asis
++@item @code{one}
++The @emph{one} @{and only@}
++@*@b{If:} @code{defined(IFONE)}
++@item @code{two}
++Not documented
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{enum-feat}
++Also @emph{one} @{and only@}
++@end table
++@code{two} is undocumented
++
++@b{If:} @code{defined(IFCOND)}
++@end deftp
++
++
++
++@deftp {Object} Base
++
++
++
++@b{Members:}
++@table @asis
++@item @code{base1: Enum}
++the first member
++@end table
++
++@end deftp
++
++
++
++@deftp {Object} Variant1
++
++A paragraph
++
++Another paragraph (but no @code{var}: line)
++
++@b{Members:}
++@table @asis
++@item @code{var1: string}
++Not documented
++@*@b{If:} @code{defined(IFSTR)}
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{variant1-feat}
++a feature
++@item @code{member-feat}
++a member feature
++@end table
++
++@end deftp
++
++
++
++@deftp {Object} Variant2
++
++
++
++@end deftp
++
++
++
++@deftp {Object} Object
++
++
++
++@b{Members:}
++@table @asis
++@item The members of @code{Base}
++@item The members of @code{Variant1} when @code{base1} is @t{"one"}
++@item The members of @code{Variant2} when @code{base1} is @t{"two"} (@b{If:} @code{IFTWO})
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{union-feat1}
++a feature
++@end table
++
++@end deftp
++
++
++
++@deftp {Object} SugaredUnion
++
++
++
++@b{Members:}
++@table @asis
++@item @code{type}
++One of @t{"one"}, @t{"two"}
++@item @code{data: Variant1} when @code{type} is @t{"one"}
++@item @code{data: Variant2} when @code{type} is @t{"two"} (@b{If:} @code{IFTWO})
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{union-feat2}
++a feature
++@end table
++
++@end deftp
++
++
++
++@deftp {Alternate} Alternate
++
++
++
++@b{Members:}
++@table @asis
++@item @code{i: int}
++an integer
++@code{b} is undocumented
++@item @code{b: boolean}
++Not documented
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{alt-feat}
++a feature
++@end table
++
++@end deftp
++
++
++@subsection Another subsection
++
++
++@deftypefn Command {} cmd
++
++
++
++@b{Arguments:}
++@table @asis
++@item @code{arg1: int}
++the first argument
++@item @code{arg2: string} (optional)
++the second
++argument
++@item @code{arg3: boolean}
++Not documented
++@end table
++
++@b{Features:}
++@table @asis
++@item @code{cmd-feat1}
++a feature
++@item @code{cmd-feat2}
++another feature
++@end table
++
++@b{Note:}
++@code{arg3} is undocumented
++
++@b{Returns:}
++@code{Object}
++
++@b{TODO:}
++frobnicate
++
++@b{Notes:}
++@itemize @minus
++@item
++Lorem ipsum dolor sit amet
++@item
++Ut enim ad minim veniam
++
++@end itemize
++
++Duis aute irure dolor
++
++@b{Example:}
++@example
++-> in
++<- out
++@end example
++
++@b{Examples:}
++@example
++- *verbatim*
++- @{braces@}
++@end example
++
++@b{Since:}
++2.10
++
++@end deftypefn
++
++
++
++@deftypefn Command {} cmd-boxed
++
++If you're bored enough to read this, go see a video of boxed cats
++
++@b{Arguments:} the members of @code{Object}
++
++@b{Features:}
++@table @asis
++@item @code{cmd-feat1}
++a feature
++@item @code{cmd-feat2}
++another feature
++@end table
++
++@b{Example:}
++@example
++-> in
++
++<- out
++@end example
++
++@end deftypefn
++
++
++
++@deftypefn Event {} EVT-BOXED
++
++
++
++@b{Arguments:} the members of @code{Object}
++
++@b{Features:}
++@table @asis
++@item @code{feat3}
++a feature
++@end table
++
++@end deftypefn
++
+make: *** [Makefile.mtest:63: check-qapi-schema] Error 1
 
-Thanks,
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ tests/qapi-schema/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Can you take the pull-req via your trees?
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index c87d141417..f1449298b0 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -220,6 +220,6 @@ qapi_doc = custom_target('QAPI doc',
+ 
+ # "full_path()" needed here to work around
+ # https://github.com/mesonbuild/meson/issues/7585
+-test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
++test('QAPI doc', diff, args: ['-b', '-u', files('doc-good.texi'), qapi_doc[0].full_path()],
+      depends: qapi_doc,
+      suite: ['qapi-schema', 'qapi-doc'])
+-- 
+2.28.0.windows.1
 
-Yes.
-
-
-r~
 
