@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7FA25FA5D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 14:20:10 +0200 (CEST)
-Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA5125FA3C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 14:14:27 +0200 (CEST)
+Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFG81-0007ej-H3
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 08:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
+	id 1kFG2U-0000Vc-71
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 08:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFG01-0004Na-SD
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48705
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFG02-0004QD-Mr
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFFzz-0007wy-PQ
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFG00-0007x6-VU
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:11:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599480711;
+ s=mimecast20190719; t=1599480712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nj79IjS7v1Gcq5rK+AMCX97kXIltfe+mxSAkI1qI8rs=;
- b=QrhIwLE/mStUbTT2Rx+1wS+oL5fMTg6z3+dHU+OMBRLDC7ZYvOOXHXt8Q+iE0zmwggxe7p
- LvN8vMZvXFLECTM5jhQeCy08/hL7uYGKePkK86bdYDhn74Da8QpDbdKe/ZtuejbkAnt0iP
- QKre0srYSg8rDDUb8zFSLottIvIt3kU=
+ bh=cBHngwQh2WHGy1NZTqMUGTscaMM8OvzGJ3zyPEeugts=;
+ b=VySgr2cxuHzjhlLlcd+7isYK7tepenP06ay7qaux06IHCfzFIwX6DCdiP36xCK8le1cfS0
+ hyzV3ByWLz2ni/kc1fD1qKdK0B9bjqEv4mfBj66N4/PjPGyeiKeP5e5VStUjNoOB0Ti7SL
+ YGjjtTa91SXTuSP3rL0fDbHYxRvn1DU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-N8X9fQpfNHaptx483mFfPg-1; Mon, 07 Sep 2020 08:11:48 -0400
-X-MC-Unique: N8X9fQpfNHaptx483mFfPg-1
+ us-mta-516-qId6D8F0MNCDMgYOuM62Lg-1; Mon, 07 Sep 2020 08:11:50 -0400
+X-MC-Unique: qId6D8F0MNCDMgYOuM62Lg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBD091084D87;
- Mon,  7 Sep 2020 12:11:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A647801FDF;
+ Mon,  7 Sep 2020 12:11:49 +0000 (UTC)
 Received: from thuth.com (ovpn-112-193.ams2.redhat.com [10.36.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B771E5C1BB;
- Mon,  7 Sep 2020 12:11:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E0205C1BB;
+ Mon,  7 Sep 2020 12:11:47 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/14] gitlab: expand test coverage for crypto builds
-Date: Mon,  7 Sep 2020 14:11:25 +0200
-Message-Id: <20200907121127.136243-13-thuth@redhat.com>
+Subject: [PULL 13/14] tests/qtest: do not list ahci-test twice
+Date: Mon,  7 Sep 2020 14:11:26 +0200
+Message-Id: <20200907121127.136243-14-thuth@redhat.com>
 In-Reply-To: <20200907121127.136243-1-thuth@redhat.com>
 References: <20200907121127.136243-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +56,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 22:29:02
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:52:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,142 +83,32 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Most jobs test the latest nettle library. This adds explicit coverage
-for latest gcrypt using Fedora, and old gcrypt and nettle using
-CentOS-7. The latter does a minimal tools-only build, as we only need to
-validate that the crypto code builds and unit tests pass. Finally a job
-disabling both nettle and gcrypt is provided to validate that gnutls
-still works.
+This is caught by "meson test", which complains about two tests with the
+same name.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200901133050.381844-3-berrange@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20200904120342.11370-1-pbonzini@redhat.com>
+Fixes: a2ce7dbd917 ("meson: convert tests/qtest to meson")
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml                          | 68 +++++++++++++++++++++++++
- tests/docker/dockerfiles/centos7.docker |  2 +
- tests/docker/dockerfiles/centos8.docker |  1 +
- 3 files changed, 71 insertions(+)
+ tests/qtest/meson.build | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index d677e00933..72e8604579 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -133,6 +133,7 @@ build-system-fedora:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: fedora
-+    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
-     TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
-       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
-     MAKE_CHECK_ARGS: check-build
-@@ -164,6 +165,7 @@ build-system-centos:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: centos8
-+    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
-     TARGETS: ppc64-softmmu lm32-softmmu or1k-softmmu s390x-softmmu
-       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
-     MAKE_CHECK_ARGS: check-build
-@@ -290,3 +292,69 @@ build-tci:
-       done
-     - QTEST_QEMU_BINARY="./qemu-system-x86_64" ./tests/qtest/pxe-test
-     - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
-+
-+# Most jobs test latest gcrypt or nettle builds
-+#
-+# These jobs test old gcrypt and nettle from RHEL7
-+# which had some API differences.
-+build-crypto-old-nettle:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: centos7
-+    TARGETS: x86_64-softmmu x86_64-linux-user
-+    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    paths:
-+      - build
-+
-+check-crypto-old-nettle:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-crypto-old-nettle
-+      artifacts: true
-+  variables:
-+    IMAGE: centos7
-+    MAKE_CHECK_ARGS: check
-+
-+
-+build-crypto-old-gcrypt:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: centos7
-+    TARGETS: x86_64-softmmu x86_64-linux-user
-+    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    paths:
-+      - build
-+
-+check-crypto-old-gcrypt:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-crypto-old-gcrypt
-+      artifacts: true
-+  variables:
-+    IMAGE: centos7
-+    MAKE_CHECK_ARGS: check
-+
-+
-+build-crypto-only-gnutls:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: centos7
-+    TARGETS: x86_64-softmmu x86_64-linux-user
-+    CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    paths:
-+      - build
-+
-+check-crypto-only-gnutls:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-crypto-only-gnutls
-+      artifacts: true
-+  variables:
-+    IMAGE: centos7
-+    MAKE_CHECK_ARGS: check
-diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-index e197acdc3c..46277773bf 100644
---- a/tests/docker/dockerfiles/centos7.docker
-+++ b/tests/docker/dockerfiles/centos7.docker
-@@ -15,9 +15,11 @@ ENV PACKAGES \
-     gettext \
-     git \
-     glib2-devel \
-+    gnutls-devel \
-     libaio-devel \
-     libepoxy-devel \
-     libfdt-devel \
-+    libgcrypt-devel \
-     librdmacm-devel \
-     libzstd-devel \
-     lzo-devel \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 9852c5b9ee..f435616d6a 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -13,6 +13,7 @@ ENV PACKAGES \
-     glib2-devel \
-     libaio-devel \
-     libepoxy-devel \
-+    libgcrypt-devel \
-     lzo-devel \
-     make \
-     mesa-libEGL-devel \
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 8f8fdb1336..874b5be62b 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -49,7 +49,6 @@ qtests_i386 = \
+   qtests_pci +                                                                              \
+   ['fdc-test',
+    'ide-test',
+-   'ahci-test',
+    'hd-geo-test',
+    'boot-order-test',
+    'bios-tables-test',
 -- 
 2.18.2
 
