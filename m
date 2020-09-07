@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA01F25F916
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:11:39 +0200 (CEST)
-Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2013625F918
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 13:13:44 +0200 (CEST)
+Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFF3i-0004IA-Ue
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:11:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58548)
+	id 1kFF5j-0007gH-5b
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 07:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF20-0001m6-DV
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:09:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29060)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF21-0001nl-22
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:09:53 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42375
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF1w-0007qw-AK
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFF1z-0007rV-Ix
  for qemu-devel@nongnu.org; Mon, 07 Sep 2020 07:09:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599476987;
+ s=mimecast20190719; t=1599476990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rc+nxY/9Fk45mPh1kIaSKYBaI04ecu+BUAOSf6xV8tM=;
- b=Hie/+Zjv6Dc3tFPwtlkd+pgnMRZhnChslKoZf/wirPcHRqSqYmbzREGh7LdINWiRbdTa7G
- yeO+07/CcSoHdCixgSIQSQLtcS857ixuTPjpdk9xJ8fwAg5HA5WfT1eY8ktQpOB3iPosEF
- R9QpoyEd/5g0pRhMaXCUpo1magM3jdY=
+ bh=9q3EbjiFUKpZC76fq6Zz+XOyCgQda5uKtQhD/5RZnYQ=;
+ b=YIdKf4m3vjvn6sZzHT3LaUT6R1e86n30CRBUxS33/AWj4FTch4M/LhO5dSadR03DRWvjms
+ 1Mwn/TcWhoL9dDusTKYPU6AdrvdZTMLl0hEj3Mftv9Wlz5kPVHrk3L9KP4Cy6KDRQziNbV
+ 0giZv1Ou0Pr4xXp3Zp9yfZasfpITuKI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-psTvn1WrNRSJEeRx-5HAUQ-1; Mon, 07 Sep 2020 07:09:45 -0400
-X-MC-Unique: psTvn1WrNRSJEeRx-5HAUQ-1
+ us-mta-212-dTIEDQpsN9q0QRdjuaZHBQ-1; Mon, 07 Sep 2020 07:09:46 -0400
+X-MC-Unique: dTIEDQpsN9q0QRdjuaZHBQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7272E1007466;
- Mon,  7 Sep 2020 11:09:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0C8E802B49;
+ Mon,  7 Sep 2020 11:09:45 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-154.ams2.redhat.com
  [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FCF77E43B;
- Mon,  7 Sep 2020 11:09:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDBC07E43B;
+ Mon,  7 Sep 2020 11:09:44 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/64] block/nvme: Replace magic value by SCALE_MS definition
-Date: Mon,  7 Sep 2020 13:08:34 +0200
-Message-Id: <20200907110936.261684-3-kwolf@redhat.com>
+Subject: [PULL 03/64] block/nvme: Avoid further processing if trace event not
+ enabled
+Date: Mon,  7 Sep 2020 13:08:35 +0200
+Message-Id: <20200907110936.261684-4-kwolf@redhat.com>
 In-Reply-To: <20200907110936.261684-1-kwolf@redhat.com>
 References: <20200907110936.261684-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +58,16 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:52:11
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:05:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,30 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Use self-explicit SCALE_MS definition instead of magic value.
+Avoid further processing if TRACE_NVME_SUBMIT_COMMAND_RAW is
+not enabled. This is an untested intend of performance optimization.
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200821195359.1285345-2-philmd@redhat.com>
+Message-Id: <20200821195359.1285345-3-philmd@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/nvme.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 05485fdd11..a2b006be56 100644
+index a2b006be56..4d4f728159 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -715,7 +715,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     /* Reset device to get a clean state. */
-     s->regs->cc = cpu_to_le32(le32_to_cpu(s->regs->cc) & 0xFE);
-     /* Wait for CSTS.RDY = 0. */
--    deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * 1000000ULL;
-+    deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * SCALE_MS;
-     while (le32_to_cpu(s->regs->csts) & 0x1) {
-         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
-             error_setg(errp, "Timeout while waiting for device to reset (%"
+@@ -441,6 +441,9 @@ static void nvme_trace_command(const NvmeCmd *cmd)
+ {
+     int i;
+ 
++    if (!trace_event_get_state_backends(TRACE_NVME_SUBMIT_COMMAND_RAW)) {
++        return;
++    }
+     for (i = 0; i < 8; ++i) {
+         uint8_t *cmdp = (uint8_t *)cmd + i * 8;
+         trace_nvme_submit_command_raw(cmdp[0], cmdp[1], cmdp[2], cmdp[3],
 -- 
 2.25.4
 
