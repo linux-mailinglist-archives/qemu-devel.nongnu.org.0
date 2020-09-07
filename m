@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7062260315
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:43:45 +0200 (CEST)
-Received: from localhost ([::1]:50364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DB826031C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 19:44:23 +0200 (CEST)
+Received: from localhost ([::1]:53132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLBA-0006xi-P9
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
+	id 1kFLBm-00082q-FX
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 13:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFLAI-0006G8-W4; Mon, 07 Sep 2020 13:42:51 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFLAH-00084x-C0; Mon, 07 Sep 2020 13:42:50 -0400
-Received: by mail-lj1-x244.google.com with SMTP id c2so16919085ljj.12;
- Mon, 07 Sep 2020 10:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=CZaAXVEW7YBExCKkBSIOxTM0I72F5wNA8S5Lf7dJteA=;
- b=qH4m6H9tkDWHC+f25WUzXmLfaAA3EUwNlE+UUQzLSJ9HOdWx/pOwopkLUtHaqLdOWW
- l4nbyK1RV5sIi1W+IW1T8XXtUWhqbKylGADtfjVe+6Xv2qL1w1CWrxd4nlS89AV07zIB
- xigOt5SgWs7dp9fE8SqQcCWUOHtbtBJ2VgdTLuzHfgaPhsRWdFINUhA5grIb2kPFluHB
- a/J/LjRGjFXvMnxdKrCv83/Dhoy/9a7pWtxOvj4oEr35BFzeFWnWq/CvXHcW4rmvEB3A
- Kh0kvaxJsHL6hNr7XGoY/r/D/OI1eVEtBaym7bWKjbuVXLM1LI0p8uzIy19s8pKMp29U
- CWLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=CZaAXVEW7YBExCKkBSIOxTM0I72F5wNA8S5Lf7dJteA=;
- b=RfiNoPr2jt6EgQWsx5d3M8dvuNHetxyPPrxsNKITNsrRquVn8JkGASemq3mpYgJNbd
- EcFbJuSnY6f0n2wkXJ7Ndo502tUm0jcJ9fOgAX2MDbHgIqa/+W/qAbcGkkIJnO4074dZ
- e1AQCEqX8ZlTgG5uQODNv0JOrwAyKBVKna+lwe1Owau0OwRGWC/bZI3Kt0SX5JksRZ/k
- TgxTlYjKoFyDVtjIA0DgauR+4O6V8u9V83D6zcGyLPVYeg6kipDuUBONNpylBxgLGs/f
- p3nJpZtlyeAZ/qC+0ZkuZUING0oAf4S2pzauSojNJ5C2PSgyrNkUKjpnIVzJK76H3svS
- m+iQ==
-X-Gm-Message-State: AOAM532GZaXWYMySdtbxnJ3t88PQMRDDyAR/MeGEXMD2LrWUKC2F55Mj
- zBjdaZrBIJFSm2ASuZNqsz6tvqu1UR1YYzOTuKc=
-X-Google-Smtp-Source: ABdhPJxGG26DF98n3lL6BwoVx1J1z5neYaweAizNM10Sguw7yGHzH5Qs2DqizCmPNxiJh1SJnAHRbIfd47rzzI24RoI=
-X-Received: by 2002:a2e:2a83:: with SMTP id
- q125mr11363431ljq.242.1599500566452; 
- Mon, 07 Sep 2020 10:42:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200905062333.1087-1-luoyonggang@gmail.com>
- <20200905062333.1087-9-luoyonggang@gmail.com>
- <8d7357bc-518e-e408-bf56-32fcce8bb520@redhat.com>
-In-Reply-To: <8d7357bc-518e-e408-bf56-32fcce8bb520@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Tue, 8 Sep 2020 01:42:34 +0800
-Message-ID: <CAE2XoE_Th3ZnWcR=m5HOQtVpGzQHsUFfEcE3xKaTVPy=v6wdMw@mail.gmail.com>
-Subject: Re: [PATCH v5 08/11] osdep: These function are only available on
- Non-Win32 system.
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000014df5205aebcbfff"
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFLAZ-0006Xz-TH
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:43:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFLAY-00085y-6x
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 13:43:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599500585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=6YqafIK4MqxNUhU6+uyafqY/LqKqZsEXtzgjrXRCHfI=;
+ b=A6DBMzrCK3GpJMtEw7K3FpEhDtYjrorwYBJvchq3oKBOk4/TlqudL1URpbcHSVNY63xgTD
+ RotDryxeMA+BamUkBEgjFJWc7mBrMJ5SClm8P46LCwNjrK5t0ciS9HINTe/HF6Rg+PhoW3
+ lYTOmjXi3FZ2JwvBHVAOSs7E55fOWmc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-126-DKMGMJD5NEeWWRA_usburQ-1; Mon, 07 Sep 2020 13:43:01 -0400
+X-MC-Unique: DKMGMJD5NEeWWRA_usburQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86BBA1006701;
+ Mon,  7 Sep 2020 17:43:00 +0000 (UTC)
+Received: from thuth.com (ovpn-112-193.ams2.redhat.com [10.36.112.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4BF17EEDC;
+ Mon,  7 Sep 2020 17:42:57 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] Simplify the .gitignore file
+Date: Mon,  7 Sep 2020 19:42:55 +0200
+Message-Id: <20200907174255.179652-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 13:43:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,117 +73,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Block <qemu-block@nongnu.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
- Peter Lieven <pl@kamp.de>, qemu-level <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000014df5205aebcbfff
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Now that we always do out-of-tree builds (and the in-tree builds are
+faked via a "build" directory), we can simplify out .gitignore file
+quite a bit.
 
-On Sat, Sep 5, 2020 at 4:33 PM Thomas Huth <thuth@redhat.com> wrote:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitignore | 158 -----------------------------------------------------
+ 1 file changed, 158 deletions(-)
 
-> On 05/09/2020 08.23, Yonggang Luo wrote:
-> > int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
-> > int qemu_unlock_fd(int fd, int64_t start, int64_t len);
-> > int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool
-> exclusive);
-> > bool qemu_has_ofd_lock(void);
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >  include/qemu/osdep.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > index 412962d91a..e80fddd1e8 100644
-> > --- a/include/qemu/osdep.h
-> > +++ b/include/qemu/osdep.h
-> > @@ -502,11 +502,11 @@ int qemu_close(int fd);
-> >  int qemu_unlink(const char *name);
-> >  #ifndef _WIN32
-> >  int qemu_dup(int fd);
-> > -#endif
-> >  int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
-> >  int qemu_unlock_fd(int fd, int64_t start, int64_t len);
-> >  int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool
-> exclusive);
-> >  bool qemu_has_ofd_lock(void);
-> > +#endif
-> >
-> >  #if defined(__HAIKU__) && defined(__i386__)
-> >  #define FMT_pid "%ld"
-> >
->
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
->
-> Please also queue this
+diff --git a/.gitignore b/.gitignore
+index 4ccb9ed975..bb916594eb 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,165 +1,7 @@
+ /GNUmakefile
+ /build/
+-/.doctrees
+-/config-devices.*
+-/config-all-devices.*
+-/config-all-disas.*
+-/config-host.*
+-/config-target.*
+-/config.status
+-/config-temp
+-/tools/virtiofsd/50-qemu-virtiofsd.json
+-/elf2dmp
+-/trace-events-all
+-/trace/generated-events.h
+-/trace/generated-events.c
+-/trace/generated-helpers-wrappers.h
+-/trace/generated-helpers.h
+-/trace/generated-helpers.c
+-/trace/generated-tcg-tracers.h
+-/ui/shader/texture-blit-frag.h
+-/ui/shader/texture-blit-vert.h
+-/ui/shader/texture-blit-flip-vert.h
+-/ui/input-keymap-*.c.inc
+-*-timestamp
+-/*-softmmu
+-/*-darwin-user
+-/*-linux-user
+-/*-bsd-user
+-/ivshmem-client
+-/ivshmem-server
+-/libdis*
+-/libuser
+-/linux-headers/asm
+-/qga/qapi-generated
+-/qapi-gen-timestamp
+-/qapi/qapi-builtin-types.[ch]
+-/qapi/qapi-builtin-visit.[ch]
+-/qapi/qapi-commands-*.[ch]
+-**/qapi/qapi-commands.[ch]
+-**/qapi/qapi-emit-events.[ch]
+-/qapi/qapi-events-*.[ch]
+-**/qapi/qapi-events.[ch]
+-**/qapi/qapi-init-commands.[ch]
+-**/qapi/qapi-introspect.[ch]
+-/qapi/qapi-types-*.[ch]
+-**/qapi/qapi-types.[ch]
+-/qapi/qapi-visit-*.[ch]
+-!/qapi/qapi-visit-core.c
+-**/qapi/qapi-visit.[ch]
+-**/qapi/qapi-doc.texi
+-/qemu-edid
+-/qemu-img
+-/qemu-nbd
+-/qemu-options.def
+-/qemu-options.texi
+-/qemu-img-cmds.texi
+-/qemu-img-cmds.h
+-/qemu-io
+-/qemu-ga
+-/qemu-bridge-helper
+-/qemu-keymap
+-/qemu-monitor.texi
+-/qemu-monitor-info.texi
+-/qemu-storage-daemon
+-/qemu-version.h
+-/qemu-version.h.tmp
+-/module_block.h
+-/scsi/qemu-pr-helper
+-/vhost-user-scsi
+-/vhost-user-blk
+-/vhost-user-gpu
+-/vhost-user-input
+-/fsdev/virtfs-proxy-helper
+-*.tmp
+-*.[1-9]
+-*.a
+-*.aux
+-*.cp
+-*.exe
+-*.msi
+-*.dll
+-*.so
+-*.fn
+-*.ky
+-*.log
+-*.pdf
+-*.pod
+-*.cps
+-*.fns
+-*.kys
+-*.pg
+-*.pyc
+-*.toc
+-*.tp
+-*.vr
+-*.d
+-!/.gitlab-ci.d
+-!/scripts/qemu-guest-agent/fsfreeze-hook.d
+-*.o
+-.sdk
+-*.gcda
+-*.gcno
+-*.gcov
+-/pc-bios/bios-pq/status
+-/pc-bios/edk2-*.fd
+-/pc-bios/vgabios-pq/status
+-/pc-bios/optionrom/linuxboot.asm
+-/pc-bios/optionrom/linuxboot.bin
+-/pc-bios/optionrom/linuxboot.raw
+-/pc-bios/optionrom/linuxboot.img
+-/pc-bios/optionrom/linuxboot_dma.asm
+-/pc-bios/optionrom/linuxboot_dma.bin
+-/pc-bios/optionrom/linuxboot_dma.raw
+-/pc-bios/optionrom/linuxboot_dma.img
+-/pc-bios/optionrom/pvh.asm
+-/pc-bios/optionrom/pvh.bin
+-/pc-bios/optionrom/pvh.raw
+-/pc-bios/optionrom/pvh.img
+-/pc-bios/optionrom/multiboot.asm
+-/pc-bios/optionrom/multiboot.bin
+-/pc-bios/optionrom/multiboot.raw
+-/pc-bios/optionrom/multiboot.img
+-/pc-bios/optionrom/kvmvapic.asm
+-/pc-bios/optionrom/kvmvapic.bin
+-/pc-bios/optionrom/kvmvapic.raw
+-/pc-bios/optionrom/kvmvapic.img
+-/pc-bios/s390-ccw/s390-ccw.elf
+-/pc-bios/s390-ccw/s390-ccw.img
+-/docs/built
+-/docs/interop/qemu-ga-qapi.texi
+-/docs/interop/qemu-ga-ref.html
+-/docs/interop/qemu-ga-ref.info*
+-/docs/interop/qemu-ga-ref.txt
+-/docs/interop/qemu-qmp-qapi.texi
+-/docs/interop/qemu-qmp-ref.html
+-/docs/interop/qemu-qmp-ref.info*
+-/docs/interop/qemu-qmp-ref.txt
+-/docs/version.texi
+-/contrib/vhost-user-gpu/50-qemu-gpu.json
+-*.tps
+-.stgit-*
+ .git-submodule-status
+ cscope.*
+ tags
+ TAGS
+-docker-src.*
+ *~
+-*.ast_raw
+-*.depend_raw
+-trace.c
+-trace-ust.h
+-trace-ust.h
+-trace-dtrace.h
+-trace-dtrace.dtrace
+-trace-root.h
+-trace-root.c
+-trace-ust-root.h
+-trace-ust-root.h
+-trace-ust-all.h
+-trace-ust-all.c
+-trace-dtrace-root.h
+-trace-dtrace-root.dtrace
+-trace-ust-all.h
+-trace-ust-all.c
+-/target/arm/decode-sve.c.inc
+-- 
+2.18.2
 
-
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---00000000000014df5205aebcbfff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Sep 5, 2020 at 4:33 PM Thomas=
- Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 05/09/2020=
- 08.23, Yonggang Luo wrote:<br>
-&gt; int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);<=
-br>
-&gt; int qemu_unlock_fd(int fd, int64_t start, int64_t len);<br>
-&gt; int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusi=
-ve);<br>
-&gt; bool qemu_has_ofd_lock(void);<br>
-&gt; <br>
-&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.co=
-m" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 include/qemu/osdep.h | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h<br>
-&gt; index 412962d91a..e80fddd1e8 100644<br>
-&gt; --- a/include/qemu/osdep.h<br>
-&gt; +++ b/include/qemu/osdep.h<br>
-&gt; @@ -502,11 +502,11 @@ int qemu_close(int fd);<br>
-&gt;=C2=A0 int qemu_unlink(const char *name);<br>
-&gt;=C2=A0 #ifndef _WIN32<br>
-&gt;=C2=A0 int qemu_dup(int fd);<br>
-&gt; -#endif<br>
-&gt;=C2=A0 int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclus=
-ive);<br>
-&gt;=C2=A0 int qemu_unlock_fd(int fd, int64_t start, int64_t len);<br>
-&gt;=C2=A0 int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool e=
-xclusive);<br>
-&gt;=C2=A0 bool qemu_has_ofd_lock(void);<br>
-&gt; +#endif<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #if defined(__HAIKU__) &amp;&amp; defined(__i386__)<br>
-&gt;=C2=A0 #define FMT_pid &quot;%ld&quot;<br>
-&gt; <br>
-<br>
-Reviewed-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"=
-_blank">thuth@redhat.com</a>&gt;<br>
-<br></blockquote><div>Please also queue this=C2=A0</div></div><br clear=3D"=
-all"><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=
-=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<br>=
-</div></div>
-
---00000000000014df5205aebcbfff--
 
