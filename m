@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE602604A7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:34:01 +0200 (CEST)
-Received: from localhost ([::1]:60324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BD22604C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 20:37:49 +0200 (CEST)
+Received: from localhost ([::1]:50074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFLxo-0003oP-9m
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
+	id 1kFM1U-0002wD-Gk
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 14:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kFLqw-0000cc-Ek
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:26:54 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:45912)
+ id 1kFLtC-0005AK-TR
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:29:14 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:44832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kFLqu-0005PK-Hl
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:26:53 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id l17so13533084edq.12
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 11:26:51 -0700 (PDT)
+ id 1kFLtB-0005W9-5W
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 14:29:14 -0400
+Received: by mail-ed1-x536.google.com with SMTP id b12so13555007edz.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 11:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WJGTwQzg7xcEYrTKZxOyuk/9RXIjii1Wfyrmy6K0z1E=;
- b=tk/dP7FT17zav13ca27SOFW1z2D7q7RFYmtF0mgh2PUZoxG4yPnEoL99w9Hbp80Ntn
- fM77LH1vCPi/ZWii5ga6jlSvKsK17KLa+1TVdER3kGlFv+ORnT847jcz0JOEh6jdclLn
- YWL1cmLoK+jHCKhYBYCJM6x0/LEWzBhzfm9WFU/KSPUJNPpT9L/QcsxmCnqhMCQkei26
- N8f8LN440U/KP8RQyemgd81hTx44gGS66ARsh0P8l8WIHMcjHk5crjtz//NM7w6SEDc7
- jNB2TYGH16qDEdKMiaK5li+26t9JNcDOxKs4ryJSnGScau2IgQx1xnLUoVrZxbmDhhFN
- U6HA==
+ :cc; bh=hrzfhoNw9XhRBd4AYhQ2r8fiEBifG0Cv3MvNUPuu0oU=;
+ b=gRORNbnxiRKigt1yJ1j1WxUX3r7m03u6zJJ4OD4iVO6qB5ogdaLzm+BejLPmn/sZTz
+ JQN9t/EtHBYCFhtOIoBe8zQH5PbMdAqOf0W1/bUz7txT7hDXZHqp2FC51wQm+FnvQFQA
+ 199nF9sM9gSgyIIm323uhQNkFjEzL7sgkHkekpQ6mQuKNmJvLPRFFgMKSp8dH8Jcu9ek
+ EyaUJf/GlPyeB26O4BdU4d9JNN+SDF7F1foQdTIN0J/EnGw9P5DZ722Y40VNJKxYewfV
+ 8C04CHnWXEMBDM0fTWw4FcxJ+uAx4usEmmJElkbf7E4jtb/8gS4VIdkEtvPSdoKEHI4X
+ WbRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WJGTwQzg7xcEYrTKZxOyuk/9RXIjii1Wfyrmy6K0z1E=;
- b=tBlbNJG4vRqqC56Vt/tFan8ZR99DTLUf1shvjyr5f0eUNxT/AKVVYgUYOzM2hMveN8
- 0cv6SNZyHiNveNvg6QlveTJxCJ9xpMkZSDNiECOyb3jDdPT/TBUT1q+BeGee1pG6XhFw
- ndUBEnaU3TPoDUSplkZbulYd+LjmKxkeRRGI0CxpAd5kn15hhYVPdSn6O/MEk6oSjZih
- 5FHD5/Tt5BSetrvi+2XqPhvHmNj9h/osgXwCGhHiiOxXsv7uiElq4gzJ7qNazYyuTEVa
- 6gxrjWFPUM9kEOAPnyEwpKN9N0mFwFgo2r0pCJuDICxS8mfO3G8YoOdkSSViDv4w3oPR
- IibA==
-X-Gm-Message-State: AOAM532f5CGMP/KrpdGfNrbkkxASQ3bkurdupxAmpzw0mXSueX42PAFS
- pbYS2YavMkmcmIHUMkCoJwMBU30tzDkCeE64mbOjag==
-X-Google-Smtp-Source: ABdhPJyfC71fy+3EDQZT3Y27W7IjZY2hfNZByWW1Iv3hPxphJdFCIx7KYbdixdrpK3mXhuVD1QacDvd1BpDKboNVABc=
-X-Received: by 2002:a50:f28b:: with SMTP id f11mr22455748edm.44.1599503210474; 
- Mon, 07 Sep 2020 11:26:50 -0700 (PDT)
+ bh=hrzfhoNw9XhRBd4AYhQ2r8fiEBifG0Cv3MvNUPuu0oU=;
+ b=FRtut4M4GcyAb8IuwdoAycJnYUUxB5lD9eyFWq8mzbdXexPHirpukzb+OqRNCLh4ut
+ l//2pdGk9m/N6QiN5zjaT+2STjtDO+AXLXxIDSbra9tu9zKSI8eWinBjc37+vtdp5vCp
+ AyvcggwUMckujj/6P/kryxRsIUDlaI9Ooy3AARN8RcguMAIVmQ5u3XExkRs2vabS4rWL
+ SAbHTpmlsGPENFvQ+UyNaskz0Lq7qbfzYGVI9gnOkLU88Qol59Ax0FY1zKok0nSbnTx0
+ OWz1LeWB4cAkT7f08Z9mc82MTe9rcc9imMDKm1Nkk8oMXglpc2jBg3CcH5BbU/+lhdfd
+ cvZg==
+X-Gm-Message-State: AOAM530oXphM9eMEEZvCOzz8WZRDVXoLMQRDgGHNmkNQsLlGrWqtBApp
+ AjS1rRm+e/9rVdrJLpIWkXmZRyH96FTcfCBswbbqeBERVYfv+w==
+X-Google-Smtp-Source: ABdhPJzYnI0kyByvTL/WbpbPUPWVXxewYrvcBRp+GrfZdK4XglBJ/g6ooQq0BguyMsZAbJUwyUCNFSIEx4EhloRtmRw=
+X-Received: by 2002:a50:8f45:: with SMTP id 63mr23724424edy.52.1599503351795; 
+ Mon, 07 Sep 2020 11:29:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200907121127.136243-1-thuth@redhat.com>
-In-Reply-To: <20200907121127.136243-1-thuth@redhat.com>
+References: <20200903160746.27491-1-deller@gmx.de>
+In-Reply-To: <20200903160746.27491-1-deller@gmx.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Sep 2020 19:26:39 +0100
-Message-ID: <CAFEAcA9qdsFdyzRwU0=D=SA+Vt-dd30PfEcNhbDhPRMYvDvukA@mail.gmail.com>
-Subject: Re: [PULL 00/14] Gitlab-CI improvements and related fixes
-To: Thomas Huth <thuth@redhat.com>
+Date: Mon, 7 Sep 2020 19:29:00 +0100
+Message-ID: <CAFEAcA_9Dkj8dJAxLdhtN_6Xw+ThX0J-s0LkG1J2mnJdd+NLWA@mail.gmail.com>
+Subject: Re: [PULL 00/10] hppa power button support, graphics updates and
+ firmware fixes
+To: Helge Deller <deller@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,40 +79,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Sep 2020 at 13:11, Thomas Huth <thuth@redhat.com> wrote:
+On Thu, 3 Sep 2020 at 17:07, Helge Deller <deller@gmx.de> wrote:
 >
->  Hi Peter,
+> hppa power button support, graphics updates and firmware fixes
 >
-> the following changes since commit 7c37270b3fbe3d034ba80e488761461676e21eb4:
+> The following changes since commit ac8b279f13865d1a4f1958d3bf34240c1c3af90d:
 >
->   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20200904-pull-request' into staging (2020-09-06 16:23:55 +0100)
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200827' into staging (2020-08-27 13:48:12 +0100)
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-07
->
-> for you to fetch changes up to 88e74b6122bb40852b1c98befd47a572f0c06930:
->
->   target/microblaze: Collected fixes for env->iflags (2020-09-07 12:34:17 +0200)
->
-> ----------------------------------------------------------------
-> * Fixes for cross-compiling with MinGW / compiling with MSYS2
-> * Enable cross-compiler builds in the Gitlab CI
-> * Improvements / fixes for the crypto tests in the Gitlab CI
-> * Fix for the "make check-acceptance" microblaze failure
->   (required to get the Gitlab CI green again)
-> ----------------------------------------------------------------
+>    https://github.com/hdeller/qemu-hppa.git tags/target-hppa-pull-request
 
+Hi; this is a git tag, but it is not a signed tag; we only
+take merges with signed tags.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
+thanks
 -- PMM
 
