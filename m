@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E192A25F691
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:35:19 +0200 (CEST)
-Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6721625F6A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:38:27 +0200 (CEST)
+Received: from localhost ([::1]:37636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDYV-0002x7-0B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37646)
+	id 1kFDbW-0005hW-Gf
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFDXF-0002L5-Ry
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:34:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54186)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFDYx-0003nH-LD
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:35:47 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25899
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFDXD-0004XN-Vt
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:34:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFDYv-0004mf-W2
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:35:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599471239;
+ s=mimecast20190719; t=1599471345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=uy+81q2nWyy7jCp7PL/e0tHLezhbF9cUHjCEJLoxkoQ=;
- b=GMR2wM+K3+fvFa9+EUHUpNmAu99MQWF/nEqSCmCXrvn78PXHeE8bESYFj74zvKaynbMDKA
- o04TtAcO+VV0vNvDtGUH6+yrwaERvDOE87e1Lnz+PNEiEYPnwgklSJlUySV0CZzAP5Ibju
- 8vfg7WY7No2qV5IMZpRh6CsRR/aA69I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393--I00K-UeN_SvTEXobOVIsQ-1; Mon, 07 Sep 2020 05:33:57 -0400
-X-MC-Unique: -I00K-UeN_SvTEXobOVIsQ-1
-Received: by mail-wr1-f71.google.com with SMTP id l17so5467424wrw.11
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 02:33:57 -0700 (PDT)
+ bh=P7heGYKj56N7tolGMwQynC06D8t5O1yJA6HFwtnMoj8=;
+ b=VHd18Nhx3uAw5iIYPNPhUerdQBQJAkIZqG4V/QtGsXMN6fkU5LYZEotVjTJ1kabmA1YKpJ
+ zatnJXf7kGnIcFbdbgAqDVvyJS5ir7X5kSOvrftu2X3buL5gh36/KEU0SAd84zTWnYupUq
+ sIhZ0P9l5HHg5OOBVrndUXumbDF6IvQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-P-ho1VZLPEicQBW5BM2O7Q-1; Mon, 07 Sep 2020 05:35:43 -0400
+X-MC-Unique: P-ho1VZLPEicQBW5BM2O7Q-1
+Received: by mail-wm1-f70.google.com with SMTP id w3so3785793wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 02:35:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=uy+81q2nWyy7jCp7PL/e0tHLezhbF9cUHjCEJLoxkoQ=;
- b=jDeaUVSEyfNSBBm2ALYS+1PpZMdsFaSIsnQ0Pjvn11dK3ykvV+78PJeaek9mPbMlL1
- oMoM+kP6ylne6d52STYPuKQa6p+s7FtQvC85VQOipQiN9OMbkIFzfkLpAJQt/SoQAKKx
- ujYoB/iPkvRIwJYz+fiuLLN3D6wJt2MwvECZrOFpwg7Cdh8tZl5bdCUmun17JR8nUNQ/
- Gtxzlcqim5S43P1hIfNg4OKE2WCx0Dz4r/svnO6iMN+4/SJ1BRywePcLEduGIadHv5BG
- K17ZYVw2bm430f1Kt1QBpzDyH7icGCr8bS3C6iG9DxFJQzf95YyuTUbN89pjC0uJBXlE
- EwSg==
-X-Gm-Message-State: AOAM530S3YnFT9qpMvwtK7DME2pif83UtGN7cfPpLXxW6aDRrFo///xv
- 4JF3Bu4MZA1L1XXIIeB1KgstYdQVol4VM4Z5qJ2Zd20/5CqMUMmSK3wX5T9rcBmPoJYk1SU126t
- y0XudeMJJWbMR+2o=
-X-Received: by 2002:adf:c3cc:: with SMTP id d12mr21015628wrg.399.1599471236606; 
- Mon, 07 Sep 2020 02:33:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyqDTz6BjqCctZaPvtwAKZPOnuYn4sMqz8s2OrhsjkMp5nWWH1BNc/d9xwOtHobo4+x6e16yQ==
-X-Received: by 2002:adf:c3cc:: with SMTP id d12mr21015609wrg.399.1599471236439; 
- Mon, 07 Sep 2020 02:33:56 -0700 (PDT)
+ bh=P7heGYKj56N7tolGMwQynC06D8t5O1yJA6HFwtnMoj8=;
+ b=pptKJx2XHkILeRt2EPdgcDfpLjovT1lwLg8IOoXz+WbFV43C2jXDQxtB+Ok9HHdxI3
+ dBD+4n5FVzqJfknGUg6eo3BcMC2nXYS2Gjg/XyX15efhXLpLR2/22gMGronEHMfoz6ue
+ s7vADXYqbVT9vJ5MbEXG40985M1PtUw19FOqwyuNwkb7gjF0QzYp8EBiujI7TLp3wGs1
+ HM7WR+XYu2KMor6Xz1FwcQWzHAEQkT0hhE2u4vOXk3A2tNfabLXCW78YnruOqAoec8fC
+ NvHNx3l0X4XHg1asszoEfkZAxXHSYrOC2UO/o2Y+zPHHaTox9dJ4/hyxvHv5mmvBH/Hy
+ eTNA==
+X-Gm-Message-State: AOAM533bVrEo0Lr4Gck5KtM/H58Uo39LK3ev8yzRYlIZ+ZwFJC6FntI5
+ GdaIyKDgAWcfI9jwWyIvDyIDc0AkKoYHs7+q15h1zZ5KZGhB5JNk1nGu+RpLKEmOXPSClJyYF84
+ YhTdOYAObl9PqD3A=
+X-Received: by 2002:adf:ed09:: with SMTP id a9mr20120847wro.407.1599471342681; 
+ Mon, 07 Sep 2020 02:35:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkYHyRFdzZVlTBt8755V3gP2Ih01Jo7fdKK1YYBvpjISMPItmh4waLbe2iOFUk0t1kijHAEA==
+X-Received: by 2002:adf:ed09:: with SMTP id a9mr20120835wro.407.1599471342516; 
+ Mon, 07 Sep 2020 02:35:42 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id b11sm27468560wrt.38.2020.09.07.02.33.55
+ by smtp.gmail.com with ESMTPSA id m13sm27117679wrr.74.2020.09.07.02.35.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Sep 2020 02:33:55 -0700 (PDT)
-Subject: Re: [PATCH 17/17] hw/block/nvme: change controller pci id
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20200904141956.576630-1-its@irrelevant.dk>
- <20200904141956.576630-18-its@irrelevant.dk>
- <894711e0-7823-5cf0-5b5a-a84f15b458ce@redhat.com>
- <20200907072332.GA690013@apples.localdomain>
- <8651d3fa-becf-7b86-8c16-bbfb8926cec7@redhat.com>
- <20200907085814.GA698329@apples.localdomain>
- <20200907092052.GA706837@apples.localdomain>
+ Mon, 07 Sep 2020 02:35:42 -0700 (PDT)
+Subject: Re: [PATCH] file-win32: Fix "locking" option
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200907092739.9988-1-kwolf@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -91,12 +86,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <7465047d-ad7a-edab-bb65-8ed0a96fe5f6@redhat.com>
-Date: Mon, 7 Sep 2020 11:33:54 +0200
+Message-ID: <75e6ec01-6ee5-a153-3b20-f29c9cc91d1c@redhat.com>
+Date: Mon, 7 Sep 2020 11:35:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200907092052.GA706837@apples.localdomain>
+In-Reply-To: <20200907092739.9988-1-kwolf@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -104,18 +99,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:27:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/06 22:29:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.69, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.69, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,68 +122,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>
+Cc: sw@weilnetz.de, luoyonggang@gmail.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/20 11:20 AM, Klaus Jensen wrote:
-> On Sep  7 10:58, Klaus Jensen wrote:
->> On Sep  7 10:36, Philippe Mathieu-Daudé wrote:
->>> On 9/7/20 9:23 AM, Klaus Jensen wrote:
->>>> On Sep  7 04:28, Philippe Mathieu-Daudé wrote:
->>>>> +David in case
->>>>>
->>>>> On 9/4/20 4:19 PM, Klaus Jensen wrote:
->>>>>> From: Klaus Jensen <k.jensen@samsung.com>
->>>>>>
->>>>>> There are two reasons for changing this:
->>>>>>
->>>>>>   1. The nvme device currently uses an internal Intel device id.
->>>>>>
->>>>>>   2. Since commits "nvme: fix write zeroes offset and count" and "nvme:
->>>>>>      support multiple namespaces" the controller device no longer has
->>>>>>      the quirks that the Linux kernel think it has.
->>>>>>
->>>>>>      As the quirks are applied based on pci vendor and device id, change
->>>>>>      them to get rid of the quirks.
->>>>>>
->>>>>> To keep backward compatibility, add a new 'x-use-intel-id' parameter to
->>>>>> the nvme device to force use of the Intel vendor and device id. This is
->>>>>> off by default but add a compat property to set this for 5.1 machines
->>>>>> and older.
->>>>>
->>>>> So now what happens if you start a 5.1 machine with a recent kernel?
->>>>> Simply the kernel will use unnecessary quirks, or are there more
->>>>> changes in behavior?
->>>>>
->>>>
->>>> Yes, the kernel will then just apply unneccesary quirks, these are:
->>>>
->>>>   1. NVME_QUIRK_IDENTIFY_CNS which says that the device does not support
->>>>      anything else than values 0x0 and 0x1 for CNS (Identify Namespace and
->>>>      Identify Namespace). With multiple namespace support, this just
->>>>      means that the kernel will "scan" namespaces instead of using
->>>>      "Active Namespace ID list" (CNS 0x2).
->>>>
->>>>   2. NVME_QUIRK_DISABLE_WRITE_ZEROES. The nvme device started out with a
->>>>      broken Write Zeroes implementation which has since been fixed in
->>>>      commit 9d6459d21a6e ("nvme: fix write zeroes offset and count").
->>>
->>> OK thanks. Can you amend that information in the commit
->>> description please?
->>>
->>
->> Yes, absolutely.
+On 9/7/20 11:27 AM, Kevin Wolf wrote:
+> The intended behaviour was that locking=off/auto work and have no
+> effect (to remain compatible with file-posix), whereas locking=on would
+> return an error. Unfortunately, the code forgot to remove "locking" from
+> the options QDict, so any attempt to use the option would fail.
 > 
-> By the way. Is it correct use of an 'x-' parameter here - since it is
-> something that we might remove in the future? I was unable to find any
-> documentation on the purpose of the 'x-' prefix, but I was guessing it
-> was for stuff like this.
+> Replace the option parsing code for "locking" with something that is
+> part of the raw_runtime_opts QemuOptsList (so it is properly removed
+> from the QDict) and looks more like file-posix.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
-Probably not. 'x-' is for unstable debugging/testing features.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+>  block/file-win32.c | 22 +++++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/file-win32.c b/block/file-win32.c
+> index ab69bd811a..e2900c3a51 100644
+> --- a/block/file-win32.c
+> +++ b/block/file-win32.c
+> @@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
+>              .type = QEMU_OPT_STRING,
+>              .help = "host AIO implementation (threads, native)",
+>          },
+> +        {
+> +            .name = "locking",
+> +            .type = QEMU_OPT_STRING,
+> +            .help = "file locking mode (on/off/auto, default: auto)",
+> +        },
+>          { /* end of list */ }
+>      },
+>  };
+> @@ -333,6 +338,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+>      Error *local_err = NULL;
+>      const char *filename;
+>      bool use_aio;
+> +    OnOffAuto locking;
+>      int ret;
+>  
+>      s->type = FTYPE_FILE;
+> @@ -343,10 +349,24 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+>          goto fail;
+>      }
+>  
+> -    if (qdict_get_try_bool(options, "locking", false)) {
+> +    locking = qapi_enum_parse(&OnOffAuto_lookup,
+> +                              qemu_opt_get(opts, "locking"),
+> +                              ON_OFF_AUTO_AUTO, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        ret = -EINVAL;
+> +        goto fail;
+> +    }
+> +    switch (locking) {
+> +    case ON_OFF_AUTO_ON:
+>          error_setg(errp, "locking=on is not supported on Windows");
+>          ret = -EINVAL;
+>          goto fail;
+> +    case ON_OFF_AUTO_OFF:
+> +    case ON_OFF_AUTO_AUTO:
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+>      }
+>  
+>      filename = qemu_opt_get(opts, "filename");
+> 
 
 
