@@ -2,119 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED4025F698
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:36:50 +0200 (CEST)
-Received: from localhost ([::1]:35058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDEA25F681
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:32:31 +0200 (CEST)
+Received: from localhost ([::1]:53736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDZx-0004ap-MV
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:36:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
+	id 1kFDVm-0000Kt-6V
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:32:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kFDZ6-0003z2-Uv
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:35:56 -0400
-Received: from mail-bn8nam11on2047.outbound.protection.outlook.com
- ([40.107.236.47]:1313 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kFDZ4-0004rS-G9
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:35:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G0yhmDk4jmuvAz0bDREW8a3wYaSp2C5XdgT4Y2f6az13rZ3McvaFQFwUcSXmfcQuO3IZmBcuvbFmWjUL3e30TJfktsBBY47Q3+Nmzemc99As6+ETZePXGTJ9/+NoEyq9AB+/cZLrjou37qJ+rUv0s0Qwp7x9xlnJYFC2BqLQwgN9qc6tnwevmyQIN0WgSCDvIfUBgpt2ed/5Fb4Hi8+OXxm/N1skXYmtvbdx2OQBeFncBA8M5lfICsSiMlHIxPQdpFq8xXZ2X02kQ3iF9qmqKALt8aj+f0V92e0OEgR1fuMexQer5NzO3bJK0tBDzRqjYj/GMc28hdH8Nltd6V103g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RjuQo7r3v2OHRf9PFp4cGVYSh4Soaq2GRlVnJMPYdoU=;
- b=D1jIIyVblKVbwc3fRxCL6NYJWhnByujsHVBM7xpB6YF+zS/J/9ls4Zx495cKknwn0kjLda7BEbYXq2eAb473QIGkjLVguy6qIF56KZtum3W6aNoiT1gj03iip09OCkR+NN11FGv8k+EMwcuZaUqSpewPb7+UjLMsCylylfzfZxmfmM0CFkH3PS5ei+UEYl1lmyXzFg/YtdSPEMVHhFddcTS2pseb0JTS8HZ89JLaR4ETfKnMmseu+AQBqvzcIvsTa/Zng3+63q8rFtYo67XGAWfqMiQOmXeUPQKiSrH7WWDw1Cfhnpsfh+HbvW4WbxtzbZ5LH8/gvPvjR7kRlF31Zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RjuQo7r3v2OHRf9PFp4cGVYSh4Soaq2GRlVnJMPYdoU=;
- b=Ex8eGB2/8UrRNcsP/hv0GFbT9Yy+Eb/6+8OaVnOieaUefj0K8WCKVcm9aMMW76CaFPMjBwCgc+crIx5GKGBwvehrwUPO7s2nXjjzDp2dT9yz4HiShCVDgVQPe+PgAwVCmrEomOB6hAhQVRhgyA53/I6vPgfuAWyB2oSADP8Ha5o=
-Received: from SA9PR03CA0012.namprd03.prod.outlook.com (2603:10b6:806:20::17)
- by BN6PR02MB2465.namprd02.prod.outlook.com (2603:10b6:404:57::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Mon, 7 Sep
- 2020 09:20:49 +0000
-Received: from SN1NAM02FT028.eop-nam02.prod.protection.outlook.com
- (2603:10b6:806:20:cafe::59) by SA9PR03CA0012.outlook.office365.com
- (2603:10b6:806:20::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16 via Frontend
- Transport; Mon, 7 Sep 2020 09:20:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT028.mail.protection.outlook.com (10.152.72.105) with Microsoft SMTP
- Server id 15.20.3348.17 via Frontend Transport; Mon, 7 Sep 2020 09:20:49
- +0000
-Received: from [149.199.38.66] (port=38846 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1kFDKH-00042H-Bd; Mon, 07 Sep 2020 02:20:37 -0700
-Received: from [127.0.0.1] (helo=xsj-pvapsmtp01)
- by smtp.xilinx.com with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1kFDKT-0005kD-Go; Mon, 07 Sep 2020 02:20:49 -0700
-Received: from [10.71.116.235] (helo=localhost)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1kFDKT-0005jq-0g; Mon, 07 Sep 2020 02:20:49 -0700
-Date: Mon, 7 Sep 2020 11:20:43 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 00/19] target/microblaze improvements
-Message-ID: <20200907092043.GV14249@toto>
-References: <20200904190842.2282109-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFDUh-0008LV-FS
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:31:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29370
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFDUf-0004KV-JZ
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:31:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599471080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ix+vDhTh+n1g+0BqERo2XaFIbs4ujyls0wswSRL1RBc=;
+ b=hraV4+e/RHsX+44bPhEEIyiuV1+YxnmaWUiBle83s93Pu5x888D+RT9aNIi4GUIz/cQeUQ
+ owXCNwNVlWSiIc7sBT360/yO5vG3Utwf7yjGbuf0Sv/+VpdLAQxAWM5qGpF3F1aaH3DzUQ
+ 38PvHuCzLdUlJfsXvIunCF9grbz28F4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-hSDnDNblORi0KMpQZqSLWQ-1; Mon, 07 Sep 2020 05:31:19 -0400
+X-MC-Unique: hSDnDNblORi0KMpQZqSLWQ-1
+Received: by mail-wr1-f72.google.com with SMTP id o6so5370634wrp.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 02:31:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:cc:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ix+vDhTh+n1g+0BqERo2XaFIbs4ujyls0wswSRL1RBc=;
+ b=ir/P8JIdAdd+m0fdUjHliRjuN58jkMn7CyPw2SmjkVJ6raMduX2r1ySR2hMDzmXlyl
+ 1EZlhN/Iu80pG4fTecdlZIEbecXn4BP/KfnvNYhYNANQQt+eRxQZcIZMx9Wxe66bLODt
+ RPRq0n/FowcTd7tsxnLdUAsiY2YsQgC0+Rljq8uYbSOW/JmRZ86/lwM8yvodu8nwpeDK
+ CuJ98To4Nl6yjSx8o8u5s/pzb0f32cyG/2C4pVK7AwNw8EXVqUdrkwnxsGHzPEwbf47h
+ L9CbI8oh/3O2O4HfTJ0mzwl4+vOf0SVFIxDtiJtdH6VgdI7Hj+RcnnHsq0QcYFdgcj3M
+ /xyQ==
+X-Gm-Message-State: AOAM531CH3nms2Cq2Qlv50YmEqrsdoat93ZqROnjaWUq6AxQoRm7BYwu
+ A1O9YVB8VvMehvzFbGCAo0x9yfzNl7wf39JCML3xuebGcE8388CNkyZ/hfWLWlAsN92Kg940nQ8
+ rPQrxSd7AefoYbwo=
+X-Received: by 2002:a1c:2d85:: with SMTP id t127mr1866762wmt.22.1599471077984; 
+ Mon, 07 Sep 2020 02:31:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2Sl8QLyQrrmc/Jmk8n/fMihUW0Ssmy7vjX0co7nWZUP/TjIJCLyBsLDyUxNVfm+JdqpC5nw==
+X-Received: by 2002:a1c:2d85:: with SMTP id t127mr1866740wmt.22.1599471077765; 
+ Mon, 07 Sep 2020 02:31:17 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id z7sm19352578wrw.93.2020.09.07.02.31.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Sep 2020 02:31:17 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] qga: add implementation of guest-get-disks for
+ Windows
+To: =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>
+References: <cover.1599470071.git.tgolembi@redhat.com>
+ <2cd59ce454e0da02eeb75ab7461ef420b30864f5.1599470071.git.tgolembi@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <bc08b17b-695e-b5d0-a616-c9ae39d337c1@redhat.com>
+Date: Mon, 7 Sep 2020 11:31:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200904190842.2282109-1-richard.henderson@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c3f4a311-f14e-428e-9fb8-08d8530f4f95
-X-MS-TrafficTypeDiagnostic: BN6PR02MB2465:
-X-Microsoft-Antispam-PRVS: <BN6PR02MB246560E54A3690CC270AAFCCC2280@BN6PR02MB2465.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +zHxc7LMM0LP7swCrPoqbdZcjYiLvnONig75J48J12jbJs4J29k8cE6KjX85uGJzYFaMUzY0k11OV9dACwfwj1adXe3k19q5+x0uvY6V71rbYIK4VyCTODdy0ao9JpJj6hFoieEBj6moqsYoUNJXb0eeie11/KfPUZGJsjdPlJinTCUWgY/vH8UISVxtqLL4VSvARFZ4AGPcY3RXHTzb4f5NXwVBeytAeA76j7WZrr/rpTGxzz0cmaiJHTV0I9gv7fYvz0Oyk22XEpMrHFioplGDKYcNqwcd6STMx/rye/AOIfYkT7FHoFD7CVnWlaJQU1YDe00cIggcxxCNRJ6xhJ6vi+uuwf9Y2o5wppX0NH7sWJsy7HRwowUovic0/6Bv+xXFbpwbd9fDuqktsmb45g==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(7916004)(39850400004)(346002)(396003)(136003)(376002)(46966005)(33656002)(81166007)(82740400003)(426003)(70586007)(356005)(336012)(186003)(70206006)(8936002)(1076003)(26005)(6666004)(316002)(9786002)(478600001)(33716001)(82310400003)(83380400001)(4326008)(9686003)(2906002)(5660300002)(47076004)(8676002)(6916009);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2020 09:20:49.7705 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3f4a311-f14e-428e-9fb8-08d8530f4f95
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT028.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2465
-Received-SPF: pass client-ip=40.107.236.47; envelope-from=edgar@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 05:35:53
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2cd59ce454e0da02eeb75ab7461ef420b30864f5.1599470071.git.tgolembi@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:19:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.69, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,45 +125,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: Thomas Huth <thuth@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 04, 2020 at 12:08:23PM -0700, Richard Henderson wrote:
-> Version 3:
-> 
->  * Splits out MicroBlazeCPUConfig, and moves some values
->    out of CPUMBState (env) that are constant configuration
->    parameters, or derived from configuration parameters.
-> 
->  * Do not save configuration parameters with vmstate.
->  * Pass around MicroBlazeCPUConfig in the translator.
->  * Do not set TARGET_ABI32 in configure.
-> 
-> Version 2:
-> 
->  * Includes fixes for iflags that could cause lockups.
-> 
->    It seems it was easier to do so with icount=7, which is what we
->    do during the replay acceptance tests.  This causes TBs to contain
->    no more than 7 insns, and often less to make up for an incomplete
->    count elsewhere.  Which stressed the iflags bits around delay slots
->    and imm in ways that pure single-step doesn't.
-> 
->   * cpu vmstate is filled in
->   * interrupt logging is tidied.
-> 
-> 
-> r~
+Cc'ing Yonggang Luo for review.
 
-Looks good, none of the test issues were relatd. Thanks Richard!
+On 9/7/20 11:14 AM, Tomáš Golembiovský wrote:
+> The command lists all the physical disk drives. Unlike for Linux
+> partitions and virtual volumes are not listed.
+> 
+> Example output:
+> 
+> {
+>   "return": [
+>     {
+>       "name": "\\\\.\\PhysicalDrive0",
+>       "partition": false,
+>       "address": {
+>         "serial": "QM00001",
+>         "bus-type": "sata",
+>         ...
+>       },
+>       "slaves": []
+>     }
+>   ]
+> }
+> 
+> Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
+> ---
+>  qga/commands-win32.c | 97 +++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 91 insertions(+), 6 deletions(-)
+> 
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index e9976a0c46..9ac847a187 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -945,6 +945,91 @@ out:
+>      return list;
+>  }
+>  
+> +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+> +{
+> +    GuestDiskInfoList *new = NULL, *ret = NULL;
+> +    HDEVINFO dev_info;
+> +    SP_DEVICE_INTERFACE_DATA dev_iface_data;
+> +    int i;
+> +
+> +    dev_info = SetupDiGetClassDevs(&GUID_DEVINTERFACE_DISK, 0, 0,
+> +        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
+> +    if (dev_info == INVALID_HANDLE_VALUE) {
+> +        error_setg_win32(errp, GetLastError(), "failed to get device tree");
+> +        return NULL;
+> +    }
+> +
+> +    g_debug("enumerating devices");
+> +    dev_iface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
+> +    for (i = 0;
+> +        SetupDiEnumDeviceInterfaces(dev_info, NULL, &GUID_DEVINTERFACE_DISK,
+> +            i, &dev_iface_data);
+> +        i++) {
+> +        GuestDiskAddress *address = NULL;
+> +        GuestDiskInfo *disk = NULL;
+> +        Error *local_err = NULL;
+> +        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
+> +            pdev_iface_detail_data = NULL;
+> +        STORAGE_DEVICE_NUMBER sdn;
+> +        HANDLE dev_file;
+> +        DWORD size = 0;
+> +
+> +        g_debug("  getting device path");
+> +        while (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
+> +                pdev_iface_detail_data,
+> +                size, &size,
+> +                NULL)) {
+> +            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+> +                pdev_iface_detail_data = g_malloc(size);
+> +                pdev_iface_detail_data->cbSize =
+> +                    sizeof(*pdev_iface_detail_data);
+> +            } else {
+> +                g_debug("failed to get device interface details");
+> +                continue;
+> +            }
+> +        }
+> +
+> +        g_debug("  device: %s", pdev_iface_detail_data->DevicePath);
+> +        dev_file = CreateFile(pdev_iface_detail_data->DevicePath, 0,
+> +            FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+> +        if (!DeviceIoControl(dev_file, IOCTL_STORAGE_GET_DEVICE_NUMBER,
+> +                NULL, 0, &sdn, sizeof(sdn), &size, NULL)) {
+> +            CloseHandle(dev_file);
+> +            debug_error("failed to get storage device number");
+> +            continue;
+> +        }
+> +        CloseHandle(dev_file);
+> +
+> +        disk = g_new0(GuestDiskInfo, 1);
+> +        disk->name = g_strdup_printf("\\\\.\\PhysicalDrive%lu",
+> +            sdn.DeviceNumber);
+> +
+> +        g_debug("  number: %lu", sdn.DeviceNumber);
+> +        address = g_malloc0(sizeof(GuestDiskAddress));
+> +        address->has_dev = true;
+> +        address->dev = g_strdup(disk->name);
+> +        get_single_disk_info(sdn.DeviceNumber, address, &local_err);
+> +        if (local_err) {
+> +            g_debug("failed to get disk info: %s",
+> +                error_get_pretty(local_err));
+> +            error_free(local_err);
+> +            qapi_free_GuestDiskAddress(address);
+> +            address = NULL;
+> +        } else {
+> +            disk->address = address;
+> +            disk->has_address = true;
+> +        }
+> +
+> +        new = g_malloc0(sizeof(GuestDiskInfoList));
+> +        new->value = disk;
+> +        new->next = ret;
+> +        ret = new;
+> +    }
+> +
+> +    SetupDiDestroyDeviceInfoList(dev_info);
+> +    return ret;
+> +}
+> +
+>  #else
+>  
+>  static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
+> @@ -952,6 +1037,12 @@ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
+>      return NULL;
+>  }
+>  
+> +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+> +{
+> +    error_setg(errp, QERR_UNSUPPORTED);
+> +    return NULL;
+> +}
+> +
+>  #endif /* CONFIG_QGA_NTDDSCSI */
+>  
+>  static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
+> @@ -2229,9 +2320,3 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+>  
+>      return info;
+>  }
+> -
+> -GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+> -{
+> -    error_setg(errp, QERR_UNSUPPORTED);
+> -    return NULL;
+> -}
+> 
 
-On all the patches I had not previously reviewed:
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-Can you take the pull-req via your trees?
-
-Cheers,
-Edgar
 
