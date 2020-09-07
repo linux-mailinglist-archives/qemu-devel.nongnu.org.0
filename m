@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03B425FE5F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:14:59 +0200 (CEST)
-Received: from localhost ([::1]:49522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E9525FDF0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:03:19 +0200 (CEST)
+Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFJnH-0004aN-32
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41974)
+	id 1kFJby-0003PA-2X
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kFJjR-0008Dm-No
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 12:11:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60932)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kFJZW-0008SO-CS
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 12:00:46 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kFJjP-0004i0-He
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 12:11:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kFJjM-0008Lv-OK
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 16:10:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B48AB2E806F
- for <qemu-devel@nongnu.org>; Mon,  7 Sep 2020 16:10:56 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kFJZT-0003Ya-M6
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 12:00:45 -0400
+Received: by mail-wm1-x344.google.com with SMTP id s13so14783361wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 09:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=r0k1JDUDnuLVZEcpkQFx9izm83l0K+K3seip2uQwMoc=;
+ b=ldNa37IlSrhM7iuyMQjfCgUHLixKFWmI3oDutNNx+av4tF+lzx7TuUyU6tU/S4hPAr
+ 4GRVg5wW1phtyX1CbdOeqve114LgW6EmCU4sSJA5QWMXKAC8V41tP8Bu4zMZTmRicyHc
+ JhV2R2iafirlkRnFKezkPnKhL8tGNGM6cG3c+f7uexyAaZBKMqyQ6d64xU5Nx6ceMlws
+ bmp4/r9+B38WPNOjmwlpX9CuYlEi86ebOxWGbkFJieHeJV+aXpxacH0WFpzQfuSapfcQ
+ dPUeiJHNQd6KDENx1RaWy+NxtB6SpgNMKLFB1zNyNadBTs6zK4R/JoX2kFTz4PokN1WW
+ 0PHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=r0k1JDUDnuLVZEcpkQFx9izm83l0K+K3seip2uQwMoc=;
+ b=rohcsKJopKp49fb6UC4Cjb5pHcQmS8rWCS2/Bz7zTTauoGfhDTyUvZ4FebmlNticIO
+ hyr6d9+F3mwT7jpGL+orOc0spOb96aZgPq6UmDtEymVEyYhvJ5Ish8uf7UGY5k4Yc9nZ
+ FQThQ+RprFs1SoSa/U3DSsuLm/JN/zAhRpLtM41Uxo/i4XXnH5PEboBXaZr6Oyy49Djj
+ 4lJ624IhR9WN8RG1fZ/biW0R2pamLpbT4Fnj2SpmF5nfuKfIe3kwfOej/N7kGR3r2R+9
+ 7vAvNRyrXTAMt1vKuPN0iRgZtR4f7ooBoU8UYAJ59P8uzcqjIfEbS+lNhvZCbovq/iCJ
+ mvOQ==
+X-Gm-Message-State: AOAM530UQ+1LV1ypM/VyDjCFODxVAS4z865kqjOGoVucccKStjfvEUWp
+ WBzE+bjyQwIgPhecaU1/whJpeQ==
+X-Google-Smtp-Source: ABdhPJyj2vFpkBrNX4z2NPgVzBjlLN91dexr1dOgIuf2b3cpK0+sH0JgFMbDuontXxYSPP+o1jJBYw==
+X-Received: by 2002:a1c:b608:: with SMTP id g8mr38716wmf.106.1599494441603;
+ Mon, 07 Sep 2020 09:00:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u66sm2420101wme.1.2020.09.07.09.00.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Sep 2020 09:00:40 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DDD4E1FF7E;
+ Mon,  7 Sep 2020 17:00:39 +0100 (BST)
+References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
+ <159903457617.28509.2649326029575134141.stgit@pasha-ThinkPad-X280>
+ <87k0x5r4jg.fsf@linaro.org>
+ <1afbeab2-e363-9be3-a751-2692263e80d2@ispras.ru>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Subject: Re: [PATCH v3 05/15] iotests: update snapshot test for new output
+ format
+In-reply-to: <1afbeab2-e363-9be3-a751-2692263e80d2@ispras.ru>
+Date: Mon, 07 Sep 2020 17:00:39 +0100
+Message-ID: <87h7s9r2zc.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 07 Sep 2020 15:59:19 -0000
-From: Laurent Vivier <1894361@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: belyshev laurent-vivier
-X-Launchpad-Bug-Reporter: Serge Belyshev (belyshev)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159929178448.19565.970547378217785267.malonedeb@gac.canonical.com>
-Message-Id: <159949436003.11707.1455692305253449896.malone@chaenomeles.canonical.com>
-Subject: [Bug 1894361] Re: linux-user: syscall.c lacks pselect6_time64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: 6726ee5ff8bae06a31012640a97e26d393aa84da
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 12:10:57
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,36 +92,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894361 <1894361@bugs.launchpad.net>
+Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
+ philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3De5ce9688b47a8f60337ce=
-1e4108f35577494a46a
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
 
--- =
+> On 07.09.2020 18:26, Alex Benn=C3=A9e wrote:
+>>=20
+>> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+>>=20
+>>> From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
+>>>
+>>> This patch updates iotests that verify qemu monitor output.
+>>> New output format for snapshot listing include ICOUNT column.
+>>=20
+>> I was curious if the monitor should still function during replay. In my
+>> setup:
+>>=20
+>>    ./qemu-system-aarch64 -cpu cortex-a53 -display none -serial mon:stdio=
+ -machine virt -kernel zephyr.elf -net none -icount shift=3D6,align=3Doff,s=
+leep=3Doff,rr=3Dreplay,rrfile=3Drecord.out -drive file=3Drecord.qcow2,if=3D=
+none,snapshot,id=3Drr -s -S
+>>    *** Booting Zephyr OS build zephyr-v2.3.0-1183-ge5628ad0faf3  ***
+>>    Hello World! qemu_cortex_a53
+>>    qemu-system-aarch64: Missing character write event in the replay log
+>
+> And what about -monitor stdio instead of -serial mon:stdio?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894361
+Well I switched to:
 
-Title:
-  linux-user: syscall.c lacks pselect6_time64
+  -monitor telnet:127.0.0.1:4444
 
-Status in QEMU:
-  Fix Committed
+and controlled that way. I appreciate having a multiplexed
+serial/monitor is a tricky edge case but I'm curious as to why it broke.
 
-Bug description:
-  in commit 50efc69586388a975c1ebd90cb8cc8e4a7328bc4 ("linux-user/riscv:
-  Update the syscall_nr's to the 5.5 kernel") legacy pselect6 definition
-  for riscv32 was removed in favour of pselect6_time64, but
-  pselect6_time64 is not available in syscall.c, thus leaving riscv32
-  without pselect syscall.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894361/+subscriptions
+>
+>>=20
+>> although technically the C-a shouldn't be a character that ever makes it
+>> to the guest.
+>>=20
+>>>
+>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>> ---
+>>>   tests/qemu-iotests/267.out |   48 ++++++++++++++++++++++-------------=
+---------
+>>>   1 file changed, 24 insertions(+), 24 deletions(-)
+>>>
+>>> diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
+>>> index 215902b3ad..27471ffae8 100644
+>>> --- a/tests/qemu-iotests/267.out
+>>> +++ b/tests/qemu-iotests/267.out
+>>> @@ -33,8 +33,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>> @@ -44,8 +44,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>> @@ -69,8 +69,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>> @@ -94,8 +94,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>> @@ -105,8 +105,8 @@ QEMU X.Y.Z monitor - type 'help' for more informati=
+on
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>> @@ -119,8 +119,8 @@ QEMU X.Y.Z monitor - type 'help' for more informati=
+on
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>> @@ -134,8 +134,8 @@ QEMU X.Y.Z monitor - type 'help' for more informati=
+on
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>> @@ -145,15 +145,15 @@ QEMU X.Y.Z monitor - type 'help' for more informa=
+tion
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>>   Internal snapshots on overlay:
+>>>   Snapshot list:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> -1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   Internal snapshots on backing file:
+>>>=20=20=20
+>>>   =3D=3D=3D -blockdev with NBD server on the backing file =3D=3D=3D
+>>> @@ -166,17 +166,17 @@ QEMU X.Y.Z monitor - type 'help' for more informa=
+tion
+>>>   (qemu) savevm snap0
+>>>   (qemu) info snapshots
+>>>   List of snapshots present on all disks:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   (qemu) loadvm snap0
+>>>   (qemu) quit
+>>>=20=20=20
+>>>   Internal snapshots on overlay:
+>>>   Snapshot list:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> -1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   Internal snapshots on backing file:
+>>>   Snapshot list:
+>>> -ID        TAG                 VM SIZE                DATE       VM CLO=
+CK
+>>> -1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.0=
+00
+>>> +ID        TAG               VM SIZE                DATE     VM CLOCK  =
+   ICOUNT
+>>> +1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+>>>   *** done
+>>=20
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
