@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AE225F193
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 03:57:30 +0200 (CEST)
-Received: from localhost ([::1]:38294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1CA25F198
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 04:00:09 +0200 (CEST)
+Received: from localhost ([::1]:51404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kF6PR-000864-OD
-	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 21:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59836)
+	id 1kF6S1-0004wb-0M
+	for lists+qemu-devel@lfdr.de; Sun, 06 Sep 2020 22:00:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kF6Nn-0006B5-V4; Sun, 06 Sep 2020 21:55:47 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53847)
+ id 1kF6Np-0006FQ-Ir; Sun, 06 Sep 2020 21:55:49 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kF6Nm-0007La-Cv; Sun, 06 Sep 2020 21:55:47 -0400
-Received: by mail-wm1-x344.google.com with SMTP id x23so2943833wmi.3;
- Sun, 06 Sep 2020 18:55:45 -0700 (PDT)
+ id 1kF6No-0007M4-2x; Sun, 06 Sep 2020 21:55:49 -0400
+Received: by mail-wm1-x344.google.com with SMTP id e11so11335164wme.0;
+ Sun, 06 Sep 2020 18:55:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0L6FMvGCY7Yqd00xQ/ZxKfuTHVYGmeZNYt98i5HNRDQ=;
- b=Nu9yn4I572XTs2h/pxBeMKSFLjGP9QBvQ5EEsO3R1rF7zesE2dh8nvd0nrdIqqMaLp
- ic9oKnFgq6cR/TRt4Hdn/iHYWZaHLT+GrhyXe5nBxvuY1f1Ctu7yIeXfzB62LAbRyqDa
- I6HIuDYOGDPDIspKcvyQPki2OmqbC2O7KZ2rlz0AIIR05wwcMLuorORaY4ZGvhOmcBQp
- HTO2MfRSVVimUnQy9hVrbfclPgmuCcH7NPvhWk/5v6y0kdBgTycUkoVhKsy+2t0bNn9C
- E13N8BLsQt9pKPblQe4CL3U8yGPc5QuvYPP/MNg6ZQR/V4iHcCZH4Co5hAjbUmIl/5Cu
- 92vA==
+ bh=rOdtOAtfcg70s6XvC95J7b24iDolYSlhUR8qCVqx1mg=;
+ b=TT96a1438TOU1/6XpjJ8jj2zBffaiIoSy0PrPjy/Ye7Lj+J3ZhA8EyX/9nIO75eO27
+ OspzVsLIAY4GzBsdrgV2/qCgv9hHMiCL/LUUC2fK74JnxksNAh3ZCVqgpYQxt4Q7pOdQ
+ VaHrUjCCooeQSWR3kRfnDbz9K2fn4pOlyBm9xvxUkQ4D0prr0oPhH6JKO6j948TYJuGo
+ 0AENerUpdiidW8eJgYhJF37rXkvjtHmffAQ5EcZLRR+UtOlTfXF0wWN6aRSXB2JTWHPY
+ 1gqSeMlrCUC6nx4HRrXe3SVrdS69w4lWdklPqL0z9rtRUhQ1/zABfaWez8LkqBHlqPNb
+ GA7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0L6FMvGCY7Yqd00xQ/ZxKfuTHVYGmeZNYt98i5HNRDQ=;
- b=FlBQXChFP70ARsl5nvgmK48HtAYz6tgf1jd7Dwg7W8U4S2zeT5KjSSU2MqMNWG/nbx
- +q+RuiqapzDQv6g9aR6FcrdKHNt0QhV20V4tuqBinGclDdnJt5+Z6+aohmsALGBNSZDv
- 9vyLvoUzxCRjvhK3Qbt/wNe/jIIMvk68fL+EenMCKEXiPc2x3pmgnuB+2F7AyWcf41a6
- ZFz1fMvJq5x0ZXxP6fFax2kExSuHWYO7ETS8e4B4CawYmoI+4Cf7cbn3DbFWVst2LUwA
- xVBVWZU6D0yK4OzD5CWRHN95ALGBhTgNTyBKSGnhLK5DMJtP6lrw5MK4GRz9RjMDUyny
- T5Rw==
-X-Gm-Message-State: AOAM531yiBuRAEB3WVNLHyE4Z2vtNhOiWC3DFW4mp/d3LBDSMTK8UnIt
- 5a7c7t20om/qHUzHxJlZYePUZnksyLE=
-X-Google-Smtp-Source: ABdhPJz0+Wx8FlePRpciApvzJoZqsUGQeqDUyIJzpgtF9yr1rUki+orEphbcJKcqE9s5fB3m0cYnDg==
-X-Received: by 2002:a1c:7c13:: with SMTP id x19mr18864165wmc.45.1599443744300; 
- Sun, 06 Sep 2020 18:55:44 -0700 (PDT)
+ bh=rOdtOAtfcg70s6XvC95J7b24iDolYSlhUR8qCVqx1mg=;
+ b=k/J7waaRDhtmANu46MTOfYAaQEj5FVoc6QzwLAG7uYtfegJoCPfVtZ7mzd/z6O2L/d
+ h+eZKBQUcUEwNTyAkHL2EFz4P2WBsbv+VO+ktj4Nho//8zmKiuCG8DNHL+fUKh+D+RpG
+ MEPI14BrGRpYCF15lYgpyAtqVtga9PS23Z+jtQHGsCCiLdc2MBegn6z1mRLjienfijex
+ 5QDlvspQcpKxhhDNCBLsd0rU1BIF8eklOGN+6t0mZdAOlg194vfQVT/uefVseWUsQX63
+ WY+Ez9wmqlKsibsHymC27z2Iujpeg+H7QyoJVm09Rvw7e+R/1vDgzsZObSS/UZJ2tlKA
+ tI8g==
+X-Gm-Message-State: AOAM532AhrW484EE6AE8Zt8ArDJhp8YFWqIeYCBBE0EaCb1U3y6Yxtsp
+ T7ArO5R3jBCU3n3szDAuV+2QzSFAdrc=
+X-Google-Smtp-Source: ABdhPJyp8VaHrFYgHeJQJsDHWfkSgg16a4KeNBjBfG3vUUMYvh7lgQs1hEDw1k3xQa+VU3SkLTUYAw==
+X-Received: by 2002:a1c:6145:: with SMTP id v66mr19218611wmb.171.1599443746206; 
+ Sun, 06 Sep 2020 18:55:46 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id b84sm29377773wmd.0.2020.09.06.18.55.43
+ by smtp.gmail.com with ESMTPSA id b84sm29377773wmd.0.2020.09.06.18.55.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Sep 2020 18:55:43 -0700 (PDT)
+ Sun, 06 Sep 2020 18:55:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] hw/char/serial: Make 'wakeup' property boolean
-Date: Mon,  7 Sep 2020 03:55:33 +0200
-Message-Id: <20200907015535.827885-6-f4bug@amsat.org>
+Subject: [PATCH 6/7] hw/char/serial-isa: Alias QDEV properties from generic
+ serial object
+Date: Mon,  7 Sep 2020 03:55:34 +0200
+Message-Id: <20200907015535.827885-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907015535.827885-1-f4bug@amsat.org>
 References: <20200907015535.827885-1-f4bug@amsat.org>
@@ -94,57 +95,37 @@ Cc: qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the "wakeup" property introduced in commit 9826fd597df
-("suspend: make serial ports wakeup the guest") a boolean.
-
-As we want to reuse the generic serial properties in the
-ISA model (next commit), expose this property.
+Instead of overwritting the properties of the generic 'state'
+object, alias them.
+Note we can now propagate the "baudbase" property.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/char/serial.h | 2 +-
- hw/char/serial-isa.c     | 2 +-
- hw/char/serial.c         | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ hw/char/serial-isa.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index 535fa23a2b8..3d2a5b27e87 100644
---- a/include/hw/char/serial.h
-+++ b/include/hw/char/serial.h
-@@ -60,7 +60,7 @@ typedef struct SerialState {
-     uint32_t baudbase;
-     uint32_t tsr_retry;
-     guint watch_tag;
--    uint32_t wakeup;
-+    bool wakeup;
- 
-     /* Time when the last byte was successfully sent out of the tsr */
-     uint64_t last_xmit_ts;
 diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
-index b4c65949cd8..a0c338796d5 100644
+index a0c338796d5..0626edda8d1 100644
 --- a/hw/char/serial-isa.c
 +++ b/hw/char/serial-isa.c
-@@ -116,7 +116,7 @@ static Property serial_isa_properties[] = {
+@@ -115,8 +115,6 @@ static Property serial_isa_properties[] = {
+     DEFINE_PROP_UINT32("index",  ISASerialState, index,   -1),
      DEFINE_PROP_UINT32("iobase",  ISASerialState, iobase,  -1),
      DEFINE_PROP_UINT32("irq",    ISASerialState, isairq,  -1),
-     DEFINE_PROP_CHR("chardev",   ISASerialState, state.chr),
--    DEFINE_PROP_UINT32("wakeup", ISASerialState, state.wakeup, 0),
-+    DEFINE_PROP_BOOL("wakeup",   ISASerialState, state.wakeup, false),
+-    DEFINE_PROP_CHR("chardev",   ISASerialState, state.chr),
+-    DEFINE_PROP_BOOL("wakeup",   ISASerialState, state.wakeup, false),
      DEFINE_PROP_END_OF_LIST(),
  };
  
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index ade4adfd526..ade89fadb44 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -1015,6 +1015,7 @@ static const TypeInfo serial_io_info = {
- static Property serial_properties[] = {
-     DEFINE_PROP_CHR("chardev", SerialState, chr),
-     DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
-+    DEFINE_PROP_BOOL("wakeup", SerialState, wakeup, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+@@ -137,6 +135,8 @@ static void serial_isa_initfn(Object *o)
+     ISASerialState *self = ISA_SERIAL(o);
  
+     object_initialize_child(o, "serial", &self->state, TYPE_SERIAL);
++
++    qdev_alias_all_properties(DEVICE(&self->state), o);
+ }
+ 
+ static const TypeInfo serial_isa_info = {
 -- 
 2.26.2
 
