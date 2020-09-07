@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FEF25FFA8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:36:25 +0200 (CEST)
-Received: from localhost ([::1]:57900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DE425FFB3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:37:09 +0200 (CEST)
+Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFK80-0003vt-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47806)
+	id 1kFK8i-0005IF-6N
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4q-00088C-4j; Mon, 07 Sep 2020 12:33:08 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:45189)
+ id 1kFK4s-0008FM-Np; Mon, 07 Sep 2020 12:33:10 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:41686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4o-0007c4-Gw; Mon, 07 Sep 2020 12:33:07 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id l17so13270655edq.12;
- Mon, 07 Sep 2020 09:33:05 -0700 (PDT)
+ id 1kFK4q-0007cV-Eo; Mon, 07 Sep 2020 12:33:10 -0400
+Received: by mail-ed1-x542.google.com with SMTP id ay8so13308902edb.8;
+ Mon, 07 Sep 2020 09:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sOTWIKCT6VDFv2Z2z68Ud6vgTWqu6BKF5mHpas4qUIU=;
- b=CbNlWh0SZ+7iSW1+FYz4wkXR13QN3P64ZIb9mGTZ45QuJKP8BzwzHJWcUZ4opDAS+U
- NPwfnLRggsDeRGkYoETvHFcOISfCCoZEBl+m+F2F4mhClWL1W/PD5k5C1JukQNptuduA
- tQYQrZiO1+J2GdIJssDIepQ8IXYIGxQp/bQ/kOcAVQj7UzI7873cVIxKWzS6H6JJMr3A
- EIGAyzN7jkWU3F93RLTnvnKHR4JYudYeEVDsMDW+esIf/UaVOF8/qwDCf6g0x5jA086X
- KDLkQl6FTCHaGXnVaaqSBu6CGskE+VSvlpwu2B6tB0ppiVXB+JvGr12EHMXcectt4ETm
- SBGQ==
+ bh=pr3IdxupnoTag8g+l9d/z4aY7eG0d/P7ZaZKT2cQb14=;
+ b=tSXeiDOvHKsgXQGnF2c5ZkjZL1FPCrWs6AKIXfNbiIW8OFg3ChzJYIwf3fDZyNURNX
+ 1ERSEPxjHXTjWF05PJFRz64nI8EEHVV0C8LM+c1a8zSOcyYnC+K3z9HraFl7+L0L3Jz9
+ 9ce+JbTBrusEN1Lle+Toqx/kucDmc8l24NP+6REZQ+y9PyZfsPPnKXJWuefw1K22CkTF
+ cNQ/dlOxfgq/PLNzsVfBn1DEjESy2wDGeMR9GlwZLYw9Go2RGimnOUG49pEaPn8D6geW
+ YQv3UWG+CQJClLwSbZdwLpO9JyTlt0HH3p0fOYBm4vCMhsynYxUrTWbveA6cvtI6gpmZ
+ qBzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sOTWIKCT6VDFv2Z2z68Ud6vgTWqu6BKF5mHpas4qUIU=;
- b=rB7ahS0G9JlxY3QXewcESNSsRkeWoFlGKpNjHawHP/dEnFJb97X9FLcu837CbMkZIg
- JKN1ONuKycBOxRvUcEKLcQQoH/GdiJIoy5LJpGqk21IRhmKG9uibJd+M6yDQAmClcme4
- Di6Sz4ZE331MeZhJAkAt1LI6aaL1NQNgK/b7V1r4h+jr+B1mHKro1owfuCN2kyJGWnI7
- inHZPrrjtLM/XxL6d2cVMl6Xhu6pMuohm7La3aTutI2clsWLgEAY23THrH5kcxXv4XQR
- lnMnZ0SKLmve5sQ6RGY2XZHQh670pwkApPlwrykEdvGGY1n1hxnUZYpvqORk8QZXMdP2
- 0Wzg==
-X-Gm-Message-State: AOAM531FuvZIlbPA2cuIPqWLC5x39+HsMUpYsRwiQm/Imzg2Pi3D09HQ
- RKMTAuwV1omZIxtM+Eysg1K3lR1g9Ng=
-X-Google-Smtp-Source: ABdhPJz4mZwYDnh5f9SkSMuj18wRVfof8pdYAQR5sxNMR440kQguG89aeMXab6/H9yyTddV3KMHFew==
-X-Received: by 2002:aa7:dbd9:: with SMTP id v25mr23489525edt.78.1599496384529; 
- Mon, 07 Sep 2020 09:33:04 -0700 (PDT)
+ bh=pr3IdxupnoTag8g+l9d/z4aY7eG0d/P7ZaZKT2cQb14=;
+ b=KMGuehbnnxHpaXR04Q1MetsO3VcwiFhssyKrgyWoYcT1bHz84RHHqAcLWKYAryS/Pr
+ 6VxpDfWuJcsoQEtalUuFH05bBrOFTSvYPG5oPwR6tt8jCbzXWHC9xHa/4fY4XFx5OrT9
+ d8XPDq9qIAOBw3M8JkYNC9rwlUJIKgDOkqYPpi21qKA/8Gnu4vFgvb3kL544Rh2Rr2ag
+ 9svW9NauFI+hOW+7YNPJWLnlRIMCHdg8vXE2gGstG3cvGhIrhzbdtcNm74OAwduzsZno
+ kwviWajhCwDjseSAOh8O/z0d07kMizk+zVR4xuoJh6Yi4Idmq87AZaCvG0DMBFmRoBl0
+ CLfw==
+X-Gm-Message-State: AOAM533EVkghht/4d+MvXU8aE3CDkai7LI4A+aqbuMHzOqyEHPZe+w4W
+ QRzZZijfRm790MHPxQuoG0g5zv3IIFI=
+X-Google-Smtp-Source: ABdhPJzgF4A2LH6+tLU2pOKb6e91t41o8McNQebV7qFRxUtojodsrIC6NKYX3l7tPv118u7F6ylIuw==
+X-Received: by 2002:a50:be82:: with SMTP id b2mr23115522edk.303.1599496386488; 
+ Mon, 07 Sep 2020 09:33:06 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u13sm15700199ejn.82.2020.09.07.09.33.03
+ by smtp.gmail.com with ESMTPSA id u13sm15700199ejn.82.2020.09.07.09.33.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 09:33:03 -0700 (PDT)
+ Mon, 07 Sep 2020 09:33:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/8] hw/misc/led: Emit a trace event when LED intensity has
- changed
-Date: Mon,  7 Sep 2020 18:32:52 +0200
-Message-Id: <20200907163257.46527-4-f4bug@amsat.org>
+Subject: [PATCH v4 4/8] hw/arm/aspeed: Add the 3 front LEDs drived by the
+ PCA9552 #1
+Date: Mon,  7 Sep 2020 18:32:53 +0200
+Message-Id: <20200907163257.46527-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907163257.46527-1-f4bug@amsat.org>
 References: <20200907163257.46527-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -96,42 +96,94 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Track the LED intensity, and emit a trace event when it changes.
+The Witherspoon has 3 LEDs connected to a PCA9552. Add them.
+The names and reset values are taken from:
+https://github.com/open-power/witherspoon-xml/blob/master/witherspoon.xml
+
+Example booting obmc-phosphor-image:
+
+  $ qemu-system-arm -M witherspoon-bmc -trace led_change_intensity
+  1592693373.997015:led_change_intensity LED desc:'front-fault-4' color:green intensity 0% -> 100%
+  1592693373.997632:led_change_intensity LED desc:'front-power-3' color:green intensity 0% -> 100%
+  1592693373.998239:led_change_intensity LED desc:'front-id-5' color:green intensity 0% -> 100%
+  1592693500.291805:led_change_intensity LED desc:'front-power-3' color:green intensity 100% -> 0%
+  1592693500.312041:led_change_intensity LED desc:'front-power-3' color:green intensity 0% -> 100%
+  1592693500.821254:led_change_intensity LED desc:'front-power-3' color:green intensity 100% -> 0%
+  1592693501.331517:led_change_intensity LED desc:'front-power-3' color:green intensity 0% -> 100%
+  1592693501.841367:led_change_intensity LED desc:'front-power-3' color:green intensity 100% -> 0%
+  1592693502.350839:led_change_intensity LED desc:'front-power-3' color:green intensity 0% -> 100%
+  1592693502.861134:led_change_intensity LED desc:'front-power-3' color:green intensity 100% -> 0%
+  1592693503.371090:led_change_intensity LED desc:'front-power-3' color:green intensity 0% -> 100%
+
+We notice the front-power LED starts to blink at a ~2Hz rate.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/led.c        | 4 ++++
- hw/misc/trace-events | 1 +
- 2 files changed, 5 insertions(+)
+ hw/arm/aspeed.c | 20 ++++++++++++++++++++
+ hw/arm/Kconfig  |  1 +
+ 2 files changed, 21 insertions(+)
 
-diff --git a/hw/misc/led.c b/hw/misc/led.c
-index 1acade1d592..b7e9b1465bb 100644
---- a/hw/misc/led.c
-+++ b/hw/misc/led.c
-@@ -41,6 +41,10 @@ void led_set_intensity(LEDState *s, unsigned intensity_percent)
-         intensity_percent = LED_INTENSITY_PERCENT_MAX;
-     }
-     trace_led_set_intensity(s->description, s->color, intensity_percent);
-+    if (intensity_percent != s->intensity_percent) {
-+        trace_led_change_intensity(s->description, s->color,
-+                                   s->intensity_percent, intensity_percent);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 8bfb1c79ddc..83e322ea983 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -20,6 +20,7 @@
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/misc/pca9552.h"
+ #include "hw/misc/tmp105.h"
++#include "hw/misc/led.h"
+ #include "hw/qdev-properties.h"
+ #include "qemu/log.h"
+ #include "sysemu/block-backend.h"
+@@ -521,9 +522,20 @@ static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
+ 
+ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
+ {
++    static const struct {
++        unsigned gpio_id;
++        LEDColor color;
++        const char *description;
++        bool gpio_polarity;
++    } pca1_leds[] = {
++        {13, LED_COLOR_GREEN, "front-fault-4",  GPIO_POLARITY_ACTIVE_LOW},
++        {14, LED_COLOR_GREEN, "front-power-3",  GPIO_POLARITY_ACTIVE_LOW},
++        {15, LED_COLOR_GREEN, "front-id-5",     GPIO_POLARITY_ACTIVE_LOW},
++    };
+     AspeedSoCState *soc = &bmc->soc;
+     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
+     DeviceState *dev;
++    LEDState *led;
+ 
+     /* Bus 3: TODO bmp280@77 */
+     /* Bus 3: TODO max31785@52 */
+@@ -534,6 +546,14 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
+                                 aspeed_i2c_get_bus(&soc->i2c, 3),
+                                 &error_fatal);
+ 
++    for (size_t i = 0; i < ARRAY_SIZE(pca1_leds); i++) {
++        led = led_create_simple(OBJECT(bmc),
++                                pca1_leds[i].gpio_polarity,
++                                pca1_leds[i].color,
++                                pca1_leds[i].description);
++        qdev_connect_gpio_out(dev, pca1_leds[i].gpio_id,
++                              qdev_get_gpio_in(DEVICE(led), 0));
 +    }
-     s->intensity_percent = intensity_percent;
- }
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), "tmp423", 0x4c);
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), "tmp423", 0x4c);
  
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 76c9ddb54fe..89d15f05f9a 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -216,6 +216,7 @@ grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx6
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index bc3a423940b..06ba1c355b1 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -394,6 +394,7 @@ config ASPEED_SOC
+     select TMP105
+     select TMP421
+     select UNIMP
++    select LED
  
- # led.c
- led_set_intensity(const char *color, const char *desc, uint8_t intensity_percent) "LED desc:'%s' color:%s intensity: %u%%"
-+led_change_intensity(const char *color, const char *desc, uint8_t old_intensity_percent, uint8_t new_intensity_percent) "LED desc:'%s' color:%s intensity %u%% -> %u%%"
- 
- # pca9552.c
- pca955x_gpio_status(const char *description, const char *buf) "%s GPIOs 0-15 [%s]"
+ config MPS2
+     bool
 -- 
 2.26.2
 
