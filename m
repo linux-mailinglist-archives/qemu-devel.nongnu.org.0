@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0700D25FADE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 14:59:59 +0200 (CEST)
-Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0FA25FB0D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 15:14:44 +0200 (CEST)
+Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFGkY-0002cd-2J
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 08:59:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56360)
+	id 1kFGyp-0002Ys-8t
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 09:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFGj8-0001dz-Cy
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:58:30 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44870)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kFGy9-00028f-69
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 09:14:01 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFGj6-0004q1-5G
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 08:58:29 -0400
-Received: by mail-wr1-x443.google.com with SMTP id c15so15676727wrs.11
- for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 05:58:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kFGy7-000771-ER
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 09:14:00 -0400
+Received: by mail-ed1-x531.google.com with SMTP id q21so12807084edv.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 06:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=rqp0Kaxpy9plq0/imRxAkgl3f9MbkKLg68mMl7SPHwg=;
- b=C+//L9YsoEn0//TqO0sa00Hmk6Ytzmp5KpzuzSIjcRHnFcRyBsIUPhuu2RrCZo2TCP
- BOUD6HFqo8cCY8uh2WbTRPaIqFcjaynDkMf7h60LSpbKLH3A4bwwdTw2CTGZV6tHq8iQ
- lFl36SsfhU/HOctSbIr3N3jzIxMIeN+i5T/eOVMrDAoumjMsY+E43MXIY6TGfOKEoLAS
- nXfypVHM1g+9r5m1L+n4pTmE7VQMGbHr2umWD8I2acZ007k6YiXIFsHZ163p6X4tPhck
- vOjGwyB1oMvaesVyiYYnbudbVeCUFEsbfjcsiPOo1V95DIpmbNBTYZPmVFfEa4sFgSjp
- 8TvQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6CnHes3W4dmtsUxjMXf6HWaZYHTYGwSu/fTv/hysMUg=;
+ b=EdEif7Vk12cp0D+SzeTIIP5+TmEevzIKebZwM8vuxLnFoZtTNx6hwD0uEmATg6YHx3
+ 6tThzggwuvKAPlryoc+zT0B/368S7eHzDkf0MlcIvyZ8rzuTgu3f38INVF+Sydupeg0b
+ Pmf70Dt/hLt0Ofe2rAWCAs2mOORdQyxzlJo6qeUkVONR7dcXSIdDC6sFuV7NWLHnnZtp
+ jAy4OZTJWVcNAsCpvsX3DHsr44UxJAaBEPfgMdM4jNQnWsrteHD1GfiIcwlGH4GMXpaq
+ qbyetgiyvDGI4/1s2Bl3GruBfGJezW6eJ4SgVUNPdHP/fcbsJ7rJC7kgVrA+a6+WDAtc
+ yuZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=rqp0Kaxpy9plq0/imRxAkgl3f9MbkKLg68mMl7SPHwg=;
- b=qPdPdlD7Lcyq1WKG3uIp5rtHA45QqjKQVcVYGive6Xd22jT93H/fyDWHcfvY2Js/WU
- 1UjpA9ALr1UoGUUuzGzaGkeuluelSzHym+hkhxsIHDwjvnwSB996AEo2woLHgp2IP6Nz
- eArPFDlFoI+tAHS+epQw9AjgRveqxeq6SF+6OFVcsqYrvCvQD33w4Egdz8NF7tWa2+3P
- pmqHQoswUXdZPLmmtO+5fC0orrQTuBzykfF0w3w8W4Rme+0YNioAWBQhdSO18hjKYewi
- lEZgOvQu6ots2v4ibQF+CEmYwvnfRp5G2bf3UsCFAWq/PPLzDOz2hO9VE/DZBaU7HqeH
- utjw==
-X-Gm-Message-State: AOAM531wPxnxJLR72i78WGUSPvkE8P5o0+GBYjAE9oGagbDVyxZKo1Ij
- Ntqss0CGQVRiweBW5+WU7hVsPQ==
-X-Google-Smtp-Source: ABdhPJwKDkGcF3TC/fcYBCgCuYJf+/PFXg11B3mQZ2r/7nR9xLrhTq/76PdGlHY9aCfXhmJimbDC5g==
-X-Received: by 2002:adf:e9c3:: with SMTP id l3mr21143742wrn.63.1599483504374; 
- Mon, 07 Sep 2020 05:58:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 70sm29505042wme.15.2020.09.07.05.58.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 05:58:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8983A1FF7E;
- Mon,  7 Sep 2020 13:58:22 +0100 (BST)
-References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
- <159903459923.28509.4300111201059622860.stgit@pasha-ThinkPad-X280>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH v3 09/15] replay: implement replay-seek command
-In-reply-to: <159903459923.28509.4300111201059622860.stgit@pasha-ThinkPad-X280>
-Date: Mon, 07 Sep 2020 13:58:22 +0100
-Message-ID: <87sgbtrbf5.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6CnHes3W4dmtsUxjMXf6HWaZYHTYGwSu/fTv/hysMUg=;
+ b=kCPuqQbxKMRyWQ2sbex1cPdCxcvQeSiTFuzHjYtwsMCm3k+MVpmOhYNPiFF4cPE8jm
+ q1M+G104l4lS1V6yWbnQqZE3etxUs4Jsz/tkAsrJSYc2uKN7Zs9HnDpsHXN3oABVi91z
+ 3e52ZspU8gRKKiZNROTl5w3+d5O3H4AeA4aWHlrCvzexOx19Y6mQKnEyn4osMVPtZT4o
+ I945ox4G7Kn9EwPFkDldXIRD+stvJ5x07JmJ1H12YWzCisKDHhfFExMGvB0aUfwZAA04
+ RpoWDW3AcuPWxr3ri0MQhYFUL/EuKisd3Aotbl16rQYSjLOZPfScARMDAJSv7U9r8c8l
+ n5bg==
+X-Gm-Message-State: AOAM533/eKfgWl/bIDRpfPctPJ2l5LPq72fHl55fbNnYfa6xayk9tgvH
+ yUp6nbi3L1h7OyNI3/BixZnn4RsnB6OJ42bSOAkCgg==
+X-Google-Smtp-Source: ABdhPJy/ekppVW0+SUhYQuLvfgpMTZQp3mbIkjVZISSWqiNzx6JjLfzIfELtZntThv1KS9VyBX8v7UXj5b4JS7bcpzA=
+X-Received: by 2002:a05:6402:1495:: with SMTP id
+ e21mr20975867edv.146.1599484437670; 
+ Mon, 07 Sep 2020 06:13:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200622191746.18031-1-f4bug@amsat.org>
+ <20200622191746.18031-2-f4bug@amsat.org>
+In-Reply-To: <20200622191746.18031-2-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Sep 2020 14:13:46 +0100
+Message-ID: <CAFEAcA9SK1BmrY9_LO6ERy-e22rXOVUP1+vSmUYSTEwWywuzuA@mail.gmail.com>
+Subject: Re: [PULL v2 13/15] hw/rx: Add RX GDB simulator
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,240 +82,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
- philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
-
-> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+On Mon, 22 Jun 2020 at 20:20, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> This patch adds hmp/qmp commands replay_seek/replay-seek that proceed
-> the execution to the specified instruction count.
-> The command automatically loads nearest snapshot and replays the execution
-> to find the desired instruction count.
-
-Should there be an initial snapshot created at instruction 0? Using a
-separate monitor channel:
-
-  (qemu) replay_break 190505
-  replay_break 190505
-  (qemu) c
-  (qemu) info replay
-  info replay
-  Replaying execution 'record.out': instruction count =3D 190505
-  (qemu) replay_seek 190000
-  replay_seek 190000
-  snapshotting is disabled
-
-And then the guest dies with a sigabort:
-
-  ./qemu-system-aarch64 -cpu cortex-a53 -display none -serial stdio -machin=
-e virt -kernel zephyr.elf -net none -icount shift=3D6,align=3Doff,sleep=3Do=
-ff,rr=3Dreplay,rrfile=3Drecord.out -drive file=3Drecord.qcow2,if=3Dnone,sna=
-pshot,id=3Drr -monitor telnet:127.0.0.1:4444 -S
-  *** Booting Zephyr OS build zephyr-v2.3.0-1183-ge5628ad0faf3  ***
-  Hello World! qemu_cortex_a53
-  double free or corruption (out)
-  fish: =E2=80=9C./qemu-system-aarch64 -cpu cort=E2=80=A6=E2=80=9D terminat=
-ed by signal SIGABRT (Abort)
-
+> From: Yoshinori Sato <ysato@users.sourceforge.jp>
 >
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  hmp-commands.hx           |   18 +++++++++
->  include/monitor/hmp.h     |    1=20
->  qapi/replay.json          |   20 ++++++++++
->  replay/replay-debugging.c |   92 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  4 files changed, 131 insertions(+)
->
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index e8ce385879..4288274c4e 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1851,6 +1851,24 @@ SRST
->    The command is ignored when there are no replay breakpoints.
->  ERST
->=20=20
-> +    {
-> +        .name       =3D "replay_seek",
-> +        .args_type  =3D "icount:i",
-> +        .params     =3D "icount",
-> +        .help       =3D "replay execution to the specified instruction c=
-ount",
-> +        .cmd        =3D hmp_replay_seek,
-> +    },
-> +
-> +SRST
-> +``replay_seek`` *icount*
-> +Automatically proceed to the instruction count *icount*, when
-> +replaying the execution. The command automatically loads nearest
-> +snapshot and replays the execution to find the desired instruction.
-> +When there is no preceding snapshot or the execution is not replayed,
-> +then the command fails.
-> +*icount* for the reference may be observed with ``info replay`` command.
-> +ERST
-> +
->      {
->          .name       =3D "info",
->          .args_type  =3D "item:s?",
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index 21849bdda5..655eb81a4c 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -133,5 +133,6 @@ void hmp_info_sev(Monitor *mon, const QDict *qdict);
->  void hmp_info_replay(Monitor *mon, const QDict *qdict);
->  void hmp_replay_break(Monitor *mon, const QDict *qdict);
->  void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
-> +void hmp_replay_seek(Monitor *mon, const QDict *qdict);
->=20=20
->  #endif
-> diff --git a/qapi/replay.json b/qapi/replay.json
-> index 173ba76107..bfd83d7591 100644
-> --- a/qapi/replay.json
-> +++ b/qapi/replay.json
-> @@ -99,3 +99,23 @@
->  #
->  ##
->  { 'command': 'replay-delete-break' }
-> +
-> +##
-> +# @replay-seek:
-> +#
-> +# Automatically proceed to the instruction count @icount, when
-> +# replaying the execution. The command automatically loads nearest
-> +# snapshot and replays the execution to find the desired instruction.
-> +# When there is no preceding snapshot or the execution is not replayed,
-> +# then the command fails.
-> +# icount for the reference may be obtained with @query-replay command.
-> +#
-> +# @icount: target instruction count
-> +#
-> +# Since: 5.2
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "replay-seek", "data": { "icount": 220414 } }
-> +##
-> +{ 'command': 'replay-seek', 'data': { 'icount': 'int' } }
-> diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-> index 86e19bb217..cfd0221692 100644
-> --- a/replay/replay-debugging.c
-> +++ b/replay/replay-debugging.c
-> @@ -19,6 +19,8 @@
->  #include "qapi/qapi-commands-replay.h"
->  #include "qapi/qmp/qdict.h"
->  #include "qemu/timer.h"
-> +#include "block/snapshot.h"
-> +#include "migration/snapshot.h"
->=20=20
->  void hmp_info_replay(Monitor *mon, const QDict *qdict)
->  {
-> @@ -127,3 +129,93 @@ void hmp_replay_delete_break(Monitor *mon, const QDi=
-ct *qdict)
->          return;
->      }
->  }
-> +
-> +static char *replay_find_nearest_snapshot(int64_t icount,
-> +                                          int64_t *snapshot_icount)
+> Add the RX machine internally simulated in GDB.
+
+Hi; Coverity points out a memory leak (CID 1432307) in this function:
+
+> +static void rx_gdbsim_init(MachineState *machine)
 > +{
-> +    BlockDriverState *bs;
-> +    QEMUSnapshotInfo *sn_tab;
-> +    QEMUSnapshotInfo *nearest =3D NULL;
-> +    char *ret =3D NULL;
-> +    int nb_sns, i;
-> +    AioContext *aio_context;
+
+> +        if (dtb_filename) {
+> +            ram_addr_t dtb_offset;
+> +            int dtb_size;
+> +            void *dtb;
 > +
-> +    *snapshot_icount =3D -1;
-> +
-> +    bs =3D bdrv_all_find_vmstate_bs();
-> +    if (!bs) {
-> +        goto fail;
-> +    }
-> +    aio_context =3D bdrv_get_aio_context(bs);
-> +
-> +    aio_context_acquire(aio_context);
-> +    nb_sns =3D bdrv_snapshot_list(bs, &sn_tab);
-> +    aio_context_release(aio_context);
-> +
-> +    for (i =3D 0; i < nb_sns; i++) {
-> +        if (bdrv_all_find_snapshot(sn_tab[i].name, &bs) =3D=3D 0) {
-> +            if (sn_tab[i].icount !=3D -1ULL
-> +                && sn_tab[i].icount <=3D icount
-> +                && (!nearest || nearest->icount < sn_tab[i].icount)) {
-> +                nearest =3D &sn_tab[i];
+> +            dtb =3D load_device_tree(dtb_filename, &dtb_size);
+
+This allocates memory...
+
+> +            if (dtb =3D=3D NULL) {
+> +                error_report("Couldn't open dtb file %s", dtb_filename);
+> +                exit(1);
 > +            }
+> +            if (machine->kernel_cmdline &&
+> +                qemu_fdt_setprop_string(dtb, "/chosen", "bootargs",
+> +                                        machine->kernel_cmdline) < 0) {
+> +                error_report("Couldn't set /chosen/bootargs");
+> +                exit(1);
+> +            }
+> +            /* DTB is located at the end of SDRAM space. */
+> +            dtb_offset =3D machine->ram_size - dtb_size;
+> +            rom_add_blob_fixed("dtb", dtb, dtb_size,
+> +                               SDRAM_BASE + dtb_offset);
+
+...and rom_add_blob_fixed() copies that memory, it doesn't take
+ownership of it, so after we've called it we need to
+    g_free(fdt);
+
+> +            /* Set dtb address to R1 */
+> +            RXCPU(first_cpu)->env.regs[1] =3D SDRAM_BASE + dtb_offset;
 > +        }
 > +    }
-> +    if (nearest) {
-> +        ret =3D g_strdup(nearest->name);
-> +        *snapshot_icount =3D nearest->icount;
-> +    }
-> +    g_free(sn_tab);
-> +
-> +fail:
-> +    return ret;
-> +}
-> +
-> +static void replay_seek(int64_t icount, QEMUTimerCB callback, Error **er=
-rp)
-> +{
-> +    char *snapshot =3D NULL;
-> +    int64_t snapshot_icount;
-> +
-> +    if (replay_mode !=3D REPLAY_MODE_PLAY) {
-> +        error_setg(errp, "replay must be enabled to seek");
-> +        return;
-> +    }
-> +    if (!replay_snapshot) {
-> +        error_setg(errp, "snapshotting is disabled");
-> +        return;
-> +    }
-> +
-> +    snapshot =3D replay_find_nearest_snapshot(icount, &snapshot_icount);
-> +    if (snapshot) {
-> +        if (icount < replay_get_current_icount()
-> +            || replay_get_current_icount() < snapshot_icount) {
-> +            vm_stop(RUN_STATE_RESTORE_VM);
-> +            load_snapshot(snapshot, errp);
-> +        }
-> +        g_free(snapshot);
-> +    }
-> +    if (replay_get_current_icount() <=3D icount) {
-> +        replay_break(icount, callback, NULL);
-> +        vm_start();
-> +    } else {
-> +        error_setg(errp, "cannot seek to the specified instruction count=
-");
-> +    }
-> +}
-> +
-> +void qmp_replay_seek(int64_t icount, Error **errp)
-> +{
-> +    replay_seek(icount, replay_stop_vm, errp);
-> +}
-> +
-> +void hmp_replay_seek(Monitor *mon, const QDict *qdict)
-> +{
-> +    int64_t icount =3D qdict_get_try_int(qdict, "icount", -1LL);
-> +    Error *err =3D NULL;
-> +
-> +    qmp_replay_seek(icount, &err);
-> +    if (err) {
-> +        error_report_err(err);
-> +        error_free(err);
-> +        return;
-> +    }
-> +}
 
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
