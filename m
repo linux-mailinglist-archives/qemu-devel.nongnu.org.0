@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D188725F6D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:48:27 +0200 (CEST)
-Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FB325F6C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:41:35 +0200 (CEST)
+Received: from localhost ([::1]:44006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDlC-0003n9-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40326)
+	id 1kFDeY-00004t-8a
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFDkO-0002zL-D1
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:47:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24643
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFDkM-00069T-Ko
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:47:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599472053;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4nOB6sTSk6Mdgu66QngZWZe7bAkKTT0TYirvYEyHELU=;
- b=Qp55bqx5NvAXj4Zt1brT6X0ODwnZ7wmEuw+cho06v7vRP42WxwpUwUCpL7Ad96rKaAXYbV
- 9mQUYToYxCrP4uOh6wsOfmLpWA+R3bCBVPHL+mAvUjWQ1KSFDkOA0is8ROz5iFPecH4//d
- VMymJzRZ5Zjyaj2PhfhoJ+QXH1K0XZA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-l7VoEntjMmKMax8oTUjPiw-1; Mon, 07 Sep 2020 05:47:31 -0400
-X-MC-Unique: l7VoEntjMmKMax8oTUjPiw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 805FF420EC
- for <qemu-devel@nongnu.org>; Mon,  7 Sep 2020 09:47:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C5015D9D2;
- Mon,  7 Sep 2020 09:47:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5EB9E204AE; Mon,  7 Sep 2020 11:47:26 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] virtio-gpu: build modular
-Date: Mon,  7 Sep 2020 11:47:19 +0200
-Message-Id: <20200907094719.12850-3-kraxel@redhat.com>
-In-Reply-To: <20200907094719.12850-1-kraxel@redhat.com>
-References: <20200907094719.12850-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1kFDdd-0007c5-Ag
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:40:37 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1kFDda-0005KL-R5
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:40:36 -0400
+Received: by mail-oi1-x242.google.com with SMTP id d189so13044307oig.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 02:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=x0DpBTBpkMG2MJ2vLiOL6mRffvT7xAVShmNIa7/ahZ0=;
+ b=fIUhBGdBo+/FQ3eQztL5h33318oVtP6W4AFA2ehNRuCbHmhHsZIjadJ+3s7gwoS+R6
+ mTZW6JzB+A6Yx+SzWdP2SypyXauP0FumQiFC9vGjgr45y7aqdSOrOf1t3AEYwsvFybgC
+ zoMLcjxJFwCOcbkbcb5eQ5yne1uFDlXKSc7kZrvc445IBPNV2ZRAvbeOCOQyNgB6ATUk
+ jHpUE757NaML6NuFmH4wKvT0oaW9vhuW88OKZBdoRAA+Ts9VhlFrsDxJFzG8NNwMlbZo
+ AZs3d3wo/xJrR1A1xmqBby63N9cCLMdrjCxyTZxQO/qu67xvlPW7lXrFGd9Twxq+YXgQ
+ iOFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=x0DpBTBpkMG2MJ2vLiOL6mRffvT7xAVShmNIa7/ahZ0=;
+ b=suIA7HnVmmStqcjPWSU0cWXszVeCzHtCMGwuU3l0GErd1+bZZHAvcJ6/4nQbtQPZyB
+ xJ1EgwQN5LBU9vxhs3TAj28/Y4+/Hp+jSiKm0buH3zkwYl2Rx7z8zqCz6F/8UEtrS36+
+ pqehBBphkC0Ni6iyPzMoQ7S025Fcfvf9ZTaX8YGuxHhv31Pv5wILFU1ebjSj5Xk5LAFN
+ RPL5huvSV8FmlvLSKRrg1glPcG/ILjhwuuEY0QzfjmRpe/7BcPV8jMKU2G0fprcadQud
+ ijcpfWFylnEcFSfSkFvK1GbVoIzr6uH46LpWwdhvhFKmPmDoQlbTWEwdVOQZZHmUdCux
+ Yhag==
+X-Gm-Message-State: AOAM530guCMo1FvcZnVW4XmO9qGl2mp7PInHBQOcpRReZccTlZA5jyFj
+ RKWFstH7PVHKIRvSJW7PEXJ+tQ==
+X-Google-Smtp-Source: ABdhPJy0X1iMy+WtC8C8vDx9MCMrUVs2doXEBDma8TzYP6he/kV9DbtebVwk1JZDVOURTamUv+YlGg==
+X-Received: by 2002:aca:5d89:: with SMTP id
+ r131mr11378884oib.120.1599471632964; 
+ Mon, 07 Sep 2020 02:40:32 -0700 (PDT)
+Received: from ?IPv6:2607:fb90:839:54f:e8ff:7fff:fe76:c1b2?
+ ([2607:fb90:839:54f:e8ff:7fff:fe76:c1b2])
+ by smtp.gmail.com with ESMTPSA id d26sm2728055otl.10.2020.09.07.02.40.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Sep 2020 02:40:32 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 00/34] Hexagon patch series
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
+ <fbb5a85b-6208-1791-0d3e-7e741e674a70@linaro.org>
+ <BYAPR02MB48862BC00AD7217B715EBFC7DE500@BYAPR02MB4886.namprd02.prod.outlook.com>
+From: Rob Landley <rob@landley.net>
+Message-ID: <ac0e68a8-671c-7d6d-f85f-0d25d5775cca@landley.net>
+Date: Mon, 7 Sep 2020 04:49:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:05:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <BYAPR02MB48862BC00AD7217B715EBFC7DE500@BYAPR02MB4886.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::242;
+ envelope-from=rob@landley.net; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-2.69, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,69 +92,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "ale@rev.ng" <ale@rev.ng>, "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "laurent@vivier.eu" <laurent@vivier.eu>,
+ "aleksandar.m.mail@gmail.com" <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only build virtio-gpu-device modular (the code which actually depends on
-the external virglrenderer library).  virtio-gpu-pci and virtio-vga are
-compiled into core qemu still.
+On 8/30/20 3:47 PM, Taylor Simpson wrote:
+> Richard,
+> 
+> Thank you so much for the feedback.  I really appreciate it.
+> 
+> I'll get to work addressing the issues.  Since some of the items will take longer than others, please advise whether it's preferred to send intermediate updates or wait until they are all addressed.
+> 
+> Taylor
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- util/module.c          |  2 ++
- hw/display/meson.build | 22 ++++++----------------
- 2 files changed, 8 insertions(+), 16 deletions(-)
+Which branch of https://github.com/quic/qemu do I pull to try this without
+scraping 30 patches out of the mailing list?
 
-diff --git a/util/module.c b/util/module.c
-index 6e63006a8fb2..34772e7d87eb 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -265,6 +265,8 @@ static struct {
-     { "usb-redir",             "hw-", "usb-redirect"          },
-     { "qxl-vga",               "hw-", "display-qxl"           },
-     { "qxl",                   "hw-", "display-qxl"           },
-+    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
-+    { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
-     { "chardev-braille",       "chardev-", "baum"             },
- };
- 
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index ef8eb093acbb..a6756c25d66e 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -58,24 +58,14 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_GPU',
-                     if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c', 'virtio-gpu-3d.c'), pixman, virgl])
-   virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_GPU', if_true: files('vhost-user-gpu.c'))
--  virtio_gpu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-gpu-pci.c'))
--  virtio_gpu_ss.add(when: ['CONFIG_VHOST_USER_GPU', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-gpu-pci.c'))
--  virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_VGA', if_true: files('virtio-vga.c'))
--  virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_VGA', if_true: files('vhost-user-vga.c'))
--
--  # FIXME: this was attempted in the Makefile build system; it was then reverted
--  # as it would try to load all devices when the module is loaded, even if
--  # config_devices for this target only has some of them.  Since virtio-gpu-pci
--  # and virtio-vga both instantiate a virtio-gpu-device, fixing it probably does
--  # not even require a dependency system, just splitting the module in three
--  # for CONFIG_VIRTIO_GPU/CONFIG_VHOST_USER_GPU, CONFIG_VIRTIO_PCI and
--  # CONFIG_VIRTIO_VGA/CONFIG_VHOST_USER_VGA.
--  # Sourcesets are a dime a dozen, so keep it and just disable module builds.
--
--  #hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
--  softmmu_ss.add_all(virtio_gpu_ss)
-+  hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
- endif
- 
-+softmmu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-gpu-pci.c'))
-+softmmu_ss.add(when: ['CONFIG_VHOST_USER_GPU', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-gpu-pci.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_VGA', if_true: files('virtio-vga.c'))
-+softmmu_ss.add(when: 'CONFIG_VHOST_USER_VGA', if_true: files('vhost-user-vga.c'))
-+
- specific_ss.add(when: [x11, opengl, 'CONFIG_MILKYMIST_TMU2'], if_true: files('milkymist-tmu2.c'))
- specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
- 
--- 
-2.27.0
+>>> Once the series is applied, the Hexagon port will pass "make check-tcg".
+>>> The series also includes Hexagon-specific tests in tcg/tests/hexagon.
+>>>
+>>> We have a parallel effort to make the Hexagon Linux toolchain inside a
+>> docker
+>>> container publically available.
+>>
+>> Oh, excellent.
 
+Is that a follow-up to https://www.spinics.net/lists/linux-hexagon/msg01706.html
+and is this a clang toolchain or a gcc toolchain?
+
+I've noticed gcc 9.2 has hexagon in config.guess and config.sub, but the only
+other file outside of the test suite containing the word "hexagon" in a case
+insensitive match is the Changelog saying Linas Veptas added it to config.guess
+and config.sub in 2011. And while https://github.com/quic has a musl fork it
+doesn't have any compiler or linker forks...
+
+Rob
 
