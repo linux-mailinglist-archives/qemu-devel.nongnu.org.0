@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9212C25FFC6
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:38:44 +0200 (CEST)
-Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E1B25FFAF
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 18:37:04 +0200 (CEST)
+Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFKAF-0000Ed-LB
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
+	id 1kFK8d-00053S-7Y
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 12:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4v-0008M9-8v; Mon, 07 Sep 2020 12:33:13 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:38566)
+ id 1kFK4w-0008Pp-Rc; Mon, 07 Sep 2020 12:33:14 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:46341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFK4t-0007dB-DR; Mon, 07 Sep 2020 12:33:12 -0400
-Received: by mail-ed1-x544.google.com with SMTP id c8so13318869edv.5;
- Mon, 07 Sep 2020 09:33:10 -0700 (PDT)
+ id 1kFK4v-0007da-1m; Mon, 07 Sep 2020 12:33:14 -0400
+Received: by mail-ej1-x642.google.com with SMTP id z23so18871649ejr.13;
+ Mon, 07 Sep 2020 09:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jBgL1iKIvz4jH+dRa8U6fT1B6oJw6/SF3dkJ8j+0tYI=;
- b=NGwwOK8a+fHGjLxYQTX0miQrbkb8sWxiahi18i6/0l6gF2OCge51BPuralxFjDtOwG
- WCR670KtplUUFKsjcCQr8P1sU9i7rgyNA5lEb+6IT9gi6Dj+I2Tx350khN+lPnGT+9jm
- C3oI9QO/O1+Ly8LcPWfLjnwig/6OuLuH0aKntPyUxpIY9q2Fssck494TxIb9sPAyt+Ov
- sOTMz4y2wWmUh6W3mLJH4TujsmMJTDU8b8GqG5wEuVteNt1JAtP6rTk9P3yTnvqbd2cj
- WsDaiEDYYWivElWw5n4lmyvTcSlCVkPvEGNJ4GUxVgPa3Qhu4QrajWR5xmGR7XFNses5
- sPWg==
+ bh=jeiRRdPErRrtK9Gj9+R/jotAsL7dELgR1Q5VvxS+mnE=;
+ b=qb6K7+ipyUmvsw9nZ2i/KdjQlDvSPjt8fLFlI/E5oQueKAPHguVSYrHQ2lWVhqoHbu
+ TkSorb82zKPXbUUZK2aglcaDmoZjNDC1odPUktC5hkQellTK7KkiDu5N/xS4C3djRgRi
+ GubSxwDFo9kq3xRxZSxFU4XbiDSJRlw+nhuO+f7RiwpQtv/W36s3TVsaV8L103yhUK4/
+ 8ycwcj5Qawe8EcjJMs1UTjqemfoEbBJBXoLapRcMiZxD74ENYOUpJlkXgn0QfeB+Ke9c
+ Rw0P177KQfM1Q6JcsA/UkDyr9yTBLkyfAbx4gwJeMyGf5OPBiXb5w1Q8DNLYkub+3CbZ
+ /cDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jBgL1iKIvz4jH+dRa8U6fT1B6oJw6/SF3dkJ8j+0tYI=;
- b=VR4EnWhribgHkMo4j+6jYUHUKFkVthRjAfQxVNZ6V7Jx2DJeQK05SYSY1SApP54RV6
- +yxylMpOfTd7ctxAeq7TK3zC3/o27rSRXVfazD3XzywuR24hwcC+CknOH+djDmE9T3AO
- xL1+kaHAf259cZmjCHway7Q3Zh5Xk6FezTxDMtiPwL/jf2uTesKO0K6J6SJVMXeADzQO
- pKEOoc2kzUPmjKYMN5xdrr2Lte9DxVaFt53AiQis/lH57N5Is2GZ6Wok+b7icbT2GD6g
- 3RMX8fQjeYVgAYb2uUz4xXsL0gAptFAw4BYmPZTVJuQcUQioxtC219kCpETPe7qVTS3r
- EVPQ==
-X-Gm-Message-State: AOAM530lzsbHSSApmjtKqKRn1hX6NQPt3Yfo/E/Ef4UwHpXOE+hQ8deI
- nTieUgxVSIdaX5kLf5LwGvDdnb41g5c=
-X-Google-Smtp-Source: ABdhPJzLqAShOBauj9CSuC2lWda9KUiMdypw8ZqnFRsq/c1VE1GLiZkhjn3SOr7dgMJjd13xiI7RlQ==
-X-Received: by 2002:a05:6402:b68:: with SMTP id
- cb8mr4902112edb.350.1599496389494; 
- Mon, 07 Sep 2020 09:33:09 -0700 (PDT)
+ bh=jeiRRdPErRrtK9Gj9+R/jotAsL7dELgR1Q5VvxS+mnE=;
+ b=HbNsnV5qhhj/c6nN8d77IlgXJdE/Cg+DuMyfV2E0+2ZFyv8mhLVRoH9KNqtAUWp/Hn
+ pFAxdS9JS0If7qX5XVZ4yIF4F/pWvuPj++mn4jXxJ6NG2ir+XwgcHs6PaMnErwBUOKAE
+ upceO3Sda5bd5Ajv0c6tycLqO+SFGAU6buzlb1bRVHCAG83BlK816irTYcLIo/1BLQfI
+ ShWyMACoqefgXmcQ0djnLhBvD4CNuA3EGDLsUSR/PV3kzKhaLPJ37WRCTiZPOgyLBPPe
+ nlP77URCyy2R2cJt4TNj6yp9OP77/w7I8E2eYvvRZghzR74F0uf7og+/Atv6bKJKI3aA
+ 3StA==
+X-Gm-Message-State: AOAM530QSJXUR3IKyXmap160zjZkIQcjYdmlLGKX08Acbp2ugKVzJF77
+ +vYfbYKp2k7xeUp0Tcqko3B3o8NHsno=
+X-Google-Smtp-Source: ABdhPJxif1S8WYd//dNJ5p0OU4D5QlgtDNoRmnZGFvKW7jsYMD3vA96jY2tc7MMFWZkQlwDI0h0L6Q==
+X-Received: by 2002:a17:906:63c9:: with SMTP id
+ u9mr18426715ejk.82.1599496391020; 
+ Mon, 07 Sep 2020 09:33:11 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u13sm15700199ejn.82.2020.09.07.09.33.08
+ by smtp.gmail.com with ESMTPSA id u13sm15700199ejn.82.2020.09.07.09.33.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Sep 2020 09:33:08 -0700 (PDT)
+ Mon, 07 Sep 2020 09:33:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 6/8] hw/misc/mps2-scc: Use the LED device
-Date: Mon,  7 Sep 2020 18:32:55 +0200
-Message-Id: <20200907163257.46527-7-f4bug@amsat.org>
+Subject: [PATCH v4 7/8] hw/arm/tosa: Replace fprintf() calls by LED devices
+Date: Mon,  7 Sep 2020 18:32:56 +0200
+Message-Id: <20200907163257.46527-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200907163257.46527-1-f4bug@amsat.org>
 References: <20200907163257.46527-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,140 +95,112 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the 'ARM MPS2 and MPS2+ FPGA Prototyping Boards Technical
-Reference Manual' (100112_0200_07_en):
-
-  2.1  Overview of the MPS2 and MPS2+ hardware
-
-       The MPS2 and MPS2+ FPGA Prototyping Boards contain the
-       following components and interfaces:
-
-       * User switches and user LEDs:
-
-         - Two green LEDs and two push buttons that connect to
-           the FPGA.
-         - Eight green LEDs and one 8-way dip switch that connect
-           to the MCC.
-
-Add the 8 LEDs connected to the MCC.
-
-This remplaces the 'mps2_scc_leds' trace events by the generic
-'led_set_intensity' event.
+The recently added LED device reports LED status changes with
+the 'led_set_intensity' trace event. It is less invasive than
+the fprintf() calls. We need however to have a binary built
+with tracing support.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-https://youtu.be/l9kD70uPchk?t=288
----
- include/hw/misc/mps2-scc.h |  2 ++
- hw/misc/mps2-scc.c         | 25 ++++++++++++++-----------
- hw/misc/Kconfig            |  1 +
- hw/misc/trace-events       |  1 -
- 4 files changed, 17 insertions(+), 12 deletions(-)
+ hw/arm/tosa.c  | 40 +++++++++++++++-------------------------
+ hw/arm/Kconfig |  1 +
+ 2 files changed, 16 insertions(+), 25 deletions(-)
 
-diff --git a/include/hw/misc/mps2-scc.h b/include/hw/misc/mps2-scc.h
-index 7045473788b..8542f384227 100644
---- a/include/hw/misc/mps2-scc.h
-+++ b/include/hw/misc/mps2-scc.h
-@@ -13,6 +13,7 @@
- #define MPS2_SCC_H
- 
+diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
+index 90eef1f14dd..f23651fd775 100644
+--- a/hw/arm/tosa.c
++++ b/hw/arm/tosa.c
+@@ -24,6 +24,7 @@
+ #include "hw/irq.h"
+ #include "hw/ssi/ssi.h"
  #include "hw/sysbus.h"
 +#include "hw/misc/led.h"
+ #include "exec/address-spaces.h"
  
- #define TYPE_MPS2_SCC "mps2-scc"
- #define MPS2_SCC(obj) OBJECT_CHECK(MPS2SCC, (obj), TYPE_MPS2_SCC)
-@@ -25,6 +26,7 @@ typedef struct {
+ #define TOSA_RAM 0x04000000
+@@ -81,26 +82,6 @@ typedef struct TosaMiscGPIOState {
+     SysBusDevice parent_obj;
+ } TosaMiscGPIOState;
  
-     /*< public >*/
-     MemoryRegion iomem;
-+    LEDState *led[8];
- 
-     uint32_t cfg0;
-     uint32_t cfg1;
-diff --git a/hw/misc/mps2-scc.c b/hw/misc/mps2-scc.c
-index 9d0909e7b35..745505b849d 100644
---- a/hw/misc/mps2-scc.c
-+++ b/hw/misc/mps2-scc.c
-@@ -20,11 +20,13 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qemu/bitops.h"
- #include "trace.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- #include "hw/registerfields.h"
- #include "hw/misc/mps2-scc.h"
-+#include "hw/misc/led.h"
- #include "hw/qdev-properties.h"
- 
- REG32(CFG0, 0)
-@@ -152,18 +154,10 @@ static void mps2_scc_write(void *opaque, hwaddr offset, uint64_t value,
-         s->cfg0 = value;
-         break;
-     case A_CFG1:
--        /* CFG1 bits [7:0] control the board LEDs. We don't currently have
--         * a mechanism for displaying this graphically, so use a trace event.
--         */
--        trace_mps2_scc_leds(value & 0x80 ? '*' : '.',
--                            value & 0x40 ? '*' : '.',
--                            value & 0x20 ? '*' : '.',
--                            value & 0x10 ? '*' : '.',
--                            value & 0x08 ? '*' : '.',
--                            value & 0x04 ? '*' : '.',
--                            value & 0x02 ? '*' : '.',
--                            value & 0x01 ? '*' : '.');
-         s->cfg1 = value;
-+        for (size_t i = 0; i < ARRAY_SIZE(s->led); i++) {
-+            led_set_state(s->led[i], extract32(value, i, 1));
-+        }
-         break;
-     case A_CFGDATA_OUT:
-         s->cfgdata_out = value;
-@@ -245,10 +239,19 @@ static void mps2_scc_init(Object *obj)
- 
-     memory_region_init_io(&s->iomem, obj, &mps2_scc_ops, s, "mps2-scc", 0x1000);
-     sysbus_init_mmio(sbd, &s->iomem);
-+
- }
- 
- static void mps2_scc_realize(DeviceState *dev, Error **errp)
+-static void tosa_gpio_leds(void *opaque, int line, int level)
+-{
+-    switch (line) {
+-    case 0:
+-        fprintf(stderr, "blue LED %s.\n", level ? "on" : "off");
+-        break;
+-    case 1:
+-        fprintf(stderr, "green LED %s.\n", level ? "on" : "off");
+-        break;
+-    case 2:
+-        fprintf(stderr, "amber LED %s.\n", level ? "on" : "off");
+-        break;
+-    case 3:
+-        fprintf(stderr, "wlan LED %s.\n", level ? "on" : "off");
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-}
+-
+ static void tosa_reset(void *opaque, int line, int level)
  {
-+    MPS2SCC *s = MPS2_SCC(dev);
-+
-+    for (size_t i = 0; i < ARRAY_SIZE(s->led); i++) {
-+        char *name = g_strdup_printf("SCC LED%zu", i);
-+        s->led[i] = led_create_simple(OBJECT(dev), GPIO_POLARITY_ACTIVE_HIGH,
-+                                      LED_COLOR_GREEN, name);
-+        g_free(name);
-+    }
+     if (level) {
+@@ -112,7 +93,6 @@ static void tosa_misc_gpio_init(Object *obj)
+ {
+     DeviceState *dev = DEVICE(obj);
+ 
+-    qdev_init_gpio_in_named(dev, tosa_gpio_leds, "leds", 4);
+     qdev_init_gpio_in_named(dev, tosa_reset, "reset", 1);
  }
  
- static const VMStateDescription mps2_scc_vmstate = {
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index 0cecad45aad..7557a3e7b46 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -97,6 +97,7 @@ config MPS2_FPGAIO
+@@ -122,6 +102,7 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
+                 TC6393xbState *tmio)
+ {
+     DeviceState *misc_gpio;
++    LEDState *led[4];
  
- config MPS2_SCC
-     bool
+     misc_gpio = sysbus_create_simple(TYPE_TOSA_MISC_GPIO, -1, NULL);
+ 
+@@ -143,14 +124,23 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
+                         qdev_get_gpio_in(cpu->gpio, TOSA_GPIO_JC_CF_IRQ),
+                         NULL);
+ 
++    led[0] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
++                               LED_COLOR_BLUE, "bluetooth");
++    led[1] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
++                               LED_COLOR_GREEN, "note");
++    led[2] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
++                               LED_COLOR_AMBER, "charger-error");
++    led[3] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
++                               LED_COLOR_GREEN, "wlan");
++
+     qdev_connect_gpio_out(scp1, TOSA_GPIO_BT_LED,
+-                          qdev_get_gpio_in_named(misc_gpio, "leds", 0));
++                          qdev_get_gpio_in(DEVICE(led[0]), 0));
+     qdev_connect_gpio_out(scp1, TOSA_GPIO_NOTE_LED,
+-                          qdev_get_gpio_in_named(misc_gpio, "leds", 1));
++                          qdev_get_gpio_in(DEVICE(led[1]), 0));
+     qdev_connect_gpio_out(scp1, TOSA_GPIO_CHRG_ERR_LED,
+-                          qdev_get_gpio_in_named(misc_gpio, "leds", 2));
++                          qdev_get_gpio_in(DEVICE(led[2]), 0));
+     qdev_connect_gpio_out(scp1, TOSA_GPIO_WLAN_LED,
+-                          qdev_get_gpio_in_named(misc_gpio, "leds", 3));
++                          qdev_get_gpio_in(DEVICE(led[3]), 0));
+ 
+     qdev_connect_gpio_out(scp1, TOSA_GPIO_TC6393XB_L3V_ON, tc6393xb_l3v_get(tmio));
+ 
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 06ba1c355b1..bbcfa098ae2 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -150,6 +150,7 @@ config TOSA
+     select ZAURUS  # scoop
+     select MICRODRIVE
+     select PXA2XX
 +    select LED
  
- config TZ_MPC
+ config SPITZ
      bool
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 43b9e0cf250..a620a358feb 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -85,7 +85,6 @@ aspeed_scu_write(uint64_t offset, unsigned size, uint32_t data) "To 0x%" PRIx64
- mps2_scc_read(uint64_t offset, uint64_t data, unsigned size) "MPS2 SCC read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- mps2_scc_write(uint64_t offset, uint64_t data, unsigned size) "MPS2 SCC write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- mps2_scc_reset(void) "MPS2 SCC: reset"
--mps2_scc_leds(char led7, char led6, char led5, char led4, char led3, char led2, char led1, char led0) "MPS2 SCC LEDs: %c%c%c%c%c%c%c%c"
- mps2_scc_cfg_write(unsigned function, unsigned device, uint32_t value) "MPS2 SCC config write: function %d device %d data 0x%" PRIx32
- mps2_scc_cfg_read(unsigned function, unsigned device, uint32_t value) "MPS2 SCC config read: function %d device %d data 0x%" PRIx32
- 
 -- 
 2.26.2
 
