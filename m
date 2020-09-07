@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE60025FCCA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 17:15:33 +0200 (CEST)
-Received: from localhost ([::1]:40282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAF425FC7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 17:00:44 +0200 (CEST)
+Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFIrk-000407-OB
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 11:15:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42360)
+	id 1kFIdP-0001dq-67
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 11:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ligang6@huawei.com>)
- id 1kFHlA-0003Cs-4G
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 10:04:40 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:43572 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ligang6@huawei.com>)
- id 1kFHl6-00047A-Ku
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 10:04:39 -0400
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.54])
- by Forcepoint Email with ESMTP id E2C1A918B914A4AD88C4;
- Mon,  7 Sep 2020 22:04:20 +0800 (CST)
-Received: from dggeme758-chm.china.huawei.com (10.3.19.104) by
- dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Mon, 7 Sep 2020 22:04:20 +0800
-Received: from dggeme758-chm.china.huawei.com ([10.6.80.69]) by
- dggeme758-chm.china.huawei.com ([10.6.80.69]) with mapi id 15.01.1913.007;
- Mon, 7 Sep 2020 22:04:20 +0800
-From: "ligang (P)" <ligang6@huawei.com>
-To: "kvm@veger.kernel.org" <kvm@veger.kernel.org>, "libvir-list@redhat.com"
- <libvir-list@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: watchdog fed successfully event of 6300esb
-Thread-Topic: watchdog fed successfully event of 6300esb
-Thread-Index: AdaFH7BNpUzBhBuURViHR9x8GKhq/w==
-Date: Mon, 7 Sep 2020 14:04:20 +0000
-Message-ID: <624825e298f94650a7b69f483c9de84d@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.182.123.125]
-Content-Type: multipart/alternative;
- boundary="_000_624825e298f94650a7b69f483c9de84dhuaweicom_"
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kFIcT-0001Dy-OS
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 10:59:45 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kFIcR-0002Qx-Jz
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 10:59:45 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a17so16096912wrn.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Sep 2020 07:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=iRiqXIBxISxQ7PSSY3nDjLAq+BPDOpOwGoM24by3fyA=;
+ b=lXDIGKwYfvGWUQq78v6GqyGziE/CbZhUHPDjXEcfGF7usvcbX5sz9QgJyfUDELvhLH
+ HDu05TXC0QvYKBimBKx1NRVFj/1LnFStLFUqUfbUaeP4ywSSNzNZSfjqfGVtqkSa31x9
+ 4TxOToxZ1b6LM7/oEF+uk9V1S0jbvEbRf+FNAf2uUgKunxu5PDRh3PLoOpAlRKlFNQ3F
+ 2IKezW+AlI9Xv7epgII5t0PQUltQNzBg4grtgiKgcuqPpcxLHLu17xMECQRG8I7og68D
+ g7xfG17C4psVvZzO93G1Svms/a9q37VNLKmWqMAVq0VBJwx3WtX9G/BC/2LrUvYZ1BgP
+ KbRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=iRiqXIBxISxQ7PSSY3nDjLAq+BPDOpOwGoM24by3fyA=;
+ b=ai4wdU4W+j6QJ+pqc/AkmcxQwjdbJD0bR9dkgcZYA76JI3Pa730qti2KVNWzQuxkWY
+ vYvNEHmL+cQwAo4kkMAUGq0FcGHS6LQbLG1TkVNrUgIzfaD6kmjAwVG/Cg/luD3heB4+
+ 1OnSA0RLYuMnxHo9EONBLy9gvpxNG72mz16oWgb+Io2VgE8ucYEPiOVxl3pCCN2BAlrB
+ R2ThQAhQBGLYjtdjiLqP3Uz69MzKDh9hLqn+6n8Zi5chGzFwEpytVKZhLqPyQr+FErcr
+ 0Ddlvs1zC/SFESyZoP2k7lqQl8/tg6wvdPUv6LDK2yRRAqFvi1opI+gc7k8ZUIGDZ+TR
+ LdBg==
+X-Gm-Message-State: AOAM5312o2t7nSz4BzctEjFeFpMuMEM+5tmAR5tGMxCHMhadMS0eoW27
+ by7Rpp183dDPRwgoqdYO5vlPwg==
+X-Google-Smtp-Source: ABdhPJxkDmOuBVIVoazV9X8XD+XgPuItOWLfHaB55OYxOcA8dOXQAtUK4qj88QvC/rbhWFrOkbDQRg==
+X-Received: by 2002:adf:f508:: with SMTP id q8mr21013870wro.233.1599490781781; 
+ Mon, 07 Sep 2020 07:59:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o9sm28050355wrw.58.2020.09.07.07.59.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Sep 2020 07:59:40 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B351C1FF7E;
+ Mon,  7 Sep 2020 15:59:39 +0100 (BST)
+References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
+ <159903459923.28509.4300111201059622860.stgit@pasha-ThinkPad-X280>
+ <87sgbtrbf5.fsf@linaro.org>
+ <8f077f41-f99b-cd46-ff3b-3cb191dc1c4c@ispras.ru>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Subject: Re: [PATCH v3 09/15] replay: implement replay-seek command
+In-reply-to: <8f077f41-f99b-cd46-ff3b-3cb191dc1c4c@ispras.ru>
+Date: Mon, 07 Sep 2020 15:59:39 +0100
+Message-ID: <87mu21r5t0.fsf@linaro.org>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=ligang6@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 10:04:21
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 07 Sep 2020 11:14:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,175 +91,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "openstack-discuss@lists.openstack.org"
- <openstack-discuss@lists.openstack.org>
+Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
+ philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_624825e298f94650a7b69f483c9de84dhuaweicom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Hi folks,
+Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
 
-I have an question to discuss about the 6300esb watchdog.
-
-I think is it possible that qemu can send an event while the watchdog succe=
-ssfully fed by the vm at the first time.
-
-Here is the situation:
-
-Qemu will send an VIR_DOMAIN_EVENT_ID_WATCHDOG event while watch dog timeou=
-t, and if the action of the watchdog in xml of the vm was set to "reset", t=
-he vm will be rebooted while timeout.
-
-I have an monitor process that register callback function of the VIR_DOMAIN=
-_EVENT_ID_WATCHDOG event, the callback function will send an alarm to my up=
-per layer monitor platform indicate that the vm is fault, and the cluster d=
-eployed business on the vm will isolate the vm by the alarm.
-
-And after the vm rebooted , the monitor process will receive an reboot even=
-t and send it to the platform, the upper layer monitor platform will clear =
-the alarm, and business continue to run on the vm.
-
-In most cases ,the watch dog process in vm will feed the watchdog after vm =
-rebooted and all things go back on track.
-
-In some other cases,the guestos may failed to start (in my environment vm s=
-tart failed by io error), but the reboot event will still be received and t=
-he alarm will be cleared and the vm is still fault. So the this may not a g=
-ood idea to clear the alarm by the reboot event.
-
-So, I think it will be helpful that the qemu can send an event while the wa=
-tchdog successfully fed by the vm at the first time. So I can exactly know =
-that the guest os go back on running and the watch dog initialized successf=
-ully.
-
-Or any other opintion about this situation.
-
-Thanks.
-
-
---_000_624825e298f94650a7b69f483c9de84dhuaweicom_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> On 07.09.2020 15:58, Alex Benn=C3=A9e wrote:
+>>=20
+>> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+>>=20
+>>> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>>>
+>>> This patch adds hmp/qmp commands replay_seek/replay-seek that proceed
+>>> the execution to the specified instruction count.
+>>> The command automatically loads nearest snapshot and replays the execut=
+ion
+>>> to find the desired instruction count.
+>>=20
+>> Should there be an initial snapshot created at instruction 0? Using a
+>> separate monitor channel:
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"text-justi=
-fy-trim:punctuation">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi folks,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">I have an question to discuss a=
-bout the 6300esb watchdog.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">I think is it possible that qem=
-u can send an event while the watchdog successfully fed by the vm at the fi=
-rst time.
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Here is the situation:<o:p></o:=
-p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Qemu will send an VIR_DOMAIN_EV=
-ENT_ID_WATCHDOG event while watch dog timeout, and if the action of the wat=
-chdog in xml of the vm was set to &#8220;reset&#8221;, the vm will be reboo=
-ted while timeout.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">I have an monitor process that =
-register callback function of the VIR_DOMAIN_EVENT_ID_WATCHDOG event, the c=
-allback function will send an alarm to my upper layer monitor platform indi=
-cate that the vm is fault, and the cluster
- deployed business on the vm will isolate the vm by the alarm. <o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">And after the vm rebooted , the=
- monitor process will receive an reboot event and send it to the platform, =
-the upper layer monitor platform will clear the alarm, and business continu=
-e to run on the vm.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">In most cases ,the watch dog pr=
-ocess in vm will feed the watchdog after vm rebooted and all things go back=
- on track.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">In some other cases,the guestos=
- may failed to start (in my environment vm start failed by io error), but t=
-he reboot event will still be received and the alarm will be cleared and th=
-e vm is still fault. So the this may
- not a good idea to clear the alarm by the reboot event.<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">So, I think it will be helpful =
-that the qemu can send an event while the watchdog successfully fed by the =
-vm at the first time. So I can exactly know that the guest os go back on ru=
-nning and the watch dog initialized
- successfully.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Or any other opintion about thi=
-s situation.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Thanks.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
+> Right, you can't go to the prior state, when there is no preceding=20
+> snapshot available.
 
---_000_624825e298f94650a7b69f483c9de84dhuaweicom_--
+It seems creating an initial snapshot automatically would be more user
+friendly? What can you do to trigger a snapshot, say for example on a
+gdb connect?
+
+>
+>>=20
+>>    (qemu) replay_break 190505
+>>    replay_break 190505
+>>    (qemu) c
+>>    (qemu) info replay
+>>    info replay
+>>    Replaying execution 'record.out': instruction count =3D 190505
+>>    (qemu) replay_seek 190000
+>>    replay_seek 190000
+>>    snapshotting is disabled
+>>=20
+>> And then the guest dies with a sigabort:
+>
+> This could be a bug, thanks.
+>
+>>=20
+>>    ./qemu-system-aarch64 -cpu cortex-a53 -display none -serial stdio -ma=
+chine virt -kernel zephyr.elf -net none -icount shift=3D6,align=3Doff,sleep=
+=3Doff,rr=3Dreplay,rrfile=3Drecord.out -drive file=3Drecord.qcow2,if=3Dnone=
+,snapshot,id=3Drr -monitor telnet:127.0.0.1:4444 -S
+>>    *** Booting Zephyr OS build zephyr-v2.3.0-1183-ge5628ad0faf3  ***
+>>    Hello World! qemu_cortex_a53
+>>    double free or corruption (out)
+>>    fish: =E2=80=9C./qemu-system-aarch64 -cpu cort=E2=80=A6=E2=80=9D term=
+inated by signal SIGABRT (Abort)
+>>=20
+>>>
+>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>> Acked-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>   hmp-commands.hx           |   18 +++++++++
+>>>   include/monitor/hmp.h     |    1
+>>>   qapi/replay.json          |   20 ++++++++++
+>>>   replay/replay-debugging.c |   92 ++++++++++++++++++++++++++++++++++++=
++++++++++
+>>>   4 files changed, 131 insertions(+)
+>>>
+>>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>>> index e8ce385879..4288274c4e 100644
+>>> --- a/hmp-commands.hx
+>>> +++ b/hmp-commands.hx
+>>> @@ -1851,6 +1851,24 @@ SRST
+>>>     The command is ignored when there are no replay breakpoints.
+>>>   ERST
+>>>=20=20=20
+>>> +    {
+>>> +        .name       =3D "replay_seek",
+>>> +        .args_type  =3D "icount:i",
+>>> +        .params     =3D "icount",
+>>> +        .help       =3D "replay execution to the specified instruction=
+ count",
+>>> +        .cmd        =3D hmp_replay_seek,
+>>> +    },
+>>> +
+>>> +SRST
+>>> +``replay_seek`` *icount*
+>>> +Automatically proceed to the instruction count *icount*, when
+>>> +replaying the execution. The command automatically loads nearest
+>>> +snapshot and replays the execution to find the desired instruction.
+>>> +When there is no preceding snapshot or the execution is not replayed,
+>>> +then the command fails.
+>>> +*icount* for the reference may be observed with ``info replay`` comman=
+d.
+>>> +ERST
+>>> +
+>>>       {
+>>>           .name       =3D "info",
+>>>           .args_type  =3D "item:s?",
+>>> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+>>> index 21849bdda5..655eb81a4c 100644
+>>> --- a/include/monitor/hmp.h
+>>> +++ b/include/monitor/hmp.h
+>>> @@ -133,5 +133,6 @@ void hmp_info_sev(Monitor *mon, const QDict *qdict);
+>>>   void hmp_info_replay(Monitor *mon, const QDict *qdict);
+>>>   void hmp_replay_break(Monitor *mon, const QDict *qdict);
+>>>   void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+>>> +void hmp_replay_seek(Monitor *mon, const QDict *qdict);
+>>>=20=20=20
+>>>   #endif
+>>> diff --git a/qapi/replay.json b/qapi/replay.json
+>>> index 173ba76107..bfd83d7591 100644
+>>> --- a/qapi/replay.json
+>>> +++ b/qapi/replay.json
+>>> @@ -99,3 +99,23 @@
+>>>   #
+>>>   ##
+>>>   { 'command': 'replay-delete-break' }
+>>> +
+>>> +##
+>>> +# @replay-seek:
+>>> +#
+>>> +# Automatically proceed to the instruction count @icount, when
+>>> +# replaying the execution. The command automatically loads nearest
+>>> +# snapshot and replays the execution to find the desired instruction.
+>>> +# When there is no preceding snapshot or the execution is not replayed,
+>>> +# then the command fails.
+>>> +# icount for the reference may be obtained with @query-replay command.
+>>> +#
+>>> +# @icount: target instruction count
+>>> +#
+>>> +# Since: 5.2
+>>> +#
+>>> +# Example:
+>>> +#
+>>> +# -> { "execute": "replay-seek", "data": { "icount": 220414 } }
+>>> +##
+>>> +{ 'command': 'replay-seek', 'data': { 'icount': 'int' } }
+>>> diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
+>>> index 86e19bb217..cfd0221692 100644
+>>> --- a/replay/replay-debugging.c
+>>> +++ b/replay/replay-debugging.c
+>>> @@ -19,6 +19,8 @@
+>>>   #include "qapi/qapi-commands-replay.h"
+>>>   #include "qapi/qmp/qdict.h"
+>>>   #include "qemu/timer.h"
+>>> +#include "block/snapshot.h"
+>>> +#include "migration/snapshot.h"
+>>>=20=20=20
+>>>   void hmp_info_replay(Monitor *mon, const QDict *qdict)
+>>>   {
+>>> @@ -127,3 +129,93 @@ void hmp_replay_delete_break(Monitor *mon, const Q=
+Dict *qdict)
+>>>           return;
+>>>       }
+>>>   }
+>>> +
+>>> +static char *replay_find_nearest_snapshot(int64_t icount,
+>>> +                                          int64_t *snapshot_icount)
+>>> +{
+>>> +    BlockDriverState *bs;
+>>> +    QEMUSnapshotInfo *sn_tab;
+>>> +    QEMUSnapshotInfo *nearest =3D NULL;
+>>> +    char *ret =3D NULL;
+>>> +    int nb_sns, i;
+>>> +    AioContext *aio_context;
+>>> +
+>>> +    *snapshot_icount =3D -1;
+>>> +
+>>> +    bs =3D bdrv_all_find_vmstate_bs();
+>>> +    if (!bs) {
+>>> +        goto fail;
+>>> +    }
+>>> +    aio_context =3D bdrv_get_aio_context(bs);
+>>> +
+>>> +    aio_context_acquire(aio_context);
+>>> +    nb_sns =3D bdrv_snapshot_list(bs, &sn_tab);
+>>> +    aio_context_release(aio_context);
+>>> +
+>>> +    for (i =3D 0; i < nb_sns; i++) {
+>>> +        if (bdrv_all_find_snapshot(sn_tab[i].name, &bs) =3D=3D 0) {
+>>> +            if (sn_tab[i].icount !=3D -1ULL
+>>> +                && sn_tab[i].icount <=3D icount
+>>> +                && (!nearest || nearest->icount < sn_tab[i].icount)) {
+>>> +                nearest =3D &sn_tab[i];
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +    if (nearest) {
+>>> +        ret =3D g_strdup(nearest->name);
+>>> +        *snapshot_icount =3D nearest->icount;
+>>> +    }
+>>> +    g_free(sn_tab);
+>>> +
+>>> +fail:
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static void replay_seek(int64_t icount, QEMUTimerCB callback, Error **=
+errp)
+>>> +{
+>>> +    char *snapshot =3D NULL;
+>>> +    int64_t snapshot_icount;
+>>> +
+>>> +    if (replay_mode !=3D REPLAY_MODE_PLAY) {
+>>> +        error_setg(errp, "replay must be enabled to seek");
+>>> +        return;
+>>> +    }
+>>> +    if (!replay_snapshot) {
+>>> +        error_setg(errp, "snapshotting is disabled");
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    snapshot =3D replay_find_nearest_snapshot(icount, &snapshot_icount=
+);
+>>> +    if (snapshot) {
+>>> +        if (icount < replay_get_current_icount()
+>>> +            || replay_get_current_icount() < snapshot_icount) {
+>>> +            vm_stop(RUN_STATE_RESTORE_VM);
+>>> +            load_snapshot(snapshot, errp);
+>>> +        }
+>>> +        g_free(snapshot);
+>>> +    }
+>>> +    if (replay_get_current_icount() <=3D icount) {
+>>> +        replay_break(icount, callback, NULL);
+>>> +        vm_start();
+>>> +    } else {
+>>> +        error_setg(errp, "cannot seek to the specified instruction cou=
+nt");
+>>> +    }
+>>> +}
+>>> +
+>>> +void qmp_replay_seek(int64_t icount, Error **errp)
+>>> +{
+>>> +    replay_seek(icount, replay_stop_vm, errp);
+>>> +}
+>>> +
+>>> +void hmp_replay_seek(Monitor *mon, const QDict *qdict)
+>>> +{
+>>> +    int64_t icount =3D qdict_get_try_int(qdict, "icount", -1LL);
+>>> +    Error *err =3D NULL;
+>>> +
+>>> +    qmp_replay_seek(icount, &err);
+>>> +    if (err) {
+>>> +        error_report_err(err);
+>>> +        error_free(err);
+>>> +        return;
+>>> +    }
+>>> +}
+>>=20
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
