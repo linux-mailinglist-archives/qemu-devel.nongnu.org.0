@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EF925F664
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:24:09 +0200 (CEST)
-Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EEF25F66A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Sep 2020 11:26:04 +0200 (CEST)
+Received: from localhost ([::1]:47640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFDNg-0004Jc-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35222)
+	id 1kFDPX-0005oj-OV
+	for lists+qemu-devel@lfdr.de; Mon, 07 Sep 2020 05:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFDMx-0003nn-0s
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:23:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21807
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFDOe-00058c-T9
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:25:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23980
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFDMu-0003BT-Mg
- for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:23:22 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFDOb-0003Sj-Oi
+ for qemu-devel@nongnu.org; Mon, 07 Sep 2020 05:25:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599470599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1599470704;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WWiNSUzV9gqZiGO16YMPPiBfAGj5IABr8aHyqtYT3Pg=;
- b=U1/gdP0egc6hBImFK5YOj7reZebbtT14XaDUrP0GXJNUGX//2JuCsoWvD6kaMe7jfQ9xam
- BwdTzUdCMtHs+SUgzdlAwbGg16oRGpE+WcFB361OuchNtV0A/UiO1WpALAwfenTEUh93el
- MJfMrcxeeSBkA2C4BuLWIxm1P/etsX4=
+ bh=ebHMQ6WaAb/MIlFy9+1QhA+l99LOR20IZu/um8tUmQc=;
+ b=QwwuiiS+xUo5rkd4egRlQYwEgASK3lZ1YxjyfEgqKxFQUoAb9f5urlSD0j1LFI0SqjZtZO
+ 1UoQmod7vBx6VNwY/iKzl+dN2uJsjXdneOGhDxJsExrjZd3NHLkeof932JRZygOaQPu74W
+ oiVnSxDWU3KTrwLQk1hbHc+PcqckvqE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-y8mA1LgUMqG3Ptzj7xInmg-1; Mon, 07 Sep 2020 05:23:16 -0400
-X-MC-Unique: y8mA1LgUMqG3Ptzj7xInmg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-524-qu6MNX77NZyu0i_W8RSA1A-1; Mon, 07 Sep 2020 05:25:02 -0400
+X-MC-Unique: qu6MNX77NZyu0i_W8RSA1A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C422918B9ED9;
- Mon,  7 Sep 2020 09:23:14 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-154.ams2.redhat.com [10.36.114.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F9E51002393;
- Mon,  7 Sep 2020 09:23:12 +0000 (UTC)
-Date: Mon, 7 Sep 2020 11:23:11 +0200
-From: Kevin Wolf <kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2079E640F0;
+ Mon,  7 Sep 2020 09:25:01 +0000 (UTC)
+Received: from redhat.com (ovpn-114-70.ams2.redhat.com [10.36.114.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8861D5DA84;
+ Mon,  7 Sep 2020 09:24:50 +0000 (UTC)
+Date: Mon, 7 Sep 2020 10:24:47 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: =?utf-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Subject: Re: make -i check resut for msys2
-Message-ID: <20200907092311.GA5615@linux.fritz.box>
-References: <CAE2XoE_TJ2T2eN82km0pYqDiqOpsd=waH4EmCe==0k=GYpj3Xg@mail.gmail.com>
- <3d2db346-2517-f6e3-748d-79a8ae993e06@redhat.com>
- <CAE2XoE_3Kjjk+tRz1y7rk94+vre2FSfmCGQVWNgjNW14vSNSdw@mail.gmail.com>
- <48c60a95-c30b-433a-7955-3845074776d8@redhat.com>
- <20200904085057.GB6237@linux.fritz.box>
- <CAE2XoE9na-+OPH1HcssE4yB56B2aDPb6xX1dsQ8J1BQ4d+s_Ww@mail.gmail.com>
+Subject: Re: [PATCH 1/2] tests: Trying fixes test-replication.c on msys2/mingw.
+Message-ID: <20200907092447.GC810755@redhat.com>
+References: <20200905211038.904-1-luoyonggang@gmail.com>
+ <20200905211038.904-2-luoyonggang@gmail.com>
+ <5a0e9248-d2eb-a88e-4043-7104498cd804@weilnetz.de>
+ <CAE2XoE-MuBNOGU5T_H_vgWYA5sU+HBjrk3tBa-=zJzpekWQcqw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE9na-+OPH1HcssE4yB56B2aDPb6xX1dsQ8J1BQ4d+s_Ww@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAE2XoE-MuBNOGU5T_H_vgWYA5sU+HBjrk3tBa-=zJzpekWQcqw@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 02:54:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/07 03:19:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -72,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.099,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,154 +87,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, qemu-level <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Block <qemu-block@nongnu.org>,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ qemu-level <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 05.09.2020 um 08:21 hat 罗勇刚(Yonggang Luo) geschrieben:
-> On Fri, Sep 4, 2020 at 4:51 PM Kevin Wolf <kwolf@redhat.com> wrote:
+On Sun, Sep 06, 2020 at 08:13:19PM +0800, 罗勇刚(Yonggang Luo) wrote:
+> On Sun, Sep 6, 2020 at 5:49 AM Stefan Weil <sw@weilnetz.de> wrote:
 > 
-> > Am 04.09.2020 um 08:03 hat Thomas Huth geschrieben:
-> > > On 04/09/2020 00.53, 罗勇刚(Yonggang Luo) wrote:
-> > > >
-> > > >
-> > > > On Thu, Sep 3, 2020 at 10:33 PM Thomas Huth <thuth@redhat.com
-> > > > <mailto:thuth@redhat.com>> wrote:
-> > > >
-> > > >     On 03/09/2020 11.18, 罗勇刚(Yonggang Luo) wrote:
-> > > >     [...]
-> > > >     >   TEST    check-unit: tests/test-replication.exe
-> > > >     > **
-> > > >     > ERROR:C:/work/xemu/qemu/tests/test-replication.c:136:make_temp:
-> > > >     > assertion failed: (fd >= 0)
-> > > >     > ERROR test-replication.exe - Bail out!
-> > > >     > ERROR:C:/work/xemu/qemu/tests/test-replication.c:136:make_temp:
-> > > >     > assertion failed: (fd >= 0)
-> > > >
-> > > >     At least this one should be easy to fix: The test uses /tmp as
-> > > >     hard-coded directory for temporary files. I think it should use
-> > > >     g_get_tmp_dir() from glib to get that directory instead.
-> > > >
-> > > >      Thomas
-> > > >
-> > > > After fixes tmp path, how to fixes following error:
-> > > > $ tests/test-replication.exe
+> > Am 05.09.20 um 23:10 schrieb Yonggang Luo:
 > >
-> > > >
-> > > >
-> > > >
-> > > > # random seed: R02Sdf2e4ffc0e6fbe96624598386b538927
-> > > > 1..13
-> > > > # Start of replication tests
-> > > > # Start of primary tests
-> > > > Unexpected error in bdrv_open_inherit() at ../block.c:3456:
-> > > > Block protocol 'file' doesn't support the option 'locking'
+> > > On Windows there is no path like /tmp/s_local_disk.XXXXXX
 > > >
-> > > Not sure ... as a temporary test, try to remove the "locking=off"
-> > > strings from the test. If it then works, it might be worth discussing
-> > > with the block layer folks how to handle this test on Windows in the
-> > > best way. If it still does not work, it's maybe simply not worth the
-> > > effort to try to get this test running on Windows - and thus mark it
-> > > with CONFIG_POSIX in the Makefile / meson.build.
+> > > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > > ---
+> > >  tests/test-replication.c | 13 +++++++++----
+> > >  1 file changed, 9 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/tests/test-replication.c b/tests/test-replication.c
+> > > index 9ab3666a90..3cf544a133 100644
+> > > --- a/tests/test-replication.c
+> > > +++ b/tests/test-replication.c
+> > > @@ -23,14 +23,14 @@
+> > >
+> > >  /* primary */
+> > >  #define P_ID "primary-id"
+> > > -static char p_local_disk[] = "/tmp/p_local_disk.XXXXXX";
+> > > +static char p_local_disk[PATH_MAX];
+> > >
+> > >  /* secondary */
+> > >  #define S_ID "secondary-id"
+> > >  #define S_LOCAL_DISK_ID "secondary-local-disk-id"
+> > > -static char s_local_disk[] = "/tmp/s_local_disk.XXXXXX";
+> > > -static char s_active_disk[] = "/tmp/s_active_disk.XXXXXX";
+> > > -static char s_hidden_disk[] = "/tmp/s_hidden_disk.XXXXXX";
+> > > +static char s_local_disk[PATH_MAX];
+> > > +static char s_active_disk[PATH_MAX];
+> > > +static char s_hidden_disk[PATH_MAX];
+> > >
+> > >  /* FIXME: steal from blockdev.c */
+> > >  QemuOptsList qemu_drive_opts = {
+> > > @@ -571,6 +571,11 @@ static void setup_sigabrt_handler(void)
+> > >  int main(int argc, char **argv)
+> > >  {
+> > >      int ret;
+> > > +    const char *tmpdir = g_get_tmp_dir();
+> > > +    sprintf(p_local_disk, "%s/p_local_disk.XXXXXX", tmpdir);
+> > > +    sprintf(s_local_disk, "%s/s_local_disk.XXXXXX", tmpdir);
+> > > +    sprintf(s_active_disk, "%s/s_active_disk.XXXXXX", tmpdir);
+> > > +    sprintf(s_hidden_disk, "%s/s_hidden_disk.XXXXXX", tmpdir);
+> > >      qemu_init_main_loop(&error_fatal);
+> > >      bdrv_init();
+> > >
 > >
-> > This is a bug in file-win32. It reads "locking" from the options QDict,
-> > but doesn't delete it from it.
 > >
-> > Does the following help? (Only compile-tested.)
+> > Maybe it is possible to use get_tmp_filename() (which could be
+> > simplified by using g_get_tmp_dir).
 > >
-> > If it works for you, I'll send it as a proper patch.
+> What  does get_tmp_filename mean? I didn't understand
+> 
 > >
-> > Kevin
+> > And please use snprintf instead of sprintf. I am afraid that a path can
+> > be longer than PATH_MAX, even if the tmpdir path is normally rather short.
 > >
-> > diff --git a/block/file-win32.c b/block/file-win32.c
-> > index ab69bd811a..e2900c3a51 100644
-> > --- a/block/file-win32.c
-> > +++ b/block/file-win32.c
-> > @@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
-> >              .type = QEMU_OPT_STRING,
-> >              .help = "host AIO implementation (threads, native)",
-> >          },
-> > +        {
-> > +            .name = "locking",
-> > +            .type = QEMU_OPT_STRING,
-> > +            .help = "file locking mode (on/off/auto, default: auto)",
-> > +        },
-> >          { /* end of list */ }
-> >      },
-> >  };
-> > @@ -333,6 +338,7 @@ static int raw_open(BlockDriverState *bs, QDict
-> > *options, int flags,
-> >      Error *local_err = NULL;
-> >      const char *filename;
-> >      bool use_aio;
-> > +    OnOffAuto locking;
-> >      int ret;
+>  OK, I'll use  snprintf
+> 
 > >
-> >      s->type = FTYPE_FILE;
-> > @@ -343,10 +349,24 @@ static int raw_open(BlockDriverState *bs, QDict
-> > *options, int flags,
-> >          goto fail;
-> >      }
+> > You could also allocate the different filenames dynamically instead of
+> > limiting them to PATH_MAX characters.
 > >
-> > -    if (qdict_get_try_bool(options, "locking", false)) {
-> > +    locking = qapi_enum_parse(&OnOffAuto_lookup,
-> > +                              qemu_opt_get(opts, "locking"),
-> > +                              ON_OFF_AUTO_AUTO, &local_err);
-> > +    if (local_err) {
-> > +        error_propagate(errp, local_err);
-> > +        ret = -EINVAL;
-> > +        goto fail;
-> > +    }
-> > +    switch (locking) {
-> > +    case ON_OFF_AUTO_ON:
-> >          error_setg(errp, "locking=on is not supported on Windows");
-> >          ret = -EINVAL;
-> >          goto fail;
-> > +    case ON_OFF_AUTO_OFF:
-> > +    case ON_OFF_AUTO_AUTO:
-> > +        break;
-> > +    default:
-> > +        g_assert_not_reached();
-> >      }
-> >
-> >      filename = qemu_opt_get(opts, "filename");
-> >
-> Partial error fixed, new error are coming:
+> as a test, it's too complicated,
 
-Good, I'll send the patch then.
+I really isn't hard to replace sprintf() with g_strdup_printf() and
+then g_free() at the end of the test.
 
-> $ ./tests/test-replication.exe
-> # random seed: R02S3f4d1c01af2b0a046990e0235c481faf
-> 1..13
-> # Start of replication tests
-> # Start of primary tests
-> ok 1 /replication/primary/read
-> ok 2 /replication/primary/write
-> ok 3 /replication/primary/start
-> ok 4 /replication/primary/stop
-> ok 5 /replication/primary/do_checkpoint
-> ok 6 /replication/primary/get_error_all
-> # End of primary tests
-> # Start of secondary tests
-> ok 7 /replication/secondary/read
-> ok 8 /replication/secondary/write
-> Unexpected error in bdrv_reopen_prepare() at ../block.c:4191:
-> Block format 'file' used by node '#block4287' does not support reopening
-> files
 
-Can you try to find out what reopen this is?
-
-I assume it's for switching between read-write and read-only. In this
-case an implementation of .bdrv_reopen_prepare/commit/abort that can do
-this switch is required.
-
-This is more serious development work, so I can't propose a quick fix.
-
-Alternatively, we could just declare replication unsupported on Windows
-and let configure make sure that CONFIG_REPLICATION is never set for it.
-
-Kevin
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
