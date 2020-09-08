@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD7326211F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:29:55 +0200 (CEST)
-Received: from localhost ([::1]:53586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55894262127
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:32:03 +0200 (CEST)
+Received: from localhost ([::1]:59508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFkFW-0003Qm-Hz
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
+	id 1kFkHa-00061b-9B
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kFkEj-0002uq-Lw
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:29:05 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kFkEi-0007cr-1p
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:29:05 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id q21so438317edv.1
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 13:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UW8qu0aSyJDtgjYDO4cJ4kvZyTESM6mhROk0I5RVbG4=;
- b=Zim+elRMrojDWLrHB5sugtOvfU/rPrjITY3CSa3N7DDFB2nHkjCRFs0W6pNC3qCX9b
- U8GqA6PwrhUSjd98rXDiFMuytaOsAPVYUpMrSQ/l9RbeypUOOGtMAw/b5R1HWrsaQP4C
- OUYnI6ro/rDfsRpnY4GExCR01cEaI4cuoveMh3EE7+xNmyMbUcOlBn3Ryae0U2mnhvew
- 2tG7eWTxwWG9h9rQDguT/SbdfwxrhBTLmQB0S8gILMbE808V8Rkz9CHuGd5Z140KCvy0
- YhKPdMFimhfFHsccC9a35tLbeVPQJ6f5GUbq22PRrXHTt+SaH4z/h0JcPWi5qAF5hOF+
- m/QA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kFkG8-0004Cc-Lf
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:30:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39329
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kFkG6-0007sj-E9
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:30:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599597027;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HAFn4bEDDQPG1QI41gKB6fbg8k3YtBJc3lZUjVwq2po=;
+ b=E1GwmbG5k9pKW+brv+ouK+kPstJLiiNytD3bB6u27nRLa3Xe8HluRdCECWKQOQ6Q1W2+qS
+ 3RQjvyqJ3WoJT1B1wOoXkyCDam7qH47jijHbytrdoYYDqg3FrD+IuIDmWwdjULnmfLXsfD
+ oXztMR/IoXwvju2Xti9fgY140WReecU=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-BDduWfp3Ma2GbhLgJwLXvg-1; Tue, 08 Sep 2020 16:30:26 -0400
+X-MC-Unique: BDduWfp3Ma2GbhLgJwLXvg-1
+Received: by mail-qv1-f69.google.com with SMTP id y32so93181qve.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 13:30:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UW8qu0aSyJDtgjYDO4cJ4kvZyTESM6mhROk0I5RVbG4=;
- b=Yfso0v6kq1Yb8X5QMWRwnEmPgc624D0ghQM/1ewHn9I18EzSLSg8od30GLL/mqvJ5n
- kcHQorYatQCUND/pQFZARKc2ngec9+zxZdwOVFJfv7jpk3OnMpXoka/BmYxRAy7JTp6B
- t8DQjdB6UoR3FpIEHtOmX3Nn5gDnYDm3KrBL6HtIkSYfI/d8QCP+e19qn6U+PNKKPVeI
- 8YJoGBoaAvjDJrMHOE7doGE755eLuQeYfzWuQ11ysiHuVksBcHH4vbxDAUtoSfy+BK+b
- gCWhOZq/Btwb3pIxkyZ1tH1UfOTjqKL7rxZz5hCZebe1yswgVWxr0o8qw6kZWQ8ABTwV
- 8JyA==
-X-Gm-Message-State: AOAM533nLY0mIa8S4JcCeNgBrhGYhzBKc/JyBo8kKLcRN0ldIMgTFDKA
- 9K1jRuHobCt0ik+JM15SpVA0ZvMKq+LlJ9DgNQLmdw==
-X-Google-Smtp-Source: ABdhPJx+Tt1bzQUaQdssIGKO4h/heSySdRabNgFydj9GZE7lciXEDJkWMOEPC6OSGdzzbq1X6DZSRQdgTsRwHtxAieg=
-X-Received: by 2002:a50:f28b:: with SMTP id f11mr844914edm.44.1599596942256;
- Tue, 08 Sep 2020 13:29:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GaaBuy+0RprmBynjpJdh/WHO1+Eefq1XMNSFWtzof3s=;
+ b=KMDrdlRKDNtIx1REV853sKgLBYNtdeFfpM5NYoU+ONfH20xr+/cQfWGA0fGpz+4oWX
+ U51WuLYcFhj6cUlUob4Kmp5CywZ9aR/pJ5w+OOahawv2/04gHKDAgAv3HLMdsIm0IIxO
+ yYbVEPSTcIRffmqWPExVpS3HDFsm0XyB6N5l57f9a1fQqzgTt0JEVccjjDsoa+u4jtGC
+ mfTf4BNA915CNpHH//OTiEh2VTqNlkAPnM9MHHWZoFfIvYRWKvL1GJtquKGsrSYlp/ux
+ qQU2IIw/Qo5euhJ+N22CmM8nNSHZmmCHnXEcq6RHqxOkwQvfdNB5yoZncdIBFoh93O3r
+ S+Sw==
+X-Gm-Message-State: AOAM5326hHLJrGO6vQ1fqNz6/vWqAFFadLTxvUiLKHy9UpIjoJxm4YDN
+ 2lv5TmHJM3QqPsMk9Cby1VVd5JgRphnX96zZi4ZGSsXI9lUL0UnoIq1r/SYfFs4nQRLAzIDi6d3
+ bAY+p94fdF2c+n+c=
+X-Received: by 2002:aed:2be2:: with SMTP id e89mr210751qtd.298.1599597025353; 
+ Tue, 08 Sep 2020 13:30:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuq5fP+BNZs4kfiDOCM7D9RuToPnPuBfKh/EAxatsF7axtR4SId0uUcujxNDHQNce/Y5X4aA==
+X-Received: by 2002:aed:2be2:: with SMTP id e89mr210724qtd.298.1599597025091; 
+ Tue, 08 Sep 2020 13:30:25 -0700 (PDT)
+Received: from xz-x1.redhat.com
+ (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca. [70.53.122.15])
+ by smtp.gmail.com with ESMTPSA id o28sm595397qtl.62.2020.09.08.13.30.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 13:30:24 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] migration/postcopy: Sync faulted addresses after
+ network recovered
+Date: Tue,  8 Sep 2020 16:30:16 -0400
+Message-Id: <20200908203022.341615-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200908184918.1085-1-luoyonggang@gmail.com>
- <20200908184918.1085-5-luoyonggang@gmail.com>
-In-Reply-To: <20200908184918.1085-5-luoyonggang@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Sep 2020 21:28:51 +0100
-Message-ID: <CAFEAcA-FGVMKNObinzWgq6sYm9p0GCgPb3mXgx1LD5UnX0wZCQ@mail.gmail.com>
-Subject: Re: [PULL 04/16] curses: Fixes curses compiling errors.
-To: Yonggang Luo <luoyonggang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,79 +94,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Qemu-block <qemu-block@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Max Reitz <mreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Xiaohui Li <xiaohli@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Sep 2020 at 19:56, Yonggang Luo <luoyonggang@gmail.com> wrote:
->
-> This is the compiling error:
-> ../ui/curses.c: In function 'curses_refresh':
-> ../ui/curses.c:256:5: error: 'next_maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
->   256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
->       |     ^~~~~~~~~~
-> ../ui/curses.c:302:32: note: 'next_maybe_keycode' was declared here
->   302 |             enum maybe_keycode next_maybe_keycode;
->       |                                ^~~~~~~~~~~~~~~~~~
-> ../ui/curses.c:256:5: error: 'maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
->   256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
->       |     ^~~~~~~~~~
-> ../ui/curses.c:265:24: note: 'maybe_keycode' was declared here
->   265 |     enum maybe_keycode maybe_keycode;
->       |                        ^~~~~~~~~~~~~
-> cc1.exe: all warnings being treated as errors
+v2:=0D
+- add r-bs for Dave=0D
+- add patch "migration: Properly destroy variables on incoming side" as pat=
+ch 1=0D
+- destroy page_request_mutex in migration_incoming_state_destroy() too [Dav=
+e]=0D
+- use WITH_QEMU_LOCK_GUARD in two places where we can [Dave]=0D
+=0D
+We've seen conditional guest hangs on destination VM after postcopy recover=
+ed.=0D
+However the hang will resolve itself after a few minutes.=0D
+=0D
+The problem is: after a postcopy recovery, the prioritized postcopy queue o=
+n=0D
+the source VM is actually missing.  So all the faulted threads before the=
+=0D
+postcopy recovery happened will keep halted until (accidentally) the page g=
+ot=0D
+copied by the background precopy migration stream.=0D
+=0D
+The solution is to also refresh this information after postcopy recovery.  =
+To=0D
+achieve this, we need to maintain a list of faulted addresses on the=0D
+destination node, so that we can resend the list when necessary.  This work=
+ is=0D
+done via patch 2-5.=0D
+=0D
+With that, the last thing we need to do is to send this extra information t=
+o=0D
+source VM after recovered.  Very luckily, this synchronization can be=0D
+"emulated" by sending a bunch of page requests (although these pages have b=
+een=0D
+sent previously!) to source VM just like when we've got a page fault.  Even=
+ in=0D
+the 1st version of the postcopy code we'll handle duplicated pages well.  S=
+o=0D
+this fix does not even need a new capability bit and it'll work smoothly on=
+ old=0D
+QEMUs when we migrate from them to the new QEMUs.=0D
+=0D
+Please review, thanks.=0D
+=0D
+Peter Xu (6):=0D
+  migration: Properly destroy variables on incoming side=0D
+  migration: Rework migrate_send_rp_req_pages() function=0D
+  migration: Pass incoming state into qemu_ufd_copy_ioctl()=0D
+  migration: Introduce migrate_send_rp_message_req_pages()=0D
+  migration: Maintain postcopy faulted addresses=0D
+  migration: Sync requested pages after postcopy recovery=0D
+=0D
+ migration/migration.c    | 79 +++++++++++++++++++++++++++++++++++-----=0D
+ migration/migration.h    | 23 +++++++++++-=0D
+ migration/postcopy-ram.c | 46 ++++++++++-------------=0D
+ migration/savevm.c       | 57 +++++++++++++++++++++++++++++=0D
+ migration/trace-events   |  3 ++=0D
+ 5 files changed, 171 insertions(+), 37 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> ---
->  ui/curses.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/ui/curses.c b/ui/curses.c
-> index 12bc682cf9..e4f9588c3e 100644
-> --- a/ui/curses.c
-> +++ b/ui/curses.c
-> @@ -262,7 +262,7 @@ static int curses2foo(const int _curses2foo[], const int _curseskey2foo[],
->  static void curses_refresh(DisplayChangeListener *dcl)
->  {
->      int chr, keysym, keycode, keycode_alt;
-> -    enum maybe_keycode maybe_keycode;
-> +    enum maybe_keycode maybe_keycode = CURSES_KEYCODE;
->
->      curses_winch_check();
->
-> @@ -299,7 +299,7 @@ static void curses_refresh(DisplayChangeListener *dcl)
->
->          /* alt or esc key */
->          if (keycode == 1) {
-> -            enum maybe_keycode next_maybe_keycode;
-> +            enum maybe_keycode next_maybe_keycode = CURSES_KEYCODE;
->              int nextchr = console_getch(&next_maybe_keycode);
->
->              if (nextchr != -1) {
-
-The problem here is that the compiler hasn't noticed that it's
-impossible to return something other than -1 from console_getch()
-without initializing next_maybe_keycode.
-
-There are two possible reasons for this:
-(1) your gcc is a bit old -- newer gcc are better at working
-out this kind of thing. But you said on irc that you're using
-gcc 10.2.0, which is new...
-
-(2) this is a variant of the problem with the system headers
-that causes us to have to redefine assert() in osdep.h, only
-with abort() (ie abort() is perhaps not marked as noreturn in
-the system headers). If this theory is true, then changing
-the abort() in console_getch() to instead be g_assert_not_reached()
-would be a different way to avoid the warnings (and if that works
-we should probably fix up abort() the way we do assert()).
-
-thanks
--- PMM
 
