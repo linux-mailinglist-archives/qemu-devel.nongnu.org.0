@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6363261198
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:47:32 +0200 (CEST)
-Received: from localhost ([::1]:38482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F414526118F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:46:01 +0200 (CEST)
+Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFd23-0005cf-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:47:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37524)
+	id 1kFd0b-0003PG-28
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:46:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kFczF-00022w-T2
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:37 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:38285)
+ id 1kFczG-00023N-Km
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:38 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:39396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kFczC-0001Kz-76
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:37 -0400
-Received: by mail-ed1-x542.google.com with SMTP id c8so15835457edv.5
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:44:33 -0700 (PDT)
+ id 1kFczD-0001L5-Ij
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:38 -0400
+Received: by mail-ed1-x541.google.com with SMTP id c10so15830395edk.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rV7pkNnDVb3Fup7JTagH3DCirUP2eQXNJHpnCF2Ra8o=;
- b=j/Cfg6aZoeKaHhPoybZFxbOzBFlIxBQMzg/XoY3Ay7W1G8j8lYOZyP9Q5z9v9Fzaek
- OQg0HHlU+tQc/PsjHWeRJUdCi2JsZey/GpFZiMewpfcgDW/CgKAIke2pg6bmcqmsFqEK
- cB+152BaztCFu50wmg19WY99/D1z5W8YokjuCwHCZxWJsj/8oxHptjQhMHtuUWfRQCAO
- 0vx+aDwkqptk6OIIoR/96PS3Coz5Y/ASt2IDNIwxxVQV5TAZfhk6q1k6lqy07H2JPVYi
- 6BsCmQK4W7fAbJRzTYraVeNlYPj6jr44ec82fLArii1ljPtN88Dcv5212Zi8wd2ZcYNx
- Ousw==
+ bh=59FKQ7FjWGaMx6p/hgj1RpZbTEenTpc0lYB9ZMhjTO0=;
+ b=KAemnoxfBQ+nO1USzzfug3TssaL5EeZCvlxT0pYckJdeP2ZXgrfoqQrK/2A4naz2ZK
+ 2fghgpZu13p/ud7Kc9XPd+Pilkl1ZW2FYFBd4BYQp5z1vGGoiWkxJV3e9H88k53cYXVn
+ Q3kwwnKvLDNKo+8wdjdXSy7TZ99dq/oSiuf+EjkISlE6pHh/9B/o0rum/lN6uSQXKA+k
+ R+wXs1y+dWHqgDCEctZnPsYClo3qzMGKOglh6mS8RJrBoLo8nTouK4CwFOwA2moO5W2f
+ AuJJ5ZOREBWjp2PbTe2Gx9t6ILYrL/jIK/51ce9IccRf7JEW4zFmBh36m1V3Jx2EToGK
+ AkYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=rV7pkNnDVb3Fup7JTagH3DCirUP2eQXNJHpnCF2Ra8o=;
- b=hWHrZhzoQ96EvTQGwNwd/MGqGMJJNgJMzyU5hHsyhyJrOowLtInGyNhvm2VzurU28s
- EEjkc0JWr+lvF3ykDHqxqNfWL/h9hr7VrnBg48YnFrO2oAVss53kAgK392BCwIMtuBH8
- bgpA1kKi/XBon43ypO7E5azO4SnI6iHm0BUfQuzS+no/CFsVN9MhWI4QTYWez65ZGXMK
- WxvgKazDpdpdY6j58H6FzCmcx0iA9/iu2AZ4VgVitY57kLQRhp9SbuY54j6j5Odu/tNr
- EAAlB2lSZqZosykTAX9vXVlv4bqnBDjKztBoJeQRr39Ou2JFQNuAZXNdU8dsgeC5g5OR
- PvnQ==
-X-Gm-Message-State: AOAM533+x4N6YDi2ogdz5/V55PbUP+9+t4ZzsZIlYrzxVS5j8+it/H6D
- Vb1V+BFzbDluZn71yl0zCJjcfw3P1mc=
-X-Google-Smtp-Source: ABdhPJywMA03Ckn8idHv0ZeQi3Gc4qKc4kGsScIsmlheuI6UyT0ieIjZFdmPmiullCWJsWn/JHR4yA==
-X-Received: by 2002:aa7:dcd9:: with SMTP id w25mr25601345edu.280.1599569072810; 
- Tue, 08 Sep 2020 05:44:32 -0700 (PDT)
+ bh=59FKQ7FjWGaMx6p/hgj1RpZbTEenTpc0lYB9ZMhjTO0=;
+ b=XUtg5wiWH+/jThJ64XY4LHZjcNP7qKByHZa6ffU/8tzLRy2/kzz0ObS/oLkeG2qYpC
+ CNg/XyXzVbFQ3t1GWw9eSi51pb5AG0gzdtkFuR/IeQ3Z5CoLzygO7blHOZsvNI1fUH7k
+ UeQdPwKwoBacTeqi9GAfyWu3HzkuxhdzGf+Vbirw9KR3b8ym8hOe1X1oW2EBnH791Gp+
+ u6aGL4tQr7pL1eGAY9O9Brb+upmBEO+rIGgXi1zgLPHOHdBpvrERzjnN16ZhiHdVS4Lg
+ aG/BYDrI9qFXfh3ZBSGW+2oAtVZ8cvK0WIz7GNXP7hOI/Nbjjnkr1pAJ5Ryx3mXyarQM
+ SGrw==
+X-Gm-Message-State: AOAM5310vturKgmKQye5OGz3oAlWb28rRvbnWr+VEzq2Nmf6fj4gXwLQ
+ DG6ANJ5KqtJBY9+h6+H7d3LsGzsLv0Q=
+X-Google-Smtp-Source: ABdhPJyfNV9WzZ+GFjTXkjCziWt4HcwmFxK552NnSGtfbY1sNN0QwVboMD9CjXuMr8Gm1xM7yU4Qxw==
+X-Received: by 2002:a50:ce06:: with SMTP id y6mr26094683edi.273.1599569073489; 
+ Tue, 08 Sep 2020 05:44:33 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
  by smtp.gmail.com with ESMTPSA id u23sm4396604ejc.108.2020.09.08.05.44.32
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 08 Sep 2020 05:44:32 -0700 (PDT)
+ Tue, 08 Sep 2020 05:44:33 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] target/mips: Demacro helpers for M<ADD|SUB>F.<D|S>
-Date: Tue,  8 Sep 2020 14:44:26 +0200
-Message-Id: <1599569068-9855-3-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH 3/4] target/mips: Demacro helpers for <MAX|MAXA|MIN|MINA>.<D|S>
+Date: Tue,  8 Sep 2020 14:44:27 +0200
+Message-Id: <1599569068-9855-4-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1599569068-9855-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 References: <1599569068-9855-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,85 +90,124 @@ Remove function definitions via macros to achieve better code clarity.
 
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 63 +++++++++++++++++++++++++++++-----------
- 1 file changed, 46 insertions(+), 17 deletions(-)
+ target/mips/fpu_helper.c | 104 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 81 insertions(+), 23 deletions(-)
 
 diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index f89213947f..98313951cb 100644
+index 98313951cb..f480c7296e 100644
 --- a/target/mips/fpu_helper.c
 +++ b/target/mips/fpu_helper.c
-@@ -1666,25 +1666,54 @@ uint64_t helper_float_nmsub_ps(CPUMIPSState *env, uint64_t fdt0,
+@@ -1475,29 +1475,87 @@ uint64_t helper_float_mulr_ps(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt1)
+     return ((uint64_t)fsth2 << 32) | fstl2;
  }
  
- 
--#define FLOAT_FMADDSUB(name, bits, muladd_arg)                          \
+-#define FLOAT_MINMAX(name, bits, minmaxfunc)                            \
 -uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,             \
 -                                         uint ## bits ## _t fs,         \
--                                         uint ## bits ## _t ft,         \
--                                         uint ## bits ## _t fd)         \
+-                                         uint ## bits ## _t ft)         \
 -{                                                                       \
 -    uint ## bits ## _t fdret;                                           \
 -                                                                        \
--    fdret = float ## bits ## _muladd(fs, ft, fd, muladd_arg,            \
--                                     &env->active_fpu.fp_status);       \
+-    fdret = float ## bits ## _ ## minmaxfunc(fs, ft,                    \
+-                                           &env->active_fpu.fp_status); \
 -    update_fcr31(env, GETPC());                                         \
 -    return fdret;                                                       \
-+uint32_t helper_float_maddf_s(CPUMIPSState *env, uint32_t fs,
-+                              uint32_t ft, uint32_t fd)
+-}
+-
+-FLOAT_MINMAX(max_s, 32, maxnum)
+-FLOAT_MINMAX(max_d, 64, maxnum)
+-FLOAT_MINMAX(maxa_s, 32, maxnummag)
+-FLOAT_MINMAX(maxa_d, 64, maxnummag)
+-
+-FLOAT_MINMAX(min_s, 32, minnum)
+-FLOAT_MINMAX(min_d, 64, minnum)
+-FLOAT_MINMAX(mina_s, 32, minnummag)
+-FLOAT_MINMAX(mina_d, 64, minnummag)
+-#undef FLOAT_MINMAX
++
++uint32_t helper_float_max_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
 +{
 +    uint32_t fdret;
 +
-+    fdret = float32_muladd(fs, ft, fd, 0,
-+                           &env->active_fpu.fp_status);
++    fdret = float32_maxnum(fs, ft, &env->active_fpu.fp_status);
 +
 +    update_fcr31(env, GETPC());
 +    return fdret;
 +}
 +
-+uint64_t helper_float_maddf_d(CPUMIPSState *env, uint64_t fs,
-+                              uint64_t ft, uint64_t fd)
++uint64_t helper_float_max_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
 +{
 +    uint64_t fdret;
 +
-+    fdret = float64_muladd(fs, ft, fd, 0,
-+                           &env->active_fpu.fp_status);
++    fdret = float64_maxnum(fs, ft, &env->active_fpu.fp_status);
 +
 +    update_fcr31(env, GETPC());
 +    return fdret;
 +}
 +
-+uint32_t helper_float_msubf_s(CPUMIPSState *env, uint32_t fs,
-+                              uint32_t ft, uint32_t fd)
++uint32_t helper_float_maxa_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
 +{
 +    uint32_t fdret;
 +
-+    fdret = float32_muladd(fs, ft, fd, float_muladd_negate_product,
-+                           &env->active_fpu.fp_status);
++    fdret = float32_maxnummag(fs, ft, &env->active_fpu.fp_status);
 +
 +    update_fcr31(env, GETPC());
 +    return fdret;
 +}
 +
-+uint64_t helper_float_msubf_d(CPUMIPSState *env, uint64_t fs,
-+                              uint64_t ft, uint64_t fd)
++uint64_t helper_float_maxa_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
 +{
 +    uint64_t fdret;
 +
-+    fdret = float64_muladd(fs, ft, fd, float_muladd_negate_product,
-+                           &env->active_fpu.fp_status);
++    fdret = float64_maxnummag(fs, ft, &env->active_fpu.fp_status);
 +
 +    update_fcr31(env, GETPC());
 +    return fdret;
- }
++}
++
++uint32_t helper_float_min_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
++{
++    uint32_t fdret;
++
++    fdret = float32_minnum(fs, ft, &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
++}
++
++uint64_t helper_float_min_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
++{
++    uint64_t fdret;
++
++    fdret = float64_minnum(fs, ft, &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
++}
++
++uint32_t helper_float_mina_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
++{
++    uint32_t fdret;
++
++    fdret = float32_minnummag(fs, ft, &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
++}
++
++uint64_t helper_float_mina_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
++{
++    uint64_t fdret;
++
++    fdret = float64_minnummag(fs, ft, &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
++}
++
  
--FLOAT_FMADDSUB(maddf_s, 32, 0)
--FLOAT_FMADDSUB(maddf_d, 64, 0)
--FLOAT_FMADDSUB(msubf_s, 32, float_muladd_negate_product)
--FLOAT_FMADDSUB(msubf_d, 64, float_muladd_negate_product)
--#undef FLOAT_FMADDSUB
+ /* ternary operations */
  
- /* compare operations */
- #define FOP_COND_D(op, cond)                                   \
 -- 
 2.20.1
 
