@@ -2,64 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935F9260B59
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:56:19 +0200 (CEST)
-Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AECC260B7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:01:51 +0200 (CEST)
+Received: from localhost ([::1]:52016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFXYA-000327-HD
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43484)
+	id 1kFXdW-0008Cf-56
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:01:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWN-0001GX-HJ
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36556
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFXcM-0007cF-7g
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:00:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54994
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWL-0008D1-NJ
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:27 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFXcK-0000TJ-Gj
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:00:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599548065;
+ s=mimecast20190719; t=1599548434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SsuVsisdCqSRS5dGwtcYAumiBH2SK0i4xd2ofrCECVY=;
- b=EHs1kNFRopo9Q/L8TO5YT35v6GS/Qhg6MKdQZOSjGJFDk3jejf0nPtkNI58c1cnu/KpRhz
- ZcBEzH+sZZGbS0TWn8ecxUU+mCXrbrCpzDp47WUEQ2JYvkL9uypf536/w0fIpSXKnDC0lN
- P9bHQgceqs1lni4ebP6ybIn+02elqiE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E0ZhXKghmJkvIciPUKHX3hypiskU3eE8ItTAXYZjSKE=;
+ b=A1hiiuDvukAoXBBmMiOAwIf6pgUJGp4GGxjXX3DIItAQkKZuLPJCoaFk9sw1YQkx6dbxQJ
+ tMlHk6OUSnH9U5jJWwN2XtFg55vSktXtwVtfaqbCYxC/OfABsvwaTE5TA2owmczjgWPjjW
+ ThiHwgaUSB4i6odWQurG3HJ6o8ryl6U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-lF6k6v7WOzucyHueMSaE6w-1; Tue, 08 Sep 2020 02:54:22 -0400
-X-MC-Unique: lF6k6v7WOzucyHueMSaE6w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-131--6V5g15nNn2ADaJRCOkbgQ-1; Tue, 08 Sep 2020 03:00:32 -0400
+X-MC-Unique: -6V5g15nNn2ADaJRCOkbgQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CD841084D70;
- Tue,  8 Sep 2020 06:54:21 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
- [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AE097E30C;
- Tue,  8 Sep 2020 06:54:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9587F112CDE9; Tue,  8 Sep 2020 08:54:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] qapi/block-core.json: Fix nbd-server-start docs
-Date: Tue,  8 Sep 2020 08:54:17 +0200
-Message-Id: <20200908065417.3158250-6-armbru@redhat.com>
-In-Reply-To: <20200908065417.3158250-1-armbru@redhat.com>
-References: <20200908065417.3158250-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC1DA18B9EDD;
+ Tue,  8 Sep 2020 07:00:31 +0000 (UTC)
+Received: from thuth.com (ovpn-112-131.ams2.redhat.com [10.36.112.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 927DC5D9D3;
+ Tue,  8 Sep 2020 07:00:30 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+Subject: [PATCH] block/qcow2-cluster: Add missing "fallthrough" annotation
+Date: Tue,  8 Sep 2020 09:00:28 +0200
+Message-Id: <20200908070028.193298-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -69,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,55 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+When compiling with -Werror=implicit-fallthrough, the compiler currently
+complains:
 
-Commit eed8b6917832 added some new text to the nbd-server-start
-documentation in the wrong place.  Since this is after the 'Returns:'
-line it's parsed as if it were part of the documentation of the
-"Returns:' information.  Move it up to join the rest of the
-"documentation of the type as a whole" doc text.
+../../devel/qemu/block/qcow2-cluster.c: In function ‘cluster_needs_new_alloc’:
+../../devel/qemu/block/qcow2-cluster.c:1320:12: error: this statement may fall
+ through [-Werror=implicit-fallthrough=]
+         if (l2_entry & QCOW_OFLAG_COPIED) {
+            ^
+../../devel/qemu/block/qcow2-cluster.c:1323:5: note: here
+     case QCOW2_CLUSTER_UNALLOCATED:
+     ^~~~
 
-This doesn't look odd in the current HTML rendering, but the
-new QAPI-to-rST handling will complain about the indent level
-of the lines not matching up with the 'Returns:' line.
+It's quite obvious that the fallthrough is intended here, so let's add
+a comment to silence the compiler warning.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200810195019.25427-4-peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- qapi/block-core.json | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ block/qcow2-cluster.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 091f826f53..c5ac22d246 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -5211,6 +5211,9 @@
- # server will present them as named exports; for example, another
- # QEMU instance could refer to them as "nbd:HOST:PORT:exportname=NAME".
- #
-+# Keep this type consistent with the NbdServerOptions type. The only intended
-+# difference is using SocketAddressLegacy instead of SocketAddress.
-+#
- # @addr: Address on which to listen.
- # @tls-creds: ID of the TLS credentials object (since 2.6).
- # @tls-authz: ID of the QAuthZ authorization object used to validate
-@@ -5221,9 +5224,6 @@
- #
- # Returns: error if the server is already running.
- #
--# Keep this type consistent with the NbdServerOptions type. The only intended
--# difference is using SocketAddressLegacy instead of SocketAddress.
--#
- # Since: 1.3.0
- ##
- { 'command': 'nbd-server-start',
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 996b3314f4..fcdf7af8e6 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1320,6 +1320,7 @@ static bool cluster_needs_new_alloc(BlockDriverState *bs, uint64_t l2_entry)
+         if (l2_entry & QCOW_OFLAG_COPIED) {
+             return false;
+         }
++        /* fallthrough */
+     case QCOW2_CLUSTER_UNALLOCATED:
+     case QCOW2_CLUSTER_COMPRESSED:
+     case QCOW2_CLUSTER_ZERO_PLAIN:
 -- 
-2.26.2
+2.18.2
 
 
