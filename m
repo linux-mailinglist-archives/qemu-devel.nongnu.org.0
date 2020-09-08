@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C22260C4D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:45:05 +0200 (CEST)
-Received: from localhost ([::1]:47224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3745260CA9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:56:59 +0200 (CEST)
+Received: from localhost ([::1]:56906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYJM-0007U6-Mu
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:45:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
+	id 1kFYUt-0003sc-3H
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kFYIg-00074V-QY
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:44:22 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:37830)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kFYIe-0005G0-Bu
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:44:22 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id EA2E840A2059;
- Tue,  8 Sep 2020 07:44:15 +0000 (UTC)
-Subject: Re: [PATCH v3 09/15] replay: implement replay-seek command
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
- <159903459923.28509.4300111201059622860.stgit@pasha-ThinkPad-X280>
- <87sgbtrbf5.fsf@linaro.org> <8f077f41-f99b-cd46-ff3b-3cb191dc1c4c@ispras.ru>
- <87mu21r5t0.fsf@linaro.org> <1a0b8180-ae11-c6a0-6fc6-bfe87bbeaf27@ispras.ru>
- <87eendr1ty.fsf@linaro.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <087c1214-d82f-8cd1-6418-5d823b9b5ae9@ispras.ru>
-Date: Tue, 8 Sep 2020 10:44:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFYU2-00039j-BS
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:56:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFYU0-0006sB-3y
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:56:06 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kFYTw-0007wr-PT
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:56:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 074F82E810B
+ for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:56:00 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87eendr1ty.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:44:16
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 08 Sep 2020 07:47:23 -0000
+From: "Laszlo Ersek \(Red Hat\)" <1852196@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=lersek@redhat.com; 
+X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek philmd
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <157355353271.7205.5763587027166419396.malonedeb@gac.canonical.com>
+Message-Id: <159955124335.11462.2457354770405854578.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1852196] Re: update edk2 submodule & binaries to
+ edk2-stable202008
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
+X-Launchpad-Hash: ef0f7ee29f9df26893a592e3bbcd8c068864f5a3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:20:40
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.825,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,136 +74,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
- philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
+Reply-To: Bug 1852196 <1852196@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.09.2020 19:25, Alex Bennée wrote:
-> 
-> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
-> 
->> On 07.09.2020 17:59, Alex Bennée wrote:
->>>
->>> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
->>>
->>>> On 07.09.2020 15:58, Alex Bennée wrote:
->>>>>
->>>>> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
->>>>>
->>>>>> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
->>>>>>
->>>>>> This patch adds hmp/qmp commands replay_seek/replay-seek that proceed
->>>>>> the execution to the specified instruction count.
->>>>>> The command automatically loads nearest snapshot and replays the execution
->>>>>> to find the desired instruction count.
->>>>>
->>>>> Should there be an initial snapshot created at instruction 0? Using a
->>>>> separate monitor channel:
->>>>
->>>> Right, you can't go to the prior state, when there is no preceding
->>>> snapshot available.
->>>
->>> It seems creating an initial snapshot automatically would be more user
->>
->> Please take a look at 'Snapshotting' section of docs/replay.txt.
->> Reverse debugging is considered to be run with disk image (overlay)
->> and rrsnapshot option of icount, which allows creating an initial
->> VM snapshot.
-> 
-> Given that I'm using the block device purely for VM snapshots I think it
-> would be useful to document the minimal "no disk" approach - i.e. where
-> the disk is only used for record/replay.
-> 
-> However I'm still having trouble. I can record the trace with:
-> 
->    ./qemu-system-aarch64 -cpu cortex-a53 -display none -serial stdio \
->      -machine virt -kernel zephyr.elf -net none \
->      -icount shift=6,align=off,sleep=off,rr=record,rrfile=record.out,rrsnapshot=rrstart  \
->      -drive file=record.qcow2,if=none,id=rr \
->      -monitor telnet:127.0.0.1:4444 -S
+** Description changed:
 
-Can you provide your zephyr.elf image?
+- edk2-stable202005 has been tagged:
++ Consume the following upstream edk2 releases:
+  =
 
-> 
-> which shows:
-> 
->    (qemu) info snapshots
->    info snapshots
->    List of snapshots present on all disks:
->    ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->    --        rrstart           653 KiB 2020-09-07 17:12:42 00:00:00.000          0
-> 
-> but do I need a whole separate overlay in the replay case? I thought
-> supplying snapshot to the drive would prevent the replay case
-> overwriting what has been recorded but with:
-> 
->      -icount shift=6,align=off,sleep=off,rr=replay,rrfile=record.out \
->      -drive file=record.qcow2,if=none,id=rr,snapshot
+- =C2=A0=C2=A0https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-=
+Release-
+- Planning
++ https://github.com/tianocore/edk2/releases/tag/edk2-stable201908
++ https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
++ https://github.com/tianocore/edk2/releases/tag/edk2-stable202002
++ https://github.com/tianocore/edk2/releases/tag/edk2-stable202005
++ https://github.com/tianocore/edk2/releases/tag/edk2-stable202008
+  =
 
-When you provide qcow2 (overlay or not) for snapshotting, you don't need 
-any 'snapshot' option on drive.
+- =C2=A0=C2=A0https://github.com/tianocore/edk2/releases/tag/edk2-stable202=
+005
++ Worth mentioning (in random order):
+  =
 
-> 
-> but I get:
-> 
->    (qemu) info snapshots
->    info snapshots
->    There is no snapshot available.
-> 
-> so if I drop the ,snapshot from the line I can at least see the snapshot
-> but continue doesn't seem to work:
-> 
->    (qemu) info snapshots
->    info snapshots
->    List of snapshots present on all disks:
->    ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->    --        rrstart           653 KiB 2020-09-07 17:12:42 00:00:00.000          0
->    (qemu) replay_break 190505
->    replay_break 190505
->    (qemu) c
->    c
->    (qemu) info replay
->    info replay
->    Replaying execution 'record.out': instruction count = 0
+- Relevant fixes / features in edk2, since edk2-stable201905 (which is
+- what QEMU bundles at the moment, from LP#1831477):
++ - various CVE fixes [*]
++ - OpenSSL-1.1.1g
++ - UEFI HTTPS Boot for ARM/AARCH64
++ - TPM2 for ARM/AARCH64
++ - VCPU hotplug with SMI
++ - support for Linux v5.7+ initrd and mixed mode loading
++ - Fusion-MPT SCSI driver in OVMF
++ - VMware PVSCSI driver in OVMF
++ - PXEv4 / PXEv6 boot possible to disable on the QEMU command line
++ - SEV-ES support
+  =
 
-It seems, that replay hangs. Can you try removing '-S' in record command 
-line?
+- - enable UEFI HTTPS Boot in ArmVirtQemu* platforms
+- =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D1009
+- =C2=A0=C2=A0(this is from edk2-stable201908)
++ [*] the below list has been collected simply from the subject lines in
++ commit range edk2-stable201905..edk2-stable202008:
+  =
 
->    (qemu)
-> 
-> If I manually loadvm then we get somewhere but replay_seek breaks:
-> 
->    (qemu) loadvm rrstart
->    loadvm rrstart
->    (qemu) info replay
->    info replay
->    Replaying execution 'record.out': instruction count = 190505
->    (qemu) replay_seek 190000
->    replay_seek 190000
->    snapshotting is disabled
-> 
-> with a crash:
-> 
->    ./qemu-system-aarch64 -cpu cortex-a53 -display none -serial stdio -machine virt -kernel zephyr.elf -net none -icount shift=6,align=off,sleep=off,rr=replay,rrfile=record.out
->   -drive file=record.qcow2,if=none,id=rr -monitor telnet:127.0.0.1:4444 -S
-> *** Booting Zephyr OS build zephyr-v2.3.0-1183-ge5628ad0faf3  ***
-> Hello World! qemu_cortex_a53
-> free(): invalid pointer
-> fish: “./qemu-system-aarch64 -cpu cort…” terminated by signal SIGABRT (Abort)
-> 
-> 
->>
->>> friendly? What can you do to trigger a snapshot, say for example on a
->>> gdb connect?
->>
->> This makes sense when executing with temporary overlay, thanks.
->>
->>>
->>>>
->>>>>
+- - fix CVE-2019-14553 (Invalid server certificate accepted in HTTPS Boot)
+- =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D960
++   CVE-2019-11098 CVE-2019-14553 CVE-2019-14558 CVE-2019-14559
++   CVE-2019-14562 CVE-2019-14563 CVE-2019-14575 CVE-2019-14586
++   CVE-2019-14587
+  =
 
-Pavel Dovgalyuk
+- - consume OpenSSL-1.1.1d, for fixing CVE-2019-1543, CVE-2019-1552 and
+- =C2=A0=C2=A0CVE-2019-1563
+- =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D2226
++ (Note that any given CVE from the above list may or may not affect the
++ firmware binaries packaged with upstream QEMU; consult the upstream
++ TianoCore bug tracker at <https://bugzilla.tianocore.org/> for details.)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852196
+
+Title:
+  update edk2 submodule & binaries to edk2-stable202008
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Consume the following upstream edk2 releases:
+
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable201908
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable202002
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable202005
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable202008
+
+  Worth mentioning (in random order):
+
+  - various CVE fixes [*]
+  - OpenSSL-1.1.1g
+  - UEFI HTTPS Boot for ARM/AARCH64
+  - TPM2 for ARM/AARCH64
+  - VCPU hotplug with SMI
+  - support for Linux v5.7+ initrd and mixed mode loading
+  - Fusion-MPT SCSI driver in OVMF
+  - VMware PVSCSI driver in OVMF
+  - PXEv4 / PXEv6 boot possible to disable on the QEMU command line
+  - SEV-ES support
+
+  [*] the below list has been collected simply from the subject lines in
+  commit range edk2-stable201905..edk2-stable202008:
+
+    CVE-2019-11098 CVE-2019-14553 CVE-2019-14558 CVE-2019-14559
+    CVE-2019-14562 CVE-2019-14563 CVE-2019-14575 CVE-2019-14586
+    CVE-2019-14587
+
+  (Note that any given CVE from the above list may or may not affect the
+  firmware binaries packaged with upstream QEMU; consult the upstream
+  TianoCore bug tracker at <https://bugzilla.tianocore.org/> for details.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852196/+subscriptions
 
