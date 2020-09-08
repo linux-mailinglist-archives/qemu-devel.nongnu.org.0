@@ -2,70 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3745260CA9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:56:59 +0200 (CEST)
-Received: from localhost ([::1]:56906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D703D260C67
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:50:35 +0200 (CEST)
+Received: from localhost ([::1]:50590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYUt-0003sc-3H
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
+	id 1kFYOg-0000nv-US
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kFYU2-00039j-BS
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:56:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kFYU0-0006sB-3y
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:56:06 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kFYTw-0007wr-PT
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:56:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 074F82E810B
- for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:56:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYNv-0000NU-Op
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:49:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29655
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYNt-0005uu-Ie
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:49:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599551383;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5MMX3DKa5vhdn25psU7KkTBPPRVjjsM4R5gGThi9iU0=;
+ b=WKLR2OvUNjLa6NoNLRSa/9T5lkqdPl2aNza4m2QsX8H0yaYsW9O0urISHL+1dNKWm07NBn
+ M6avTBxg7BXM8PZ/q0fSogXLRpKYN4Dl1wZQ5Cm9Hp2tlxUp03qcdl2ZcFmTlNKUvPFLBc
+ H9P4zTan8FVMBDCBb+X2/WKTYuB4Fks=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-hqUNACP4PNKVzHsyBvhavw-1; Tue, 08 Sep 2020 03:49:39 -0400
+X-MC-Unique: hqUNACP4PNKVzHsyBvhavw-1
+Received: by mail-wm1-f70.google.com with SMTP id w3so4434106wmg.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 00:49:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=5MMX3DKa5vhdn25psU7KkTBPPRVjjsM4R5gGThi9iU0=;
+ b=EpAcVWtEf+iOrmoCyNQdZyIcGDPPWI++Xx3AToAXANOQLi7B9nHvVGKe2t4ZkqtUx7
+ a71iE/Ss4cqG58QEb2ypNlrEnYeO/Swvpfvz5acwmLxkDfljm9MZ+8578v7p+CHpDCAW
+ QlCDxDQUWWmbwaCFkJTkZRAIdx5qkQF2RTFrjLCya8CKBhIca+eQHjJ8UTnU1rcTsnAC
+ v3TNEmAkhraURfbFoEqWmXsJ99xqyl6fkK8+eUmHVwJPIDZfZk1dWL4L93+WwkhtXSUh
+ RuiDa+YbB2N7WpqZY7Y7EUpwB03FvqDg0nTGcekuoZ1+/4DmXmit+NxYJMeNOFL5Eq7m
+ A+PA==
+X-Gm-Message-State: AOAM531Twn1iSb/CjSvSgLGTdT/B0SXY2QJFGn5oDqxhyqmvNWzfz3Fr
+ hakCNiecQqKm63+PtP9Dy4hCdwlZtLYUTkQdZt5fhx+i2UTKC7yWFZc9e5dPdBoWK2n8W+8VINW
+ XkjRYu9noU/4oB7U=
+X-Received: by 2002:adf:ec47:: with SMTP id w7mr6787515wrn.175.1599551378544; 
+ Tue, 08 Sep 2020 00:49:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxyPDsHgLaFxesAiduJeUav8uHvOmeQrSQlqlrgUI3+7t1A5qzm3BAEZ8AE2OZmPUmK8M49gg==
+X-Received: by 2002:adf:ec47:: with SMTP id w7mr6787495wrn.175.1599551378313; 
+ Tue, 08 Sep 2020 00:49:38 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id t203sm32811081wmg.43.2020.09.08.00.49.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Sep 2020 00:49:37 -0700 (PDT)
+Subject: Re: [PATCH] meson.build: tweak sdl-image error message
+To: Sergei Trofimovich <slyfox@gentoo.org>, qemu-devel@nongnu.org
+References: <20200908074016.2593596-1-slyfox@gentoo.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <89434eee-42cb-62db-32f7-9bb0dd7c31ea@redhat.com>
+Date: Tue, 8 Sep 2020 09:49:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Sep 2020 07:47:23 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1852196@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=lersek@redhat.com; 
-X-Launchpad-Bug-Tags: feature-request
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek philmd
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <157355353271.7205.5763587027166419396.malonedeb@gac.canonical.com>
-Message-Id: <159955124335.11462.2457354770405854578.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1852196] Re: update edk2 submodule & binaries to
- edk2-stable202008
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: ef0f7ee29f9df26893a592e3bbcd8c068864f5a3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:20:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200908074016.2593596-1-slyfox@gentoo.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.825, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,111 +122,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1852196 <1852196@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Rafael Kitover <rkitover@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+On 9/8/20 9:40 AM, Sergei Trofimovich wrote:
+> Before the change missing SDL was reported as:
+> 
+>     ../meson.build:253:4: ERROR: Expected 1 arguments, got 2.
+> 
+> After the error as:
+> 
+>     ../meson.build:258:4: ERROR: Problem encountered: sdl-image required, but SDL was not found
+> 
+> CC: Paolo Bonzini <pbonzini@redhat.com>
+> CC: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+> CC: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+> CC: Rafael Kitover <rkitover@gmail.com>
+> Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
 
-- edk2-stable202005 has been tagged:
-+ Consume the following upstream edk2 releases:
-  =
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-- =C2=A0=C2=A0https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-=
-Release-
-- Planning
-+ https://github.com/tianocore/edk2/releases/tag/edk2-stable201908
-+ https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
-+ https://github.com/tianocore/edk2/releases/tag/edk2-stable202002
-+ https://github.com/tianocore/edk2/releases/tag/edk2-stable202005
-+ https://github.com/tianocore/edk2/releases/tag/edk2-stable202008
-  =
+> ---
+>  meson.build | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index 04e070bb3b..7fd2a903c5 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -255,8 +255,8 @@ if sdl.found()
+>                           method: 'pkg-config', static: enable_static)
+>  else
+>    if get_option('sdl_image').enabled()
+> -    error('sdl-image required, but SDL was @0@',
+> -          get_option('sdl').disabled() ? 'disabled' : 'not found')
+> +    error('sdl-image required, but SDL was @0@'.format(
+> +          get_option('sdl').disabled() ? 'disabled' : 'not found'))
+>    endif
+>    sdl_image = not_found
+>  endif
+> 
 
-- =C2=A0=C2=A0https://github.com/tianocore/edk2/releases/tag/edk2-stable202=
-005
-+ Worth mentioning (in random order):
-  =
-
-- Relevant fixes / features in edk2, since edk2-stable201905 (which is
-- what QEMU bundles at the moment, from LP#1831477):
-+ - various CVE fixes [*]
-+ - OpenSSL-1.1.1g
-+ - UEFI HTTPS Boot for ARM/AARCH64
-+ - TPM2 for ARM/AARCH64
-+ - VCPU hotplug with SMI
-+ - support for Linux v5.7+ initrd and mixed mode loading
-+ - Fusion-MPT SCSI driver in OVMF
-+ - VMware PVSCSI driver in OVMF
-+ - PXEv4 / PXEv6 boot possible to disable on the QEMU command line
-+ - SEV-ES support
-  =
-
-- - enable UEFI HTTPS Boot in ArmVirtQemu* platforms
-- =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D1009
-- =C2=A0=C2=A0(this is from edk2-stable201908)
-+ [*] the below list has been collected simply from the subject lines in
-+ commit range edk2-stable201905..edk2-stable202008:
-  =
-
-- - fix CVE-2019-14553 (Invalid server certificate accepted in HTTPS Boot)
-- =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D960
-+   CVE-2019-11098 CVE-2019-14553 CVE-2019-14558 CVE-2019-14559
-+   CVE-2019-14562 CVE-2019-14563 CVE-2019-14575 CVE-2019-14586
-+   CVE-2019-14587
-  =
-
-- - consume OpenSSL-1.1.1d, for fixing CVE-2019-1543, CVE-2019-1552 and
-- =C2=A0=C2=A0CVE-2019-1563
-- =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D2226
-+ (Note that any given CVE from the above list may or may not affect the
-+ firmware binaries packaged with upstream QEMU; consult the upstream
-+ TianoCore bug tracker at <https://bugzilla.tianocore.org/> for details.)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1852196
-
-Title:
-  update edk2 submodule & binaries to edk2-stable202008
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Consume the following upstream edk2 releases:
-
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable201908
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable202002
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable202005
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable202008
-
-  Worth mentioning (in random order):
-
-  - various CVE fixes [*]
-  - OpenSSL-1.1.1g
-  - UEFI HTTPS Boot for ARM/AARCH64
-  - TPM2 for ARM/AARCH64
-  - VCPU hotplug with SMI
-  - support for Linux v5.7+ initrd and mixed mode loading
-  - Fusion-MPT SCSI driver in OVMF
-  - VMware PVSCSI driver in OVMF
-  - PXEv4 / PXEv6 boot possible to disable on the QEMU command line
-  - SEV-ES support
-
-  [*] the below list has been collected simply from the subject lines in
-  commit range edk2-stable201905..edk2-stable202008:
-
-    CVE-2019-11098 CVE-2019-14553 CVE-2019-14558 CVE-2019-14559
-    CVE-2019-14562 CVE-2019-14563 CVE-2019-14575 CVE-2019-14586
-    CVE-2019-14587
-
-  (Note that any given CVE from the above list may or may not affect the
-  firmware binaries packaged with upstream QEMU; consult the upstream
-  TianoCore bug tracker at <https://bugzilla.tianocore.org/> for details.)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1852196/+subscriptions
 
