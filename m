@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AF226153E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 18:46:58 +0200 (CEST)
-Received: from localhost ([::1]:58410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DD2261515
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 18:44:01 +0200 (CEST)
+Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFgll-0003oy-By
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 12:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49530)
+	id 1kFgiu-0008LA-4l
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 12:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghY-00076Q-DV
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:36 -0400
-Received: from mail-m975.mail.163.com ([123.126.97.5]:49854)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghW-00075L-Mt
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:34 -0400
+Received: from mail-m975.mail.163.com ([123.126.97.5]:49856)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghU-0002LO-J5
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:36 -0400
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghR-0002LP-GR
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=OiUWNBGb0Ru3yYy03Z
- Sn76FCRBvcPOrzw9+9YsfsfL8=; b=SAt6Rq3wBkdrl8BJ6V1Qnfd+7tKm2OPFbN
- l77EbVvU2y0Abjx0jb2KQ7z/ZVSZ6jZKf/RcA9tasflrDtiMZy5hUfWXFQj3GwoL
- TXvVGOE+M2jupSpTYoOCsIrE/VtnLBKohSmnY+zu7iG0t3km7SqKMkYyaa6dYe/s
- 0xVU0VZ/o=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=6o6Keb5oFii1iCN3xI
+ h04mis0S3GAV4u9wS5ltt8Iao=; b=ev3Nk22JBi+5itTFJJn3QhYmJmo0HJvfgP
+ 6vgZHfY5jEV/9efBYTNu7+xuAnbyG7Y4PNm/EhgzkMlGgZmRIULFsWyWnvbF7PNn
+ OqpbowiwJfbAJ6+EvHg662BqDgWxOaT2AS3oREri7e56XMzATFFRMrx1eQk9iv7+
+ vzzPhJoHw=
 Received: from localhost.localdomain (unknown [183.158.94.209])
- by smtp5 (Coremail) with SMTP id HdxpCgCnGRhetFdf9j7RJg--.1087S4;
- Wed, 09 Sep 2020 00:42:07 +0800 (CST)
+ by smtp5 (Coremail) with SMTP id HdxpCgCnGRhetFdf9j7RJg--.1087S5;
+ Wed, 09 Sep 2020 00:42:09 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: dmitry.fleytman@gmail.com, jasowang@redhat.com, kraxel@redhat.com,
  pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
  alxndr@bu.edu, peter.maydell@linaro.org, f4bug@amsat.org
-Subject: [RFC 0/4] Add a 'in_mmio' device flag to avoid the DMA to MMIO
-Date: Tue,  8 Sep 2020 09:41:53 -0700
-Message-Id: <20200908164157.47108-1-liq3ea@163.com>
+Subject: [RFC 1/4] memory: add memory_region_init_io_with_dev interface
+Date: Tue,  8 Sep 2020 09:41:54 -0700
+Message-Id: <20200908164157.47108-2-liq3ea@163.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: HdxpCgCnGRhetFdf9j7RJg--.1087S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7JrWUXrWrJw13KFykZryrJFb_yoWDWrc_Wa
- yFv3yrJw48Zas3JFy7Wr15ArW7tw4Ivw18WF13trWIgFyUWry3ur4kKry2gr1fXr4DZ34r
- Zr1qqrWSyw1UWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUrb15UUUUU==
+In-Reply-To: <20200908164157.47108-1-liq3ea@163.com>
+References: <20200908164157.47108-1-liq3ea@163.com>
+X-CM-TRANSID: HdxpCgCnGRhetFdf9j7RJg--.1087S5
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrW8ZF1kur48Kr1DKw47CFg_yoW8CF1kpF
+ 97uF9Ygr48tF9xZF1ftF4DWFyrA3y8K3W7Cr9rZwn2krs7tF9xArWUG345AryUCrWUX3W5
+ XFyUXr4fuan5J3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRaYL9UUUUU=
 X-Originating-IP: [183.158.94.209]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbCCgiZbV2MX35SRQAAsR
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiKQGZbVXlxmTITQAAsL
 Received-SPF: pass client-ip=123.126.97.5; envelope-from=liq3ea@163.com;
  helo=mail-m975.mail.163.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 12:42:19
@@ -68,29 +70,70 @@ Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the qemu device fuzzer find some DMA to MMIO issue. If the
-device handling MMIO currently trigger a DMA which the address is MMIO,
-this will reenter the device MMIO handler. As some of the device doesn't
-consider this it will sometimes crash the qemu.
+Currently the MR is not explicitly connecting with its device instead of
+a opaque. In most situation this opaque is the deivce but it is not an
+enforcement. This patch adds a DeviceState member of to MemoryRegion
+we will use it in later patch.
 
-This patch tries to solve this by adding a per-device flag 'in_mmio'.
-When the memory core dispatch MMIO it will check/set this flag and when
-it leaves it will clean this flag.
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ include/exec/memory.h |  9 +++++++++
+ softmmu/memory.c      | 15 +++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-
-Li Qiang (4):
-  memory: add memory_region_init_io_with_dev interface
-  memory: avoid reenter the device's MMIO handler while processing MMIO
-  e1000e: use the new memory_region_init_io_with_dev interface
-  hcd-xhci: use the new memory_region_init_io_with_dev interface
-
- hw/net/e1000e.c        |  8 ++++----
- hw/usb/hcd-xhci.c      | 25 ++++++++++++++---------
- include/exec/memory.h  |  9 +++++++++
- include/hw/qdev-core.h |  1 +
- softmmu/memory.c       | 46 +++++++++++++++++++++++++++++++++++++++---
- 5 files changed, 72 insertions(+), 17 deletions(-)
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 0cfe987ab4..620fb12d9b 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -404,6 +404,7 @@ struct MemoryRegion {
+     const char *name;
+     unsigned ioeventfd_nb;
+     MemoryRegionIoeventfd *ioeventfds;
++    DeviceState *dev;
+ };
+ 
+ struct IOMMUMemoryRegion {
+@@ -794,6 +795,14 @@ void memory_region_init_io(MemoryRegion *mr,
+                            const char *name,
+                            uint64_t size);
+ 
++void memory_region_init_io_with_dev(MemoryRegion *mr,
++                           struct Object *owner,
++                           const MemoryRegionOps *ops,
++                           void *opaque,
++                           const char *name,
++                           uint64_t size,
++                           DeviceState *dev);
++
+ /**
+  * memory_region_init_ram_nomigrate:  Initialize RAM memory region.  Accesses
+  *                                    into the region will modify memory
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 70b93104e8..2628c9d2d9 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1490,6 +1490,21 @@ void memory_region_init_io(MemoryRegion *mr,
+     mr->terminates = true;
+ }
+ 
++void memory_region_init_io_with_dev(MemoryRegion *mr,
++                           Object *owner,
++                           const MemoryRegionOps *ops,
++                           void *opaque,
++                           const char *name,
++                           uint64_t size,
++                           DeviceState *dev)
++{
++    memory_region_init(mr, owner, name, size);
++    mr->ops = ops ? ops : &unassigned_mem_ops;
++    mr->opaque = opaque;
++    mr->terminates = true;
++    mr->dev = dev;
++}
++
+ void memory_region_init_ram_nomigrate(MemoryRegion *mr,
+                                       Object *owner,
+                                       const char *name,
 -- 
 2.17.1
 
