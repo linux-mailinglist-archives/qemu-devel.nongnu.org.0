@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF0426223F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 00:00:18 +0200 (CEST)
-Received: from localhost ([::1]:37488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273FD26223E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 00:00:04 +0200 (CEST)
+Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFlez-0000y8-QA
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 18:00:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38408)
+	id 1kFlel-0000Nj-5z
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 18:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlYC-0005KQ-H1
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21128
- helo=us-smtp-1.mimecast.com)
+ id 1kFlYP-0005U5-4w
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:30 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38274
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlYA-0001Ju-MU
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:16 -0400
+ id 1kFlYL-0001LT-A5
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599601994;
+ s=mimecast20190719; t=1599602003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/K3E4AQB9Wyo8p40roP4rTMm1MIlAuiE6H9hhreumsE=;
- b=PyKfO43z781VgkkTB7VgGo8FCR/LitOKEgKAUlZqrRKNXTHAkUgIQQxHXCtyI/qk2eWJ3F
- 6uqQQJXcdGTeTNSOa/xpv+g1Nymn2eHOGtVQHvZyVFfzZd8Jm+Us7rebCvu5uwEN669wjW
- +ocEVu5m1VCApO65y1WdmtZIwZPGdSs=
+ bh=9d3w3vq3xDiGR0tvfJkqLbBaoO9YQl9D9kE2nTayO1o=;
+ b=Ta0RobafuDApL4kDNs/uogBjik/JhqWXpnMK2sauQl64YQAcbOKg16r2E0YJFSODwU5mJN
+ fSgUw0lwi3EyX7Sc8WBJH4Gzfwjt+iTSrXCazkXCO0JMNuMOVJy/UkiNBKdfuPsEwJ/5/u
+ E9jo6Xcf7O2KoBM8WK0sfeKMgkjBuys=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-IDTL5V4MMIyz1I2CQL-5rg-1; Tue, 08 Sep 2020 17:53:12 -0400
-X-MC-Unique: IDTL5V4MMIyz1I2CQL-5rg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-522-7IQc1c-9PDeZWlI6Et1xyg-1; Tue, 08 Sep 2020 17:53:20 -0400
+X-MC-Unique: 7IQc1c-9PDeZWlI6Et1xyg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FF481DDEF;
- Tue,  8 Sep 2020 21:53:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9734518B9ED3;
+ Tue,  8 Sep 2020 21:53:19 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE5EA7A1F9;
- Tue,  8 Sep 2020 21:53:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B0CE60C17;
+ Tue,  8 Sep 2020 21:53:16 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 22/34] filter-rewriter: Rename FILTER_COLO_REWRITER to
- FILTER_REWRITER
-Date: Tue,  8 Sep 2020 17:52:27 -0400
-Message-Id: <20200908215239.3519638-23-ehabkost@redhat.com>
+Subject: [PULL 26/34] vfio: Rename PCI_VFIO to VFIO_PCI
+Date: Tue,  8 Sep 2020 17:52:31 -0400
+Message-Id: <20200908215239.3519638-27-ehabkost@redhat.com>
 In-Reply-To: <20200908215239.3519638-1-ehabkost@redhat.com>
 References: <20200908215239.3519638-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 12:55:20
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,7 +84,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,97 +92,130 @@ Make the type checking macro name consistent with the TYPE_*
 constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Message-Id: <20200902224311.1321159-41-ehabkost@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20200902224311.1321159-56-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- net/filter-rewriter.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ hw/vfio/pci.h |  2 +-
+ hw/vfio/pci.c | 22 +++++++++++-----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index 113e293207..44f6021dd8 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -25,7 +25,7 @@
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 846d60e56c..5e53d5b863 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -116,7 +116,7 @@ typedef struct VFIOMSIXInfo {
  
- #define TYPE_FILTER_REWRITER "filter-rewriter"
- typedef struct RewriterState RewriterState;
--DECLARE_INSTANCE_CHECKER(RewriterState, FILTER_COLO_REWRITER,
-+DECLARE_INSTANCE_CHECKER(RewriterState, FILTER_REWRITER,
-                          TYPE_FILTER_REWRITER)
+ #define TYPE_VFIO_PCI "vfio-pci"
+ typedef struct VFIOPCIDevice VFIOPCIDevice;
+-DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, PCI_VFIO,
++DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, VFIO_PCI,
+                          TYPE_VFIO_PCI)
  
- #define FAILOVER_MODE_ON  true
-@@ -47,7 +47,7 @@ static void filter_rewriter_failover_mode(RewriterState *s)
+ struct VFIOPCIDevice {
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 3611dcd38b..0d83eb0e47 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -230,7 +230,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
  
- static void filter_rewriter_flush(NetFilterState *nf)
+ static void vfio_intx_routing_notifier(PCIDevice *pdev)
  {
--    RewriterState *s = FILTER_COLO_REWRITER(nf);
-+    RewriterState *s = FILTER_REWRITER(nf);
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+     PCIINTxRoute route;
  
-     if (!qemu_net_queue_flush(s->incoming_queue)) {
-         /* Unable to empty the queue, purge remaining packets */
-@@ -252,7 +252,7 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
-                                          int iovcnt,
-                                          NetPacketSent *sent_cb)
+     if (vdev->interrupt != VFIO_INT_INTx) {
+@@ -456,7 +456,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
+ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+                                    MSIMessage *msg, IOHandler *handler)
  {
--    RewriterState *s = FILTER_COLO_REWRITER(nf);
-+    RewriterState *s = FILTER_REWRITER(nf);
-     Connection *conn;
-     ConnectionKey key;
-     Packet *pkt;
-@@ -350,7 +350,7 @@ static gboolean offset_is_nonzero(gpointer key,
- static void colo_rewriter_handle_event(NetFilterState *nf, int event,
-                                        Error **errp)
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+     VFIOMSIVector *vector;
+     int ret;
+ 
+@@ -541,7 +541,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
+ 
+ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
  {
--    RewriterState *rs = FILTER_COLO_REWRITER(nf);
-+    RewriterState *rs = FILTER_REWRITER(nf);
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+     VFIOMSIVector *vector = &vdev->msi_vectors[nr];
  
-     switch (event) {
-     case COLO_EVENT_CHECKPOINT:
-@@ -370,7 +370,7 @@ static void colo_rewriter_handle_event(NetFilterState *nf, int event,
- 
- static void colo_rewriter_cleanup(NetFilterState *nf)
+     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
+@@ -1048,7 +1048,7 @@ static const MemoryRegionOps vfio_vga_ops = {
+  */
+ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
  {
--    RewriterState *s = FILTER_COLO_REWRITER(nf);
-+    RewriterState *s = FILTER_REWRITER(nf);
- 
-     /* flush packets */
-     if (s->incoming_queue) {
-@@ -381,7 +381,7 @@ static void colo_rewriter_cleanup(NetFilterState *nf)
- 
- static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+     VFIORegion *region = &vdev->bars[bar].region;
+     MemoryRegion *mmap_mr, *region_mr, *base_mr;
+     PCIIORegion *r;
+@@ -1094,7 +1094,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
+  */
+ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
  {
--    RewriterState *s = FILTER_COLO_REWRITER(nf);
-+    RewriterState *s = FILTER_REWRITER(nf);
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+     uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
  
-     s->connection_track_table = g_hash_table_new_full(connection_key_hash,
-                                                       connection_key_equal,
-@@ -392,7 +392,7 @@ static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
- 
- static bool filter_rewriter_get_vnet_hdr(Object *obj, Error **errp)
+     memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
+@@ -1127,7 +1127,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
+ void vfio_pci_write_config(PCIDevice *pdev,
+                            uint32_t addr, uint32_t val, int len)
  {
--    RewriterState *s = FILTER_COLO_REWRITER(obj);
-+    RewriterState *s = FILTER_REWRITER(obj);
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+     uint32_t val_le = cpu_to_le32(val);
  
-     return s->vnet_hdr;
- }
-@@ -401,14 +401,14 @@ static void filter_rewriter_set_vnet_hdr(Object *obj,
-                                          bool value,
-                                          Error **errp)
+     trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
+@@ -2701,7 +2701,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+ 
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
  {
--    RewriterState *s = FILTER_COLO_REWRITER(obj);
-+    RewriterState *s = FILTER_REWRITER(obj);
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+     VFIODevice *vbasedev_iter;
+     VFIOGroup *group;
+     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
+@@ -3033,7 +3033,7 @@ error:
  
-     s->vnet_hdr = value;
- }
- 
- static void filter_rewriter_init(Object *obj)
+ static void vfio_instance_finalize(Object *obj)
  {
--    RewriterState *s = FILTER_COLO_REWRITER(obj);
-+    RewriterState *s = FILTER_REWRITER(obj);
+-    VFIOPCIDevice *vdev = PCI_VFIO(obj);
++    VFIOPCIDevice *vdev = VFIO_PCI(obj);
+     VFIOGroup *group = vdev->vbasedev.group;
  
-     s->vnet_hdr = false;
-     s->failover_mode = FAILOVER_MODE_OFF;
+     vfio_display_finalize(vdev);
+@@ -3057,7 +3057,7 @@ static void vfio_instance_finalize(Object *obj)
+ 
+ static void vfio_exitfn(PCIDevice *pdev)
+ {
+-    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+ 
+     vfio_unregister_req_notifier(vdev);
+     vfio_unregister_err_notifier(vdev);
+@@ -3075,7 +3075,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+ 
+ static void vfio_pci_reset(DeviceState *dev)
+ {
+-    VFIOPCIDevice *vdev = PCI_VFIO(dev);
++    VFIOPCIDevice *vdev = VFIO_PCI(dev);
+ 
+     trace_vfio_pci_reset(vdev->vbasedev.name);
+ 
+@@ -3115,7 +3115,7 @@ post_reset:
+ static void vfio_instance_init(Object *obj)
+ {
+     PCIDevice *pci_dev = PCI_DEVICE(obj);
+-    VFIOPCIDevice *vdev = PCI_VFIO(obj);
++    VFIOPCIDevice *vdev = VFIO_PCI(obj);
+ 
+     device_add_bootindex_property(obj, &vdev->bootindex,
+                                   "bootindex", NULL,
 -- 
 2.26.2
 
