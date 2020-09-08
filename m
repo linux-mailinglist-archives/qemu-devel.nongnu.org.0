@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E8D26225D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 00:04:30 +0200 (CEST)
-Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E5A26224F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 00:02:29 +0200 (CEST)
+Received: from localhost ([::1]:44952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFlj4-00006Z-0D
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 18:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38472)
+	id 1kFlh6-00042h-Gw
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 18:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlYL-0005Rc-Hs
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23827)
+ id 1kFlYO-0005Sd-Ax
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlYD-0001Kt-Nz
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:25 -0400
+ id 1kFlYJ-0001LA-BD
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599601996;
+ s=mimecast20190719; t=1599601998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oFZO6p04Xo1cCQTwbHus+a7/KxGBO0PW+N9S1mCxOuY=;
- b=WI7oBmEHPoJyjYKfPF7a3kXDujFFt9IwU87JiHZ2TKbxH0O8D/XFXTmOgJfZ/sgpCS9gIB
- T2ByPhkImEwT6U1LF/b+tixb2LWB47Ma2CKa8VxTSaUG1e6Jxn8nPl7I9Ze8Xs+5+i+Sxx
- LQgUNFd+mRYmnb/f+dzrmypoEyzctUU=
+ bh=42Ag7hd76ygahys0qEi4reckXYsa9ZqB7olqHI6x2pg=;
+ b=cMjjPQ7LnJWG2R0FrazrG81ndqApEushIkkfI8Wv2CuK90raQXEFnwPjtva2LCETshbaS4
+ QCj1XxzdYJqnlxq202EUyCyHORsfPrd3rVl9126jhkmW9DWQyJ7SfKtkRGj4E+CHfdlBFE
+ MZyuF3bktTabmynLaRq7nmDAGTujugI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-ICvHtnc6POCru5fqvlQLFQ-1; Tue, 08 Sep 2020 17:53:15 -0400
-X-MC-Unique: ICvHtnc6POCru5fqvlQLFQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-502-eLG_Ud1lMhCtHMKIYAK3xQ-1; Tue, 08 Sep 2020 17:53:16 -0400
+X-MC-Unique: eLG_Ud1lMhCtHMKIYAK3xQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02F1010066FF;
- Tue,  8 Sep 2020 21:53:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64AF61DDEF;
+ Tue,  8 Sep 2020 21:53:15 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C05A18246E;
- Tue,  8 Sep 2020 21:53:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02DD87E8D1;
+ Tue,  8 Sep 2020 21:53:14 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 24/34] sabre: Rename SABRE_DEVICE to SABRE
-Date: Tue,  8 Sep 2020 17:52:29 -0400
-Message-Id: <20200908215239.3519638-25-ehabkost@redhat.com>
+Subject: [PULL 25/34] usb: Rename USB_SERIAL_DEV to USB_SERIAL
+Date: Tue,  8 Sep 2020 17:52:30 -0400
+Message-Id: <20200908215239.3519638-26-ehabkost@redhat.com>
 In-Reply-To: <20200908215239.3519638-1-ehabkost@redhat.com>
 References: <20200908215239.3519638-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -83,7 +83,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,81 +91,35 @@ Make the type checking macro name consistent with the TYPE_*
 constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200902224311.1321159-49-ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200902224311.1321159-54-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/pci-host/sabre.h | 2 +-
- hw/pci-host/sabre.c         | 8 ++++----
- hw/sparc64/sun4u.c          | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ hw/usb/dev-serial.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/pci-host/sabre.h b/include/hw/pci-host/sabre.h
-index 597bf70d69..7a76de4b9e 100644
---- a/include/hw/pci-host/sabre.h
-+++ b/include/hw/pci-host/sabre.h
-@@ -51,7 +51,7 @@ struct SabreState {
- typedef struct SabreState SabreState;
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index 1a58851d4b..1a038a222e 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -113,7 +113,7 @@ struct USBSerialState {
+ typedef struct USBSerialState USBSerialState;
  
- #define TYPE_SABRE "sabre"
--DECLARE_INSTANCE_CHECKER(SabreState, SABRE_DEVICE,
-+DECLARE_INSTANCE_CHECKER(SabreState, SABRE,
-                          TYPE_SABRE)
+ #define TYPE_USB_SERIAL "usb-serial-dev"
+-DECLARE_INSTANCE_CHECKER(USBSerialState, USB_SERIAL_DEV,
++DECLARE_INSTANCE_CHECKER(USBSerialState, USB_SERIAL,
+                          TYPE_USB_SERIAL)
  
- #endif
-diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
-index 0cc68585f8..5ac6283623 100644
---- a/hw/pci-host/sabre.c
-+++ b/hw/pci-host/sabre.c
-@@ -338,7 +338,7 @@ static void pci_sabre_set_irq(void *opaque, int irq_num, int level)
+ enum {
+@@ -517,7 +517,7 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
  
- static void sabre_reset(DeviceState *d)
+ static void usb_serial_realize(USBDevice *dev, Error **errp)
  {
--    SabreState *s = SABRE_DEVICE(d);
-+    SabreState *s = SABRE(d);
-     PCIDevice *pci_dev;
-     unsigned int i;
-     uint16_t cmd;
-@@ -376,7 +376,7 @@ static const MemoryRegionOps pci_config_ops = {
+-    USBSerialState *s = USB_SERIAL_DEV(dev);
++    USBSerialState *s = USB_SERIAL(dev);
+     Error *local_err = NULL;
  
- static void sabre_realize(DeviceState *dev, Error **errp)
- {
--    SabreState *s = SABRE_DEVICE(dev);
-+    SabreState *s = SABRE(dev);
-     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(s);
-     PCIDevice *pci_dev;
-@@ -421,7 +421,7 @@ static void sabre_realize(DeviceState *dev, Error **errp)
- 
- static void sabre_init(Object *obj)
- {
--    SabreState *s = SABRE_DEVICE(obj);
-+    SabreState *s = SABRE(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-     unsigned int i;
- 
-@@ -502,7 +502,7 @@ static const TypeInfo sabre_pci_info = {
- 
- static char *sabre_ofw_unit_address(const SysBusDevice *dev)
- {
--    SabreState *s = SABRE_DEVICE(dev);
-+    SabreState *s = SABRE(dev);
- 
-     return g_strdup_printf("%x,%x",
-                (uint32_t)((s->special_base >> 32) & 0xffffffff),
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 67985414e2..b4aabfc076 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -585,7 +585,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     prom_init(hwdef->prom_addr, bios_name);
- 
-     /* Init sabre (PCI host bridge) */
--    sabre = SABRE_DEVICE(qdev_new(TYPE_SABRE));
-+    sabre = SABRE(qdev_new(TYPE_SABRE));
-     qdev_prop_set_uint64(DEVICE(sabre), "special-base", PBM_SPECIAL_BASE);
-     qdev_prop_set_uint64(DEVICE(sabre), "mem-base", PBM_MEM_BASE);
-     object_property_set_link(OBJECT(sabre), "iommu", OBJECT(iommu),
+     usb_desc_create_serial(dev);
 -- 
 2.26.2
 
