@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4629B261E44
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:50:20 +0200 (CEST)
-Received: from localhost ([::1]:42060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC422261E93
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:53:13 +0200 (CEST)
+Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFjdD-0006zS-8N
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40340)
+	id 1kFjg0-0005EW-SY
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFjbx-0005GT-Aa; Tue, 08 Sep 2020 15:49:01 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42075)
+ id 1kFjc2-0005T8-4l; Tue, 08 Sep 2020 15:49:06 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:51226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFjbv-0002Vm-JV; Tue, 08 Sep 2020 15:49:00 -0400
-Received: by mail-pf1-x443.google.com with SMTP id d6so26421pfn.9;
- Tue, 08 Sep 2020 12:48:58 -0700 (PDT)
+ id 1kFjbz-0002WE-Vz; Tue, 08 Sep 2020 15:49:05 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id a9so143225pjg.1;
+ Tue, 08 Sep 2020 12:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FykcAGlQ92KK8Qz4pGd0AfXWzqAA8073pCgMiQdYiFk=;
- b=gA91ZjGyT/RxlTSgC/+KW6G0ko3p3sKrjs692qW5jAFheJSH6Fk6vYajypISOfcYEI
- bL0N7sX7eGyRtHjaVKFrtxkmypxQP3RWvJFlwpIItGTbk2RH7lIOQtbUUn/TtzFTsr97
- tqpdw/UfQmqPbUyL1WJHhJoSFenFTHuHZXNjvd0XTZQULBTuiwkQSy2fztVygR18q8KI
- s4WgegmIrUl0YpW5adepw/goJL9Ij4jHXaqrlZMz2SBxUOMMfJFe5sv4YEdOwE/NBO6I
- 9XanFqYJ0+QWVEkPwjE7pdxYSxlEUVFgwLHNWAhCR3GrUnUo3gsAOwzLF5jSnYgzRwD+
- 64IA==
+ bh=Ax2yAUytKuTKhH+tVXqGE0gj/9bVazXwd00LBZJO+WI=;
+ b=MmxlGmlrMB1zBns2ND17DCcVu5QJTtV4ywCMlFKhGerHtvmlE1yfh7ZvjYKPlrYmYa
+ rkWiTDoEhwpZABoIxYId+AUhQMD749hWgwl/3vKuHEuGBBD21/KiUK4+IeUxqdyXwg4a
+ n7tNfMl6zBvJWGwA6MN3KsCm8H4AsJQ6qGlAS/mGJq7loosLyE75jJT+z6mTZ19cUSpG
+ 8kFNpZxCl0nrtpyDKA782cJ+4IexMdU8674UmO+RQIv52S5kHXMMHU1JOFwGzc5HKb1B
+ FkY7o7NHa50dI8TShpgTjo5GPHZBXYmsPKYEUECy/2BN2ACg+mgHr08YgsFJ0J8Qxaob
+ aY/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FykcAGlQ92KK8Qz4pGd0AfXWzqAA8073pCgMiQdYiFk=;
- b=ub5MSoFPvDiG/hfLq8Gsye7TrnLt9JWzQ1veCL3aFPsq6vH50w2rrqFQWDzAgQ9Y2C
- UCTM4g4+NqRPGTKzmZEBW+/abxenQpsWsx32jmZ8MD7VOD9rpdpAQyVW/O9bkpb12nBK
- pLPJs7sd4R3iSxEAFufZo/TnKsWQ9YMwp/ScWkyUcOdyg/6uHbIBJvtC/88De5y3luxf
- +dRh3WGrIekzhUWJGZkMbzxZgZ/hNGuFV5+eRWcK9hn+TAC/0f/MXEYd6jRigc0jDX4l
- PxPgNq2pxe9HfUGNL836gwq33d8s/8GN5zPbBAWx2O4Fhwnk2ltEN3LufdB2t/hijpZv
- v8hQ==
-X-Gm-Message-State: AOAM53035CA7PpveTE7ua6WW6oJp5uGsu8r7xMGroYSch1tLS+QH6g2S
- NtpK59w4g/PuYRNQ4d28PC+shbwqse1kebt1
-X-Google-Smtp-Source: ABdhPJxQgMzmhzlyBh4e55RPzzxExnIpT7gbimqnyDkR6dUkmHFJEqdv9IcxKi4wmhGm+IK16gC2gA==
-X-Received: by 2002:a63:5515:: with SMTP id j21mr253428pgb.31.1599594537629;
- Tue, 08 Sep 2020 12:48:57 -0700 (PDT)
+ bh=Ax2yAUytKuTKhH+tVXqGE0gj/9bVazXwd00LBZJO+WI=;
+ b=jK4U0lrx4JHbnHYnennmoxgyd0Kau5p4EhQpDwtZI+9yQMrY6BWW6XJZ4DsaeORabv
+ 1QIrm0aK5m7MO5WCsnHBcAp36L21lY+jyhynSCY/eY8i3F40hGh5dxywGR0VKytwIjRe
+ 3+/v3oU4cUYlF5SjzTyf3xaekUmxx8I1/F9JqZRcNdIxGa6vSiUk0CzRK7n2/XLy+V4Q
+ qxNqw5T5qk7TyLLCKe5VpCQ0P9gX3nBBRiWrtQL0KyPGu9gaRAA9OBCjdSpNvz8fsxsJ
+ g5jKv+2vCsxivq/XPKqzFfzOy/hOdknIlZfUwgPAx0fHd6XYIE/MbT0FjFTpz3/EcC5I
+ xnbw==
+X-Gm-Message-State: AOAM5328ranJ81uLaa1KvtX4pGsGZf7KmtgOtPn7cSCQBD24uaRVuadN
+ pdPu9ZrBBHVn1+/slTjZzTMlzRXRwoPGpY3F
+X-Google-Smtp-Source: ABdhPJwuiwpUeTbHuqs/dXumJCl1Ay02yRcM/Gw8gnR8b65y//rpHsDalbFMxECVUncPV/ct4wxcCw==
+X-Received: by 2002:a17:90b:100e:: with SMTP id
+ gm14mr375504pjb.200.1599594541765; 
+ Tue, 08 Sep 2020 12:49:01 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id n127sm216922pfn.155.2020.09.08.12.48.53
+ by smtp.googlemail.com with ESMTPSA id n127sm216922pfn.155.2020.09.08.12.48.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 12:48:56 -0700 (PDT)
+ Tue, 08 Sep 2020 12:49:01 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/16] tests: disable /char/stdio/* tests in test-char.c on
- win32
-Date: Wed,  9 Sep 2020 03:48:09 +0800
-Message-Id: <20200908194820.702-6-luoyonggang@gmail.com>
+Subject: [PATCH 06/16] ci: Enable msys2 ci in cirrus
+Date: Wed,  9 Sep 2020 03:48:10 +0800
+Message-Id: <20200908194820.702-7-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200908194820.702-1-luoyonggang@gmail.com>
 References: <20200908194820.702-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,44 +94,130 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These tests are blocking test-char to be finished.
+Install msys2 in a proper way refer to https://github.com/cirruslabs/cirrus-ci-docs/issues/699
+The https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2 need to be updated.
+There is no need of --cross-prefix, open mingw64.exe instead of msys2.exe then we don't
+need the --cross-prefix, besides we using environment variable settings:
+    MSYS: winsymlinks:nativestrict
+    MSYSTEM: MINGW64
+    CHERE_INVOKING: 1
+to opening mingw64 native shell.
+We now running tests with make -i check to skip tests errors.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/test-char.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ .cirrus.yml                         | 24 +++++++++++++++++++++
+ scripts/ci/windows/msys2-build.sh   | 28 ++++++++++++++++++++++++
+ scripts/ci/windows/msys2-install.sh | 33 +++++++++++++++++++++++++++++
+ 3 files changed, 85 insertions(+)
+ create mode 100644 scripts/ci/windows/msys2-build.sh
+ create mode 100644 scripts/ci/windows/msys2-install.sh
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index d35cc839bc..80e5bac61a 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -103,6 +103,7 @@ static void char_console_test(void)
-     g_test_trap_assert_stdout("CONSOLE");
- }
- #endif
-+#ifndef _WIN32
- static void char_stdio_test_subprocess(void)
- {
-     Chardev *chr;
-@@ -126,6 +127,7 @@ static void char_stdio_test(void)
-     g_test_trap_assert_passed();
-     g_test_trap_assert_stdout("buf");
- }
-+#endif
- 
- static void char_ringbuf_test(void)
- {
-@@ -1471,8 +1473,10 @@ int main(int argc, char **argv)
-     g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
-     g_test_add_func("/char/console", char_console_test);
- #endif
-+#ifndef _WIN32
-     g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
-     g_test_add_func("/char/stdio", char_stdio_test);
-+#endif
- #ifndef _WIN32
-     g_test_add_func("/char/pipe", char_pipe_test);
- #endif
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 3dd9fcff7f..49335e68c9 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -63,3 +63,27 @@ macos_xcode_task:
+                    --enable-werror --cc=clang || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake check
++
++windows_msys2_task:
++  windows_container:
++    image: cirrusci/windowsservercore:cmake
++    os_version: 2019
++    cpu: 8
++    memory: 8G
++  env:
++    MSYS: winsymlinks:nativestrict
++    MSYSTEM: MINGW64
++    CHERE_INVOKING: 1
++  printenv_script:
++    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
++  install_script:
++    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
++    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
++    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
++    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm"
++    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --needed --noconfirm -S bash pacman pacman-mirrors msys2-runtime"
++    - taskkill /F /IM gpg-agent.exe
++    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
++    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2-install.sh"
++  script:
++    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2-build.sh"
+diff --git a/scripts/ci/windows/msys2-build.sh b/scripts/ci/windows/msys2-build.sh
+new file mode 100644
+index 0000000000..d9d046b5b0
+--- /dev/null
++++ b/scripts/ci/windows/msys2-build.sh
+@@ -0,0 +1,28 @@
++mkdir build
++cd build
++../configure \
++--python=python3 \
++--ninja=ninja \
++--enable-stack-protector \
++--enable-guest-agent \
++--disable-pie \
++--enable-gnutls --enable-nettle \
++--enable-sdl --enable-sdl-image --enable-gtk --disable-vte --enable-curses --enable-iconv \
++--enable-vnc --enable-vnc-sasl --enable-vnc-jpeg --enable-vnc-png \
++--enable-slirp=git \
++--disable-brlapi --enable-curl \
++--enable-fdt \
++--disable-kvm --enable-hax --enable-whpx \
++--enable-libnfs --enable-libusb --enable-live-block-migration --enable-usb-redir \
++--enable-lzo --enable-snappy --enable-bzip2 --enable-zstd \
++--enable-membarrier --enable-coroutine-pool \
++--enable-libssh --enable-libxml2 \
++--enable-jemalloc --enable-avx2 \
++--enable-replication \
++--enable-tools \
++--enable-bochs --enable-cloop --enable-dmg --enable-qcow1 --enable-vdi --enable-vvfat --enable-qed --enable-parallels \
++--enable-sheepdog \
++--enable-capstone=git
++
++make -j$NUMBER_OF_PROCESSORS
++make -i -j$NUMBER_OF_PROCESSORS check
+diff --git a/scripts/ci/windows/msys2-install.sh b/scripts/ci/windows/msys2-install.sh
+new file mode 100644
+index 0000000000..6086452399
+--- /dev/null
++++ b/scripts/ci/windows/msys2-install.sh
+@@ -0,0 +1,33 @@
++pacman --noconfirm -S --needed \
++base-devel \
++git \
++mingw-w64-x86_64-python \
++mingw-w64-x86_64-python-setuptools \
++mingw-w64-x86_64-toolchain \
++mingw-w64-x86_64-SDL2 \
++mingw-w64-x86_64-SDL2_image \
++mingw-w64-x86_64-gtk3 \
++mingw-w64-x86_64-glib2 \
++mingw-w64-x86_64-ninja \
++mingw-w64-x86_64-make \
++mingw-w64-x86_64-jemalloc \
++mingw-w64-x86_64-lzo2 \
++mingw-w64-x86_64-zstd \
++mingw-w64-x86_64-libjpeg-turbo \
++mingw-w64-x86_64-pixman \
++mingw-w64-x86_64-libgcrypt \
++mingw-w64-x86_64-capstone \
++mingw-w64-x86_64-libpng \
++mingw-w64-x86_64-libssh \
++mingw-w64-x86_64-libxml2 \
++mingw-w64-x86_64-snappy \
++mingw-w64-x86_64-libusb \
++mingw-w64-x86_64-usbredir \
++mingw-w64-x86_64-libtasn1 \
++mingw-w64-x86_64-libnfs \
++mingw-w64-x86_64-nettle \
++mingw-w64-x86_64-cyrus-sasl \
++mingw-w64-x86_64-curl \
++mingw-w64-x86_64-gnutls \
++mingw-w64-x86_64-zstd \
++
 -- 
 2.28.0.windows.1
 
