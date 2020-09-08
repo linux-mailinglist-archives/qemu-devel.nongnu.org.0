@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B2D260A21
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:34:58 +0200 (CEST)
-Received: from localhost ([::1]:43952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C241B260A1B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:33:44 +0200 (CEST)
+Received: from localhost ([::1]:36710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFWHR-0001kW-37
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57514)
+	id 1kFWGF-0007Ch-P2
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3q-0006py-0K; Tue, 08 Sep 2020 01:20:54 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:55565)
+ id 1kFW3W-0006MB-JN; Tue, 08 Sep 2020 01:20:36 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:50473 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3o-00063c-84; Tue, 08 Sep 2020 01:20:53 -0400
+ id 1kFW3U-00063e-4G; Tue, 08 Sep 2020 01:20:34 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltkt3MfTz9sVt; Tue,  8 Sep 2020 15:20:06 +1000 (AEST)
+ id 4Bltkv1hXWz9sVy; Tue,  8 Sep 2020 15:20:06 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599542406;
- bh=xuFY3bXkzkBea1Tgmyi1BGotOMR2WR1yFAUIQhfgKzk=;
+ d=gibson.dropbear.id.au; s=201602; t=1599542407;
+ bh=cdhL0/jPVxK+ALKqIw6+psSZs6LOfD1nDBLYAnFnOOQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HkGPu1clMi1DpcpIuOs9JvdH6C9C6X8YYGFUnmn5dr9mvOqYYelSUYapyFFe02uSH
- eVrB71UGawGzemgpcmsUW6git8LDMyIyvMzEVqKX2pnlchzrJLk7qyiqMpkACrPAU3
- gux6CXCLHkcj4Dx1KE8v08hXsoXFhj3l7sviFQPE=
+ b=OUaTilZNDaurjgBZrjktu5/AIct4K/MDAezaJGOMageJZH/xegWHQ5EgiUjAWzeOo
+ W1yIw8EU7nd/Vrb8DCFGz3ZjQOoGSjMbmmzjV0P3zH4EzJ1wYjWLlxY6iryD9eRWHo
+ +NTaf9A8NHvCUXqJ3wrepDm144Td4AzBbFrEeZyI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 23/33] hw/ppc/ppc4xx_pci: Use ARRAY_SIZE() instead of magic
- value
-Date: Tue,  8 Sep 2020 15:19:43 +1000
-Message-Id: <20200908051953.1616885-24-david@gibson.dropbear.id.au>
+Subject: [PULL 24/33] hw/ppc/ppc4xx_pci: Replace pointless warning by assert()
+Date: Tue,  8 Sep 2020 15:19:44 +1000
+Message-Id: <20200908051953.1616885-25-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:19:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -63,38 +62,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: danielhb413@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, bauerman@linux.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+ bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Replace the magic '4' by ARRAY_SIZE(s->irq) which is more explicit.
+We call pci_register_root_bus() to register 4 IRQs with the
+ppc4xx_pci_set_irq() handler. As it can only be called with
+values in the [0-4[ range, replace the pointless warning by
+an assert().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200901104043.91383-4-f4bug@amsat.org>
+Message-Id: <20200901104043.91383-5-f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc4xx_pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/ppc/ppc4xx_pci.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-index 3ea47df71f..cd3f192a13 100644
+index cd3f192a13..503ef46b39 100644
 --- a/hw/ppc/ppc4xx_pci.c
 +++ b/hw/ppc/ppc4xx_pci.c
-@@ -320,7 +320,8 @@ static void ppc4xx_pcihost_realize(DeviceState *dev, Error **errp)
+@@ -256,10 +256,7 @@ static void ppc4xx_pci_set_irq(void *opaque, int irq_num, int level)
+     qemu_irq *pci_irqs = opaque;
  
-     b = pci_register_root_bus(dev, NULL, ppc4xx_pci_set_irq,
-                               ppc4xx_pci_map_irq, s->irq, get_system_memory(),
--                              get_system_io(), 0, 4, TYPE_PCI_BUS);
-+                              get_system_io(), 0, ARRAY_SIZE(s->irq),
-+                              TYPE_PCI_BUS);
-     h->bus = b;
+     trace_ppc4xx_pci_set_irq(irq_num);
+-    if (irq_num < 0) {
+-        fprintf(stderr, "%s: PCI irq %d\n", __func__, irq_num);
+-        return;
+-    }
++    assert(irq_num >= 0);
+     qemu_set_irq(pci_irqs[irq_num], level);
+ }
  
-     pci_create_simple(b, 0, "ppc4xx-host-bridge");
 -- 
 2.26.2
 
