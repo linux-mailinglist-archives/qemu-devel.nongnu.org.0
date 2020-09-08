@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06009261EAD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:54:36 +0200 (CEST)
-Received: from localhost ([::1]:38352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AD1261ED8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:56:28 +0200 (CEST)
+Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFjhL-0008UE-1L
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
+	id 1kFjj9-0003mt-N1
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFjcQ-0006bV-OE; Tue, 08 Sep 2020 15:49:30 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:42794)
+ id 1kFjcV-0006o6-4s; Tue, 08 Sep 2020 15:49:35 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFjcP-0002Y0-40; Tue, 08 Sep 2020 15:49:30 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id d6so27356pfn.9;
- Tue, 08 Sep 2020 12:49:28 -0700 (PDT)
+ id 1kFjcT-0002YP-GL; Tue, 08 Sep 2020 15:49:34 -0400
+Received: by mail-pf1-x441.google.com with SMTP id d6so27495pfn.9;
+ Tue, 08 Sep 2020 12:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=30KkRCFEtXNka1aga0YHq3EqESHJABavOs610tDas18=;
- b=q+p85ef8a3EKzgpllK8bF6DDmoTMT3WWdcPtbx5xDANt1wZ4ydgna8jRjINQtGKxtN
- RALOjee9svUEpcKlEvwoprqPAxrLvfIN+ptIHCj6UEmGZJ4rPlovYLN8JEIjDfWcdGiV
- mLnvKcjy9Gn7pY9en7fBvDh1pwEXXrvE+TI/07JFugE3DXHd/pPZc4vWwAtPclGbzLjZ
- D2+KJym71ZA+Z5nV+gmPFwhJN9mx7ytJt+otdq4REVYAaKycHsFSkqAmSImE56r+Pgw4
- c3gcwaNPSlV2sFOqv0z0re2SjgQ/8P243QkjH30i/Xk9EhmhQcT/l00yXAxOUXKPMtS6
- TTEQ==
+ bh=9VMmLATL4hLY9MeoSmcNwnDOjnsVNymdFAgQMcXeglM=;
+ b=pz4IkLjK8gQWUXjVwDneCTJm3Owd5jgTCAkilSbIlKyREL3bW3t+9SJfpJBJ3jKjcr
+ 6M5GXy09Kf7xPlsg1ltYDJnbDuFp+SLzhuToSQQAlOznmAQKdFvWn8Le5+XyP5AEL2Hc
+ kU5UYgevfWRTX7Z5bhOC1SSDJXGz847EnHaINBuIoyhdKosu1h8fdYwAPI2ZFKveO4+/
+ lXGHYUgSsgyirlmEcVQwuav0GUfIr4YxB39REK5oxpnPUseXOliyTAJYCRZfS4qPjKq0
+ WyKCnQghts/YmgPHxaNpPMEZXjZdA70rMPXmtSheIpIxkNVQj0tn+KRup7lSUHPHA6jO
+ zneQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=30KkRCFEtXNka1aga0YHq3EqESHJABavOs610tDas18=;
- b=cvic1TnsDIOuudt5JOgAA0rVsbeuNPcuo8ld1TzkAG0xAra+0vATqPGkx1CNhf5Cf0
- iAXxtBHL/J+R1LzLT8WPxHexFnYRBH3zexK+f3I7/Ki2MqHGsH+17UQvaBjJAHFGa0Yu
- Q5x72B3JN0NoeygYnIDnXq7+J/0Hhqs/BhaYQz00hkukq2wuDkcZF6epDE0V5oe3WoU8
- PkOK0O1I9irTuuo//9pVZ4SxLVaiRhCUnRqP69DekgdxhvJ0LG//UvEodZVeeUW7Gx9i
- +n5RCNtLCa2/lRQhMsx+EnWXeqbdl6dtwNNCtpDfM4y/e6AWTd+vxD137qRX0FkAHUX0
- 4aLA==
-X-Gm-Message-State: AOAM532oYLvg6DZiAfGOqPjfUKiDePj/5J10nHxLB8U8S5/bMvtN5ueh
- swdTNnMwAkEtRCQR4FL57YWmd/j8zF0nhBjT
-X-Google-Smtp-Source: ABdhPJykW8UuNSMZAZRXw7m1Asu0y7vFxSy05CIZz/DrPpBfErJPgb/XlGJAn3SKc2VbbCOKv1hOmg==
-X-Received: by 2002:a63:5160:: with SMTP id r32mr301050pgl.112.1599594567064; 
- Tue, 08 Sep 2020 12:49:27 -0700 (PDT)
+ bh=9VMmLATL4hLY9MeoSmcNwnDOjnsVNymdFAgQMcXeglM=;
+ b=SgjRBPQp7dFo9ZpvVh3oS90L2YIXQXF3mH1dBEcSHgFIFVRGATjEdKahN40u/moYj2
+ qF0FLLFZmbngF33QgaM8WXDQpPhrPNQVunUsXEUrXr4GxBaGDhEMh9fkSvfzQ2lg1mJT
+ ecnfu9rnX/e6viWmmDiwaqJR62IkwVCIuMQIEpKnewpyv1tjBCmdyJ6aKlXWRn9FAOKs
+ mHXfnXn2Hz9Jh4L0isAo+K2MvmG9epzsoDA1ST9RzKslr6iMm3hqLv2j+v/HwRwIc54Y
+ CspDpOrPa5gfhcOE1dUvW094njwyWEfFjsa3h37tQfHC8atkmj/p5OSO9MCkHZ4j/iu5
+ 0OKQ==
+X-Gm-Message-State: AOAM5334FqFNS8yz7X8rn6wu1rtSxBrNmrfhkzIIVBIhtQOiCLUIt9Tp
+ vip6ZBoGGVcQNNDxSCo8iIBMFtaLY3/ctyme
+X-Google-Smtp-Source: ABdhPJzIgvb3QM/Xr6VxZDXvFm5dAVucnZ+CTpDQylrdcso2aEW8cYsdFy7sm7klA8XklHvzRvPOmg==
+X-Received: by 2002:a63:b44f:: with SMTP id n15mr280153pgu.282.1599594571379; 
+ Tue, 08 Sep 2020 12:49:31 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id n127sm216922pfn.155.2020.09.08.12.49.23
+ by smtp.googlemail.com with ESMTPSA id n127sm216922pfn.155.2020.09.08.12.49.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 12:49:26 -0700 (PDT)
+ Tue, 08 Sep 2020 12:49:30 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/16] meson: remove empty else and duplicated gio deps
-Date: Wed,  9 Sep 2020 03:48:16 +0800
-Message-Id: <20200908194820.702-13-luoyonggang@gmail.com>
+Subject: [PATCH 13/16] vmstate: Fixes test-vmstate.c on msys2/mingw
+Date: Wed,  9 Sep 2020 03:48:17 +0800
+Message-Id: <20200908194820.702-14-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200908194820.702-1-luoyonggang@gmail.com>
 References: <20200908194820.702-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,40 +89,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Peter Lieven <pl@kamp.de>
+ Wen Congyang <wencongyang2@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- meson.build | 6 ------
- 1 file changed, 6 deletions(-)
+The vmstate are valid on win32, just need generate tmp path properly
 
-diff --git a/meson.build b/meson.build
-index 5421eca66a..0b1741557d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -317,7 +317,6 @@ opengl = not_found
- if 'CONFIG_OPENGL' in config_host
-   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
-                               link_args: config_host['OPENGL_LIBS'].split())
--else
- endif
- gtk = not_found
- if 'CONFIG_GTK' in config_host
-@@ -344,11 +343,6 @@ if 'CONFIG_ICONV' in config_host
-   iconv = declare_dependency(compile_args: config_host['ICONV_CFLAGS'].split(),
-                              link_args: config_host['ICONV_LIBS'].split())
- endif
--gio = not_found
--if 'CONFIG_GIO' in config_host
--  gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
--                           link_args: config_host['GIO_LIBS'].split())
--endif
- vnc = not_found
- png = not_found
- jpeg = not_found
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/test-vmstate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
+index f8de709a0b..4c453575bb 100644
+--- a/tests/test-vmstate.c
++++ b/tests/test-vmstate.c
+@@ -34,7 +34,6 @@
+ #include "qemu/module.h"
+ #include "io/channel-file.h"
+ 
+-static char temp_file[] = "/tmp/vmst.test.XXXXXX";
+ static int temp_fd;
+ 
+ 
+@@ -1487,6 +1486,7 @@ static void test_tmp_struct(void)
+ 
+ int main(int argc, char **argv)
+ {
++    g_autofree char* temp_file = g_strdup_printf("%s/vmst.test.XXXXXX", g_get_tmp_dir());
+     temp_fd = mkstemp(temp_file);
+ 
+     module_call_init(MODULE_INIT_QOM);
 -- 
 2.28.0.windows.1
 
