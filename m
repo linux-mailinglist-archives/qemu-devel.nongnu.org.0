@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E1A260F44
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 12:05:45 +0200 (CEST)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E0E260F87
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 12:21:24 +0200 (CEST)
+Received: from localhost ([::1]:54040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFaVU-0001fW-I7
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 06:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54782)
+	id 1kFakd-0006Wt-P8
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 06:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kFaUW-0000wC-JS
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:04:44 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:36322)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFajz-00067D-TJ
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:20:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kFaUT-0005ht-Gt
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:04:44 -0400
-Received: by mail-ed1-x543.google.com with SMTP id w1so15413800edr.3
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 03:04:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pHwrWC7u2HrkS5TSF535ot5rdvmEgH9XL4Qkine6i2I=;
- b=PNxTyJSWy0rhDv+e+Nd+L3RHW1DJpUR1P6uUeRbTtkO1rrnhD7oHJPk5c10M/j2lyx
- MvEnaqN9eWFcIL16BEFscBDTJIo9GONmUjdAcT9Xt2/WRZrqHfRnECbYMcddK7DdTaYK
- g9KNz+hZwDlmTC30tHDqxOeJjpBUr4g3Iq3bt6qdfmjDsJ+xHS+5aMqIUZ1uYcgRiong
- QcsGnz5Ep9+imcuAxFhyWhLSvo50aQ8YwseN7m/8+fDbCooXyFzUH/fhyZqxjzdLobwn
- yQC08uihh5xGX/973jfEv+0ncNoiE4p/jG0MA/veDMO1Dr/VAu6Ro6GqiHuC4vqsglPC
- VgiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pHwrWC7u2HrkS5TSF535ot5rdvmEgH9XL4Qkine6i2I=;
- b=WDuPZkNCwn5QqA5635iEyHn2i9bSXcA2bVsHHJRI8m3N250SCDeQP7lxVh+NP6j5li
- ZV3h/QAQj/g4UhWOwsc17FahyKcZue5X3Yq5yuHNA/089tklI2fHXpP1gR/+kKGSbGmj
- KA93o+A9Xgd69dKwABdmqtji4AinjcHVB+7k5B7LxqxvFA56skS/UlSIG5GRf7JAgwaM
- qvzJD1Dbzb8gwF5d5/YSfS4bxsHxJadJPilnFBqpuyW5TJmSk2e9SvSi7KZyUaWHiIYO
- njrVANP8UldwXT9Lu14HWJFGdMiP8+cUZCF/AzrdZ2fDeaqGbsxI4H7DrHswP6/jOa3K
- e2jw==
-X-Gm-Message-State: AOAM532GMEzrLMRQn0W966Eu9EtqgGPFjLE9Z8spez18sVe2r5exgKqQ
- HQK7C2tbxXeVEj9m70eUN9TfgcMPbUgpYsrURkXjFg==
-X-Google-Smtp-Source: ABdhPJz38YXfst2VQwZZn1cjumwtgXIbnrPxcLS1p/LlTk+ZiCc+6rJkRDzCbqeOxmJCxKZx5rxMLKxHaYgpOfLtooY=
-X-Received: by 2002:a50:8f45:: with SMTP id 63mr26907407edy.52.1599559478516; 
- Tue, 08 Sep 2020 03:04:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFajx-0007ph-S5
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:20:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kFajv-0003Ex-OE
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 10:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B20432E80DB
+ for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 10:20:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200907163257.46527-1-f4bug@amsat.org>
- <20200907163257.46527-9-f4bug@amsat.org>
- <87h7s8g0v2.fsf@dusky.pond.sub.org>
-In-Reply-To: <87h7s8g0v2.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Sep 2020 11:04:26 +0100
-Message-ID: <CAFEAcA_Mkh-PM7z4ESyU4AJpDj8f+RVdUSMGeEVUanmvR=6f1w@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 8/8] hw/arm/tosa: Make TYPE_TOSA_MISC_GPIO a plain
- QDev
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Tue, 08 Sep 2020 10:09:38 -0000
+From: Derek Su <1894818@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dereksu
+X-Launchpad-Bug-Reporter: Derek Su (dereksu)
+X-Launchpad-Bug-Modifier: Derek Su (dereksu)
+Message-Id: <159955977855.17769.18273034994411209537.malonedeb@soybean.canonical.com>
+Subject: [Bug 1894818] [NEW] COLO's guest VNC client hang after failover
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
+X-Launchpad-Hash: 149676c99309fb10722cc2d5d1554f87cd575dff
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:20:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,90 +70,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>,
- Joel Stanley <joel@jms.id.au>
+Reply-To: Bug 1894818 <1894818@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Sep 2020 at 08:54, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->
-> > TYPE_TOSA_MISC_GPIO doesn't need to be a SysBus device,
-> > make it a plain QDev.
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
-> > RFC because having to pass MachineState and call
-> > object_property_add_child() simply makes things more
-> > complex... but it seems to cleaner QOM design.
->
-> Well, what devices really *need* to be sysbus devices?
->
-> The question is trivial for "real" buses, such as PCI, USB, and so
-> forth: a device is a FOO device when it plugs into a FOO bus.
->
-> Sysbus is quite unlike these "real" buses.  It exists because qdev
-> initially *required* qdevs to plug into a qbus, so we made up a qbus for
-> the devices that don't plug into any of our "real" buses[1].
->
-> I figure all sysbus devices could be coded as bus-less devices today.
-> So the answer to "what devices really *need* to be sysbus devices?" is
-> "none".
+Public bug reported:
 
-The major thing sysbus being a bus gives you is reset: devices
-on buses get reset automatically, but devices not on buses don't.
-So in this particular case I'm not in favour of this change --
-right now the TOSA_MISC_GPIO device doesn't happen to need a reset,
-but having devices floating around in the system which can't have
-a reset method is a beartrap for our future selves. It's bad enough
-that we have this issue today with CPU objects: I don't want us to
-extend that to anything else if we can avoid it.
+Hello,
 
-> I think a more useful question is what devices *should* be coded as
-> sysbus devices vs. bus-less devices.
->
-> Sysbus is more than just a dummy qbus.  It's a software interface that
-> provides useful stuff.  To use it, the device needs to be a
-> SysBusDevice.  This leads to a partial answer: if the device profits
-> from stuff we provide only to SysBusDevices, it should be one.
->
-> Perhaps the useful stuff could be separated from SysBusDevice.  Then
-> this partial answer evaporates.
+After setting up COLO's primary and secondary VMs,
+I installed the vncserver and xrdp (apt install tightvncserver xrdp) inside=
+ the VM.
 
-This also is true -- some pretty generic useful stuff like "I can have
-MMIO regions" and "I get automatically reset" is implemented in sysbus,
-and some (like "I have gpio lines") for DeviceState. I would be happy
-to see this cleaned up. For the code we have at the moment I prefer
-to treat SysBusDevice as the preferred parent class for devices, ie
-don't directly inherit from DeviceState unless you really know what
-you're doing.
+I access the VM from another PC via VNC/RDP client, and everything is OK.
+Then, kill the primary VM and issue the failover commands.
 
-The reset stuff in particular is desperately in need of a cleanup
-but it's a swamp, as usual. Currently we reset along the qbus tree
-(which is why non-bus-connected devices don't get their qdev reset
-method called, and must fend for themselves via qemu_register_reset()).
-These days I feel like "resetting a device should reset all its QOM
-children" would be a more natural way to model things (with some sort
-of "this device needs to override that default behaviour" for SoCs
-with more complicated reset handling) but getting there from here
-feels like it would be very painful.
+The expected result is that the VNC/RDP client can reconnect and resume
+automatically after failover. (I've confirmed the VNC/RDP client can
+reconnect automatically.)
 
-> There is just one instance of TYPE_SYSTEM_BUS[2].  This leads to another
-> partial answer: if the device can be part of another device, it should
-> not be a SysBusDevice.
->
-> Sysbus also enables "dynamic" sysbus devices.  Shoehorning them into
-> SysBusDevice may have been a mistake.
+But in my test, the VNC client's screen hangs and cannot be recovered no
+longer. (I need to restart VNC client by myself.)
 
-I was never much of a fan of dynamic sysbus devices at all :-)
+BTW, it works well after killing SVM.
 
-thanks
--- PMM
+Thanks.
+
+Regards,
+Derek
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1894818
+
+Title:
+  COLO's guest VNC client hang after failover
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  After setting up COLO's primary and secondary VMs,
+  I installed the vncserver and xrdp (apt install tightvncserver xrdp) insi=
+de the VM.
+
+  I access the VM from another PC via VNC/RDP client, and everything is OK.
+  Then, kill the primary VM and issue the failover commands.
+
+  The expected result is that the VNC/RDP client can reconnect and
+  resume automatically after failover. (I've confirmed the VNC/RDP
+  client can reconnect automatically.)
+
+  But in my test, the VNC client's screen hangs and cannot be recovered
+  no longer. (I need to restart VNC client by myself.)
+
+  BTW, it works well after killing SVM.
+
+  Thanks.
+
+  Regards,
+  Derek
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1894818/+subscriptions
 
