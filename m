@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5679260B64
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:57:53 +0200 (CEST)
-Received: from localhost ([::1]:46318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935F9260B59
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:56:19 +0200 (CEST)
+Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFXZh-0005d6-1d
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
+	id 1kFXYA-000327-HD
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:56:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWN-0001G4-8T
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWN-0001GX-HJ
  for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59521
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36556
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWK-0008Ce-1J
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:26 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWL-0008D1-NJ
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599548062;
+ s=mimecast20190719; t=1599548065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CRfAespCf/P+adg1eAVmIUv6jcwlKRu8WgP4/uGSIIs=;
- b=fznSe3kB3yFCW33raIXYtFTEBSaUv82uo0LxXhJ0tLWLQGbyBjTg6osPOxqGzmbNMN1Cpu
- imLKAJLKapiFiBpX4zUYj633/qP+jOpDOnBqxoo8xOb9W17CFwrNyzMx8K2m1Alll53sim
- Qq+1UqLPwPV2wFdTlNLAQ9pRA4hmAc8=
+ bh=SsuVsisdCqSRS5dGwtcYAumiBH2SK0i4xd2ofrCECVY=;
+ b=EHs1kNFRopo9Q/L8TO5YT35v6GS/Qhg6MKdQZOSjGJFDk3jejf0nPtkNI58c1cnu/KpRhz
+ ZcBEzH+sZZGbS0TWn8ecxUU+mCXrbrCpzDp47WUEQ2JYvkL9uypf536/w0fIpSXKnDC0lN
+ P9bHQgceqs1lni4ebP6ybIn+02elqiE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-sB0TbduIMcChe_mtxkRvGA-1; Tue, 08 Sep 2020 02:54:20 -0400
-X-MC-Unique: sB0TbduIMcChe_mtxkRvGA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-13-lF6k6v7WOzucyHueMSaE6w-1; Tue, 08 Sep 2020 02:54:22 -0400
+X-MC-Unique: lF6k6v7WOzucyHueMSaE6w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2EB51084D73;
- Tue,  8 Sep 2020 06:54:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CD841084D70;
+ Tue,  8 Sep 2020 06:54:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
  [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53F247049D;
- Tue,  8 Sep 2020 06:54:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AE097E30C;
+ Tue,  8 Sep 2020 06:54:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 91926112CDE6; Tue,  8 Sep 2020 08:54:17 +0200 (CEST)
+ id 9587F112CDE9; Tue,  8 Sep 2020 08:54:17 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] qapi: Fix indentation, again
-Date: Tue,  8 Sep 2020 08:54:16 +0200
-Message-Id: <20200908065417.3158250-5-armbru@redhat.com>
+Subject: [PULL 5/5] qapi/block-core.json: Fix nbd-server-start docs
+Date: Tue,  8 Sep 2020 08:54:17 +0200
+Message-Id: <20200908065417.3158250-6-armbru@redhat.com>
 In-Reply-To: <20200908065417.3158250-1-armbru@redhat.com>
 References: <20200908065417.3158250-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -88,215 +88,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-In commit 26ec4e53f2 and similar commits we fixed the indentation
-for doc comments in our qapi json files to follow a new stricter
-standard for indentation, which permits only:
-    @arg: description line 1
-          description line 2
+Commit eed8b6917832 added some new text to the nbd-server-start
+documentation in the wrong place.  Since this is after the 'Returns:'
+line it's parsed as if it were part of the documentation of the
+"Returns:' information.  Move it up to join the rest of the
+"documentation of the type as a whole" doc text.
 
-or:
-    @arg:
-    line 1
-    line 2
-
-Unfortunately since we didn't manage to get the script changes that
-enforced the new style in, a variety of commits (eg df4097aeaf71,
-2e4457032105) introduced new doc text which doesn't follow the new
-stricter rules for indentation on multi-line doc comments.  Bring
-those into line with the new rules.
+This doesn't look odd in the current HTML rendering, but the
+new QAPI-to-rST handling will complain about the indent level
+of the lines not matching up with the 'Returns:' line.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200810195019.25427-3-peter.maydell@linaro.org>
+Message-Id: <20200810195019.25427-4-peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/audio.json      | 12 ++++++------
- qapi/block-core.json |  8 ++++----
- qapi/control.json    |  4 ++--
- qapi/machine.json    |  6 +++---
- qapi/migration.json  |  8 ++++----
- qapi/misc.json       |  4 ++--
- qapi/net.json        |  2 +-
- 7 files changed, 22 insertions(+), 22 deletions(-)
+ qapi/block-core.json | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index f62bd0d7f6..3b843878d2 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -159,20 +159,20 @@
- # recording.
- #
- # @server-name: select from among several possible concurrent server instances
--# (default: environment variable $JACK_DEFAULT_SERVER if set, else "default")
-+#               (default: environment variable $JACK_DEFAULT_SERVER if set, else "default")
- #
- # @client-name: the client name to use. The server will modify this name to
--# create a unique variant, if needed unless @exact-name is true (default: the
--# guest's name)
-+#               create a unique variant, if needed unless @exact-name is true (default: the
-+#               guest's name)
- #
- # @connect-ports: if set, a regular expression of JACK client port name(s) to
--# monitor for and automatically connect to
-+#                 monitor for and automatically connect to
- #
- # @start-server: start a jack server process if one is not already present
--# (default: false)
-+#                (default: false)
- #
- # @exact-name: use the exact name requested otherwise JACK automatically
--# generates a unique one, if needed (default: false)
-+#              generates a unique one, if needed (default: false)
- #
- # Since: 5.1
- ##
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 55b58ba892..091f826f53 100644
+index 091f826f53..c5ac22d246 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -373,7 +373,7 @@
+@@ -5211,6 +5211,9 @@
+ # server will present them as named exports; for example, another
+ # QEMU instance could refer to them as "nbd:HOST:PORT:exportname=NAME".
  #
- # Features:
- # @deprecated: Member @encryption_key_missing is deprecated.  It is
--#     always false.
-+#              always false.
++# Keep this type consistent with the NbdServerOptions type. The only intended
++# difference is using SocketAddressLegacy instead of SocketAddress.
++#
+ # @addr: Address on which to listen.
+ # @tls-creds: ID of the TLS credentials object (since 2.6).
+ # @tls-authz: ID of the QAuthZ authorization object used to validate
+@@ -5221,9 +5224,6 @@
  #
- # Since: 0.14.0
+ # Returns: error if the server is already running.
  #
-@@ -508,7 +508,7 @@
- #
- # Features:
- # @deprecated: Member @status is deprecated.  Use @recording and
--#     @locked instead.
-+#              @locked instead.
- #
- # Since: 1.3
+-# Keep this type consistent with the NbdServerOptions type. The only intended
+-# difference is using SocketAddressLegacy instead of SocketAddress.
+-#
+ # Since: 1.3.0
  ##
-@@ -618,7 +618,7 @@
- #
- # Features:
- # @deprecated: Member @dirty-bitmaps is deprecated.  Use @inserted
--#     member @dirty-bitmaps instead.
-+#              member @dirty-bitmaps instead.
- #
- # Since:  0.14.0
- ##
-@@ -1646,7 +1646,7 @@
- #
- # Features:
- # @deprecated: Members @base and @top are deprecated.  Use @base-node
--#     and @top-node instead.
-+#              and @top-node instead.
- #
- # Returns: - Nothing on success
- #          - If @device does not exist, DeviceNotFound
-diff --git a/qapi/control.json b/qapi/control.json
-index de51e9916c..134f842baf 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -177,8 +177,8 @@
- #
- # Features:
- # @deprecated: This command is deprecated, because its output doesn't
--#     reflect compile-time configuration.  Use 'query-qmp-schema'
--#     instead.
-+#              reflect compile-time configuration.  Use 'query-qmp-schema'
-+#              instead.
- #
- # Returns: A list of @EventInfo.
- #
-diff --git a/qapi/machine.json b/qapi/machine.json
-index abc6fd0477..0ac1880e4a 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -191,8 +191,8 @@
- #
- # Features:
- # @deprecated: This command is deprecated, because it interferes with
--#     the guest.  Use 'query-cpus-fast' instead to avoid the vCPU
--#     interruption.
-+#              the guest.  Use 'query-cpus-fast' instead to avoid the vCPU
-+#              interruption.
- #
- # Returns: a list of @CpuInfo for each virtual CPU
- #
-@@ -316,7 +316,7 @@
- #
- # Features:
- # @deprecated: This command is deprecated.  Use `device_add` instead.
--#     See the `query-hotpluggable-cpus` command for details.
-+#              See the `query-hotpluggable-cpus` command for details.
- #
- # Returns: Nothing on success
- #
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 115181f4a5..675f70bb67 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1362,7 +1362,7 @@
- #
- # Features:
- # @deprecated: This command is deprecated.  Use
--#     'migrate-set-parameters' instead.
-+#              'migrate-set-parameters' instead.
- #
- # Returns: nothing on success
- #
-@@ -1386,7 +1386,7 @@
- #
- # Features:
- # @deprecated: This command is deprecated.  Use
--#     'migrate-set-parameters' instead.
-+#              'migrate-set-parameters' instead.
- #
- # Returns: nothing on success
- #
-@@ -1410,7 +1410,7 @@
- #
- # Features:
- # @deprecated: This command is deprecated.  Use
--#     'migrate-set-parameters' instead.
-+#              'migrate-set-parameters' instead.
- #
- # The size will be rounded down to the nearest power of 2.
- # The cache size can be modified before and during ongoing migration
-@@ -1436,7 +1436,7 @@
- #
- # Features:
- # @deprecated: This command is deprecated.  Use
--#     'query-migrate-parameters' instead.
-+#              'query-migrate-parameters' instead.
- #
- # Returns: XBZRLE cache size in bytes
- #
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 9d32820dc1..8cf6ebe67c 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -877,8 +877,8 @@
- #
- # Features:
- # @deprecated: This command is deprecated.  For changing block
--#     devices, use 'blockdev-change-medium' instead; for changing VNC
--#     parameters, use 'change-vnc-password' instead.
-+#              devices, use 'blockdev-change-medium' instead; for changing VNC
-+#              parameters, use 'change-vnc-password' instead.
- #
- # Returns: - Nothing on success.
- #          - If @device is not a valid block device, DeviceNotFound
-diff --git a/qapi/net.json b/qapi/net.json
-index ddb113e5e5..a3a1336001 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -457,7 +457,7 @@
- #
- # Since: 2.7
- #
--# @vhost-vdpa since 5.1
-+#        @vhost-vdpa since 5.1
- ##
- { 'enum': 'NetClientDriver',
-   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+ { 'command': 'nbd-server-start',
 -- 
 2.26.2
 
