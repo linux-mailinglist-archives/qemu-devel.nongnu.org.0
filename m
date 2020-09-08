@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757FD2618F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:04:53 +0200 (CEST)
-Received: from localhost ([::1]:37376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A754326190B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:06:19 +0200 (CEST)
+Received: from localhost ([::1]:42608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFhzA-0005Cu-II
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44126)
+	id 1kFi0Y-0007Qx-P1
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:06:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFhyF-0004HB-Uf
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 14:03:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31719)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFhyN-0004Qf-U8
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 14:04:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46517
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFhyE-0004tw-Cm
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 14:03:55 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFhyM-0004vX-D8
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 14:04:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599588233;
+ s=mimecast20190719; t=1599588241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ys5iI2rugUeM4Q6hyE8pePXf/XviYW8aVvJSLc6fkdk=;
- b=CrGTr2yQL75NvQDWX44IIko3ph6bHvK9/7lvJu64mPCUrwEJv16hDHrnzxjKoi6n2gDkRi
- lCLo1r+b9gz3kmUvpYy6P0kudPgwB4IoXp34UkwS7cNsbx7epIm/42lJCErs/oX2GtQm9g
- GWIa4BTEmZ39M6JOaELmt+KFawuzLPk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-oHsNojcwNCWHJwYBnXad7g-1; Tue, 08 Sep 2020 14:03:52 -0400
-X-MC-Unique: oHsNojcwNCWHJwYBnXad7g-1
-Received: by mail-wr1-f70.google.com with SMTP id j7so5625359wro.14
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 11:03:52 -0700 (PDT)
+ bh=QkwqpwV9K55PFTel8SazfLxb9PfIPnyx+3YiTKkFJro=;
+ b=BKQW9dAcsaMCZQPv6hGQgHUVwxl33AoByQBtV+STeX3r9U9qYNSvyrnsI/sBxCVCWWfn5C
+ RPThWtKiJMJ5MoZ1DH3Li5WhClWEbiUv09k7tdPBoNLDA1CvvkIKZlXjJSfV0pi+9JvUXp
+ eYO9roQVKBzvr2JFz++FJZsAw6xjEN0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-Bn4NzZcLMFaPtS8YS-NYww-1; Tue, 08 Sep 2020 14:03:57 -0400
+X-MC-Unique: Bn4NzZcLMFaPtS8YS-NYww-1
+Received: by mail-wm1-f69.google.com with SMTP id x6so51547wmb.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 11:03:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ys5iI2rugUeM4Q6hyE8pePXf/XviYW8aVvJSLc6fkdk=;
- b=OR9ZnYn0do2xOasEAwZlJYbcsRuK6xX/nZqEN7HB+HnbQpuEp+8JkV7m1GhyhPFo+j
- 1njzK3OLqsD+NUwnlrON4lzbBUY3ym4E6mGcsiuYBati1DPCXTc5n2TX3fqw8N7O41ZF
- 6bUuBC7OflIq4NuJQORY+I/3TCwgqVhRcK+GwkLQx+QQAp3LdWmfSppYUjh537PqQcy8
- N9WYtWaCz6Gl8SC1nEyRHlJ2FnsQpRQS/A2XIX0J9cL53AVjnkDQyKd7mpW3FxLnYlsB
- M666O/TZm5rvn794GeaBVUUKtZPlCYfuQtvwAGGf0yXXBYc6aIXzzkhKk1zHfiMZUZuW
- HUbw==
-X-Gm-Message-State: AOAM533hFs4ROiQ0Sx81J2ImriMBuf5rDgImhf7AcXyXp/R060G5ognp
- 0Dx52CG/4fA1juNsFBxTFST+7/S1MPTV+U/5JvIpzGhSGQYKP/JE07xgu5ZCLyR2Qc0oj+nI9wm
- DuzbsvWOyzZnWKQE=
-X-Received: by 2002:a1c:9ecb:: with SMTP id h194mr308310wme.140.1599588230960; 
- Tue, 08 Sep 2020 11:03:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw90McKws2WAqrdoNB0r14Xlw+wZxzcwWaX26dJFeUwAFfGGYNDo7xd8jcCrNYLJShDqqrysg==
-X-Received: by 2002:a1c:9ecb:: with SMTP id h194mr308278wme.140.1599588230617; 
- Tue, 08 Sep 2020 11:03:50 -0700 (PDT)
+ bh=QkwqpwV9K55PFTel8SazfLxb9PfIPnyx+3YiTKkFJro=;
+ b=QxOFHgl4Rukw3M6o84ZyDrJeYxjSoNAtxbf2Keb3B/7YZuzKfdqWvXUxgWLGLuur//
+ TKKmXPzPnMOFyat7EmdvRuvUP28h+UzcfIVqjr0/1wPrPB4CkCihCBkSrGUNsCQ3sa0f
+ GHzIakJ/SmjufTZYGMsQtgIdbD7M32D4Cr0sW7qhmoy3hpVqy2qnc6o7ievIMS7VS5h2
+ OJfgUO9Now8SSSRdbZcakeeKb1YvMgLVjydpuKQ4EZSDXy+uZxdN+V10kCBE2Utb70Gb
+ bIoCbFfU4v3WJ0cXJKnJGzuC7BpkcL/p2wWvMLVTWkr1NZpIS8MAB7Pt2VBeZEWZdPWv
+ 6SBw==
+X-Gm-Message-State: AOAM533W6Tci8nAO0zLAJpGeEV5DnbuQVxsDH0N986/dZUbbgUtLPsBg
+ LOBVawLXnEoQ/Wy0+UehVpzhgtMw+Y5GljFn/4e2YcEEjFBVm43rwA5Xziry7cJEbgGICqBHu6Q
+ mWsxx2MVg8h1eY6U=
+X-Received: by 2002:a1c:678a:: with SMTP id b132mr362236wmc.10.1599588236177; 
+ Tue, 08 Sep 2020 11:03:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz//4M1d+IJHQCXdJ2QV50tFS/dNKBh5bUfVhBLnE2TkgyYmtJcUcg+bni5dc+a3Y+Ay+Lw9w==
+X-Received: by 2002:a1c:678a:: with SMTP id b132mr362209wmc.10.1599588235905; 
+ Tue, 08 Sep 2020 11:03:55 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id o128sm188701wmo.39.2020.09.08.11.03.49
+ by smtp.gmail.com with ESMTPSA id j10sm351531wrn.2.2020.09.08.11.03.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 11:03:49 -0700 (PDT)
+ Tue, 08 Sep 2020 11:03:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 1/4] util/vfio-helpers: Improve reporting unsupported
- IOMMU type
-Date: Tue,  8 Sep 2020 20:03:39 +0200
-Message-Id: <20200908180342.280749-2-philmd@redhat.com>
+Subject: [RFC PATCH v5 2/4] util/vfio-helpers: Report error when IOMMU page
+ size is not supported
+Date: Tue,  8 Sep 2020 20:03:40 +0200
+Message-Id: <20200908180342.280749-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908180342.280749-1-philmd@redhat.com>
 References: <20200908180342.280749-1-philmd@redhat.com>
@@ -74,17 +75,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 12:55:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,33 +106,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change the confuse "VFIO IOMMU check failed" error message by
-the explicit "VFIO IOMMU Type1 is not supported" once.
+This driver uses the host page size to align its memory regions,
+but this size is not always compatible with the IOMMU. Add a
+check if the size matches, and bails out with listing the sizes
+the IOMMU supports.
 
-Example on POWER:
+Example on Aarch64:
 
- $ qemu-system-ppc64 -drive if=none,id=nvme0,file=nvme://0001:01:00.0/1,format=raw
- qemu-system-ppc64: -drive if=none,id=nvme0,file=nvme://0001:01:00.0/1,format=raw: VFIO IOMMU Type1 is not supported
+ $ qemu-system-aarch64 -M virt -drive if=none,id=nvme0,file=nvme://0006:90:00.0/1,format=raw
+ qemu-system-aarch64: -drive if=none,id=nvme0,file=nvme://0006:90:00.0/1,format=raw: Unsupported IOMMU page size: 4 KiB
+ Available page size:
+  64 KiB
+  512 MiB
 
 Suggested-by: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- util/vfio-helpers.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/vfio-helpers.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 583bdfb36fc..55b4107ce69 100644
+index 55b4107ce69..6d9ec7d365c 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -261,7 +261,7 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
-     }
+@@ -11,6 +11,7 @@
+  */
  
-     if (!ioctl(s->container, VFIO_CHECK_EXTENSION, VFIO_TYPE1_IOMMU)) {
--        error_setg_errno(errp, errno, "VFIO IOMMU check failed");
-+        error_setg_errno(errp, errno, "VFIO IOMMU Type1 is not supported");
-         ret = -EINVAL;
-         goto fail_container;
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include <sys/ioctl.h>
+ #include <linux/vfio.h>
+ #include "qapi/error.h"
+@@ -316,6 +317,25 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
+         ret = -errno;
+         goto fail;
      }
++    if (!(iommu_info.flags & VFIO_IOMMU_INFO_PGSIZES)) {
++        error_setg(errp, "Failed to get IOMMU page size info");
++        ret = -errno;
++        goto fail;
++    }
++    if (!extract64(iommu_info.iova_pgsizes,
++                   ctz64(qemu_real_host_page_size), 1)) {
++        g_autofree char *host_page_size = size_to_str(qemu_real_host_page_size);
++        error_setg(errp, "Unsupported IOMMU page size: %s", host_page_size);
++        error_append_hint(errp, "Available page size:\n");
++        for (int i = 0; i < 64; i++) {
++            if (extract64(iommu_info.iova_pgsizes, i, 1)) {
++                g_autofree char *iova_pgsizes = size_to_str(1UL << i);
++                error_append_hint(errp, " %s\n", iova_pgsizes);
++            }
++        }
++        ret = -EINVAL;
++        goto fail;
++    }
+ 
+     s->device = ioctl(s->group, VFIO_GROUP_GET_DEVICE_FD, device);
+ 
 -- 
 2.26.2
 
