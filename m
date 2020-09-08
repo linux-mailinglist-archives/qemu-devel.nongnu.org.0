@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF8A260A2E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:38:36 +0200 (CEST)
-Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B30260AA3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:12:00 +0200 (CEST)
+Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFWKy-0006cc-2G
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1kFWrH-0005VU-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW4G-0007AV-6l; Tue, 08 Sep 2020 01:21:20 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:45191)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW4E-00069c-FV; Tue, 08 Sep 2020 01:21:19 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltkz2Nkcz9sWB; Tue,  8 Sep 2020 15:20:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599542411;
- bh=qGDKszCu7L1a5W4LErh5xaKIlShUztA7IfBe8gYA/fo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RmtPuAR2NgKD+Y10K7GgIhmWGAi2NwX47Kn7awWU02zxbKkEk0/voXGVrtgT/cW6Z
- +Hzrs3zbPempiYnTa0GnxYQRZYCfNAuApWz+02zqLlDq99fZ3xiCZmGrW+Dvyg8itY
- qf79sPgkZ6+QxfFzdpnOo2gJxFZysdT2wezpioIU=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 33/33] spapr_numa: use spapr_numa_get_vcpu_assoc() in home_node
- hcall
-Date: Tue,  8 Sep 2020 15:19:53 +1000
-Message-Id: <20200908051953.1616885-34-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
-References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFWqK-0004eQ-4d
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:11:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28524
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFWqF-0003GT-G9
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:10:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599545453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1KJcOj7PFAeL5QZ23SdIBNgoJPQzLJshAsJ+u4HbUoE=;
+ b=Mb2GJXybf53T/7O6dQvXiyWNQQdcsbpBfP8h4XsuX7+XKgltRbDeGnc4nCvKiDIcWLmdK5
+ sniZvsQYQFqeCuiwLJF7UybhFED12QQJWo4b2kZsz0gIFqAlJUkOc/T8ZQXyWf5eX5elv7
+ oqezL7jUFLONVcF6SBy7XmRrqm8yQLo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-EuNuflBtNr29TBE4pZy7Og-1; Tue, 08 Sep 2020 02:10:51 -0400
+X-MC-Unique: EuNuflBtNr29TBE4pZy7Og-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1EE18014D8
+ for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 06:10:50 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A84F3811BE;
+ Tue,  8 Sep 2020 06:10:47 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 960C317538; Tue,  8 Sep 2020 08:10:46 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Sirius/ipxe 20200908 patches
+Date: Tue,  8 Sep 2020 08:10:43 +0200
+Message-Id: <20200908061046.10871-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,99 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-The current implementation of h_home_node_associativity hard codes
-the values of associativity domains of the vcpus. Let's make
-it consider the values already initialized in spapr->numa_assoc_array,
-via the spapr_numa_get_vcpu_assoc() helper.
-
-We want to set it and forget it, and for that we also need to
-assert that we don't overflow the registers of the hypercall.
->From R4 to R9 we can squeeze in 12 associativity domains for
-vcpus, so let's assert that VCPU_ASSOC_SIZE -1 isn't greater
-than that.
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200904172422.617460-4-danielhb413@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_numa.c | 41 +++++++++++++++++++++++++++++++++--------
- 1 file changed, 33 insertions(+), 8 deletions(-)
-
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 066ffc2a5f..64fe567f5d 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -176,10 +176,11 @@ static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-                                               target_ulong opcode,
-                                               target_ulong *args)
- {
-+    g_autofree uint32_t *vcpu_assoc = NULL;
-     target_ulong flags = args[0];
-     target_ulong procno = args[1];
-     PowerPCCPU *tcpu;
--    int idx;
-+    int idx, assoc_idx;
- 
-     /* only support procno from H_REGISTER_VPA */
-     if (flags != 0x1) {
-@@ -191,16 +192,40 @@ static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-         return H_P2;
-     }
- 
--    /* sequence is the same as in the "ibm,associativity" property */
-+    /*
-+     * Given that we want to be flexible with the sizes and indexes,
-+     * we must consider that there is a hard limit of how many
-+     * associativities domain we can fit in R4 up to R9, which would be
-+     * 12 associativity domains for vcpus. Assert and bail if that's
-+     * not the case.
-+     */
-+    G_STATIC_ASSERT((VCPU_ASSOC_SIZE - 1) <= 12);
-+
-+    vcpu_assoc = spapr_numa_get_vcpu_assoc(spapr, tcpu);
-+    /* assoc_idx starts at 1 to skip associativity size */
-+    assoc_idx = 1;
- 
--    idx = 0;
- #define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
-                              ((uint64_t)(b) & 0xffffffff))
--    args[idx++] = ASSOCIATIVITY(0, 0);
--    args[idx++] = ASSOCIATIVITY(0, tcpu->node_id);
--    args[idx++] = ASSOCIATIVITY(procno, -1);
--    for ( ; idx < 6; idx++) {
--        args[idx] = -1;
-+
-+    for (idx = 0; idx < 6; idx++) {
-+        int32_t a, b;
-+
-+        /*
-+         * vcpu_assoc[] will contain the associativity domains for tcpu,
-+         * including tcpu->node_id and procno, meaning that we don't
-+         * need to use these variables here.
-+         *
-+         * We'll read 2 values at a time to fill up the ASSOCIATIVITY()
-+         * macro. The ternary will fill the remaining registers with -1
-+         * after we went through vcpu_assoc[].
-+         */
-+        a = assoc_idx < VCPU_ASSOC_SIZE ?
-+            be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
-+        b = assoc_idx < VCPU_ASSOC_SIZE ?
-+            be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
-+
-+        args[idx] = ASSOCIATIVITY(a, b);
-     }
- #undef ASSOCIATIVITY
- 
--- 
-2.26.2
+The following changes since commit e11bd71f89649da3cff439c030d2ccac0cc914e3=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-=
+09-07' into staging (2020-09-07 16:51:00 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/sirius/ipxe-20200908-pull-request=0D
+=0D
+for you to fetch changes up to 3e570a9ae9b966362596fd649f2cbcff0b2199c9:=0D
+=0D
+  ipxe: update binaries (2020-09-08 08:08:30 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+ipxe: update to aug 2020 snapshot.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (3):=0D
+  ipxe: update submodule=0D
+  ipxe: drop ia32 efi roms=0D
+  ipxe: update binaries=0D
+=0D
+ pc-bios/efi-e1000.rom    | Bin 240128 -> 159232 bytes=0D
+ pc-bios/efi-e1000e.rom   | Bin 240128 -> 159232 bytes=0D
+ pc-bios/efi-eepro100.rom | Bin 240128 -> 159232 bytes=0D
+ pc-bios/efi-ne2k_pci.rom | Bin 238592 -> 157696 bytes=0D
+ pc-bios/efi-pcnet.rom    | Bin 238592 -> 157696 bytes=0D
+ pc-bios/efi-rtl8139.rom  | Bin 242688 -> 160768 bytes=0D
+ pc-bios/efi-virtio.rom   | Bin 242688 -> 160768 bytes=0D
+ pc-bios/efi-vmxnet3.rom  | Bin 236032 -> 156672 bytes=0D
+ roms/Makefile            |   2 --=0D
+ roms/ipxe                |   2 +-=0D
+ 10 files changed, 1 insertion(+), 3 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
