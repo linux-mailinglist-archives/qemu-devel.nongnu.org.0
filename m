@@ -2,118 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5223C260D20
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:12:38 +0200 (CEST)
-Received: from localhost ([::1]:48548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F93D260D47
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:16:32 +0200 (CEST)
+Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYk1-0004dr-Df
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57636)
+	id 1kFYnn-0002Ik-2P
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYit-0003Zy-EV
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:11:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYiq-0000EY-TM
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:11:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599552683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7ZkbvDGEE8m1rwYosZmmDJHBOBgpJBR6c3t0GjBlbkM=;
- b=FSwTV0J48pU1U/zMtAAosmnAEjgO8pwxlcGi2df1g2YPVPU3VVfPWPzuIL15WjaVC8gEKa
- lP4aYxHQumwmnmhIliy0ZsLRpVTC5ik7xLtR4trh4Z2vEtf1oXEP4haIC5f3JQfd6AogmA
- 76wOvHU8R5U3Ua1EqI6JfLCYB7tjJ3s=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-h3VltLpIMyW6Hzo7tA99xA-1; Tue, 08 Sep 2020 04:11:19 -0400
-X-MC-Unique: h3VltLpIMyW6Hzo7tA99xA-1
-Received: by mail-wm1-f71.google.com with SMTP id c186so4440439wmd.9
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:11:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1kFYl9-0005ZT-0h
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:47 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:43632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1kFYl6-0000Q8-Mk
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:46 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id t14so4057304pgl.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dme5wOJZvNDhKpDBEi74Ima5Rw3hvZ52vtZKHURP4rY=;
+ b=mOXtCU3sfQYCyaYDEF3467iwanb/BnVVUkjRgJ2724aFN2GTTwczcMKw67aiTpzQ5/
+ UI9Zu7/cn5g/T3L2mfmcXHDtUG/PxYN0b5ZBq7lnY525LRfVnNNDV2KZK4mWrXcY2bZT
+ w2pzcBAxnL3OQIai+9TnuGN7CPNx6BkKHW1/0oqanZrxnkOyLReCyvoEtan2NYyfxPiV
+ WiMsjPiRsnRrfH6+q7KxYQ/TED3CDomAXsmWt3twbjY9LrCJTmBe8EwCskedRmMtD7TE
+ vKFH90buBGcoZ3Bl2NvCnbyhVIF3WGo+NrmnGXijgPMrXRk6U7S1pRujWt/DDlbLeqYB
+ lqIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=7ZkbvDGEE8m1rwYosZmmDJHBOBgpJBR6c3t0GjBlbkM=;
- b=BOFlTiVu5khGduEKxjTOTMju9MP041nBwoj74Uihh23hxL2KrEUBGsQNsUwyeBP6hz
- ogDm3DGEaHOwSuEMLiy+vz+fkjaYkvN2EsRcfrDtAVkDTFZDxBCILj+A3HZDkHXwynX7
- /4WiEcsWzhEyo3/qOjo9uff7NLi8eAEmBt76Njzr1QdkVcJryoBhLMT763nHI0UMSH7B
- 1i2S3Gz/VlUGzQ1eurAWIvXKsYWZHA/orTvk6H+UechC+EXYctoJom9+pgscqmlEV5HB
- tQ2V121hineUk7DAjbqh2Ewjdp3TFQ34D3yvcuT46UyYgdkUWI8K1S8Ftd+4OYTBk1pR
- NFZw==
-X-Gm-Message-State: AOAM533mGexZG8M5FdYDmHeGuLPx1N962J/3vIjUnvJlLulxJUccWa25
- a7shWiymVLqfCF5r4oeGHePV3u9GFV4zgyiX/yG/w1ns9gPI/sWdmCyAZ+1OdGKNC0B5SQUvqfJ
- 4mZTwZpUdDAvcz8w=
-X-Received: by 2002:adf:82d5:: with SMTP id 79mr21987197wrc.60.1599552678565; 
- Tue, 08 Sep 2020 01:11:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwd3l7pDTRHx4EDkDB786WStVVWJI6glYBtO/gVW88rcpF1cDbyBaWzTqve4rLIc9VJx3YpNw==
-X-Received: by 2002:adf:82d5:: with SMTP id 79mr21987177wrc.60.1599552678404; 
- Tue, 08 Sep 2020 01:11:18 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a20sm29157639wmm.40.2020.09.08.01.11.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 01:11:17 -0700 (PDT)
-Subject: Re: [PATCH 07/10] roms/Makefile.edk2: enable new ARM/AARCH64 flags up
- to edk2-stable202008
-To: Laszlo Ersek <lersek@redhat.com>, qemu devel list
- <qemu-devel@nongnu.org>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>
-References: <20200908072939.30178-1-lersek@redhat.com>
- <20200908072939.30178-8-lersek@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <14914f2d-73e0-dee4-9010-5a0479465529@redhat.com>
-Date: Tue, 8 Sep 2020 10:11:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=Dme5wOJZvNDhKpDBEi74Ima5Rw3hvZ52vtZKHURP4rY=;
+ b=CMrj/TvKwO9GtqbcrBFxefe0bWTaHK4lZ6E6sKlDxkS3AUf9CnTo+Ow/qI9thiKo4g
+ gPXB9T+ir/ewjiAJFn65r+mEh0pZ5GSJPJdn4i20gwTONGbnic9IafNrW89zfTZ3ytK+
+ uxmD+abtIBVhzAZQMa8zwh81CmlRV3Fb5lmHQXtyL+8XyB36PolmtfxwvTn5BR1UF6Tb
+ Qr+jgbJZCGwYbo1+3Q8trhukOirZlrn3fo0FiLM0fBzPDOBN1iHWq0CZOfVXVj1fxl+z
+ uA50v/s2NTEKTNdDNiCRO0wBRWWMEpGWK3PfLlBAYv66VELa5gXmuxso0XzPw752t+KN
+ KWvg==
+X-Gm-Message-State: AOAM530yQiNdoukoZgSaiPX1/L06XpvFqr9FHn8Q4dT0Bjp70kJvaTf1
+ wMikccFe6HPFD9ZhCQgbmATe
+X-Google-Smtp-Source: ABdhPJxYZmOfnfKjnuKddGmh9o43gJ69MZCZy6GnJIG0MbRVsrBPIY49ISgpgB2O/MUcvf3gRggxqA==
+X-Received: by 2002:a17:902:b108:b029:d0:cbe1:e770 with SMTP id
+ q8-20020a170902b108b02900d0cbe1e770mr102286plr.23.1599552822378; 
+ Tue, 08 Sep 2020 01:13:42 -0700 (PDT)
+Received: from localhost.localdomain ([147.75.106.138])
+ by smtp.gmail.com with ESMTPSA id m190sm16934788pfm.184.2020.09.08.01.13.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 01:13:41 -0700 (PDT)
+From: Haibo Xu <haibo.xu@linaro.org>
+To: drjones@redhat.com,
+	richard.henderson@linaro.org
+Subject: [PATCH v2 00/12] target/arm: Add vSPE support to KVM guest
+Date: Tue,  8 Sep 2020 08:13:18 +0000
+Message-Id: <cover.1599549462.git.haibo.xu@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200908072939.30178-8-lersek@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:11:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.825, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=haibo.xu@linaro.org; helo=mail-pg1-x52b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,58 +84,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
+ qemu-devel@nongnu.org, Haibo Xu <haibo.xu@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/20 9:29 AM, Laszlo Ersek wrote:
-> Edk2 commit ffe048a0807b ("ArmVirtPkg: handle NETWORK_TLS_ENABLE in
-> ArmVirtQemu*", 2019-06-28), part of edk2-stable201908, allows us to
-> include the UEFI HTTPS Boot feature in the ArmVirtQemu fw platform (ARM
-> and AARCH64).
-> 
-> Edk2 commit range 4c0f6e349d32..0980779a9ddc, part of edk2-stable202005,
-> added TPM2 support to ArmVirtQemu; enable it as well. (Unlike with OVMF
-> IA32 and X64, TPM-1.2 support is not included, hence the TPM2-specific
-> flag names.)
-> 
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Ref: https://bugs.launchpad.net/qemu/+bug/1852196
-> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+v2:
+  - Rebased on Andrew's patches[3]
+  - Added compat codes to enable vSPE only for the 5.2 and 
+    later machine types [Andrew]
+  - Changed to use the ID register bit to identify the spe
+    feature [Andrew/Richard]
+  - Added the missing field in AcpiMadtGenericCpuInterface
+    definition [Auger]
+  - Split the un-tested userspace irqchip support for vSPE
+    into a separate patch [Andrew]
+  - Added doc and qtest for vSPE [Andrew]
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Many thanks to Andrew, Richard, Philippe and Auger for their comments. 
 
-> ---
->  roms/Makefile.edk2 | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-> index 8cdf337fc1e9..a8ed3255757f 100644
-> --- a/roms/Makefile.edk2
-> +++ b/roms/Makefile.edk2
-> @@ -64,7 +64,10 @@ submodules:
->  		--arch=AARCH64 \
->  		--platform=ArmVirtPkg/ArmVirtQemu.dsc \
->  		-D NETWORK_IP6_ENABLE \
-> -		-D NETWORK_HTTP_BOOT_ENABLE
-> +		-D NETWORK_HTTP_BOOT_ENABLE \
-> +		-D NETWORK_TLS_ENABLE \
-> +		-D TPM2_ENABLE \
-> +		-D TPM2_CONFIG_ENABLE
->  	cp edk2/Build/ArmVirtQemu-AARCH64/DEBUG_$(call toolchain,aarch64)/FV/QEMU_EFI.fd \
->  		$@
->  	truncate --size=64M $@
-> @@ -75,7 +78,10 @@ submodules:
->  		--arch=ARM \
->  		--platform=ArmVirtPkg/ArmVirtQemu.dsc \
->  		-D NETWORK_IP6_ENABLE \
-> -		-D NETWORK_HTTP_BOOT_ENABLE
-> +		-D NETWORK_HTTP_BOOT_ENABLE \
-> +		-D NETWORK_TLS_ENABLE \
-> +		-D TPM2_ENABLE \
-> +		-D TPM2_CONFIG_ENABLE
->  	cp edk2/Build/ArmVirtQemu-ARM/DEBUG_$(call toolchain,arm)/FV/QEMU_EFI.fd \
->  		$@
->  	truncate --size=64M $@
-> 
+This series add support for SPE(Statistical Profiling Extension)[1]
+in KVM guest. It's based on Andrew Murray's kernel KVM patches V2[2],
+and has been tested to ensure that guest can use SPE with valid data.
+E.g.
+
+In host:
+$ ./qemu-system-aarch64 \
+        -cpu host -M virt,accel=kvm,gic-version=3 -nographic -m 2048M \
+        -kernel ./Image-new \
+        -initrd /boot/initrd.img-5.6.0-rc2+ \
+        -append "root=/dev/vda rw console=ttyAMA0" -nodefaults -serial stdio\
+        -drive if=none,file=./xenial.rootfs.ext4,id=hd0,format=raw \
+        -device virtio-blk-device,drive=hd0  \
+
+In guest:
+$ perf record -e arm_spe/ts_enable=1,pa_enable=1,pct_enable=1/ \
+        dd if=/dev/zero of=/dev/null count=1000
+$ perf report --dump-raw-trace > spe_buf.txt
+
+The spe_buf.txt should contain similar data as below:
+
+. ... ARM SPE data: size 135944 bytes
+.  00000000:  b0 f4 d3 29 10 00 80 ff a0                      PC 0xff80001029d3f4 el1 ns=1
+.  00000009:  99 0b 00                                        LAT 11 ISSUE
+.  0000000c:  98 0d 00                                        LAT 13 TOT
+.  0000000f:  52 16 00                                        EV RETIRED L1D-ACCESS TLB-ACCESS
+.  00000012:  49 00                                           LD
+.  00000014:  b2 d0 40 d8 70 00 00 ff 00                      VA 0xff000070d840d0
+.  0000001d:  9a 01 00                                        LAT 1 XLAT
+.  00000020:  00 00 00                                        PAD
+.  00000023:  71 a5 1f b3 20 14 00 00 00                      TS 86447955877
+.  0000002c:  b0 7c f9 29 10 00 80 ff a0                      PC 0xff80001029f97c el1 ns=1
+.  00000035:  99 02 00                                        LAT 2 ISSUE
+.  00000038:  98 03 00                                        LAT 3 TOT
+.  0000003b:  52 02 00                                        EV RETIRED
+.  0000003e:  48 00                                           INSN-OTHER
+.  00000040:  00 00 00                                        PAD
+.  00000043:  71 ef 1f b3 20 14 00 00 00                      TS 86447955951
+.  0000004c:  b0 f0 e9 29 10 00 80 ff a0                      PC 0xff80001029e9f0 el1 ns=1
+.  00000055:  99 02 00                                        LAT 2 ISSUE
+.  00000058:  98 03 00                                        LAT 3 TOT
+.  0000005b:  52 02 00                                        EV RETIRED
+
+If you want to disable the vSPE support, you can use the 'spe=off' cpu
+property:
+
+./qemu-system-aarch64 \
+        -cpu host,spe=off -M virt,accel=kvm,gic-version=3 -nographic -m 2048M \
+        -kernel ./Image-new \
+        -initrd /boot/initrd.img-5.6.0-rc2+ \
+        -append "root=/dev/vda rw console=ttyAMA0" -nodefaults -serial stdio\
+        -drive if=none,file=./xenial.rootfs.ext4,id=hd0,format=raw \
+        -device virtio-blk-device,drive=hd0  \
+
+Note:
+(1) Since the kernel patches are still under review, some of the macros
+    in the header files may be changed after merging. We may need to
+    update them accordingly. To be specific, if you want to have a try
+    on this patch series, you needs to replace on the kernel 5.5-rc2 based
+    series, and do minor changes:
+
+    -#define KVM_CAP_ARM_SPE_V1 179
+    +#define KVM_CAP_ARM_SPE_V1 184
+
+(2) These patches only add vSPE support in KVM mode, for TCG mode, I'm
+    not sure whether we need to support it.
+(3) Just followed the 'sve' property, we only allow this feature to be
+    removed from CPUs which enable it by default when the host cpu support it.
+
+[1]https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/
+   posts/statistical-profiling-extension-for-armv8-a
+[2]https://www.spinics.net/lists/arm-kernel/msg776228.html
+[3]https://www.mail-archive.com/qemu-devel@nongnu.org/msg727588.html
+
+Haibo Xu (12):
+  update Linux headers with new vSPE macros
+  target/arm/kvm: spe: Add helper to detect SPE when using KVM
+  target/arm/cpu: spe: Add an option to turn on/off vSPE support
+  target/arm: spe: Only enable SPE from 5.2 compat machines.
+  target/arm/kvm: spe: Unify device attr operation helper
+  target/arm/kvm: spe: Add device init and set_irq operations
+  hw/arm/virt: Move post cpu realize check into its own function
+  hw/arm/virt: Move kvm pmu setup to virt_cpu_post_init
+  hw/arm/virt: spe: Add SPE fdt binding for virt machine
+  target/arm/cpu: spe: Enable spe to work with host cpu
+  target/arm/kvm: spe: Enable userspace irqchip support.
+  target/arm: spe: Add corresponding doc and test.
+
+ docs/system/arm/cpu-features.rst |  20 ++++++
+ hw/arm/virt-acpi-build.c         |   3 +
+ hw/arm/virt.c                    | 116 +++++++++++++++++++++++--------
+ include/hw/acpi/acpi-defs.h      |   3 +
+ include/hw/arm/virt.h            |   2 +
+ linux-headers/asm-arm64/kvm.h    |   4 ++
+ linux-headers/linux/kvm.h        |   2 +
+ target/arm/cpu.c                 |  11 +++
+ target/arm/cpu.h                 |  17 +++++
+ target/arm/cpu64.c               |  57 +++++++++++++++
+ target/arm/kvm.c                 |  10 +++
+ target/arm/kvm64.c               |  56 +++++++++++++--
+ target/arm/kvm_arm.h             |  18 +++++
+ target/arm/monitor.c             |   2 +-
+ tests/qtest/arm-cpu-features.c   |   9 +++
+ 15 files changed, 294 insertions(+), 36 deletions(-)
+
+-- 
+2.17.1
 
 
