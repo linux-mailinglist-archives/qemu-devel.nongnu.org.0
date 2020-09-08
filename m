@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A38D260C94
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:55:03 +0200 (CEST)
-Received: from localhost ([::1]:53702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA4B260CAC
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:57:08 +0200 (CEST)
+Received: from localhost ([::1]:57504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYT0-0002QB-GX
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53892)
+	id 1kFYV1-00047T-Jf
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFYSJ-0001xq-63
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:54:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60264
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFYSH-0006Ug-Dn
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:54:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599551656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SPgfs/vw/hl5ABwcayG2BGaNk7AT4iznmA5rCj/73Ng=;
- b=M3tbeitr5ba+TA/E8T+SgmR+t+T/mcOhpNRAP8vY/3uU+OEQ1iXGcGjMIPetOev0CaiQwH
- P9ShCWJy1RnOyb8FM4hWi9mSMG/qaH4p6/tmtyKuW8pL3kA2ce4IvHgFPMax4ZJWY5VTRW
- d/MZuyfHBdHDOiKc/kmHpXFnz8rhDhs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-YhSODPN6PTKxPswxiV-0Zg-1; Tue, 08 Sep 2020 03:54:14 -0400
-X-MC-Unique: YhSODPN6PTKxPswxiV-0Zg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD2521074642;
- Tue,  8 Sep 2020 07:54:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
- [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A500F82460;
- Tue,  8 Sep 2020 07:54:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0BC1A1132B59; Tue,  8 Sep 2020 09:54:10 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v4 8/8] hw/arm/tosa: Make TYPE_TOSA_MISC_GPIO a
- plain QDev
-References: <20200907163257.46527-1-f4bug@amsat.org>
- <20200907163257.46527-9-f4bug@amsat.org>
-Date: Tue, 08 Sep 2020 09:54:09 +0200
-In-Reply-To: <20200907163257.46527-9-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 7 Sep 2020 18:32:57
- +0200")
-Message-ID: <87h7s8g0v2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kFYU9-0003FP-H0
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:56:13 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38079)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kFYU6-0006t6-SX
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:56:13 -0400
+Received: by mail-wm1-x344.google.com with SMTP id l9so16157552wme.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 00:56:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ylO4jrjrlAQ2lXutzxooc+bJ5b0Obl8J096TbkcCXnA=;
+ b=EugSNvo5NlXFSDjpMjiEGoSWknTA/+Eqd/Lpb62QpYtIseSrDmPOT3Jbv0Fn0HJUrT
+ M3VawcH+cKKpqze2Vhe4B1X5XSIy4oB3Lq5qxencfGRo/ygj+EqMqgm4sTE/kinedQOK
+ Bnkuy/nAwxKYgrgCXZRYuya/enqXXdEChVKjXRLfQJYSfmmQv98aSNGER97qKvtsWbrd
+ Y+81dpxGfVcbdEUORBOiJiGtOxZ6wW8P/cSfZ7HthpdZuJhnBTTX+hghrbr7/TT41jK0
+ A3xcN4LeXHf4mY3ZM9iNew2lrv3kRsNpLKiJf7XX62G8U1lgPiBgf79L/dE2D53ZTxhI
+ PH1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ylO4jrjrlAQ2lXutzxooc+bJ5b0Obl8J096TbkcCXnA=;
+ b=HXyOnGnJkCnSWpLrXQ582wu7W5tgSQ23XVvQI5JcWKkI64+pQA+VvpRNsgxJShwaph
+ b1T6dHuDD8gI5spXsm9ktvS5Zg/nTsrwrfaLJj/XbDCd/wHoKnIkCjxo2tbEN7MNdJBy
+ eVCVSTivoIPDBQZCIr4mf4hodjFBq9ZjPleUsEvE1oRgnFlfhlYMIqiCiVTtoYp7P6Z9
+ oUo6M9TDl598T2clFcYnQORrRzPRwuVwCERXefxAyvBq7bZ2+ZPY3ApEqTD9BMMvKqx6
+ QgZijHhJRbEgk3wVV0sJYguTvVtWm0sYCwdHmQfEyY1yd2Rt67otJdGTxx+tBczOvwSz
+ HPJQ==
+X-Gm-Message-State: AOAM533u2JWmJDkBBlmub+rvbUPlaOEcHary5rkvUbvb4yaqfiF71/3I
+ KsKB84JalG3ZdfDv9deuIdw=
+X-Google-Smtp-Source: ABdhPJzzsMzK+GrnTboopeVNeVcq30l8Ui70SMuE9sNBcHd6gaix/ug8FkfSJR/5BTSgagyLI5c/4A==
+X-Received: by 2002:a1c:f415:: with SMTP id z21mr3036013wma.88.1599551769019; 
+ Tue, 08 Sep 2020 00:56:09 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id a83sm30380677wmh.48.2020.09.08.00.56.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Sep 2020 00:56:08 -0700 (PDT)
+Subject: Re: [PULL 3/5] softmmu/cpus: Only set parallel_cpus for SMP
+To: Claudio Fontana <cfontana@suse.de>
+References: <20200903214101.1746878-1-richard.henderson@linaro.org>
+ <20200903214101.1746878-4-richard.henderson@linaro.org>
+ <1f573d2d-b3bb-21ab-bbcd-b759fc14ad2b@suse.de>
+ <3dfae924-34c9-e36a-77bf-f3abcdeaf268@amsat.org>
+ <7454d121-3ebd-623a-55a3-4ba6e7e870dc@suse.de>
+ <e47376bf-8ced-57eb-93d5-a1229d258dd6@amsat.org>
+ <75c313df-da09-f3c2-5d34-0bfaad4290a9@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <652516a1-6a63-89eb-8b04-728a95b76d5f@amsat.org>
+Date: Tue, 8 Sep 2020 09:56:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <75c313df-da09-f3c2-5d34-0bfaad4290a9@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.825,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,126 +96,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Joaquin de Andres <me@xcancerberox.com.ar>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
++Laurent
 
-> TYPE_TOSA_MISC_GPIO doesn't need to be a SysBus device,
-> make it a plain QDev.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> RFC because having to pass MachineState and call
-> object_property_add_child() simply makes things more
-> complex... but it seems to cleaner QOM design.
+On 9/8/20 9:09 AM, Claudio Fontana wrote:
+> On 9/7/20 6:49 PM, Philippe Mathieu-Daudé wrote:
+>> On 9/7/20 6:30 PM, Claudio Fontana wrote:
+>>> On 9/7/20 12:20 PM, Philippe Mathieu-Daudé wrote:
+>>>> On 9/7/20 12:05 PM, Claudio Fontana wrote:
+>>>>> Hi Richard,
+>>>>>
+>>>>> currently rebasing on top of this one,
+>>>>> just a question, why is the patch not directly using "current_machine"?
+>>>>
+>>>> For user mode?
+>>>
+>>> In user mode I'd not expect softmmu/cpus.c to be built at all...
+>>
+>> Which is why :) current_machine is NULL in user-mode.
+> 
+> Ciao Philippe,
+> 
+> then why does the patch change softmmu/cpus.c in a way that accounts for user mode?
+> 
+> The function that the patch changes is never called in user mode.
+> 
+> The patch could instead use current_machine without any concern of it being NULL, it will always be set in vl.c .
 
-Well, what devices really *need* to be sysbus devices?
+Better send a patch to prove your point :)
 
-The question is trivial for "real" buses, such as PCI, USB, and so
-forth: a device is a FOO device when it plugs into a FOO bus.
+I have bad remember about the last time I tried to understand/modify
+that part, because IIRC the user-mode creates some fake machine to
+satisfy various QEMU generic code assumptions. Sincerely I now prefer
+stay away from this; too many unmerged patches there.
 
-Sysbus is quite unlike these "real" buses.  It exists because qdev
-initially *required* qdevs to plug into a qbus, so we made up a qbus for
-the devices that don't plug into any of our "real" buses[1].
-
-I figure all sysbus devices could be coded as bus-less devices today.
-So the answer to "what devices really *need* to be sysbus devices?" is
-"none".
-
-I think a more useful question is what devices *should* be coded as
-sysbus devices vs. bus-less devices.
-
-Sysbus is more than just a dummy qbus.  It's a software interface that
-provides useful stuff.  To use it, the device needs to be a
-SysBusDevice.  This leads to a partial answer: if the device profits
-from stuff we provide only to SysBusDevices, it should be one.
-
-Perhaps the useful stuff could be separated from SysBusDevice.  Then
-this partial answer evaporates.
-
-There is just one instance of TYPE_SYSTEM_BUS[2].  This leads to another
-partial answer: if the device can be part of another device, it should
-not be a SysBusDevice.
-
-Sysbus also enables "dynamic" sysbus devices.  Shoehorning them into
-SysBusDevice may have been a mistake.
-
-> Cc: Markus Armbruster <armbru@redhat.com>
-
-Cc: QOM maintainers for actual QOM expertise :)
-
-
-[1] sysbus.h describes itself as "Devices attached directly to the main
-system bus".  I think that's an (unconscious?) attempt to rationalize
-away its peculiar role.
-
-[2] Exception: TYPE_MACIO_BUS (used by g3beige and mac99) is a subtype
-of TYPE_SYSTEM_BUS.
-
-
-> ---
->  hw/arm/tosa.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-> index f23651fd775..524d5fcd10b 100644
-> --- a/hw/arm/tosa.c
-> +++ b/hw/arm/tosa.c
-> @@ -79,7 +79,7 @@ static void tosa_microdrive_attach(PXA2xxState *cpu)
->      OBJECT_CHECK(TosaMiscGPIOState, (obj), TYPE_TOSA_MISC_GPIO)
-> =20
->  typedef struct TosaMiscGPIOState {
-> -    SysBusDevice parent_obj;
-> +    DeviceState parent_obj;
->  } TosaMiscGPIOState;
-> =20
->  static void tosa_reset(void *opaque, int line, int level)
-> @@ -96,7 +96,7 @@ static void tosa_misc_gpio_init(Object *obj)
->      qdev_init_gpio_in_named(dev, tosa_reset, "reset", 1);
->  }
-> =20
-> -static void tosa_gpio_setup(PXA2xxState *cpu,
-> +static void tosa_gpio_setup(MachineState *machine, PXA2xxState *cpu,
->                  DeviceState *scp0,
->                  DeviceState *scp1,
->                  TC6393xbState *tmio)
-> @@ -104,7 +104,10 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
->      DeviceState *misc_gpio;
->      LEDState *led[4];
-> =20
-> -    misc_gpio =3D sysbus_create_simple(TYPE_TOSA_MISC_GPIO, -1, NULL);
-> +    misc_gpio =3D qdev_new(TYPE_TOSA_MISC_GPIO);
-> +    object_property_add_child(OBJECT(machine), "pcb-container",
-> +                              OBJECT(misc_gpio));
-> +    qdev_realize_and_unref(misc_gpio, NULL, &error_fatal);
-> =20
->      /* MMC/SD host */
->      pxa2xx_mmci_handlers(cpu->mmc,
-> @@ -253,7 +256,7 @@ static void tosa_init(MachineState *machine)
->      scp0 =3D sysbus_create_simple("scoop", 0x08800000, NULL);
->      scp1 =3D sysbus_create_simple("scoop", 0x14800040, NULL);
-> =20
-> -    tosa_gpio_setup(mpu, scp0, scp1, tmio);
-> +    tosa_gpio_setup(machine, mpu, scp0, scp1, tmio);
-> =20
->      tosa_microdrive_attach(mpu);
-> =20
-> @@ -307,7 +310,7 @@ static const TypeInfo tosa_ssp_info =3D {
-> =20
->  static const TypeInfo tosa_misc_gpio_info =3D {
->      .name          =3D TYPE_TOSA_MISC_GPIO,
-> -    .parent        =3D TYPE_SYS_BUS_DEVICE,
-> +    .parent        =3D TYPE_DEVICE,
->      .instance_size =3D sizeof(TosaMiscGPIOState),
->      .instance_init =3D tosa_misc_gpio_init,
->      /*
-
+> 
+> Ciao,
+> 
+> Claudio
+> 
+>>
+>>>
+>>> Ciao,
+>>>
+>>> Claudio
+>>>
+>>>>
+>>>>>
+>>>>> Is using MACHINE(qdev_get_machine()) preferrable here?
+>>>>>
+>>>>> Thanks,
+>>>>>
+>>>>> Claudio
+>>>>>
+>>>>> On 9/3/20 11:40 PM, Richard Henderson wrote:
+>>>>>> Do not set parallel_cpus if there is only one cpu instantiated.
+>>>>>> This will allow tcg to use serial code to implement atomics.
+>>>>>>
+>>>>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>>>>> ---
+>>>>>>  softmmu/cpus.c | 11 ++++++++++-
+>>>>>>  1 file changed, 10 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+>>>>>> index a802e899ab..e3b98065c9 100644
+>>>>>> --- a/softmmu/cpus.c
+>>>>>> +++ b/softmmu/cpus.c
+>>>>>> @@ -1895,6 +1895,16 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
+>>>>>>      if (!tcg_region_inited) {
+>>>>>>          tcg_region_inited = 1;
+>>>>>>          tcg_region_init();
+>>>>>> +        /*
+>>>>>> +         * If MTTCG, and we will create multiple cpus,
+>>>>>> +         * then we will have cpus running in parallel.
+>>>>>> +         */
+>>>>>> +        if (qemu_tcg_mttcg_enabled()) {
+>>>>>> +            MachineState *ms = MACHINE(qdev_get_machine());
+>>>>>
+>>>>> MachineState *ms = current_machine;
+>>>>> ?
+>>>>>
+>>>>>
+>>>>>> +            if (ms->smp.max_cpus > 1) {
+>>>>>> +                parallel_cpus = true;
+>>>>>> +            }
+>>>>>> +        }
+>>>>>>      }
+>>>>>>  
+>>>>>>      if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
+>>>>>> @@ -1904,7 +1914,6 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
+>>>>>>  
+>>>>>>          if (qemu_tcg_mttcg_enabled()) {
+>>>>>>              /* create a thread per vCPU with TCG (MTTCG) */
+>>>>>> -            parallel_cpus = true;
+>>>>>>              snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+>>>>>>                   cpu->cpu_index);
+>>>>>>  
+>>>>>>
+>>>>>
+>>>>>
+>>>
+>>>
+> 
+> 
 
