@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD26260D6A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:20:52 +0200 (CEST)
-Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29738260D81
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:23:53 +0200 (CEST)
+Received: from localhost ([::1]:60542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYrz-00016F-RX
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:20:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58634)
+	id 1kFYuu-0004DP-8S
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYlS-0006QM-PE
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:14:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59231
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYu5-0003nJ-IX
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:23:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55188
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYlQ-0000WO-Oo
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:14:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFYu3-0001bW-DW
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:23:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599552843;
+ s=mimecast20190719; t=1599553378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wpgqHe7X0D0s6EE/jL295E8Ejo2SPhCQY5awtGHNuxQ=;
- b=VUChqni2x+ELD+qkUNKiiRK4hldwJGpKa5lsO1+XoPfN8jTFcOBWjxtIUY6D0zx+FruQyO
- 1Jp1K+BObnug399z4Ae+lVZgalE9kUJ1g+8K2MdVt1M+UsFNFRvq79Z+elv8ihJyAFCc+m
- RdC0r9W4VfX7+ar8BGJTJE6/XWUWAW4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-wv1WTZD3Mxy35W9jl-V8NQ-1; Tue, 08 Sep 2020 04:13:59 -0400
-X-MC-Unique: wv1WTZD3Mxy35W9jl-V8NQ-1
-Received: by mail-wm1-f71.google.com with SMTP id l26so3194193wmg.7
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:13:59 -0700 (PDT)
+ bh=1mxoaWMs8wFqOLi9pm9/hlvh0zyWqwL+EPmboWlIccs=;
+ b=Mx+6e+dkD1+hoCrYGK0YxvGXqM0SyRa5b9aoIoecPrjOFlcFnlaDXt9FQnTf1+VYeDh8iL
+ DhM66h/sm0biD7dvHpktG6M9Rtw5RDM6mwnY7wez7FNRsRCf7txhd+Zr5YxOIbxLrxB+UP
+ jXfrVfETNwOMu8qRcL0FjAb/CvFwGgM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-gIqwgQvXMyaHQRCVmmQq4g-1; Tue, 08 Sep 2020 04:22:55 -0400
+X-MC-Unique: gIqwgQvXMyaHQRCVmmQq4g-1
+Received: by mail-wr1-f70.google.com with SMTP id v12so6702636wrm.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:22:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wpgqHe7X0D0s6EE/jL295E8Ejo2SPhCQY5awtGHNuxQ=;
- b=VH5Rekx7ZiWgTHMmVl65+pd8aNDhTR8G5k1GC3YsTuthjYdtAeWwa+O+JQov3GfCFf
- uZtZBJj5xNwsqMPz6TWD6b35ZCJWjYH7LvW1+aRqFSEAz+YeY1KEzOZhDoMGqKXdPoLp
- N2fAA27Tct8GbDc0S37gRcTpaUreHiZX7dH3trS0BOTioyrR/UTh7M4PxaQukH6/B2g/
- +ws21u/bCS7tpXw28bDygUNId/suA028z+wislWxas+6vKxq0pJxK2P0DV4Yw/eVYlaR
- THYaOJ07IPSxnKeRol77x+9aAQjJTYFnCgTPYukYLg97gET7aDjqthMsD+AzXye6wlwX
- 1nYw==
-X-Gm-Message-State: AOAM531vzltksGpsV4VwPfT1FD164XcjIhdGa6fj2gJ9eRynC3qzqqrf
- jWbD0qynDDWPJ6RApQkqi4gzwWAhTgaNm238vQQ5ahKtOypp4AVLlI6+K5qAiCleiVPvncrleVP
- dzbd/DlHj0o3z+Gc=
-X-Received: by 2002:a7b:c92b:: with SMTP id h11mr3103893wml.6.1599552838482;
- Tue, 08 Sep 2020 01:13:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7uv5MW3KOjnRetYyCMa/WR3LXAgG3leEfeoeL9Qf9qIDwuFJ+DJ6T8oWuy+Z4el0kKaLOJQ==
-X-Received: by 2002:a7b:c92b:: with SMTP id h11mr3103882wml.6.1599552838315;
- Tue, 08 Sep 2020 01:13:58 -0700 (PDT)
+ bh=1mxoaWMs8wFqOLi9pm9/hlvh0zyWqwL+EPmboWlIccs=;
+ b=shFxYO82FmXMXV3sL1Tn7NpllWcsszOREUclXBXLjU7lsA8FK/a1vn/LuyTrXSJvtd
+ 8IixfRAttyJcW6jnncGag085MX6R2GiYntHtp+D8zs+EYwvTQ0XEzhWudGA17GzSjiEL
+ vuItFvTaUmNNvc0gwyw/YrWdbBdqgR7n6ND6qpsRk0kk8rq5gQl8EjWk+kotmtcCoSxw
+ NFCC78w7emOoFaAQuqtqF9wVhFnQ26TYuIONJ1Hv217Ml1vaLxm931UfX4AWkWeyCntp
+ n184HgEn1M4IOFw+QY4218HdObTdZgJg0RqlUAEiywKQ3M4n2n4DXLmU+ByU+lXv0mbS
+ KunQ==
+X-Gm-Message-State: AOAM533NYsPztM9HjivcoOnan5ayiLcTUwfTUaVmpWF++j34oGz4LYnE
+ 3j68J0R+b/c8YP4yTLYm67w9pOj09adFOlxznCktPPQwbrEXMMsw1far1DI4Ns62qKo6p46qnvL
+ pTja8HVRel7ZQAJs=
+X-Received: by 2002:a1c:e1d6:: with SMTP id y205mr3186986wmg.92.1599553373721; 
+ Tue, 08 Sep 2020 01:22:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEU7zhNqwReAwToh4+7ZMqwXUX/idR7C0+Ww968e/f/XhIKYjM9AR9MbryTiyJ+PGxaZazhw==
+X-Received: by 2002:a1c:e1d6:: with SMTP id y205mr3186972wmg.92.1599553373518; 
+ Tue, 08 Sep 2020 01:22:53 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id q12sm32468706wrs.48.2020.09.08.01.13.57
+ by smtp.gmail.com with ESMTPSA id y5sm22773236wrh.6.2020.09.08.01.22.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 01:13:57 -0700 (PDT)
-Subject: Re: [PATCH 01/10] Makefile: remove obsolete edk2 exception from
- "clean" rule
+ Tue, 08 Sep 2020 01:22:52 -0700 (PDT)
+Subject: Re: [PATCH 05/10] roms/edk2: update submodule from edk2-stable201905
+ to edk2-stable202008
 To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
 References: <20200908072939.30178-1-lersek@redhat.com>
- <20200908072939.30178-2-lersek@redhat.com>
+ <20200908072939.30178-6-lersek@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,22 +88,22 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <441bfbde-2751-a5a6-3c88-c810fbd303c5@redhat.com>
-Date: Tue, 8 Sep 2020 10:13:56 +0200
+Message-ID: <1356c404-517c-cf5c-bc04-04237c03f572@redhat.com>
+Date: Tue, 8 Sep 2020 10:22:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200908072939.30178-2-lersek@redhat.com>
+In-Reply-To: <20200908072939.30178-6-lersek@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -127,36 +127,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Laszlo,
+
 On 9/8/20 9:29 AM, Laszlo Ersek wrote:
-> The file "BaseTools/Source/Python/UPT/Dll/sqlite3.dll" was removed in edk2
-> commit 26e2b295ec7a ("BaseTools:Remove unused
-> BaseTools\Source\Python\UPT\Dll", 2019-05-08), part of edk2-stable201905,
-> so skipping it in the outermost in-tree "clean" rule is unnecessary.
-> 
-> Remove the obsolete pathname reference.
+> Update the edk2 submodule from release edk2-stable201905 to
+> edk2-stable202008. The release notes can be read at
+[...]
 > 
 > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
 > Ref: https://bugs.launchpad.net/qemu/+bug/1852196
 > Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
 > ---
->  Makefile | 1 -
->  1 file changed, 1 deletion(-)
+>  roms/edk2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Makefile b/Makefile
-> index ed354c43b0ba..485f56d336fe 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -201,7 +201,6 @@ clean: recurse-clean ninja-clean clean-ctlist
->  	find . \( -name '*.so' -o -name '*.dll' -o -name '*.[oda]' \) -type f \
->  		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
->  		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
-> -		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
->  		-exec rm {} +
->  	rm -f TAGS cscope.* *.pod *~ */*~
->  	rm -f fsdev/*.pod scsi/*.pod
-> 
+> diff --git a/roms/edk2 b/roms/edk2
+> index 20d2e5a125e3..06dc822d045c 160000
+> --- a/roms/edk2
+> +++ b/roms/edk2
+> @@ -1 +1 @@
+> -Subproject commit 20d2e5a125e34fc8501026613a71549b2a1a3e54
+> +Subproject commit 06dc822d045c2bb42e497487935485302486e151
+
+FYI applying this I got:
+
+Fetching submodule roms/edk2
+Fetching submodule roms/edk2/CryptoPkg/Library/OpensslLib/openssl
+From https://github.com/openssl/openssl
+Could not access submodule 'krb5'
+Errors during submodule fetch:
+        CryptoPkg/Library/OpensslLib/openssl
+Errors during submodule fetch:
+        roms/edk2
+
+Probably harmless, as if one care about this submodule,
+will run "make edk2-basetools" which runs 'git submodule
+update --init --force' and silently fixes the submodules.
 
 
