@@ -2,53 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8726261263
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:10:00 +0200 (CEST)
-Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F39926126A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:12:00 +0200 (CEST)
+Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFeJr-0003bu-Ub
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32958)
+	id 1kFeLn-0005y2-DU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kFeJ3-0002dW-Gn; Tue, 08 Sep 2020 10:09:09 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:34004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kFeJ0-0004GP-2a; Tue, 08 Sep 2020 10:09:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=iURH801BBUb7sWphpIXEwbs0fpz4AS7JQPtbXPlcCuQ=; 
- b=ADxM9t4/x5czklqh4/H94oCMbyss7RRYmrzXMlZLQ8F6Wyt33eAGzeT2wD1KA18CsnJp+eHurnZPp3Mo4d6eZKAplszjsyhrXiGVmVGSLGArzR+vdTrL+SAE8dpSLsaMVnBkOfcVNVaebXxd/Ks/nQ0wBy02SkeHaHT5flqq76VOg4ZXTioPinHsr73+St5TpBh+VYeo5e2xQB8F5O5vHDuNylSyhRYz/+VcrrWVcSK17n4TR3oU3Tcqff7neevQiHpFIPvqv3x22FYPu64SgURnqItrHUZSbMbVDlpYDxH92t8F9WSUcoQLnzW/UQ7HGgkBRTmXgRGMouGwWuoGhw==;
-Received: from [81.0.33.67] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kFeIe-0007AN-3R; Tue, 08 Sep 2020 16:08:44 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1kFeIR-0001zR-9q; Tue, 08 Sep 2020 16:08:31 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] qcow2: Make qcow2_free_any_clusters() free only one
- cluster
-Date: Tue,  8 Sep 2020 16:08:28 +0200
-Message-Id: <77cea0f4616f921d37e971b3c5b18a2faa24b173.1599573989.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1599573989.git.berto@igalia.com>
-References: <cover.1599573989.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kFeKk-0005AM-OI
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:10:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55956
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kFeKi-0004ic-LO
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:10:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599574251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5covbJKT75WZIzPtkv98IYTBTRKsJYuPhXwWzD+JnmA=;
+ b=DKNaYhWh4x1Cq1RDUTRGbs8a4zHjh4wNhaSP0Zy//LKEAa0EVj+y7dAMCr1WBnzJPcw1YH
+ LyBnYbAUagT6Yis463WhdxJcdxYq9tm7279UI9ICgrsHN4jR6hNki4uesn1T6xXY9kiFxQ
+ oka9zCiCNjb7Z/b/5EvadYClu+8NfCQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-XSVCuwvRMbuenWefG2N2zw-1; Tue, 08 Sep 2020 10:10:50 -0400
+X-MC-Unique: XSVCuwvRMbuenWefG2N2zw-1
+Received: by mail-wm1-f70.google.com with SMTP id x6so505133wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:10:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=5covbJKT75WZIzPtkv98IYTBTRKsJYuPhXwWzD+JnmA=;
+ b=Wsdm+KYyGQNTINbYZMFZHMhvHJmGD0LqLA3pxSLvN61PrG6BG8hbucbmETJGHG+2sn
+ 986uJU0WK7Q1WOE0GeQ7Ww/l5AkaqGWKI5Zw+1kqygrghFd2IbmhKZhGXSj3LjjSSc/I
+ brSrHQV9whtkPbP0wyLyOAX2DK4PBvz128TMc+Yqa5inBqSumLzXY/0xGVvFAEBv/ZtU
+ 5d1d8T+ch07zvqT6NFIGAH96YzDkrsG/LhcU99h7lMISzIwEsaZDMWcXQlZpkrtIC6vI
+ 8ds5x3YWHObZGrpmkrEQTuSFjawx9f5bQjBqhazvt2xWwkC1aFiIzdrVZvynZiQJIDFz
+ NrqQ==
+X-Gm-Message-State: AOAM532Ng0uq1xNMvepValIeYXDAWnxQG3bLishwBH+mmPODv5QaN5WI
+ +d2PnPj4pkHCIQVdMFYCRQtO+vOzTuGfRPuTnL3THIYw7RmA38gl8yOQ+ymdG3aY5YtaBQFXQR+
+ pPLplWGuUGKy0k4M=
+X-Received: by 2002:a05:6000:1282:: with SMTP id
+ f2mr29139555wrx.251.1599574249053; 
+ Tue, 08 Sep 2020 07:10:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOAFfUwGlxInB4jiGda8piR6tkAIGaZBEuFiOXwDZpMvTHv0es+2olATTRLFNKq8xCnfXYug==
+X-Received: by 2002:a05:6000:1282:: with SMTP id
+ f2mr29139535wrx.251.1599574248846; 
+ Tue, 08 Sep 2020 07:10:48 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-218-236.inter.net.il. [80.230.218.236])
+ by smtp.gmail.com with ESMTPSA id
+ t6sm9279883wre.30.2020.09.08.07.10.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 07:10:47 -0700 (PDT)
+Date: Tue, 8 Sep 2020 10:10:44 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [PATCH v2] virtio-mem: detach the element from the virtqueue
+ when error occurs
+Message-ID: <20200908101025-mutt-send-email-mst@kernel.org>
+References: <20200816142245.17556-1-liq3ea@163.com>
+ <CAKXe6SJjrTZ5cW3h227MUpPt8jsPimcrjiN8-WXSbVCZvdkCFg@mail.gmail.com>
+ <CAKXe6SLt8r3bm0bGiGQ5sPoz-8xWrZkpnRFa1GEaT5_iRO1+Rg@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAKXe6SLt8r3bm0bGiGQ5sPoz-8xWrZkpnRFa1GEaT5_iRO1+Rg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 10:08:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,107 +102,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Li Qiang <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function takes an L2 entry and a number of clusters to free.
-Although in principle it can free any type of cluster (using the L2
-entry to determine its type) in practice the API is broken because
-compressed clusters have a variable size and there is no way to free
-more than one without having the L2 entry of each one of them.
+For some reason I didn't receive the original email.
+Sorry.
+Queued now.
 
-The good news all callers are passing nb_clusters=1 so we can simply
-get rid of that parameter.
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2.h          | 4 ++--
- block/qcow2-cluster.c  | 6 +++---
- block/qcow2-refcount.c | 8 ++++----
- 3 files changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 065ec3df0b..bb6358121d 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -855,8 +855,8 @@ int64_t qcow2_alloc_bytes(BlockDriverState *bs, int size);
- void qcow2_free_clusters(BlockDriverState *bs,
-                           int64_t offset, int64_t size,
-                           enum qcow2_discard_type type);
--void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
--                             int nb_clusters, enum qcow2_discard_type type);
-+void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
-+                            enum qcow2_discard_type type);
- 
- int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-     int64_t l1_table_offset, int l1_size, int addend);
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 996b3314f4..89c561e4c0 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1096,7 +1096,7 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
-      */
-     if (!m->keep_old_clusters && j != 0) {
-         for (i = 0; i < j; i++) {
--            qcow2_free_any_clusters(bs, old_cluster[i], 1, QCOW2_DISCARD_NEVER);
-+            qcow2_free_any_cluster(bs, old_cluster[i], QCOW2_DISCARD_NEVER);
-         }
-     }
- 
-@@ -1911,7 +1911,7 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
-             set_l2_bitmap(s, l2_slice, l2_index + i, new_l2_bitmap);
-         }
-         /* Then decrease the refcount */
--        qcow2_free_any_clusters(bs, old_l2_entry, 1, type);
-+        qcow2_free_any_cluster(bs, old_l2_entry, type);
-     }
- 
-     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
-@@ -2003,7 +2003,7 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
- 
-         qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-         if (unmap) {
--            qcow2_free_any_clusters(bs, old_l2_entry, 1, QCOW2_DISCARD_REQUEST);
-+            qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
-         }
-         set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
-         if (has_subclusters(s)) {
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index aae52607eb..fc9bb2258f 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1156,8 +1156,8 @@ void qcow2_free_clusters(BlockDriverState *bs,
-  * Free a cluster using its L2 entry (handles clusters of all types, e.g.
-  * normal cluster, compressed cluster, etc.)
-  */
--void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
--                             int nb_clusters, enum qcow2_discard_type type)
-+void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
-+                            enum qcow2_discard_type type)
- {
-     BDRVQcow2State *s = bs->opaque;
-     QCow2ClusterType ctype = qcow2_get_cluster_type(bs, l2_entry);
-@@ -1168,7 +1168,7 @@ void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
-              ctype == QCOW2_CLUSTER_ZERO_ALLOC))
-         {
-             bdrv_pdiscard(s->data_file, l2_entry & L2E_OFFSET_MASK,
--                          nb_clusters << s->cluster_bits);
-+                          s->cluster_size);
-         }
-         return;
-     }
-@@ -1191,7 +1191,7 @@ void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
-                                     l2_entry & L2E_OFFSET_MASK);
-         } else {
-             qcow2_free_clusters(bs, l2_entry & L2E_OFFSET_MASK,
--                                nb_clusters << s->cluster_bits, type);
-+                                s->cluster_size, type);
-         }
-         break;
-     case QCOW2_CLUSTER_ZERO_PLAIN:
--- 
-2.20.1
+On Mon, Sep 07, 2020 at 09:36:40AM +0800, Li Qiang wrote:
+> Ping!
+> 
+> Li Qiang <liq3ea@gmail.com> 于2020年8月28日周五 上午9:21写道：
+> >
+> > Kindly ping.
+> >
+> > Li Qiang <liq3ea@163.com> 于2020年8月16日周日 下午10:23写道：
+> > >
+> > > If error occurs while processing the virtio request we should call
+> > > 'virtqueue_detach_element' to detach the element from the virtqueue
+> > > before free the elem.
+> > >
+> > > Signed-off-by: Li Qiang <liq3ea@163.com>
+> > > ---
+> > > Change since v1:
+> > > Change the subject
+> > > Avoid using the goto label
+> > >
+> > >  hw/virtio/virtio-mem.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> > > index 7740fc613f..e6ffc781b3 100644
+> > > --- a/hw/virtio/virtio-mem.c
+> > > +++ b/hw/virtio/virtio-mem.c
+> > > @@ -318,6 +318,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+> > >          if (iov_to_buf(elem->out_sg, elem->out_num, 0, &req, len) < len) {
+> > >              virtio_error(vdev, "virtio-mem protocol violation: invalid request"
+> > >                           " size: %d", len);
+> > > +            virtqueue_detach_element(vq, elem, 0);
+> > >              g_free(elem);
+> > >              return;
+> > >          }
+> > > @@ -327,6 +328,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+> > >              virtio_error(vdev, "virtio-mem protocol violation: not enough space"
+> > >                           " for response: %zu",
+> > >                           iov_size(elem->in_sg, elem->in_num));
+> > > +            virtqueue_detach_element(vq, elem, 0);
+> > >              g_free(elem);
+> > >              return;
+> > >          }
+> > > @@ -348,6 +350,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+> > >          default:
+> > >              virtio_error(vdev, "virtio-mem protocol violation: unknown request"
+> > >                           " type: %d", type);
+> > > +            virtqueue_detach_element(vq, elem, 0);
+> > >              g_free(elem);
+> > >              return;
+> > >          }
+> > > --
+> > > 2.17.1
+> > >
+> > >
+> 
 
 
