@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EB0260EB3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 11:33:00 +0200 (CEST)
-Received: from localhost ([::1]:49772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5325260EC4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 11:36:10 +0200 (CEST)
+Received: from localhost ([::1]:34276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFZzn-0005Bc-FA
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 05:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47642)
+	id 1kFa2r-0001qx-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 05:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFZyS-0003ZE-Cz
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 05:31:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45280)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFZyQ-0001wo-BT
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 05:31:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599557493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1jbkX+cUrEdQF5svO+xIgiDlVou03Z1kfgj5wpnzvuQ=;
- b=gILfqaugyxeLUOArCn5F7KPkqP4FP6Id0I7abwd4nuk/jF+Z2RH9wnyR6X0S8BG4STlwd7
- jG1QL/q8+xmfZaOSpdhEYBhnBpd9rsnGdjPOiXLhAF17uzx7THR23VapOm2OfBOe9Fjrn1
- 9ry95AFyJ7YEP4LNlsjmznX8Wk/9dPY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-mrC0ecOFNDe5uBhE041JgA-1; Tue, 08 Sep 2020 05:31:29 -0400
-X-MC-Unique: mrC0ecOFNDe5uBhE041JgA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7F6B51B9;
- Tue,  8 Sep 2020 09:31:28 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-131.ams2.redhat.com [10.36.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F66C1002391;
- Tue,  8 Sep 2020 09:31:27 +0000 (UTC)
-Subject: Re: [PATCH] block/qcow2-cluster: Add missing "fallthrough" annotation
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>
-References: <20200908070028.193298-1-thuth@redhat.com>
- <1ebff105-2031-7af3-5705-322c73b97f5e@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <5e2ce594-e99f-0c97-9f57-79b0f3a9cf49@redhat.com>
-Date: Tue, 8 Sep 2020 11:31:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kFa1M-0000e8-HY
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 05:34:36 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kFa1K-0002BK-Bs
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 05:34:36 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id D9FB058A7780;
+ Tue,  8 Sep 2020 11:34:29 +0200 (CEST)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 8 Sep 2020
+ 11:34:29 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006f9b59b35-966d-485a-931f-bda9cddf5dde,
+ AF93E93A77CC729692FB0A4A7A23E877E51D815E) smtp.auth=groug@kaod.org
+Date: Tue, 8 Sep 2020 11:34:28 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] 9pfs: disable msize warning for synth driver
+Message-ID: <20200908113428.58c6dcb4@bahia.lan>
+In-Reply-To: <4834247.Ya9cJq7G5r@silver>
+References: <E1kEyDy-0006nN-5A@lizzy.crudebyte.com>
+ <20200907142719.35a4f079@bahia.lan>
+ <20200908101036.6b3a76db@bahia.lan> <4834247.Ya9cJq7G5r@silver>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1ebff105-2031-7af3-5705-322c73b97f5e@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.825, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 3d84c880-6ca9-4d26-850a-a49666aa769f
+X-Ovh-Tracer-Id: 5775022097231747482
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudehfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelvdejgfffkeeivdeuhfdtveelkedttefgjeehuedugfegheeutdejvedugeekteenucffohhmrghinheprhgvrgguthhhvgguohgtshdrihhopdhoiihlrggsshdrohhrghdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 04:11:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,21 +70,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/09/2020 10.43, Philippe Mathieu-Daudé wrote:
-> Hi Thomas,
-> 
-> On 9/8/20 9:00 AM, Thomas Huth wrote:
->> When compiling with -Werror=implicit-fallthrough, the compiler currently
->> complains:
-> 
-> Do you know what is missing to add this in configure::warn_flags?
+On Tue, 08 Sep 2020 11:01:15 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Quite a bit, I think. I'm fixing it step by step...
+> On Dienstag, 8. September 2020 10:10:36 CEST Greg Kurz wrote:
+> > > > BTW, have you ever tried dealing with patchwork client's 'state' fe=
+ature
+> > > > for already transmited patches on the list (new, rejected, etc.)?
+> > >=20
+> > > Nope, never used patchwork's state at all and I've no idea on how it
+> > > works... but I can ask to my former IBM colleagues at Ozlabs.
+> >=20
+> > It seems that you need to be a "maintainer" from a patchwork standpoint
+> > to manipulate patch states.
+> >=20
+> > https://patchwork.readthedocs.io/en/latest/usage/overview/#maintainers
+> >=20
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Maintainers
+> >=20
+> > Maintainers are a special type of user that with permissions to do
+> > certain operations that regular Patchwork users can=E2=80=99t. Patchwork
+> > maintainers usually have a 1:1 mapping with a project=E2=80=99s code
+> > maintainers though this is not necessary.
+> >=20
+> > The operations that a maintainer can invoke include:
+> >=20
+> >     Change the state of a patch
+> >     Archive a patch
+> >     Delegate a patch, or be delegated a patch
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > No clue how to upgrade to maintainer though...
+>=20
+> The command to change a patch state is, e.g.:
+>=20
+> 	pwclient update -s Queued 11759645
+>=20
+> When I do that I get this error:
+>=20
+> 	The update action requires authentication, but no username or password
+> 	is configured
+>=20
+> So looks like it would require somebody to create an account somewhere,=20
+> wherever that is.
+>=20
 
- Thomas
+
+Which patchwork site are you using ?
+
+https://patchwork.ozlabs.org/ or https://patchwork.kernel.org/ ?
+
+Anyway, both support self account creation:
+
+https://patchwork.ozlabs.org/register/
+
+https://patchwork.kernel.org/register/
+
+This allows you to update your own patches, but you need
+to be maintainer to update other's.
+
+> Best regards,
+> Christian Schoenebeck
+>=20
+>=20
 
 
