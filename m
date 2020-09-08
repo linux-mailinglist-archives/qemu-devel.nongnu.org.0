@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB4F261D50
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:35:28 +0200 (CEST)
-Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AC3261D40
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:34:39 +0200 (CEST)
+Received: from localhost ([::1]:50072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFjOq-0007Ks-0f
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37078)
+	id 1kFjO2-00069R-Ta
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kFjMv-0004w4-8y
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40001)
+ id 1kFjMw-0004xN-8p
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56141
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kFjMs-0000S0-Iu
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:28 -0400
+ id 1kFjMu-0000SJ-OA
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599593605;
+ s=mimecast20190719; t=1599593607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ysBEMg0s/bty0tEcjk2nb3PSRPj/k1r92VLHI/CNAGo=;
- b=YlDuY+i++g/F8g/TZrC3VBP4yMr7v9o4LpmSI6vbm8pQ2rTqeLMh8ZvowkABvytFTzdlRa
- jisHrPSVHlv7HPo7/SH7BviDgE7l/w0XFGyxKyxTMywtvQtYvkFAXyZEASCQhC25emuKB+
- hAQIHRkKVK1QV8qeKdQVrMn/iQAbc28=
+ bh=+59cI4E9/qIJU5u488kXPTd+uOKa1mqmTgdzUsZCitU=;
+ b=elr1elKGDA2hiBSLD0VBO7hT8M+rhiNWVu3Im1s6LndmtzlwdvUnpW9ZDhZ4MzyFPGUwxz
+ JBeb8+dH/46vInxgdv2HkThvl6eapDR4W5f1CCZbFPLmvjb2ObL82dKzxa/m/GdJAn+sQ4
+ Ul59yzq29C7Ojv+JJwQCWzMBx+Za+xY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-x7956DXdOHuszx_ctrySIg-1; Tue, 08 Sep 2020 15:33:24 -0400
-X-MC-Unique: x7956DXdOHuszx_ctrySIg-1
+ us-mta-254-E-uZKU8KPfSAl-v56ycrSg-1; Tue, 08 Sep 2020 15:33:26 -0400
+X-MC-Unique: E-uZKU8KPfSAl-v56ycrSg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3022801A9D;
- Tue,  8 Sep 2020 19:33:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 438AF1DDEF;
+ Tue,  8 Sep 2020 19:33:25 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-115-123.ams2.redhat.com [10.36.115.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E95707E8C0;
- Tue,  8 Sep 2020 19:33:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56A7F9CBA;
+ Tue,  8 Sep 2020 19:33:23 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  cohuck@redhat.com, mst@redhat.com, qemu-stable@nongnu.org
-Subject: [PATCH v2 1/2] virtio-iommu: Check gtrees are non null before
- destroying them
-Date: Tue,  8 Sep 2020 21:33:08 +0200
-Message-Id: <20200908193309.20569-2-eric.auger@redhat.com>
+Subject: [PATCH v2 2/2] virtio-iommu-pci: force virtio version 1
+Date: Tue,  8 Sep 2020 21:33:09 +0200
+Message-Id: <20200908193309.20569-3-eric.auger@redhat.com>
 In-Reply-To: <20200908193309.20569-1-eric.auger@redhat.com>
 References: <20200908193309.20569-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +59,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 12:54:58
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,12 +86,19 @@ Cc: jean-philippe@linaro.org, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If realize fails, domains and endpoints trees may be NULL. On
-unrealize(), this produces assertions:
+Commit 9b3a35ec82 ("virtio: verify that legacy support is not
+accidentally on") added a safety check that requires to set
+'disable-legacy=on' on virtio-iommu-pci:
 
-"GLib: g_tree_destroy: assertion 'tree != NULL' failed"
+qemu-system-aarch64: -device virtio-iommu-pci: device is modern-only,
+use disable-legacy=on
 
-Check that the trees are non NULL before destroying them.
+virtio-iommu was introduced after the release of VIRTIO 1.0
+specifications, so it should be 'modern-only'.
+
+This patch forces virtio version 1 and removes the 'transitional_name'
+property removing the need to specify 'disable-legacy=on' on
+virtio-iommu-pci device.
 
 Cc: qemu-stable@nongnu.org
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
@@ -99,31 +106,31 @@ Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 ---
 v1 -> v2:
-- fix the commit message
 - Added Connie's R-b
 ---
- hw/virtio/virtio-iommu.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-iommu-pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 5d56865e56..21ec63b108 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -801,8 +801,12 @@ static void virtio_iommu_device_unrealize(DeviceState *dev)
-     VirtIOIOMMU *s = VIRTIO_IOMMU(dev);
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index ba62d60a0a..3b6f7a11c6 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -68,6 +68,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     object_property_set_link(OBJECT(dev), "primary-bus",
+                              OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
+                              &error_abort);
++    virtio_pci_force_virtio_1(vpci_dev);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
  
-     g_hash_table_destroy(s->as_by_busptr);
--    g_tree_destroy(s->domains);
--    g_tree_destroy(s->endpoints);
-+    if (s->domains) {
-+        g_tree_destroy(s->domains);
-+    }
-+    if (s->endpoints) {
-+        g_tree_destroy(s->endpoints);
-+    }
- 
-     virtio_delete_queue(s->req_vq);
-     virtio_delete_queue(s->event_vq);
+@@ -97,7 +98,6 @@ static void virtio_iommu_pci_instance_init(Object *obj)
+ static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
+     .base_name             = TYPE_VIRTIO_IOMMU_PCI,
+     .generic_name          = "virtio-iommu-pci",
+-    .transitional_name     = "virtio-iommu-pci-transitional",
+     .non_transitional_name = "virtio-iommu-pci-non-transitional",
+     .instance_size = sizeof(VirtIOIOMMUPCI),
+     .instance_init = virtio_iommu_pci_instance_init,
 -- 
 2.21.3
 
