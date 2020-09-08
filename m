@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8399D26222F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 23:56:13 +0200 (CEST)
-Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B78262233
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 23:57:26 +0200 (CEST)
+Received: from localhost ([::1]:48832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFlb2-0000xM-HW
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 17:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38226)
+	id 1kFlcD-0002hp-8r
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 17:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlXx-0004pr-VP
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48302
+ id 1kFlYB-0005GY-2T
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52938
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlXv-0001Hy-Or
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:01 -0400
+ id 1kFlY2-0001Iy-IU
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599601979;
+ s=mimecast20190719; t=1599601985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EVOFLhGS1ayfqgVDrW1HUrqH3Kic36OYN3ARbCi2xqQ=;
- b=KUXWx05SvwbefTktnm5u3Fi12Ji/1N3GXNoWsAs5H2lJ2ISZ6bQiehEuSRCV7ftdameIW2
- g36lFz/CZe1io/xyXWwxDnuBuJMZFgKsXDv/gI2t3+Xn+rlWLdEmgZHDnDdAfRWfZ2MUtN
- kjn8NWGkgYqwPJ/jxJG5Ho750I0CLG0=
+ bh=Xnb1n7yJ5m6vxonSKwHghna0clPhBkqsEN/zaTo5Ouk=;
+ b=GGNwI9GhG/w8jXVjgcWdBrmFWFL8IhEKWhMjpvlXZdq5ywykAIyqM+9Gaa6cdCf+MRUD8w
+ brv21hkUxDTx0XMaNi4d2oMm+B+eQzIRqxTMFjy86t4z026rCbTlS2ucXJ/m83o+hxQXVZ
+ fjOkzaEUetZ9LVmWwbjiSKLAIt0ZheQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-1m3mViZiNTaR0qw7zWDUQg-1; Tue, 08 Sep 2020 17:52:57 -0400
-X-MC-Unique: 1m3mViZiNTaR0qw7zWDUQg-1
+ us-mta-230-4K4aEcDFMl6lLIPsVRj81w-1; Tue, 08 Sep 2020 17:53:01 -0400
+X-MC-Unique: 4K4aEcDFMl6lLIPsVRj81w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3048510066FF;
- Tue,  8 Sep 2020 21:52:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F79D1DDEF;
+ Tue,  8 Sep 2020 21:53:00 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EFEE45C1C4;
- Tue,  8 Sep 2020 21:52:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD96B5C1C4;
+ Tue,  8 Sep 2020 21:52:59 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 11/34] Use DECLARE_*CHECKER* when possible (--force mode)
-Date: Tue,  8 Sep 2020 17:52:16 -0400
-Message-Id: <20200908215239.3519638-12-ehabkost@redhat.com>
+Subject: [PULL 15/34] chardev: Rename TYPE_CHARDEV_* to TYPE_*_CHARDEV
+Date: Tue,  8 Sep 2020 17:52:20 -0400
+Message-Id: <20200908215239.3519638-16-ehabkost@redhat.com>
 In-Reply-To: <20200908215239.3519638-1-ehabkost@redhat.com>
 References: <20200908215239.3519638-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -83,254 +83,770 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Separate run of the TypeCheckMacro converter using the --force
-flag, for the cases where typedefs weren't found in the same
-header nor in typedefs.h.
+This will make the TYPE_* constants consistent with the name of
+most type checking macros we have today.
 
-Generated initially using:
-
- $ ./scripts/codeconverter/converter.py --force -i \
-   --pattern=TypeCheckMacro $(git grep -l '' -- '*.[ch]')
-
-Then each case was manually reviewed, and a comment was added
-indicating what's unusual about those type checking
-macros/functions.  Despite not following the usual pattern, the
-changes in this patch were found to be safe.
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200831210740.126168-15-ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200902224311.1321159-3-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/intc/arm_gic.h       | 9 +++------
- include/hw/intc/arm_gicv3.h     | 8 +++-----
- include/hw/ppc/xics_spapr.h     | 4 +++-
- include/hw/virtio/virtio-mmio.h | 9 +++------
- hw/intc/apic.c                  | 5 +++--
- hw/intc/arm_gic_kvm.c           | 9 +++------
- hw/intc/arm_gicv3_its_kvm.c     | 8 +++-----
- hw/intc/arm_gicv3_kvm.c         | 9 +++------
- hw/sd/allwinner-sdhost.c        | 5 +++--
- hw/sd/bcm2835_sdhost.c          | 5 +++--
- hw/sd/pxa2xx_mmci.c             | 4 +++-
- hw/sd/sdhci.c                   | 4 +++-
- 12 files changed, 36 insertions(+), 43 deletions(-)
+ chardev/chardev-internal.h       |  4 ++--
+ include/chardev/char-fd.h        |  4 ++--
+ include/chardev/char-win-stdio.h |  2 +-
+ include/chardev/char-win.h       |  4 ++--
+ include/chardev/char.h           | 30 +++++++++++++++---------------
+ include/chardev/spice.h          |  8 ++++----
+ chardev/baum.c                   |  6 +++---
+ chardev/char-console.c           |  4 ++--
+ chardev/char-fd.c                |  2 +-
+ chardev/char-file.c              |  6 +++---
+ chardev/char-mux.c               |  2 +-
+ chardev/char-null.c              |  2 +-
+ chardev/char-parallel.c          |  4 ++--
+ chardev/char-pipe.c              |  6 +++---
+ chardev/char-pty.c               |  4 ++--
+ chardev/char-ringbuf.c           |  8 ++++----
+ chardev/char-serial.c            |  6 +++---
+ chardev/char-socket.c            |  4 ++--
+ chardev/char-stdio.c             |  6 +++---
+ chardev/char-udp.c               |  4 ++--
+ chardev/char-win-stdio.c         |  4 ++--
+ chardev/char-win.c               |  2 +-
+ chardev/char.c                   |  2 +-
+ chardev/msmouse.c                |  6 +++---
+ chardev/spice.c                  | 10 +++++-----
+ chardev/testdev.c                |  6 +++---
+ chardev/wctablet.c               |  6 +++---
+ gdbstub.c                        |  6 +++---
+ hw/display/vhost-user-gpu.c      |  2 +-
+ tests/test-char.c                |  4 ++--
+ ui/console.c                     |  8 ++++----
+ ui/gtk.c                         |  6 +++---
+ ui/spice-app.c                   | 10 +++++-----
+ 33 files changed, 94 insertions(+), 94 deletions(-)
 
-diff --git a/include/hw/intc/arm_gic.h b/include/hw/intc/arm_gic.h
-index 704ef2b751..116ccbb5a9 100644
---- a/include/hw/intc/arm_gic.h
-+++ b/include/hw/intc/arm_gic.h
-@@ -74,12 +74,9 @@
+diff --git a/chardev/chardev-internal.h b/chardev/chardev-internal.h
+index aba0240759..832dc10a95 100644
+--- a/chardev/chardev-internal.h
++++ b/chardev/chardev-internal.h
+@@ -55,9 +55,9 @@ struct MuxChardev {
+ typedef struct MuxChardev MuxChardev;
  
- #define TYPE_ARM_GIC "arm_gic"
- typedef struct ARMGICClass ARMGICClass;
--#define ARM_GIC(obj) \
--     OBJECT_CHECK(GICState, (obj), TYPE_ARM_GIC)
--#define ARM_GIC_CLASS(klass) \
--     OBJECT_CLASS_CHECK(ARMGICClass, (klass), TYPE_ARM_GIC)
--#define ARM_GIC_GET_CLASS(obj) \
--     OBJECT_GET_CLASS(ARMGICClass, (obj), TYPE_ARM_GIC)
-+/* This is reusing the GICState typedef from TYPE_ARM_GIC_COMMON */
-+DECLARE_OBJ_CHECKERS(GICState, ARMGICClass,
-+                     ARM_GIC, TYPE_ARM_GIC)
+ DECLARE_INSTANCE_CHECKER(MuxChardev, MUX_CHARDEV,
+-                         TYPE_CHARDEV_MUX)
++                         TYPE_MUX_CHARDEV)
+ #define CHARDEV_IS_MUX(chr)                             \
+-    object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_MUX)
++    object_dynamic_cast(OBJECT(chr), TYPE_MUX_CHARDEV)
  
- struct ARMGICClass {
-     /*< private >*/
-diff --git a/include/hw/intc/arm_gicv3.h b/include/hw/intc/arm_gicv3.h
-index 58e9131a33..a81a6ae7ec 100644
---- a/include/hw/intc/arm_gicv3.h
-+++ b/include/hw/intc/arm_gicv3.h
-@@ -17,11 +17,9 @@
+ void mux_set_focus(Chardev *chr, int focus);
+ void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event);
+diff --git a/include/chardev/char-fd.h b/include/chardev/char-fd.h
+index 9de0e440de..14c664fc83 100644
+--- a/include/chardev/char-fd.h
++++ b/include/chardev/char-fd.h
+@@ -36,10 +36,10 @@ struct FDChardev {
+ };
+ typedef struct FDChardev FDChardev;
  
- #define TYPE_ARM_GICV3 "arm-gicv3"
- typedef struct ARMGICv3Class ARMGICv3Class;
--#define ARM_GICV3(obj) OBJECT_CHECK(GICv3State, (obj), TYPE_ARM_GICV3)
--#define ARM_GICV3_CLASS(klass) \
--     OBJECT_CLASS_CHECK(ARMGICv3Class, (klass), TYPE_ARM_GICV3)
--#define ARM_GICV3_GET_CLASS(obj) \
--     OBJECT_GET_CLASS(ARMGICv3Class, (obj), TYPE_ARM_GICV3)
-+/* This is reusing the GICState typedef from TYPE_ARM_GICV3_COMMON */
-+DECLARE_OBJ_CHECKERS(GICv3State, ARMGICv3Class,
-+                     ARM_GICV3, TYPE_ARM_GICV3)
+-#define TYPE_CHARDEV_FD "chardev-fd"
++#define TYPE_FD_CHARDEV "chardev-fd"
  
- struct ARMGICv3Class {
-     /*< private >*/
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 09e428de4e..0b8182e40b 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -31,7 +31,9 @@
- #include "qom/object.h"
+ DECLARE_INSTANCE_CHECKER(FDChardev, FD_CHARDEV,
+-                         TYPE_CHARDEV_FD)
++                         TYPE_FD_CHARDEV)
  
- #define TYPE_ICS_SPAPR "ics-spapr"
--#define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-+/* This is reusing the ICSState typedef from TYPE_ICS */
-+DECLARE_INSTANCE_CHECKER(ICSState, ICS_SPAPR,
-+                         TYPE_ICS_SPAPR)
+ void qemu_chr_open_fd(Chardev *chr, int fd_in, int fd_out);
+ int qmp_chardev_open_file_source(char *src, int flags, Error **errp);
+diff --git a/include/chardev/char-win-stdio.h b/include/chardev/char-win-stdio.h
+index d7314f734d..139dfbe92f 100644
+--- a/include/chardev/char-win-stdio.h
++++ b/include/chardev/char-win-stdio.h
+@@ -24,6 +24,6 @@
+ #ifndef CHAR_WIN_STDIO_H
+ #define CHAR_WIN_STDIO_H
  
- int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
-                      Error **errp);
-diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
-index dca651fd14..6a1c2c20d4 100644
---- a/include/hw/virtio/virtio-mmio.h
-+++ b/include/hw/virtio/virtio-mmio.h
-@@ -28,12 +28,9 @@
- /* QOM macros */
- /* virtio-mmio-bus */
- #define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
--#define VIRTIO_MMIO_BUS(obj) \
--        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
--#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
--#define VIRTIO_MMIO_BUS_CLASS(klass) \
--        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS)
-+/* This is reusing the VirtioBusState typedef from TYPE_VIRTIO_BUS */
-+DECLARE_OBJ_CHECKERS(VirtioBusState, VirtioBusClass,
-+                     VIRTIO_MMIO_BUS, TYPE_VIRTIO_MMIO_BUS)
+-#define TYPE_CHARDEV_WIN_STDIO "chardev-win-stdio"
++#define TYPE_WIN_STDIO_CHARDEV "chardev-win-stdio"
  
- /* virtio-mmio */
- #define TYPE_VIRTIO_MMIO "virtio-mmio"
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index e055bb3af2..b6a05e5439 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -40,8 +40,9 @@
- static APICCommonState *local_apics[MAX_APICS + 1];
+ #endif /* CHAR_WIN_STDIO_H */
+diff --git a/include/chardev/char-win.h b/include/chardev/char-win.h
+index 485521469c..a1745ba267 100644
+--- a/include/chardev/char-win.h
++++ b/include/chardev/char-win.h
+@@ -43,9 +43,9 @@ typedef struct WinChardev WinChardev;
+ #define NSENDBUF 2048
+ #define NRECVBUF 2048
  
- #define TYPE_APIC "apic"
--#define APIC(obj) \
--    OBJECT_CHECK(APICCommonState, (obj), TYPE_APIC)
-+/*This is reusing the APICCommonState typedef from APIC_COMMON */
-+DECLARE_INSTANCE_CHECKER(APICCommonState, APIC,
-+                         TYPE_APIC)
+-#define TYPE_CHARDEV_WIN "chardev-win"
++#define TYPE_WIN_CHARDEV "chardev-win"
+ DECLARE_INSTANCE_CHECKER(WinChardev, WIN_CHARDEV,
+-                         TYPE_CHARDEV_WIN)
++                         TYPE_WIN_CHARDEV)
  
- static void apic_set_irq(APICCommonState *s, int vector_num, int trigger_mode);
- static void apic_update_irq(APICCommonState *s);
-diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
-index 6e5a2b8fe0..9494185cf4 100644
---- a/hw/intc/arm_gic_kvm.c
-+++ b/hw/intc/arm_gic_kvm.c
-@@ -33,12 +33,9 @@
+ void win_chr_set_file(Chardev *chr, HANDLE file, bool keep_open);
+ int win_chr_serial_init(Chardev *chr, const char *filename, Error **errp);
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index 5874de57ea..0f358a4eee 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -230,24 +230,24 @@ typedef struct ChardevClass ChardevClass;
+ DECLARE_OBJ_CHECKERS(Chardev, ChardevClass,
+                      CHARDEV, TYPE_CHARDEV)
  
- #define TYPE_KVM_ARM_GIC "kvm-arm-gic"
- typedef struct KVMARMGICClass KVMARMGICClass;
--#define KVM_ARM_GIC(obj) \
--     OBJECT_CHECK(GICState, (obj), TYPE_KVM_ARM_GIC)
--#define KVM_ARM_GIC_CLASS(klass) \
--     OBJECT_CLASS_CHECK(KVMARMGICClass, (klass), TYPE_KVM_ARM_GIC)
--#define KVM_ARM_GIC_GET_CLASS(obj) \
--     OBJECT_GET_CLASS(KVMARMGICClass, (obj), TYPE_KVM_ARM_GIC)
-+/* This is reusing the GICState typedef from ARM_GIC_COMMON */
-+DECLARE_OBJ_CHECKERS(GICState, KVMARMGICClass,
-+                     KVM_ARM_GIC, TYPE_KVM_ARM_GIC)
+-#define TYPE_CHARDEV_NULL "chardev-null"
+-#define TYPE_CHARDEV_MUX "chardev-mux"
+-#define TYPE_CHARDEV_RINGBUF "chardev-ringbuf"
+-#define TYPE_CHARDEV_PTY "chardev-pty"
+-#define TYPE_CHARDEV_CONSOLE "chardev-console"
+-#define TYPE_CHARDEV_STDIO "chardev-stdio"
+-#define TYPE_CHARDEV_PIPE "chardev-pipe"
+-#define TYPE_CHARDEV_MEMORY "chardev-memory"
+-#define TYPE_CHARDEV_PARALLEL "chardev-parallel"
+-#define TYPE_CHARDEV_FILE "chardev-file"
+-#define TYPE_CHARDEV_SERIAL "chardev-serial"
+-#define TYPE_CHARDEV_SOCKET "chardev-socket"
+-#define TYPE_CHARDEV_UDP "chardev-udp"
++#define TYPE_NULL_CHARDEV "chardev-null"
++#define TYPE_MUX_CHARDEV "chardev-mux"
++#define TYPE_RINGBUF_CHARDEV "chardev-ringbuf"
++#define TYPE_PTY_CHARDEV "chardev-pty"
++#define TYPE_CONSOLE_CHARDEV "chardev-console"
++#define TYPE_STDIO_CHARDEV "chardev-stdio"
++#define TYPE_PIPE_CHARDEV "chardev-pipe"
++#define TYPE_MEMORY_CHARDEV "chardev-memory"
++#define TYPE_PARALLEL_CHARDEV "chardev-parallel"
++#define TYPE_FILE_CHARDEV "chardev-file"
++#define TYPE_SERIAL_CHARDEV "chardev-serial"
++#define TYPE_SOCKET_CHARDEV "chardev-socket"
++#define TYPE_UDP_CHARDEV "chardev-udp"
  
- struct KVMARMGICClass {
-     ARMGICCommonClass parent_class;
-diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
-index 631adc34b6..4ee9875ecc 100644
---- a/hw/intc/arm_gicv3_its_kvm.c
-+++ b/hw/intc/arm_gicv3_its_kvm.c
-@@ -31,11 +31,9 @@
+ #define CHARDEV_IS_RINGBUF(chr) \
+-    object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_RINGBUF)
++    object_dynamic_cast(OBJECT(chr), TYPE_RINGBUF_CHARDEV)
+ #define CHARDEV_IS_PTY(chr) \
+-    object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_PTY)
++    object_dynamic_cast(OBJECT(chr), TYPE_PTY_CHARDEV)
  
- #define TYPE_KVM_ARM_ITS "arm-its-kvm"
- typedef struct KVMARMITSClass KVMARMITSClass;
--#define KVM_ARM_ITS(obj) OBJECT_CHECK(GICv3ITSState, (obj), TYPE_KVM_ARM_ITS)
--#define KVM_ARM_ITS_CLASS(klass) \
--     OBJECT_CLASS_CHECK(KVMARMITSClass, (klass), TYPE_KVM_ARM_ITS)
--#define KVM_ARM_ITS_GET_CLASS(obj) \
--     OBJECT_GET_CLASS(KVMARMITSClass, (obj), TYPE_KVM_ARM_ITS)
-+/* This is reusing the GICv3ITSState typedef from ARM_GICV3_ITS_COMMON */
-+DECLARE_OBJ_CHECKERS(GICv3ITSState, KVMARMITSClass,
-+                     KVM_ARM_ITS, TYPE_KVM_ARM_ITS)
+ struct ChardevClass {
+     ObjectClass parent_class;
+diff --git a/include/chardev/spice.h b/include/chardev/spice.h
+index 99f26aedde..302573b582 100644
+--- a/include/chardev/spice.h
++++ b/include/chardev/spice.h
+@@ -17,12 +17,12 @@ struct SpiceChardev {
+ };
+ typedef struct SpiceChardev SpiceChardev;
  
- struct KVMARMITSClass {
-     GICv3ITSCommonClass parent_class;
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 5733936334..187eb054e0 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -43,12 +43,9 @@
+-#define TYPE_CHARDEV_SPICE "chardev-spice"
+-#define TYPE_CHARDEV_SPICEVMC "chardev-spicevmc"
+-#define TYPE_CHARDEV_SPICEPORT "chardev-spiceport"
++#define TYPE_SPICE_CHARDEV "chardev-spice"
++#define TYPE_SPICEVMC_CHARDEV "chardev-spicevmc"
++#define TYPE_SPICEPORT_CHARDEV "chardev-spiceport"
  
- #define TYPE_KVM_ARM_GICV3 "kvm-arm-gicv3"
- typedef struct KVMARMGICv3Class KVMARMGICv3Class;
--#define KVM_ARM_GICV3(obj) \
--     OBJECT_CHECK(GICv3State, (obj), TYPE_KVM_ARM_GICV3)
--#define KVM_ARM_GICV3_CLASS(klass) \
--     OBJECT_CLASS_CHECK(KVMARMGICv3Class, (klass), TYPE_KVM_ARM_GICV3)
--#define KVM_ARM_GICV3_GET_CLASS(obj) \
--     OBJECT_GET_CLASS(KVMARMGICv3Class, (obj), TYPE_KVM_ARM_GICV3)
-+/* This is reusing the GICv3State typedef from ARM_GICV3_ITS_COMMON */
-+DECLARE_OBJ_CHECKERS(GICv3State, KVMARMGICv3Class,
-+                     KVM_ARM_GICV3, TYPE_KVM_ARM_GICV3)
+ DECLARE_INSTANCE_CHECKER(SpiceChardev, SPICE_CHARDEV,
+-                         TYPE_CHARDEV_SPICE)
++                         TYPE_SPICE_CHARDEV)
  
- #define   KVM_DEV_ARM_VGIC_SYSREG(op0, op1, crn, crm, op2)         \
-                              (ARM64_SYS_REG_SHIFT_MASK(op0, OP0) | \
-diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-index e0cc5847f3..bea6d97ef8 100644
---- a/hw/sd/allwinner-sdhost.c
-+++ b/hw/sd/allwinner-sdhost.c
-@@ -32,8 +32,9 @@
- #include "qom/object.h"
+ void qemu_chr_open_spice_port(Chardev *chr, ChardevBackend *backend,
+                               bool *be_opened, Error **errp);
+diff --git a/chardev/baum.c b/chardev/baum.c
+index 5deca778bc..d6c9f698c1 100644
+--- a/chardev/baum.c
++++ b/chardev/baum.c
+@@ -104,9 +104,9 @@ struct BaumChardev {
+ };
+ typedef struct BaumChardev BaumChardev;
  
- #define TYPE_AW_SDHOST_BUS "allwinner-sdhost-bus"
--#define AW_SDHOST_BUS(obj) \
--    OBJECT_CHECK(SDBus, (obj), TYPE_AW_SDHOST_BUS)
-+/* This is reusing the SDBus typedef from SD_BUS */
-+DECLARE_INSTANCE_CHECKER(SDBus, AW_SDHOST_BUS,
-+                         TYPE_AW_SDHOST_BUS)
+-#define TYPE_CHARDEV_BRAILLE "chardev-braille"
++#define TYPE_BRAILLE_CHARDEV "chardev-braille"
+ DECLARE_INSTANCE_CHECKER(BaumChardev, BAUM_CHARDEV,
+-                         TYPE_CHARDEV_BRAILLE)
++                         TYPE_BRAILLE_CHARDEV)
  
- /* SD Host register offsets */
- enum {
-diff --git a/hw/sd/bcm2835_sdhost.c b/hw/sd/bcm2835_sdhost.c
-index 743abccbae..50f5fdb88b 100644
---- a/hw/sd/bcm2835_sdhost.c
-+++ b/hw/sd/bcm2835_sdhost.c
-@@ -22,8 +22,9 @@
- #include "qom/object.h"
+ /* Let's assume NABCC by default */
+ enum way {
+@@ -674,7 +674,7 @@ static void char_braille_class_init(ObjectClass *oc, void *data)
+ }
  
- #define TYPE_BCM2835_SDHOST_BUS "bcm2835-sdhost-bus"
--#define BCM2835_SDHOST_BUS(obj) \
--    OBJECT_CHECK(SDBus, (obj), TYPE_BCM2835_SDHOST_BUS)
-+/* This is reusing the SDBus typedef from SD_BUS */
-+DECLARE_INSTANCE_CHECKER(SDBus, BCM2835_SDHOST_BUS,
-+                         TYPE_BCM2835_SDHOST_BUS)
+ static const TypeInfo char_braille_type_info = {
+-    .name = TYPE_CHARDEV_BRAILLE,
++    .name = TYPE_BRAILLE_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(BaumChardev),
+     .instance_finalize = char_braille_finalize,
+diff --git a/chardev/char-console.c b/chardev/char-console.c
+index 6c4ce5dbce..5d175389fd 100644
+--- a/chardev/char-console.c
++++ b/chardev/char-console.c
+@@ -42,8 +42,8 @@ static void char_console_class_init(ObjectClass *oc, void *data)
+ }
  
- #define SDCMD  0x00 /* Command to SD card              - 16 R/W */
- #define SDARG  0x04 /* Argument to SD card             - 32 R/W */
-diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-index 757a6a3c63..3dd2fc7a83 100644
---- a/hw/sd/pxa2xx_mmci.c
-+++ b/hw/sd/pxa2xx_mmci.c
-@@ -24,7 +24,9 @@
- #include "qom/object.h"
+ static const TypeInfo char_console_type_info = {
+-    .name = TYPE_CHARDEV_CONSOLE,
+-    .parent = TYPE_CHARDEV_WIN,
++    .name = TYPE_CONSOLE_CHARDEV,
++    .parent = TYPE_WIN_CHARDEV,
+     .class_init = char_console_class_init,
+ };
  
- #define TYPE_PXA2XX_MMCI_BUS "pxa2xx-mmci-bus"
--#define PXA2XX_MMCI_BUS(obj) OBJECT_CHECK(SDBus, (obj), TYPE_PXA2XX_MMCI_BUS)
-+/* This is reusing the SDBus typedef from SD_BUS */
-+DECLARE_INSTANCE_CHECKER(SDBus, PXA2XX_MMCI_BUS,
-+                         TYPE_PXA2XX_MMCI_BUS)
+diff --git a/chardev/char-fd.c b/chardev/char-fd.c
+index c2d8101106..031fe2a2d6 100644
+--- a/chardev/char-fd.c
++++ b/chardev/char-fd.c
+@@ -154,7 +154,7 @@ static void char_fd_class_init(ObjectClass *oc, void *data)
+ }
  
- struct PXA2xxMMCIState {
-     SysBusDevice parent_obj;
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 63772bfab6..6900213083 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -40,7 +40,9 @@
- #include "qom/object.h"
+ static const TypeInfo char_fd_type_info = {
+-    .name = TYPE_CHARDEV_FD,
++    .name = TYPE_FD_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(FDChardev),
+     .instance_finalize = char_fd_finalize,
+diff --git a/chardev/char-file.c b/chardev/char-file.c
+index 2fd80707e5..fc53bdb4aa 100644
+--- a/chardev/char-file.c
++++ b/chardev/char-file.c
+@@ -124,11 +124,11 @@ static void char_file_class_init(ObjectClass *oc, void *data)
+ }
  
- #define TYPE_SDHCI_BUS "sdhci-bus"
--#define SDHCI_BUS(obj) OBJECT_CHECK(SDBus, (obj), TYPE_SDHCI_BUS)
-+/* This is reusing the SDBus typedef from SD_BUS */
-+DECLARE_INSTANCE_CHECKER(SDBus, SDHCI_BUS,
-+                         TYPE_SDHCI_BUS)
+ static const TypeInfo char_file_type_info = {
+-    .name = TYPE_CHARDEV_FILE,
++    .name = TYPE_FILE_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN,
++    .parent = TYPE_WIN_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .class_init = char_file_class_init,
+ };
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index 6f980bb836..8930b4d5e8 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -388,7 +388,7 @@ static void char_mux_class_init(ObjectClass *oc, void *data)
+ }
  
- #define MASKED_WRITE(reg, mask, val)  (reg = (reg & (mask)) | (val))
+ static const TypeInfo char_mux_type_info = {
+-    .name = TYPE_CHARDEV_MUX,
++    .name = TYPE_MUX_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .class_init = char_mux_class_init,
+     .instance_size = sizeof(MuxChardev),
+diff --git a/chardev/char-null.c b/chardev/char-null.c
+index 1c6a2900f9..fcddd33452 100644
+--- a/chardev/char-null.c
++++ b/chardev/char-null.c
+@@ -42,7 +42,7 @@ static void char_null_class_init(ObjectClass *oc, void *data)
+ }
  
+ static const TypeInfo char_null_type_info = {
+-    .name = TYPE_CHARDEV_NULL,
++    .name = TYPE_NULL_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(Chardev),
+     .class_init = char_null_class_init,
+diff --git a/chardev/char-parallel.c b/chardev/char-parallel.c
+index 66e4589b2b..289c1b002c 100644
+--- a/chardev/char-parallel.c
++++ b/chardev/char-parallel.c
+@@ -58,7 +58,7 @@ struct ParallelChardev {
+ typedef struct ParallelChardev ParallelChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(ParallelChardev, PARALLEL_CHARDEV,
+-                         TYPE_CHARDEV_PARALLEL)
++                         TYPE_PARALLEL_CHARDEV)
+ 
+ static int pp_hw_mode(ParallelChardev *s, uint16_t mode)
+ {
+@@ -303,7 +303,7 @@ static void char_parallel_finalize(Object *obj)
+ }
+ 
+ static const TypeInfo char_parallel_type_info = {
+-    .name = TYPE_CHARDEV_PARALLEL,
++    .name = TYPE_PARALLEL_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(ParallelChardev),
+     .instance_finalize = char_parallel_finalize,
+diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+index fd12c9e63b..7458433256 100644
+--- a/chardev/char-pipe.c
++++ b/chardev/char-pipe.c
+@@ -179,11 +179,11 @@ static void char_pipe_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_pipe_type_info = {
+-    .name = TYPE_CHARDEV_PIPE,
++    .name = TYPE_PIPE_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN,
++    .parent = TYPE_WIN_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .class_init = char_pipe_class_init,
+ };
+diff --git a/chardev/char-pty.c b/chardev/char-pty.c
+index a2d1e7c985..9cf77596d2 100644
+--- a/chardev/char-pty.c
++++ b/chardev/char-pty.c
+@@ -46,7 +46,7 @@ struct PtyChardev {
+ typedef struct PtyChardev PtyChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(PtyChardev, PTY_CHARDEV,
+-                         TYPE_CHARDEV_PTY)
++                         TYPE_PTY_CHARDEV)
+ 
+ static void pty_chr_state(Chardev *chr, int connected);
+ 
+@@ -240,7 +240,7 @@ static void char_pty_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_pty_type_info = {
+-    .name = TYPE_CHARDEV_PTY,
++    .name = TYPE_PTY_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(PtyChardev),
+     .instance_finalize = char_pty_finalize,
+diff --git a/chardev/char-ringbuf.c b/chardev/char-ringbuf.c
+index d40d21d3cf..edeb7daeae 100644
+--- a/chardev/char-ringbuf.c
++++ b/chardev/char-ringbuf.c
+@@ -43,7 +43,7 @@ struct RingBufChardev {
+ typedef struct RingBufChardev RingBufChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(RingBufChardev, RINGBUF_CHARDEV,
+-                         TYPE_CHARDEV_RINGBUF)
++                         TYPE_RINGBUF_CHARDEV)
+ 
+ static size_t ringbuf_count(const Chardev *chr)
+ {
+@@ -233,7 +233,7 @@ static void char_ringbuf_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_ringbuf_type_info = {
+-    .name = TYPE_CHARDEV_RINGBUF,
++    .name = TYPE_RINGBUF_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .class_init = char_ringbuf_class_init,
+     .instance_size = sizeof(RingBufChardev),
+@@ -242,8 +242,8 @@ static const TypeInfo char_ringbuf_type_info = {
+ 
+ /* Bug-compatibility: */
+ static const TypeInfo char_memory_type_info = {
+-    .name = TYPE_CHARDEV_MEMORY,
+-    .parent = TYPE_CHARDEV_RINGBUF,
++    .name = TYPE_MEMORY_CHARDEV,
++    .parent = TYPE_RINGBUF_CHARDEV,
+ };
+ 
+ static void register_types(void)
+diff --git a/chardev/char-serial.c b/chardev/char-serial.c
+index 7c3d84ae24..381107bd89 100644
+--- a/chardev/char-serial.c
++++ b/chardev/char-serial.c
+@@ -308,11 +308,11 @@ static void char_serial_class_init(ObjectClass *oc, void *data)
+ 
+ 
+ static const TypeInfo char_serial_type_info = {
+-    .name = TYPE_CHARDEV_SERIAL,
++    .name = TYPE_SERIAL_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN,
++    .parent = TYPE_WIN_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .class_init = char_serial_class_init,
+ };
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 95e45812d5..bb5ddc586c 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -89,7 +89,7 @@ struct SocketChardev {
+ typedef struct SocketChardev SocketChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(SocketChardev, SOCKET_CHARDEV,
+-                         TYPE_CHARDEV_SOCKET)
++                         TYPE_SOCKET_CHARDEV)
+ 
+ static gboolean socket_reconnect_timeout(gpointer opaque);
+ static void tcp_chr_telnet_init(Chardev *chr);
+@@ -1506,7 +1506,7 @@ static void char_socket_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_socket_type_info = {
+-    .name = TYPE_CHARDEV_SOCKET,
++    .name = TYPE_SOCKET_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(SocketChardev),
+     .instance_finalize = char_socket_finalize,
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 82eaebc1db..fb28eaeb87 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -150,11 +150,11 @@ static void char_stdio_finalize(Object *obj)
+ }
+ 
+ static const TypeInfo char_stdio_type_info = {
+-    .name = TYPE_CHARDEV_STDIO,
++    .name = TYPE_STDIO_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN_STDIO,
++    .parent = TYPE_WIN_STDIO_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .instance_finalize = char_stdio_finalize,
+     .class_init = char_stdio_class_init,
+diff --git a/chardev/char-udp.c b/chardev/char-udp.c
+index 16b5dbce58..6d7b9d2805 100644
+--- a/chardev/char-udp.c
++++ b/chardev/char-udp.c
+@@ -46,7 +46,7 @@ struct UdpChardev {
+ typedef struct UdpChardev UdpChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(UdpChardev, UDP_CHARDEV,
+-                         TYPE_CHARDEV_UDP)
++                         TYPE_UDP_CHARDEV)
+ 
+ /* Called with chr_write_lock held.  */
+ static int udp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+@@ -231,7 +231,7 @@ static void char_udp_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_udp_type_info = {
+-    .name = TYPE_CHARDEV_UDP,
++    .name = TYPE_UDP_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(UdpChardev),
+     .instance_finalize = char_udp_finalize,
+diff --git a/chardev/char-win-stdio.c b/chardev/char-win-stdio.c
+index a4771ab82e..f333b8cedc 100644
+--- a/chardev/char-win-stdio.c
++++ b/chardev/char-win-stdio.c
+@@ -41,7 +41,7 @@ struct WinStdioChardev {
+ typedef struct WinStdioChardev WinStdioChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(WinStdioChardev, WIN_STDIO_CHARDEV,
+-                         TYPE_CHARDEV_WIN_STDIO)
++                         TYPE_WIN_STDIO_CHARDEV)
+ 
+ static void win_stdio_wait_func(void *opaque)
+ {
+@@ -255,7 +255,7 @@ static void char_win_stdio_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_win_stdio_type_info = {
+-    .name = TYPE_CHARDEV_WIN_STDIO,
++    .name = TYPE_WIN_STDIO_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(WinStdioChardev),
+     .instance_finalize = char_win_stdio_finalize,
+diff --git a/chardev/char-win.c b/chardev/char-win.c
+index d4fb44c4dc..69dcf48873 100644
+--- a/chardev/char-win.c
++++ b/chardev/char-win.c
+@@ -228,7 +228,7 @@ static void char_win_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_win_type_info = {
+-    .name = TYPE_CHARDEV_WIN,
++    .name = TYPE_WIN_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(WinChardev),
+     .instance_finalize = char_win_finalize,
+diff --git a/chardev/char.c b/chardev/char.c
+index 77e7ec814f..afebdc345e 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -674,7 +674,7 @@ Chardev *qemu_chr_new_from_opts(QemuOpts *opts, GMainContext *context,
+         backend->type = CHARDEV_BACKEND_KIND_MUX;
+         backend->u.mux.data = g_new0(ChardevMux, 1);
+         backend->u.mux.data->chardev = g_strdup(bid);
+-        mux = qemu_chardev_new(id, TYPE_CHARDEV_MUX, backend, context, errp);
++        mux = qemu_chardev_new(id, TYPE_MUX_CHARDEV, backend, context, errp);
+         if (mux == NULL) {
+             object_unparent(OBJECT(chr));
+             chr = NULL;
+diff --git a/chardev/msmouse.c b/chardev/msmouse.c
+index eb9231dcdb..4033ca714d 100644
+--- a/chardev/msmouse.c
++++ b/chardev/msmouse.c
+@@ -44,9 +44,9 @@ struct MouseChardev {
+ };
+ typedef struct MouseChardev MouseChardev;
+ 
+-#define TYPE_CHARDEV_MSMOUSE "chardev-msmouse"
++#define TYPE_MSMOUSE_CHARDEV "chardev-msmouse"
+ DECLARE_INSTANCE_CHECKER(MouseChardev, MOUSE_CHARDEV,
+-                         TYPE_CHARDEV_MSMOUSE)
++                         TYPE_MSMOUSE_CHARDEV)
+ 
+ static void msmouse_chr_accept_input(Chardev *chr)
+ {
+@@ -178,7 +178,7 @@ static void char_msmouse_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_msmouse_type_info = {
+-    .name = TYPE_CHARDEV_MSMOUSE,
++    .name = TYPE_MSMOUSE_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(MouseChardev),
+     .instance_finalize = char_msmouse_finalize,
+diff --git a/chardev/spice.c b/chardev/spice.c
+index bf7ea1e294..7423001b71 100644
+--- a/chardev/spice.c
++++ b/chardev/spice.c
+@@ -376,7 +376,7 @@ static void char_spice_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_spice_type_info = {
+-    .name = TYPE_CHARDEV_SPICE,
++    .name = TYPE_SPICE_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(SpiceChardev),
+     .instance_finalize = char_spice_finalize,
+@@ -394,8 +394,8 @@ static void char_spicevmc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_spicevmc_type_info = {
+-    .name = TYPE_CHARDEV_SPICEVMC,
+-    .parent = TYPE_CHARDEV_SPICE,
++    .name = TYPE_SPICEVMC_CHARDEV,
++    .parent = TYPE_SPICE_CHARDEV,
+     .class_init = char_spicevmc_class_init,
+ };
+ 
+@@ -409,8 +409,8 @@ static void char_spiceport_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_spiceport_type_info = {
+-    .name = TYPE_CHARDEV_SPICEPORT,
+-    .parent = TYPE_CHARDEV_SPICE,
++    .name = TYPE_SPICEPORT_CHARDEV,
++    .parent = TYPE_SPICE_CHARDEV,
+     .class_init = char_spiceport_class_init,
+ };
+ 
+diff --git a/chardev/testdev.c b/chardev/testdev.c
+index a92caca3c3..5ef9a59817 100644
+--- a/chardev/testdev.c
++++ b/chardev/testdev.c
+@@ -39,9 +39,9 @@ struct TestdevChardev {
+ };
+ typedef struct TestdevChardev TestdevChardev;
+ 
+-#define TYPE_CHARDEV_TESTDEV "chardev-testdev"
++#define TYPE_TESTDEV_CHARDEV "chardev-testdev"
+ DECLARE_INSTANCE_CHECKER(TestdevChardev, TESTDEV_CHARDEV,
+-                         TYPE_CHARDEV_TESTDEV)
++                         TYPE_TESTDEV_CHARDEV)
+ 
+ /* Try to interpret a whole incoming packet */
+ static int testdev_eat_packet(TestdevChardev *testdev)
+@@ -118,7 +118,7 @@ static void char_testdev_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_testdev_type_info = {
+-    .name = TYPE_CHARDEV_TESTDEV,
++    .name = TYPE_TESTDEV_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(TestdevChardev),
+     .class_init = char_testdev_class_init,
+diff --git a/chardev/wctablet.c b/chardev/wctablet.c
+index 95e005f5a5..2cc018efb3 100644
+--- a/chardev/wctablet.c
++++ b/chardev/wctablet.c
+@@ -85,9 +85,9 @@ struct TabletChardev {
+ };
+ typedef struct TabletChardev TabletChardev;
+ 
+-#define TYPE_CHARDEV_WCTABLET "chardev-wctablet"
++#define TYPE_WCTABLET_CHARDEV "chardev-wctablet"
+ DECLARE_INSTANCE_CHECKER(TabletChardev, WCTABLET_CHARDEV,
+-                         TYPE_CHARDEV_WCTABLET)
++                         TYPE_WCTABLET_CHARDEV)
+ 
+ 
+ static void wctablet_chr_accept_input(Chardev *chr);
+@@ -352,7 +352,7 @@ static void wctablet_chr_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo wctablet_type_info = {
+-    .name = TYPE_CHARDEV_WCTABLET,
++    .name = TYPE_WCTABLET_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(TabletChardev),
+     .instance_finalize = wctablet_chr_finalize,
+diff --git a/gdbstub.c b/gdbstub.c
+index 9dfb6e4142..7afdcf0f37 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3301,10 +3301,10 @@ static void char_gdb_class_init(ObjectClass *oc, void *data)
+     cc->chr_write = gdb_monitor_write;
+ }
+ 
+-#define TYPE_CHARDEV_GDB "chardev-gdb"
++#define TYPE_GDB_CHARDEV "chardev-gdb"
+ 
+ static const TypeInfo char_gdb_type_info = {
+-    .name = TYPE_CHARDEV_GDB,
++    .name = TYPE_GDB_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .class_init = char_gdb_class_init,
+ };
+@@ -3409,7 +3409,7 @@ int gdbserver_start(const char *device)
+         qemu_add_vm_change_state_handler(gdb_vm_state_change, NULL);
+ 
+         /* Initialize a monitor terminal for gdb */
+-        mon_chr = qemu_chardev_new(NULL, TYPE_CHARDEV_GDB,
++        mon_chr = qemu_chardev_new(NULL, TYPE_GDB_CHARDEV,
+                                    NULL, NULL, &error_abort);
+         monitor_init_hmp(mon_chr, false, &error_abort);
+     } else {
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index 51f1747c4a..f656fb38a7 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -388,7 +388,7 @@ vhost_user_gpu_do_set_socket(VhostUserGPU *g, Error **errp)
+         return false;
+     }
+ 
+-    chr = CHARDEV(object_new(TYPE_CHARDEV_SOCKET));
++    chr = CHARDEV(object_new(TYPE_SOCKET_CHARDEV));
+     if (!chr || qemu_chr_add_client(chr, sv[0]) == -1) {
+         error_setg(errp, "Failed to make socket chardev");
+         goto err;
+diff --git a/tests/test-char.c b/tests/test-char.c
+index d35cc839bc..2b2135ec77 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -1232,7 +1232,7 @@ static void char_file_fifo_test(void)
+     ret = write(fd, "fifo-in", 8);
+     g_assert_cmpint(ret, ==, 8);
+ 
+-    chr = qemu_chardev_new("label-file", TYPE_CHARDEV_FILE, &backend,
++    chr = qemu_chardev_new("label-file", TYPE_FILE_CHARDEV, &backend,
+                            NULL, &error_abort);
+ 
+     qemu_chr_fe_init(&be, chr, &error_abort);
+@@ -1286,7 +1286,7 @@ static void char_file_test_internal(Chardev *ext_chr, const char *filepath)
+     } else {
+         out = g_build_filename(tmp_path, "out", NULL);
+         file.out = out;
+-        chr = qemu_chardev_new(NULL, TYPE_CHARDEV_FILE, &backend,
++        chr = qemu_chardev_new(NULL, TYPE_FILE_CHARDEV, &backend,
+                                NULL, &error_abort);
+     }
+     ret = qemu_chr_write_all(chr, (uint8_t *)"hello!", 6);
+diff --git a/ui/console.c b/ui/console.c
+index f8d7643fe4..965f01e804 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1089,9 +1089,9 @@ struct VCChardev {
+ };
+ typedef struct VCChardev VCChardev;
+ 
+-#define TYPE_CHARDEV_VC "chardev-vc"
++#define TYPE_VC_CHARDEV "chardev-vc"
+ DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+-                         TYPE_CHARDEV_VC)
++                         TYPE_VC_CHARDEV)
+ 
+ static int vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ {
+@@ -2403,7 +2403,7 @@ static void char_vc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_vc_type_info = {
+-    .name = TYPE_CHARDEV_VC,
++    .name = TYPE_VC_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(VCChardev),
+     .class_init = char_vc_class_init,
+@@ -2412,7 +2412,7 @@ static const TypeInfo char_vc_type_info = {
+ void qemu_console_early_init(void)
+ {
+     /* set the default vc driver */
+-    if (!object_class_by_name(TYPE_CHARDEV_VC)) {
++    if (!object_class_by_name(TYPE_VC_CHARDEV)) {
+         type_register(&char_vc_type_info);
+     }
+ }
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 1c59de2af4..2734f88e78 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -178,9 +178,9 @@ struct VCChardev {
+ };
+ typedef struct VCChardev VCChardev;
+ 
+-#define TYPE_CHARDEV_VC "chardev-vc"
++#define TYPE_VC_CHARDEV "chardev-vc"
+ DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+-                         TYPE_CHARDEV_VC)
++                         TYPE_VC_CHARDEV)
+ 
+ bool gtk_use_gl_area;
+ 
+@@ -1743,7 +1743,7 @@ static void char_gd_vc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_gd_vc_type_info = {
+-    .name = TYPE_CHARDEV_VC,
++    .name = TYPE_VC_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(VCChardev),
+     .class_init = char_gd_vc_class_init,
+diff --git a/ui/spice-app.c b/ui/spice-app.c
+index 93e105c6ee..e69dc21c78 100644
+--- a/ui/spice-app.c
++++ b/ui/spice-app.c
+@@ -46,9 +46,9 @@ struct VCChardev {
+ };
+ typedef struct VCChardev VCChardev;
+ 
+-#define TYPE_CHARDEV_VC "chardev-vc"
++#define TYPE_VC_CHARDEV "chardev-vc"
+ DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+-                         TYPE_CHARDEV_VC)
++                         TYPE_VC_CHARDEV)
+ 
+ static ChardevBackend *
+ chr_spice_backend_new(void)
+@@ -99,8 +99,8 @@ static void char_vc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_vc_type_info = {
+-    .name = TYPE_CHARDEV_VC,
+-    .parent = TYPE_CHARDEV_SPICEPORT,
++    .name = TYPE_VC_CHARDEV,
++    .parent = TYPE_SPICEPORT_CHARDEV,
+     .instance_size = sizeof(VCChardev),
+     .class_init = char_vc_class_init,
+ };
+@@ -166,7 +166,7 @@ static void spice_app_display_early_init(DisplayOptions *opts)
+     display_opengl = opts->has_gl;
+ #endif
+     be->u.spiceport.data->fqdn = g_strdup("org.qemu.monitor.qmp.0");
+-    qemu_chardev_new("org.qemu.monitor.qmp", TYPE_CHARDEV_SPICEPORT,
++    qemu_chardev_new("org.qemu.monitor.qmp", TYPE_SPICEPORT_CHARDEV,
+                      be, NULL, &error_abort);
+     qopts = qemu_opts_create(qemu_find_opts("mon"),
+                              NULL, 0, &error_fatal);
 -- 
 2.26.2
 
