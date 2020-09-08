@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B76260A0E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:29:26 +0200 (CEST)
-Received: from localhost ([::1]:40960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B31260A02
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:26:43 +0200 (CEST)
+Received: from localhost ([::1]:56356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFWC5-0005T9-UD
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
+	id 1kFW9S-0008WI-22
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:26:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3O-0006Bz-AJ; Tue, 08 Sep 2020 01:20:26 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:44533)
+ id 1kFW3O-0006CI-FB; Tue, 08 Sep 2020 01:20:26 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:36395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3M-0005xr-A7; Tue, 08 Sep 2020 01:20:25 -0400
+ id 1kFW3M-0005y1-92; Tue, 08 Sep 2020 01:20:26 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltkm3Gp0z9sV5; Tue,  8 Sep 2020 15:20:00 +1000 (AEST)
+ id 4Bltkm6GNHz9sVF; Tue,  8 Sep 2020 15:20:00 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599542400;
- bh=PeIhZBLtydKrEKfpTxjVJjL8zkvkMJjiCuSHLy0Dyv4=;
+ bh=K/XOjeGYSlZyMS1PfORGCBWpuW2vS31qvW4gcdn1dfM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZtncQTNjzI6CYgyaR3Qzd3u+WUOGUUPK6y+r5Kq+xd7BQDg4EcgHf6SwZ/MR6ocJP
- giTY5ZQsttrQwAUGiWa0/ADPMUqDqrZ+RXn4QAbsb+8BecOolCwddMcAr1VYNzfWrJ
- xZUhBp5CSbU6WHyFXVOAy7OhnVMcoXMpA7NDGKRI=
+ b=XThN45UPri8jbVjiasQ/oHGBzHOiM7C+lDbHxCPo4iKsVS7HolQJM8PJn88yVS1Xn
+ ymnH2jh6AMCDJd+2cPePrwXyI/g6Gw7gRudYUPdaL8oZxmHFHL7x2IiFZX+Pw0TB/E
+ 7Shh33sxobssEflt0Uzy3Yywi2asEyEilgx5IbP8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/33] spapr,
- spapr_nvdimm: fold NVDIMM validation in the same place
-Date: Tue,  8 Sep 2020 15:19:33 +1000
-Message-Id: <20200908051953.1616885-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/33] ppc/spapr_nvdimm: do not enable support with 'nvdimm=off'
+Date: Tue,  8 Sep 2020 15:19:34 +1000
+Message-Id: <20200908051953.1616885-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
@@ -67,113 +66,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-NVDIMM has different contraints and conditions than the regular
-DIMM and we'll need to add at least one more.
+The NVDIMM support for pSeries was introduced in 5.1, but it
+didn't contemplate the 'nvdimm' machine option that other
+archs uses. For every other arch, if no '-machine nvdimm(=on)'
+is present, it is assumed that the NVDIMM support is disabled.
+The user must explictly inform that the machine supports
+NVDIMM. For pseries-5.1 the 'nvdimm' option is completely
+ignored, and support is always assumed to exist. This
+leads to situations where the user is able to set 'nvdimm=off'
+but the guest boots up with the NVDIMMs anyway.
 
-Instead of relying on 'if (nvdimm)' conditionals in the body of
-spapr_memory_pre_plug(), use the existing spapr_nvdimm_validate_opts()
-and put all NVDIMM handling code there. Rename it to
-spapr_nvdimm_validate() to reflect that the function is now checking
-more than the nvdimm device options. This makes spapr_memory_pre_plug()
-a bit easier to follow, and we can tune in NVDIMM parameters
-and validation in the same place.
+Fixing this now, after 5.1 launch, can put the overall NVDIMM
+support for pseries in a strange place regarding this 'nvdimm'
+machine option. If we force everything to be like other archs,
+existing pseries-5.1 guests that didn't use 'nvdimm' to use NVDIMM
+devices will break. If we attempt to make the newer pseries
+machines (5.2+) behave like everyone else, but keep pseries-5.1
+untouched, we'll have consistency problems on machine upgrade
+(5.1 will have different default values for NVDIMM support than
+5.2).
 
+The common ground here is, if the user sets 'nvdimm=off', we
+must comply regardless of being 5.1 or 5.2+. This patch
+changes spapr_nvdimm_validate() to verify if the user set
+NVDIMM support off in the machine options and, in that
+case, error out if we have a NVDIMM device. The default
+value for 5.2+ pseries machines will still be 'nvdimm=on'
+when there is no 'nvdimm' option declared, just like it is today
+with pseries-5.1. In the end we'll have different default
+semantics from everyone else in the absence of the 'nvdimm'
+machine option, but this boat has sailed.
+
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1848887
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200825215749.213536-3-danielhb413@gmail.com>
+Message-Id: <20200825215749.213536-4-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c                | 18 ++++++------------
- hw/ppc/spapr_nvdimm.c         | 10 ++++++++--
- include/hw/ppc/spapr_nvdimm.h |  4 ++--
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ hw/ppc/spapr_nvdimm.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index dd2fa4826b..b0a04443fb 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3520,7 +3520,6 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
- {
-     const SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(hotplug_dev);
-     SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
--    const MachineClass *mc = MACHINE_CLASS(smc);
-     bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
-     PCDIMMDevice *dimm = PC_DIMM(dev);
-     Error *local_err = NULL;
-@@ -3533,27 +3532,22 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         return;
-     }
- 
--    if (is_nvdimm && !mc->nvdimm_supported) {
--        error_setg(errp, "NVDIMM hotplug not supported for this machine");
--        return;
--    }
--
-     size = memory_device_get_region_size(MEMORY_DEVICE(dimm), &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
- 
--    if (!is_nvdimm && size % SPAPR_MEMORY_BLOCK_SIZE) {
--        error_setg(errp, "Hotplugged memory size must be a multiple of "
--                   "%" PRIu64 " MB", SPAPR_MEMORY_BLOCK_SIZE / MiB);
--        return;
--    } else if (is_nvdimm) {
--        spapr_nvdimm_validate_opts(NVDIMM(dev), size, &local_err);
-+    if (is_nvdimm) {
-+        spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-         }
-+    } else if (size % SPAPR_MEMORY_BLOCK_SIZE) {
-+        error_setg(errp, "Hotplugged memory size must be a multiple of "
-+                   "%" PRIu64 " MB", SPAPR_MEMORY_BLOCK_SIZE / MiB);
-+        return;
-     }
- 
-     memdev = object_property_get_link(OBJECT(dimm), PC_DIMM_MEMDEV_PROP,
 diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index 9a20a65640..bc2b65420c 100644
+index bc2b65420c..95cbc30528 100644
 --- a/hw/ppc/spapr_nvdimm.c
 +++ b/hw/ppc/spapr_nvdimm.c
-@@ -30,13 +30,19 @@
+@@ -27,13 +27,17 @@
+ #include "hw/ppc/spapr_nvdimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "qemu/nvdimm-utils.h"
++#include "qemu/option.h"
  #include "hw/ppc/fdt.h"
  #include "qemu/range.h"
++#include "sysemu/sysemu.h"
  
--void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
--                                Error **errp)
-+void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-+                           uint64_t size, Error **errp)
+ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp)
  {
-+    const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
+     const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
++    const MachineState *ms = MACHINE(hotplug_dev);
++    const char *nvdimm_opt = qemu_opt_get(qemu_get_machine_opts(), "nvdimm");
      g_autofree char *uuidstr = NULL;
      QemuUUID uuid;
      int ret;
+@@ -43,6 +47,20 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+         return;
+     }
  
-+    if (!mc->nvdimm_supported) {
-+        error_setg(errp, "NVDIMM hotplug not supported for this machine");
++    /*
++     * NVDIMM support went live in 5.1 without considering that, in
++     * other archs, the user needs to enable NVDIMM support with the
++     * 'nvdimm' machine option and the default behavior is NVDIMM
++     * support disabled. It is too late to roll back to the standard
++     * behavior without breaking 5.1 guests. What we can do is to
++     * ensure that, if the user sets nvdimm=off, we error out
++     * regardless of being 5.1 or newer.
++     */
++    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
++        error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
 +        return;
 +    }
 +
      if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
                                  &error_abort) == 0) {
          error_setg(errp, "PAPR requires NVDIMM devices to have label-size set");
-diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-index b3330cc485..fd1736634c 100644
---- a/include/hw/ppc/spapr_nvdimm.h
-+++ b/include/hw/ppc/spapr_nvdimm.h
-@@ -29,8 +29,8 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-                            void *fdt, int *fdt_start_offset, Error **errp);
- int spapr_dt_nvdimm(void *fdt, int parent_offset, NVDIMMDevice *nvdimm);
- void spapr_dt_persistent_memory(void *fdt);
--void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
--                                Error **errp);
-+void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-+                           uint64_t size, Error **errp);
- void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
- void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr);
- 
 -- 
 2.26.2
 
