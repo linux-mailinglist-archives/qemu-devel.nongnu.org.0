@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F414526118F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:46:01 +0200 (CEST)
-Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F98D261197
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:47:30 +0200 (CEST)
+Received: from localhost ([::1]:38306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFd0b-0003PG-28
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37526)
+	id 1kFd21-0005YK-D5
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kFczG-00023N-Km
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:38 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:39396)
+ id 1kFczF-00022n-Er
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:37 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:42472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kFczD-0001L5-Ij
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:38 -0400
-Received: by mail-ed1-x541.google.com with SMTP id c10so15830395edk.6
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:44:34 -0700 (PDT)
+ id 1kFczD-0001LC-LV
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:44:37 -0400
+Received: by mail-ed1-x543.google.com with SMTP id l63so15814899edl.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:44:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=59FKQ7FjWGaMx6p/hgj1RpZbTEenTpc0lYB9ZMhjTO0=;
- b=KAemnoxfBQ+nO1USzzfug3TssaL5EeZCvlxT0pYckJdeP2ZXgrfoqQrK/2A4naz2ZK
- 2fghgpZu13p/ud7Kc9XPd+Pilkl1ZW2FYFBd4BYQp5z1vGGoiWkxJV3e9H88k53cYXVn
- Q3kwwnKvLDNKo+8wdjdXSy7TZ99dq/oSiuf+EjkISlE6pHh/9B/o0rum/lN6uSQXKA+k
- R+wXs1y+dWHqgDCEctZnPsYClo3qzMGKOglh6mS8RJrBoLo8nTouK4CwFOwA2moO5W2f
- AuJJ5ZOREBWjp2PbTe2Gx9t6ILYrL/jIK/51ce9IccRf7JEW4zFmBh36m1V3Jx2EToGK
- AkYQ==
+ bh=lCrIb5WUVl3SkQdV+w3xyR/zikAcpGVj/acDDdcJ41k=;
+ b=GUBcHA1wqnvxU9PRbwyJncSD8jwDS7+xXWNt6Sul3RQdFjWCvW2cI4uQ2lCKY2Wcdm
+ vOeDHM9OeTcojR1WsvqzaolMGC/2ysfgG1yZBHrGwuhEAAjZHvcqYnTyaxrRvWB0XxLN
+ W6lC5sZQaNCKr3Q13uypLX2aXHojXro+a7ZIqAhHjMbXloctrhu7ZSD/w87rVnZOWZRr
+ VrI/oHRtRzKmPKBi5LbYL8e4+ux270Bhq2L+beO8Pp35e+SC7dp1GyefQ4sYqogE9oo7
+ lXoaHtI8yVpzHTywkj/jWwLFkZNSB5tSjung+utPvH4TKUevFM5xUNq8ItRDDNonZ3nk
+ l8hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=59FKQ7FjWGaMx6p/hgj1RpZbTEenTpc0lYB9ZMhjTO0=;
- b=XUtg5wiWH+/jThJ64XY4LHZjcNP7qKByHZa6ffU/8tzLRy2/kzz0ObS/oLkeG2qYpC
- CNg/XyXzVbFQ3t1GWw9eSi51pb5AG0gzdtkFuR/IeQ3Z5CoLzygO7blHOZsvNI1fUH7k
- UeQdPwKwoBacTeqi9GAfyWu3HzkuxhdzGf+Vbirw9KR3b8ym8hOe1X1oW2EBnH791Gp+
- u6aGL4tQr7pL1eGAY9O9Brb+upmBEO+rIGgXi1zgLPHOHdBpvrERzjnN16ZhiHdVS4Lg
- aG/BYDrI9qFXfh3ZBSGW+2oAtVZ8cvK0WIz7GNXP7hOI/Nbjjnkr1pAJ5Ryx3mXyarQM
- SGrw==
-X-Gm-Message-State: AOAM5310vturKgmKQye5OGz3oAlWb28rRvbnWr+VEzq2Nmf6fj4gXwLQ
- DG6ANJ5KqtJBY9+h6+H7d3LsGzsLv0Q=
-X-Google-Smtp-Source: ABdhPJyfNV9WzZ+GFjTXkjCziWt4HcwmFxK552NnSGtfbY1sNN0QwVboMD9CjXuMr8Gm1xM7yU4Qxw==
-X-Received: by 2002:a50:ce06:: with SMTP id y6mr26094683edi.273.1599569073489; 
- Tue, 08 Sep 2020 05:44:33 -0700 (PDT)
+ bh=lCrIb5WUVl3SkQdV+w3xyR/zikAcpGVj/acDDdcJ41k=;
+ b=rNFQ6tGM2J719osnefqqMNi3TTwoUoNQpnXNQLhBQIAmXGvJ/jQAlM9YheN4LSSRYW
+ +05SDAFHyG61Whk1W+u5SJw2B8KTfkxbD19KRy0wDk5ih81rPUEklzPBTP8Vqa4+6HcB
+ 5diWtw/JaoLxVTv/smtlH+FiFH/JIS8IpU7flRxhWuvlQOn6iOttrQzTFMzDaTG3uTgE
+ R/n1sQWNxc8T+THzEmZ316QA40VWTybDbCfu/BCLTiMZg/FT7zDnuDP1fOhHi5E/6n4T
+ IoYrLqZsXJhou7UO0YMB+utfksY50AqF8fmYGWvoWnE21f20ti3vFKXpXCU6Ryju5iXB
+ M71A==
+X-Gm-Message-State: AOAM532RYSS2rux6+HV2K8GtKTU8ecgWGDGU5SHzTrz/QIW6U6jfsv0t
+ 71rPbGPn13RqjEuuHOUJ0PXYO68bxqo=
+X-Google-Smtp-Source: ABdhPJx7/2ArYX2RyR9jknaODlJ/BLuBavNs2ZRrHyHFmkmV5t3Y2YxeTF8xV+c2PMLSdY9VfiDodw==
+X-Received: by 2002:a50:84a2:: with SMTP id 31mr27602764edq.138.1599569074200; 
+ Tue, 08 Sep 2020 05:44:34 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id u23sm4396604ejc.108.2020.09.08.05.44.32
+ by smtp.gmail.com with ESMTPSA id u23sm4396604ejc.108.2020.09.08.05.44.33
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
  Tue, 08 Sep 2020 05:44:33 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] target/mips: Demacro helpers for <MAX|MAXA|MIN|MINA>.<D|S>
-Date: Tue,  8 Sep 2020 14:44:27 +0200
-Message-Id: <1599569068-9855-4-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH 4/4] target/mips: Refactor helpers for fp comparison
+ instructions
+Date: Tue,  8 Sep 2020 14:44:28 +0200
+Message-Id: <1599569068-9855-5-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1599569068-9855-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 References: <1599569068-9855-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,128 +87,157 @@ Cc: aleksandar.rikalo@syrmia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove function definitions via macros to achieve better code clarity.
+This change causes slighlty better performance of emulation of fp
+comparison instructions via better compiler optimization of refactored
+code. The functionality is otherwise unchanged.
 
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 104 ++++++++++++++++++++++++++++++---------
- 1 file changed, 81 insertions(+), 23 deletions(-)
+ target/mips/fpu_helper.c | 56 +++++++++++++++++++++++-----------------
+ 1 file changed, 32 insertions(+), 24 deletions(-)
 
 diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index 98313951cb..f480c7296e 100644
+index f480c7296e..22d533322b 100644
 --- a/target/mips/fpu_helper.c
 +++ b/target/mips/fpu_helper.c
-@@ -1475,29 +1475,87 @@ uint64_t helper_float_mulr_ps(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt1)
-     return ((uint64_t)fsth2 << 32) | fstl2;
+@@ -1780,11 +1780,12 @@ void helper_cmp_d_ ## op(CPUMIPSState *env, uint64_t fdt0,     \
+ {                                                              \
+     int c;                                                     \
+     c = cond;                                                  \
+-    update_fcr31(env, GETPC());                                \
+-    if (c)                                                     \
++    if (c) {                                                   \
+         SET_FP_COND(cc, env->active_fpu);                      \
+-    else                                                       \
++    } else {                                                   \
+         CLEAR_FP_COND(cc, env->active_fpu);                    \
++    }                                                          \
++    update_fcr31(env, GETPC());                                \
+ }                                                              \
+ void helper_cmpabs_d_ ## op(CPUMIPSState *env, uint64_t fdt0,  \
+                             uint64_t fdt1, int cc)             \
+@@ -1793,11 +1794,12 @@ void helper_cmpabs_d_ ## op(CPUMIPSState *env, uint64_t fdt0,  \
+     fdt0 = float64_abs(fdt0);                                  \
+     fdt1 = float64_abs(fdt1);                                  \
+     c = cond;                                                  \
+-    update_fcr31(env, GETPC());                                \
+-    if (c)                                                     \
++    if (c) {                                                   \
+         SET_FP_COND(cc, env->active_fpu);                      \
+-    else                                                       \
++    } else {                                                   \
+         CLEAR_FP_COND(cc, env->active_fpu);                    \
++    }                                                          \
++    update_fcr31(env, GETPC());                                \
  }
  
--#define FLOAT_MINMAX(name, bits, minmaxfunc)                            \
--uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,             \
--                                         uint ## bits ## _t fs,         \
--                                         uint ## bits ## _t ft)         \
--{                                                                       \
--    uint ## bits ## _t fdret;                                           \
--                                                                        \
--    fdret = float ## bits ## _ ## minmaxfunc(fs, ft,                    \
--                                           &env->active_fpu.fp_status); \
--    update_fcr31(env, GETPC());                                         \
--    return fdret;                                                       \
--}
--
--FLOAT_MINMAX(max_s, 32, maxnum)
--FLOAT_MINMAX(max_d, 64, maxnum)
--FLOAT_MINMAX(maxa_s, 32, maxnummag)
--FLOAT_MINMAX(maxa_d, 64, maxnummag)
--
--FLOAT_MINMAX(min_s, 32, minnum)
--FLOAT_MINMAX(min_d, 64, minnum)
--FLOAT_MINMAX(mina_s, 32, minnummag)
--FLOAT_MINMAX(mina_d, 64, minnummag)
--#undef FLOAT_MINMAX
-+
-+uint32_t helper_float_max_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
-+{
-+    uint32_t fdret;
-+
-+    fdret = float32_maxnum(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint64_t helper_float_max_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
-+{
-+    uint64_t fdret;
-+
-+    fdret = float64_maxnum(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint32_t helper_float_maxa_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
-+{
-+    uint32_t fdret;
-+
-+    fdret = float32_maxnummag(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint64_t helper_float_maxa_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
-+{
-+    uint64_t fdret;
-+
-+    fdret = float64_maxnummag(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint32_t helper_float_min_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
-+{
-+    uint32_t fdret;
-+
-+    fdret = float32_minnum(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint64_t helper_float_min_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
-+{
-+    uint64_t fdret;
-+
-+    fdret = float64_minnum(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint32_t helper_float_mina_s(CPUMIPSState *env, uint32_t fs, uint32_t ft)
-+{
-+    uint32_t fdret;
-+
-+    fdret = float32_minnummag(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint64_t helper_float_mina_d(CPUMIPSState *env, uint64_t fs, uint64_t ft)
-+{
-+    uint64_t fdret;
-+
-+    fdret = float64_minnummag(fs, ft, &env->active_fpu.fp_status);
-+
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
+ /*
+@@ -1859,11 +1861,12 @@ void helper_cmp_s_ ## op(CPUMIPSState *env, uint32_t fst0,     \
+ {                                                              \
+     int c;                                                     \
+     c = cond;                                                  \
+-    update_fcr31(env, GETPC());                                \
+-    if (c)                                                     \
++    if (c) {                                                   \
+         SET_FP_COND(cc, env->active_fpu);                      \
+-    else                                                       \
++    } else {                                                   \
+         CLEAR_FP_COND(cc, env->active_fpu);                    \
++    }                                                          \
++    update_fcr31(env, GETPC());                                \
+ }                                                              \
+ void helper_cmpabs_s_ ## op(CPUMIPSState *env, uint32_t fst0,  \
+                             uint32_t fst1, int cc)             \
+@@ -1872,11 +1875,12 @@ void helper_cmpabs_s_ ## op(CPUMIPSState *env, uint32_t fst0,  \
+     fst0 = float32_abs(fst0);                                  \
+     fst1 = float32_abs(fst1);                                  \
+     c = cond;                                                  \
+-    update_fcr31(env, GETPC());                                \
+-    if (c)                                                     \
++    if (c) {                                                   \
+         SET_FP_COND(cc, env->active_fpu);                      \
+-    else                                                       \
++    } else {                                                   \
+         CLEAR_FP_COND(cc, env->active_fpu);                    \
++    }                                                          \
++    update_fcr31(env, GETPC());                                \
+ }
  
- /* ternary operations */
+ /*
+@@ -1944,15 +1948,17 @@ void helper_cmp_ps_ ## op(CPUMIPSState *env, uint64_t fdt0,     \
+     fsth1 = fdt1 >> 32;                                         \
+     cl = condl;                                                 \
+     ch = condh;                                                 \
+-    update_fcr31(env, GETPC());                                 \
+-    if (cl)                                                     \
++    if (cl) {                                                   \
+         SET_FP_COND(cc, env->active_fpu);                       \
+-    else                                                        \
++    } else {                                                    \
+         CLEAR_FP_COND(cc, env->active_fpu);                     \
+-    if (ch)                                                     \
++    }                                                           \
++    if (ch) {                                                   \
+         SET_FP_COND(cc + 1, env->active_fpu);                   \
+-    else                                                        \
++    } else {                                                    \
+         CLEAR_FP_COND(cc + 1, env->active_fpu);                 \
++    }                                                           \
++    update_fcr31(env, GETPC());                                 \
+ }                                                               \
+ void helper_cmpabs_ps_ ## op(CPUMIPSState *env, uint64_t fdt0,  \
+                              uint64_t fdt1, int cc)             \
+@@ -1965,15 +1971,17 @@ void helper_cmpabs_ps_ ## op(CPUMIPSState *env, uint64_t fdt0,  \
+     fsth1 = float32_abs(fdt1 >> 32);                            \
+     cl = condl;                                                 \
+     ch = condh;                                                 \
+-    update_fcr31(env, GETPC());                                 \
+-    if (cl)                                                     \
++    if (cl) {                                                   \
+         SET_FP_COND(cc, env->active_fpu);                       \
+-    else                                                        \
++    } else {                                                    \
+         CLEAR_FP_COND(cc, env->active_fpu);                     \
+-    if (ch)                                                     \
++    }                                                           \
++    if (ch) {                                                   \
+         SET_FP_COND(cc + 1, env->active_fpu);                   \
+-    else                                                        \
++    } else {                                                    \
+         CLEAR_FP_COND(cc + 1, env->active_fpu);                 \
++    }                                                           \
++    update_fcr31(env, GETPC());                                 \
+ }
  
+ /*
+@@ -2080,12 +2088,12 @@ uint64_t helper_r6_cmp_d_ ## op(CPUMIPSState *env, uint64_t fdt0,   \
+ {                                                                   \
+     uint64_t c;                                                     \
+     c = cond;                                                       \
+-    update_fcr31(env, GETPC());                                     \
+     if (c) {                                                        \
+         return -1;                                                  \
+     } else {                                                        \
+         return 0;                                                   \
+     }                                                               \
++    update_fcr31(env, GETPC());                                     \
+ }
+ 
+ /*
+@@ -2175,12 +2183,12 @@ uint32_t helper_r6_cmp_s_ ## op(CPUMIPSState *env, uint32_t fst0,   \
+ {                                                                   \
+     uint64_t c;                                                     \
+     c = cond;                                                       \
+-    update_fcr31(env, GETPC());                                     \
+     if (c) {                                                        \
+         return -1;                                                  \
+     } else {                                                        \
+         return 0;                                                   \
+     }                                                               \
++    update_fcr31(env, GETPC());                                     \
+ }
+ 
+ /*
 -- 
 2.20.1
 
