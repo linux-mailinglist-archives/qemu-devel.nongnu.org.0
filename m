@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A655261170
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:35:22 +0200 (CEST)
-Received: from localhost ([::1]:60768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D0C26116D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:34:38 +0200 (CEST)
+Received: from localhost ([::1]:55966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFcqH-0007v5-EI
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
+	id 1kFcpZ-0005wk-9y
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFcnE-0001qt-S7; Tue, 08 Sep 2020 08:32:12 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:35101)
+ id 1kFcnI-00020E-E5; Tue, 08 Sep 2020 08:32:16 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFcnD-0008DP-62; Tue, 08 Sep 2020 08:32:12 -0400
-Received: by mail-pg1-x541.google.com with SMTP id g29so9947780pgl.2;
- Tue, 08 Sep 2020 05:32:10 -0700 (PDT)
+ id 1kFcnG-0008De-IQ; Tue, 08 Sep 2020 08:32:16 -0400
+Received: by mail-pg1-x543.google.com with SMTP id g29so9947900pgl.2;
+ Tue, 08 Sep 2020 05:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NnBwIumxkiQ9pXVAp8TmFXF/H8dsT5OnHNvh40zg8GM=;
- b=hyCj/WzzOgw60LVccInaU5oPF6/xBc3jOiW+LG1ky/1P9Uh3gHqVfwTjc+T56M1kkK
- XjAMcrHRqtepGUnxYWruzG7pfJbaBx7qaem3l+GNyuwd7g+hfOsbxmpTYUldB3wARL6d
- k+/8hPTDkeS7hfXm3ow9cRz3lYRgWF/X64P5uib7GZQbNjzIs7IKElT9PO0HfNq0+yBZ
- hYdV+2wHVqEpKdD/VykfxVceo174Yf7EltqJjgnVR/pg5hhmKz/ApiWLzp530oKGUqyJ
- oepyIT2xzB8g/wDl+VBn8NMrPHlpUjOHsxkiFvjvODwuCgH5wUbtJu9oxtC4wZQsl+eL
- IWgg==
+ bh=6IbIev6UphKtRupMGnz/q+0CYLU1wctlYm7gArTx0pQ=;
+ b=dhOZGM/+WrvXhFCPrQkriGNYYtN//wXapOzAAJV15ehlp8EpDkK46bDH/vjKdgwi2m
+ TqGSJPhJSqZbjIJcM9kdQo07w38elyREQDTYYiJ4QxzlsAEzPpRpcnCsQkMTF6JmexaZ
+ xl9FdaRMWQTHEYtrJpBBh8XoCuQUuoL1K5burUctnlzBMQYxNqivB/OMvz0Je2wzQ7VA
+ wqnA1DeQByb4OmQuzAqQVp53TACOSzTQ7pEEJckF2fnkC2BOqjQsph6wyCNJH8mZXJBu
+ S+R7Kt2kw1o4yIMQ1WTogaOANrc+ntgoVZwyES3HpEG3w1CSCX6rHIzvGHy5e4H+aPXk
+ 1bQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NnBwIumxkiQ9pXVAp8TmFXF/H8dsT5OnHNvh40zg8GM=;
- b=MpAS7K8C3cSjBMp+9LtbaipypenxavK26IjmMtfuFPG2WZhesPYulGB8EE7u2LWTQp
- xwguP9glfsD0YVUPE0RrTS+igMBPsv9dECf6QvATKv8X7ur2CKfLU3T96Lg0OfCuc6rF
- xXdgjihOUAgqHO933CBDjMmhW7P3mxFU3+YQ8j5ls2clO5acO4LbO7mkRTHv50807qlN
- tdnPAchHasnOmeJuQ3GU69/yDsuxOJhMzDmIw/pOtNqWvtxxA2D6YITqcDawdzYt9TDp
- 4PWQ+0HWqOHYPJ3ghlPZ9PDiRm8rS9dbrDZz9qGvlIk+yoCTY6jgVqPPYVWaiyeZm2NF
- DfCw==
-X-Gm-Message-State: AOAM532R2SW/FuopyJ5wPvCy1Voj0pDY8wXgBUXRN0MXCeBiPUxHFrgK
- Sqyuic68SXipDKnKmjg1DtsC4vcClkQIWbdB
-X-Google-Smtp-Source: ABdhPJw/VQ/hgZaYGSPBmG1nmLI+MepSBLqPoSo/uievhj4Ih7lOhUUWUXoKBNIwa2lSizXr+XyBwg==
-X-Received: by 2002:a65:6897:: with SMTP id e23mr20393467pgt.103.1599568328556; 
- Tue, 08 Sep 2020 05:32:08 -0700 (PDT)
+ bh=6IbIev6UphKtRupMGnz/q+0CYLU1wctlYm7gArTx0pQ=;
+ b=RKHotCEUGqYpHpJOZBR9fCiGpIgGXHmioVYs0mtxQVWTMj3LqSudqmKmbuhxYd1ClP
+ 3a8gbCZqfv2JnAgXqL76oXchMj5qjbgUAEgONqy8LGMaEev80Vi2U4jkdo8iEZJn6Nz3
+ FZ3yPfjjNU7NNEFgVpZuDktj8NGzUCGHSMtTht5E4sEoWmaP9JlInT3x/b16fmAC2BQ1
+ idMiYG/l6p3+jI3RPHa7W7lCbBdZHDl4pVJGyAZA4+5fxNfZJaR1GbE4BndSnc5PyW8j
+ Hf1uVj3yykgNqp6PzI3CURFHlrvuOgUfgiBrU2yBRyZJMsoNB8L3GIF5zSotuI9R/N9V
+ kQqA==
+X-Gm-Message-State: AOAM531xvK833NsX6RhT6/kn+Z0SX4wyta0PDOKIVHAVzusOFI6WCU+y
+ qpOPn+xhSTrUlbTgNiYLDzcqHaR9QA/X16Hs
+X-Google-Smtp-Source: ABdhPJylffKa9jtUUkYcB/Cd7nqnkLD9/k0+XQ5xQy3m8l4OAoaFKx/jXbdNinePdO02xJ0ymo5c7Q==
+X-Received: by 2002:a63:29c7:: with SMTP id
+ p190mr20078387pgp.292.1599568332265; 
+ Tue, 08 Sep 2020 05:32:12 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id k5sm29172087pjl.3.2020.09.08.05.32.05
+ by smtp.googlemail.com with ESMTPSA id k5sm29172087pjl.3.2020.09.08.05.32.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 05:32:07 -0700 (PDT)
+ Tue, 08 Sep 2020 05:32:11 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] logging: Fixes memory leak in test-logging.c
-Date: Tue,  8 Sep 2020 20:31:48 +0800
-Message-Id: <20200908123149.1475-2-luoyonggang@gmail.com>
+Subject: [PATCH v3 2/2] rcu: add uninit destructor for rcu
+Date: Tue,  8 Sep 2020 20:31:49 +0800
+Message-Id: <20200908123149.1475-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200908123149.1475-1-luoyonggang@gmail.com>
 References: <20200908123149.1475-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,37 +83,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Daniel Brodsky <dnbrdsky@gmail.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Daniel Brodsky <dnbrdsky@gmail.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_dir_make_tmp Returns the actual name used. This string should be
-freed with g_free() when not needed any longer and is is in the GLib
-file name encoding. In case of errors, NULL is returned and error will
-be set. Use g_autofree to free it properly
+This is necessary if the pending  rcu calls are closing and removing
+temp files. This also provide a function
+void rcu_wait_finished(void);
+to fixes test-logging.c test failure on msys2/mingw.
+On windows if the file doesn't closed, you can not remove it.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/test-logging.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/rcu.h   |  5 +++++
+ tests/test-logging.c |  2 ++
+ util/rcu.c           | 28 ++++++++++++++++++++++++----
+ 3 files changed, 31 insertions(+), 4 deletions(-)
 
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index 570aa603eb..dd0a92c1d0 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -124,6 +124,11 @@ extern void rcu_unregister_thread(void);
+ extern void rcu_enable_atfork(void);
+ extern void rcu_disable_atfork(void);
+ 
++/*
++ * Wait all rcu call executed and exit the rcu thread.
++ */
++extern void rcu_wait_finished(void);
++
+ struct rcu_head;
+ typedef void RCUCBFunc(struct rcu_head *head);
+ 
 diff --git a/tests/test-logging.c b/tests/test-logging.c
-index 8a1161de1d..957f6c08cd 100644
+index 957f6c08cd..7a5b59f4a5 100644
 --- a/tests/test-logging.c
 +++ b/tests/test-logging.c
-@@ -196,7 +196,7 @@ static void rmdir_full(gchar const *root)
+@@ -210,6 +210,8 @@ int main(int argc, char **argv)
+                          tmp_path, test_logfile_lock);
  
- int main(int argc, char **argv)
+     rc = g_test_run();
++    qemu_log_close();
++    rcu_wait_finished();
+ 
+     rmdir_full(tmp_path);
+     g_free(tmp_path);
+diff --git a/util/rcu.c b/util/rcu.c
+index 60a37f72c3..3d5ba695a4 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -234,6 +234,7 @@ retry:
+ 
+ static void *call_rcu_thread(void *opaque)
  {
--    gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
-+    g_autofree gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
-     int rc;
++    int *rcu_finished_ptr = (int *)opaque;
+     struct rcu_head *node;
  
-     g_test_init(&argc, &argv, NULL);
+     rcu_register_thread();
+@@ -241,6 +242,10 @@ static void *call_rcu_thread(void *opaque)
+     for (;;) {
+         int tries = 0;
+         int n = atomic_read(&rcu_call_count);
++        if (n == 0 && atomic_mb_read(rcu_finished_ptr) == 1)
++        {
++            return NULL;
++        }
+ 
+         /* Heuristically wait for a decent number of callbacks to pile up.
+          * Fetch rcu_call_count now, we only must process elements that were
+@@ -308,10 +313,12 @@ void rcu_unregister_thread(void)
+     qemu_mutex_unlock(&rcu_registry_lock);
+ }
+ 
++static QemuThread rcu_thread;
++static int rcu_finished = 0;
++
+ static void rcu_init_complete(void)
+ {
+-    QemuThread thread;
+-
++    atomic_mb_set(&rcu_finished, 0);
+     qemu_mutex_init(&rcu_registry_lock);
+     qemu_mutex_init(&rcu_sync_lock);
+     qemu_event_init(&rcu_gp_event, true);
+@@ -321,12 +328,20 @@ static void rcu_init_complete(void)
+     /* The caller is assumed to have iothread lock, so the call_rcu thread
+      * must have been quiescent even after forking, just recreate it.
+      */
+-    qemu_thread_create(&thread, "call_rcu", call_rcu_thread,
+-                       NULL, QEMU_THREAD_DETACHED);
++    qemu_thread_create(&rcu_thread, "call_rcu", call_rcu_thread,
++                       &rcu_finished, QEMU_THREAD_JOINABLE);
+ 
+     rcu_register_thread();
+ }
+ 
++void rcu_wait_finished(void)
++{
++    if (atomic_xchg(&rcu_finished, 1) == 0)
++    {
++        qemu_thread_join(&rcu_thread);
++    }
++}
++
+ static int atfork_depth = 1;
+ 
+ void rcu_enable_atfork(void)
+@@ -379,3 +394,8 @@ static void __attribute__((__constructor__)) rcu_init(void)
+ #endif
+     rcu_init_complete();
+ }
++
++static void __attribute__((__destructor__)) rcu_uninit(void)
++{
++    rcu_wait_finished();
++}
 -- 
 2.28.0.windows.1
 
