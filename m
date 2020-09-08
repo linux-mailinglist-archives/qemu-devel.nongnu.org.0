@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434C6260D74
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:21:34 +0200 (CEST)
-Received: from localhost ([::1]:55568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D2A260D34
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:15:33 +0200 (CEST)
+Received: from localhost ([::1]:57144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYsf-0002AL-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58452)
+	id 1kFYmq-0008Bz-9I
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:15:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kFYlG-0005rD-Qh
+ id 1kFYlG-0005pe-9V
  for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:54 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:34541)
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kFYlC-0000Rv-Uj
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:54 -0400
-Received: by mail-pg1-x543.google.com with SMTP id u13so9527138pgh.1
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:13:50 -0700 (PDT)
+ id 1kFYlE-0000SG-8i
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:53 -0400
+Received: by mail-pf1-x441.google.com with SMTP id c196so4851282pfc.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:13:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=98oDa/Uw9z4PZMJfsm+7ai4FPAo11Fc74PaW20mvgsM=;
- b=REY5uAR9QcojLRSeaMMTjQAq3wWkP1nzt2xYQ9OoeId8mhgsu9+1uWqC38A1ukXotf
- LPY6pBz8BTALYF6Ne+w2Ul5APsrEgvbJtoAqdsngoUXcJD69AqZAuPh6vUoRbQdA2SZ0
- dmSpnjKr2VUMYnIWuocrnKZ4wTBFcKRmwxUmLUVpWGBmK7viCpy6+8GxzkIiniN55jgX
- 3reISj+UIOjZY2a7Sfmqil6VEC4Q0nFuYnT9o6IV4APvCwS1JyoejxavKRpMYpMolJsC
- WAWTr4S6+b2u0lcsGXI+qyPAgQBrdUIVHmevzg+XpmQQbwwkexxpRq4SVvFLk9TbnEZt
- lfdA==
+ bh=hvtYY966srnK5wG0YbtFj+vFvT8ZWyaFHw3B2vowdgs=;
+ b=UN562VwkN4m/so7koho/gMRFletaKtsYpQDYr/Qs5O5VIF+hkVHSdTs9F48prIClND
+ sqf8/ep/mt/JXaDfjzVN2Ma2/VLYxpuVKA/MM9poc3mBXgA0PE4vLIMAXp16L38J8Yjm
+ bsfe8kXLAF0W3fgXrZ/lDYrJbdDWmskVc995fL1Lkp21hXLXAbVzKPp7al8HN201fUCT
+ GiXZ2s6oU0ba+3OaKthBjfzJcvk2viX2FPGJ6V2MAnqBdhyS2s98ypgsFjm/4XXYCGly
+ FChbXpw0rcdZwIoAFAliYoCjht4A8P9cOrcyJAJh+b7sFwqR+dsQJAd2MkVjyGVJJp7v
+ IWkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=98oDa/Uw9z4PZMJfsm+7ai4FPAo11Fc74PaW20mvgsM=;
- b=g2BZLcRNl+VCTFNnwCWDoGNE7Khd7i2pyZ2OriDsVFm+hOAPlvZumbhpZSDMn3utOs
- ZEt7+dUR4F7i04KanX2vmzf5ook3GIKsS7BH8+QPf1DHy1vdecAH3sXMaP3hwPAHQijQ
- yMVa1LUs8F4W2H/QnJUVO7A1VMDmMo83pcvCEP+N0z68cK1GcQdc0017jkjxd1EJCzLb
- Xk4Zx5XZodSnfxugIQtoxTPBN4dVMhpFI/rMRZf71t4532HrJLZ9XwN/1yGagLDazgWt
- dMfwXJwbDa2edEcIgBYsJsMMBBrVUjeVpNB9kHT7rpLdQLRA+vTYwR5IneyJ/qnquxMk
- le0g==
-X-Gm-Message-State: AOAM530C3/ZQSaRep7XSo97CiNrsYaInDC+rbQyL74xvT6JDL/vUX71P
- Fxui2/yilPBTuXw4pKOyUPGO
-X-Google-Smtp-Source: ABdhPJwFUcM00TFMgzKF9XFRr0/TEL8rNhelWlrT6nu0GjzJjuP/7r8AhM0kZG6g4qBI+Wjz3Yy+NA==
-X-Received: by 2002:a62:6dc3:0:b029:13c:1611:658d with SMTP id
- i186-20020a626dc30000b029013c1611658dmr21590723pfc.10.1599552829633; 
- Tue, 08 Sep 2020 01:13:49 -0700 (PDT)
+ bh=hvtYY966srnK5wG0YbtFj+vFvT8ZWyaFHw3B2vowdgs=;
+ b=jKVzaYdP6w0H6aoTEhpZTOuFiBzlNRsruL86qaFG4y1ravViAlNJPknd+umIihSIS5
+ VpUAKVXANB5ZlakrMjQXuYzfBJLWpkQQkBJfgxNFaXqdAmcXzd1IDagi9Pd5EbHfpx6h
+ Ei3pdzqgI9SeodTSt/Xs8LQYbWP9Le8kPaAlZNkVI2ivAxq5+XJFbgZ5Uq77s2HgPeGR
+ 4uO/3sgfIJPTcqohlYgAkUjnx2Uvx4+aI9xGnwXwe16xnXcNk1mH1zbRlUNw8Mjpilrj
+ RNXF/gJqrx0LsTGM8ad/7zm1tu5G9tBxzE2AvLXfu6h3K6hQkXdxA/kpbf4oDFZ6PpTG
+ Y04g==
+X-Gm-Message-State: AOAM531bmpx7cEXTdhL3U/LcjKPv8fQqRCjb1eCU3WwR/g58ptbakuvS
+ GMe+SgR2k9FUhvR35SLbOLhf
+X-Google-Smtp-Source: ABdhPJxbsgXZZiwoTefUXQdHTKj8phvrN1Ubbof8tVKxLrFxcD/OPaYnXfeZ0UPVWrTXOM5X6ioB7Q==
+X-Received: by 2002:a63:3841:: with SMTP id h1mr18425109pgn.38.1599552830846; 
+ Tue, 08 Sep 2020 01:13:50 -0700 (PDT)
 Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id m190sm16934788pfm.184.2020.09.08.01.13.48
+ by smtp.gmail.com with ESMTPSA id m190sm16934788pfm.184.2020.09.08.01.13.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 01:13:49 -0700 (PDT)
+ Tue, 08 Sep 2020 01:13:50 -0700 (PDT)
 From: Haibo Xu <haibo.xu@linaro.org>
 To: drjones@redhat.com,
 	richard.henderson@linaro.org
-Subject: [PATCH v2 06/12] target/arm/kvm: spe: Add device init and set_irq
- operations
-Date: Tue,  8 Sep 2020 08:13:24 +0000
-Message-Id: <7bc684ec37de06827c68c409d5f02da7381734e5.1599549462.git.haibo.xu@linaro.org>
+Subject: [PATCH v2 07/12] hw/arm/virt: Move post cpu realize check into its
+ own function
+Date: Tue,  8 Sep 2020 08:13:25 +0000
+Message-Id: <04a3f2e202d9e84cefa431101eaf4c7e0cbd1a0d.1599549462.git.haibo.xu@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1599549462.git.haibo.xu@linaro.org>
 References: <cover.1599549462.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=haibo.xu@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=haibo.xu@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,79 +91,81 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
----
- target/arm/kvm64.c   | 33 +++++++++++++++++++++++++++++++++
- target/arm/kvm_arm.h |  5 +++++
- 2 files changed, 38 insertions(+)
+From: Andrew Jones <drjones@redhat.com>
 
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 8ffd31ffdf..5a2032fc9e 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -450,6 +450,39 @@ void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
+We'll add more to this new function in coming patches so we also
+state the gic must be created and call it below create_gic().
+
+No functional change intended.
+
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+---
+ hw/arm/virt.c | 38 ++++++++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
+
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 3f6d26c531..2ffcb073af 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1672,6 +1672,26 @@ static void finalize_gic_version(VirtMachineState *vms)
      }
  }
  
-+void kvm_arm_spe_init(CPUState *cs)
++static void virt_cpu_post_init(VirtMachineState *vms)
 +{
-+    struct kvm_device_attr attr = {
-+        .group = KVM_ARM_VCPU_SPE_V1_CTRL,
-+        .attr = KVM_ARM_VCPU_SPE_V1_INIT,
-+    };
++    bool aarch64;
 +
-+    if (!ARM_CPU(cs)->has_spe) {
-+        return;
-+    }
-+    if (!kvm_arm_set_device_attr(cs, &attr, "SPE")) {
-+        error_report("failed to init SPE");
-+        abort();
-+    }
++    aarch64 = object_property_get_bool(OBJECT(first_cpu), "aarch64", NULL);
++
++    if (!kvm_enabled()) {
++        if (aarch64 && vms->highmem) {
++            int requested_pa_size = 64 - clz64(vms->highest_gpa);
++            int pamax = arm_pamax(ARM_CPU(first_cpu));
++
++            if (pamax < requested_pa_size) {
++                error_report("VCPU supports less PA bits (%d) than requested "
++                            "by the memory map (%d)", pamax, requested_pa_size);
++                exit(1);
++            }
++        }
++     }
 +}
 +
-+void kvm_arm_spe_set_irq(CPUState *cs, int irq)
-+{
-+    struct kvm_device_attr attr = {
-+        .group = KVM_ARM_VCPU_SPE_V1_CTRL,
-+        .addr = (intptr_t)&irq,
-+        .attr = KVM_ARM_VCPU_SPE_V1_IRQ,
-+    };
-+
-+    if (!ARM_CPU(cs)->has_spe) {
-+        return;
-+    }
-+    if (!kvm_arm_set_device_attr(cs, &attr, "SPE")) {
-+        error_report("failed to set irq for SPE");
-+        abort();
-+    }
-+}
-+
- static int read_sys_reg32(int fd, uint32_t *pret, uint64_t id)
+ static void machvirt_init(MachineState *machine)
  {
-     uint64_t ret;
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index f79655674e..bb155322eb 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -348,6 +348,8 @@ int kvm_arm_vgic_probe(void);
+     VirtMachineState *vms = VIRT_MACHINE(machine);
+@@ -1890,22 +1910,6 @@ static void machvirt_init(MachineState *machine)
+     fdt_add_timer_nodes(vms);
+     fdt_add_cpu_nodes(vms);
  
- void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
- void kvm_arm_pmu_init(CPUState *cs);
-+void kvm_arm_spe_set_irq(CPUState *cs, int irq);
-+void kvm_arm_spe_init(CPUState *cs);
- int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
+-   if (!kvm_enabled()) {
+-        ARMCPU *cpu = ARM_CPU(first_cpu);
+-        bool aarch64 = object_property_get_bool(OBJECT(cpu), "aarch64", NULL);
+-
+-        if (aarch64 && vms->highmem) {
+-            int requested_pa_size, pamax = arm_pamax(cpu);
+-
+-            requested_pa_size = 64 - clz64(vms->highest_gpa);
+-            if (pamax < requested_pa_size) {
+-                error_report("VCPU supports less PA bits (%d) than requested "
+-                            "by the memory map (%d)", pamax, requested_pa_size);
+-                exit(1);
+-            }
+-        }
+-    }
+-
+     memory_region_add_subregion(sysmem, vms->memmap[VIRT_MEM].base,
+                                 machine->ram);
+     if (machine->device_memory) {
+@@ -1917,6 +1921,8 @@ static void machvirt_init(MachineState *machine)
  
- #else
-@@ -397,6 +399,9 @@ static inline int kvm_arm_vgic_probe(void)
- static inline void kvm_arm_pmu_set_irq(CPUState *cs, int irq) {}
- static inline void kvm_arm_pmu_init(CPUState *cs) {}
+     create_gic(vms);
  
-+static inline void kvm_arm_spe_set_irq(CPUState *cs, int irq) {}
-+static inline void kvm_arm_spe_init(CPUState *cs) {}
++    virt_cpu_post_init(vms);
 +
- static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map) {}
+     fdt_add_pmu_nodes(vms);
  
- static inline void kvm_arm_get_virtual_time(CPUState *cs) {}
+     create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
 -- 
 2.17.1
 
