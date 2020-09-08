@@ -2,57 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B9D261050
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 12:56:08 +0200 (CEST)
-Received: from localhost ([::1]:59822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D583261056
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 12:58:03 +0200 (CEST)
+Received: from localhost ([::1]:36852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFbIF-0005MC-DU
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 06:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39310)
+	id 1kFbK5-0007ci-WC
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 06:58:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFbH3-0004Q5-IG
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:54:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57027
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kFbIo-0006by-I2
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:56:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40378
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFbH2-00044t-16
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:54:53 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kFbIm-0004T6-VF
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 06:56:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599562491;
+ s=mimecast20190719; t=1599562600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=pEMBhEfXlixiPge74DtxM/QOy/cZbksaQ/TgWRgnUGo=;
- b=FQfXkwxKw7LoJLdpx9yLbMhQEC0Sb4qSnbvXXNfd0uy2YODCNlQtlg97NYM+HfBltDXqkh
- LlmDV0NDwuUM8sm4AtkSvdCxPFJEoEA9q+0CT40Ynzv/UPCBpnnvm733KD41bstFxW6bbO
- pC2tYPjOdgvns7iceOaKBdJXLJwNXcU=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GIbNL/nVH5BNe+CWhBWkidXimhE+y5MW5kJvjNQ4FpI=;
+ b=O9suInEhYvgH3m9zuudSZyfounuCykPLOcwE68FpGofARrI4YFTBkdKtuH5C+XDFYUzBy3
+ 42ZZEpSqTB0B+lXGL5kxajd3uVkYVS426i4T4YK98wlOE6M3yz2CLvOXk/MJHHJf0fpqwO
+ p/zlPZA19S6OGUQuhyBcnn84KFZ49CM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-Vb_shAecNnCU3PwouJfFNw-1; Tue, 08 Sep 2020 06:54:49 -0400
-X-MC-Unique: Vb_shAecNnCU3PwouJfFNw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-293-Uoa5l87BOjOghEpUzOdnbA-1; Tue, 08 Sep 2020 06:56:37 -0400
+X-MC-Unique: Uoa5l87BOjOghEpUzOdnbA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80419801FDC
- for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 10:54:48 +0000 (UTC)
-Received: from thuth.com (ovpn-112-131.ams2.redhat.com [10.36.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B4245D9EF;
- Tue,  8 Sep 2020 10:54:44 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH] tests/socket-helpers: Only fail socket protocol check if it
- is really necessary
-Date: Tue,  8 Sep 2020 12:54:35 +0200
-Message-Id: <20200908105435.218715-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA977AF200;
+ Tue,  8 Sep 2020 10:56:35 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A52C82461;
+ Tue,  8 Sep 2020 10:56:33 +0000 (UTC)
+Date: Tue, 8 Sep 2020 12:56:31 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>
+Subject: Re: [PATCH v2 05/12] target/arm/kvm: spe: Unify device attr
+ operation helper
+Message-ID: <20200908105631.etggiu56l65ohlyq@kamzik.brq.redhat.com>
+References: <cover.1599549462.git.haibo.xu@linaro.org>
+ <45eecae26272efc7a09837573cd5278296b58dc5.1599549462.git.haibo.xu@linaro.org>
+MIME-Version: 1.0
+In-Reply-To: <45eecae26272efc7a09837573cd5278296b58dc5.1599549462.git.haibo.xu@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=drjones@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -62,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,59 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests/test-char test is currently always failing on my system since
-socket_can_bind_connect("::1", PF_INET6) fails with EINVAL and thus
-socket_check_protocol_support() is returning -1 for an error. But IPv4
-is working fine. The logic in socket_check_protocol_support() seems to
-be wrong here, if either IPv6 or IPv4 is working, we should not return
-an error here. Thus rework the function to only return errors if both
-checks failed.
+On Tue, Sep 08, 2020 at 08:13:23AM +0000, Haibo Xu wrote:
+> From: Andrew Jones <drjones@redhat.com>
+> 
+> Rename kvm_arm_pmu_set_attr() to kvm_arm_set_device_attr(),
+> So both the vPMU and vSPE device can share the same API.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/socket-helpers.c | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+Looks like a faithful port of what I posted as a hunk of another patch, so
+I'll accept the authorship. Please also add you s-b though.
 
-diff --git a/tests/socket-helpers.c b/tests/socket-helpers.c
-index 19a51e887e..62a0e0f2d9 100644
---- a/tests/socket-helpers.c
-+++ b/tests/socket-helpers.c
-@@ -136,22 +136,17 @@ static int socket_can_bind_connect(const char *hostname, int family)
- 
- int socket_check_protocol_support(bool *has_ipv4, bool *has_ipv6)
- {
--    *has_ipv4 = *has_ipv6 = false;
-+    int errv4, errv6;
- 
--    if (socket_can_bind_connect("127.0.0.1", PF_INET) < 0) {
--        if (errno != EADDRNOTAVAIL) {
--            return -1;
--        }
--    } else {
--        *has_ipv4 = true;
--    }
-+    errv4 = socket_can_bind_connect("127.0.0.1", PF_INET);
-+    *has_ipv4 = (errv4 == 0);
- 
--    if (socket_can_bind_connect("::1", PF_INET6) < 0) {
--        if (errno != EADDRNOTAVAIL) {
--            return -1;
--        }
--    } else {
--        *has_ipv6 = true;
-+    errv6 = socket_can_bind_connect("::1", PF_INET6);
-+    *has_ipv6 = (errv6 == 0);
-+
-+    if (!*has_ipv4 && !*has_ipv6 &&
-+        (errv4 != EADDRNOTAVAIL || errv6 != EADDRNOTAVAIL)) {
-+        return -1;
-     }
- 
-     return 0;
--- 
-2.18.2
+Thanks,
+drew
+
+> ---
+>  target/arm/kvm64.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index ef1e960285..8ffd31ffdf 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -397,19 +397,20 @@ static CPUWatchpoint *find_hw_watchpoint(CPUState *cpu, target_ulong addr)
+>      return NULL;
+>  }
+>  
+> -static bool kvm_arm_pmu_set_attr(CPUState *cs, struct kvm_device_attr *attr)
+> +static bool kvm_arm_set_device_attr(CPUState *cs, struct kvm_device_attr *attr,
+> +                                    const char *name)
+>  {
+>      int err;
+>  
+>      err = kvm_vcpu_ioctl(cs, KVM_HAS_DEVICE_ATTR, attr);
+>      if (err != 0) {
+> -        error_report("PMU: KVM_HAS_DEVICE_ATTR: %s", strerror(-err));
+> +        error_report("%s: KVM_HAS_DEVICE_ATTR: %s", name, strerror(-err));
+>          return false;
+>      }
+>  
+>      err = kvm_vcpu_ioctl(cs, KVM_SET_DEVICE_ATTR, attr);
+>      if (err != 0) {
+> -        error_report("PMU: KVM_SET_DEVICE_ATTR: %s", strerror(-err));
+> +        error_report("%s: KVM_SET_DEVICE_ATTR: %s", name, strerror(-err));
+>          return false;
+>      }
+>  
+> @@ -426,7 +427,7 @@ void kvm_arm_pmu_init(CPUState *cs)
+>      if (!ARM_CPU(cs)->has_pmu) {
+>          return;
+>      }
+> -    if (!kvm_arm_pmu_set_attr(cs, &attr)) {
+> +    if (!kvm_arm_set_device_attr(cs, &attr, "PMU")) {
+>          error_report("failed to init PMU");
+>          abort();
+>      }
+> @@ -443,7 +444,7 @@ void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
+>      if (!ARM_CPU(cs)->has_pmu) {
+>          return;
+>      }
+> -    if (!kvm_arm_pmu_set_attr(cs, &attr)) {
+> +    if (!kvm_arm_set_device_attr(cs, &attr, "PMU")) {
+>          error_report("failed to set irq for PMU");
+>          abort();
+>      }
+> -- 
+> 2.17.1
+> 
+> 
 
 
