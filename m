@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D978261516
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 18:44:01 +0200 (CEST)
-Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66354261517
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 18:44:21 +0200 (CEST)
+Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFgiu-0008MH-C1
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 12:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
+	id 1kFgjE-0008Qs-GK
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 12:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghW-00075N-E7
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:34 -0400
-Received: from mail-m975.mail.163.com ([123.126.97.5]:49878)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghY-00075w-22
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:36 -0400
+Received: from mail-m975.mail.163.com ([123.126.97.5]:49894)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghS-0002Lc-MY
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:33 -0400
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kFghV-0002Lj-Sc
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 12:42:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=sPsqanpMwV8rF74sva
- ZiLXEHyS8k70SBROldCWnc19c=; b=E0jL09vlZ4vdpEaza0ZruF3Go798GSvsve
- SAy5K4QcTeXdSlIZL58szZ1/cOADnyM8D9fpQkWxvnEMMYaIuMLmjODLJ5m0dJi1
- W+iGmVvJQHsQcI7cWeMLNqXhE8f8JaNI9exgP6L6jca/cGIdd3mceBgMs+k5J5k5
- eL2+BNltQ=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=ue6ZFmUxcoAPwFD/W8
+ EjddlF4L1dxZ5iyH/qq+Mkd7Q=; b=i1VTksq9cypu4xvCMDCvtI5anP35ZHT7/V
+ kvpQx75HCJXNXQ2oSNsjPvK7hR8FzJaUWhdxmrn729R6kL+E77+uJzKCdE31o5Cw
+ lsXNcx76xC8TdEC0L06Y7vSirqLtljNYxn7MNWGcgB8EH0mKneHxQdPoisbPdDhF
+ RnQJQ1w7U=
 Received: from localhost.localdomain (unknown [183.158.94.209])
- by smtp5 (Coremail) with SMTP id HdxpCgCnGRhetFdf9j7RJg--.1087S7;
- Wed, 09 Sep 2020 00:42:12 +0800 (CST)
+ by smtp5 (Coremail) with SMTP id HdxpCgCnGRhetFdf9j7RJg--.1087S8;
+ Wed, 09 Sep 2020 00:42:15 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: dmitry.fleytman@gmail.com, jasowang@redhat.com, kraxel@redhat.com,
  pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
  alxndr@bu.edu, peter.maydell@linaro.org, f4bug@amsat.org
-Subject: [RFC 3/4] e1000e: use the new memory_region_init_io_with_dev interface
-Date: Tue,  8 Sep 2020 09:41:56 -0700
-Message-Id: <20200908164157.47108-4-liq3ea@163.com>
+Subject: [RFC 4/4] hcd-xhci: use the new memory_region_init_io_with_dev
+ interface
+Date: Tue,  8 Sep 2020 09:41:57 -0700
+Message-Id: <20200908164157.47108-5-liq3ea@163.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200908164157.47108-1-liq3ea@163.com>
 References: <20200908164157.47108-1-liq3ea@163.com>
-X-CM-TRANSID: HdxpCgCnGRhetFdf9j7RJg--.1087S7
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw18ZF45XF43WF1kJrWxCrg_yoW8Gry7p3
- yfJ3Z5uryrtFZFvF429F18WFn5JwsFq348Cr4UZw4Sga9FgF1qyr1FyF4ayrWI9ayUAryr
- Za18tryI9w4DtwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jb0eQUUUUU=
+X-CM-TRANSID: HdxpCgCnGRhetFdf9j7RJg--.1087S8
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KFykCFWfGF18ZrWxGr15urg_yoW8KFy5pF
+ 4fXas8WryfJFnIqrsxta1kZFs5A34kKryxGFyxA3sFqFs2kw1qya1Iyw1FkF97KrykJr45
+ XF4rJF1fWw1DJaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UzmhrUUUUU=
 X-Originating-IP: [183.158.94.209]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiKQaZbVXlxmTIXwAAse
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBZgeZbVaD53waIAAAsh
 Received-SPF: pass client-ip=123.126.97.5; envelope-from=liq3ea@163.com;
  helo=mail-m975.mail.163.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 12:42:19
@@ -72,37 +73,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This can avoid the DMA to MMIO issue here:
 
-https://bugs.launchpad.net/qemu/+bug/1886362
+https://bugs.launchpad.net/qemu/+bug/1891354
 Signed-off-by: Li Qiang <liq3ea@163.com>
 ---
- hw/net/e1000e.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/usb/hcd-xhci.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-index fda34518c9..0aac5cea2e 100644
---- a/hw/net/e1000e.c
-+++ b/hw/net/e1000e.c
-@@ -439,8 +439,8 @@ static void e1000e_pci_realize(PCIDevice *pci_dev, Error **errp)
-     s->subsys_used = s->subsys;
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 46a2186d91..1954ae2ae7 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -3437,14 +3437,18 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
+     xhci->mfwrap_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, xhci_mfwrap_timer, xhci);
  
-     /* Define IO/MMIO regions */
--    memory_region_init_io(&s->mmio, OBJECT(s), &mmio_ops, s,
--                          "e1000e-mmio", E1000E_MMIO_SIZE);
-+    memory_region_init_io_with_dev(&s->mmio, OBJECT(s), &mmio_ops, s,
-+                          "e1000e-mmio", E1000E_MMIO_SIZE, &pci_dev->qdev);
-     pci_register_bar(pci_dev, E1000E_MMIO_IDX,
-                      PCI_BASE_ADDRESS_SPACE_MEMORY, &s->mmio);
+     memory_region_init(&xhci->mem, OBJECT(xhci), "xhci", LEN_REGS);
+-    memory_region_init_io(&xhci->mem_cap, OBJECT(xhci), &xhci_cap_ops, xhci,
+-                          "capabilities", LEN_CAP);
+-    memory_region_init_io(&xhci->mem_oper, OBJECT(xhci), &xhci_oper_ops, xhci,
+-                          "operational", 0x400);
+-    memory_region_init_io(&xhci->mem_runtime, OBJECT(xhci), &xhci_runtime_ops, xhci,
+-                          "runtime", LEN_RUNTIME);
+-    memory_region_init_io(&xhci->mem_doorbell, OBJECT(xhci), &xhci_doorbell_ops, xhci,
+-                          "doorbell", LEN_DOORBELL);
++    memory_region_init_io_with_dev(&xhci->mem_cap, OBJECT(xhci),
++                                   &xhci_cap_ops, xhci,
++                                   "capabilities", LEN_CAP, &dev->qdev);
++    memory_region_init_io_with_dev(&xhci->mem_oper, OBJECT(xhci),
++                                   &xhci_oper_ops, xhci,
++                                   "operational", 0x400, &dev->qdev);
++    memory_region_init_io_with_dev(&xhci->mem_runtime, OBJECT(xhci),
++                                   &xhci_runtime_ops, xhci,
++                                   "runtime", LEN_RUNTIME, &dev->qdev);
++    memory_region_init_io_with_dev(&xhci->mem_doorbell, OBJECT(xhci),
++                                   &xhci_doorbell_ops, xhci,
++                                   "doorbell", LEN_DOORBELL, &dev->qdev);
  
-@@ -453,8 +453,8 @@ static void e1000e_pci_realize(PCIDevice *pci_dev, Error **errp)
-     pci_register_bar(pci_dev, E1000E_FLASH_IDX,
-                      PCI_BASE_ADDRESS_SPACE_MEMORY, &s->flash);
- 
--    memory_region_init_io(&s->io, OBJECT(s), &io_ops, s,
--                          "e1000e-io", E1000E_IO_SIZE);
-+    memory_region_init_io_with_dev(&s->io, OBJECT(s), &io_ops, s,
-+                          "e1000e-io", E1000E_IO_SIZE, &pci_dev->qdev);
-     pci_register_bar(pci_dev, E1000E_IO_IDX,
-                      PCI_BASE_ADDRESS_SPACE_IO, &s->io);
+     memory_region_add_subregion(&xhci->mem, 0,            &xhci->mem_cap);
+     memory_region_add_subregion(&xhci->mem, OFF_OPER,     &xhci->mem_oper);
+@@ -3455,8 +3459,9 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
+         XHCIPort *port = &xhci->ports[i];
+         uint32_t offset = OFF_OPER + 0x400 + 0x10 * i;
+         port->xhci = xhci;
+-        memory_region_init_io(&port->mem, OBJECT(xhci), &xhci_port_ops, port,
+-                              port->name, 0x10);
++        memory_region_init_io_with_dev(&port->mem, OBJECT(xhci),
++                                       &xhci_port_ops, port,
++                                       port->name, 0x10, &dev->qdev);
+         memory_region_add_subregion(&xhci->mem, offset, &port->mem);
+     }
  
 -- 
 2.17.1
