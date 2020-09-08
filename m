@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FCC260B58
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:56:18 +0200 (CEST)
-Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BD8260B6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:58:53 +0200 (CEST)
+Received: from localhost ([::1]:49218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFXY9-00030L-5d
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:56:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43480)
+	id 1kFXae-0006rE-Re
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWM-0001Fb-Sx
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46574
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWO-0001Jj-Um
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27143
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWJ-0008CX-RU
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:26 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWK-0008Co-JL
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599548062;
+ s=mimecast20190719; t=1599548064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E0JZAzMlL7Xkk0++eImXbAXLot8IjA6/k/Y9LtwGs8Q=;
- b=FiKQoBnFX6wfDQAb1tAJRMpWq1Lhz0daIvxCrkhMpBiXJQBIb5H9r1kPQbXxvKg5829lzO
- E3/KRjOEup2VVJzFIAFrR4/V/zUhUv6vs0fAtklZjEW+nCzZVJH7zl61J0qoe6vqGhgHqA
- aYGLqKe0ii3StM/F7814exFF3Aw5y1c=
+ bh=e0Ubs2uV2UEdHWgEjuOwfwCOCjyIjZmVF40Od2GCpBI=;
+ b=T3hPel38Ebam7owlJlwgED9Wv0/gsNBPrXsLxcCKKDpAVuqWmPUdh3H5qN21pM7xKRudTb
+ o8wvwSNVMjYBemxc9lNpJrKUgkh9P0NPfekjhT/+jKK11Q9+vD3xKDH8LQvteloa6hLkzl
+ v8F7MWS3ExeY5wX7Dv1DEfXDlR4AH0E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-xC50Hkq6NxKbXlQiOnywWg-1; Tue, 08 Sep 2020 02:54:20 -0400
-X-MC-Unique: xC50Hkq6NxKbXlQiOnywWg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-549-eQcoPOgNPMmKwCWY0Lv22g-1; Tue, 08 Sep 2020 02:54:20 -0400
+X-MC-Unique: eQcoPOgNPMmKwCWY0Lv22g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88917802B79;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 868361008548;
  Tue,  8 Sep 2020 06:54:19 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
  [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F01B5C1C4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EB9360C0F;
  Tue,  8 Sep 2020 06:54:19 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 852D611329B4; Tue,  8 Sep 2020 08:54:17 +0200 (CEST)
+ id 894B91132941; Tue,  8 Sep 2020 08:54:17 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] qapi: Reject section markup in definition documentation
-Date: Tue,  8 Sep 2020 08:54:13 +0200
-Message-Id: <20200908065417.3158250-2-armbru@redhat.com>
+Subject: [PULL 2/5] qapi: Make section headings start a new doc comment block
+Date: Tue,  8 Sep 2020 08:54:14 +0200
+Message-Id: <20200908065417.3158250-3-armbru@redhat.com>
 In-Reply-To: <20200908065417.3158250-1-armbru@redhat.com>
 References: <20200908065417.3158250-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -86,99 +86,99 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Section markup in definition documentation makes no sense and can
-produce invalid Texinfo.  Reject.
+Our current QAPI doc-comment markup allows section headers (introduced
+with a leading '=' or '==') anywhere in a free-form documentation
+comment.  This works for Texinfo because the generator simply prints a
+Texinfo section command at that point in the output stream.  For rST
+generation, since we're assembling a tree of docutils nodes, this is
+awkward because a new section implies starting a new section node at
+the top level of the tree and generating text into there.
+
+Make section headers start a new free-form documentation block, so the
+future rST document generator doesn't have to look at every line in
+free-form blocks and handle headings in odd places.
+
+This change makes no difference to the generated Texinfo.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200320091805.5585-2-armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200320091805.5585-3-armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt           |  2 ++
- scripts/qapi/parser.py                 |  5 +++++
- tests/qapi-schema/doc-bad-section.err  |  1 +
- tests/qapi-schema/doc-bad-section.json |  3 +--
- tests/qapi-schema/doc-bad-section.out  | 24 ------------------------
- 5 files changed, 9 insertions(+), 26 deletions(-)
+ scripts/qapi/parser.py         | 21 +++++++++++++--------
+ tests/qapi-schema/doc-good.out |  3 ++-
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index f3e7ced212..9eede44350 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -835,6 +835,8 @@ Double the '=' for a subsection title:
- 
-     # == Subsection title
- 
-+Both are only permitted in free-form documentation.
-+
- '|' denotes examples:
- 
-     # | Text of the example, may span
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index abadacbb0e..f12c67d7d2 100644
+index f12c67d7d2..165925ca72 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -282,6 +282,11 @@ class QAPISchemaParser:
-                 doc.end_comment()
+@@ -52,8 +52,8 @@ class QAPISchemaParser:
+             info = self.info
+             if self.tok == '#':
+                 self.reject_expr_doc(cur_doc)
+-                cur_doc = self.get_doc(info)
+-                self.docs.append(cur_doc)
++                for cur_doc in self.get_doc(info):
++                    self.docs.append(cur_doc)
+                 continue
+ 
+             expr = self.get_expr(False)
+@@ -270,7 +270,8 @@ class QAPISchemaParser:
+             raise QAPIParseError(
+                 self, "junk after '##' at start of documentation comment")
+ 
+-        doc = QAPIDoc(self, info)
++        docs = []
++        cur_doc = QAPIDoc(self, info)
+         self.accept(False)
+         while self.tok == '#':
+             if self.val.startswith('##'):
+@@ -279,15 +280,20 @@ class QAPISchemaParser:
+                     raise QAPIParseError(
+                         self,
+                         "junk after '##' at end of documentation comment")
+-                doc.end_comment()
++                cur_doc.end_comment()
++                docs.append(cur_doc)
                  self.accept()
-                 return doc
-+            if self.val.startswith('# ='):
-+                if doc.symbol:
-+                    raise QAPIParseError(
-+                        self,
-+                        "unexpected '=' markup in definition documentation")
-             doc.append(self.val)
+-                return doc
++                return docs
+             if self.val.startswith('# ='):
+-                if doc.symbol:
++                if cur_doc.symbol:
+                     raise QAPIParseError(
+                         self,
+                         "unexpected '=' markup in definition documentation")
+-            doc.append(self.val)
++                if cur_doc.body.text:
++                    cur_doc.end_comment()
++                    docs.append(cur_doc)
++                    cur_doc = QAPIDoc(self, info)
++            cur_doc.append(self.val)
              self.accept(False)
  
-diff --git a/tests/qapi-schema/doc-bad-section.err b/tests/qapi-schema/doc-bad-section.err
-index e69de29bb2..785cacc08c 100644
---- a/tests/qapi-schema/doc-bad-section.err
-+++ b/tests/qapi-schema/doc-bad-section.err
-@@ -0,0 +1 @@
-+doc-bad-section.json:5:1: unexpected '=' markup in definition documentation
-diff --git a/tests/qapi-schema/doc-bad-section.json b/tests/qapi-schema/doc-bad-section.json
-index 560df4b087..8175d95867 100644
---- a/tests/qapi-schema/doc-bad-section.json
-+++ b/tests/qapi-schema/doc-bad-section.json
-@@ -1,9 +1,8 @@
- # = section within an expression comment
--# BUG: not rejected
+         raise QAPIParseError(self, "documentation comment must end with '##'")
+@@ -316,7 +322,6 @@ class QAPIDoc:
+         def __init__(self, name=None):
+             # optional section name (argument/member or section name)
+             self.name = name
+-            # the list of lines for this section
+             self.text = ''
  
- ##
- # @Enum:
--# == Produces *invalid* texinfo
-+# == No good here
- # @one: The _one_ {and only}
- #
- # @two is undocumented
-diff --git a/tests/qapi-schema/doc-bad-section.out b/tests/qapi-schema/doc-bad-section.out
-index 367e2a1c3e..e69de29bb2 100644
---- a/tests/qapi-schema/doc-bad-section.out
-+++ b/tests/qapi-schema/doc-bad-section.out
-@@ -1,24 +0,0 @@
--module None
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module doc-bad-section.json
--enum Enum
--    member one
--    member two
--doc symbol=Enum
--    body=
--== Produces *invalid* texinfo
--    arg=one
--The _one_ {and only}
--    arg=two
+         def append(self, line):
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+index 6757dd26a2..d78a424cd9 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -69,7 +69,8 @@ event EVT-BOXED Object
+ doc freeform
+     body=
+ = Section
 -
--    section=None
--@two is undocumented
++doc freeform
++    body=
+ == Subsection
+ 
+ *strong* _with emphasis_
 -- 
 2.26.2
 
