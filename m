@@ -2,41 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1583E260A0D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:29:23 +0200 (CEST)
-Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7DE260A13
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:30:30 +0200 (CEST)
+Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFWC2-0005IK-5B
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
+	id 1kFWD7-0007dp-1q
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:30:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3P-0006Ej-Nz; Tue, 08 Sep 2020 01:20:28 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:56169 helo=ozlabs.org)
+ id 1kFW3V-0006Km-E0; Tue, 08 Sep 2020 01:20:36 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:54003 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3M-0005yR-G7; Tue, 08 Sep 2020 01:20:27 -0400
+ id 1kFW3S-0005zP-HU; Tue, 08 Sep 2020 01:20:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltkn4j7Cz9sVR; Tue,  8 Sep 2020 15:20:01 +1000 (AEST)
+ id 4Bltkp4gPKz9sVZ; Tue,  8 Sep 2020 15:20:02 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599542401;
- bh=gMiAtQjsk/Rf8aQpgZPjpS1b6eRF/e1DiGSzGhHBsJ4=;
+ d=gibson.dropbear.id.au; s=201602; t=1599542402;
+ bh=WHUZRE8xBkBhoLgTp8c17urX6r5gVdkN3abjLoZHMUE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ERTwoItlbtHE23KmVMc7eyc7BYUJ3xoMAw836HTm+JyRm25dMGxW7T2iRsGzR2NaW
- YpmKT+U+hO4+aduS9B/aNF1Je1YDHzvtejwW/XaSYXXwEfi3ztfNwy01JNrH/Wwn5Q
- UF6XAqcZVOF6Ckqvd5FgAZPBMlfi1YINBQ8oFz7Q=
+ b=Dw0GQw/DC9YzKmaQfkMBhm7UNb4l21xNe94YAqGA6ffU2UhZDtLEgUX634CMHBmok
+ WS0j+b0Ds0vXTm+Q8dRr1Kwov/h8w29o8Vut07HdA2cg3stQwIvxYrgeIWLPJL3tun
+ BDJrTDvfwrHdGCW7FG0UnmeXDl6RsmmsMb/C4YfY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/33] target/arm: Move start-powered-off property to generic
- CPUState
-Date: Tue,  8 Sep 2020 15:19:35 +1000
-Message-Id: <20200908051953.1616885-16-david@gibson.dropbear.id.au>
+Subject: [PULL 17/33] ppc/spapr: Use start-powered-off CPUState property
+Date: Tue,  8 Sep 2020 15:19:37 +1000
+Message-Id: <20200908051953.1616885-18-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -62,128 +60,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
  qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-There are other platforms which also have CPUs that start powered off, so
-generalize the start-powered-off property so that it can be used by them.
+PowerPC sPAPR CPUs start in the halted state, and spapr_reset_vcpu()
+attempts to implement this by setting CPUState::halted to 1. But that's too
+late for the case of hotplugged CPUs in a machine configure with 2 or more
+threads per core.
 
-Note that ARMv7MState also has a property of the same name but this patch
-doesn't change it because that class isn't a subclass of CPUState so it
-wouldn't be a trivial change.
+By then, other parts of QEMU have already caused the vCPU to run in an
+unitialized state a couple of times. For example, ppc_cpu_reset() calls
+ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). This
+kicks the new vCPU while it has CPUState::halted = 0, causing QEMU to issue
+a KVM_RUN ioctl on the new vCPU before the guest is able to make the
+start-cpu RTAS call to initialize its register state.
 
-This change should not cause any change in behavior.
+This problem doesn't seem to cause visible issues for regular guests, but
+on a secure guest running under the Ultravisor it does. The Ultravisor
+relies on being able to snoop on the start-cpu RTAS call to map vCPUs to
+guests, and this issue causes it to see a stray vCPU that doesn't belong to
+any guest.
+
+Fix by setting the start-powered-off CPUState property in
+spapr_create_vcpu(), which makes cpu_common_reset() initialize
+CPUState::halted to 1 at an earlier moment.
 
 Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Message-Id: <20200826055535.951207-2-bauerman@linux.ibm.com>
+Message-Id: <20200826055535.951207-4-bauerman@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- exec.c                | 1 +
- include/hw/core/cpu.h | 4 ++++
- target/arm/cpu.c      | 5 ++---
- target/arm/cpu.h      | 3 ---
- target/arm/kvm32.c    | 2 +-
- target/arm/kvm64.c    | 2 +-
- 6 files changed, 9 insertions(+), 8 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/exec.c b/exec.c
-index 7683afb6a8..e34b602bdf 100644
---- a/exec.c
-+++ b/exec.c
-@@ -899,6 +899,7 @@ Property cpu_common_props[] = {
-     DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
- #endif
-+    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index c4f47dcc04..2125fdac34 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -36,11 +36,6 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
  
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 8f145733ce..9fc2696db5 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -374,6 +374,10 @@ struct CPUState {
-     bool created;
-     bool stop;
-     bool stopped;
-+
-+    /* Should CPU start in powered-off state? */
-+    bool start_powered_off;
-+
-     bool unplug;
-     bool crash_occurred;
-     bool exit_request;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index c179e0752d..9f814194fb 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -174,8 +174,8 @@ static void arm_cpu_reset(DeviceState *dev)
-     env->vfp.xregs[ARM_VFP_MVFR1] = cpu->isar.mvfr1;
-     env->vfp.xregs[ARM_VFP_MVFR2] = cpu->isar.mvfr2;
+     cpu_reset(cs);
  
--    cpu->power_state = cpu->start_powered_off ? PSCI_OFF : PSCI_ON;
--    s->halted = cpu->start_powered_off;
-+    cpu->power_state = s->start_powered_off ? PSCI_OFF : PSCI_ON;
-+    s->halted = s->start_powered_off;
- 
-     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
-         env->iwmmxt.cregs[ARM_IWMMXT_wCID] = 0x69051000 | 'Q';
-@@ -2186,7 +2186,6 @@ static const ARMCPUInfo arm_cpus[] = {
- };
- 
- static Property arm_cpu_properties[] = {
--    DEFINE_PROP_BOOL("start-powered-off", ARMCPU, start_powered_off, false),
-     DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
-     DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
-     DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a1c7d8ebae..6036f61d60 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -817,9 +817,6 @@ struct ARMCPU {
-      */
-     uint32_t psci_version;
- 
--    /* Should CPU start in PSCI powered-off state? */
--    bool start_powered_off;
+-    /* All CPUs start halted.  CPU0 is unhalted from the machine level
+-     * reset code and the rest are explicitly started up by the guest
+-     * using an RTAS call */
+-    cs->halted = 1;
 -
-     /* Current power state, access guarded by BQL */
-     ARMPSCIState power_state;
+     env->spr[SPR_HIOR] = 0;
  
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index 0af46b41c8..1f2b8f8b7a 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -218,7 +218,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     lpcr = env->spr[SPR_LPCR];
+@@ -274,6 +269,11 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
  
-     /* Determine init features for this CPU */
-     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
--    if (cpu->start_powered_off) {
-+    if (cs->start_powered_off) {
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
-     }
-     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index ef1e960285..987b35e33f 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -774,7 +774,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-     /* Determine init features for this CPU */
-     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
--    if (cpu->start_powered_off) {
-+    if (cs->start_powered_off) {
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
-     }
-     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
+     cs = CPU(obj);
+     cpu = POWERPC_CPU(obj);
++    /*
++     * All CPUs start halted. CPU0 is unhalted from the machine level reset code
++     * and the rest are explicitly started up by the guest using an RTAS call.
++     */
++    cs->start_powered_off = true;
+     cs->cpu_index = cc->core_id + i;
+     spapr_set_vcpu_id(cpu, cs->cpu_index, &local_err);
+     if (local_err) {
 -- 
 2.26.2
 
