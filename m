@@ -2,115 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD7C260DD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:44:37 +0200 (CEST)
-Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A19C260E1A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:54:08 +0200 (CEST)
+Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFZEy-000775-FH
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:44:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37080)
+	id 1kFZOB-0001sW-GH
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFZE7-0006cs-I7
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:43:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56500)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFZNN-0001LN-AV
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:53:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFZE3-0004I1-1U
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:43:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFZNL-0005Sa-Hp
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:53:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599554618;
+ s=mimecast20190719; t=1599555194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YRQMNBN8x1/N2kJst0DQOxntLdKVOgwKrpiNJXsaXqQ=;
- b=baOBEj1sIaXNAjASUoOgbBCeSP5tgZBOpA8d+UAoP+UlJbBq4K0QeSugnyljr3povt3Zvj
- DxpNIRjyK71KDXUHvAWs9ixHN4C5tM62YqLS+NgnC4uxffyZkVp9mbFlDyWksZau3sHKVa
- tsSXhi06cxRyqiZCkL8gMX7zNmI+6ys=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-524aH9CyOaKzOcMjg93KxQ-1; Tue, 08 Sep 2020 04:43:34 -0400
-X-MC-Unique: 524aH9CyOaKzOcMjg93KxQ-1
-Received: by mail-wm1-f71.google.com with SMTP id m25so4496778wmi.0
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:43:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=YRQMNBN8x1/N2kJst0DQOxntLdKVOgwKrpiNJXsaXqQ=;
- b=Q7eu9VrCMldVTj4ORcqP2qPzWpB7ELpq8bPLPKzuc26+sIRKRkdF+Tu4YMrHs8LCFd
- VFKV1Ng9OsqgF+6+Y9LCnTZsvb8ZTcRdk89ncAUUHQiKHzwQXHat96+olaSAVuXyT0aU
- B4N6a5+UQdifoR7Is2qJK6j0cKqR9Q2U0q4KB4LJtRl8aO9c6wBhuk78BI6xNYsMlNA4
- VspF3D6IorXM5EV/BmRh+h9L2pVKROqQfmnL9XrCmVicmFVF7aiwQxUbf1LatMDLywxv
- Bszi4wFdaIyUH4/c09+uLPW73MwMaTcOvKalUttITiozovjNEDPaOgrkr20tbrlNU0Yt
- rHZA==
-X-Gm-Message-State: AOAM532QFeERpgaCp9tGdNPvJRK4EdHmzvPLVgL6NIss52wU0D/DbInp
- +h0LyLZfHVd4fFZUkEq8mev1UakPIwf1oynIlbabwC84H+0HjfgfpvTB6Ii5orPhmANLee2z72A
- t7uZXzxVAr85PU/Q=
-X-Received: by 2002:adf:fd12:: with SMTP id e18mr7394544wrr.96.1599554613541; 
- Tue, 08 Sep 2020 01:43:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKIklM7O7zntCgeWCh//isQO86nr6SuEDDDHMjy5jDSXZ3nIxvPnqXtApfXfEWMTM8Wi6U9g==
-X-Received: by 2002:adf:fd12:: with SMTP id e18mr7394514wrr.96.1599554613295; 
- Tue, 08 Sep 2020 01:43:33 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id n4sm32896228wrp.61.2020.09.08.01.43.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 01:43:32 -0700 (PDT)
-Subject: Re: [PATCH] block/qcow2-cluster: Add missing "fallthrough" annotation
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
-References: <20200908070028.193298-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <1ebff105-2031-7af3-5705-322c73b97f5e@redhat.com>
-Date: Tue, 8 Sep 2020 10:43:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ in-reply-to:in-reply-to:references:references;
+ bh=NlqmizY7lZq/bwqfRWglKnVYiEz9HibXILhojT8dVEg=;
+ b=apleRjqSJov5+jOlS9hRb1p9bSGboGIMPy1PnMziIA+zetmSr37hvaxe7Wvp3qF0ar+jEK
+ 42s/cRlLDJrD86AlwuoW5iB6ID/F9zvgajyIjzVM4SNhidmZnmO6blUlcTrb6WZtYTpXKX
+ 29ho4bfqKnv0t2v/A8Mv2/qNyb8dKmI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-FzWA77r_OiiYJpFCj4AjRQ-1; Tue, 08 Sep 2020 04:53:12 -0400
+X-MC-Unique: FzWA77r_OiiYJpFCj4AjRQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5CD057086;
+ Tue,  8 Sep 2020 08:53:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7007860C0F;
+ Tue,  8 Sep 2020 08:53:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C6AC11132B59; Tue,  8 Sep 2020 10:53:09 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v4 1/5] block: add bitmap-populate job
+References: <20200902181831.2570048-1-eblake@redhat.com>
+ <20200902181831.2570048-2-eblake@redhat.com>
+Date: Tue, 08 Sep 2020 10:53:09 +0200
+In-Reply-To: <20200902181831.2570048-2-eblake@redhat.com> (Eric Blake's
+ message of "Wed, 2 Sep 2020 13:18:27 -0500")
+Message-ID: <87mu20d4zu.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200908070028.193298-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:11:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.825, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,48 +82,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, vsementsov@virtuozzo.com,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+Eric Blake <eblake@redhat.com> writes:
 
-On 9/8/20 9:00 AM, Thomas Huth wrote:
-> When compiling with -Werror=implicit-fallthrough, the compiler currently
-> complains:
-
-Do you know what is missing to add this in configure::warn_flags?
-
-> 
-> ../../devel/qemu/block/qcow2-cluster.c: In function ‘cluster_needs_new_alloc’:
-> ../../devel/qemu/block/qcow2-cluster.c:1320:12: error: this statement may fall
->  through [-Werror=implicit-fallthrough=]
->          if (l2_entry & QCOW_OFLAG_COPIED) {
->             ^
-> ../../devel/qemu/block/qcow2-cluster.c:1323:5: note: here
->      case QCOW2_CLUSTER_UNALLOCATED:
->      ^~~~
-> 
-> It's quite obvious that the fallthrough is intended here, so let's add
-> a comment to silence the compiler warning.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> From: John Snow <jsnow@redhat.com>
+>
+> This job copies the allocation map into a bitmap. It's a job because
+> there's no guarantee that allocation interrogation will be quick (or
+> won't hang), so it cannot be retrofitted into block-dirty-bitmap-merge.
+>
+> It was designed with different possible population patterns in mind,
+> but only top layer allocation was implemented for now.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->  block/qcow2-cluster.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-> index 996b3314f4..fcdf7af8e6 100644
-> --- a/block/qcow2-cluster.c
-> +++ b/block/qcow2-cluster.c
-> @@ -1320,6 +1320,7 @@ static bool cluster_needs_new_alloc(BlockDriverState *bs, uint64_t l2_entry)
->          if (l2_entry & QCOW_OFLAG_COPIED) {
->              return false;
->          }
-> +        /* fallthrough */
->      case QCOW2_CLUSTER_UNALLOCATED:
->      case QCOW2_CLUSTER_COMPRESSED:
->      case QCOW2_CLUSTER_ZERO_PLAIN:
-> 
+>  qapi/block-core.json      |  48 +++++++++
+>  qapi/job.json             |   6 +-
+>  include/block/block.h     |   1 +
+>  include/block/block_int.h |  21 ++++
+>  block/bitmap-populate.c   | 207 ++++++++++++++++++++++++++++++++++++++
+>  blockjob.c                |   3 +-
+>  MAINTAINERS               |   1 +
+>  block/meson.build         |   1 +
+>  8 files changed, 286 insertions(+), 2 deletions(-)
+>  create mode 100644 block/bitmap-populate.c
+>
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index db08c58d788c..1cac9a9a8207 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2216,6 +2216,54 @@
+>  { 'command': 'block-dirty-bitmap-merge',
+>    'data': 'BlockDirtyBitmapMerge' }
+>
+> +##
+> +# @BitmapPattern:
+> +#
+> +# An enumeration of possible patterns that can be written into a bitmap.
+> +#
+> +# @allocation-top: The allocation status of the top layer
+> +#                  of the attached storage node.
+
+Greek to me.
+
+> +#
+> +# Since: 5.2
+> +##
+> +{ 'enum': 'BitmapPattern',
+> +  'data': ['allocation-top'] }
+> +
+> +##
+> +# @BlockDirtyBitmapPopulate:
+> +#
+> +# @job-id: identifier for the newly-created block job.
+> +#
+> +# @pattern: What pattern should be written into the bitmap?
+> +#
+> +# @on-error: the action to take if an error is encountered on a bitmap's
+> +#            attached node, default 'report'.
+> +#            'stop' and 'enospc' can only be used if the block device supports
+> +#            io-status (see BlockInfo).
+> +#
+> +# @auto-finalize: When false, this job will wait in a PENDING state after it
+> +#                 has finished its work, waiting for @block-job-finalize
+> +#                 before making any block graph changes.
+> +#                 When true, this job will automatically
+> +#                 perform its abort or commit actions.
+> +#                 Defaults to true.
+> +#
+> +# @auto-dismiss: When false, this job will wait in a CONCLUDED state after it
+> +#                has completely ceased all work, and awaits @block-job-dismiss.
+> +#                When true, this job will automatically disappear from the
+> +#                query list without user intervention.
+> +#                Defaults to true.
+> +#
+> +# Since: 5.2
+> +##
+> +{ 'struct': 'BlockDirtyBitmapPopulate',
+> +  'base': 'BlockDirtyBitmap',
+> +  'data': { 'job-id': 'str',
+> +            'pattern': 'BitmapPattern',
+> +            '*on-error': 'BlockdevOnError',
+> +            '*auto-finalize': 'bool',
+> +            '*auto-dismiss': 'bool' } }
+> +
+>  ##
+>  # @BlockDirtyBitmapSha256:
+>  #
+> diff --git a/qapi/job.json b/qapi/job.json
+> index 280c2f76f136..fb0b606e868d 100644
+> --- a/qapi/job.json
+> +++ b/qapi/job.json
+> @@ -22,10 +22,14 @@
+>  #
+>  # @amend: image options amend job type, see "x-blockdev-amend" (since 5.1)
+>  #
+> +# @bitmap-populate: drive bitmap population job type, see
+> +#                   "block-dirty-bitmap-populate" (since 5.2)
+
+Dangling reference, healed in PATCH 3.  Job appearing before the command
+it wraps is unusual.
+
+What's a "drive bitmap population job"?
+
+The reference provides a clue:
+
+    ##
+    # @block-dirty-bitmap-populate:
+    #
+    # Creates a new job that writes a pattern into a dirty bitmap.
+
+Do you mean "dirty bitmap population job"?
+
+By the way, I think the doc comment would be easier to read with
+s/job type/job/.
+
+> +#
+>  # Since: 1.7
+>  ##
+>  { 'enum': 'JobType',
+> -  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend'] }
+> +  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend',
+> +           'bitmap-populate'] }
+>
+>  ##
+>  # @JobStatus:
+[...]
 
 
