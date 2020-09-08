@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65AA261B0E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:53:54 +0200 (CEST)
-Received: from localhost ([::1]:37204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5C3261B18
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:55:15 +0200 (CEST)
+Received: from localhost ([::1]:43540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFikb-0000xm-Q7
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
+	id 1kFilu-0003Y0-DC
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:55:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFih4-0002eb-1I; Tue, 08 Sep 2020 14:50:14 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:40694)
+ id 1kFih7-0002nL-HJ; Tue, 08 Sep 2020 14:50:17 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:39436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFigy-0002ga-SU; Tue, 08 Sep 2020 14:50:13 -0400
-Received: by mail-pg1-x535.google.com with SMTP id j34so188259pgi.7;
- Tue, 08 Sep 2020 11:50:08 -0700 (PDT)
+ id 1kFih4-0002h9-CG; Tue, 08 Sep 2020 14:50:17 -0400
+Received: by mail-pf1-x431.google.com with SMTP id n14so3776126pff.6;
+ Tue, 08 Sep 2020 11:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ptTGH2qI85N+szgczRA8YGLjVKH01noRoeLoG/lJ5SE=;
- b=EhgPWbkNVems8YLYyE6wr7sF3xArBQOXekof16RmurAfg/8Tf1cIeCmt/8VD9gsfzn
- hofsdtHoodqunACuZc2+2JGv9mkx1AgmLK18zV+xPKmP0gOzkv3x8xLIK8e6ipKKpihl
- 3x0izdXJ87iBlKZVgCFfWd7pwpiX/J8lHc3XLUmOT1HQGXlG6T9826Dd5q+4R63Nyg6X
- ppGq1/goPM3KNvJyrUV4pDDjjkAWvqoMDEhJgAR/8KiABIKdDcibu/gwhRbrcI6Goull
- QUHh75lL0o+LLOghC4tAieWjKAJc7MeeNqzNegh1wognn6h7TJFBwkUM7ITtF29XDI7f
- nYkw==
+ bh=XFEZh3+xvAfqz2f0h/nVnmxCipA8eA9k8U4UHOk894U=;
+ b=V6OFu2dg6CZvLJjbfgWJjGtZFKLFtNuLZXNc1L3aFXCcKG/2ZpUzCIy8KSpTu+6+sd
+ NcQjFfA27TxpZISu5N8PGBte5xj1A6DgMM7+nrp5hAhRO4Pi/EgZ3UadkDe9BH5ps/iR
+ op14hBtrLxq+nKPNyWj6NVD+3Kvl/YH3eABMKDcF7uYq09GXh+5HjJi+cM990LkXI6QR
+ SIx44jMPCsgoums1CY0CpG8LIXlh8cDmSnwuRbZTi2LffQaX5q2uQDDQhEyf/DkNCzVH
+ GwkQ+SoO80Fwl/KJ+bb3lTBStzyHKZC/vi/aBNx0QFAIMKuEIFg0RedxtBTPchuf1MUr
+ FJ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ptTGH2qI85N+szgczRA8YGLjVKH01noRoeLoG/lJ5SE=;
- b=GrbebvKgExntvqxpAq8pykbLN9fHpa3c2ES3+KRoyLBUZ3HYjlFm4AjRItp43kIKgk
- tqgTW6UmmooyFRN3XN1ecpeu6j5bdFGRzpO7pQbzivQ8jkL04JzA1CyT2gsrOVaEALfT
- oeTeaQhExZahjShRYnQil1LBoy43GxR1S4mlXr+Y7KczXSo9vkI7aZ7/0DjO2iM06ULr
- 3MSaRW3RSrOrILllZmt57mrqoDCpLmOpBDYeLoAwOoH0RMMrY9FfR1mXVTZMD79yQ673
- mo0NGf5Am9CX2WLunheRhrz4A5lYH55JpWHjvZikS/uUzbUNTMpg2EmMn9I2J8OTFHbE
- iXwA==
-X-Gm-Message-State: AOAM533YPocgLgrih3PWQ4vr5pICh/dlT7ynWOGiXI3B9afebvbHfyTA
- iHbFhYeFRuPNnrQuvONKOzns4YeXYP1id+DL
-X-Google-Smtp-Source: ABdhPJy0fnPJmIYZlrwQzKWxv3tGj9eNmltm6Epm6cqbri+NIC4Jer4Ny3/j8TTkxOf4OVOTlRXsDA==
-X-Received: by 2002:a65:68d6:: with SMTP id k22mr128248pgt.136.1599591006582; 
- Tue, 08 Sep 2020 11:50:06 -0700 (PDT)
+ bh=XFEZh3+xvAfqz2f0h/nVnmxCipA8eA9k8U4UHOk894U=;
+ b=PuXDC+zSMX8+n8aY3k4rsBS8TNp7eQUmeFeA69azP3J4XAMminuKOIHOT/iBLnB73H
+ KhNgmwI+Wxz/rImMO8ue3QcGsLvlGnbt4+gob6WzTF+gflWnxW2sNJ+HEVNjILad1gTF
+ VJYaUQw3Lne7E1arfsE3OQJ8lyWJXbKkOZkmH9kMzw1Wv5feosUDNx4DPMSWg2p/yv2c
+ 9O+6Q1+eXKOfaCSJcx4z/sPRCfVACgLL0I/KMTwoljAFWeQmmNjJanZt89om3JpIczLO
+ lC8+aNAILkJyG3nZPx54rpbXm/9KIn7KIWr6uIcl60qApLrWSq6iNa93h572YTnASU2R
+ p0Nw==
+X-Gm-Message-State: AOAM533wPpy6xDk1Df8fRWUCBWJ8Sqqd2tlK8ppJu6xzC7NePO2fGAiv
+ t312BPHFA8KYa8DDlGBobvXAdCtoGzw3ljV6
+X-Google-Smtp-Source: ABdhPJxltAQNJQpjpo6QySn0Om5mVDidGep+Vu7ytVk+Z9fksOba0nhu8czLC/wAi8SNPDfgLTQ4Bg==
+X-Received: by 2002:a17:902:b786:: with SMTP id e6mr63063pls.5.1599591010601; 
+ Tue, 08 Sep 2020 11:50:10 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 8sm43553pjx.14.2020.09.08.11.50.02
+ by smtp.googlemail.com with ESMTPSA id 8sm43553pjx.14.2020.09.08.11.50.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 11:50:05 -0700 (PDT)
+ Tue, 08 Sep 2020 11:50:09 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/16] block: get file-win32.c handle locking option
- consistence with file-posix.c
-Date: Wed,  9 Sep 2020 02:49:10 +0800
-Message-Id: <20200908184918.1085-9-luoyonggang@gmail.com>
+Subject: [PULL 09/16] osdep: These function are only available on Non-Win32
+ system.
+Date: Wed,  9 Sep 2020 02:49:11 +0800
+Message-Id: <20200908184918.1085-10-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200908184918.1085-1-luoyonggang@gmail.com>
 References: <20200908184918.1085-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,62 +93,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
+int qemu_unlock_fd(int fd, int64_t start, int64_t len);
+int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
+bool qemu_has_ofd_lock(void);
+
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- block/file-win32.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ include/qemu/osdep.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/file-win32.c b/block/file-win32.c
-index ab69bd811a..14e5f5c3b5 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
-             .type = QEMU_OPT_STRING,
-             .help = "host AIO implementation (threads, native)",
-         },
-+        {
-+            .name = "locking",
-+            .type = QEMU_OPT_STRING,
-+            .help = "file locking mode (on/off/auto, default: auto)",
-+        },
-         { /* end of list */ }
-     },
- };
-@@ -334,6 +339,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-     const char *filename;
-     bool use_aio;
-     int ret;
-+    OnOffAuto locking;
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 412962d91a..e80fddd1e8 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -502,11 +502,11 @@ int qemu_close(int fd);
+ int qemu_unlink(const char *name);
+ #ifndef _WIN32
+ int qemu_dup(int fd);
+-#endif
+ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
+ int qemu_unlock_fd(int fd, int64_t start, int64_t len);
+ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
+ bool qemu_has_ofd_lock(void);
++#endif
  
-     s->type = FTYPE_FILE;
- 
-@@ -342,11 +348,24 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-         ret = -EINVAL;
-         goto fail;
-     }
--
--    if (qdict_get_try_bool(options, "locking", false)) {
-+    locking = qapi_enum_parse(&OnOffAuto_lookup,
-+                              qemu_opt_get(opts, "locking"),
-+                              ON_OFF_AUTO_AUTO, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        ret = -EINVAL;
-+        goto fail;
-+    }
-+    switch (locking) {
-+    case ON_OFF_AUTO_ON:
-         error_setg(errp, "locking=on is not supported on Windows");
-         ret = -EINVAL;
-         goto fail;
-+    case ON_OFF_AUTO_OFF:
-+    case ON_OFF_AUTO_AUTO:
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     filename = qemu_opt_get(opts, "filename");
+ #if defined(__HAIKU__) && defined(__i386__)
+ #define FMT_pid "%ld"
 -- 
 2.28.0.windows.1
 
