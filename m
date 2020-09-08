@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560FD260C03
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:31:36 +0200 (CEST)
-Received: from localhost ([::1]:46558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15692260C40
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:42:06 +0200 (CEST)
+Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFY6J-0003Py-AU
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:31:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49644)
+	id 1kFYGT-0005Tt-4M
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4w-0001f4-W5
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:30:11 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46883
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4v-0003pA-26
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:30:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599550208;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o274/PiZC6KYlxIK2Es/O7Qwtv6sZHgZOMd1mbHMNc8=;
- b=Um/fgOHDxA3az3ptrhVm+UKt+8w5JPoeo6Eqlei8Q7vOZ6VIGYO4aSRRdLulWMlLh0+4Iq
- XcH2F8I2P1PJe6h8a2q+YR3DsXXJzPtH8JT+MOhd4CPVb1+xAWVIEUjfOBEECEZCUydEJQ
- SBqjhsJpbv6neSeFmk5xo+IxdyA/4us=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-ATDTwubSNcucd725buo_pw-1; Tue, 08 Sep 2020 03:30:06 -0400
-X-MC-Unique: ATDTwubSNcucd725buo_pw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3D811DDEF
- for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:30:05 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-122.ams2.redhat.com
- [10.36.112.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78D767E30C;
- Tue,  8 Sep 2020 07:30:00 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu devel list <qemu-devel@nongnu.org>
-Subject: [PATCH 10/10] tests: acpi: update "virt/SSDT.memhp" for
- edk2-stable202008
-Date: Tue,  8 Sep 2020 09:29:39 +0200
-Message-Id: <20200908072939.30178-11-lersek@redhat.com>
-In-Reply-To: <20200908072939.30178-1-lersek@redhat.com>
-References: <20200908072939.30178-1-lersek@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFYFU-0004ba-N2
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:41:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFYFR-00051Z-RD
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:41:04 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kFYFP-0005dY-U0
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:40:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DDFC32E806F
+ for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:40:59 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 08 Sep 2020 07:32:40 -0000
+From: "Laszlo Ersek \(Red Hat\)" <1852196@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=lersek@redhat.com; 
+X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek philmd
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <157355353271.7205.5763587027166419396.malonedeb@gac.canonical.com>
+Message-Id: <159955036039.18906.2707694077126283867.malone@gac.canonical.com>
+Subject: [Bug 1852196] Re: update edk2 submodule & binaries to
+ edk2-stable202008
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
+X-Launchpad-Hash: d3e8f250c4699c1c6e97bd352a9b68b8551ba27f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:20:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,33 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1852196 <1852196@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIE5WRElNTV9BQ1BJX01FTV9BRERSIGR3b3JkIGluICJ2aXJ0L1NTRFQubWVtaHAiIG5lZWRz
-IGFuIHVwZGF0ZSBkdWUgdG8KdGhlIGZpcm13YXJlIG5vdyBhbGxvY2F0aW5nIE5WRElNTV9EU01f
-TUVNX0ZJTEUgYXQgYSBsb3dlciBhZGRyZXNzLgoKPiAgICAgICAgICB9Cj4gICAgICB9Cj4KPiAt
-ICAgIE5hbWUgKE1FTUEsIDB4NDNERDAwMDApCj4gKyAgICBOYW1lIChNRU1BLCAweDQzRDEwMDAw
-KQo+ICB9Cj4KCkNjOiAiTWljaGFlbCBTLiBUc2lya2luIiA8bXN0QHJlZGhhdC5jb20+CkNjOiBJ
-Z29yIE1hbW1lZG92IDxpbWFtbWVkb0ByZWRoYXQuY29tPgpDYzogUGhpbGlwcGUgTWF0aGlldS1E
-YXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPgpSZWY6IGh0dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0
-L3FlbXUvK2J1Zy8xODUyMTk2ClNpZ25lZC1vZmYtYnk6IExhc3psbyBFcnNlayA8bGVyc2VrQHJl
-ZGhhdC5jb20+Ci0tLQogdGVzdHMvcXRlc3QvYmlvcy10YWJsZXMtdGVzdC1hbGxvd2VkLWRpZmYu
-aCB8ICAgMSAtCiB0ZXN0cy9kYXRhL2FjcGkvdmlydC9TU0RULm1lbWhwICAgICAgICAgICAgIHwg
-QmluIDczNiAtPiA3MzYgYnl0ZXMKIDIgZmlsZXMgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlm
-ZiAtLWdpdCBhL3Rlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QtYWxsb3dlZC1kaWZmLmggYi90
-ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LWFsbG93ZWQtZGlmZi5oCmluZGV4IGU1NjkwOThh
-YmRkYy4uZGZiODUyM2M4YmY0IDEwMDY0NAotLS0gYS90ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10
-ZXN0LWFsbG93ZWQtZGlmZi5oCisrKyBiL3Rlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QtYWxs
-b3dlZC1kaWZmLmgKQEAgLTEsMiArMSBAQAogLyogTGlzdCBvZiBjb21tYS1zZXBhcmF0ZWQgY2hh
-bmdlZCBBTUwgZmlsZXMgdG8gaWdub3JlICovCi0idGVzdHMvZGF0YS9hY3BpL3ZpcnQvU1NEVC5t
-ZW1ocCIsCmRpZmYgLS1naXQgYS90ZXN0cy9kYXRhL2FjcGkvdmlydC9TU0RULm1lbWhwIGIvdGVz
-dHMvZGF0YS9hY3BpL3ZpcnQvU1NEVC5tZW1ocAppbmRleCBkYjYxZDY3MzMyODQuLjM3NWQ3YjZm
-Yzg1YSAxMDA2NDQKQmluYXJ5IGZpbGVzIGEvdGVzdHMvZGF0YS9hY3BpL3ZpcnQvU1NEVC5tZW1o
-cCBhbmQgYi90ZXN0cy9kYXRhL2FjcGkvdmlydC9TU0RULm1lbWhwIGRpZmZlcgotLSAKMi4xOS4x
-LjMuZzMwMjQ3YWE1ZDIwMQoK
+Posted
 
+* [qemu-devel] [PATCH 00/10] edk2: adopt the edk2-stable202008 release
+
+http://mid.mail-archive.com/20200908072939.30178-1-lersek@redhat.com
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852196
+
+Title:
+  update edk2 submodule & binaries to edk2-stable202008
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  edk2-stable202005 has been tagged:
+
+  =C2=A0=C2=A0https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-
+  Release-Planning
+
+  =C2=A0=C2=A0https://github.com/tianocore/edk2/releases/tag/edk2-stable202=
+005
+
+  Relevant fixes / features in edk2, since edk2-stable201905 (which is
+  what QEMU bundles at the moment, from LP#1831477):
+
+  - enable UEFI HTTPS Boot in ArmVirtQemu* platforms
+  =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D1009
+  =C2=A0=C2=A0(this is from edk2-stable201908)
+
+  - fix CVE-2019-14553 (Invalid server certificate accepted in HTTPS Boot)
+  =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D960
+
+  - consume OpenSSL-1.1.1d, for fixing CVE-2019-1543, CVE-2019-1552 and
+  =C2=A0=C2=A0CVE-2019-1563
+  =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D2226
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852196/+subscriptions
 
