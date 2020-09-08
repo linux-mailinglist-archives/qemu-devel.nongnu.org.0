@@ -2,74 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A273F261137
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:22:16 +0200 (CEST)
-Received: from localhost ([::1]:56588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816D8261143
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:25:02 +0200 (CEST)
+Received: from localhost ([::1]:39770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFcdb-0008CD-MN
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57802)
+	id 1kFcgH-0004Pe-Dn
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFcTI-0001AY-Uz
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:11:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35264
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kFcVr-0006H8-Rn
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:14:16 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39266
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFcSy-0005h2-Ql
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:11:36 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kFcVq-00062H-0f
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:14:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599567071;
+ s=mimecast20190719; t=1599567253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TGos9Q6BbkzS4hgAU4ify92YUlJ0vxyK/3DZMvE0+9Q=;
- b=SRKFM8fYv1l9AKDv+AKwM28/fBC2YDevoZ9YqxZgwVvHiB3+ntRnzuaRxpUBdaHqkAOZO8
- L7ucf22jABYjNMAI3bOjhz5b8Pr/gKfOsVeO5ERUKxMXcYg6zaCwUVxTb9gUqDOcTcduka
- 8tThn4BX4CrBjx6Q7IOu+ijFqDFyn6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-mvcsfWvhPeW1Kq7dGhGexQ-1; Tue, 08 Sep 2020 08:11:10 -0400
-X-MC-Unique: mvcsfWvhPeW1Kq7dGhGexQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC551107B26B;
- Tue,  8 Sep 2020 12:11:08 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A83FF5C230;
- Tue,  8 Sep 2020 12:11:04 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6737031FC7; Tue,  8 Sep 2020 14:10:51 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 21/21] microvm: enable ramfb
-Date: Tue,  8 Sep 2020 14:10:50 +0200
-Message-Id: <20200908121050.1162-22-kraxel@redhat.com>
-In-Reply-To: <20200908121050.1162-1-kraxel@redhat.com>
-References: <20200908121050.1162-1-kraxel@redhat.com>
+ bh=mbkRDxYHdi2K64cKa97OStO1qZW4ePACBjuuM40qK5U=;
+ b=DknuiYUl9nKfD4vQYrOL9hGuKBiizd/E92J8Hqo8xdrZ4jB1DLsR6Yo+8G3x/cD4MIPATI
+ kqgjbzth5EnjpFzjyIvvZeN8MjOn9buunFC5LeISwkN3U4P2+9qYwPf2xo5kONne3kesLl
+ Dh2QEuJziijUNO31BITRr9/0eLRCyoE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-58_JryLzPNKqFmgfKvOhSQ-1; Tue, 08 Sep 2020 08:14:10 -0400
+X-MC-Unique: 58_JryLzPNKqFmgfKvOhSQ-1
+Received: by mail-ej1-f72.google.com with SMTP id ce9so6567353ejb.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:14:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mbkRDxYHdi2K64cKa97OStO1qZW4ePACBjuuM40qK5U=;
+ b=G08/xRvOJTWV7zgoylRkHs1g0smK+0Ikjb8LlrM+XETN9jXRMrWT4NQwe3bu3wv2KG
+ T3xAQlUbVcEajcV+vw8Gay81TXosnpbYk5LbPfWe8bmT6ObBYZ/POV4MwdCZLtZa6zQb
+ eBkpoNSMuH3ceHckH1Fhhq+nqenUR80Rezbi2d2+c5UsdrJBFnEoN6UaivU7NNEzVgrs
+ DFsuikdhzRFbsar4UeMdk0v6Bo0FZX6FxBW3zSH/us8uskUXurZ2AmHoS/v0v462iZMe
+ /C0Vd0MlEnkUmIapC02ImIX+C7YoVhlj3/86g2Yo4BokcznzAphV7jrX9Is2FQtbgh1j
+ 3MEA==
+X-Gm-Message-State: AOAM533vwraaeuI6eNwwqp7+TjSpzxpVlHOSadx9aD4/eT5yq0ouaucE
+ fMrHRjubnJMywTqMZBM1CZRc1slCeBl4G8UuAa2JolRkMw5DdQjbDIxhb6E7n7ZUI1K6CJNtVvQ
+ 1V0LM4bSxquI06xE=
+X-Received: by 2002:a17:906:6b0b:: with SMTP id
+ q11mr26486242ejr.412.1599567249763; 
+ Tue, 08 Sep 2020 05:14:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmGsyNMYpQe5GR+6M+1kHHkDVGamwgfzzfjMyoY//6GfWZK32NnIFRViKFSlyOYi59flRmsA==
+X-Received: by 2002:a17:906:6b0b:: with SMTP id
+ q11mr26486224ejr.412.1599567249580; 
+ Tue, 08 Sep 2020 05:14:09 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5f70:b94c:ca5f:28f2?
+ ([2001:b07:6468:f312:5f70:b94c:ca5f:28f2])
+ by smtp.gmail.com with ESMTPSA id t4sm9514037ejj.6.2020.09.08.05.14.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Sep 2020 05:14:09 -0700 (PDT)
+Subject: Re: [PATCH v7 00/16] QEMU cpus.c refactoring part2
+To: Claudio Fontana <cfontana@suse.de>
+References: <20200903105614.17772-1-cfontana@suse.de>
+ <13e066b4-03dd-e8f6-4420-25e25e404c72@suse.de>
+ <CABgObfZBARDX=tFb03xEnSVMGAiG8TPn4TAKUpGEi=_iRChmWA@mail.gmail.com>
+ <7e518674-b2a4-d6fb-f9f0-20a19765b995@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <74e99c7f-5eb0-f34a-e2a2-c2b590027e7a@redhat.com>
+Date: Tue, 8 Sep 2020 14:14:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <7e518674-b2a4-d6fb-f9f0-20a19765b995@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:00:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.626, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,43 +106,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/i386/microvm.c | 3 +++
- 1 file changed, 3 insertions(+)
+On 08/09/20 13:58, Claudio Fontana wrote:
+> Thanks Paolo,
+> 
+> if it can help I try to keep a rebased functioning version at
+> 
+> https://github.com/hw-claudio/qemu.git "cpus-refactoring"
+> 
+> some of the CI complains about:
+> 
+> check: qemu-img not found
+> Makefile.mtest:1229: recipe for target 'check-block' failed
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 8de8ca864963..60d32722301f 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -39,6 +39,7 @@
- #include "hw/timer/i8254.h"
- #include "hw/rtc/mc146818rtc.h"
- #include "hw/char/serial.h"
-+#include "hw/display/ramfb.h"
- #include "hw/i386/topology.h"
- #include "hw/i386/e820_memory_layout.h"
- #include "hw/i386/fw_cfg.h"
-@@ -604,6 +605,8 @@ static void microvm_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc,
-         MICROVM_MACHINE_AUTO_KERNEL_CMDLINE,
-         "Set off to disable adding virtio-mmio devices to the kernel cmdline");
-+
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
- }
- 
- static const TypeInfo microvm_machine_info = {
--- 
-2.27.0
+This will be fixed by the next pull request (the issue appears with
+--enable-system --disable-tools builds).
+
+Paolo
 
 
