@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364E42612B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:29:16 +0200 (CEST)
-Received: from localhost ([::1]:36730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013B52612BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:31:42 +0200 (CEST)
+Received: from localhost ([::1]:47408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFecV-0001Cv-8J
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38082)
+	id 1kFeeq-0005gi-HT
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFeaO-0005RM-GE
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:27:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50769)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFeaP-0005TB-6g
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:27:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34376
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFeZr-0006t4-7d
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:27:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFeZi-0006qm-45
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:27:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599575189;
+ s=mimecast20190719; t=1599575180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BaphSdiGhAZ4WeZEOB6GUUl46i+DVX/CX44TODloQyM=;
- b=GiMGQq8U7SZcAxZCFkwfGbp/KTM+X/Qzhawm/HoMCi1fJXWGRC5RuzR3MLKTISqXQIX99h
- AvfTVBma+jhvgHtjiNvFy0RNgJZPDA8cloyhPMR/P/7rOUeE8M46olYy2dzty8IMVpXMj8
- ovh2Sk9/lY4n2BN+oAcP1Yri9e3LCNE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-42-hpC9qOtGgNAfYs6XeBA-1; Tue, 08 Sep 2020 10:26:27 -0400
-X-MC-Unique: 42-hpC9qOtGgNAfYs6XeBA-1
-Received: by mail-wr1-f69.google.com with SMTP id a12so7046747wrg.13
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:26:27 -0700 (PDT)
+ bh=8VUrfo15vNafeYg0h4TuIp0D8UFhdJzYacZhDlojTCw=;
+ b=HhGvXUDxQ+4XXUJ0pgoq621A7+XUM026bmF8Xb6po2aQbyRdVxrVaGUwJT2shnxTDAC7z5
+ /g0WKWrnXerXuXd/NvURrA3IjySEy4ctquaqNHQ04Npn8klgRMedGsggBbInxxJXzqGv+P
+ D6MPtZvjozMaghlZK0qucGVMSMIpax8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-rq2Bu_SkOFCay8n-R_6RPg-1; Tue, 08 Sep 2020 10:26:18 -0400
+X-MC-Unique: rq2Bu_SkOFCay8n-R_6RPg-1
+Received: by mail-wm1-f69.google.com with SMTP id u5so4540232wme.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:26:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BaphSdiGhAZ4WeZEOB6GUUl46i+DVX/CX44TODloQyM=;
- b=ErVE9tkF68CEKrzEvBRiO/Qe/MOruEZeh3J3gzMssLBCznaDPVCdo064o1IGntVXMf
- 2biFDZc1yWtqEwJ3qAlT3/uQvokNVpzqKnDnpVvtazbwOBWw6O62Swc2kEVg0MuroPhg
- /DxVqo+kjKcQkJfprFyOWJa1WilE1jh/C2mVU/WhYADMKOoY/5/vw7eWYW+R8hZ/QRhX
- gwyzuxOaSlTsu7AyjULtfYyIqAW2moISspLCw7QfcvrJZp4tM/8rXsXIUQ0sq2HJ90jQ
- KptiIAX+fPZq9zUU8qFC/upZsUVFTvXlHiuJu4ZG//1sz77iIpNG/MFeWfBRYG0NvUr4
- wgDQ==
-X-Gm-Message-State: AOAM532wdp81anNXcEXIvb7yT+SmRKIETYbuqAshxbHKLFvAOdJakzq8
- //PPJFuvPCPCd3oL9p9HaOBvfHeC4qnVBXf1EVlMWaODo3B/ptjjk/3s7/JBo8qWdfs1QoRjMrw
- 9Xm7HYssTr3x1hYI=
-X-Received: by 2002:a1c:39c4:: with SMTP id g187mr4575967wma.126.1599575186441; 
- Tue, 08 Sep 2020 07:26:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwG1Q8mWXfEdH5JVru40UflvHEFaoABVR/a5qha22ZTatoY4EPmWAN5D43sEgEnSTkTauJZww==
-X-Received: by 2002:a1c:39c4:: with SMTP id g187mr4575941wma.126.1599575186206; 
- Tue, 08 Sep 2020 07:26:26 -0700 (PDT)
+ bh=8VUrfo15vNafeYg0h4TuIp0D8UFhdJzYacZhDlojTCw=;
+ b=OolI6nddd+1hE97L55LgYw8mY/DQchZ7zf66yIz4iapyCNjJOS736xm0UPENSeHdc2
+ VDNu4v5WKEyP+Ysk5ODMsDcjlO06eRmmiUC0JiX94uqmg2cAIpeNaCo813GVnJexZXiS
+ r8NwOwgtcgFkR336hyC3CcItAozQh8xVzUuLlqgXR0xee3Mu/Y1jq8Mrs8IvciDhop/3
+ WGCdazlCpLkdEF3xJN+GyDme1x3h9RUIPsEzBNorM3GI7F0JZTccP/CJb+0DkT/8PHAc
+ G8d0jhi0CjuBZ8cmcUtprgnHgcxdJ/y1HIUdRc2FoziTMmwGCsmyqAuyrD1XGJajgUoM
+ 32Ow==
+X-Gm-Message-State: AOAM533Pa31hpTyuVAuAhCtPa2rSmu6Fo4EbMpOes59A3X9TW3uPx0jL
+ OyE1+sGCBctoiiK69nP2HEqUSDlkPkED2yknZKbJzdADd5q+GaVPtns5zFRXbPDmK/cBwpDZ3Di
+ Vk10zr/z6Tt4xbto=
+X-Received: by 2002:adf:ded0:: with SMTP id i16mr28998781wrn.372.1599575176516; 
+ Tue, 08 Sep 2020 07:26:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkszmGXOLnkk3CcObVMEgsSL3kaacDO7vyqNMMFdP08ftv4yg2yphpdxx/O0+be5EyVAQmTg==
+X-Received: by 2002:adf:ded0:: with SMTP id i16mr28998760wrn.372.1599575176292; 
+ Tue, 08 Sep 2020 07:26:16 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id q15sm34307052wrr.8.2020.09.08.07.26.25
+ by smtp.gmail.com with ESMTPSA id 188sm56090648wmz.2.2020.09.08.07.26.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 07:26:25 -0700 (PDT)
+ Tue, 08 Sep 2020 07:26:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] typedefs: Restrict PCMachineState to 'hw/i386/pc.h'
-Date: Tue,  8 Sep 2020 16:25:59 +0200
-Message-Id: <20200908142559.192945-6-philmd@redhat.com>
+Subject: [PATCH 3/5] stubs: Split accelerator / hardware related stubs
+Date: Tue,  8 Sep 2020 16:25:57 +0200
+Message-Id: <20200908142559.192945-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908142559.192945-1-philmd@redhat.com>
 References: <20200908142559.192945-1-philmd@redhat.com>
@@ -73,17 +74,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:11:34
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,50 +107,150 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PCMachineState type is only used under hw/i386/.
-We don't need to forward-declare it for all architectures,
-restrict it to the X86 one.
+Move hardware stubs unrelated from the accelerator to xen-hw-stub.c.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/i386/pc.h    | 4 ++--
- include/qemu/typedefs.h | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ accel/stubs/xen-stub.c | 41 +----------------------------------
+ stubs/xen-hw-stub.c    | 49 ++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS            |  1 +
+ stubs/meson.build      |  1 +
+ 4 files changed, 52 insertions(+), 40 deletions(-)
+ create mode 100644 stubs/xen-hw-stub.c
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index fe52e165b27..d4ebefcf2b4 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -19,7 +19,7 @@
-  * @boot_cpus: number of present VCPUs
-  * @smp_dies: number of dies per one package
+diff --git a/accel/stubs/xen-stub.c b/accel/stubs/xen-stub.c
+index fa3dddbce57..7ba0b697f49 100644
+--- a/accel/stubs/xen-stub.c
++++ b/accel/stubs/xen-stub.c
+@@ -6,50 +6,11 @@
   */
--struct PCMachineState {
-+typedef struct PCMachineState {
-     /*< private >*/
-     X86MachineState parent_obj;
  
-@@ -50,7 +50,7 @@ struct PCMachineState {
+ #include "qemu/osdep.h"
+-#include "hw/xen/xen.h"
++#include "sysemu/xen.h"
+ #include "qapi/qapi-commands-misc.h"
  
-     /* ACPI Memory hotplug IO base address */
-     hwaddr memhp_io_base;
--};
-+} PCMachineState;
+ bool xen_allowed;
  
- #define PC_MACHINE_ACPI_DEVICE_PROP "acpi-device"
- #define PC_MACHINE_MAX_RAM_BELOW_4G "max-ram-below-4g"
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 427027a9707..6281eae3b55 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -90,7 +90,6 @@ typedef struct PCIExpressDevice PCIExpressDevice;
- typedef struct PCIExpressHost PCIExpressHost;
- typedef struct PCIHostDeviceAddress PCIHostDeviceAddress;
- typedef struct PCIHostState PCIHostState;
--typedef struct PCMachineState PCMachineState;
- typedef struct PostcopyDiscardState PostcopyDiscardState;
- typedef struct Property Property;
- typedef struct PropertyInfo PropertyInfo;
+-void xenstore_store_pv_console_info(int i, Chardev *chr)
+-{
+-}
+-
+-int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+-{
+-    return -1;
+-}
+-
+-void xen_piix3_set_irq(void *opaque, int irq_num, int level)
+-{
+-}
+-
+-void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
+-{
+-}
+-
+-void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
+-{
+-}
+-
+-int xen_is_pirq_msi(uint32_t msi_data)
+-{
+-    return 0;
+-}
+-
+-qemu_irq *xen_interrupt_controller_init(void)
+-{
+-    return NULL;
+-}
+-
+-void xen_register_framebuffer(MemoryRegion *mr)
+-{
+-}
+-
+-void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+-{
+-}
+-
+ void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
+ {
+ }
+diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
+new file mode 100644
+index 00000000000..d14efef49e9
+--- /dev/null
++++ b/stubs/xen-hw-stub.c
+@@ -0,0 +1,49 @@
++/*
++ * Copyright (C) 2014       Citrix Systems UK Ltd.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/xen/xen.h"
++
++void xenstore_store_pv_console_info(int i, Chardev *chr)
++{
++}
++
++int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
++{
++    return -1;
++}
++
++void xen_piix3_set_irq(void *opaque, int irq_num, int level)
++{
++}
++
++void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
++{
++}
++
++void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
++{
++}
++
++int xen_is_pirq_msi(uint32_t msi_data)
++{
++    return 0;
++}
++
++qemu_irq *xen_interrupt_controller_init(void)
++{
++    return NULL;
++}
++
++void xen_register_framebuffer(MemoryRegion *mr)
++{
++}
++
++void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
++{
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7d0a5e91e4f..b3366713903 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -480,6 +480,7 @@ F: include/hw/block/dataplane/xen*
+ F: include/hw/xen/
+ F: include/sysemu/xen.h
+ F: include/sysemu/xen-mapcache.h
++F: stubs/xen-hw-stub.c
+ 
+ Guest CPU Cores (HAXM)
+ ---------------------
+diff --git a/stubs/meson.build b/stubs/meson.build
+index e0b322bc282..c3e318a57f3 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -46,4 +46,5 @@ stub_ss.add(files('vm-stop.c'))
+ stub_ss.add(files('win32-kbd-hook.c'))
+ if have_system
+   stub_ss.add(files('semihost.c'))
++  stub_ss.add(when: 'CONFIG_XEN', if_false: files('xen-hw-stub.c'))
+ endif
 -- 
 2.26.2
 
