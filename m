@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AC3261D40
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:34:39 +0200 (CEST)
-Received: from localhost ([::1]:50072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27D4261DD5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:43:03 +0200 (CEST)
+Received: from localhost ([::1]:34962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFjO2-00069R-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37096)
+	id 1kFjWA-0003bL-Eq
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:43:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kFjMw-0004xN-8p
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56141
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kFjVM-0002me-CF
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:42:12 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41484
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kFjMu-0000SJ-OA
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:29 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kFjVJ-0001pd-83
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:42:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599593607;
+ s=mimecast20190719; t=1599594126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+59cI4E9/qIJU5u488kXPTd+uOKa1mqmTgdzUsZCitU=;
- b=elr1elKGDA2hiBSLD0VBO7hT8M+rhiNWVu3Im1s6LndmtzlwdvUnpW9ZDhZ4MzyFPGUwxz
- JBeb8+dH/46vInxgdv2HkThvl6eapDR4W5f1CCZbFPLmvjb2ObL82dKzxa/m/GdJAn+sQ4
- Ul59yzq29C7Ojv+JJwQCWzMBx+Za+xY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-E-uZKU8KPfSAl-v56ycrSg-1; Tue, 08 Sep 2020 15:33:26 -0400
-X-MC-Unique: E-uZKU8KPfSAl-v56ycrSg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 438AF1DDEF;
- Tue,  8 Sep 2020 19:33:25 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-115-123.ams2.redhat.com [10.36.115.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56A7F9CBA;
- Tue,  8 Sep 2020 19:33:23 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- cohuck@redhat.com, mst@redhat.com, qemu-stable@nongnu.org
-Subject: [PATCH v2 2/2] virtio-iommu-pci: force virtio version 1
-Date: Tue,  8 Sep 2020 21:33:09 +0200
-Message-Id: <20200908193309.20569-3-eric.auger@redhat.com>
-In-Reply-To: <20200908193309.20569-1-eric.auger@redhat.com>
-References: <20200908193309.20569-1-eric.auger@redhat.com>
+ bh=4cMlscfpksUT/XdcNhBNk/DNB9ghQMVNblQNGpIK+uk=;
+ b=FNEXv7fXMrCAE9ZSPyuH6DQs9WxCnp30UxvM1clGFAibDzAarnjuvqGwl88fJWS0OEhNtN
+ LH+HIJJj6r8O7c0XXA549/fJDSYrupl4JlEA+9+9EdWCS2az5cQlwqf6ZKJxtDVmaOyWA1
+ BjILjrVQa5L6zfT8PuSOJ+7hF+NmE24=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-8VVOb9poP3qN4Xptpm51xA-1; Tue, 08 Sep 2020 15:42:05 -0400
+X-MC-Unique: 8VVOb9poP3qN4Xptpm51xA-1
+Received: by mail-qt1-f198.google.com with SMTP id a26so246181qtb.16
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 12:42:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4cMlscfpksUT/XdcNhBNk/DNB9ghQMVNblQNGpIK+uk=;
+ b=kNZ2qwSplN6fv7ZAheGwbcP8qKCdsoi6xIJ5kUcdlyhJjC3kK7NADE5wMZxed1gIEz
+ 1n2IkcTUg7yt177w/ESDw60E85OdfpEpT2QAP/VeaAgIl0rtmVIHaSjSYeJtWKfh9aR4
+ P6VyC/cG2h91lLuut6kuYamRuNEyx012RGN/YtmbjcVXdeMzHiLcMZvC9xoSjaLB8bju
+ gsNY3PwOfJXLuxEg/osuOtYts2L78fo38oRUshfxPirwmcTGc8flLAesvFGJERP8iJmk
+ tSKlpVsPPrrvhII5VP9bXkpilr26fqgNZ1Fg54FRNqBRhLjXY5K7Kend2/DyWIDq4egA
+ oOcQ==
+X-Gm-Message-State: AOAM533GRWH4tEBE32cIsa2d5rPbAPZ3kBsJD4bAV3wbJVJGLWMlQX1H
+ aZTkyEXgFDcdtgtsZrG81Xtf9+XWDKBSKuCM8Ol9THZoF4e00OGe/4GjG0gk6owgUJ2xkyjRrBD
+ pNdo3yDRJP/Y54V4=
+X-Received: by 2002:a37:3c8:: with SMTP id 191mr147335qkd.393.1599594124596;
+ Tue, 08 Sep 2020 12:42:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzowp26t5L7MHk64aBm0M8X0cthZ0zi03oeSvnM6whe9Zm2msrkbYHbgQpztTaKRNDcW1Lfsw==
+X-Received: by 2002:a37:3c8:: with SMTP id 191mr147317qkd.393.1599594124321;
+ Tue, 08 Sep 2020 12:42:04 -0700 (PDT)
+Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
+ [70.53.122.15])
+ by smtp.gmail.com with ESMTPSA id g14sm244083qkk.38.2020.09.08.12.42.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 12:42:03 -0700 (PDT)
+Date: Tue, 8 Sep 2020 15:42:02 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 4/5] migration: Maintain postcopy faulted addresses
+Message-ID: <20200908194202.GA233268@xz-x1>
+References: <20200903152646.93336-1-peterx@redhat.com>
+ <20200903152646.93336-5-peterx@redhat.com>
+ <20200908110039.GG3295@work-vm>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200908110039.GG3295@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:00:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,56 +96,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, thuth@redhat.com
+Cc: Xiaohui Li <xiaohli@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 9b3a35ec82 ("virtio: verify that legacy support is not
-accidentally on") added a safety check that requires to set
-'disable-legacy=on' on virtio-iommu-pci:
+On Tue, Sep 08, 2020 at 12:00:39PM +0100, Dr. David Alan Gilbert wrote:
+> > @@ -238,6 +247,11 @@ void migration_incoming_state_destroy(void)
+> >          mis->postcopy_remote_fds = NULL;
+> >      }
+> >  
+> > +    if (mis->page_requested) {
+> > +        g_tree_destroy(mis->page_requested);
+> > +        mis->page_requested = NULL;
+> > +    }
+> > +
+> 
+> I think you want a:
+>        qemu_mutex_destroy(&current_incoming->page_request_mutex);
 
-qemu-system-aarch64: -device virtio-iommu-pci: device is modern-only,
-use disable-legacy=on
+I explicitly didn't do that because I saw that we've got quite a few things
+that were not destroyed here, just in case I introduce some bug on multi-free
+of the mutex.  However... after a closer look, I don't see a reason to not free
+them at all...  Namely:
 
-virtio-iommu was introduced after the release of VIRTIO 1.0
-specifications, so it should be 'modern-only'.
+    - postcopy_pause_sem_dst
+    - postcopy_pause_sem_fault
+    - rp_mutex
+    - main_thread_load_event (instead of _reset it in this function, we might
+      want to use _destroy)
 
-This patch forces virtio version 1 and removes the 'transitional_name'
-property removing the need to specify 'disable-legacy=on' on
-virtio-iommu-pci device.
+I'll prepare another standalone patch for that.
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> 
+> >      qemu_event_reset(&mis->main_thread_load_event);
+> >  
+> >      if (mis->socket_address_list) {
+> > @@ -354,8 +368,33 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+> >  }
+> >  
+> >  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+> > -                              RAMBlock *rb, ram_addr_t start)
+> > +                              RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+> >  {
+> > +    uint64_t aligned = haddr & (-qemu_target_page_size());
+> > +    bool received;
+> > +
+> > +    qemu_mutex_lock(&mis->page_request_mutex);
+> 
+> You could use WITH_QEMU_LOCK_GUARD
 
----
-v1 -> v2:
-- Added Connie's R-b
----
- hw/virtio/virtio-iommu-pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sure.
 
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index ba62d60a0a..3b6f7a11c6 100644
---- a/hw/virtio/virtio-iommu-pci.c
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -68,6 +68,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     object_property_set_link(OBJECT(dev), "primary-bus",
-                              OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
-                              &error_abort);
-+    virtio_pci_force_virtio_1(vpci_dev);
-     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
- 
-@@ -97,7 +98,6 @@ static void virtio_iommu_pci_instance_init(Object *obj)
- static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
-     .base_name             = TYPE_VIRTIO_IOMMU_PCI,
-     .generic_name          = "virtio-iommu-pci",
--    .transitional_name     = "virtio-iommu-pci-transitional",
-     .non_transitional_name = "virtio-iommu-pci-non-transitional",
-     .instance_size = sizeof(VirtIOIOMMUPCI),
-     .instance_init = virtio_iommu_pci_instance_init,
+Thanks,
+
 -- 
-2.21.3
+Peter Xu
 
 
