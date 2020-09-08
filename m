@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B9D26110D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:04:44 +0200 (CEST)
-Received: from localhost ([::1]:36156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13DF261115
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:07:41 +0200 (CEST)
+Received: from localhost ([::1]:41296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFcMd-0004h2-9S
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55514)
+	id 1kFcPV-0006vu-1z
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:07:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFcLf-0003nP-Ck
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:03:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46876
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kFcOX-0006WL-QH
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:06:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFcLd-0004WX-SB
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:03:43 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kFcOV-00053Z-Nx
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:06:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599566621;
+ s=mimecast20190719; t=1599566798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qnNxmmJCEHovj+jxeCQrNN4ORE/fPi7Vmdiu6Bz+PCQ=;
- b=QDkybgc/7F//dlaongK4LmEEjlnm//ka957AyL/ebdpyYdy4h9ETEmJi+qJvxwN4jcsTDY
- ZLqLt+dtm70NiXga8pPinOD58XaIJKJ9Qu6POPwMUqg4pLje0At/PWK58QUtXdcB36/FAx
- +Etna4dMg9wXUOAr3j0IvF/NP9+SJFQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-rSdyn_9yOe-8cO6K0qS0FA-1; Tue, 08 Sep 2020 08:03:39 -0400
-X-MC-Unique: rSdyn_9yOe-8cO6K0qS0FA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7490718BA285;
- Tue,  8 Sep 2020 12:03:38 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-122.ams2.redhat.com
- [10.36.112.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E2A010013C4;
- Tue,  8 Sep 2020 12:03:34 +0000 (UTC)
-Subject: Re: [PATCH 1/4] docs: lift block-core.json rST header into parents
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20200908093113.47564-1-stefanha@redhat.com>
- <20200908093113.47564-2-stefanha@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <f5de1038-5bf3-8bd4-d664-45d6f201ae9b@redhat.com>
-Date: Tue, 8 Sep 2020 14:03:34 +0200
+ bh=v3TbXxVaSjuZDPLhUfvVLRpXbVaORnN358zIb7gmiNA=;
+ b=jNVmxWKOaYGwoX9vz+nt9AghoeljD0q8oDOdUWq0P5t+SNhgEfhuyaJtIMzkFkIWCkYBlg
+ QBci0ec+1stXjQv2qyWU0DdnvIeD8wOCDyt6mBjHg7HrE1IrdNk+UQY22HEWAo09A0YBPx
+ GzRXVA2yqD7KCXYVmyz0Nk5Y8+Truxo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-hs-Os-b_N8i_foS1_zorNA-1; Tue, 08 Sep 2020 08:06:36 -0400
+X-MC-Unique: hs-Os-b_N8i_foS1_zorNA-1
+Received: by mail-wr1-f69.google.com with SMTP id 3so6933874wrm.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:06:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=v3TbXxVaSjuZDPLhUfvVLRpXbVaORnN358zIb7gmiNA=;
+ b=RKA0Txv5BCy+7yUWj+OoP6TOXkLAgha+EmCQyWavb2EMnndFABIqczfxbPoFaCjRrm
+ y2Qzsb22UT3JCfAuxEvlUSMq2I5attxHnUy/1XF792vayoJ+0Pg0S3JORC1NXIo1rAF1
+ 6BXTuP7FPC706Q/tKld3fmi9ZDD+Dk5ovdv4qB7u1XMpTsIvxfDteXRuGLuwmUzFCKOf
+ GFEzU2dtWxMgCGBxxamajfOnJeYr/02QSNXFMciSwv+XJtuNB2Ig9DbEf/C3Wxm0NWQl
+ GzYqVDHkRIvSL6I1OtIPPtRbBKiwFaiTHlMK3a7UMd3FdvL0bOQSlRrGE/r/topt9dUH
+ DMNA==
+X-Gm-Message-State: AOAM533PwFMzH+ItqL2DJAOGZBCRus61bK0qh4rSX/O7731rB+g6Y21L
+ uGuci8W0PYxMg0nhKosgED1fsvKpkuwcj58w+pq/FTN5md8J8wZ2+lW6HU/FRNwd/lHI/873PP0
+ XO7zL7XktAs9PS08=
+X-Received: by 2002:a05:600c:21c4:: with SMTP id
+ x4mr4176988wmj.107.1599566795298; 
+ Tue, 08 Sep 2020 05:06:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyLNwSyFL79qUB6qXQ2VpT0DqfOVm8FjZaZwDjDHp0VR14vKc1qaF5kGH5zK8dzTNtThe1maA==
+X-Received: by 2002:a05:600c:21c4:: with SMTP id
+ x4mr4176968wmj.107.1599566795068; 
+ Tue, 08 Sep 2020 05:06:35 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-218-236.inter.net.il. [80.230.218.236])
+ by smtp.gmail.com with ESMTPSA id
+ c4sm34116292wrp.85.2020.09.08.05.06.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 05:06:34 -0700 (PDT)
+Date: Tue, 8 Sep 2020 08:06:31 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 2/3] virtio-gpu: make virtio_gpu_ops static
+Message-ID: <20200908080622-mutt-send-email-mst@kernel.org>
+References: <20200907094719.12850-1-kraxel@redhat.com>
+ <20200907094719.12850-2-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200908093113.47564-2-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200907094719.12850-2-kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:11:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,93 +96,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, Kashyap Chamarthy <kchamart@redhat.com>,
- afrosi@redhat.com, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+On Mon, Sep 07, 2020 at 11:47:18AM +0200, Gerd Hoffmann wrote:
+> Reference it via ops pointer instead, simliar to the vga one.
+> Removes hard symbol reference, needed to build virtio-gpu modular.
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-On 09/08/20 11:31, Stefan Hajnoczi wrote:
-> block-core.json is included from several places. It has no way of
-> knowing what header level (h1, h2, ...) is appropriate. Sphinx reports
-> errors when it encounters an h2 header where it expects an h1 header.
-> This issue prevents the next patch from generating documentation for
-> qemu-storage-daemon QMP commands.
-> 
-> Move the header into parents so that the correct header level can be
-> used. Note that transaction.json is not updated since it doesn't seem to
-> need a header.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+Feel free to merge.
+
 > ---
->  docs/interop/firmware.json | 4 ++++
->  qapi/block-core.json       | 4 ----
->  qapi/block.json            | 1 +
->  3 files changed, 5 insertions(+), 4 deletions(-)
+>  include/hw/virtio/virtio-gpu.h |  3 +--
+>  hw/display/virtio-gpu-base.c   |  3 ++-
+>  hw/display/virtio-vga.c        | 16 ++++++++--------
+>  3 files changed, 11 insertions(+), 11 deletions(-)
 > 
-> diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
-> index 989f10b626..48af327f98 100644
-> --- a/docs/interop/firmware.json
-> +++ b/docs/interop/firmware.json
-> @@ -15,6 +15,10 @@
->  ##
+> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+> index 7517438e10aa..6c639a0e0272 100644
+> --- a/include/hw/virtio/virtio-gpu.h
+> +++ b/include/hw/virtio/virtio-gpu.h
+> @@ -107,6 +107,7 @@ typedef struct VirtIOGPUBase {
 >  
->  { 'include' : 'machine.json' }
-> +
-> +##
-> +# == Block devices
-> +##
->  { 'include' : 'block-core.json' }
+>      struct virtio_gpu_base_conf conf;
+>      struct virtio_gpu_config virtio_config;
+> +    const GraphicHwOps *hw_ops;
 >  
->  ##
-
-I think "docs/interop/firmware.json" deserves the same treatment as
-"transaction.json".
-
-It's been a long time since I last looked at a rendered view of
-"docs/interop/firmware.json", but it only includes "block-core.json" so
-it can refer to some block-related types (@BlockdevDriver seems like the
-main, or only, one).
-
-I wouldn't expect the rendered view of "firmware.json" to have a section
-header saying "Block devices".
-
-I think it should be fine to drop this hunk (and my CC along with it ;))
-
-Thanks!
-Laszlo
-
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 55b58ba892..e986341997 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -1,10 +1,6 @@
->  # -*- Mode: Python -*-
->  # vim: filetype=python
+>      bool use_virgl_renderer;
+>      int renderer_blocked;
+> @@ -172,8 +173,6 @@ typedef struct VhostUserGPU {
+>      bool backend_blocked;
+>  } VhostUserGPU;
 >  
-> -##
-> -# == Block core (VM unrelated)
-> -##
+> -extern const GraphicHwOps virtio_gpu_ops;
 > -
->  { 'include': 'common.json' }
->  { 'include': 'crypto.json' }
->  { 'include': 'job.json' }
-> diff --git a/qapi/block.json b/qapi/block.json
-> index c54a393cf3..473b294a3b 100644
-> --- a/qapi/block.json
-> +++ b/qapi/block.json
-> @@ -3,6 +3,7 @@
+>  #define VIRTIO_GPU_FILL_CMD(out) do {                                   \
+>          size_t s;                                                       \
+>          s = iov_to_buf(cmd->elem.out_sg, cmd->elem.out_num, 0,          \
+> diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+> index 796130860657..aeb87235420a 100644
+> --- a/hw/display/virtio-gpu-base.c
+> +++ b/hw/display/virtio-gpu-base.c
+> @@ -112,7 +112,7 @@ virtio_gpu_gl_block(void *opaque, bool block)
+>      }
+>  }
 >  
->  ##
->  # = Block devices
-> +# == Block core (VM unrelated)
->  ##
+> -const GraphicHwOps virtio_gpu_ops = {
+> +static const GraphicHwOps virtio_gpu_ops = {
+>      .invalidate = virtio_gpu_invalidate_display,
+>      .gfx_update = virtio_gpu_update_display,
+>      .text_update = virtio_gpu_text_update,
+> @@ -162,6 +162,7 @@ virtio_gpu_base_device_realize(DeviceState *qdev,
+>      g->req_state[0].width = g->conf.xres;
+>      g->req_state[0].height = g->conf.yres;
 >  
->  { 'include': 'block-core.json' }
-> 
+> +    g->hw_ops = &virtio_gpu_ops;
+>      for (i = 0; i < g->conf.max_outputs; i++) {
+>          g->scanout[i].con =
+>              graphic_console_init(DEVICE(g), i, &virtio_gpu_ops, g);
+> diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+> index f533d7d1b415..28006d6e8224 100644
+> --- a/hw/display/virtio-vga.c
+> +++ b/hw/display/virtio-vga.c
+> @@ -12,7 +12,7 @@ static void virtio_vga_base_invalidate_display(void *opaque)
+>      VirtIOGPUBase *g = vvga->vgpu;
+>  
+>      if (g->enable) {
+> -        virtio_gpu_ops.invalidate(g);
+> +        g->hw_ops->invalidate(g);
+>      } else {
+>          vvga->vga.hw_ops->invalidate(&vvga->vga);
+>      }
+> @@ -24,7 +24,7 @@ static void virtio_vga_base_update_display(void *opaque)
+>      VirtIOGPUBase *g = vvga->vgpu;
+>  
+>      if (g->enable) {
+> -        virtio_gpu_ops.gfx_update(g);
+> +        g->hw_ops->gfx_update(g);
+>      } else {
+>          vvga->vga.hw_ops->gfx_update(&vvga->vga);
+>      }
+> @@ -36,8 +36,8 @@ static void virtio_vga_base_text_update(void *opaque, console_ch_t *chardata)
+>      VirtIOGPUBase *g = vvga->vgpu;
+>  
+>      if (g->enable) {
+> -        if (virtio_gpu_ops.text_update) {
+> -            virtio_gpu_ops.text_update(g, chardata);
+> +        if (g->hw_ops->text_update) {
+> +            g->hw_ops->text_update(g, chardata);
+>          }
+>      } else {
+>          if (vvga->vga.hw_ops->text_update) {
+> @@ -51,8 +51,8 @@ static int virtio_vga_base_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
+>      VirtIOVGABase *vvga = opaque;
+>      VirtIOGPUBase *g = vvga->vgpu;
+>  
+> -    if (virtio_gpu_ops.ui_info) {
+> -        return virtio_gpu_ops.ui_info(g, idx, info);
+> +    if (g->hw_ops->ui_info) {
+> +        return g->hw_ops->ui_info(g, idx, info);
+>      }
+>      return -1;
+>  }
+> @@ -62,8 +62,8 @@ static void virtio_vga_base_gl_block(void *opaque, bool block)
+>      VirtIOVGABase *vvga = opaque;
+>      VirtIOGPUBase *g = vvga->vgpu;
+>  
+> -    if (virtio_gpu_ops.gl_block) {
+> -        virtio_gpu_ops.gl_block(g, block);
+> +    if (g->hw_ops->gl_block) {
+> +        g->hw_ops->gl_block(g, block);
+>      }
+>  }
+>  
+> -- 
+> 2.27.0
 
 
