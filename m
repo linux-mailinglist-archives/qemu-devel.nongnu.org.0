@@ -2,88 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E058262130
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:33:31 +0200 (CEST)
-Received: from localhost ([::1]:38830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA696262139
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:37:17 +0200 (CEST)
+Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFkJ0-0000jh-8I
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50280)
+	id 1kFkMe-00043B-Tk
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kFkGE-0004GM-LT
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:30:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46404
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kFkGC-0007xH-T3
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:30:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599597036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S9JOV0WBlguYwtR4pnvjIPBz9nBbT8zTYpwDfLLypjc=;
- b=VxE6o32E4RO+x4wTwEdtuuYifeeu/pxU2/UON+l3H8X0dB/FBZ4YLwiR4QNmzLIoLBAuwR
- dUVvVy0HALNDo5AAHMtyMqiS9mszt0CbMtkgM6U/l1WOT2nTpA+hlRnQO1GHvUHF2PT5Fc
- kypCh4wwRMlFk4SpvNrE/RG+hODpnrk=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-hmrGZniCPS2hMtAF9qziWA-1; Tue, 08 Sep 2020 16:30:34 -0400
-X-MC-Unique: hmrGZniCPS2hMtAF9qziWA-1
-Received: by mail-qt1-f200.google.com with SMTP id m13so343822qtu.10
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 13:30:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kFkLy-0003YO-Tg
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:36:34 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:40680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kFkLw-0000Hr-5C
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:36:34 -0400
+Received: by mail-ej1-x642.google.com with SMTP id z22so289247ejl.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 13:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ySz+p9C4GRKIxhctPGUinz4OrIh9hOWfLSceoQHGW7s=;
+ b=k3ZpZlXJvDNSmRme+tn9tTTBvKtiQzRe7JKKVF+Q8O8lUg8KEIvh5BGDAgZ7j5B7ev
+ EZrsEW1tZvK6ZOjfM4yJrMU9Dtbdzg7TibYGP7fAvzgjnzx0FFvIS+OmyK4hPTSseEiM
+ 4E2XdyfeZXc92AujBNx6jBu3MWL8wHp1/AQ/HmjjvykfozAWt30Ehj51ASd5kHqTdFe0
+ mjRDS6EcEXjxxJrxeMzGFTM6/FDl2vOOZWg1kHVhmdUSFVl8/UPoZwT3sSiqcZHzA1Da
+ dW9FIlRMZ+kktQTJ5U/46drAykNwvgW+SHzqoeQW/5lmdSpPcSa625QKV6IascXnqMIv
+ I1rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=S9JOV0WBlguYwtR4pnvjIPBz9nBbT8zTYpwDfLLypjc=;
- b=flENrpfQlGAoB088NV28266KTqSDnEeIQ9mC5NLV0rY0iqA5PLkXsQSTSs3alP96rR
- pKYjiNBR4gElbruhVsQMd92gfr0qQa1j05CCWVK7jLdFftVO/tXlQ0oh8M+npYM1/8ew
- 6Dz6y0F5k73nJXjV1Q80ZOZhbmjZziSdnCg2Cyn5ueVmw1JXajQoWFI2EwpPC12grPk9
- 3sjeF5m7AL7A4QfzI9+99tmglfVBOJlyy/gvdbffvr+mpqSOrxiG+VVcLeSEb0FkKNj0
- 7pUNTlCsbFDnhiVaA3Pxx0FWqYgXTh4An+2TecLxKJx0HBZVk46Fzgw0wYj6eWUTF29v
- kZ+Q==
-X-Gm-Message-State: AOAM533RMx86vQvGZ3o0a0Pet/rNaJbAIMOQSH0tSaLC7fF0SS2gfvtg
- USbHwDMcJ5V3vOlipggDfGcIY8IkodHN+wrUsyE4yalCFrqYk0CcCWX7BXG0T0c7xgZ4IhTq4d0
- kA5SoWvjiAi/O8l0=
-X-Received: by 2002:ac8:2612:: with SMTP id u18mr172217qtu.363.1599597033826; 
- Tue, 08 Sep 2020 13:30:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxI8GBFpKLFYZ4U+8tnTvL2nViOdrM+O8x3xuhDIrC0oimxgf69+zTJdfktOPq+sOtSbZrVIg==
-X-Received: by 2002:ac8:2612:: with SMTP id u18mr172188qtu.363.1599597033539; 
- Tue, 08 Sep 2020 13:30:33 -0700 (PDT)
-Received: from xz-x1.redhat.com
- (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca. [70.53.122.15])
- by smtp.gmail.com with ESMTPSA id o28sm595397qtl.62.2020.09.08.13.30.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 13:30:32 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] migration: Sync requested pages after postcopy recovery
-Date: Tue,  8 Sep 2020 16:30:22 -0400
-Message-Id: <20200908203022.341615-7-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200908203022.341615-1-peterx@redhat.com>
-References: <20200908203022.341615-1-peterx@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ySz+p9C4GRKIxhctPGUinz4OrIh9hOWfLSceoQHGW7s=;
+ b=gQVQfgZOute1cQAqPAlqjayu/fjChlbopl8vXOJ75eC1hhKSuGFHukN51md+HgW7vk
+ LIiQgdxjcTbC1hokOp38Gaa2hXF9CbmMktMaXkR5nHfdNX5CFR/Gd5LCTyAq4Gy3MA4K
+ eP5T8bW9l7VnLU/bY0z874X4XjyUNh7bEnp391qZtwbfjsJFFGvyQGTYmeVRJd/dyvTG
+ w5wFE3oYHT2ciOdnQHvZpCfYuESmbm9Z5OgDuyncGRs6fCzjkITvYfSYAIqrj75kkR7W
+ 2g3QqXtTh7ubzhiQx3oKPx6ckpg09+/4GEnhEgX16QpHHI+Bj3Vpme1CWV6TlFlbycRU
+ WlRQ==
+X-Gm-Message-State: AOAM531NBHN7xt4/fDnzteWxhjyoduavt9sL/geDiki84SRJ9gkIB0/R
+ ST5p13Er5Df9mrPqygcspoJvROQPhwA0ukeagZghrQ==
+X-Google-Smtp-Source: ABdhPJwDOf7kos+VT6KKmjbw/fzckOxY9I+t4QT2PWy+hT9RBFdxvybregG9KeIowgzx87ZVV47Xjt7dy4Y/0waL5oU=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr236466ejb.85.1599597390339; 
+ Tue, 08 Sep 2020 13:36:30 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200908194820.702-1-luoyonggang@gmail.com>
+ <20200908194820.702-3-luoyonggang@gmail.com>
+In-Reply-To: <20200908194820.702-3-luoyonggang@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Sep 2020 21:36:19 +0100
+Message-ID: <CAFEAcA9PBBqykwBqTzQiYbwK5qZmhEsdn5ZURGHaFNPgoE0vvA@mail.gmail.com>
+Subject: Re: [PATCH 02/16] ci: fixes msys2 build by upgrading capstone to 4.0.2
+To: Yonggang Luo <luoyonggang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,112 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaohui Li <xiaohli@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Qemu-block <qemu-block@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Max Reitz <mreitz@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
+ Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We synchronize the requested pages right after a postcopy recovery happens.
-This helps to synchronize the prioritized pages on source so that the faulted
-threads can be served faster.
+On Tue, 8 Sep 2020 at 20:50, Yonggang Luo <luoyonggang@gmail.com> wrote:
+>
+> The currently random version capstone have the following compiling issue:
+>   CC      /c/work/xemu/qemu/build/slirp/src/arp_table.o
+> make[1]: *** No rule to make target =E2=80=9C/c/work/xemu/qemu/build/caps=
+tone/capstone.lib=E2=80=9D=E3=80=82 Stop.
+>
+> Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1 are the tagged=
+ version 4.0.2
 
-Reported-by: Xiaohui Li <xiaohli@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/savevm.c     | 57 ++++++++++++++++++++++++++++++++++++++++++
- migration/trace-events |  1 +
- 2 files changed, 58 insertions(+)
+Richard H says that last time we tried to move the capstone
+submodule forward there were "all sorts of random portability problems
+across old/odd systems", so this is probably likely to have issues
+when it gets tested on other systems.
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 304d98ff78..a84ce512b9 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2011,6 +2011,49 @@ static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
-     return LOADVM_QUIT;
- }
- 
-+/* We must be with page_request_mutex held */
-+static gboolean postcopy_sync_page_req(gpointer key, gpointer value,
-+                                       gpointer data)
-+{
-+    MigrationIncomingState *mis = data;
-+    void *host_addr = (void *) key;
-+    ram_addr_t rb_offset;
-+    RAMBlock *rb;
-+    int ret;
-+
-+    rb = qemu_ram_block_from_host(host_addr, true, &rb_offset);
-+    if (!rb) {
-+        /*
-+         * This should _never_ happen.  However be nice for a migrating VM to
-+         * not crash/assert.  Post an error (note: intended to not use *_once
-+         * because we do want to see all the illegal addresses; and this can
-+         * never be triggered by the guest so we're safe) and move on next.
-+         */
-+        error_report("%s: illegal host addr %p", __func__, host_addr);
-+        /* Try the next entry */
-+        return FALSE;
-+    }
-+
-+    ret = migrate_send_rp_message_req_pages(mis, rb, rb_offset);
-+    if (ret) {
-+        /* Please refer to above comment. */
-+        error_report("%s: send rp message failed for addr %p",
-+                     __func__, host_addr);
-+        return FALSE;
-+    }
-+
-+    trace_postcopy_page_req_sync((uint64_t)host_addr);
-+
-+    return FALSE;
-+}
-+
-+static void migrate_send_rp_req_pages_pending(MigrationIncomingState *mis)
-+{
-+    WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
-+        g_tree_foreach(mis->page_requested, postcopy_sync_page_req, mis);
-+    }
-+}
-+
- static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
- {
-     if (mis->state != MIGRATION_STATUS_POSTCOPY_RECOVER) {
-@@ -2033,6 +2076,20 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
-     /* Tell source that "we are ready" */
-     migrate_send_rp_resume_ack(mis, MIGRATION_RESUME_ACK_VALUE);
- 
-+    /*
-+     * After a postcopy recovery, the source should have lost the postcopy
-+     * queue, or potentially the requested pages could have been lost during
-+     * the network down phase.  Let's re-sync with the source VM by re-sending
-+     * all the pending pages that we eagerly need, so these threads won't get
-+     * blocked too long due to the recovery.
-+     *
-+     * Without this procedure, the faulted destination VM threads (waiting for
-+     * page requests right before the postcopy is interrupted) can keep hanging
-+     * until the pages are sent by the source during the background copying of
-+     * pages, or another thread faulted on the same address accidentally.
-+     */
-+    migrate_send_rp_req_pages_pending(mis);
-+
-     return 0;
- }
- 
-diff --git a/migration/trace-events b/migration/trace-events
-index b89ce02cb0..54a6dd2761 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -49,6 +49,7 @@ vmstate_save(const char *idstr, const char *vmsd_name) "%s, %s"
- vmstate_load(const char *idstr, const char *vmsd_name) "%s, %s"
- postcopy_pause_incoming(void) ""
- postcopy_pause_incoming_continued(void) ""
-+postcopy_page_req_sync(uint64_t host_addr) "sync page req 0x%"PRIx64
- 
- # vmstate.c
- vmstate_load_field_error(const char *field, int ret) "field \"%s\" load failed, ret = %d"
--- 
-2.26.2
-
+thanks
+-- PMm
 
