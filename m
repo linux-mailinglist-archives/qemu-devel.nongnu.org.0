@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BD8260B6C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:58:53 +0200 (CEST)
-Received: from localhost ([::1]:49218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B3260B61
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:57:48 +0200 (CEST)
+Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFXae-0006rE-Re
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43488)
+	id 1kFXZb-0005S9-Jo
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWO-0001Jj-Um
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27143
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWM-0001Ey-D9
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:26 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26482
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWK-0008Co-JL
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFXWJ-0008CY-Lz
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:54:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599548064;
+ s=mimecast20190719; t=1599548062;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e0Ubs2uV2UEdHWgEjuOwfwCOCjyIjZmVF40Od2GCpBI=;
- b=T3hPel38Ebam7owlJlwgED9Wv0/gsNBPrXsLxcCKKDpAVuqWmPUdh3H5qN21pM7xKRudTb
- o8wvwSNVMjYBemxc9lNpJrKUgkh9P0NPfekjhT/+jKK11Q9+vD3xKDH8LQvteloa6hLkzl
- v8F7MWS3ExeY5wX7Dv1DEfXDlR4AH0E=
+ bh=TZT9ZHvTLeBts5ifAOnsBtSAoz+UEua1UY1aaCa7a7E=;
+ b=A/xYLBcXolrD2JXgOqC02uK/T6RLfOWHWVNNnjTaj3BxeDDjF4CdmsHQTyJVDH5MnUbbMV
+ EjnN161Zv1h7EHOnjwa2J/jKhKE9IOrfUcZhw3wCUOjNjtTT1tDY8JYIfIKatxsfk6ZKg/
+ buQoeSJhMM/mL80TEegr2vPF1EHXjsM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-eQcoPOgNPMmKwCWY0Lv22g-1; Tue, 08 Sep 2020 02:54:20 -0400
-X-MC-Unique: eQcoPOgNPMmKwCWY0Lv22g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-84-uj98bnktPKi5xH7AuOkjHA-1; Tue, 08 Sep 2020 02:54:20 -0400
+X-MC-Unique: uj98bnktPKi5xH7AuOkjHA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 868361008548;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEC5864083;
  Tue,  8 Sep 2020 06:54:19 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
  [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EB9360C0F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52B835D9D3;
  Tue,  8 Sep 2020 06:54:19 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 894B91132941; Tue,  8 Sep 2020 08:54:17 +0200 (CEST)
+ id 8D6F51132751; Tue,  8 Sep 2020 08:54:17 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] qapi: Make section headings start a new doc comment block
-Date: Tue,  8 Sep 2020 08:54:14 +0200
-Message-Id: <20200908065417.3158250-3-armbru@redhat.com>
+Subject: [PULL 3/5] qapi/migration.json: Fix indentation
+Date: Tue,  8 Sep 2020 08:54:15 +0200
+Message-Id: <20200908065417.3158250-4-armbru@redhat.com>
 In-Reply-To: <20200908065417.3158250-1-armbru@redhat.com>
 References: <20200908065417.3158250-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,103 +82,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our current QAPI doc-comment markup allows section headers (introduced
-with a leading '=' or '==') anywhere in a free-form documentation
-comment.  This works for Texinfo because the generator simply prints a
-Texinfo section command at that point in the output stream.  For rST
-generation, since we're assembling a tree of docutils nodes, this is
-awkward because a new section implies starting a new section node at
-the top level of the tree and generating text into there.
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Make section headers start a new free-form documentation block, so the
-future rST document generator doesn't have to look at every line in
-free-form blocks and handle headings in odd places.
+Commits 6a9ad1542065ca0bd54c6 and 9004db48c080632aef23 added some
+new text to qapi/migration.json which doesn't fit the stricter
+indentation requirements imposed by the rST documentation generator.
+Reindent those lines to the new standard.
 
-This change makes no difference to the generated Texinfo.
-
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200810195019.25427-2-peter.maydell@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200320091805.5585-3-armbru@redhat.com>
 ---
- scripts/qapi/parser.py         | 21 +++++++++++++--------
- tests/qapi-schema/doc-good.out |  3 ++-
- 2 files changed, 15 insertions(+), 9 deletions(-)
+ qapi/migration.json | 60 ++++++++++++++++++++++-----------------------
+ 1 file changed, 30 insertions(+), 30 deletions(-)
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index f12c67d7d2..165925ca72 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -52,8 +52,8 @@ class QAPISchemaParser:
-             info = self.info
-             if self.tok == '#':
-                 self.reject_expr_doc(cur_doc)
--                cur_doc = self.get_doc(info)
--                self.docs.append(cur_doc)
-+                for cur_doc in self.get_doc(info):
-+                    self.docs.append(cur_doc)
-                 continue
- 
-             expr = self.get_expr(False)
-@@ -270,7 +270,8 @@ class QAPISchemaParser:
-             raise QAPIParseError(
-                 self, "junk after '##' at start of documentation comment")
- 
--        doc = QAPIDoc(self, info)
-+        docs = []
-+        cur_doc = QAPIDoc(self, info)
-         self.accept(False)
-         while self.tok == '#':
-             if self.val.startswith('##'):
-@@ -279,15 +280,20 @@ class QAPISchemaParser:
-                     raise QAPIParseError(
-                         self,
-                         "junk after '##' at end of documentation comment")
--                doc.end_comment()
-+                cur_doc.end_comment()
-+                docs.append(cur_doc)
-                 self.accept()
--                return doc
-+                return docs
-             if self.val.startswith('# ='):
--                if doc.symbol:
-+                if cur_doc.symbol:
-                     raise QAPIParseError(
-                         self,
-                         "unexpected '=' markup in definition documentation")
--            doc.append(self.val)
-+                if cur_doc.body.text:
-+                    cur_doc.end_comment()
-+                    docs.append(cur_doc)
-+                    cur_doc = QAPIDoc(self, info)
-+            cur_doc.append(self.val)
-             self.accept(False)
- 
-         raise QAPIParseError(self, "documentation comment must end with '##'")
-@@ -316,7 +322,6 @@ class QAPIDoc:
-         def __init__(self, name=None):
-             # optional section name (argument/member or section name)
-             self.name = name
--            # the list of lines for this section
-             self.text = ''
- 
-         def append(self, line):
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index 6757dd26a2..d78a424cd9 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -69,7 +69,8 @@ event EVT-BOXED Object
- doc freeform
-     body=
- = Section
--
-+doc freeform
-+    body=
- == Subsection
- 
- *strong* _with emphasis_
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 5f6b06172c..115181f4a5 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -667,18 +667,18 @@
+ #                       Defaults to none. (Since 5.0)
+ #
+ # @multifd-zlib-level: Set the compression level to be used in live
+-#          migration, the compression level is an integer between 0
+-#          and 9, where 0 means no compression, 1 means the best
+-#          compression speed, and 9 means best compression ratio which
+-#          will consume more CPU.
+-#          Defaults to 1. (Since 5.0)
++#                      migration, the compression level is an integer between 0
++#                      and 9, where 0 means no compression, 1 means the best
++#                      compression speed, and 9 means best compression ratio which
++#                      will consume more CPU.
++#                      Defaults to 1. (Since 5.0)
+ #
+ # @multifd-zstd-level: Set the compression level to be used in live
+-#          migration, the compression level is an integer between 0
+-#          and 20, where 0 means no compression, 1 means the best
+-#          compression speed, and 20 means best compression ratio which
+-#          will consume more CPU.
+-#          Defaults to 1. (Since 5.0)
++#                      migration, the compression level is an integer between 0
++#                      and 20, where 0 means no compression, 1 means the best
++#                      compression speed, and 20 means best compression ratio which
++#                      will consume more CPU.
++#                      Defaults to 1. (Since 5.0)
+ #
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #          aliases for the purpose of dirty bitmap migration.  Such
+@@ -827,18 +827,18 @@
+ #                       Defaults to none. (Since 5.0)
+ #
+ # @multifd-zlib-level: Set the compression level to be used in live
+-#          migration, the compression level is an integer between 0
+-#          and 9, where 0 means no compression, 1 means the best
+-#          compression speed, and 9 means best compression ratio which
+-#          will consume more CPU.
+-#          Defaults to 1. (Since 5.0)
++#                      migration, the compression level is an integer between 0
++#                      and 9, where 0 means no compression, 1 means the best
++#                      compression speed, and 9 means best compression ratio which
++#                      will consume more CPU.
++#                      Defaults to 1. (Since 5.0)
+ #
+ # @multifd-zstd-level: Set the compression level to be used in live
+-#          migration, the compression level is an integer between 0
+-#          and 20, where 0 means no compression, 1 means the best
+-#          compression speed, and 20 means best compression ratio which
+-#          will consume more CPU.
+-#          Defaults to 1. (Since 5.0)
++#                      migration, the compression level is an integer between 0
++#                      and 20, where 0 means no compression, 1 means the best
++#                      compression speed, and 20 means best compression ratio which
++#                      will consume more CPU.
++#                      Defaults to 1. (Since 5.0)
+ #
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #          aliases for the purpose of dirty bitmap migration.  Such
+@@ -1023,18 +1023,18 @@
+ #                       Defaults to none. (Since 5.0)
+ #
+ # @multifd-zlib-level: Set the compression level to be used in live
+-#          migration, the compression level is an integer between 0
+-#          and 9, where 0 means no compression, 1 means the best
+-#          compression speed, and 9 means best compression ratio which
+-#          will consume more CPU.
+-#          Defaults to 1. (Since 5.0)
++#                      migration, the compression level is an integer between 0
++#                      and 9, where 0 means no compression, 1 means the best
++#                      compression speed, and 9 means best compression ratio which
++#                      will consume more CPU.
++#                      Defaults to 1. (Since 5.0)
+ #
+ # @multifd-zstd-level: Set the compression level to be used in live
+-#          migration, the compression level is an integer between 0
+-#          and 20, where 0 means no compression, 1 means the best
+-#          compression speed, and 20 means best compression ratio which
+-#          will consume more CPU.
+-#          Defaults to 1. (Since 5.0)
++#                      migration, the compression level is an integer between 0
++#                      and 20, where 0 means no compression, 1 means the best
++#                      compression speed, and 20 means best compression ratio which
++#                      will consume more CPU.
++#                      Defaults to 1. (Since 5.0)
+ #
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #          aliases for the purpose of dirty bitmap migration.  Such
 -- 
 2.26.2
 
