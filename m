@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59707261B1F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:56:22 +0200 (CEST)
-Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D12E9261B28
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:57:48 +0200 (CEST)
+Received: from localhost ([::1]:56854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFimz-0005vV-Br
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
+	id 1kFioN-0000Zo-Ic
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFihM-0003Cv-N9; Tue, 08 Sep 2020 14:50:32 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:38261)
+ id 1kFihR-0003OX-0t; Tue, 08 Sep 2020 14:50:37 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFihL-0002o5-5R; Tue, 08 Sep 2020 14:50:32 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id l126so4695750pfd.5;
- Tue, 08 Sep 2020 11:50:30 -0700 (PDT)
+ id 1kFihP-0002oU-8a; Tue, 08 Sep 2020 14:50:36 -0400
+Received: by mail-pf1-x442.google.com with SMTP id b124so11693041pfg.13;
+ Tue, 08 Sep 2020 11:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9VMmLATL4hLY9MeoSmcNwnDOjnsVNymdFAgQMcXeglM=;
- b=BkwaF10WtWNLIvDotjR89OlGaCOVDtQFKpTkNmbQpJKvxWwcZlCrjySkVQeR0qUbvI
- cvlddfIZ+A+1G6qlx4M39Aa59Pjf7IrZfjMKg5uRDJ3O+n5yDrktF4lf70DaIv/a30bc
- FF7pgxc69IZVhBsV/Umxe3m2nxjDgHcFjdtw7EnEr1+IjXsSSsIwAWck3GgJ2q1nFfF/
- FqL06kxBaxhdeaQXRKn0fpWgC0Vd1NDJ5PA++8qWojsj83wcYSCBdi9s00G6slO+YIJ8
- igrMDi6ESj6aLxxa3qEv3Lna5LElYtBLiPEo4mHJ6YDqq+QaRkg4exYX8CnGr0Xyk1ff
- PULA==
+ bh=GCgbOADJo9SgTrFvdP0jEa9PoTonwhtwSH4+oqHE/pQ=;
+ b=s09b1O8/qPl0Wx5E6dWGi3ro2nFGD/w50/L3c+0UPd2GxLWgGxgWs7C2I5MRrvwmom
+ scgrnZR9lFURs4Pf05KGDJTJZy1tgHbhXgGVcPR2WPBp6CQnQ10GDMqabv/7C0BVcvAP
+ TSrTeQ1Ru/pU5HhrQ1bJxgEi7822FJPsV36GERd1qcA0S90ed6NLm3+J0ReNBDtJqWrP
+ GgNxr91TYKn9bkejac+vNs8dr8NB+2c+GvQB51e/1NGsihqd3BdNeWk14k14xgv+b+jL
+ A9kwgN9cJEAIkKvp04v1JzMXhNSZroStSIy08lVyNApwTgTU6Ipd7px1JqZRdenm6Mz4
+ ZHyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9VMmLATL4hLY9MeoSmcNwnDOjnsVNymdFAgQMcXeglM=;
- b=iH6RHkz4tzs+QOyPUSlpI+lfVsg5uPrBYopbg3xTnW1XKhS6HL2kE9Bn8fV4cZBDCB
- T3EA4BFMLTLrlXn33LQzahYRQ8iKUPri3jHwAsgzC6Ra59cAeioXyPlbDQoy7NZLmSfN
- HTcNN0Zlg0MRdno5XsAvkh4Y3WK8nREeXv/KBYzxGAFAJ5HygutgmkUKBBKx08mL3ZVm
- x/qbIUnTNPYoz0Jzo4PyhgcuZuVmSrwzvcPHAVPpXpV2G8rTfh3m/9lK30k9Wks56lz1
- AR67GIhDtlKQcVPvvJopPUAX1eaLA8FMxnQeYlgfAWPtgHrLVDogLeCC40eUFyNAm6OX
- LjJw==
-X-Gm-Message-State: AOAM5311Sl5udUXkmXFjX09ueZVEYnjaX5jU8aunQV9esNKGF5YFiFRZ
- LjTSr2FKbiQQ+aB2XXygdgzH6GT0h3DYkUkL
-X-Google-Smtp-Source: ABdhPJydiNBnDobzjuQQzwM/PEQxFF0DSS5gbQDObvm8D/Wpt3ZADQoUJqtKuJeLh4AT7NFzQ7+0kQ==
-X-Received: by 2002:a63:5656:: with SMTP id g22mr137089pgm.44.1599591028864;
- Tue, 08 Sep 2020 11:50:28 -0700 (PDT)
+ bh=GCgbOADJo9SgTrFvdP0jEa9PoTonwhtwSH4+oqHE/pQ=;
+ b=jaicMdP3aRa6C9bFhCur80myPB6yxW3dp2WTCcE79XkHewuYoqnvMq1h5uBWeRPeOr
+ QCEUF9mBvdN3+BTxbuRSO/lLhthijheVDWfmRdbtDQCUZ/gPSfwwUyJHGB1V3GKD6Pw8
+ aI/nfvGEsWJJWfO13Mt3bWk8iSKcuHYpiPh8IHThtiRZg8n0wfJ2S0WKkv1lhPQpuSMJ
+ jXFbUKPINmSZ6HmnFKaimrFi+d9+ulBpCfx6WGFOxYmFfbxIkc0n7f1F3vW8kUBJrC7U
+ lZ5NDaZAuuG6DNlntfBej0f6o+6JpqtsOGntzEP3tyNNhWbeo8LkpPSM/3M2TdGyzVPz
+ N94w==
+X-Gm-Message-State: AOAM5314CRe+VCDqCmVQrYJsUlfh7ZW40F8ScK9xkD1fFKoaefNtNFoJ
+ jRhmHf3l4m3d+V1D7FwM2H6jnTqp5mXJNjd8
+X-Google-Smtp-Source: ABdhPJxss9DgG3QnNN+8erdww6zfCgfMadiAlPJPVXzGP3y6VV/DSjOvl45KgBSPW9jrbQvajAE+aQ==
+X-Received: by 2002:a63:f70e:: with SMTP id x14mr83825pgh.407.1599591032872;
+ Tue, 08 Sep 2020 11:50:32 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 8sm43553pjx.14.2020.09.08.11.50.24
+ by smtp.googlemail.com with ESMTPSA id 8sm43553pjx.14.2020.09.08.11.50.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 11:50:28 -0700 (PDT)
+ Tue, 08 Sep 2020 11:50:32 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/16] vmstate: Fixes test-vmstate.c on msys2/mingw
-Date: Wed,  9 Sep 2020 02:49:15 +0800
-Message-Id: <20200908184918.1085-14-luoyonggang@gmail.com>
+Subject: [PULL 14/16] cirrus: Building freebsd in a single short
+Date: Wed,  9 Sep 2020 02:49:16 +0800
+Message-Id: <20200908184918.1085-15-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200908184918.1085-1-luoyonggang@gmail.com>
 References: <20200908184918.1085-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,39 +88,68 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
  Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vmstate are valid on win32, just need generate tmp path properly
+freebsd 1 hour limit not hit anymore
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/test-vmstate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .cirrus.yml | 35 ++++++++---------------------------
+ 1 file changed, 8 insertions(+), 27 deletions(-)
 
-diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
-index f8de709a0b..4c453575bb 100644
---- a/tests/test-vmstate.c
-+++ b/tests/test-vmstate.c
-@@ -34,7 +34,6 @@
- #include "qemu/module.h"
- #include "io/channel-file.h"
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 49335e68c9..b0004273bb 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -1,38 +1,19 @@
+ env:
+   CIRRUS_CLONE_DEPTH: 1
  
--static char temp_file[] = "/tmp/vmst.test.XXXXXX";
- static int temp_fd;
+-freebsd_1st_task:
++freebsd_12_task:
+   freebsd_instance:
+     image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gsed
+-    nettle perl5 pixman pkgconf png usbredir
++    cpu: 8
++    memory: 8G
++  install_script:
++    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
++    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
++          nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --disable-user --target-list-exclude='alpha-softmmu
+-        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
+-        --enable-werror || { cat config.log; exit 1; }
+-    - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake -j$(sysctl -n hw.ncpu) check
+-
+-freebsd_2nd_task:
+-  freebsd_instance:
+-    image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
+-    nettle perl5 pixman pkgconf png SDL2 usbredir
+-  script:
+-    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
+-        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
+-        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
+-        || { cat config.log; exit 1; }
++    - ../configure --enable-werror || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake -j$(sysctl -n hw.ncpu) check
  
- 
-@@ -1487,6 +1486,7 @@ static void test_tmp_struct(void)
- 
- int main(int argc, char **argv)
- {
-+    g_autofree char* temp_file = g_strdup_printf("%s/vmst.test.XXXXXX", g_get_tmp_dir());
-     temp_fd = mkstemp(temp_file);
- 
-     module_call_init(MODULE_INIT_QOM);
 -- 
 2.28.0.windows.1
 
