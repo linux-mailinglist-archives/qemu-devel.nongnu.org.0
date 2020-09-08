@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013B52612BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:31:42 +0200 (CEST)
-Received: from localhost ([::1]:47408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2C12612C3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:33:15 +0200 (CEST)
+Received: from localhost ([::1]:52848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFeeq-0005gi-HT
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
+	id 1kFegM-00080Z-9u
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFeaP-0005TB-6g
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:27:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34376
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kFeci-0002yy-PR
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:29:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28646
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFeZi-0006qm-45
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:27:04 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kFecg-0007S5-Am
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:29:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599575180;
+ s=mimecast20190719; t=1599575365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8VUrfo15vNafeYg0h4TuIp0D8UFhdJzYacZhDlojTCw=;
- b=HhGvXUDxQ+4XXUJ0pgoq621A7+XUM026bmF8Xb6po2aQbyRdVxrVaGUwJT2shnxTDAC7z5
- /g0WKWrnXerXuXd/NvURrA3IjySEy4ctquaqNHQ04Npn8klgRMedGsggBbInxxJXzqGv+P
- D6MPtZvjozMaghlZK0qucGVMSMIpax8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-rq2Bu_SkOFCay8n-R_6RPg-1; Tue, 08 Sep 2020 10:26:18 -0400
-X-MC-Unique: rq2Bu_SkOFCay8n-R_6RPg-1
-Received: by mail-wm1-f69.google.com with SMTP id u5so4540232wme.3
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:26:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8VUrfo15vNafeYg0h4TuIp0D8UFhdJzYacZhDlojTCw=;
- b=OolI6nddd+1hE97L55LgYw8mY/DQchZ7zf66yIz4iapyCNjJOS736xm0UPENSeHdc2
- VDNu4v5WKEyP+Ysk5ODMsDcjlO06eRmmiUC0JiX94uqmg2cAIpeNaCo813GVnJexZXiS
- r8NwOwgtcgFkR336hyC3CcItAozQh8xVzUuLlqgXR0xee3Mu/Y1jq8Mrs8IvciDhop/3
- WGCdazlCpLkdEF3xJN+GyDme1x3h9RUIPsEzBNorM3GI7F0JZTccP/CJb+0DkT/8PHAc
- G8d0jhi0CjuBZ8cmcUtprgnHgcxdJ/y1HIUdRc2FoziTMmwGCsmyqAuyrD1XGJajgUoM
- 32Ow==
-X-Gm-Message-State: AOAM533Pa31hpTyuVAuAhCtPa2rSmu6Fo4EbMpOes59A3X9TW3uPx0jL
- OyE1+sGCBctoiiK69nP2HEqUSDlkPkED2yknZKbJzdADd5q+GaVPtns5zFRXbPDmK/cBwpDZ3Di
- Vk10zr/z6Tt4xbto=
-X-Received: by 2002:adf:ded0:: with SMTP id i16mr28998781wrn.372.1599575176516; 
- Tue, 08 Sep 2020 07:26:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkszmGXOLnkk3CcObVMEgsSL3kaacDO7vyqNMMFdP08ftv4yg2yphpdxx/O0+be5EyVAQmTg==
-X-Received: by 2002:adf:ded0:: with SMTP id i16mr28998760wrn.372.1599575176292; 
- Tue, 08 Sep 2020 07:26:16 -0700 (PDT)
-Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id 188sm56090648wmz.2.2020.09.08.07.26.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 07:26:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ bh=VY5FszTDtThjgq4x+5UN0VyTVSXKlknNwLCW3WXBosQ=;
+ b=Uci/ZIHI80prS6nJ+RkiKWs2NBttuwnnrzkMZ9bAv2UePf8kWCrtXqejK6hJBmpEatra3W
+ 1DhBQG4TRvOGero6M1/cp3Sj3F3WpMt/8a8Sxsct1GZrFF9MqY2GDGtAEFBrI3CWr42Ys/
+ Tacb77VjNZ4GALGiqbkdvPSAQuaEjOk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-zowWn8uMM_GR8rpyvvOUVQ-1; Tue, 08 Sep 2020 10:29:23 -0400
+X-MC-Unique: zowWn8uMM_GR8rpyvvOUVQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A90118BE160;
+ Tue,  8 Sep 2020 14:29:22 +0000 (UTC)
+Received: from imammedo-mac (unknown [10.40.193.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91BF8838AC;
+ Tue,  8 Sep 2020 14:29:17 +0000 (UTC)
+Date: Tue, 8 Sep 2020 16:29:14 +0200
+From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] stubs: Split accelerator / hardware related stubs
-Date: Tue,  8 Sep 2020 16:25:57 +0200
-Message-Id: <20200908142559.192945-4-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200908142559.192945-1-philmd@redhat.com>
-References: <20200908142559.192945-1-philmd@redhat.com>
+Subject: Re: [PATCH v5 00/10] x86: fix cpu hotplug with secure boot
+Message-ID: <20200908162914.73d5d229@imammedo-mac>
+In-Reply-To: <20200907112348.530921-1-imammedo@redhat.com>
+References: <20200907112348.530921-1-imammedo@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 00:33:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,161 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: boris.ostrovsky@oracle.com, lersek@redhat.com, aaron.young@oracle.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move hardware stubs unrelated from the accelerator to xen-hw-stub.c.
+On Mon,  7 Sep 2020 07:23:38 -0400
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- accel/stubs/xen-stub.c | 41 +----------------------------------
- stubs/xen-hw-stub.c    | 49 ++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS            |  1 +
- stubs/meson.build      |  1 +
- 4 files changed, 52 insertions(+), 40 deletions(-)
- create mode 100644 stubs/xen-hw-stub.c
+> v5:
+>   - fix hotplug on Windows when there is more than 256 possible CPUs
+>     (Windows isn't able to handle VarPackage over 255 elements
+>      so process CPUs in batches)
+>   - fix off-by-one in package length (Laszlo)
+>   - fix not selecting CPU before clearing insert event (Laszlo)
+>   - use aml_lgreater() instead of aml_lnot(aml_equal(num_added_cpus, zero) (Laszlo)
+>   - split 'x68: acpi: trigger SMI before sending hotplug Notify event to OSPM'
+>     in samller chunks (Laszlo)
+>   - fix comment to match spec (Laszlo)
+>   - reorder aml_lor() and aml_land() in header (Laszlo)
+> v4:
+>   - fix 5.2 machine types so they won't apply pc_compat_5_1 (Laszlo)
+> v3:
+>   - rebase on top of "[PATCH v2] hw: add compat machines for 5.2"
+>     so apply that before this patch
+> v2:
+>   - AML: clean is_inserted flag only after SMI callback
+>   - make x-smi-cpu-hotunplug false by default
+>   - massage error hint on not supported unplug
+> v1:
+>   - fix typos and some phrases (Laszlo)
+>   - add unplug check (Laszlo)
+>   - redo AML scan logic to avoid race when adding multiple CPUs
+> 
+> CPU hotplug with Secure Boot was not really supported and firmware wasn't aware
+> of hotplugged CPUs (which might lead to guest crashes). During 4.2 we introduced
+> locked SMI handler RAM arrea to make sure that guest OS wasn't able to inject
+> its own SMI handler and OVMF added initial CPU hotplug support.
+> 
+> This series is QEMU part of that support which lets QMVF tell QEMU that
+> CPU hotplug with SMI broadcast enabled is supported so that QEMU would be able
+> to prevent hotplug in case it's not supported and trigger SMI on hotplug when
+> it's necessary.
 
-diff --git a/accel/stubs/xen-stub.c b/accel/stubs/xen-stub.c
-index fa3dddbce57..7ba0b697f49 100644
---- a/accel/stubs/xen-stub.c
-+++ b/accel/stubs/xen-stub.c
-@@ -6,50 +6,11 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/xen/xen.h"
-+#include "sysemu/xen.h"
- #include "qapi/qapi-commands-misc.h"
- 
- bool xen_allowed;
- 
--void xenstore_store_pv_console_info(int i, Chardev *chr)
--{
--}
--
--int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
--{
--    return -1;
--}
--
--void xen_piix3_set_irq(void *opaque, int irq_num, int level)
--{
--}
--
--void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
--{
--}
--
--void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
--{
--}
--
--int xen_is_pirq_msi(uint32_t msi_data)
--{
--    return 0;
--}
--
--qemu_irq *xen_interrupt_controller_init(void)
--{
--    return NULL;
--}
--
--void xen_register_framebuffer(MemoryRegion *mr)
--{
--}
--
--void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
--{
--}
--
- void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
- {
- }
-diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
-new file mode 100644
-index 00000000000..d14efef49e9
---- /dev/null
-+++ b/stubs/xen-hw-stub.c
-@@ -0,0 +1,49 @@
-+/*
-+ * Copyright (C) 2014       Citrix Systems UK Ltd.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/xen/xen.h"
-+
-+void xenstore_store_pv_console_info(int i, Chardev *chr)
-+{
-+}
-+
-+int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-+{
-+    return -1;
-+}
-+
-+void xen_piix3_set_irq(void *opaque, int irq_num, int level)
-+{
-+}
-+
-+void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
-+{
-+}
-+
-+void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
-+{
-+}
-+
-+int xen_is_pirq_msi(uint32_t msi_data)
-+{
-+    return 0;
-+}
-+
-+qemu_irq *xen_interrupt_controller_init(void)
-+{
-+    return NULL;
-+}
-+
-+void xen_register_framebuffer(MemoryRegion *mr)
-+{
-+}
-+
-+void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
-+{
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7d0a5e91e4f..b3366713903 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -480,6 +480,7 @@ F: include/hw/block/dataplane/xen*
- F: include/hw/xen/
- F: include/sysemu/xen.h
- F: include/sysemu/xen-mapcache.h
-+F: stubs/xen-hw-stub.c
- 
- Guest CPU Cores (HAXM)
- ---------------------
-diff --git a/stubs/meson.build b/stubs/meson.build
-index e0b322bc282..c3e318a57f3 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -46,4 +46,5 @@ stub_ss.add(files('vm-stop.c'))
- stub_ss.add(files('win32-kbd-hook.c'))
- if have_system
-   stub_ss.add(files('semihost.c'))
-+  stub_ss.add(when: 'CONFIG_XEN', if_false: files('xen-hw-stub.c'))
- endif
--- 
-2.26.2
+Michael,
+
+Can you merge this along with Laszlo's
+  [PATCH 00/10] edk2: adopt the edk2-stable202008 release
+via PCI tree, preferably in the same pull req.
+
+
+> 
+> Igor Mammedov (10):
+>   x86: lpc9: let firmware negotiate 'CPU hotplug with SMI' features
+>   x86: cpuhp: prevent guest crash on CPU hotplug when broadcast SMI is
+>     in use
+>   x86: cpuhp: refuse cpu hot-unplug request earlier if not supported
+>   acpi: add aml_land() and aml_break() primitives
+>   tests: acpi: mark to be changed tables in
+>     bios-tables-test-allowed-diff
+>   x86: ich9: expose "smi_negotiated_features" as a QOM property
+>   x86: acpi: introduce AcpiPmInfo::smi_on_cpuhp
+>   x86: acpi: introduce the PCI0.SMI0 ACPI device
+>   x68: acpi: trigger SMI before sending hotplug Notify event to OSPM
+>   tests: acpi: update acpi blobs with new AML
+> 
+>  include/hw/acpi/aml-build.h       |   2 +
+>  include/hw/acpi/cpu.h             |   1 +
+>  include/hw/i386/ich9.h            |   4 +
+>  hw/acpi/aml-build.c               |  16 +++
+>  hw/acpi/cpu.c                     | 156 ++++++++++++++++++++++++------
+>  hw/acpi/ich9.c                    |  24 ++++-
+>  hw/i386/acpi-build.c              |  35 ++++++-
+>  hw/i386/pc.c                      |  15 ++-
+>  hw/isa/lpc_ich9.c                 |  16 +++
+>  tests/data/acpi/pc/DSDT           | Bin 4934 -> 5060 bytes
+>  tests/data/acpi/pc/DSDT.acpihmat  | Bin 6258 -> 6385 bytes
+>  tests/data/acpi/pc/DSDT.bridge    | Bin 6793 -> 6919 bytes
+>  tests/data/acpi/pc/DSDT.cphp      | Bin 5397 -> 5524 bytes
+>  tests/data/acpi/pc/DSDT.dimmpxm   | Bin 6587 -> 6714 bytes
+>  tests/data/acpi/pc/DSDT.ipmikcs   | Bin 5006 -> 5132 bytes
+>  tests/data/acpi/pc/DSDT.memhp     | Bin 6293 -> 6419 bytes
+>  tests/data/acpi/pc/DSDT.numamem   | Bin 4940 -> 5066 bytes
+>  tests/data/acpi/q35/DSDT          | Bin 7678 -> 7804 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 9129 bytes
+>  tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7821 bytes
+>  tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8268 bytes
+>  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9458 bytes
+>  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7879 bytes
+>  tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9163 bytes
+>  tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8934 bytes
+>  tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7810 bytes
+>  tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8409 bytes
+>  27 files changed, 239 insertions(+), 30 deletions(-)
+> 
 
 
