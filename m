@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913CA26200B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:09:05 +0200 (CEST)
-Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412E6262061
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:11:54 +0200 (CEST)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFjvM-0007ek-Js
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
+	id 1kFjy5-00038W-BY
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFjoa-0001Pq-Pq
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48304
- helo=us-smtp-1.mimecast.com)
+ id 1kFjob-0001Rd-JD
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:05 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31714
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFjoY-0004Nu-Sj
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:04 -0400
+ id 1kFjoY-0004O0-U5
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599595319;
+ s=mimecast20190719; t=1599595320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T4dBx0MZfsfJpNpI7a/vbxtuu/0AO++J414wc1ABxzM=;
- b=EfFXwxHdk/Wyf6UrOnMfXniEjcNaNTV8dv0XM+h9MZ5Fi/w/4VFQy0TWDfoba8WlFt5bb+
- 7XKigc9lV0k3l019vZGLtEkRs/KrFZxJxxKF4n1/hbhV5N9UY5ypAl8IyCSKgoGO/w0f+C
- CWYsiHS38WvBZPSpWt1O2tUtiYJ+PsA=
+ bh=oFZO6p04Xo1cCQTwbHus+a7/KxGBO0PW+N9S1mCxOuY=;
+ b=fJ8ALYPeTTIxtGEeCRWRF+oyF/nQ8evDBsKeavUfP3cMYp/R0B/QN5xl/hHl9zYNFHPiYx
+ jljfBAtWMcxkPbFcQeudSu1wfWwT561/7cbq18Hnb88mF6ODrU4AJR9JWIOL6ZK5U5/amW
+ ECV10G9lTe+hZQPpChqSUTjYxmEKsFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-84eoK-WKN-6ZIUXpY2dQSw-1; Tue, 08 Sep 2020 16:01:57 -0400
-X-MC-Unique: 84eoK-WKN-6ZIUXpY2dQSw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-116-8SU1Ws-jNhy1hajPuS_dJQ-1; Tue, 08 Sep 2020 16:01:58 -0400
+X-MC-Unique: 8SU1Ws-jNhy1hajPuS_dJQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CBA980F041;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 001588015DB;
  Tue,  8 Sep 2020 20:01:56 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA3C25D9E8;
- Tue,  8 Sep 2020 20:01:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BFCEA100239F;
+ Tue,  8 Sep 2020 20:01:56 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 23/34] rs6000_mc: Rename RS6000MC_DEVICE to RS6000MC
-Date: Tue,  8 Sep 2020 16:01:12 -0400
-Message-Id: <20200908200123.3402311-24-ehabkost@redhat.com>
+Subject: [PULL 24/34] sabre: Rename SABRE_DEVICE to SABRE
+Date: Tue,  8 Sep 2020 16:01:13 -0400
+Message-Id: <20200908200123.3402311-25-ehabkost@redhat.com>
 In-Reply-To: <20200908200123.3402311-1-ehabkost@redhat.com>
 References: <20200908200123.3402311-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 12:55:20
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,8 +84,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,36 +92,81 @@ Make the type checking macro name consistent with the TYPE_*
 constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200902224311.1321159-48-ehabkost@redhat.com>
+Message-Id: <20200902224311.1321159-49-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/ppc/rs6000_mc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/pci-host/sabre.h | 2 +-
+ hw/pci-host/sabre.c         | 8 ++++----
+ hw/sparc64/sun4u.c          | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/rs6000_mc.c b/hw/ppc/rs6000_mc.c
-index 56e96010b8..8611ffa96d 100644
---- a/hw/ppc/rs6000_mc.c
-+++ b/hw/ppc/rs6000_mc.c
-@@ -30,7 +30,7 @@
+diff --git a/include/hw/pci-host/sabre.h b/include/hw/pci-host/sabre.h
+index 597bf70d69..7a76de4b9e 100644
+--- a/include/hw/pci-host/sabre.h
++++ b/include/hw/pci-host/sabre.h
+@@ -51,7 +51,7 @@ struct SabreState {
+ typedef struct SabreState SabreState;
  
- #define TYPE_RS6000MC "rs6000-mc"
- typedef struct RS6000MCState RS6000MCState;
--DECLARE_INSTANCE_CHECKER(RS6000MCState, RS6000MC_DEVICE,
-+DECLARE_INSTANCE_CHECKER(RS6000MCState, RS6000MC,
-                          TYPE_RS6000MC)
+ #define TYPE_SABRE "sabre"
+-DECLARE_INSTANCE_CHECKER(SabreState, SABRE_DEVICE,
++DECLARE_INSTANCE_CHECKER(SabreState, SABRE,
+                          TYPE_SABRE)
  
- struct RS6000MCState {
-@@ -143,7 +143,7 @@ static const MemoryRegionPortio rs6000mc_port_list[] = {
+ #endif
+diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
+index 0cc68585f8..5ac6283623 100644
+--- a/hw/pci-host/sabre.c
++++ b/hw/pci-host/sabre.c
+@@ -338,7 +338,7 @@ static void pci_sabre_set_irq(void *opaque, int irq_num, int level)
  
- static void rs6000mc_realize(DeviceState *dev, Error **errp)
+ static void sabre_reset(DeviceState *d)
  {
--    RS6000MCState *s = RS6000MC_DEVICE(dev);
-+    RS6000MCState *s = RS6000MC(dev);
-     int socket = 0;
-     unsigned int ram_size = s->ram_size / MiB;
-     Error *local_err = NULL;
+-    SabreState *s = SABRE_DEVICE(d);
++    SabreState *s = SABRE(d);
+     PCIDevice *pci_dev;
+     unsigned int i;
+     uint16_t cmd;
+@@ -376,7 +376,7 @@ static const MemoryRegionOps pci_config_ops = {
+ 
+ static void sabre_realize(DeviceState *dev, Error **errp)
+ {
+-    SabreState *s = SABRE_DEVICE(dev);
++    SabreState *s = SABRE(dev);
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(s);
+     PCIDevice *pci_dev;
+@@ -421,7 +421,7 @@ static void sabre_realize(DeviceState *dev, Error **errp)
+ 
+ static void sabre_init(Object *obj)
+ {
+-    SabreState *s = SABRE_DEVICE(obj);
++    SabreState *s = SABRE(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+     unsigned int i;
+ 
+@@ -502,7 +502,7 @@ static const TypeInfo sabre_pci_info = {
+ 
+ static char *sabre_ofw_unit_address(const SysBusDevice *dev)
+ {
+-    SabreState *s = SABRE_DEVICE(dev);
++    SabreState *s = SABRE(dev);
+ 
+     return g_strdup_printf("%x,%x",
+                (uint32_t)((s->special_base >> 32) & 0xffffffff),
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 67985414e2..b4aabfc076 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -585,7 +585,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+     prom_init(hwdef->prom_addr, bios_name);
+ 
+     /* Init sabre (PCI host bridge) */
+-    sabre = SABRE_DEVICE(qdev_new(TYPE_SABRE));
++    sabre = SABRE(qdev_new(TYPE_SABRE));
+     qdev_prop_set_uint64(DEVICE(sabre), "special-base", PBM_SPECIAL_BASE);
+     qdev_prop_set_uint64(DEVICE(sabre), "mem-base", PBM_MEM_BASE);
+     object_property_set_link(OBJECT(sabre), "iommu", OBJECT(iommu),
 -- 
 2.26.2
 
