@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4026B260BDA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:21:38 +0200 (CEST)
-Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA775260C10
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:33:02 +0200 (CEST)
+Received: from localhost ([::1]:52458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFXwe-00062w-Nc
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
+	id 1kFY7i-0005oy-0L
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kFXvo-0005bO-3X
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:20:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kFXvl-0002io-TG
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:20:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kFXvj-0003b5-TE
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 07:20:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D66502E80EC
- for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:20:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4g-0001BO-P3
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:29:54 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42469
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4d-0003jf-I2
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:29:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599550190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=swxwgPNJA0kCw8ve561kB+YcpWzG8SXkzcWHziTPdMI=;
+ b=YzNxRzxVjexe2Cuyk7EsFg66PgaXJUmypIrcynaOxXR7K61ifYVC+q3WWafwi4DYOKQFnT
+ 7lad+P5vXqoq3glP6c9GhyYJqA9rit/U9gJNzHr2ajSgQiIaG/ubO+F4MvG84EGBMqaLdE
+ IN6SzShcfkUU5E3yxg4vbkjrUcegjto=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-mRhcCKn1O-CuM7XmNvEo8g-1; Tue, 08 Sep 2020 03:29:46 -0400
+X-MC-Unique: mRhcCKn1O-CuM7XmNvEo8g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3154F18B9EC3
+ for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:29:45 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-122.ams2.redhat.com
+ [10.36.112.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16C62811BC;
+ Tue,  8 Sep 2020 07:29:40 +0000 (UTC)
+From: Laszlo Ersek <lersek@redhat.com>
+To: qemu devel list <qemu-devel@nongnu.org>
+Subject: [PATCH 00/10] edk2: adopt the edk2-stable202008 release
+Date: Tue,  8 Sep 2020 09:29:29 +0200
+Message-Id: <20200908072939.30178-1-lersek@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Sep 2020 07:10:31 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1852196@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=lersek@redhat.com; 
-X-Launchpad-Bug-Tags: feature-request
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek philmd
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <157355353271.7205.5763587027166419396.malonedeb@gac.canonical.com>
-Message-Id: <159954903230.18648.375687076226870713.launchpad@soybean.canonical.com>
-Subject: [Bug 1852196] Re: update edk2 submodule & binaries to
- edk2-stable202005
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
-X-Launchpad-Hash: 455dd4797f05593bebc4d80a08338a6667a9e662
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:20:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,54 +77,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1852196 <1852196@bugs.launchpad.net>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-     Assignee: Philippe Mathieu-Daud=C3=A9 (philmd) =3D> Laszlo Ersek (Red =
-Hat) (lersek)
+UmVmOiAgICBodHRwczovL2J1Z3MubGF1bmNocGFkLm5ldC9xZW11LytidWcvMTg1MjE5NgpSZXBv
+OiAgIGh0dHBzOi8vZ2l0aHViLmNvbS9sZXJzZWsvcWVtdS5naXQKQnJhbmNoOiBlZGsyc3RhYmxl
+MjAyMDA4X2xwXzE4NTIxOTYKClRoaXMgc2VyaWVzIGNvbnN1bWVzIHRoZSBmb2xsb3dpbmcgdXBz
+dHJlYW0gZWRrMiByZWxlYXNlczoKCiAgaHR0cHM6Ly9naXRodWIuY29tL3RpYW5vY29yZS9lZGsy
+L3JlbGVhc2VzL3RhZy9lZGsyLXN0YWJsZTIwMTkwOAogIGh0dHBzOi8vZ2l0aHViLmNvbS90aWFu
+b2NvcmUvZWRrMi9yZWxlYXNlcy90YWcvZWRrMi1zdGFibGUyMDE5MTEKICBodHRwczovL2dpdGh1
+Yi5jb20vdGlhbm9jb3JlL2VkazIvcmVsZWFzZXMvdGFnL2VkazItc3RhYmxlMjAyMDAyCiAgaHR0
+cHM6Ly9naXRodWIuY29tL3RpYW5vY29yZS9lZGsyL3JlbGVhc2VzL3RhZy9lZGsyLXN0YWJsZTIw
+MjAwNQogIGh0dHBzOi8vZ2l0aHViLmNvbS90aWFub2NvcmUvZWRrMi9yZWxlYXNlcy90YWcvZWRr
+Mi1zdGFibGUyMDIwMDgKCldvcnRoIG1lbnRpb25pbmcgKGluIHJhbmRvbSBvcmRlcik6CgotIHZh
+cmlvdXMgQ1ZFIGZpeGVzIChzZWUgc2hvcnRsb2cpCi0gT3BlblNTTC0xLjEuMWcKLSBVRUZJIEhU
+VFBTIEJvb3QgZm9yIEFSTS9BQVJDSDY0Ci0gVFBNMiBmb3IgQVJNL0FBUkNINjQKLSBWQ1BVIGhv
+dHBsdWcgd2l0aCBTTUkKLSBzdXBwb3J0IGZvciBMaW51eCB2NS43KyBpbml0cmQgYW5kIG1peGVk
+IG1vZGUgbG9hZGluZwotIEZ1c2lvbi1NUFQgU0NTSSBkcml2ZXIgaW4gT1ZNRgotIFZNd2FyZSBQ
+VlNDU0kgZHJpdmVyIGluIE9WTUYKLSBQWEV2NCAvIFBYRXY2IGJvb3QgcG9zc2libGUgdG8gZGlz
+YWJsZSBvbiB0aGUgUUVNVSBjb21tYW5kIGxpbmUKLSBTRVYtRVMgc3VwcG9ydAoKVGhlIElBMzIg
+YW5kIFg2NCBiaW5hcmllcyBhcmUgbm93IHNtYWxsZXIgLS0gdGhlIHJlYXNvbiBpcyB0aGF0IEkg
+YnVpdAp0aGVtIHdpdGggRGV2VG9vbFNldCA5IChnY2MtOSkgb24gUkhFTDcsIGFuZCBzbyB0aGlz
+IGlzIHRoZSBmaXJzdCB0aW1lCnRoZXkndmUgdW5kZXJnb25lIExUTyAod2l0aCB0aGUgR0NDNSBl
+ZGsyIHRvb2xjaGFpbiBzZXR0aW5ncykuCgpDYzogIk1pY2hhZWwgUy4gVHNpcmtpbiIgPG1zdEBy
+ZWRoYXQuY29tPgpDYzogSWdvciBNYW1tZWRvdiA8aW1hbW1lZG9AcmVkaGF0LmNvbT4KQ2M6IFBo
+aWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4KClRoYW5rcywKTGFzemxv
+CgpMYXN6bG8gRXJzZWsgKDEwKToKICBNYWtlZmlsZTogcmVtb3ZlIG9ic29sZXRlIGVkazIgZXhj
+ZXB0aW9uIGZyb20gImNsZWFuIiBydWxlCiAgcm9tcy9lZmlyb20sIHRlc3RzL3VlZmktdGVzdC10
+b29sczogdXBkYXRlIGVkazIncyBvd24gc3VibW9kdWxlcyBmaXJzdAogIHJvbXMvTWFrZWZpbGUu
+ZWRrMjogcHJlcGFyZSBmb3IgcmVwbGFjaW5nIFRQTTIqX0VOQUJMRSBtYWNyb3MKICB0ZXN0czog
+YWNwaTogdG9sZXJhdGUgInZpcnQvU1NEVC5tZW1ocCIgbWlzbWF0Y2ggdGVtcG9yYXJpbHkKICBy
+b21zL2VkazI6IHVwZGF0ZSBzdWJtb2R1bGUgZnJvbSBlZGsyLXN0YWJsZTIwMTkwNSB0bwogICAg
+ZWRrMi1zdGFibGUyMDIwMDgKICByb21zL01ha2VmaWxlLmVkazI6IGNvbXBsZXRlIHJlcGxhY2lu
+ZyBUUE0yKl9FTkFCTEUgbWFjcm9zCiAgcm9tcy9NYWtlZmlsZS5lZGsyOiBlbmFibGUgbmV3IEFS
+TS9BQVJDSDY0IGZsYWdzIHVwIHRvCiAgICBlZGsyLXN0YWJsZTIwMjAwOAogIHBjLWJpb3M6IHJl
+ZnJlc2ggZWRrMiBidWlsZCBhcnRpZmFjdHMgZm9yIGVkazItc3RhYmxlMjAyMDA4CiAgcGMtYmlv
+czogdXBkYXRlIHRoZSBSRUFETUUgZmlsZSB3aXRoIGVkazItc3RhYmxlMjAyMDA4IGluZm9ybWF0
+aW9uCiAgdGVzdHM6IGFjcGk6IHVwZGF0ZSAidmlydC9TU0RULm1lbWhwIiBmb3IgZWRrMi1zdGFi
+bGUyMDIwMDgKCiBNYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSAt
+CiBwYy1iaW9zL1JFQURNRSAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNCArLS0KIHBjLWJp
+b3MvZWRrMi1hYXJjaDY0LWNvZGUuZmQuYnoyICAgICAgIHwgQmluIDExNzgwNzAgLT4gMTUwNzcy
+MiBieXRlcwogcGMtYmlvcy9lZGsyLWFybS1jb2RlLmZkLmJ6MiAgICAgICAgICAgfCBCaW4gMTE3
+Mjc1MiAtPiAxNTAzMTg3IGJ5dGVzCiBwYy1iaW9zL2VkazItaTM4Ni1jb2RlLmZkLmJ6MiAgICAg
+ICAgICB8IEJpbiAxNzM2MTk5IC0+IDE2NDY3NDEgYnl0ZXMKIHBjLWJpb3MvZWRrMi1pMzg2LXNl
+Y3VyZS1jb2RlLmZkLmJ6MiAgIHwgQmluIDE5NDM5NDkgLT4gMTg2MDU0NiBieXRlcwogcGMtYmlv
+cy9lZGsyLXg4Nl82NC1jb2RlLmZkLmJ6MiAgICAgICAgfCBCaW4gMTcxNzA5NCAtPiAxNjgwMTY0
+IGJ5dGVzCiBwYy1iaW9zL2VkazIteDg2XzY0LXNlY3VyZS1jb2RlLmZkLmJ6MiB8IEJpbiAxOTU4
+MDM3IC0+IDE5MTIxMTIgYnl0ZXMKIHJvbXMvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgICAxICsKIHJvbXMvTWFrZWZpbGUuZWRrMiAgICAgICAgICAgICAgICAgICAgIHwgIDI2
+ICsrKysrKysrKysrKy0tLS0tLS0tCiByb21zL2VkazIgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICAgMiArLQogdGVzdHMvZGF0YS9hY3BpL3ZpcnQvU1NEVC5tZW1ocCAgICAgICAgfCBC
+aW4gNzM2IC0+IDczNiBieXRlcwogdGVzdHMvdWVmaS10ZXN0LXRvb2xzL01ha2VmaWxlICAgICAg
+ICAgfCAgIDEgKwogMTMgZmlsZXMgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRp
+b25zKC0pCgoKYmFzZS1jb21taXQ6IDlkNTU4OWJiM2ZlZWQ0NDJhZTdlZTI0ZDJkODgyYWEwMzEy
+MzQ5YTYKLS0gCjIuMTkuMS4zLmczMDI0N2FhNWQyMDEKCg==
 
-** Summary changed:
-
-- update edk2 submodule & binaries to edk2-stable202005
-+ update edk2 submodule & binaries to edk2-stable202008
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1852196
-
-Title:
-  update edk2 submodule & binaries to edk2-stable202008
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  edk2-stable202005 has been tagged:
-
-  =C2=A0=C2=A0https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-
-  Release-Planning
-
-  =C2=A0=C2=A0https://github.com/tianocore/edk2/releases/tag/edk2-stable202=
-005
-
-  Relevant fixes / features in edk2, since edk2-stable201905 (which is
-  what QEMU bundles at the moment, from LP#1831477):
-
-  - enable UEFI HTTPS Boot in ArmVirtQemu* platforms
-  =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D1009
-  =C2=A0=C2=A0(this is from edk2-stable201908)
-
-  - fix CVE-2019-14553 (Invalid server certificate accepted in HTTPS Boot)
-  =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D960
-
-  - consume OpenSSL-1.1.1d, for fixing CVE-2019-1543, CVE-2019-1552 and
-  =C2=A0=C2=A0CVE-2019-1563
-  =C2=A0=C2=A0https://bugzilla.tianocore.org/show_bug.cgi?id=3D2226
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1852196/+subscriptions
 
