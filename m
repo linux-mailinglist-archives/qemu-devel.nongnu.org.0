@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDDA2609EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:22:15 +0200 (CEST)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5ABB2609F8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:25:00 +0200 (CEST)
+Received: from localhost ([::1]:51112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFW58-0008Ke-Ag
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57324)
+	id 1kFW7n-0006Kf-PC
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3I-0005xC-Gv; Tue, 08 Sep 2020 01:20:20 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53943 helo=ozlabs.org)
+ id 1kFW3H-0005ud-7B; Tue, 08 Sep 2020 01:20:19 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55913 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3F-0005sN-G3; Tue, 08 Sep 2020 01:20:20 -0400
+ id 1kFW3F-0005sL-Df; Tue, 08 Sep 2020 01:20:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltkk2sJ6z9sTm; Tue,  8 Sep 2020 15:19:58 +1000 (AEST)
+ id 4Bltkk3Y0Bz9sTs; Tue,  8 Sep 2020 15:19:58 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599542398;
- bh=L+ql0mFkJJ6RIqHIX4UIYSGet1NsQYu3ApRmEert8Mg=;
+ bh=y0ekmLiv1v8gnLp4l1ENgIIfE7Ziu7hc7FMTdKVlGIY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WQ75FgFi1xMubHZ606Lgf+pH4K1oxB+8LApb6qIodqo68BOxXLOT48FMLr6yKt/qP
- kuMEUPZ3fFt8jfH5peve6T8hasNm+PstGJFUZWo2tHMKsX3w/jPrg3TNPErvruT5Xh
- W9y5OOyeAW5nLcj7goap7ZTq7iP37RoK+UaDMG1Q=
+ b=GOvW2WH4DHBpE4aJUxLi1aRVGUQ4RWEyne6dnxWJmqUfjyStdSUSoz9s3ztpv/B7i
+ rT5tX/ShYDHF+Umt0MUDGD4hbiZZFgTXSFkpXH8H37MdYe+N316/Bpiu105VVaYQrc
+ 2PehypPuQhS85SYeYkOIU3GVX5WA+fekzvURI+X0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/33] spapr/xive: Use the xics flag to check for XIVE-only IRQ
- backends
-Date: Tue,  8 Sep 2020 15:19:27 +1000
-Message-Id: <20200908051953.1616885-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/33] spapr/xive: Modify kvm_cpu_is_enabled() interface
+Date: Tue,  8 Sep 2020 15:19:28 +1000
+Message-Id: <20200908051953.1616885-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:19:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -68,37 +67,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The sPAPR machine has four different IRQ backends, each implementing
-the XICS or XIVE interrupt mode or both in the case of the 'dual'
-backend.
-
-If a machine is started in P8 compat mode, QEMU should necessarily
-support the XICS interrupt mode and in that case, the XIVE-only IRQ
-backend is invalid. Currently, spapr_irq_check() tests the pointer
-value to the IRQ backend to check for this condition, instead use the
-'xics' flag. It's equivalent and it will ease the introduction of new
-XIVE-only IRQ backends if needed.
+We will use to check if a vCPU IPI has been created.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20200820140106.2357228-1-clg@kaod.org>
+Message-Id: <20200820134547.2355743-2-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_irq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/spapr_xive_kvm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 72bb938375..f59960339e 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -172,7 +172,7 @@ static int spapr_irq_check(SpaprMachineState *spapr, Error **errp)
-          * To cover both and not confuse the OS, add an early failure in
-          * QEMU.
-          */
--        if (spapr->irq == &spapr_irq_xive) {
-+        if (!spapr->irq->xics) {
-             error_setg(errp, "XIVE-only machines require a POWER9 CPU");
-             return -1;
-         }
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index e8667ce5f6..0e834b4b71 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -36,10 +36,9 @@ typedef struct KVMEnabledCPU {
+ static QLIST_HEAD(, KVMEnabledCPU)
+     kvm_enabled_cpus = QLIST_HEAD_INITIALIZER(&kvm_enabled_cpus);
+ 
+-static bool kvm_cpu_is_enabled(CPUState *cs)
++static bool kvm_cpu_is_enabled(unsigned long vcpu_id)
+ {
+     KVMEnabledCPU *enabled_cpu;
+-    unsigned long vcpu_id = kvm_arch_vcpu_id(cs);
+ 
+     QLIST_FOREACH(enabled_cpu, &kvm_enabled_cpus, node) {
+         if (enabled_cpu->vcpu_id == vcpu_id) {
+@@ -157,7 +156,7 @@ int kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
+     assert(xive->fd != -1);
+ 
+     /* Check if CPU was hot unplugged and replugged. */
+-    if (kvm_cpu_is_enabled(tctx->cs)) {
++    if (kvm_cpu_is_enabled(kvm_arch_vcpu_id(tctx->cs))) {
+         return 0;
+     }
+ 
 -- 
 2.26.2
 
