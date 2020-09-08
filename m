@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69903261AF8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:51:39 +0200 (CEST)
-Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A425B261B09
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:52:40 +0200 (CEST)
+Received: from localhost ([::1]:58540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFiiP-00042c-UQ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:51:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54992)
+	id 1kFijP-0006dK-OU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFigt-0002OE-Ra; Tue, 08 Sep 2020 14:50:03 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:38672)
+ id 1kFigw-0002Uq-FI; Tue, 08 Sep 2020 14:50:06 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:45863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFigq-0002em-OT; Tue, 08 Sep 2020 14:50:03 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id u3so64292pjr.3;
- Tue, 08 Sep 2020 11:50:00 -0700 (PDT)
+ id 1kFigu-0002fl-My; Tue, 08 Sep 2020 14:50:06 -0400
+Received: by mail-pg1-x544.google.com with SMTP id 67so169937pgd.12;
+ Tue, 08 Sep 2020 11:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ax2yAUytKuTKhH+tVXqGE0gj/9bVazXwd00LBZJO+WI=;
- b=vaWOmXUO+VbXtc5SVrv7u/lulvpRPCqKlmCEzMYGhQqOwLnnwsuqpoIbWOnUSt92hU
- mw3YlJQBGiRC2BjR2zDiL436AR2m+I4kL+h7mFx01wAbej+TPqYqypd6+FyCvK+xTxF4
- +pJuFTrQphJcKrxneOhlxUcaxF0XUXEMiZ0BfV2sMrq90OdjLozl3ZIEi63Zw7TgLcji
- xinrXruthorCeZtRewvHU2bynNkxIJ9g000atUGeePG2WFnGs7Go5UxhpZ/AVsURGCqq
- ZYtBnqaGVcCVtDsz1lEbol47N/tHzIWz0FfWBqSokjZIw/pBxqRKIhQ3AU3yU6MV5NiQ
- i/MQ==
+ bh=J6p0/9F4oWoBiAN/SDJT/VDhYaeCOAUy66N0oF2OF+w=;
+ b=al+bwAPmK2vB3f/cr4VR6nO6eS9nwdtcdJOqwOoxYQs6nIEgqbS88wmFsXPnft+XER
+ 4WPUVIrgqYWclDMWDkiX9BlpGxtH/Z0IFdn6ZrsPDif/XP/zporgjnfdXRCfKgprSrJb
+ S4/+jTjrrKSOSYjeqNYPu3CUy3W+PMrBvWEYJGTfxFhOK1MPvxSkJWH3NmamrMyQaKV6
+ P+kKV86q2GwibwWuTNyf3ThBKTKSshkbAJ7I0pvn9YCmK51e30R7LW6rN2z+VhEPBeG3
+ /lDSFyTF8k3fOQOWsmbQB1x9CypWpaatFytB2tW51fxwHNl6PC5eN3UchWaIUnHpHi4e
+ 12sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ax2yAUytKuTKhH+tVXqGE0gj/9bVazXwd00LBZJO+WI=;
- b=UqXLUbCYDcXXFyhSoa5UZBLo0/btVgVWesXhNVaPznJAXf4PXQRdkfmsFaNVudvOqL
- Kc/dOMG1WCLG5DQtOvgRQVc0meCEsoDKgMXegijpKF9ltKHU9BRV8I2BbkywDeK9XANJ
- SNUdEeEG4jmsCZotLXZOq00qF+AJuQky40zyH+DXvdLUFNaaYHpT8/f9rIpGeqPl7x4b
- pZ/JGl8RRmBW8I12mZRYdxEaqWyecM7WI7iO2vXQbe1Nu/pDnDFDusWmPF8zcN+HqLmE
- o5n7+REgTf5nSlOPKFTru/0UL6lw0XoQ/zTElbOmRKknQhi5dkB3F5UkrwIWaJgCueed
- jisg==
-X-Gm-Message-State: AOAM531gjRVP7jwS7n6wFMQYh4uMqBQM8QPwCfVjlWQxF6GELoCojAkY
- 63dmt0Ue6vXLRElRb3f268IN+g8xPn3k5UZP
-X-Google-Smtp-Source: ABdhPJzgp+Yx9Q1KkTnn/x+BvTBwGqqUQ1xT5SDjSKcPf3tCxBy430iIC5MjpZ/8+uxCQedeTtD+TQ==
-X-Received: by 2002:a17:90a:a60c:: with SMTP id c12mr193774pjq.1.1599590998639; 
- Tue, 08 Sep 2020 11:49:58 -0700 (PDT)
+ bh=J6p0/9F4oWoBiAN/SDJT/VDhYaeCOAUy66N0oF2OF+w=;
+ b=CPeSWhm6WRLG7KtDQeQIjvDF9+rvDM4X9oDUQpmghQRur85bO6EAsns5DZmWe/xL60
+ 0/NOC53jrCEw1NWPwxf0xEX/MOxhy0itoqxbUzlWFuVT6b4zn/BaE1K5zfmidHMeQ/8I
+ TOw8tUgcats5NNPtbIlMxN4WMrRti7J7Mw3yBXAI1VCsOFxl3KJrmeib9T0BcbSOUihr
+ oME86a1+Fr2QaBsFfPESjCfHioZtLDJXLocFN23NyAPd8dFl5R0gmgPAyTlKsvsfcuCE
+ wx0ozSoUdsglQyGucPs//ys9owfAV7nrkpGT04Cd7IA9nn3XNS7FUmS+Auv1ij7EaJp1
+ g4NQ==
+X-Gm-Message-State: AOAM5324RH+4ic/gIM4CnymdqvRcksHKO4QMjK7JDQOFubjhNKc3gTPh
+ X8bhWMxRwFTQr5WZ/mwjTrooAzOpvXrjyqM2
+X-Google-Smtp-Source: ABdhPJx7mnH+FGzeHgy/LoeKu+HiG8406aBUpCxpVftxYBszTAvVDnejbcRBkCyS9XYbQ6Tlor06Tg==
+X-Received: by 2002:a62:7ec2:0:b029:138:8cbc:ebd4 with SMTP id
+ z185-20020a627ec20000b02901388cbcebd4mr484358pfc.2.1599591002614; 
+ Tue, 08 Sep 2020 11:50:02 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 8sm43553pjx.14.2020.09.08.11.49.54
+ by smtp.googlemail.com with ESMTPSA id 8sm43553pjx.14.2020.09.08.11.49.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 11:49:57 -0700 (PDT)
+ Tue, 08 Sep 2020 11:50:01 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/16] ci: Enable msys2 ci in cirrus
-Date: Wed,  9 Sep 2020 02:49:08 +0800
-Message-Id: <20200908184918.1085-7-luoyonggang@gmail.com>
+Subject: [PULL 07/16] tests: Trying fixes test-replication.c on msys2/mingw.
+Date: Wed,  9 Sep 2020 02:49:09 +0800
+Message-Id: <20200908184918.1085-8-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200908184918.1085-1-luoyonggang@gmail.com>
 References: <20200908184918.1085-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1044.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,130 +93,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Install msys2 in a proper way refer to https://github.com/cirruslabs/cirrus-ci-docs/issues/699
-The https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2 need to be updated.
-There is no need of --cross-prefix, open mingw64.exe instead of msys2.exe then we don't
-need the --cross-prefix, besides we using environment variable settings:
-    MSYS: winsymlinks:nativestrict
-    MSYSTEM: MINGW64
-    CHERE_INVOKING: 1
-to opening mingw64 native shell.
-We now running tests with make -i check to skip tests errors.
+On Windows there is no path like /tmp/s_local_disk.XXXXXX
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- .cirrus.yml                         | 24 +++++++++++++++++++++
- scripts/ci/windows/msys2-build.sh   | 28 ++++++++++++++++++++++++
- scripts/ci/windows/msys2-install.sh | 33 +++++++++++++++++++++++++++++
- 3 files changed, 85 insertions(+)
- create mode 100644 scripts/ci/windows/msys2-build.sh
- create mode 100644 scripts/ci/windows/msys2-install.sh
+ tests/test-replication.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 3dd9fcff7f..49335e68c9 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -63,3 +63,27 @@ macos_xcode_task:
-                    --enable-werror --cc=clang || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check
-+
-+windows_msys2_task:
-+  windows_container:
-+    image: cirrusci/windowsservercore:cmake
-+    os_version: 2019
-+    cpu: 8
-+    memory: 8G
-+  env:
-+    MSYS: winsymlinks:nativestrict
-+    MSYSTEM: MINGW64
-+    CHERE_INVOKING: 1
-+  printenv_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
-+  install_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --needed --noconfirm -S bash pacman pacman-mirrors msys2-runtime"
-+    - taskkill /F /IM gpg-agent.exe
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2-install.sh"
-+  script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2-build.sh"
-diff --git a/scripts/ci/windows/msys2-build.sh b/scripts/ci/windows/msys2-build.sh
-new file mode 100644
-index 0000000000..d9d046b5b0
---- /dev/null
-+++ b/scripts/ci/windows/msys2-build.sh
-@@ -0,0 +1,28 @@
-+mkdir build
-+cd build
-+../configure \
-+--python=python3 \
-+--ninja=ninja \
-+--enable-stack-protector \
-+--enable-guest-agent \
-+--disable-pie \
-+--enable-gnutls --enable-nettle \
-+--enable-sdl --enable-sdl-image --enable-gtk --disable-vte --enable-curses --enable-iconv \
-+--enable-vnc --enable-vnc-sasl --enable-vnc-jpeg --enable-vnc-png \
-+--enable-slirp=git \
-+--disable-brlapi --enable-curl \
-+--enable-fdt \
-+--disable-kvm --enable-hax --enable-whpx \
-+--enable-libnfs --enable-libusb --enable-live-block-migration --enable-usb-redir \
-+--enable-lzo --enable-snappy --enable-bzip2 --enable-zstd \
-+--enable-membarrier --enable-coroutine-pool \
-+--enable-libssh --enable-libxml2 \
-+--enable-jemalloc --enable-avx2 \
-+--enable-replication \
-+--enable-tools \
-+--enable-bochs --enable-cloop --enable-dmg --enable-qcow1 --enable-vdi --enable-vvfat --enable-qed --enable-parallels \
-+--enable-sheepdog \
-+--enable-capstone=git
-+
-+make -j$NUMBER_OF_PROCESSORS
-+make -i -j$NUMBER_OF_PROCESSORS check
-diff --git a/scripts/ci/windows/msys2-install.sh b/scripts/ci/windows/msys2-install.sh
-new file mode 100644
-index 0000000000..6086452399
---- /dev/null
-+++ b/scripts/ci/windows/msys2-install.sh
-@@ -0,0 +1,33 @@
-+pacman --noconfirm -S --needed \
-+base-devel \
-+git \
-+mingw-w64-x86_64-python \
-+mingw-w64-x86_64-python-setuptools \
-+mingw-w64-x86_64-toolchain \
-+mingw-w64-x86_64-SDL2 \
-+mingw-w64-x86_64-SDL2_image \
-+mingw-w64-x86_64-gtk3 \
-+mingw-w64-x86_64-glib2 \
-+mingw-w64-x86_64-ninja \
-+mingw-w64-x86_64-make \
-+mingw-w64-x86_64-jemalloc \
-+mingw-w64-x86_64-lzo2 \
-+mingw-w64-x86_64-zstd \
-+mingw-w64-x86_64-libjpeg-turbo \
-+mingw-w64-x86_64-pixman \
-+mingw-w64-x86_64-libgcrypt \
-+mingw-w64-x86_64-capstone \
-+mingw-w64-x86_64-libpng \
-+mingw-w64-x86_64-libssh \
-+mingw-w64-x86_64-libxml2 \
-+mingw-w64-x86_64-snappy \
-+mingw-w64-x86_64-libusb \
-+mingw-w64-x86_64-usbredir \
-+mingw-w64-x86_64-libtasn1 \
-+mingw-w64-x86_64-libnfs \
-+mingw-w64-x86_64-nettle \
-+mingw-w64-x86_64-cyrus-sasl \
-+mingw-w64-x86_64-curl \
-+mingw-w64-x86_64-gnutls \
-+mingw-w64-x86_64-zstd \
-+
+diff --git a/tests/test-replication.c b/tests/test-replication.c
+index 9ab3666a90..cfc1ae6feb 100644
+--- a/tests/test-replication.c
++++ b/tests/test-replication.c
+@@ -23,14 +23,14 @@
+ 
+ /* primary */
+ #define P_ID "primary-id"
+-static char p_local_disk[] = "/tmp/p_local_disk.XXXXXX";
++static char p_local_disk[PATH_MAX];
+ 
+ /* secondary */
+ #define S_ID "secondary-id"
+ #define S_LOCAL_DISK_ID "secondary-local-disk-id"
+-static char s_local_disk[] = "/tmp/s_local_disk.XXXXXX";
+-static char s_active_disk[] = "/tmp/s_active_disk.XXXXXX";
+-static char s_hidden_disk[] = "/tmp/s_hidden_disk.XXXXXX";
++static char s_local_disk[PATH_MAX];
++static char s_active_disk[PATH_MAX];
++static char s_hidden_disk[PATH_MAX];
+ 
+ /* FIXME: steal from blockdev.c */
+ QemuOptsList qemu_drive_opts = {
+@@ -571,6 +571,11 @@ static void setup_sigabrt_handler(void)
+ int main(int argc, char **argv)
+ {
+     int ret;
++    const char *tmpdir = g_get_tmp_dir();
++    snprintf(p_local_disk, sizeof(p_local_disk), "%s/p_local_disk.XXXXXX", tmpdir);
++    snprintf(s_local_disk, sizeof(s_local_disk), "%s/s_local_disk.XXXXXX", tmpdir);
++    snprintf(s_active_disk, sizeof(s_active_disk), "%s/s_active_disk.XXXXXX", tmpdir);
++    snprintf(s_hidden_disk, sizeof(s_hidden_disk), "%s/s_hidden_disk.XXXXXX", tmpdir);
+     qemu_init_main_loop(&error_fatal);
+     bdrv_init();
+ 
 -- 
 2.28.0.windows.1
 
