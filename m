@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB452611D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 15:12:36 +0200 (CEST)
-Received: from localhost ([::1]:37722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03D62611F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 15:22:52 +0200 (CEST)
+Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFdQJ-0001fV-4S
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 09:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46446)
+	id 1kFdaF-0007ZF-Um
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 09:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kFdP6-0000d6-N7
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:11:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22573
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kFdP4-00057U-8J
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:11:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599570676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ENhsyI3jak9xF7S3aYiepffHvD9VGYGOwwGW+Z8llfU=;
- b=VTb/J7mahOYBVFcKCZVAks8Sd2vAD4oSc31OQzAvLt5jiVn8OAUo9IgBCtFJdUcw7jRndM
- tZ623vsgC+kO2/AXWmki4d9dC4mqpN+zq7q21nrmA43dNJPYMETNmcXEkC0xGN9fJ3XInw
- CHmkMLa7OP2yxWXkQy//UBD//vUukv8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-hhdgYoAXN_e7tzk2TM6BaA-1; Tue, 08 Sep 2020 09:11:05 -0400
-X-MC-Unique: hhdgYoAXN_e7tzk2TM6BaA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D18A18BA280;
- Tue,  8 Sep 2020 13:11:04 +0000 (UTC)
-Received: from [10.3.112.176] (ovpn-112-176.phx2.redhat.com [10.3.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0116B60C0F;
- Tue,  8 Sep 2020 13:10:58 +0000 (UTC)
-Subject: Re: [PATCH v3 05/15] iotests: update snapshot test for new output
- format
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
- <159903457617.28509.2649326029575134141.stgit@pasha-ThinkPad-X280>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <4dd00201-1adc-1085-76ef-d12608cd1cf6@redhat.com>
-Date: Tue, 8 Sep 2020 08:10:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFdYl-00069p-2P
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:21:19 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34086)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kFdYi-0006YL-4d
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:21:18 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kFdYg-0001Ff-1w
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 13:21:14 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 070792E8053
+ for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 13:21:14 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <159903457617.28509.2649326029575134141.stgit@pasha-ThinkPad-X280>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.626, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 08 Sep 2020 13:13:16 -0000
+From: Jordan Williams <1838390@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: hvf macos
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: felipe-1 jimmyj jwillikers smartrejames
+X-Launchpad-Bug-Reporter: James Smart (smartrejames)
+X-Launchpad-Bug-Modifier: Jordan Williams (jwillikers)
+References: <156448241864.18390.18158373201974266058.malonedeb@gac.canonical.com>
+Message-Id: <159957079612.31498.14565171755202748224.malone@wampee.canonical.com>
+Subject: [Bug 1838390] Re: vmx_write_mem: mmu_gva_to_gpa failed when using hvf
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
+X-Launchpad-Hash: ec442773222c4a99d03fec77382f40cf991eba5f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:20:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,31 +72,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, philmd@redhat.com,
- mtosatti@redhat.com, stefanha@redhat.com, armbru@redhat.com, mreitz@redhat.com,
- wrampazz@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- alex.bennee@linaro.org, zhiwei_liu@c-sky.com, rth@twiddle.net
+Reply-To: Bug 1838390 <1838390@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/20 3:16 AM, Pavel Dovgalyuk wrote:
-> From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
-> 
-> This patch updates iotests that verify qemu monitor output.
-> New output format for snapshot listing include ICOUNT column.
-> 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> ---
->   tests/qemu-iotests/267.out |   48 ++++++++++++++++++++++----------------------
->   1 file changed, 24 insertions(+), 24 deletions(-)
+Related StackOverflow question:
+https://stackoverflow.com/q/60231203/9835303
 
-This should be squashed with the patch that altered the format, to 
-reduce the chance of git bisect landing on a patch where iotests have a 
-known failure.
+-- =
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838390
 
+Title:
+  vmx_write_mem: mmu_gva_to_gpa failed when using hvf
+
+Status in QEMU:
+  New
+
+Bug description:
+  Installed qemu 4.0.0 by homebrew, used below commands:
+
+  1. qemu-img create -f raw arch-vm.img 100G
+  2. qemu-system-x86_64 -show-cursor -only-migratable -nodefaults -boot ord=
+er=3Dd -cdrom archlinux-2019.07.01-x86_64.iso -cpu host -device virtio-keyb=
+oard -device virtio-mouse -device virtio-tablet -drive file=3Darch-vm.img,f=
+ormat=3Draw,if=3Dvirtio -m 4096 -machine q35,accel=3Dhvf,vmport=3Doff -nic =
+user,ipv6=3Doff,model=3Dvirtio -smp 4,sockets=3D1,cores=3D2,threads=3D2 -so=
+undhw hda -vga virtio
+
+  Displayed bootloader menu successfully, select "Boot Arch Linux" then
+  crashed with message: vmx_write_mem: mmu_gva_to_gpa ffff91953b540000
+  failed.
+
+  Use tcg accelerator has no problem but very slow.
+
+  See attachment for full crash report.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838390/+subscriptions
 
