@@ -2,116 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07A8261ABB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:39:45 +0200 (CEST)
-Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117B6261B00
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 20:52:00 +0200 (CEST)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFiWu-0007Wo-OL
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:39:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52274)
+	id 1kFiil-0004fW-1y
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 14:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFiVy-0006jD-5v
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 14:38:46 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48987
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFiVv-0001Bc-Dj
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 14:38:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599590322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=I7rfyGlmO5VERP8OoEzggs4HOmvdSvtI8eGGEykvY0s=;
- b=T0Sv3Xmfx59ftgFCD6v98lr/PWt4hb84fTGGAsLKlDO//2YzKC2ZeFZsOiLWRTanbZwkyR
- QYTL4BV2KE7d8FsKVWz32zU2lGc3meeKMdYy58IXzKU+xJuMZasxaG/PsOAKHmC1gp+hRJ
- 2Mw8Dt9lm4+YvpZkk+N4ZmoVgYqX758=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-I_yoy0aUOVaRB_UT9JBGrw-1; Tue, 08 Sep 2020 14:38:37 -0400
-X-MC-Unique: I_yoy0aUOVaRB_UT9JBGrw-1
-Received: by mail-wr1-f72.google.com with SMTP id j7so5653403wro.14
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 11:38:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFigW-00027N-R1; Tue, 08 Sep 2020 14:49:40 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFigT-0002aj-E0; Tue, 08 Sep 2020 14:49:39 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id g29so206010pgl.2;
+ Tue, 08 Sep 2020 11:49:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=J3kHibY70lINvCvokAJ3PeXuKGyHbKaVCxn28UMXSbs=;
+ b=pO3ryE1TTCgkUcnukSMTVyfzXVjSnQMaT1hh9ywUoku7eNddW58zOgYuKSIv8NKM9v
+ 0XqVQt4DFCtZJuCXqnHMzdF3uU/I5v+8l5HYN+PEbkc1oGtjE+6PR3IkgGiGZzmMOKqD
+ GD7rCxXkN0o5nCGfSeWSPSGnrwu/jW1gDCPeKDFdNz80CBf31Z6ao4sxr/P+OYuVkS+Q
+ ds6SzgUkQ6zPwW63JWtzK33HsDU+Mgkhuo88EypR0Sy5hSgGhrURUVNr041KSdZRVdJh
+ NkMZ+IiuAmucLLnFvMtQ3zdDkJZYL5iRWuGtCuZxuW5kRHuFotJMi7koG6vWiS5omNfF
+ c1aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=I7rfyGlmO5VERP8OoEzggs4HOmvdSvtI8eGGEykvY0s=;
- b=GQLF3nYo030CNJWl/DccC69IexUgb+Gc5/9ZNLSvoMn9fJbpDzBGi9lwMPW8m1F3ou
- YYEwYuM3RkWFHuGITDJaLTASP8iMLs9pdDY/6seKWp3FCZrohjSU7nl8r4F7JzkvYhj0
- 4W/tbnNmTa8MjFUBFW7mL3dI4q93SkTOOjtU0L+1zMuzPgAzJwZFxIgue38s3SCFF9rZ
- LWmiJI2GxMH7marRYB7YiYtnqEHAgeHPBwspIutCRdLqMRsDAl0Kwa3rBjmgwyJ58o6c
- II7xNeXuRPNWPn3ML7Uq4OrCCWi5SvqBcLbTkQuKpxH+xJsR4WzZpHAB87j3wvMyJf1r
- 3nCQ==
-X-Gm-Message-State: AOAM530OOiKQDaBQdJXGBUkRSDTXTwtty0CLSVswWsHP+pwvTtnh1H3g
- YhYZY+N5fNo+bJ6crwMgTUHLaqAp9oI1q58GVQojeyaWEpgYkAE74wj7daFNhDHWMhZiXI871Q+
- aE8KzxAontyUXwCY=
-X-Received: by 2002:adf:e711:: with SMTP id c17mr951756wrm.359.1599590316631; 
- Tue, 08 Sep 2020 11:38:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwH+CG6i3TcUlmomrTqZVxDZW/tVVooLhT2G5CNafq6lw994e8y6Ecfxdk9/BAQLYJD3SvmIQ==
-X-Received: by 2002:adf:e711:: with SMTP id c17mr951733wrm.359.1599590316429; 
- Tue, 08 Sep 2020 11:38:36 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id o9sm407298wrw.58.2020.09.08.11.38.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 11:38:35 -0700 (PDT)
-Subject: Re: [PATCH 5/5] hw/i386: expose a "smbios_ep" PC machine property
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200908165438.1008942-1-berrange@redhat.com>
- <20200908165438.1008942-6-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <0d8950d0-b317-0418-cc1e-3d3d412aa2c0@redhat.com>
-Date: Tue, 8 Sep 2020 20:38:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=J3kHibY70lINvCvokAJ3PeXuKGyHbKaVCxn28UMXSbs=;
+ b=mjCTxnjKyfs3rCnyw0GSnFzYpM6gk52Mv6veQSQtlJG9fxW6zEN1CmPf1z2y1B4RSN
+ Y9g+0/x88quFg6Yf46WflL6crV1m7cHQ7pR3SCGotwSfvSNC4UBv5RY4bbFUCgrdEYfK
+ FzXDBBr1rBLfubbSX19IbFA27tZgc/bkCVBG+vnoxdLJBRD/9oUJi6qyCXWG4nJycFCs
+ aFQHKWSbPCM95789C3/h4CgIqMyp4in3tW3EZtITK6dW7hTAJ7gfZ3opfNG4g0VAaWSI
+ go4b61uucGGVk+y7+VWAGSspvc+WEcjxOdANPQdAVPKhatCf5k1HMOIl1psMwrsBxfyt
+ hcwA==
+X-Gm-Message-State: AOAM533bnJsKDvkhyymPnTeVeQYPIr4VDwcOjPgmI79LoNS49TUgu3mD
+ mZ0Yl53Vuh6sElXxKcnfgyG9iyQm5ZJydfkK
+X-Google-Smtp-Source: ABdhPJwa6e+sReTdHZ1wIG9hQgEHS2ezIhYGq371k6MtRvEUxo//PygKFIQQ9lNFj08tEW8ZUe7FOA==
+X-Received: by 2002:a63:4e4f:: with SMTP id o15mr122794pgl.202.1599590974725; 
+ Tue, 08 Sep 2020 11:49:34 -0700 (PDT)
+Received: from localhost.localdomain ([222.95.248.6])
+ by smtp.googlemail.com with ESMTPSA id 8sm43553pjx.14.2020.09.08.11.49.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 11:49:33 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] Msys2 patches patches
+Date: Wed,  9 Sep 2020 02:49:02 +0800
+Message-Id: <20200908184918.1085-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20200908165438.1008942-6-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:00:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.626, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,150 +81,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/20 6:54 PM, Daniel P. Berrangé wrote:
-> The i440fx and Q35 machine types are both hardcoded to use the legacy
-> SMBIOS 2.1 entry point. This is a sensible conservative choice because
-> SeaBIOS only supports SMBIOS 2.1
-> 
-> EDK2, however, can also support SMBIOS 3.0 and QEMU already uses this on
-> the ARM virt machine type.
-> 
-> This adds a property to allow the choice of SMBIOS entry point versions
-> For example to opt in to version 3.0
-> 
->    $QEMU -machine q35,smbios_ep=3_0
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> ---
->  hw/i386/pc.c         | 26 ++++++++++++++++++++++++++
->  hw/i386/pc_piix.c    |  2 +-
->  hw/i386/pc_q35.c     |  2 +-
->  include/hw/i386/pc.h |  3 +++
->  4 files changed, 31 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index d11daacc23..cfce279eed 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -81,6 +81,7 @@
->  #include "hw/mem/nvdimm.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-visit-common.h"
-> +#include "qapi/qapi-visit-machine.h"
->  #include "qapi/visitor.h"
->  #include "hw/core/cpu.h"
->  #include "hw/usb.h"
-> @@ -1834,6 +1835,23 @@ static void pc_machine_set_pit(Object *obj, bool value, Error **errp)
->      pcms->pit_enabled = value;
->  }
->  
-> +static void pc_machine_get_smbios_ep(Object *obj, Visitor *v, const char *name,
-> +                                     void *opaque, Error **errp)
-> +{
-> +    PCMachineState *pcms = PC_MACHINE(obj);
-> +    SmbiosEntryPointType smbios_ep = pcms->smbios_ep;
-> +
-> +    visit_type_SmbiosEntryPointType(v, name, &smbios_ep, errp);
-> +}
-> +
-> +static void pc_machine_set_smbios_ep(Object *obj, Visitor *v, const char *name,
-> +                                     void *opaque, Error **errp)
-> +{
-> +    PCMachineState *pcms = PC_MACHINE(obj);
-> +
-> +    visit_type_SmbiosEntryPointType(v, name, &pcms->smbios_ep, errp);
-> +}
-> +
->  static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
->                                              const char *name, void *opaque,
->                                              Error **errp)
-> @@ -1879,6 +1897,8 @@ static void pc_machine_initfn(Object *obj)
->      pcms->vmport = ON_OFF_AUTO_OFF;
->  #endif /* CONFIG_VMPORT */
->      pcms->max_ram_below_4g = 0; /* use default */
-> +    pcms->smbios_ep = SMBIOS_ENTRY_POINT_TYPE_2_1;
-> +
->      /* acpi build is enabled by default if machine supports it */
->      pcms->acpi_build_enabled = PC_MACHINE_GET_CLASS(pcms)->has_acpi_build;
->      pcms->smbus_enabled = true;
-> @@ -2004,6 +2024,12 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->  
->      object_class_property_add_bool(oc, PC_MACHINE_PIT,
->          pc_machine_get_pit, pc_machine_set_pit);
-> +
-> +    object_class_property_add(oc, PC_MACHINE_SMBIOS_EP, "str",
-> +        pc_machine_get_smbios_ep, pc_machine_set_smbios_ep,
-> +        NULL, NULL);
-> +    object_class_property_set_description(oc, PC_MACHINE_SMBIOS_EP,
-> +        "SMBIOS Entry Point version [v2_1, v3_0]");
->  }
->  
->  static const TypeInfo pc_machine_info = {
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 1c5bc6ae6e..3626e5425f 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -179,7 +179,7 @@ static void pc_init1(MachineState *machine,
->          smbios_set_defaults("QEMU", "Standard PC (i440FX + PIIX, 1996)",
->                              mc->name, pcmc->smbios_legacy_mode,
->                              pcmc->smbios_uuid_encoded,
-> -                            SMBIOS_ENTRY_POINT_TYPE_2_1);
-> +                            pcms->smbios_ep);
->      }
->  
->      /* allocate ram and load rom/bios */
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index cc202407c7..7cf08fa364 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -204,7 +204,7 @@ static void pc_q35_init(MachineState *machine)
->          smbios_set_defaults("QEMU", "Standard PC (Q35 + ICH9, 2009)",
->                              mc->name, pcmc->smbios_legacy_mode,
->                              pcmc->smbios_uuid_encoded,
-> -                            SMBIOS_ENTRY_POINT_TYPE_2_1);
-> +                            pcms->smbios_ep);
->      }
->  
->      /* allocate ram and load rom/bios */
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index fe52e165b2..f5d2ebcb49 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -10,6 +10,7 @@
->  
->  #include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/hotplug.h"
-> +#include "hw/firmware/smbios.h"
->  
->  #define HPET_INTCAP "hpet-intcap"
->  
-> @@ -38,6 +39,7 @@ struct PCMachineState {
->      /* Configuration options: */
->      uint64_t max_ram_below_4g;
->      OnOffAuto vmport;
-> +    SmbiosEntryPointType smbios_ep;
->  
->      bool acpi_build_enabled;
->      bool smbus_enabled;
-> @@ -59,6 +61,7 @@ struct PCMachineState {
->  #define PC_MACHINE_SMBUS            "smbus"
->  #define PC_MACHINE_SATA             "sata"
->  #define PC_MACHINE_PIT              "pit"
-> +#define PC_MACHINE_SMBIOS_EP        "smbios-ep"
->  
->  /**
->   * PCMachineClass:
-> 
-
+The following changes since commit 6779038537360e957dbded830f76b08ef5070161=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-09-08' i=
+nt=3D=0D
+o staging (2020-09-08 17:23:31 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  http://github.com/lygstate/qemu tags/msys2-patches-pull-request=0D
+=0D
+for you to fetch changes up to 1892e4360f55ac8cbeeeae0043e0a9dc05c50269:=0D
+=0D
+  rcu: add uninit destructor for rcu (2020-09-09 02:34:59 +0800)=0D
+=0D
+----------------------------------------------------------------=0D
+msys2 patch queue 2020-09-09=0D
+=0D
+It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and di=
+sa=3D=0D
+ble=0D
+partial test-char tests.=0D
+And then fixes a number of unit tests failure on msys2/mingw=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Yonggang Luo (16):=0D
+  block: Fixes nfs on msys2/mingw=0D
+  ci: fixes msys2 build by upgrading capstone to 4.0.2=0D
+  configure: Fixes ncursesw detection under msys2/mingw and enable=0D
+    curses=0D
+  curses: Fixes curses compiling errors.=0D
+  tests: disable /char/stdio/* tests in test-char.c on win32=0D
+  ci: Enable msys2 ci in cirrus=0D
+  tests: Trying fixes test-replication.c on msys2/mingw.=0D
+  block: get file-win32.c handle locking option consistence with=0D
+    file-posix.c=0D
+  osdep: These function are only available on Non-Win32 system.=0D
+  meson: Use -b to ignore CR vs. CR-LF issues on Windows=0D
+  meson: disable crypto tests are empty under win32=0D
+  meson: remove empty else and duplicated gio deps=0D
+  vmstate: Fixes test-vmstate.c on msys2/mingw=0D
+  cirrus: Building freebsd in a single short=0D
+  logging: Fixes memory leak in test-logging.c=0D
+  rcu: add uninit destructor for rcu=0D
+=0D
+ .cirrus.yml                         | 59 ++++++++++++++++-------------=0D
+ block/file-win32.c                  | 23 ++++++++++-=0D
+ block/nfs.c                         | 26 ++++++++-----=0D
+ capstone                            |  2 +-=0D
+ configure                           | 11 ++----=0D
+ include/qemu/osdep.h                |  2 +-=0D
+ include/qemu/rcu.h                  |  5 +++=0D
+ meson.build                         |  6 ---=0D
+ scripts/ci/windows/msys2-build.sh   | 28 ++++++++++++++=0D
+ scripts/ci/windows/msys2-install.sh | 33 ++++++++++++++++=0D
+ tests/meson.build                   |  3 +-=0D
+ tests/qapi-schema/meson.build       |  2 +-=0D
+ tests/test-char.c                   |  4 ++=0D
+ tests/test-logging.c                |  4 +-=0D
+ tests/test-replication.c            | 13 +++++--=0D
+ tests/test-vmstate.c                |  2 +-=0D
+ ui/curses.c                         | 14 +++----=0D
+ util/rcu.c                          | 37 +++++++++++++++++-=0D
+ 18 files changed, 205 insertions(+), 69 deletions(-)=0D
+ create mode 100644 scripts/ci/windows/msys2-build.sh=0D
+ create mode 100644 scripts/ci/windows/msys2-install.sh=0D
+=0D
+--=3D20=0D
+2.28.0.windows.1=0D
+=0D
 
