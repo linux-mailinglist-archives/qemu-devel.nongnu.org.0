@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C8E261D3F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:34:31 +0200 (CEST)
-Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB4F261D50
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 21:35:28 +0200 (CEST)
+Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFjNt-0005uB-VG
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37050)
+	id 1kFjOq-0007Ks-0f
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 15:35:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kFjMu-0004vn-7g
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58312)
+ id 1kFjMv-0004w4-8y
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kFjMs-0000Rv-2k
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:27 -0400
+ id 1kFjMs-0000S0-Iu
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 15:33:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599593605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SevsorCaiQJWbJ6v1VbNoXvVm0i5mkWmenFSl8fSt5Y=;
- b=UtuA/nPdOuEwOj2qZh20k7rJgWBzVQ1SmuKprVmIwaQVVTryIVRe6Vud2q3a7Wo39x0fMo
- /jSCF7crH8BPLwL+ijtFWbB4Bf8O3G+arOMxazQ9ep0idtamWsD65fVSNCZdERhCaJQITR
- S5jh6xLf8qNZA1ATsynO/GmRCXRHBKg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ysBEMg0s/bty0tEcjk2nb3PSRPj/k1r92VLHI/CNAGo=;
+ b=YlDuY+i++g/F8g/TZrC3VBP4yMr7v9o4LpmSI6vbm8pQ2rTqeLMh8ZvowkABvytFTzdlRa
+ jisHrPSVHlv7HPo7/SH7BviDgE7l/w0XFGyxKyxTMywtvQtYvkFAXyZEASCQhC25emuKB+
+ hAQIHRkKVK1QV8qeKdQVrMn/iQAbc28=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-aavLtR5CM7yPrSVbY7n_Ag-1; Tue, 08 Sep 2020 15:33:21 -0400
-X-MC-Unique: aavLtR5CM7yPrSVbY7n_Ag-1
+ us-mta-344-x7956DXdOHuszx_ctrySIg-1; Tue, 08 Sep 2020 15:33:24 -0400
+X-MC-Unique: x7956DXdOHuszx_ctrySIg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 917B71DDFA;
- Tue,  8 Sep 2020 19:33:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3022801A9D;
+ Tue,  8 Sep 2020 19:33:22 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-115-123.ams2.redhat.com [10.36.115.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F7939CBA;
- Tue,  8 Sep 2020 19:33:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E95707E8C0;
+ Tue,  8 Sep 2020 19:33:20 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  cohuck@redhat.com, mst@redhat.com, qemu-stable@nongnu.org
-Subject: [PATCH v2 0/2] virtio-iommu-pci: Advertise the device as modern-only
-Date: Tue,  8 Sep 2020 21:33:07 +0200
-Message-Id: <20200908193309.20569-1-eric.auger@redhat.com>
+Subject: [PATCH v2 1/2] virtio-iommu: Check gtrees are non null before
+ destroying them
+Date: Tue,  8 Sep 2020 21:33:08 +0200
+Message-Id: <20200908193309.20569-2-eric.auger@redhat.com>
+In-Reply-To: <20200908193309.20569-1-eric.auger@redhat.com>
+References: <20200908193309.20569-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -65,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,29 +86,44 @@ Cc: jean-philippe@linaro.org, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 9b3a35ec82 ("virtio: verify that legacy support is not
-accidentally on"), we are forced to use disable-legacy=on when
-instantiating the virtio-iommu-pci device. This also revealed that
-the unrealize() function is likely to call g_tree_destroy() on
-NULL gtrees, which triggers assertions.
+If realize fails, domains and endpoints trees may be NULL. On
+unrealize(), this produces assertions:
 
-Best Regards
+"GLib: g_tree_destroy: assertion 'tree != NULL' failed"
 
-Eric
+Check that the trees are non NULL before destroying them.
 
-History:
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+---
 v1 -> v2:
-- Fix patch #1 commit message typos
-- Add Connie's R-b on both patches
+- fix the commit message
+- Added Connie's R-b
+---
+ hw/virtio/virtio-iommu.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Eric Auger (2):
-  virtio-iommu: Check gtrees are non null before destroying them
-  virtio-iommu-pci: force virtio version 1
-
- hw/virtio/virtio-iommu-pci.c | 2 +-
- hw/virtio/virtio-iommu.c     | 8 ++++++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
-
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 5d56865e56..21ec63b108 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -801,8 +801,12 @@ static void virtio_iommu_device_unrealize(DeviceState *dev)
+     VirtIOIOMMU *s = VIRTIO_IOMMU(dev);
+ 
+     g_hash_table_destroy(s->as_by_busptr);
+-    g_tree_destroy(s->domains);
+-    g_tree_destroy(s->endpoints);
++    if (s->domains) {
++        g_tree_destroy(s->domains);
++    }
++    if (s->endpoints) {
++        g_tree_destroy(s->endpoints);
++    }
+ 
+     virtio_delete_queue(s->req_vq);
+     virtio_delete_queue(s->event_vq);
 -- 
 2.21.3
 
