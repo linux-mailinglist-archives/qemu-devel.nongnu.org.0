@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCD1260D65
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:19:59 +0200 (CEST)
-Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806B4260D33
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:15:22 +0200 (CEST)
+Received: from localhost ([::1]:56110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYr8-0008QW-Uu
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58336)
+	id 1kFYmf-0007mt-Fg
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:15:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kFYlC-0005fH-Ca
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:50 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:33702)
+ id 1kFYlD-0005in-LG
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:51 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kFYlA-0000RN-ID
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:49 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id c196so4851145pfc.0
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:13:48 -0700 (PDT)
+ id 1kFYlB-0000Ri-OE
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:13:51 -0400
+Received: by mail-pg1-x543.google.com with SMTP id m5so9504319pgj.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 01:13:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vE/7atJFFNMf4U1vrclSfvdzLU1YHOKY7LV5LqTlxi8=;
- b=VocityjnqEGnIw5Y2AYa4Mi3SdhHy79dxnKzkUvZOM3vl7gT5anhbUd7cycj60/iE0
- 6f2hlHJShVjmzBv+n3TXzmCqSVFvW8Ws85vsg7NF7wBIAFsScW6WmZDXxG5++h6jeYD5
- PVvv10jusCN39YEBm2w9NRUyB0d4FhFxwCn0249CoBRNN5+Iy3Xr3VcDA8mAg8MFzUfs
- Ofn1W4F1TvYngP2zQAAATdHYm9gTw4hEkAG6GFoGyOu+Y5+9q89WKfbjf8ugQzNYzuOQ
- ZPBLcvk9KeVMxZaykqJ+/0DEMNhKE0BRwGaQrXmTDCHwIsR14gRiHf6GfOA/wLQJtaVj
- T8hQ==
+ bh=bjXqJB5fZDovb5keozBFqhrjyKCJ3LE/1kjYNOFtg8s=;
+ b=lsduiPeW2KAAqBLIvyI/8FZJf9DdqV11oODQYW+mHmktQWlrq8JKQhBNqHOYftlV8h
+ kXnXOB4iC+DAgzeakNlWC4mNsxowb3AjsLhw7SoVQJLykH3p+XSU1EE7DnAEgZ2v2p1X
+ ekkD+zYHj1MiH5pEojjHtb4uT+E64xMw7Ntu4A3PH9GBAkrFbIVm4tKz7m5UUO2PU5af
+ P/1yJq0WITCZQ9wSs2lqC0gSjozPi7bDCHT49gJPophxYlo9LQdEcLLQDrA73F7HYFkH
+ bxh7JFNVg+Xim7DSmlptXBxIEGjWo8q70Ds6gbW0/vxky7gsUI7f5Uzralry/LBmvac0
+ hyMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vE/7atJFFNMf4U1vrclSfvdzLU1YHOKY7LV5LqTlxi8=;
- b=FjOhrKZRfGtFCjL5A+h23rsm4C7hQV356JPDSrOqfnrNUINnsAfsObBfmRjhX8XGio
- cdhIXq+OZykVGn+C3N3YdhN6OH1i3ZrCOuDx8n6gbrGIjSdPUEY93No0vDTlAAPuHqP3
- 0uyNxk4itEqdLTySIZBEhdsdjPaqw/vrccCqhsPuriJ3xRdPgUCEftKTnIRJ/auD6Rdm
- 5FxDU/+9rYwpB2OiVkHvLoeGskHTMC9iOlm5pmWRLIFTvrM0fc5xAHmUKuk2iOfzHdEe
- GkNVrFFXy/KdiErXP9qQ/FF6NojfJXnqkhczBfyYdn6EOf6f+9d+AtqDOFNCE0FpSkn9
- ks0g==
-X-Gm-Message-State: AOAM532P330fp6Qqd89o3i1t3s3TbE8fTA2G8ltv7RuQjQcEmzichYgY
- j17r0VzY/mScHxKynzTo1xXh
-X-Google-Smtp-Source: ABdhPJyujUzTLCCFFkWhLzFL3oeEftWrE4zVsyuKPzKyCRWRHXbBzdYjiEE+8PJErQmX4iiov0dhzw==
-X-Received: by 2002:a63:d409:: with SMTP id a9mr18751991pgh.312.1599552827222; 
- Tue, 08 Sep 2020 01:13:47 -0700 (PDT)
+ bh=bjXqJB5fZDovb5keozBFqhrjyKCJ3LE/1kjYNOFtg8s=;
+ b=O4KMVVhQbrYzhZLDzsDEpgWq7qp0dG8d2SJ4W6S/qLomjMuyWSOuB8sXm+LyLRkg1f
+ gH0l+nOdQiPPx1KZO3/dxwzmSbmX9DfnCZ/tzcy/0JMpIqaoUsrFtR8IcMdFtvP4qmMU
+ NPeCYqkaM3LCt/2C/aFWSGM1SZIxU2NPULTA6rbNFtDxOATujirnNWDjNSGeAWTt5yZq
+ 5JdnQrb2EFbxNHO+DA6kP/CbXIIP4Ty01wUHBgV5kcTGtFsTWYtjABgFqnNHcxNQepIe
+ 5N6R9IOBZ6x5BpfsE4VIS4jzdDBR1CdfKkDWRV4u9mJHxjzxad7sCNeDuoSgkJc4U0Wn
+ MiAg==
+X-Gm-Message-State: AOAM530OO+DArrX5Y4rNzYYJ1YXM+Rs+pFGzyXEhJXHd7SigcB2Ij33Z
+ ZvHi68X1hAXmm+tqYDkcQZWC
+X-Google-Smtp-Source: ABdhPJylmtrJl17mr9kZtPXSvMv1JK628xdtlWEQ3D0RT9vLOo5U+gL+MQC9+74EXMsdmc2cdyoHRw==
+X-Received: by 2002:a17:902:465:b029:d0:89f1:9e2a with SMTP id
+ 92-20020a1709020465b02900d089f19e2amr21643144ple.6.1599552828430; 
+ Tue, 08 Sep 2020 01:13:48 -0700 (PDT)
 Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id m190sm16934788pfm.184.2020.09.08.01.13.46
+ by smtp.gmail.com with ESMTPSA id m190sm16934788pfm.184.2020.09.08.01.13.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 01:13:46 -0700 (PDT)
+ Tue, 08 Sep 2020 01:13:48 -0700 (PDT)
 From: Haibo Xu <haibo.xu@linaro.org>
 To: drjones@redhat.com,
 	richard.henderson@linaro.org
-Subject: [PATCH v2 04/12] target/arm: spe: Only enable SPE from 5.2 compat
- machines.
-Date: Tue,  8 Sep 2020 08:13:22 +0000
-Message-Id: <7ed8b1ff7a61132c6520f87213c61784ab0c331b.1599549462.git.haibo.xu@linaro.org>
+Subject: [PATCH v2 05/12] target/arm/kvm: spe: Unify device attr operation
+ helper
+Date: Tue,  8 Sep 2020 08:13:23 +0000
+Message-Id: <45eecae26272efc7a09837573cd5278296b58dc5.1599549462.git.haibo.xu@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1599549462.git.haibo.xu@linaro.org>
 References: <cover.1599549462.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=haibo.xu@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=haibo.xu@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,51 +92,62 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
----
- hw/arm/virt.c         | 7 +++++++
- include/hw/arm/virt.h | 1 +
- 2 files changed, 8 insertions(+)
+From: Andrew Jones <drjones@redhat.com>
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index acf9bfbece..3f6d26c531 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1830,6 +1830,10 @@ static void machvirt_init(MachineState *machine)
-             object_property_set_bool(cpuobj, "pmu", false, NULL);
-         }
- 
-+        if (vmc->no_spe && object_property_find(cpuobj, "spe", NULL)) {
-+            object_property_set_bool(cpuobj, "spe", false, NULL);
-+        }
-+
-         if (object_property_find(cpuobj, "reset-cbar", NULL)) {
-             object_property_set_int(cpuobj, "reset-cbar",
-                                     vms->memmap[VIRT_CPUPERIPHS].base,
-@@ -2553,8 +2557,11 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 2)
- 
- static void virt_machine_5_1_options(MachineClass *mc)
- {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+
-     virt_machine_5_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-+    vmc->no_spe = true;
+Rename kvm_arm_pmu_set_attr() to kvm_arm_set_device_attr(),
+So both the vPMU and vSPE device can share the same API.
+
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+---
+ target/arm/kvm64.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index ef1e960285..8ffd31ffdf 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -397,19 +397,20 @@ static CPUWatchpoint *find_hw_watchpoint(CPUState *cpu, target_ulong addr)
+     return NULL;
  }
- DEFINE_VIRT_MACHINE(5, 1)
  
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index dff67e1bef..72c269aaa5 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -126,6 +126,7 @@ typedef struct {
-     bool no_ged;   /* Machines < 4.2 has no support for ACPI GED device */
-     bool kvm_no_adjvtime;
-     bool acpi_expose_flash;
-+    bool no_spe;
- } VirtMachineClass;
+-static bool kvm_arm_pmu_set_attr(CPUState *cs, struct kvm_device_attr *attr)
++static bool kvm_arm_set_device_attr(CPUState *cs, struct kvm_device_attr *attr,
++                                    const char *name)
+ {
+     int err;
  
- typedef struct {
+     err = kvm_vcpu_ioctl(cs, KVM_HAS_DEVICE_ATTR, attr);
+     if (err != 0) {
+-        error_report("PMU: KVM_HAS_DEVICE_ATTR: %s", strerror(-err));
++        error_report("%s: KVM_HAS_DEVICE_ATTR: %s", name, strerror(-err));
+         return false;
+     }
+ 
+     err = kvm_vcpu_ioctl(cs, KVM_SET_DEVICE_ATTR, attr);
+     if (err != 0) {
+-        error_report("PMU: KVM_SET_DEVICE_ATTR: %s", strerror(-err));
++        error_report("%s: KVM_SET_DEVICE_ATTR: %s", name, strerror(-err));
+         return false;
+     }
+ 
+@@ -426,7 +427,7 @@ void kvm_arm_pmu_init(CPUState *cs)
+     if (!ARM_CPU(cs)->has_pmu) {
+         return;
+     }
+-    if (!kvm_arm_pmu_set_attr(cs, &attr)) {
++    if (!kvm_arm_set_device_attr(cs, &attr, "PMU")) {
+         error_report("failed to init PMU");
+         abort();
+     }
+@@ -443,7 +444,7 @@ void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
+     if (!ARM_CPU(cs)->has_pmu) {
+         return;
+     }
+-    if (!kvm_arm_pmu_set_attr(cs, &attr)) {
++    if (!kvm_arm_set_device_attr(cs, &attr, "PMU")) {
+         error_report("failed to set irq for PMU");
+         abort();
+     }
 -- 
 2.17.1
 
