@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6F5262239
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 23:58:51 +0200 (CEST)
-Received: from localhost ([::1]:57456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE4826223B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 23:59:46 +0200 (CEST)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFlda-000689-7h
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 17:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
+	id 1kFleT-00084F-TQ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 17:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlYB-0005IZ-Rx
+ id 1kFlYB-0005HP-Ds
  for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:15 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42913
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48505
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlY8-0001JR-40
+ id 1kFlY9-0001Jj-Fb
  for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599601991;
+ s=mimecast20190719; t=1599601992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zqa6aaKmwm6Igb+aD9Zq+/iOUndIFn2SdOJEhdzGFFY=;
- b=MvvhwfQy7REFaKYSAlmlwy6YLMbXEaUQfG/wASbm2fRWNIIHTOeELX78yuqCjfWVN+TgFM
- e1JJM1hUBajBIwsMpmBWOGkZH1LJKUk8/WQ0ps45ga1CefDwCnEaGciBCHG/4WnJAIYgOk
- uDgSv4JJbsdwJuI9MOgXFk9H6FtMcrQ=
+ bh=KBBQHKCaZNmcoT8GjRywod67shGKvN15dsv6PCG16Vk=;
+ b=AaspwPF2SKDaKRpWsxMAPH9UbsV0aQ93VxiB/D/XgBbD4emSe2q9Dx1+Vdacaz9CbwXRsb
+ c8a4sXmgdGYUliMGfHao8EfQ8tRnSYuG58VZ8p7Ojny5cYB5KBUlv4YutEoD6Y1nN3rikP
+ WAcCksuj+99XFLv7R+lJrzFlfrfLScc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-TVvHaLmMPFqs_rp3PgTLxg-1; Tue, 08 Sep 2020 17:53:09 -0400
-X-MC-Unique: TVvHaLmMPFqs_rp3PgTLxg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-567-jwcCXVWzOu-ZS0Axy6If1w-1; Tue, 08 Sep 2020 17:53:10 -0400
+X-MC-Unique: jwcCXVWzOu-ZS0Axy6If1w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4F7F1091063;
- Tue,  8 Sep 2020 21:53:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D854C1091069;
+ Tue,  8 Sep 2020 21:53:09 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E73260C15;
- Tue,  8 Sep 2020 21:53:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72C5F1002D46;
+ Tue,  8 Sep 2020 21:53:09 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 20/34] ahci: Rename ICH_AHCI to ICH9_AHCI
-Date: Tue,  8 Sep 2020 17:52:25 -0400
-Message-Id: <20200908215239.3519638-21-ehabkost@redhat.com>
+Subject: [PULL 21/34] esp: Rename ESP_STATE to ESP
+Date: Tue,  8 Sep 2020 17:52:26 -0400
+Message-Id: <20200908215239.3519638-22-ehabkost@redhat.com>
 In-Reply-To: <20200908215239.3519638-1-ehabkost@redhat.com>
 References: <20200908215239.3519638-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:00:34
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 12:55:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,7 +84,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,89 +92,114 @@ Make the type checking macro name consistent with the TYPE_*
 constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200902224311.1321159-33-ehabkost@redhat.com>
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+Message-Id: <20200902224311.1321159-40-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/ide/ahci.h | 2 +-
- hw/ide/ahci.c         | 4 ++--
- hw/ide/ich.c          | 8 ++++----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ include/hw/scsi/esp.h | 2 +-
+ hw/dma/sparc32_dma.c  | 2 +-
+ hw/m68k/q800.c        | 2 +-
+ hw/mips/jazz.c        | 2 +-
+ hw/scsi/esp.c         | 6 +++---
+ hw/sparc/sun4m.c      | 2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/ide/ahci.h b/include/hw/ide/ahci.h
-index 4cf6813d80..da3cddcc65 100644
---- a/include/hw/ide/ahci.h
-+++ b/include/hw/ide/ahci.h
-@@ -54,7 +54,7 @@ typedef struct AHCIState {
- typedef struct AHCIPCIState AHCIPCIState;
+diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+index f281625dd5..20800dbf5b 100644
+--- a/include/hw/scsi/esp.h
++++ b/include/hw/scsi/esp.h
+@@ -67,7 +67,7 @@ struct ESPState {
  
- #define TYPE_ICH9_AHCI "ich9-ahci"
--DECLARE_INSTANCE_CHECKER(AHCIPCIState, ICH_AHCI,
-+DECLARE_INSTANCE_CHECKER(AHCIPCIState, ICH9_AHCI,
-                          TYPE_ICH9_AHCI)
+ #define TYPE_ESP "esp"
+ typedef struct SysBusESPState SysBusESPState;
+-DECLARE_INSTANCE_CHECKER(SysBusESPState, ESP_STATE,
++DECLARE_INSTANCE_CHECKER(SysBusESPState, ESP,
+                          TYPE_ESP)
  
- int32_t ahci_get_num_ports(PCIDevice *dev);
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index b696c6291a..ee1d47ff75 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1819,7 +1819,7 @@ type_init(sysbus_ahci_register_types)
+ struct SysBusESPState {
+diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
+index bcd1626fbd..d20a5bc065 100644
+--- a/hw/dma/sparc32_dma.c
++++ b/hw/dma/sparc32_dma.c
+@@ -303,7 +303,7 @@ static void sparc32_espdma_device_realize(DeviceState *dev, Error **errp)
  
- int32_t ahci_get_num_ports(PCIDevice *dev)
+     d = qdev_new(TYPE_ESP);
+     object_property_add_child(OBJECT(dev), "esp", OBJECT(d));
+-    sysbus = ESP_STATE(d);
++    sysbus = ESP(d);
+     esp = &sysbus->esp;
+     esp->dma_memory_read = espdma_memory_read;
+     esp->dma_memory_write = espdma_memory_write;
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 1ca482ad81..ce4b47c3e3 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -290,7 +290,7 @@ static void q800_init(MachineState *machine)
+     /* SCSI */
+ 
+     dev = qdev_new(TYPE_ESP);
+-    sysbus_esp = ESP_STATE(dev);
++    sysbus_esp = ESP(dev);
+     esp = &sysbus_esp->esp;
+     esp->dma_memory_read = NULL;
+     esp->dma_memory_write = NULL;
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 82a6e3220e..47723093b6 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -309,7 +309,7 @@ static void mips_jazz_init(MachineState *machine,
+ 
+     /* SCSI adapter */
+     dev = qdev_new(TYPE_ESP);
+-    sysbus_esp = ESP_STATE(dev);
++    sysbus_esp = ESP(dev);
+     esp = &sysbus_esp->esp;
+     esp->dma_memory_read = rc4030_dma_read;
+     esp->dma_memory_write = rc4030_dma_write;
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index 405f8b7cbc..b84e0fe33e 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -929,7 +929,7 @@ static const struct SCSIBusInfo esp_scsi_info = {
+ 
+ static void sysbus_esp_gpio_demux(void *opaque, int irq, int level)
  {
--    AHCIPCIState *d = ICH_AHCI(dev);
-+    AHCIPCIState *d = ICH9_AHCI(dev);
-     AHCIState *ahci = &d->ahci;
+-    SysBusESPState *sysbus = ESP_STATE(opaque);
++    SysBusESPState *sysbus = ESP(opaque);
+     ESPState *s = &sysbus->esp;
  
-     return ahci->ports;
-@@ -1827,7 +1827,7 @@ int32_t ahci_get_num_ports(PCIDevice *dev)
- 
- void ahci_ide_create_devs(PCIDevice *dev, DriveInfo **hd)
+     switch (irq) {
+@@ -945,7 +945,7 @@ static void sysbus_esp_gpio_demux(void *opaque, int irq, int level)
+ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
  {
--    AHCIPCIState *d = ICH_AHCI(dev);
-+    AHCIPCIState *d = ICH9_AHCI(dev);
-     AHCIState *ahci = &d->ahci;
-     int i;
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-    SysBusESPState *sysbus = ESP_STATE(dev);
++    SysBusESPState *sysbus = ESP(dev);
+     ESPState *s = &sysbus->esp;
  
-diff --git a/hw/ide/ich.c b/hw/ide/ich.c
-index eff3188fff..51cd2f38b7 100644
---- a/hw/ide/ich.c
-+++ b/hw/ide/ich.c
-@@ -91,14 +91,14 @@ static const VMStateDescription vmstate_ich9_ahci = {
+     sysbus_init_irq(sbd, &s->irq);
+@@ -967,7 +967,7 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
  
- static void pci_ich9_reset(DeviceState *dev)
+ static void sysbus_esp_hard_reset(DeviceState *dev)
  {
--    AHCIPCIState *d = ICH_AHCI(dev);
-+    AHCIPCIState *d = ICH9_AHCI(dev);
- 
-     ahci_reset(&d->ahci);
+-    SysBusESPState *sysbus = ESP_STATE(dev);
++    SysBusESPState *sysbus = ESP(dev);
+     esp_hard_reset(&sysbus->esp);
  }
  
- static void pci_ich9_ahci_init(Object *obj)
- {
--    struct AHCIPCIState *d = ICH_AHCI(obj);
-+    struct AHCIPCIState *d = ICH9_AHCI(obj);
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 256033b9a0..947b69d159 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -335,7 +335,7 @@ static void *sparc32_dma_init(hwaddr dma_base,
+                                    OBJECT(dma), "espdma"));
+     sysbus_connect_irq(SYS_BUS_DEVICE(espdma), 0, espdma_irq);
  
-     ahci_init(&d->ahci, DEVICE(obj));
- }
-@@ -108,7 +108,7 @@ static void pci_ich9_ahci_realize(PCIDevice *dev, Error **errp)
-     struct AHCIPCIState *d;
-     int sata_cap_offset;
-     uint8_t *sata_cap;
--    d = ICH_AHCI(dev);
-+    d = ICH9_AHCI(dev);
-     int ret;
+-    esp = ESP_STATE(object_resolve_path_component(OBJECT(espdma), "esp"));
++    esp = ESP(object_resolve_path_component(OBJECT(espdma), "esp"));
+     sysbus_mmio_map(SYS_BUS_DEVICE(esp), 0, esp_base);
+     scsi_bus_legacy_handle_cmdline(&esp->esp.bus);
  
-     ahci_realize(&d->ahci, DEVICE(dev), pci_get_address_space(dev), 6);
-@@ -154,7 +154,7 @@ static void pci_ich9_ahci_realize(PCIDevice *dev, Error **errp)
- static void pci_ich9_uninit(PCIDevice *dev)
- {
-     struct AHCIPCIState *d;
--    d = ICH_AHCI(dev);
-+    d = ICH9_AHCI(dev);
- 
-     msi_uninit(dev);
-     ahci_uninit(&d->ahci);
 -- 
 2.26.2
 
