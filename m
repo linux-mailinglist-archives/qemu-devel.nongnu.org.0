@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410B62613F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 17:57:18 +0200 (CEST)
-Received: from localhost ([::1]:32912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81FC2613FB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 17:58:56 +0200 (CEST)
+Received: from localhost ([::1]:39438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFfzh-0005ue-6R
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 11:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35568)
+	id 1kFg1H-0000J9-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 11:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyI-0004HZ-To
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:55:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55560)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyT-0004d6-Jw
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:56:01 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21251
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyF-0003u4-N7
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:55:50 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyQ-0003yQ-0o
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:56:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599580545;
+ s=mimecast20190719; t=1599580555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L9MSzTqEXdEyImaMC4bb2Kv6juBLliyTUBhWiXmnlsA=;
- b=ic3tYcvyzyVRipYio/4hCGvoBA9rIUoFyi5tafvJd+WiXuk/lV8LayR4S5Rdd5Oz/KaRaP
- zUiOb3ZLFOMUZlDqFzOWJqURgWIYQFjXxaTahLNTQ5TRqCVfXy2mBXotkoP0aOs0TGNxv3
- kz6wj24GIyOWBf8+5s5Or+JPBwXZtAQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-YGUgUnldN_CjQYxuYld5zg-1; Tue, 08 Sep 2020 11:55:44 -0400
-X-MC-Unique: YGUgUnldN_CjQYxuYld5zg-1
-Received: by mail-wm1-f71.google.com with SMTP id w3so4891909wmg.4
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 08:55:44 -0700 (PDT)
+ bh=8VUrfo15vNafeYg0h4TuIp0D8UFhdJzYacZhDlojTCw=;
+ b=HcVbZUX9ycdboCHsra5YfpKr5bApn2CMydJGD9G0n8MEtm3+DOZ1NowXteG8udRdXp9ddV
+ OFHLCWBacUsSffuVbtOnQQu+qzTSf1qKKZ8vNZW6tzDQkp0m4sXtj+yMyR2LvvAqOSux7n
+ uC9odwrmW48VsTSq2ZD2El9qj6W3+qE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-UMiK_vl1MsOeXhnsrjJMyg-1; Tue, 08 Sep 2020 11:55:54 -0400
+X-MC-Unique: UMiK_vl1MsOeXhnsrjJMyg-1
+Received: by mail-wr1-f72.google.com with SMTP id r16so7096497wrm.18
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 08:55:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L9MSzTqEXdEyImaMC4bb2Kv6juBLliyTUBhWiXmnlsA=;
- b=hucSLw7uflfSCYh2Vvf1AenWwo/ZCNamWXBux+2P9NPe9VS9ncq+Ery/GFRbKo4AJP
- 0FnXf9Zswbf3ymcL9SuP5BZbE+YieCPAEPrE61aEI1ehm9bQkSxZliAckXvF1SpdcVxr
- 7wIkEOKRkKVY1LmbattN6myz3p77VC5Z94EXYwS+xWzhYhEJkQnstA3SiUGx49smBn74
- fIQhbQ2jGF+hB2JzJPMlTTIFfs79ezht4kmlB65DGUJnZ/70hR6+T31PbvLW3JMGLYMR
- J99hEvidiWkUZ++GZNwIfvah3Z85Sw+azpl+b9dSG+dE1WT2ZB9TXLqjcWS+yRUUZ/sN
- 4/zA==
-X-Gm-Message-State: AOAM530XVFgE+aaAqbsc8179WD3qG9KDML/TTGW8MkQrYheOttx5ROE8
- WnuZaFUjoeQVqS83Ffcb7APBsetyPskSjdgYuE2O3lknUYdS4j8KSjSQmWyDIBmxt0BIhxZ7EiS
- fPzLfDrS4X74Tuug=
-X-Received: by 2002:adf:fa52:: with SMTP id y18mr317414wrr.264.1599580542937; 
- Tue, 08 Sep 2020 08:55:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyU6NdtM/r+hGgVHJHbxUzLG0yEYCNZp/OUgIpECe7SNk6Rt9b7NXEaxP7j5zNjVZzl5NvrIA==
-X-Received: by 2002:adf:fa52:: with SMTP id y18mr317390wrr.264.1599580542761; 
- Tue, 08 Sep 2020 08:55:42 -0700 (PDT)
+ bh=8VUrfo15vNafeYg0h4TuIp0D8UFhdJzYacZhDlojTCw=;
+ b=TmICcXL4fJHLG4smzSMehm4gCSZOxKabF4QeUetp1st62rRr9shqQy4xgZXlSQv7on
+ 29qnW/CnIaHAg6YVQMTLvQlaKP5n5jXwL7VmAqLkUDb3Zp++dfybR/+gZyysSiDsOvbd
+ /mxqCZSxp3rBWdZPMA06VBqb05/+IgP59pw6xYd7ywQLMjaI2PQePTrgqEOq/wdhcxF+
+ 4Y6siLwbp/I72TiwZ3nlEDabf4UNhEBZLgtZIO18EA4/uMnyyysS/SAieDEiGrubTZM/
+ cYNlU08+NMahgdVl19kEuHorJmUUino7vOzic0g77qWGluSacfipCbkNxfbKrATXjwUT
+ WLzw==
+X-Gm-Message-State: AOAM530nClvqXfGe3oVWB19kJi0nIG1peX8hVxk1BJcbbZzbaudhtZeT
+ d32UcqHiEGpTJOWNO8eUkkcUsI+SopSkwp06S0wR5wWqXYM6scO3WzIys3qf7wBhB7byLaudVZO
+ dhy1j5l83n/E3BY8=
+X-Received: by 2002:a5d:49d2:: with SMTP id t18mr270732wrs.99.1599580552696;
+ Tue, 08 Sep 2020 08:55:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEdHc1pv7BGXCTe+BIUfFARswN/4qnGyClHhLRspWocVPg/ArmCIreq1geKKgL3FqYCE8gsQ==
+X-Received: by 2002:a5d:49d2:: with SMTP id t18mr270716wrs.99.1599580552510;
+ Tue, 08 Sep 2020 08:55:52 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id x10sm34206389wmi.37.2020.09.08.08.55.41
+ by smtp.gmail.com with ESMTPSA id o5sm31934683wmc.33.2020.09.08.08.55.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 08:55:42 -0700 (PDT)
+ Tue, 08 Sep 2020 08:55:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/6] hw/i386/xen: Rename X86/PC specific function as
- xen_hvm_init_pc()
-Date: Tue,  8 Sep 2020 17:55:26 +0200
-Message-Id: <20200908155530.249806-3-philmd@redhat.com>
+Subject: [PATCH v2 4/6] stubs: Split accelerator / hardware related stubs
+Date: Tue,  8 Sep 2020 17:55:28 +0200
+Message-Id: <20200908155530.249806-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908155530.249806-1-philmd@redhat.com>
 References: <20200908155530.249806-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:54
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,80 +106,150 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-xen_hvm_init() is only meanful to initialize a X86/PC machine,
-rename it as xen_hvm_init_pc().
+Move hardware stubs unrelated from the accelerator to xen-hw-stub.c.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/xen/xen.h   | 2 +-
- accel/stubs/xen-stub.c | 2 +-
- hw/i386/pc_piix.c      | 6 +++---
- hw/i386/xen/xen-hvm.c  | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ accel/stubs/xen-stub.c | 41 +----------------------------------
+ stubs/xen-hw-stub.c    | 49 ++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS            |  1 +
+ stubs/meson.build      |  1 +
+ 4 files changed, 52 insertions(+), 40 deletions(-)
+ create mode 100644 stubs/xen-hw-stub.c
 
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index 771dd447f2b..b2b459964cb 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -30,7 +30,7 @@ qemu_irq *xen_interrupt_controller_init(void);
- 
- void xenstore_store_pv_console_info(int i, struct Chardev *chr);
- 
--void xen_hvm_init(PCMachineState *pcms, MemoryRegion **ram_memory);
-+void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory);
- 
- void xen_register_framebuffer(struct MemoryRegion *mr);
- 
 diff --git a/accel/stubs/xen-stub.c b/accel/stubs/xen-stub.c
-index 8ae658acff5..fa3dddbce57 100644
+index fa3dddbce57..7ba0b697f49 100644
 --- a/accel/stubs/xen-stub.c
 +++ b/accel/stubs/xen-stub.c
-@@ -46,7 +46,7 @@ void xen_register_framebuffer(MemoryRegion *mr)
+@@ -6,50 +6,11 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/xen/xen.h"
++#include "sysemu/xen.h"
+ #include "qapi/qapi-commands-misc.h"
+ 
+ bool xen_allowed;
+ 
+-void xenstore_store_pv_console_info(int i, Chardev *chr)
+-{
+-}
+-
+-int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+-{
+-    return -1;
+-}
+-
+-void xen_piix3_set_irq(void *opaque, int irq_num, int level)
+-{
+-}
+-
+-void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
+-{
+-}
+-
+-void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
+-{
+-}
+-
+-int xen_is_pirq_msi(uint32_t msi_data)
+-{
+-    return 0;
+-}
+-
+-qemu_irq *xen_interrupt_controller_init(void)
+-{
+-    return NULL;
+-}
+-
+-void xen_register_framebuffer(MemoryRegion *mr)
+-{
+-}
+-
+-void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+-{
+-}
+-
+ void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
  {
  }
- 
--void xen_hvm_init(PCMachineState *pcms, MemoryRegion **ram_memory)
+diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
+new file mode 100644
+index 00000000000..d14efef49e9
+--- /dev/null
++++ b/stubs/xen-hw-stub.c
+@@ -0,0 +1,49 @@
++/*
++ * Copyright (C) 2014       Citrix Systems UK Ltd.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/xen/xen.h"
++
++void xenstore_store_pv_console_info(int i, Chardev *chr)
++{
++}
++
++int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
++{
++    return -1;
++}
++
++void xen_piix3_set_irq(void *opaque, int irq_num, int level)
++{
++}
++
++void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
++{
++}
++
++void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
++{
++}
++
++int xen_is_pirq_msi(uint32_t msi_data)
++{
++    return 0;
++}
++
++qemu_irq *xen_interrupt_controller_init(void)
++{
++    return NULL;
++}
++
++void xen_register_framebuffer(MemoryRegion *mr)
++{
++}
++
 +void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
- {
- }
++{
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7d0a5e91e4f..b3366713903 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -480,6 +480,7 @@ F: include/hw/block/dataplane/xen*
+ F: include/hw/xen/
+ F: include/sysemu/xen.h
+ F: include/sysemu/xen-mapcache.h
++F: stubs/xen-hw-stub.c
  
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 32b1453e6a8..3e008bb0b1a 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -117,8 +117,8 @@ static void pc_init1(MachineState *machine,
-      *    so legacy non-PAE guests can get as much memory as possible in
-      *    the 32bit address space below 4G.
-      *
--     *  - Note that Xen has its own ram setp code in xen_ram_init(),
--     *    called via xen_hvm_init().
-+     *  - Note that Xen has its own ram setup code in xen_ram_init(),
-+     *    called via xen_hvm_init_pc().
-      *
-      * Examples:
-      *    qemu -M pc-1.7 -m 4G    (old default)    -> 3584M low,  512M high
-@@ -127,7 +127,7 @@ static void pc_init1(MachineState *machine,
-      *    qemu -M pc,max-ram-below-4g=4G -m 3968M  -> 3968M low (=4G-128M)
-      */
-     if (xen_enabled()) {
--        xen_hvm_init(pcms, &ram_memory);
-+        xen_hvm_init_pc(pcms, &ram_memory);
-     } else {
-         if (!pcms->max_ram_below_4g) {
-             pcms->max_ram_below_4g = 0xe0000000; /* default: 3.5G */
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index cde981bad66..49748cda3fb 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -1395,7 +1395,7 @@ static int xen_map_ioreq_server(XenIOState *state)
-     return 0;
- }
- 
--void xen_hvm_init(PCMachineState *pcms, MemoryRegion **ram_memory)
-+void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
- {
-     MachineState *ms = MACHINE(pcms);
-     unsigned int max_cpus = ms->smp.max_cpus;
+ Guest CPU Cores (HAXM)
+ ---------------------
+diff --git a/stubs/meson.build b/stubs/meson.build
+index e0b322bc282..c3e318a57f3 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -46,4 +46,5 @@ stub_ss.add(files('vm-stop.c'))
+ stub_ss.add(files('win32-kbd-hook.c'))
+ if have_system
+   stub_ss.add(files('semihost.c'))
++  stub_ss.add(when: 'CONFIG_XEN', if_false: files('xen-hw-stub.c'))
+ endif
 -- 
 2.26.2
 
