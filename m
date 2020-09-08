@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D16261079
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 13:08:51 +0200 (CEST)
-Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AB1261081
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 13:11:48 +0200 (CEST)
+Received: from localhost ([::1]:39228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFbUY-0008HU-EP
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 07:08:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42312)
+	id 1kFbXP-0003tu-Un
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 07:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFbTJ-0006zR-6y
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 07:07:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55886
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFbTG-0005hw-DD
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 07:07:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599563248;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=1r7EpQaBjMqJuLagAewcV/RvT23skpJ9n1yAy1nKE4s=;
- b=ExYApZU/9KP3Am0YgbWBfKkQR6AuywqgfnVPzNa/BcBTht9pce4WU9uTHMesvzBZXSHkdl
- EV13YjpM8nJj71Mbk2rRL40QCPo9yF70wpzQRYCI5P2NGZIYiy7ORCuL20w9NXrHjTmBlo
- onJSsKrEFYPPTlWBBUE7ABIzsksIE6E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-dLTdZLubNWur_GutQkGN0A-1; Tue, 08 Sep 2020 07:07:23 -0400
-X-MC-Unique: dLTdZLubNWur_GutQkGN0A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A16DB10BBECF
- for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 11:07:22 +0000 (UTC)
-Received: from redhat.com (ovpn-113-154.ams2.redhat.com [10.36.113.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C8125D9E8;
- Tue,  8 Sep 2020 11:07:18 +0000 (UTC)
-Date: Tue, 8 Sep 2020 12:07:15 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/socket-helpers: Only fail socket protocol check if
- it is really necessary
-Message-ID: <20200908110715.GF899163@redhat.com>
-References: <20200908105435.218715-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kFbWK-00033K-Ai
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 07:10:40 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kFbWI-0006Fn-8N
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 07:10:39 -0400
+Received: by mail-wm1-x341.google.com with SMTP id k18so1603298wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 04:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=0sbHd7QIKaZwovgxTMtDRBhi3nZMJ8fK2OHQHOsrQnE=;
+ b=fACy8wsYpIaBfP1kZbfj5MdNFeQoI3BGLmTdlgDYk2edOXvW2LRLy0PCwyguoceY2W
+ 0gRjsRtycq195Kximg9NCoT4TABbQ5Iw1eQc0mlQyfT5nCIlzhENRHKy/EJuNVU3cqBf
+ rFFonO7Ggf5MN4U7huiBiYaK8DIxl9cmgtFuXwKGyNm9flro197VP7Wvt6zkEc/OEiq5
+ 8409RHoK4WGTzf1kJZPGojkHuIvfRootXi4502P2lKNyuPo07qQtYshOyb/Vk9CyhEUy
+ 3TZhA5PkfGtctfzIt3D5tY6rXU6NzdSpQuXxsK3iI2zxCAYsi+zSTlxpWhTSPvE8AdAa
+ fiyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=0sbHd7QIKaZwovgxTMtDRBhi3nZMJ8fK2OHQHOsrQnE=;
+ b=Dk27ybTWp38VV0HRm4DfD4g+SAASlsDabmgiRKaIecZYVoVRoB0isHpXyTofTYZQdr
+ FWg1c/VcCDVC5B+UGhXXWrp/+BRwadkNLCvNYB3bBvpEO6KnceqTy2gBPCUmHuNZiAKA
+ DTgeBypSzqS9uuGoHQrp2Me6biP/xMAmb5ieU6eDafPXvlKxl6N6dhUyA9sf3cpXx4hR
+ Z6lInq+rU86y6KGtdGnNkTvyotwGgVw4NtKJSHyF9/1UcJdbfpJlkeh2Psdn6UCHuKEb
+ v3Q4+vRqojyqHi8qiKFhhBnTQJFtLWAEPdQIxQ2meixZfHq0M8OZApMlNDMFK/8LgwUw
+ QlXQ==
+X-Gm-Message-State: AOAM532pY6yA6HuuW2UHxkLxgajoelC/OXU2eOTOAfmL9k9O2or6+Zaw
+ Kuni1gEVyj6yneMbXiKX3HTESA==
+X-Google-Smtp-Source: ABdhPJxNIl9IDp7Tg4vawr9bzbNTaYCSdghmSKn1d0UPMszV0zir+15sMoq1wU5zkwIE0hHo15syuA==
+X-Received: by 2002:a1c:f619:: with SMTP id w25mr3785294wmc.62.1599563436520; 
+ Tue, 08 Sep 2020 04:10:36 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z11sm33339678wru.88.2020.09.08.04.10.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Sep 2020 04:10:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6AA961FF7E;
+ Tue,  8 Sep 2020 12:10:34 +0100 (BST)
+References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
+ <159903459923.28509.4300111201059622860.stgit@pasha-ThinkPad-X280>
+ <87sgbtrbf5.fsf@linaro.org>
+ <8f077f41-f99b-cd46-ff3b-3cb191dc1c4c@ispras.ru>
+ <87mu21r5t0.fsf@linaro.org>
+ <1a0b8180-ae11-c6a0-6fc6-bfe87bbeaf27@ispras.ru>
+ <87eendr1ty.fsf@linaro.org>
+ <087c1214-d82f-8cd1-6418-5d823b9b5ae9@ispras.ru>
+ <875z8or5qy.fsf@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Subject: Re: [PATCH v3 09/15] replay: implement replay-seek command
+In-reply-to: <875z8or5qy.fsf@linaro.org>
+Date: Tue, 08 Sep 2020 12:10:34 +0100
+Message-ID: <87363sr0b9.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200908105435.218715-1-thuth@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,72 +96,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
+ philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 08, 2020 at 12:54:35PM +0200, Thomas Huth wrote:
-> The tests/test-char test is currently always failing on my system since
-> socket_can_bind_connect("::1", PF_INET6) fails with EINVAL and thus
-> socket_check_protocol_support() is returning -1 for an error. But IPv4
-> is working fine. The logic in socket_check_protocol_support() seems to
-> be wrong here, if either IPv6 or IPv4 is working, we should not return
-> an error here. Thus rework the function to only return errors if both
-> checks failed.
 
-Can you tell me which exact syscall is giving EINVAL in this scenario ?
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/socket-helpers.c | 23 +++++++++--------------
->  1 file changed, 9 insertions(+), 14 deletions(-)
-> 
-> diff --git a/tests/socket-helpers.c b/tests/socket-helpers.c
-> index 19a51e887e..62a0e0f2d9 100644
-> --- a/tests/socket-helpers.c
-> +++ b/tests/socket-helpers.c
-> @@ -136,22 +136,17 @@ static int socket_can_bind_connect(const char *hostname, int family)
->  
->  int socket_check_protocol_support(bool *has_ipv4, bool *has_ipv6)
->  {
-> -    *has_ipv4 = *has_ipv6 = false;
-> +    int errv4, errv6;
->  
-> -    if (socket_can_bind_connect("127.0.0.1", PF_INET) < 0) {
-> -        if (errno != EADDRNOTAVAIL) {
-> -            return -1;
-> -        }
-> -    } else {
-> -        *has_ipv4 = true;
-> -    }
-> +    errv4 = socket_can_bind_connect("127.0.0.1", PF_INET);
-> +    *has_ipv4 = (errv4 == 0);
->  
-> -    if (socket_can_bind_connect("::1", PF_INET6) < 0) {
-> -        if (errno != EADDRNOTAVAIL) {
-> -            return -1;
-> -        }
-> -    } else {
-> -        *has_ipv6 = true;
-> +    errv6 = socket_can_bind_connect("::1", PF_INET6);
-> +    *has_ipv6 = (errv6 == 0);
-> +
-> +    if (!*has_ipv4 && !*has_ipv6 &&
-> +        (errv4 != EADDRNOTAVAIL || errv6 != EADDRNOTAVAIL)) {
-> +        return -1;
->      }
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+>
+>> On 07.09.2020 19:25, Alex Benn=C3=A9e wrote:
+>>>=20
+>>> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+>>>=20
+>>>> On 07.09.2020 17:59, Alex Benn=C3=A9e wrote:
+>>>>>
+>>>>> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+>>>>>
+>>>>>> On 07.09.2020 15:58, Alex Benn=C3=A9e wrote:
+>>>>>>>
+>>>>>>> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+>>>>>>>
+>>>>>>>> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>>>>>>>>
+>>>>>>>> This patch adds hmp/qmp commands replay_seek/replay-seek that proc=
+eed
+>>>>>>>> the execution to the specified instruction count.
+>>>>>>>> The command automatically loads nearest snapshot and replays the e=
+xecution
+>>>>>>>> to find the desired instruction count.
+>>>>>>>
+>>>>>>> Should there be an initial snapshot created at instruction 0? Using=
+ a
+>>>>>>> separate monitor channel:
+>>>>>>
+>>>>>> Right, you can't go to the prior state, when there is no preceding
+>>>>>> snapshot available.
+>>>>>
+>>>>> It seems creating an initial snapshot automatically would be more user
+>>>>
+>>>> Please take a look at 'Snapshotting' section of docs/replay.txt.
+>>>> Reverse debugging is considered to be run with disk image (overlay)
+>>>> and rrsnapshot option of icount, which allows creating an initial
+>>>> VM snapshot.
+>>>=20
+>>> Given that I'm using the block device purely for VM snapshots I think it
+>>> would be useful to document the minimal "no disk" approach - i.e. where
+>>> the disk is only used for record/replay.
+>>>=20
+>>> However I'm still having trouble. I can record the trace with:
+>>>=20
+>>>    ./qemu-system-aarch64 -cpu cortex-a53 -display none -serial stdio \
+>>>      -machine virt -kernel zephyr.elf -net none \
+>>>      -icount shift=3D6,align=3Doff,sleep=3Doff,rr=3Drecord,rrfile=3Drec=
+ord.out,rrsnapshot=3Drrstart  \
+>>>      -drive file=3Drecord.qcow2,if=3Dnone,id=3Drr \
+>>>      -monitor telnet:127.0.0.1:4444 -S
+>>
+>> Can you provide your zephyr.elf image?
+>>
+>>>=20
+>>> which shows:
+>>>=20
+>>>    (qemu) info snapshots
+>>>    info snapshots
+>>>    List of snapshots present on all disks:
+>>>    ID        TAG               VM SIZE                DATE     VM CLOCK=
+     ICOUNT
+>>>    --        rrstart           653 KiB 2020-09-07 17:12:42 00:00:00.000=
+          0
+>>>=20
+>>> but do I need a whole separate overlay in the replay case? I thought
+>>> supplying snapshot to the drive would prevent the replay case
+>>> overwriting what has been recorded but with:
+>>>=20
+>>>      -icount shift=3D6,align=3Doff,sleep=3Doff,rr=3Dreplay,rrfile=3Drec=
+ord.out \
+>>>      -drive file=3Drecord.qcow2,if=3Dnone,id=3Drr,snapshot
+>>
+>> When you provide qcow2 (overlay or not) for snapshotting, you don't need=
+=20
+>> any 'snapshot' option on drive.
+>>
+>>>=20
+>>> but I get:
+>>>=20
+>>>    (qemu) info snapshots
+>>>    info snapshots
+>>>    There is no snapshot available.
+>>>=20
+>>> so if I drop the ,snapshot from the line I can at least see the snapshot
+>>> but continue doesn't seem to work:
+>>>=20
+>>>    (qemu) info snapshots
+>>>    info snapshots
+>>>    List of snapshots present on all disks:
+>>>    ID        TAG               VM SIZE                DATE     VM CLOCK=
+     ICOUNT
+>>>    --        rrstart           653 KiB 2020-09-07 17:12:42 00:00:00.000=
+          0
+>>>    (qemu) replay_break 190505
+>>>    replay_break 190505
+>>>    (qemu) c
+>>>    c
+>>>    (qemu) info replay
+>>>    info replay
+>>>    Replaying execution 'record.out': instruction count =3D 0
+>>
+>> It seems, that replay hangs. Can you try removing '-S' in record command=
+=20
+>> line?
+>
+> That doesn't make any difference removing from both the record and
+> replay cases. It seems to need a loadvm to start things off.
+>
+> I've sent you an image off list. Please let me know if you can
+> replicate.
 
-The return value of socket_can_bind_connect is either 0 or -1,
-but you're treating it an errno which isn't right.
+OK I can successfully use gdb to reverse debug the acceptance test (\o/)
+so I suspect there are differences in the calling setup.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+The first one is ensuring that rrsnapshot is set for both record and
+replay. For this reason I think a more user friendly automatic snapshot
+would be worth setting up when record/replay is being used.
 
+-icount sleep=3Doff definitely breaks things. Do we keep track of the
+ icount bias as save and restore state?
+
+--=20
+Alex Benn=C3=A9e
 
