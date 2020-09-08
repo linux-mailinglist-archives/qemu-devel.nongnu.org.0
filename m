@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E2C262263
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 00:06:28 +0200 (CEST)
-Received: from localhost ([::1]:38060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA63262275
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 00:12:13 +0200 (CEST)
+Received: from localhost ([::1]:52668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFlkx-0004NG-H1
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 18:06:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38576)
+	id 1kFlqX-0002C8-0e
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 18:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlYX-0005b4-4S
+ id 1kFlYX-0005co-Mx
  for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46385
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46826
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFlYO-0001M8-1Z
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:36 -0400
+ id 1kFlYO-0001MK-QF
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 17:53:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599602007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRTnuxgAR7vLRMp4NgVTqBK9plhchTMKxuXs0VjGwPM=;
- b=H6j42inYZ28gwWmFKf9hqgO4xjmd/Q0wuqKSw+k5m/8q8is72GXEWXuiTR9OsNY3TnDuZY
- T25+3GCX3yh7i++TRpLYmWYVIUZfLymWD2OIXGJtiu4PvKuKOA4lomjAqv8WXpsjgnbEXc
- gucVLLgKdC3LiO+hSwdbQ0F+PjIEiIM=
+ bh=2ZBCdbwo8Mc19VIclh2bvCUYx2+GOIoW4pEAh8lwB8o=;
+ b=A2XwKR/0pYPWnPhzl4DqgUmcYoA+rLV2+Q3EzDKYoOGK8AaEIILpmD8d9i9+6ZOoIGy2rV
+ Xym+9VWiuz194iP6zg/pZmF5u8PqhHqYHZZ4e/qUe+JeTwsa0BBp3UZQwC0xwfrnR/p4Xe
+ jUGOKJnhMPd1Dt+flzA/OCxDBcRl72s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-KLfPHCa3PHO1ookBPyahLg-1; Tue, 08 Sep 2020 17:53:25 -0400
-X-MC-Unique: KLfPHCa3PHO1ookBPyahLg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-109-TK2Ysst5MqmW1fcWsQXRVw-1; Tue, 08 Sep 2020 17:53:26 -0400
+X-MC-Unique: TK2Ysst5MqmW1fcWsQXRVw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FE4818B9ED3;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE5251006705;
  Tue,  8 Sep 2020 21:53:24 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8AFD8246B;
- Tue,  8 Sep 2020 21:53:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDEBD5C221;
+ Tue,  8 Sep 2020 21:53:24 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 30/34] omap_intc: Use typedef name for instance_size
-Date: Tue,  8 Sep 2020 17:52:35 -0400
-Message-Id: <20200908215239.3519638-31-ehabkost@redhat.com>
+Subject: [PULL 31/34] lpc_ich9: Use typedef name for instance_size
+Date: Tue,  8 Sep 2020 17:52:36 -0400
+Message-Id: <20200908215239.3519638-32-ehabkost@redhat.com>
 In-Reply-To: <20200908215239.3519638-1-ehabkost@redhat.com>
 References: <20200908215239.3519638-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:00:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -92,25 +92,25 @@ and will make automated conversion to type declaration macros
 simpler.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200824215936.2961951-3-ehabkost@redhat.com>
+Message-Id: <20200824215936.2961951-4-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/intc/omap_intc.c | 2 +-
+ hw/isa/lpc_ich9.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/omap_intc.c b/hw/intc/omap_intc.c
-index b8a1d1fd7d..d7183d035e 100644
---- a/hw/intc/omap_intc.c
-+++ b/hw/intc/omap_intc.c
-@@ -676,7 +676,7 @@ static const TypeInfo omap2_intc_info = {
- static const TypeInfo omap_intc_type_info = {
-     .name          = TYPE_OMAP_INTC,
-     .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(struct omap_intr_handler_s),
-+    .instance_size = sizeof(omap_intr_handler),
-     .abstract      = true,
- };
- 
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index cd6e169d47..3303d2eab6 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -792,7 +792,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo ich9_lpc_info = {
+     .name       = TYPE_ICH9_LPC_DEVICE,
+     .parent     = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(struct ICH9LPCState),
++    .instance_size = sizeof(ICH9LPCState),
+     .instance_init = ich9_lpc_initfn,
+     .class_init  = ich9_lpc_class_init,
+     .interfaces = (InterfaceInfo[]) {
 -- 
 2.26.2
 
