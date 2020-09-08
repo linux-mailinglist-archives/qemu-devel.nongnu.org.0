@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BD62611F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 15:21:53 +0200 (CEST)
-Received: from localhost ([::1]:47730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677932611FE
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 15:27:38 +0200 (CEST)
+Received: from localhost ([::1]:54258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFdZI-0006Cr-N3
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 09:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49448)
+	id 1kFder-0001Ai-HT
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 09:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFdYI-0005ZX-5L
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:20:50 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35640)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kFde3-0000lC-Ag
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:26:47 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFdYE-0006ML-Jc
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:20:49 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y15so4526484wmi.0
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 06:20:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kFde1-0007Dy-LF
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 09:26:47 -0400
+Received: by mail-ej1-x632.google.com with SMTP id gr14so21382169ejb.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 06:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=+n+f3BeJXBrkLCG5Vv+nwo8aiwnm5OOVWbvyVnbFl+s=;
- b=qeTNfAxKZN54tD/JOy23m6RBDd0cXFnFwosfO9cGZ4DwCN+po5Zlgy3MImX59JL3GR
- 9f8ouRLAqcbFcUqSHVCHcANWlStN7Px0V8DOvsdDvqEbU+NYfQalmtu3O4dNruC1d9Zk
- 1JYLvZG+xgqi1GCgDiHXnrPtOZHCIXo2S3MxiO0yYoGodS5R27kgafQ5YC+RZ21tjO+/
- PjQ7Vj+QgjiCgEg/3IzHMcLnYAiT2+YD7ViBQrVuZB2GsF2HEMLaMUZKjXdsz6AcPmZh
- 77KFbrTnSV6lvPE2BDpdktE6rZ9tsjqndnOlA3vtRhtARNiYE9IUFzqkkdVGhNiZTxMU
- drOw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BrDgtbFYiuOjZGJZ0nzc5qAuTVSAVTdeMqDO+6qAthg=;
+ b=R75TUoRLFKZF/J6xAHwJmJHEx8J+oQALHmU+TzCJbtX9NMPt05QPCE+gbDFi5OtA66
+ phZH4MFY0QJq9GQ2hz2EQVSn24U/SUflGJtN4lQAsSMnQvgB4vg3Dlh6IXcmTLH0s9/v
+ yz8CBT6Xp7C8oEigOWGhfYTYx0B/FP2t6eJyxXpU+CvoKL3DQSbg1sYDPh9O+NTS/nkA
+ r3gOiaBQxQ7F7IR3DJ4UM3QsSGBNl+mxDVwg95Z7y/581R8/FlzOJN9cNrxuxcDyouRh
+ hsAKC1dUHXEaOEgd6PexDZQw314gt+aI5oxuQQGMM8CY9rZ07suG+VCSWkvVXwmD/uau
+ yxpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=+n+f3BeJXBrkLCG5Vv+nwo8aiwnm5OOVWbvyVnbFl+s=;
- b=aNNSRKbGlOTnkc/jAY/WgGp7rgTFMiovtyZ4fe3NRhnEkiNe75wNB6FHYYAuHcFtNP
- CfbCr9bd4ut5439Vxgiq4aiLjDq0s/hzNnaEBGNtP2gluWWEIeZ3Ud2b9fok8oGtnLWc
- mPRRRYR4HdZKpD+3MxS5ZutuixmB6MioweCsCETuHr3eJ3EGepSgMQ+kKuujUD2U7zjB
- 4WQD/1xgpxZTU24vli6EGyqzDjqxTkol7FywOc6ZxtFiKbCapXzzVG1uEUeoIRa3TwN7
- 8WEPI2WHvCPCE1fG+JTjQntb+5gOHVUvnXf8B+iuEbVxliHLNxYcs3GnwLrjxUd/bd+r
- xtCw==
-X-Gm-Message-State: AOAM533PdbqpJzSqFOGkOLq/fj3RmZxOj/y+0LVX2WU8voOS8W6I5pXk
- vCwtAApj8RxLRXZaW/Blkf8PLQ==
-X-Google-Smtp-Source: ABdhPJwQjIHBJSofmj4Lyd+11MMPGqMlQ1RSRCaHekAFkV/FJYDn9QfDWrkDCRIvAN+f81cDPtUMMw==
-X-Received: by 2002:a1c:610b:: with SMTP id v11mr4530189wmb.181.1599571244828; 
- Tue, 08 Sep 2020 06:20:44 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm32035212wrw.0.2020.09.08.06.20.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 06:20:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B76B1FF7E;
- Tue,  8 Sep 2020 14:20:41 +0100 (BST)
-References: <20200907042000.415931-1-crosa@redhat.com>
- <20200907042000.415931-2-crosa@redhat.com>
- <001385a1-92eb-d311-88b5-8e1e7f6f1f48@redhat.com>
- <20200907093930.GD810755@redhat.com>
- <34814b29-a47a-efd3-971b-520bc5ac6309@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/4] Acceptance tests: use an available kernel image
- package for arm
-In-reply-to: <34814b29-a47a-efd3-971b-520bc5ac6309@redhat.com>
-Date: Tue, 08 Sep 2020 14:20:41 +0100
-Message-ID: <87r1rcpfpy.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BrDgtbFYiuOjZGJZ0nzc5qAuTVSAVTdeMqDO+6qAthg=;
+ b=MZGb8rlXR6JV5QeuHMgGueqzNLi0Vwc72kDxp0eJlWMy9/aEyH1WBXCGF9jzmGgmTR
+ wMzZ4InRmiPpC9qkDefoQAkVXdXVek/rbf3AFL+ZteNWTYPK6LeidFkWRGze/j+rkQiA
+ TJT7pcBhZRo2zJ+dzXMqXzPfnYLlY5hrfb8XubLDQxEzyAHGnPAWcCI5LqRI2vW3xVOn
+ e7MNPFrxxdsgIfxbIAq60fB4xCifieY64UKDib7Q11RLKqis4JubkdAbcLXJrQMQZr/i
+ xVz1bJaqyl2X9TTeJd8ssjaD0vU870RITQGbPcRByjp9yiNpRQEEnQ1o1jYUntk6WSe7
+ LokA==
+X-Gm-Message-State: AOAM533g0WAgt3kOwsEHGKFQAk9OkgMjOZckfCVewGKtTgtHov+OXufs
+ PpRymL5fGdUYJp1mD1wa8Dav0J+P+lv3+cxjqKShMQ==
+X-Google-Smtp-Source: ABdhPJzHi+LBpLyUOa2HSUItVhhc9vil4uo+aLBHMSvmU4x5Ua7RzOHW2x3m7OvN3rUxeu7GckoMu2I+/fE7QHsDI6w=
+X-Received: by 2002:a17:906:4a53:: with SMTP id
+ a19mr8559122ejv.56.1599571603795; 
+ Tue, 08 Sep 2020 06:26:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+References: <20200908094408.27091-1-pbonzini@redhat.com>
+In-Reply-To: <20200908094408.27091-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Sep 2020 14:26:32 +0100
+Message-ID: <CAFEAcA8JZhrxNgayLaCGqQiGLhybvXo7qrXDUpVmkrX5FmjV5A@mail.gmail.com>
+Subject: Re: [PULL v5 00/46] Next round of Meson bugfixes and cleanups
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,133 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
- Antony Pavlov <antonynpavlov@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> On 9/7/20 11:39 AM, Daniel P. Berrang=C3=A9 wrote:
->> On Mon, Sep 07, 2020 at 10:06:13AM +0200, Philippe Mathieu-Daud=C3=A9 wr=
-ote:
->>> [Cc'ing Daniel who usually have good ideas for that
->>> kind if project-wide problem]
->>>
->>> On 9/7/20 6:19 AM, Cleber Rosa wrote:
->>>> Which means a newer kernel version.  Expected output was changed
->>>> to match the new kernel too.
->>>
->>> Nack.
->>>
->>> Acceptance tests are not to test the latest Linux kernel,
->>> they aim to assert a specific kernel tested by some developer
->>> still works while QEMU evolves.
->>> QEMU doesn't have to adapt to the latest kernel;
->>> QEMU should keep boot an old kernel.
->>>
->>> Testing new kernels is good, you are adding coverage. But
->>> this break the acceptance testing contract "keep testing
->>> the same thing over time".
->>>
->>> The problem you are trying to fix is the "where to keep
->>> assets from public locations where they are being removed?"
->>> one. Two years ago [*] you suggested to use some storage on
->>> the avocado-project.org:
->>>
->>>   For Avocado-VT, there are the JeOS images[1], which we
->>>   keep on a test "assets" directory.  We have a lot of
->>>   storage/bandwidth availability, so it can be used for
->>>   other assets proven to be necessary for tests.
->>>
->>>   As long as distribution rights and licensing are not
->>>   issues, we can definitely use the same server for kernels,
->>>   u-boot images and what not.
->>>
->>>   [1] - https://avocado-project.org/data/assets/
->>=20
->> If I look at stuff under that directory I see a bunch of "Jeos" qcow2
->> images, and zero information about the corresponding source for the
->> images, nor any information about the licenses of software included.
->> IOW what is stored their right now does not appear to comply with the
->> GPL licensing requirements for providing full and corresponding source.
->>=20
->>> It is time to have QEMU assets managed the same way.
->>=20
->> I'd rather we didn't do anything relying on binary blobs with no
->> info about how they were built. Pointing to the 3rd party download
->> URLs was the easy way to ensure we don't have to worry about licensing
->> problems.
+On Tue, 8 Sep 2020 at 10:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> I tried to be very strict including the recipe about how to rebuild
-> and description of the source (for licensing) in each commits (Alex
-> Benn=C3=A9e once said Debian/Fedora based was OK):
-
-Debian and Fedora both have good project hygiene for tracking sources
-for their binary packages and extensive archives which we can work with.
-These other projects seem to be more of a moving feast which I think is
-proving we can't rely on them as a CI test and at best best efforts for
-developer testing.
-
-It seems Armbian do document their build process but it's not quite as
-easy as just downloading the source deb.
-
+> The following changes since commit e11bd71f89649da3cff439c030d2ccac0cc914e3:
 >
-<snip>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-09-07' into staging (2020-09-07 16:51:00 +0100)
 >
->>=20
->> IIUC, the majority of our acceptance tests needs should be satisfied
->> with a combination of a Linux kernel and busybox tools. We already
->> use cross-compilers to build TCG test cases.
->>=20
->> I'd like to see us provide a minimal "config" file for each Linux
->> kernel combo we need to test. We should be able to define a fairly
->> simple script that do the Linux build, busybox build and then puts
->> the combination of them into a disk image.  Something 100% automated
->> and reviewable.
+> are available in the Git repository at:
 >
-> For Debian/Fedora this config is available in their package (or source
-> package).
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
 >
->>=20
->> Even a minimal linux build takes some time, so we would need to cache
->> the binary result in some suitable manner. At least this way we have
->> a clear record of what we're building & how and can thus satisfy the
->> license rules.
+> for you to fetch changes up to ef6a0d6e3927464de67f70cb13abbfe67361e0c9:
 >
-> Yes, but if the Debian/Fedora build farms already build/published
-> their packages, it is easier to use it directly.
+>   docs: update build system documentation (2020-09-08 07:21:55 +0200)
 >
-> QEMU developers are very reluctant to add tests. I suppose we prefer
-> to develop or fix bugs rather than write tests. If we ask full build
-> recipe for each tests, I doubt we'll have much testing.
+> ----------------------------------------------------------------
+> meson related:
+> * convert unit tests
+> * bugfixes for mtest2make
+> * miscellaneous bugfixes
+> * dead code removal and configure cleanups
+> * oss-fuzz fixes
+> * msys fixes
 
-I've pondered this before and while it might have a place for random
-weird machines with no mainline distro support it's not a path I'm keen
-to go down. This goes especially for some of the more esoteric ARM
-hardware where you start relying on hacked up vendor trees with very
-specific toolchain requirements.
 
-<snip>
+Applied, thanks.
 
---=20
-Alex Benn=C3=A9e
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
