@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6BD260A29
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:36:44 +0200 (CEST)
-Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC527260A1D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:34:12 +0200 (CEST)
+Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFWJ9-0003pM-PT
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57594)
+	id 1kFWGh-0008WV-Oe
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3v-0006wv-Pt; Tue, 08 Sep 2020 01:20:59 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57399 helo=ozlabs.org)
+ id 1kFW4E-00078D-7o; Tue, 08 Sep 2020 01:21:18 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:42307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3t-00067X-3y; Tue, 08 Sep 2020 01:20:59 -0400
+ id 1kFW4C-00069Q-Dn; Tue, 08 Sep 2020 01:21:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltky1CjRz9sW5; Tue,  8 Sep 2020 15:20:09 +1000 (AEST)
+ id 4Bltky3N0vz9sW8; Tue,  8 Sep 2020 15:20:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599542410;
- bh=fX7QZUTUPtMUGDf7k2tQmbRB6kOC1ryf16ziqC76d/0=;
+ bh=2aC+dbpWPHXzmmzWXPNnUhq2/bQ7N61TboTErZgIzVY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IU+WPk9pBQDvfZ6nMZhzuIapv5BzMbavSmitvae2W9Dwibrn97CN3iyjq5JmoBwRm
- qOtuzo+LYx6F5ecTJuKm+y0ik01vGJ0iYWROBFqqtxqenk7k54UrR+QgYXK7qrQEIH
- nSrI3cz4tBCYGNwJC8xb8JVKP4MVUrivTLsVDzNg=
+ b=Yl1sDALQnIDlK+L0PXKtnj16VH0eyP2zFocoroTm9HNrcSitri4jgOQDD22Kt3xwb
+ 4srwZdkq8jl8nTJB0Fgu1XNbU8glqi8X5QfG2c/F1S/JpAk5QHWjPFZ258t1Qj72EG
+ iY3yG39T11q+q7/ZpaeyZuaEEfzdMsq3CPVmIOnw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 31/33] spapr: move h_home_node_associativity to spapr_numa.c
-Date: Tue,  8 Sep 2020 15:19:51 +1000
-Message-Id: <20200908051953.1616885-32-david@gibson.dropbear.id.au>
+Subject: [PULL 32/33] spapr_numa: create a vcpu associativity helper
+Date: Tue,  8 Sep 2020 15:19:52 +1000
+Message-Id: <20200908051953.1616885-33-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
@@ -66,130 +66,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The implementation of this hypercall will be modified to use
-spapr->numa_assoc_arrays input. Moving it to spapr_numa.c makes
-make more sense.
+The work to be done in h_home_node_associativity() intersects
+with what is already done in spapr_numa_fixup_cpu_dt(). This
+patch creates a new helper, spapr_numa_get_vcpu_assoc(), to
+be used for both spapr_numa_fixup_cpu_dt() and
+h_home_node_associativity().
+
+While we're at it, use memcpy() instead of loop assignment
+to created the returned array.
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200904172422.617460-2-danielhb413@gmail.com>
+Message-Id: <20200904172422.617460-3-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c | 40 ---------------------------------------
- hw/ppc/spapr_numa.c  | 45 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+), 40 deletions(-)
+ hw/ppc/spapr_numa.c    | 31 ++++++++++++++++++-------------
+ include/hw/ppc/spapr.h |  7 ++++++-
+ 2 files changed, 24 insertions(+), 14 deletions(-)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index c1d01228c6..c2776b6a7d 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1873,42 +1873,6 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-     return ret;
- }
- 
--static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
--                                              SpaprMachineState *spapr,
--                                              target_ulong opcode,
--                                              target_ulong *args)
--{
--    target_ulong flags = args[0];
--    target_ulong procno = args[1];
--    PowerPCCPU *tcpu;
--    int idx;
--
--    /* only support procno from H_REGISTER_VPA */
--    if (flags != 0x1) {
--        return H_FUNCTION;
--    }
--
--    tcpu = spapr_find_cpu(procno);
--    if (tcpu == NULL) {
--        return H_P2;
--    }
--
--    /* sequence is the same as in the "ibm,associativity" property */
--
--    idx = 0;
--#define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
--                             ((uint64_t)(b) & 0xffffffff))
--    args[idx++] = ASSOCIATIVITY(0, 0);
--    args[idx++] = ASSOCIATIVITY(0, tcpu->node_id);
--    args[idx++] = ASSOCIATIVITY(procno, -1);
--    for ( ; idx < 6; idx++) {
--        args[idx] = -1;
--    }
--#undef ASSOCIATIVITY
--
--    return H_SUCCESS;
--}
--
- static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
-                                               SpaprMachineState *spapr,
-                                               target_ulong opcode,
-@@ -2139,10 +2103,6 @@ static void hypercall_register_types(void)
-     spapr_register_hypercall(KVMPPC_H_CAS, h_client_architecture_support);
- 
-     spapr_register_hypercall(KVMPPC_H_UPDATE_DT, h_update_dt);
--
--    /* Virtual Processor Home Node */
--    spapr_register_hypercall(H_HOME_NODE_ASSOCIATIVITY,
--                             h_home_node_associativity);
- }
- 
- type_init(hypercall_register_types)
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 9073dbbceb..e60587ce81 100644
+index e60587ce81..066ffc2a5f 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -165,3 +165,48 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-     _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-                      maxdomains, sizeof(maxdomains)));
+@@ -71,31 +71,36 @@ void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+                       sizeof(spapr->numa_assoc_array[nodeid]))));
  }
-+
-+static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-+                                              SpaprMachineState *spapr,
-+                                              target_ulong opcode,
-+                                              target_ulong *args)
-+{
-+    target_ulong flags = args[0];
-+    target_ulong procno = args[1];
-+    PowerPCCPU *tcpu;
-+    int idx;
-+
-+    /* only support procno from H_REGISTER_VPA */
-+    if (flags != 0x1) {
-+        return H_FUNCTION;
-+    }
-+
-+    tcpu = spapr_find_cpu(procno);
-+    if (tcpu == NULL) {
-+        return H_P2;
-+    }
-+
-+    /* sequence is the same as in the "ibm,associativity" property */
-+
-+    idx = 0;
-+#define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
-+                             ((uint64_t)(b) & 0xffffffff))
-+    args[idx++] = ASSOCIATIVITY(0, 0);
-+    args[idx++] = ASSOCIATIVITY(0, tcpu->node_id);
-+    args[idx++] = ASSOCIATIVITY(procno, -1);
-+    for ( ; idx < 6; idx++) {
-+        args[idx] = -1;
-+    }
-+#undef ASSOCIATIVITY
-+
-+    return H_SUCCESS;
+ 
+-int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+-                            int offset, PowerPCCPU *cpu)
++static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
++                                           PowerPCCPU *cpu)
+ {
+-    int vcpu_assoc_size = NUMA_ASSOC_SIZE + 1;
+-    uint32_t vcpu_assoc[vcpu_assoc_size];
++    uint32_t *vcpu_assoc = g_new(uint32_t, VCPU_ASSOC_SIZE);
+     int index = spapr_get_vcpu_id(cpu);
+-    int i;
+ 
+     /*
+      * VCPUs have an extra 'cpu_id' value in ibm,associativity
+      * compared to other resources. Increment the size at index
+-     * 0, copy all associativity domains already set, then put
+-     * cpu_id last.
++     * 0, put cpu_id last, then copy the remaining associativity
++     * domains.
+      */
+     vcpu_assoc[0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS + 1);
++    vcpu_assoc[VCPU_ASSOC_SIZE - 1] = cpu_to_be32(index);
++    memcpy(vcpu_assoc + 1, spapr->numa_assoc_array[cpu->node_id] + 1,
++           (VCPU_ASSOC_SIZE - 2) * sizeof(uint32_t));
+ 
+-    for (i = 1; i <= MAX_DISTANCE_REF_POINTS; i++) {
+-        vcpu_assoc[i] = spapr->numa_assoc_array[cpu->node_id][i];
+-    }
++    return vcpu_assoc;
 +}
 +
-+static void spapr_numa_register_types(void)
++int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
++                            int offset, PowerPCCPU *cpu)
 +{
-+    /* Virtual Processor Home Node */
-+    spapr_register_hypercall(H_HOME_NODE_ASSOCIATIVITY,
-+                             h_home_node_associativity);
-+}
-+
-+type_init(spapr_numa_register_types)
++    g_autofree uint32_t *vcpu_assoc = NULL;
+ 
+-    vcpu_assoc[vcpu_assoc_size - 1] = cpu_to_be32(index);
++    vcpu_assoc = spapr_numa_get_vcpu_assoc(spapr, cpu);
+ 
+     /* Advertise NUMA via ibm,associativity */
+-    return fdt_setprop(fdt, offset, "ibm,associativity",
+-                       vcpu_assoc, sizeof(vcpu_assoc));
++    return fdt_setprop(fdt, offset, "ibm,associativity", vcpu_assoc,
++                       VCPU_ASSOC_SIZE * sizeof(uint32_t));
+ }
+ 
+ 
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 9a63380801..e50a2672e3 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -107,13 +107,18 @@ typedef enum {
+ 
+ /*
+  * NUMA related macros. MAX_DISTANCE_REF_POINTS was taken
+- * from Taken from Linux kernel arch/powerpc/mm/numa.h.
++ * from Linux kernel arch/powerpc/mm/numa.h. It represents the
++ * amount of associativity domains for non-CPU resources.
+  *
+  * NUMA_ASSOC_SIZE is the base array size of an ibm,associativity
+  * array for any non-CPU resource.
++ *
++ * VCPU_ASSOC_SIZE represents the size of ibm,associativity array
++ * for CPUs, which has an extra element (vcpu_id) in the end.
+  */
+ #define MAX_DISTANCE_REF_POINTS    4
+ #define NUMA_ASSOC_SIZE            (MAX_DISTANCE_REF_POINTS + 1)
++#define VCPU_ASSOC_SIZE            (NUMA_ASSOC_SIZE + 1)
+ 
+ typedef struct SpaprCapabilities SpaprCapabilities;
+ struct SpaprCapabilities {
 -- 
 2.26.2
 
