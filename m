@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96AC26140D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 18:02:07 +0200 (CEST)
-Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181B8261416
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 18:04:19 +0200 (CEST)
+Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFg4M-0004OX-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 12:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35584)
+	id 1kFg6T-0008FX-PT
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 12:04:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyP-0004V1-RV
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:55:57 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52749
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyb-0004tg-1W
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:56:09 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34876
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyN-0003x2-0l
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:55:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFfyZ-00042S-4V
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 11:56:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599580553;
+ s=mimecast20190719; t=1599580566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3aIqBnRsvFqZ230wZvv7A0ZAUlxhRiHC/gfnYkiWsME=;
- b=aO0sB51L/asleHlmR2bOP5nwE7S6lawaWkNZtLrDnjmBVGi1Ht8QfaOBaz35YZwTXTQ6fh
- 17uL1OmZ4J9ycWW62ONTktvP5VLnMthDqfMT6H2GICdhn7j9tziSvnSiV8VC18YHBCVCR1
- CAA+XxfyBLIE+B/RXCpRSdro14FcGPQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-UKl5j3llMsWrmUNMEFTgpA-1; Tue, 08 Sep 2020 11:55:49 -0400
-X-MC-Unique: UKl5j3llMsWrmUNMEFTgpA-1
-Received: by mail-wr1-f71.google.com with SMTP id s8so7092898wrb.15
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 08:55:48 -0700 (PDT)
+ bh=BaphSdiGhAZ4WeZEOB6GUUl46i+DVX/CX44TODloQyM=;
+ b=OQO2/jQtnj06aWyy6m2mXgxw+CKr7RxR9RU3GEOx9Dux8xx81tNuzOZRIn8heQXveDso1/
+ 0mC1RL7K+JLk2p6+6GiwDKCycAf4ujvEj44fvRDWiSJpSvsVOYSEosYU0CD4PXN1UfsVch
+ bksJ07MQTKgEtBItdQxIf4/5Q/tKKl0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-EoqpYTViO9ms0Wklr6Q-MQ-1; Tue, 08 Sep 2020 11:56:04 -0400
+X-MC-Unique: EoqpYTViO9ms0Wklr6Q-MQ-1
+Received: by mail-wr1-f69.google.com with SMTP id g6so7148267wrv.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 08:56:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3aIqBnRsvFqZ230wZvv7A0ZAUlxhRiHC/gfnYkiWsME=;
- b=JD1k5UXZs5j03Kh75BHGWS2xYUs5gRMXYiN4EH4rkt8YXEuuX3tJu4gQB1hOKWZlBj
- l85huqSksygWqi8ROOR8BTZQw4D1EOQoxSPE3nAT4VmYMku8/eWZOGFlp3w7WVv1Pcsh
- 9c11oiTOlsS1IewuxVwFQc9hO8TSQcRmnRC0k6FRyKsivKTgIHM7fjkbOAMPGouBTpl2
- kXckhtP87DPVeR4bdg2y9q98cnfmp4cob8eE2NESIwyMwVIzG6UxRwludwfI1rqKkNqt
- vMq3micUBDefwz/xBuF9iNg24RzyDSMfpN0pbjxx1U8fFN9K9JJmjwwRog2XsDfvsKT/
- fAdA==
-X-Gm-Message-State: AOAM530+91Js2qypbdts/ypoo9bHlM+MEflTC+9ecAsvGMeIkZmJOvyc
- BF5ZO7x2R83OGaDLMbWitfiPyG7R8hRN5/kbdhECIqZVYlEr/MkFJaiZFnxU9N1Ge/WPnzeY/Mj
- 7p9F32tlF7LwIT9M=
-X-Received: by 2002:adf:f10a:: with SMTP id r10mr322934wro.86.1599580547717;
- Tue, 08 Sep 2020 08:55:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydvCW82xRfqRQuTdYF1MHP5+r8Gl/n2M1Hanlh29I5Vyk61N4IxwQtFwRjtnXQqr5GdlWs1A==
-X-Received: by 2002:adf:f10a:: with SMTP id r10mr322919wro.86.1599580547580;
- Tue, 08 Sep 2020 08:55:47 -0700 (PDT)
+ bh=BaphSdiGhAZ4WeZEOB6GUUl46i+DVX/CX44TODloQyM=;
+ b=mT5sy/a+9bdNgumH1rmkPovIaCuO8boATOUaKdOVidHqlvgcupwHKgiFVdL4OYE3zr
+ /jmEgtk331to834VdzvxNZcmbkYak8o1wNeTBZ5RKYmRm6Cw7Myl3sneRlGgpvuQAoM5
+ fDUPIuawUmESzd8FdjCn+fJwCFgxt6I7olzVmWLEZrVbTAR3yshMhSsFdpw3Vhn7GN7Z
+ WiAdlKntdG/cwhzy5Ak8GsLTjlBx4igcaUanm+a22MBcFSsflOHF0kAazXXLFKKpRM3p
+ qTe6Hh7rJxojSDr/LEuHeX1gMXTgjb4Y1UvYH4NmGyu5DOorijDQSICvxM9LDm7Z0yYz
+ mQGw==
+X-Gm-Message-State: AOAM530XSN1npswDbmBiGDEw3fhMow/1uFSlAJjRPujPAWWnQwZsupLU
+ s94BEXDyfibG3MCPSOZBQgRWpQFxuLXmkpfjsyBO0k+CnHX3riqEwzIkyF28VPHYvtUBPxjPHuq
+ wOuX4trl3jsKBXOU=
+X-Received: by 2002:a7b:c40b:: with SMTP id k11mr162453wmi.135.1599580562476; 
+ Tue, 08 Sep 2020 08:56:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyALjQfs+9IOfen4Ye454tvzuEGIBzUvWIDpuXevuX4q2Ul/ulBEnGqrdlon8zddGjC4+VrrA==
+X-Received: by 2002:a7b:c40b:: with SMTP id k11mr162434wmi.135.1599580562312; 
+ Tue, 08 Sep 2020 08:56:02 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id j14sm34928939wrr.66.2020.09.08.08.55.46
+ by smtp.gmail.com with ESMTPSA id d6sm34124785wrq.67.2020.09.08.08.56.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 08:55:47 -0700 (PDT)
+ Tue, 08 Sep 2020 08:56:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/6] sysemu/xen: Add missing 'exec/cpu-common.h' header for
- ram_addr_t type
-Date: Tue,  8 Sep 2020 17:55:27 +0200
-Message-Id: <20200908155530.249806-4-philmd@redhat.com>
+Subject: [PATCH v2 6/6] typedefs: Restrict PCMachineState to 'hw/i386/pc.h'
+Date: Tue,  8 Sep 2020 17:55:30 +0200
+Message-Id: <20200908155530.249806-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908155530.249806-1-philmd@redhat.com>
 References: <20200908155530.249806-1-philmd@redhat.com>
@@ -107,32 +106,50 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As this header use the ram_addr_t type, it has to include
-"exec/cpu-common.h" to avoid odd errors such:
-
-  include/sysemu/xen.h:35:44: error: unknown type name 'ram_addr_t'; did you mean 'in_addr_t'?
-   35 | static inline void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
-      |                                            ^~~~~~~~~~
-      |                                            in_addr_t
+The PCMachineState type is only used under hw/i386/.
+We don't need to forward-declare it for all architectures,
+restrict it to the X86 one.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/sysemu/xen.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/i386/pc.h    | 4 ++--
+ include/qemu/typedefs.h | 1 -
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
-index 2c2c429ea8b..0ca25697e4f 100644
---- a/include/sysemu/xen.h
-+++ b/include/sysemu/xen.h
-@@ -8,6 +8,8 @@
- #ifndef SYSEMU_XEN_H
- #define SYSEMU_XEN_H
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index fe52e165b27..d4ebefcf2b4 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -19,7 +19,7 @@
+  * @boot_cpus: number of present VCPUs
+  * @smp_dies: number of dies per one package
+  */
+-struct PCMachineState {
++typedef struct PCMachineState {
+     /*< private >*/
+     X86MachineState parent_obj;
  
-+#include "exec/cpu-common.h"
-+
- #ifdef NEED_CPU_H
- # ifdef CONFIG_XEN
- #  define CONFIG_XEN_IS_POSSIBLE
+@@ -50,7 +50,7 @@ struct PCMachineState {
+ 
+     /* ACPI Memory hotplug IO base address */
+     hwaddr memhp_io_base;
+-};
++} PCMachineState;
+ 
+ #define PC_MACHINE_ACPI_DEVICE_PROP "acpi-device"
+ #define PC_MACHINE_MAX_RAM_BELOW_4G "max-ram-below-4g"
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 427027a9707..6281eae3b55 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -90,7 +90,6 @@ typedef struct PCIExpressDevice PCIExpressDevice;
+ typedef struct PCIExpressHost PCIExpressHost;
+ typedef struct PCIHostDeviceAddress PCIHostDeviceAddress;
+ typedef struct PCIHostState PCIHostState;
+-typedef struct PCMachineState PCMachineState;
+ typedef struct PostcopyDiscardState PostcopyDiscardState;
+ typedef struct Property Property;
+ typedef struct PropertyInfo PropertyInfo;
 -- 
 2.26.2
 
