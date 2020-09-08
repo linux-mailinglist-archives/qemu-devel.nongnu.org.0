@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F42260AA2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:11:58 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D90260AA4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 08:12:41 +0200 (CEST)
+Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFWrE-0005RX-CQ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36992)
+	id 1kFWrw-0006tX-8Z
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 02:12:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFWqI-0004du-7J
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:10:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44528)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kFWqu-0005Z6-Dl
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:11:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48848
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFWqF-0003GU-C7
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:10:57 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kFWqs-0003JU-NV
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 02:11:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599545454;
+ s=mimecast20190719; t=1599545494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TrO8Uw9DBLkX2hTjhuvPSZj5uEJTMtzwQJlZ8hDWc5I=;
- b=TLNNQngAryDTNEiw+gFvZzG8FtG9wY47Oj/n2O8myBz48z48lQjM7t+9jMeUfw7BgJCLIf
- 5ySpMmQFMPN+/n0BABWx4vByKsEhCfYdhCrEh6bZO8FkjGXzk34vBFBV6oMiN8jaZbeo2G
- rcL6ypXMQwydpLnLpYtbGEJxekKbfjo=
+ bh=eH+DqruWu7/zKItU+1x6TcTS0IPp0yjCBo3AEUXiI6s=;
+ b=gFEsLeWuC8pyBX5n8etCYo1dBLucLtQq9+irTqNizzpciZXUX7kff2G0gJlZvd1knRH3qn
+ 8V/X8oaYsr/Ajw+W8gAmN+9fyvzYgvi9XVsg89Kdf+W153P6UFEYrMbv8P9gEdGGnq2CwD
+ /L6Ed2wRq2wfOZXFG+grb+IlBykddgM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-0e-N2dblM5i8foHPnQBczg-1; Tue, 08 Sep 2020 02:10:52 -0400
-X-MC-Unique: 0e-N2dblM5i8foHPnQBczg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-126-JMDfD_SGPG-eqIw-p9Xh3A-1; Tue, 08 Sep 2020 02:11:32 -0400
+X-MC-Unique: JMDfD_SGPG-eqIw-p9Xh3A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E95810066FF
- for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 06:10:51 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A73897ED7A;
- Tue,  8 Sep 2020 06:10:47 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A6FE945AE; Tue,  8 Sep 2020 08:10:46 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] ipxe: drop ia32 efi roms
-Date: Tue,  8 Sep 2020 08:10:45 +0200
-Message-Id: <20200908061046.10871-3-kraxel@redhat.com>
-In-Reply-To: <20200908061046.10871-1-kraxel@redhat.com>
-References: <20200908061046.10871-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF06A801AC2;
+ Tue,  8 Sep 2020 06:11:30 +0000 (UTC)
+Received: from gondolin (ovpn-112-243.ams2.redhat.com [10.36.112.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC62C19728;
+ Tue,  8 Sep 2020 06:11:25 +0000 (UTC)
+Date: Tue, 8 Sep 2020 08:11:23 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PULL 00/30] ppc-for-5.2 queue 20200904
+Message-ID: <20200908081123.048f7534.cohuck@redhat.com>
+In-Reply-To: <0bca4e6e-f4ba-2108-ecaf-c3daaadbdb26@redhat.com>
+References: <20200904034719.673626-1-david@gibson.dropbear.id.au>
+ <CAFEAcA8xCpRBcsCaozEXnCuM5SqWr5ZEDrwLjs+8va=316_70Q@mail.gmail.com>
+ <20200907023800.GJ341806@yekko.fritz.box>
+ <675253df-b750-1a0a-5447-9dadef1accba@redhat.com>
+ <7c287125-70b3-4330-fd5c-8e644e1c347d@redhat.com>
+ <ffee957d-0428-d167-c1ab-3fe67b4d8c7c@redhat.com>
+ <20200907165132.683d2880.cohuck@redhat.com>
+ <f93673f9-3e83-ef5f-9628-819b25908e43@redhat.com>
+ <77b63a31-48a8-c77f-9956-7511db170594@redhat.com>
+ <0bca4e6e-f4ba-2108-ecaf-c3daaadbdb26@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:54
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,40 +89,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UEFI on ia32 never really took off.  Basically the BIOS -> UEFI shift
-came too late, x64 was widespread already, so vendors went from BIOS
-straight to UEFI on x64.
+On Mon, 7 Sep 2020 21:46:28 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- roms/Makefile | 2 --
- 1 file changed, 2 deletions(-)
+> On 9/7/20 7:26 PM, Laurent Vivier wrote:
+> > On 07/09/2020 18:29, Laurent Vivier wrote: =20
 
-diff --git a/roms/Makefile b/roms/Makefile
-index 5d9f15b6777f..8cafced348e5 100644
---- a/roms/Makefile
-+++ b/roms/Makefile
-@@ -113,7 +113,6 @@ efirom: $(patsubst %,efi-rom-%,$(pxerom_variants))
- efi-rom-%: build-pxe-roms build-efi-roms edk2-basetools
- 	$(EDK2_EFIROM) -f "0x$(VID)" -i "0x$(DID)" -l 0x02 \
- 		-b ipxe/src/bin/$(VID)$(DID).rom \
--		-ec ipxe/src/bin-i386-efi/$(VID)$(DID).efidrv \
- 		-ec ipxe/src/bin-x86_64-efi/$(VID)$(DID).efidrv \
- 		-o ../pc-bios/efi-$*.rom
- 
-@@ -125,7 +124,6 @@ build-pxe-roms:
- build-efi-roms: build-pxe-roms
- 	$(MAKE) -C ipxe/src CONFIG=qemu \
- 		CROSS_COMPILE=$(x86_64_cross_prefix) \
--		$(patsubst %,bin-i386-efi/%.efidrv,$(pxerom_targets)) \
- 		$(patsubst %,bin-x86_64-efi/%.efidrv,$(pxerom_targets))
- 
- # Build scripts can pass compiler/linker flags to the EDK2
--- 
-2.27.0
+> >> I think we should not enter in cpu_loop() with halted set to 1.
+> >>
+> >> Before the patch of this series, s390_cpu_reset() is called twice, and
+> >> on the second call, halted is already 0.
+> >>
+> >> With start_powered_off set to true in initfn, on the first reset
+> >> "halted" is 0 and on the second it is 1 (because it has been copied fr=
+om
+> >> start_powered_off) and so cpu_loop() starts with halted set to 1 and f=
+ails. =20
+> >=20
+> > What is happening:
+> >=20
+> > [without start_powered_off]
+> >=20
+> >   1- halted is set to 1 in s390x_cpu_initfn()
+> >   2- halted is set to 0 in s390x_cpu_reset() by parent_reset()
+> >      (cpu_common_reset()
+> >   3- cpu_loop() is always entered with halted set to 0
+> >=20
+> > [with start_powered_off]
+> >=20
+> >   1- halted is set to start_powered_off (1) in s390x_cpu_reset() by
+> >      parent_reset() (cpu_common_reset()
+> >   2- cpu_loop() is always entered with halted set to 1
+> >=20
+> > So in the first case, cpu_loop() is always started with halted set to 0
+> > and in the second case with halted set to 1.
+> >=20
+> > And I think, with linux-user, it should never be started with halted se=
+t
+> > to 1.
+
+linux-user always confuses me a bit, but this seems right.
+
+> >=20
+> > We can't add a "#ifdef CONFIG_USER_ONLY" in hw/core/cpu.c to set halted
+> > to 0 because it is in the common files, but we can do:
+> >=20
+> > diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> > index 73d7d6007e8e..749cd548f0f3 100644
+> > --- a/target/s390x/cpu.c
+> > +++ b/target/s390x/cpu.c
+> > @@ -291,9 +291,9 @@ static void s390_cpu_initfn(Object *obj)
+> >      S390CPU *cpu =3D S390_CPU(obj);
+> >=20
+> >      cpu_set_cpustate_pointers(cpu);
+> > -    cs->start_powered_off =3D true;
+> >      cs->exception_index =3D EXCP_HLT;
+> >  #if !defined(CONFIG_USER_ONLY)
+> > +    cs->start_powered_off =3D true;
+> >      object_property_add(obj, "crash-information", "GuestPanicInformati=
+on",
+> >                          s390_cpu_get_crash_info_qom, NULL, NULL, NULL)=
+;
+> >      cpu->env.tod_timer =3D =20
+>=20
+> This looks like the correct fix indeed :)
+> (Maybe worth adding a comment around).
+
+Agreed on both counts.
+
+> Thanks for investigating!
+
+And here as well :)
 
 
