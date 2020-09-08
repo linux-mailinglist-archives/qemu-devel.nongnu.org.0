@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5012620B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:14:51 +0200 (CEST)
-Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF502620C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 22:15:47 +0200 (CEST)
+Received: from localhost ([::1]:41972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFk0w-0001da-Oz
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44038)
+	id 1kFk1q-0003H6-Na
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 16:15:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFjoj-0001kN-Gd
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41717)
+ id 1kFjoi-0001jC-UP
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kFjof-0004Oo-VB
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:13 -0400
+ id 1kFjoh-0004P8-4x
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 16:02:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599595329;
+ s=mimecast20190719; t=1599595330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRTnuxgAR7vLRMp4NgVTqBK9plhchTMKxuXs0VjGwPM=;
- b=J9nmbKPaHTJ8ik+fn7hGA0sBs/8xiqTCW8J6us3XMJi/Wo2YDe7yZS0aFG2cN2NgqUHGVK
- b++e0ffdPuoJqjlZWpwCciPtgm5PeM2PEIyEHO7LpbRw1AlkggDHQ21DdLKav6sq4Sh9vy
- cJmRzC3jLDauiaWr/nwM8jB99FaG2Rc=
+ bh=2ZBCdbwo8Mc19VIclh2bvCUYx2+GOIoW4pEAh8lwB8o=;
+ b=QRvi9iRAIj4MwzQMTA9nEV0d9zs1GXAHrNJ4+fiiwiub1dyeAisDIPDhfVZF883L+mWD7B
+ JP4fdBS5A3p9kqv4/sQPa4woWz91ahfmW3j8QEhH0EuM7WqB+7Fnl2CbDwcvNeD63tcalo
+ E4whj9bsRDnU+JGNzW1rLv9jNM8QRKQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-t532CsAeOzOMQdeQIsb_jA-1; Tue, 08 Sep 2020 16:02:06 -0400
-X-MC-Unique: t532CsAeOzOMQdeQIsb_jA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-510-03nQ02oDO5KWO9_d4uK3aw-1; Tue, 08 Sep 2020 16:02:08 -0400
+X-MC-Unique: 03nQ02oDO5KWO9_d4uK3aw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D523C1DDFF;
- Tue,  8 Sep 2020 20:02:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34F621074657;
+ Tue,  8 Sep 2020 20:02:07 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B12B5D9E8;
- Tue,  8 Sep 2020 20:02:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F30475C1C4;
+ Tue,  8 Sep 2020 20:02:06 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 30/34] omap_intc: Use typedef name for instance_size
-Date: Tue,  8 Sep 2020 16:01:19 -0400
-Message-Id: <20200908200123.3402311-31-ehabkost@redhat.com>
+Subject: [PULL 31/34] lpc_ich9: Use typedef name for instance_size
+Date: Tue,  8 Sep 2020 16:01:20 -0400
+Message-Id: <20200908200123.3402311-32-ehabkost@redhat.com>
 In-Reply-To: <20200908200123.3402311-1-ehabkost@redhat.com>
 References: <20200908200123.3402311-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -91,25 +91,25 @@ and will make automated conversion to type declaration macros
 simpler.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200824215936.2961951-3-ehabkost@redhat.com>
+Message-Id: <20200824215936.2961951-4-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/intc/omap_intc.c | 2 +-
+ hw/isa/lpc_ich9.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/omap_intc.c b/hw/intc/omap_intc.c
-index b8a1d1fd7d..d7183d035e 100644
---- a/hw/intc/omap_intc.c
-+++ b/hw/intc/omap_intc.c
-@@ -676,7 +676,7 @@ static const TypeInfo omap2_intc_info = {
- static const TypeInfo omap_intc_type_info = {
-     .name          = TYPE_OMAP_INTC,
-     .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(struct omap_intr_handler_s),
-+    .instance_size = sizeof(omap_intr_handler),
-     .abstract      = true,
- };
- 
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index cd6e169d47..3303d2eab6 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -792,7 +792,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo ich9_lpc_info = {
+     .name       = TYPE_ICH9_LPC_DEVICE,
+     .parent     = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(struct ICH9LPCState),
++    .instance_size = sizeof(ICH9LPCState),
+     .instance_init = ich9_lpc_initfn,
+     .class_init  = ich9_lpc_class_init,
+     .interfaces = (InterfaceInfo[]) {
 -- 
 2.26.2
 
