@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE2E260A12
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:30:29 +0200 (CEST)
-Received: from localhost ([::1]:46156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FFF260A14
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:31:04 +0200 (CEST)
+Received: from localhost ([::1]:48688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFWD6-0007bv-I8
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
+	id 1kFWDf-0000EW-40
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3r-0006tM-Rs; Tue, 08 Sep 2020 01:20:56 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:47691 helo=ozlabs.org)
+ id 1kFW3P-0006Ek-O8; Tue, 08 Sep 2020 01:20:28 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3p-00065u-QC; Tue, 08 Sep 2020 01:20:55 -0400
+ id 1kFW3N-0005z9-2K; Tue, 08 Sep 2020 01:20:27 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltkv4Rywz9sVw; Tue,  8 Sep 2020 15:20:07 +1000 (AEST)
+ id 4Bltkp0tTQz9sVL; Tue,  8 Sep 2020 15:20:01 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599542407;
- bh=w0gaD0fnoCPcwqc7oF2cauElCoYD0AjnH+kJtJ0zhA8=;
+ d=gibson.dropbear.id.au; s=201602; t=1599542402;
+ bh=P6w2VcCYj0cQ8uhhqzjGXWRtMd9iDsSuS8MezV7lEKU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GHvyhnV8kj/UJaICsSjBzp97z5WXPoV0msLraiTP+9/bHq/lk3mzxBsIIaOeO5gZ5
- BJP6Zot/XKopOkWno4TYhG3CtO+R2tJtEkTHsgPFC1bpCKBRBu1FVlDPr71a/i/BQH
- EQaE4EPVzRgzXqYOa+xJq3DhMEnTt0TVB1RVGye0=
+ b=XBL8rCT61cR/+oP9yxI9y4vaPkCDNLrgUq5S7Mvq9PaQv8ZU6l5CQIJ+MMpGMgd3L
+ zeg89nfm4G/rHqEl1U21DtEc3xWGUuZLK1Lc91P9TJ+kiCuGnwHvxh56supugWKMXR
+ TgeRP6OgJjgPMuCwxXwwK9G3066UdGtJbwzj3yLI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 25/33] ppc: introducing spapr_numa.c NUMA code helper
-Date: Tue,  8 Sep 2020 15:19:45 +1000
-Message-Id: <20200908051953.1616885-26-david@gibson.dropbear.id.au>
+Subject: [PULL 16/33] target/arm: Move setting of CPU halted state to generic
+ code
+Date: Tue,  8 Sep 2020 15:19:36 +1000
+Message-Id: <20200908051953.1616885-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:19:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -58,201 +60,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-We're going to make changes in how spapr handles all
-ibm,associativity* related properties to enhance our current NUMA
-support.
+This change is in a separate patch because it's not so obvious that it
+won't cause a regression.
 
-At this moment we have associativity code scattered all around
-spapr_* files, with hardcoded values and array sizes. This
-makes it harder to change any NUMA specific parameters in
-the future. Having everything in the same place allows not
-only for easier tuning, but also easier understanding since all
-NUMA related code is on the same file.
-
-This patch introduces a new file to gather all NUMA/associativity
-handling code in spapr, spapr_numa.c. To get things started, let's
-remove associativity-reference-points and max-associativity-domains
-code from spapr_dt_rtas() to a new helper called spapr_numa_write_rtas_dt().
-This will decouple spapr_dt_rtas() from the NUMA changes that
-are going to happen in those two properties.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200901125645.118026-2-danielhb413@gmail.com>
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Message-Id: <20200826055535.951207-3-bauerman@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/meson.build          |  3 ++-
- hw/ppc/spapr.c              | 26 ++-----------------
- hw/ppc/spapr_numa.c         | 50 +++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr_numa.h | 20 +++++++++++++++
- 4 files changed, 74 insertions(+), 25 deletions(-)
- create mode 100644 hw/ppc/spapr_numa.c
- create mode 100644 include/hw/ppc/spapr_numa.h
+ hw/core/cpu.c    | 2 +-
+ target/arm/cpu.c | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index 918969b320..ffa2ec37fa 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -25,7 +25,8 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-   'spapr_irq.c',
-   'spapr_tpm_proxy.c',
-   'spapr_nvdimm.c',
--  'spapr_rtas_ddw.c'
-+  'spapr_rtas_ddw.c',
-+  'spapr_numa.c',
- ))
- ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
- ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index b0a04443fb..a45912acac 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -81,6 +81,7 @@
- #include "hw/mem/memory-device.h"
- #include "hw/ppc/spapr_tpm_proxy.h"
- #include "hw/ppc/spapr_nvdimm.h"
-+#include "hw/ppc/spapr_numa.h"
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 22bc3f974a..8f65383ffb 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -258,7 +258,7 @@ static void cpu_common_reset(DeviceState *dev)
+     }
  
- #include "monitor/monitor.h"
+     cpu->interrupt_request = 0;
+-    cpu->halted = 0;
++    cpu->halted = cpu->start_powered_off;
+     cpu->mem_io_pc = 0;
+     cpu->icount_extra = 0;
+     atomic_set(&cpu->icount_decr_ptr->u32, 0);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 9f814194fb..6b4e708c08 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -175,7 +175,6 @@ static void arm_cpu_reset(DeviceState *dev)
+     env->vfp.xregs[ARM_VFP_MVFR2] = cpu->isar.mvfr2;
  
-@@ -891,16 +892,9 @@ static int spapr_dt_rng(void *fdt)
- static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
- {
-     MachineState *ms = MACHINE(spapr);
--    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(ms);
-     int rtas;
-     GString *hypertas = g_string_sized_new(256);
-     GString *qemu_hypertas = g_string_sized_new(256);
--    uint32_t refpoints[] = {
--        cpu_to_be32(0x4),
--        cpu_to_be32(0x4),
--        cpu_to_be32(0x2),
--    };
--    uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-     uint64_t max_device_addr = MACHINE(spapr)->device_memory->base +
-         memory_region_size(&MACHINE(spapr)->device_memory->mr);
-     uint32_t lrdr_capacity[] = {
-@@ -910,14 +904,6 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-         cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE & 0xffffffff),
-         cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
-     };
--    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
--    uint32_t maxdomains[] = {
--        cpu_to_be32(4),
--        maxdomain,
--        maxdomain,
--        maxdomain,
--        cpu_to_be32(spapr->gpu_numa_id),
--    };
+     cpu->power_state = s->start_powered_off ? PSCI_OFF : PSCI_ON;
+-    s->halted = s->start_powered_off;
  
-     _FDT(rtas = fdt_add_subnode(fdt, 0, "rtas"));
- 
-@@ -953,15 +939,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-                      qemu_hypertas->str, qemu_hypertas->len));
-     g_string_free(qemu_hypertas, TRUE);
- 
--    if (smc->pre_5_1_assoc_refpoints) {
--        nr_refpoints = 2;
--    }
--
--    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
--                     refpoints, nr_refpoints * sizeof(refpoints[0])));
--
--    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
--                     maxdomains, sizeof(maxdomains)));
-+    spapr_numa_write_rtas_dt(spapr, fdt, rtas);
- 
-     /*
-      * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-new file mode 100644
-index 0000000000..cdf3288cbd
---- /dev/null
-+++ b/hw/ppc/spapr_numa.c
-@@ -0,0 +1,50 @@
-+/*
-+ * QEMU PowerPC pSeries Logical Partition NUMA associativity handling
-+ *
-+ * Copyright IBM Corp. 2020
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "hw/ppc/spapr_numa.h"
-+#include "hw/ppc/fdt.h"
-+
-+/*
-+ * Helper that writes ibm,associativity-reference-points and
-+ * max-associativity-domains in the RTAS pointed by @rtas
-+ * in the DT @fdt.
-+ */
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-+{
-+    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-+    uint32_t refpoints[] = {
-+        cpu_to_be32(0x4),
-+        cpu_to_be32(0x4),
-+        cpu_to_be32(0x2),
-+    };
-+    uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-+    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-+    uint32_t maxdomains[] = {
-+        cpu_to_be32(4),
-+        maxdomain,
-+        maxdomain,
-+        maxdomain,
-+        cpu_to_be32(spapr->gpu_numa_id),
-+    };
-+
-+    if (smc->pre_5_1_assoc_refpoints) {
-+        nr_refpoints = 2;
-+    }
-+
-+    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
-+                     refpoints, nr_refpoints * sizeof(refpoints[0])));
-+
-+    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-+                     maxdomains, sizeof(maxdomains)));
-+}
-diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-new file mode 100644
-index 0000000000..7a370a8768
---- /dev/null
-+++ b/include/hw/ppc/spapr_numa.h
-@@ -0,0 +1,20 @@
-+/*
-+ * QEMU PowerPC pSeries Logical Partition NUMA associativity handling
-+ *
-+ * Copyright IBM Corp. 2020
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef HW_SPAPR_NUMA_H
-+#define HW_SPAPR_NUMA_H
-+
-+#include "hw/ppc/spapr.h"
-+
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
-+
-+#endif /* HW_SPAPR_NUMA_H */
+     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+         env->iwmmxt.cregs[ARM_IWMMXT_wCID] = 0x69051000 | 'Q';
 -- 
 2.26.2
 
