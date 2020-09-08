@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5882261158
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:30:27 +0200 (CEST)
-Received: from localhost ([::1]:35304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27556261149
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:27:10 +0200 (CEST)
+Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFclW-0005hY-Je
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:30:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59262)
+	id 1kFciL-0008Mz-36
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcZ1-0001ap-2H
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:17:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49324)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcZf-00020l-Dj
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:18:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30323
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcYz-0006S4-76
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:17:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcZa-0006Ul-AC
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:18:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599567448;
+ s=mimecast20190719; t=1599567482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nI/K+KNcXRjhCn6vAls+PU98bH2Y4FgJg95svMe5dWQ=;
- b=hSWUblByWE1WiuoY0ihC9lB5G6akFrpsBy4c+YhFeRqGvVARZf4Xe6FMzo07HOA6748e/R
- ZOjjKtmIVnDnqf+2bVP0nEoJIs4TVDd/5Nfx78IK4MwCaMgBwx/7UhPGv4FFrsh15Yqh9D
- k0ge+4crPVo8X+xRT98rvu4BmFtbucY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-P3C286ZHOUOh5gJ0EySFDA-1; Tue, 08 Sep 2020 08:17:27 -0400
-X-MC-Unique: P3C286ZHOUOh5gJ0EySFDA-1
-Received: by mail-wm1-f69.google.com with SMTP id c186so4660686wmd.9
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:17:26 -0700 (PDT)
+ bh=xFFdxUAvqPmalZ41wiAmb2URC8cPpCKyD80nyZ5x7Go=;
+ b=drk7TU/BNv/atnN5w+nb5dm1qmEqll8vRDCuNPkJS/mCjEu/KP+BMUDHcS5+5DSmLRGt8N
+ EyR961ZHb2PidBJkmlkTNMERjg8Vobl4hOlzdXvxi11jDZUdrrrsinDSparXNc+2xt7Spf
+ IwzzaIQwWj9QhNDVpEIyNqy+QGTqvkU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-UZEr3OWbNWuMFezDcd82QA-1; Tue, 08 Sep 2020 08:17:58 -0400
+X-MC-Unique: UZEr3OWbNWuMFezDcd82QA-1
+Received: by mail-wm1-f72.google.com with SMTP id l26so3401002wmg.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:17:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=nI/K+KNcXRjhCn6vAls+PU98bH2Y4FgJg95svMe5dWQ=;
- b=WGK8sUQxdpeUHT/tJs4OAuSxTEqT932XSYwZhfcmjjegcQJZzVtNKF3CI1UTR71P5s
- jY67oyY+BoEbohZi90Qg4AZ5MYPRiL/sgZZDXhDR1PnLU8P7BvYSQ5igtyf0N0IyHAsc
- +CX/kPnjFJ8xmlE2Xs9x4YUb7vFfGMci8EUUb0CnfPHvA9T/KSJSMxoVVQqDPTH7gIVc
- x/LkHx4yHNRAOZBqXTqjU24gH5yzbGgHy6dUV/K8gWXDFdORY7TDtl1RVIIvg5vz9Y8V
- FN/Y9lShzCt9w8GPXoeGNXgt8aGSiix0uJkcrnNSte2IkFV7Pmu1pS6uFSKvMowMaxRY
- SRUw==
-X-Gm-Message-State: AOAM532pTweVz42IQUXOeWmrZpMg03RinVIxfTnL8DiX8OsAeBiU9I8o
- HrDI6vIi80c1wDgyH2F9UZHIfJih1PrEKnEN2O1OAPLG7SeTkePY/4A/9R/QvVPEOdVSnqHEtpS
- YZmI6Zc70440Slx4=
-X-Received: by 2002:a1c:234b:: with SMTP id j72mr4179496wmj.153.1599567445942; 
- Tue, 08 Sep 2020 05:17:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGSsA91p8XfyT74Jklh9MAg3U/IEj67xuVMFY1Xq67Q+ghk4P9MtxTFYqxMpYBzzt1ZN4Zlw==
-X-Received: by 2002:a1c:234b:: with SMTP id j72mr4179481wmj.153.1599567445793; 
- Tue, 08 Sep 2020 05:17:25 -0700 (PDT)
+ bh=xFFdxUAvqPmalZ41wiAmb2URC8cPpCKyD80nyZ5x7Go=;
+ b=THOQb8flxx41hcjkwQKA3BMgbV+y7kRIkB3CWUV1FpP8FHT4FQEEPBWs3ZGYGCYamt
+ Iv/rwbWylenU6YLSxOY5fqlGacKgqBf2wI1+Yselqwe1bmSD1u9oMTthdr14MPbuICfa
+ ce1ETP4sx9TFuEANyyk4VLOyMZKa9sNRKpABngLss6U1diONMKQWsIRpplZp9V+t4rcd
+ 378462f1PJvj+C0Cdp1HQwykEyEGGgbcMiVsX4YiIfImOJ5JP/wyA0kPn16ipiGMgBh0
+ NodMqv/bos+gATuQuDpYtI0Xj+fCiQa2fLeq4fDgU+XglGpD1GLW+vX2UhQTm6eFmiPX
+ uMiA==
+X-Gm-Message-State: AOAM531IrKmw46ctqNFaW+R/YZZNzRpguz0e6pyUP9UcCZAM3Ambou+R
+ mGd19TGpW0ybCOnPGBRYbuobWXfuyzfeRDPSCgrANa/fHOdns/oxSrPP42cnej5IZoXv+v5qBmQ
+ uYz+j3CL4U31XdOk=
+X-Received: by 2002:a05:600c:2053:: with SMTP id
+ p19mr4139038wmg.50.1599567477607; 
+ Tue, 08 Sep 2020 05:17:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz58zCSVaYBvcY3e+Sg3l/EiJ+G/erMbFfznCJJ4PVpQm3i2u1upK38v7HRATcw/RNvLS13Ow==
+X-Received: by 2002:a05:600c:2053:: with SMTP id
+ p19mr4139019wmg.50.1599567477474; 
+ Tue, 08 Sep 2020 05:17:57 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id d2sm14845040wro.34.2020.09.08.05.17.23
+ by smtp.gmail.com with ESMTPSA id q192sm35576159wme.13.2020.09.08.05.17.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 05:17:25 -0700 (PDT)
-Subject: Re: [PATCH v7 01/21] microvm: name qboot binary qboot.rom
+ Tue, 08 Sep 2020 05:17:56 -0700 (PDT)
+Subject: Re: [PATCH v7 13/21] x86: constify x86_machine_is_*_enabled
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20200908121050.1162-1-kraxel@redhat.com>
- <20200908121050.1162-2-kraxel@redhat.com>
+ <20200908121050.1162-14-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -86,12 +89,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <5c3c4435-e917-b84c-764d-ef86e1ca3153@redhat.com>
-Date: Tue, 8 Sep 2020 14:17:22 +0200
+Message-ID: <27c460f4-252d-6dbf-3628-9a02e963387c@redhat.com>
+Date: Tue, 8 Sep 2020 14:17:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200908121050.1162-2-kraxel@redhat.com>
+In-Reply-To: <20200908121050.1162-14-kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -99,18 +102,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:54
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
 X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.626, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.626, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,17 +135,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/8/20 2:10 PM, Gerd Hoffmann wrote:
-> qboot isn't a bios and shouldnt be named that way.
-> 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > Reviewed-by: Sergio Lopez <slp@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->  hw/i386/microvm.c                       |   4 ++--
->  pc-bios/meson.build                     |   2 +-
->  pc-bios/{bios-microvm.bin => qboot.rom} | Bin
->  roms/Makefile                           |   6 +++---
->  4 files changed, 6 insertions(+), 6 deletions(-)
->  rename pc-bios/{bios-microvm.bin => qboot.rom} (100%)
+>  include/hw/i386/x86.h | 4 ++--
+>  hw/i386/x86.c         | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
