@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84ACC260DBF
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:39:41 +0200 (CEST)
-Received: from localhost ([::1]:53016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167E7260DBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 10:39:09 +0200 (CEST)
+Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFZAC-0005EX-L9
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35854)
+	id 1kFZ9g-0003nz-5Z
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 04:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kFZ9I-0003nw-LO; Tue, 08 Sep 2020 04:38:44 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kFZ9E-0003YX-RF; Tue, 08 Sep 2020 04:38:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1599554289; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=LZ6lM7kIOYfwfjz6WdkOqKfnZWLlw/r2p3foBe2nELcHlvohlm+TJmtt//CGMVptRxWxpXKbdKGZoxoF/pC7MiwbxqJ1pBcCqT3bDxUByQnO/vy1R47GQ0K1U2eFPNexV9BxXYTIMSt29YI3eLQxFxzmkza0S9T8DomK8FeSflo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1599554289;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=7qwK0PifuXv8tsWfU93nI8Lgk/I61Eax+VLxXsmw+hI=; 
- b=XLIJwUv8pm8j9RSygZTkQumjimasMzYQHojzjN4rhmCoPxIanun5MsdiocadLpi5eZ4Dbs7g4kKUrCpjKW/1+AqEf4AR1e7i3+AVEF4VYlO1fAhQAkOomhOm65IKZOQ0UTe3AsDFHu2jisGQL94dvhwW0qmPpGM5w4Tp47cvROg=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1599554289; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- bh=7qwK0PifuXv8tsWfU93nI8Lgk/I61Eax+VLxXsmw+hI=;
- b=KEkzP9DjZvaA9tX8eI2UPoYIEpAi7DcC4YIxHbf+DimJ8T8xqbyq77HECKolmr7n
- sZmdIfd8jtFyJFY6eSB1V+Y+HqT46KaUJUL4VoSkVV0us/8vQqRBS/NDaRHTMssi/S8
- yllACF7+QRc/XDqR0BDj7svOtSRJrYsQP8G8r8xw=
-Received: from localhost (ec2-52-56-101-76.eu-west-2.compute.amazonaws.com
- [52.56.101.76]) by mx.zoho.com.cn
- with SMTPS id 1599554285567978.5600427130757;
- Tue, 8 Sep 2020 16:38:05 +0800 (CST)
-Date: Tue, 8 Sep 2020 08:37:59 +0000
-From: Fam Zheng <fam@euphon.net>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: add Stefan Hajnoczi as block/nvme.c
- maintainer
-Message-ID: <20200908083759.weoofjvtj5py737o@dev>
-References: <20200907111632.90499-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFZ8q-00035g-0F
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:38:16 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47346
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFZ8o-0003Xg-17
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 04:38:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599554292;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=e/ERc9bp17RtusqYx45wP0Nfz43XIEw9Y3/cbIS/Ji8=;
+ b=NOItGPRsstaVSr8IKGEaWZ3MgJL4Y9eVm2lGtNY60fA76OnUkPjeoYiPITSZFtCkJJRba5
+ u3SeeiyrsIemTc6G70lWWUwrPKpOoKiXbcJTco394LXXCB7RdL57O0Yov6XW2XuyAs44SZ
+ oefI6ecGMu7uzR8wYerP3Cpf/wv/Gho=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-ZwVL4fCvMGWsOR8k51Hlmg-1; Tue, 08 Sep 2020 04:38:11 -0400
+X-MC-Unique: ZwVL4fCvMGWsOR8k51Hlmg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4061857001;
+ Tue,  8 Sep 2020 08:38:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FDF77E438;
+ Tue,  8 Sep 2020 08:38:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7B6E41132B59; Tue,  8 Sep 2020 10:38:08 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 00/29] block/export: Add infrastructure and QAPI for
+ block exports
+References: <20200907182011.521007-1-kwolf@redhat.com>
+Date: Tue, 08 Sep 2020 10:38:08 +0200
+In-Reply-To: <20200907182011.521007-1-kwolf@redhat.com> (Kevin Wolf's message
+ of "Mon, 7 Sep 2020 20:19:42 +0200")
+Message-ID: <871rjcek9b.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200907111632.90499-1-stefanha@redhat.com>
-X-ZohoCNMailClient: External
-Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
- helo=sender2-op-o12.zoho.com.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 04:38:28
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:00:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,21 +83,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, philmd@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-09-07 12:16, Stefan Hajnoczi wrote:
-> Development of the userspace NVMe block driver picked up again recently.
-> After talking with Fam I am stepping up as block/nvme.c maintainer.
-> Patches will be merged through my 'block' tree.
-> 
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Klaus Jensen <k.jensen@samsung.com>
-> Cc: Fam Zheng <fam@euphon.net>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Doesn't apply for me.  Got something I could pull?
 
-Acked-by: Fam Zheng <fam@euphon.net>
 
