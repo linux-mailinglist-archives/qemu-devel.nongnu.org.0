@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05A12612C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:33:08 +0200 (CEST)
-Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF76E2612C6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 16:34:56 +0200 (CEST)
+Received: from localhost ([::1]:57112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFegG-0007nv-1l
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:33:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39976)
+	id 1kFehz-0001PZ-QY
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 10:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFefB-0006ss-H8
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:32:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54130
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFeh8-0000sy-6h
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:34:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24907
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kFef9-0007wF-T1
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:32:01 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFeh6-0008BF-OU
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 10:34:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599575519;
+ s=mimecast20190719; t=1599575638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=igBA7uzjClF/snq6JC+W95Yx3DxrtSnVfy6pvPcdg3Q=;
- b=QVJKQd9Mp8NxdtlptlqTSsjFcmBMeSyWTNodzEstY0P42XvAYUgJqeByhThILMSEsglmac
- MiulPPJhSgMV+OG8YziKiOb1fozotAbm2EmFMsm957l8ls3OGKDX08tON0O+2iolkesXGk
- zpwUkE8LRr7UfwJLoiilE24Kim5aZAU=
+ bh=R9IGvupumaKmjbsR+/rQI1XJzNUwJ2MjmVKmXdUJnik=;
+ b=dNV1XFX1N/8CDZ+yrnKMCgGbDeVba+Ss6BzY8KtQqkXgbi8sEQuG4HNifG4uXYZ9B8gfBD
+ RxyuWA5ptUlJBIuF3d8aVNKpm4KbdKK2tHC8f+zbLymCmjSyUrNPTlNyJKIQGvzg1y7ceL
+ tEU6HrM/eCu1Ey3XV44AoVPRVvEpHIk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-LFkZ-k5fMPq28jFgZk3SEg-1; Tue, 08 Sep 2020 10:31:57 -0400
-X-MC-Unique: LFkZ-k5fMPq28jFgZk3SEg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-304-5QWOsXKnMxOpdBotOT1hKg-1; Tue, 08 Sep 2020 10:33:55 -0400
+X-MC-Unique: 5QWOsXKnMxOpdBotOT1hKg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5146C1005E6A;
- Tue,  8 Sep 2020 14:31:55 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
- [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6362327BC3;
- Tue,  8 Sep 2020 14:31:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EA39F113865F; Tue,  8 Sep 2020 16:31:49 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 1/4] qapi: net: Add query-netdevs command
-References: <20200901182326.59633-1-lekiravi@yandex-team.ru>
- <20200901182326.59633-2-lekiravi@yandex-team.ru>
- <87lfhsjubv.fsf@dusky.pond.sub.org>
- <37711599469320@mail.yandex-team.ru>
- <871rjdrca0.fsf@dusky.pond.sub.org>
- <b632d444-bdf9-648b-9d55-a9e72efb8fbc@redhat.com>
-Date: Tue, 08 Sep 2020 16:31:49 +0200
-In-Reply-To: <b632d444-bdf9-648b-9d55-a9e72efb8fbc@redhat.com> (Eric Blake's
- message of "Tue, 8 Sep 2020 07:36:47 -0500")
-Message-ID: <87tuw8731m.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29D4C1007467;
+ Tue,  8 Sep 2020 14:33:54 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-113-55.ams2.redhat.com [10.36.113.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60E611002D50;
+ Tue,  8 Sep 2020 14:33:49 +0000 (UTC)
+Date: Tue, 8 Sep 2020 16:33:47 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Kashyap Chamarthy <kchamart@redhat.com>
+Subject: Re: [PATCH 3/4] docs: add qemu-storage-daemon(1) man page
+Message-ID: <20200908143347.GE8175@linux.fritz.box>
+References: <20200908093113.47564-1-stefanha@redhat.com>
+ <20200908093113.47564-4-stefanha@redhat.com>
+ <20200908114233.GC19304@paraplu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200908114233.GC19304@paraplu>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 03:00:34
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -74,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,54 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Vincenzo Maffione <v.maffione@gmail.com>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Alexey Kirillov <lekiravi@yandex-team.ru>, Paolo Bonzini <pbonzini@redhat.com>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org, afrosi@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Am 08.09.2020 um 13:42 hat Kashyap Chamarthy geschrieben:
+> On Tue, Sep 08, 2020 at 10:31:12AM +0100, Stefan Hajnoczi wrote:
+> > Document the qemu-storage-daemon tool. Most of the command-line options
+> > are identical to their QEMU counterparts. Perhaps Sphinx hxtool
+> > integration could be extended to extract documentation for individual
+> > command-line options so they can be shared. For now the
+> > qemu-storage-daemon simply refers to the qemu(1) man page where the
+> > command-line options are identical.
+> > 
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-> On 9/7/20 7:39 AM, Markus Armbruster wrote:
->
->>>>
->>>> This is union Netdev plus a common member @peer-id, less the variant
->>>> members for NetClientDriver values 'nic' and 'hubport'.
->>>>
->>>> Can 'type: 'nic' and 'type': 'hubport' occur?
->>>
->>> No, it can't. We don't support NIC/hubport in query-netdevs, so we neither create this
->>> structure for them, nor store config.
->> Same for 'none', I guess.
->> As defined, NetdevInfo allows types 'none', 'nic', and 'hubport', it
->> just has no variant members for them.  The fact that they can't occur is
->> not coded into the type, and therefore not visible in introspection.
->> To make introspection more precise, we'd have to define a new enum
->> type.
->> How much that would complicate the C code is unclear.
->> Do we need it to be more precise?  Eric, got an opinion?
->
-> Is the problem that a new enum would be duplicating things?
+Looks good to me.
 
-Enumerating network drivers twice is mildly annoying.  I worry more
-about having to convert between the two enumerations in C.
+If you have to respin, maybe an example section with some full command
+lines for common cases would be nice. Maybe one for exporting a qcow2
+image via NBD, and another one for attaching a host_device and having a
+QMP monitor, or something like this.
 
-My actual question: do we need query-qmp-schema report the precise set
-of 'type' values?  As is, it reports a few that can't actually occur.
+> > +**Warning:** Never modify images in use by a running virtual machine or any
+> > +other process; this may destroy the image. Also, be aware that querying an
+> > +image that is being modified by another process may encounter inconsistent
+> > +state.
+> 
+> I wonder if it's appropriate to mention libguestfs for safe, read-only
+> access to disk images (via `guestfish -ro -i -a disk.qcow2`).  I say
+> this because, the above warning tells what _not_ to do; a pointer on
+> what to do could be useful.  I let you decide on this.
 
->                                                              Is it
-> worth allowing one enum to have a 'base':'OtherEnum' in the schema to
-> reduce some of the duplication?
+libguestfs may expose exactly the inconsistent state that the above
+warning is about. Maybe it breaks not very often in practice, but it's
+fundamentally unsafe and if it breaks, you get to keep both pieces.
 
-We could then generate functions (or macros) to convert from base enum
-to extended enum, and back, where the latter can fail.
+The safe way is to access it from the guest.
 
-Worthwhile only if we have sufficient use for it.
+Kevin
 
 
