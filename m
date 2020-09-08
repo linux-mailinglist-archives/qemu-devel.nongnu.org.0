@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B378C2609F4
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:23:49 +0200 (CEST)
-Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C408A2609EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 07:22:04 +0200 (CEST)
+Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFW6e-0003IQ-Lv
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
+	id 1kFW4x-0007nE-Qm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 01:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW3B-0005ic-5r; Tue, 08 Sep 2020 01:20:13 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:45347)
+ id 1kFW3B-0005ib-5B; Tue, 08 Sep 2020 01:20:13 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:39765 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kFW37-0005rB-75; Tue, 08 Sep 2020 01:20:12 -0400
+ id 1kFW37-0005rG-5r; Tue, 08 Sep 2020 01:20:12 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Bltkj5rc8z9sTg; Tue,  8 Sep 2020 15:19:57 +1000 (AEST)
+ id 4Bltkj6l8sz9sTd; Tue,  8 Sep 2020 15:19:57 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599542397;
- bh=PGXTjEP4QoRFOn/jGOws1ISctNffp+geWnV5qJ570xc=;
+ bh=Ly+A7bmRWGNf8fZ+NruNygvD6RuKDnSvOp12wEpcHVI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UvG69/V9zKCVWtf3/3WKlchn98On+3TOi849MeyZHf8DdZqXwJlKSNeOp098tS8si
- 97YZVbbIs6jwJUServS8OBJ5A5UlxXgaAW8AzlujLLHarFx6ffqeyJBn8FKuc2hA60
- OgKhH0AXUJG8VVlNsW50S8QjpgOxFNd+8CgBRV0w=
+ b=HeACudztyNApH9C+lHHByCROip7z0eZtQWbL4sUU0On2IDrbJ/33S/P8g3qHw+sb4
+ om4jQJmMF1v2vdSj2SKnchKozJf80/Ybhy/MAhrQrUQV7Ps3HYfBIOuh4JFHvseDbZ
+ w9n3xXmuteh1zjuPe29yXBl4TRHcS4oPJU9w3f1s=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/33] spapr: Remove unnecessary DRC type-checker macros
-Date: Tue,  8 Sep 2020 15:19:23 +1000
-Message-Id: <20200908051953.1616885-4-david@gibson.dropbear.id.au>
+Subject: [PULL 04/33] spapr/xive: Add a 'hv-prio' property to represent the
+ KVM escalation priority
+Date: Tue,  8 Sep 2020 15:19:24 +1000
+Message-Id: <20200908051953.1616885-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 References: <20200908051953.1616885-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:19:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,90 +61,135 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, bauerman@linux.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ bauerman@linux.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr_drc.h includes typechecker macro boilerplate for the many different
-DRC subclasses.  However, most of these types don't actually have different
-data in their class and/or instance, making these unneeded, unused, and in
-fact a bad idea.  Remove them.
+From: Cédric Le Goater <clg@kaod.org>
 
+On POWER9, the KVM XIVE device uses priority 7 for the escalation
+interrupts. On POWER10, the host can use a reduced set of priorities
+and KVM will configure the escalation priority to a lower number. In
+any case, the guest is allowed to use priorities in a single range :
+
+    [ 0 .. (maxprio - 1) ].
+
+Introduce a 'hv-prio' property to represent the escalation priority
+number and use it to compute the "ibm,plat-res-int-priorities"
+property defining the priority ranges reserved by the hypervisor.
+
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200819130843.2230799-2-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- include/hw/ppc/spapr_drc.h | 43 +-------------------------------------
- 1 file changed, 1 insertion(+), 42 deletions(-)
+ hw/intc/spapr_xive.c        | 33 ++++++++++++++-------------------
+ include/hw/ppc/spapr_xive.h |  2 ++
+ 2 files changed, 16 insertions(+), 19 deletions(-)
 
-diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-index 21af8deac1..f270860769 100644
---- a/include/hw/ppc/spapr_drc.h
-+++ b/include/hw/ppc/spapr_drc.h
-@@ -29,62 +29,21 @@
-                                              TYPE_SPAPR_DR_CONNECTOR)
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 4bd0d606ba..1fa09f287a 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -595,6 +595,7 @@ static Property spapr_xive_properties[] = {
+     DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
+     DEFINE_PROP_UINT64("vc-base", SpaprXive, vc_base, SPAPR_XIVE_VC_BASE),
+     DEFINE_PROP_UINT64("tm-base", SpaprXive, tm_base, SPAPR_XIVE_TM_BASE),
++    DEFINE_PROP_UINT8("hv-prio", SpaprXive, hv_prio, 7),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- #define TYPE_SPAPR_DRC_PHYSICAL "spapr-drc-physical"
--#define SPAPR_DRC_PHYSICAL_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_PHYSICAL)
--#define SPAPR_DRC_PHYSICAL_CLASS(klass) \
--        OBJECT_CLASS_CHECK(SpaprDrcClass, klass, \
--                           TYPE_SPAPR_DRC_PHYSICAL)
- #define SPAPR_DRC_PHYSICAL(obj) OBJECT_CHECK(SpaprDrcPhysical, (obj), \
-                                              TYPE_SPAPR_DRC_PHYSICAL)
+@@ -692,12 +693,13 @@ static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_servers,
+         cpu_to_be32(16), /* 64K */
+     };
+     /*
+-     * The following array is in sync with the reserved priorities
+-     * defined by the 'spapr_xive_priority_is_reserved' routine.
++     * QEMU/KVM only needs to define a single range to reserve the
++     * escalation priority. A priority bitmask would have been more
++     * appropriate.
+      */
+     uint32_t plat_res_int_priorities[] = {
+-        cpu_to_be32(7),    /* start */
+-        cpu_to_be32(0xf8), /* count */
++        cpu_to_be32(xive->hv_prio),    /* start */
++        cpu_to_be32(0xff - xive->hv_prio), /* count */
+     };
  
- #define TYPE_SPAPR_DRC_LOGICAL "spapr-drc-logical"
--#define SPAPR_DRC_LOGICAL_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_LOGICAL)
--#define SPAPR_DRC_LOGICAL_CLASS(klass) \
--        OBJECT_CLASS_CHECK(SpaprDrcClass, klass, \
--                           TYPE_SPAPR_DRC_LOGICAL)
--#define SPAPR_DRC_LOGICAL(obj) OBJECT_CHECK(SpaprDrc, (obj), \
--                                             TYPE_SPAPR_DRC_LOGICAL)
+     /* Thread Interrupt Management Area : User (ring 3) and OS (ring 2) */
+@@ -844,19 +846,12 @@ type_init(spapr_xive_register_types)
+  */
  
- #define TYPE_SPAPR_DRC_CPU "spapr-drc-cpu"
--#define SPAPR_DRC_CPU_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_CPU)
--#define SPAPR_DRC_CPU_CLASS(klass) \
--        OBJECT_CLASS_CHECK(SpaprDrcClass, klass, TYPE_SPAPR_DRC_CPU)
--#define SPAPR_DRC_CPU(obj) OBJECT_CHECK(SpaprDrc, (obj), \
--                                        TYPE_SPAPR_DRC_CPU)
- 
- #define TYPE_SPAPR_DRC_PCI "spapr-drc-pci"
--#define SPAPR_DRC_PCI_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_PCI)
--#define SPAPR_DRC_PCI_CLASS(klass) \
--        OBJECT_CLASS_CHECK(SpaprDrcClass, klass, TYPE_SPAPR_DRC_PCI)
--#define SPAPR_DRC_PCI(obj) OBJECT_CHECK(SpaprDrc, (obj), \
--                                        TYPE_SPAPR_DRC_PCI)
- 
- #define TYPE_SPAPR_DRC_LMB "spapr-drc-lmb"
--#define SPAPR_DRC_LMB_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_LMB)
--#define SPAPR_DRC_LMB_CLASS(klass) \
--        OBJECT_CLASS_CHECK(SpaprDrcClass, klass, TYPE_SPAPR_DRC_LMB)
--#define SPAPR_DRC_LMB(obj) OBJECT_CHECK(SpaprDrc, (obj), \
--                                        TYPE_SPAPR_DRC_LMB)
- 
- #define TYPE_SPAPR_DRC_PHB "spapr-drc-phb"
--#define SPAPR_DRC_PHB_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_PHB)
--#define SPAPR_DRC_PHB_CLASS(klass) \
--        OBJECT_CLASS_CHECK(SpaprDrcClass, klass, TYPE_SPAPR_DRC_PHB)
--#define SPAPR_DRC_PHB(obj) OBJECT_CHECK(SpaprDrc, (obj), \
--                                        TYPE_SPAPR_DRC_PHB)
- 
- #define TYPE_SPAPR_DRC_PMEM "spapr-drc-pmem"
--#define SPAPR_DRC_PMEM_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_PMEM)
--#define SPAPR_DRC_PMEM_CLASS(klass) \
--        OBJECT_CLASS_CHECK(SpaprDrcClass, klass, TYPE_SPAPR_DRC_PMEM)
--#define SPAPR_DRC_PMEM(obj) OBJECT_CHECK(SpaprDrc, (obj), \
--                                         TYPE_SPAPR_DRC_PMEM)
-+
  /*
-  * Various hotplug types managed by SpaprDrc
-  *
+- * Linux hosts under OPAL reserve priority 7 for their own escalation
+- * interrupts (DD2.X POWER9). So we only allow the guest to use
+- * priorities [0..6].
++ * On POWER9, the KVM XIVE device uses priority 7 for the escalation
++ * interrupts. So we only allow the guest to use priorities [0..6].
+  */
+-static bool spapr_xive_priority_is_reserved(uint8_t priority)
++static bool spapr_xive_priority_is_reserved(SpaprXive *xive, uint8_t priority)
+ {
+-    switch (priority) {
+-    case 0 ... 6:
+-        return false;
+-    case 7: /* OPAL escalation queue */
+-    default:
+-        return true;
+-    }
++    return priority >= xive->hv_prio;
+ }
+ 
+ /*
+@@ -1053,7 +1048,7 @@ static target_ulong h_int_set_source_config(PowerPCCPU *cpu,
+         new_eas.w = eas.w & cpu_to_be64(~EAS_MASKED);
+     }
+ 
+-    if (spapr_xive_priority_is_reserved(priority)) {
++    if (spapr_xive_priority_is_reserved(xive, priority)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
+                       " is reserved\n", priority);
+         return H_P4;
+@@ -1212,7 +1207,7 @@ static target_ulong h_int_get_queue_info(PowerPCCPU *cpu,
+      * This is not needed when running the emulation under QEMU
+      */
+ 
+-    if (spapr_xive_priority_is_reserved(priority)) {
++    if (spapr_xive_priority_is_reserved(xive, priority)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
+                       " is reserved\n", priority);
+         return H_P3;
+@@ -1299,7 +1294,7 @@ static target_ulong h_int_set_queue_config(PowerPCCPU *cpu,
+      * This is not needed when running the emulation under QEMU
+      */
+ 
+-    if (spapr_xive_priority_is_reserved(priority)) {
++    if (spapr_xive_priority_is_reserved(xive, priority)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
+                       " is reserved\n", priority);
+         return H_P3;
+@@ -1466,7 +1461,7 @@ static target_ulong h_int_get_queue_config(PowerPCCPU *cpu,
+      * This is not needed when running the emulation under QEMU
+      */
+ 
+-    if (spapr_xive_priority_is_reserved(priority)) {
++    if (spapr_xive_priority_is_reserved(xive, priority)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: priority " TARGET_FMT_ld
+                       " is reserved\n", priority);
+         return H_P3;
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index a1c8540ab4..26c8d90d71 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -49,6 +49,8 @@ typedef struct SpaprXive {
+     void          *tm_mmap;
+     MemoryRegion  tm_mmio_kvm;
+     VMChangeStateEntry *change;
++
++    uint8_t       hv_prio;
+ } SpaprXive;
+ 
+ typedef struct SpaprXiveClass {
 -- 
 2.26.2
 
