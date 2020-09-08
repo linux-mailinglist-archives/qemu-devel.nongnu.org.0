@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5F126113E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:23:41 +0200 (CEST)
-Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5170B26112D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:19:11 +0200 (CEST)
+Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFcey-0001tO-JM
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
+	id 1kFcac-0002eF-Cu
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFcTW-0001lH-7j
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:11:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25104
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFcTJ-0001BB-3L
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:11:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFcT1-0005hP-6V
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:11:49 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFcSz-0005g2-Hl
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:11:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599567074;
+ s=mimecast20190719; t=1599567067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1v/PAt3CshJX/VrDKv2rrFSFurASfaywl/Okvrdx+NQ=;
- b=ehdaKA3akUgpYS8WdHi/d+gARh9uZoAQgQ6U2ssOAyQmX45oJDE80VmBM+wDKvBLc54GMZ
- Gqta4T5YrEWvO1P+t7Vo+VJxV2WUQHwj8O+URJkOvAG7ZAgoIPTqEEVzSq1mT4jpUHXkRX
- Ahowvqbgm6wUspqG7umr4FqvMnY9A7Y=
+ bh=CjMaQq5b7d6xZab6r1I8iIsLu0kAb+RnTVO4UWJ1lpA=;
+ b=ik7HOVNAb7oxA/yL6f5zL1Iqgj4xVbr8ACkoWaAYfYt8wwf3sqWgkcu64UWHKKqHzIKCLk
+ JjDhIN2FLEQeRvvbM8kKCl9r5cVtKy+1uzuYKD/n1MZpWRGdzDodc26TpBlAdcwjlakUbP
+ uFzHxpYcTWmuL/ODicGm9aqantvcvEo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-DOXN7yzrPBCzyyc3esaCTw-1; Tue, 08 Sep 2020 08:11:13 -0400
-X-MC-Unique: DOXN7yzrPBCzyyc3esaCTw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-115-9WAkl_UGN_SBHi-N2DCwhQ-1; Tue, 08 Sep 2020 08:11:06 -0400
+X-MC-Unique: 9WAkl_UGN_SBHi-N2DCwhQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFBB6107B26B;
- Tue,  8 Sep 2020 12:11:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA57810BBECD;
+ Tue,  8 Sep 2020 12:11:04 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3AB2F1002D49;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 635055D990;
  Tue,  8 Sep 2020 12:11:04 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 426EC31F96; Tue,  8 Sep 2020 14:10:51 +0200 (CEST)
+ id 4B9FE31F97; Tue,  8 Sep 2020 14:10:51 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/21] tests/acpi: allow microvm test data updates.
-Date: Tue,  8 Sep 2020 14:10:46 +0200
-Message-Id: <20200908121050.1162-18-kraxel@redhat.com>
+Subject: [PATCH v7 18/21] tests/acpi: allow override blkdev
+Date: Tue,  8 Sep 2020 14:10:47 +0200
+Message-Id: <20200908121050.1162-19-kraxel@redhat.com>
 In-Reply-To: <20200908121050.1162-1-kraxel@redhat.com>
 References: <20200908121050.1162-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:53
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:10:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,37 +91,40 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also add empty test data files.
+microvm needs virtio-blk instead of ide.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- tests/data/acpi/microvm/APIC                | 0
- tests/data/acpi/microvm/DSDT                | 0
- tests/data/acpi/microvm/FACP                | 0
- 4 files changed, 3 insertions(+)
- create mode 100644 tests/data/acpi/microvm/APIC
- create mode 100644 tests/data/acpi/microvm/DSDT
- create mode 100644 tests/data/acpi/microvm/FACP
+ tests/qtest/bios-tables-test.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf4..97c3fa621b7f 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/microvm/APIC",
-+"tests/data/acpi/microvm/DSDT",
-+"tests/data/acpi/microvm/FACP",
-diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
-new file mode 100644
-index 000000000000..e69de29bb2d1
-diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
-new file mode 100644
-index 000000000000..e69de29bb2d1
-diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
-new file mode 100644
-index 000000000000..e69de29bb2d1
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 504b810af583..1779af1cc889 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -72,6 +72,7 @@ typedef struct {
+     const char *variant;
+     const char *uefi_fl1;
+     const char *uefi_fl2;
++    const char *blkdev;
+     const char *cd;
+     const uint64_t ram_start;
+     const uint64_t scan_len;
+@@ -666,9 +667,10 @@ static void test_acpi_one(const char *params, test_data *data)
+         args = g_strdup_printf("-machine %s,kernel-irqchip=off %s -accel tcg "
+             "-net none -display none %s "
+             "-drive id=hd0,if=none,file=%s,format=raw "
+-            "-device ide-hd,drive=hd0 ",
++            "-device %s,drive=hd0 ",
+              data->machine, data->tcg_only ? "" : "-accel kvm",
+-             params ? params : "", disk);
++             params ? params : "", disk,
++             data->blkdev ?: "ide-hd");
+     }
+ 
+     data->qts = qtest_init(args);
 -- 
 2.27.0
 
