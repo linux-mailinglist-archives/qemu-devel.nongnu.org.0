@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27556261149
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:27:10 +0200 (CEST)
-Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3525026114F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 14:28:56 +0200 (CEST)
+Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFciL-0008Mz-36
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
+	id 1kFck3-0003Pf-7C
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 08:28:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcZf-00020l-Dj
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:18:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30323
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcdq-0001EU-Ko
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:22:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60871
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcZa-0006Ul-AC
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:18:11 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFcdo-0006vx-Bv
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 08:22:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599567482;
+ s=mimecast20190719; t=1599567747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xFFdxUAvqPmalZ41wiAmb2URC8cPpCKyD80nyZ5x7Go=;
- b=drk7TU/BNv/atnN5w+nb5dm1qmEqll8vRDCuNPkJS/mCjEu/KP+BMUDHcS5+5DSmLRGt8N
- EyR961ZHb2PidBJkmlkTNMERjg8Vobl4hOlzdXvxi11jDZUdrrrsinDSparXNc+2xt7Spf
- IwzzaIQwWj9QhNDVpEIyNqy+QGTqvkU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-UZEr3OWbNWuMFezDcd82QA-1; Tue, 08 Sep 2020 08:17:58 -0400
-X-MC-Unique: UZEr3OWbNWuMFezDcd82QA-1
-Received: by mail-wm1-f72.google.com with SMTP id l26so3401002wmg.7
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:17:58 -0700 (PDT)
+ bh=j9bRCsXCmfmrIbbIICY3xvGS0ShpRCj5v2H5VF82r6s=;
+ b=SHbBe577nOoDU4E93QxUTj/aFOM7RzgZRwVDvrMVjXf0YykKluCMoYMvEQaiGA2uG++wrT
+ DxY3ThT5zMrcXN+V0kw/GxPdeVQi/9DX+o2DvvfSjfAkV0Q8UbFcxR2PPTMo8463dzDLcH
+ S3zEKtde4pLNWbFzi7BY+74gb3rtKB8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-T3jYHFmuO6CpIcWPyXTBDw-1; Tue, 08 Sep 2020 08:22:26 -0400
+X-MC-Unique: T3jYHFmuO6CpIcWPyXTBDw-1
+Received: by mail-wm1-f71.google.com with SMTP id 189so1246096wme.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 05:22:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=xFFdxUAvqPmalZ41wiAmb2URC8cPpCKyD80nyZ5x7Go=;
- b=THOQb8flxx41hcjkwQKA3BMgbV+y7kRIkB3CWUV1FpP8FHT4FQEEPBWs3ZGYGCYamt
- Iv/rwbWylenU6YLSxOY5fqlGacKgqBf2wI1+Yselqwe1bmSD1u9oMTthdr14MPbuICfa
- ce1ETP4sx9TFuEANyyk4VLOyMZKa9sNRKpABngLss6U1diONMKQWsIRpplZp9V+t4rcd
- 378462f1PJvj+C0Cdp1HQwykEyEGGgbcMiVsX4YiIfImOJ5JP/wyA0kPn16ipiGMgBh0
- NodMqv/bos+gATuQuDpYtI0Xj+fCiQa2fLeq4fDgU+XglGpD1GLW+vX2UhQTm6eFmiPX
- uMiA==
-X-Gm-Message-State: AOAM531IrKmw46ctqNFaW+R/YZZNzRpguz0e6pyUP9UcCZAM3Ambou+R
- mGd19TGpW0ybCOnPGBRYbuobWXfuyzfeRDPSCgrANa/fHOdns/oxSrPP42cnej5IZoXv+v5qBmQ
- uYz+j3CL4U31XdOk=
-X-Received: by 2002:a05:600c:2053:: with SMTP id
- p19mr4139038wmg.50.1599567477607; 
- Tue, 08 Sep 2020 05:17:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz58zCSVaYBvcY3e+Sg3l/EiJ+G/erMbFfznCJJ4PVpQm3i2u1upK38v7HRATcw/RNvLS13Ow==
-X-Received: by 2002:a05:600c:2053:: with SMTP id
- p19mr4139019wmg.50.1599567477474; 
- Tue, 08 Sep 2020 05:17:57 -0700 (PDT)
+ bh=j9bRCsXCmfmrIbbIICY3xvGS0ShpRCj5v2H5VF82r6s=;
+ b=TdTOAMFXGh3hpoOs8ylo1xN7bycgBNN+4UjUL+A4CB/Iz4T650dNVR2RfMdI65fodd
+ MFdW7h7qYauWaLAiEFR0YqSwwoYOw+1ToQwBPI5sxcXtc00FC8AhlzNqoeLTUvs2/o+R
+ jpVhQLVRizxMw5fWDuFoab9eBYt4F+pxEpGgyrE9ZxbIfvZjo7mif1N+s7DzgU1DF58P
+ MuYNSOsgJN2a7TX67Q8PiXDIePZNKHtTZEX05XKaTFGegK/ZkKrO4ImBVyn12JrOR9iX
+ P/zh4lOVxOfjznXBNjmgYuhBXvKTBGjgkn0TxRtsVUv/R8NMXUpO2ZcqJuZ81fKSc/G+
+ ygkg==
+X-Gm-Message-State: AOAM530icUUigH3A4hRJAHfhLo5+Ikg3DMOmNYLx1yggw0B8kCzSI4VF
+ ffwdgO3DhzC8Dic5IsY+vRBOz21YMCvtgE7jKMR2f6qsYE578PuS+/HKMur4xDJKWVS6knRoDiV
+ INu89OllfqZiH6MM=
+X-Received: by 2002:a1c:105:: with SMTP id 5mr4405376wmb.83.1599567744852;
+ Tue, 08 Sep 2020 05:22:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmoe/dLRmVUfLonxLnNtngAuTpGIZJSVI3oi6kkamjhYbMm0hbJbq+O7p3saSKmdUSV6XWHw==
+X-Received: by 2002:a1c:105:: with SMTP id 5mr4405358wmb.83.1599567744640;
+ Tue, 08 Sep 2020 05:22:24 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id q192sm35576159wme.13.2020.09.08.05.17.55
+ by smtp.gmail.com with ESMTPSA id o5sm31091761wmc.33.2020.09.08.05.22.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Sep 2020 05:17:56 -0700 (PDT)
-Subject: Re: [PATCH v7 13/21] x86: constify x86_machine_is_*_enabled
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200908121050.1162-1-kraxel@redhat.com>
- <20200908121050.1162-14-kraxel@redhat.com>
+ Tue, 08 Sep 2020 05:22:24 -0700 (PDT)
+Subject: Re: [PATCH 1/2] logging: Fixes memory leak in test-logging.c
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+References: <20200908121022.11-1-luoyonggang@gmail.com>
+ <20200908121022.11-2-luoyonggang@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,12 +87,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <27c460f4-252d-6dbf-3628-9a02e963387c@redhat.com>
-Date: Tue, 8 Sep 2020 14:17:55 +0200
+Message-ID: <e8d1f130-f990-b681-9fb8-ccaaca1f8c93@redhat.com>
+Date: Tue, 8 Sep 2020 14:22:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200908121050.1162-14-kraxel@redhat.com>
+In-Reply-To: <20200908121022.11-2-luoyonggang@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -125,24 +123,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Daniel Brodsky <dnbrdsky@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/20 2:10 PM, Gerd Hoffmann wrote:
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Sergio Lopez <slp@redhat.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  include/hw/i386/x86.h | 4 ++--
->  hw/i386/x86.c         | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
+On 9/8/20 2:10 PM, Yonggang Luo wrote:
+> g_dir_make_tmp Returns the actual name used. This string should be freed with g_free() when not needed any longer
+>  and is is in the GLib file name encoding. In case of errors, NULL is returned and error will be set.
+> Use g_autofree to free it properly
+
+Please limit your lines to 80 chars, see CODING_STYLE.rst:
+
+  Line width
+  ==========
+
+  Lines should be 80 characters; try not to make them longer.
+
+Also it is recommended to limit commit description to
+72 chars. With that addressed:
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+(and please keep the reviewers tags when you repost the
+same patch, this way we don't have to review your patches
+twice).
+
+> 
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+>  tests/test-logging.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/test-logging.c b/tests/test-logging.c
+> index 8a1161de1d..957f6c08cd 100644
+> --- a/tests/test-logging.c
+> +++ b/tests/test-logging.c
+> @@ -196,7 +196,7 @@ static void rmdir_full(gchar const *root)
+>  
+>  int main(int argc, char **argv)
+>  {
+> -    gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
+> +    g_autofree gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
+>      int rc;
+>  
+>      g_test_init(&argc, &argv, NULL);
+> 
 
 
