@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70400260C35
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:38:03 +0200 (CEST)
-Received: from localhost ([::1]:36986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560FD260C03
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Sep 2020 09:31:36 +0200 (CEST)
+Received: from localhost ([::1]:46558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFYCY-0002pU-Gs
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49632)
+	id 1kFY6J-0003Py-AU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 03:31:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4s-0001WH-KD
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:30:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54632)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4w-0001f4-W5
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:30:11 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46883
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4q-0003om-PD
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:30:06 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFY4v-0003pA-26
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 03:30:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599550203;
+ s=mimecast20190719; t=1599550208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uej+9/PferUhRpA5AZ1L9n0B9MQ0JKQia68hSmWaE1E=;
- b=hJEiNOSD2H4jCX+IEnikmmVeyQXyefRL1KzlDtEfNhqWz1eQSTjWV7IusGYflBVXNGbJph
- 0/cAhaEgmBUaEQnEru81dYpYrGHcZCAcuCm3HbAsU4iFD9S46XftvIg9LgmOIk1zjVrG9X
- nixMDePCO35EMVChqVTtzLAjtDD74OY=
+ bh=o274/PiZC6KYlxIK2Es/O7Qwtv6sZHgZOMd1mbHMNc8=;
+ b=Um/fgOHDxA3az3ptrhVm+UKt+8w5JPoeo6Eqlei8Q7vOZ6VIGYO4aSRRdLulWMlLh0+4Iq
+ XcH2F8I2P1PJe6h8a2q+YR3DsXXJzPtH8JT+MOhd4CPVb1+xAWVIEUjfOBEECEZCUydEJQ
+ SBqjhsJpbv6neSeFmk5xo+IxdyA/4us=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-S3O6Ho0mPbGpZfZ1d9SlTQ-1; Tue, 08 Sep 2020 03:30:00 -0400
-X-MC-Unique: S3O6Ho0mPbGpZfZ1d9SlTQ-1
+ us-mta-160-ATDTwubSNcucd725buo_pw-1; Tue, 08 Sep 2020 03:30:06 -0400
+X-MC-Unique: ATDTwubSNcucd725buo_pw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E58D807351
- for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:30:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3D811DDEF
+ for <qemu-devel@nongnu.org>; Tue,  8 Sep 2020 07:30:05 +0000 (UTC)
 Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-122.ams2.redhat.com
  [10.36.112.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C320811BC;
- Tue,  8 Sep 2020 07:29:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78D767E30C;
+ Tue,  8 Sep 2020 07:30:00 +0000 (UTC)
 From: Laszlo Ersek <lersek@redhat.com>
 To: qemu devel list <qemu-devel@nongnu.org>
-Subject: [PATCH 09/10] pc-bios: update the README file with edk2-stable202008
- information
-Date: Tue,  8 Sep 2020 09:29:38 +0200
-Message-Id: <20200908072939.30178-10-lersek@redhat.com>
+Subject: [PATCH 10/10] tests: acpi: update "virt/SSDT.memhp" for
+ edk2-stable202008
+Date: Tue,  8 Sep 2020 09:29:39 +0200
+Message-Id: <20200908072939.30178-11-lersek@redhat.com>
 In-Reply-To: <20200908072939.30178-1-lersek@redhat.com>
 References: <20200908072939.30178-1-lersek@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +58,16 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 02:11:34
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 01:08:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,32 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UmVmcmVzaCB0aGUgInBjLWJpb3MvUkVBRE1FIiBmaWxlIHdpdGggZWRrMiBhbmQgT3BlblNTTCBy
-ZWxlYXNlIGluZm8sCm1hdGNoaW5nIHRoZSBlZGsyLXN0YWJsZTIwMjAwOCBmaXJtd2FyZSBpbWFn
-ZXMgYWRkZWQgaW4gdGhlIHByZXZpb3VzCnBhdGNoLgoKQ2M6IFBoaWxpcHBlIE1hdGhpZXUtRGF1
-ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4KUmVmOiBodHRwczovL2J1Z3MubGF1bmNocGFkLm5ldC9x
-ZW11LytidWcvMTg1MjE5NgpTaWduZWQtb2ZmLWJ5OiBMYXN6bG8gRXJzZWsgPGxlcnNla0ByZWRo
-YXQuY29tPgotLS0KIHBjLWJpb3MvUkVBRE1FIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBp
-bnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3BjLWJpb3MvUkVBRE1F
-IGIvcGMtYmlvcy9SRUFETUUKaW5kZXggZmE4YjU4Yjc5NzJhLi4yZTQ5YmU2MDdlMDIgMTAwNjQ0
-Ci0tLSBhL3BjLWJpb3MvUkVBRE1FCisrKyBiL3BjLWJpb3MvUkVBRE1FCkBAIC01Miw4ICs1Miw4
-IEBACiAgIHZhcmlhYmxlIHN0b3JlIHRlbXBsYXRlcyBidWlsdCBmcm9tIHRoZSBUaWFub0NvcmUg
-Y29tbXVuaXR5J3MgRUZJIERldmVsb3BtZW50CiAgIEtpdCBJSSBwcm9qZWN0CiAgIDxodHRwczov
-L2dpdGh1Yi5jb20vdGlhbm9jb3JlL3RpYW5vY29yZS5naXRodWIuaW8vd2lraS9FREstSUk+LiBU
-aGUgaW1hZ2VzCi0gIHdlcmUgYnVpbHQgYXQgZ2l0IHRhZyAiZWRrMi1zdGFibGUyMDE5MDUiLiBU
-aGUgZmlybXdhcmUgYmluYXJpZXMgYnVuZGxlIHBhcnRzCi0gIG9mIHRoZSBPcGVuU1NMIHByb2pl
-Y3QsIGF0IGdpdCB0YWcgIk9wZW5TU0xfMV8xXzFiIiAodGhlIE9wZW5TU0wgdGFnIGlzIGEKKyAg
-d2VyZSBidWlsdCBhdCBnaXQgdGFnICJlZGsyLXN0YWJsZTIwMjAwOCIuIFRoZSBmaXJtd2FyZSBi
-aW5hcmllcyBidW5kbGUgcGFydHMKKyAgb2YgdGhlIE9wZW5TU0wgcHJvamVjdCwgYXQgZ2l0IHRh
-ZyAiT3BlblNTTF8xXzFfMWciICh0aGUgT3BlblNTTCB0YWcgaXMgYQogICBmdW5jdGlvbiBvZiB0
-aGUgZWRrMiB0YWcpLiBQYXJ0cyBvZiB0aGUgQmVya2VsZXkgU29mdEZsb2F0IGxpYnJhcnkgYXJl
-CiAgIGJ1bmRsZWQgYXMgd2VsbCwgYXQgUmVsZWFzZSAzZSBwbHVzIGEgc3Vic2VxdWVudCB0eXBv
-IGZpeCAoY29tbWl0CiAgIGI2NGFmNDFjMzI3NmY5N2YwZTE4MTkyMDQwMGVlMDU2YjljODgwMzcp
-LCBhcyBhbiBPcGVuU1NMIGRlcGVuZGVuY3kgb24gMzItYml0Ci0tIAoyLjE5LjEuMy5nMzAyNDdh
-YTVkMjAxCgoK
+VGhlIE5WRElNTV9BQ1BJX01FTV9BRERSIGR3b3JkIGluICJ2aXJ0L1NTRFQubWVtaHAiIG5lZWRz
+IGFuIHVwZGF0ZSBkdWUgdG8KdGhlIGZpcm13YXJlIG5vdyBhbGxvY2F0aW5nIE5WRElNTV9EU01f
+TUVNX0ZJTEUgYXQgYSBsb3dlciBhZGRyZXNzLgoKPiAgICAgICAgICB9Cj4gICAgICB9Cj4KPiAt
+ICAgIE5hbWUgKE1FTUEsIDB4NDNERDAwMDApCj4gKyAgICBOYW1lIChNRU1BLCAweDQzRDEwMDAw
+KQo+ICB9Cj4KCkNjOiAiTWljaGFlbCBTLiBUc2lya2luIiA8bXN0QHJlZGhhdC5jb20+CkNjOiBJ
+Z29yIE1hbW1lZG92IDxpbWFtbWVkb0ByZWRoYXQuY29tPgpDYzogUGhpbGlwcGUgTWF0aGlldS1E
+YXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPgpSZWY6IGh0dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0
+L3FlbXUvK2J1Zy8xODUyMTk2ClNpZ25lZC1vZmYtYnk6IExhc3psbyBFcnNlayA8bGVyc2VrQHJl
+ZGhhdC5jb20+Ci0tLQogdGVzdHMvcXRlc3QvYmlvcy10YWJsZXMtdGVzdC1hbGxvd2VkLWRpZmYu
+aCB8ICAgMSAtCiB0ZXN0cy9kYXRhL2FjcGkvdmlydC9TU0RULm1lbWhwICAgICAgICAgICAgIHwg
+QmluIDczNiAtPiA3MzYgYnl0ZXMKIDIgZmlsZXMgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlm
+ZiAtLWdpdCBhL3Rlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QtYWxsb3dlZC1kaWZmLmggYi90
+ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LWFsbG93ZWQtZGlmZi5oCmluZGV4IGU1NjkwOThh
+YmRkYy4uZGZiODUyM2M4YmY0IDEwMDY0NAotLS0gYS90ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10
+ZXN0LWFsbG93ZWQtZGlmZi5oCisrKyBiL3Rlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QtYWxs
+b3dlZC1kaWZmLmgKQEAgLTEsMiArMSBAQAogLyogTGlzdCBvZiBjb21tYS1zZXBhcmF0ZWQgY2hh
+bmdlZCBBTUwgZmlsZXMgdG8gaWdub3JlICovCi0idGVzdHMvZGF0YS9hY3BpL3ZpcnQvU1NEVC5t
+ZW1ocCIsCmRpZmYgLS1naXQgYS90ZXN0cy9kYXRhL2FjcGkvdmlydC9TU0RULm1lbWhwIGIvdGVz
+dHMvZGF0YS9hY3BpL3ZpcnQvU1NEVC5tZW1ocAppbmRleCBkYjYxZDY3MzMyODQuLjM3NWQ3YjZm
+Yzg1YSAxMDA2NDQKQmluYXJ5IGZpbGVzIGEvdGVzdHMvZGF0YS9hY3BpL3ZpcnQvU1NEVC5tZW1o
+cCBhbmQgYi90ZXN0cy9kYXRhL2FjcGkvdmlydC9TU0RULm1lbWhwIGRpZmZlcgotLSAKMi4xOS4x
+LjMuZzMwMjQ3YWE1ZDIwMQoK
 
 
