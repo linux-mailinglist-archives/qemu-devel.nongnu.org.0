@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1624D262CC8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 12:03:17 +0200 (CEST)
-Received: from localhost ([::1]:36940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2385262CDB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 12:09:50 +0200 (CEST)
+Received: from localhost ([::1]:41368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwwe-0007hn-56
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 06:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
+	id 1kFx30-0002CL-0r
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 06:09:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kFwux-0005wy-FM
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 06:01:31 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43870
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kFwuv-0001J4-C6
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 06:01:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599645688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mLxxqccAK772g755sAwvvHBQj3xExEC/1XyjXdV4ce0=;
- b=SjMRpbld8x8maty9gLBWACvUktSFNiGbgGB6GBn4yO5dgre1/WZbBApEbs8PAX9bDo3Uyv
- HNqipX4oFwf8x52MT4tcDubpgHN7hLLDF6cp9cYFIsHIXDfPpBkA0K+3fFMzZcSN0Osha+
- jrPezMsEiEdV9/aVSW/kjPlu8rNno50=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-FFDG1SY_P5yre2V2jCCgYA-1; Wed, 09 Sep 2020 06:01:24 -0400
-X-MC-Unique: FFDG1SY_P5yre2V2jCCgYA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6204A802B7E;
- Wed,  9 Sep 2020 10:01:23 +0000 (UTC)
-Received: from gondolin (ovpn-113-3.ams2.redhat.com [10.36.113.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E90F65D9EF;
- Wed,  9 Sep 2020 10:01:15 +0000 (UTC)
-Date: Wed, 9 Sep 2020 12:01:13 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/s390x/css: Remove double initialization
-Message-ID: <20200909120113.148b51f3.cohuck@redhat.com>
-In-Reply-To: <20200907024020.854465-1-philmd@redhat.com>
-References: <20200907024020.854465-1-philmd@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFx2F-0001gO-Fi; Wed, 09 Sep 2020 06:09:03 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFx2D-00026A-OE; Wed, 09 Sep 2020 06:09:03 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 67so1700209pgd.12;
+ Wed, 09 Sep 2020 03:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jZkHxOcJ5Q39hYOQUMkAjTg0hOyiBYw2ffyYzFdgrfI=;
+ b=IS4ctOfixSyz9cjBbHYNUIh2rOPpKrSkIgB+1jcmFhXGCzFyNdpqs1L/YMVK8D66x9
+ cdWMLuE9bOweSMIXDEmX1VYe7p5ov4TeriwZgujOmKHWbQDkIhAw+xyDEvMtbl1ypQse
+ qi3lGlb0en76YYyWhazA4lEO5cr77cmS9GfrgUY9dgQeDa0GRi2DiJL0H0lv1r62c+tG
+ yw7b7z2TVftdsqQWXoCnOFUqS+Hi0C/ONDegX+zlFKjxo+O3ysdeVlFIdwQgnTmTWwmE
+ /O/DV6IvmkQokMOmAZUCpcTPLmf6LtzhELKg7HCjG3xD8svjJ6lm3z342iCOqD/2hs6t
+ BA4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jZkHxOcJ5Q39hYOQUMkAjTg0hOyiBYw2ffyYzFdgrfI=;
+ b=CKXEUDi15s9DLlgQxLD5QbQjAJO7PbTDgaM1f4mhH5a0p67feajL5SHIVtle1C9h8s
+ EoSss+ASfZaZGJ4EhrRA00ILV4W26KgcotlK2xQhVIp1lpA2agsycl8Jn62XnhNiN3Vn
+ m8Ncjrs0Kg7OtY//Ot3AAvLnI6PBTCgUlaVrgMatJySIxHQ2hjiR+IXY0/fXU+WkVIHG
+ BQmlD3j89oMrjkrdgteugd58TDeQEhehuTZEJ3PNe0uXi9D/bo0WFP6knIef2GW57/Fj
+ 6ftdd2Xn1R8KIWSxoToriJxVolE2IaVcVxUYxh/lFSzkjBkIruHuz/VxH5szQ971tgoI
+ tEtg==
+X-Gm-Message-State: AOAM532L14EdSjzFZWDEQ6sFCg6w1HSq6S29Ahfd276F7e8b1Jzm1ZLX
+ Yg9TX2hpvZYi+z1hh5aQUb0NTXltAVAN2X3H
+X-Google-Smtp-Source: ABdhPJxDZ2yXmRzDg/0SkRFrAx8vRhZfofcfSnRRJ986zQ7BJigEBoymZvG/ycqYrkXuSUllmPTtdg==
+X-Received: by 2002:a63:651:: with SMTP id 78mr83098pgg.344.1599646139264;
+ Wed, 09 Sep 2020 03:08:59 -0700 (PDT)
+Received: from localhost.localdomain ([222.95.248.6])
+ by smtp.googlemail.com with ESMTPSA id d5sm2035502pfq.72.2020.09.09.03.08.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Sep 2020 03:08:58 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 14/21] cirrus: Building freebsd in a single short
+Date: Wed,  9 Sep 2020 18:08:42 +0800
+Message-Id: <20200909100842.1442-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 02:43:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,39 +80,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  7 Sep 2020 04:40:20 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+freebsd 1 hour limit not hit anymore
 
-> Fix eventual copy/paste mistake introduced in commit bc994b74ea
-> ("s390x/css: Use static initialization for channel_subsys fields").
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/s390x/css.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-> index 519dc91316d..9961cfe7bf6 100644
-> --- a/hw/s390x/css.c
-> +++ b/hw/s390x/css.c
-> @@ -353,7 +353,6 @@ static ChannelSubSys channel_subsys =3D {
->      .pending_crws =3D QTAILQ_HEAD_INITIALIZER(channel_subsys.pending_crw=
-s),
->      .do_crw_mchk =3D true,
->      .sei_pending =3D false,
-> -    .do_crw_mchk =3D true,
->      .crws_lost =3D false,
->      .chnmon_active =3D false,
->      .indicator_addresses =3D
+I think we going to a wrong direction, I think there is some tests a stall the test runner,
+please look at
+https://cirrus-ci.com/task/5110577531977728
+When its running properly, the consumed time are little, but when tests running too long,
+look at the cpu  usage, the cpu usage are nearly zero. does't consuming time.
 
-Thanks, applied.
+And look at
+https://cirrus-ci.com/task/6119341601062912
+
+If the tests running properly, the time consuming are little
+We should not hide the error by split them
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ .cirrus.yml | 35 ++++++++---------------------------
+ 1 file changed, 8 insertions(+), 27 deletions(-)
+
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 49335e68c9..b0004273bb 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -1,38 +1,19 @@
+ env:
+   CIRRUS_CLONE_DEPTH: 1
+ 
+-freebsd_1st_task:
++freebsd_12_task:
+   freebsd_instance:
+     image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gsed
+-    nettle perl5 pixman pkgconf png usbredir
++    cpu: 8
++    memory: 8G
++  install_script:
++    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
++    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
++          nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --disable-user --target-list-exclude='alpha-softmmu
+-        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
+-        --enable-werror || { cat config.log; exit 1; }
+-    - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake -j$(sysctl -n hw.ncpu) check
+-
+-freebsd_2nd_task:
+-  freebsd_instance:
+-    image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
+-    nettle perl5 pixman pkgconf png SDL2 usbredir
+-  script:
+-    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
+-        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
+-        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
+-        || { cat config.log; exit 1; }
++    - ../configure --enable-werror || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake -j$(sysctl -n hw.ncpu) check
+ 
+-- 
+2.28.0.windows.1
 
 
