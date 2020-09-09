@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B98B263639
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:44:52 +0200 (CEST)
-Received: from localhost ([::1]:56534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71830263645
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:49:24 +0200 (CEST)
+Received: from localhost ([::1]:40964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG55P-000239-Dz
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57214)
+	id 1kG59n-0007Dy-H9
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG53m-0000NO-Ax; Wed, 09 Sep 2020 14:43:10 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:34687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG53k-0007oR-Qx; Wed, 09 Sep 2020 14:43:10 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id v196so3070542pfc.1;
- Wed, 09 Sep 2020 11:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VE49ZNwXmJO0oiZLGn66FYFMfa5GjTxPVHs0mRhL2ZU=;
- b=eZozQ3uq8l8PQp0TiptQYeoJoDOLixwzFMLfKGy1YoSpn4sjSimEilxMqzPZk5cLCc
- oZ/AevTMx3JUhbjLTXXJEdwwmIAEZ9aIa54gGeZw36RTPkbRc9GhTcR9Hy64xcjcwx5v
- 6uLLDKS25zfAuTQxw31TXYRNyWm1IMzZm9aTFH5aQ1dAomj55XVO+JVWnq7Ui603Q/Gm
- ngloVGMOs7M1yXIQRRtBOEIm3pzkDmE0E7vSTqn049l0q0uDZlpSUFI4+73BguIakuUZ
- Llrysz0rFnfmimgZUAoKaFoDes9giV4yLX4DDpHjNCOIU1vo+7CTEBNP696buc8MlWCZ
- jdAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VE49ZNwXmJO0oiZLGn66FYFMfa5GjTxPVHs0mRhL2ZU=;
- b=VySR6K6xOxa//fInb56z4wrgZKXAiu9Rm9p1pu0m06D8H88xDkZ6ds8vTpHNebIWyD
- BdaGwo1r/GqTqqYapH8/SArLlakEe0fSPMssKkNLwku963c2neo78y9aCyQF8qRFrGtT
- mcmAGG8nVwkAkEh8r53kdffiXk4TN5qRGvPWVDW/OYETKsrASzMIs7h8aN85lnCpwVkg
- Fp3ze+alC9hcbvu3kBrhudEJB6DpJ/LvdlmQpzLNRkyJYt/s1ABJhP5IMqcGycOqI/J0
- aMVb8WvPVajFQpyTD1+B6yGhKYPH15sw/B59gJ8Xsj1j+aCktca3nIMCklJeXDdrl183
- 4rgg==
-X-Gm-Message-State: AOAM532rmi9glzoRZVy4oJDxASG/BiAioVZjwY/n3ao8ar6R/SpFkxdP
- CFuYeFEHLrJWnwkB5N24Wa88+aBf807eyZkp
-X-Google-Smtp-Source: ABdhPJzQhYdhaWE0AuhnSSYJ4PrEu8rrJy/l1EwX9Rr1oh7wpqJBE4Efc93R4P6pAGpFLEXVinc4XQ==
-X-Received: by 2002:a17:902:a40e:: with SMTP id
- p14mr2031587plq.4.1599676983844; 
- Wed, 09 Sep 2020 11:43:03 -0700 (PDT)
-Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 63sm3521673pfw.42.2020.09.09.11.42.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 11:43:03 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 25/25] meson: guard the minimal meson version to 0.55.1
-Date: Thu, 10 Sep 2020 02:42:37 +0800
-Message-Id: <20200909184237.765-3-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200909184237.765-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kG58X-0006Hw-Bm
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:48:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kG58V-0008O9-Dh
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:48:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599677282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QbvojR69c4xzKlPLFj9TZWonkDVezZj3uCDAQXNnp6U=;
+ b=QVG9G2VpDDbo+NYf30K0ARTGLaG17gEZTxqEY95Yka6MclqRKb9DVXBtGImH89YpKObsla
+ Cdhfy3wwfwthfGaM2+KvmiUWCCILAPsQa3DZ3zoSOd7ABnE97dg2AMIDU0rT/fdoC/2b3c
+ OVvbgsJnIIExovMomDrtxu0AFJcLmg4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-128-hojcLT5RPsqMucgC2tTeLQ-1; Wed, 09 Sep 2020 14:48:00 -0400
+X-MC-Unique: hojcLT5RPsqMucgC2tTeLQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DC8F1091063;
+ Wed,  9 Sep 2020 18:47:58 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-234.ams2.redhat.com [10.36.112.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0CD3B19C66;
+ Wed,  9 Sep 2020 18:47:50 +0000 (UTC)
+Subject: Re: [PATCH v6 08/25] tests: disable /char/stdio/* tests in
+ test-char.c on win32
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
 References: <20200909184237.765-1-luoyonggang@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <70cdfb53-b1d3-0029-923b-ec33a170eedb@redhat.com>
+Date: Wed, 9 Sep 2020 20:47:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200909184237.765-1-luoyonggang@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:25:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,47 +84,106 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So we can removal usage of unstable-keyval
+On 09/09/2020 20.42, Yonggang Luo wrote:
+> These tests are blocking test-char to be finished.
+> Disable them by using variable is_win32, so we doesn't
+> need macro to open it. and easy recover those function
+> latter.
+> 
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+>  tests/test-char.c | 26 ++++++++++++++++----------
+>  1 file changed, 16 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tests/test-char.c b/tests/test-char.c
+> index d35cc839bc..184ddceab8 100644
+> --- a/tests/test-char.c
+> +++ b/tests/test-char.c
+> @@ -77,7 +77,6 @@ static void fe_event(void *opaque, QEMUChrEvent event)
+>      }
+>  }
+>  
+> -#ifdef _WIN32
+>  static void char_console_test_subprocess(void)
+>  {
+>      QemuOpts *opts;
+> @@ -102,7 +101,7 @@ static void char_console_test(void)
+>      g_test_trap_assert_passed();
+>      g_test_trap_assert_stdout("CONSOLE");
+>  }
+> -#endif
+> +
+>  static void char_stdio_test_subprocess(void)
+>  {
+>      Chardev *chr;
+> @@ -1448,7 +1447,11 @@ static SocketAddress unixaddr = {
+>  
+>  int main(int argc, char **argv)
+>  {
+> -    bool has_ipv4, has_ipv6;
+> +    bool has_ipv4, has_ipv6, is_win32 = false;
+> +
+> +#ifdef _WIN32
+> +    is_win32 = true;
+> +#endif
+>  
+>      qemu_init_main_loop(&error_abort);
+>      socket_init();
+> @@ -1467,12 +1470,15 @@ int main(int argc, char **argv)
+>      g_test_add_func("/char/invalid", char_invalid_test);
+>      g_test_add_func("/char/ringbuf", char_ringbuf_test);
+>      g_test_add_func("/char/mux", char_mux_test);
+> -#ifdef _WIN32
+> -    g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
+> -    g_test_add_func("/char/console", char_console_test);
+> -#endif
+> -    g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
+> -    g_test_add_func("/char/stdio", char_stdio_test);
+> +    if (0) {
+> +        g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
+> +        g_test_add_func("/char/console", char_console_test);
+> +    }
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- meson.build | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Sorry, but this looks pretty much like a work-in-progress debugging
+patch. Please avoid sending such stuff to the mailing list, and if so,
+clearly mark it as an RFC and describe it in the patch description.
 
-diff --git a/meson.build b/meson.build
-index 0b1741557d..af34a85bec 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,14 +1,11 @@
--project('qemu', ['c'], meson_version: '>=0.55.0',
-+project('qemu', ['c'], meson_version: '>=0.55.1',
-         default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11',
-                           'b_colorout=auto'],
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
- 
- not_found = dependency('', required: false)
--if meson.version().version_compare('>=0.56.0')
--  keyval = import('keyval')
--else
--  keyval = import('unstable-keyval')
--endif
-+keyval = import('keyval')
-+
- ss = import('sourceset')
- 
- sh = find_program('sh')
--- 
-2.28.0.windows.1
+It also does not help much if you send your series three times a day to
+the list - nobody has that much reviewing band width. So please take
+some time, finish your patches first, and when you're sure that they are
+really finished, then post a new series to the mailing list.
+
+Thanks,
+ Thomas
+
+
+> +    if (!is_win32) {
+> +        g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
+> +        g_test_add_func("/char/stdio", char_stdio_test);
+> +    }
+>  #ifndef _WIN32
+>      g_test_add_func("/char/pipe", char_pipe_test);
+>  #endif
+> @@ -1534,7 +1540,7 @@ int main(int argc, char **argv)
+>      g_test_add_data_func("/char/socket/client/dupid-reconnect/" # name, \
+>                           &client8 ##name, char_socket_client_dupid_test)
+>  
+> -    if (has_ipv4) {
+> +    if (has_ipv4 && !is_win32) {
+>          SOCKET_SERVER_TEST(tcp, &tcpaddr);
+>          SOCKET_CLIENT_TEST(tcp, &tcpaddr);
+>          g_test_add_data_func("/char/socket/server/two-clients/tcp", &tcpaddr,
+> 
 
 
