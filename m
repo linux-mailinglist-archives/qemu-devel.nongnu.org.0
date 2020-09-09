@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEFE2625D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 05:21:13 +0200 (CEST)
-Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108F3262669
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 06:41:29 +0200 (CEST)
+Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFqfY-0003cz-MP
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 23:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37326)
+	id 1kFrvD-0001h5-Ls
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 00:41:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kFqeW-0002p6-5G
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 23:20:08 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:44764)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kFru4-0000rL-8K
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 00:40:16 -0400
+Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:43775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kFqeU-0007RR-9J
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 23:20:07 -0400
-Received: by mail-io1-xd41.google.com with SMTP id g128so1620400iof.11
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 20:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kFru2-0004Kz-M9
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 00:40:15 -0400
+Received: by mail-oo1-xc42.google.com with SMTP id h9so275774ooo.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 21:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2zPQO5AQ4HhpoQb9HMnUh3AE8e9auFs4KQT3/apDvk8=;
- b=lvASdAnwR2B5iT72Rf7oF6AnFcPOB4qjnQurOEZoDYv3p6HnDwGnqkgLvRnMKOhP/N
- DtokjzoIWqVXNCbuN9GQafobifMNwSFUrranFobEDMeMVxTXIdG1iudePTI4h3W8ZA8J
- rDXzB3fDvdjbP4ekuVS/QEg8c39hmVTzplaDT4qDO6L1mzuJ/rM1zEPd/4fFAf8DlLma
- 2t8k/NZlnvY7BAs5bYgGo0GcSRVJN+PtANcb9POeum7NrCPlXf1+qxv2bENHPoLVJe9Q
- ovhtMMnljYyZnE4L9f8Hd/XnuLSpMfGXeTrqvmqdvVtiHb4t9wURfShvaC2o4Bvght2V
- nCrw==
+ :cc:content-transfer-encoding;
+ bh=lWjGsYqeWqPzYP7CRgDI6W8ZO+y9NFiTc72WtJMNcG4=;
+ b=pcyWYiZMUOlpT/GfkExAscGodLhHX1RuWp308ST4geR+tQ/5Hu0i2OPyEPIdtv5Iky
+ DVpSk5EjFywiIiTw4Hpj0H4aDQOCiEkFXVq7WzXXUxnkmz2H7O0XMTzljod5ybS+SW4G
+ 2THDtvCPaKprB4+sqCdKxb9zjwLvZ9LKt95SXrS7FADWvXHlUdFL/Az5wJx91MjZ71wi
+ +UJLzIzHnzQg+lc6et0rGaMObVH4JEAbVCc+ZauGvn2yNLuc0msot1TEQxaABG0Pem/p
+ lFj2bdR1BBuLkyPf0UR3PU8RBCAyO9zn5dZNPqedYRj2N1s4Vaf6mjpzRH2pKtWXuy+m
+ o6+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2zPQO5AQ4HhpoQb9HMnUh3AE8e9auFs4KQT3/apDvk8=;
- b=f28nLMvsTXB3SUmlLw8WoRviOy6PjPU3pIhud552754hPS+/Gu6nT+zrnp9GYfBxqA
- B8QGTHStj6F4Oh7Dn5O1pBwlMpYoJxfC/bc/bRmknPeZwkq2RaGCIPZ41VhME5Uja+jJ
- lItpE5RKGgWlIhA6w79tpJsgvWEcvHf+L2uWlqLlWBiR+ylF6ITkObu7F7b/mMkyCFgI
- Fai5l/ah7AVaQxgcfZTMVatCODMaXsf1cpsn61vhKTQFlTTzJfSc6X4JhXmhNHySM2bz
- HwxWKnFCbGOgQWszSVgD3UjJ7/FLMV4vkz54gZ/Ku8WlKnGXdqolbgPCQGZAYaA1oHj2
- UrLQ==
-X-Gm-Message-State: AOAM531sv9TxLFskBsKOCIyhK8g3tD9Me7E+LSbR7GA+sOnKCncjFCX+
- 7UtdcWJY4kW/Q/81yrTQlK40ozli1WuY7v/0AwHK
-X-Google-Smtp-Source: ABdhPJxuVNIAzW1uE13hSYOU4e9jFoLOAxs29DYTYFofAt4XjldeXFFsMMa5vKFMxD5c6AxKNgBxwWKL5EMOl8SkTis=
-X-Received: by 2002:a02:4b07:: with SMTP id q7mr2263949jaa.84.1599621604974;
- Tue, 08 Sep 2020 20:20:04 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lWjGsYqeWqPzYP7CRgDI6W8ZO+y9NFiTc72WtJMNcG4=;
+ b=SL7+yv7poNtobIkwWuOSxsVtrt9QLvCIXwfcuIQWTv2jlZclYMY0ESN1EyMSqMESMm
+ Bd43e6uJuDoH7uhdHOTceiLHLR+k4ijEko+Hy6VxcKGU9oy3Ez9oJMTzLqePZz2t3gwq
+ tmppkbVTP2ttefLr2V7p/NRvR3akJy1Z2oMpU2r68IFwsH8yKvDFCktKPzd2a/Vz6EZ1
+ cr+Ek3FXOwEi1kr3eqLooMvJs/cylr7pCZU+MBInjbjGdzMJo7SsUd8VlbLiLq7vFhjs
+ N/UDMJZCVoeXDSbbqgW9fnMxaBc4/w0V+H3mKbbYEOQ9hCws91kHRGZfJ21KeRk/bsbM
+ MfzA==
+X-Gm-Message-State: AOAM531caRFgNeoGABky4DwjNerSmSxfebHG8YahlNaqQiIQBxuv/OhS
+ ZU1q93B/RvgamVyXvVhT22WzQfn35UfBh3k+Uc8=
+X-Google-Smtp-Source: ABdhPJxvVMSNsAY0gOsDavf0gzoPl+2+sfMIlGzoCkWal4149GTDFHwaBxhJPPFtAY6jowc0q7HHlDdB7ijyzj42EPs=
+X-Received: by 2002:a4a:5a06:: with SMTP id v6mr1500791ooa.22.1599626413437;
+ Tue, 08 Sep 2020 21:40:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1599549462.git.haibo.xu@linaro.org>
- <f85b67a841ad86f461c7dc0c8f5f8b1e5d490da5.1599549462.git.haibo.xu@linaro.org>
- <20200908114149.tdkns7qwwchsmnbi@kamzik.brq.redhat.com>
-In-Reply-To: <20200908114149.tdkns7qwwchsmnbi@kamzik.brq.redhat.com>
-From: Haibo Xu <haibo.xu@linaro.org>
-Date: Wed, 9 Sep 2020 11:19:54 +0800
-Message-ID: <CAJc+Z1Fqc4wTXE56naZ0s7eQGjV1_23C6Qa=n9_8euyZgUioUA@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] target/arm: spe: Add corresponding doc and test.
-To: Andrew Jones <drjones@redhat.com>
+References: <20200908164157.47108-1-liq3ea@163.com>
+ <f50624b9-dac7-c6ab-cce9-71cd9de477e1@redhat.com>
+In-Reply-To: <f50624b9-dac7-c6ab-cce9-71cd9de477e1@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Wed, 9 Sep 2020 12:39:37 +0800
+Message-ID: <CAKXe6SKkk0Qq4CKn8xTbXrUcDav29rVVK8bq4Y-5TwSfKnDuww@mail.gmail.com>
+Subject: Re: [RFC 0/4] Add a 'in_mmio' device flag to avoid the DMA to MMIO
+To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=haibo.xu@linaro.org; helo=mail-io1-xd41.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,129 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Li Qiang <liq3ea@163.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Qemu Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Sep 2020 at 19:41, Andrew Jones <drjones@redhat.com> wrote:
+Jason Wang <jasowang@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=889=E6=97=A5=
+=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=8810:17=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Tue, Sep 08, 2020 at 08:13:30AM +0000, Haibo Xu wrote:
-> > Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
-> > ---
-> >  docs/system/arm/cpu-features.rst | 20 ++++++++++++++++++++
-> >  target/arm/monitor.c             |  2 +-
-> >  tests/qtest/arm-cpu-features.c   |  9 +++++++++
-> >  3 files changed, 30 insertions(+), 1 deletion(-)
+>
+> On 2020/9/9 =E4=B8=8A=E5=8D=8812:41, Li Qiang wrote:
+> > Currently the qemu device fuzzer find some DMA to MMIO issue. If the
+> > device handling MMIO currently trigger a DMA which the address is MMIO,
+> > this will reenter the device MMIO handler. As some of the device doesn'=
+t
+> > consider this it will sometimes crash the qemu.
 > >
-> > diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-> > index 2d5c06cd01..5b81b9a560 100644
-> > --- a/docs/system/arm/cpu-features.rst
-> > +++ b/docs/system/arm/cpu-features.rst
-> > @@ -344,3 +344,23 @@ verbose command lines.  However, the recommended way to select vector
-> >  lengths is to explicitly enable each desired length.  Therefore only
-> >  example's (1), (4), and (6) exhibit recommended uses of the properties.
-> >
-> > +SPE CPU Property
-> > +==================
->
-> Too many '='
->
-> > +
-> > +The SPE CPU property `spe` is used to enable or disable the SPE feature,
-> > +just as the `pmu` CPU property completely enables or disables the PMU.
-> > +
-> > +Currently, this property is only available with KVM mode, and is enabled
-> > +by default if KVM support it. When KVM is enabled, if the host does not
-> > +support SPE, then an error is generated when attempting to enable it.
-> > +
-> > +Following are 2 examples to use this property:
-> > +
-> > +  1) Disable SPE::
-> > +
-> > +     $ qemu-system-aarch64 -M virt,accel=kvm -cpu max,spe=off
-> > +
-> > +  2) Implicitly enable it with the `host` CPU type if host cpu
-> > +     support it::
->
-> if the host CPU supports it
+> > This patch tries to solve this by adding a per-device flag 'in_mmio'.
+> > When the memory core dispatch MMIO it will check/set this flag and when
+> > it leaves it will clean this flag.
 >
 >
-> Actually, I'm not sure we need to document this feature. We didn't bother
-> documenting pauth, since there wasn't anything special about it and
-> there's nothing special about this feature either.
+> What's the plan for fixing the irq issues pointed out by Peter?
 >
 
-Yes, there is no special treatment for this feature, and it just
-follows the syntax
-of other vCPU features. Will remove this doc in v3.
-Anyway, thanks so much for the review!
+Just have a basic idea. Just like this we can add a per-device flag,
+'in_mmio' or 'in_emulation'
+or some other names. The device need solve the irq handler/mmio and
+anything other reenter issue by themself
+or they can just check/set/clean this flag. This way we may can define
+a principle which Peter mentioned that the device emulation should
+obey.
 
-Regards,
-Haibo
 
-> > +
-> > +     $ qemu-system-aarch64 -M virt,accel=kvm -cpu host
-> > diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-> > index ba6e01abd0..1b8f08988a 100644
-> > --- a/target/arm/monitor.c
-> > +++ b/target/arm/monitor.c
-> > @@ -99,7 +99,7 @@ QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
-> >   * then the order that considers those dependencies must be used.
-> >   */
-> >  static const char *cpu_model_advertised_features[] = {
-> > -    "aarch64", "pmu", "sve",
-> > +    "aarch64", "pmu", "spe", "sve",
-> >      "sve128", "sve256", "sve384", "sve512",
-> >      "sve640", "sve768", "sve896", "sve1024", "sve1152", "sve1280",
-> >      "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
-> > diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-> > index 77b5e30a9c..4d393fb2e2 100644
-> > --- a/tests/qtest/arm-cpu-features.c
-> > +++ b/tests/qtest/arm-cpu-features.c
-> > @@ -494,6 +494,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-> >
-> >      if (g_str_equal(qtest_get_arch(), "aarch64")) {
-> >          bool kvm_supports_sve;
-> > +        bool kvm_supports_spe;
-> >          char max_name[8], name[8];
-> >          uint32_t max_vq, vq;
-> >          uint64_t vls;
-> > @@ -512,8 +513,10 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-> >              "with KVM on this host", NULL);
-> >
-> >          assert_has_feature(qts, "host", "sve");
-> > +        assert_has_feature(qts, "host", "spe");
-> >          resp = do_query_no_props(qts, "host");
-> >          kvm_supports_sve = resp_get_feature(resp, "sve");
-> > +        kvm_supports_spe = resp_get_feature(resp, "spe");
-> >          vls = resp_get_sve_vls(resp);
-> >          qobject_unref(resp);
-> >
-> > @@ -573,10 +576,16 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-> >          } else {
-> >              g_assert(vls == 0);
-> >          }
-> > +
-> > +        if (kvm_supports_spe) {
-> > +                assert_set_feature(qts, "host", "spe", false);
-> > +                assert_set_feature(qts, "host", "spe", true);
-> > +        }
-> >      } else {
-> >          assert_has_not_feature(qts, "host", "aarch64");
-> >          assert_has_not_feature(qts, "host", "pmu");
-> >          assert_has_not_feature(qts, "host", "sve");
-> > +        assert_has_not_feature(qts, "host", "spe");
-> >      }
-> >
-> >      qtest_quit(qts);
-> > --
-> > 2.17.1
-> >
+
+Thanks,
+Li Qiang
+
+
+> Thanks
 >
-> Otherwise
 >
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> >
+> >
+> > Li Qiang (4):
+> >    memory: add memory_region_init_io_with_dev interface
+> >    memory: avoid reenter the device's MMIO handler while processing MMI=
+O
+> >    e1000e: use the new memory_region_init_io_with_dev interface
+> >    hcd-xhci: use the new memory_region_init_io_with_dev interface
+> >
+> >   hw/net/e1000e.c        |  8 ++++----
+> >   hw/usb/hcd-xhci.c      | 25 ++++++++++++++---------
+> >   include/exec/memory.h  |  9 +++++++++
+> >   include/hw/qdev-core.h |  1 +
+> >   softmmu/memory.c       | 46 +++++++++++++++++++++++++++++++++++++++--=
+-
+> >   5 files changed, 72 insertions(+), 17 deletions(-)
+> >
 >
 
