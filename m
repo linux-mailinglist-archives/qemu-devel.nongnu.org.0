@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1733263665
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 21:03:36 +0200 (CEST)
-Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDFB263675
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 21:08:06 +0200 (CEST)
+Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG5NX-0004S5-SM
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 15:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60800)
+	id 1kG5Rt-0005bL-3p
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 15:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kG5KF-0007Cl-4c; Wed, 09 Sep 2020 15:00:11 -0400
+ id 1kG5KH-0007Ji-UA; Wed, 09 Sep 2020 15:00:13 -0400
 Received: from mail-eopbgr70118.outbound.protection.outlook.com
  ([40.107.7.118]:32002 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kG5KB-0001MM-TA; Wed, 09 Sep 2020 15:00:10 -0400
+ id 1kG5KF-0001MM-RE; Wed, 09 Sep 2020 15:00:13 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hp9h+oEgliJhLurVV00m/StoflWHzBEoRjJ1eO6qO/9rPfm0A6U9osD71ge/85K2e/uqrt8l2Z5eVrHfxZo7unZbL3GQ+3t7DThQsoBoJX3MKzy9vGbsjI/AoBL92NCGLUGeqICDT9Zy9Vi+13VahLPa81Q0IRRoD37xd/ZtX+oaXfsTyrW+P+54wp85utU3S2Lnp78zP1HiFVkBKUfuc6Em1nbqgM+0GWwYYUurQZZqSD/O2ORPJqmOy4JFx/PTA8Ubb+oMlsbpbDxAwfvVB/HxXuoAnjX6pjCaD/DvazQ435G0t2dRsWU6pnIJXN4b92rW4o2qAh83VgeUfOqPJA==
+ b=nAMtviTRS/J/ZGW+WAx1O2e2Mux3l7FO80eKxZYAOI1knSGAewmXUN4j9G0lH0F+IX/6lFAZ2eZ/zNESLkQtgs/ZJT/1jTcQ+Z74RYqSUwGZDmd3DChYu/iWCi2CWPIb2YHuj2x/Uemgu/X+dQLoN6OYGDvbc3E6GEOuJZb95kvqCyBa9aqMbsjC6KhlFUuEzw2Dvt3zWa6dDgZZY2ZqHBc9SqzOwl2/eXp0BHpMOTbPcf8jxnwqcY9X3wjctTfwKUHGfYhwgHWVGosL4KgsFC/Qm/bR8LWV+l/fjxDCW/AEHLhl70TCuUR4/6cL/0c84HjGCPzUbjW9e4QzPuvZLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KH0vRgmj6WybSN3XtnRy+D0LLUR0cMqfBa7zT7UKwdo=;
- b=CEtuxksfP+dCLj8ixQGQCRtTew7I962Z4N6BuqjZF+yNUoHhuHIXyOlmFncKGyfCrFjQaZxSvnoEd8OjUdTHNlCpG/6+kvTc4aQzkNmuCMYrrQsQfZC2sXK38cR5OejlrLqpXklNw6Q84JQ8+QNhcfvCiQkvJ2vO9kXUUzxvAJTvop22Hw5PKskOOlNW1quIo5EmjBxFOceaFO7NVSrsR3GNDrrh9u7bRdjrYetheCRIoIhPW44w+3+KSEpN0Iy/aNIg+gRbmSCdqJcU9OsObUG7k+Dx54+vA3c4e85+dHPZ+o9ZFha42Gs5rcqC/fMKLRnLrVQLGitgC+PPwQuZTg==
+ bh=sVW5EJuC5Cwpd12U7WEueYovZVitqSy7SyEYjWfP0+s=;
+ b=kpT/e4OTcVyapluNkJS0p3ZUnWTM4YCg8Xvk8IdXB/Kv8ezcUTevURkRIAwcgOCbrwlgdgPtMbZK6b7PyR3ayoJe8gakfHmYZEoyLsKsoKA/25RJ+Yo+mHq0XcuDljN3TyUCdY9zZMIRNXAfeWbIAj0axyprLbXYG9c6x0g+cfmpOZ5UzJZzoUb6/6DL+pXYSokmgilFdZS2TL1kWFFXLG7erDrkvdc/tCm+PnAMpkaY8uwO3v83AUL328ulyiQxgwq/8SZGNzYVcUlyt34wm6nlUzsdAJ6e3+0WqssxqJ7FftJlUI/HVR+tbysz0fjcXEw9DPv6Ks4aFmCuZks0XQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KH0vRgmj6WybSN3XtnRy+D0LLUR0cMqfBa7zT7UKwdo=;
- b=RZZI/2cX+sjsrqkMOdeNughd++6QsnqG6vWbp3rHmB52L6IJO02FPKTkNajl89IgKxnJyETXaIl3MM7ROfCyczA1z+a3U/EqdOOPk8hs6yqOtr4PPT7vHCa/enw9N72bIjnQkfyvz11dkTMxdw5gBooEaipfDMNPWOkwLJS0Dew=
+ bh=sVW5EJuC5Cwpd12U7WEueYovZVitqSy7SyEYjWfP0+s=;
+ b=UfYwqEVB9iLlBmQn/e2zfkeQNcZCKda2wHES260lqrg25LWFBmQGSh87ctmvmKsj/0dGKKo/+K3sqnsuCnEPYMScHu6mSSi51j7IoDwT7uyVlkGAUTQlws3wY+QSehJo70h/LNyTG1pNJv6q02Qu4pL0Jv8Nrnmu11ibTm0YkHw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3445.eurprd08.prod.outlook.com (2603:10a6:20b:43::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Wed, 9 Sep
- 2020 18:59:58 +0000
+ 2020 18:59:59 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692%7]) with mapi id 15.20.3348.019; Wed, 9 Sep 2020
- 18:59:58 +0000
+ 18:59:59 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, berto@igalia.com,
  vsementsov@virtuozzo.com, eblake@redhat.com, jsnow@redhat.com,
  stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
  ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com, groug@kaod.org
-Subject: [PATCH 07/14] block/blklogwrites: drop error propagation
-Date: Wed,  9 Sep 2020 21:59:23 +0300
-Message-Id: <20200909185930.26524-8-vsementsov@virtuozzo.com>
+Subject: [PATCH 08/14] blockjob: return status from block_job_set_speed()
+Date: Wed,  9 Sep 2020 21:59:24 +0300
+Message-Id: <20200909185930.26524-9-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200909185930.26524-1-vsementsov@virtuozzo.com>
 References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
@@ -66,32 +66,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.136) by
  AM3PR07CA0054.eurprd07.prod.outlook.com (2603:10a6:207:4::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.5 via Frontend Transport; Wed, 9 Sep 2020 18:59:57 +0000
+ 15.20.3391.5 via Frontend Transport; Wed, 9 Sep 2020 18:59:58 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.136]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d3821a18-bada-4a3c-46b7-08d854f28c18
+X-MS-Office365-Filtering-Correlation-Id: cf8e86d3-063c-43c0-22ad-08d854f28cbb
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3445:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3445627CFE7CDD279E9DBF37C1260@AM6PR08MB3445.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:608;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3445A97DD8108E6CB8E51614C1260@AM6PR08MB3445.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s+qmynvTWu4LmLvOcNDjED+AEVFJlWhB2InNLEScBiw7xoCuXJjjHjk2zibxiYnDrJvfruD8n1nz46sDmJgpgWCXvEgD05TSDennnkKts3XOxVXC6+CFPbTclSt3w170aikdJRL4zl+16WKdQ63sVm6lXy6X5EJKXB2NfdpV4JvlIRqZPpAihoeP/o/jvgOTuvBaqKCQ6kKBHoF7x5W7aBpIKREez5lZtX34ljqvSS4bACQbxW5gdOIDtSyJ9pcn5Oh0DI2Np57srMF3jSNtIsol1J37MdrduQidV0NXVQ1/wMexYzOoUCUw/JG8NsgHrTEeOvaeCLNMa5g0iiqQiA==
+X-Microsoft-Antispam-Message-Info: Y+6U9LMQ2yCtgz3BN98L28RXizAnpaC+nkFJSwJDZ/x+DW++V1+X7HCJOwXhR+6pJ3bngN29BWjGNsU1eR+/wb6NF7D/l6KaggmmKhvSEepFeYJVge8pCq86JHiodGVgH9ugRyAf1qw/XIfRH80MMJ2BrKDpT6YurPZgUimYVXxkdXrfnBjwTmekZWk1TDNcGYCnCbD/WFdoPidMicDZ1+PbxQaNj2kBPyP6KtedYfN6bof/oDGsbuQLDFAn0BYr93BDMtASFOZGyOtYF93wf/UvAvkqI5oVFqsoOiasgHsTNIYWaUEv5SAvbtZZHRXMLeePN9ksgxvwyKw9Dqe2Mw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(396003)(136003)(39840400004)(376002)(346002)(66946007)(52116002)(83380400001)(2616005)(956004)(2906002)(6666004)(8676002)(6512007)(1076003)(86362001)(5660300002)(26005)(36756003)(6916009)(478600001)(6506007)(8936002)(316002)(16526019)(66556008)(186003)(66476007)(7416002)(6486002)(4326008);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ndWOkFmi+OiCWBSoCnqh/suVRxuu+f364sb/Jj4+wp1UZy9N7rbf53dgo/6ownqHKZcIKTEzA0blxayh2tW9/+xgvXVsgCbH73aC5OkAvFtbWGEWwNfmlOiPrAgvPuUFsvixBA5bQoWUsfnr9aaiToqEL8KU1YZ8rqaV4BP7Sn6j9vJ53WgX4PfG8RGsIQO3hNj2oh2CAB0TpfU8j1NVwl2rgJm6e9Z4hDK/R3QoMsZByLhNK9ekY284p2Ts/sGypcaJ2d+PwUV3Uq/bt15P3xSjqi+at8HI7LvuTbsrbBOEid1OL7G3tRQxP6lPZu5MkWlwB/tmAb6LbVK12AQfOJj8e2PHnoLrKk0svBpv6X1Qz847NSDhKwCXman+tKp5UgySL+6mIZZTDygGFUu8yAvv/gqqUwk1BNvHb2ltFrbzCT/3ZQraBg9j/MrhNXLsfYZtHoucmmKHG2I5hUrmt9ckOL4LPHPrL1FyrkvskyZlk0NdWtOC/viMYNwcjCjXz1MgONps8E0wEyV4YWBH1cEP//1ElC9FTKntq7Uqsq36KqrQglI9XpNT3iH0lzwbrwZ7i8Y+Etp7dw0U0sF4qYgdB9f4VbtkHdrw9tlVUSUhF6P/fbZ1+hZ98sn1v+nMij8wAvyM+cdjNDhs9jH23w==
+X-MS-Exchange-AntiSpam-MessageData: pLhKJHsnyTqQEAdH4CON6ijl1EO9SubtsvvzujCLV6zwP7/n5d6EolzHNsf6nT4NBwbI4Z2Hett1AvzyxQuwg+pw9UlYu9aFL8dWqcNCJDkpk2tOja+mI3Y7rd3Uuz4hosj6sczwJd81seRVaUhjguVz8NFAOV4feCzYKzhxTbzpxFjHedV/zuUKnoNn+tfPCGykNMonWKDj0jOhaVRaw8oN89U5IxDQrXvc7D+itoGrO9vkUbWg7F0g+YcAUuoDau50+PSRbpIgBkJ2PCCW2waZJRxLU3eUsBZDI19dPYZ4ylpLhZUFBZg3zOEBeV0X71erpgiiCFrA/lQbUkTw7uqCx93tq0v0Lini+3/6BPXslvM9ZpMjCJrgY9ulMfiCVRF1UWwkHO52mIVESfWtYVjYisJ4Y6eQAicvd6f+qBf2OTmNEy18hPmS56PFI3xHjoM4Am2Ty1ZPa9au1dhFb0EA03OQK8s/Ko0eNKNfw093+28PhkGHCWMGRoRmf0UvpyhrYsNavP43VcwWPSfO/iyZEbqQUHa4RkziU/+RQQEaSCA7tUw493gJn/QOjp4qs+8rxIC5jDs2jYUhFTF6q9sJwqpyEK1YF+KZ5x+JKmdip7/gLPxxRzbco+5qnylEaHzBrdEwQnMyrdPgJCNWlA==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3821a18-bada-4a3c-46b7-08d854f28c18
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf8e86d3-063c-43c0-22ad-08d854f28cbb
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 18:59:58.3867 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 18:59:59.4471 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gb+93sz8mSgky8axzvXmNOGkOesaF/OsgvjC6Z6hIr/avIJ/zY8LPSvKy1Fj/Zb6joKa2SqL18AA5t5eR1Pifx6/zUWPs0a5omJbXeJUcAA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: efRru4Rq5D0JgEL9YPXqYGCs6pji1KJE6aYEt7PsAy6TciVmbVqSNMcIwhE8Gq2mKRN9cT6fwjaiWjLV+wauCSB5FLJ9BOAzRHr5JUbRIwQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3445
 Received-SPF: pass client-ip=40.107.7.118;
  envelope-from=vsementsov@virtuozzo.com;
@@ -121,78 +121,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's simple to avoid error propagation in blk_log_writes_open(), we
-just need to refactor blk_log_writes_find_cur_log_sector() a bit.
+Better to return status together with setting errp. It allows to avoid
+error propagation in the caller.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/blklogwrites.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ include/block/blockjob.h |  2 +-
+ blockjob.c               | 18 ++++++++----------
+ 2 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index 7ef046cee9..c7da507b2d 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -96,10 +96,10 @@ static inline bool blk_log_writes_sector_size_valid(uint32_t sector_size)
-         sector_size < (1ull << 24);
+diff --git a/include/block/blockjob.h b/include/block/blockjob.h
+index 35faa3aa26..d200f33c10 100644
+--- a/include/block/blockjob.h
++++ b/include/block/blockjob.h
+@@ -139,7 +139,7 @@ bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs);
+  * Set a rate-limiting parameter for the job; the actual meaning may
+  * vary depending on the job type.
+  */
+-void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
++bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
+ 
+ /**
+  * block_job_query:
+diff --git a/blockjob.c b/blockjob.c
+index 470facfd47..afddf7a1fb 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -254,28 +254,30 @@ static bool job_timer_pending(Job *job)
+     return timer_pending(&job->sleep_timer);
  }
  
--static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
--                                                   uint32_t sector_size,
--                                                   uint64_t nr_entries,
--                                                   Error **errp)
-+static int64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
-+                                                  uint32_t sector_size,
-+                                                  uint64_t nr_entries,
-+                                                  Error **errp)
+-void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
++bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
  {
-     uint64_t cur_sector = 1;
-     uint64_t cur_idx = 0;
-@@ -112,13 +112,13 @@ static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
-         if (read_ret < 0) {
-             error_setg_errno(errp, -read_ret,
-                              "Failed to read log entry %"PRIu64, cur_idx);
--            return (uint64_t)-1ull;
-+            return read_ret;
+     int64_t old_speed = job->speed;
+ 
+-    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp)) {
+-        return;
++    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
++        return false;
+     }
+     if (speed < 0) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "speed",
+                    "a non-negative value");
+-        return;
++        return false;
+     }
+ 
+     ratelimit_set_speed(&job->limit, speed, BLOCK_JOB_SLICE_TIME);
+ 
+     job->speed = speed;
+     if (speed && speed <= old_speed) {
+-        return;
++        return true;
+     }
+ 
+     /* kick only if a timer is pending */
+     job_enter_cond(&job->job, job_timer_pending);
++
++    return true;
+ }
+ 
+ int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
+@@ -448,12 +450,8 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+ 
+     /* Only set speed when necessary to avoid NotSupported error */
+     if (speed != 0) {
+-        Error *local_err = NULL;
+-
+-        block_job_set_speed(job, speed, &local_err);
+-        if (local_err) {
++        if (!block_job_set_speed(job, speed, errp)) {
+             job_early_fail(&job->job);
+-            error_propagate(errp, local_err);
+             return NULL;
          }
- 
-         if (cur_entry.flags & ~cpu_to_le64(LOG_FLAG_MASK)) {
-             error_setg(errp, "Invalid flags 0x%"PRIx64" in log entry %"PRIu64,
-                        le64_to_cpu(cur_entry.flags), cur_idx);
--            return (uint64_t)-1ull;
-+            return -EINVAL;
-         }
- 
-         /* Account for the sector of the entry itself */
-@@ -143,7 +143,6 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
- {
-     BDRVBlkLogWritesState *s = bs->opaque;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     int ret;
-     uint64_t log_sector_size;
-     bool log_append;
-@@ -215,15 +214,15 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
-         s->nr_entries = 0;
- 
-         if (blk_log_writes_sector_size_valid(log_sector_size)) {
--            s->cur_log_sector =
-+            int64_t cur_log_sector =
-                 blk_log_writes_find_cur_log_sector(s->log_file, log_sector_size,
--                                    le64_to_cpu(log_sb.nr_entries), &local_err);
--            if (local_err) {
--                ret = -EINVAL;
--                error_propagate(errp, local_err);
-+                                    le64_to_cpu(log_sb.nr_entries), errp);
-+            if (cur_log_sector < 0) {
-+                ret = cur_log_sector;
-                 goto fail_log;
-             }
- 
-+            s->cur_log_sector = cur_log_sector;
-             s->nr_entries = le64_to_cpu(log_sb.nr_entries);
-         }
-     } else {
+     }
 -- 
 2.21.3
 
