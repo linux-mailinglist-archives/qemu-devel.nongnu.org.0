@@ -2,71 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AECE263723
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 22:11:55 +0200 (CEST)
-Received: from localhost ([::1]:52720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638B9263735
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 22:18:43 +0200 (CEST)
+Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG6Re-0003Tb-0A
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 16:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49682)
+	id 1kG6YE-0005zO-Fk
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 16:18:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG6Qv-000303-NY; Wed, 09 Sep 2020 16:11:09 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:37302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG6Qu-0002ip-1C; Wed, 09 Sep 2020 16:11:09 -0400
-Received: by mail-lf1-x143.google.com with SMTP id z19so2289785lfr.4;
- Wed, 09 Sep 2020 13:11:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=JtEwlRuiSVXiAfp8X6ObvObv5y2sPVZLGKuHlnDF/i0=;
- b=mIuBwKXaXEbFywdZyZ2sywyRPKEzBWe4V9DWY5cBzb6aUqudVTok11/FIKyoEAN3yD
- HtO0I6Et6bpm8YdGw+CBtalYADnO5k8Ry6MrMhsFrcsibQcVtDt8hMCg8V6GSKeFWdDU
- p222Rb7esjS64wpo5Cox94Gx7o6P4F7phG6DOZqJEVmNaVN2iSfK6OY1FrNY28aHfZjM
- YzAXm8Kt+lkHuBmKLrWu7+hMLejhicFBm4U8tJCYtLiMZLdMmrZNPZ4dt+NuCagjqNAc
- kTpADPpYp7SErl+7Q4xtPh6xyZdFKDr9bjqERizrPr46wc2AD7Md1CMPfk0MqBTvkyg4
- 2stQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=JtEwlRuiSVXiAfp8X6ObvObv5y2sPVZLGKuHlnDF/i0=;
- b=W5fyDWNExwSBmcLstjfzcV52BRtvebY94i8m5sU9EVdThG2+H9ZsU3nWlLJjksfJzO
- nEgTlsK8phH1s8Gs3SRqAvbWzH7yDciUQvOngv/gVpHTNzXKS2Tandb57BQeChzeWerU
- 8yC6ap0JEyIGyP8FTAKYjhQnFcq4fjtHk3fObAhWmiAwU5BIIBW14YsclruAeH9a55yh
- T8Rq3dj5566ms3UULjnjWQdQKCQdmAsrOKKbdb7VsF40aU8qzDz7I6Hx+flsqqdPmcpg
- jGRcoie3t5Ch6hS8hq73/t9j4CZ1fSkjrLftDsQiOhAqpepUts0OqAz+RCLirqrjINIk
- A4kQ==
-X-Gm-Message-State: AOAM530tlG7yJMV50c8hRyv1tTysXzgSiNDZeK7c62oyzHWGsY6UWUH9
- KlghtfB0so5LMw5naipxE5GcCAe6tRSbYz7KvDo=
-X-Google-Smtp-Source: ABdhPJzXmaNfNyVPUQ7dKP8OGlJ9sFbABKuG2Cn2WAE9LB3bzbCBB8Vwn1vmDo5IlYv1pPLs9l+z888uU3aoanYnmco=
-X-Received: by 2002:a19:102:: with SMTP id 2mr2626580lfb.54.1599682265882;
- Wed, 09 Sep 2020 13:11:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sunilmut@microsoft.com>)
+ id 1kG6XT-0005T5-Hc
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 16:17:55 -0400
+Received: from mail-dm6nam10on20702.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::702]:43233
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sunilmut@microsoft.com>)
+ id 1kG6XR-0003Yv-A0
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 16:17:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U0TweFBDrFJImzmPLML71Apvbyu4cs9OK+AaXY/eKCwdtysOG37OVB1UjsULe3rvqf9jrHf8cwXgmgOYPnpggCmHLTRrxKss7AAMvZ3d1V76259BbLcEN+f0CtKXxzDYwcExot9MI1VOGsWKfNmWMMMpce8HSelizFioXxqQKkrmkQR2cdBO4vkUvddKc8TG2iLVwHw91PWqZdqDuN243UpXdaNoAFCUAITufpsSePyItPgphkQG6SczskhhjN3OgoCAjC9uTVYqcUq9j0ItSccSbhXx6ti/hywsYDrGAQs9Vv2Zjj5t08mIuouVpmtYZctU8Ohr3LnwwSxP2i2jHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y+Eie3XdiEnaAqdRARA2RtcZQZX/w6WlR6k4CHZNdI8=;
+ b=BNDNC5ny4Q1xdBd5aaJPou0a/amIpgcrJQ81bfvDWByYjXEumnRgt+76fgG46TUNWo+p6rR49RwDh0gWf/ZTV5wt0SJeg0CwFulIOvj9RvMKH9kHWfkFnHP7ot0Lo5YVktVSuwiAEwjIKA5Bgi4Fu+6sX6+p8nNM0E59fnvAcatmLxRc4fFuKOtioGKvW0zLL884URpcH9SAmAnXm1L24tQCtZ3rr+Ey02GjRS7RF4+s/K9q0oT0VyUW1/OsfQYMcICiFrQurEM1GjRtIuQWBeUKSrXoaj6S2nSYMjUX88VaUe+cMqmQljgGW36aGsaEo8jWqw90hHhun5jfZNV4KA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y+Eie3XdiEnaAqdRARA2RtcZQZX/w6WlR6k4CHZNdI8=;
+ b=POXS6/iO2kog/OaQ9hTcJd+bcN2Ftkn0b8P8nGmS1Q9++ETJSenI+NLr7lHOCd+6g8WOC0bFIRh16jVm/KxRvZzzoUxeY4B+4lPKizuC+8H5+3za8ZihsQdRd/OfirjqsF+BppF1LXJX2yHDy837Dn19RRAyDW5EubR7m9smOiI=
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ (2603:10b6:803:51::33) by SN6PR2101MB1053.namprd21.prod.outlook.com
+ (2603:10b6:805:6::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.0; Wed, 9 Sep
+ 2020 20:12:47 +0000
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::b12a:e7a7:640e:8953]) by SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::b12a:e7a7:640e:8953%9]) with mapi id 15.20.3326.016; Wed, 9 Sep 2020
+ 20:12:47 +0000
+From: Sunil Muthuswamy <sunilmut@microsoft.com>
+To: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+Subject: RE: [EXTERNAL] Re: [PATCH] configure: Do not intent to build WHPX on
+ 32-bit host
+Thread-Topic: [EXTERNAL] Re: [PATCH] configure: Do not intent to build WHPX on
+ 32-bit host
+Thread-Index: AQHWhti6FapAYjOQakuFKDGtFJVOb6lgp3CAgAAU2uA=
+Date: Wed, 9 Sep 2020 20:12:47 +0000
+Message-ID: <SN4PR2101MB0880C47FA8B2B8CC2A658798C0260@SN4PR2101MB0880.namprd21.prod.outlook.com>
+References: <20200909182449.360472-1-f4bug@amsat.org>
+ <357d7fe2-558f-4c3d-d178-742cb9eb6e21@redhat.com>
+ <0e6dc9fb-6262-926a-f730-98ac352bb789@weilnetz.de>
+In-Reply-To: <0e6dc9fb-6262-926a-f730-98ac352bb789@weilnetz.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: weilnetz.de; dkim=none (message not signed)
+ header.d=none;weilnetz.de; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [2601:602:9400:570:4936:5e14:3347:d0c4]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 883ae233-a3d4-42dc-5e0a-08d854fcb85f
+x-ms-traffictypediagnostic: SN6PR2101MB1053:
+x-microsoft-antispam-prvs: <SN6PR2101MB10530AB070886455156A0BB4C0260@SN6PR2101MB1053.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: JRkpnGdwfbIJJF5SnzftaYXKxef+vgME6gt86xK13sUgr60qxCVwwhLDHaKgsAwTbLQxMstJuS3XaRngjxQTkzNyHkPG/gnMSGuaVGs4CmeuEegC+UoIq+Dtpqlr086IXMDS6W6ZdujVQYekkIVIR4t29A0PsUZhW4gqNSFyUKbiq4uhp+XxpzmoMiqHO9rq0lpwvD/qV+/UFflVW0u70Rr5M+ISOWv1gEj+dIlNTpjypKgyJ8nGERLD2OyW77fdVqzZ2TKL8j9ua7QTjmWfPZyBMhoj3Lt/ULOs/XxfvizccUNHc0U4T3IzyvUguqAV4iJvltGNBT5Esa5IHnQBnzFMnYp1Trn2SgyrNmxwJT6+pz+Jho34B/jIx1xGED7x
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR2101MB0880.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(366004)(71200400001)(86362001)(4326008)(82960400001)(83380400001)(66556008)(76116006)(55016002)(9686003)(64756008)(186003)(82950400001)(66946007)(66476007)(66446008)(33656002)(8936002)(10290500003)(2906002)(8676002)(478600001)(110136005)(7696005)(6506007)(52536014)(5660300002)(316002)(8990500004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: d3SbpBqrs4bSSdJNQ3Izbfxpn2UPxScbSeRza3L9VkaZntehLEErNF9YLbvh88DgVkbZOs7otHA8A+n/cY+20TTAJm07pkcTxkMTONRO+Hs918nqJ/4aWn1EnkCM6648etEvMXNrzbQbTw/oUe/TcmBDXOfPwp5gRL/6CbPrP+QXvh0WxTjUiPd32/Col1R6uBkyknmdtvp2pKnXpJBQVJbmO3itaXdxcz1vvKrOqR69IiIEkGuCKNfYn8sEQ9iDvLgvCc9qaoiqT1mGd+kl+WMbfzP3IkTit8GWpNQs4pb5Zvdpk3YCxwH3QO2FyfVHDZfRYUBKKhwV7W87tJ66fVgf1xiKw6KETUEznYlK6FmfUc+kcNA1TH70VPrUUBYmXEiCS4jaRW3/ZQv1ATKnCF9pm7dJj2YwpTx+rV006VvDd8oJxVKKXND+ZX2JC/EBIBManltHD9vMZ0YQAb/HMAMFi2Swz6616tv6bg5+JrmgIO1ZZ7PIEw/yoaXQzdyK1joIKbBayMqQKCVx5pymsGhdb2LJiY4vPG062aBcams3MJ2YuaFz1xovSditfLE9pH9twTKQVxpNKRIYiGeWb0IvqnLQK0hk+2YXsponrWQetXZ5Dz15IWIFr5twKMOpQoM6jaQPaJUbJTCb2u56vFasi+d0Oqwt0LuBg/bL6OXse8df5SfH3Fn+qBzvKXQwwVCoWrNW/3w81u8iXiKIxQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200909184237.765-1-luoyonggang@gmail.com>
- <20200909184237.765-3-luoyonggang@gmail.com>
- <CABgObfaGzMDC_n5ukJc4y2k9NVvDkYT=Zp6DGycCXRtmXQzJ5g@mail.gmail.com>
-In-Reply-To: <CABgObfaGzMDC_n5ukJc4y2k9NVvDkYT=Zp6DGycCXRtmXQzJ5g@mail.gmail.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 10 Sep 2020 04:10:54 +0800
-Message-ID: <CAE2XoE9kA6PTqg-eTHe2jyhrh=RcLAQMmu4WSSBGhbyUJ6Sv1Q@mail.gmail.com>
-Subject: Re: [PATCH v6 25/25] meson: guard the minimal meson version to 0.55.1
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000362de405aee70d33"
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x143.google.com
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR2101MB0880.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 883ae233-a3d4-42dc-5e0a-08d854fcb85f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2020 20:12:47.3855 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7FuPi5Mh+lwLpiMoI2mp+YqZWFS+vBkJipb+Zd9+qN5kAE0xZfSED6KghQ7EWQ3m/r255IAlBb9XyBoJWi2ZA7nPzOGadQV0XXhANxF7C8g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB1053
+Received-SPF: pass client-ip=2a01:111:f400:7e88::702;
+ envelope-from=sunilmut@microsoft.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,191 +119,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Qemu-block <qemu-block@nongnu.org>,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000362de405aee70d33
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 10, 2020 at 4:08 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
->
->
-> Il mer 9 set 2020, 20:43 Yonggang Luo <luoyonggang@gmail.com> ha scritto:
->
->> So we can removal usage of unstable-keyval
->>
->
-> Isn't it stable only on 0.56.0?
->
-> Paolo
->
-On Windows, there is following warning:   WARNING: Module unstable-keyval
-is now stable, please use the keyval module instead.
-NOTE: guest cross-compilers enabled: cc
-Using 'PKG_CONFIG_PATH' from environment with value:
-'C:\\CI-Tools\\msys64\\mingw64\\lib\\pkgconfig;C:\\CI-Tools\\msys64\\mingw6=
-4\\share\\pkgconfig'
-Using 'PKG_CONFIG_PATH' from environment with value:
-'C:\\CI-Tools\\msys64\\mingw64\\lib\\pkgconfig;C:\\CI-Tools\\msys64\\mingw6=
-4\\share\\pkgconfig'
-The Meson build system
-Version: 0.55.999
-Source dir: C:/work/xemu/qemu
-Build dir: C:/work/xemu/qemu/build
-Build type: native build
-Project name: qemu
-Project version: 5.1.50
-C compiler for the host machine: cc (gcc 10.2.0 "cc (Rev1, Built by MSYS2
-project) 10.2.0")
-C linker for the host machine: cc ld.bfd 2.35
-Host machine cpu family: x86_64
-Host machine cpu: x86_64
-WARNING: Module unstable-keyval is now stable, please use the keyval module
-instead.
-Program sh found: YES
-
-But when I commit this patch to running CI, osx are failing, so there is
-problem with this patch, sorry for that. this patch need to be discard
-
->
->
->> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
->> ---
->>  meson.build | 9 +++------
->>  1 file changed, 3 insertions(+), 6 deletions(-)
->>
->> diff --git a/meson.build b/meson.build
->> index 0b1741557d..af34a85bec 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -1,14 +1,11 @@
->> -project('qemu', ['c'], meson_version: '>=3D0.55.0',
->> +project('qemu', ['c'], meson_version: '>=3D0.55.1',
->>          default_options: ['warning_level=3D1', 'c_std=3Dgnu99',
->> 'cpp_std=3Dgnu++11',
->>                            'b_colorout=3Dauto'],
->>          version: run_command('head', meson.source_root() /
->> 'VERSION').stdout().strip())
->>
->>  not_found =3D dependency('', required: false)
->> -if meson.version().version_compare('>=3D0.56.0')
->> -  keyval =3D import('keyval')
->> -else
->> -  keyval =3D import('unstable-keyval')
->> -endif
->> +keyval =3D import('keyval')
->> +
->>  ss =3D import('sourceset')
->>
->>  sh =3D find_program('sh')
->> --
->> 2.28.0.windows.1
->>
->>
-
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---000000000000362de405aee70d33
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 10, 2020 at 4:08 AM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Il mer 9 set 2020, 20:43 Yonggang Luo &lt;<a href=3D"mailt=
-o:luoyonggang@gmail.com" target=3D"_blank">luoyonggang@gmail.com</a>&gt; ha=
- scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">So we =
-can removal usage of unstable-keyval<br></blockquote></div></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Isn&#39;t it stable only on 0.56.0?</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></div></blockq=
-uote><div>On Windows, there is following warning:=C2=A0=C2=A0
-
-WARNING: Module unstable-keyval is now stable, please use the keyval module=
- instead.
-
-</div>NOTE: guest cross-compilers enabled: cc<br>Using &#39;PKG_CONFIG_PATH=
-&#39; from environment with value: &#39;C:\\CI-Tools\\msys64\\mingw64\\lib\=
-\pkgconfig;C:\\CI-Tools\\msys64\\mingw64\\share\\pkgconfig&#39;<br>Using &#=
-39;PKG_CONFIG_PATH&#39; from environment with value: &#39;C:\\CI-Tools\\msy=
-s64\\mingw64\\lib\\pkgconfig;C:\\CI-Tools\\msys64\\mingw64\\share\\pkgconfi=
-g&#39;<br>The Meson build system<br>Version: 0.55.999<br>Source dir: C:/wor=
-k/xemu/qemu<br>Build dir: C:/work/xemu/qemu/build<br>Build type: native bui=
-ld<br>Project name: qemu<br>Project version: 5.1.50<br>C compiler for the h=
-ost machine: cc (gcc 10.2.0 &quot;cc (Rev1, Built by MSYS2 project) 10.2.0&=
-quot;)<br>C linker for the host machine: cc ld.bfd 2.35<br>Host machine cpu=
- family: x86_64<br>Host machine cpu: x86_64<br>WARNING: Module unstable-key=
-val is now stable, please use the keyval module instead.<br><div>Program sh=
- found: YES=C2=A0</div><div><br></div><div>But when I commit this patch to =
-running CI, osx are failing, so there is problem with this patch, sorry for=
- that. this patch need to be discard</div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex"><div dir=3D"auto"><div dir=3D"auto"><br></div><div dir=3D"=
-auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-<br>
-Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com" re=
-l=3D"noreferrer" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meson.build | 9 +++------<br>
-=C2=A01 file changed, 3 insertions(+), 6 deletions(-)<br>
-<br>
-diff --git a/meson.build b/meson.build<br>
-index 0b1741557d..af34a85bec 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -1,14 +1,11 @@<br>
--project(&#39;qemu&#39;, [&#39;c&#39;], meson_version: &#39;&gt;=3D0.55.0&#=
-39;,<br>
-+project(&#39;qemu&#39;, [&#39;c&#39;], meson_version: &#39;&gt;=3D0.55.1&#=
-39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0default_options: [&#39;warning_level=3D1&=
-#39;, &#39;c_std=3Dgnu99&#39;, &#39;cpp_std=3Dgnu++11&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0&#39;b_colorout=3Dauto&#39;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0version: run_command(&#39;head&#39;, meso=
-n.source_root() / &#39;VERSION&#39;).stdout().strip())<br>
-<br>
-=C2=A0not_found =3D dependency(&#39;&#39;, required: false)<br>
--if meson.version().version_compare(&#39;&gt;=3D0.56.0&#39;)<br>
--=C2=A0 keyval =3D import(&#39;keyval&#39;)<br>
--else<br>
--=C2=A0 keyval =3D import(&#39;unstable-keyval&#39;)<br>
--endif<br>
-+keyval =3D import(&#39;keyval&#39;)<br>
-+<br>
-=C2=A0ss =3D import(&#39;sourceset&#39;)<br>
-<br>
-=C2=A0sh =3D find_program(&#39;sh&#39;)<br>
--- <br>
-2.28.0.windows.1<br>
-<br>
-</blockquote></div></div></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div></div>
-
---000000000000362de405aee70d33--
+U2lnbmVkLW9mZi1ieTogU3VuaWwgTXV0aHVzd2FteSA8c3VuaWxtdXRAbWljcm9zb2Z0LmNvbT4N
+Cg0KPiBBbSAwOS4wOS4yMCB1bSAyMDo0MCBzY2hyaWViIFRob21hcyBIdXRoOg0KPiANCj4gPiBP
+biAwOS8wOS8yMDIwIDIwLjI0LCBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSB3cm90ZToNCj4gPj4g
+SHlwZXItViBpcyBhdmFpbGFibGUgb24gNjQtYml0IHZlcnNpb25zIG9mIFdpbmRvd3MsDQo+ID4+
+IGRvIG5vdCB0cnkgdG8gYnVpbGQgaXRzIHN1cHBvcnQgb24gMzItYml0IHZlcnNpb25zLg0KPiA+
+Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8ZjRidWdAYW1z
+YXQub3JnPg0KPiA+PiAtLS0NCj4gPj4gIGNvbmZpZ3VyZSB8IDMgKysrDQo+ID4+ICAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQo+ID4+DQo+ID4+IGRpZmYgLS1naXQgYS9jb25maWd1
+cmUgYi9jb25maWd1cmUNCj4gPj4gaW5kZXggNDIzMWQ1NmJjYzAuLjRiZDA4ZjU0NjliIDEwMDc1
+NQ0KPiA+PiAtLS0gYS9jb25maWd1cmUNCj4gPj4gKysrIGIvY29uZmlndXJlDQo+ID4+IEBAIC0y
+OTg5LDYgKzI5ODksOSBAQCBpZiB0ZXN0ICIkd2hweCIgIT0gIm5vIiA7IHRoZW4NCj4gPj4gICAg
+ICAgICAgZmkNCj4gPj4gICAgICAgICAgd2hweD0ibm8iDQo+ID4+ICAgICAgZmkNCj4gPj4gKyAg
+ICBpZiB0ZXN0ICIkd2hweCIgPSAieWVzIiAmJiB0ZXN0ICIkQVJDSCIgPSAiaTM4NiI7IHRoZW4N
+Cj4gPj4gKyAgICAgIGVycm9yX2V4aXQgIldIUFggcmVxdWlyZXMgNjQtYml0IGhvc3QiDQo+ID4+
+ICsgICAgZmkNCj4gPj4gIGZpDQo+ID4gSSB0aGluayB5b3Ugc2hvdWxkIGFsc28gYWRkIGEgY2hl
+Y2sgdG8gdGhlIE1JTkdXMzIgY2FzZSAoc2VlIGNvbW1pdA0KPiA+IGU3YTIyMmFlYjgxM2EpIHRv
+IHByZXZlbnQgdGhhdCB0aGUgYXV0b21hdGljIGRldGVjdGlvbiBraWNrcyBpbiAoc28gdGhhdA0K
+PiA+IHlvdSB3b3VsZCBlbmQgdXAgd2l0aCB0aGlzIGVycm9yIG1lc3NhZ2UgZXZlbiBpZiB5b3Ug
+ZGlkIG5vdCBzcGVjaWZ5DQo+ID4gLS1lbmFibGUtd2hweCkNCj4gPg0KPiA+ICBUaG9tYXMNCj4g
+Pg0KPiANCj4gWWVzLCB0aGF0J3MgZGVmaW5pdGVseSByZXF1aXJlZC4gVGhlIGF1dG9tYXRpYyBk
+ZXRlY3Rpb24gY3VycmVudGx5DQo+IGVuYWJsZXMgV0hQWCBmb3IgMzIgYml0IGJ1aWxkcywgdG9v
+Lg0KPiANCj4gU3RlZmFuDQo+IA0KDQo=
 
