@@ -2,100 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068D526303C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 17:12:36 +0200 (CEST)
-Received: from localhost ([::1]:47708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15EDE263057
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 17:17:30 +0200 (CEST)
+Received: from localhost ([::1]:38226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG1ly-0000mQ-HV
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 11:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
+	id 1kG1qj-0000I6-3w
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 11:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kG1kD-0007qy-0p
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:10:45 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40297
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1lX-0000u4-Gg
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kG1k9-0003Km-T5
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:10:44 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1lU-0003kb-06
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599664240;
+ s=mimecast20190719; t=1599664323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YIsLOwQ5HX9HHyOJSMntwTbtxy4p3e9Pq9rJeDW3whU=;
- b=Dh+VLkSuMLIYJDdXaIsITWNxIQmRHrtVry6pyjmxfQq2Gm62gH/lznNms5j1zrZM88XGvm
- yu3j4rP3RMEr/a/M5iosvFNB4d5dsr1gTbV/SliQdNS0FCMxhadDSbhE1IELCAjhSgJJhA
- ktgWLGCeyL4oCl4WBS0kDMQRuGLqE0o=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-tPJVWmH1OeujOx-onazGlQ-1; Wed, 09 Sep 2020 11:10:36 -0400
-X-MC-Unique: tPJVWmH1OeujOx-onazGlQ-1
-Received: by mail-ej1-f72.google.com with SMTP id f17so1439072ejq.5
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 08:10:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YIsLOwQ5HX9HHyOJSMntwTbtxy4p3e9Pq9rJeDW3whU=;
- b=GMIXn6r5DLzxigBsy+TipUGjK+aCMD48bRq+aewgROiy9hxdJaGfwAwppxLSF0zCys
- 9Czctb2mH1euxbc/S1r0YP5aavtgR5mIQD0wK45/ahD01QBSE0OTFIqKZHh016fXEyUj
- f0D0Qb2HD1vPCBBWO1gszTrr3GKEBVmJ/EjJuEQqP3xlu/J4HXD2HP1HGi/SrpdUv3CL
- HqdQAt4Fg3HU7AY1HIfN6f53tdruSASusaBrOY0CPasPgAqeKRIOK74lEpn05mNeATTf
- PbHJDXmKZm0hh2eo2OkfAXsPu7L9O2/B8a7vYT7FcqJA2wt3f9mkFIlzxtcYWFiEYEhm
- /pmQ==
-X-Gm-Message-State: AOAM532Nae/UGoZz4e5MkOwIU7AM0leF+Ie5/rXXb50+FZL4sVfsyOXU
- gexCgB5+fifZHlne5mMAebLDvcz8kl307pHM/g6FLkkBeIyK5/iBOiourEgqHz2CR+iv5YgoEib
- zrQoJKt39Y2owAEs=
-X-Received: by 2002:a50:eb92:: with SMTP id y18mr4385457edr.373.1599664235228; 
- Wed, 09 Sep 2020 08:10:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxeeyKM1MrZExIsOS+Idz9aP9gmVV3skOY5TIt7ic2YRzrSpeF9k33EIj2Q7RGIk13kJnri2Q==
-X-Received: by 2002:a50:eb92:: with SMTP id y18mr4385429edr.373.1599664235023; 
- Wed, 09 Sep 2020 08:10:35 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:4025:be55:3943:81a0?
- ([2001:b07:6468:f312:4025:be55:3943:81a0])
- by smtp.gmail.com with ESMTPSA id y24sm2732840eds.35.2020.09.09.08.10.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 08:10:34 -0700 (PDT)
-Subject: Re: Meson can't recover from deletion of generated QAPI file(s)
-To: Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <87pn6vw2he.fsf@dusky.pond.sub.org>
- <ff7ef6e4-254a-b171-22bf-c5cca4945160@redhat.com>
- <26432e3f-2b22-4966-ebea-8be448636fbb@suse.de>
- <2d49cdbb-41e2-ae1d-79cd-3a05678e9b87@redhat.com>
- <a443d9fe-d831-c7f2-5300-7f1d8660c81f@suse.de>
- <0b2617b8-10dd-d487-cfa0-67b646c72ac0@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <25206eb0-8f06-5f38-0cfd-f92e65494eb9@redhat.com>
-Date: Wed, 9 Sep 2020 17:10:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hKHL0H3fHFZht2VeEP4Quc9dgTC9Pa35JtJtxdEQi8I=;
+ b=H+me3KVAYSi1EBucGd0llWcX2puGo/MuRg5Fxoj6de4a93oZ1es0HC23cdu0/KwY4TzRQl
+ 6/XRT46zog1+H8x0ENTJw5pFy7EgcdPW1yLAjmOEJRduqpYyIpl1LYxVyR2UDY64mSF2Jq
+ bn2jsDaZiZyyCtdNihROLjP8vUs6hxU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-XPeE5KFKNdGg3-QlFtX5WA-1; Wed, 09 Sep 2020 11:11:59 -0400
+X-MC-Unique: XPeE5KFKNdGg3-QlFtX5WA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AAED8015AA;
+ Wed,  9 Sep 2020 15:11:58 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-221.ams2.redhat.com
+ [10.36.113.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42F7B60C07;
+ Wed,  9 Sep 2020 15:11:54 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v7 00/13] monitor: Optionally run handlers in coroutines
+Date: Wed,  9 Sep 2020 17:11:36 +0200
+Message-Id: <20200909151149.490589-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <0b2617b8-10dd-d487-cfa0-67b646c72ac0@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:20:45
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 07:20:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,30 +76,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ marcandre.lureau@gmail.com, stefanha@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/09/20 17:05, Claudio Fontana wrote:
-> Hmm, I still encounter problems:
+Some QMP command handlers can block the main loop for a relatively long
+time, for example because they perform some I/O. This is quite nasty.
+Allowing such handlers to run in a coroutine where they can yield (and
+therefore release the BQL) while waiting for an event such as I/O
+completion solves the problem.
 
-And another:
+This series adds the infrastructure to allow this and switches
+block_resize to run in a coroutine as a first example.
 
-diff --git a/tests/meson.build b/tests/meson.build
-index 998e4c48f9..95789f43b3 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -56,7 +56,7 @@ test_qapi_files = custom_target('Test QAPI files',
- # perhaps change qapi_gen to replace / with _, like Meson itself does?
- subdir('include')
- 
--libtestqapi = static_library('testqapi', sources: [test_qapi_files, test_qapi_outputs_extra])
-+libtestqapi = static_library('testqapi', sources: [test_qapi_files, genh, test_qapi_outputs_extra])
- testqapi = declare_dependency(link_with: libtestqapi)
- 
- testblock = declare_dependency(dependencies: [block], sources: 'iothread.c')
+This is an alternative solution to Marc-André's "monitor: add
+asynchronous command type" series.
 
-Paolo
+v7:
+- Added patch 2 to add a Monitor parameter to monitor_get_cpu_index(),
+  too [Markus]
+- Let monitor_set_cur() return the old monitor [Markus]
+- Fixed comment about linking stub objects in test-util-sockets [Markus]
+- More detailed commit message for per-coroutine current monitor and
+  document that monitor_set_cur(NULL) must be called eventually [Markus]
+- Resolve some merge conflicts on rebase
+
+v6:
+- Fixed cur_mon behaviour: It should always point to the Monitor while
+  we're in the handler coroutine, but be NULL while the handler
+  coroutines has yielded. [Markus]
+- Give HMP handlers the coroutine option, too, because they will call
+  QMP handlers, and life is easier when we know whether we are in
+  coroutine context or not.
+- Fixed block_resize for block devices in iothreads and for HMP
+- Resolved some merge conflict with QAPI generator and monitor
+  refactorings that were merged in the meantime
+
+v5:
+- Improved comments and documentation [Markus]
+
+v4:
+- Forbid 'oob': true, 'coroutine': true [Markus]
+- Removed Python type hints [Markus]
+- Introduced separate bool qmp_dispatcher_co_shutdown to make it clearer
+  how a shutdown request is signalled to the dispatcher [Markus]
+- Allow using aio_poll() with iohandler_ctx and use that instead of
+  aio_bh_poll() [Markus]
+- Removed coroutine_fn from qmp_block_resize() again because at least
+  one caller (HMP) calls it outside of coroutine context [Markus]
+- Tried to make the synchronisation between dispatcher and the monitor
+  thread clearer, and fixed a race condition
+- Improved documentation and comments
+
+v3:
+- Fix race between monitor thread and dispatcher that could schedule the
+  dispatcher coroutine twice if a second requests comes in before the
+  dispatcher can wake up [Patchew]
+
+v2:
+- Fix typo in a commit message [Eric]
+- Use hyphen instead of underscore for the test command [Eric]
+- Mark qmp_block_resize() as coroutine_fn [Stefan]
+
+
+Kevin Wolf (13):
+  monitor: Add Monitor parameter to monitor_set_cpu()
+  monitor: Add Monitor parameter to monitor_get_cpu_index()
+  monitor: Use getter/setter functions for cur_mon
+  hmp: Update current monitor only in handle_hmp_command()
+  qmp: Assert that no other monitor is active
+  qmp: Call monitor_set_cur() only in qmp_dispatch()
+  monitor: Make current monitor a per-coroutine property
+  qapi: Add a 'coroutine' flag for commands
+  qmp: Move dispatcher to a coroutine
+  hmp: Add support for coroutine command handlers
+  util/async: Add aio_co_reschedule_self()
+  block: Add bdrv_co_move_to_aio_context()
+  block: Convert 'block_resize' to coroutine
+
+ qapi/block-core.json                    |   3 +-
+ docs/devel/qapi-code-gen.txt            |  12 +++
+ include/block/aio.h                     |  10 ++
+ include/block/block.h                   |   6 ++
+ include/monitor/monitor.h               |   7 +-
+ include/qapi/qmp/dispatch.h             |   5 +-
+ monitor/monitor-internal.h              |   7 +-
+ audio/wavcapture.c                      |   8 +-
+ block.c                                 |  10 ++
+ blockdev.c                              |  13 ++-
+ dump/dump.c                             |   2 +-
+ hw/core/machine-hmp-cmds.c              |   2 +-
+ hw/scsi/vhost-scsi.c                    |   2 +-
+ hw/virtio/vhost-vsock.c                 |   2 +-
+ migration/fd.c                          |   4 +-
+ monitor/hmp-cmds.c                      |   4 +-
+ monitor/hmp.c                           |  44 ++++++--
+ monitor/misc.c                          |  38 ++++---
+ monitor/monitor.c                       | 101 ++++++++++++++++--
+ monitor/qmp-cmds-control.c              |   2 +
+ monitor/qmp-cmds.c                      |   2 +-
+ monitor/qmp.c                           | 130 +++++++++++++++++-------
+ net/socket.c                            |   2 +-
+ net/tap.c                               |   6 +-
+ qapi/qmp-dispatch.c                     |  61 ++++++++++-
+ qapi/qmp-registry.c                     |   3 +
+ qga/main.c                              |   2 +-
+ softmmu/cpus.c                          |   2 +-
+ stubs/monitor-core.c                    |  10 +-
+ tests/test-qmp-cmds.c                   |  10 +-
+ tests/test-util-sockets.c               |  12 +--
+ trace/control.c                         |   2 +-
+ util/aio-posix.c                        |   8 +-
+ util/async.c                            |  30 ++++++
+ util/qemu-error.c                       |   6 +-
+ util/qemu-print.c                       |   3 +-
+ util/qemu-sockets.c                     |   1 +
+ scripts/qapi/commands.py                |  10 +-
+ scripts/qapi/doc.py                     |   2 +-
+ scripts/qapi/expr.py                    |  10 +-
+ scripts/qapi/introspect.py              |   2 +-
+ scripts/qapi/schema.py                  |  12 ++-
+ tests/qapi-schema/test-qapi.py          |   7 +-
+ hmp-commands.hx                         |   1 +
+ tests/qapi-schema/meson.build           |   1 +
+ tests/qapi-schema/oob-coroutine.err     |   2 +
+ tests/qapi-schema/oob-coroutine.json    |   2 +
+ tests/qapi-schema/oob-coroutine.out     |   0
+ tests/qapi-schema/qapi-schema-test.json |   1 +
+ tests/qapi-schema/qapi-schema-test.out  |   2 +
+ 50 files changed, 481 insertions(+), 143 deletions(-)
+ create mode 100644 tests/qapi-schema/oob-coroutine.err
+ create mode 100644 tests/qapi-schema/oob-coroutine.json
+ create mode 100644 tests/qapi-schema/oob-coroutine.out
+
+-- 
+2.25.4
 
 
