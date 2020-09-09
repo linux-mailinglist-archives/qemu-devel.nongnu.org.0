@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7D3262CB4
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:58:41 +0200 (CEST)
-Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50C1262CBC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 12:00:06 +0200 (CEST)
+Received: from localhost ([::1]:56264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwsC-0000T0-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:58:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1kFwtZ-0003hT-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 06:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhy-0008AM-Aj; Wed, 09 Sep 2020 05:48:06 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:36311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhw-0007or-4G; Wed, 09 Sep 2020 05:48:05 -0400
-Received: by mail-pg1-x541.google.com with SMTP id m8so1696368pgi.3;
- Wed, 09 Sep 2020 02:48:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XHC/DSYKKw+7p0nzLLzEY49FP0TKj5MM1g4o4UmgUFI=;
- b=Sg4bKp3CFxGJlzZIXfxAAM39pI/MzEaTDyM8QBgaT0iug3BwwlCc7001KBVGuW9tPp
- D3S5giFj/PeMa3H4pQT2yOAKkwn6+MyzC1qnK2hO8sZUYvYyH0dDQetLLz4ehsGi0zID
- AWRjXfSIgjhw/v9kZ+ZcgJrXNgltykXbQAV1g67cd5xEclqMx1Yu2iubYBwDzDx21kDB
- EdEsaqaYOroLV5oAgAdyS3Il7QbEs4mviAwfityDpM2X/CElvwtiH84oOZ+L4Rekpu3n
- mGUmjjVg/SZw9Ym6RA7ekqktKdW+4y2LT6qEb7EQIyYn9JMclI68ZNp9wBxvpRHeyo2n
- Xkzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XHC/DSYKKw+7p0nzLLzEY49FP0TKj5MM1g4o4UmgUFI=;
- b=TXqL10FD5JmyesMkzCNVsJqV5w/vyTJiiioDlZgR2rYYtjXs8yBP8iMDoQgU1LQER1
- DYgikoG/X1PWh3cH7Yrtz8/2FfrgVHH3Y537ZdF4922pTJLn2cJ7Eu7r3l0gyvnm+iTW
- 4faMkR+H1/jl4ZYNcgq2/PtBhAEhjj8kA9DfLOeGjP2OlCIY6GCCOdOy2a/g3P62SBHq
- P5UfIfodGnVMVV06Kf3whDRP9V5Rg5cTB8/3F0A9PxfcRJquypAXL4s7XOhminxSrc9g
- SPPXF7n93ykf7SkwCtmkYYV9yt2+6nuG/JDN+d/ONB6SwILvVbEgdy11BOQp7TwadpKb
- yCGA==
-X-Gm-Message-State: AOAM533ylxzfytClNsW/3zLKkC9Ml7/3EcA6ekl5U+6xodFLZZ5BcSGy
- yamPZZgfU5Qe/BMTQXM8mLQsljf+Zlwccywg
-X-Google-Smtp-Source: ABdhPJw0+7KTm5sB03H1oOUzN/kXT+MqytcUIB/JkbJjCE/hj4VOqPZXN+1GCRzfir6KLyLSWs+aqA==
-X-Received: by 2002:a17:902:b908:b029:d0:cbe1:e7ab with SMTP id
- bf8-20020a170902b908b02900d0cbe1e7abmr197516plb.28.1599644881994; 
- Wed, 09 Sep 2020 02:48:01 -0700 (PDT)
-Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:48:01 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/21] tests: Fixes test-qdev-global-props.c
-Date: Wed,  9 Sep 2020 17:46:17 +0800
-Message-Id: <20200909094617.1582-22-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
-References: <20200909094617.1582-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFwkd-0004ST-Rx
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 05:50:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50858
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFwkb-0008AU-5a
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 05:50:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599645048;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x7KD2yO9XMdfkxohp6JCadNavF+jVGZf4rRI37N77LM=;
+ b=YCuZN2PTkfyHpwiOZ3nzwb9ZFAqN5R0gzRzuJd13yWLg1LKrDlYpnbNjbf1wRj/FwtBnvv
+ EU30DZzThymCeziEjKvsxUmNS0A6AnuiK6Otdg44VFsQcoj20CFPFCkTKRH1m6jjxHqiKL
+ IgZz39Py6/JL0ti1SMgiEWVvZOMP8uM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-QFxHpZ1XPZiJ6zMMciIFQw-1; Wed, 09 Sep 2020 05:50:45 -0400
+X-MC-Unique: QFxHpZ1XPZiJ6zMMciIFQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B908B8030CD;
+ Wed,  9 Sep 2020 09:50:44 +0000 (UTC)
+Received: from redhat.com (ovpn-115-8.ams2.redhat.com [10.36.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C13E75D9E8;
+ Wed,  9 Sep 2020 09:50:38 +0000 (UTC)
+Date: Wed, 9 Sep 2020 10:50:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [PATCH 0/5] Add support for loading SMBIOS OEM strings from a file
+Message-ID: <20200909095035.GO1011023@redhat.com>
+References: <20200908165438.1008942-1-berrange@redhat.com>
+ <d3c345b6-c2db-ef61-2ac0-afc0f9f737c2@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <d3c345b6-c2db-ef61-2ac0-afc0f9f737c2@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:05:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,43 +85,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On win32 the line ending are \r\n, so we skip the \n in function test_dynamic_globalprop
+On Wed, Sep 09, 2020 at 11:44:40AM +0200, Laszlo Ersek wrote:
+> On 09/08/20 18:54, Daniel P. Berrangé wrote:
+> > I previously added support for SMBIOS OEM strings tables but only
+> > allowed for data to be passed inline. Potential users indicated they
+> > wanted to pass some quite large data blobs which is inconvenient todo
+> > inline. Thus I'm adding support for passing the data from a file.
+> >
+> > In testing this I discovered the hard way that on x86 we're limited to
+> > using the SMBIOS 2.1 entry point currently. This has a maximum size of
+> > 0xffff, and if you exceed this all sorts of wierd behaviour happens.
+> >
+> > QEMU forces SMBIOS 2.1 on x86 because the default SeaBIOS firmware
+> > does not support SMBIOS 3.0. The EDK2 firmware supports SMBIOS 3.0 and
+> > QEMU defaults to this on the ARM virt machine type.
+> >
+> > This series adds support for checking the SMBIOS 2.1 limits to protect
+> > users from impossible to diagnose problems.
+> >
+> > There is also a fix needed to SeaBIOS which fails to check for
+> > integer overflow when it appends the type 0 table.
+> >
+> >   https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/3EMIOY6YS6MG5UQN3JJJS2A3DJZOVFR6/
+> >
+> > IIUC, SMBIOS 3.0 should onlky be limited by what you can fit into RAM,
+> > but in testing, EDK2 appears to hang shortly after the SMBIOS 3.0 data
+> > size exceeds 128 KB. I've not spotted an obvious flaw in EDK2 or QEMU,
+> > nor do I attempt to enforce a limit in QEMU for SMBIOS 3.0.
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- tests/test-qdev-global-props.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+snip
 
-diff --git a/tests/test-qdev-global-props.c b/tests/test-qdev-global-props.c
-index 1e6b0f33ff..d8762a9756 100644
---- a/tests/test-qdev-global-props.c
-+++ b/tests/test-qdev-global-props.c
-@@ -250,10 +250,10 @@ static void test_dynamic_globalprop(void)
-     g_test_trap_assert_passed();
-     g_test_trap_assert_stderr_unmatched("*prop1*");
-     g_test_trap_assert_stderr_unmatched("*prop2*");
--    g_test_trap_assert_stderr("*warning: global dynamic-prop-type-bad.prop3 has invalid class name\n*");
-+    g_test_trap_assert_stderr("*warning: global dynamic-prop-type-bad.prop3 has invalid class name*");
-     g_test_trap_assert_stderr_unmatched("*prop4*");
--    g_test_trap_assert_stderr("*warning: global nohotplug-type.prop5=105 not used\n*");
--    g_test_trap_assert_stderr("*warning: global nondevice-type.prop6 has invalid class name\n*");
-+    g_test_trap_assert_stderr("*warning: global nohotplug-type.prop5=105 not used*");
-+    g_test_trap_assert_stderr("*warning: global nondevice-type.prop6 has invalid class name*");
-     g_test_trap_assert_stdout("");
- }
- 
+> So we're exceeding "__brk_limit".
+> 
+> ... I'm quite getting out of my league here, but "__brk_limit" seems to
+> be controlled by "brk_reservation" in "arch/x86/kernel/vmlinux.lds.S"...
+> and ultimately through the RESERVE_BRK() macro:
+> 
+> [arch/x86/include/asm/setup.h]
+> 
+> > /*
+> >  * Reserve space in the brk section.  The name must be unique within
+> >  * the file, and somewhat descriptive.  The size is in bytes.  Must be
+> >  * used at file scope.
+> >  *
+> >  * (This uses a temp function to wrap the asm so we can pass it the
+> >  * size parameter; otherwise we wouldn't be able to.  We can't use a
+> >  * "section" attribute on a normal variable because it always ends up
+> >  * being @progbits, which ends up allocating space in the vmlinux
+> >  * executable.)
+> >  */
+> > #define RESERVE_BRK(name,sz)                                            \
+> 
+> OK, so let's see RESERVE_BRK() invocations... The relevant match is
+> likely the one below:
+> 
+> > arch/x86/kernel/setup.c:RESERVE_BRK(dmi_alloc, 65536);
+> 
+> ... Then see kernel commits:
+> 
+> - 6de6cb442e76 ("x86: use brk allocation for DMI", 2009-03-14)
+> 
+> - 796216a57fe4 ("x86: allow extend_brk users to reserve brk space",
+> 2009-03-14)
+> 
+> - e808bae2407a ("x86: Do not reserve brk for DMI if it's not going to be
+> used", 2010-02-25)
+> 
+> Commit 796216a57fe4 is helpful:
+> 
+> >     Add RESERVE_BRK(name, size) macro to reserve space in the brk
+> >     area.  This should be a conservative (ie, larger) estimate of
+> >     how much space might possibly be required from the brk area.
+> >     Any unused space will be freed, so there's no real downside
+> >     on making the reservation too large (within limits).
+> 
+> So it seems like the 64K limit could be increased, but still
+> - it requires guest kernels to be rebuilt,
+> - it doesn't seem suitable for passing MBs of data (on x86 anyway).
+
+Yeah, this feels like we're just venturing into a bad part of town.
+Simplest is probably to just document that applications should never
+expect more than 64kb of total SMBIOS data to be viable regardless
+of the SMBIOS entry point.
+
+Given this, I'm thinking it might be overkill to even both with
+supporting SMBIOS 3.0 for x86, unless it offers some other compelling
+benefit over SMBIOS 2.1 that you know of ?
+
+Regards,
+Daniel
 -- 
-2.28.0.windows.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
