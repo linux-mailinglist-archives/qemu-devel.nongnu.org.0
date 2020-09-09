@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477E626240F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 02:28:50 +0200 (CEST)
-Received: from localhost ([::1]:33392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2CB262413
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 02:30:30 +0200 (CEST)
+Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFnyj-0001Ew-BS
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 20:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37840)
+	id 1kFo0L-0004Qp-EP
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 20:30:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFnnp-0000X3-1k
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:33 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33747)
+ id 1kFnnq-0000Zt-4R
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:34 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:34384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFnnn-0002Ja-8B
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:32 -0400
-Received: by mail-pg1-x544.google.com with SMTP id e33so753711pgm.0
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 17:17:30 -0700 (PDT)
+ id 1kFnno-0002Jl-Bi
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:33 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id n3so471079pjq.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 17:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BMREvoHjj8f1EBfCvu7SAC5TIkS0aPkGQG5Rh07Q5oA=;
- b=ZpxMCaG8wjJxmbdxj4VeD3QaUkzX+KW0qxu1LMlSbD2JcdGP+DSF76g4gMu6HQHRUd
- 8F9mL2HayGWWc5QoYvzjj03biCnPylKdX0byO+2lnORkqcEuBVGZozwtCR8CdEi5I3UR
- 5hsP6q+KDi/ducnvYgPQzLHt5cAbsccGFd3cMdg8IWhu832Ho9+KVpueHA8P+Q7AHQhn
- VCKc+P8QdGKINzs6uTjhgJzJ3+wswWioQOjOJ9HuaS2P6xBwjEfcPQkK20r2uVx3vHpU
- GQy8S5/uHkqxXWWwy+iY/8nJi7lwH6CHMfp3XKqBxSdt4yfQ3gfd9wCx81UIZsed2Shv
- FOKg==
+ bh=5oTHhTIpHsSvQvico3TP/px05iIcGlpWqa7T/U3dIqI=;
+ b=ed5ei2Zu3tRgX6uO1MfYoHHYNYfXG566IYYOg4vagiST50dBZ8qJrA3Hhga3Iop7ws
+ kwK+4fwXNuUtDDMleYZwbvRRVxf5dzKekwRi/7DLUDJ6unB4G1pqNS0OM2oqeiNJQuSO
+ mlxhOEdWkdBcFT7LbjgPWdR700KUjdlQRPItvgUaNQYciXLIMxIQDD6aNb/FJ398vm6E
+ YpdO3pk2g6Knlw7Cv1czagf5aSeZsUe4ooy4iwbSVxfj9Uwq3m06arQrr26AaYP8OX9y
+ wfUjdAw81nLA3yOUHQzQ1Q6F2m2aIiTKhQkEBRVBITRLsnLzof4ciIGMc0jN8ToAVFiD
+ M9rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BMREvoHjj8f1EBfCvu7SAC5TIkS0aPkGQG5Rh07Q5oA=;
- b=UFASN2Gir06Flbzr5IRyaw43hNdBKmjnGehOJIxXboo9iCbryc8xloOT3v256mCf/O
- 0O6PiMumt9cTw06k/FFlngdoBk80KpvJsoyZuRbgr7g4ovcHlbS00SbbWvzFplLIKK7j
- Zpc6vTwxufsmLB34XM/poKrwtv9lll8bWRiVGVdJ3S4EmxTmyUzwNf4M5Co/LfzZ2+Bo
- G2qx2ybgMqOmPqna4TUuD5GiD8iunSydSRADvLIKf/e7Nid60SxgwASYwLHzwrSbvCi3
- AJ/C3hs96EqyG7bQ7Z9xmjtADGB5kVZ5h/biRx40uifdilrk0Dz8iCt99RDeQclpdCHa
- rwRQ==
-X-Gm-Message-State: AOAM532abnHYIjtxnH2JG7PlV3yzgL0g5xQW1mx/EVJS7DLFZrlVmErA
- lDBTSUSleeJOxkF9rN0y4Cj2+q3Pb5No4Q==
-X-Google-Smtp-Source: ABdhPJyTA5E48G9Gtzgz7uhxJQ4tOK5DlLrwOwU7Nixp7+OkfE7N4CrTN3t4sq8b7rkw8xmnNF6ttw==
-X-Received: by 2002:a63:fe06:: with SMTP id p6mr926551pgh.337.1599610649495;
- Tue, 08 Sep 2020 17:17:29 -0700 (PDT)
+ bh=5oTHhTIpHsSvQvico3TP/px05iIcGlpWqa7T/U3dIqI=;
+ b=sfx//6+s17dvSqtOO3IKTqCo42lWq8X2Ru9CDJ9DgcBibJS5TsCdcBPwc/xtFlDzmr
+ Ia+QVXkKMS5Y7m13mj2rUxNy8K8vHjTZ5WkXe615uH8TihiOiwg1j7Ec4X48rQ7M6G+K
+ 0hE2w51nFe9bjSeCiK4YYd/JKji0hr3Bs4zYfR83FcEibitJGlURaVzjyeyj9NHxp7Fn
+ 7J7q+qb3Hg2bI9+V+V0Z5KELu3KSCliVm+ZdFhSeMzpFlzEXehJMdPoN8xOnMCFWWKww
+ X0tTC4o1izqzxuvqfEPywT0TP7cf/Xjy+ZyeOxwHu9RInKFHk8QBYJod7vBqcFBX2mzl
+ sw7w==
+X-Gm-Message-State: AOAM530j39NhC39k/2kVg/whvmoTenm7wB+kpaV9sl1B+y8SpyB9e8AH
+ 1pPbdJfTc5K75OCRMsp4B/CDbz3aKT3suw==
+X-Google-Smtp-Source: ABdhPJwO5Fd5TQdKQLTDtdF5LjI3jOEgj4cZcf19Kcr9ucmSqwvzEN2+w8inv6jGunfR1lowk7E6jg==
+X-Received: by 2002:a17:90b:4c0f:: with SMTP id
+ na15mr1160808pjb.119.1599610650603; 
+ Tue, 08 Sep 2020 17:17:30 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 137sm505437pfu.149.2020.09.08.17.17.28
+ by smtp.gmail.com with ESMTPSA id 137sm505437pfu.149.2020.09.08.17.17.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 17:17:28 -0700 (PDT)
+ Tue, 08 Sep 2020 17:17:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 32/43] tcg/ppc: Use tcg_constant_vec with tcg vec expanders
-Date: Tue,  8 Sep 2020 17:16:36 -0700
-Message-Id: <20200909001647.532249-33-richard.henderson@linaro.org>
+Subject: [PATCH 33/43] tcg/aarch64: Use tcg_constant_vec with tcg vec expanders
+Date: Tue,  8 Sep 2020 17:16:37 -0700
+Message-Id: <20200909001647.532249-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200909001647.532249-1-richard.henderson@linaro.org>
 References: <20200909001647.532249-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,90 +89,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Improve expand_vec_shi to use sign-extraction for MO_32.
-This allows a single VSPLTISB instruction to load all of
-the valid shift constants.
+Improve rotrv_vec to reduce "t1 = -v2, t2 = t1 + c" to
+"t1 = -v, t2 = c - v2".  This avoids a serial dependency
+between t1 and t2.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.c.inc | 44 ++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 17 deletions(-)
+ tcg/aarch64/tcg-target.c.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 3d23a6b226..155c42ed24 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -3332,13 +3332,22 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
- static void expand_vec_shi(TCGType type, unsigned vece, TCGv_vec v0,
-                            TCGv_vec v1, TCGArg imm, TCGOpcode opci)
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index fdc118391c..d9d397075a 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -2511,7 +2511,7 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
+                        TCGArg a0, ...)
  {
--    TCGv_vec t1 = tcg_temp_new_vec(type);
-+    TCGv_vec t1;
+     va_list va;
+-    TCGv_vec v0, v1, v2, t1, t2;
++    TCGv_vec v0, v1, v2, t1, t2, c1;
+     TCGArg a2;
  
--    /* Splat w/bytes for xxspltib.  */
--    tcg_gen_dupi_vec(MO_8, t1, imm & ((8 << vece) - 1));
-+    if (vece == MO_32) {
-+        /*
-+         * Only 5 bits are significant, and VSPLTISB can represent -16..15.
-+         * So using negative numbers gets us the 4th bit easily.
-+         */
-+        imm = sextract32(imm, 0, 5);
-+    } else {
-+        imm &= (8 << vece) - 1;
-+    }
-+
-+    /* Splat w/bytes for xxspltib when 2.07 allows MO_64. */
-+    t1 = tcg_constant_vec(type, MO_8, imm);
-     vec_gen_3(opci, type, vece, tcgv_vec_arg(v0),
-               tcgv_vec_arg(v1), tcgv_vec_arg(t1));
--    tcg_temp_free_vec(t1);
- }
+     va_start(va, a0);
+@@ -2543,8 +2543,8 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
  
- static void expand_vec_cmp(TCGType type, unsigned vece, TCGv_vec v0,
-@@ -3396,7 +3405,7 @@ static void expand_vec_mul(TCGType type, unsigned vece, TCGv_vec v0,
- {
-     TCGv_vec t1 = tcg_temp_new_vec(type);
-     TCGv_vec t2 = tcg_temp_new_vec(type);
--    TCGv_vec t3, t4;
-+    TCGv_vec c0, c16;
- 
-     switch (vece) {
-     case MO_8:
-@@ -3415,21 +3424,22 @@ static void expand_vec_mul(TCGType type, unsigned vece, TCGv_vec v0,
- 
-     case MO_32:
-         tcg_debug_assert(!have_isa_2_07);
--        t3 = tcg_temp_new_vec(type);
--        t4 = tcg_temp_new_vec(type);
--        tcg_gen_dupi_vec(MO_8, t4, -16);
-+        /*
-+         * Only 5 bits are significant, and VSPLTISB can represent -16..15.
-+         * So using -16 is a quick way to represent 16.
-+         */
-+        c16 = tcg_constant_vec(type, MO_8, -16);
-+        c0 = tcg_constant_vec(type, MO_8, 0);
-+
-         vec_gen_3(INDEX_op_rotlv_vec, type, MO_32, tcgv_vec_arg(t1),
--                  tcgv_vec_arg(v2), tcgv_vec_arg(t4));
-+                  tcgv_vec_arg(v2), tcgv_vec_arg(c16));
-         vec_gen_3(INDEX_op_ppc_mulou_vec, type, MO_16, tcgv_vec_arg(t2),
-                   tcgv_vec_arg(v1), tcgv_vec_arg(v2));
--        tcg_gen_dupi_vec(MO_8, t3, 0);
--        vec_gen_4(INDEX_op_ppc_msum_vec, type, MO_16, tcgv_vec_arg(t3),
--                  tcgv_vec_arg(v1), tcgv_vec_arg(t1), tcgv_vec_arg(t3));
--        vec_gen_3(INDEX_op_shlv_vec, type, MO_32, tcgv_vec_arg(t3),
--                  tcgv_vec_arg(t3), tcgv_vec_arg(t4));
--        tcg_gen_add_vec(MO_32, v0, t2, t3);
--        tcg_temp_free_vec(t3);
--        tcg_temp_free_vec(t4);
-+        vec_gen_4(INDEX_op_ppc_msum_vec, type, MO_16, tcgv_vec_arg(t1),
-+                  tcgv_vec_arg(v1), tcgv_vec_arg(t1), tcgv_vec_arg(c0));
-+        vec_gen_3(INDEX_op_shlv_vec, type, MO_32, tcgv_vec_arg(t1),
-+                  tcgv_vec_arg(t1), tcgv_vec_arg(c16));
-+        tcg_gen_add_vec(MO_32, v0, t1, t2);
-         break;
- 
-     default:
+     case INDEX_op_rotlv_vec:
+         t1 = tcg_temp_new_vec(type);
+-        tcg_gen_dupi_vec(vece, t1, 8 << vece);
+-        tcg_gen_sub_vec(vece, t1, v2, t1);
++        c1 = tcg_constant_vec(type, vece, 8 << vece);
++        tcg_gen_sub_vec(vece, t1, v2, c1);
+         /* Right shifts are negative left shifts for AArch64.  */
+         vec_gen_3(INDEX_op_shlv_vec, type, vece, tcgv_vec_arg(t1),
+                   tcgv_vec_arg(v1), tcgv_vec_arg(t1));
+@@ -2557,9 +2557,9 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
+     case INDEX_op_rotrv_vec:
+         t1 = tcg_temp_new_vec(type);
+         t2 = tcg_temp_new_vec(type);
++        c1 = tcg_constant_vec(type, vece, 8 << vece);
+         tcg_gen_neg_vec(vece, t1, v2);
+-        tcg_gen_dupi_vec(vece, t2, 8 << vece);
+-        tcg_gen_add_vec(vece, t2, t1, t2);
++        tcg_gen_sub_vec(vece, t2, c1, v2);
+         /* Right shifts are negative left shifts for AArch64.  */
+         vec_gen_3(INDEX_op_shlv_vec, type, vece, tcgv_vec_arg(t1),
+                   tcgv_vec_arg(v1), tcgv_vec_arg(t1));
 -- 
 2.25.1
 
