@@ -2,71 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CAE263062
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 17:19:54 +0200 (CEST)
-Received: from localhost ([::1]:48436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD31D26306D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 17:21:56 +0200 (CEST)
+Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG1t3-0004RT-Mx
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 11:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36948)
+	id 1kG1v1-0007vs-0m
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 11:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1m2-0002B0-2w
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34127)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kG1po-0000RK-PD
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:16:32 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31866
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1lt-0003rh-3E
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:37 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kG1pm-0004QD-Ve
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:16:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599664348;
+ s=mimecast20190719; t=1599664583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0GRAoEW8XedzP7Dl0ySriHPHHDVP8R9/ZqTh7Mo04Y8=;
- b=i8dxZYIzY2m/WiJ4W1rWuxQ3A0fl9/HokUrIVblwHcq3TIL7Yx5ybmYwPFj0hvzIVxSC3i
- u7NV/2mOuq/QAo2HHGqA23A9w+hMEuuyyDG2bkkkdzFY1MZuB5TuLZvlGcPY4rIVXboQUG
- +fGvEg6xIeHeCmKU2KZO8W0fl/Hjrnk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-QlCEJULlMNSCEx58UpeIWw-1; Wed, 09 Sep 2020 11:12:26 -0400
-X-MC-Unique: QlCEJULlMNSCEx58UpeIWw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49B8D1005E73;
- Wed,  9 Sep 2020 15:12:25 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-221.ams2.redhat.com
- [10.36.113.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CEC1660C07;
- Wed,  9 Sep 2020 15:12:23 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v7 13/13] block: Convert 'block_resize' to coroutine
-Date: Wed,  9 Sep 2020 17:11:49 +0200
-Message-Id: <20200909151149.490589-14-kwolf@redhat.com>
-In-Reply-To: <20200909151149.490589-1-kwolf@redhat.com>
-References: <20200909151149.490589-1-kwolf@redhat.com>
+ bh=cPrhgoltgXvaXRabVNxfaTKwTGIJNYZHcv8NgWo8KMs=;
+ b=PjBZsNHJEBEjcvor6jP/P/aBrzh1xmwxRwp8gG5y0lLqtU94XtHbhoy2hvmzR4AQtDpUWR
+ w6mxqOtxi3Zwh/ocJwWv01EG1BuUC4X8LY6nSdH1G8v7SusiKRhA1a82NQTCsfPBk8uwVb
+ OyIQYUba2LrLZS1rRciGjL6gH80YEWE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-Q__lcSmdOK-hJlmLa10tzA-1; Wed, 09 Sep 2020 11:16:19 -0400
+X-MC-Unique: Q__lcSmdOK-hJlmLa10tzA-1
+Received: by mail-ed1-f72.google.com with SMTP id f16so1156944edm.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 08:16:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cPrhgoltgXvaXRabVNxfaTKwTGIJNYZHcv8NgWo8KMs=;
+ b=eNxoYAb3fXpPt6w69J9l2woKn1Oc3x++w8pl+dSmW+qRm03YZZFsxWvtIKwYNpyLyH
+ Gu53+v+XylM3Pd0CAzKStyEiYkhUu+Boi6FzfP0/7mN/7KX7pbGFyAaPc8jyLHAUU22m
+ zn6nS8g9hDAibakPSRGnHAywhis7yeTl2RKr/BRSSRB1XFHRMqRlFIYXYCM1RQ7U5HU7
+ kGpfRi3Fj3IUTGK9CqPU/qLiOEOODXOi4xGDn9fIWroz7zDynm9HVgcNMwTlzgUZN1Hy
+ MqtUAgnoEwwLdy46zl2+u0DxmK0cK30+ENfFqaeTsepTIXiJ2lC15gKmB7OR+uQluZCV
+ CneQ==
+X-Gm-Message-State: AOAM5325KL0ua1VGQVvQs9JUcfxndKz/lqRg4321z+YRcObXtu+COLeJ
+ AVidilg6jwVGvoNuCe61o0YM0eua93HVi1yhdAiTW2OuBy1O+D3lzaEoU6W72afC9Pp44996Fj1
+ FzcasMql1zvkDLCY=
+X-Received: by 2002:a17:906:3bca:: with SMTP id
+ v10mr4039984ejf.57.1599664578087; 
+ Wed, 09 Sep 2020 08:16:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUnq5ifaKLVhx8wU61TxbbMKuo8CEgER0/sUNB+zFswRbvBvRQRDsOHX/NGIFaQEU1wMExZg==
+X-Received: by 2002:a17:906:3bca:: with SMTP id
+ v10mr4039969ejf.57.1599664577903; 
+ Wed, 09 Sep 2020 08:16:17 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:4025:be55:3943:81a0?
+ ([2001:b07:6468:f312:4025:be55:3943:81a0])
+ by smtp.gmail.com with ESMTPSA id w10sm2701715ejv.44.2020.09.09.08.16.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Sep 2020 08:16:17 -0700 (PDT)
+Subject: Re: [RFC] QEMU as Xcode project on macOS
+To: Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <2764135.D4k31Gy3CM@silver>
+ <3afbbc20-410a-4466-f3c8-07b718ca8d3f@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <22facbc9-ab51-5bdd-c9c9-cc00fe5365de@redhat.com>
+Date: Wed, 9 Sep 2020 17:16:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <3afbbc20-410a-4466-f3c8-07b718ca8d3f@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:25:02
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:20:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,100 +106,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- marcandre.lureau@gmail.com, stefanha@redhat.com, dgilbert@redhat.com
+Cc: programmingkidx@gmail.com, Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-block_resize performs some I/O that could potentially take quite some
-time, so use it as an example for the new 'coroutine': true annotation
-in the QAPI schema.
+On 09/09/20 15:41, Thomas Huth wrote:
+>> The question is, and I don't have the big picture of QEMU yet to judge that, 
+>> how much is auto generated for QEMU i.e. with custom scripts that would 
+>> probably destroy this plan? There are these trace calls that are auto 
+>> generated, is there more like the TCG part for instance?
+> Yes, I think we generate code in a couple of places, e.g. the code in
+> target/s390x/ uses a "gen-features" helper to generate some code. So
+> implementing a separate Xcode project that does not use the main build
+> files does not sound very appealing.
 
-bdrv_truncate() requires that we're already in the right AioContext for
-the BlockDriverState if called in coroutine context. So instead of just
-taking the AioContext lock, move the QMP handler coroutine to the
-context.
+More than a couple places---all of QAPI and tracing code is autogenerated.
 
-Call blk_unref() only after switching back because blk_unref() may only
-be called in the main thread.
+Perhaps Meson's xcodeproj backend can be improved to support everything
+that QEMU requires, I'm not sure if there are any limitations in Xcode
+that prevent that.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qapi/block-core.json |  3 ++-
- blockdev.c           | 13 ++++++-------
- hmp-commands.hx      |  1 +
- 3 files changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0345f6f2d2..d3e49c9419 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1302,7 +1302,8 @@
- { 'command': 'block_resize',
-   'data': { '*device': 'str',
-             '*node-name': 'str',
--            'size': 'int' } }
-+            'size': 'int' },
-+  'coroutine': true }
- 
- ##
- # @NewImageMode:
-diff --git a/blockdev.c b/blockdev.c
-index 7f2561081e..064989fc2d 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2439,14 +2439,14 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
-     return ret;
- }
- 
--void qmp_block_resize(bool has_device, const char *device,
--                      bool has_node_name, const char *node_name,
--                      int64_t size, Error **errp)
-+void coroutine_fn qmp_block_resize(bool has_device, const char *device,
-+                                   bool has_node_name, const char *node_name,
-+                                   int64_t size, Error **errp)
- {
-     Error *local_err = NULL;
-     BlockBackend *blk = NULL;
-     BlockDriverState *bs;
--    AioContext *aio_context;
-+    AioContext *old_ctx;
- 
-     bs = bdrv_lookup_bs(has_device ? device : NULL,
-                         has_node_name ? node_name : NULL,
-@@ -2456,8 +2456,7 @@ void qmp_block_resize(bool has_device, const char *device,
-         return;
-     }
- 
--    aio_context = bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
-+    old_ctx = bdrv_co_move_to_aio_context(bs);
- 
-     if (size < 0) {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0 size");
-@@ -2479,8 +2478,8 @@ void qmp_block_resize(bool has_device, const char *device,
-     bdrv_drained_end(bs);
- 
- out:
-+    aio_co_reschedule_self(old_ctx);
-     blk_unref(blk);
--    aio_context_release(aio_context);
- }
- 
- void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 60f395c276..ac360b73f6 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -76,6 +76,7 @@ ERST
-         .params     = "device size",
-         .help       = "resize a block image",
-         .cmd        = hmp_block_resize,
-+        .coroutine  = true,
-     },
- 
- SRST
--- 
-2.25.4
+Paolo
 
 
