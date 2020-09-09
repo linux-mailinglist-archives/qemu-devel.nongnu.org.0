@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01132262C7D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:49:55 +0200 (CEST)
-Received: from localhost ([::1]:40104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAF1262C66
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:48:37 +0200 (CEST)
+Received: from localhost ([::1]:34576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwjh-0001wW-VZ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57070)
+	id 1kFwiR-00081C-BB
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwgX-00062T-Nn; Wed, 09 Sep 2020 05:46:37 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54133)
+ id 1kFwgc-000691-Dc; Wed, 09 Sep 2020 05:46:43 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:35308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwgW-0007f6-0b; Wed, 09 Sep 2020 05:46:37 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id t7so1062651pjd.3;
- Wed, 09 Sep 2020 02:46:35 -0700 (PDT)
+ id 1kFwga-0007fK-Ik; Wed, 09 Sep 2020 05:46:42 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id g29so1698147pgl.2;
+ Wed, 09 Sep 2020 02:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AFCLvdTLM0MkPTvvP8K6WJoQtH1sTS9qVLxByUIIgtU=;
- b=hncZkODmbg5KhaMnDb9kD6S5GRdJS4rVaCp9N7h9qkaEWOxLBqKIOEg9PDaTDX7VFH
- +9viuZjdiWhLXDG2ljxTFmUcd2+Ny+/PUTMLj+/yz16AU/DNtDv6hHNXRhfAKsQgfdVa
- H1nQBw3vM64TzFi6DVeGI6c8NVAwVfqztKPJngynuXWkkp+hfGwgbXrA7stWiNpZF6S5
- oPjC9AvVF7VKCh5zQJQe5hFzhsLqtm86UI6nsugzDEFOczNKPdA2YkUVJr6/lbqB7n8V
- aO7udc8Xq6fsQx5s91475fZJR39mVwJWmMLhIBE1F474k/7CmODKPP0Q+74UgM3aK7ZO
- OUlg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SUvRS89sUzi/CKcVKuZSUX6fRCoMdjCQPEKiAKbAayo=;
+ b=OixHOT3KaPYqoUwhFrDwExzHIdp4Vc0XCFEi/EZQ1DTw+mlpPbwl9IeEzA8RUPZh32
+ YTZEHHPLWn7eEqyLlsnVjYEI8MIJZ5Gdq//MvHphpR+SJ7F+vmndnk2CJGL6Mwh+Pozt
+ mKavPGvWXRUqFseZ8qvKhCMtHNwf+OGqIsYMPp65prfF7dK7xWRZGPhotpgbhl6nl2oH
+ NE8HzBElsc8fi2yqyyZk5dZO/mRl9aixyycGe+wpcn2hDLrWY5mYvyO+n+uSKwwgE773
+ 9BNxu6AazVyGnmavVH1t9v+yeGPnDYNjCd1Y6uk+x6zW3s+kIdeDZrVrFV3hLgWfbq6R
+ WhHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AFCLvdTLM0MkPTvvP8K6WJoQtH1sTS9qVLxByUIIgtU=;
- b=Ukn1lcea+eo7tLaGAyeKOhy6x0PT3ciKDZGog/AVMEA7GRviF18XLyBfK0klLJLrjs
- M3tZ7CKf5anevTXhag6fC0O7c7c/p1EFLs22xrBaNbv8fVc8q/SG0tgvXJeZRPNbvB44
- qdTrizUlhG9CIHDHXtPRndNDpY9NHhSxzQXeR/rfnjiyw/bw7fAehq3Q0vVSb8woDR7I
- F3gtjsOUiDpD+EuM4lqdYJeNDHB4yz0CS1BNPsJ0SZVjIinkjIVo7riKonDuqL7BiOlC
- Cnr01042GaU56+umNJLjo8gZGC28wI3yqjwTzwt+SQikiudEJ3Qc6MhOTaGKh0dH60lN
- Ul/Q==
-X-Gm-Message-State: AOAM531QKU8MDWab590Y3yygbG2l0bfpVPmYkBf1HcMj6v283jBSyEh6
- kUqjc6Pcx7i8tUapayWF+TxMO6qkijqFCGG+
-X-Google-Smtp-Source: ABdhPJw4BwhOLJSUtzUhthBOgyGSl+bT8xrv+P7dMtAidPjv21cwiZRuihYiYjbWoTbYmXFCV4M/Zw==
-X-Received: by 2002:a17:90a:d315:: with SMTP id
- p21mr127168pju.88.1599644793748; 
- Wed, 09 Sep 2020 02:46:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SUvRS89sUzi/CKcVKuZSUX6fRCoMdjCQPEKiAKbAayo=;
+ b=eOpHY96neSnwtY76/tTglS+M6lzl2X+RGHrrnHNkJCpXkEcvoOMwdrOG+O4bhjvJ6P
+ mokPran0vEVzDXxhww5Oa1WYrWqn6/uiVIBkB/io7P1c3i003qSLuBzFsIGjfMCT4ecU
+ tA18IM/FMv+ESyLUxHzvyY4Sg1ZnjvpAi3QKYx2SxKtvVZip7NdeyEy4RBd50bwsNzvi
+ lHrqG3kkepQn2pbc9HOymlP7S7zpX+bdZmb45c5TWY0eGC0s/ClIYkJAMp2n9DJzo548
+ kjXrWFLOHw07Kiq28W1UxzRyisogpw05jaXDEJo1IhhtTEl/2kONZGyg7wClHk6IuZTv
+ Wiiw==
+X-Gm-Message-State: AOAM530xSmSkiq8gLxJjjYN25Kz3l8NxAGHJ7NdpHODVTCo1p2dIxpLT
+ VQxKiPwikqOO1sRUB50mVIG5kzcpREAtYrL1
+X-Google-Smtp-Source: ABdhPJxwFfqpbPvNIGJ6oD1uG0Ri2owu6ZosKjJxEgrzsdFhMLSojBgYC1D6dCaCPzYc6tNyiSCKqw==
+X-Received: by 2002:a17:902:c411:b029:d0:589f:6e1c with SMTP id
+ k17-20020a170902c411b02900d0589f6e1cmr217248plk.0.1599644798122; 
+ Wed, 09 Sep 2020 02:46:38 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.46.29
+ by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.46.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:46:32 -0700 (PDT)
+ Wed, 09 Sep 2020 02:46:37 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/21] W32, W64 msys2/mingw patches
-Date: Wed,  9 Sep 2020 17:45:56 +0800
-Message-Id: <20200909094617.1582-1-luoyonggang@gmail.com>
+Subject: [PATCH v2 01/21] block: Fixes nfs compiling error on msys2/mingw
+Date: Wed,  9 Sep 2020 17:45:57 +0800
+Message-Id: <20200909094617.1582-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
+In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
+References: <20200909094617.1582-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,64 +94,144 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and=0D
-disable partial test-char tests.=0D
-And then fixes all unit tests failure on msys2/mingw=0D
-=0D
-Yonggang Luo (21):=0D
-  block: Fixes nfs compiling error on msys2/mingw=0D
-  ci: fixes msys2 build by upgrading capstone to 4.0.2=0D
-  configure: Fixes ncursesw detection under msys2/mingw and enable=0D
-    curses=0D
-  curses: Fixes curses compiling errors.=0D
-  tests: disable /char/stdio/* tests in test-char.c on win32=0D
-  ci: Enable msys2 ci in cirrus=0D
-  tests: Trying fixes test-replication.c on msys2/mingw.=0D
-  tests: test-replication disable /replication/secondary/* on=0D
-    msys2/mingw.=0D
-  osdep: These function are only available on Non-Win32 system.=0D
-  meson: Use -b to ignore CR vs. CR-LF issues on Windows=0D
-  meson: disable crypto tests are empty under win32=0D
-  meson: remove empty else and duplicated gio deps=0D
-  vmstate: Fixes test-vmstate.c on msys2/mingw=0D
-  cirrus: Building freebsd in a single short=0D
-  tests: Convert g_free to g_autofree macro in test-logging.c=0D
-  rcu: add uninit destructor for rcu=0D
-  tests: Fixes test-io-channel-socket.c tests under msys2/mingw=0D
-  tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence=0D
-    with aio-posix.c=0D
-  tests: Fixes test-io-channel-file by mask only owner file state mask=0D
-    bits=0D
-  tests: fix test-util-sockets.c=0D
-  tests: Fixes test-qdev-global-props.c=0D
-=0D
- .cirrus.yml                         | 59 ++++++++++++++++-------------=0D
- block/nfs.c                         | 26 ++++++++-----=0D
- capstone                            |  2 +-=0D
- configure                           | 11 ++----=0D
- include/qemu/osdep.h                |  2 +-=0D
- include/qemu/rcu.h                  |  5 +++=0D
- meson.build                         |  6 ---=0D
- scripts/ci/windows/msys2-build.sh   | 28 ++++++++++++++=0D
- scripts/ci/windows/msys2-install.sh | 33 ++++++++++++++++=0D
- tests/meson.build                   |  3 +-=0D
- tests/qapi-schema/meson.build       |  2 +-=0D
- tests/test-char.c                   |  8 ++--=0D
- tests/test-io-channel-file.c        |  4 +-=0D
- tests/test-io-channel-socket.c      |  2 +=0D
- tests/test-logging.c                |  5 ++-=0D
- tests/test-qdev-global-props.c      |  6 +--=0D
- tests/test-replication.c            | 22 +++++++++--=0D
- tests/test-util-sockets.c           |  6 ++-=0D
- tests/test-vmstate.c                |  2 +-=0D
- ui/curses.c                         | 14 +++----=0D
- util/aio-win32.c                    | 11 +++++-=0D
- util/rcu.c                          | 37 +++++++++++++++++-=0D
- 22 files changed, 215 insertions(+), 79 deletions(-)=0D
- create mode 100644 scripts/ci/windows/msys2-build.sh=0D
- create mode 100644 scripts/ci/windows/msys2-install.sh=0D
-=0D
--- =0D
-2.28.0.windows.1=0D
-=0D
+These compiling errors are fixed:
+../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
+   27 | #include <poll.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
+   63 |     blkcnt_t st_blocks;
+      |     ^~~~~~~~
+../block/nfs.c: In function 'nfs_client_open':
+../block/nfs.c:550:27: error: 'struct _stat64' has no member named 'st_blocks'
+  550 |     client->st_blocks = st.st_blocks;
+      |                           ^
+../block/nfs.c: In function 'nfs_get_allocated_file_size':
+../block/nfs.c:751:41: error: 'struct _stat64' has no member named 'st_blocks'
+  751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
+      |                                         ^
+../block/nfs.c: In function 'nfs_reopen_prepare':
+../block/nfs.c:805:31: error: 'struct _stat64' has no member named 'st_blocks'
+  805 |         client->st_blocks = st.st_blocks;
+      |                               ^
+../block/nfs.c: In function 'nfs_get_allocated_file_size':
+../block/nfs.c:752:1: error: control reaches end of non-void function [-Werror=return-type]
+  752 | }
+      | ^
+
+On msys2/mingw, there is no st_blocks in struct _stat64, so we use consistence st_size instead.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ block/nfs.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
+
+diff --git a/block/nfs.c b/block/nfs.c
+index 61a249a9fc..34b2cd5708 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -24,7 +24,9 @@
+ 
+ #include "qemu/osdep.h"
+ 
++#if !defined(_WIN32)
+ #include <poll.h>
++#endif
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+@@ -51,6 +53,12 @@
+ #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)
+ #define QEMU_NFS_MAX_DEBUG_LEVEL 2
+ 
++#if defined (_WIN32)
++#define nfs_stat __stat64
++#else
++#define nfs_stat stat
++#endif
++
+ typedef struct NFSClient {
+     struct nfs_context *context;
+     struct nfsfh *fh;
+@@ -58,7 +66,7 @@ typedef struct NFSClient {
+     bool has_zero_init;
+     AioContext *aio_context;
+     QemuMutex mutex;
+-    blkcnt_t st_blocks;
++    int64_t st_size;
+     bool cache_used;
+     NFSServer *server;
+     char *path;
+@@ -70,7 +78,7 @@ typedef struct NFSRPC {
+     int ret;
+     int complete;
+     QEMUIOVector *iov;
+-    struct stat *st;
++    struct nfs_stat *st;
+     Coroutine *co;
+     NFSClient *client;
+ } NFSRPC;
+@@ -419,7 +427,7 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+                                int flags, int open_flags, Error **errp)
+ {
+     int64_t ret = -EINVAL;
+-    struct stat st;
++    struct nfs_stat st;
+     char *file = NULL, *strp = NULL;
+ 
+     qemu_mutex_init(&client->mutex);
+@@ -545,7 +553,7 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+     }
+ 
+     ret = DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
+-    client->st_blocks = st.st_blocks;
++    client->st_size = st.st_size;
+     client->has_zero_init = S_ISREG(st.st_mode);
+     *strp = '/';
+     goto out;
+@@ -729,11 +737,11 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
+ {
+     NFSClient *client = bs->opaque;
+     NFSRPC task = {0};
+-    struct stat st;
++    struct nfs_stat st;
+ 
+     if (bdrv_is_read_only(bs) &&
+         !(bs->open_flags & BDRV_O_NOCACHE)) {
+-        return client->st_blocks * 512;
++        return client->st_size;
+     }
+ 
+     task.bs = bs;
+@@ -746,7 +754,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
+     nfs_set_events(client);
+     BDRV_POLL_WHILE(bs, !task.complete);
+ 
+-    return (task.ret < 0 ? task.ret : st.st_blocks * 512);
++    return (task.ret < 0 ? task.ret : st.st_size);
+ }
+ 
+ static int coroutine_fn
+@@ -778,7 +786,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                               BlockReopenQueue *queue, Error **errp)
+ {
+     NFSClient *client = state->bs->opaque;
+-    struct stat st;
++    struct nfs_stat st;
+     int ret = 0;
+ 
+     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
+@@ -800,7 +808,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                        nfs_get_error(client->context));
+             return ret;
+         }
+-        client->st_blocks = st.st_blocks;
++        client->st_size = st.st_size;
+     }
+ 
+     return 0;
+-- 
+2.28.0.windows.1
+
 
