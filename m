@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE08262EDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:04:32 +0200 (CEST)
-Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE29262EDB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:02:53 +0200 (CEST)
+Received: from localhost ([::1]:49860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFzm3-0007FU-Bc
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55140)
+	id 1kFzkS-0004FI-Fk
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:02:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFziJ-0002XY-Jh
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:00:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46892
+ id 1kFzil-0002zD-Ao
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:01:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37861
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFziH-0001X1-Fn
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:00:39 -0400
+ id 1kFzij-0001jy-DO
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:01:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599656436;
+ s=mimecast20190719; t=1599656464;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=67sgcZ9IyyzhJO0uwRswQcOOx7Vq05ABrgYlqZf/jmg=;
- b=UYHDRIsq0NlTTnDsml3xZpkaXr7gI0ccB0vnLTlKMpmQQZG8LaEHPWXiUaTPNnw5BCgmlW
- qGXZboE8bfUBops1lEcY8nl6xbRSaHeB/JOYKehvf/6dAni+aiHmWP72zWlKKiQWwoVxiZ
- UWK/e5Jl9SZItOvEoyHGjIT5IcGd3iM=
+ bh=xR51LjUIlJDRxpHGrTfR3yJJpw0CdO7vA6jUiBDmbo4=;
+ b=ik0La7A5MXUIwKSwIbFw0eX4iP5569yKUcun0xlVa35VvxfWXSq48w2fgbh+4x3f3mqQvG
+ X9MRZPIT2rcWjf6Po4bRubRpBPxxk59ORz0+TqmLlff6vY4AKlXhFIz7EsZ/FPv5B6VOM4
+ uTijTGWTRAL+Ien24tOTMOiHb/y3zyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-7TD28y-fMgCUZAhWPDOXMw-1; Wed, 09 Sep 2020 09:00:32 -0400
-X-MC-Unique: 7TD28y-fMgCUZAhWPDOXMw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-474-HbXbasU0N2yb_HsaA5NM4g-1; Wed, 09 Sep 2020 09:00:55 -0400
+X-MC-Unique: HbXbasU0N2yb_HsaA5NM4g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C901191E2A5;
- Wed,  9 Sep 2020 13:00:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1B2580EF9B;
+ Wed,  9 Sep 2020 13:00:52 +0000 (UTC)
 Received: from redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A51027BD2;
- Wed,  9 Sep 2020 13:00:19 +0000 (UTC)
-Date: Wed, 9 Sep 2020 14:00:16 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66945100238C;
+ Wed,  9 Sep 2020 13:00:49 +0000 (UTC)
+Date: Wed, 9 Sep 2020 14:00:46 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v2 11/21] meson: disable crypto tests are empty under win32
-Message-ID: <20200909130016.GC1011023@redhat.com>
+Subject: Re: [PATCH v2 12/21] meson: remove empty else and duplicated gio deps
+Message-ID: <20200909130046.GD1011023@redhat.com>
 References: <20200909094617.1582-1-luoyonggang@gmail.com>
- <20200909094617.1582-12-luoyonggang@gmail.com>
+ <20200909094617.1582-13-luoyonggang@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200909094617.1582-12-luoyonggang@gmail.com>
+In-Reply-To: <20200909094617.1582-13-luoyonggang@gmail.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -97,25 +97,11 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 05:46:07PM +0800, Yonggang Luo wrote:
-> Disable following tests on msys2/mingw
->       'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
->                                    tasn1, crypto],
->       'test-crypto-tlssession': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c', 'crypto-tls-psk-helpers.c',
->                                  tasn1, crypto],
->       'test-io-channel-tls': ['io-channel-helpers.c', 'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
->                               tasn1, io, crypto]}
-> These tests are failure with:
-> ERROR test-crypto-tlscredsx509 - missing test plan
-> ERROR test-crypto-tlssession - missing test plan
-> ERROR test-io-channel-tls - missing test plan
-> 
-> Because on win32 those test case are all disabled.
-> 
+On Wed, Sep 09, 2020 at 05:46:08PM +0800, Yonggang Luo wrote:
 > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 > ---
->  tests/meson.build | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  meson.build | 6 ------
+>  1 file changed, 6 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
