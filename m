@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AED262F0A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:19:51 +0200 (CEST)
-Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23233262F10
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:21:29 +0200 (CEST)
+Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG00s-0005aY-Ag
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59704)
+	id 1kG02S-0007GA-6Z
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFzzh-0004jZ-AQ
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:18:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28957
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFzzf-0003uJ-Ln
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:18:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599657514;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uI/VZd+7eIfb468PD/xvU25WDsUA76qyyquAWfzxw3k=;
- b=SerOzVU8JZnjsPgOLUSwzcHCB+QiNyxbxrA9u1z4IV39Eeok02OuZnGO5PLRbVOZtjgLyI
- CYUGWXhOWhDo2qwF+buhYw13N3U2EshiPPEOav+swFCJd6doAayhYBaeMsvImn65byLhS1
- JqSU1pu/JzbZAsoBTI8cTW85ICR9u9c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-XpRhFc9KNDqcCAsrUGM2mQ-1; Wed, 09 Sep 2020 09:18:32 -0400
-X-MC-Unique: XpRhFc9KNDqcCAsrUGM2mQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9A311007B04;
- Wed,  9 Sep 2020 13:18:30 +0000 (UTC)
-Received: from redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 908FF1002393;
- Wed,  9 Sep 2020 13:18:17 +0000 (UTC)
-Date: Wed, 9 Sep 2020 14:18:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v2 21/21] tests: Fixes test-qdev-global-props.c
-Message-ID: <20200909131814.GK1011023@redhat.com>
-References: <20200909094617.1582-1-luoyonggang@gmail.com>
- <20200909094617.1582-22-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kG00m-00061e-Mk
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:19:44 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:37049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kG00k-00040c-LM
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:19:44 -0400
+Received: by mail-ed1-x534.google.com with SMTP id n22so2620799edt.4
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 06:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yLiICTPt0aNI+VMvgbXkQv6nz9Ww/XtwsC2eAX7Ngi8=;
+ b=T09zr3yGEFyKt5pNj/z40FfHHpEtQ4dRJEYmDJZnnbZlohn8dGLb6frLGu7ZM+JJpk
+ /7eU6dQCKthsdnEjHOmuJI6PhIZ8qB9cGvozqgN3ejko6SZtRYiP7E6VT+rKpOXXoXWl
+ RSWaKy0Uko/wFoutRsExPW4A5B4SkbHvE/ERPFno1aZNFrJwzIc3S1wdkxu1DT3DnGRj
+ jzV6iWsyNeKTWZR89M8MCDeFMXVI492pIyq/jLA9OMhEVXl/vjAiftClYMNdbZnogd+O
+ kipo9EO+Z6ZXtF5QlhgwhKdDfpC2ivU6iZmqSBp14knQkbnsm4Q35wbOnN2/sfbrotbs
+ ZmWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yLiICTPt0aNI+VMvgbXkQv6nz9Ww/XtwsC2eAX7Ngi8=;
+ b=CKE4tHUJOssm6I3t2jxu2Q32XJajs5Lw0pJ+jrMug9EAdC20DxzFT8J/y2EBEGDftz
+ dzfhfKV9Iieo7sOPZ/UpYlVSHtcdeD0avuWRC//lHMgxwUJWPPZKaNWEpd0gxjNnElmf
+ DZ6fCRWS3jUo1FFFuUgaZQDDt3tXI7aADL3vFsYq0GnItmuvzG6gE17mMT0rF2C2Ntnp
+ BFcK7dP8EdAlMFG0I6Im6aUp3T0LB+I5XzVMqbXesFyL73So7WY+TmnpTDdPpAhVt1t+
+ iOr23g+nS7SIDJl2IdJongHNv5JiUG+A2yHBXFRQnwD6idf7xc63rEarR0TsV12eAklk
+ /QdQ==
+X-Gm-Message-State: AOAM53216BLY9/cScnG8WgxaNdyuVo9/Sxx0ZFEHeIRE6sSIy6DEFkJk
+ BlBefJ8/O4ZaYSCP0C+TX7VyjDvjnDJmyG5Gr9EeCg==
+X-Google-Smtp-Source: ABdhPJxOCRIejcaiQrN2dqP2m8jIQ7OjH3PjSN582Vb+4iFt5TOwynY5XJzWS5W0mS90kclkm4Rh1oJnBN7ySPqXJYw=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr4218802edm.100.1599657580617; 
+ Wed, 09 Sep 2020 06:19:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200909094617.1582-22-luoyonggang@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:20:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200908215239.3519638-1-ehabkost@redhat.com>
+In-Reply-To: <20200908215239.3519638-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Sep 2020 14:19:29 +0100
+Message-ID: <CAFEAcA9E04CfeD=75idggFOCX2Tv0SfK0SyQrUvK3VeO4N9VBQ@mail.gmail.com>
+Subject: Re: [PULL 00/34] QOM boilerplate cleanup (v3)
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,34 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 05:46:17PM +0800, Yonggang Luo wrote:
-> On win32 the line ending are \r\n, so we skip the \n in function test_dynamic_globalprop
-> 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> ---
->  tests/test-qdev-global-props.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+On Tue, 8 Sep 2020 at 22:52, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> Changes v2 -> v3:
+> * Fix build errors: dropped all changes in
+>   include/hw/riscv/sifive* and include/accel/accel.h
+>
+> The following changes since commit 6779038537360e957dbded830f76b08ef5070161:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-09-08' int=
+> o staging (2020-09-08 17:23:31 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+>
+> for you to fetch changes up to 7661577c45301bf37a56988eeb084e01bd119de7:
+>
+>   virtio-vga: Use typedef name for instance_size (2020-09-08 17:32:01 -0400)
+>
+> ----------------------------------------------------------------
+> QOM boilerplate cleanup
+>
+> Documentation build fix:
+> * memory: Remove kernel-doc comment marker (Eduardo Habkost)
+>
+> QOM cleanups:
+> * Rename QOM macros for consistency between
+>   TYPE_* and type checking constants (Eduardo Habkost)
+>
+> QOM new macros:
+> * OBJECT_DECLARE_* and OBJECT_DEFINE_* macros (Daniel P. Berrang=C3=A9)
+> * DECLARE_*_CHECKER macros (Eduardo Habkost)
+>
+> Automated QOM boilerplate changes:
+> * Automated changes to use DECLARE_*_CHECKER (Eduardo Habkost
+> * Automated changes to use OBJECT_DECLARE* (Eduardo Habkost)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Link failure on FreeBSD trying to build tests/test-char:
 
+cc  -o tests/test-char tests/test-char.p/test-char.c.o
+tests/test-char.p/socket-helpers.c.o -Wl,--as-needed
+-Wl,--no-undefined -pie -Wl,--whole-archive qom/libqom.fa io/libio.fa
+crypto/libcrypto.fa authz/libauthz.fa chardev/libchardev.fa
+-Wl,--no-whole-archive -Wl,-z,relro -Wl,-z,now -m64
+-fstack-protector-strong -Wl,--start-group libqemuutil.a qom/libqom.fa
+io/libio.fa crypto/libcrypto.fa authz/libauthz.fa
+chardev/libchardev.fa -L/usr/local/lib -lgnutls -L/usr/local/lib
+-lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -L/usr/local/lib -lgio-2.0
+-lgobject-2.0 -lglib-2.0 -lintl -pthread -lutil -lm -L/usr/local/lib
+-lgthread-2.0 -lglib-2.0 -lintl -L/usr/local/lib -lgnutls
+-L/usr/local/lib -lnettle -lpam -Wl,--end-group
+ld: error: undefined symbol: PARALLEL_CHARDEV
+>>> referenced by char-parallel.c:236 (../src/chardev/char-parallel.c:236)
+>>>               char-parallel.c.o:(qmp_chardev_open_parallel) in archive chardev/libchardev.fa
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+ld: error: undefined symbol: PARALLEL_CHARDEV
+>>> referenced by char-parallel.c:191 (../src/chardev/char-parallel.c:191)
+>>>               char-parallel.c.o:(pp_ioctl) in archive chardev/libchardev.fa
+cc: error: linker command failed with exit code 1 (use -v to see invocation)
+gmake: *** [Makefile.ninja:5822: tests/test-char] Error 1
+gmake: *** Waiting for unfinished jobs....
 
+All other platforms built OK.
+
+thanks
+-- PMM
 
