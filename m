@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6849262C99
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:54:37 +0200 (CEST)
-Received: from localhost ([::1]:57872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18601262C6F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:49:03 +0200 (CEST)
+Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwoG-0000tR-RD
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57122)
+	id 1kFwis-0000LQ-3F
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwgo-0006Z5-Kp; Wed, 09 Sep 2020 05:46:54 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42611)
+ id 1kFwgs-0006jJ-T3; Wed, 09 Sep 2020 05:46:58 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:51311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwgm-0007fs-Sm; Wed, 09 Sep 2020 05:46:54 -0400
-Received: by mail-pg1-x543.google.com with SMTP id m5so1668030pgj.9;
- Wed, 09 Sep 2020 02:46:52 -0700 (PDT)
+ id 1kFwgr-0007gS-8W; Wed, 09 Sep 2020 05:46:58 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id a9so1071077pjg.1;
+ Wed, 09 Sep 2020 02:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s4O1f6yoxMsnnDNuUCRmwCFjeJefj3nbZpXkl1R+kT0=;
- b=WmYvQCJjJknqB9ryBg6cUmmTxm2CTRJJ2zcW8fehdFKIaaeYt4R24aCAPdI40W8tga
- w5aEDs5p/Q9Swv1de2MM3H2YlefyOeOyROGkAw+FrSNsKh1ZiD4HOtwOHNja8yvAFTpf
- yeeFPc5bCcDafnr/mU4q594hY732hbtrzZwmIzZEZjSMSXaFybXz1Cs2TgKWuQcB3Adn
- WPM9MXC3b4q7dInfiawewRgK7f0JSRXW59ui07K0s5YR2CIUOex/EtSfC96DdYJvENWY
- iHHDncAdx9tcYyk+HnRL5cAuxPDWWHDgKHKMkhXSBj7KLPFh9ZF/TamoenChWf3IE3P9
- dWwQ==
+ bh=QPOpSG9Zo5ax6O+oTlvoQEKu10ulnbdfFW/pj17nxUM=;
+ b=IFJsgCbr696oMGcFoMiuw94twVJ0hxIZIxqJaTRRkVwT28XFw0ctJfF50N6GbE868Q
+ 6IqCHwKum1aVEmEuEwG18BLJrD+dXglRHBTHtKFOabAg/9MQ7hpaaECI/cTd00TX3PLM
+ LQytcWEkKKDKVEeLWlZmrNyUeo2n5urKYu08N4DSpYY1TA1RP4QYsd+2GV8tNCbVZ14R
+ nZUDxDvaDhe6ma1qyBVgGmYDDJLIDj/EPeoPO331aRQOu2IxBxQw3+K20HdAhZTI9YW5
+ cMW37z1JgHpGScyC5ylWcCmS94Rv70xzbfoED8unl35kxzWP6XTtoP8+78hPbFaZXKfi
+ Uqpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s4O1f6yoxMsnnDNuUCRmwCFjeJefj3nbZpXkl1R+kT0=;
- b=OIFFKOpw5HZYRs/j5by9UuC30cuSFKT0YWgVuLn1dG1thAvkE5qzrCVNgLC1cgUA58
- drOR4eR5pDIgulcW59I9QD3bdOamHHCXLCfrsrWyo4BDwqh3Yt+B3/CNzq98oNw41Vmv
- Kro6pSSoq2UDwt60MGFHzZedQn3U3cVo1fvrMsmAcoWKNbN/7nF9UPpOpznBl6/5K1et
- 25XeAJsQUxYuo2SSzWck1gzQaCyMQK1CeeNAbTzUHGwoBC4Vt08k4g5qsh7faAzcyMUz
- FB5wbxp6U+4kPBy9vs2+OntGyu2zMtUn6kFpyJ6dM5SYejJAsx/toKFDBpCjGFk8klpU
- 06lw==
-X-Gm-Message-State: AOAM5307988cXyEkC9PBUSeiqXXg9RVMnorqBR3HhdhyR7tYgu/2RPmR
- eI3MFV3lL7ArDGDwdI6+7lBC5vWuEgK/X22s
-X-Google-Smtp-Source: ABdhPJxUMaMkSlfxP6+Ei5eMHskD8j2Y/CBkOG71TWLUilUCQYg/x0AZCunq9jIz4eRhgE6XyDaOtA==
-X-Received: by 2002:a62:7616:: with SMTP id r22mr116663pfc.48.1599644810807;
- Wed, 09 Sep 2020 02:46:50 -0700 (PDT)
+ bh=QPOpSG9Zo5ax6O+oTlvoQEKu10ulnbdfFW/pj17nxUM=;
+ b=S2A1G8SofIkGalaAdBPtYqaTZed17I35jlckQu2OV/+C6Pr7AqBWiNYOOPtxS7Px8y
+ kTOUkLZ8v5KwW7oGlYJ7HAHn/3cdNmcIIdFAggaZB6CegTgw9PsGDYkE3KbT9qCNbieV
+ Z4IZXaarMxzUJL2oCWgk9UgWrHgc3opNvxuW9JQA4z6pW7kF0rNcPc0MU59696AiOmkt
+ vI2ztz2wf/5aw+PDu5dRf9hs9Pt/5qN3yIs5GRuwk6O0nMKPel4CbGikTl1G+3TOc37t
+ ma3rgGoUQv4O5YeUYAFq8ofCseQfL1RdBqv8YrNi9K0l3wvqxQSA1Zzn4HZGiuUSK+uy
+ aqSA==
+X-Gm-Message-State: AOAM532YK2PPhGLPM0vA1x+uCqcxWs86+VOTFZAsZYSQpwVIqASPhQTf
+ 0RlJIGz5Py9eRJvhd/af0tKJHX2LFdmyCQ0e
+X-Google-Smtp-Source: ABdhPJzBNbrqC4gJ0/fzYXe8BK/zG6edytANrC2VU8cHxHNRFgQsFXTzKVPKo+J/SdmwNOOjLvQGjQ==
+X-Received: by 2002:a17:90b:4b82:: with SMTP id
+ lr2mr111870pjb.184.1599644815180; 
+ Wed, 09 Sep 2020 02:46:55 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.46.46
+ by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.46.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:46:49 -0700 (PDT)
+ Wed, 09 Sep 2020 02:46:54 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/21] curses: Fixes curses compiling errors.
-Date: Wed,  9 Sep 2020 17:46:00 +0800
-Message-Id: <20200909094617.1582-5-luoyonggang@gmail.com>
+Subject: [PATCH v2 05/21] tests: disable /char/stdio/* tests in test-char.c on
+ win32
+Date: Wed,  9 Sep 2020 17:46:01 +0800
+Message-Id: <20200909094617.1582-6-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
 References: <20200909094617.1582-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,65 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the compiling error:
-../ui/curses.c: In function 'curses_refresh':
-../ui/curses.c:256:5: error: 'next_maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
-      |     ^~~~~~~~~~
-../ui/curses.c:302:32: note: 'next_maybe_keycode' was declared here
-  302 |             enum maybe_keycode next_maybe_keycode;
-      |                                ^~~~~~~~~~~~~~~~~~
-../ui/curses.c:256:5: error: 'maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
-      |     ^~~~~~~~~~
-../ui/curses.c:265:24: note: 'maybe_keycode' was declared here
-  265 |     enum maybe_keycode maybe_keycode;
-      |                        ^~~~~~~~~~~~~
-cc1.exe: all warnings being treated as errors
-
-gcc version 10.2.0 (Rev1, Built by MSYS2 project)
+These tests are blocking test-char to be finished.
+Merge three #ifndef _WIN32
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/curses.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/test-char.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/ui/curses.c b/ui/curses.c
-index 12bc682cf9..e4f9588c3e 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -262,7 +262,7 @@ static int curses2foo(const int _curses2foo[], const int _curseskey2foo[],
- static void curses_refresh(DisplayChangeListener *dcl)
+diff --git a/tests/test-char.c b/tests/test-char.c
+index d35cc839bc..ab037647bf 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -103,6 +103,7 @@ static void char_console_test(void)
+     g_test_trap_assert_stdout("CONSOLE");
+ }
+ #endif
++#ifndef _WIN32
+ static void char_stdio_test_subprocess(void)
  {
-     int chr, keysym, keycode, keycode_alt;
--    enum maybe_keycode maybe_keycode;
-+    enum maybe_keycode maybe_keycode = CURSES_KEYCODE;
+     Chardev *chr;
+@@ -126,6 +127,7 @@ static void char_stdio_test(void)
+     g_test_trap_assert_passed();
+     g_test_trap_assert_stdout("buf");
+ }
++#endif
  
-     curses_winch_check();
+ static void char_ringbuf_test(void)
+ {
+@@ -1471,15 +1473,13 @@ int main(int argc, char **argv)
+     g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
+     g_test_add_func("/char/console", char_console_test);
+ #endif
++#ifndef _WIN32
+     g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
+     g_test_add_func("/char/stdio", char_stdio_test);
+-#ifndef _WIN32
+     g_test_add_func("/char/pipe", char_pipe_test);
+-#endif
+-    g_test_add_func("/char/file", char_file_test);
+-#ifndef _WIN32
+     g_test_add_func("/char/file-fifo", char_file_fifo_test);
+ #endif
++    g_test_add_func("/char/file", char_file_test);
  
-@@ -299,7 +299,7 @@ static void curses_refresh(DisplayChangeListener *dcl)
- 
-         /* alt or esc key */
-         if (keycode == 1) {
--            enum maybe_keycode next_maybe_keycode;
-+            enum maybe_keycode next_maybe_keycode = CURSES_KEYCODE;
-             int nextchr = console_getch(&next_maybe_keycode);
- 
-             if (nextchr != -1) {
+ #define SOCKET_SERVER_TEST(name, addr)                                  \
+     static CharSocketServerTestConfig server1 ## name =                 \
 -- 
 2.28.0.windows.1
 
