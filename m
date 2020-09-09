@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C5D262A16
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:20:50 +0200 (CEST)
-Received: from localhost ([::1]:47000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96F7262A20
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:22:32 +0200 (CEST)
+Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFvLV-0005AL-81
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33218)
+	id 1kFvN9-0008F6-QV
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFvIe-0001yG-Dv
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:17:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50637
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFvJk-00039g-H5
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:19:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49841
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFvIa-0003mP-Sf
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:17:52 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kFvJi-0003wS-NA
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:19:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599639468;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=/bU1KN+JFHtSXRGCY4oPG5MjkxrSVdRO7vvZSHF+Mo4=;
- b=cVFjgJdL/5adD8ZZv6Xv7laX2vjGjhJ3WhZ+CAdET7Jg22jZb7hnbuOVHK6WrIblHYXcrb
- 1+a5xefZAWGCpSkmJ/0I9HvGDub1YYgbeNY0j6nj9SqWTw2puBgZoEpapf4HnJVJ/W0zde
- OxTj4WE9A3nYBxxEKPeC9zUKcFtirME=
+ s=mimecast20190719; t=1599639536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2w0joOLoL1PdMFat+IlgsE99sSR02zLxSLHYFbQskrc=;
+ b=K0vtvHIoSc2MWmQ9UTIT6Fcbb/E+PwOCgkGvDr0fXRx86QPlAFpWHtqlJ6LfyK7/quY6jz
+ IXRzDfGSggEKmFKlGrb9vY5aq5LCPoYGn3Ac1i8xmP3DgxKcShTyvAHGD8Rdp4n0q5eb5d
+ RycZk8dq44YiU3yX9Vo5irB7XpIiMjE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-UY6MEyqWN1WaioCi8sGQGA-1; Wed, 09 Sep 2020 04:17:46 -0400
-X-MC-Unique: UY6MEyqWN1WaioCi8sGQGA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-539-7ArDV-0rMcG4oBmCOtbZAA-1; Wed, 09 Sep 2020 04:18:54 -0400
+X-MC-Unique: 7ArDV-0rMcG4oBmCOtbZAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 976742FD13;
- Wed,  9 Sep 2020 08:17:44 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.ams2.redhat.com [10.36.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BA5A5C221;
- Wed,  9 Sep 2020 08:17:37 +0000 (UTC)
-Date: Wed, 9 Sep 2020 09:17:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH 14/16] cirrus: Building freebsd in a single short
-Message-ID: <20200909081735.GE1011023@redhat.com>
-References: <20200908194820.702-1-luoyonggang@gmail.com>
- <20200908194820.702-15-luoyonggang@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 911CE18BA283;
+ Wed,  9 Sep 2020 08:18:53 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-82.ams2.redhat.com
+ [10.36.114.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE9378246E;
+ Wed,  9 Sep 2020 08:18:47 +0000 (UTC)
+Subject: Re: [PATCH 1/5] hw/smbios: support loading OEM strings values from a
+ file
+To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200908165438.1008942-1-berrange@redhat.com>
+ <20200908165438.1008942-2-berrange@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <c7ecee55-64a3-5a46-26d9-6a1cc4c7889c@redhat.com>
+Date: Wed, 9 Sep 2020 10:18:47 +0200
 MIME-Version: 1.0
-In-Reply-To: <20200908194820.702-15-luoyonggang@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200908165438.1008942-2-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:13:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:05:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,93 +84,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Max Reitz <mreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
- Peter Lieven <pl@kamp.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 03:48:18AM +0800, Yonggang Luo wrote:
-> freebsd 1 hour limit not hit anymore
-
-How long does the combined job take with this change ? If it is
-within 10 minutes of the limit, then we still want the split, as
-transient changes in the CI system can push it over the limit
-making the test unreliable.
-
+On 09/08/20 18:54, Daniel P. Berrangé wrote:
+> Some applications want to pass quite large values for the OEM strings
+> entries. Rather than having huge strings on the command line, it would
+> be better to load them from a file, as supported with -fw_cfg.
 > 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> This introduces the "valuefile" parameter allowing for:
+> 
+>   $ echo -n "thisthing" > mydata.txt
+>   $ qemu-system-x86_64 \
+>     -smbios type=11,value=something \
+>     -smbios type=11,valuefile=mydata.txt \
+>     -smbios type=11,value=somemore \
+>     ...other args...
+> 
+> Now in the guest
+> 
+> $ dmidecide -t 11
+> Getting SMBIOS data from sysfs.
+> SMBIOS 2.8 present.
+> 
+> Handle 0x0E00, DMI type 11, 5 bytes
+> OEM Strings
+> 	String 1: something
+> 	String 2: thisthing
+> 	String 3: somemore
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  .cirrus.yml | 35 ++++++++---------------------------
->  1 file changed, 8 insertions(+), 27 deletions(-)
-> 
-> diff --git a/.cirrus.yml b/.cirrus.yml
-> index 49335e68c9..b0004273bb 100644
-> --- a/.cirrus.yml
-> +++ b/.cirrus.yml
-> @@ -1,38 +1,19 @@
->  env:
->    CIRRUS_CLONE_DEPTH: 1
+>  hw/smbios/smbios.c | 72 +++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 59 insertions(+), 13 deletions(-)
+
+(gearing up to test this / look into the edk2 problem, just one question
+in passing: could we / would we simplify this with g_file_get_contents()?)
+
+Thanks
+Laszlo
+
+> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+> index 7cc950b41c..8450fad285 100644
+> --- a/hw/smbios/smbios.c
+> +++ b/hw/smbios/smbios.c
+> @@ -110,7 +110,7 @@ static struct {
 >  
-> -freebsd_1st_task:
-> +freebsd_12_task:
->    freebsd_instance:
->      image_family: freebsd-12-1
-> -    cpu: 4
-> -    memory: 4G
-> -  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
-> -    bash curl cyrus-sasl git glib gmake gnutls gsed
-> -    nettle perl5 pixman pkgconf png usbredir
-> +    cpu: 8
-> +    memory: 8G
-> +  install_script:
-> +    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
-> +    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
-> +          nettle perl5 pixman pkgconf png usbredir
->    script:
->      - mkdir build
->      - cd build
-> -    - ../configure --disable-user --target-list-exclude='alpha-softmmu
-> -        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
-> -        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
-> -        --enable-werror || { cat config.log; exit 1; }
-> -    - gmake -j$(sysctl -n hw.ncpu)
-> -    - gmake -j$(sysctl -n hw.ncpu) check
-> -
-> -freebsd_2nd_task:
-> -  freebsd_instance:
-> -    image_family: freebsd-12-1
-> -    cpu: 4
-> -    memory: 4G
-> -  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
-> -    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
-> -    nettle perl5 pixman pkgconf png SDL2 usbredir
-> -  script:
-> -    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
-> -        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
-> -        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
-> -        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
-> -        || { cat config.log; exit 1; }
-> +    - ../configure --enable-werror || { cat config.log; exit 1; }
->      - gmake -j$(sysctl -n hw.ncpu)
->      - gmake -j$(sysctl -n hw.ncpu) check
+>  static struct {
+>      size_t nvalues;
+> -    const char **values;
+> +    char **values;
+>  } type11;
 >  
-> -- 
-> 2.28.0.windows.1
-> 
+>  static struct {
+> @@ -314,6 +314,11 @@ static const QemuOptDesc qemu_smbios_type11_opts[] = {
+>          .type = QEMU_OPT_STRING,
+>          .help = "OEM string data",
+>      },
+> +    {
+> +        .name = "path",
+> +        .type = QEMU_OPT_STRING,
+> +        .help = "OEM string data from file",
+> +    },
+>  };
+>  
+>  static const QemuOptDesc qemu_smbios_type17_opts[] = {
+> @@ -641,6 +646,8 @@ static void smbios_build_type_11_table(void)
+>  
+>      for (i = 0; i < type11.nvalues; i++) {
+>          SMBIOS_TABLE_SET_STR_LIST(11, type11.values[i]);
+> +        g_free(type11.values[i]);
+> +        type11.values[i] = NULL;
+>      }
+>  
+>      SMBIOS_BUILD_TABLE_POST;
+> @@ -940,9 +947,8 @@ static void save_opt(const char **dest, QemuOpts *opts, const char *name)
+>  
+>  
+>  struct opt_list {
+> -    const char *name;
+>      size_t *ndest;
+> -    const char ***dest;
+> +    char ***dest;
+>  };
+>  
+>  static int save_opt_one(void *opaque,
+> @@ -951,23 +957,61 @@ static int save_opt_one(void *opaque,
+>  {
+>      struct opt_list *opt = opaque;
+>  
+> -    if (!g_str_equal(name, opt->name)) {
+> -        return 0;
+> +    if (g_str_equal(name, "path")) {
+> +        g_autoptr(GByteArray) data = g_byte_array_new();
+> +        g_autofree char *buf = g_new(char, 4096);
+> +        ssize_t ret;
+> +        int fd = qemu_open(value, O_RDONLY);
+> +        if (fd < 0) {
+> +            error_setg(errp, "Unable to open %s: %s", value, strerror(errno));
+> +            return -1;
+> +        }
+> +
+> +        while (1) {
+> +            ret = read(fd, buf, 4096);
+> +            if (ret == 0) {
+> +                break;
+> +            }
+> +            if (ret < 0) {
+> +                error_setg(errp, "Unable to read from %s: %s",
+> +                           value, strerror(errno));
+> +                return -1;
+> +            }
+> +            if (memchr(buf, '\0', ret)) {
+> +                error_setg(errp, "NUL in OEM strings value in %s", value);
+> +                return -1;
+> +            }
+> +            g_byte_array_append(data, (guint8 *)buf, ret);
+> +        }
+> +
+> +        close(fd);
+> +
+> +        *opt->dest = g_renew(char *, *opt->dest, (*opt->ndest) + 1);
+> +        (*opt->dest)[*opt->ndest] = (char *)g_byte_array_free(data,  FALSE);
+> +        (*opt->ndest)++;
+> +        data = NULL;
+> +   } else if (g_str_equal(name, "value")) {
+> +        *opt->dest = g_renew(char *, *opt->dest, (*opt->ndest) + 1);
+> +        (*opt->dest)[*opt->ndest] = g_strdup(value);
+> +        (*opt->ndest)++;
+> +    } else if (!g_str_equal(name, "type")) {
+> +        error_setg(errp, "Unexpected option %s", name);
+> +        return -1;
+>      }
+>  
+> -    *opt->dest = g_renew(const char *, *opt->dest, (*opt->ndest) + 1);
+> -    (*opt->dest)[*opt->ndest] = value;
+> -    (*opt->ndest)++;
+>      return 0;
+>  }
+>  
+> -static void save_opt_list(size_t *ndest, const char ***dest,
+> -                          QemuOpts *opts, const char *name)
+> +static bool save_opt_list(size_t *ndest, char ***dest, QemuOpts *opts,
+> +                          Error **errp)
+>  {
+>      struct opt_list opt = {
+> -        name, ndest, dest,
+> +        ndest, dest,
+>      };
+> -    qemu_opt_foreach(opts, save_opt_one, &opt, NULL);
+> +    if (!qemu_opt_foreach(opts, save_opt_one, &opt, errp)) {
+> +        return false;
+> +    }
+> +    return true;
+>  }
+>  
+>  void smbios_entry_add(QemuOpts *opts, Error **errp)
+> @@ -1149,7 +1193,9 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+>              if (!qemu_opts_validate(opts, qemu_smbios_type11_opts, errp)) {
+>                  return;
+>              }
+> -            save_opt_list(&type11.nvalues, &type11.values, opts, "value");
+> +            if (!save_opt_list(&type11.nvalues, &type11.values, opts, errp)) {
+> +                return;
+> +            }
+>              return;
+>          case 17:
+>              if (!qemu_opts_validate(opts, qemu_smbios_type17_opts, errp)) {
 > 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
