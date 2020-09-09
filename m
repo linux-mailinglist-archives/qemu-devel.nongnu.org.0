@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD79D262EC9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 14:56:37 +0200 (CEST)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19A8262ECB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 14:57:00 +0200 (CEST)
+Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFzeO-0002uV-NK
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 08:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
+	id 1kFzel-0003ke-Mp
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 08:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFzc9-0000Dn-FT
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 08:54:17 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37705)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFzdM-0002Cp-6y; Wed, 09 Sep 2020 08:55:32 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:44836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kFzc7-0000n9-IG
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 08:54:17 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z4so2847232wrr.4
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 05:54:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFzdJ-00013Q-BZ; Wed, 09 Sep 2020 08:55:31 -0400
+Received: by mail-lj1-x242.google.com with SMTP id b19so3347767lji.11;
+ Wed, 09 Sep 2020 05:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nts6CdecWELGIuqRp/XjHQhxLkOqPmRK0NVbxxf8gkQ=;
- b=K8ke1Rx5lUJoJHPabumVLfckuYS2NZUWIMqDTwra4w6pOBUHGmG2HyGl4cLFVCA6py
- Lt8r82VhFtPqTkpq8MaSxEj8JdhxoE8daSVjH+vQgkb8myPUv6ZWV+DT2kcHg0iG3VRr
- dYPsDulorEuh7aCNq/9lvyNhzGMljgGNc9/Uw0NDNb3q5eVHVWLM0Ugt3VKW7Qsb8UAZ
- HueAdi8t7BfGbTwKl5o0VTK1HC/tWUiYQWRiIzrlGODiuDBquO85sLxpSinBOxQl/xaV
- zVvGWeZQLNXYVns8Qx+57DcE0LPmVSVIGCg32j7/jcxMgOuUBI3dlb/J6hoZRj/Mu0p1
- 9pmw==
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=juauL75ug80LTc38xn2MfEn4iLIjdeYZWpHxodZf24M=;
+ b=ro2oxOvShoCzGFDY4Q9pAasH+jaK5CJVkumYNojGpeHUAmwWOGjgW4NvFgGPGx7vYP
+ HOm1Dpxjyty9xU/sj7A9zVrtILGSfw0wlehl1+/byJHdC2PSr4LM+/9qcL375VygyoiO
+ gEGYZs9F82f3OdOrb/KOEmdzca01N/0HgS1SCZW+sjzNKLh4BElILrTcuj52i5KcVtiH
+ bHrEGV2sFPJmZ/DxxRI7BjC341txkBb++Oq05yh7uRO4pwoJG9Io7Pklc8PgM4clX52y
+ Y9KFB7pMh3+t67wQXujhQalTjqFdKI0J+rZ+Lm2F2aBwULNVWw4MutZA1me/WQoFkArI
+ baOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nts6CdecWELGIuqRp/XjHQhxLkOqPmRK0NVbxxf8gkQ=;
- b=FaZxdIcQ2YaMZJj1LFTBbd6dYSp0VSfj4PiFFdblZKezJKxVQuIrB8IxXnGl+HikWF
- xagYBTbSQZiD5D0+cP/ncte1eGbpbDwI41wiDkdW5T34lWBv/WCyme8pjLSdxOxgoHGL
- KwYZh6c/2BhJor1Gp+hJShMJYY/Hty1OkxIf496vn4ZO8+rQvqV3nbM8jZdfooh5TWKg
- 5tpPhxqU/hFMHmxyx/TNqfPZUOw0hqYURIczE337SldFSPDH7xmOyG4E+xSnrCN74bsn
- wlr6XQpv6S6TpBFhOLpTBli9GA9ccfUgXgjxocaN5HHlAwkSVMg2Jza7GnetMrUa8wuE
- Q9Rw==
-X-Gm-Message-State: AOAM531Ju01eKMxEkMl33U7sZ4cptQqW9HoqNrQvCBiA9AifII57VTmo
- BsEtbV91JQUWJ3J0K9oHqBY=
-X-Google-Smtp-Source: ABdhPJw9jQ3j3ngRgU2/bm+4aIexz3KjHQKaubdCQk7al3+mWnIl10CP6Vu6Ixh2fYNdJ3xfcxzIFg==
-X-Received: by 2002:adf:e9c3:: with SMTP id l3mr3685174wrn.63.1599656053481;
- Wed, 09 Sep 2020 05:54:13 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id b187sm3833764wmb.8.2020.09.09.05.54.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 05:54:12 -0700 (PDT)
-Subject: Re: [PATCH] tests: fix output message formatting for crypto benchmarks
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200909121027.1040647-1-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fcbe2c05-b38c-4b12-32f1-c7ce9e7a29dd@amsat.org>
-Date: Wed, 9 Sep 2020 14:54:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=juauL75ug80LTc38xn2MfEn4iLIjdeYZWpHxodZf24M=;
+ b=VMEC4bPSIUXn3H/kxz/GPwjyrWem5tHW9RmMmI0/z7rGF8crzBc5O7uwFhzTMNVMeh
+ V6yPfjPaHm/4j1B4Bop2FQSbF9KWDdClB+glWyScDDtMMgKzFK2I1L4OKx/GhUuG9qZw
+ Vf2AIsxgCIZF2DDuklkhdlSP2MNeqmMsoMKzfhDwErq34WP5lyj/nf316r/DmO1KtpqA
+ O6ov63ppt90k80RX//avQy/CUQvI9NsDQNWAWeKEeXahjrkCj/X6WOlB4O882Lj4Ngzy
+ smIyTNTNPShlrdglqTJyzitA2thdlo9lhqyACaUe8hNAiLUuujSy5Tr5l8dkoaH0JM+T
+ UjkA==
+X-Gm-Message-State: AOAM5305ZxJymtydIda7rkEuCUv60ov12Oq1eMapjbdo6YZw6jV0Swk8
+ uDx96xF8J18B8WqGgRs661W/MDfCBR1KRkVLM3A=
+X-Google-Smtp-Source: ABdhPJwUkP7RUCxNvyMeFOOwBmdta5bRE3mpdKCYxv0D4F3ert3iYCh4rwgVqFh9C2ey1GhSCrpUBXEMjodj02F8CK4=
+X-Received: by 2002:a2e:8983:: with SMTP id c3mr1921945lji.171.1599656127012; 
+ Wed, 09 Sep 2020 05:55:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200909121027.1040647-1-berrange@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+References: <20200909094617.1582-1-luoyonggang@gmail.com>
+ <20200909094617.1582-4-luoyonggang@gmail.com>
+ <20200909125049.GU1011023@redhat.com>
+In-Reply-To: <20200909125049.GU1011023@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Wed, 9 Sep 2020 20:55:15 +0800
+Message-ID: <CAE2XoE_02FDvGmwUCAFEOrog4z1iwtqoVYuSiZThBrFRLx0WfA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/21] configure: Fixes ncursesw detection under
+ msys2/mingw and enable curses
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000036a32e05aee0f7ac"
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.576,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,101 +80,443 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Qemu-block <qemu-block@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ qemu-level <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, Max Reitz <mreitz@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/20 2:10 PM, Daniel P. Berrangé wrote:
-> The output was changed from g_print to g_test_message in
-> 
->   commit 24441f912e67233d9c52ce6b459ed75de2484525
->   Author: Marc-André Lureau <marcandre.lureau@redhat.com>
->   Date:   Fri Aug 28 15:07:30 2020 +0400
-> 
->     tests: do not print benchmark output to stdout
-> 
->     As this makes the TAP output invalid. Use g_test_message().
-> 
-> The functions do not result in equivalent output. The g_print
-> statements were putting all the information on a single line
-> for ease of interpretation. The change to g_test_message split
-> the output across many lines making it painful to read.
-> 
-> The opportunity is used to tweak the information printed to
-> be more consistent across tests.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+--00000000000036a32e05aee0f7ac
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, Sep 9, 2020 at 8:51 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+>
+wrote:
 
-> ---
->  tests/benchmark-crypto-cipher.c | 12 ++++++++----
->  tests/benchmark-crypto-hash.c   |  4 +++-
->  tests/benchmark-crypto-hmac.c   |  7 +++----
->  3 files changed, 14 insertions(+), 9 deletions(-)
-> 
-> diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-cipher.c
-> index 1936aa4ae0..c04f0a0fba 100644
-> --- a/tests/benchmark-crypto-cipher.c
-> +++ b/tests/benchmark-crypto-cipher.c
-> @@ -70,8 +70,10 @@ static void test_cipher_speed(size_t chunk_size,
->      }
->      g_test_timer_elapsed();
->  
-> -    g_test_message("Enc chunk %zu bytes ", chunk_size);
-> -    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-> +    g_test_message("enc(%s-%s) chunk %zu bytes %.2f MB/sec ",
-> +                   QCryptoCipherAlgorithm_str(alg),
-> +                   QCryptoCipherMode_str(mode),
-> +                   chunk_size, (double)total / MiB / g_test_timer_last());
->  
->      g_test_timer_start();
->      remain = total;
-> @@ -85,8 +87,10 @@ static void test_cipher_speed(size_t chunk_size,
->      }
->      g_test_timer_elapsed();
->  
-> -    g_test_message("Dec chunk %zu bytes ", chunk_size);
-> -    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-> +    g_test_message("dec(%s-%s) chunk %zu bytes %.2f MB/sec ",
-> +                   QCryptoCipherAlgorithm_str(alg),
-> +                   QCryptoCipherMode_str(mode),
-> +                   chunk_size, (double)total / MiB / g_test_timer_last());
->  
->      qcrypto_cipher_free(cipher);
->      g_free(plaintext);
-> diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.c
-> index 598111e75a..927b00bb4d 100644
-> --- a/tests/benchmark-crypto-hash.c
-> +++ b/tests/benchmark-crypto-hash.c
-> @@ -48,7 +48,9 @@ static void test_hash_speed(const void *opaque)
->      }
->      g_test_timer_elapsed();
->  
-> -    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-> +    g_test_message("hash(%s): chunk %zu bytes %.2f MB/sec",
-> +                   QCryptoHashAlgorithm_str(opts->alg),
-> +                   opts->chunk_size, total / g_test_timer_last());
->  
->      g_free(out);
->      g_free(in);
-> diff --git a/tests/benchmark-crypto-hmac.c b/tests/benchmark-crypto-hmac.c
-> index f9fa22df95..5cca636789 100644
-> --- a/tests/benchmark-crypto-hmac.c
-> +++ b/tests/benchmark-crypto-hmac.c
-> @@ -55,10 +55,9 @@ static void test_hmac_speed(const void *opaque)
->      } while (g_test_timer_elapsed() < 5.0);
->  
->      total /= MiB;
-> -    g_test_message("hmac(sha256): ");
-> -    g_test_message("Testing chunk_size %zu bytes ", chunk_size);
-> -    g_test_message("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
-> -    g_test_message("%.2f MB/sec\n", total / g_test_timer_last());
-> +    g_test_message("hmac(%s): chunk %zu bytes %.2f MB/sec",
-> +                   QCryptoHashAlgorithm_str(QCRYPTO_HASH_ALG_SHA256),
-> +                   chunk_size, total / g_test_timer_last());
->  
->      g_free(out);
->      g_free(in);
-> 
+> On Wed, Sep 09, 2020 at 05:45:59PM +0800, Yonggang Luo wrote:
+> > The mingw pkg-config are showing following absolute path and contains :
+> as the separator,
+> > so we must handling : properly.
+> >
+> > -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L
+> -IC:/CI-Tools/msys64/mingw64/include/ncursesw:-I/usr/include/ncursesw:
+> > -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L -I=
+C
+> -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+> > -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L -I=
+C
+> -lncursesw
+> > -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L -I=
+C
+> -lcursesw
+> > -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -pipe
+> -lncursesw -lgnurx -ltre -lintl -liconv
+> > -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lncursesw
+> > -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lcursesw
+> > -DNCURSES_WIDECHAR -I/usr/include/ncursesw -pipe -lncursesw -lgnurx
+> -ltre -lintl -liconv
+> > -DNCURSES_WIDECHAR -I/usr/include/ncursesw -lncursesw
+> > -DNCURSES_WIDECHAR -I/usr/include/ncursesw -lcursesw
+> >
+> > msys2/mingw lacks the POSIX-required langinfo.h.
+> >
+> > gcc test.c -DNCURSES_WIDECHAR -I/mingw64/include/ncursesw -pipe
+> -lncursesw -lgnurx -ltre -lintl -liconv
+> > test.c:4:10: fatal error: langinfo.h: No such file or directory
+> >     4 | #include <langinfo.h>
+> >       |          ^~~~~~~~~~~~
+> > compilation terminated.
+> >
+> > So we using g_get_codeset instead of nl_langinfo(CODESET)
+> >
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >  configure   |  9 +++------
+> >  ui/curses.c | 10 +++++-----
+> >  2 files changed, 8 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/configure b/configure
+> > index f4f8bc3756..2e6d54e15b 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -3653,8 +3653,8 @@ if test "$iconv" =3D "no" ; then
+> >  fi
+> >  if test "$curses" !=3D "no" ; then
+> >    if test "$mingw32" =3D "yes" ; then
+> > -    curses_inc_list=3D"$($pkg_config --cflags ncurses 2>/dev/null):"
+> > -    curses_lib_list=3D"$($pkg_config --libs ncurses
+> 2>/dev/null):-lpdcurses"
+> > +    curses_inc_list=3D"$($pkg_config --cflags ncursesw
+> 2>/dev/null):-I/${MSYSTEM,,}/include/ncursesw:"
+> > +    curses_lib_list=3D"$($pkg_config --libs ncursesw
+> 2>/dev/null):-lncursesw"
+>
+> The original code would try  ncurses via pkg-config and if that failed,
+> would
+> falback to pdcurses.
+>
+> The new code tries ncursesw via pkg-config and then tries ncursesw again
+> via manually specified args, and doesn't try  ncurses or pdcurses at all.
+>
+Gotcha, Indeed   $pkg_config --cflags ncurses can find curses on mingw32,
+the problem is onw mingw32 the include path
+have :, so we can not use : as the path sepaerator, for cross-paltform
+reason, which is best for path separator?
+
+>
+> This fixes your build as you've installed ncursesw, but breaks anyone
+> who was using ncurses or pdcurses previously. At least on Fedora only
+> pdcurses is available for mingw, so I don't think we should be dropping
+> this. It looks like we just need to check all three of ncursesw, ncurses
+> and pdcurses.
+>
+> Copying Samuel who introduced this logic originally in
+> commit 8ddc5bf9e5de51c2a4842c01dd3a97f5591776fd
+>
+> >    else
+> >      curses_inc_list=3D"$($pkg_config --cflags ncursesw
+> 2>/dev/null):-I/usr/include/ncursesw:"
+> >      curses_lib_list=3D"$($pkg_config --libs ncursesw
+> 2>/dev/null):-lncursesw:-lcursesw"
+> > @@ -3664,17 +3664,14 @@ if test "$curses" !=3D "no" ; then
+> >  #include <locale.h>
+> >  #include <curses.h>
+> >  #include <wchar.h>
+> > -#include <langinfo.h>
+> >  int main(void) {
+> > -  const char *codeset;
+> >    wchar_t wch =3D L'w';
+> >    setlocale(LC_ALL, "");
+> >    resize_term(0, 0);
+> >    addwstr(L"wide chars\n");
+> >    addnwstr(&wch, 1);
+> >    add_wch(WACS_DEGREE);
+> > -  codeset =3D nl_langinfo(CODESET);
+> > -  return codeset !=3D 0;
+> > +  return 0;
+> >  }
+> >  EOF
+> >    IFS=3D:
+> > diff --git a/ui/curses.c b/ui/curses.c
+> > index a59b23a9cf..12bc682cf9 100644
+> > --- a/ui/curses.c
+> > +++ b/ui/curses.c
+> > @@ -30,7 +30,6 @@
+> >  #endif
+> >  #include <locale.h>
+> >  #include <wchar.h>
+> > -#include <langinfo.h>
+> >  #include <iconv.h>
+> >
+> >  #include "qapi/error.h"
+> > @@ -526,6 +525,7 @@ static void font_setup(void)
+> >      iconv_t nativecharset_to_ucs2;
+> >      iconv_t font_conv;
+> >      int i;
+> > +    g_autofree gchar *local_codeset =3D g_get_codeset();
+> >
+> >      /*
+> >       * Control characters are normally non-printable, but VGA does hav=
+e
+> > @@ -566,14 +566,14 @@ static void font_setup(void)
+> >        0x25bc
+> >      };
+> >
+> > -    ucs2_to_nativecharset =3D iconv_open(nl_langinfo(CODESET), "UCS-2"=
+);
+> > +    ucs2_to_nativecharset =3D iconv_open(local_codeset, "UCS-2");
+> >      if (ucs2_to_nativecharset =3D=3D (iconv_t) -1) {
+> >          fprintf(stderr, "Could not convert font glyphs from UCS-2:
+> '%s'\n",
+> >                          strerror(errno));
+> >          exit(1);
+> >      }
+> >
+> > -    nativecharset_to_ucs2 =3D iconv_open("UCS-2", nl_langinfo(CODESET)=
+);
+> > +    nativecharset_to_ucs2 =3D iconv_open("UCS-2", local_codeset);
+> >      if (nativecharset_to_ucs2 =3D=3D (iconv_t) -1) {
+> >          iconv_close(ucs2_to_nativecharset);
+> >          fprintf(stderr, "Could not convert font glyphs to UCS-2:
+> '%s'\n",
+> > @@ -581,7 +581,7 @@ static void font_setup(void)
+> >          exit(1);
+> >      }
+> >
+> > -    font_conv =3D iconv_open(nl_langinfo(CODESET), font_charset);
+> > +    font_conv =3D iconv_open(local_codeset, font_charset);
+> >      if (font_conv =3D=3D (iconv_t) -1) {
+> >          iconv_close(ucs2_to_nativecharset);
+> >          iconv_close(nativecharset_to_ucs2);
+> > @@ -602,7 +602,7 @@ static void font_setup(void)
+> >      /* DEL */
+> >      convert_ucs(0x7F, 0x2302, ucs2_to_nativecharset);
+> >
+> > -    if (strcmp(nl_langinfo(CODESET), "UTF-8")) {
+> > +    if (strcmp(local_codeset, "UTF-8")) {
+> >          /* Non-Unicode capable, use termcap equivalents for those
+> available */
+> >          for (i =3D 0; i <=3D 0xFF; i++) {
+> >              wchar_t wch[CCHARW_MAX];
+> > --
+> > 2.28.0.windows.1
+> >
+> >
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
+
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--00000000000036a32e05aee0f7ac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 9, 2020 at 8:51 PM Daniel=
+ P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redha=
+t.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">On Wed, Sep 09, 2020 at 05:45:59PM +0800, Yonggang Luo wrote:<br>
+&gt; The mingw pkg-config are showing following absolute path and contains =
+: as the separator,<br>
+&gt; so we must handling : properly.<br>
+&gt; <br>
+&gt; -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L -IC:/CI-Tools/msys64=
+/mingw64/include/ncursesw:-I/usr/include/ncursesw:<br>
+&gt; -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L -=
+IC -pipe -lncursesw -lgnurx -ltre -lintl -liconv<br>
+&gt; -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L -=
+IC -lncursesw<br>
+&gt; -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=3D600 -D_POSIX_C_SOURCE=3D199506L -=
+IC -lcursesw<br>
+&gt; -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -pipe -ln=
+cursesw -lgnurx -ltre -lintl -liconv<br>
+&gt; -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lncurses=
+w<br>
+&gt; -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lcursesw=
+<br>
+&gt; -DNCURSES_WIDECHAR -I/usr/include/ncursesw -pipe -lncursesw -lgnurx -l=
+tre -lintl -liconv<br>
+&gt; -DNCURSES_WIDECHAR -I/usr/include/ncursesw -lncursesw<br>
+&gt; -DNCURSES_WIDECHAR -I/usr/include/ncursesw -lcursesw<br>
+&gt; <br>
+&gt; msys2/mingw lacks the POSIX-required langinfo.h.<br>
+&gt; <br>
+&gt; gcc test.c -DNCURSES_WIDECHAR -I/mingw64/include/ncursesw -pipe -lncur=
+sesw -lgnurx -ltre -lintl -liconv<br>
+&gt; test.c:4:10: fatal error: langinfo.h: No such file or directory<br>
+&gt;=C2=A0 =C2=A0 =C2=A04 | #include &lt;langinfo.h&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~=
+~~~~<br>
+&gt; compilation terminated.<br>
+&gt; <br>
+&gt; So we using g_get_codeset instead of nl_langinfo(CODESET)<br>
+&gt; <br>
+&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.co=
+m" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
+&gt; Reviewed-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" ta=
+rget=3D"_blank">kraxel@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 configure=C2=A0 =C2=A0|=C2=A0 9 +++------<br>
+&gt;=C2=A0 ui/curses.c | 10 +++++-----<br>
+&gt;=C2=A0 2 files changed, 8 insertions(+), 11 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/configure b/configure<br>
+&gt; index f4f8bc3756..2e6d54e15b 100755<br>
+&gt; --- a/configure<br>
+&gt; +++ b/configure<br>
+&gt; @@ -3653,8 +3653,8 @@ if test &quot;$iconv&quot; =3D &quot;no&quot; ; =
+then<br>
+&gt;=C2=A0 fi<br>
+&gt;=C2=A0 if test &quot;$curses&quot; !=3D &quot;no&quot; ; then<br>
+&gt;=C2=A0 =C2=A0 if test &quot;$mingw32&quot; =3D &quot;yes&quot; ; then<b=
+r>
+&gt; -=C2=A0 =C2=A0 curses_inc_list=3D&quot;$($pkg_config --cflags ncurses =
+2&gt;/dev/null):&quot;<br>
+&gt; -=C2=A0 =C2=A0 curses_lib_list=3D&quot;$($pkg_config --libs ncurses 2&=
+gt;/dev/null):-lpdcurses&quot;<br>
+&gt; +=C2=A0 =C2=A0 curses_inc_list=3D&quot;$($pkg_config --cflags ncursesw=
+ 2&gt;/dev/null):-I/${MSYSTEM,,}/include/ncursesw:&quot;<br>
+&gt; +=C2=A0 =C2=A0 curses_lib_list=3D&quot;$($pkg_config --libs ncursesw 2=
+&gt;/dev/null):-lncursesw&quot;<br>
+<br>
+The original code would try=C2=A0 ncurses via pkg-config and if that failed=
+, would<br>
+falback to pdcurses.<br>
+<br>
+The new code tries ncursesw via pkg-config and then tries ncursesw again<br=
+>
+via manually specified args, and doesn&#39;t try=C2=A0 ncurses or pdcurses =
+at all.<br></blockquote><div>Gotcha, Indeed=C2=A0=C2=A0
+
+$pkg_config --cflags ncurses can find curses on mingw32, the problem is onw=
+ mingw32 the include path</div><div>have :, so we can not use : as the path=
+ sepaerator, for cross-paltform reason, which is best for path separator?=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+This fixes your build as you&#39;ve installed ncursesw, but breaks anyone<b=
+r>
+who was using ncurses or pdcurses previously. At least on Fedora only<br>
+pdcurses is available for mingw, so I don&#39;t think we should be dropping=
+<br>
+this. It looks like we just need to check all three of ncursesw, ncurses<br=
+>
+and pdcurses.<br>
+<br>
+Copying Samuel who introduced this logic originally in <br>
+commit 8ddc5bf9e5de51c2a4842c01dd3a97f5591776fd<br>
+<br>
+&gt;=C2=A0 =C2=A0 else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 curses_inc_list=3D&quot;$($pkg_config --cflags ncu=
+rsesw 2&gt;/dev/null):-I/usr/include/ncursesw:&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 curses_lib_list=3D&quot;$($pkg_config --libs ncurs=
+esw 2&gt;/dev/null):-lncursesw:-lcursesw&quot;<br>
+&gt; @@ -3664,17 +3664,14 @@ if test &quot;$curses&quot; !=3D &quot;no&quot=
+; ; then<br>
+&gt;=C2=A0 #include &lt;locale.h&gt;<br>
+&gt;=C2=A0 #include &lt;curses.h&gt;<br>
+&gt;=C2=A0 #include &lt;wchar.h&gt;<br>
+&gt; -#include &lt;langinfo.h&gt;<br>
+&gt;=C2=A0 int main(void) {<br>
+&gt; -=C2=A0 const char *codeset;<br>
+&gt;=C2=A0 =C2=A0 wchar_t wch =3D L&#39;w&#39;;<br>
+&gt;=C2=A0 =C2=A0 setlocale(LC_ALL, &quot;&quot;);<br>
+&gt;=C2=A0 =C2=A0 resize_term(0, 0);<br>
+&gt;=C2=A0 =C2=A0 addwstr(L&quot;wide chars\n&quot;);<br>
+&gt;=C2=A0 =C2=A0 addnwstr(&amp;wch, 1);<br>
+&gt;=C2=A0 =C2=A0 add_wch(WACS_DEGREE);<br>
+&gt; -=C2=A0 codeset =3D nl_langinfo(CODESET);<br>
+&gt; -=C2=A0 return codeset !=3D 0;<br>
+&gt; +=C2=A0 return 0;<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 EOF<br>
+&gt;=C2=A0 =C2=A0 IFS=3D:<br>
+&gt; diff --git a/ui/curses.c b/ui/curses.c<br>
+&gt; index a59b23a9cf..12bc682cf9 100644<br>
+&gt; --- a/ui/curses.c<br>
+&gt; +++ b/ui/curses.c<br>
+&gt; @@ -30,7 +30,6 @@<br>
+&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 #include &lt;locale.h&gt;<br>
+&gt;=C2=A0 #include &lt;wchar.h&gt;<br>
+&gt; -#include &lt;langinfo.h&gt;<br>
+&gt;=C2=A0 #include &lt;iconv.h&gt;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
+&gt; @@ -526,6 +525,7 @@ static void font_setup(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 iconv_t nativecharset_to_ucs2;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 iconv_t font_conv;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int i;<br>
+&gt; +=C2=A0 =C2=A0 g_autofree gchar *local_codeset =3D g_get_codeset();<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0* Control characters are normally non-printa=
+ble, but VGA does have<br>
+&gt; @@ -566,14 +566,14 @@ static void font_setup(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x25bc<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 ucs2_to_nativecharset =3D iconv_open(nl_langinfo(CODESE=
+T), &quot;UCS-2&quot;);<br>
+&gt; +=C2=A0 =C2=A0 ucs2_to_nativecharset =3D iconv_open(local_codeset, &qu=
+ot;UCS-2&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (ucs2_to_nativecharset =3D=3D (iconv_t) -1) {<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Could not conv=
+ert font glyphs from UCS-2: &#39;%s&#39;\n&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 strerror(errno));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 nativecharset_to_ucs2 =3D iconv_open(&quot;UCS-2&quot;,=
+ nl_langinfo(CODESET));<br>
+&gt; +=C2=A0 =C2=A0 nativecharset_to_ucs2 =3D iconv_open(&quot;UCS-2&quot;,=
+ local_codeset);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (nativecharset_to_ucs2 =3D=3D (iconv_t) -1) {<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iconv_close(ucs2_to_nativecharset);<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Could not conv=
+ert font glyphs to UCS-2: &#39;%s&#39;\n&quot;,<br>
+&gt; @@ -581,7 +581,7 @@ static void font_setup(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 font_conv =3D iconv_open(nl_langinfo(CODESET), font_cha=
+rset);<br>
+&gt; +=C2=A0 =C2=A0 font_conv =3D iconv_open(local_codeset, font_charset);<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (font_conv =3D=3D (iconv_t) -1) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iconv_close(ucs2_to_nativecharset);<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iconv_close(nativecharset_to_ucs2);<=
+br>
+&gt; @@ -602,7 +602,7 @@ static void font_setup(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* DEL */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 convert_ucs(0x7F, 0x2302, ucs2_to_nativecharset);<=
+br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if (strcmp(nl_langinfo(CODESET), &quot;UTF-8&quot;)) {<=
+br>
+&gt; +=C2=A0 =C2=A0 if (strcmp(local_codeset, &quot;UTF-8&quot;)) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Non-Unicode capable, use termcap =
+equivalents for those available */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt;=3D 0xFF; i++) {=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wchar_t wch[CCHARW_MAX=
+];<br>
+&gt; -- <br>
+&gt; 2.28.0.windows.1<br>
+&gt; <br>
+&gt; <br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div></div>
+
+--00000000000036a32e05aee0f7ac--
 
