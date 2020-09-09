@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF52C262B8C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:15:51 +0200 (CEST)
-Received: from localhost ([::1]:36176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A29262B34
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:01:02 +0200 (CEST)
+Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwCk-0002jW-UL
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:15:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50096)
+	id 1kFvyP-0008MU-7B
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:01:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kFw9R-0006fs-ET; Wed, 09 Sep 2020 05:12:25 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33471)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kFw9P-0003Sk-Vw; Wed, 09 Sep 2020 05:12:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id e11so1379507wme.0;
- Wed, 09 Sep 2020 02:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Ft3F3PRm3THMqbpuiEV3MHtv0PAFRe8qhKl/kQomtjA=;
- b=h3zeFddq371Ur2seXtQphd0iafKVILvB3iVrppVPQFjuqhR+gZrZPIKph2GQiiylUH
- XIwHFC3tDkrb/BKSKOduH7vcowMLG+fxUFiCgabxinuwGNhjLYfRScxlZryyE7qX4qYL
- kSNmPi+piEHJX+JeWpMZlfw3YRzkf5T0n92y7xmOp7x6/X1VpYry9+84ZPJDR4QQH/jQ
- 7qFpRJnyAGwB70ViIoOL4z95TMsKL+zFcc3a+TjcHBBQxXM5QNb2J4+85z2vv+9ayM8W
- LqQYEB43PJ9VVBsDQVXi0b/ZZZGlDTyzM8iaEbNW3bz0gl/WzyFSnlG/AEg3peAhEmUB
- pejw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ft3F3PRm3THMqbpuiEV3MHtv0PAFRe8qhKl/kQomtjA=;
- b=fVwPaOGK0cQVUVWh97eeYB4RSw8O+5jP2wRxBxRr5VrAe7pBEh0NEP1lZHWnLv5twn
- h50F77H21VZo2TfBv1szkdznf+BGyLRmT/FQNHk6GjNOCMMwnog/jKrQCAPM4jajkavt
- jeO1sIKwMs0g2WYr8hTpKc5LxyTaTWV7nxUxa+QlcRIo3PnnUqfS6o6ascNtOliNTpQ9
- wK/w3GQfhOM2isWcB2Aodl1jX/UcALG5SIoQnoXdV9NwgJQ4U5Xl900H2fpsrmZRpV5d
- eD/Ecuskxy9c3R4HISxWQSfd4OKstS0l3blft3wNVVldYeb1BDfe+0HkNazbJ9OFupN2
- A+jA==
-X-Gm-Message-State: AOAM533FiuffcAsFKU0OwigYEfCYmNjJAEXepLNpuLYAlZXH9RPZdit3
- trtYGq7+dEqkgUPbqHgqNho=
-X-Google-Smtp-Source: ABdhPJw7GHIBcmzcRzBLvaFfxRB+WImHEQSmMIJtu+jqoTMJpkQTihkC/B/UEkf1XJlwXkWZtJRaiQ==
-X-Received: by 2002:a1c:6a08:: with SMTP id f8mr2641445wmc.151.1599642741284; 
- Wed, 09 Sep 2020 02:12:21 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id m3sm3490439wme.31.2020.09.09.02.12.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:12:20 -0700 (PDT)
-Date: Tue, 8 Sep 2020 15:37:25 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 00/12] hw: Forbid DMA write accesses to MMIO regions
-Message-ID: <20200908143725.GD7154@stefanha-x1.localdomain>
-References: <20200903110831.353476-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kFvwf-0007d7-Ge
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:59:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kFvwd-0001oD-S1
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:59:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599641950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cY9cRBnYjvWVqsiiSLAA7ru1V0YbwB2nhKKq0+srhTY=;
+ b=RZ9MC5fQtXE13J+Y75Wkgz/D+ePYb3N9Htx4fK7+0w3MOhJkhXVdYsSFqavBP/YnW0By2A
+ mtdm9eQirl9puOl2UQqTqfwPVQt73tKFiFUvZU+3AseicPTs+TcNsEk9J0zH0hAVfnyTZC
+ hR9+MAWUn+BRfg5pjmzk5hw6JXVdX3Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-fkRaHis5M5K1l4f05_UvMA-1; Wed, 09 Sep 2020 04:59:08 -0400
+X-MC-Unique: fkRaHis5M5K1l4f05_UvMA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C8978015C6;
+ Wed,  9 Sep 2020 08:59:07 +0000 (UTC)
+Received: from localhost (ovpn-114-244.ams2.redhat.com [10.36.114.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDDA360CC0;
+ Wed,  9 Sep 2020 08:59:04 +0000 (UTC)
+Date: Wed, 9 Sep 2020 09:59:00 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 3/4] docs: add qemu-storage-daemon(1) man page
+Message-ID: <20200909085900.GG12090@stefanha-x1.localdomain>
+References: <20200908093113.47564-1-stefanha@redhat.com>
+ <20200908093113.47564-4-stefanha@redhat.com>
+ <20200908114233.GC19304@paraplu>
+ <20200908143347.GE8175@linux.fritz.box>
 MIME-Version: 1.0
+In-Reply-To: <20200908143347.GE8175@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u65IjBhB3TIa72Vp"
+ protocol="application/pgp-signature"; boundary="3ecMC0kzqsE2ddMN"
 Content-Disposition: inline
-In-Reply-To: <20200903110831.353476-1-philmd@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:25:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,62 +84,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, qemu-block@nongnu.org,
- Li Qiang <liq3ea@163.com>, "Emilio G . Cota" <cota@braap.org>,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- Laszlo Ersek <lersek@redhat.com>, Robert Foley <robert.foley@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Tony Nguyen <tony.nguyen@bt.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, Alexander Bulekov <alxndr@bu.edu>,
- Andrew Jeffery <andrew@aj.id.au>, Klaus Jensen <k.jensen@samsung.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Jan Kiszka <jan.kiszka@web.de>
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
+ Kashyap Chamarthy <kchamart@redhat.com>, afrosi@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---u65IjBhB3TIa72Vp
-Content-Type: text/plain; charset=iso-8859-1
+--3ecMC0kzqsE2ddMN
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 03, 2020 at 01:08:19PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> The main patch is:
-> "exec/memattrs: Introduce MemTxAttrs::direct_access field".
-> This way we can restrict accesses to ROM/RAM by setting the
-> 'direct_access' field. Illegal accesses return MEMTX_BUS_ERROR.
+On Tue, Sep 08, 2020 at 04:33:47PM +0200, Kevin Wolf wrote:
+> Am 08.09.2020 um 13:42 hat Kashyap Chamarthy geschrieben:
+> > On Tue, Sep 08, 2020 at 10:31:12AM +0100, Stefan Hajnoczi wrote:
+> > > Document the qemu-storage-daemon tool. Most of the command-line optio=
+ns
+> > > are identical to their QEMU counterparts. Perhaps Sphinx hxtool
+> > > integration could be extended to extract documentation for individual
+> > > command-line options so they can be shared. For now the
+> > > qemu-storage-daemon simply refers to the qemu(1) man page where the
+> > > command-line options are identical.
+> > >=20
+> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>=20
+> Looks good to me.
+>=20
+> If you have to respin, maybe an example section with some full command
+> lines for common cases would be nice. Maybe one for exporting a qcow2
+> image via NBD, and another one for attaching a host_device and having a
+> QMP monitor, or something like this.
 
-QEMU needs to simulate the behavior of real hardware. What is the
-behavior of real hardware?
+Good idea. Will fix in v2.
+
+> > > +**Warning:** Never modify images in use by a running virtual machine=
+ or any
+> > > +other process; this may destroy the image. Also, be aware that query=
+ing an
+> > > +image that is being modified by another process may encounter incons=
+istent
+> > > +state.
+> >=20
+> > I wonder if it's appropriate to mention libguestfs for safe, read-only
+> > access to disk images (via `guestfish -ro -i -a disk.qcow2`).  I say
+> > this because, the above warning tells what _not_ to do; a pointer on
+> > what to do could be useful.  I let you decide on this.
+>=20
+> libguestfs may expose exactly the inconsistent state that the above
+> warning is about. Maybe it breaks not very often in practice, but it's
+> fundamentally unsafe and if it breaks, you get to keep both pieces.
+>=20
+> The safe way is to access it from the guest.
+
+I agree. If a guest has disk.qcow2 open read/write then libguestfs
+cannot open it (even just for reading) and expect a consistent view of
+the disk.
 
 Stefan
 
---u65IjBhB3TIa72Vp
+--3ecMC0kzqsE2ddMN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9XlyUACgkQnKSrs4Gr
-c8hm+Af/bAR/vQDQ3YPrHCBH7S0Tk3kYVaMaPicOdDQpuULJ+vJ7QQs8+Uh3GEDJ
-QS3tNNfDKibYG1mUY4+nKUz6cU/9YbfFVIhTSIlLS8Rpt5lT3dFNkGYTTWvBkey/
-qLiYGeniyVMR3WLVAMXvrlmhsdqdvvE6avkPob5ZHQDs6f5b64n1r409PEoGWsoo
-Wr+UPifHdPC4XSLx59BFcj9lYRKx+QqARj1VDK3GJ6451xZ6FnGwJJyGgtc1I5HS
-8mv08mKnGeHyCGIGKIN9tRSZgbkgHJxWTohHRNZMEz8GxI/o0uxlL/0sk4a5cJAL
-sres8UZegMhMOj6NL3FiQ3XWrkkTOw==
-=Pxw8
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9YmVQACgkQnKSrs4Gr
+c8jynAf+KLLxp9yfSKxoS4Bw6U1ZCuNpxIX4MxIKbHG/YdPSzzyCX/rUAx/4XQ9G
+dWTdHk9DCgZafwhNGEBxzpoxPh+BvSXyYLPUbBORCdgPnmhfVnpLr/S1kudJqYtM
+KTv808Z2DDskaLXLvQXVk6u78ZDms7pAvMW1dht9t6RvgJjuohDpTgFuoCF9rsDP
+bHozSylP6arBYpGhc+u5cgF+KzVIbCYYJFhhVjJCWJheSp8kr9+OMWnjtg48de0B
+DffGB0d1GEMieAJ/L9JQqE9DxOXRIjxmG+pvh0DCO1S0Y9IBvjGQVgprWEbdz5CO
+XfkSfwQb9Wewc2rsN4LjOFogib9VKQ==
+=eQ7g
 -----END PGP SIGNATURE-----
 
---u65IjBhB3TIa72Vp--
+--3ecMC0kzqsE2ddMN--
+
 
