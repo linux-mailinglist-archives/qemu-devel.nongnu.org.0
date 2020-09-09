@@ -2,78 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43279263648
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:50:58 +0200 (CEST)
-Received: from localhost ([::1]:45774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DDB26364D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:54:48 +0200 (CEST)
+Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG5BJ-0000oJ-Co
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58610)
+	id 1kG5F1-0003Xp-Md
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kG5AK-0008Gd-15
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:49:56 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35083)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kG5AH-00005a-9D
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:49:55 -0400
-Received: by mail-pf1-x444.google.com with SMTP id o68so3083133pfg.2
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 11:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:message-id:in-reply-to:references:subject
- :mime-version; bh=PyhySW2+gp1DTJ7LvTcLfh4ufcC06zKLInE3Mxus+4Y=;
- b=pGfboSQmpfO4B93fxsSbv6grkFIKJM3xa7Ln2TwWmMIC7/1j9Y1XYjcAX8eploE3en
- 59DkBpgttp33KehOXAr6fJenCa72+RUUg99v138oXbm0ywPYnX0wBs25w3IQekjLTfyb
- W+gR5cd+0qE4olv0V6x3fPwv4XbrcjqYtDRuiq4QuYjD4qdZmfrFIX9O7FyI2ky+z+Hk
- vDphEOTGSvpHb+4bYDHOn3u5zbMJCkjoaFFlvot1FfmqNT7nLGpHqeNWXRF+yPMjvwlk
- ijSWuQ1B9mUbZaDuYQQ4rFmU14b0g7WDQ2ejijysHyh4nolAycI0YYn0Mxio9ggtrnl2
- ZDzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
- :references:subject:mime-version;
- bh=PyhySW2+gp1DTJ7LvTcLfh4ufcC06zKLInE3Mxus+4Y=;
- b=Bj2B9mUzSeuTEKsooCYhdaeeWtD2rmMuMXqR/BV58Gbe00M925/Hi+kzJf/WwgJ6Ua
- UsK37r3mXpgmHeMhKsDjAAaaqaNiPtRCUJI8or/sudL9oW1n3kLjzyUjWTjTQGzmrxWf
- 28ilLglsgX/Oin2Cr6DyHdj66vw9JO8s0M9PSjJJatXMfBstCpbJVUZnsKyMAtM5gCVo
- F2mfWvS0ho67CXR+wRf6DO0gBCtmTh9ApmxSe4Fq3QstpwIAADD2VbwV02WKsNH7TeP6
- 3Pk+HA2dFKFtnAYQVnCJcF3200vcRR8P8gEvC47Md3AG257/0iqMSzlm7nRkkVyN0PR9
- nU3w==
-X-Gm-Message-State: AOAM530cTL/lDYJtBNg9aKfHpivPyJvaD40JP4D9GLU1iRUOA379CFiV
- cCOwjBH9TMWTO+7qRKucVMAT3Q==
-X-Google-Smtp-Source: ABdhPJwuj4HlnjQT1jKEI8M4dXYo6dWhXQtSSJ0HgmlSr/tQuhWmpMIekIN0AaKleIyqrJUl6DrpCg==
-X-Received: by 2002:a17:902:988f:: with SMTP id
- s15mr2081689plp.26.1599677391397; 
- Wed, 09 Sep 2020 11:49:51 -0700 (PDT)
-Received: from [2401:4900:104c:aa45:e016:5f82:200:0]
- ([2401:4900:104c:aa45:dd1b:6e7f:ca54:698a])
- by smtp.gmail.com with ESMTPSA id gn24sm6357pjb.8.2020.09.09.11.49.46
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 09 Sep 2020 11:49:50 -0700 (PDT)
-Date: Thu, 10 Sep 2020 00:19:19 +0530
-From: Ani Sinha <ani@anisinha.ca>
-To: Julia Suvorova <jusual@redhat.com>
-Message-ID: <a6c38469-356d-4629-be12-92129e1b1b96@Spark>
-In-Reply-To: <98b26cfa-3ff7-4302-9fc2-0e6672cfbd08@Spark>
-References: <20200904161000.12115-1-ani@anisinha.ca>
- <CAMDeoFVQWeWArPty2z4rNbdmS7O2X66SaONqiKzFqFpaKwuNDg@mail.gmail.com>
- <98b26cfa-3ff7-4302-9fc2-0e6672cfbd08@Spark>
-Subject: Re: [PATCH v3] i440fx/acpi: do not add hotplug related amls for
- cold plugged bridges
-X-Readdle-Message-ID: a6c38469-356d-4629-be12-92129e1b1b96@Spark
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kG5EJ-0002yo-QC
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:54:03 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]:53894
+ helo=v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kG5EH-0000cV-DM
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:54:03 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 72A5CDAEA57;
+ Wed,  9 Sep 2020 20:53:58 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
+Received: from v2201612906741603.powersrv.de ([127.0.0.1])
+ by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id vEj_xNQqry8f; Wed,  9 Sep 2020 20:53:56 +0200 (CEST)
+Received: from macbook02.fritz.box (pd9ec31d2.dip0.t-ipconnect.de
+ [217.236.49.210])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 9F34EDA0600;
+ Wed,  9 Sep 2020 20:53:56 +0200 (CEST)
+Subject: Re: [PATCH] configure: Do not intent to build WHPX on 32-bit host
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, qemu-devel@nongnu.org
+References: <20200909182449.360472-1-f4bug@amsat.org>
+ <357d7fe2-558f-4c3d-d178-742cb9eb6e21@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
+Autocrypt: addr=sw@weilnetz.de; keydata=
+ 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
+Message-ID: <0e6dc9fb-6262-926a-f730-98ac352bb789@weilnetz.de>
+Date: Wed, 9 Sep 2020 20:53:55 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="5f5923bf_66334873_1586"
-Received-SPF: none client-ip=2607:f8b0:4864:20::444;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <357d7fe2-558f-4c3d-d178-742cb9eb6e21@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=v2201612906741603.powersrv.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 14:53:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.576,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,1021 +110,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---5f5923bf_66334873_1586
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Am 09.09.20 um 20:40 schrieb Thomas Huth:
 
-On Sep 10, 2020, 00:00 +0530, Ani Sinha <ani=40anisinha.ca>, wrote:
-> On Sep 9, 2020, 23:20 +0530, Julia Suvorova <jusual=40redhat.com>, wrot=
-e:
-> > On =46ri, Sep 4, 2020 at 6:10 PM Ani Sinha <ani=40anisinha.ca> wrote:=
+> On 09/09/2020 20.24, Philippe Mathieu-Daudé wrote:
+>> Hyper-V is available on 64-bit versions of Windows,
+>> do not try to build its support on 32-bit versions.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  configure | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/configure b/configure
+>> index 4231d56bcc0..4bd08f5469b 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -2989,6 +2989,9 @@ if test "$whpx" != "no" ; then
+>>          fi
+>>          whpx="no"
+>>      fi
+>> +    if test "$whpx" = "yes" && test "$ARCH" = "i386"; then
+>> +      error_exit "WHPX requires 64-bit host"
+>> +    fi
+>>  fi
+> I think you should also add a check to the MINGW32 case (see commit
+> e7a222aeb813a) to prevent that the automatic detection kicks in (so that
+> you would end up with this error message even if you did not specify
+> --enable-whpx)
+>
+>  Thomas
+>
 
-> > >
-> > > Cold plugged bridges are not hot unpluggable, even when their hotpl=
-ug
-> > > property (acpi-pci-hotplug-with-bridge-support) is turned off. Plea=
-se see
-> > > the function acpi=5Fpcihp=5Fpc=5Fno=5Fhotplug() (thanks Julia). How=
-ever, with
-> > > the current implementaton, windows would try to hot-unplug a pci br=
-idge when
-> > > it's hotplug switch is off. This is regardless of whether there are=
- devices
-> > > attached to the bridge. This is because we add amls like =5FEJ0 etc=
- for the
-> > > pci slot where the bridge is cold plugged. We have a demo video her=
-e:
-> > > https://youtu.be/pME2sjyQweo
-> > >
-> > > In this fix, we identify a cold plugged bridge and for cold plugged=
- bridges,
-> > > we do not add the appropriate amls and acpi methods that are used b=
-y the OS
-> > > to identify a hot-pluggable/unpluggable pci device. After this chan=
-ge, Windows
-> > > does not show an option to eject the PCI bridge. A demo video is he=
-re:
-> > > https://youtu.be/kbgej5B9Hgs
-> > >
-> > > While at it, I have also updated a stale comment.
-> > >
-> > > This change is tested with a Windows 2012R2 guest image and Windows=
- 2019 server
-> > > guest image running on Ubuntu 18.04 host. This change is based off =
-of upstream
-> > > qemu master branch tag v5.1.0.
-> > >
-> > > Signed-off-by: Ani Sinha <ani=40anisinha.ca>
-> >
-> > Reviewed-by: Julia Suvorova <jusual=40redhat.com>
-> >
-> > BTW, aren't all bridges handled in build=5Fappend=5Fpci=5Fbus=5Fdevic=
-es() cold-plugged=3F
->
-> Yes they are.
+Yes, that's definitely required. The automatic detection currently
+enables WHPX for 32 bit builds, too.
 
-Maybe as an improvement we can simply identify a bridge instead of a cold=
- plugged bridge. However let=E2=80=99s have that improvement as a separat=
-e patch on top of this. Also let=E2=80=99s see what Igor thinks.
+Stefan
 
-> >
-> > > ---
-> > > hw/i386/acpi-build.c =7C 12 ++++++------
-> > > 1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > changelog:
-> > > v3: commit log updates providing more accurate information as recei=
-ved from Julia.
-> > > v2: cosmetic commit log updates with patch testing information.
-> > > v1: initial patch.
-> > >
-> > >
-> > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > > index b7bcbbbb2a..90b863f4ec 100644
-> > > --- a/hw/i386/acpi-build.c
-> > > +++ b/hw/i386/acpi-build.c
-> > > =40=40 -359,6 +359,7 =40=40 static void build=5Fappend=5Fpci=5Fbus=5F=
-devices(Aml *parent=5Fscope, PCIBus *bus,
-> > > int slot =3D PCI=5FSLOT(i);
-> > > bool hotplug=5Fenabled=5Fdev;
-> > > bool bridge=5Fin=5Facpi;
-> > > + bool cold=5Fplugged=5Fbridge;
-> > >
-> > > if (=21pdev) =7B
-> > > if (bsel) =7B /* add hotplug slots for non present devices */
-> > > =40=40 -380,15 +381,14 =40=40 static void build=5Fappend=5Fpci=5Fbu=
-s=5Fdevices(Aml *parent=5Fscope, PCIBus *bus,
-> > > pc =3D PCI=5FDEVICE=5FGET=5FCLASS(pdev);
-> > > dc =3D DEVICE=5FGET=5FCLASS(pdev);
-> > >
-> > > - /* When hotplug for bridges is enabled, bridges are
-> > > - * described in ACPI separately (see build=5Fpci=5Fbus=5Fend).
-> > > - * In this case they aren't themselves hot-pluggable.
-> > > + /*
-> > > + * Cold plugged bridges aren't themselves hot-pluggable.
-> > > * Hotplugged bridges *are* hot-pluggable.
-> > > */
-> > > - bridge=5Fin=5Facpi =3D pc->is=5Fbridge && pcihp=5Fbridge=5Fen &&
-> > > - =21DEVICE(pdev)->hotplugged;
-> > > + cold=5Fplugged=5Fbridge =3D pc->is=5Fbridge && =21DEVICE(pdev)->h=
-otplugged;
-> > > + bridge=5Fin=5Facpi =3D cold=5Fplugged=5Fbridge && pcihp=5Fbridge=5F=
-en;
-> > >
-> > > - hotplug=5Fenabled=5Fdev =3D bsel && dc->hotpluggable && =21bridge=
-=5Fin=5Facpi;
-> > > + hotplug=5Fenabled=5Fdev =3D bsel && dc->hotpluggable && =21cold=5F=
-plugged=5Fbridge;
-> > >
-> > > if (pc->class=5Fid =3D=3D PCI=5FCLASS=5FBRIDGE=5FISA) =7B
-> > > continue;
-> > > --
-> > > 2.17.1
-> > >
-> >
-
---5f5923bf_66334873_1586
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-
-<html xmlns=3D=22http://www.w3.org/1999/xhtml=22>
-<head>
-<title></title>
-</head>
-<body>
-<div name=3D=22messageReplySection=22>
-<div dir=3D=22auto=22>On Sep 10, 2020, 00:00 +0530, Ani Sinha &lt;ani=40a=
-nisinha.ca&gt;, wrote:</div>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>On Sep 9, 2020, 23:20 +0530, Jul=
-ia Suvorova &lt;jusual=40redhat.com&gt;, wrote:</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>On =46ri, Sep 4, 2020 at 6:10 PM=
- Ani Sinha &lt;ani=40anisinha.ca&gt; wrote:</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>Cold plugged bridges are not hot=
- unpluggable, even when their hotplug</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>property (acpi-pci-hotplug-with-=
-bridge-support) is turned off. Please see</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>the function acpi=5Fpcihp=5Fpc=5F=
-no=5Fhotplug() (thanks Julia). However, with</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>the current implementaton, windo=
-ws would try to hot-unplug a pci bridge when</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>it's hotplug switch is off. This=
- is regardless of whether there are devices</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>attached to the bridge. This is =
-because we add amls like =5FEJ0 etc for the</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>pci slot where the bridge is col=
-d plugged. We have a demo video here:</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>https://youtu.be/pME2sjyQweo</bl=
-ockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>In this fix, we identify a cold =
-plugged bridge and for cold plugged bridges,</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>we do not add the appropriate am=
-ls and acpi methods that are used by the OS</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>to identify a hot-pluggable/unpl=
-uggable pci device. After this change, Windows</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>does not show an option to eject=
- the PCI bridge. A demo video is here:</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>https://youtu.be/kbgej5B9Hgs</bl=
-ockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>While at it, I have also updated=
- a stale comment.</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>This change is tested with a Win=
-dows 2012R2 guest image and Windows 2019 server</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>guest image running on Ubuntu 18=
-.04 host. This change is based off of upstream</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>qemu master branch tag v5.1.0.</=
-blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>Signed-off-by: Ani Sinha &lt;ani=
-=40anisinha.ca&gt;</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>Reviewed-by: Julia Suvorova &lt;=
-jusual=40redhat.com&gt;</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>BTW, aren't all bridges handled =
-in build=5Fappend=5Fpci=5Fbus=5Fdevices() cold-plugged=3F</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>Yes they are.</blockquote>
-<div dir=3D=22auto=22><br />
-Maybe as an improvement we can simply identify a bridge instead of a cold=
- plugged bridge. However let=E2=80=99s have that improvement as a separat=
-e patch on top of this. Also let=E2=80=99s see what Igor thinks.<br />
-<br /></div>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>---</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>hw/i386/acpi-build.c =7C 12 ++++=
-++------</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>1 file changed, 6 insertions(+),=
- 6 deletions(-)</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>changelog:</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>v3: commit log updates providing=
- more accurate information as received from Julia.</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>v2: cosmetic commit log updates =
-with patch testing information.</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>v1: initial patch.</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>diff --git a/hw/i386/acpi-build.=
-c b/hw/i386/acpi-build.c</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>index b7bcbbbb2a..90b863f4ec 100=
-644</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>--- a/hw/i386/acpi-build.c</bloc=
-kquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>+++ b/hw/i386/acpi-build.c</bloc=
-kquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>=40=40 -359,6 +359,7 =40=40 stat=
-ic void build=5Fappend=5Fpci=5Fbus=5Fdevices(Aml *parent=5Fscope, PCIBus =
-*bus,</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>int slot =3D PCI=5FSLOT(i);</blo=
-ckquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>bool hotplug=5Fenabled=5Fdev;</b=
-lockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>bool bridge=5Fin=5Facpi;</blockq=
-uote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>+ bool cold=5Fplugged=5Fbridge;<=
-/blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>if (=21pdev) =7B</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>if (bsel) =7B /* add hotplug slo=
-ts for non present devices */</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>=40=40 -380,15 +381,14 =40=40 st=
-atic void build=5Fappend=5Fpci=5Fbus=5Fdevices(Aml *parent=5Fscope, PCIBu=
-s *bus,</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>pc =3D PCI=5FDEVICE=5FGET=5FCLAS=
-S(pdev);</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>dc =3D DEVICE=5FGET=5FCLASS(pdev=
-);</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>- /* When hotplug for bridges is=
- enabled, bridges are</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>- * described in ACPI separately=
- (see build=5Fpci=5Fbus=5Fend).</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>- * In this case they aren't the=
-mselves hot-pluggable.</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>+ /*</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>+ * Cold plugged bridges aren't =
-themselves hot-pluggable.</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>* Hotplugged bridges *are* hot-p=
-luggable.</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>*/</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>- bridge=5Fin=5Facpi =3D pc-&gt;=
-is=5Fbridge &amp;&amp; pcihp=5Fbridge=5Fen &amp;&amp;</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>- =21DEVICE(pdev)-&gt;hotplugged=
-;</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>+ cold=5Fplugged=5Fbridge =3D pc=
--&gt;is=5Fbridge &amp;&amp; =21DEVICE(pdev)-&gt;hotplugged;</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>+ bridge=5Fin=5Facpi =3D cold=5F=
-plugged=5Fbridge &amp;&amp; pcihp=5Fbridge=5Fen;</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>- hotplug=5Fenabled=5Fdev =3D bs=
-el &amp;&amp; dc-&gt;hotpluggable &amp;&amp; =21bridge=5Fin=5Facpi;</bloc=
-kquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>+ hotplug=5Fenabled=5Fdev =3D bs=
-el &amp;&amp; dc-&gt;hotpluggable &amp;&amp; =21cold=5Fplugged=5Fbridge;<=
-/blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>if (pc-&gt;class=5Fid =3D=3D PCI=
-=5FCLASS=5FBRIDGE=5FISA) =7B</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>continue;</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>--</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22>2.17.1</blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(230, 126, 34); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</blockquote>
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid;=22=
->
-<blockquote style=3D=22border-left-color: rgb(26, 188, 156); margin: 0px;=
- padding-left: 10px; border-left-width: thin; border-left-style: solid; p=
-adding-bottom: 5px; padding-top: 5px;=22><br /></blockquote>
-</blockquote>
-</div>
-</body>
-</html>
-
---5f5923bf_66334873_1586--
 
 
