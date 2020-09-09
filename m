@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C3D26362A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:42:17 +0200 (CEST)
-Received: from localhost ([::1]:46664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496E926362E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:44:05 +0200 (CEST)
+Received: from localhost ([::1]:53002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG52u-0006UC-J4
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
+	id 1kG54e-0000dI-BW
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51W-0005IQ-Lk
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:40:50 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33571
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51c-0005TE-Sh
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:40:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46580
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51U-0007D6-Ue
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:40:50 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51b-0007Lx-4b
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:40:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599676847;
+ s=mimecast20190719; t=1599676854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3hIuRlOch12nW25o6+lj0a/Akr3yOI37PrVQ6WMUZPo=;
- b=GnwYiCASqF+Fq/bN95AyMGOl/Ek0/6nsIdu5Vjt7gQ1J3iZD1bJmnnPVbdJIi/uKEycvQD
- cr9ML8sfk1HAi9r/ZGYvuOczWo6sshNjTqLer+Z/M+mk/+dEIJS7sjLH/HNQcoBz/tqYTB
- 53PgCYvR/FIVVNNKG+skyCGOb5N4bSs=
+ bh=iD3nU3q29aS+NTmVIJFCCkIEfzkuLj2dF9Y2ZbLAPos=;
+ b=X1YBOiQD6eLxyQS3brne9RcitLtHe3jyHvBz/KNFQVKMZCbXVP0/uGFQEI0ZIYIOV8uTBi
+ tTYZlrmaHj3I0XD4L3FremjprtcWI42m8pciVpX5xxLw2caAKgPz1n3aj6Dvp/A1WnNZ9q
+ k5Kwkh6amJx3Zxt2YbkGGUxg4VHY0+0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-zIz3GvgLPNW1qIpSQrAHbQ-1; Wed, 09 Sep 2020 14:40:45 -0400
-X-MC-Unique: zIz3GvgLPNW1qIpSQrAHbQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-512-RRXArTR_OmylrN2gsfeP4A-1; Wed, 09 Sep 2020 14:40:52 -0400
+X-MC-Unique: RRXArTR_OmylrN2gsfeP4A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AC211084C82
- for <qemu-devel@nongnu.org>; Wed,  9 Sep 2020 18:40:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1024B80EF8C
+ for <qemu-devel@nongnu.org>; Wed,  9 Sep 2020 18:40:52 +0000 (UTC)
 Received: from localhost (ovpn-113-94.ams2.redhat.com [10.36.113.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCD6E7E8E3;
- Wed,  9 Sep 2020 18:40:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3079719C78;
+ Wed,  9 Sep 2020 18:40:46 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/8] linux/fuse.h: Pull in from Linux
-Date: Wed,  9 Sep 2020 20:40:21 +0200
-Message-Id: <20200909184028.262297-2-mreitz@redhat.com>
+Subject: [PATCH 2/8] virtiofsd: Announce FUSE_ATTR_FLAGS
+Date: Wed,  9 Sep 2020 20:40:22 +0200
+Message-Id: <20200909184028.262297-3-mreitz@redhat.com>
 In-Reply-To: <20200909184028.262297-1-mreitz@redhat.com>
 References: <20200909184028.262297-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 14:15:10
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:13:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,60 +85,67 @@ Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the linux/fuse.h standard header from the kernel development tree
-that implements FUSE submounts.
-
-This adds the fuse_attr.flags field, the FUSE_ATTR_FLAGS INIT flag, and
-the FUSE_ATTR_SUBMOUNT flag for fuse_attr.flags.
+The fuse_attr.flags field is currently just initialized to 0, which is
+valid.  Thus, there is no reason not to always announce FUSE_ATTR_FLAGS
+(when the kernel supports it).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/standard-headers/linux/fuse.h | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ tools/virtiofsd/fuse_common.h   | 8 ++++++++
+ tools/virtiofsd/fuse_lowlevel.c | 7 +++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-index f4df0a40f6..7dd7a3b992 100644
---- a/include/standard-headers/linux/fuse.h
-+++ b/include/standard-headers/linux/fuse.h
-@@ -227,7 +227,7 @@ struct fuse_attr {
- 	uint32_t	gid;
- 	uint32_t	rdev;
- 	uint32_t	blksize;
--	uint32_t	padding;
-+	uint32_t	flags;
- };
- 
- struct fuse_kstatfs {
-@@ -310,6 +310,7 @@ struct fuse_file_lock {
-  * FUSE_NO_OPENDIR_SUPPORT: kernel supports zero-message opendir
-  * FUSE_EXPLICIT_INVAL_DATA: only invalidate cached pages on explicit request
-  * FUSE_MAP_ALIGNMENT: map_alignment field is valid
-+ * FUSE_ATTR_FLAGS: fuse_attr.flags is present and valid
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index 686c42c0a5..870544fe13 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -352,6 +352,14 @@ struct fuse_file_info {
   */
- #define FUSE_ASYNC_READ		(1 << 0)
- #define FUSE_POSIX_LOCKS	(1 << 1)
-@@ -338,6 +339,7 @@ struct fuse_file_lock {
- #define FUSE_NO_OPENDIR_SUPPORT (1 << 24)
- #define FUSE_EXPLICIT_INVAL_DATA (1 << 25)
- #define FUSE_MAP_ALIGNMENT	(1 << 26)
-+#define FUSE_ATTR_FLAGS		(1 << 27)
- 
- /**
-  * CUSE INIT request/reply flags
-@@ -413,6 +415,13 @@ struct fuse_file_lock {
-  */
- #define FUSE_FSYNC_FDATASYNC	(1 << 0)
+ #define FUSE_CAP_NO_OPENDIR_SUPPORT (1 << 24)
  
 +/**
-+ * fuse_attr flags
++ * Indicates that the client will provide fuse_attr.flags, and the kernel will
++ * interpret it.
 + *
-+ * FUSE_ATTR_SUBMOUNT: File/directory is a submount point
++ * This feature is enabled by default when supported by the kernel.
 + */
-+#define FUSE_ATTR_SUBMOUNT      (1 << 0)
++#define FUSE_CAP_ATTR_FLAGS (1 << 27)
 +
- enum fuse_opcode {
- 	FUSE_LOOKUP		= 1,
- 	FUSE_FORGET		= 2,  /* no reply */
+ /**
+  * Ioctl flags
+  *
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 2dd36ec03b..e9e2652d33 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1988,6 +1988,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+             bufsize = max_bufsize;
+         }
+     }
++    if (arg->flags & FUSE_ATTR_FLAGS) {
++        se->conn.capable |= FUSE_CAP_ATTR_FLAGS;
++    }
+ #ifdef HAVE_SPLICE
+ #ifdef HAVE_VMSPLICE
+     se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
+@@ -2014,6 +2017,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     LL_SET_DEFAULT(1, FUSE_CAP_ASYNC_DIO);
+     LL_SET_DEFAULT(1, FUSE_CAP_IOCTL_DIR);
+     LL_SET_DEFAULT(1, FUSE_CAP_ATOMIC_O_TRUNC);
++    LL_SET_DEFAULT(1, FUSE_CAP_ATTR_FLAGS);
+     LL_SET_DEFAULT(se->op.write_buf, FUSE_CAP_SPLICE_READ);
+     LL_SET_DEFAULT(se->op.getlk && se->op.setlk, FUSE_CAP_POSIX_LOCKS);
+     LL_SET_DEFAULT(se->op.flock, FUSE_CAP_FLOCK_LOCKS);
+@@ -2103,6 +2107,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     if (se->conn.want & FUSE_CAP_POSIX_ACL) {
+         outarg.flags |= FUSE_POSIX_ACL;
+     }
++    if (se->conn.want & FUSE_CAP_ATTR_FLAGS) {
++        outarg.flags |= FUSE_ATTR_FLAGS;
++    }
+     outarg.max_readahead = se->conn.max_readahead;
+     outarg.max_write = se->conn.max_write;
+     if (se->conn.max_background >= (1 << 16)) {
 -- 
 2.26.2
 
