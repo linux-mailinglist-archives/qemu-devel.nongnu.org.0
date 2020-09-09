@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D68B2631C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 18:27:13 +0200 (CEST)
-Received: from localhost ([::1]:47610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6F42631D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 18:28:38 +0200 (CEST)
+Received: from localhost ([::1]:53534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG2wC-00017g-8j
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 12:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
+	id 1kG2xZ-0003lQ-S4
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 12:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG2ko-0000x9-Kk; Wed, 09 Sep 2020 12:15:26 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45998)
+ id 1kG2ku-00014h-A7; Wed, 09 Sep 2020 12:15:33 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:40982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG2km-0006Zh-W1; Wed, 09 Sep 2020 12:15:26 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 67so2396115pgd.12;
- Wed, 09 Sep 2020 09:15:24 -0700 (PDT)
+ id 1kG2ks-0006b7-Eh; Wed, 09 Sep 2020 12:15:31 -0400
+Received: by mail-pg1-x544.google.com with SMTP id w186so2409562pgb.8;
+ Wed, 09 Sep 2020 09:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=raGFyZs6MR9nEefX4kmRsgZPLq8a4zwcDe8/ve9JX8Y=;
- b=sbRbtlaC8V+J7gkP7RD1yBChXlM3bVCRP4BKOOluninVSoO+cU4/samT5d+oNdkNZ4
- Ul3t8S4ZQn7gKdXKZiaIasaafH2LWziicdD6qx+nDSSfj9RyTak5T8HLCIMujL6IM/G1
- /TAqLLeylIQJ06Qklt38B7w8em8U4sp6q5LGkYZftqCov0hVz/SjXo82kQQ9gmNv+0Nc
- R2WhykrC353sAADOAawL8PBhqiXvBUHDJVrO7PkJ3DEiET1t54L1HJ63WFWzdtBPff7B
- Ix5X783fPo2iiqL5zewlYVsjxL7AZdXelS6OF+SZTY8hMkCjsVVgiAYBYhWzeBd2vFcS
- J6Tw==
+ bh=K7y5ZJD/cG5cMFm0+/8rHEDw15+8VS3xMSK8qF/3N8U=;
+ b=pOQfpnUaT0JUADrVOuZkK6LqiZKxqNLzQuRPrGVIbXB+q4V0VBnC22pQKUqmEqO5vC
+ l5EqhDYvCdh1irGlC6l+kpm94Ap104vt0/ZNDnJXdMLQbKuEh5lRhfCer0avfWF871Qb
+ l6bgbDzLPVSy7NgLyYA9qfLFzB0j8YILGvRmEKpy2T+6NZ8j4wr4JtJdc3tMtqQElWGk
+ DjdTUPMI44WK0AwJ+7I8zj0UcsiRN/fM04rRBjy9Xs6a4isDIh4ra2CDNGjuXh0tjAIu
+ mDwxMwZpgyLyMIBtiTP9qfksGdhH9jOmnaox/vyB5+Fj21xaBtrUxMs71lil1UORlLZU
+ 6PYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=raGFyZs6MR9nEefX4kmRsgZPLq8a4zwcDe8/ve9JX8Y=;
- b=axDolAPB4DGKWBWTUpZrQhE7nVAv9IBQbbX0p1s+dFtrnZ8VnxAv0IsjFfADPmGfB8
- zxR6bZy/yss6KwudcEu0goz9PObFDeVkkjsSdY1DB2S8lbCB3B5wMTyaJTEp8dRKnZ5k
- UpxW+pQ+tXQ+SUg4y012o3hcTtv2DGeI0kwigWuTJORGlnVnkoCv+xCHF33AfW74PPw2
- bhcOExuguqw0NPzs4KkFZBmZBu7lhpMoVSU/SWBcTzzKY2VAyoUhyMmQCZaLVzO5VQtV
- ihirithZEh66v7tvZDUPR+0kLXtFRMnftT09mwYEcr4IjcCd85yL+z89ykwlGaezgZtI
- hD6A==
-X-Gm-Message-State: AOAM530gRE7qeBuTmXmv4l/Bb8zPskFNmBhJwmKHJKDNs45qmybXvaE1
- 2GMcWW68MKCrUom2LNb/Ba2gbdbPuXimFMt9
-X-Google-Smtp-Source: ABdhPJwNlnJLY1KwcVC1MfOp5lnoLVVC+0oYUlZVJkHxCELpSwAc1w/RtTvL7m9Va6zZHsAESiJGHw==
-X-Received: by 2002:a17:902:fe08:: with SMTP id
- g8mr1540271plj.122.1599668122859; 
- Wed, 09 Sep 2020 09:15:22 -0700 (PDT)
+ bh=K7y5ZJD/cG5cMFm0+/8rHEDw15+8VS3xMSK8qF/3N8U=;
+ b=bDHwBDi/gr4qDDqgb+F5Io9d8E5TbVmfkdP5dwnBB6X54hXB1FVi2XZcjEqaJqEnga
+ wJT/sNetaiSGWNEA68LvFb7Cu5lBTQNsTJmhKDvorGLG1Uq2yui4wF25LOAovhalW1aO
+ bnW5rEm7mE2XjIT2M9CXyy0zcj/kPGwzkf8QO6/Wq5tX45MjygA6PLQUPexPC3Tqh395
+ QZqbUT/J3jOPJ5NMAwQ1RZfLNv5vlgSJQLFkZ4g0Snq/piWT3AHnMwyUg1447D9Ad+Pr
+ VyB88bHH9aKO+FXAB26PCPeOyL4m+rzqaGpFqz015iSbJjZlNgaWvP0AtGNA3pUdR2NO
+ ERrQ==
+X-Gm-Message-State: AOAM5327dcWX16o8SGR4LcchhAR1vFajW8OxNFMYxmKFa8UKaShpmmkX
+ loDs5RXzwL8kzApzoeb/gytrRIh+xf/zEHb1
+X-Google-Smtp-Source: ABdhPJyqNUf+PAfP+iMfYK413WTlPUign2NjCC1ICIn39tCtnhWsztOFn8EqohwhsgSIGiZEMFBqwg==
+X-Received: by 2002:aa7:9115:: with SMTP id 21mr1443026pfh.158.1599668127025; 
+ Wed, 09 Sep 2020 09:15:27 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id l123sm2506987pgl.24.2020.09.09.09.15.18
+ by smtp.googlemail.com with ESMTPSA id l123sm2506987pgl.24.2020.09.09.09.15.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 09:15:22 -0700 (PDT)
+ Wed, 09 Sep 2020 09:15:26 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 20/24] tests: Fixes test-io-channel-file by mask only owner
- file state mask bits
-Date: Thu, 10 Sep 2020 00:14:28 +0800
-Message-Id: <20200909161430.1789-9-luoyonggang@gmail.com>
+Subject: [PATCH v4 23/24] rcu: fixes test-logging.c by call drain_call_rcu
+ before rmdir_full
+Date: Thu, 10 Sep 2020 00:14:29 +0800
+Message-Id: <20200909161430.1789-10-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909161430.1789-1-luoyonggang@gmail.com>
 References: <20200909161430.1789-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,45 +94,27 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the error on msys2/mingw
-Running test test-io-channel-file
-**
-ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
-ERROR test-io-channel-file - Bail out! ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
+drain_call_rcu is necessary on win32, because under win32, if you
+don't close the file before remove it, the remove would be fail.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/test-io-channel-file.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ tests/test-logging.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/test-io-channel-file.c b/tests/test-io-channel-file.c
-index bac2b07562..1b0e8d7c1b 100644
---- a/tests/test-io-channel-file.c
-+++ b/tests/test-io-channel-file.c
-@@ -28,6 +28,12 @@
- #define TEST_FILE "tests/test-io-channel-file.txt"
- #define TEST_MASK 0600
+diff --git a/tests/test-logging.c b/tests/test-logging.c
+index 783fe09a27..8b1522cfed 100644
+--- a/tests/test-logging.c
++++ b/tests/test-logging.c
+@@ -210,6 +210,8 @@ int main(int argc, char **argv)
+                          tmp_path, test_logfile_lock);
  
-+#ifdef _WIN32
-+#define TEST_MASK_EXPECT 0700
-+#else
-+#define TEST_MASK_EXPECT 0777
-+#endif
-+
- static void test_io_channel_file_helper(int flags)
- {
-     QIOChannel *src, *dst;
-@@ -56,7 +62,9 @@ static void test_io_channel_file_helper(int flags)
-     umask(mask);
-     ret = stat(TEST_FILE, &st);
-     g_assert_cmpint(ret, >, -1);
--    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & 0777);
-+    /* On Windows the stat() function in the C library checks only
-+     the FAT-style READONLY attribute and does not look at the ACL at all. */
-+    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & TEST_MASK_EXPECT);
+     rc = g_test_run();
++    qemu_log_close();
++    drain_call_rcu();
  
-     unlink(TEST_FILE);
-     object_unref(OBJECT(src));
+     rmdir_full(tmp_path);
+     return rc;
 -- 
 2.28.0.windows.1
 
