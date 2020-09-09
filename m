@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E269262673
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 06:49:47 +0200 (CEST)
-Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D05262689
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 06:57:22 +0200 (CEST)
+Received: from localhost ([::1]:40278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFs3G-0005LX-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 00:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51876)
+	id 1kFsAb-0000Tf-Ns
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 00:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFs2b-0004w1-IX
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 00:49:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59356
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFs9r-0008BR-ES
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 00:56:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45578
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFs2Z-0005M6-Dg
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 00:49:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kFs9p-0006F2-El
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 00:56:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599626941;
+ s=mimecast20190719; t=1599627392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FRahnxs0MJd3JFNv20KXFByOIgzunZ5qG6CxkdE0pJ4=;
- b=II/vdtsQ3eJk5mUUp5bGDMoAgGSrVzqjgw13dxL8E66uImeua/ZrxxsPzU6FzIEjKYHapy
- 6ttmxHxsHI+57Vz/fvx5cvvn6/FfTZ9cviMz4s9lQTEM1yKrl5KQnmc6H3iVqvXuYY1Y9i
- Qa0ygnD+FDzlbz9dfoJ9anG2PITDSLE=
+ bh=2c0NZqL5UY/FBQNyUdwnR+nnC0UpTBt8Ow0uPU1/nOQ=;
+ b=WGdfYUzhyUzDw08tcSoj7xr7640YzQDD5JA7FuBgQHnYmERZSC8pNRD8RGrPq8Y1hTgoWL
+ iEAv2jGNouKU8tivI3EOcVvRu9PRMP709wNkDJJRlrwJSS4v9NlOKkGc189fk/38P8v8AM
+ wkMtRyaWXYI42FYhFnSsmOk6dsL9iJw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-4xr8CeJiN7G3VeQ7LUza8g-1; Wed, 09 Sep 2020 00:49:00 -0400
-X-MC-Unique: 4xr8CeJiN7G3VeQ7LUza8g-1
+ us-mta-91-LGeKmdNiM4Gj3AGqjOxCFA-1; Wed, 09 Sep 2020 00:56:28 -0400
+X-MC-Unique: LGeKmdNiM4Gj3AGqjOxCFA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 423EB1084C81;
- Wed,  9 Sep 2020 04:48:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16CF51084D64;
+ Wed,  9 Sep 2020 04:56:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA9541A8EC;
- Wed,  9 Sep 2020 04:48:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D7481A8EC;
+ Wed,  9 Sep 2020 04:56:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CC19D9D77; Wed,  9 Sep 2020 06:48:56 +0200 (CEST)
-Date: Wed, 9 Sep 2020 06:48:56 +0200
+ id 7689B9D77; Wed,  9 Sep 2020 06:56:24 +0200 (CEST)
+Date: Wed, 9 Sep 2020 06:56:24 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC 1/4] memory: add memory_region_init_io_with_dev interface
-Message-ID: <20200909044856.lvk77pcfvt567ub6@sirius.home.kraxel.org>
-References: <20200908164157.47108-1-liq3ea@163.com>
- <20200908164157.47108-2-liq3ea@163.com>
- <48a99ece-d808-f860-2551-0fec05ec5b01@redhat.com>
+To: Yonggang Luo <luoyonggang@gmail.com>
+Subject: Re: [PATCH 03/16] configure: Fixes ncursesw detection under
+ msys2/mingw and enable curses
+Message-ID: <20200909045624.63bfkchvaerwvp5c@sirius.home.kraxel.org>
+References: <20200908194820.702-1-luoyonggang@gmail.com>
+ <20200908194820.702-4-luoyonggang@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <48a99ece-d808-f860-2551-0fec05ec5b01@redhat.com>
+In-Reply-To: <20200908194820.702-4-luoyonggang@gmail.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 00:49:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/08 21:50:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,29 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, dmitry.fleytman@gmail.com, berrange@redhat.com,
- ehabkost@redhat.com, liq3ea@gmail.com, Li Qiang <liq3ea@163.com>,
- f4bug@amsat.org, qemu-devel@nongnu.org, alxndr@bu.edu, pbonzini@redhat.com,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
+ Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 10:15:47AM +0800, Jason Wang wrote:
+On Wed, Sep 09, 2020 at 03:48:07AM +0800, Yonggang Luo wrote:
+> The mingw pkg-config are showing following absolute path and contains : as the separator,
+> so we must handling : properly.
 > 
-> On 2020/9/9 上午12:41, Li Qiang wrote:
-> > Currently the MR is not explicitly connecting with its device instead of
-> > a opaque. In most situation this opaque is the deivce but it is not an
-> > enforcement. This patch adds a DeviceState member of to MemoryRegion
-> > we will use it in later patch.
+> -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC:/CI-Tools/msys64/mingw64/include/ncursesw:-I/usr/include/ncursesw:
+> -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+> -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lncursesw
+> -DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lcursesw
+> -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+> -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lncursesw
+> -DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lcursesw
+> -DNCURSES_WIDECHAR -I/usr/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+> -DNCURSES_WIDECHAR -I/usr/include/ncursesw -lncursesw
+> -DNCURSES_WIDECHAR -I/usr/include/ncursesw -lcursesw
 > 
+> msys2/mingw lacks the POSIX-required langinfo.h.
 > 
-> I don't have a deep investigation. But I wonder whether we could make sure
-> of owner instead of adding a new field here.
+> gcc test.c -DNCURSES_WIDECHAR -I/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+> test.c:4:10: fatal error: langinfo.h: No such file or directory
+>     4 | #include <langinfo.h>
+>       |          ^~~~~~~~~~~~
+> compilation terminated.
+> 
+> So we using g_get_codeset instead of nl_langinfo(CODESET)
+> 
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 
-Should be possible.  There is object_dynamic_cast() which can be used to
-figure whenever a given owner object is a device.
-
-take care,
-  Gerd
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 
 
