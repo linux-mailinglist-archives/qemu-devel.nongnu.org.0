@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D58F262FE9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:43:32 +0200 (CEST)
-Received: from localhost ([::1]:57172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39407262FF5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:46:38 +0200 (CEST)
+Received: from localhost ([::1]:45948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG1Jr-0003f6-F4
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55510)
+	id 1kG1Mr-0002C8-6B
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kG1Ia-0002BX-PU
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:12 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:45802 helo=huawei.com)
+ id 1kG1Ii-0002Nh-Cj
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:20 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4683 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kG1IY-0006zN-Ow
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:12 -0400
+ id 1kG1Ig-00070l-Ah
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:19 -0400
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 8F502D2FE3841BC48FB9;
- Wed,  9 Sep 2020 22:42:02 +0800 (CST)
+ by Forcepoint Email with ESMTP id EB2C86CC4B218949602A;
+ Wed,  9 Sep 2020 22:42:07 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Wed, 9 Sep 2020
  22:41:57 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
  <berrange@redhat.com>
-Subject: [RFC][PATCH v1 0/7] *** Add Multifd support for TLS migration ***
-Date: Wed, 9 Sep 2020 22:52:50 +0800
-Message-ID: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v1 1/7] migration/tls: save hostname into MigrationState
+Date: Wed, 9 Sep 2020 22:52:51 +0800
+Message-ID: <1599663177-53993-2-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
+References: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 10:42:03
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 10:42:09
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -64,52 +66,60 @@ Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TLS migration could easily reach bottleneck of cpu because of encryption
-and decryption in migration thread.
-In our test, the tls migration could only reach 300MB/s under bandwidth
-of 500MB/s.
+hostname is need in multifd-tls, save hostname into MigrationState
 
-Inspired by multifd, we add multifd support for tls migration to make fully
-use of given net bandwidth at the cost of multi-cpus and could reduce
-at most of 100% migration time with 4U16G test vm.
+Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+Signed-off-by: Yan Jin <jinyan12@huawei.com>
+---
+ migration/channel.c   | 5 +++++
+ migration/migration.c | 1 +
+ migration/migration.h | 5 +++++
+ 3 files changed, 11 insertions(+)
 
-Evaluate migration time of migration vm.
-The VM specifications for migration are as follows:
-- VM use 4-K page;
-- the number of VCPU is 4;
-- the total memory is 16Gigabit;
-- use 'mempress' tool to pressurize VM(mempress 4096 100);
-- migration flag is 73755 (8219 + 65536 (TLS)) vs 204827 (8219 + 65536 (TLS) + 131072(Multifd))
-
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-|                      |         TLS           |      MultiFD + TLS (2 channel)    |
---------------------------------------------------------t---------------------------
-| mempress 1024 120    |       25.035s         |           15.067s                 |
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-| mempress 1024 200    |       48.798s         |           25.334s                 |
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-| mempress 1024 300    |   Migration Failed    |           25.617s                 |
-------------------------------------------------------------------------------------
-
-Chuan Zheng (7):
-  migration/tls: save hostname into MigrationState
-  migration/tls: extract migration_tls_client_create for common-use
-  migration/tls: add MigrationState into MultiFDSendParams
-  migration/tls: extract cleanup function for common-use
-  migration/tls: add support for tls check
-  migration/tls: add support for multifd tls-handshake
-  migration/tls: add trace points for multifd-tls
-
- migration/channel.c    |   5 ++
- migration/migration.c  |   1 +
- migration/migration.h  |   5 ++
- migration/multifd.c    | 121 +++++++++++++++++++++++++++++++++++++++++++------
- migration/multifd.h    |   2 +
- migration/tls.c        |  26 +++++++----
- migration/tls.h        |   6 +++
- migration/trace-events |   5 ++
- 8 files changed, 149 insertions(+), 22 deletions(-)
-
+diff --git a/migration/channel.c b/migration/channel.c
+index 20e4c8e..2af3069 100644
+--- a/migration/channel.c
++++ b/migration/channel.c
+@@ -66,6 +66,11 @@ void migration_channel_connect(MigrationState *s,
+     trace_migration_set_outgoing_channel(
+         ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+ 
++    /* Save hostname into MigrationState for handshake */
++    if (hostname) {
++        s->hostname = g_strdup(hostname);
++    }
++
+     if (!error) {
+         if (s->parameters.tls_creds &&
+             *s->parameters.tls_creds &&
+diff --git a/migration/migration.c b/migration/migration.c
+index 58a5452..e20b778 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1883,6 +1883,7 @@ void migrate_init(MigrationState *s)
+     s->migration_thread_running = false;
+     error_free(s->error);
+     s->error = NULL;
++    s->hostname = NULL;
+ 
+     migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
+ 
+diff --git a/migration/migration.h b/migration/migration.h
+index ae497bd..758f803 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -261,6 +261,11 @@ struct MigrationState
+      * (which is in 4M chunk).
+      */
+     uint8_t clear_bitmap_shift;
++
++    /*
++     * This save hostname when out-going migration starts
++     */
++    char *hostname;
+ };
+ 
+ void migrate_set_state(int *state, int old_state, int new_state);
 -- 
 1.8.3.1
 
