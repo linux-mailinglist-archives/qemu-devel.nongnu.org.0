@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A102262AB9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:45:04 +0200 (CEST)
-Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B05B262AA7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:43:24 +0200 (CEST)
+Received: from localhost ([::1]:55112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFviw-0002yW-M8
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41798)
+	id 1kFvhL-0007ux-B0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kFvfP-0004vQ-2I
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:41:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60354
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kFvfM-0007WX-UL
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:41:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599640879;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/j+2hB4V9Vveviuwy7lOS9bHrvp1WFDGjHt52J0cmhs=;
- b=SDjsnLXpqfzqFixCdGzONRANTHmh9P4YmRcSh7fmfaG/SROKweCJNdpU8DsBJfy/ISstq+
- GJOPFxb3JQdsBq5DwlOhTjENPie9bagmt+YXDXrEToULTj3NcmUJ10hwAbEFVA7ZKAIYFt
- Cz/VjHSPNvKl0ykKKx+Z9lYlfiPaSMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-qVHo4bboMNyheVMArf1LNw-1; Wed, 09 Sep 2020 04:41:14 -0400
-X-MC-Unique: qVHo4bboMNyheVMArf1LNw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C6C98015F6;
- Wed,  9 Sep 2020 08:41:13 +0000 (UTC)
-Received: from localhost (ovpn-114-244.ams2.redhat.com [10.36.114.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B16AA5C1C4;
- Wed,  9 Sep 2020 08:41:10 +0000 (UTC)
-Date: Wed, 9 Sep 2020 09:41:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v4 2/2] rcu: add uninit destructor for rcu
-Message-ID: <20200909084107.GE12090@stefanha-x1.localdomain>
-References: <20200908151052.713-1-luoyonggang@gmail.com>
- <20200908151052.713-3-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFvgA-0006D5-C6; Wed, 09 Sep 2020 04:42:10 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kFvg8-0007hC-Kc; Wed, 09 Sep 2020 04:42:10 -0400
+Received: by mail-lj1-x243.google.com with SMTP id b19so2403250lji.11;
+ Wed, 09 Sep 2020 01:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=NDABxyVyl1pQooZpojSpIpc+FlozjQKM/r8a8BjFwX4=;
+ b=FcNiaMBw0HBPk2cXQ62q1Ga7q4A/bCUts0K1vDxuhDYRmGQXC4XUvYsOjy0HfNxLHt
+ IrAo0DOnGmUs5Mqf1rijCwDJujyYtbEFwB6o47RcRrYYNTHqs35JJtkAMt7j/tv94/WD
+ hXCkOMuOULbMGmP/cDm4YGvsWY1BATSa5cHteOe0XWu5trflRmW+if0h1QH1rrQinKKY
+ /x+WLKVtX2hZoPTmi81cJPSDl7fxmR7pIiBn+RZEnNX3BIZEDvj/mmogEscMLA42+Ijp
+ IldWQlUVr9hWSJWUea+A1Hly8gAkL8Ls1joTjbn3evkvd3JpHnrUJTRADo6/TwbY9ycN
+ 4tYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=NDABxyVyl1pQooZpojSpIpc+FlozjQKM/r8a8BjFwX4=;
+ b=cBgTmZpfR5rStSOiPosrvKmYbQCjqYwOBLg8/d6TTVzcxMO1DZhzy4ZuV9/PfGizKt
+ ome4QFcQi2RdBOkEV+1N0/k5Tl6fwDqhzD5qgxzas2Xn30N1++bkcw0y/r24dGJOpxe/
+ Jb3F415Bs34w9DTtbX4XqgOKRrdfpcdQxXTEIsf/DRktV3srup0TkrQ1YCxYJcmRtCU9
+ UbPir+ee4HVo0uyOSPAQ3CPl/1PM8ltlaBe/ABvESJc51pJBxLUQC1TiVVh6rM95SChb
+ cMNiBxdGbH5KhTrDMjP0DmuA9tlgy8TWw6WFFn2QQtgt/C+7lkJSO59Q3vSkVJhH004R
+ 6dFw==
+X-Gm-Message-State: AOAM5328Qdlei0ejz98uzi2QlmDs3bmQK7zjCccwXuZ1g5oCrh04m+A3
+ 1MaNPcM+fmi3Jz01N4vJeK1E2E2/ao7bRgGmthY=
+X-Google-Smtp-Source: ABdhPJzkPiwnTNwpZlrHWjQMrstK/ef9FK5+nPaL5aj11Up4z+9hTXXAenOEmqEbU67Us0oQUh5Mei+rXh4c7criZ5I=
+X-Received: by 2002:a2e:854c:: with SMTP id u12mr1322402ljj.120.1599640926351; 
+ Wed, 09 Sep 2020 01:42:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200908151052.713-3-luoyonggang@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Rgf3q3z9SdmXC6oT"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:13:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200908194820.702-1-luoyonggang@gmail.com>
+ <20200908194820.702-9-luoyonggang@gmail.com>
+ <20200909081931.GC5219@linux.fritz.box>
+In-Reply-To: <20200909081931.GC5219@linux.fritz.box>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Wed, 9 Sep 2020 16:41:55 +0800
+Message-ID: <CAE2XoE-g=jw_=j8RbZ29FBrERt6mj8WHbR2Pt9LQ0PaC2tg96g@mail.gmail.com>
+Subject: Re: [PATCH 08/16] block: get file-win32.c handle locking option
+ consistence with file-posix.c
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000002ef3c205aedd6dc2"
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,160 +80,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Daniel Brodsky <dnbrdsky@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: Peter Lieven <pl@kamp.de>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Qemu-block <qemu-block@nongnu.org>,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Rgf3q3z9SdmXC6oT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--0000000000002ef3c205aedd6dc2
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 08, 2020 at 11:10:52PM +0800, Yonggang Luo wrote:
-> This is necessary if the pending  rcu calls are closing and removing
-> temp files. This also provide a function
-> void rcu_wait_finished(void);
-> to fixes test-logging.c test failure on msys2/mingw.
-> On windows if the file doesn't closed, you can not remove it.
->=20
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> ---
->  include/qemu/rcu.h   |  5 +++++
->  tests/test-logging.c |  2 ++
->  util/rcu.c           | 37 ++++++++++++++++++++++++++++++++++++-
->  3 files changed, 43 insertions(+), 1 deletion(-)
+On Wed, Sep 9, 2020 at 4:19 PM Kevin Wolf <kwolf@redhat.com> wrote:
 
-Can the new drain_call_rcu() function be used? Maxim recently posted the
-following patch:
-https://patchew.org/QEMU/20200831150124.206267-1-mlevitsk@redhat.com/202008=
-31150124.206267-3-mlevitsk@redhat.com/
+> Am 08.09.2020 um 21:48 hat Yonggang Luo geschrieben:
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > ---
+> >  block/file-win32.c | 23 +++++++++++++++++++++--
+> >  1 file changed, 21 insertions(+), 2 deletions(-)
+>
+> This is almost the same as my separately posted 'file-win32: Fix
+> "locking" option', except that you changed the order of variable
+> definitions which will cause a merge conflict.
+>
+> When you take patches from other people, you should correctly attribute
+> them and not make them look as if they were your own.
+>
+> Commit messages should not be empty, but explain the motivation for the
+> change.
+>
+I know someone else have already have fixes for it, so I didn't detail it
+much, Ineed
+I wanna skip it when sending patches, but  git-publish.py didn't handle it
+well under Win32 yet
 
-Whether drain_call_rcu() or rcu_wait_finished() is used, please include
-a comment in the code that documents why the wait is necessary. For
-example, "qemu_log_close() uses RCU for its FILE pointer but Windows
-cannot remove open files, so we need to wait for RCU here".
+>
+> In this case, dropping the patch is easiest because my patch is already
+> in a pull request and will probably be merged soon.
+>
+I am waiting it to merged, at the current stage, if I don't include this
+patch the
+test runner will fail.
 
-Another option is to wait for RCU inside qemu_log_close() so that
-callers don't need to worry about this implementation detail:
+>
+> Kevin
+>
+>
 
-  #ifdef _WIN32
-  /* Windows cannot remove open files so we need to wait for RCU here */
-  drain_call_rcu();
-  #endif
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-> index 570aa603eb..dd0a92c1d0 100644
-> --- a/include/qemu/rcu.h
-> +++ b/include/qemu/rcu.h
-> @@ -124,6 +124,11 @@ extern void rcu_unregister_thread(void);
->  extern void rcu_enable_atfork(void);
->  extern void rcu_disable_atfork(void);
-> =20
-> +/*
-> + * Wait all rcu call executed and exit the rcu thread.
-> + */
-> +extern void rcu_wait_finished(void);
-> +
->  struct rcu_head;
->  typedef void RCUCBFunc(struct rcu_head *head);
-> =20
-> diff --git a/tests/test-logging.c b/tests/test-logging.c
-> index 957f6c08cd..7a5b59f4a5 100644
-> --- a/tests/test-logging.c
-> +++ b/tests/test-logging.c
-> @@ -210,6 +210,8 @@ int main(int argc, char **argv)
->                           tmp_path, test_logfile_lock);
-> =20
->      rc =3D g_test_run();
-> +    qemu_log_close();
-> +    rcu_wait_finished();
-> =20
->      rmdir_full(tmp_path);
->      g_free(tmp_path);
-> diff --git a/util/rcu.c b/util/rcu.c
-> index 60a37f72c3..43367988b9 100644
-> --- a/util/rcu.c
-> +++ b/util/rcu.c
-> @@ -308,10 +308,20 @@ void rcu_unregister_thread(void)
->      qemu_mutex_unlock(&rcu_registry_lock);
->  }
-> =20
-> +typedef struct QemuRcuMessage {
-> +    struct rcu_head rcu;
-> +    void *message;
-> +} QemuRcuMessage;
-> +
-> +static int rcu_thread_exit_called =3D 0;
-> +static int rcu_thread_exited =3D 0;
-> +static QemuRcuMessage rcu_thread_message;
-> +
->  static void rcu_init_complete(void)
->  {
->      QemuThread thread;
-> -
-> +    atomic_mb_set(&rcu_thread_exit_called, 0);
-> +    atomic_mb_set(&rcu_thread_exited, 0);
->      qemu_mutex_init(&rcu_registry_lock);
->      qemu_mutex_init(&rcu_sync_lock);
->      qemu_event_init(&rcu_gp_event, true);
-> @@ -327,6 +337,26 @@ static void rcu_init_complete(void)
->      rcu_register_thread();
->  }
-> =20
-> +static void rcu_thread_exit(QemuRcuMessage *param)
-> +{
-> +    atomic_mb_set((int*)param->message, 1);
-> +    qemu_thread_exit(NULL);
-> +}
-> +
-> +void rcu_wait_finished(void)
-> +{
-> +    if (atomic_xchg(&rcu_thread_exit_called, 1) =3D=3D 0)
-> +    {
-> +        rcu_thread_message.message =3D &rcu_thread_exited;
-> +        call_rcu(&rcu_thread_message, rcu_thread_exit, rcu);
-> +    }
-> +
-> +    while (atomic_mb_read(&rcu_thread_exited) =3D=3D 0)
-> +    {
-> +        g_usleep(10000);
-> +    }
-> +}
-> +
->  static int atfork_depth =3D 1;
-> =20
->  void rcu_enable_atfork(void)
-> @@ -379,3 +409,8 @@ static void __attribute__((__constructor__)) rcu_init=
-(void)
->  #endif
->      rcu_init_complete();
->  }
-> +
-> +static void __attribute__((__destructor__)) rcu_uninit(void)
-> +{
-> +    rcu_wait_finished();
-> +}
-> --=20
-> 2.28.0.windows.1
->=20
+--0000000000002ef3c205aedd6dc2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---Rgf3q3z9SdmXC6oT
-Content-Type: application/pgp-signature; name="signature.asc"
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 9, 2020 at 4:19 PM Kevin =
+Wolf &lt;<a href=3D"mailto:kwolf@redhat.com">kwolf@redhat.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Am 08.09.2020 =
+um 21:48 hat Yonggang Luo geschrieben:<br>
+&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.co=
+m" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 block/file-win32.c | 23 +++++++++++++++++++++--<br>
+&gt;=C2=A0 1 file changed, 21 insertions(+), 2 deletions(-)<br>
+<br>
+This is almost the same as my separately posted &#39;file-win32: Fix<br>
+&quot;locking&quot; option&#39;, except that you changed the order of varia=
+ble<br>
+definitions which will cause a merge conflict.<br>
+<br>
+When you take patches from other people, you should correctly attribute<br>
+them and not make them look as if they were your own.<br>
+<br>
+Commit messages should not be empty, but explain the motivation for the<br>
+change.<br></blockquote><div>I know someone else have already have fixes fo=
+r it, so I didn&#39;t detail it much, Ineed</div><div>I wanna skip it when =
+sending patches, but=C2=A0 git-publish.py didn&#39;t handle it well under W=
+in32 yet=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+In this case, dropping the patch is easiest because my patch is already<br>
+in a pull request and will probably be merged soon.<br></blockquote><div>I =
+am waiting it to merged, at the current stage, if I don&#39;t include this =
+patch the</div><div>test runner will fail.=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+<br>
+Kevin<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div></div>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9YlSMACgkQnKSrs4Gr
-c8jBOwgAyFO0KBTSwz5l8t+09b8r1kFUszlfmIKTJjK7VRwYHNsuySF0UiBjqjcd
-C5YhRu9WwQTLo/AX5z8Ok2Xvb6bukgH1KiE1jZNeo66eUm+3wiAEnXJ4ttXqYAxh
-tBnuOJHQwt6WOpqpgsWE1BQTo6UUCdWk+asjQ+FHsTs3NRgvLFURycPIsfNFQ7LN
-esSpi2gXo7313fXthBKX2niPbMLOnSj8/o3QjQKTTbnbd2Gb5R9FUf1ri7S/P4lo
-MnNkFU1KOIjkAibpSKtq0Z+hmw0tu9qzYkotMrJ7jqCEVmVgt8Z+WaG6uoMjC/ca
-ZjyTiztmovitvium6DeBGWeP6xsWgw==
-=Ea6Q
------END PGP SIGNATURE-----
-
---Rgf3q3z9SdmXC6oT--
-
+--0000000000002ef3c205aedd6dc2--
 
