@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AF9263679
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 21:09:19 +0200 (CEST)
-Received: from localhost ([::1]:46706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E821226365E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 21:02:00 +0200 (CEST)
+Received: from localhost ([::1]:37108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG5T4-00089f-Lc
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 15:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60870)
+	id 1kG5Lz-00012k-VZ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 15:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kG5KJ-0007OQ-Nx; Wed, 09 Sep 2020 15:00:15 -0400
-Received: from mail-eopbgr70097.outbound.protection.outlook.com
- ([40.107.7.97]:14387 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1kG5KC-00077j-Ru; Wed, 09 Sep 2020 15:00:08 -0400
+Received: from mail-eopbgr00097.outbound.protection.outlook.com
+ ([40.107.0.97]:61422 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kG5KH-0001M1-Ft; Wed, 09 Sep 2020 15:00:15 -0400
+ id 1kG5KA-0001PE-HY; Wed, 09 Sep 2020 15:00:08 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ednNCjXdB9Isas3VzrjFurXKCzYDWs+hLtSN5zZK78UZsCXgc0WLTvt6RGzeEj9AMa49fQcImOZleOo3uBKTIh8+3YelULv4LiHvAOew9YHcanpk7wCx4WcW4FcN/VEiBC7pKmjWEwvi6D80RT9kMh8GGGq/65mAw3/Da00WDKZbzdjQDAz64vn/3w+l7ETSC8I5O2wVydHlPit5BoG9wIHt37so3kB81TmhaD3uJse5sk265VN1QwbyQbW2D6cAjzD5C7he5caS1sKQSWCyUcdrcHJT7H7dOSlEXeD8qfxS0BION0nqI6l2EbQ+rRWFBtYoUvj4bmVm2ypGiLf9TQ==
+ b=oVRzJ+OHONJ5eEmz5mN6cTuiDvvhvnCRbJDTx+t28UGP5CC6A/TwsCjIWrm009X/ZSBEBLrmlTDw/Z70SzdtT1fMpFz5eEliiB0wPFzZCqk7lwpgvb+nh14i3EiPzP0jLILA8Sp5ix7a8k68boTJnMO0NIsHJuko0OxWMPNu6y94viAlwv7Me4PIQYRf7kBIB2sWVE3DiBu3jNMhwX0YPdj3CE8DuWFoafqwu+ds4ovs5fNhheGdUKAKIfaJUaDrO/Je3T9ENBVK3byDJgngji+uIjC7xL/yJbk1VjIDP8ABLzokSXdrlRdbCt0dtQhk3SrB3mmcJoDYATyIpN3Dkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dusX2j1Jt5SPLqTE3CkDdy31iOn4Gh9J9A6f7Oye8M=;
- b=mbv0cEC5PNHAyG1JJKuV1mO5PvT2hbkgH6A7KXGpUkKZUnKR9z4+NHqHJz37ASVhn83l/DCWZN8QlOW6MITAnEItT8rh93BvG6rQPrP/bxaTQ4FzChtyt+dwiBu9YVxotVmKLrjd+HAGkeZWscdNeYK6W1ojm7Q+mifGKdRknyfk9/zrBAG2mX2XzONOxtSTcE7oMUdbI09wIRN/EPZ2RPkdN6qGr7MxW9bxk2ngF4O640vANPxZC/pUPSUPVc2eLqcZ0beeL3U+nFqGd1Vqij+zyF1Ufcv+q9PWt8Ua2Q5TyN/xyhjCzO9HiDtXxL+u9ySgXd/dDY1uimJXqjI7Gg==
+ bh=4Gf4wp9OSntv17rUPSQmy4ig6Uk5a8Ed30bse9iICuE=;
+ b=Tq8Q0cZ28iaewczhJK14uc0I2fYbuhMSyI3qKgbkOCuQUnHKai/rXND+WcxKZ4diP/bqaQ8SsX6NJIFOIE6mF2ba6GuiDQt/9PtmJvqy/n0m+NldpRv5+EqBGL+deSz2CfBWPJWJDO6zBPO8DNrQqS/By7rKx/LcK+cgSaL3yb1ju3YohZpya0iMdEGw4C32kfnSo5uJaW4c3g6UdeG1VC78hymp2dRuSRQQ9dEA5s4Zps1NkXRIZuv0toPiWVW+KhZr+I9nfyLCJ11aHx0aIItohER93mxFcNudECDYs/lunRA59DFMeRD+JqhfwX2QESyG5HXq/xwFFNHTiyeCeg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dusX2j1Jt5SPLqTE3CkDdy31iOn4Gh9J9A6f7Oye8M=;
- b=t00rc2sosBuLcrZKFSWLkyQnse58rW4Jmxjmyv9P7WXlw7g8ncfUwb9wj+ARfE/NXrQmymx2Mg/SSts2fToBTPxYaTKdU3JwZBJe4xNhV9iDoHR+sC4R86rAOcg4lUn9LYDnUSi98NI2AxgYSj4+1wq/TkD+uKUX3S6aZ/SFJ78=
+ bh=4Gf4wp9OSntv17rUPSQmy4ig6Uk5a8Ed30bse9iICuE=;
+ b=UhQcip1lqSfnW3puuOBKJeVuMEChx/USEOVcvOYQyO3jZZNi2xdIwsOm4b+Snu+h8jqYqUmGfB9x7O6LykKlbSpF+NDugkb0CGTzoyxUOL4drlEGkOpuBxrAUCiOssfzAY+P76L7J6WM07W6JdAdPy4ADF8fsmeKdzRULixqjLA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3445.eurprd08.prod.outlook.com (2603:10a6:20b:43::21)
+ by AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Wed, 9 Sep
- 2020 19:00:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Wed, 9 Sep
+ 2020 19:00:02 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692%7]) with mapi id 15.20.3348.019; Wed, 9 Sep 2020
- 19:00:00 +0000
+ 19:00:02 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, berto@igalia.com,
  vsementsov@virtuozzo.com, eblake@redhat.com, jsnow@redhat.com,
  stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
  ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com, groug@kaod.org
-Subject: [PATCH 09/14] block/qcow2: qcow2_get_specific_info(): drop error
- propagation
-Date: Wed,  9 Sep 2020 21:59:25 +0300
-Message-Id: <20200909185930.26524-10-vsementsov@virtuozzo.com>
+Subject: [PATCH 10/14] block/qcow2-bitmap: improve qcow2_load_dirty_bitmaps()
+ interface
+Date: Wed,  9 Sep 2020 21:59:26 +0300
+Message-Id: <20200909185930.26524-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200909185930.26524-1-vsementsov@virtuozzo.com>
 References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
@@ -67,37 +67,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.136) by
  AM3PR07CA0054.eurprd07.prod.outlook.com (2603:10a6:207:4::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.5 via Frontend Transport; Wed, 9 Sep 2020 18:59:59 +0000
+ 15.20.3391.5 via Frontend Transport; Wed, 9 Sep 2020 19:00:00 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.136]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 599333cf-1a19-45f0-e198-08d854f28d60
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3445:
+X-MS-Office365-Filtering-Correlation-Id: dc078539-b22a-40fb-c764-08d854f28e06
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4070:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3445C19056F823DB1B57C04BC1260@AM6PR08MB3445.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:256;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4070F25FA37DD64C69DD3262C1260@AM6PR08MB4070.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:949;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n3qRVwYL60AEx0I3v96EX/J1BAmlhEfqBKh7ji4vHlMIkfa4sKY1pVtP3eufaY2/qkX5qRcZUT1dOgK4s+cn89VpPFihKF3VyOLxR35tDd5OWDYkl1Y553feRY5vRAQ0nvhVW91iDxz7/raPYQHMGdz7kaNCFBUHt0zTHmlx/JP5kUD0I77+zXXs+9Kf3DGwqmfVClX0P5PSEf7mJy1arWGibxPhFHA//ZsUh/WVeWHVJZsv1mFOe2e/mTkYCjwbHwPpbyhXzpGg9dtIBNkdcRMNlOmBsVEGiTHJuUzHF9vRE+9H+jpEZMU+XjeVit0e
+X-Microsoft-Antispam-Message-Info: RpS4OI5i/PdoOnfojiEMFqmKTQixUB3n+ahDvzhX2tgWGuBhjV+kC1KH9pUzb8YsZKaqyy22lq/DSsvcCHNQ6GX+AOUJg1pHYS9GQ1+jTEtAyglwu6dFVlXe8QAM0mz5Wv8YT17ir+Z7jml8R1F3/SdQFup9NQTroWlc60QU81XX/r98pQMpUcf56Avwah7ew+9kXrMbo625hPoaUKXZc8cr7vz+d5shkJyfjNzMilI1GpjIvQQM9+zBADQIpyaCitnKz3mwLWIpmVscXrw3ZBDnzPmI3VgIzdgOzGnA5tBM44HHjWowpXedlzKzw7DBzwbtbsIFcu7W1TOnP6JL4eJ5mtCfP8AYfJ4KVAPs6wKeU+wBfCn9NLHt3kKqNwuL
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(136003)(39840400004)(376002)(346002)(66946007)(52116002)(83380400001)(2616005)(956004)(2906002)(6666004)(8676002)(6512007)(1076003)(86362001)(5660300002)(26005)(36756003)(6916009)(478600001)(6506007)(8936002)(316002)(16526019)(66556008)(19627235002)(186003)(66476007)(7416002)(6486002)(4326008);
+ SFS:(4636009)(366004)(39840400004)(396003)(136003)(376002)(346002)(26005)(316002)(8936002)(19627235002)(8676002)(16526019)(186003)(478600001)(5660300002)(6506007)(7416002)(6512007)(83380400001)(6666004)(4326008)(36756003)(52116002)(2906002)(6486002)(66556008)(66476007)(956004)(6916009)(2616005)(86362001)(1076003)(66946007)(14143004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 1BBEarLH+zVJTKus0owgqU9GUYuDYdSarLEPIiBvCX0xWLKNBIcZJv+4ebTWel+tm2DxU/YGYWuKWtwa94+BtYrH+wN/xcH5s6RCu2uwuN1aKVSAtwqZzFiMDzBwCEhJYEFFloHQg5qDGxWoCqzTFG3dLVUUZzQCnrFaUvJ3J8UfpLFfKK7LNLiW7eaBnLg48SJ/j7JJ7y5sPiRgni2H+UvD2Pe4qQtmaNskbO+Qj48pdFj4MzXhK0fSpXCjqrSTDBEInSjdrLFT2924A9nyC1J2xVnLjTxRC44WNUp6BAxs4ZmGpCAhD+VzutVt8gWDwUSy3qqDCPvHT30dmuwoxkVHlsSrC0FWESesEUlUk5gGmNQ69xxfQfElMtmsHUg5Bqte7tdZlRMrniVIkw038j0nERJSd8Y3DpZdEWEnGUKg1XECEA79QUG8liBpBZX4NWsMDfehbpUg8aixGZzdOpNZgogTr7jYyIFvapLd/n8Y0cXKIj6IiC/vJ7DipoVWZlkbfl8io9CRvnO0D55gs9obK0Ondl2LfRM/mh35BMFOO7VxiYvcPSr8F5GhCuydPoreR2dJkUta4Ut/9L7giNRZoRDw1ud9YSJDD3Tz9xknBX3AyeBxqUDdy/8AMQvrWeYC4sRmZ350Agn1aApoqA==
+X-MS-Exchange-AntiSpam-MessageData: xJd8bLpEoM9NqKheW87kRKznXjszXPH6BKpwq/XyhvaYA3CnIXkaZkja74XLipxtXcBXrYXvAd6scqWed4ga7QUdslRBWG4img03vZhWsFdJ4DUsk7r6I6VHOO6rAME62OxYqD0nCzyY3DhukUsGUmfmjtLhztLsPEZvotrnjqIZh3iHQl8eR64Ch61t5xUA5oeNEHFLZvKdB7SGWzj+J6jPtR8gL2c7bSGXpJhgPPN4RBd9xFAg6AR+LfLVlExcKl1Y+CxsHinjTCzH6WbcOoRt7WytC/QQygufNjmBhGqF39UkQrgcQqtU51ENpi0DR76+mTEG7K1TkBuFW2gS2opqQWi1Mf8jAGdJLXBtyMY9274aZIq3rM/ARAxfuwyt9TqRBT0p9Azu85AwAtl3Aw7IPxdDdgaQupbYLNfsoVkV7gg1Q2ssZGAw3Pz5wgT09bAHlpoDlJb4kZP0FDpRb/Tmr5mBXAlNmvmehp45dSVDrfozHS0LQAO11ZXOyvu3KG83SM2e4GozoRV858UvMhhQhvppjJTMJLBZDuBzERFKAY5ScVwELlxH9uJJlS3Y23QO7SnTOJyuSt5Sf7f5brli4NGLZKAueid+DKJ6mYO/FOmh2RcdcAOxjLYoYxhYYXuPL5FHAg21EY7ZXOwE3g==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 599333cf-1a19-45f0-e198-08d854f28d60
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc078539-b22a-40fb-c764-08d854f28e06
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 19:00:00.5492 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 19:00:01.6345 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R960iTS85E75SxCCCpPxx2T6cyaOpl+5sXhI83ExzK1xSsBbUnigzn0VsX9D+f2IwJnyarLGO6DeZU0pK2Fx9MISoyviQDuM+CFPo0VO0Cc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3445
-Received-SPF: pass client-ip=40.107.7.97;
+X-MS-Exchange-CrossTenant-UserPrincipalName: V5kESQTEPz/6xDFCSYgvnpUhxQLM1iCDRc3FibWQBrEKmqEsPiBW4M8VO4+s9I5thwlFBFxzqGHqeKalAVZeoBr5JDsgdfRBqgEWBIcpvqI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4070
+Received-SPF: pass client-ip=40.107.0.97;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 14:59:51
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 15:00:04
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -121,124 +121,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't use error propagation in qcow2_get_specific_info(). For this
-refactor qcow2_get_bitmap_info_list, its current interface rather
-weird.
+It's recommended for bool functions with errp to return true on success
+and false on failure. Non-standard interfaces don't help to understand
+the code. The change is also needed to reduce error propagation.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2.h        |  4 ++--
- block/qcow2-bitmap.c | 27 +++++++++++++--------------
- block/qcow2.c        | 10 +++-------
- 3 files changed, 18 insertions(+), 23 deletions(-)
+ block/qcow2.h        |  3 ++-
+ block/qcow2-bitmap.c | 22 +++++++++-------------
+ block/qcow2.c        |  6 ++----
+ 3 files changed, 13 insertions(+), 18 deletions(-)
 
 diff --git a/block/qcow2.h b/block/qcow2.h
-index 065ec3df0b..ac6a2d3e2a 100644
+index ac6a2d3e2a..e7e662533b 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -967,8 +967,8 @@ int qcow2_check_bitmaps_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
+@@ -966,7 +966,8 @@ void qcow2_cache_discard(Qcow2Cache *c, void *table);
+ int qcow2_check_bitmaps_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
                                    void **refcount_table,
                                    int64_t *refcount_table_size);
- bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, Error **errp);
--Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
--                                                Error **errp);
-+bool qcow2_get_bitmap_info_list(BlockDriverState *bs,
-+                                Qcow2BitmapInfoList **info_list, Error **errp);
+-bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, Error **errp);
++bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, bool *header_updated,
++                              Error **errp);
+ bool qcow2_get_bitmap_info_list(BlockDriverState *bs,
+                                 Qcow2BitmapInfoList **info_list, Error **errp);
  int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp);
- int qcow2_truncate_bitmaps_check(BlockDriverState *bs, Error **errp);
- void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
 diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 8c34b2aef7..9b14c0791f 100644
+index 9b14c0791f..f58923fce3 100644
 --- a/block/qcow2-bitmap.c
 +++ b/block/qcow2-bitmap.c
-@@ -1090,30 +1090,29 @@ static Qcow2BitmapInfoFlagsList *get_bitmap_info_flags(uint32_t flags)
- /*
-  * qcow2_get_bitmap_info_list()
-  * Returns a list of QCOW2 bitmap details.
-- * In case of no bitmaps, the function returns NULL and
-- * the @errp parameter is not set.
-- * When bitmap information can not be obtained, the function returns
-- * NULL and the @errp parameter is set.
-+ * On success return true with bm_list set (probably to NULL, if no bitmaps),
-+ * on failure return false with errp set.
-  */
--Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
--                                                Error **errp)
-+bool qcow2_get_bitmap_info_list(BlockDriverState *bs,
-+                                Qcow2BitmapInfoList **info_list, Error **errp)
+@@ -959,30 +959,24 @@ static void set_readonly_helper(gpointer bitmap, gpointer value)
+     bdrv_dirty_bitmap_set_readonly(bitmap, (bool)value);
+ }
+ 
+-/* qcow2_load_dirty_bitmaps()
+- * Return value is a hint for caller: true means that the Qcow2 header was
+- * updated. (false doesn't mean that the header should be updated by the
+- * caller, it just means that updating was not needed or the image cannot be
+- * written to).
+- * On failure the function returns false.
+- */
+-bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, Error **errp)
++/* Return true on success, false on failure. */
++bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, bool *header_updated,
++                              Error **errp)
  {
      BDRVQcow2State *s = bs->opaque;
      Qcow2BitmapList *bm_list;
      Qcow2Bitmap *bm;
--    Qcow2BitmapInfoList *list = NULL;
--    Qcow2BitmapInfoList **plist = &list;
+     GSList *created_dirty_bitmaps = NULL;
+-    bool header_updated = false;
+     bool needs_update = false;
  
      if (s->nb_bitmaps == 0) {
--        return NULL;
-+        *info_list = NULL;
+         /* No bitmaps - nothing to do */
+-        return false;
 +        return true;
      }
  
      bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
                                 s->bitmap_directory_size, errp);
 -    if (bm_list == NULL) {
--        return NULL;
 +    if (!bm_list) {
-+        return false;
+         return false;
      }
  
-+    *info_list = NULL;
-+
-     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
-         Qcow2BitmapInfo *info = g_new0(Qcow2BitmapInfo, 1);
-         Qcow2BitmapInfoList *obj = g_new0(Qcow2BitmapInfoList, 1);
-@@ -1121,13 +1120,13 @@ Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
-         info->name = g_strdup(bm->name);
-         info->flags = get_bitmap_info_flags(bm->flags & ~BME_RESERVED_FLAGS);
-         obj->value = info;
--        *plist = obj;
--        plist = &obj->next;
-+        *info_list = obj;
-+        info_list = &obj->next;
+@@ -1033,7 +1027,9 @@ bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, Error **errp)
+             error_setg_errno(errp, -ret, "Can't update bitmap directory");
+             goto fail;
+         }
+-        header_updated = true;
++        if (header_updated) {
++            *header_updated = true;
++        }
      }
  
+     if (!can_write(bs)) {
+@@ -1044,7 +1040,7 @@ bool qcow2_load_dirty_bitmaps(BlockDriverState *bs, Error **errp)
+     g_slist_free(created_dirty_bitmaps);
      bitmap_list_free(bm_list);
  
--    return list;
+-    return header_updated;
 +    return true;
- }
  
- int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
+ fail:
+     g_slist_foreach(created_dirty_bitmaps, release_dirty_bitmap_helper, bs);
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 10175fa399..eb7c82120c 100644
+index eb7c82120c..c2cd9434cc 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -5056,12 +5056,10 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
-     BDRVQcow2State *s = bs->opaque;
-     ImageInfoSpecific *spec_info;
-     QCryptoBlockInfo *encrypt_info = NULL;
+@@ -1297,7 +1297,6 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+     unsigned int len, i;
+     int ret = 0;
+     QCowHeader header;
 -    Error *local_err = NULL;
+     uint64_t ext_end;
+     uint64_t l1_vm_state_index;
+     bool update_header = false;
+@@ -1786,9 +1785,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
  
-     if (s->crypto != NULL) {
--        encrypt_info = qcrypto_block_get_info(s->crypto, &local_err);
--        if (local_err) {
+     if (!(bdrv_get_flags(bs) & BDRV_O_INACTIVE)) {
+         /* It's case 1, 2 or 3.2. Or 3.1 which is BUG in management layer. */
+-        bool header_updated = qcow2_load_dirty_bitmaps(bs, &local_err);
+-        if (local_err != NULL) {
 -            error_propagate(errp, local_err);
-+        encrypt_info = qcrypto_block_get_info(s->crypto, errp);
-+        if (!encrypt_info) {
-             return NULL;
++        bool header_updated;
++        if (!qcow2_load_dirty_bitmaps(bs, &header_updated, errp)) {
+             ret = -EINVAL;
+             goto fail;
          }
-     }
-@@ -5078,9 +5076,7 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
-         };
-     } else if (s->qcow_version == 3) {
-         Qcow2BitmapInfoList *bitmaps;
--        bitmaps = qcow2_get_bitmap_info_list(bs, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (!qcow2_get_bitmap_info_list(bs, &bitmaps, errp)) {
-             qapi_free_ImageInfoSpecific(spec_info);
-             qapi_free_QCryptoBlockInfo(encrypt_info);
-             return NULL;
 -- 
 2.21.3
 
