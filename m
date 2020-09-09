@@ -2,131 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BB3262AA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:43:26 +0200 (CEST)
-Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A102262AB9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:45:04 +0200 (CEST)
+Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFvhN-00080I-I9
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41590)
+	id 1kFviw-0002yW-M8
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1kFvex-0004HA-Rl
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:40:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53817)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kFvfP-0004vQ-2I
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:41:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60354
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1kFvew-0007Sn-0a
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:40:55 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kFvfM-0007WX-UL
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:41:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599640852;
+ s=mimecast20190719; t=1599640879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=IHF4P/3W8a0URIc9FG0NeOk7aSfsx6fsVtwhw+zDVbM=;
- b=SwkfaXKKEoAQBt75tQ7HAe1n2rs/IHv1d0m8fiIoBgBa1sbKXelLI0MkjQls3OICKPAj8R
- qRIPEhBCyCRPRlhm9ivqEME676IoWq8pG9SpKvVjD6puZ39VY6zFjy+rLd6MBuM6z/w+Ud
- B6ncIK7juxHcRmthjAw+VjyeSToeOv8=
+ in-reply-to:in-reply-to:references:references;
+ bh=/j+2hB4V9Vveviuwy7lOS9bHrvp1WFDGjHt52J0cmhs=;
+ b=SDjsnLXpqfzqFixCdGzONRANTHmh9P4YmRcSh7fmfaG/SROKweCJNdpU8DsBJfy/ISstq+
+ GJOPFxb3JQdsBq5DwlOhTjENPie9bagmt+YXDXrEToULTj3NcmUJ10hwAbEFVA7ZKAIYFt
+ Cz/VjHSPNvKl0ykKKx+Z9lYlfiPaSMk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-iE7JSjJmPweTSlMjtzMEaQ-1; Wed, 09 Sep 2020 04:40:50 -0400
-X-MC-Unique: iE7JSjJmPweTSlMjtzMEaQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-480-qVHo4bboMNyheVMArf1LNw-1; Wed, 09 Sep 2020 04:41:14 -0400
+X-MC-Unique: qVHo4bboMNyheVMArf1LNw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3910E1DDFA
- for <qemu-devel@nongnu.org>; Wed,  9 Sep 2020 08:40:49 +0000 (UTC)
-Received: from [10.36.113.197] (ovpn-113-197.ams2.redhat.com [10.36.113.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F11F60C87;
- Wed,  9 Sep 2020 08:40:43 +0000 (UTC)
-Subject: Re: [PATCH 1/9] vhost-vdpa: remove the default devname
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <20200831082737.10983-1-jasowang@redhat.com>
- <20200831082737.10983-2-jasowang@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <d2c1b263-7cc0-1ebc-38fe-198c44951bb5@redhat.com>
-Date: Wed, 9 Sep 2020 10:40:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C6C98015F6;
+ Wed,  9 Sep 2020 08:41:13 +0000 (UTC)
+Received: from localhost (ovpn-114-244.ams2.redhat.com [10.36.114.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B16AA5C1C4;
+ Wed,  9 Sep 2020 08:41:10 +0000 (UTC)
+Date: Wed, 9 Sep 2020 09:41:07 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Yonggang Luo <luoyonggang@gmail.com>
+Subject: Re: [PATCH v4 2/2] rcu: add uninit destructor for rcu
+Message-ID: <20200909084107.GE12090@stefanha-x1.localdomain>
+References: <20200908151052.713-1-luoyonggang@gmail.com>
+ <20200908151052.713-3-luoyonggang@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200831082737.10983-2-jasowang@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200908151052.713-3-luoyonggang@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 00:56:32
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Rgf3q3z9SdmXC6oT"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:13:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.626, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -139,59 +82,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, mst@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Daniel Brodsky <dnbrdsky@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/08/2020 10:27, Jason Wang wrote:
-> The code doesn't have a default vhostdev, so remove the default
-> description in net.json.
-> 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+--Rgf3q3z9SdmXC6oT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Sep 08, 2020 at 11:10:52PM +0800, Yonggang Luo wrote:
+> This is necessary if the pending  rcu calls are closing and removing
+> temp files. This also provide a function
+> void rcu_wait_finished(void);
+> to fixes test-logging.c test failure on msys2/mingw.
+> On windows if the file doesn't closed, you can not remove it.
+>=20
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 > ---
->  qapi/net.json | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/qapi/net.json b/qapi/net.json
-> index ddb113e5e5..a2a94fad3e 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -438,7 +438,6 @@
->  # specifications with a vendor specific control path.
->  #
->  # @vhostdev: path of vhost-vdpa device
-> -#            (default:'/dev/vhost-vdpa-0')
->  #
->  # @queues: number of queues to be created for multiqueue vhost-vdpa
->  #          (default: 1)
-> 
+>  include/qemu/rcu.h   |  5 +++++
+>  tests/test-logging.c |  2 ++
+>  util/rcu.c           | 37 ++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 43 insertions(+), 1 deletion(-)
 
-If you remove the default, you must also set the parameter as not
-optional (remove the star in front of its declaration):
+Can the new drain_call_rcu() function be used? Maxim recently posted the
+following patch:
+https://patchew.org/QEMU/20200831150124.206267-1-mlevitsk@redhat.com/202008=
+31150124.206267-3-mlevitsk@redhat.com/
 
-diff --git a/qapi/net.json b/qapi/net.json
-index ddb113e5e5a8..012830ca1a27 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -447,7 +447,7 @@
- ##
- { 'struct': 'NetdevVhostVDPAOptions',
-   'data': {
--    '*vhostdev':     'str',
-+    'vhostdev':     'str',
-     '*queues':       'int' } }
+Whether drain_call_rcu() or rcu_wait_finished() is used, please include
+a comment in the code that documents why the wait is necessary. For
+example, "qemu_log_close() uses RCU for its FILE pointer but Windows
+cannot remove open files, so we need to wait for RCU here".
 
- ##
+Another option is to wait for RCU inside qemu_log_close() so that
+callers don't need to worry about this implementation detail:
 
+  #ifdef _WIN32
+  /* Windows cannot remove open files so we need to wait for RCU here */
+  drain_call_rcu();
+  #endif
 
-And then you'll have:
+> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+> index 570aa603eb..dd0a92c1d0 100644
+> --- a/include/qemu/rcu.h
+> +++ b/include/qemu/rcu.h
+> @@ -124,6 +124,11 @@ extern void rcu_unregister_thread(void);
+>  extern void rcu_enable_atfork(void);
+>  extern void rcu_disable_atfork(void);
+> =20
+> +/*
+> + * Wait all rcu call executed and exit the rcu thread.
+> + */
+> +extern void rcu_wait_finished(void);
+> +
+>  struct rcu_head;
+>  typedef void RCUCBFunc(struct rcu_head *head);
+> =20
+> diff --git a/tests/test-logging.c b/tests/test-logging.c
+> index 957f6c08cd..7a5b59f4a5 100644
+> --- a/tests/test-logging.c
+> +++ b/tests/test-logging.c
+> @@ -210,6 +210,8 @@ int main(int argc, char **argv)
+>                           tmp_path, test_logfile_lock);
+> =20
+>      rc =3D g_test_run();
+> +    qemu_log_close();
+> +    rcu_wait_finished();
+> =20
+>      rmdir_full(tmp_path);
+>      g_free(tmp_path);
+> diff --git a/util/rcu.c b/util/rcu.c
+> index 60a37f72c3..43367988b9 100644
+> --- a/util/rcu.c
+> +++ b/util/rcu.c
+> @@ -308,10 +308,20 @@ void rcu_unregister_thread(void)
+>      qemu_mutex_unlock(&rcu_registry_lock);
+>  }
+> =20
+> +typedef struct QemuRcuMessage {
+> +    struct rcu_head rcu;
+> +    void *message;
+> +} QemuRcuMessage;
+> +
+> +static int rcu_thread_exit_called =3D 0;
+> +static int rcu_thread_exited =3D 0;
+> +static QemuRcuMessage rcu_thread_message;
+> +
+>  static void rcu_init_complete(void)
+>  {
+>      QemuThread thread;
+> -
+> +    atomic_mb_set(&rcu_thread_exit_called, 0);
+> +    atomic_mb_set(&rcu_thread_exited, 0);
+>      qemu_mutex_init(&rcu_registry_lock);
+>      qemu_mutex_init(&rcu_sync_lock);
+>      qemu_event_init(&rcu_gp_event, true);
+> @@ -327,6 +337,26 @@ static void rcu_init_complete(void)
+>      rcu_register_thread();
+>  }
+> =20
+> +static void rcu_thread_exit(QemuRcuMessage *param)
+> +{
+> +    atomic_mb_set((int*)param->message, 1);
+> +    qemu_thread_exit(NULL);
+> +}
+> +
+> +void rcu_wait_finished(void)
+> +{
+> +    if (atomic_xchg(&rcu_thread_exit_called, 1) =3D=3D 0)
+> +    {
+> +        rcu_thread_message.message =3D &rcu_thread_exited;
+> +        call_rcu(&rcu_thread_message, rcu_thread_exit, rcu);
+> +    }
+> +
+> +    while (atomic_mb_read(&rcu_thread_exited) =3D=3D 0)
+> +    {
+> +        g_usleep(10000);
+> +    }
+> +}
+> +
+>  static int atfork_depth =3D 1;
+> =20
+>  void rcu_enable_atfork(void)
+> @@ -379,3 +409,8 @@ static void __attribute__((__constructor__)) rcu_init=
+(void)
+>  #endif
+>      rcu_init_complete();
+>  }
+> +
+> +static void __attribute__((__destructor__)) rcu_uninit(void)
+> +{
+> +    rcu_wait_finished();
+> +}
+> --=20
+> 2.28.0.windows.1
+>=20
 
-$ ./qemu-system-x86_64  -netdev vhost-vdpa,id=hostnet1
-qemu-system-x86_64: Parameter 'vhostdev' is missing
+--Rgf3q3z9SdmXC6oT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-And PATCH 2 becomes useless.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Laurent
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9YlSMACgkQnKSrs4Gr
+c8jBOwgAyFO0KBTSwz5l8t+09b8r1kFUszlfmIKTJjK7VRwYHNsuySF0UiBjqjcd
+C5YhRu9WwQTLo/AX5z8Ok2Xvb6bukgH1KiE1jZNeo66eUm+3wiAEnXJ4ttXqYAxh
+tBnuOJHQwt6WOpqpgsWE1BQTo6UUCdWk+asjQ+FHsTs3NRgvLFURycPIsfNFQ7LN
+esSpi2gXo7313fXthBKX2niPbMLOnSj8/o3QjQKTTbnbd2Gb5R9FUf1ri7S/P4lo
+MnNkFU1KOIjkAibpSKtq0Z+hmw0tu9qzYkotMrJ7jqCEVmVgt8Z+WaG6uoMjC/ca
+ZjyTiztmovitvium6DeBGWeP6xsWgw==
+=Ea6Q
+-----END PGP SIGNATURE-----
+
+--Rgf3q3z9SdmXC6oT--
 
 
