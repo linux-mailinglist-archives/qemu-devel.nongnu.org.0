@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC65D263188
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 18:17:46 +0200 (CEST)
-Received: from localhost ([::1]:44082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEF1263193
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 18:19:54 +0200 (CEST)
+Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG2n4-0003sY-0O
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 12:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54716)
+	id 1kG2p7-0006eF-7j
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 12:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG2kK-0008VN-AP; Wed, 09 Sep 2020 12:14:56 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:36380)
+ id 1kG2kO-00008v-NI; Wed, 09 Sep 2020 12:15:00 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:45992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG2kI-0006UZ-Cs; Wed, 09 Sep 2020 12:14:56 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id b17so1596728pji.1;
- Wed, 09 Sep 2020 09:14:53 -0700 (PDT)
+ id 1kG2kN-0006Uo-0S; Wed, 09 Sep 2020 12:15:00 -0400
+Received: by mail-pg1-x544.google.com with SMTP id 67so2395260pgd.12;
+ Wed, 09 Sep 2020 09:14:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CNPvacxKIPvNAAT6pnf6ItFkwT6w9lX5etFkypi0MqU=;
- b=Rdz3hZ7AGJZQJQLjS5LuO/wRySzfTjesStvxehhK2KefuRQP1eUW4lHOczrOw0u1ZM
- vGOV/lzWJ95DYEgM5c048MQa+evpTgQ+3nm/rYINoSL+zN93LxZNPc49asvgpL9xNf/b
- l5kUTWMT3ypWTE/aNqXEHkoHfVeaU0M3WbJyO1GYBFpRYAjPQ8pyFjpZ3kjSptNk/r4v
- /yucd/Ue9EgeqjFwtBt5JpNw+DLc2tvWVuZQwFq1qd0V9T5sXi0jXEnDOQq5djKUbUWD
- Wd45OXt5oGJDkOx5KuGUPYCl023BuOLeeEOcxRpSeDHkRUoTl6dNXeNKqyiui4vtkqQ9
- Oyyw==
+ bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
+ b=aGXhSXdyUpsGF1CGQcxlUq5WdzHX26mUdzXTKieMrOOdRDloppsvwv81FmbcijWp/c
+ iIGQs2jVbYitSafSCgU6kmnbmQzMVYIiv2/GWMzpjdfb6UjqT1Ge8TlwsCwoXpw6IHRR
+ rXo5qDYqT6tJ+KLzE7uPwqEXwgjfp6w8sSOtccS+j3nbgk5vFpm5LMV9sQ0R9fBoTaB3
+ IQ/Srjzz1abdsoNcLqRlqPaXLuR6ERKKsTNpg9CUkbQayLkp4fO4xaSOa+nFoms4E8+/
+ hcPK2nBkKZePSBVzGFsdbhmNO/S+gCESaOiL76C2KTD5L8FtQ8IuS/3MszVI11ce8cr0
+ 9yOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CNPvacxKIPvNAAT6pnf6ItFkwT6w9lX5etFkypi0MqU=;
- b=Qp3pCFVkufkiIQ00wlPqdVZxy3i+OzMB2dmqVJWOVzOFhplHQYDsN/2n3+3L7tQJBn
- W6YHdmyIFYq7bWFGReQrVKd79JuI/yDpafV8KHZZ8qj3WC5WJ4QG8u0EhERzPs/SYnOL
- akMxNaMufdu/mE5hFuLYFIGO5Zu+BrU4hXpclobKdsC5Q+IMTEO6Cz5cUhcgYh27oweY
- dE+A5Z/zGRoWkgMYijWVUBo5MJ4cxB3Oz4SZBOZ76Xf4r3EdMqyDOVAoW2Sx4MnJCNnc
- QYygZsErQxn9ZJk1/j+UTvp+nWwGzpcnn/7qFh2yag7fgpjM2uZ8MndIwm857MKvgTi7
- f2Rw==
-X-Gm-Message-State: AOAM533fbZEaROXjGaWqFvgeZlYBaXDZMGNlQ+McmB6E4I4e3HXilvVf
- MY13DjAvRjPpGl08g7ntESDkem+HGXHM3Db9
-X-Google-Smtp-Source: ABdhPJz8QzwVmDU94RXHXuL0tr5ZoCElosvvYfRJJm1MsK3Uaxe+ZYWeF7EyouqFDJ6ucwKA7Z/14g==
-X-Received: by 2002:a17:90a:f309:: with SMTP id
- ca9mr1500742pjb.0.1599668091814; 
- Wed, 09 Sep 2020 09:14:51 -0700 (PDT)
+ bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
+ b=Apru4JnfNnpsLOWIgmpDh/dbi5jzOI7X1LK2odAmzlB+5fcd+FuF0EbYn8B5Zk/QxT
+ PFdy+f08j2zi9pPQdAICB7n333gZqL3T8WkQO+Tfe0Bg7mHpE9JYTqSQppcoHIhDRUS3
+ 3DbZDLyrnb29u2ie2un1Dl5VUsNcGtsVtU5Zs7w3gObFFI7FoZwM48kwNV/VFEaG8Vsb
+ SeF1cDWfWi/vB+3HW2pZPzATWnV7jofhTYYxn93SNR9aa4sJPh/EQ+rVYwXxCs7vKsIk
+ OVUASu6/A9ORF93sWX3KlPmn9ZpJuc8XN2W+/9XqBMTLiknBELlsDq0QIxwPQ0y43hof
+ O7Tw==
+X-Gm-Message-State: AOAM532005gKBBEJzF/NSJ0fJnnb6jjAqqkXz0XNdtDgHc0d3BofOJuA
+ NSFa00xwo9kGFxuVV8AOGTcMyPGG8qij7/K9
+X-Google-Smtp-Source: ABdhPJxggBi6puK1NUi7JuZMpNwm/zINgRzMPKjtAvWBAkuj/1dMLMtw4MD5ZQzL4OyUt2qYBvbuxg==
+X-Received: by 2002:a17:902:c392:: with SMTP id
+ g18mr1523227plg.41.1599668096852; 
+ Wed, 09 Sep 2020 09:14:56 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id l123sm2506987pgl.24.2020.09.09.09.14.47
+ by smtp.googlemail.com with ESMTPSA id l123sm2506987pgl.24.2020.09.09.09.14.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 09:14:51 -0700 (PDT)
+ Wed, 09 Sep 2020 09:14:55 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/24] file-win32: Fix "locking" option
-Date: Thu, 10 Sep 2020 00:14:21 +0800
-Message-Id: <20200909161430.1789-2-luoyonggang@gmail.com>
+Subject: [PATCH v4 02/24] rcu: Implement drain_call_rcu
+Date: Thu, 10 Sep 2020 00:14:22 +0800
+Message-Id: <20200909161430.1789-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909161430.1789-1-luoyonggang@gmail.com>
 References: <20200909161430.1789-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,85 +85,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Maxim Levitsky <mlevitsk@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-The intended behaviour was that locking=off/auto work and have no
-effect (to remain compatible with file-posix), whereas locking=on would
-return an error. Unfortunately, the code forgot to remove "locking" from
-the options QDict, so any attempt to use the option would fail.
+This will allow is to preserve the semantics of hmp_device_del,
+that the device is deleted immediatly which was changed by previos
+patch that delayed this to RCU callback
 
-Replace the option parsing code for "locking" with something that is
-part of the raw_runtime_opts QemuOptsList (so it is properly removed
-from the QDict) and looks more like file-posix.
-
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200907092739.9988-1-kwolf@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/file-win32.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ include/qemu/rcu.h |  1 +
+ util/rcu.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
 
-diff --git a/block/file-win32.c b/block/file-win32.c
-index ab69bd811a..e2900c3a51 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
-             .type = QEMU_OPT_STRING,
-             .help = "host AIO implementation (threads, native)",
-         },
-+        {
-+            .name = "locking",
-+            .type = QEMU_OPT_STRING,
-+            .help = "file locking mode (on/off/auto, default: auto)",
-+        },
-         { /* end of list */ }
-     },
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index 570aa603eb..0e375ebe13 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -133,6 +133,7 @@ struct rcu_head {
  };
-@@ -333,6 +338,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-     Error *local_err = NULL;
-     const char *filename;
-     bool use_aio;
-+    OnOffAuto locking;
-     int ret;
  
-     s->type = FTYPE_FILE;
-@@ -343,10 +349,24 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-         goto fail;
-     }
+ extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
++extern void drain_call_rcu(void);
  
--    if (qdict_get_try_bool(options, "locking", false)) {
-+    locking = qapi_enum_parse(&OnOffAuto_lookup,
-+                              qemu_opt_get(opts, "locking"),
-+                              ON_OFF_AUTO_AUTO, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        ret = -EINVAL;
-+        goto fail;
+ /* The operands of the minus operator must have the same type,
+  * which must be the one that we specify in the cast.
+diff --git a/util/rcu.c b/util/rcu.c
+index 60a37f72c3..c4fefa9333 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -293,6 +293,61 @@ void call_rcu1(struct rcu_head *node, void (*func)(struct rcu_head *node))
+     qemu_event_set(&rcu_call_ready_event);
+ }
+ 
++
++struct rcu_drain {
++    struct rcu_head rcu;
++    QemuEvent drain_complete_event;
++};
++
++static void drain_rcu_callback(struct rcu_head *node)
++{
++    struct rcu_drain *event = (struct rcu_drain *)node;
++    qemu_event_set(&event->drain_complete_event);
++}
++
++/*
++ * This function ensures that all pending RCU callbacks
++ * on the current thread are done executing
++
++ * drops big qemu lock during the wait to allow RCU thread
++ * to process the callbacks
++ *
++ */
++
++void drain_call_rcu(void)
++{
++    struct rcu_drain rcu_drain;
++    bool locked = qemu_mutex_iothread_locked();
++
++    memset(&rcu_drain, 0, sizeof(struct rcu_drain));
++    qemu_event_init(&rcu_drain.drain_complete_event, false);
++
++    if (locked) {
++        qemu_mutex_unlock_iothread();
 +    }
-+    switch (locking) {
-+    case ON_OFF_AUTO_ON:
-         error_setg(errp, "locking=on is not supported on Windows");
-         ret = -EINVAL;
-         goto fail;
-+    case ON_OFF_AUTO_OFF:
-+    case ON_OFF_AUTO_AUTO:
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     filename = qemu_opt_get(opts, "filename");
++
++
++    /*
++     * RCU callbacks are invoked in the same order as in which they
++     * are registered, thus we can be sure that when 'drain_rcu_callback'
++     * is called, all RCU callbacks that were registered on this thread
++     * prior to calling this function are completed.
++     *
++     * Note that since we have only one global queue of the RCU callbacks,
++     * we also end up waiting for most of RCU callbacks that were registered
++     * on the other threads, but this is a side effect that shoudn't be
++     * assumed.
++     */
++
++    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
++    qemu_event_wait(&rcu_drain.drain_complete_event);
++
++    if (locked) {
++        qemu_mutex_lock_iothread();
++    }
++
++}
++
+ void rcu_register_thread(void)
+ {
+     assert(rcu_reader.ctr == 0);
 -- 
 2.28.0.windows.1
 
