@@ -2,89 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2525B262FBF
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:27:07 +0200 (CEST)
-Received: from localhost ([::1]:45776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB50262FC9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:29:38 +0200 (CEST)
+Received: from localhost ([::1]:52614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG13y-0003d7-5T
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50004)
+	id 1kG16P-0006VV-MB
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kG11K-00087J-L4
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:24:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kG11I-0004Qn-UQ
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:24:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599661460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hl24NRJ8Rt13BsX1usyBfMcCTpzjZpiQVXtc8EueBIg=;
- b=AJ1OF0TYGzo2vwRmFJANqrtrvQjrtcXGXBAt9AIbzBgE8Dr1YqZTGH+NnexamYDVN0tNBf
- Kp4WG3Xk4QvbGibR5GVXypv3YOnd/aDSYuRx82vQArc2oj0a4KlH1w6/t9ZiT6UJqhRZ3M
- /MifBle//pdkSXTRmf4RDcMU69+MRq4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-cYC8fy7nOlOjoaABe1dcBA-1; Wed, 09 Sep 2020 10:24:19 -0400
-X-MC-Unique: cYC8fy7nOlOjoaABe1dcBA-1
-Received: by mail-wr1-f72.google.com with SMTP id v12so1031576wrm.9
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 07:24:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hl24NRJ8Rt13BsX1usyBfMcCTpzjZpiQVXtc8EueBIg=;
- b=rDc63UiJic2ikm9xg4CPF7gBjUaIWh7UWsin8Z/nxSCFQKOgMlFFQ7tnWmMIvjglKt
- b37Q6cCsWpetWavck47q/QGyIDgwGp10qzs4SUNyCsyl7BzRVrb0lyLQifu24M9Xklp2
- o86KflcNFm+53QWvYlx2FjLumhR6vaKLYvocfcON/qUJhCcB/c0Te4F3AFG/H3Ej1sdh
- J0HoXC2KmN9Fr9/xTOTeUwte/TfA8azz/6CHw+IWeiXZ5u6vyJAqe/Nf06SNQy+KNJ8E
- Jj+QB5rLa/iXZhGHINyPQf/N0i3y2/voxmJBxGrfTXFGbjRVezyklbskZ3K9q78/HK6m
- xXCA==
-X-Gm-Message-State: AOAM530VH3AX1kSFtz7eZiUdiVFW3CBIET9w6MVZBeki5XRI6kVxCO9E
- mRC/u1Gg4NMLxneyAGT6N5RGrvUfs3Rs/Dfslo/HkvfTjHIbOc0/7/hgfDKzgla056xi7KtTB9J
- A7iIMEr2dlKas5tk=
-X-Received: by 2002:a1c:6341:: with SMTP id x62mr3814942wmb.70.1599661456337; 
- Wed, 09 Sep 2020 07:24:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2AuS7XclxQglsXhutPrkRcK+UtTdydKLuczpxR70nsEyCL2jF0vcml4H9rgqTzZrK7nihWw==
-X-Received: by 2002:a1c:6341:: with SMTP id x62mr3814920wmb.70.1599661456134; 
- Wed, 09 Sep 2020 07:24:16 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id b187sm4172577wmb.8.2020.09.09.07.24.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 07:24:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/4] block/nvme: Use qemu_vfio_pci_init_msix_irqs() to
- initialize our IRQ
-Date: Wed,  9 Sep 2020 16:23:54 +0200
-Message-Id: <20200909142354.334859-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200909142354.334859-1-philmd@redhat.com>
-References: <20200909142354.334859-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kG15d-00064c-46
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:28:49 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:60252)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kG15a-00051s-T8
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:28:48 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 089ESGEG004376
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 9 Sep 2020 10:28:20 -0400
+Date: Wed, 9 Sep 2020 10:28:16 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [RFC 1/4] memory: add memory_region_init_io_with_dev interface
+Message-ID: <20200909142816.qd3cunwmpwxzf3dd@mozz.bu.edu>
+References: <20200908164157.47108-1-liq3ea@163.com>
+ <20200908164157.47108-2-liq3ea@163.com>
+ <48a99ece-d808-f860-2551-0fec05ec5b01@redhat.com>
+ <20200909044856.lvk77pcfvt567ub6@sirius.home.kraxel.org>
+ <CAKXe6S+s-hV2dcK=xVd4jrfNEYH0DvwkAkj5ooyrutA-vGJsdw@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 07:20:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAKXe6S+s-hV2dcK=xVd4jrfNEYH0DvwkAkj5ooyrutA-vGJsdw@mail.gmail.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 10:28:45
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.768, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,54 +61,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Li Qiang <liq3ea@163.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of initializing one MSIX IRQ with the generic
-qemu_vfio_pci_init_irq() function, use the MSIX specific one which
-will allow us to use multiple IRQs. For now we provide an array of
-a single IRQ.
+On 200909 1258, Li Qiang wrote:
+> Gerd Hoffmann <kraxel@redhat.com> 于2020年9月9日周三 下午12:49写道：
+> >
+> > On Wed, Sep 09, 2020 at 10:15:47AM +0800, Jason Wang wrote:
+> > >
+> > > On 2020/9/9 上午12:41, Li Qiang wrote:
+> > > > Currently the MR is not explicitly connecting with its device instead of
+> > > > a opaque. In most situation this opaque is the deivce but it is not an
+> > > > enforcement. This patch adds a DeviceState member of to MemoryRegion
+> > > > we will use it in later patch.
+> > >
+> > >
+> > > I don't have a deep investigation. But I wonder whether we could make sure
+> > > of owner instead of adding a new field here.
+> >
+> > Should be possible.  There is object_dynamic_cast() which can be used to
+> > figure whenever a given owner object is a device.
+> >
+> 
+> I found most caller of 'memory_region_init_io' will set the owner to
+> the device object.
+> But some of them will just set it to NULL. Do will have a clear rule
+> that the device's MR
+> 'owner' should be the device object? If yes, we can use this field.
+> 
 
-Reviewed-by: Fam Zheng <fam@euphon.net>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- block/nvme.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Those seem to be devices that havent't been QOM-imfied yet?  Maybe those
+devices are unlikely to be affected by these issues, though... 
 
-diff --git a/block/nvme.c b/block/nvme.c
-index f4f27b6da7d..e6dac027f72 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -694,6 +694,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     uint64_t timeout_ms;
-     uint64_t deadline, now;
-     Error *local_err = NULL;
-+    unsigned irq_count = MSIX_IRQ_COUNT;
- 
-     qemu_co_mutex_init(&s->dma_map_lock);
-     qemu_co_queue_init(&s->dma_flush_queue);
-@@ -779,9 +780,13 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         }
-     }
- 
--    ret = qemu_vfio_pci_init_irq(s->vfio, s->irq_notifier,
--                                 VFIO_PCI_MSIX_IRQ_INDEX, errp);
-+    ret = qemu_vfio_pci_init_msix_irqs(s->vfio, s->irq_notifier,
-+                                       &irq_count, errp);
-     if (ret) {
-+        if (ret == -EOVERFLOW) {
-+            error_append_hint(errp, "%u IRQs requested but only %u available\n",
-+                              MSIX_IRQ_COUNT, irq_count);
-+        }
-         goto out;
-     }
-     aio_set_event_notifier(bdrv_get_aio_context(bs),
--- 
-2.26.2
+For i386, it seems like parallel, port80, portF0, pckbd, and xen_pvdevice .. ?
+I'm guessing none of these do DMA.
 
++CC Stefan, since he replied to the other thread.
+
+> Thanks,
+> Li Qiang
+> 
+> > take care,
+> >   Gerd
+> >
 
