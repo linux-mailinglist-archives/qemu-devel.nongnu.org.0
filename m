@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B302262B6D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:11:47 +0200 (CEST)
-Received: from localhost ([::1]:50730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC14262BA4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:20:24 +0200 (CEST)
+Received: from localhost ([::1]:38502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFw8o-0005Rv-Os
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:11:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49556)
+	id 1kFwH9-0003nE-Gp
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:20:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFw7v-0004sd-Jv
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 05:10:51 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49585
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFw7t-0003Hq-A8
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 05:10:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599642647;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ZoaBmQuq3e1glWPV4O7HDAB04OT4Z6WPDaR+P4B/4Nk=;
- b=FPn/+5pYlnNuXL4H6fV/HYRfAEY8aYLm1y/bLmjFrtOuHN9ncO0XhbIo4BExocxhuC8kO/
- Ntm+l3fC1D56a/ZErXy2rpN8fPesfsXL/hdTLbj7xfXiXrJZ2dR4IhfVmC0hsn5URdpS2i
- XbRnA8nzly7Mjf9lmQ5gpbS4XYmiqk8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-cOgMueI5NX6ftvv3qcJfnQ-1; Wed, 09 Sep 2020 05:10:44 -0400
-X-MC-Unique: cOgMueI5NX6ftvv3qcJfnQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4622F18BA285;
- Wed,  9 Sep 2020 09:10:43 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.ams2.redhat.com [10.36.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78E8C838AE;
- Wed,  9 Sep 2020 09:10:37 +0000 (UTC)
-Date: Wed, 9 Sep 2020 10:10:34 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH 1/5] hw/smbios: support loading OEM strings values from a
- file
-Message-ID: <20200909091034.GL1011023@redhat.com>
-References: <20200908165438.1008942-1-berrange@redhat.com>
- <20200908165438.1008942-2-berrange@redhat.com>
- <c7ecee55-64a3-5a46-26d9-6a1cc4c7889c@redhat.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1kFwCi-0002zZ-H2
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 05:15:48 -0400
+Received: from foss.arm.com ([217.140.110.172]:32990)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1kFwCf-0003lN-Gy
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 05:15:47 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B5BE61FB;
+ Wed,  9 Sep 2020 02:15:42 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4AD523F66E;
+ Wed,  9 Sep 2020 02:15:40 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] MTE support for KVM guest
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eric.auger@redhat.com
+References: <20200904160018.29481-1-steven.price@arm.com>
+ <20200907152812.GJ2682@work-vm>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <b457fdd2-785b-8692-c3a0-95ae73fec746@arm.com>
+Date: Wed, 9 Sep 2020 10:15:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <c7ecee55-64a3-5a46-26d9-6a1cc4c7889c@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="UlVJffcvxoiEqYs2"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:20:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200907152812.GJ2682@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 05:15:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.626,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,247 +60,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Mark Rutland <mark.rutland@arm.com>, Peter Maydell <Peter.Maydell@arm.com>,
+ Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ qemu-devel@nongnu.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ kvmarm@lists.cs.columbia.edu, Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---UlVJffcvxoiEqYs2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-On Wed, Sep 09, 2020 at 10:18:47AM +0200, Laszlo Ersek wrote:
-> On 09/08/20 18:54, Daniel P. Berrangé wrote:
-> > Some applications want to pass quite large values for the OEM strings
-> > entries. Rather than having huge strings on the command line, it would
-> > be better to load them from a file, as supported with -fw_cfg.
-> > 
-> > This introduces the "valuefile" parameter allowing for:
-> > 
-> >   $ echo -n "thisthing" > mydata.txt
-> >   $ qemu-system-x86_64 \
-> >     -smbios type=11,value=something \
-> >     -smbios type=11,valuefile=mydata.txt \
-> >     -smbios type=11,value=somemore \
-> >     ...other args...
-> > 
-> > Now in the guest
-> > 
-> > $ dmidecide -t 11
-> > Getting SMBIOS data from sysfs.
-> > SMBIOS 2.8 present.
-> > 
-> > Handle 0x0E00, DMI type 11, 5 bytes
-> > OEM Strings
-> > 	String 1: something
-> > 	String 2: thisthing
-> > 	String 3: somemore
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  hw/smbios/smbios.c | 72 +++++++++++++++++++++++++++++++++++++---------
-> >  1 file changed, 59 insertions(+), 13 deletions(-)
+On 07/09/2020 16:28, Dr. David Alan Gilbert wrote:
+> (cc'ing in Eric Auger)
 > 
-> (gearing up to test this / look into the edk2 problem, just one question
-> in passing: could we / would we simplify this with g_file_get_contents()?)
+> * Steven Price (steven.price@arm.com) wrote:
+>> Arm's Memory Tagging Extension (MTE) adds 4 bits of tag data to every 16
+>> bytes of memory in the system. This along with stashing a tag within the
+>> high bit of virtual addresses allows runtime checking of memory
+>> accesses.
+>>
+>> These patches add support to KVM to enable MTE within a guest. They are
+>> based on Catalin's v9 MTE user-space support series[1].
+>>
+>> I'd welcome feedback on the proposed user-kernel ABI. Specifically this
+>> series currently:
+>>
+>>   1. Requires the VMM to enable MTE per-VCPU.
+>>   2. Automatically promotes (normal host) memory given to the guest to be
+>>      tag enabled (sets PG_mte_tagged), if any VCPU has MTE enabled. The
+>>      tags are cleared if the memory wasn't previously MTE enabled.
+>>   3. Doesn't provide any new methods for the VMM to access the tags on
+>>      memory.
+>>
+>> (2) and (3) are particularly interesting from the aspect of VM migration.
+>> The guest is able to store/retrieve data in the tags (presumably for the
+>> purpose of tag checking, but architecturally it could be used as just
+>> storage). This means that when migrating a guest the data needs to be
+>> transferred (or saved/restored).
+>>
+>> MTE tags are controlled by the same permission model as normal pages
+>> (i.e. a read-only page has read-only tags), so the normal methods of
+>> detecting guest changes to pages can be used. But this would also
+>> require the tags within a page to be migrated at the same time as the
+>> data (since the access control for tags is the same as the normal data
+>> within a page).
+> 
+> (Without understanding anything about your tag system...)
+> 
+> Note that during (normal, non-postcopy) migration the consistency can
+> be a little loose - until the guest starts running; i.e. you can send
+> a page that's in themiddle of being modified as long as you make sure
+> you send it again later so that what the guest sees on the destination
+> when it runs is consistent; i.e. it would be fine to send your tags
+> separately to your data and allow them to get a little out of sync, as
+> long as they caught up before the guest ran.
 
-BTW, to test this, I'm doing the following.
+Yes, you can obviously pro-actively send data early as you as you 
+appropriately deal with any potential changes that the guest might make. 
+I'm not very familiar with exactly how QEMU handles this, so it might 
+not be a problem - I just wanted to point out that we don't have 
+separate access permissions.
 
-See the attached 'make-tiny-initrd.py' script. It expects "busybox" on
-the host OS and builds a tiny initrd containing busybox.
+>> (3) may be problematic and I'd welcome input from those familiar with
+>> VMMs. User space cannot access tags unless the memory is mapped with the
+>> PROT_MTE flag. However enabling PROT_MTE will also enable tag checking
+>> for the user space process (assuming the VMM enables tag checking for
+>> the process) and since the tags in memory are controlled by the guest
+>> it's unlikely the VMM would have an appropriately tagged pointer for its
+>> access. This means the VMM would either need to maintain two mappings of
+>> memory (one to access tags, the other to access data) or disable tag
+>> checking during the accesses to data.
+> 
+> Imagine I had a second mapping; what would it look like; how would I get
+> and restore the tags?
 
-It can optionally copy in arbitrary other commands, and shared libraries
-they link to.  By default it will launch an interactive shell in the
-guest, but you can tell it to run a specific command, after which it
-will poweroff.
+At a very simple level you could do something like:
 
-I want to run dmidecode, so I'm using
+  normal_mapping = mmap(..., PROT_READ | PROT_WRITE, ..., fd, 0);
+  mte_mapping = mmap(..., PROT_READ | PROT_WRITE | PROT_MTE, ..., fd, 0);
 
- $ make-tiny-image.py --run "dmidecode" dmidecode
+  /* access normal mapping as normal */
+  normal_mapping[offset] = 0xf00 + normal_mapping[offset + 1];
 
-which both copies dmidecode into the initrd, and also runs it by
-default.
+  /* read tag from mte_mapping */
+  uint64_t tag = ldg(&mte_mapping[offset]);
 
-It creates 'tiny-initrd.img'
+  /* write a new tag value (8)
+   * NOTE: tags are stored in the top byte, hence the shift
+   */
+  stg(0x8ULL << 56, &mte_mapping[offset]);
 
-Then I simply boot the host OS kernel using this initrd.
+Where stg() and ldg() are simple wrappers around the new instructions:
 
+  stg:
+         STG x0, [x1]
+         RET
 
-  ./build/qemu-system-x86_64  \
-      -kernel /boot/vmlinuz-5.7.14-200.fc32.x86_64 \
-      -initrd tiny-initrd.img
-      -append 'console=ttyS0'
-      -m 1000
-      -serial stdio
-      -display none
-      -blockdev '{"driver":"file","filename":"/usr/share/OVMF/OVMF_CODE.fd","node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard":"unmap"}'
-      -blockdev '{"node-name":"libvirt-pflash0-format","read-only":true,"driver":"raw","file":"libvirt-pflash0-storage"}'
-      -blockdev '{"driver":"file","filename":"/home/berrange/src/virt/qemu/OVMF_VARS.fd","node-name":"libvirt-pflash1-storage","auto-read-only":true,"discard":"unmap"}'
-      -blockdev '{"node-name":"libvirt-pflash1-format","read-only":false,"driver":"raw","file":"libvirt-pflash1-storage"}'
-      -machine pc-q35-4.0,accel=kvm,usb=off,smm=on,dump-guest-core=off,pflash0=libvirt-pflash0-format,pflash1=libvirt-pflash1-format,smbios-ep=3_0
-      -chardev file,path=firmware.log,id=firmwarelog
-      -device isa-debugcon,iobase=0x402,chardev=firmwarelog
-      -smbios type=11,path=smallfile.txt
+  ldg:
+         LDG x0, [x0]
+         RET
 
+> In terms of migration stream, I guess we have two ways to do this,
+> either it rides shotgun on the main RAM section pages, transmitting
+> those few extra bytes whenever we transmit a page, or you have a
+> separate iteratable device for RAMtags, and it just transmits those.
+> How you keep the two together is an interesting question.
+> The shotgun method sounds nasty to avoid putting special cases in the,
+> already hairy, RAM code.
 
-I have a file 'bigfile.txt' that contains 14 MB of plain text.
+As you say above it may be possible to simply let the normal RAM and 
+tags get out of sync. E.g. if you send all the normal RAM (marking 
+read-only as you go), then all the tags (not changing the permissions) 
+you will end up with all the pages that have remained read-only (i.e. 
+the guest hasn't modified) being consistent on the destination. Pages 
+that have been written by the guest will be inconsistent, but you were 
+going to have to resend those anyway.
 
-I then create 'smallfile.txt' from this
+However for post-migration copy you need to copy *both* normal RAM and 
+tags before resuming the guest. You might need special cases for this.
 
-  $ dd if=bigfile.txt of=littlefile.txt bs=1 count=130863
+>> If it's not practical to either disable tag checking in the VMM or
+>> maintain multiple mappings then the alternatives I'm aware of are:
+>>
+>>   * Provide a KVM-specific method to extract the tags from guest memory.
+>>     This might also have benefits in terms of providing an easy way to
+>>     read bulk tag data from guest memory (since the LDGM instruction
+>>     isn't available at EL0).
+>>   * Provide support for user space setting the TCMA0 or TCMA1 bits in
+>>     TCR_EL1. These would allow the VMM to generate pointers which are not
+>>     tag checked.
+> 
+> I guess you want the VMM to do as much tagged checked access as possible
+> on it's own data structures?
 
-If count=130863 or smaller than EDK2 succesfully boots the guest.
+Ideally yes, you would want the VMM to have checked accesses for all 
+it's internal data structures because that gives the maximum benefit 
+from MTE.
 
-If count=130864 or larger then AFAICT it gets stuck in EDK2 or
-very early boot - the guest OS never runs.
+> How do things like virtio work where the qemu or kernel is accessing
+> guest memory for IO?
 
-If smbios-ep=2_1 (or is omitted), then the size limit is smaller of course
-but QEMU validates that for you.
+Since virtio is effectively emulating a device it should be treated like 
+a device - no tag checking and no tag storage used. This would be the 
+obvious situation where you would use "normal_mapping" as above so tags 
+wouldn't be visible or checked.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Really the VMM is only interested in guest tags for the migration case 
+where it simply needs to preserve them. I don't expect the guest and VMM 
+(or hypervisor) to communicate using tagged memory.
 
---UlVJffcvxoiEqYs2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment; filename="make-tiny-image.py"
-
-#!/usr/bin/env python3
-
-import re
-import sys
-import glob
-import argparse
-import os
-import os.path
-import stat
-import subprocess
-from tempfile import TemporaryDirectory
-from shutil import copy
-
-def make_busybox(tmpdir, runcmd):
-    usrsbin = os.path.join(tmpdir, "usr/sbin")
-    bin = os.path.join(tmpdir, "bin")
-    os.makedirs(usrsbin, exist_ok=True)
-    os.makedirs(bin, exist_ok=True)
-
-    busyboxin = "/usr/sbin/busybox"
-    busyboxout = os.path.join(tmpdir, usrsbin, "busybox")
-    copy(busyboxin, busyboxout)
-    subprocess.check_call([busyboxin, "--install", "-s", bin])
-
-    init = os.path.join(tmpdir, "init")
-    with open(init, "w") as fh:
-        print("""#!/bin/sh
-
-mkdir /proc /sys
-mount -t proc none /proc
-mount -t sysfs none /sys
-
-mount -n -t tmpfs none /dev
-mknod -m 622 /dev/console c 5 1
-mknod -m 666 /dev/null c 1 3
-mknod -m 666 /dev/zero c 1 5
-mknod -m 666 /dev/ptmx c 5 2
-mknod -m 666 /dev/tty c 5 0
-mknod -m 666 /dev/ttyS0 c 4 64
-mknod -m 444 /dev/random c 1 8
-mknod -m 444 /dev/urandom c 1 9
-
-%s
-poweroff -f
-""" % runcmd, file=fh)
-    os.chmod(init, stat.S_IRWXU)
-
-def get_deps(binary):
-    out = subprocess.check_output(["ldd", binary]).decode("utf8")
-    deps = []
-    for line in out.split("\n"):
-        m = re.search("=> (/[^ ]+)", line)
-        if m is not None:
-            deps.append(m.group(1))
-        else:
-            m = re.match("\s*(/[^ ]+)\s+\(.*\)\s*$", line)
-            if m is not None:
-                deps.append(m.group(1))
-    return deps
-    
-def make_binaries(tmpdir, binaries):
-    bindir = os.path.join(tmpdir, "bin")
-
-    seen = {}
-    libs = []
-    for binary in binaries:
-        if binary[0] == '/':
-            src = binary
-            dst = os.path.join(tmpdir, binary[1:])
-        else:
-            src = os.path.join("/usr/bin", binary)
-            if not os.path.exists(src):
-                src = os.path.join("/usr/sbin", binary)
-            dst = os.path.join(bindir, binary)
-        if os.path.exists(dst):
-            os.unlink(dst)
-        copy(src, dst)
-
-        libs.extend(get_deps(src))
-
-    while len(libs):
-        print("Pass libs")
-        todo = libs
-        libs = []
-        for lib in todo:
-            if lib in seen:
-                continue
-
-            dir = os.path.dirname(lib)
-            libdir = os.path.join(tmpdir, dir[1:])
-            os.makedirs(libdir, exist_ok=True)
-            dst = os.path.join(tmpdir, lib[1:])
-            copy(lib, dst)
-            print(lib)
-            seen[lib] = True
-            libs.extend(get_deps(lib))
-
-                              
-
-def make_image(tmpdir, output, binaries, runcmd):
-    make_busybox(tmpdir, runcmd)
-    make_binaries(tmpdir, binaries)
-
-    files = glob.iglob(tmpdir + "/**", recursive=True)
-    prefix=len(tmpdir) + 1
-    files = [f[prefix:] for f in files]
-    files = files[1:]
-    filelist = "\n".join(files).encode("utf8")
-
-    with open(output, "w") as fh:
-        subprocess.run(["cpio", "--quiet", "-o", "-H", "newc"],
-                       cwd=tmpdir, input=filelist, stdout=fh)
-
-parser = argparse.ArgumentParser(description='Build a tiny initrd image')
-parser.add_argument('--output', default="tiny-initrd.img",
-                    help='Filename of output file')
-parser.add_argument('--run', default="exec setsid cttyhack /bin/sh",
-                    help='Command to execute in guest (default: "exec setsid cttyhack /bin/sh")')
-parser.add_argument('binary', nargs="*",
-                    help='List of binaries to include')
-
-args = parser.parse_args()
-
-print (args.output)
-
-with TemporaryDirectory(prefix="make-tiny-image") as tmpdir:
-    make_image(tmpdir, args.output, args.binary, args.run)
-
---UlVJffcvxoiEqYs2--
-
+Steve
 
