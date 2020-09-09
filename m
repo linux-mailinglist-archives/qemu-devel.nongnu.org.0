@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463C5262CA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:56:38 +0200 (CEST)
-Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BFE262C91
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:52:11 +0200 (CEST)
+Received: from localhost ([::1]:48108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwqD-00057I-9h
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:56:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
+	id 1kFwlu-0005Iv-Eb
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhM-0007GN-74; Wed, 09 Sep 2020 05:47:32 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:32845)
+ id 1kFwhR-0007HY-7s; Wed, 09 Sep 2020 05:47:33 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:40244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhH-0007jr-Mt; Wed, 09 Sep 2020 05:47:27 -0400
-Received: by mail-pg1-x544.google.com with SMTP id s65so621320pgb.0;
- Wed, 09 Sep 2020 02:47:21 -0700 (PDT)
+ id 1kFwhL-0007ki-Du; Wed, 09 Sep 2020 05:47:32 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id j34so1679481pgi.7;
+ Wed, 09 Sep 2020 02:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xBOHLIgzzS+cZLXuoOhLEV5Djuhr7s8VvLqqjTlGHNI=;
- b=jxt/VXbKXcB+OjQ8v70XeIXG4aTVqQYrSDG3sZW+CYjblVC/Es9a2PSay0tDBlt1FE
- byKua9WlGu0y3UfltY2syZZk1zI1GdFilgmF5WePl9QUHARfxOmXpuJWA4SlhWYZxLNF
- xdyxkoUpSDFG4ebw3s4SpLZ1+2iQ3nj8wvrDdmCzs6YwmCYvcfbAI9IgDT8+hadnveSt
- BpGRbNMkOaDTO8G69Qk8jkSQpLnJY8gWqr6zugSwLN9NwJWUShfpBYpZYezRuNmvAYAe
- ku8gQ3hWu+xi09jc5tcd14/iOJGKlfawYJUkV4sfp4o+tPEATAZr+7k0uKLyweRmgzB7
- qeew==
+ bh=30KkRCFEtXNka1aga0YHq3EqESHJABavOs610tDas18=;
+ b=hOshdSmhDTzmww24DpGMW7nyBoMYJzcHkS7SS0kUGuNj4TO0Z9iQUw845TVBC2s7m4
+ sDilJBcbgGiU8euYz3Uemt2zEqcx8jBmfPuFiWbBO8m91dM35jPDR19uswlIg/RLbhlE
+ 0qWJCF/kgC3RtoezlQExE3S41gbj9dmJEEiReKGnmYF/kjTzJ63qiyfejLj9xVBvT+ZB
+ tcgylzrMKvwMi8gvUamP7BHKy3R2OeC/lB7F5LUIfpoNvKgh6GTHZrUaT+B7VxFn245K
+ VmEPfLGm0pP8EiGhT6q/UxKQYqh3Y26P/EZpXKD7MfbGbE6P8Y9MOj4mn4RqevnfLUaf
+ 3y0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xBOHLIgzzS+cZLXuoOhLEV5Djuhr7s8VvLqqjTlGHNI=;
- b=Ore9D/31/++1tfdQot9/hFSCfv12AiIaexe4qZdFeENJg/I+GZvw/rzIxCN0f2EuZv
- iBVhc7d81bR9gRWHoOe95iDY+dC5OavPFb864k9TWZiRvjEfw9oPmLbOUaOzJNKvxIDr
- 4LBc3ZVcu4Zsv9+WQ6ipMeSLIPfPOR3SKctMgpTVpr4Chqf7OMOVENDaBPx/o0JceBaC
- hg1ihAKoX9WNSa/9Up6C/H2GfOD54tiA1U1hdh8IwU3uZMTmeJ3wUZ9eGgk4O0i61/eh
- 4xwVAYEh8tFYfyOk/ZS8TN70vAUE0p61d+sl/GXNu2U/hyasS4HrLzuS7P0Uaw2bw4t1
- +Wfg==
-X-Gm-Message-State: AOAM533jDv+GCxt0AtPwoE3T737Zyu9LWo4Y3Y8wZ0OtZE8qtD+Zuje/
- OkTuMMFCuOUOWTapxoa411DI+TKGyYH2arhf
-X-Google-Smtp-Source: ABdhPJx0An2o17UGp72a+1OQ9mCUVSV/KLSwc5LpdLJfM5hFi/7vsVHpWr9CTHjduc+70VF6EN+3pg==
-X-Received: by 2002:a62:5212:: with SMTP id g18mr124535pfb.8.1599644840472;
- Wed, 09 Sep 2020 02:47:20 -0700 (PDT)
+ bh=30KkRCFEtXNka1aga0YHq3EqESHJABavOs610tDas18=;
+ b=NynkNDgWOaH3edlMnc7x2Z2Kr9j3X9cAUc0XChAWUEpxm2s29vUmjJo/h+A8YmEcrQ
+ HXKddozsr8nOb6Ftef92Rq84mfD3KhGHyPRuuit07Z3vnEZg8AYIES8hxJqSSoMxDaS2
+ kPiTZJ6gQDZJwK0x+hieE53i58TUFBAbaB48C5Tt0WeNPqDlF26RUs31xw8I6g6Bm1zj
+ t4YQmVzj+DcbnQZnIy0ON3Jk4WB5JDyjdnJDoM7Uk7Tyt5StetomiReVXIFD9KLCirxm
+ jv/fKSDq6Axkb24YSw2iIYaq3q/ieBHsCpD8jvf5VFb7mbkeMyv03wZ4hHWf1h1yutr5
+ ABkw==
+X-Gm-Message-State: AOAM530o/aUFHxs1Y9Ghgia6d+XyOSoiyvTWkVdGH9Uph9ZaDvQabAeq
+ FD240xstgZelV2e9kzZlfNTGg4Vak5Z6nuBZ
+X-Google-Smtp-Source: ABdhPJzutvOQp7rgKMAS/3ZDlyVkDAmzSPvudA9ez3fS680rPc3jKBRW1L5UuidUrbJIqpVamvvapg==
+X-Received: by 2002:a17:902:d888:b029:d0:cb2d:f274 with SMTP id
+ b8-20020a170902d888b02900d0cb2df274mr175043plz.13.1599644844631; 
+ Wed, 09 Sep 2020 02:47:24 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.16
+ by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:47:19 -0700 (PDT)
+ Wed, 09 Sep 2020 02:47:23 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/21] meson: disable crypto tests are empty under win32
-Date: Wed,  9 Sep 2020 17:46:07 +0800
-Message-Id: <20200909094617.1582-12-luoyonggang@gmail.com>
+Subject: [PATCH v2 12/21] meson: remove empty else and duplicated gio deps
+Date: Wed,  9 Sep 2020 17:46:08 +0800
+Message-Id: <20200909094617.1582-13-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
 References: <20200909094617.1582-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,39 +94,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Disable following tests on msys2/mingw
-      'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
-                                   tasn1, crypto],
-      'test-crypto-tlssession': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c', 'crypto-tls-psk-helpers.c',
-                                 tasn1, crypto],
-      'test-io-channel-tls': ['io-channel-helpers.c', 'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
-                              tasn1, io, crypto]}
-These tests are failure with:
-ERROR test-crypto-tlscredsx509 - missing test plan
-ERROR test-crypto-tlssession - missing test plan
-ERROR test-io-channel-tls - missing test plan
-
-Because on win32 those test case are all disabled.
-
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meson.build | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/tests/meson.build b/tests/meson.build
-index 998e4c48f9..b470a90e3a 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -145,7 +145,8 @@ if have_block
-     'test-crypto-block': [io],
-   }
-   if 'CONFIG_GNUTLS' in config_host and \
--     'CONFIG_TASN1' in config_host
-+     'CONFIG_TASN1' in config_host and \
-+     'CONFIG_POSIX' in config_host
-     tests += {
-       'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
-                                    tasn1, crypto],
+diff --git a/meson.build b/meson.build
+index 5421eca66a..0b1741557d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -317,7 +317,6 @@ opengl = not_found
+ if 'CONFIG_OPENGL' in config_host
+   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
+                               link_args: config_host['OPENGL_LIBS'].split())
+-else
+ endif
+ gtk = not_found
+ if 'CONFIG_GTK' in config_host
+@@ -344,11 +343,6 @@ if 'CONFIG_ICONV' in config_host
+   iconv = declare_dependency(compile_args: config_host['ICONV_CFLAGS'].split(),
+                              link_args: config_host['ICONV_LIBS'].split())
+ endif
+-gio = not_found
+-if 'CONFIG_GIO' in config_host
+-  gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
+-                           link_args: config_host['GIO_LIBS'].split())
+-endif
+ vnc = not_found
+ png = not_found
+ jpeg = not_found
 -- 
 2.28.0.windows.1
 
