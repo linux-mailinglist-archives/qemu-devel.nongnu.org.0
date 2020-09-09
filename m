@@ -2,28 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC97262F4D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:47:48 +0200 (CEST)
-Received: from localhost ([::1]:49770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8841262F51
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:48:54 +0200 (CEST)
+Received: from localhost ([::1]:54696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG0Rv-00029W-NX
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38126)
+	id 1kG0Sz-0004Ak-P0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kG0PU-0000qX-J1
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:45:16 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:58823)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kG0S7-0003D4-1S; Wed, 09 Sep 2020 09:47:59 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:58273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kG0PR-0007JQ-V8
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:45:16 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kG0S4-0007d8-Ag; Wed, 09 Sep 2020 09:47:58 -0400
 Received: from [192.168.100.1] ([82.252.148.206]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MxUfh-1kR37M2qs5-00xvVx; Wed, 09 Sep 2020 15:45:10 +0200
-Subject: Re: [PATCH 2/2] Makefile: Skip the meson subdir in cscope/TAGS/ctags
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <159916226258.691541.13056254320330610953.stgit@bahia.lan>
- <159916247553.691541.10480293747685886851.stgit@bahia.lan>
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MWixU-1k0Y0t0FY0-00X0RU; Wed, 09 Sep 2020 15:47:51 +0200
+Subject: Re: [PATCH 1/2] hw/net/e1000e: Remove overwritten read handler for
+ STATUS register
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200904131402.590055-1-f4bug@amsat.org>
+ <20200904131402.590055-2-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,35 +69,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <1d9159bd-262e-9bd9-e8b7-cf48e3f4a211@vivier.eu>
-Date: Wed, 9 Sep 2020 15:45:07 +0200
+Message-ID: <f754d7d4-f731-85a4-efa0-7736b1df2883@vivier.eu>
+Date: Wed, 9 Sep 2020 15:47:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <159916247553.691541.10480293747685886851.stgit@bahia.lan>
+In-Reply-To: <20200904131402.590055-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sicwuhrpHwtqiIv3zUZiIzY22VXuUo2idO7pXl5/z1As1M6BH5W
- TPni2EJ/lH7yB3ExtoRMho5k9Gqlh3OADTHoLht1FWKrfZUpzFEriJOk5lrFlMEHAxO59eH
- senNPMiRpPC69+0d9cmOB+tsWJu6kvYkq0csLonJTJiDi2WUtsYdPOMVzqZAUYAJT5H+y4M
- ZSYAazCg6V3P5QuG8Mz3w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kDRgVBYMtpY=:mRKUwYkY2o/j1//mIeSETl
- XV/da0KTnjX9fW5NjCXQ+1mr0hYETaCNNOLGA8CihAkQ6eQXWDMrtX1wrHVoCWz1v/If0F5gK
- eT0zYhRK7fZBfWvRSh14UXoL/pSAN7ul+Px67JgtwbeODSBLMOOIMWbHADv8bVa5Z7+UGpYMs
- hXc7nyRIa6TudiVPj7djeOoKNb75NWOgLCwPYO/W0kzmNrqPuWao9IWcgH+/DDtN4/qa9Uzn5
- CD2zK0RtbEpSI2snSWXOJDuunky975uFYcuT1e6799QHkXSFwnSuqCxghnFVmhCVKlVqPahhz
- NaO+8PRA11xutX98LDRGo+oNEXDZBgLcnhVXrJ5Y3djchq8IlvD28a7gLtzOM5qsxAA2J+uTY
- fkVE+GM0EtyT0XYcGIgu1zcmTC2lNwIC1upALH9GeE7CNKUuyzB2vmyZSu/mIErxUDENJXM3S
- ecNttQ4xleXwgIyfgatPdJ8826wNOr7yN+sRuwLYHZUzYviu6/m28PizOTUG8W16Fy4pTeVZm
- c9XfK24U01NhNQiyEvS/0TDdpLu5WD3cXHcX03XPEImAUkE8isZ3CGWGpgv1egk+S/PTDUsM/
- /rWK2Y1r738B5ivP4cK4PgAeQgWiRdcm57751xHWUC2cBMBHGB8/ijJvUnaMBqqfOYQo60adH
- J9DIRN3VWEjLShF+G9SorYp6kdZGnzICMpUFcU8Odg2A9zyok6ten8DzAy+Ups2Hiv9u/OQHW
- 82soeZ4aAf1RYF8qDL2Qy9l/Kb/jlyMFFpYDKIXxRW/ZwpzBR4cUjK52FqsP9lTxUr29ZCjjN
- TpKYMM89RS+O5c3s7L023KHjV9ixrKAtXFz7OzAzGdTFbziYFCwbCTufM+hfFO5UsW/J1ac
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:mQ+TFq2K0qrj1BrFMvsZaQVHOT2PWJYWhOUqlojaLEW+UFM2MyJ
+ Vnz8M9X0lTN+AXqIMBoQ9w02mr+eaBgBVu/+CBf7HgrQRAMQVZlcWRCFKeoyXuS9KxKlWDt
+ fFnI6D9uOE3BUHMYM9bAJasCx0r4juUzleeXmQMR9xYDYuJj4hvKxsMvHGrjBnt9wmSUYbf
+ 6IHh7vJFCx580tZtBrRlg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OnjoOjcIg4U=:g4hUlhIwiz/Z5J25Gx961g
+ 18+U1r0pd0qrKMR/d/AGq91RpRrL/X6ABkvAILpEyhJK2P0iRUJDybcJSoOE080djKL5OZVJI
+ lD6SgyM4LL43543iqHItqz8Hvqpl0a0SJ80+g608Rb4KcpXR6rI5O9JqPel2pX1jPryvLxOoi
+ qIjs2CYpmYEQdGm/MMUa9UFerB2/LFpqFrZVnGEQ3YFcPY9iMwGn4PLeQfSmX85dxZhwfmlNv
+ hdHqU/MQR6oKyC2ln7nEzopDh0pzkrA2OXTi463edZeszxz64A9RYTQbAsMuoc+1j4Iwoj5kv
+ 5Py0hWa2OCpv5krGcz4BUGsjfJCPEHURtzsq08/p+RyGF1M3wRH6uHP3PXTfgECbKoHjNz2od
+ 2iQSPKiLaBeiO46qh/z+1+wR4dUMJKMaLvwAPg/JB/yNiJYzdSJhpzP6bODN9LMZVcoB3l2Aq
+ b4PgGcB8NSNaEe9h7RQTpjcr8sw684m4k0GB3tACXL5+bRUB5i4rdrzguPdjS/4Rie8OppxEa
+ p+jeAgRiHEZGT6PVcRH+myTRKzFmwo6apqExGcnZ5Kk6d1QuKLoIeHOb/gduRBzB2irRW3hTw
+ kl5kc2eC1TOAhjwhGvxjXkDqxdsaSF7bn+xyZ/2vlDYyQneX6N0ixfdB8FJzxU7H1oIE5cWT8
+ CZvTEF7zlBMmizBzjZK2OH9Z8I5l0dBz5zcgx+3omuf9oKfjHG91cCeQ6fYVEggt/2z8Uuwuv
+ rQQKtuQ1Hl+yFOgWbJuKlWCUuVImK7ccbPMMTflDjBW3VdcHEOBSK+5dzDSZgXAhfuz5GZmVv
+ bdZatrX+u/l5x/RMiMRBAvxpdvgXTcCEzP0wK5ZEYNwfnCGS9aB9Ob8rDfStRo4J0NUvBW0
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 09:40:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 09:26:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -54
 X-Spam_score: -5.5
@@ -115,53 +117,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 03/09/2020 à 21:47, Greg Kurz a écrit :
-> If the meson submodule is present, we don't really want to index its
-> source code. Consolidate the find command in a single place and use
-> it for cscope, ctags and etags. Note that this now causes ctags and
-> etags to also index assembly files, but this is okay since they both
-> have been supporting assembly since 2001 at least.
+Le 04/09/2020 à 15:14, Philippe Mathieu-Daudé a écrit :
+> The STATUS register readop handler is initialized first with
+> the generic e1000e_mac_readreg() handler:
 > 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+>   2861 #define e1000e_getreg(x)    [x] = e1000e_mac_readreg
+>   2862 typedef uint32_t (*readops)(E1000ECore *, int);
+>   2863 static const readops e1000e_macreg_readops[] = {
+>   ....
+>   2919     e1000e_getreg(STATUS),
+> 
+> Then overwritten with the specific e1000e_get_status handler:
+> 
+>   3018     [STATUS]  = e1000e_get_status,
+> 
+> To avoid confusion, remove the overwritten initialization.
+> 
+> 6f3fbe4ed0 ("net: Introduce e1000e device emulation")
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  Makefile |    8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  hw/net/e1000e_core.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/Makefile b/Makefile
-> index a9d3e2c4d375..34dd9e6c4c4a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -229,20 +229,22 @@ distclean: clean ninja-distclean
->  	rm -f linux-headers/asm
->  	rm -Rf .sdk
->  
-> +find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o -name "*.[chsS]"
-> +
->  .PHONY: ctags
->  ctags:
->  	rm -f tags
-> -	find "$(SRC_PATH)" -name '*.[hc]' -exec ctags --append {} +
-> +	$(find-src-path) -exec ctags --append {} +
->  
->  .PHONY: TAGS
->  TAGS:
->  	rm -f TAGS
-> -	find "$(SRC_PATH)" -name '*.[hc]' -exec etags --append {} +
-> +	$(find-src-path) -exec etags --append {} +
->  
->  .PHONY: cscope
->  cscope:
->  	rm -f "$(SRC_PATH)"/cscope.*
-> -	find "$(SRC_PATH)/" -name "*.[chsS]" -print | sed -e 's,^\./,,' > "$(SRC_PATH)/cscope.files"
-> +	$(find-src-path) -print | sed -e 's,^\./,,' > "$(SRC_PATH)/cscope.files"
->  	cscope -b -i"$(SRC_PATH)/cscope.files"
->  
->  # Needed by "meson install"
-> 
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index bcd186cac52..5170e6a4563 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -2916,7 +2916,6 @@ static const readops e1000e_macreg_readops[] = {
+>      e1000e_getreg(TSYNCRXCTL),
+>      e1000e_getreg(TDH),
+>      e1000e_getreg(LEDCTL),
+> -    e1000e_getreg(STATUS),
+>      e1000e_getreg(TCTL),
+>      e1000e_getreg(TDBAL),
+>      e1000e_getreg(TDLEN),
 > 
 
 Applied to my trivial-patches branch.
