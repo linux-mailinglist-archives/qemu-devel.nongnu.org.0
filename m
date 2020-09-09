@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84630262EC3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 14:54:58 +0200 (CEST)
-Received: from localhost ([::1]:50930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD79D262EC9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 14:56:37 +0200 (CEST)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFzcn-0000nR-JE
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 08:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
+	id 1kFzeO-0002uV-NK
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 08:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFzbb-0007xk-8q
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 08:53:43 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27389
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFzbY-0000g8-3N
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 08:53:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599656018;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=UyJ1AJpNdcPkepS4vz0luT5rA7G5nfm/BE3ftAZ853A=;
- b=C29FkwHdtNZw7/95mSOAaTQITCJ2Adk5zdiK6ml9pUkXO1gylN6zBBk2+j1EOTzF+SL0bJ
- CdP5uEHFeQP9LICtoWBX12CaoxHCBihiL2omVq1DW7oJo1UG8NHSFe3YpWr+3LBe8kR63F
- tJbHA+F7B0Tm2GwOubN1G4mV6CMhPts=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-Nhz9LSZsMk2YsRQ7t8hXtA-1; Wed, 09 Sep 2020 08:53:31 -0400
-X-MC-Unique: Nhz9LSZsMk2YsRQ7t8hXtA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2CC81008550;
- Wed,  9 Sep 2020 12:53:29 +0000 (UTC)
-Received: from redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89DF2838C1;
- Wed,  9 Sep 2020 12:53:23 +0000 (UTC)
-Date: Wed, 9 Sep 2020 13:53:20 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v2 06/21] ci: Enable msys2 ci in cirrus
-Message-ID: <20200909125320.GX1011023@redhat.com>
-References: <20200909094617.1582-1-luoyonggang@gmail.com>
- <20200909094617.1582-7-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kFzc9-0000Dn-FT
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 08:54:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kFzc7-0000n9-IG
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 08:54:17 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z4so2847232wrr.4
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 05:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nts6CdecWELGIuqRp/XjHQhxLkOqPmRK0NVbxxf8gkQ=;
+ b=K8ke1Rx5lUJoJHPabumVLfckuYS2NZUWIMqDTwra4w6pOBUHGmG2HyGl4cLFVCA6py
+ Lt8r82VhFtPqTkpq8MaSxEj8JdhxoE8daSVjH+vQgkb8myPUv6ZWV+DT2kcHg0iG3VRr
+ dYPsDulorEuh7aCNq/9lvyNhzGMljgGNc9/Uw0NDNb3q5eVHVWLM0Ugt3VKW7Qsb8UAZ
+ HueAdi8t7BfGbTwKl5o0VTK1HC/tWUiYQWRiIzrlGODiuDBquO85sLxpSinBOxQl/xaV
+ zVvGWeZQLNXYVns8Qx+57DcE0LPmVSVIGCg32j7/jcxMgOuUBI3dlb/J6hoZRj/Mu0p1
+ 9pmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nts6CdecWELGIuqRp/XjHQhxLkOqPmRK0NVbxxf8gkQ=;
+ b=FaZxdIcQ2YaMZJj1LFTBbd6dYSp0VSfj4PiFFdblZKezJKxVQuIrB8IxXnGl+HikWF
+ xagYBTbSQZiD5D0+cP/ncte1eGbpbDwI41wiDkdW5T34lWBv/WCyme8pjLSdxOxgoHGL
+ KwYZh6c/2BhJor1Gp+hJShMJYY/Hty1OkxIf496vn4ZO8+rQvqV3nbM8jZdfooh5TWKg
+ 5tpPhxqU/hFMHmxyx/TNqfPZUOw0hqYURIczE337SldFSPDH7xmOyG4E+xSnrCN74bsn
+ wlr6XQpv6S6TpBFhOLpTBli9GA9ccfUgXgjxocaN5HHlAwkSVMg2Jza7GnetMrUa8wuE
+ Q9Rw==
+X-Gm-Message-State: AOAM531Ju01eKMxEkMl33U7sZ4cptQqW9HoqNrQvCBiA9AifII57VTmo
+ BsEtbV91JQUWJ3J0K9oHqBY=
+X-Google-Smtp-Source: ABdhPJw9jQ3j3ngRgU2/bm+4aIexz3KjHQKaubdCQk7al3+mWnIl10CP6Vu6Ixh2fYNdJ3xfcxzIFg==
+X-Received: by 2002:adf:e9c3:: with SMTP id l3mr3685174wrn.63.1599656053481;
+ Wed, 09 Sep 2020 05:54:13 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id b187sm3833764wmb.8.2020.09.09.05.54.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Sep 2020 05:54:12 -0700 (PDT)
+Subject: Re: [PATCH] tests: fix output message formatting for crypto benchmarks
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200909121027.1040647-1-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <fcbe2c05-b38c-4b12-32f1-c7ce9e7a29dd@amsat.org>
+Date: Wed, 9 Sep 2020 14:54:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200909094617.1582-7-luoyonggang@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200909121027.1040647-1-berrange@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:20:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,114 +91,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 05:46:02PM +0800, Yonggang Luo wrote:
-> Install msys2 in a proper way refer to https://github.com/cirruslabs/cirrus-ci-docs/issues/699
-> The https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2 need to be updated.
-> There is no need of --cross-prefix, open mingw64.exe instead of msys2.exe then we don't
-> need the --cross-prefix, besides we using environment variable settings:
->     MSYS: winsymlinks:nativestrict
->     MSYSTEM: MINGW64
->     CHERE_INVOKING: 1
-> to opening mingw64 native shell.
-> We now running tests with make -i check to skip tests errors.
+On 9/9/20 2:10 PM, Daniel P. Berrangé wrote:
+> The output was changed from g_print to g_test_message in
 > 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+>   commit 24441f912e67233d9c52ce6b459ed75de2484525
+>   Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+>   Date:   Fri Aug 28 15:07:30 2020 +0400
+> 
+>     tests: do not print benchmark output to stdout
+> 
+>     As this makes the TAP output invalid. Use g_test_message().
+> 
+> The functions do not result in equivalent output. The g_print
+> statements were putting all the information on a single line
+> for ease of interpretation. The change to g_test_message split
+> the output across many lines making it painful to read.
+> 
+> The opportunity is used to tweak the information printed to
+> be more consistent across tests.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > ---
->  .cirrus.yml                         | 24 +++++++++++++++++++++
->  scripts/ci/windows/msys2-build.sh   | 28 ++++++++++++++++++++++++
->  scripts/ci/windows/msys2-install.sh | 33 +++++++++++++++++++++++++++++
->  3 files changed, 85 insertions(+)
->  create mode 100644 scripts/ci/windows/msys2-build.sh
->  create mode 100644 scripts/ci/windows/msys2-install.sh
+>  tests/benchmark-crypto-cipher.c | 12 ++++++++----
+>  tests/benchmark-crypto-hash.c   |  4 +++-
+>  tests/benchmark-crypto-hmac.c   |  7 +++----
+>  3 files changed, 14 insertions(+), 9 deletions(-)
 > 
-> diff --git a/.cirrus.yml b/.cirrus.yml
-> index 3dd9fcff7f..49335e68c9 100644
-> --- a/.cirrus.yml
-> +++ b/.cirrus.yml
-> @@ -63,3 +63,27 @@ macos_xcode_task:
->                     --enable-werror --cc=clang || { cat config.log; exit 1; }
->      - gmake -j$(sysctl -n hw.ncpu)
->      - gmake check
-> +
-> +windows_msys2_task:
-> +  windows_container:
-> +    image: cirrusci/windowsservercore:cmake
-> +    os_version: 2019
-> +    cpu: 8
-> +    memory: 8G
-> +  env:
-> +    MSYS: winsymlinks:nativestrict
-> +    MSYSTEM: MINGW64
-> +    CHERE_INVOKING: 1
-> +  printenv_script:
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
-> +  install_script:
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm"
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --needed --noconfirm -S bash pacman pacman-mirrors msys2-runtime"
-> +    - taskkill /F /IM gpg-agent.exe
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2-install.sh"
-> +  script:
-> +    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2-build.sh"
-> diff --git a/scripts/ci/windows/msys2-build.sh b/scripts/ci/windows/msys2-build.sh
-> new file mode 100644
-> index 0000000000..d9d046b5b0
-> --- /dev/null
-> +++ b/scripts/ci/windows/msys2-build.sh
-> @@ -0,0 +1,28 @@
-> +mkdir build
-> +cd build
-> +../configure \
-> +--python=python3 \
-> +--ninja=ninja \
-> +--enable-stack-protector \
-> +--enable-guest-agent \
-> +--disable-pie \
-> +--enable-gnutls --enable-nettle \
-> +--enable-sdl --enable-sdl-image --enable-gtk --disable-vte --enable-curses --enable-iconv \
-> +--enable-vnc --enable-vnc-sasl --enable-vnc-jpeg --enable-vnc-png \
-> +--enable-slirp=git \
-> +--disable-brlapi --enable-curl \
-> +--enable-fdt \
-> +--disable-kvm --enable-hax --enable-whpx \
-> +--enable-libnfs --enable-libusb --enable-live-block-migration --enable-usb-redir \
-> +--enable-lzo --enable-snappy --enable-bzip2 --enable-zstd \
-> +--enable-membarrier --enable-coroutine-pool \
-> +--enable-libssh --enable-libxml2 \
-> +--enable-jemalloc --enable-avx2 \
-> +--enable-replication \
-> +--enable-tools \
-> +--enable-bochs --enable-cloop --enable-dmg --enable-qcow1 --enable-vdi --enable-vvfat --enable-qed --enable-parallels \
-> +--enable-sheepdog \
-> +--enable-capstone=git
-> +
-> +make -j$NUMBER_OF_PROCESSORS
-> +make -i -j$NUMBER_OF_PROCESSORS check
-
-This still needs the changes discussed in v1 to remove all the
-configure args and move the commands into the main cirrus.yml
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-cipher.c
+> index 1936aa4ae0..c04f0a0fba 100644
+> --- a/tests/benchmark-crypto-cipher.c
+> +++ b/tests/benchmark-crypto-cipher.c
+> @@ -70,8 +70,10 @@ static void test_cipher_speed(size_t chunk_size,
+>      }
+>      g_test_timer_elapsed();
+>  
+> -    g_test_message("Enc chunk %zu bytes ", chunk_size);
+> -    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+> +    g_test_message("enc(%s-%s) chunk %zu bytes %.2f MB/sec ",
+> +                   QCryptoCipherAlgorithm_str(alg),
+> +                   QCryptoCipherMode_str(mode),
+> +                   chunk_size, (double)total / MiB / g_test_timer_last());
+>  
+>      g_test_timer_start();
+>      remain = total;
+> @@ -85,8 +87,10 @@ static void test_cipher_speed(size_t chunk_size,
+>      }
+>      g_test_timer_elapsed();
+>  
+> -    g_test_message("Dec chunk %zu bytes ", chunk_size);
+> -    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+> +    g_test_message("dec(%s-%s) chunk %zu bytes %.2f MB/sec ",
+> +                   QCryptoCipherAlgorithm_str(alg),
+> +                   QCryptoCipherMode_str(mode),
+> +                   chunk_size, (double)total / MiB / g_test_timer_last());
+>  
+>      qcrypto_cipher_free(cipher);
+>      g_free(plaintext);
+> diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.c
+> index 598111e75a..927b00bb4d 100644
+> --- a/tests/benchmark-crypto-hash.c
+> +++ b/tests/benchmark-crypto-hash.c
+> @@ -48,7 +48,9 @@ static void test_hash_speed(const void *opaque)
+>      }
+>      g_test_timer_elapsed();
+>  
+> -    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+> +    g_test_message("hash(%s): chunk %zu bytes %.2f MB/sec",
+> +                   QCryptoHashAlgorithm_str(opts->alg),
+> +                   opts->chunk_size, total / g_test_timer_last());
+>  
+>      g_free(out);
+>      g_free(in);
+> diff --git a/tests/benchmark-crypto-hmac.c b/tests/benchmark-crypto-hmac.c
+> index f9fa22df95..5cca636789 100644
+> --- a/tests/benchmark-crypto-hmac.c
+> +++ b/tests/benchmark-crypto-hmac.c
+> @@ -55,10 +55,9 @@ static void test_hmac_speed(const void *opaque)
+>      } while (g_test_timer_elapsed() < 5.0);
+>  
+>      total /= MiB;
+> -    g_test_message("hmac(sha256): ");
+> -    g_test_message("Testing chunk_size %zu bytes ", chunk_size);
+> -    g_test_message("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
+> -    g_test_message("%.2f MB/sec\n", total / g_test_timer_last());
+> +    g_test_message("hmac(%s): chunk %zu bytes %.2f MB/sec",
+> +                   QCryptoHashAlgorithm_str(QCRYPTO_HASH_ALG_SHA256),
+> +                   chunk_size, total / g_test_timer_last());
+>  
+>      g_free(out);
+>      g_free(in);
+> 
 
