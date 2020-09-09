@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BFA262A19
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:21:16 +0200 (CEST)
-Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C5D262A16
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:20:50 +0200 (CEST)
+Received: from localhost ([::1]:47000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFvLv-0005zM-Dk
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
+	id 1kFvLV-0005AL-81
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:20:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kFvIZ-0001p7-Qh
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:17:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33985)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFvIe-0001yG-Dv
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:17:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50637
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kFvIY-0003ls-52
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:17:47 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFvIa-0003mP-Sf
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:17:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599639465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=O9KyATISiZGeakA/smiHhII0pXyg7vLMCyRzJUo4cZU=;
- b=PYLuXWdWBid9N2hB+YtihcAUy7PQfVgpeWuOK2D57gFFAyhyybPZycJuekkE6QdlIHPR0l
- Eepkl8XaIsxzxvNuya/zggRr83dQemBxPhPCEclS34AleSp6eaC8vIrg6bWq13rnwH56ry
- psaHjJ97O8D/rjQKXWEoOkh1mnVXXx4=
+ s=mimecast20190719; t=1599639468;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=/bU1KN+JFHtSXRGCY4oPG5MjkxrSVdRO7vvZSHF+Mo4=;
+ b=cVFjgJdL/5adD8ZZv6Xv7laX2vjGjhJ3WhZ+CAdET7Jg22jZb7hnbuOVHK6WrIblHYXcrb
+ 1+a5xefZAWGCpSkmJ/0I9HvGDub1YYgbeNY0j6nj9SqWTw2puBgZoEpapf4HnJVJ/W0zde
+ OxTj4WE9A3nYBxxEKPeC9zUKcFtirME=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-7wv1Re7-OM-6mmDmAqSFvw-1; Wed, 09 Sep 2020 04:17:43 -0400
-X-MC-Unique: 7wv1Re7-OM-6mmDmAqSFvw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-286-UY6MEyqWN1WaioCi8sGQGA-1; Wed, 09 Sep 2020 04:17:46 -0400
+X-MC-Unique: UY6MEyqWN1WaioCi8sGQGA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B12E0800400;
- Wed,  9 Sep 2020 08:17:42 +0000 (UTC)
-Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
- (ovpn-12-24.pek2.redhat.com [10.72.12.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F5981002D54;
- Wed,  9 Sep 2020 08:17:33 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: mst@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH] pci: advertise a page aligned ATS
-Date: Wed,  9 Sep 2020 16:17:31 +0800
-Message-Id: <20200909081731.24688-1-jasowang@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 976742FD13;
+ Wed,  9 Sep 2020 08:17:44 +0000 (UTC)
+Received: from redhat.com (ovpn-115-8.ams2.redhat.com [10.36.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BA5A5C221;
+ Wed,  9 Sep 2020 08:17:37 +0000 (UTC)
+Date: Wed, 9 Sep 2020 09:17:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Yonggang Luo <luoyonggang@gmail.com>
+Subject: Re: [PATCH 14/16] cirrus: Building freebsd in a single short
+Message-ID: <20200909081735.GE1011023@redhat.com>
+References: <20200908194820.702-1-luoyonggang@gmail.com>
+ <20200908194820.702-15-luoyonggang@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200908194820.702-15-luoyonggang@gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:25:02
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:13:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, Jason Wang <jasowang@redhat.com>,
- qemu-stable@nongnu.org, peterx@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Max Reitz <mreitz@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
+ Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After Linux kernel commit 61363c1474b1 ("iommu/vt-d: Enable ATS only
-if the device uses page aligned address."), ATS will be only enabled
-if device advertises a page aligned request.
+On Wed, Sep 09, 2020 at 03:48:18AM +0800, Yonggang Luo wrote:
+> freebsd 1 hour limit not hit anymore
 
-Unfortunately, vhost-net is the only user and we don't advertise the
-aligned request capability in the past since both vhost IOTLB and
-address_space_get_iotlb_entry() can support non page aligned request.
+How long does the combined job take with this change ? If it is
+within 10 minutes of the limit, then we still want the split, as
+transient changes in the CI system can push it over the limit
+making the test unreliable.
 
-Though it's not clear that if the above kernel commit makes
-sense. Let's advertise a page aligned ATS here to make vhost device
-IOTLB work with Intel IOMMU again.
+> 
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+>  .cirrus.yml | 35 ++++++++---------------------------
+>  1 file changed, 8 insertions(+), 27 deletions(-)
+> 
+> diff --git a/.cirrus.yml b/.cirrus.yml
+> index 49335e68c9..b0004273bb 100644
+> --- a/.cirrus.yml
+> +++ b/.cirrus.yml
+> @@ -1,38 +1,19 @@
+>  env:
+>    CIRRUS_CLONE_DEPTH: 1
+>  
+> -freebsd_1st_task:
+> +freebsd_12_task:
+>    freebsd_instance:
+>      image_family: freebsd-12-1
+> -    cpu: 4
+> -    memory: 4G
+> -  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+> -    bash curl cyrus-sasl git glib gmake gnutls gsed
+> -    nettle perl5 pixman pkgconf png usbredir
+> +    cpu: 8
+> +    memory: 8G
+> +  install_script:
+> +    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
+> +    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
+> +          nettle perl5 pixman pkgconf png usbredir
+>    script:
+>      - mkdir build
+>      - cd build
+> -    - ../configure --disable-user --target-list-exclude='alpha-softmmu
+> -        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+> -        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
+> -        --enable-werror || { cat config.log; exit 1; }
+> -    - gmake -j$(sysctl -n hw.ncpu)
+> -    - gmake -j$(sysctl -n hw.ncpu) check
+> -
+> -freebsd_2nd_task:
+> -  freebsd_instance:
+> -    image_family: freebsd-12-1
+> -    cpu: 4
+> -    memory: 4G
+> -  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+> -    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
+> -    nettle perl5 pixman pkgconf png SDL2 usbredir
+> -  script:
+> -    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
+> -        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+> -        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
+> -        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
+> -        || { cat config.log; exit 1; }
+> +    - ../configure --enable-werror || { cat config.log; exit 1; }
+>      - gmake -j$(sysctl -n hw.ncpu)
+>      - gmake -j$(sysctl -n hw.ncpu) check
+>  
+> -- 
+> 2.28.0.windows.1
+> 
+> 
 
-Note that in the future we may extend pcie_ats_init() to accept
-parameters like queue depth and page alignment.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/pci/pcie.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 5b48bae0f6..d4010cf8f3 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -971,8 +971,9 @@ void pcie_ats_init(PCIDevice *dev, uint16_t offset)
- 
-     dev->exp.ats_cap = offset;
- 
--    /* Invalidate Queue Depth 0, Page Aligned Request 0 */
--    pci_set_word(dev->config + offset + PCI_ATS_CAP, 0);
-+    /* Invalidate Queue Depth 0, Page Aligned Request 1 */
-+    pci_set_word(dev->config + offset + PCI_ATS_CAP,
-+                 PCI_ATS_CAP_PAGE_ALIGNED);
-     /* STU 0, Disabled by default */
-     pci_set_word(dev->config + offset + PCI_ATS_CTRL, 0);
- 
+Regards,
+Daniel
 -- 
-2.20.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
