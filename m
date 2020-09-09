@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DE5262C9A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:54:38 +0200 (CEST)
-Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4D6262CA5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:56:32 +0200 (CEST)
+Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwoH-0000tT-4O
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57534)
+	id 1kFwq7-0004nf-1Y
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:56:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhe-0007PI-Te; Wed, 09 Sep 2020 05:47:46 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:54694)
+ id 1kFwhh-0007VR-Ao; Wed, 09 Sep 2020 05:47:49 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:38056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhc-0007ms-Vy; Wed, 09 Sep 2020 05:47:46 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id mm21so1062114pjb.4;
- Wed, 09 Sep 2020 02:47:42 -0700 (PDT)
+ id 1kFwhf-0007nA-Lf; Wed, 09 Sep 2020 05:47:49 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id u3so1077087pjr.3;
+ Wed, 09 Sep 2020 02:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=faIdeALUAvLzj2kx9mbA5+e0PxUK1yXyWPv+NWO3/qo=;
- b=G4LOm3jBbJ1twzr17e/NtytI0gmonbXYgPwwv6iMltAQhv7FdVgulOLV1gqahG4xrG
- R2MtLQLDfhXHfQclUDcuacQezz0wlcHl9Jw+lypTB5mPaDU4CJvjmZqW2OmoIojogJ6L
- zgeBLX7FDK/R+x2PNSsC7P9gCyQS2rNEjLI2LIlibJdtx/uM3oVX4pbsGfhfbbnINhJM
- PRywuAl0QHg4kYt05G5nUTGziZ7uI+1D1ZTzsgGnIk1vHPSdFxFZaAufBApyjlLKDwez
- nxpovOA/wIqw8UIQwnLez0iBanReo06r4vmDNFNtBbzYX7GfFFkffJfOSLQrFBYN5PQk
- 7sOQ==
+ bh=MQuDwQckI5S2vA+zFEp3FlYAMN7BnHoGVlcCkcEdpEg=;
+ b=tFv1NBTZeuW89mz8Nc2c1yIFqE8pX6UggYf0k6ekGywuJ03hqs519tDB4SImAGqeiZ
+ 5Wrd+1+vVlPCRVjz/jpf648JtmV2eja9VqyrUvCkBdczHYijEaqoNcdBDZtSdDqDLYJy
+ lnwiq5GO2yVUqRLg1BHqyGZW5ETjgEn3uFauUT99d60JhMTXTJiCoZEOz86e4xtJbtsx
+ 5mmwNNQJFJ7d6tbd1QqmwSJrGA/B3vtyD5J7gzR1G3kfR1gNRGnrgftmmodSEhxDWla6
+ IiUjLuN3NDFPAWQadK6Y34AeVSziOuEfBrr6pYbhe6jC6151wRmz2RaKadNieeIZNdr9
+ 4h5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=faIdeALUAvLzj2kx9mbA5+e0PxUK1yXyWPv+NWO3/qo=;
- b=uJDMKWlhX7T4tqiCtI84wEfA6PYZNdIvEmYzvs1tMDkAoETNB0Czr1KrL1K/ekaxyT
- +zXrn7GlqDas3Ax6nJy0EbNt64tgA/i9ktD5VU2cCl3WUINaiCyKUTsgM9zwcKA0KO6M
- XKFvMLTu0X0b7qyH+KH2arxMynd+AwTPY94qBEJAufYL4ELB4MOOD0VQmTkETgJdatdF
- huNrwif4D4Ag2gPA/JHbiXhgWjCRE7Q60cmQ337bwAAs69WXYPmA2kvryoUUyJL1Xg+I
- eSUlZeGC0FcKF4oHt/4UeGza2nzLGYNWCcu5zac5XLDC9qgwuNnI7ruGWryVGrsrD8W7
- +SxQ==
-X-Gm-Message-State: AOAM531RH2Ix+8lkdUIX5yMFcoQIzFGbejh+cm1J6x1/Tg42kKb030qE
- zfqTUL5PgdbwV08KOObE4KioVzLeYeHfFVQi
-X-Google-Smtp-Source: ABdhPJzLPE/Mchrbh0iTFyjsCW7aPQ5RuuyT6Gz85HoER/Lvym9aSfIa6A4Vqr4qK3SNQO+xc3+HyA==
-X-Received: by 2002:a17:90b:289:: with SMTP id az9mr107979pjb.31.1599644861563; 
- Wed, 09 Sep 2020 02:47:41 -0700 (PDT)
+ bh=MQuDwQckI5S2vA+zFEp3FlYAMN7BnHoGVlcCkcEdpEg=;
+ b=q4dfbwS2dUq3nswHxGzRkMobn5HS62aZCMdC4Yz3OSkeoIbh/ul4L6jx+RhhT/r4n9
+ uFtx1yuDw8ciZm3ZfZFr42Sdu/3I47PiZV0ATgtlnuxTUe+ne3zphGx5Ypr+qS7KwOB7
+ LeMNgrjezAet8TSRikpeR6q507kI+OVu35OIgkDXdWZ671WhF6xCvk4A8h8iWDWwSXfm
+ gunlIQ5OzdjvUmwoOE0Ik/ZZFsj43+HIjDOh5NlHdSb9mc0DamAI0BypjpCur2/ZrGFd
+ dgexjABa+6wh+xvI4NYwnuOyq2x7RUxdsTn6lsKZ9sf/xNDkUUH0+ILYPOVq5oZnPr5e
+ Y01w==
+X-Gm-Message-State: AOAM531dbUO64nk2xa7HAeCbF6Nq9g11nEswAtK6hgLNyuwW6RKRTr/o
+ UJQUqAnrHpwyMgjeC4lGnkRPt10Wo9YIoW6v
+X-Google-Smtp-Source: ABdhPJzn8aDSVgEP2Ql2lVscVVKyupwKbDlfZQC9n8jA6bldYi++NNG/uYGzU/6qrqIt0cERcrjLqw==
+X-Received: by 2002:a17:90a:f415:: with SMTP id
+ ch21mr140010pjb.18.1599644865639; 
+ Wed, 09 Sep 2020 02:47:45 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.37
+ by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:47:40 -0700 (PDT)
+ Wed, 09 Sep 2020 02:47:44 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/21] rcu: add uninit destructor for rcu
-Date: Wed,  9 Sep 2020 17:46:12 +0800
-Message-Id: <20200909094617.1582-17-luoyonggang@gmail.com>
+Subject: [PATCH v2 17/21] tests: Fixes test-io-channel-socket.c tests under
+ msys2/mingw
+Date: Wed,  9 Sep 2020 17:46:13 +0800
+Message-Id: <20200909094617.1582-18-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
 References: <20200909094617.1582-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,110 +95,47 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is necessary if the pending  rcu calls are closing and removing
-temp files. This also provide a function
-void rcu_wait_finished(void);
-to fixes test-logging.c test failure on msys2/mingw.
-On windows if the file doesn't closed, you can not remove it.
+Currently test-io-channel-socket doesn't init with
+qemu_init_main_loop
+and that's cause the qemu_aio_context not inited,
+and the following is the stack when null pointer accessed:
+
+qemu_fd_register (c:\work\xemu\qemu\util\main-loop.c:336)
+qemu_try_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:224)
+qemu_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:230)
+socket_can_bind_connect (c:\work\xemu\qemu\tests\socket-helpers.c:93)
+socket_check_protocol_support (c:\work\xemu\qemu\tests\socket-helpers.c:141)
+main (c:\work\xemu\qemu\tests\test-io-channel-socket.c:568)
+__tmainCRTStartup (@__tmainCRTStartup:142)
+mainCRTStartup (@1400014f6..140001539:3)
+BaseThreadInitThunk (@BaseThreadInitThunk:9)
+RtlUserThreadStart (@RtlUserThreadStart:12)
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- include/qemu/rcu.h   |  5 +++++
- tests/test-logging.c |  2 ++
- util/rcu.c           | 37 ++++++++++++++++++++++++++++++++++++-
- 3 files changed, 43 insertions(+), 1 deletion(-)
+ tests/test-io-channel-socket.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 570aa603eb..dd0a92c1d0 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -124,6 +124,11 @@ extern void rcu_unregister_thread(void);
- extern void rcu_enable_atfork(void);
- extern void rcu_disable_atfork(void);
+diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
+index d43083a766..743577d744 100644
+--- a/tests/test-io-channel-socket.c
++++ b/tests/test-io-channel-socket.c
+@@ -25,6 +25,7 @@
+ #include "socket-helpers.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#include "qemu/main-loop.h"
  
-+/*
-+ * Wait all rcu call executed and exit the rcu thread.
-+ */
-+extern void rcu_wait_finished(void);
-+
- struct rcu_head;
- typedef void RCUCBFunc(struct rcu_head *head);
  
-diff --git a/tests/test-logging.c b/tests/test-logging.c
-index 783fe09a27..1fac9250aa 100644
---- a/tests/test-logging.c
-+++ b/tests/test-logging.c
-@@ -210,6 +210,8 @@ int main(int argc, char **argv)
-                          tmp_path, test_logfile_lock);
+ static void test_io_channel_set_socket_bufs(QIOChannel *src,
+@@ -556,6 +557,7 @@ int main(int argc, char **argv)
+     bool has_ipv4, has_ipv6;
  
-     rc = g_test_run();
-+    qemu_log_close();
-+    rcu_wait_finished();
+     module_call_init(MODULE_INIT_QOM);
++    qemu_init_main_loop(&error_abort);
+     socket_init();
  
-     rmdir_full(tmp_path);
-     return rc;
-diff --git a/util/rcu.c b/util/rcu.c
-index 60a37f72c3..43367988b9 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -308,10 +308,20 @@ void rcu_unregister_thread(void)
-     qemu_mutex_unlock(&rcu_registry_lock);
- }
- 
-+typedef struct QemuRcuMessage {
-+    struct rcu_head rcu;
-+    void *message;
-+} QemuRcuMessage;
-+
-+static int rcu_thread_exit_called = 0;
-+static int rcu_thread_exited = 0;
-+static QemuRcuMessage rcu_thread_message;
-+
- static void rcu_init_complete(void)
- {
-     QemuThread thread;
--
-+    atomic_mb_set(&rcu_thread_exit_called, 0);
-+    atomic_mb_set(&rcu_thread_exited, 0);
-     qemu_mutex_init(&rcu_registry_lock);
-     qemu_mutex_init(&rcu_sync_lock);
-     qemu_event_init(&rcu_gp_event, true);
-@@ -327,6 +337,26 @@ static void rcu_init_complete(void)
-     rcu_register_thread();
- }
- 
-+static void rcu_thread_exit(QemuRcuMessage *param)
-+{
-+    atomic_mb_set((int*)param->message, 1);
-+    qemu_thread_exit(NULL);
-+}
-+
-+void rcu_wait_finished(void)
-+{
-+    if (atomic_xchg(&rcu_thread_exit_called, 1) == 0)
-+    {
-+        rcu_thread_message.message = &rcu_thread_exited;
-+        call_rcu(&rcu_thread_message, rcu_thread_exit, rcu);
-+    }
-+
-+    while (atomic_mb_read(&rcu_thread_exited) == 0)
-+    {
-+        g_usleep(10000);
-+    }
-+}
-+
- static int atfork_depth = 1;
- 
- void rcu_enable_atfork(void)
-@@ -379,3 +409,8 @@ static void __attribute__((__constructor__)) rcu_init(void)
- #endif
-     rcu_init_complete();
- }
-+
-+static void __attribute__((__destructor__)) rcu_uninit(void)
-+{
-+    rcu_wait_finished();
-+}
+     g_test_init(&argc, &argv, NULL);
 -- 
 2.28.0.windows.1
 
