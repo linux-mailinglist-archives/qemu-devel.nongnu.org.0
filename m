@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E8E2631A3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 18:22:27 +0200 (CEST)
-Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7A72631AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 18:23:51 +0200 (CEST)
+Received: from localhost ([::1]:34594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG2ra-0001bi-5L
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 12:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54858)
+	id 1kG2sw-0003fl-OD
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 12:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kG2ki-0000gK-2n; Wed, 09 Sep 2020 12:15:20 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:46108)
+ id 1kG2ki-0000ib-Te; Wed, 09 Sep 2020 12:15:20 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:38427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kG2kg-0006YW-OC; Wed, 09 Sep 2020 12:15:19 -0400
-Received: by mail-lj1-x243.google.com with SMTP id a22so4268201ljp.13;
- Wed, 09 Sep 2020 09:15:17 -0700 (PDT)
+ id 1kG2kg-0006YY-Pg; Wed, 09 Sep 2020 12:15:20 -0400
+Received: by mail-lj1-x243.google.com with SMTP id w3so4314542ljo.5;
+ Wed, 09 Sep 2020 09:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6/NYwDNd+IA/YDq3B0TD+rKGxUyX1pBK+vG8qzvYuPM=;
- b=FhfCty2ZHr0zp75cdnJt4Mky/XEhYKNK2gcryrVt+74OLGS9ZLONQnrN1Pcqx4XAvA
- KumvRmFHfUogniMgO+PEDO3CmZD5AxzXEPQ5TabtX1qHMF8LjmcJz+EagrfGfYkQBrBl
- fTp9hHRzbiGAst63YhFsiKZ9Bf5kXMzmgY1PC4JhYTwBDO86EL6lPS2OCj9OieA/fN7F
- MCYadV96fFwAEKLtYq1DtENCkEo1ixMEesNoBDaPt+j9y7/Ms5mbicInzbVSyWhdVeDt
- to/wha2t0XdB5sC7cXwSmj+byBayrKVSl6JDkcADcd5NBDfSxIovzEraPpY+vu+nokHe
- xH/g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dIh6NerjiH44LwAXPnjVVHbLhSVLBK5aoH6ORepxJpQ=;
+ b=JAlHZAsjTSLsjU9QXb7HDnZmYC2f3ERI/+Q+8MDJQ/1rICT8dB1/UuQFLDZnKA/8iV
+ cbVQc41ySLGBzv69Z2MHj4vKzoo5Ssx7YjPWl9VqQXvX3S69Y7dgUUvuG57w5XJ4hJnP
+ AS/z/sUVSsqePBP76Wr6JXpsc3aTEX20ztdVYQiSFdDzoEiht6KrN4uQ7xzzaV7mHdIO
+ AzULheaoCgjbnVVGtbbZdStf/vuUA/tvYuvD4DFexc64rqNTO4dzqpJLfYOR2qcIGx8h
+ O5B6GkPzEf+cOaLKwWTvcRRj4rTeTXceAIZO0IW6xqo5b3htLT2fXUwPcSlwDe9QGEST
+ KCCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6/NYwDNd+IA/YDq3B0TD+rKGxUyX1pBK+vG8qzvYuPM=;
- b=Z15CfSNo83aAlTUk043P21RWlSA8l1q9WmxOTthX8BugydI/sImiDU2peeJf62nG4/
- y1hsMMNVErUgkTWG3SsZitH+FI36XqjHCrutnWinRa/nkvKKbn8wdzGmTDoFpUGkYSR7
- sx0vq4deFIP7UdScNeDETHuRBvtRApDUz8rvqAvW+2/6XXWtyMRpknn/NA6MdL1AOMZ/
- w2jXkoavgamGzpSkT2emtMMQtmNdZe7oP2FKKbIeYBtKojRqyTuhqDy8eY8+WUmpT2fx
- ELSPOuVpMj7Xvf9GadmTHqgedjt0smeKz2b3z+NiVPPcDPB1VlrQ5WrfR0/bwZFImd1r
- 0ozg==
-X-Gm-Message-State: AOAM532t5s/uyBxN5shPXRvxxKcgFkXbjmxO7tbEMNVnOrjmugoFTpmU
- Qc8qohVWzR3m53m1SH1dxZacL8AgdhI=
-X-Google-Smtp-Source: ABdhPJyauGOYZ52tUQQLX9lTFKsoHnUpoRvDk7CwLQjpDMBm5xN8wPi6rsVRWPcj11mkOGf+wNS9rw==
-X-Received: by 2002:a2e:818b:: with SMTP id e11mr2383129ljg.0.1599668115493;
- Wed, 09 Sep 2020 09:15:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dIh6NerjiH44LwAXPnjVVHbLhSVLBK5aoH6ORepxJpQ=;
+ b=rE6omSaa9KRtMGRhIpHyoLdP/FeLfH0s9+4W8nbtnQLNN8i8+7DihuZYhOmC5wUGM9
+ znUd2DFQlJ9M4gNppN7hm62u+wp/3JUR6URDN9VvpvtFc560tVRCHGMsM3A3PNs+axi+
+ dmX2RGFj8FE0TQ07RGMYygSes1nQFz3HKR8tfhWAoZOcUSz0gzxauAHEHw59B5r5dSxN
+ XV2Mp/qR5YCAwDeGYdie4Xq0FnPZzHuXQe8GCUOBqr4WfHEG0vffTsxgWFKcHZEXLCfy
+ fERwlr161lHgLr5dWqhc4TZt0YwI1oXTxlL/amI/5heQXej7nh4l3cGHkEAGTESf2T8O
+ /bOQ==
+X-Gm-Message-State: AOAM532A2MpWIrEJWrlLGobDD9wKxh4YaKb36nj+H9pmukWWBJ0daJCL
+ W/WdRd+5a5u0rdPVMNxmsctzg5uRXhg=
+X-Google-Smtp-Source: ABdhPJzewtq3LmSXFG3VH/BZJKnRvUkznoT+jeSoQwprPehQN2n8El2bkKOhs+/adm1h/DuU1JZs6w==
+X-Received: by 2002:a2e:814b:: with SMTP id t11mr2467712ljg.367.1599668116736; 
+ Wed, 09 Sep 2020 09:15:16 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id z15sm845518lji.78.2020.09.09.09.15.14
+ by smtp.gmail.com with ESMTPSA id w17sm670391lfr.31.2020.09.09.09.15.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 09:15:14 -0700 (PDT)
+ Wed, 09 Sep 2020 09:15:16 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/1] hw/arm: versal-virt: Correct the tx/rx GEM clocks
-Date: Wed,  9 Sep 2020 18:15:13 +0200
-Message-Id: <20200909161514.622998-1-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 1/1] hw/arm: versal-virt: Correct the tx/rx GEM clocks
+Date: Wed,  9 Sep 2020 18:15:14 +0200
+Message-Id: <20200909161514.622998-2-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200909161514.622998-1-edgar.iglesias@gmail.com>
+References: <20200909161514.622998-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::243;
@@ -89,18 +91,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-This corrects the Ethernet tx/rx clocks in the generated DTB.
-Avoids a Linux kernel warning.
+Correct the GEMs tx/rx clocks to use the 125Mhz fixed-clock.
+This matches the setup with the fixed-link 100Mbit PHY.
+I also avoids the following warnings from the Linux kernel
+driver:
 
-Cheers,
-Edgar
+eth0: unable to generate target frequency: 125000000 Hz
 
-Edgar E. Iglesias (1):
-  hw/arm: versal-virt: Correct the tx/rx GEM clocks
-
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+---
  hw/arm/xlnx-versal-virt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 4b3152ee77..43d74b850f 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -212,7 +212,7 @@ static void fdt_add_gem_nodes(VersalVirt *s)
+                               s->phandle.ethernet_phy[i]);
+         qemu_fdt_setprop_cells(s->fdt, name, "clocks",
+                                s->phandle.clk_25Mhz, s->phandle.clk_25Mhz,
+-                               s->phandle.clk_25Mhz, s->phandle.clk_25Mhz);
++                               s->phandle.clk_125Mhz, s->phandle.clk_125Mhz);
+         qemu_fdt_setprop(s->fdt, name, "clock-names",
+                          clocknames, sizeof(clocknames));
+         qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
 -- 
 2.25.1
 
