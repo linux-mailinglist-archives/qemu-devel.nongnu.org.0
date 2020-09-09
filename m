@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7D1262DD7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 13:31:07 +0200 (CEST)
-Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFDF262DE4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 13:34:22 +0200 (CEST)
+Received: from localhost ([::1]:40668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFyJe-0005AR-3I
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 07:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60354)
+	id 1kFyMn-0001Cu-W8
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 07:34:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFyGW-0008T3-IV
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:52 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34772)
+ id 1kFyGd-0000IB-Gq
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:59 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFyGU-0006Wr-J4
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:52 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t10so2565455wrv.1
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 04:27:50 -0700 (PDT)
+ id 1kFyGb-0006Xt-O0
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:59 -0400
+Received: by mail-wr1-x441.google.com with SMTP id e16so2563080wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 04:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xYzK93R335zRMjvSDIkJPyE3RplpCsCBHGGRS+l5Oy8=;
- b=IfrZbKBztv82ehGSAD2BkY50l42f4zqfMvtGe3l6xDQvxvcnr5ZPWU5WOQAvC/hcQl
- cxM2kwP3uCHlc6qLCc72IQYkCMgZHTNE1wdRhnaCLHVRHBhGxS2dXzSAbfkNdtyG8Vah
- KaUUWWcr2kTmYs4kRY30md3x/eHh2td7+JUoFlQtWhIThHjIqiqSIWJEtjnX2sDqoak7
- vkrR5zjf9XYRo5GmqKehUS82Fh0uqxZe11JqATRIuYZFMoj8sYpyE8Q6joO1z/pPRjV+
- cviVXD/Bk5Ul/0kY/YX1nIJl242jcSG3aajqYZ/1EMNZ2bmKI+ronfeEAH3SvHSfFqc3
- IzXw==
+ bh=0gAQyx4BUxAer/TPI6eyMofMbH+F+n5vgmbKXdm5rcc=;
+ b=knS0pgnxnowVxpTrJvI34NE04fgEQFLk/FZ4V9wU3KKfHE+CKjmhBbRhF6IGNKW76G
+ 23n7ND1mb8VMAWkxMd4mEFGF8SFkwavf9iISI5+0rN6DVXmyJBalPLrayfe4fk2qovvz
+ TGsaZkC8nONs8pYxd5wxPJDz4VrNTtOlc2osJJXP31AyrBnhWqjO6mMCqvOOLBv5FKmM
+ JKqDltUqPN65b7a98NsFfO+XgZpR9hERS7XoqOTa4aYfmSdVS/Y55q0+yAAQ7FJ8N5uN
+ 0uGRrwuYPAWEGXz6gRYWiovoI+nYZVelK/JObZsYV0KE4uOJPxfCPpDaMgBPTpldWdhg
+ QR/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xYzK93R335zRMjvSDIkJPyE3RplpCsCBHGGRS+l5Oy8=;
- b=h9yawzNw2N8f3PeLdQn7CxHRpJbV0Z8XFsHghSEBcq+9o6a5bucaNfVLjXVRneDP0F
- 6FnIUYi4N7JmFz0WBBuEuhnW31vTvGP91VRbfFT0WamqcggUWeGKzWQaaMTaI9ck6ADk
- o+q+n+MjWYRgaRx4/X9RbBE0AlI2ChcObFcgTQVBWeM31D2aQm0oSUVFYkAolTSOnGyL
- RyP2MkqSOJ+QM4qCWK8dwHNDm0YT+pO6ZnAJWTEVsZIPVuvikaOqEw742Lrw0oZhBKVb
- FXhSxfnN+aFE27t3hBjucfxZqD2uJmLpeAr7ts74on7bmg/POo/NpC/dJrZeRMdfQtQe
- iYZw==
-X-Gm-Message-State: AOAM532Vq3UC9CfnrZTU2uSSrmFzSh1kAE5jZCss3CbxO4Y3dqaW/D9G
- BijnGhIvgys8T78X/E4tsynikg==
-X-Google-Smtp-Source: ABdhPJyrbGdqC+tD898R79MIWa51+u7QbmCDnGpCjV0kc2rtgo9VbWtNKOAgJZpVcvj/oPDp35L4hw==
-X-Received: by 2002:a5d:5106:: with SMTP id s6mr3787392wrt.166.1599650869147; 
- Wed, 09 Sep 2020 04:27:49 -0700 (PDT)
+ bh=0gAQyx4BUxAer/TPI6eyMofMbH+F+n5vgmbKXdm5rcc=;
+ b=iotHuxZ4AcfWE1QKgHNRWjLiN2hksm0XqxDPtNRN0p94+CJ1W6aQJiewcLcSlwHeti
+ Vv7lvdE73osvh9WIo9VjKseBQQF5NHjLZNurwaaY1rXyzFvbcDX3mEZEt9vV2adD5EWy
+ pg+62vA5+A7hiT+Wo8taMbrXxy+KOdyQOT5bjdAviigy9fggxGXL4v+HM/Jxfnmw3Lvp
+ BjP/DT6+GSndiJc9Oj804upBdznHfibk9+U34cqMRDLFQhi5EhCcgS4UpbMu7HIWqt8Q
+ Mt/HfmwrDlcUBHZuZiyaqPNBhs8jextgx/3yq4zxJLRguBLkar2nEwQC1URhHXxdIHc6
+ Kjew==
+X-Gm-Message-State: AOAM533pDyyUj+/4oTqp0nFEVVib2ZeddhmwTh+ZmHoIt/+NGGbHGQXd
+ ajQPVbRWAFI6fM7Ny7ntsCLmpw==
+X-Google-Smtp-Source: ABdhPJx7eIhuRfxNQj2vqvws+oK+MInZQgoG75Id/OhtcwHHJKC7unR6ASZ2PwBWI0/ZSQEDpiGxmw==
+X-Received: by 2002:adf:fb87:: with SMTP id a7mr3662835wrr.390.1599650876389; 
+ Wed, 09 Sep 2020 04:27:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t4sm3632061wrr.26.2020.09.09.04.27.42
+ by smtp.gmail.com with ESMTPSA id q186sm3547348wma.45.2020.09.09.04.27.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 04:27:45 -0700 (PDT)
+ Wed, 09 Sep 2020 04:27:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 53DDC1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 800F31FF91;
  Wed,  9 Sep 2020 12:27:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 03/10] tests/meson.build: fp tests don't need CONFIG_TCG
-Date: Wed,  9 Sep 2020 12:27:34 +0100
-Message-Id: <20200909112742.25730-4-alex.bennee@linaro.org>
+Subject: [PATCH v2 05/10] docs/system/deprecated: mark ppc64abi32-linux-user
+ for deprecation
+Date: Wed,  9 Sep 2020 12:27:36 +0100
+Message-Id: <20200909112742.25730-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200909112742.25730-1-alex.bennee@linaro.org>
 References: <20200909112742.25730-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,52 +90,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
- aurelien@aurel32.net
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ aurelien@aurel32.net, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the tests build only softfloat.c no actual TCG machinary is neede
-to test them (as is evidenced by GCC check-softfloat). Might as well
-fix the wording on Travis while at it.
+It's buggy and we are not sure anyone uses it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200903112107.27367-7-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- .travis.yml       | 2 +-
- tests/meson.build | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ docs/system/deprecated.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/.travis.yml b/.travis.yml
-index 1d0ade0a133..65341634d02 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -138,7 +138,7 @@ jobs:
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 851dbdeb8ab..a158e765c33 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -424,6 +424,13 @@ linux-user mode) is deprecated and will be removed in a future version
+ of QEMU. Support for this CPU was removed from the upstream Linux
+ kernel in 2018, and has also been dropped from glibc.
  
- 
-     # Just build tools and run minimal unit and softfloat checks
--    - name: "GCC check-softfloat (user)"
-+    - name: "GCC check-unit and check-softfloat"
-       env:
-         - BASE_CONFIG="--enable-tools"
-         - CONFIG="--disable-user --disable-system"
-diff --git a/tests/meson.build b/tests/meson.build
-index 998e4c48f90..dae8a77df14 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -259,8 +259,9 @@ test('decodetree', sh,
-      workdir: meson.current_source_dir() / 'decode',
-      suite: 'decodetree')
- 
-+subdir('fp')
++``ppc64abi32`` CPUs (since 5.2.0)
++'''''''''''''''''''''''''''''''''
 +
- if 'CONFIG_TCG' in config_host
--  subdir('fp')
-   if 'CONFIG_PLUGIN' in config_host
-     subdir('plugin')
-   endif
++The ``ppc64abi32`` architecture has a number of issues which regularly
++trip up our CI testing and is suspected to be quite broken. For that
++reason the maintainers strongly suspect no one actually uses it.
++
+ Related binaries
+ ----------------
+ 
 -- 
 2.20.1
 
