@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E96262993
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:07:41 +0200 (CEST)
-Received: from localhost ([::1]:39098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93334262997
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:09:43 +0200 (CEST)
+Received: from localhost ([::1]:46688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFv8m-0006js-Iw
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
+	id 1kFvAk-0001Rk-Jh
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFv7t-0005r6-Po
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:06:45 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46807
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFv8t-0007lF-4P
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:07:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51187
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kFv7r-0002Q3-VI
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:06:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kFv8r-0002Un-CJ
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:07:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599638803;
+ s=mimecast20190719; t=1599638864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=onsHuhM8pHoUai14kpFYq3tGFI1Eb5eHKnOSnETWWG4=;
- b=TK1vOTsC1dSwVm7HzGmrXDw+pNWn6GOn+ozoLi1J+PrXgyYXWFrQ7byCwjV3bhUbchCLGy
- 7oHxjvYCSmAiW0sw+IGzhphOfdqstiE3Xsv2s019QsKQZRJPZT5oXGQHrDAh8+kd3kwjMO
- 9rBybZuwQ2+iGsqfbb7wimyQo8wPPfs=
+ bh=7GravqaGeo6CQ4oaEYb583kgBJRMEK2qtRvuQxWWqOs=;
+ b=YJZoIsQ/CPfE4tyWdeAGaXku0wDg1sAgKHpe/OTqf49blNDpqFop9x8WSaoeKkBJCFE3H+
+ GkMfrjG0EK3yHJhn/4UwQ84fr7z9m9cfExBCS2YAPulbNvF8PJu+Bj82QI6eZxOzdM4Rub
+ 1p+Ea0uRyaM2UJ5myOtEDH9lpVavAUw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-Qafg4Jr8NM2tWAg5PKGphA-1; Wed, 09 Sep 2020 04:06:41 -0400
-X-MC-Unique: Qafg4Jr8NM2tWAg5PKGphA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-279-QXlhQaLbNHCTSSKwcGgD9A-1; Wed, 09 Sep 2020 04:07:41 -0400
+X-MC-Unique: QXlhQaLbNHCTSSKwcGgD9A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FF3318BE160;
- Wed,  9 Sep 2020 08:06:40 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-221.ams2.redhat.com [10.36.113.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69FDF60C15;
- Wed,  9 Sep 2020 08:06:35 +0000 (UTC)
-Date: Wed, 9 Sep 2020 10:06:34 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 1/4] docs: lift block-core.json rST header into parents
-Message-ID: <20200909080634.GB5219@linux.fritz.box>
-References: <20200908093113.47564-1-stefanha@redhat.com>
- <20200908093113.47564-2-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FFC08030A5;
+ Wed,  9 Sep 2020 08:07:39 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-234.ams2.redhat.com [10.36.112.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E317686583;
+ Wed,  9 Sep 2020 08:07:33 +0000 (UTC)
+Subject: Re: [PATCH 11/16] meson: disable crypto tests are empty under win32
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+References: <20200908194820.702-1-luoyonggang@gmail.com>
+ <20200908194820.702-12-luoyonggang@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <5a9ae09d-cfd7-ceb1-3185-209ccd0c10fe@redhat.com>
+Date: Wed, 9 Sep 2020 10:07:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200908093113.47564-2-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200908194820.702-12-luoyonggang@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 02:43:02
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:05:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.626, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>, afrosi@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Peter Lieven <pl@kamp.de>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.09.2020 um 11:31 hat Stefan Hajnoczi geschrieben:
-> block-core.json is included from several places. It has no way of
-> knowing what header level (h1, h2, ...) is appropriate. Sphinx reports
-> errors when it encounters an h2 header where it expects an h1 header.
-> This issue prevents the next patch from generating documentation for
-> qemu-storage-daemon QMP commands.
+On 08/09/2020 21.48, Yonggang Luo wrote:
+> Disable following tests on msys2/mingw
+>       'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+>                                    tasn1, crypto],
+>       'test-crypto-tlssession': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c', 'crypto-tls-psk-helpers.c',
+>                                  tasn1, crypto],
+>       'test-io-channel-tls': ['io-channel-helpers.c', 'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+>                               tasn1, io, crypto]}
 > 
-> Move the header into parents so that the correct header level can be
-> used. Note that transaction.json is not updated since it doesn't seem to
-> need a header.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 > ---
->  docs/interop/firmware.json | 4 ++++
->  qapi/block-core.json       | 4 ----
->  qapi/block.json            | 1 +
->  3 files changed, 5 insertions(+), 4 deletions(-)
+>  tests/meson.build | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/meson.build b/tests/meson.build
+> index 998e4c48f9..b470a90e3a 100644
+> --- a/tests/meson.build
+> +++ b/tests/meson.build
+> @@ -145,7 +145,8 @@ if have_block
+>      'test-crypto-block': [io],
+>    }
+>    if 'CONFIG_GNUTLS' in config_host and \
+> -     'CONFIG_TASN1' in config_host
+> +     'CONFIG_TASN1' in config_host and \
+> +     'CONFIG_POSIX' in config_host
+>      tests += {
+>        'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+>                                     tasn1, crypto],
+> 
 
-storage-daemon/qapi/qapi-schema.json needs an update, too. With the
-series as it is, the block-core.json definitions don't get any headline
-at all and look as if they were part of the previous section.
-
-Maybe a nicer solution would be to keep the second-level heading where
-it is, but to just add a first-level one to the storage daemon
-qapi-schema.json. It makes sense to group block-core and block-export
-together even without the system emulator part, so the top-level
-section wouldn't be arbitrary either, but we would add a second
-subsection soon.
-
-Kevin
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
