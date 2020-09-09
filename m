@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCFC262C84
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:51:31 +0200 (CEST)
-Received: from localhost ([::1]:45342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1BD262C96
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:53:44 +0200 (CEST)
+Received: from localhost ([::1]:53804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwlG-00049d-Va
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
+	id 1kFwnP-0007cp-Ln
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwh6-00071s-FF; Wed, 09 Sep 2020 05:47:12 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:39506)
+ id 1kFwhD-00079H-L5; Wed, 09 Sep 2020 05:47:19 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwh3-0007iZ-Vx; Wed, 09 Sep 2020 05:47:12 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id s2so1072946pjr.4;
- Wed, 09 Sep 2020 02:47:09 -0700 (PDT)
+ id 1kFwh7-0007j3-VN; Wed, 09 Sep 2020 05:47:15 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id o16so1069104pjr.2;
+ Wed, 09 Sep 2020 02:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tUjxHhiaHU9hEAJ1XQZ8uS7Hz0JekKVDba8C4SdQqRg=;
- b=D1WD9oKHPDt5fEFr7qqlZtzuRS3FOLxPJQ1HpaUZU82BZ/oo7GsAO3do/fF7aXzb9w
- 4/N7+DHBglSPhDASLaUaJr1xjrWRtI+szdTNEflWVPn0H8zaRwx364vUedCjUV2ZmTrG
- 8S+CtUY8ZDQx/qANKzm2sOgzOANbEHzmiIl8y+tIv1WT4P75AJJt3DXHyUrVQGUkCFy7
- TzOff4ZVHG3JmQE3AjPmeDpw8eEarA3zqJlmLFRCv1jr8gWO9k+5RSY1b/cR3hFEe0nA
- crgsDnHQ8lhLLHPkXbPKZIj8swcbfTau8uvS3dUO2yBkv955ruYB+JCB+lVuehoRfLSL
- fATg==
+ bh=XFEZh3+xvAfqz2f0h/nVnmxCipA8eA9k8U4UHOk894U=;
+ b=ZGl4qqkWxPcp+1u/vu95J1yjmFXXI1yW5UsDfNWfoCYEXfyqzcD/kl9ZdgDwWgdMZI
+ aIDiuZwfYRXCWPRVox0Ud6FFq5H70wMvTtS3wI0ktXmGhG4qffVWv11cr79Cyv2fp57F
+ t/gIBzaIU6IJtpazBQ0pzGtPC9JOI4BL1um70ffpeD32/5gwQxXty+cdO4yPxvMBEq+r
+ NL3wDicrUI/PsTB11SHnvC52mL13mtIxTDk/5lt3xbI2xg1M1Qnix3Ikx+7+D4oN3pUZ
+ pF4voyKiHppQBKf5mFM+UvtwK56ln10z2OeGf4ii6OSIo6fmTtmQhnXbGsatvJMEMeiC
+ q3eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tUjxHhiaHU9hEAJ1XQZ8uS7Hz0JekKVDba8C4SdQqRg=;
- b=KzEOENvAR+AU9t6p8QaY+g/uSfmdHD3URBmv76o495ZP3ivgNtImnS0/sTSTe7dMy8
- 9N6ZAu3dUuo6vU6TvZzeGNl3tK3sAvqp6kOShYBz5N3PdSYdtd1lTbhM8c0d4P+i9QU3
- lyG2VJRM7IvI3mPaCCSg+BY+UwtxSNjXvwqn0255w6OCtwnpM/pe/kjKPq8pWv1sshKa
- Dn9/mBlscD7Rt5GrY+RYTslXdTKX3yMBebb3XRlsCp+8IwjUvJLLSbz/3dfXHO7+6E/R
- RCuydx1LR9kO9HZCCK7dndvgQHZO6HB5pyzdix+Nqs5fez0rjIaxkdCasm1UM7IUQHpg
- Bm3A==
-X-Gm-Message-State: AOAM532L/PjjF0uDb0SsLji4ikpw5TbYdBLD5Bfbt+Kj7/S9QwlrUe25
- XBfvrRIAvzRL9KHZE5gpNDOFZB84xFoPqa56
-X-Google-Smtp-Source: ABdhPJx6RjhzTIUeQOwzAOnamw+FkD0CxZJ06NvkuE+a9TW8g3a57osbIqajFjG48TtH+035BGQ0mw==
-X-Received: by 2002:a17:90a:aa94:: with SMTP id l20mr92561pjq.95.1599644827751; 
- Wed, 09 Sep 2020 02:47:07 -0700 (PDT)
+ bh=XFEZh3+xvAfqz2f0h/nVnmxCipA8eA9k8U4UHOk894U=;
+ b=tgfAbDMKuXjpkNVyz1OVXaMhD46iOso+wTbYFW7d9MCRRpWzDWX+rDoYrv1stfsPu3
+ RukKs6IMwq0p5EBQuJ5sFYkNh66k1c9thep5XMFVNkcGFrP+aQXvgvLXDs6zvAXnBNTB
+ aoJYGu4w8CYoV6q9a1Pnz7L7SED+sneOMooA4ZNOPqACcl41Fo0yksy3Eeld6/oxZ2WB
+ lX2+hWHpr4CLa2TVfKf+6gkR9Ewh3VD/QkEAx+ImdgpvVPcKtsG0CvR4mkQupUEizM6K
+ 0KoIWdsA2abDL5O7wQzmu1hvmBqdFpgCt+/9vElMZcnDk1WJ2JYZLpmpP2SbNhqorI2X
+ V+pg==
+X-Gm-Message-State: AOAM530R0bnehL2yvC9/nRHEWJDZfJ8Ccu17gutne3VnAvgSu6B+h8YB
+ ypxIclf9GXxCPlix88YapDgPfx6IU4PvAR6t
+X-Google-Smtp-Source: ABdhPJyakJW9crd8/X+I9GJ0HWKM33BoAwk3yZODcTam17ktjdZ0gsDCdMmU9JAteQleOxQpCCRh+g==
+X-Received: by 2002:a17:90b:889:: with SMTP id bj9mr96111pjb.101.1599644831957; 
+ Wed, 09 Sep 2020 02:47:11 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.03
+ by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:47:07 -0700 (PDT)
+ Wed, 09 Sep 2020 02:47:11 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/21] tests: test-replication disable
- /replication/secondary/* on msys2/mingw.
-Date: Wed,  9 Sep 2020 17:46:04 +0800
-Message-Id: <20200909094617.1582-9-luoyonggang@gmail.com>
+Subject: [PATCH v2 09/21] osdep: These function are only available on
+ Non-Win32 system.
+Date: Wed,  9 Sep 2020 17:46:05 +0800
+Message-Id: <20200909094617.1582-10-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
 References: <20200909094617.1582-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,87 +94,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They cause failure on msys2/mingw, that's because file-win32.c not implement
-.bdrv_reopen_prepare/commit/abort yet.
-
-> $ ./tests/test-replication.exe
-> # random seed: R02S3f4d1c01af2b0a046990e0235c481faf
-> 1..13
-> # Start of replication tests
-> # Start of primary tests
-> ok 1 /replication/primary/read
-> ok 2 /replication/primary/write
-> ok 3 /replication/primary/start
-> ok 4 /replication/primary/stop
-> ok 5 /replication/primary/do_checkpoint
-> ok 6 /replication/primary/get_error_all
-> # End of primary tests
-> # Start of secondary tests
-> ok 7 /replication/secondary/read
-> ok 8 /replication/secondary/write
-> Unexpected error in bdrv_reopen_prepare() at ../block.c:4191:
-> Block format 'file' used by node '#block4287' does not support reopening
-> files
-
-Can you try to find out what reopen this is?
-
-I assume it's for switching between read-write and read-only. In this
-case an implementation of .bdrv_reopen_prepare/commit/abort that can do
-this switch is required.
-
-This is more serious development work, so I can't propose a quick fix.
-
-Alternatively, we could just declare replication unsupported on Windows
-and let configure make sure that CONFIG_REPLICATION is never set for it.
-
-<stefanha> luoyonggang: That might be missing functionality in block/file-win32.c.
-* davidgiluk yawns and looks up
-<stefanha> luoyonggang: The block/file-posix.c block driver supports .bdrv_reopen_*()
-while block/file-win32.c does not. It's probably because no one has tried to implement it.
-<luoyonggang> OK, I got the direction,
-<luoyonggang> Just need implement .bdrv_reopen_*() functions in file-win32.c
+int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
+int qemu_unlock_fd(int fd, int64_t start, int64_t len);
+int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
+bool qemu_has_ofd_lock(void);
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/test-replication.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/qemu/osdep.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/test-replication.c b/tests/test-replication.c
-index e7cbd6b144..b067240add 100644
---- a/tests/test-replication.c
-+++ b/tests/test-replication.c
-@@ -392,6 +392,7 @@ static void test_secondary_write(void)
-     teardown_secondary();
- }
- 
-+#ifndef _WIN32
- static void test_secondary_start(void)
- {
-     BlockBackend *top_blk, *local_blk;
-@@ -546,6 +547,7 @@ static void test_secondary_get_error_all(void)
- 
-     teardown_secondary();
- }
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 412962d91a..e80fddd1e8 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -502,11 +502,11 @@ int qemu_close(int fd);
+ int qemu_unlink(const char *name);
+ #ifndef _WIN32
+ int qemu_dup(int fd);
+-#endif
+ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
+ int qemu_unlock_fd(int fd, int64_t start, int64_t len);
+ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
+ bool qemu_has_ofd_lock(void);
 +#endif
  
- static void sigabrt_handler(int signo)
- {
-@@ -597,6 +599,7 @@ int main(int argc, char **argv)
-     /* Secondary */
-     g_test_add_func("/replication/secondary/read",  test_secondary_read);
-     g_test_add_func("/replication/secondary/write", test_secondary_write);
-+#ifndef _WIN32
-     g_test_add_func("/replication/secondary/start", test_secondary_start);
-     g_test_add_func("/replication/secondary/stop",  test_secondary_stop);
-     g_test_add_func("/replication/secondary/continuous_replication",
-@@ -605,6 +608,7 @@ int main(int argc, char **argv)
-                     test_secondary_do_checkpoint);
-     g_test_add_func("/replication/secondary/get_error_all",
-                     test_secondary_get_error_all);
-+#endif
- 
-     ret = g_test_run();
- 
+ #if defined(__HAIKU__) && defined(__i386__)
+ #define FMT_pid "%ld"
 -- 
 2.28.0.windows.1
 
