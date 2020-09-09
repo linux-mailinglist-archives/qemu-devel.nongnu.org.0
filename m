@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73C4262A94
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:40:13 +0200 (CEST)
-Received: from localhost ([::1]:41494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E590262AB7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:44:40 +0200 (CEST)
+Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFveG-0002Fe-SN
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:40:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
+	id 1kFviZ-00024A-7U
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kFvcx-0000v3-1D; Wed, 09 Sep 2020 04:38:51 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kFvcs-0006zo-9w; Wed, 09 Sep 2020 04:38:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1599640702; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=E+/lTKReqydzSUpPehSDgHWj/V/qrfs8w79G5SUYOVKBCAeaLuvyVhbN01cqQBCcQMeZJ85pIPL0MRBzeaGy/fbtTAYPyjUWXOut9lg1sI6TU8GXcsxiqX6SV7FAMi87qvMdtOK4XRwUBbCZukrLQae+n2oYpRu1W74MW6RjSkU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1599640702;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=A+s6JKOwBlT3nIqqBlTNnSv8zmpSGkgPgR0d2cB6f7Y=; 
- b=V3ga9GPs4f3ctmG/l3Z1RN4FDoP1ms6StFpmDD6fm3cTiik8trAB0boDF1g5d6fQ1P9TLtkqZUnYYXbjfRunu/n0+EtLWK4AvDYDNTf/Bl8DAh8y4UKXTsPzlpFClh+gAaAcBFEtD+bNf4FdITY5nlSqVf++DWNaViJ5yrnue7k=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1599640702; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Date:From:To:Cc:Message-ID:Subject:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- bh=A+s6JKOwBlT3nIqqBlTNnSv8zmpSGkgPgR0d2cB6f7Y=;
- b=M2Ucm8XiBE4QxHGoaUY5fVumTOxid/PRlxIgVnLGkVJgNoUaKvvEY3GJn05mcie7
- RqKGB3pqwYWw8xgBudZZ9cMDGAjv3AxZZb0BOtMqS450Qhdzbg1DaYP31raFk4BbzwL
- 4iWIdg+nVNPO16pINvVqlHk5Mg/pdtCMj7FjjnVA=
-Received: from localhost (ec2-52-56-101-76.eu-west-2.compute.amazonaws.com
- [52.56.101.76]) by mx.zoho.com.cn
- with SMTPS id 1599640700750107.10460783921292;
- Wed, 9 Sep 2020 16:38:20 +0800 (CST)
-Date: Wed, 9 Sep 2020 08:38:15 +0000
-From: Fam Zheng <fam@euphon.net>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Message-ID: <20200909083815.wp2f3kmc2xxgjukm@dev>
-Subject: Re: [RFC PATCH v5 2/4] util/vfio-helpers: Report error when IOMMU
- page size is not supported
-References: <20200908180342.280749-1-philmd@redhat.com>
- <20200908180342.280749-3-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFvdu-0002O7-DZ
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:39:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kFvdr-00079K-NH
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:39:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599640786;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L0EDBS66U2NqVrWphr5fNLtK51uhpGPnhE5R9Ug5otQ=;
+ b=IvV8dEckpO7GPMLXQeOQtLErIZ1/2PlTRm63jDXEfYAH/xiVaxwm4W8QOLbeHPC+Ax2gu+
+ CeKYBrvJL48Yh0M0V/XDuaRQOSzo9w5J08bYsUULdKvLZh9nq94wbt3j4RhZUZpRpdSrVl
+ umfp4GPCVbNNO4bcJmyR+uCeTs4GcmI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114-Sc-zbp53NFmGlRe9gSY5SQ-1; Wed, 09 Sep 2020 04:39:42 -0400
+X-MC-Unique: Sc-zbp53NFmGlRe9gSY5SQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6121B8015F6;
+ Wed,  9 Sep 2020 08:39:40 +0000 (UTC)
+Received: from redhat.com (ovpn-115-8.ams2.redhat.com [10.36.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C1AFC83564;
+ Wed,  9 Sep 2020 08:39:33 +0000 (UTC)
+Date: Wed, 9 Sep 2020 09:39:30 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Subject: Re: [PATCH 11/16] meson: disable crypto tests are empty under win32
+Message-ID: <20200909083930.GI1011023@redhat.com>
+References: <20200908194820.702-1-luoyonggang@gmail.com>
+ <20200908194820.702-12-luoyonggang@gmail.com>
+ <20200909081021.GD1011023@redhat.com>
+ <CAE2XoE9-DzwqXw7mh8jom8f2Bu+i1jSqxoD+C=4ZbnA-B_X7Xg@mail.gmail.com>
+ <20200909082229.GF1011023@redhat.com>
+ <CAE2XoE_SW0t-r0urDb12ENZrXzKuKCPMM7cETo13p5-tJ3+E_Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <CAE2XoE_SW0t-r0urDb12ENZrXzKuKCPMM7cETo13p5-tJ3+E_Q@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200908180342.280749-3-philmd@redhat.com>
-X-ZohoCNMailClient: External
-Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
- helo=sender2-op-o12.zoho.com.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 04:38:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:25:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,87 +88,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Qemu-block <qemu-block@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Markus Armbruster <armbru@redhat.com>, Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-09-08 20:03, Philippe Mathieu-Daud=E9 wrote:
-> This driver uses the host page size to align its memory regions,
-> but this size is not always compatible with the IOMMU. Add a
-> check if the size matches, and bails out with listing the sizes
-> the IOMMU supports.
->=20
-> Example on Aarch64:
->=20
->  $ qemu-system-aarch64 -M virt -drive if=3Dnone,id=3Dnvme0,file=3Dnvme://=
-0006:90:00.0/1,format=3Draw
->  qemu-system-aarch64: -drive if=3Dnone,id=3Dnvme0,file=3Dnvme://0006:90:0=
-0.0/1,format=3Draw: Unsupported IOMMU page size: 4 KiB
->  Available page size:
->   64 KiB
->   512 MiB
->=20
-> Suggested-by: Alex Williamson <alex.williamson@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  util/vfio-helpers.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->=20
-> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-> index 55b4107ce69..6d9ec7d365c 100644
-> --- a/util/vfio-helpers.c
-> +++ b/util/vfio-helpers.c
-> @@ -11,6 +11,7 @@
->   */
-> =20
->  #include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
->  #include <sys/ioctl.h>
->  #include <linux/vfio.h>
->  #include "qapi/error.h"
-> @@ -316,6 +317,25 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, cons=
-t char *device,
->          ret =3D -errno;
->          goto fail;
->      }
-> +    if (!(iommu_info.flags & VFIO_IOMMU_INFO_PGSIZES)) {
-> +        error_setg(errp, "Failed to get IOMMU page size info");
-> +        ret =3D -errno;
+On Wed, Sep 09, 2020 at 04:30:26PM +0800, 罗勇刚(Yonggang Luo) wrote:
+> On Wed, Sep 9, 2020 at 4:22 PM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
+> 
+> > On Wed, Sep 09, 2020 at 04:17:22PM +0800, 罗勇刚(Yonggang Luo) wrote:
+> > > On Wed, Sep 9, 2020 at 4:11 PM Daniel P. Berrangé <berrange@redhat.com>
+> > > wrote:
+> > >
+> > > > On Wed, Sep 09, 2020 at 03:48:15AM +0800, Yonggang Luo wrote:
+> > > > > Disable following tests on msys2/mingw
+> > > > >       'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c',
+> > > > 'pkix_asn1_tab.c',
+> > > > >                                    tasn1, crypto],
+> > > > >       'test-crypto-tlssession': ['crypto-tls-x509-helpers.c',
+> > > > 'pkix_asn1_tab.c', 'crypto-tls-psk-helpers.c',
+> > > > >                                  tasn1, crypto],
+> > > > >       'test-io-channel-tls': ['io-channel-helpers.c',
+> > > > 'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+> > > > >                               tasn1, io, crypto]}
+> > > >
+> > > > Why ?   GNUTLS is available on Windows and if it is enabled
+> > > > at build time, then we should certainly be running the tests.
+> > > >
+> > >
+> > > Don't know why., the header disable it totally.
+> >
+> > Yes, I know the source disables it, because it creates various
+> > files and no effort has been made to use WIndows filename
+> > building code.
+> >
+> > Given that it is already disabled in the source, why do we need
+> > to disable it a second time in meson.build ?
+> >
+> Because when there is no testcase ,the test runner would complain
+> ERROR - missing test plan
 
-We don't have errno here, do we?
+Ok, please say that in the commit message to explain why the change
+is needed.
 
-> +        goto fail;
-> +    }
-> +    if (!extract64(iommu_info.iova_pgsizes,
-> +                   ctz64(qemu_real_host_page_size), 1)) {
-> +        g_autofree char *host_page_size =3D size_to_str(qemu_real_host_p=
-age_size);
-> +        error_setg(errp, "Unsupported IOMMU page size: %s", host_page_si=
-ze);
-> +        error_append_hint(errp, "Available page size:\n");
-> +        for (int i =3D 0; i < 64; i++) {
-> +            if (extract64(iommu_info.iova_pgsizes, i, 1)) {
-> +                g_autofree char *iova_pgsizes =3D size_to_str(1UL << i);
-> +                error_append_hint(errp, " %s\n", iova_pgsizes);
-
-Interesting... Since it's printing page size which is fairly low level,
-why not just plain (hex) numbers?
-
-Fam
-
-> +            }
-> +        }
-> +        ret =3D -EINVAL;
-> +        goto fail;
-> +    }
-> =20
->      s->device =3D ioctl(s->group, VFIO_GROUP_GET_DEVICE_FD, device);
-> =20
-> --=20
-> 2.26.2
->=20
->=20
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
