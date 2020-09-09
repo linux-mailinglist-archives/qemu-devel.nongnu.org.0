@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A626C262C7A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:49:51 +0200 (CEST)
-Received: from localhost ([::1]:39690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463C5262CA8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:56:38 +0200 (CEST)
+Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwje-0001mB-Lg
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57290)
+	id 1kFwqD-00057I-9h
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhF-0007DH-Lw; Wed, 09 Sep 2020 05:47:23 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:39205)
+ id 1kFwhM-0007GN-74; Wed, 09 Sep 2020 05:47:32 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:32845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhD-0007jM-Oh; Wed, 09 Sep 2020 05:47:21 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id s2so1073109pjr.4;
- Wed, 09 Sep 2020 02:47:17 -0700 (PDT)
+ id 1kFwhH-0007jr-Mt; Wed, 09 Sep 2020 05:47:27 -0400
+Received: by mail-pg1-x544.google.com with SMTP id s65so621320pgb.0;
+ Wed, 09 Sep 2020 02:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=INK+kK1nWbJF7y+rXihzR5UqDDo3HdyPVAq4bdijot0=;
- b=F+PIYi8MXTHPybJS2JY5O1vD0YT7Ij5s6a7jfa3+Noa5dpLhL/d67hS9X3avrHc7Tu
- utCFH5EMRiiK313o9mYPpEp3qmNZWOTF5cuSSlWdefK5gosOoOKIIEltsK1bgV7uEjGJ
- NwTHM3oUcBPt+vBGzHHe3AGRrk325FhwgiXqpVY4x0hpRRlW7vb/qs95k6fruHbFlste
- tBSUbc2oS2QZfaa730BGHLCjngqfZpK3zMiybjIGI6pEEQNTl9FSO4Z/kN8jdU0Lzwwj
- CVBpus7K7RIcT898ELJxZ01LvhRLtHkRAaLfuxdf679FNIeyPLEXPoYxe9Ec6cjnKJol
- nBxw==
+ bh=xBOHLIgzzS+cZLXuoOhLEV5Djuhr7s8VvLqqjTlGHNI=;
+ b=jxt/VXbKXcB+OjQ8v70XeIXG4aTVqQYrSDG3sZW+CYjblVC/Es9a2PSay0tDBlt1FE
+ byKua9WlGu0y3UfltY2syZZk1zI1GdFilgmF5WePl9QUHARfxOmXpuJWA4SlhWYZxLNF
+ xdyxkoUpSDFG4ebw3s4SpLZ1+2iQ3nj8wvrDdmCzs6YwmCYvcfbAI9IgDT8+hadnveSt
+ BpGRbNMkOaDTO8G69Qk8jkSQpLnJY8gWqr6zugSwLN9NwJWUShfpBYpZYezRuNmvAYAe
+ ku8gQ3hWu+xi09jc5tcd14/iOJGKlfawYJUkV4sfp4o+tPEATAZr+7k0uKLyweRmgzB7
+ qeew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=INK+kK1nWbJF7y+rXihzR5UqDDo3HdyPVAq4bdijot0=;
- b=gurdyu5TvNdpxGXeNHrNXstNmmwL2LY8Gp+eBya6TKMR+RNAc9Z+9HG7YySJ/L/FPO
- CHBuenfm4gfOz4G/xPOy9ZuG/T809JQEbkLKJ4dPCQMgHr00FUAZATrtJrh/sT09CpD/
- JlsPsJu5SSWvvH5V0XKxXDWMAMA+UAHur+D8TMc41y09292I/V0YtBV5YE/oX7zNt8f7
- pXCsxaTrgCnwbGZ07YRwXk/yGYQNi4mA7TOSa95FH2Z7mHEjX8TQjBYTYbVbbwdEGMNU
- VWhoLcKFJCNK0euMbPHm3fqg+VDTjQc7I9cQyJ2lhpUEcDO5QbnD/QwFycbAm+KPdKHx
- qGvQ==
-X-Gm-Message-State: AOAM5334mGq2rWtrtve1HSIMeeaqvK6mcQqOiaLDJvtbnHUqp6gk29Jl
- hx4j72Il5YTC8ambW0jEopmSfVfZOS6Q1I76
-X-Google-Smtp-Source: ABdhPJzDZHd6UN4xCMQIqimIPrd5LOU+9wtTB3eGc88jxGoblZKdu1vcz+W1WAZNUOVHLKa4+1t+hA==
-X-Received: by 2002:a17:90a:d315:: with SMTP id
- p21mr129524pju.88.1599644836259; 
- Wed, 09 Sep 2020 02:47:16 -0700 (PDT)
+ bh=xBOHLIgzzS+cZLXuoOhLEV5Djuhr7s8VvLqqjTlGHNI=;
+ b=Ore9D/31/++1tfdQot9/hFSCfv12AiIaexe4qZdFeENJg/I+GZvw/rzIxCN0f2EuZv
+ iBVhc7d81bR9gRWHoOe95iDY+dC5OavPFb864k9TWZiRvjEfw9oPmLbOUaOzJNKvxIDr
+ 4LBc3ZVcu4Zsv9+WQ6ipMeSLIPfPOR3SKctMgpTVpr4Chqf7OMOVENDaBPx/o0JceBaC
+ hg1ihAKoX9WNSa/9Up6C/H2GfOD54tiA1U1hdh8IwU3uZMTmeJ3wUZ9eGgk4O0i61/eh
+ 4xwVAYEh8tFYfyOk/ZS8TN70vAUE0p61d+sl/GXNu2U/hyasS4HrLzuS7P0Uaw2bw4t1
+ +Wfg==
+X-Gm-Message-State: AOAM533jDv+GCxt0AtPwoE3T737Zyu9LWo4Y3Y8wZ0OtZE8qtD+Zuje/
+ OkTuMMFCuOUOWTapxoa411DI+TKGyYH2arhf
+X-Google-Smtp-Source: ABdhPJx0An2o17UGp72a+1OQ9mCUVSV/KLSwc5LpdLJfM5hFi/7vsVHpWr9CTHjduc+70VF6EN+3pg==
+X-Received: by 2002:a62:5212:: with SMTP id g18mr124535pfb.8.1599644840472;
+ Wed, 09 Sep 2020 02:47:20 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.12
+ by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:47:15 -0700 (PDT)
+ Wed, 09 Sep 2020 02:47:19 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/21] meson: Use -b to ignore CR vs. CR-LF issues on
- Windows
-Date: Wed,  9 Sep 2020 17:46:06 +0800
-Message-Id: <20200909094617.1582-11-luoyonggang@gmail.com>
+Subject: [PATCH v2 11/21] meson: disable crypto tests are empty under win32
+Date: Wed,  9 Sep 2020 17:46:07 +0800
+Message-Id: <20200909094617.1582-12-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
 References: <20200909094617.1582-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,28 +93,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On windows, a difference in line endings causes testsuite failures
-complaining that every single line in files such as
-'tests/qapi-schemadoc-good.texi' is wrong.  Fix it by adding -b to diff.
+Disable following tests on msys2/mingw
+      'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+                                   tasn1, crypto],
+      'test-crypto-tlssession': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c', 'crypto-tls-psk-helpers.c',
+                                 tasn1, crypto],
+      'test-io-channel-tls': ['io-channel-helpers.c', 'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+                              tasn1, io, crypto]}
+These tests are failure with:
+ERROR test-crypto-tlscredsx509 - missing test plan
+ERROR test-crypto-tlssession - missing test plan
+ERROR test-io-channel-tls - missing test plan
+
+Because on win32 those test case are all disabled.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qapi-schema/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index c87d141417..f1449298b0 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -220,6 +220,6 @@ qapi_doc = custom_target('QAPI doc',
- 
- # "full_path()" needed here to work around
- # https://github.com/mesonbuild/meson/issues/7585
--test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
-+test('QAPI doc', diff, args: ['-b', '-u', files('doc-good.texi'), qapi_doc[0].full_path()],
-      depends: qapi_doc,
-      suite: ['qapi-schema', 'qapi-doc'])
+diff --git a/tests/meson.build b/tests/meson.build
+index 998e4c48f9..b470a90e3a 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -145,7 +145,8 @@ if have_block
+     'test-crypto-block': [io],
+   }
+   if 'CONFIG_GNUTLS' in config_host and \
+-     'CONFIG_TASN1' in config_host
++     'CONFIG_TASN1' in config_host and \
++     'CONFIG_POSIX' in config_host
+     tests += {
+       'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+                                    tasn1, crypto],
 -- 
 2.28.0.windows.1
 
