@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19DE26349D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 19:29:05 +0200 (CEST)
-Received: from localhost ([::1]:37900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE2F2634B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 19:34:00 +0200 (CEST)
+Received: from localhost ([::1]:48502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG3u4-0004nY-Ok
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 13:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
+	id 1kG3yp-0001Rv-C0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 13:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG3t6-0003ma-MW; Wed, 09 Sep 2020 13:28:04 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:46249)
+ (Exim 4.90_1) (envelope-from <carpeddiem@gmail.com>)
+ id 1kG3xE-00087I-1H; Wed, 09 Sep 2020 13:32:20 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:37653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kG3t4-0001Q2-QC; Wed, 09 Sep 2020 13:28:04 -0400
-Received: by mail-lj1-x243.google.com with SMTP id a22so4565501ljp.13;
- Wed, 09 Sep 2020 10:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=RwgBRnPlh/MQohEyO0yaWpWbyXHSUxrPm0nMPESEb8o=;
- b=jvKIa7Q4lvRx46LQNjxHmMZAC6IyD0nTHYKJkyv95IKLsmHeplurt4+M4knG4c2RX3
- lp/hD+S/jssEMmYw+dRFuR5YHurFIsRHoDra3CEy7UhzahgUY9ZAbpkk8fbGv6e63Vpe
- PmiyGfIhbu6WEe4G0nQa2vhzhGiNrk8v0/QAlxC6HUQw762DyXJDUhPMsw6UbA6eO5TK
- j9utjpbIT0rLjzViywsQEZsgvJ15Ns7xhoEwA1cS4HqNQlpKVzjtVc3G5Zzy6ROGKeNy
- BYa3ghLOUUqVuiNdE253oxPN8qyCxw9p+eDLTbauscZiagcaYt8lr/dGtHC1dduKCJz/
- ipKg==
+ (Exim 4.90_1) (envelope-from <carpeddiem@gmail.com>)
+ id 1kG3xC-00037s-8e; Wed, 09 Sep 2020 13:32:19 -0400
+Received: by mail-il1-f196.google.com with SMTP id b17so3124579ilh.4;
+ Wed, 09 Sep 2020 10:32:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=RwgBRnPlh/MQohEyO0yaWpWbyXHSUxrPm0nMPESEb8o=;
- b=JzAiGZC+PgkrXoYTNgfyulmPOSIYwHJKfrhR+yQGZZndz2Ldtjy5bxhWH3i1+ZQoFb
- AS8s8pub4rdGfbEZ4HM4QoA/V/6USVziGGQqfk6VbBdrM1nzeqE/5jFBJuZZ/OAyaomX
- /SZ4EJJnhFXhRKERh2ZBGly8biFjjMHVijGBeN0tvJmPcjIhaElqt9r1tt0OzyrDSOXU
- xhHkKYu6X42/7HzR6y1A8NZudm2U/uEQQXmt3Rs/UoTjYkD0k5zpWLo121eax0J+28ZX
- 02PRF0WOBQaduzCb/q/pbvzb+TPHXqo08tUF00boQzcAlo4eQmZcfD8kE/4/xPvVV7p3
- /OfA==
-X-Gm-Message-State: AOAM530N1NsmKAWubcOm6AHPzVuufyftMoyx7fmY9ZAYUgFNrK2yYpGu
- mRaulEouWLFU3XKKLdJa9F2MRE0MKc8PzniuwOg=
-X-Google-Smtp-Source: ABdhPJz+AI8teYrnhrmP5/1oxxQgctEVZUW4Vz86vFld7a8xQiYnlMkKRZ9jnk3V7Ac2LAqbwqhGUwxQVSQzEjUNdbY=
-X-Received: by 2002:a2e:9dc7:: with SMTP id x7mr2600141ljj.447.1599672480136; 
- Wed, 09 Sep 2020 10:28:00 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wJWyn/gFcvxRWShfpRjEtoqO38uPRdrcC9A4hymXxcg=;
+ b=LE+W0OjvwbEPNqRR9XW+Gk3ZdOYQT9Y1P7HYzrx1/nC6uCYY7QJb3ETdAFdW2VQrbq
+ o7oVs9SCubW+ut65MHMbfKQrS6lMMlQ7OGOImMCkUn1+YILZDD0wRH23Q3qfWo+I1nvM
+ M2GrlMzeRJFP1fojGwIehaRuFFCin1E9qyoED7shnuKz0yiMZD8RTiy1Fan7SMOailiQ
+ aD7tJgR0nmkCg36hn8coYCSzYBQbLJnRwZ0lx2weTFApqCvqlK2lgvO3oajxEvIjJQrc
+ QbUscDX0QGGM0p9a0RBfi/VZwUF6d6C0R8dRaLUWTYw8IhQ+3AvMP+aTulZ8NWIFpmJS
+ y8nQ==
+X-Gm-Message-State: AOAM530vj1A+JTwqZoY1k2AticLZZsVurqMVIizXgeNkxAYdzvWGrQBc
+ ECTbXeNMb0zR6dPBIGu+TUdLCfLEMJL4/VYgeP8=
+X-Google-Smtp-Source: ABdhPJwRALttAJX1FTaH/oJLCmpTbAbCVgpvqnL3ty55QOvAlFXGyPIvlWl1QTQOq9GkzwlKc5xtPxTTUBzxLmmk+1Y=
+X-Received: by 2002:a92:9a0b:: with SMTP id t11mr4580385ili.98.1599672736312; 
+ Wed, 09 Sep 2020 10:32:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200908151052.713-1-luoyonggang@gmail.com>
- <20200908151052.713-3-luoyonggang@gmail.com>
- <20200909084107.GE12090@stefanha-x1.localdomain>
- <ef674b21-cdad-9aea-662e-315006438ed4@redhat.com>
-In-Reply-To: <ef674b21-cdad-9aea-662e-315006438ed4@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 10 Sep 2020 01:27:47 +0800
-Message-ID: <CAE2XoE8K6OHBm2DnRQEGjrMFhKU-BngSzh2vjYH5c+Q-2eo9kg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] rcu: add uninit destructor for rcu
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ef82de05aee4c5af"
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200909094617.1582-1-luoyonggang@gmail.com>
+ <20200909094617.1582-15-luoyonggang@gmail.com>
+In-Reply-To: <20200909094617.1582-15-luoyonggang@gmail.com>
+From: Ed Maste <emaste@freebsd.org>
+Date: Wed, 9 Sep 2020 13:32:04 -0400
+Message-ID: <CAPyFy2BrjPh_E3YaxEx73eJjSd3TXeghiokeKL-Y+suupmiP8Q@mail.gmail.com>
+Subject: Re: [PATCH v2 14/21] cirrus: Building freebsd in a single short
+To: Yonggang Luo <luoyonggang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.166.196; envelope-from=carpeddiem@gmail.com;
+ helo=mail-il1-f196.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 13:32:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,134 +68,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Juan Quintela <quintela@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- qemu-level <qemu-devel@nongnu.org>, Maxim Levitsky <mlevitsk@redhat.com>,
- Daniel Brodsky <dnbrdsky@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ef82de05aee4c5af
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 10, 2020 at 1:23 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> On 09/09/20 10:41, Stefan Hajnoczi wrote:
-> > On Tue, Sep 08, 2020 at 11:10:52PM +0800, Yonggang Luo wrote:
-> >> This is necessary if the pending  rcu calls are closing and removing
-> >> temp files. This also provide a function
-> >> void rcu_wait_finished(void);
-> >> to fixes test-logging.c test failure on msys2/mingw.
-> >> On windows if the file doesn't closed, you can not remove it.
-> >>
-> >> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> >> ---
-> >>  include/qemu/rcu.h   |  5 +++++
-> >>  tests/test-logging.c |  2 ++
-> >>  util/rcu.c           | 37 ++++++++++++++++++++++++++++++++++++-
-> >>  3 files changed, 43 insertions(+), 1 deletion(-)
-> > Can the new drain_call_rcu() function be used? Maxim recently posted th=
-e
-> > following patch:
-> >
-> https://patchew.org/QEMU/20200831150124.206267-1-mlevitsk@redhat.com/2020=
-0831150124.206267-3-mlevitsk@redhat.com/
-> >
-> > Whether drain_call_rcu() or rcu_wait_finished() is used, please include
-> > a comment in the code that documents why the wait is necessary. For
-> > example, "qemu_log_close() uses RCU for its FILE pointer but Windows
-> > cannot remove open files, so we need to wait for RCU here".
-> >
-> > Another option is to wait for RCU inside qemu_log_close() so that
-> > callers don't need to worry about this implementation detail:
-> >
-> >   #ifdef _WIN32
-> >   /* Windows cannot remove open files so we need to wait for RCU here *=
-/
-> >   drain_call_rcu();
-> >   #endif
-> >
+On Wed, 9 Sep 2020 at 05:47, Yonggang Luo <luoyonggang@gmail.com> wrote:
 >
-> In this case even synchronize_rcu() should be okay.
+> freebsd 1 hour limit not hit anymore
 >
-> Tried and not working.
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 
-> Paolo
->
->
+Reviewed-by: Ed Maste <emaste@FreeBSD.org>
 
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+> When its running properly, the consumed time are little, but when tests running too long,
+> look at the cpu  usage, the cpu usage are nearly zero. does't consuming time.
 
---000000000000ef82de05aee4c5af
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So it looks like we have a test getting stuck. After this change is in
+we could split the test execution out into its own script so to make
+it more obvious if/when this happens - for example,
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 10, 2020 at 1:23 AM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 0=
-9/09/20 10:41, Stefan Hajnoczi wrote:<br>
-&gt; On Tue, Sep 08, 2020 at 11:10:52PM +0800, Yonggang Luo wrote:<br>
-&gt;&gt; This is necessary if the pending=C2=A0 rcu calls are closing and r=
-emoving<br>
-&gt;&gt; temp files. This also provide a function<br>
-&gt;&gt; void rcu_wait_finished(void);<br>
-&gt;&gt; to fixes test-logging.c test failure on msys2/mingw.<br>
-&gt;&gt; On windows if the file doesn&#39;t closed, you can not remove it.<=
-br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmai=
-l.com" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 include/qemu/rcu.h=C2=A0 =C2=A0|=C2=A0 5 +++++<br>
-&gt;&gt;=C2=A0 tests/test-logging.c |=C2=A0 2 ++<br>
-&gt;&gt;=C2=A0 util/rcu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 37 ++++=
-++++++++++++++++++++++++++++++++-<br>
-&gt;&gt;=C2=A0 3 files changed, 43 insertions(+), 1 deletion(-)<br>
-&gt; Can the new drain_call_rcu() function be used? Maxim recently posted t=
-he<br>
-&gt; following patch:<br>
-&gt; <a href=3D"https://patchew.org/QEMU/20200831150124.206267-1-mlevitsk@r=
-edhat.com/20200831150124.206267-3-mlevitsk@redhat.com/" rel=3D"noreferrer" =
-target=3D"_blank">https://patchew.org/QEMU/20200831150124.206267-1-mlevitsk=
-@redhat.com/20200831150124.206267-3-mlevitsk@redhat.com/</a><br>
-&gt; <br>
-&gt; Whether drain_call_rcu() or rcu_wait_finished() is used, please includ=
-e<br>
-&gt; a comment in the code that documents why the wait is necessary. For<br=
->
-&gt; example, &quot;qemu_log_close() uses RCU for its FILE pointer but Wind=
-ows<br>
-&gt; cannot remove open files, so we need to wait for RCU here&quot;.<br>
-&gt; <br>
-&gt; Another option is to wait for RCU inside qemu_log_close() so that<br>
-&gt; callers don&#39;t need to worry about this implementation detail:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0#ifdef _WIN32<br>
-&gt;=C2=A0 =C2=A0/* Windows cannot remove open files so we need to wait for=
- RCU here */<br>
-&gt;=C2=A0 =C2=A0drain_call_rcu();<br>
-&gt;=C2=A0 =C2=A0#endif<br>
-&gt; <br>
-<br>
-In this case even synchronize_rcu() should be okay.<br>
-<br></blockquote><div>Tried and not working.=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-Paolo<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div></div>
+  script:
+    - mkdir build
+    - cd build
+    - ../configure --enable-werror || { cat config.log; exit 1; }
+    - gmake -j8
+  test_script:
+   - gmake V=1 check
 
---000000000000ef82de05aee4c5af--
+I can follow up with a proper patch for that (and making the change
+for macos as well) later.
 
