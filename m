@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450AE26363D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:46:10 +0200 (CEST)
-Received: from localhost ([::1]:33022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC21426363F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 20:47:57 +0200 (CEST)
+Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG56f-0003w1-Ar
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56510)
+	id 1kG58P-0005nQ-2R
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 14:47:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51f-0005ap-SY
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:40:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20763
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51j-0005jC-KU
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:41:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51e-0007Nx-6M
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:40:59 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kG51h-0007Op-Qf
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 14:41:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599676856;
+ s=mimecast20190719; t=1599676860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Arn6B0SmeqikafxO9N/VhdjhmeW74avnuzI4jKm4YPA=;
- b=UxFAyqFDdNlMGk+h7hQu9+MnsNpojWiKJLZmqzcejtgx+k/EiidLKVynTz2WMa71IHi9z2
- W+fLzl2uEvDuvC79k1w2RDZ+8unQJ+m+3Sk6AOAsbwDNJ6RSD4HCtU1C6N7zMlYMOoIxfa
- E/b6mokhAUD4SweZaIjrSV8kaFgYpmI=
+ bh=cH7xZq5UQALYLOlvnCkkgvSjeRQrwsY6OiBeqlB2TJc=;
+ b=Jiz3RspkEPMV54ED6z1HpAS8gpgq8VoTSQWwExaZOTmBvQqPcxL3HHwKIm+K7rkFxjr3ek
+ 23ffFj1e9Xbp6FiL+9k97YLNdj01AXzv0MCnPGxfZdqwDhZaBffnR+8vPleWmxPxBNDNa7
+ GQ/OxeKCs+Aw2P7cQYQ2RVg6JCfVLVc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-5DCMU4eNMWC9lm-RQR-qJA-1; Wed, 09 Sep 2020 14:40:55 -0400
-X-MC-Unique: 5DCMU4eNMWC9lm-RQR-qJA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-195-cdIuODWMPkSFLEI5TPMPGg-1; Wed, 09 Sep 2020 14:40:57 -0400
+X-MC-Unique: cdIuODWMPkSFLEI5TPMPGg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8ED081DDFD
- for <qemu-devel@nongnu.org>; Wed,  9 Sep 2020 18:40:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E843780EF8C
+ for <qemu-devel@nongnu.org>; Wed,  9 Sep 2020 18:40:56 +0000 (UTC)
 Received: from localhost (ovpn-113-94.ams2.redhat.com [10.36.113.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 260517E8E0;
- Wed,  9 Sep 2020 18:40:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A14219C78;
+ Wed,  9 Sep 2020 18:40:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/8] virtiofsd: Add attr_flags to fuse_entry_param
-Date: Wed,  9 Sep 2020 20:40:23 +0200
-Message-Id: <20200909184028.262297-4-mreitz@redhat.com>
+Subject: [PATCH 4/8] virtiofsd: Add fuse_reply_attr_with_flags()
+Date: Wed,  9 Sep 2020 20:40:24 +0200
+Message-Id: <20200909184028.262297-5-mreitz@redhat.com>
 In-Reply-To: <20200909184028.262297-1-mreitz@redhat.com>
 References: <20200909184028.262297-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 14:15:10
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 07:20:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,86 +84,78 @@ Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fuse_entry_param is converted to fuse_attr on the line (by
-fill_entry()), so it should have a member that mirrors fuse_attr.flags.
+The plain fuse_reply_attr() function does not allow setting
+fuse_attr.flags, so add this new function that does.
 
-fill_entry() should then copy this fuse_entry_param.attr_flags to
-fuse_attr.flags.
+Make fuse_reply_attr() a wrapper around it.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.h |  5 +++++
- tools/virtiofsd/fuse_lowlevel.c | 13 +++++++++----
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.h | 15 +++++++++++++++
+ tools/virtiofsd/fuse_lowlevel.c | 14 ++++++++++++--
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-index 562fd5241e..9c06240f9e 100644
+index 9c06240f9e..1ff6ba1e4f 100644
 --- a/tools/virtiofsd/fuse_lowlevel.h
 +++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -102,6 +102,11 @@ struct fuse_entry_param {
-      *  large value.
-      */
-     double entry_timeout;
-+
-+    /**
-+     * Flags for fuse_attr.flags that do not fit into attr.
-+     */
-+    uint32_t attr_flags;
- };
+@@ -1313,6 +1313,21 @@ int fuse_reply_create(fuse_req_t req, const struct fuse_entry_param *e,
+ int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
+                     double attr_timeout);
  
++/**
++ * Reply with attributes and set fuse_attr.flags
++ *
++ * Possible requests:
++ *   getattr, setattr
++ *
++ * @param req request handle
++ * @param attr the attributes
++ * @param attr_timeout validity timeout (in seconds) for the attributes
++ * @param attr_flags flags to put into fuse_attr.flags
++ * @return zero for success, -errno for failure to send reply
++ */
++int fuse_reply_attr_with_flags(fuse_req_t req, const struct stat *attr,
++                               double attr_timeout, uint32_t attr_flags);
++
  /**
+  * Reply with the contents of a symbolic link
+  *
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index e9e2652d33..3ca49456c3 100644
+index 3ca49456c3..70efd3feaf 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -329,7 +329,8 @@ static unsigned int calc_timeout_nsec(double t)
-     }
+@@ -426,8 +426,8 @@ int fuse_reply_create(fuse_req_t req, const struct fuse_entry_param *e,
+     return send_reply_ok(req, buf, entrysize + sizeof(struct fuse_open_out));
  }
  
--static void fill_entry(struct fuse_entry_out *arg,
-+static void fill_entry(struct fuse_session *se,
-+                       struct fuse_entry_out *arg,
-                        const struct fuse_entry_param *e)
+-int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
+-                    double attr_timeout)
++int fuse_reply_attr_with_flags(fuse_req_t req, const struct stat *attr,
++                               double attr_timeout, uint32_t attr_flags)
  {
-     *arg = (struct fuse_entry_out){
-@@ -341,6 +342,10 @@ static void fill_entry(struct fuse_entry_out *arg,
-         .attr_valid_nsec = calc_timeout_nsec(e->attr_timeout),
-     };
-     convert_stat(&e->attr, &arg->attr);
-+
-+    if (se->conn.capable & FUSE_CAP_ATTR_FLAGS) {
-+        arg->attr.flags = e->attr_flags;
-+    }
- }
- 
- /*
-@@ -365,7 +370,7 @@ size_t fuse_add_direntry_plus(fuse_req_t req, char *buf, size_t bufsize,
- 
-     struct fuse_direntplus *dp = (struct fuse_direntplus *)buf;
-     memset(&dp->entry_out, 0, sizeof(dp->entry_out));
--    fill_entry(&dp->entry_out, e);
-+    fill_entry(req->se, &dp->entry_out, e);
- 
-     struct fuse_dirent *dirent = &dp->dirent;
-     *dirent = (struct fuse_dirent){
-@@ -403,7 +408,7 @@ int fuse_reply_entry(fuse_req_t req, const struct fuse_entry_param *e)
+     struct fuse_attr_out arg;
      size_t size = sizeof(arg);
+@@ -437,9 +437,19 @@ int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
+     arg.attr_valid_nsec = calc_timeout_nsec(attr_timeout);
+     convert_stat(attr, &arg.attr);
  
-     memset(&arg, 0, sizeof(arg));
--    fill_entry(&arg, e);
-+    fill_entry(req->se, &arg, e);
++    if (req->se->conn.capable & FUSE_CAP_ATTR_FLAGS) {
++        arg.attr.flags = attr_flags;
++    }
++
      return send_reply_ok(req, &arg, size);
  }
  
-@@ -416,7 +421,7 @@ int fuse_reply_create(fuse_req_t req, const struct fuse_entry_param *e,
-     struct fuse_open_out *oarg = (struct fuse_open_out *)(buf + entrysize);
- 
-     memset(buf, 0, sizeof(buf));
--    fill_entry(earg, e);
-+    fill_entry(req->se, earg, e);
-     fill_open(oarg, f);
-     return send_reply_ok(req, buf, entrysize + sizeof(struct fuse_open_out));
- }
++int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
++                    double attr_timeout)
++{
++    return fuse_reply_attr_with_flags(req, attr, attr_timeout, 0);
++}
++
+ int fuse_reply_readlink(fuse_req_t req, const char *linkname)
+ {
+     return send_reply_ok(req, linkname, strlen(linkname));
 -- 
 2.26.2
 
