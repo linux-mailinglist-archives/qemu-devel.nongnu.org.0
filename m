@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFECC263671
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 21:04:58 +0200 (CEST)
-Received: from localhost ([::1]:53842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8D6263676
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 21:08:07 +0200 (CEST)
+Received: from localhost ([::1]:40490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG5Or-0007tA-VD
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 15:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60864)
+	id 1kG5Ru-0005dW-4m
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 15:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kG5KI-0007M2-OV; Wed, 09 Sep 2020 15:00:14 -0400
+ id 1kG5KL-0007SO-5m; Wed, 09 Sep 2020 15:00:17 -0400
 Received: from mail-eopbgr00097.outbound.protection.outlook.com
  ([40.107.0.97]:61422 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kG5KG-0001PE-O7; Wed, 09 Sep 2020 15:00:14 -0400
+ id 1kG5KJ-0001PE-9o; Wed, 09 Sep 2020 15:00:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GQg75RVv0hLzhmQPUZ8IXR3FBw+14fkcfRSH9A+wYA16XnNzAliP0YDYzRkBsMkFeulkrRlqjkTb5i5M6cuGaOs7F8cAoRMSs+NmCRcKr41alSTQ7rz8fMvbSE4H/gp16kNT9ezTASGinc6HhyWcRYM0wtTf0+XsxXn9EYjApPciJ0BlaOrmyEAzsg9MyhASW7Q0xz5E4x6iE33gZoGD3ky4Ma/gHCbHqQ0InVcREaHPy+G1BDJ6XFdtrETMrUokFhDY3d03CZTdRIysDIGy3bCUNq8MRJk36IkAJpf/vPBnuURebFbADi93pyAWb5zTSABm/79/xLEozBa+gy7r/w==
+ b=YALM2lfKnSfwxOeIWLF4TFXChOrRB9dNp2ci4eTZp4z6UKXaPnlMf4kd17dRKBmSQsfAZHR4drRaahoQ0MlQMFLuyxGRs8lNuDMpjAhJxffHQEgpEVvy4rudp1fsz9fxPT+4805/LdI5U+GZfzlpBTHBo2Zr/Lb/AMz6z1mK7TEcUhIbGuaBnfMv09fU+mx+mzGURIym3hmqCAjP16fLkkDTH6LXNTE9HffClN8wa6MBNRaCZh/+Ab1S4Awi21xZlg07h85EmWWgpkTNHHxbsJGM+Whn39rGdEqp58BBC/ORdykvQIYMSj7KkvavBcizMp4RhvJyhr7v1jWxptgE8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HyJiuyPPPcnsUxyZB0vjhr3BuepffccjNO/Yfp6rZhU=;
- b=T2mZ0rl8wofnqFjptdJ9XtdLW0yw2jZwXiTf8ZWCyOUaZaJjCDWbnAJ07lDI5Y2/6VPkqhTJ5/uPAWKI+wsH0M38IWaerF9AhBt0WJJdQdHtoNKIle55ciPdytv4EkNFQcVmFFZdqlxeZ/t8PZG/MNtYAkPoIiCCNapFnaPyxED44ooX1pss8U4CcfyqipARKVED0t5jkIIJW5Rd4jz61i6tm1do1jhHJIbXUUtA7rfVd5lnTgi3vOnWREf24DzbplOggA5EiKcArUXD0c3TPSIReHXtkCaBnmsfn1yFJ3SUddCw9TOn1P+/2XH9hWexxDwKUen932VCruH0LkVlIg==
+ bh=RZqypv9Biw0KZykq2njpW7zzON3JmbB3iLPv0ipZUCA=;
+ b=kZ9m0+H3fxx53IQdhHsEepmewkozdPcKOlB8eHBbR3Bv+cC5E7r5ZJ0YlfgjtJM6MWrHLpJJPKpbsz6HZ1148/NP3F3/0F0uglh2wFoOfoawIFkvdQGKNjb2FdXmY/swjudPm4h+/FRZNxiJ3ecOHlCn7x6RDXxgcAZ3syPJaG4dnxYwklrliDrT7MdpJsPxbNJ/HdPYkvkRwkSooYPmKKVRXYp4K5eXA7WFcblBwrBZFLCL9YGKkUrTZI03ZTIsIaAcI6coDq0DnrwU2Hj0SW70WkGQ3fJOmExcAy0K7QaNZuOnAs9jk4Fit0uctkE6NVz39e2o69KoeYPW3z+vGQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HyJiuyPPPcnsUxyZB0vjhr3BuepffccjNO/Yfp6rZhU=;
- b=EazSl88O9uaWxbPBNuJje2kmuJLnTANwDkzY7O2xPOuOlSHr+JuqLlhQZPK/DxqRzcdR3tgVNDTjwBPDcQFz6JhiMiGIdcVl+z+UhA9gjFnJR2wxeOzChKvc+l1epV44Z0N6l5m6IV1o4p1K7rYFYBb8c0vSUoKSHbALjnayXY0=
+ bh=RZqypv9Biw0KZykq2njpW7zzON3JmbB3iLPv0ipZUCA=;
+ b=NA3dHgktE6r+DL+EBqz229h7wrtn473QUjDgENqCNzSZrqyAg4iX1+cwQrXYpn+iesBER6SCr5P1Lm5trn843UbbG2eLV521QCVfEoQqZhZQFa68bPqWUOuOactBxa1a/wWrHILqqb6Ouio5lLbzn1xEvlLDzGOQMlVbxlGqhVs=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16; Wed, 9 Sep
- 2020 19:00:03 +0000
+ 2020 19:00:05 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692%7]) with mapi id 15.20.3348.019; Wed, 9 Sep 2020
- 19:00:03 +0000
+ 19:00:05 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, berto@igalia.com,
  vsementsov@virtuozzo.com, eblake@redhat.com, jsnow@redhat.com,
  stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
  ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com, groug@kaod.org
-Subject: [PATCH 12/14] block/qcow2: read_cache_sizes: return status value
-Date: Wed,  9 Sep 2020 21:59:28 +0300
-Message-Id: <20200909185930.26524-13-vsementsov@virtuozzo.com>
+Subject: [PATCH 13/14] block/qcow2: qcow2_do_open: deal with errp
+Date: Wed,  9 Sep 2020 21:59:29 +0300
+Message-Id: <20200909185930.26524-14-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200909185930.26524-1-vsementsov@virtuozzo.com>
 References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
@@ -66,32 +66,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.136) by
  AM3PR07CA0054.eurprd07.prod.outlook.com (2603:10a6:207:4::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.5 via Frontend Transport; Wed, 9 Sep 2020 19:00:02 +0000
+ 15.20.3391.5 via Frontend Transport; Wed, 9 Sep 2020 19:00:03 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.136]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 033bc96c-50c3-45b4-c3b5-08d854f28f55
+X-MS-Office365-Filtering-Correlation-Id: 07d87ea7-54b7-4796-2e72-08d854f28ffd
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4070:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4070BE5A29E6BC32950E07BDC1260@AM6PR08MB4070.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB407051FD8D3C4343A8BD2B4AC1260@AM6PR08MB4070.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:374;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ITQYp5sUh8Nqt9+8zRQCvx3DneIbS3GAJpgTvksHzXT4U0uU5qRIYK7DTZmSFd648uHpRLLxsGvM8l2IkBbEog2uqQvtj77Weq5/DS7Uj0lawvvC/igqAa4jZNVw6K6zILwbHGRPWDYqCYmwJTfCDaL1cqJ9KHdDqkFrE9HyuJhhI+rJi0ZISw+QcLBRw0lN1xpPHTnJtCd2loP1C+CxSIlxIZ2ww+0+gDSNApE+pzf2uL79/vyzS7a1oKtG7NjtUa+0OfrbLX+YTOEUGmMQtYo9GAUXB4p+NMcRSCKdocMr4RK/OJRSoVJAwV+M8kKhye8E00tF5l8e8+j8eJhH+A==
+X-Microsoft-Antispam-Message-Info: bryxvBnMbjxJYGDfKRWyf1NRku3EErZSphUCm57qYorWyodz+wB7Vr0y26XK+iFjrvKQNXGRrbBgvppqigzoE2QRqzH2CJEbToo9zg6uTf6HVFrPmkwulSArue2PsUuPIgC+Ul8biTiKV0pTn044v601g9IXwmNtEOGy+E02ouxgc01MyHTt/oLe2BEZKy5eIMSQHwRjeSPlZ/p2+7OpWfTWYEA6T8le023HE7x7I5sh58vuSlvhAEtI2YleNjKc1FmrDRQT6Skt+pepU1QxR+F4kiQF4r9dybzxyKOW/9bpmbcNMXEUqdF9vS1aKV8t0fIgoft6LHHa4o2Wu5EuAg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(39840400004)(396003)(136003)(376002)(346002)(26005)(316002)(8936002)(8676002)(16526019)(186003)(478600001)(5660300002)(6506007)(7416002)(6512007)(83380400001)(6666004)(4326008)(36756003)(52116002)(2906002)(6486002)(66556008)(66476007)(956004)(6916009)(2616005)(86362001)(1076003)(66946007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: fM0Nlz94bmQF49qmx3+sVD4Eb05NznWzmmyz1wNbMc+Bt02uaGgMaMWZUv3Kok6rU0hS3SLpxVFwR5jndgKtrh8kEhbhTmSOEy7fb03P9z/7T0sTKC69PvQTeIKU3QAh+dWYD/p5s5eA9jK1/HkHblCNNGtD1uJOsFhcmCJQSuepzI82ENXinhdKbBd0UNikoB5MXWkHEWzS6RgoLzZJH5FCE1J6JjwcC4zG7u7eC7d8X6g2JHRsm0ydShafEPVpl+iFztbF4RjC6oHukXoqg76erIsYY76xC9Fc1LfJGSUHMRkOjPOqz5QXaN1ZTbAQeQ5DKhR1mbFG5T8dsU6b4nTXVoINiy/9uTdZXoaWDpCQ+dZt8xGm4vZx3xCkcwQAIETGvUJ1Fi/JfUdS+H+4DnJT3hi0wFJ/MImZWkUoYH7tbbAk+AC9mpTOzooicTNOAavflQg2POKdoU60qXWq3N5KLB4KFZVO73aWEMCdYU530MiiboDK6VyY8/qsLqa3BjKoCmJduvKIuvM7j9KH4bdVeu8YVQRye1jjnaNXUYbFPSVMqXbsoxLpNtj8e6uSm7dbLHMPeVNke/DGbatQrnVqoVyZHxps7q5KgvB7OpjqEKUlNxQbCVdecHIpg1HW+ciH9eTTnkEirLCaIvt9Vw==
+X-MS-Exchange-AntiSpam-MessageData: YoRlTIkYFPIfQluh3uebE2mdIOrQuzau2vUmVhtggnCtFQX+gKAuQC+9Hk8xcF7qMNaxKSjnxa+gRHlzpe0TRc9m9X92oIXmln8fNpwhAj+L2Y2eTAvuDMtCbr9D7jXfMeR2E3dCtuENNMOGO90f4SmJhp+ZBjfKIyYB0UIgbzjeWwYmuogNlAtkQCXzxm2X508tXtDL2dAeYEeQn6RyxyXP3nRR7zb0BQcE+w08lCxcagFn60EwI51ay+Nbqlbq34OLWicGKW6XIOwCee4zyoZvLXrcXZeklN/FZxupTol4Sfhhayuk7bpuyJLHOpf9ZpUZkv4pAPTLPqSPXA4KjBN6QZGkX4X6algB949kFQn6UwqdE2ASmQorfD+aLPhfIBDV3R2ReM5Q1Vv8JvN06r+sdaT4y+U9EP6pcNl/f8CKcd9N8SmSv2I1NyDqLc/bdr5u+u5ih0fR04v96mlnDD4J0qfUe3wSaCqttoAFmhjDqGOG8WPvAs4h9ms//R7vSy6Bw4hgoYqrQw4htZ2zrUFO2XTCRwx1lbWZ028uZcHrsTGU663JxSXEso0h0tFrA1z85J/ywHyeJSxoitMc6rgRCjcTJYaB0GAd/X5c2G0fcDJHtxM5J3zY3iEQwz/pIo/sE5AKD8RjGPqPC5h9lw==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 033bc96c-50c3-45b4-c3b5-08d854f28f55
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07d87ea7-54b7-4796-2e72-08d854f28ffd
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 19:00:03.8069 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 19:00:04.9399 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cNQCmgFZh3XdS32KjSeK68zgU7jF/ivAvLVzt5j10Vr90cblg6toNRMWW9GT0/09LtrMVTA1F9A/LCgQ9WVp/KBf3dBsAbHdKW+ZCq5wd44=
+X-MS-Exchange-CrossTenant-UserPrincipalName: B4mnyWLTcb5d63gmke505i9cBQ62ZhDqZO9DMMCXaBWVy0y/V3K3Vyr7VuAGHM7gp67azYPYYOl+cOdimsQrGaW/NPDjC7VuiyqMtN9QR/E=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4070
 Received-SPF: pass client-ip=40.107.0.97;
  envelope-from=vsementsov@virtuozzo.com;
@@ -120,79 +120,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's better to return status together with setting errp. It allows to
-reduce error propagation.
+1. Drop extra error propagation
+
+2. Set errp always on failure. Generic bdrv_open_driver supports driver
+functions which can return negative value and forget to set errp.
+That's a strange thing.. Let's improve qcow2_do_open to not behave this
+way. This allows to simplify code in qcow2_co_invalidate_cache().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ block/qcow2.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/block/qcow2.c b/block/qcow2.c
-index c2cd9434cc..31dd28d19e 100644
+index 31dd28d19e..cc4e7dd461 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -869,7 +869,7 @@ static void qcow2_attach_aio_context(BlockDriverState *bs,
-     cache_clean_timer_init(bs, new_context);
- }
- 
--static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
-+static bool read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
-                              uint64_t *l2_cache_size,
-                              uint64_t *l2_cache_entry_size,
-                              uint64_t *refcount_cache_size, Error **errp)
-@@ -907,16 +907,16 @@ static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
-             error_setg(errp, QCOW2_OPT_CACHE_SIZE ", " QCOW2_OPT_L2_CACHE_SIZE
-                        " and " QCOW2_OPT_REFCOUNT_CACHE_SIZE " may not be set "
-                        "at the same time");
--            return;
-+            return false;
-         } else if (l2_cache_size_set &&
-                    (l2_cache_max_setting > combined_cache_size)) {
-             error_setg(errp, QCOW2_OPT_L2_CACHE_SIZE " may not exceed "
-                        QCOW2_OPT_CACHE_SIZE);
--            return;
-+            return false;
-         } else if (*refcount_cache_size > combined_cache_size) {
-             error_setg(errp, QCOW2_OPT_REFCOUNT_CACHE_SIZE " may not exceed "
-                        QCOW2_OPT_CACHE_SIZE);
--            return;
-+            return false;
-         }
- 
-         if (l2_cache_size_set) {
-@@ -955,8 +955,10 @@ static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
-         error_setg(errp, "L2 cache entry size must be a power of two "
-                    "between %d and the cluster size (%d)",
-                    1 << MIN_CLUSTER_BITS, s->cluster_size);
--        return;
-+        return false;
-     }
-+
-+    return true;
- }
- 
- typedef struct Qcow2ReopenState {
-@@ -983,7 +985,6 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-     int i;
-     const char *encryptfmt;
-     QDict *encryptopts = NULL;
+@@ -1292,6 +1292,7 @@ static int validate_compression_type(BDRVQcow2State *s, Error **errp)
+ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+                                       int flags, Error **errp)
+ {
++    ERRP_GUARD();
+     BDRVQcow2State *s = bs->opaque;
+     unsigned int len, i;
+     int ret = 0;
+@@ -1426,6 +1427,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+         report_unsupported_feature(errp, feature_table,
+                                    s->incompatible_features &
+                                    ~QCOW2_INCOMPAT_MASK);
++        error_setg(errp,
++                   "qcow2 header contains unknown incompatible_feature bits");
+         ret = -ENOTSUP;
+         g_free(feature_table);
+         goto fail;
+@@ -2709,11 +2712,11 @@ static void qcow2_close(BlockDriverState *bs)
+ static void coroutine_fn qcow2_co_invalidate_cache(BlockDriverState *bs,
+                                                    Error **errp)
+ {
++    ERRP_GUARD();
+     BDRVQcow2State *s = bs->opaque;
+     int flags = s->flags;
+     QCryptoBlock *crypto = NULL;
+     QDict *options;
 -    Error *local_err = NULL;
      int ret;
  
-     qdict_extract_subqdict(options, &encryptopts, "encrypt.");
-@@ -996,10 +997,8 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-     }
+     /*
+@@ -2731,16 +2734,11 @@ static void coroutine_fn qcow2_co_invalidate_cache(BlockDriverState *bs,
  
-     /* get L2 table/refcount block cache size from command line options */
--    read_cache_sizes(bs, opts, &l2_cache_size, &l2_cache_entry_size,
--                     &refcount_cache_size, &local_err);
+     flags &= ~BDRV_O_INACTIVE;
+     qemu_co_mutex_lock(&s->lock);
+-    ret = qcow2_do_open(bs, options, flags, &local_err);
++    ret = qcow2_do_open(bs, options, flags, errp);
+     qemu_co_mutex_unlock(&s->lock);
+     qobject_unref(options);
 -    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!read_cache_sizes(bs, opts, &l2_cache_size, &l2_cache_entry_size,
-+                          &refcount_cache_size, errp)) {
-         ret = -EINVAL;
-         goto fail;
+-        error_propagate_prepend(errp, local_err,
+-                                "Could not reopen qcow2 layer: ");
+-        bs->drv = NULL;
+-        return;
+-    } else if (ret < 0) {
+-        error_setg_errno(errp, -ret, "Could not reopen qcow2 layer");
++    if (ret < 0) {
++        error_prepend(errp, "Could not reopen qcow2 layer: ");
+         bs->drv = NULL;
+         return;
      }
 -- 
 2.21.3
