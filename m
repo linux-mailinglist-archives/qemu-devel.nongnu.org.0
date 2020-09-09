@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A672A26240B
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 02:27:57 +0200 (CEST)
-Received: from localhost ([::1]:57122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8072623EC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 02:21:35 +0200 (CEST)
+Received: from localhost ([::1]:47736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFnxs-0007VL-Iy
-	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 20:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37478)
+	id 1kFnri-00006J-Dj
+	for lists+qemu-devel@lfdr.de; Tue, 08 Sep 2020 20:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFnnV-0008Hq-Ty
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:13 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:39474)
+ id 1kFnnY-0008Na-3i
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:16 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:36730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kFnnU-0002Er-67
- for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:13 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id s2so425989pjr.4
- for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 17:17:11 -0700 (PDT)
+ id 1kFnnV-0002FG-Na
+ for qemu-devel@nongnu.org; Tue, 08 Sep 2020 20:17:15 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id b17so435192pji.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Sep 2020 17:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KysIP4SxxPHUzbaJQ7kkTPCy9I7LKQnOtelCJefhblY=;
- b=b/P7kCuSh9/H8RhlUz9a78L1IC69pDlYZWiEE+l0xBf1cH9SaWTney3lVRJvu9Ryjk
- TwKwFqj2v31+NsdwLW6iviAY1TwybGJenVfYNWASVK9mwlh5p64EgtPAMW/H4+iHAD9E
- DTUQnPFMECMxevhIy7ulftsDPebrPTinJlCD7p1Mjnp4i0Z1WdOpZ0uDNWKajp7ua868
- 2p9S1a2n8lRh1HsCPtrUpH06d4Bg5X+nRkRQWMcwDHpKCCt1kk20DF7rMpN7iF1dz8MB
- Lfx6iMLBXV4CwjmZdOKuX16IdvDSi99H0IcbFYKYoyvEGBYLTNepmBtI+EuB+tTPOalV
- Vbsw==
+ bh=KhE58qswq9YQaCuua4OczfbEB+B23TFmcdxq1bqWWp8=;
+ b=dxnUxTlkhhj8f7eDl3RsFRUa2lksKybesVw7ZDebC+5q2jrBGPFFfJmbu+GjNexWIy
+ 24glk4TZk1Odi15HPznhCyxZn55n0fX1pSXWxPHxJ1Eu2NNBSUXVSehMEEEcfa5/MHBj
+ kKgUXm5doxSlZHXg+rC8Q0SB2nKSFhqXatR9KDcjlm6MRyuTmrSI8njcZCayRqK0nX/b
+ GAf9672oq6WPXvcOoL2n9x3LCd8NHgJTAlvVsfUGd1vrrRvKKfFIYDWc+GMwApJmpNIC
+ Rq0Ig83zwkNx7ZETgvEnO6IZ5A/B8r9iClfzDiotjwj6Ts/kZj4l2prw+ekMRx8RhAhA
+ 7yxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KysIP4SxxPHUzbaJQ7kkTPCy9I7LKQnOtelCJefhblY=;
- b=rstfZ1/GIdMYS4v8vugWWPQHqvoJ1e+J65jsLsQp16gN24JAzckEl5KZuDpsb8vot4
- tJ+U15/pHdraUcfRByETBYA5IY4/DZEgSnA0fZAbVucvQFP193Bf8imlDKIki/1SHkHg
- IR0s99wsoi9j+f2k+pUm6OsboukO8L5Lg3BHYxNb4L+2bLBKs2Z32h3PFUekcxVaBEuG
- 1qU0tRvQ2kzR9oNc3Vyp4EgMc48DGp6A3A12sRV+scl5Q2F6JnTHUx4UfD5+dN46luPN
- f7x6Fyu8ehnRSbTBqQgi038z5gUoLn8U+uqy1XYOwiepkgLOpz1Ocqv1dgjc6Q6u17Oq
- mubg==
-X-Gm-Message-State: AOAM531NPSVvE+klQRnq3Q9EUflxujMwrcFk4+n1iZG+xGqvSW19qOXP
- 8WltSWdXSpq00Jp7fKnKyIW4UDSnEP8AdQ==
-X-Google-Smtp-Source: ABdhPJzyhQsOVo3R2NrY/kCJf5zAdys40V/E84RuO4OYbV4e/Bw6NCzJ+LEZD84K14/SFUcgAO9jPg==
-X-Received: by 2002:a17:90a:c907:: with SMTP id
- v7mr1192959pjt.204.1599610630489; 
- Tue, 08 Sep 2020 17:17:10 -0700 (PDT)
+ bh=KhE58qswq9YQaCuua4OczfbEB+B23TFmcdxq1bqWWp8=;
+ b=U45wT99zHQD/sjaB9Fh0dphaDXRomF3vyVIRPphajczQKBO94fNh97XHse3YvFXdEl
+ LPLSeWoixa4jS8PvItucibJ8lcb/DCQucnAvhmmBs/164PEN4Gj7ZTelz/0DG97tYayz
+ VxIAFwNjX1UU85V2Vv61WIp3p9gA4QQ4uA6yi8vhAPo+SfKdC5LjCP/ZFjSyqx1sAdS3
+ 0A3wUGyA7MOzEQpMCo3l3OVS3nD15F7Rh5EjCEZBLNGQnZ0lwIFYvFXnZwpOHHt9JOpm
+ 6AyjxRKuK2mc+nVUhLGI9aqWUeZ7Tgn+EbheGUbBepqjDUbueEgKyU4Q8nAcVw3J1Lz2
+ ui9g==
+X-Gm-Message-State: AOAM531OjjXdj0YDzwbfvWjBKc8IUkBnKk2oZx8445Ds5WYQip2QDdsS
+ maBsgHfhfesqtTd1q+vC19GrIwZJAAiTxA==
+X-Google-Smtp-Source: ABdhPJzqJYriTDR2fvXbFDPnFrfRpDWTx1Vt9xZ7A1SqAxapFxR3EV1YeloTTZGioXD+YXtVCu4NUA==
+X-Received: by 2002:a17:90a:9103:: with SMTP id k3mr1220342pjo.4.1599610631745; 
+ Tue, 08 Sep 2020 17:17:11 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 137sm505437pfu.149.2020.09.08.17.17.09
+ by smtp.gmail.com with ESMTPSA id 137sm505437pfu.149.2020.09.08.17.17.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Sep 2020 17:17:09 -0700 (PDT)
+ Tue, 08 Sep 2020 17:17:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/43] tcg: Expand TempOptInfo to 64-bits
-Date: Tue,  8 Sep 2020 17:16:21 -0700
-Message-Id: <20200909001647.532249-18-richard.henderson@linaro.org>
+Subject: [PATCH 18/43] tcg: Introduce TYPE_CONST temporaries
+Date: Tue,  8 Sep 2020 17:16:22 -0700
+Message-Id: <20200909001647.532249-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200909001647.532249-1-richard.henderson@linaro.org>
 References: <20200909001647.532249-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,131 +88,405 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This propagates the extended value of TCGTemp.val that we did before.
-In addition, it will be required for vector constants.
+These will hold a single constant for the duration of the TB.
+They are hashed, so that each value has one temp across the TB.
+
+Not used yet, this is all infrastructure.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 40 +++++++++++++++++++++-------------------
- 1 file changed, 21 insertions(+), 19 deletions(-)
+ include/tcg/tcg.h |  24 +++++-
+ tcg/optimize.c    |  13 +++-
+ tcg/tcg.c         | 195 ++++++++++++++++++++++++++++++++++++----------
+ 3 files changed, 188 insertions(+), 44 deletions(-)
 
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index f3eca6feb0..aa7b0ba163 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -492,6 +492,8 @@ typedef enum TCGTempKind {
+     TEMP_GLOBAL,
+     /* Temp is in a fixed register. */
+     TEMP_FIXED,
++    /* Temp is a fixed constant. */
++    TEMP_CONST,
+ } TCGTempKind;
+ 
+ typedef struct TCGTemp {
+@@ -667,6 +669,7 @@ struct TCGContext {
+     QSIMPLEQ_HEAD(, TCGOp) plugin_ops;
+ #endif
+ 
++    GHashTable *const_table[TCG_TYPE_COUNT];
+     TCGTempSet free_temps[TCG_TYPE_COUNT * 2];
+     TCGTemp temps[TCG_MAX_TEMPS]; /* globals first, temps after */
+ 
+@@ -683,7 +686,7 @@ struct TCGContext {
+ 
+ static inline bool temp_readonly(TCGTemp *ts)
+ {
+-    return ts->kind == TEMP_FIXED;
++    return ts->kind >= TEMP_FIXED;
+ }
+ 
+ extern TCGContext tcg_init_ctx;
+@@ -1051,6 +1054,7 @@ TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *op, TCGOpcode opc);
+ 
+ void tcg_optimize(TCGContext *s);
+ 
++/* Allocate a new temporary and initialize it with a constant. */
+ TCGv_i32 tcg_const_i32(int32_t val);
+ TCGv_i64 tcg_const_i64(int64_t val);
+ TCGv_i32 tcg_const_local_i32(int32_t val);
+@@ -1060,6 +1064,24 @@ TCGv_vec tcg_const_ones_vec(TCGType);
+ TCGv_vec tcg_const_zeros_vec_matching(TCGv_vec);
+ TCGv_vec tcg_const_ones_vec_matching(TCGv_vec);
+ 
++/*
++ * Locate or create a read-only temporary that is a constant.
++ * This kind of temporary need not and should not be freed.
++ */
++TCGTemp *tcg_constant_internal(TCGType type, int64_t val);
++
++static inline TCGv_i32 tcg_constant_i32(int32_t val)
++{
++    return temp_tcgv_i32(tcg_constant_internal(TCG_TYPE_I32, val));
++}
++
++static inline TCGv_i64 tcg_constant_i64(int64_t val)
++{
++    return temp_tcgv_i64(tcg_constant_internal(TCG_TYPE_I64, val));
++}
++
++TCGv_vec tcg_constant_vec(TCGType type, unsigned vece, int64_t val);
++
+ #if UINTPTR_MAX == UINT32_MAX
+ # define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i32((intptr_t)(x)))
+ # define tcg_const_local_ptr(x)  ((TCGv_ptr)tcg_const_local_i32((intptr_t)(x)))
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 81faf7cf10..33d1fc8f87 100644
+index 33d1fc8f87..c0fd65d2e4 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -39,8 +39,8 @@ typedef struct TempOptInfo {
-     bool is_const;
-     TCGTemp *prev_copy;
-     TCGTemp *next_copy;
--    tcg_target_ulong val;
--    tcg_target_ulong mask;
-+    uint64_t val;
-+    uint64_t mask;
- } TempOptInfo;
- 
- static inline TempOptInfo *ts_info(TCGTemp *ts)
-@@ -166,11 +166,11 @@ static bool args_are_copies(TCGArg arg1, TCGArg arg2)
-     return ts_are_copies(arg_temp(arg1), arg_temp(arg2));
- }
- 
--static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg val)
-+static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, uint64_t val)
- {
-     const TCGOpDef *def;
-     TCGOpcode new_op;
--    tcg_target_ulong mask;
-+    uint64_t mask;
-     TempOptInfo *di = arg_info(dst);
- 
-     def = &tcg_op_defs[op->opc];
-@@ -204,7 +204,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
-     const TCGOpDef *def;
-     TempOptInfo *di;
-     TempOptInfo *si;
--    tcg_target_ulong mask;
-+    uint64_t mask;
-     TCGOpcode new_op;
- 
-     if (ts_are_copies(dst_ts, src_ts)) {
-@@ -247,7 +247,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
+@@ -99,8 +99,17 @@ static void init_ts_info(TempOptInfo *infos,
+         ts->state_ptr = ti;
+         ti->next_copy = ts;
+         ti->prev_copy = ts;
+-        ti->is_const = false;
+-        ti->mask = -1;
++        if (ts->kind == TEMP_CONST) {
++            ti->is_const = true;
++            ti->val = ti->mask = ts->val;
++            if (TCG_TARGET_REG_BITS > 32 && ts->type == TCG_TYPE_I32) {
++                /* High bits of a 32-bit quantity are garbage.  */
++                ti->mask |= ~0xffffffffull;
++            }
++        } else {
++            ti->is_const = false;
++            ti->mask = -1;
++        }
+         set_bit(idx, temps_used->l);
      }
  }
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 1650c5a9db..e413bf70d4 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1204,13 +1204,19 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
+     bigendian = 1;
+ #endif
  
--static TCGArg do_constant_folding_2(TCGOpcode op, TCGArg x, TCGArg y)
-+static uint64_t do_constant_folding_2(TCGOpcode op, uint64_t x, uint64_t y)
- {
-     uint64_t l64, h64;
- 
-@@ -410,10 +410,10 @@ static TCGArg do_constant_folding_2(TCGOpcode op, TCGArg x, TCGArg y)
+-    if (base_ts->kind != TEMP_FIXED) {
++    switch (base_ts->kind) {
++    case TEMP_FIXED:
++        break;
++    case TEMP_GLOBAL:
+         /* We do not support double-indirect registers.  */
+         tcg_debug_assert(!base_ts->indirect_reg);
+         base_ts->indirect_base = 1;
+         s->nb_indirects += (TCG_TARGET_REG_BITS == 32 && type == TCG_TYPE_I64
+                             ? 2 : 1);
+         indirect_reg = 1;
++        break;
++    default:
++        g_assert_not_reached();
      }
- }
  
--static TCGArg do_constant_folding(TCGOpcode op, TCGArg x, TCGArg y)
-+static uint64_t do_constant_folding(TCGOpcode op, uint64_t x, uint64_t y)
- {
-     const TCGOpDef *def = &tcg_op_defs[op];
--    TCGArg res = do_constant_folding_2(op, x, y);
-+    uint64_t res = do_constant_folding_2(op, x, y);
-     if (!(def->flags & TCG_OPF_64BIT)) {
-         res = (int32_t)res;
-     }
-@@ -501,8 +501,9 @@ static bool do_constant_folding_cond_eq(TCGCond c)
- static TCGArg do_constant_folding_cond(TCGOpcode op, TCGArg x,
-                                        TCGArg y, TCGCond c)
- {
--    tcg_target_ulong xv = arg_info(x)->val;
--    tcg_target_ulong yv = arg_info(y)->val;
-+    uint64_t xv = arg_info(x)->val;
-+    uint64_t yv = arg_info(y)->val;
+     if (TCG_TARGET_REG_BITS == 32 && type == TCG_TYPE_I64) {
+@@ -1335,6 +1341,11 @@ void tcg_temp_free_internal(TCGTemp *ts)
+     TCGContext *s = tcg_ctx;
+     int k, idx;
+ 
++    /* In order to simplify users of tcg_constant_*, silently ignore free. */
++    if (ts->kind == TEMP_CONST) {
++        return;
++    }
 +
-     if (arg_is_const(x) && arg_is_const(y)) {
-         const TCGOpDef *def = &tcg_op_defs[op];
-         tcg_debug_assert(!(def->flags & TCG_OPF_VECTOR));
-@@ -613,9 +614,8 @@ void tcg_optimize(TCGContext *s)
-     infos = tcg_malloc(sizeof(TempOptInfo) * nb_temps);
+ #if defined(CONFIG_DEBUG_TCG)
+     s->temps_in_use--;
+     if (s->temps_in_use < 0) {
+@@ -1351,6 +1362,60 @@ void tcg_temp_free_internal(TCGTemp *ts)
+     set_bit(idx, s->free_temps[k].l);
+ }
  
-     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
--        tcg_target_ulong mask, partmask, affected;
-+        uint64_t mask, partmask, affected, tmp;
-         int nb_oargs, nb_iargs, i;
--        TCGArg tmp;
-         TCGOpcode opc = op->opc;
-         const TCGOpDef *def = &tcg_op_defs[opc];
++TCGTemp *tcg_constant_internal(TCGType type, int64_t val)
++{
++    TCGContext *s = tcg_ctx;
++    GHashTable *h = s->const_table[type];
++    TCGTemp *ts;
++
++    if (h == NULL) {
++        h = g_hash_table_new(g_int64_hash, g_int64_equal);
++        s->const_table[type] = h;
++    }
++
++    ts = g_hash_table_lookup(h, &val);
++    if (ts == NULL) {
++        ts = tcg_temp_alloc(s);
++
++        if (TCG_TARGET_REG_BITS == 32 && type == TCG_TYPE_I64) {
++            TCGTemp *ts2 = tcg_temp_alloc(s);
++
++            ts->base_type = TCG_TYPE_I64;
++            ts->type = TCG_TYPE_I32;
++            ts->kind = TEMP_CONST;
++            ts->temp_allocated = 1;
++            /*
++             * Retain the full value of the 64-bit constant in the low
++             * part, so that the hash table works.  Actual uses will
++             * truncate the value to the low part.
++             */
++            ts->val = val;
++
++            tcg_debug_assert(ts2 == ts + 1);
++            ts2->base_type = TCG_TYPE_I64;
++            ts2->type = TCG_TYPE_I32;
++            ts2->kind = TEMP_CONST;
++            ts2->temp_allocated = 1;
++            ts2->val = val >> 32;
++        } else {
++            ts->base_type = type;
++            ts->type = type;
++            ts->kind = TEMP_CONST;
++            ts->temp_allocated = 1;
++            ts->val = val;
++        }
++        g_hash_table_insert(h, &ts->val, ts);
++    }
++
++    return ts;
++}
++
++TCGv_vec tcg_constant_vec(TCGType type, unsigned vece, int64_t val)
++{
++    val = dup_const(vece, val);
++    return temp_tcgv_vec(tcg_constant_internal(type, val));
++}
++
+ TCGv_i32 tcg_const_i32(int32_t val)
+ {
+     TCGv_i32 t0;
+@@ -1883,6 +1948,9 @@ static void tcg_reg_alloc_start(TCGContext *s)
+         TCGTempVal val = TEMP_VAL_MEM;
  
-@@ -1221,14 +1221,15 @@ void tcg_optimize(TCGContext *s)
+         switch (ts->kind) {
++        case TEMP_CONST:
++            val = TEMP_VAL_CONST;
++            break;
+         case TEMP_FIXED:
+             val = TEMP_VAL_REG;
+             break;
+@@ -1919,6 +1987,26 @@ static char *tcg_get_arg_str_ptr(TCGContext *s, char *buf, int buf_size,
+     case TEMP_NORMAL:
+         snprintf(buf, buf_size, "tmp%d", idx - s->nb_globals);
+         break;
++    case TEMP_CONST:
++        switch (ts->type) {
++        case TCG_TYPE_I32:
++            snprintf(buf, buf_size, "$0x%x", (int32_t)ts->val);
++            break;
++#if TCG_TARGET_REG_BITS > 32
++        case TCG_TYPE_I64:
++            snprintf(buf, buf_size, "$0x%" PRIx64, ts->val);
++            break;
++#endif
++        case TCG_TYPE_V64:
++        case TCG_TYPE_V128:
++        case TCG_TYPE_V256:
++            snprintf(buf, buf_size, "v%d$0x%" PRIx64,
++                     64 << (ts->type - TCG_TYPE_V64), ts->val);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++        break;
+     }
+     return buf;
+ }
+@@ -2519,6 +2607,7 @@ static void la_bb_end(TCGContext *s, int ng, int nt)
+             state = TS_DEAD | TS_MEM;
+             break;
+         case TEMP_NORMAL:
++        case TEMP_CONST:
+             state = TS_DEAD;
+             break;
+         default:
+@@ -3172,15 +3261,28 @@ static void temp_load(TCGContext *, TCGTemp *, TCGRegSet, TCGRegSet, TCGRegSet);
+    mark it free; otherwise mark it dead.  */
+ static void temp_free_or_dead(TCGContext *s, TCGTemp *ts, int free_or_dead)
+ {
+-    if (temp_readonly(ts)) {
++    TCGTempVal new_type;
++
++    switch (ts->kind) {
++    case TEMP_FIXED:
+         return;
++    case TEMP_GLOBAL:
++    case TEMP_LOCAL:
++        new_type = TEMP_VAL_MEM;
++        break;
++    case TEMP_NORMAL:
++        new_type = free_or_dead < 0 ? TEMP_VAL_MEM : TEMP_VAL_DEAD;
++        break;
++    case TEMP_CONST:
++        new_type = TEMP_VAL_CONST;
++        break;
++    default:
++        g_assert_not_reached();
+     }
+     if (ts->val_type == TEMP_VAL_REG) {
+         s->reg_to_temp[ts->reg] = NULL;
+     }
+-    ts->val_type = (free_or_dead < 0
+-                    || ts->kind != TEMP_NORMAL
+-                    ? TEMP_VAL_MEM : TEMP_VAL_DEAD);
++    ts->val_type = new_type;
+ }
  
-         CASE_OP_32_64(extract2):
-             if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
--                TCGArg v1 = arg_info(op->args[1])->val;
--                TCGArg v2 = arg_info(op->args[2])->val;
-+                uint64_t v1 = arg_info(op->args[1])->val;
-+                uint64_t v2 = arg_info(op->args[2])->val;
-+                int shr = op->args[3];
+ /* Mark a temporary as dead.  */
+@@ -3196,10 +3298,7 @@ static inline void temp_dead(TCGContext *s, TCGTemp *ts)
+ static void temp_sync(TCGContext *s, TCGTemp *ts, TCGRegSet allocated_regs,
+                       TCGRegSet preferred_regs, int free_or_dead)
+ {
+-    if (temp_readonly(ts)) {
+-        return;
+-    }
+-    if (!ts->mem_coherent) {
++    if (!temp_readonly(ts) && !ts->mem_coherent) {
+         if (!ts->mem_allocated) {
+             temp_allocate_frame(s, ts);
+         }
+@@ -3417,12 +3516,22 @@ static void tcg_reg_alloc_bb_end(TCGContext *s, TCGRegSet allocated_regs)
  
-                 if (opc == INDEX_op_extract2_i64) {
--                    tmp = (v1 >> op->args[3]) | (v2 << (64 - op->args[3]));
-+                    tmp = (v1 >> shr) | (v2 << (64 - shr));
-                 } else {
--                    tmp = (int32_t)(((uint32_t)v1 >> op->args[3]) |
--                                    ((uint32_t)v2 << (32 - op->args[3])));
-+                    tmp = (int32_t)(((uint32_t)v1 >> shr) |
-+                                    ((uint32_t)v2 << (32 - shr)));
+     for (i = s->nb_globals; i < s->nb_temps; i++) {
+         TCGTemp *ts = &s->temps[i];
+-        if (ts->kind == TEMP_LOCAL) {
++
++        switch (ts->kind) {
++        case TEMP_LOCAL:
+             temp_save(s, ts, allocated_regs);
+-        } else {
++            break;
++        case TEMP_NORMAL:
+             /* The liveness analysis already ensures that temps are dead.
+                Keep an tcg_debug_assert for safety. */
+             tcg_debug_assert(ts->val_type == TEMP_VAL_DEAD);
++            break;
++        case TEMP_CONST:
++            /* Similarly, we should have freed any allocated register. */
++            tcg_debug_assert(ts->val_type == TEMP_VAL_CONST);
++            break;
++        default:
++            g_assert_not_reached();
+         }
+     }
+ 
+@@ -3715,45 +3824,42 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         i_preferred_regs = o_preferred_regs = 0;
+         if (arg_ct->ialias) {
+             o_preferred_regs = op->output_pref[arg_ct->alias_index];
+-            if (ts->kind == TEMP_FIXED) {
+-                /* if fixed register, we must allocate a new register
+-                   if the alias is not the same register */
+-                if (arg != op->args[arg_ct->alias_index]) {
+-                    goto allocate_in_reg;
+-                }
+-            } else {
+-                /* if the input is aliased to an output and if it is
+-                   not dead after the instruction, we must allocate
+-                   a new register and move it */
+-                if (!IS_DEAD_ARG(i)) {
+-                    goto allocate_in_reg;
+-                }
+ 
+-                /* check if the current register has already been allocated
+-                   for another input aliased to an output */
+-                if (ts->val_type == TEMP_VAL_REG) {
+-                    int k2, i2;
+-                    reg = ts->reg;
+-                    for (k2 = 0 ; k2 < k ; k2++) {
+-                        i2 = def->args_ct[nb_oargs + k2].sort_index;
+-                        if (def->args_ct[i2].ialias && reg == new_args[i2]) {
+-                            goto allocate_in_reg;
+-                        }
++            /*
++             * If the input is readonly, then it cannot also be an
++             * output and aliased to itself.  If the input is not
++             * dead after the instruction, we must allocate a new
++             * register and move it.
++             */
++            if (temp_readonly(ts) || !IS_DEAD_ARG(i)) {
++                goto allocate_in_reg;
++            }
++
++            /*
++             * Check if the current register has already been allocated
++             * for another input aliased to an output.
++             */
++            if (ts->val_type == TEMP_VAL_REG) {
++                reg = ts->reg;
++                for (int k2 = 0; k2 < k; k2++) {
++                    int i2 = def->args_ct[nb_oargs + k2].sort_index;
++                    if (def->args_ct[i2].ialias && reg == new_args[i2]) {
++                        goto allocate_in_reg;
+                     }
                  }
-                 tcg_opt_gen_movi(s, op, op->args[0], tmp);
-                 break;
-@@ -1267,9 +1268,10 @@ void tcg_optimize(TCGContext *s)
-                 break;
+-                i_preferred_regs = o_preferred_regs;
              }
-             if (arg_is_const(op->args[3]) && arg_is_const(op->args[4])) {
--                tcg_target_ulong tv = arg_info(op->args[3])->val;
--                tcg_target_ulong fv = arg_info(op->args[4])->val;
-+                uint64_t tv = arg_info(op->args[3])->val;
-+                uint64_t fv = arg_info(op->args[4])->val;
-                 TCGCond cond = op->args[5];
++            i_preferred_regs = o_preferred_regs;
+         }
+ 
+         temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
+         reg = ts->reg;
+ 
+-        if (tcg_regset_test_reg(arg_ct->regs, reg)) {
+-            /* nothing to do : the constraint is satisfied */
+-        } else {
+-        allocate_in_reg:
+-            /* allocate a new register matching the constraint 
+-               and move the temporary register into it */
++        if (!tcg_regset_test_reg(arg_ct->regs, reg)) {
++ allocate_in_reg:
++            /*
++             * Allocate a new register matching the constraint
++             * and move the temporary register into it.
++             */
+             temp_load(s, ts, tcg_target_available_regs[ts->type],
+                       i_allocated_regs, 0);
+             reg = tcg_reg_alloc(s, arg_ct->regs, i_allocated_regs,
+@@ -4211,6 +4317,13 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+     }
+ #endif
+ 
++    for (i = 0; i < TCG_TYPE_COUNT; ++i) {
++        if (s->const_table[i]) {
++            g_hash_table_destroy(s->const_table[i]);
++            s->const_table[i] = NULL;
++        }
++    }
 +
-                 if (fv == 1 && tv == 0) {
-                     cond = tcg_invert_cond(cond);
-                 } else if (!(tv == 1 && fv == 0)) {
+     tcg_reg_alloc_start(s);
+ 
+     s->code_buf = tb->tc.ptr;
 -- 
 2.25.1
 
