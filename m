@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39407262FF5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:46:38 +0200 (CEST)
-Received: from localhost ([::1]:45948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E643262FEC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:43:45 +0200 (CEST)
+Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG1Mr-0002C8-6B
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55628)
+	id 1kG1K4-0003vP-9G
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kG1Ii-0002Nh-Cj
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:20 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4683 helo=huawei.com)
+ id 1kG1If-0002Fu-BY
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:17 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4680 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kG1Ig-00070l-Ah
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:19 -0400
+ id 1kG1Ic-0006zz-FA
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:42:17 -0400
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id EB2C86CC4B218949602A;
+ by Forcepoint Email with ESMTP id D79F47E1DF47EF9C00E0;
  Wed,  9 Sep 2020 22:42:07 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Wed, 9 Sep 2020
- 22:41:57 +0800
+ 22:41:58 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
  <berrange@redhat.com>
-Subject: [PATCH v1 1/7] migration/tls: save hostname into MigrationState
-Date: Wed, 9 Sep 2020 22:52:51 +0800
-Message-ID: <1599663177-53993-2-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v1 2/7] migration/tls: extract migration_tls_client_create for
+ common-use
+Date: Wed, 9 Sep 2020 22:52:52 +0800
+Message-ID: <1599663177-53993-3-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
 References: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
@@ -66,60 +67,100 @@ Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hostname is need in multifd-tls, save hostname into MigrationState
+migration_tls_client_create will be used in multifd-tls, let's
+extract it.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Yan Jin <jinyan12@huawei.com>
 ---
- migration/channel.c   | 5 +++++
- migration/migration.c | 1 +
- migration/migration.h | 5 +++++
- 3 files changed, 11 insertions(+)
+ migration/tls.c | 26 ++++++++++++++++++--------
+ migration/tls.h |  6 ++++++
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/migration/channel.c b/migration/channel.c
-index 20e4c8e..2af3069 100644
---- a/migration/channel.c
-+++ b/migration/channel.c
-@@ -66,6 +66,11 @@ void migration_channel_connect(MigrationState *s,
-     trace_migration_set_outgoing_channel(
-         ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+diff --git a/migration/tls.c b/migration/tls.c
+index 7a02ec8..e888698 100644
+--- a/migration/tls.c
++++ b/migration/tls.c
+@@ -22,7 +22,6 @@
+ #include "channel.h"
+ #include "migration.h"
+ #include "tls.h"
+-#include "io/channel-tls.h"
+ #include "crypto/tlscreds.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+@@ -125,11 +124,10 @@ static void migration_tls_outgoing_handshake(QIOTask *task,
+     object_unref(OBJECT(ioc));
+ }
  
-+    /* Save hostname into MigrationState for handshake */
-+    if (hostname) {
-+        s->hostname = g_strdup(hostname);
-+    }
+-
+-void migration_tls_channel_connect(MigrationState *s,
+-                                   QIOChannel *ioc,
+-                                   const char *hostname,
+-                                   Error **errp)
++QIOChannelTLS *migration_tls_client_create(MigrationState *s,
++                                 QIOChannel *ioc,
++                                 const char *hostname,
++                                 Error **errp)
+ {
+     QCryptoTLSCreds *creds;
+     QIOChannelTLS *tioc;
+@@ -137,7 +135,7 @@ void migration_tls_channel_connect(MigrationState *s,
+     creds = migration_tls_get_creds(
+         s, QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT, errp);
+     if (!creds) {
+-        return;
++        return NULL;
+     }
+ 
+     if (s->parameters.tls_hostname && *s->parameters.tls_hostname) {
+@@ -145,11 +143,23 @@ void migration_tls_channel_connect(MigrationState *s,
+     }
+     if (!hostname) {
+         error_setg(errp, "No hostname available for TLS");
+-        return;
++        return NULL;
+     }
+ 
+     tioc = qio_channel_tls_new_client(
+         ioc, creds, hostname, errp);
 +
-     if (!error) {
-         if (s->parameters.tls_creds &&
-             *s->parameters.tls_creds &&
-diff --git a/migration/migration.c b/migration/migration.c
-index 58a5452..e20b778 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1883,6 +1883,7 @@ void migrate_init(MigrationState *s)
-     s->migration_thread_running = false;
-     error_free(s->error);
-     s->error = NULL;
-+    s->hostname = NULL;
- 
-     migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
- 
-diff --git a/migration/migration.h b/migration/migration.h
-index ae497bd..758f803 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -261,6 +261,11 @@ struct MigrationState
-      * (which is in 4M chunk).
-      */
-     uint8_t clear_bitmap_shift;
++    return tioc;
++}
 +
-+    /*
-+     * This save hostname when out-going migration starts
-+     */
-+    char *hostname;
- };
++void migration_tls_channel_connect(MigrationState *s,
++                                   QIOChannel *ioc,
++                                   const char *hostname,
++                                   Error **errp)
++{
++    QIOChannelTLS *tioc;
++
++    tioc = migration_tls_client_create(s, ioc, hostname, errp);
+     if (!tioc) {
+         return;
+     }
+diff --git a/migration/tls.h b/migration/tls.h
+index cdd7000..d4a0861 100644
+--- a/migration/tls.h
++++ b/migration/tls.h
+@@ -22,11 +22,17 @@
+ #define QEMU_MIGRATION_TLS_H
  
- void migrate_set_state(int *state, int old_state, int new_state);
+ #include "io/channel.h"
++#include "io/channel-tls.h"
+ 
+ void migration_tls_channel_process_incoming(MigrationState *s,
+                                             QIOChannel *ioc,
+                                             Error **errp);
+ 
++QIOChannelTLS *migration_tls_client_create(MigrationState *s,
++                                   QIOChannel *ioc,
++                                   const char *hostname,
++                                   Error **errp);
++
+ void migration_tls_channel_connect(MigrationState *s,
+                                    QIOChannel *ioc,
+                                    const char *hostname,
 -- 
 1.8.3.1
 
