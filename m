@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921A5262A9A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:41:50 +0200 (CEST)
-Received: from localhost ([::1]:47838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121AE262A81
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 10:38:07 +0200 (CEST)
+Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFvfp-0004vU-Ly
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40234)
+	id 1kFvcE-0007hn-4V
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 04:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1kFvb7-0006RL-25
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:36:57 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39692)
+ id 1kFvb5-0006P0-RX
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:36:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60070
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1kFvb4-0006or-Px
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:36:56 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0898W2bR147483
- for <qemu-devel@nongnu.org>; Wed, 9 Sep 2020 04:36:53 -0400
+ id 1kFvb4-0006ol-1n
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 04:36:55 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0898WlIn061921
+ for <qemu-devel@nongnu.org>; Wed, 9 Sep 2020 04:36:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=phJG+HZBKWXWoZD2wossxgFGHIWNzXD+DEA3w2nsWOA=;
- b=UxZXr6Ba/2/HxtcOcUbSgNdNAjLw9Jti3WGFinmb/tuW/LdltekbM16brsCQm4NMLIrs
- wYGoGvTpHpxqh4bYeg23jnzfylbTG6XTRtNz60YETiGaLXTi9Rj9iG51DpNJI4BTtBh7
- 6LMpUp7rUdLpvAhlgmath8X7bY0xYLzdvNcnVMQk1flkVNz+ht5bE4HBqU8v5CjMptPe
- 5hfpP5uYnRHPopGDybpJMQBRWZz/naqfytAmYlKbqizcbsstegmRQq54c7j1JJFRaIoQ
- sGqzlzijClkPIRdl3vNLot2I/LalaS0AZa93nKaQMQHcgCvFn43nuoPPcY3plcMZe7Vd 6A== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=XnwGrHnz0hjw33T/1VOH9Vlm1yuq9nK2dVtIqO8326M=;
+ b=ePTayoScSNM/shFNNrnOaU8UDjihzv9rSGCQstGh9I+VGKJS8cCub2mhEc4Meip+cS1l
+ qzAkG0hMjaa7qituIn6SfHkLj1Kb9rk8tJMTsXwTaTFPDFe+dUzf55Vglj6STI7bHQIZ
+ CHhYyLu7Z6WdzOGqSuXx2UZ/zVN9C16NODeOm2JHLqGAX6KyIkF2YGdkXV9WjUvBdBHn
+ GgTtZW6IeajT1U0uTKPVWXKkZOQpHxhJ3vX84HKLbSYpKIPPf5Rx5/B7kxQ6WsKJ00oT
+ i9njRbGMni4df7GXgG2is/khyiP9/um7PdTkerkaOzHMkMAZuPvUgTOWvPcr64mmJLAS vQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33eukcg6yr-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33et9uasmu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 04:36:53 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0898W3ch147580
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 04:36:52 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0898XmCs065497
  for <qemu-devel@nongnu.org>; Wed, 9 Sep 2020 04:36:52 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33eukcg6ya-1
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33et9uasmm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 09 Sep 2020 04:36:52 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0898Rplq011865;
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0898RVEu002300;
  Wed, 9 Sep 2020 08:36:51 GMT
 Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma01dal.us.ibm.com with ESMTP id 33d46mr4t7-1
+ [9.57.198.25]) by ppma04wdc.us.ibm.com with ESMTP id 33c2a8wv4v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 09 Sep 2020 08:36:51 +0000
 Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
  [9.57.199.110])
  by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0898apWF53608856
+ 0898apEY53608858
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 9 Sep 2020 08:36:51 GMT
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 14E0BAE060;
+ by IMSVA (Postfix) with ESMTP id 3E68DAE05C;
  Wed,  9 Sep 2020 08:36:51 +0000 (GMT)
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E5227AE05C;
- Wed,  9 Sep 2020 08:36:50 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1AE2FAE062;
+ Wed,  9 Sep 2020 08:36:51 +0000 (GMT)
 Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
  by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  9 Sep 2020 08:36:50 +0000 (GMT)
+ Wed,  9 Sep 2020 08:36:51 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/timer/hpet: Fix compiler errors with -DHPET_DEBUG
-Date: Wed,  9 Sep 2020 08:36:48 +0000
-Message-Id: <20200909083650.46771-1-dovmurik@linux.vnet.ibm.com>
+Subject: [PATCH 1/2] hw/timer/hpet: Remove unused functions hpet_ram_readb,
+ hpet_ram_readw
+Date: Wed,  9 Sep 2020 08:36:49 +0000
+Message-Id: <20200909083650.46771-2-dovmurik@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200909083650.46771-1-dovmurik@linux.vnet.ibm.com>
+References: <20200909083650.46771-1-dovmurik@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
@@ -79,15 +84,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-09-09_03:2020-09-08,
  2020-09-09 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=755
- malwarescore=0 priorityscore=1501 phishscore=0 clxscore=1015
- impostorscore=0 mlxscore=0 bulkscore=0 suspectscore=1 spamscore=0
- adultscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2009090073
-Received-SPF: none client-ip=148.163.156.1;
+ mlxscore=0 mlxlogscore=983
+ bulkscore=0 impostorscore=0 phishscore=0 clxscore=1011 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=1 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009090073
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 04:36:53
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 02:27:07
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -112,22 +117,40 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix several compiler errors when compiling withe -DHPET_DEBUG.
+Fix compiler error about defined but not used functions when compiling
+with -DHPET_DEBUG by deleting the unused debug functions hpet_ram_readb
+and hpet_ram_readw.
 
-Steps to reproduce the issue:
+Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+---
+ hw/timer/hpet.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-    mkdir build
-    cd build
-    ../configure --target-list=x86_64-softmmu --extra-cflags=-DHPET_DEBUG
-    make
-
-Dov Murik (2):
-  hw/timer/hpet: Remove unused functions hpet_ram_readb, hpet_ram_readw
-  hw/timer/hpet: Fix debug format strings
-
- hw/timer/hpet.c | 27 +++++++--------------------
- 1 file changed, 7 insertions(+), 20 deletions(-)
-
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 380acfa7c8..b683f64f1d 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -416,20 +416,6 @@ static void hpet_del_timer(HPETTimer *t)
+     update_irq(t, 0);
+ }
+ 
+-#ifdef HPET_DEBUG
+-static uint32_t hpet_ram_readb(void *opaque, hwaddr addr)
+-{
+-    printf("qemu: hpet_read b at %" PRIx64 "\n", addr);
+-    return 0;
+-}
+-
+-static uint32_t hpet_ram_readw(void *opaque, hwaddr addr)
+-{
+-    printf("qemu: hpet_read w at %" PRIx64 "\n", addr);
+-    return 0;
+-}
+-#endif
+-
+ static uint64_t hpet_ram_read(void *opaque, hwaddr addr,
+                               unsigned size)
+ {
 -- 
 2.20.1
 
