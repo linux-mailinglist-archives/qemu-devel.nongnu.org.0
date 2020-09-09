@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92C5262DD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 13:31:14 +0200 (CEST)
-Received: from localhost ([::1]:59318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A82262DE0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 13:33:08 +0200 (CEST)
+Received: from localhost ([::1]:37264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFyJl-0005WJ-Pr
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 07:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60428)
+	id 1kFyLb-0008D2-SB
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 07:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFyGb-0000CI-Fk
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:57 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35079)
+ id 1kFyGa-0000AW-RV
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:56 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kFyGZ-0006Xe-MZ
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:57 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e16so2562999wrm.2
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 04:27:55 -0700 (PDT)
+ id 1kFyGY-0006XR-PI
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 07:27:56 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id e17so1925605wme.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 04:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x50AKbw2C1EpufEPXDHUDVL3npAkap6GTDHFJFmIt0E=;
- b=NesUVPWhBcQDal87ZYPspetZ9Kf56iy+WtLFgil7FzV0+Dqohpz4/7J4gCX0QxWW4i
- RJ+lqNGJIycrgyUSpwm5h49XaVwyRkK28YXkTl0hIiTBQ3aCQNJq2QCPmNopbtP7BEfD
- OqLQ0E35a1VBooxIa0hc8uJlUzDjyODg745gufMl1m5dE5vMjAvuryXQUh7PqBhkzUSX
- h8l4gSnHiR5hNQAsxwd8mmt4Ih+drvPej4fvSUDvLeVnw8yV6EmgUiDTE1PDl/KoLhqQ
- eEQ93JjpoxWcwBHLGswmkDOKQpqzO3A10xBGDcxf7BZf1lhm6X7OHHSjcIukjQjVblog
- jurQ==
+ bh=2wib51BYj97MEFhKwrNgtCLNnnQOCcdqhgLn/CsHDZc=;
+ b=Em2ve5lrd9ZZKxn4Cn/JECZc1TlBb12aNYVlNoyy5J871gJakUhjiFhdmSkwh3ughZ
+ eJEq0FmiMu0DYt8ONOrZxauJzYAdTvR5YB8hXl0YvWeYoRNFeNqXw22GhfIITXYsKl4w
+ 6jEUEnzMyf7TcalcN24z8CCS/LLgqbtxd4lqY9SsG4VCvsX+HUQXJGsHWCcuyPF7zhBo
+ BXp5yIGfKnzB3r2Nh27454O+d6l/dBYfgYPJKTvTN6XXfFv7P4fmbgXWdjvI64r7QetC
+ l3xDZWPHntg0A/oOFqmx1uWHLL5tY23GrZStfUl7L/mv2Rtc3MFVd9SIfdQCyqSR3olw
+ NICA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x50AKbw2C1EpufEPXDHUDVL3npAkap6GTDHFJFmIt0E=;
- b=PhYZ0vt3RtItRDgtw9miR1INXZLjIunHqri69xUlm6/hL9F1zNubJ8y9iegXyUszlu
- kol/t0NiOWoZz5bKKzMQwgZ60JO0ON/d1j18/FsMc04YLfoe9UU8q/yOX1IMRySNmpXE
- NY3EhsXlMgbCxk2UO8qQEtEsHOTlVbD2VT2AlTrNEynH0Trn5PsQmhMDrwclGEJRbken
- nrdvyEisUL14tenIirX+eo1nRUixfrtWFZPVxos84Y+tmC6VDQ+mcceqccKVnRw4ZvoD
- Ct+5x6F7tfkJ0dVLPOWEz6QP/DP4K+jaPz63KET9L4YzJcPyIOkf6WHNW+/uMc74pIZP
- ehig==
-X-Gm-Message-State: AOAM530f48ssbi0sjJp3rE4XcEjVxF4fB8+5+MJkWvCNwlGzxUcKmx3T
- 2+hBf0uTenySRQuNi77HrPSgLg==
-X-Google-Smtp-Source: ABdhPJwFKih2UFctB1MS1kH0RmHZEJ1fUJvF0PBTrLqE/5C5p7wjXUGYE8uvHLZz8jPZD9LuS0DB/g==
-X-Received: by 2002:adf:efc9:: with SMTP id i9mr3546046wrp.187.1599650874411; 
- Wed, 09 Sep 2020 04:27:54 -0700 (PDT)
+ bh=2wib51BYj97MEFhKwrNgtCLNnnQOCcdqhgLn/CsHDZc=;
+ b=dhcMpOczyFYuQu+OV2r7Qhbhau0GVUhBKDTtsJmGHQWT6hDcWlR0IcOiCOCnl/wInG
+ /Ve6phKeRUSF7BF/R4bIeC1PxYTpkQbff9Rn3nwdXy0LAOMU4ycROAvDjFn8T1/klLel
+ IrbBTXa2IIVc51DEKhQ/3FqGlCPXXIQCQVMDeyZal/eImoI24h4K9WsS4vLEzu9/HSRL
+ B/0yUu5IuJrQ7LoMsVtyUiUDPhb3y3LWOIAbCq3PMPSCpL07GNyI2yYOguJYRgrHn5/9
+ C7fdb6BpS9OCYCc1Ob42rDSxTEZaG2/fehsefPeTj4zCri2IydiEATxjZti6R/Mz3hzJ
+ 4mtQ==
+X-Gm-Message-State: AOAM532Tag1x2DDyy6ciXv4aUQxlyItJ/7pUnJgXvK+mu3ZkA639THlK
+ m3PvrmbgNH4ibTMnEJ+lnjPeGQ==
+X-Google-Smtp-Source: ABdhPJz5vEzIU2NEWoT1UM/YOrc0BTqamn44r0OqFF1xA62SaxZHOwcH2xC8pb4F+E6dBBs6vJ3dCg==
+X-Received: by 2002:a1c:7907:: with SMTP id l7mr3056879wme.89.1599650873459;
+ Wed, 09 Sep 2020 04:27:53 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t22sm4029931wmt.1.2020.09.09.04.27.45
+ by smtp.gmail.com with ESMTPSA id i3sm3733647wrs.4.2020.09.09.04.27.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 09 Sep 2020 04:27:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AD7B71FF93;
+ by zen.linaroharston (Postfix) with ESMTP id C40901FF96;
  Wed,  9 Sep 2020 12:27:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 07/10] hw/i386: make explicit clearing of pch_rev_id
-Date: Wed,  9 Sep 2020 12:27:38 +0100
-Message-Id: <20200909112742.25730-8-alex.bennee@linaro.org>
+Subject: [PATCH  v2 08/10] tests: bump avocado version
+Date: Wed,  9 Sep 2020 12:27:39 +0100
+Message-Id: <20200909112742.25730-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200909112742.25730-1-alex.bennee@linaro.org>
 References: <20200909112742.25730-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,38 +88,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net,
- Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Willian Rampazzo <willianr@redhat.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>, cota@braap.org,
+ Cleber Rosa <crosa@redhat.com>, Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some compilers (notably the Xenial gcc in Travis) fail to spot that
-this will always be set if pch_dev_id != 0xffff. Given this is setup
-code and using _Pragma to override is equally as ugly lets just remove
-the doubt from the compilers mind.
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
+Reverse debugging test uses gdb remote client of avocado framework.
+This client was fixed since the currently used version 76.
+Therefore this patch bumps the version to 81 and fixes command
+line version compatibility issue.
+
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Message-Id: <159903462803.28509.16851113546106095750.stgit@pasha-ThinkPad-X280>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200908202352.298506-2-philmd@redhat.com>
 ---
- hw/i386/pc_piix.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/Makefile.include | 2 +-
+ tests/requirements.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 32b1453e6a8..33fa035fb7f 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -930,7 +930,7 @@ void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
-     struct PCIDevice *bridge_dev;
-     int i, num;
-     uint16_t pch_dev_id = 0xffff;
--    uint8_t pch_rev_id;
-+    uint8_t pch_rev_id = 0;
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index f93e6112202..2baebc179e7 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -127,7 +127,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+             --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+             $(AVOCADO_TAGS) \
+-            $(if $(GITLAB_CI),,--failfast=on) tests/acceptance, \
++            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
  
-     num = ARRAY_SIZE(igd_combo_id_infos);
-     for (i = 0; i < num; i++) {
+ # Consolidated targets
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index f9c84b4ba1a..036691c9221 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,5 +1,5 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework==76.0
++avocado-framework==81.0
+ pycdlib==1.9.0
 -- 
 2.20.1
 
