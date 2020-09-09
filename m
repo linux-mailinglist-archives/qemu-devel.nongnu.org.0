@@ -2,53 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2688E262F84
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:09:21 +0200 (CEST)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE1B262FB3
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:25:16 +0200 (CEST)
+Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG0mm-0002GA-6E
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44408)
+	id 1kG12A-0000Zh-Ib
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:25:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kG0lM-0000Yj-OI
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:07:52 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4730 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kG0lK-0001is-LL
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:07:52 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 7B239D765FEBE5A453DA;
- Wed,  9 Sep 2020 22:07:37 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Wed, 9 Sep 2020
- 22:07:31 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
- <berrange@redhat.com>, <dme@dme.org>
-Subject: [PATCH v7 12/12] migration/dirtyrate: Add trace_calls to make it
- easier to debug
-Date: Wed, 9 Sep 2020 22:18:16 +0800
-Message-ID: <1599661096-127913-13-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1599661096-127913-1-git-send-email-zhengchuan@huawei.com>
-References: <1599661096-127913-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kG113-0007Na-Gw
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:24:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59565
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kG110-0004EQ-I3
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:24:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599661440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RbsgY1PuWjvXwVEQA2MEsAwNUu7hAVi+9Ldr5F+teOk=;
+ b=MDD0NTqD0h3mPjgYwSn/bdCJ7YS/aa3AIkNIAYLqKbz6WdUh6r/igTfZYVrwnlyQbEMBVv
+ wfpvN6krj7VJbBUrwYxJ13q8qilR5PoHtImfs5nfhoFlGqkNMl2SPHiwFuNlVGtB2aVXlp
+ YAAnVjv88Sxm80vIjX17H/Cx0Cc2rR0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-izzG2zPCOoW7n4dzatLczw-1; Wed, 09 Sep 2020 10:23:58 -0400
+X-MC-Unique: izzG2zPCOoW7n4dzatLczw-1
+Received: by mail-wr1-f70.google.com with SMTP id l15so1027192wro.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 07:23:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RbsgY1PuWjvXwVEQA2MEsAwNUu7hAVi+9Ldr5F+teOk=;
+ b=djx3HLG8d6BDI9a3GMSrCI45Gfrotki0t0fhTvElz53xAu4lJTPdDlF8JZJqGPnmtU
+ +EYy22CugBl9MCJ7WPM68wz8xA94YWV+CWMBAMahXpJdjlkgFGk279kfDPmnnJzFWCmO
+ d2DlNqQksurDyAseh8q/LQUmRK9RHi7/PNwpvXIH24cKFwQTouQ/gdb4eo3g/xRbau9l
+ eutfkmmclNr/xChQ2q07hZqY+H3sQsg28yzh4b2zAynmWkfEK2ZaiFFf5isJ1CWe4and
+ HnnWX2Pdx9oedofGJLCEeJJDyiQe305B5+o5c+X/4XG/V3vEV1tnSNYomlV8UpzorgjV
+ jYbQ==
+X-Gm-Message-State: AOAM530piurnglGMuQnZOdugGA4YI2hqGgCDQwsdInKT9WpxRsehH7fw
+ Dv70Na3nrpvDIjSYPm3NghXEDCHXxlw9PFWR6DolcgRGLrGEEVs8Z+Ea03IOCkORYa7YzDhxsYH
+ drjEWLGtMF7PcVqM=
+X-Received: by 2002:a7b:c751:: with SMTP id w17mr3704275wmk.97.1599661436755; 
+ Wed, 09 Sep 2020 07:23:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7UFMK2XKbgo3+UfhmIyJ++uG6hVclo4HNEywvTmBlelNnXrv9lJ7iVTuJqm9tqzhzH8Vz/g==
+X-Received: by 2002:a7b:c751:: with SMTP id w17mr3704250wmk.97.1599661436422; 
+ Wed, 09 Sep 2020 07:23:56 -0700 (PDT)
+Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id 91sm5108312wrq.9.2020.09.09.07.23.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Sep 2020 07:23:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/4] util/vfio-helpers: Add support for multiple IRQs
+Date: Wed,  9 Sep 2020 16:23:50 +0200
+Message-Id: <20200909142354.334859-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 10:07:33
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 02:43:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,100 +93,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
- zhang.zhanghailiang@huawei.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add trace_calls to  make it easier to debug
+This series intends to setup the VFIO helper to allow
+binding notifiers on different IRQs.
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
----
- migration/dirtyrate.c  | 9 +++++++++
- migration/trace-events | 8 ++++++++
- 2 files changed, 17 insertions(+)
+For the NVMe use case, we only care about MSIX interrupts.
+To not disrupt other users, introduce the qemu_vfio_pci_init_msix_irqs
+function to initialize multiple MSIX IRQs and attach eventfd to
+them.
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index e9e9e35..0286ff4 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -22,6 +22,7 @@
- #include "qapi/qapi-commands-migration.h"
- #include "migration.h"
- #include "ram.h"
-+#include "trace.h"
- #include "dirtyrate.h"
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
-@@ -54,6 +55,7 @@ static bool get_sample_page_period(int64_t sec)
- static int dirtyrate_set_state(int *state, int old_state, int new_state)
- {
-     assert(new_state < DIRTY_RATE_STATUS__MAX);
-+    trace_dirtyrate_set_state(DirtyRateStatus_str(new_state));
-     if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
-         return 0;
-     } else {
-@@ -76,6 +78,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
- 
-+    trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
-+
-     return info;
- }
- 
-@@ -123,6 +127,7 @@ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
-     crc = crc32(0, (info->ramblock_addr +
-                 vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
- 
-+    trace_get_ramblock_vfn_hash(info->idstr, vfn, crc);
-     return crc;
- }
- 
-@@ -227,6 +232,8 @@ static bool skip_sample_ramblock(RAMBlock *block)
-      * Sample only blocks larger than MIN_RAMBLOCK_SIZE.
-      */
-     if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
-+        trace_skip_sample_ramblock(block->idstr,
-+                                   qemu_ram_get_used_length(block));
-         return true;
-     }
- 
-@@ -273,6 +280,7 @@ static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
-     for (i = 0; i < info->sample_pages_count; i++) {
-         crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
-         if (crc != info->hash_result[i]) {
-+            trace_calc_page_dirty_rate(info->idstr, crc, info->hash_result[i]);
-             info->sample_dirty_count++;
-         }
-     }
-@@ -298,6 +306,7 @@ find_page_matched(RAMBlock *block, int count,
-     if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
-         infos[i].ramblock_pages !=
-             (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-+        trace_find_page_matched(block->idstr);
-         return NULL;
-     }
- 
-diff --git a/migration/trace-events b/migration/trace-events
-index 4ab0a50..8c2b58f 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -312,3 +312,11 @@ dirty_bitmap_load_bits_zeroes(void) ""
- dirty_bitmap_load_header(uint32_t flags) "flags 0x%x"
- dirty_bitmap_load_enter(void) ""
- dirty_bitmap_load_success(void) ""
-+
-+# dirtyrate.c
-+dirtyrate_set_state(const char *new_state) "new state %s"
-+query_dirty_rate_info(const char *new_state) "current state %s"
-+get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock name: %s, vfn: %"PRIu64 ", crc: %" PRIu32
-+calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
-+skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
-+find_page_matched(const char *idstr) "ramblock %s addr or size changed"
+Since RFC v5:
+- addressed Fam review comment (return EINVAL)
+- addressed Fam R-b tags
+- no more RFC :)
+
+Since RFC v4:
+- addressed Alex review comment:
+  check ioctl(VFIO_DEVICE_SET_IRQS) return value
+
+Since RFC v3:
+- addressed Alex and Stefan review comments
+
+Since RFC v2:
+- new patch to report vfio-helpers is not supported on AA64/POWER
+
+(NVMe block driver series will follow).
+
+Based-on: <20200908115322.325832-1-kwolf@redhat.com>
+(Block layer pending pull request)
+
+Philippe Mathieu-Daudé (4):
+  util/vfio-helpers: Improve reporting unsupported IOMMU type
+  util/vfio-helpers: Report error when IOMMU page size is not supported
+  util/vfio-helpers: Introduce qemu_vfio_pci_init_msix_irqs()
+  block/nvme: Use qemu_vfio_pci_init_msix_irqs() to initialize our IRQ
+
+ include/qemu/vfio-helpers.h |  6 ++-
+ block/nvme.c                |  9 +++-
+ util/vfio-helpers.c         | 87 ++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 97 insertions(+), 5 deletions(-)
+
 -- 
-1.8.3.1
+2.26.2
 
 
