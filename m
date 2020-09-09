@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04770262CA2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:55:53 +0200 (CEST)
-Received: from localhost ([::1]:34722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB265262CAD
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 11:57:34 +0200 (CEST)
+Received: from localhost ([::1]:43396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFwpT-0002yF-Vg
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:55:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57438)
+	id 1kFwr7-0006nO-Iw
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 05:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhT-0007J5-M2; Wed, 09 Sep 2020 05:47:36 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:40097)
+ id 1kFwhV-0007Jb-Dj; Wed, 09 Sep 2020 05:47:38 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kFwhQ-0007lK-Vr; Wed, 09 Sep 2020 05:47:35 -0400
-Received: by mail-pg1-x544.google.com with SMTP id j34so1679607pgi.7;
- Wed, 09 Sep 2020 02:47:30 -0700 (PDT)
+ id 1kFwhT-0007lp-Mq; Wed, 09 Sep 2020 05:47:37 -0400
+Received: by mail-pf1-x443.google.com with SMTP id l126so1686336pfd.5;
+ Wed, 09 Sep 2020 02:47:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1H3XAjUyQVQg87Q3viZPdyOz1U48/GMRVDi4jjT6ZrI=;
- b=MLVyoFZbLRdUS6mWF0I/1V99HZZuuSbgP4lBJPZTjERGzbHBJ3VvpTujyPs3AbYDNK
- QS9VKq3gDT3T+FQGKfiuv/b00fnRZM4FV4EeVRj2JF2a+QEAsSbX5x/3P7kvPe5L5ggT
- Y43urd9FQpq8ZwvAfHBW+ufH9q6FeUfI2q9nVjmK+aplxX7JrLWtJHA40O8hMs9Qs2gC
- 01PCMcSwfSUB+Zhevih9PCsAc+lkMol2CqVXS7LmISumRQJcKmmbjH/slarrs/o9YM7a
- SuyWKB7+hN4l07vamX3r35GRwUCoTibi2HvKqgPbHYj3WLZnl29ZRbKW52erPOLtrcu8
- pGyA==
+ bh=GCgbOADJo9SgTrFvdP0jEa9PoTonwhtwSH4+oqHE/pQ=;
+ b=IFLyt/os1Kz3umu0InjnND3iJkDSJnunIc7oqtgR5D6XTnTxlybshJxmazKZzXGBLM
+ SE3dCr8JxNamr/ralPMVmprggWXtlx5S+eBZc/Mmghi0p/xQHB44CO8FxNFAAZr7bHYy
+ USMj6gRa2BKbLZigxTlRHuFNnfHtaWfH+0ZykSRTGw/ljHgyXfjjn0r+4sCGbtAvedoU
+ FpFCG1P++3xQQ+aD6agIiwkyR2jCeNzwKAkpcyx3gWDHVbA+vbsfpbriKO+R16Phv5A9
+ o6j9V72EsoV7f2h6zVvJ2WmA3gwv0PG7jlOMcghxNKgwOrVDo+u/BuntpGEZZIvuG6WZ
+ uzcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1H3XAjUyQVQg87Q3viZPdyOz1U48/GMRVDi4jjT6ZrI=;
- b=BsRl1R2e/F3psKkHrz26/4hVPyd9Y/YmAbkTnM+6/w7FoqpbAiN6rcAexAULkrOYsS
- UGnAvWMbLHmHN7GqtncHQ3/Mv7GkpbYppCfnot8V0Xj7AKaLOO9R8SniblyLTTgbhxEE
- yr/Ln1DX1Pf+6JTAa4z8ZvSgc+kxmffWqH69Y32USgbRuxoMa8cFoRMIPu8hfzqCn92t
- 4aUndJZwHaVx6B+feWYk0BlOfq2Khn9OcRs2UbcX/rNN2kZE/4RN+yZz2b8WC3MvAQ9T
- 9lWFuiJ7xyMrm7WN8WPler00V8oL4C4vFcY0NaLaqeARqDVfv/qmkAqyxqYYiZwpFPfx
- c13A==
-X-Gm-Message-State: AOAM532FtQIwuXgDHE0MHbVawPCd9/0nSQkiryAr2YpbgSoy/msDhdoY
- DtFXuRKpLfQwXsKRSclMf4biRFX7d+RTDbnf
-X-Google-Smtp-Source: ABdhPJxKy1jW8PzjttVOe+FiVdxzvit4xS+TLkq1yxB5GvOUlVHx8fwEAOGs7PExx1DNBpNDABQ3oA==
-X-Received: by 2002:a63:4556:: with SMTP id u22mr25864pgk.248.1599644849123;
- Wed, 09 Sep 2020 02:47:29 -0700 (PDT)
+ bh=GCgbOADJo9SgTrFvdP0jEa9PoTonwhtwSH4+oqHE/pQ=;
+ b=b5zhDcZpBEGKeV/kDHJ7XdHtMBE1NObD88yzJXWrGQEpflZolfDTElllMsyAqAIglr
+ N8x5vUGRS7hGRpf/F5Dx3Bhz/pGp9hnnv3gIGUd6FlTci8Q1mvZgnbCyUM7/6IzGoQBo
+ kappz5R8s9GyFQtmL9mHTqZyexf3YL/q2lrOlBH6Cc3Y7ddxDtL2FybJ5cantXVTltx9
+ V6mFnVKLp3/m4H7Nfh/DFX3hSoCUblp7Eopwplf7YiXAUALcK88r8luTs12sfX1KUXTc
+ /u4z7SCwrgBHcoqzyOiPR7zd7+K9wk4HgWMs9vFdnKNMoggN3xGReWxAwiHVMxJZ/p8l
+ utmA==
+X-Gm-Message-State: AOAM530sIMDT67e6YSNMRWPzzSIRR+fgKpafIWpzyOdnjvycBg+KxuVn
+ dCQoXJu1Rf5mnn5/IhIqmVXr2jJgGu4TfzIF
+X-Google-Smtp-Source: ABdhPJwWDmJdZI/C5MM7W+4kpQne+qrZISEznPbN7+/4X1Ft4eEy+mpGr8V0ojSTfGrHLYjjb2+yUA==
+X-Received: by 2002:a17:902:74c8:: with SMTP id f8mr40743plt.78.1599644853193; 
+ Wed, 09 Sep 2020 02:47:33 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.24
+ by smtp.googlemail.com with ESMTPSA id 64sm1708312pgi.90.2020.09.09.02.47.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Sep 2020 02:47:28 -0700 (PDT)
+ Wed, 09 Sep 2020 02:47:32 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/21] vmstate: Fixes test-vmstate.c on msys2/mingw
-Date: Wed,  9 Sep 2020 17:46:09 +0800
-Message-Id: <20200909094617.1582-14-luoyonggang@gmail.com>
+Subject: [PATCH v2 14/21] cirrus: Building freebsd in a single short
+Date: Wed,  9 Sep 2020 17:46:10 +0800
+Message-Id: <20200909094617.1582-15-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200909094617.1582-1-luoyonggang@gmail.com>
 References: <20200909094617.1582-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,48 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vmstate are valid on win32, just need generate tmp path properly
+freebsd 1 hour limit not hit anymore
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/test-vmstate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .cirrus.yml | 35 ++++++++---------------------------
+ 1 file changed, 8 insertions(+), 27 deletions(-)
 
-diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
-index f8de709a0b..51fe8e8ec5 100644
---- a/tests/test-vmstate.c
-+++ b/tests/test-vmstate.c
-@@ -34,7 +34,6 @@
- #include "qemu/module.h"
- #include "io/channel-file.h"
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 49335e68c9..b0004273bb 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -1,38 +1,19 @@
+ env:
+   CIRRUS_CLONE_DEPTH: 1
  
--static char temp_file[] = "/tmp/vmst.test.XXXXXX";
- static int temp_fd;
+-freebsd_1st_task:
++freebsd_12_task:
+   freebsd_instance:
+     image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gsed
+-    nettle perl5 pixman pkgconf png usbredir
++    cpu: 8
++    memory: 8G
++  install_script:
++    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
++    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
++          nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --disable-user --target-list-exclude='alpha-softmmu
+-        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
+-        --enable-werror || { cat config.log; exit 1; }
+-    - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake -j$(sysctl -n hw.ncpu) check
+-
+-freebsd_2nd_task:
+-  freebsd_instance:
+-    image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
+-    nettle perl5 pixman pkgconf png SDL2 usbredir
+-  script:
+-    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
+-        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
+-        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
+-        || { cat config.log; exit 1; }
++    - ../configure --enable-werror || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake -j$(sysctl -n hw.ncpu) check
  
- 
-@@ -1487,6 +1486,7 @@ static void test_tmp_struct(void)
- 
- int main(int argc, char **argv)
- {
-+    g_autofree char *temp_file = g_strdup_printf("%s/vmst.test.XXXXXX", g_get_tmp_dir());
-     temp_fd = mkstemp(temp_file);
- 
-     module_call_init(MODULE_INIT_QOM);
 -- 
 2.28.0.windows.1
 
