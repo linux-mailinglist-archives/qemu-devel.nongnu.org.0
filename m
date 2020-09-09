@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE29262EDB
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:02:53 +0200 (CEST)
-Received: from localhost ([::1]:49860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D88B262EE1
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:05:32 +0200 (CEST)
+Received: from localhost ([::1]:59348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFzkS-0004FI-Fk
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:02:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
+	id 1kFzn1-0008C3-BC
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFzil-0002zD-Ao
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:01:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37861
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kFzij-0001jy-DO
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:01:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599656464;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xR51LjUIlJDRxpHGrTfR3yJJpw0CdO7vA6jUiBDmbo4=;
- b=ik0La7A5MXUIwKSwIbFw0eX4iP5569yKUcun0xlVa35VvxfWXSq48w2fgbh+4x3f3mqQvG
- X9MRZPIT2rcWjf6Po4bRubRpBPxxk59ORz0+TqmLlff6vY4AKlXhFIz7EsZ/FPv5B6VOM4
- uTijTGWTRAL+Ien24tOTMOiHb/y3zyE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-HbXbasU0N2yb_HsaA5NM4g-1; Wed, 09 Sep 2020 09:00:55 -0400
-X-MC-Unique: HbXbasU0N2yb_HsaA5NM4g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1B2580EF9B;
- Wed,  9 Sep 2020 13:00:52 +0000 (UTC)
-Received: from redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 66945100238C;
- Wed,  9 Sep 2020 13:00:49 +0000 (UTC)
-Date: Wed, 9 Sep 2020 14:00:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v2 12/21] meson: remove empty else and duplicated gio deps
-Message-ID: <20200909130046.GD1011023@redhat.com>
-References: <20200909094617.1582-1-luoyonggang@gmail.com>
- <20200909094617.1582-13-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kFzkv-0006E8-PL
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:03:21 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kFzkt-0001vv-QE
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:03:21 -0400
+Received: by mail-wm1-x343.google.com with SMTP id y15so2288254wmi.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 06:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yowadfvDXDGudzwCxAmkIYNU8MFhavwJf7L478FjO6g=;
+ b=j7hKUW9TtOXOr6gIhgzZy5BwtdyQOGKWmm8TwX6eNbnf4yAbP9EBKmXjC5Ig1HbwuF
+ 85/GMO3+9Atm8HruGys6TO4zFU+v9hYEkSUennNWGSq+95+9jcQ+qVkTfDbDXjREvatb
+ 2a7hRCw+HYGf+Yz/H0f94MWwsvCw50PNdT+kVd8tr7UXWdoM5p6poIyaBoeISsicwRS6
+ CWaExLeJixdkqBvpRu/PtSQdOxKOzmn+nLsdOu5n5T5UAhKrNLajjIlSOO3ehsdcWlFW
+ t5uzsOhR56dmJtNT0jQ2tGZgmNYLCy5sxlTR9x8JYA1WiUJpEOb6YoyaD9RhSM6NwfZq
+ 6fog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yowadfvDXDGudzwCxAmkIYNU8MFhavwJf7L478FjO6g=;
+ b=KheCjyB4Vu+U071N0VoEJepyP9LqE4x+zZe23hzJCtvEjyCR0v4sJTXyGFX7cFt/A2
+ 5IvMuPB3e8PoSJ9mXtWXdyMVdc0mp2eKmWnHavVVnnSp2wPT/+V+tASVS78gKrhqEMax
+ V3lq4xCUS09iJD+5Gs2cE8sOZY29pUi/fuzd4S2QpS2jN65Lblec3TbX9yeRqI9REw30
+ rr2GYRU632xhqnAkUk8ISwhVyn3fbPz59dLIxc54XQU3zXVVCF8oN90AeFbU1ELvpTyT
+ TDw/Z5kge0pNzAReRmOOjsnXVrjjEbmFcXJUXFVYB1uWd982/5KDo6g1Ue5QT8rp8SKy
+ EiDQ==
+X-Gm-Message-State: AOAM530pAvDd0wwWjPLEk3lGcjoVABUhdwE+jbjJd5KNgPfhBZfs+kKd
+ cF8kNW8c0a9BiyVcGwXPrsk=
+X-Google-Smtp-Source: ABdhPJzqW2aaC397HdK/uKrbhU/VtVG07Fg3RpV8nq4wmi4HglnILCD+dk+C47TAg6FVien4PDOsUQ==
+X-Received: by 2002:a1c:4d12:: with SMTP id o18mr3716514wmh.177.1599656598164; 
+ Wed, 09 Sep 2020 06:03:18 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id y6sm4042007wrt.80.2020.09.09.06.03.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Sep 2020 06:03:17 -0700 (PDT)
+Subject: Re: [PATCH v2 03/10] tests/meson.build: fp tests don't need CONFIG_TCG
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200909112742.25730-1-alex.bennee@linaro.org>
+ <20200909112742.25730-4-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <076a3151-7ebd-3c0f-8b1e-b7dfef5f6160@amsat.org>
+Date: Wed, 9 Sep 2020 15:03:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200909094617.1582-13-luoyonggang@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200909112742.25730-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:13:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,32 +92,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, cota@braap.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 05:46:08PM +0800, Yonggang Luo wrote:
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+On 9/9/20 1:27 PM, Alex Bennée wrote:
+> As the tests build only softfloat.c no actual TCG machinary is neede
+
+Typo "needed".
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> to test them (as is evidenced by GCC check-softfloat). Might as well
+> fix the wording on Travis while at it.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20200903112107.27367-7-alex.bennee@linaro.org>
 > ---
->  meson.build | 6 ------
->  1 file changed, 6 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>  .travis.yml       | 2 +-
+>  tests/meson.build | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.travis.yml b/.travis.yml
+> index 1d0ade0a133..65341634d02 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -138,7 +138,7 @@ jobs:
+>  
+>  
+>      # Just build tools and run minimal unit and softfloat checks
+> -    - name: "GCC check-softfloat (user)"
+> +    - name: "GCC check-unit and check-softfloat"
+>        env:
+>          - BASE_CONFIG="--enable-tools"
+>          - CONFIG="--disable-user --disable-system"
+> diff --git a/tests/meson.build b/tests/meson.build
+> index 998e4c48f90..dae8a77df14 100644
+> --- a/tests/meson.build
+> +++ b/tests/meson.build
+> @@ -259,8 +259,9 @@ test('decodetree', sh,
+>       workdir: meson.current_source_dir() / 'decode',
+>       suite: 'decodetree')
+>  
+> +subdir('fp')
+> +
+>  if 'CONFIG_TCG' in config_host
+> -  subdir('fp')
+>    if 'CONFIG_PLUGIN' in config_host
+>      subdir('plugin')
+>    endif
+> 
 
