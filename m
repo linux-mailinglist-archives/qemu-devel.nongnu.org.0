@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B6C263045
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 17:14:34 +0200 (CEST)
-Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BD226305F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 17:19:07 +0200 (CEST)
+Received: from localhost ([::1]:45102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG1ns-00050X-VW
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 11:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36388)
+	id 1kG1sI-00036M-IY
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 11:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1lX-0000u3-9Y
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32553)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1la-0000xX-16
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:10 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51705
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1lU-0003kW-00
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:07 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kG1lY-0003lI-E8
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 11:12:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599664323;
+ s=mimecast20190719; t=1599664327;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IIDc3ykYJbs2CF6012HrA58e9+NyCuGJq9BhqyU/RYc=;
- b=c4FFtqhtoN3wIxm3E6DGl/1j4Zj/M/GIFxj2zLwIQ/ZJFta8xijy4vMt4iBN4WhhzdGjeC
- 3JFD3KN9bPZQ9MAll28L7ywEGk363pQ1g8LjJ7de2rb383Xld4tztEIkiwdrg6oQI73Mne
- GydI+TjdtZrB+NTvdG2e3V7fUwmPWr4=
+ bh=4YY/hDRmj2Wi2iM+XoQYflo+4uFEGUMSQ1k4k6cc6qo=;
+ b=PsA4wsf+8uzxYWhQzrHYxBbl4nt988M0Oyxomdi0XH9cNNlxfjXawaEQJPsYgR/+GAAQ5U
+ Jr2mziEedrJIbUeQ9lp4s7f84/lQ2LV6LF2SdDnXAnbI3g5PnCtDTuh2xqSa9q1LH72EX6
+ BB2xTKUqqTfYdHly5t9mwfgQN9XBMPM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-jCe5qny3NTi47aucPKLMGQ-1; Wed, 09 Sep 2020 11:12:01 -0400
-X-MC-Unique: jCe5qny3NTi47aucPKLMGQ-1
+ us-mta-163-8AkW2gnTM0CaTJdMbhTtxw-1; Wed, 09 Sep 2020 11:12:03 -0400
+X-MC-Unique: 8AkW2gnTM0CaTJdMbhTtxw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3380B10059A7;
- Wed,  9 Sep 2020 15:12:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0270801AE5;
+ Wed,  9 Sep 2020 15:12:01 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-221.ams2.redhat.com
  [10.36.113.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B28F660BEC;
- Wed,  9 Sep 2020 15:11:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E13260BEC;
+ Wed,  9 Sep 2020 15:12:00 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 01/13] monitor: Add Monitor parameter to monitor_set_cpu()
-Date: Wed,  9 Sep 2020 17:11:37 +0200
-Message-Id: <20200909151149.490589-2-kwolf@redhat.com>
+Subject: [PATCH v7 02/13] monitor: Add Monitor parameter to
+ monitor_get_cpu_index()
+Date: Wed,  9 Sep 2020 17:11:38 +0200
+Message-Id: <20200909151149.490589-3-kwolf@redhat.com>
 In-Reply-To: <20200909151149.490589-1-kwolf@redhat.com>
 References: <20200909151149.490589-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 07:20:24
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 02:43:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,84 +87,125 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Most callers actually don't have to rely on cur_mon, but already know
-for which monitor they call monitor_set_cpu().
+for which monitor they call monitor_get_cpu_index().
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/monitor/monitor.h |  2 +-
- monitor/hmp-cmds.c        |  2 +-
- monitor/misc.c            | 10 +++++-----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ include/monitor/monitor.h  |  2 +-
+ hw/core/machine-hmp-cmds.c |  2 +-
+ monitor/hmp-cmds.c         |  2 +-
+ monitor/misc.c             | 20 ++++++++++----------
+ softmmu/cpus.c             |  2 +-
+ 5 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index 1018d754a6..0dcaefd4f9 100644
+index 0dcaefd4f9..a64502fbb2 100644
 --- a/include/monitor/monitor.h
 +++ b/include/monitor/monitor.h
-@@ -33,7 +33,7 @@ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
-     GCC_FMT_ATTR(2, 0);
+@@ -34,7 +34,7 @@ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
  int monitor_printf(Monitor *mon, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
  void monitor_flush(Monitor *mon);
--int monitor_set_cpu(int cpu_index);
-+int monitor_set_cpu(Monitor *mon, int cpu_index);
- int monitor_get_cpu_index(void);
+ int monitor_set_cpu(Monitor *mon, int cpu_index);
+-int monitor_get_cpu_index(void);
++int monitor_get_cpu_index(Monitor *mon);
  
  void monitor_read_command(MonitorHMP *mon, int show_prompt);
+ int monitor_read_password(MonitorHMP *mon, ReadLineFunc *readline_func,
+diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+index 39999c47c5..da7d2e27b6 100644
+--- a/hw/core/machine-hmp-cmds.c
++++ b/hw/core/machine-hmp-cmds.c
+@@ -34,7 +34,7 @@ void hmp_info_cpus(Monitor *mon, const QDict *qdict)
+     for (cpu = cpu_list; cpu; cpu = cpu->next) {
+         int active = ' ';
+ 
+-        if (cpu->value->cpu_index == monitor_get_cpu_index()) {
++        if (cpu->value->cpu_index == monitor_get_cpu_index(mon)) {
+             active = '*';
+         }
+ 
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 7711726fd2..f608b5b27b 100644
+index f608b5b27b..1e5e611ed9 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -996,7 +996,7 @@ void hmp_cpu(Monitor *mon, const QDict *qdict)
-     /* XXX: drop the monitor_set_cpu() usage when all HMP commands that
-             use it are converted to the QAPI */
-     cpu_index = qdict_get_int(qdict, "index");
--    if (monitor_set_cpu(cpu_index) < 0) {
-+    if (monitor_set_cpu(mon, cpu_index) < 0) {
-         monitor_printf(mon, "invalid CPU index\n");
-     }
- }
+@@ -1007,7 +1007,7 @@ void hmp_memsave(Monitor *mon, const QDict *qdict)
+     const char *filename = qdict_get_str(qdict, "filename");
+     uint64_t addr = qdict_get_int(qdict, "val");
+     Error *err = NULL;
+-    int cpu_index = monitor_get_cpu_index();
++    int cpu_index = monitor_get_cpu_index(mon);
+ 
+     if (cpu_index < 0) {
+         monitor_printf(mon, "No CPU available\n");
 diff --git a/monitor/misc.c b/monitor/misc.c
-index e847b58a8c..b4f779b8d3 100644
+index b4f779b8d3..972726061c 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -129,7 +129,7 @@ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
-     cur_mon = &hmp.common;
- 
-     if (has_cpu_index) {
--        int ret = monitor_set_cpu(cpu_index);
-+        int ret = monitor_set_cpu(&hmp.common, cpu_index);
-         if (ret < 0) {
-             cur_mon = old_mon;
-             error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cpu-index",
-@@ -255,7 +255,7 @@ static void monitor_init_qmp_commands(void)
+@@ -269,23 +269,23 @@ int monitor_set_cpu(Monitor *mon, int cpu_index)
  }
  
- /* Set the current CPU defined by the user. Callers must hold BQL. */
--int monitor_set_cpu(int cpu_index)
-+int monitor_set_cpu(Monitor *mon, int cpu_index)
+ /* Callers must hold BQL. */
+-static CPUState *mon_get_cpu_sync(bool synchronize)
++static CPUState *mon_get_cpu_sync(Monitor *mon, bool synchronize)
  {
-     CPUState *cpu;
+     CPUState *cpu = NULL;
  
-@@ -263,8 +263,8 @@ int monitor_set_cpu(int cpu_index)
-     if (cpu == NULL) {
-         return -1;
+-    if (cur_mon->mon_cpu_path) {
+-        cpu = (CPUState *) object_resolve_path_type(cur_mon->mon_cpu_path,
++    if (mon->mon_cpu_path) {
++        cpu = (CPUState *) object_resolve_path_type(mon->mon_cpu_path,
+                                                     TYPE_CPU, NULL);
+         if (!cpu) {
+-            g_free(cur_mon->mon_cpu_path);
+-            cur_mon->mon_cpu_path = NULL;
++            g_free(mon->mon_cpu_path);
++            mon->mon_cpu_path = NULL;
+         }
      }
--    g_free(cur_mon->mon_cpu_path);
--    cur_mon->mon_cpu_path = object_get_canonical_path(OBJECT(cpu));
-+    g_free(mon->mon_cpu_path);
-+    mon->mon_cpu_path = object_get_canonical_path(OBJECT(cpu));
-     return 0;
- }
- 
-@@ -285,7 +285,7 @@ static CPUState *mon_get_cpu_sync(bool synchronize)
+-    if (!cur_mon->mon_cpu_path) {
++    if (!mon->mon_cpu_path) {
          if (!first_cpu) {
              return NULL;
          }
--        monitor_set_cpu(first_cpu->cpu_index);
-+        monitor_set_cpu(cur_mon, first_cpu->cpu_index);
+-        monitor_set_cpu(cur_mon, first_cpu->cpu_index);
++        monitor_set_cpu(mon, first_cpu->cpu_index);
          cpu = first_cpu;
      }
      assert(cpu != NULL);
+@@ -297,7 +297,7 @@ static CPUState *mon_get_cpu_sync(bool synchronize)
+ 
+ CPUState *mon_get_cpu(void)
+ {
+-    return mon_get_cpu_sync(true);
++    return mon_get_cpu_sync(cur_mon, true);
+ }
+ 
+ CPUArchState *mon_get_cpu_env(void)
+@@ -307,9 +307,9 @@ CPUArchState *mon_get_cpu_env(void)
+     return cs ? cs->env_ptr : NULL;
+ }
+ 
+-int monitor_get_cpu_index(void)
++int monitor_get_cpu_index(Monitor *mon)
+ {
+-    CPUState *cs = mon_get_cpu_sync(false);
++    CPUState *cs = mon_get_cpu_sync(mon, false);
+ 
+     return cs ? cs->cpu_index : UNASSIGNED_CPU_INDEX;
+ }
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index e3b98065c9..ae643447e9 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -2224,7 +2224,7 @@ exit:
+ 
+ void qmp_inject_nmi(Error **errp)
+ {
+-    nmi_monitor_handle(monitor_get_cpu_index(), errp);
++    nmi_monitor_handle(monitor_get_cpu_index(cur_mon), errp);
+ }
+ 
+ void dump_drift_info(void)
 -- 
 2.25.4
 
