@@ -2,117 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94CC262FA2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:16:15 +0200 (CEST)
-Received: from localhost ([::1]:56666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE875262F83
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 16:09:20 +0200 (CEST)
+Received: from localhost ([::1]:59264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kG0tS-0004FU-Pc
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:16:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45260)
+	id 1kG0ml-0002DV-QH
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 10:09:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kG0o6-0005SL-64
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:10:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44198)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kG0o4-00023u-6z
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:10:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599660638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MWzaxhkIWjPPCR63AQJ7yOwCEw3bKbjsNfc8RYN4tkk=;
- b=TyGiByRKsMBlPAKXYk6iPIv5oRII9GPupbsUlqr/rK0lQ+PNItmPvEsraY09vWFQgF0zyP
- ruI+I7IMvvFTAFFNLvt1lHM71Vl5ChucI4MUxu+HZPWUGw0KrfFZhyDkSICThq80IghQVO
- mOMRI8qONCHoKcIdEbMtpggaygyn2pk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-fJ-xqmYJP2uSPLPiizUZVA-1; Wed, 09 Sep 2020 10:10:34 -0400
-X-MC-Unique: fJ-xqmYJP2uSPLPiizUZVA-1
-Received: by mail-wm1-f70.google.com with SMTP id u5so831351wme.3
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 07:10:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=MWzaxhkIWjPPCR63AQJ7yOwCEw3bKbjsNfc8RYN4tkk=;
- b=k1IslVnnKpIMFBxQ+F4PwfMgAzHelEM73VGQzYYQMmd2H57iMVpE0QQyqLVsZsJwmK
- grwTqAuM7uwSF0hCWVJb3+zU4qW+3E9/bPQKiuxbmPleWGQ282nrszEsSXFgLXlsQ7FP
- +3iU9STG4GRG9yC52MdmKyWKXoPDA3lgptg6tZWAoNSil1S7E6iQAseZ9gMx1CNRBC30
- K3eb3hAEnwPq3/6U/EI3pir+AZP/0Fo867/PCHobtJTMZedunDgud98FQn3BOrviljxb
- smcSM3ncLxOifxgb8ONHlDIh0bIhKqrw+BcngQst0+7N6q9BYtdvKIc+hJJYVuY/pq13
- pzoA==
-X-Gm-Message-State: AOAM531IywUFKQYon68AJqobpHHGVT7CYP49/TMQNX9FCreswKwyDHcm
- 2gVKZVz7gpKQ7trnuuC7ZiuirggVjIaF13BnipvFaRFRZfC93u0v78BmFuv2Rg5WTR0CMTvUvdt
- /NQqtXt8aVRHseiI=
-X-Received: by 2002:a5d:6301:: with SMTP id i1mr3878690wru.323.1599660633726; 
- Wed, 09 Sep 2020 07:10:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw27k258Wf74K31bmTyWZB6NotsOoDTWuGDSxSaDYGO/0v5VT9ud2EoCCPUYa1ZroENtoWfgw==
-X-Received: by 2002:a5d:6301:: with SMTP id i1mr3878663wru.323.1599660633414; 
- Wed, 09 Sep 2020 07:10:33 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id d6sm4436293wrq.67.2020.09.09.07.10.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 07:10:32 -0700 (PDT)
-Subject: Re: [RFC PATCH v5 2/4] util/vfio-helpers: Report error when IOMMU
- page size is not supported
-To: Fam Zheng <fam@euphon.net>
-References: <20200908180342.280749-1-philmd@redhat.com>
- <20200908180342.280749-3-philmd@redhat.com>
- <20200909083815.wp2f3kmc2xxgjukm@dev>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <574d99fb-aaac-50e7-f2a3-37e31de2f341@redhat.com>
-Date: Wed, 9 Sep 2020 16:10:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kG0lK-0000UY-Ng
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:07:50 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4722 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kG0lH-0001hj-5w
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 10:07:50 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 8EF92B847DAED8829EAF;
+ Wed,  9 Sep 2020 22:07:32 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Wed, 9 Sep 2020
+ 22:07:24 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>, <dme@dme.org>
+Subject: [PATCH v7 00/12] *** A Method for evaluating dirty page rate ***
+Date: Wed, 9 Sep 2020 22:18:04 +0800
+Message-ID: <1599661096-127913-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200909083815.wp2f3kmc2xxgjukm@dev>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:25:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 10:07:33
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,97 +58,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ zhang.zhanghailiang@huawei.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/20 10:38 AM, Fam Zheng wrote:
-> On 2020-09-08 20:03, Philippe Mathieu-Daudé wrote:
->> This driver uses the host page size to align its memory regions,
->> but this size is not always compatible with the IOMMU. Add a
->> check if the size matches, and bails out with listing the sizes
->> the IOMMU supports.
->>
->> Example on Aarch64:
->>
->>  $ qemu-system-aarch64 -M virt -drive if=none,id=nvme0,file=nvme://0006:90:00.0/1,format=raw
->>  qemu-system-aarch64: -drive if=none,id=nvme0,file=nvme://0006:90:00.0/1,format=raw: Unsupported IOMMU page size: 4 KiB
->>  Available page size:
->>   64 KiB
->>   512 MiB
->>
->> Suggested-by: Alex Williamson <alex.williamson@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  util/vfio-helpers.c | 20 ++++++++++++++++++++
->>  1 file changed, 20 insertions(+)
->>
->> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
->> index 55b4107ce69..6d9ec7d365c 100644
->> --- a/util/vfio-helpers.c
->> +++ b/util/vfio-helpers.c
->> @@ -11,6 +11,7 @@
->>   */
->>  
->>  #include "qemu/osdep.h"
->> +#include "qemu/cutils.h"
->>  #include <sys/ioctl.h>
->>  #include <linux/vfio.h>
->>  #include "qapi/error.h"
->> @@ -316,6 +317,25 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
->>          ret = -errno;
->>          goto fail;
->>      }
->> +    if (!(iommu_info.flags & VFIO_IOMMU_INFO_PGSIZES)) {
->> +        error_setg(errp, "Failed to get IOMMU page size info");
->> +        ret = -errno;
-> 
-> We don't have errno here, do we?
+v6-> v7:
+    fix minior comments and coding style by review
+    add review-by for patches
 
-Oops thanks, I'll replace by "ret = -EINVAL;".
+v5 -> v6:
+    fix coding style according to review
+    use TARGET_PAGE_SIZE and TARGET_PAGE_BITS instead of self-defined macros
+    return start-time and calc-time by qmp command
 
-> 
->> +        goto fail;
->> +    }
->> +    if (!extract64(iommu_info.iova_pgsizes,
->> +                   ctz64(qemu_real_host_page_size), 1)) {
->> +        g_autofree char *host_page_size = size_to_str(qemu_real_host_page_size);
->> +        error_setg(errp, "Unsupported IOMMU page size: %s", host_page_size);
->> +        error_append_hint(errp, "Available page size:\n");
->> +        for (int i = 0; i < 64; i++) {
->> +            if (extract64(iommu_info.iova_pgsizes, i, 1)) {
->> +                g_autofree char *iova_pgsizes = size_to_str(1UL << i);
->> +                error_append_hint(errp, " %s\n", iova_pgsizes);
-> 
-> Interesting... Since it's printing page size which is fairly low level,
-> why not just plain (hex) numbers?
+v4 -> v5:
+    fix git apply failed due to meson-build
+    add review-by for patches in v3
 
-Because this error is reported to the user (not the developer)
-and depends of the host/iommu.
+v3 -> v4:
+    use crc32 to get hash result instead of md5
+    add DirtyRateStatus to denote calculation status
+    add some trace_calls to make it easier to debug
+    fix some comments accroding to review
 
-If you don't mind I'll keep it as it (as the code is written).
+v2 -> v3:
+    fix size_t compile warning
+    fix codestyle checked by checkpatch.pl
 
-Thank you for reviewing the series!
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
 
-Phil.
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
 
-> 
-> Fam
-> 
->> +            }
->> +        }
->> +        ret = -EINVAL;
->> +        goto fail;
->> +    }
->>  
->>      s->device = ioctl(s->group, VFIO_GROUP_GET_DEVICE_FD, device);
->>  
->> -- 
->> 2.26.2
->>
->>
-> 
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                           |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)               |
+-------------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1060MB/s |     456MB/s ~ 1142MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4114MB/s |     688MB/s ~ 4132MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
+
+The qmp command returns like this:
+{"return":{"status":"measured","dirty-rate":374,"start-time":3718293,"calc-time":1},"id":"libvirt-15"}
+
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
+
+Chuan Zheng (12):
+  migration/dirtyrate: setup up query-dirtyrate framwork
+  migration/dirtyrate: add DirtyRateStatus to denote calculation status
+  migration/dirtyrate: Add RamblockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement set_sample_page_period() and
+    get_sample_page_period()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+  migration/dirtyrate: Add trace_calls to make it easier to debug
+
+ migration/dirtyrate.c  | 435 +++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h  |  70 ++++++++
+ migration/meson.build  |   2 +-
+ migration/ram.c        |  11 +-
+ migration/ram.h        |  10 ++
+ migration/trace-events |   8 +
+ qapi/migration.json    |  67 ++++++++
+ 7 files changed, 592 insertions(+), 11 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
+
+-- 
+1.8.3.1
 
 
