@@ -2,115 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F531262F01
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:16:32 +0200 (CEST)
-Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4C8262F0B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Sep 2020 15:20:09 +0200 (CEST)
+Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kFzxf-0002xr-8h
-	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58768)
+	id 1kG01A-0005pN-QW
+	for lists+qemu-devel@lfdr.de; Wed, 09 Sep 2020 09:20:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFzwT-0001ye-Nt
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:15:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36780
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kFzzP-0004OL-Gj
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:18:19 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41049
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kFzwR-0003R5-VI
- for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:15:17 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kFzzN-0003ro-Fx
+ for qemu-devel@nongnu.org; Wed, 09 Sep 2020 09:18:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599657314;
+ s=mimecast20190719; t=1599657496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TtbhIOhwYheu10IyWI3FzMffOUeVDNCjiCfuzmqJcRo=;
- b=e5sC0aVjZn0KbIBg0+lxl6Uw+ZycSXKTQMS2holCZsuZq+cXnC5fx3M0IBvWUi4BasHyik
- J/aeBQxQ8dinpkCbPcnVA2U/ECfvtwo6AfcQLeyVCuj0aFj0G4DSjCsFcXnR6BrMrowH+o
- MS55A9gaRVzUTZnsQAID0RiDkl82TxY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-mSBf-iclN5-0DA-v-snRSg-1; Wed, 09 Sep 2020 09:15:12 -0400
-X-MC-Unique: mSBf-iclN5-0DA-v-snRSg-1
-Received: by mail-wm1-f69.google.com with SMTP id a144so814382wme.9
- for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 06:15:12 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=Ah0A2PuFLh0MUiw7UXgp4z0hcU8zJceQNRK+JTuR5Rs=;
+ b=iDNs+w900yBPqfksuLLAjcxg/vCibkksMl7/ijx9ScWsVQGhnf/564Z//dF7G3ukr9CPLW
+ FOZmqowfw3TZ8RNZTieRrrQSZohbzlnAfBUKDAKTBzb0SLGdAAgmRPRlr2aM3hUXRF5YJV
+ 0qStitdjTPYWhP/nilxnBRkb4rlJsdg=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-gZJKaS0-NI2j-3_uwq5msQ-1; Wed, 09 Sep 2020 09:18:11 -0400
+X-MC-Unique: gZJKaS0-NI2j-3_uwq5msQ-1
+Received: by mail-il1-f199.google.com with SMTP id a15so1960526ilb.22
+ for <qemu-devel@nongnu.org>; Wed, 09 Sep 2020 06:18:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TtbhIOhwYheu10IyWI3FzMffOUeVDNCjiCfuzmqJcRo=;
- b=img0dDYiVwk/ar1u9BQV9wrGcdmB6CDf3IQsQJkrNTb6IOF2gYYhozPvoucJJbByQs
- 7lYZlP41fEftkByEYY6lTAQDwH/KWVX71FLVsp79LrQBZNhQeRrNTHLkH+xhCb69xFTt
- 30oAH5zmA10DFfKhkkxAMETCYHzeacBstg5Nhsi/ScDa4szA4Ur8Sgxgm27LWatO2Rtk
- dRhRisz8E4vAyPP4PVwuKY4jIXWDi67I20bJY2dI6eYawNwro1BD9IZCOBqw6Mvo1CcK
- a8fJx0yvfE65dOhnKSqcSiw9tPSZeiFtBixErlC0H7vc8zQ18Zb2wKOfV6fiIQ7hYxhm
- +VMg==
-X-Gm-Message-State: AOAM533aixhJFLkmcJj0W6qrbb0z+PXa5lDaZfDErqkNeo06yP4uRMnK
- fPFyCFTeDkLB+X0Dpcfp5GcWtmBxi2ZfjlNYlgoWE8BQkapmb3qi6F2zOGkCZAeITPQzUuFZxd8
- xSgAc/EbUE+WLGHo=
-X-Received: by 2002:a1c:2903:: with SMTP id p3mr3678801wmp.170.1599657311775; 
- Wed, 09 Sep 2020 06:15:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwwNp6S9SojJ9Rl4kcRYeOP2BEDAmXX8bZs2UHZ+FcPOX0TdryhsJm+WVFv5YS2+dzCrGyiiw==
-X-Received: by 2002:a1c:2903:: with SMTP id p3mr3678789wmp.170.1599657311608; 
- Wed, 09 Sep 2020 06:15:11 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id v204sm4076363wmg.20.2020.09.09.06.15.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Sep 2020 06:15:10 -0700 (PDT)
-Subject: Re: [PATCH v3 2/8] configure: always /-seperate directory from
- qemu_suffix
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20200826110419.528931-1-marcandre.lureau@redhat.com>
- <20200826110419.528931-3-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <bfe25907-88ef-05ad-0464-1220c37439e2@redhat.com>
-Date: Wed, 9 Sep 2020 15:15:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ah0A2PuFLh0MUiw7UXgp4z0hcU8zJceQNRK+JTuR5Rs=;
+ b=CDwktmElRE0eOFrRfgNVcvebbKJk7pbiaWU9RCgq7yJDxJ4clPdrh0UukelB7mrH7f
+ RbEsF4WlAhXWJBnpr2Mk8BlEkEeCUtnhdCgaHAjwcrxDz9/WVnb2nWPCt9MrNN/0c6UQ
+ PiQMRoY4o+V/PgEc0ZSXK0LPye8zV/0YahT5xXfkGEtXrOQSC/0maB7Ws8+hsoLX8fzu
+ RxZf4CwcEaAf+iie3gJk7Hu25tKlezTUtEV9W5wEziq0yh01WoBfUXf7hb+8cOIKnaLX
+ +FOkwaCc8IPkIWTKL0WCh2sAR3hrYZ1Uo9b5AhHzh3VMLLoQMpm7rIPZBK9ZJwYbCPzE
+ Sh/A==
+X-Gm-Message-State: AOAM531fxxAgLBgibLjAf79g8j04whEsYt+O8TX/JImYY9t5GNJot0jE
+ sJ7mvIbT0fvzGOG1U+fAdO4pFtcnbbBSFxK1wLKUTXWxq/95q6LuX8UtmpXs6ItBjy5sppMjTMc
+ GWWuHqcz/qnbGgA11hb1JVdnPw2mw0gE=
+X-Received: by 2002:a92:4f:: with SMTP id 76mr3481860ila.11.1599657489419;
+ Wed, 09 Sep 2020 06:18:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz73OFVxIfXAYvzwC8LqGqB57L2flU3qRUfPo1hmbs1Ch1sVXqcxuZvIX3k71d/gdP5AexyCdpRXQqK6wwxNLc=
+X-Received: by 2002:a92:4f:: with SMTP id 76mr3481839ila.11.1599657489116;
+ Wed, 09 Sep 2020 06:18:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200826110419.528931-3-marcandre.lureau@redhat.com>
+References: <20200826110419.528931-1-marcandre.lureau@redhat.com>
+ <20200826110419.528931-6-marcandre.lureau@redhat.com>
+ <20200909095147.p6ywqn5ze7mbmvm6@lws.brq.redhat.com>
+ <CAMxuvax6mfV2zX9tz7xJ5qMb5EaX6oLs6piqqAnGY6_dAyFNEQ@mail.gmail.com>
+ <20200909124622.nsekxztqfrg6mijs@lws.brq.redhat.com>
+In-Reply-To: <20200909124622.nsekxztqfrg6mijs@lws.brq.redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 9 Sep 2020 17:17:57 +0400
+Message-ID: <CAMxuvay2_3nkdfb7=+0t1OKtAdJJ6Zw4KCp4+3NV3p-sssY2VA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/8] meson: use meson datadir instead of qemu_datadir
+To: Miroslav Rezanina <mrezanin@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:05:47
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/09 03:20:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,75 +96,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, berrange@redhat.com, pbonzini@redhat.com
+Cc: Stefan Weil <sw@weilnetz.de>, "P. Berrange, Daniel" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/20 1:04 PM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
+Hi
 
-Typo "separate" in subject.
+On Wed, Sep 9, 2020 at 4:46 PM Miroslav Rezanina <mrezanin@redhat.com> wrot=
+e:
+>
+> On Wed, Sep 09, 2020 at 02:13:25PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
+> >
+> > On Wed, Sep 9, 2020 at 1:51 PM Miroslav Rezanina <mrezanin@redhat.com> =
+wrote:
+> > >
+> > > On Wed, Aug 26, 2020 at 03:04:16PM +0400, marcandre.lureau@redhat.com=
+ wrote:
+> > > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > >
+> > > > When cross-compiling, by default qemu_datadir is 'c:\Program
+> > > > Files\QEMU', which is not recognized as being an absolute path, and
+> > > > meson will end up adding the prefix again.
+> > > >
+> > > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > > ---
+> > > >  contrib/vhost-user-gpu/meson.build | 2 +-
+> > > >  meson.build                        | 3 ++-
+> > > >  meson_options.txt                  | 2 +-
+> > > >  pc-bios/descriptors/meson.build    | 2 +-
+> > > >  pc-bios/keymaps/meson.build        | 6 +++---
+> > > >  pc-bios/meson.build                | 2 +-
+> > > >  tools/virtiofsd/meson.build        | 2 +-
+> > > >  trace/meson.build                  | 2 +-
+> > > >  8 files changed, 11 insertions(+), 10 deletions(-)
+> > > >
+> > > > diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-use=
+r-gpu/meson.build
+> > > > index 6c1459f54a..8df4c13bc5 100644
+> > > > --- a/contrib/vhost-user-gpu/meson.build
+> > > > +++ b/contrib/vhost-user-gpu/meson.build
+> > > > @@ -9,5 +9,5 @@ if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL'=
+ in config_host \
+> > > >    configure_file(input: '50-qemu-gpu.json.in',
+> > > >                   output: '50-qemu-gpu.json',
+> > > >                   configuration: config_host,
+> > > > -                 install_dir: config_host['qemu_datadir'] / 'vhost=
+-user')
+> > > > +                 install_dir: qemu_datadir / 'vhost-user')
+> > > >  endif
+> > > > diff --git a/meson.build b/meson.build
+> > > > index f0fe5f8799..9f0d7d3830 100644
+> > > > --- a/meson.build
+> > > > +++ b/meson.build
+> > > > @@ -17,6 +17,7 @@ config_all_disas =3D keyval.load(meson.current_bu=
+ild_dir() / 'config-all-disas.mak
+> > > >  enable_modules =3D 'CONFIG_MODULES' in config_host
+> > > >  enable_static =3D 'CONFIG_STATIC' in config_host
+> > > >  build_docs =3D 'BUILD_DOCS' in config_host
+> > > > +qemu_datadir =3D get_option('datadir') / get_option('qemu_suffix')
+> > > >  config_host_data =3D configuration_data()
+> > > >  genh =3D []
+> > > >
+> > > > @@ -1039,7 +1040,7 @@ foreach target : target_dirs
+> > > >                        output: exe_name + stp['ext'],
+> > > >                        capture: true,
+> > > >                        install: stp['install'],
+> > > > -                      install_dir: config_host['qemu_datadir'] / '=
+../systemtap/tapset',
+> > > > +                      install_dir: qemu_datadir / '../systemtap/ta=
+pset',
+> > > >                        command: [
+> > > >                          tracetool, '--group=3Dall', '--format=3D' =
++ stp['fmt'],
+> > > >                          '--binary=3D' + stp['bin'],
+> > > > diff --git a/meson_options.txt b/meson_options.txt
+> > > > index 1ef822bab3..9e8db82995 100644
+> > > > --- a/meson_options.txt
+> > > > +++ b/meson_options.txt
+> > > > @@ -1,4 +1,4 @@
+> > > > -option('qemu_suffix', type : 'string', value: '/qemu',
+> > > > +option('qemu_suffix', type : 'string', value: 'qemu',
+> > > >         description: 'Suffix for QEMU data/modules/config directori=
+es (can be empty)')
+> > > >  option('gettext', type : 'boolean', value : true)
+> > > >  option('sdl', type : 'feature', value : 'auto')
+> > > > diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/=
+meson.build
+> > > > index 7c715bace8..3798d32372 100644
+> > > > --- a/pc-bios/descriptors/meson.build
+> > > > +++ b/pc-bios/descriptors/meson.build
+> > > > @@ -10,5 +10,5 @@ foreach f: [
+> > > >                   output: f,
+> > > >                   configuration: {'DATADIR': config_host['qemu_data=
+dir']},
+> > > >                   install: install_blobs,
+> > > > -                 install_dir: config_host['qemu_datadir'] / 'firmw=
+are')
+> > > > +                 install_dir: qemu_datadir / 'firmware')
+> > > >  endforeach
+> > > > diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.bu=
+ild
+> > > > index b737c82230..bbac83ece3 100644
+> > > > --- a/pc-bios/keymaps/meson.build
+> > > > +++ b/pc-bios/keymaps/meson.build
+> > > > @@ -44,13 +44,13 @@ foreach km, args: keymaps
+> > > >                       build_by_default: true,
+> > > >                       output: km,
+> > > >                       command: [native_qemu_keymap, '-f', '@OUTPUT@=
+', args.split()],
+> > > > -                     install_dir: config_host['qemu_datadir'] / 'k=
+eymaps')
+> > > > +                     install_dir: qemu_datadir / 'keymaps')
+> > > >  endforeach
+> > > >  if t.length() > 0
+> > > >    alias_target('update-keymaps', t)
+> > > >  else
+> > > >    # install from the source tree
+> > > > -  install_data(keymaps.keys(), install_dir: config_host['qemu_data=
+dir'] / 'keymaps')
+> > > > +  install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymap=
+s')
+> > > >  endif
+> > > >
+> > > > -install_data(['sl', 'sv'], install_dir: config_host['qemu_datadir'=
+] / 'keymaps')
+> > > > +install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+> > > > diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+> > > > index b6389f5148..c11e52ba26 100644
+> > > > --- a/pc-bios/meson.build
+> > > > +++ b/pc-bios/meson.build
+> > > > @@ -19,7 +19,7 @@ if 'DECOMPRESS_EDK2_BLOBS' in config_host
+> > > >                    input: '@0@.bz2'.format(f),
+> > > >                    capture: true,
+> > > >                    install: install_blobs,
+> > > > -                  install_dir: config_host['qemu_datadir'],
+> > > > +                  install_dir: qemu_datadir,
+> > > >                    command: [ bzip2, '-dc', '@INPUT0@' ])
+> > > >    endforeach
+> > > >  endif
+> > > > diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.bu=
+ild
+> > > > index d1e23c5760..50022ed89e 100644
+> > > > --- a/tools/virtiofsd/meson.build
+> > > > +++ b/tools/virtiofsd/meson.build
+> > > > @@ -16,4 +16,4 @@ executable('virtiofsd', files(
+> > > >  configure_file(input: '50-qemu-virtiofsd.json.in',
+> > > >                 output: '50-qemu-virtiofsd.json',
+> > > >                 configuration: config_host,
+> > > > -               install_dir: config_host['qemu_datadir'] / 'vhost-u=
+ser')
+> > > > +               install_dir: qemu_datadir / 'vhost-user')
+> > > > diff --git a/trace/meson.build b/trace/meson.build
+> > > > index 56e870848e..5f0bf11cb5 100644
+> > > > --- a/trace/meson.build
+> > > > +++ b/trace/meson.build
+> > > > @@ -55,7 +55,7 @@ trace_events_all =3D custom_target('trace-events-=
+all',
+> > > >                                   command: [ 'cat', '@INPUT@' ],
+> > > >                                   capture: true,
+> > > >                                   install: true,
+> > > > -                                 install_dir: config_host['qemu_da=
+tadir'])
+> > > > +                                 install_dir: qemu_datadir)
+> > > >
+> > > >  foreach d : [
+> > > >    ['generated-tcg-tracers.h', 'tcg-h'],
+> > > > --
+> > > > 2.26.2
+> > > >
+> > > >
+> > >
+> > > Is there any change in configuration/build needed as this change caus=
+e that
+> > > meson use /qemu instead of $datadir/qemu_suffix in our build?
+> >
+> > Afaik, the install location shouldn't be changed after this. Do you
+> > see a breaking change? Could you give some details?
+> >
+>
+> After chat with Marc, we were able to identify the problem. I properly ch=
+anged
+> --with-confsuffix to --with-suffix but pass wrong value in there as we us=
+ed to
+> pass /qemu-kvm (so I use --with-suffix=3D/qemu-kvm). This was breaking th=
+e meson
+> handling. After update to -with-suffix=3Dqemu build pass successfully.
 
-Btw can you copy the subject in the commit description?
-This makes review simpler (no need to go back in the
-thread view to see the subject and go back into the
-mail to see the content).
+I think this is due to meson peculiar / operator.
 
-> Otherwise, we may accept very strange directory names...
-> 
-> While at it, quote the variables.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+'a' / 'b' =3D 'a/b'
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+but
 
-> ---
->  configure | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 0e04c47722..61216b9210 100755
-> --- a/configure
-> +++ b/configure
-> @@ -474,7 +474,7 @@ modules="no"
->  module_upgrades="no"
->  prefix="/usr/local"
->  firmwarepath="\${prefix}/share/qemu-firmware"
-> -qemu_suffix="/qemu"
-> +qemu_suffix="qemu"
->  slirp=""
->  oss_lib=""
->  bsd="no"
-> @@ -1823,12 +1823,12 @@ Advanced options (experts only):
->    --with-git=GIT           use specified git [$git]
->    --static                 enable static build [$static]
->    --mandir=PATH            install man pages in PATH
-> -  --datadir=PATH           install firmware in PATH$qemu_suffix
-> -  --docdir=PATH            install documentation in PATH$qemu_suffix
-> +  --datadir=PATH           install firmware in PATH/$qemu_suffix
-> +  --docdir=PATH            install documentation in PATH/$qemu_suffix
->    --bindir=PATH            install binaries in PATH
->    --libdir=PATH            install libraries in PATH
->    --libexecdir=PATH        install helper binaries in PATH
-> -  --sysconfdir=PATH        install config in PATH$qemu_suffix
-> +  --sysconfdir=PATH        install config in PATH/$qemu_suffix
->    --localstatedir=PATH     install local state in PATH (set at runtime on win32)
->    --firmwarepath=PATH      search PATH for firmware files
->    --efi-aarch64=PATH       PATH of efi file to use for aarch64 VMs.
-> @@ -6467,9 +6467,9 @@ EOF
->      fi
->  fi
->  
-> -qemu_confdir=$sysconfdir$qemu_suffix
-> -qemu_moddir=$libdir$qemu_suffix
-> -qemu_datadir=$datadir$qemu_suffix
-> +qemu_confdir="$sysconfdir/$qemu_suffix"
-> +qemu_moddir="$libdir/$qemu_suffix"
-> +qemu_datadir="$datadir/$qemu_suffix"
->  qemu_localedir="$datadir/locale"
->  qemu_icondir="$datadir/icons"
->  qemu_desktopdir="$datadir/applications"
-> 
+'a' / '/b' =3D '/b'
+
+I propose to silently remove the leading '/' in --with-suffix
+argument, or warn/error about its presence.
 
 
