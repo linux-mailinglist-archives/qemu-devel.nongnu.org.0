@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D03026428C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:40:09 +0200 (CEST)
-Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A464C264292
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:41:39 +0200 (CEST)
+Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJ3o-0006wq-JU
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
+	id 1kGJ5G-0001eR-LL
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1kGJ1B-0002Ji-Kg; Thu, 10 Sep 2020 05:37:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57210)
+ id 1kGJ1A-0002G5-G2; Thu, 10 Sep 2020 05:37:24 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1kGJ18-0003Sk-Ha; Thu, 10 Sep 2020 05:37:25 -0400
+ id 1kGJ18-0003Sa-32; Thu, 10 Sep 2020 05:37:24 -0400
 Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08A9Xt5B085973; Thu, 10 Sep 2020 05:37:21 -0400
+ 08A9XscS085927; Thu, 10 Sep 2020 05:37:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=FcGuP/jUD8lNTSAOuOJChyl2Ny2cXN6+D51sFQfrki0=;
- b=h21AW+JGHKSLv33Cr2MuZLn5WeB0zMiUHjHOHDuE7Quv8+OWO9noayfxzw7iJnSglZ13
- 7NjaKeMTIWjGKY8hWq3TC3dtoPPNXUUVaZJAH3WOooxphblyNtZhXwj/TEPc24aYzW0q
- YhQHDTljrJM07t+8V4P72ev3pZvobyoOc1fI32WXsNJoXEM9Ailrf0fFh5MlOK6jY00p
- vF0FXBJHJ1obTM2gqt/2SC8UXbQPGivj4N3N9j8tE7LG86CTp0xkm0jmbeG+x59uWRY2
- MxVHDNmJ2I2OS4Fl+p9HiYn+KqPfGX/qP5bn4CGYuiNNEFil/uC3H53qRPYswT0D8kZT ow== 
+ bh=3D8h/T+aekqUKDrgN19lU+G7gdYjyKQ+sMeH9Y0cAGA=;
+ b=mJbiLjcMUzl2MRDyebS9sS58a9YGaxM11crinYy/Rvyl2I/q8HHYRnHCfEi1H5jWJ/cV
+ qRhNKr+WIS7ALra+LJt7UVArWyZ0b35fK6tdZTSR1Pb6NzfBnUTZCD+3oY1zKrFDJl71
+ Vty3PnH6bkdrPKyTZ1bmbglzmmUgbN5+3nRJvBddPg0I5hk0AS83I6JTYWuM5y7Ym14e
+ H4gqg+a6jF3GbP1hpHxfJeqLWPwwItDYYektaMA03XyvRk+z7dJk5GxlrJ5GwSPM6hS9
+ 503xLDPbCECFbr7NMW2MUaXQ8BVDa0olKMqGrF5PnkoTSuhdBTvV71NmxSvuSq/1aMcz BQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33fgmn1rhn-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fgmn1rhb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 10 Sep 2020 05:37:20 -0400
 Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08A9XvSJ086038;
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08A9XvSH086038;
  Thu, 10 Sep 2020 05:37:18 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33fgmn1rdj-1
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fgmn1rdv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 10 Sep 2020 05:37:18 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08A9Vbc4005703;
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08A9bAWY004235;
  Thu, 10 Sep 2020 09:37:13 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04wdc.us.ibm.com with ESMTP id 33c2a968u6-1
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 33cebv2m89-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 10 Sep 2020 09:37:13 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08A9bC0k16057096
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08A9bD2349938846
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Sep 2020 09:37:12 GMT
+ Thu, 10 Sep 2020 09:37:13 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B5BC5112066;
- Thu, 10 Sep 2020 09:37:12 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 19B6C112064;
+ Thu, 10 Sep 2020 09:37:13 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6D0AF112064;
+ by IMSVA (Postfix) with ESMTP id BC0DE112067;
  Thu, 10 Sep 2020 09:37:12 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.156.134])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
  Thu, 10 Sep 2020 09:37:12 +0000 (GMT)
 From: Collin Walling <walling@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v5 7/8] s390/kvm: header sync for diag318
-Date: Thu, 10 Sep 2020 05:36:54 -0400
-Message-Id: <20200910093655.255774-8-walling@linux.ibm.com>
+Subject: [PATCH v5 8/8] s390: guest support for diagnose 0x318
+Date: Thu, 10 Sep 2020 05:36:55 -0400
+Message-Id: <20200910093655.255774-9-walling@linux.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200910093655.255774-1-walling@linux.ibm.com>
 References: <20200910093655.255774-1-walling@linux.ibm.com>
@@ -114,53 +114,247 @@ Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Collin Walling <walling@linux.ibm.com>
----
- linux-headers/asm-s390/kvm.h | 7 +++++--
- linux-headers/linux/kvm.h    | 1 +
- 2 files changed, 6 insertions(+), 2 deletions(-)
+DIAGNOSE 0x318 (diag318) is an s390 instruction that allows the storage
+of diagnostic information that is collected by the firmware in the case
+of hardware/firmware service events.
 
-diff --git a/linux-headers/asm-s390/kvm.h b/linux-headers/asm-s390/kvm.h
-index 0138ccb0d8..f053b8304a 100644
---- a/linux-headers/asm-s390/kvm.h
-+++ b/linux-headers/asm-s390/kvm.h
-@@ -231,11 +231,13 @@ struct kvm_guest_debug_arch {
- #define KVM_SYNC_GSCB   (1UL << 9)
- #define KVM_SYNC_BPBC   (1UL << 10)
- #define KVM_SYNC_ETOKEN (1UL << 11)
-+#define KVM_SYNC_DIAG318 (1UL << 12)
+QEMU handles the instruction by storing the info in the CPU state. A
+subsequent register sync will communicate the data to the hypervisor.
+
+QEMU handles the migration via a VM State Description.
+
+This feature depends on the Extended-Length SCCB (els) feature. If
+els is not present, then a warning will be printed and the SCLP bit
+that allows the Linux kernel to execute the instruction will not be
+set.
+
+Availability of this instruction is determined by byte 134 (aka fac134)
+bit 0 of the SCLP Read Info block. This coincidentally expands into the
+space used for CPU entries, which means VMs running with the diag318
+capability may not be able to read information regarding all CPUs
+unless the guest kernel supports an extended-length SCCB.
+
+This feature is not supported in protected virtualization mode.
+
+Signed-off-by: Collin Walling <walling@linux.ibm.com>
+Acked-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ hw/s390x/sclp.c                     |  5 +++++
+ include/hw/s390x/sclp.h             |  3 +++
+ target/s390x/cpu.h                  |  2 ++
+ target/s390x/cpu_features.h         |  1 +
+ target/s390x/cpu_features_def.h.inc |  3 +++
+ target/s390x/cpu_models.c           |  1 +
+ target/s390x/gen-features.c         |  1 +
+ target/s390x/kvm.c                  | 31 +++++++++++++++++++++++++++++
+ target/s390x/machine.c              | 17 ++++++++++++++++
+ 9 files changed, 64 insertions(+)
+
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index 87d468087b..ad5d70e14d 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -139,6 +139,11 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+     s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
+                          read_info->conf_char_ext);
  
- #define KVM_SYNC_S390_VALID_FIELDS \
- 	(KVM_SYNC_PREFIX | KVM_SYNC_GPRS | KVM_SYNC_ACRS | KVM_SYNC_CRS | \
- 	 KVM_SYNC_ARCH0 | KVM_SYNC_PFAULT | KVM_SYNC_VRS | KVM_SYNC_RICCB | \
--	 KVM_SYNC_FPRS | KVM_SYNC_GSCB | KVM_SYNC_BPBC | KVM_SYNC_ETOKEN)
-+	 KVM_SYNC_FPRS | KVM_SYNC_GSCB | KVM_SYNC_BPBC | KVM_SYNC_ETOKEN | \
-+	 KVM_SYNC_DIAG318)
++    if (s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB)) {
++        s390_get_feat_block(S390_FEAT_TYPE_SCLP_FAC134,
++                            &read_info->fac134);
++    }
++
+     read_info->facilities = cpu_to_be64(SCLP_HAS_CPU_INFO |
+                                         SCLP_HAS_IOA_RECONFIG);
  
- /* length and alignment of the sdnx as a power of two */
- #define SDNXC 8
-@@ -264,7 +266,8 @@ struct kvm_sync_regs {
- 	__u8 reserved2 : 7;
- 	__u8 padding1[51];	/* riccb needs to be 64byte aligned */
- 	__u8 riccb[64];		/* runtime instrumentation controls block */
--	__u8 padding2[192];	/* sdnx needs to be 256byte aligned */
-+	__u64 diag318;		/* diagnose 0x318 info */
-+	__u8 padding2[184];	/* sdnx needs to be 256byte aligned */
- 	union {
- 		__u8 sdnx[SDNXL];  /* state description annex */
- 		struct {
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index a28c366737..a789bfb5a2 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_PPC_SECURE_GUEST 181
- #define KVM_CAP_HALT_POLL 182
- #define KVM_CAP_ASYNC_PF_INT 183
-+#define KVM_CAP_S390_DIAG318 184
+diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
+index 141e57f765..516f949109 100644
+--- a/include/hw/s390x/sclp.h
++++ b/include/hw/s390x/sclp.h
+@@ -133,6 +133,9 @@ typedef struct ReadInfo {
+     uint16_t highest_cpu;
+     uint8_t  _reserved5[124 - 122];     /* 122-123 */
+     uint32_t hmfai;
++    uint8_t  _reserved7[134 - 128];     /* 128-133 */
++    uint8_t  fac134;
++    uint8_t  _reserved8[144 - 135];     /* 135-143 */
+     struct CPUEntry entries[];
+ } QEMU_PACKED ReadInfo;
  
- #ifdef KVM_CAP_IRQ_ROUTING
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 035427521c..f875ebf0f4 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -112,6 +112,8 @@ struct CPUS390XState {
+     uint16_t external_call_addr;
+     DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
  
++    uint64_t diag318_info;
++
+     /* Fields up to this point are cleared by a CPU reset */
+     struct {} end_reset_fields;
+ 
+diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
+index 2a29475493..ef52ffce83 100644
+--- a/target/s390x/cpu_features.h
++++ b/target/s390x/cpu_features.h
+@@ -23,6 +23,7 @@ typedef enum {
+     S390_FEAT_TYPE_STFL,
+     S390_FEAT_TYPE_SCLP_CONF_CHAR,
+     S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
++    S390_FEAT_TYPE_SCLP_FAC134,
+     S390_FEAT_TYPE_SCLP_CPU,
+     S390_FEAT_TYPE_MISC,
+     S390_FEAT_TYPE_PLO,
+diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
+index 1c04cc18f4..f82b4b5ec1 100644
+--- a/target/s390x/cpu_features_def.h.inc
++++ b/target/s390x/cpu_features_def.h.inc
+@@ -122,6 +122,9 @@ DEF_FEAT(SIE_CMMA, "cmma", SCLP_CONF_CHAR_EXT, 1, "SIE: Collaborative-memory-man
+ DEF_FEAT(SIE_PFMFI, "pfmfi", SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF interpretation facility")
+ DEF_FEAT(SIE_IBS, "ibs", SCLP_CONF_CHAR_EXT, 10, "SIE: Interlock-and-broadcast-suppression facility")
+ 
++/* Features exposed via SCLP SCCB Facilities byte 134 (bit numbers relative to byte-134) */
++DEF_FEAT(DIAG_318, "diag318", SCLP_FAC134, 0, "Control program name and version codes")
++
+ /* Features exposed via SCLP CPU info. */
+ DEF_FEAT(SIE_F2, "sief2", SCLP_CPU, 4, "SIE: interception format 2 (Virtual SIE)")
+ DEF_FEAT(SIE_SKEY, "skey", SCLP_CPU, 5, "SIE: Storage-key facility")
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index c2af226174..9d615f13e7 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -824,6 +824,7 @@ static void check_consistency(const S390CPUModel *model)
+         { S390_FEAT_PTFF_STOE, S390_FEAT_MULTIPLE_EPOCH },
+         { S390_FEAT_PTFF_STOUE, S390_FEAT_MULTIPLE_EPOCH },
+         { S390_FEAT_AP_QUEUE_INTERRUPT_CONTROL, S390_FEAT_AP },
++        { S390_FEAT_DIAG_318, S390_FEAT_EXTENDED_LENGTH_SCCB },
+     };
+     int i;
+ 
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index 6857f657fb..a1f0a6f3c6 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -523,6 +523,7 @@ static uint16_t full_GEN12_GA1[] = {
+     S390_FEAT_AP_FACILITIES_TEST,
+     S390_FEAT_AP,
+     S390_FEAT_EXTENDED_LENGTH_SCCB,
++    S390_FEAT_DIAG_318,
+ };
+ 
+ static uint16_t full_GEN12_GA2[] = {
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index a2d5ad78f6..b79feeba9f 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -105,6 +105,7 @@
+ 
+ #define DIAG_TIMEREVENT                 0x288
+ #define DIAG_IPL                        0x308
++#define DIAG_SET_CONTROL_PROGRAM_CODES  0x318
+ #define DIAG_KVM_HYPERCALL              0x500
+ #define DIAG_KVM_BREAKPOINT             0x501
+ 
+@@ -602,6 +603,11 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_ETOKEN;
+     }
+ 
++    if (can_sync_regs(cs, KVM_SYNC_DIAG318)) {
++        cs->kvm_run->s.regs.diag318 = env->diag318_info;
++        cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
++    }
++
+     /* Finally the prefix */
+     if (can_sync_regs(cs, KVM_SYNC_PREFIX)) {
+         cs->kvm_run->s.regs.prefix = env->psa;
+@@ -741,6 +747,10 @@ int kvm_arch_get_registers(CPUState *cs)
+         }
+     }
+ 
++    if (can_sync_regs(cs, KVM_SYNC_DIAG318)) {
++        env->diag318_info = cs->kvm_run->s.regs.diag318;
++    }
++
+     return 0;
+ }
+ 
+@@ -1601,6 +1611,19 @@ static int handle_sw_breakpoint(S390CPU *cpu, struct kvm_run *run)
+     return -ENOENT;
+ }
+ 
++static void handle_diag_318(S390CPU *cpu, struct kvm_run *run)
++{
++    uint64_t reg = (run->s390_sieic.ipa & 0x00f0) >> 4;
++    uint64_t diag318_info = run->s.regs.gprs[reg];
++
++    cpu->env.diag318_info = diag318_info;
++
++    if (can_sync_regs(CPU(cpu), KVM_SYNC_DIAG318)) {
++        run->s.regs.diag318 = diag318_info;
++        run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
++    }
++}
++
+ #define DIAG_KVM_CODE_MASK 0x000000000000ffff
+ 
+ static int handle_diag(S390CPU *cpu, struct kvm_run *run, uint32_t ipb)
+@@ -1620,6 +1643,9 @@ static int handle_diag(S390CPU *cpu, struct kvm_run *run, uint32_t ipb)
+     case DIAG_IPL:
+         kvm_handle_diag_308(cpu, run);
+         break;
++    case DIAG_SET_CONTROL_PROGRAM_CODES:
++        handle_diag_318(cpu, run);
++        break;
+     case DIAG_KVM_HYPERCALL:
+         r = handle_hypercall(cpu, run);
+         break;
+@@ -2464,6 +2490,11 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+      */
+     set_bit(S390_FEAT_EXTENDED_LENGTH_SCCB, model->features);
+ 
++    /* DIAGNOSE 0x318 is not supported under protected virtualization */
++    if (!s390_is_pv() && kvm_check_extension(kvm_state, KVM_CAP_S390_DIAG318)) {
++        set_bit(S390_FEAT_DIAG_318, model->features);
++    }
++
+     /* strip of features that are not part of the maximum model */
+     bitmap_and(model->features, model->features, model->def->full_feat,
+                S390_FEAT_MAX);
+diff --git a/target/s390x/machine.c b/target/s390x/machine.c
+index 549bb6c280..5b4e82f1ab 100644
+--- a/target/s390x/machine.c
++++ b/target/s390x/machine.c
+@@ -234,6 +234,22 @@ const VMStateDescription vmstate_etoken = {
+     }
+ };
+ 
++static bool diag318_needed(void *opaque)
++{
++    return s390_has_feat(S390_FEAT_DIAG_318);
++}
++
++const VMStateDescription vmstate_diag318 = {
++    .name = "cpu/diag318",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = diag318_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.diag318_info, S390CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_s390_cpu = {
+     .name = "cpu",
+     .post_load = cpu_post_load,
+@@ -270,6 +286,7 @@ const VMStateDescription vmstate_s390_cpu = {
+         &vmstate_gscb,
+         &vmstate_bpbc,
+         &vmstate_etoken,
++        &vmstate_diag318,
+         NULL
+     },
+ };
 -- 
 2.26.2
 
