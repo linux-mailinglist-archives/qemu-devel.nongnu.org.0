@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F492646EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:27:11 +0200 (CEST)
-Received: from localhost ([::1]:40590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1116B2646F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:28:47 +0200 (CEST)
+Received: from localhost ([::1]:45884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGMbV-0004fB-Or
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
+	id 1kGMd4-00072z-3V
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kGMZI-0002cJ-CJ
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:24:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43575)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGMaT-000487-RE
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:26:06 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54918
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kGMZD-0007eK-4o
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:24:51 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGMaQ-0007zh-A3
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:26:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599744284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1599744359;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wu5s+79DMQv3J0MyqK7XbxTcUlGQKS/Q+RF78M+NF18=;
- b=aq4A9uZFxjfhWkwcOWc7v4l/owdvq16febvqhhRWl2kpMA7dm4tyGIbwRK9OwKGwgqW/wy
- tGfMUdexEIaXvA1X1g/O4ii2K7DZSbnumO13Z0WuD5qcy0pJM9d1CV0Fv3qws5q+k1s0zK
- UGDLI0Qprlqp/01G66gO5q0Zyjdi9rs=
+ bh=x02Kpq5uNQIQ8Yywfi65sZksO1TUZy/tcSDDcjqrvyQ=;
+ b=QcKofVbxQ1nSr//TWaJYweBZG/vBJ9niznP3oiOvZjS9KdbWbon8JdoZzq2n+pcsW1hysF
+ qZGcuR9EThYkCM2rrRTgLLlQzE4QNpgM9JCJOAmvBMdwKoMBCcirUj7Zb3978SquZ6B7Rv
+ LSyGzECDoMHKj7ZM+6yTTgXaOs8Mzgo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-HhJRs8IJOreeMqlQZ0yBqQ-1; Thu, 10 Sep 2020 09:24:42 -0400
-X-MC-Unique: HhJRs8IJOreeMqlQZ0yBqQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-467-jTcfLOIjPxS_CP3S1dLuKA-1; Thu, 10 Sep 2020 09:25:58 -0400
+X-MC-Unique: jTcfLOIjPxS_CP3S1dLuKA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45F25801FDF;
- Thu, 10 Sep 2020 13:24:41 +0000 (UTC)
-Received: from localhost (ovpn-113-198.ams2.redhat.com [10.36.113.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD4AC27CC1;
- Thu, 10 Sep 2020 13:24:40 +0000 (UTC)
-Date: Thu, 10 Sep 2020 14:24:39 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 00/13] monitor: Optionally run handlers in coroutines
-Message-ID: <20200910132439.GE45048@stefanha-x1.localdomain>
-References: <20200909151149.490589-1-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A65BA80EDA1;
+ Thu, 10 Sep 2020 13:25:56 +0000 (UTC)
+Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9E927E8C1;
+ Thu, 10 Sep 2020 13:25:53 +0000 (UTC)
+Date: Thu, 10 Sep 2020 14:25:50 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v1 6/7] migration/tls: add support for multifd
+ tls-handshake
+Message-ID: <20200910132550.GV1083348@redhat.com>
+References: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
+ <1599663177-53993-7-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200909151149.490589-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <1599663177-53993-7-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hwvH6HDNit2nSK4j"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
@@ -66,8 +72,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +86,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, armbru@redhat.com,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, yuxiating@huawei.com,
+ dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, jinyan12@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---hwvH6HDNit2nSK4j
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 09, 2020 at 10:52:56PM +0800, Chuan Zheng wrote:
+> add support for multifd tls-handshake
+> 
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> Signed-off-by: Yan Jin <jinyan12@huawei.com>
+> ---
+>  migration/multifd.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index b2076d7..2509187 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -719,11 +719,41 @@ out:
+>      return NULL;
+>  }
+>  
+> +static bool multifd_channel_connect(MultiFDSendParams *p,
+> +                                    QIOChannel *ioc,
+> +                                    Error *error);
+> +
+> +static void multifd_tls_outgoing_handshake(QIOTask *task,
+> +                                           gpointer opaque)
+> +{
+> +    MultiFDSendParams *p = opaque;
+> +    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
+> +    Error *err = NULL;
+> +
+> +    qio_task_propagate_error(task, &err);
+> +    multifd_channel_connect(p, ioc, err);
+> +}
+> +
+>  static void multifd_tls_channel_connect(MultiFDSendParams *p,
+>                                      QIOChannel *ioc,
+>                                      Error **errp)
+>  {
+> -    /* TODO */
+> +    MigrationState *s = p->s;
+> +    const char *hostname = s->hostname;
+> +    QIOChannelTLS *tioc;
+> +
+> +    tioc = migration_tls_client_create(s, ioc, hostname, errp);
+> +    if (!tioc) {
+> +        return;
+> +    }
+> +
+> +    qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
+> +    qio_channel_tls_handshake(tioc,
+> +                              multifd_tls_outgoing_handshake,
+> +                              p,
+> +                              NULL,
+> +                              NULL);
+> +
+>  }
 
-On Wed, Sep 09, 2020 at 05:11:36PM +0200, Kevin Wolf wrote:
-> Some QMP command handlers can block the main loop for a relatively long
-> time, for example because they perform some I/O. This is quite nasty.
-> Allowing such handlers to run in a coroutine where they can yield (and
-> therefore release the BQL) while waiting for an event such as I/O
-> completion solves the problem.
->=20
-> This series adds the infrastructure to allow this and switches
-> block_resize to run in a coroutine as a first example.
->=20
-> This is an alternative solution to Marc-Andr=E9's "monitor: add
-> asynchronous command type" series.
 
-Please clarify the following in the QAPI documentation:
- * Is the QMP monitor suspended while the command is pending?
- * Are QMP events reported while the command is pending?
+Please squash this back into the previous patch, and both are
+inter-dependant on each other, and thus don't make sense to split
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+Assuming it is squashed in
 
---hwvH6HDNit2nSK4j
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9aKRcACgkQnKSrs4Gr
-c8iFdgf/YRmkiReZ7StGO3826yE7YupNlT7YNlv4eRGuv0H6kLRpk8jptgRJDwVO
-ZUqOAU6ObEMepRlmrO05opiSLFYqCEmqIofOV13NkGX8FYs7F+EBAyWz01Ofk/1I
-WJYgmHDs+iInIM1r2oNmzOReA+01mKO14ZG4gtjUUKOZPOuvFsyZmzHva+frZNZd
-8vOc5fiVdmlbTW4myGoelOsZhcL+0TkPiRAs0POQVrp83UBjRNAhxBglZ9469MKt
-mEK4617DCxjhjxH4c14Y+80PvHxV3NBSjOjQvC37X2E4FQZl0ph24dL8s5dSGZhc
-RBa9gsyphTZ2nFRVwKcd57zYf5r/vQ==
-=jZUE
------END PGP SIGNATURE-----
 
---hwvH6HDNit2nSK4j--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
