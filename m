@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D2E264D2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:36:48 +0200 (CEST)
-Received: from localhost ([::1]:59570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B361264D04
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:33:13 +0200 (CEST)
+Received: from localhost ([::1]:42252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRR9-0006b4-BX
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57252)
+	id 1kGRNg-00078T-1G
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBe-0004DK-8E
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:46 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28256)
+ id 1kGRBt-0004lI-Bv
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:01 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBZ-0002lX-Co
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:45 -0400
+ id 1kGRBp-0002kZ-7x
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762041; x=1631298041;
+ t=1599762057; x=1631298057;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=73cjRU7ztozjQxYdLAFs7xrITXd+r2BXcfKyNF5PBiU=;
- b=GKW3/D5Y+2XIw+YEGNU4nv9fIwAIn1FWGjITb1aXkvbQjcZTG0SHGhXu
- 3BCrr+FTQXEPnt2eIZulwihKPbB8R+tm3+W+L5o6NUN9hCVhwDMVCQS4t
- t0cp0qg0yRYJrdoWAx57KA8X6uwDHmZsUYTTeM10y9gfsNJUXEqmwjGkm
- EEFrGjQyxbNkAkkVh9jql+x6Z/thkSJRrB7N0jz2UlUowjgMqoADUGWOt
- 1cgPyUcE7gRCm4Y8Ugiq8M1jWInS9RLKk8gSEwXe6oIokF2mvTVd+zIXM
- fyWfN9PZwqeSQFgMMCsz4pT2Ox4dpmfQtOA7M4Bknu3J+voq7VE9kxlIL Q==;
-IronPort-SDR: zGPmd45NZckG+anx9kEvvHJfyDFQTIGfzk3cJDfDsyy2+a3b9jCy2oqzahmA3ma1DxbZAD0bdc
- O2m0Lpbh0O6XCrlQ8g5ZrcZXH/aBeIgVISPllA3V/FZ+GFyHELdxZoUfHispvEx9EOLJsPnG3B
- j58B5sx9JU/UcpbKXF9dk+X5ZsiFqN8PmY0txANoH52qcJMHZH7GSoQKJisnJjJFB1+6KjPz6E
- ohxxCA9CAeTWRveiyvJ0YqckSc3O2/2vw1I/R2U5oqlHN+8+CeijgKhkE+zT52rrLSnjgVehB8
- +2Y=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979228"
+ bh=3EvBgofHhd3e8pU9Pz1dQfsdWXOrxazWer918sREQ7s=;
+ b=roQ4SZier+ZjU53bVV7GARIIdt8Cp2inQSOcWOeOby0SX4Ds8Fk90vV/
+ zboB+uhvON4aozHmnxDGmdwFHJnFBD0g1Cm3qEhKl6QZl0UQwGU+jUpdI
+ 2aN2YBHmeNCRKNkzKpCdlddq4CwQ4wYnHulcOsOa/K1OGLzC/vMaU38Fe
+ YgHl9VVyQFCttsK7qihfoJ9AtNdQR82yrRwiYyer76zpnk72ymzm8tZDG
+ 5vIbBtRLXF647cN/Z3egrv83jKB3I/FfiffO90fRi6iMhVgh17aJm9HU8
+ 4D4T3Omvz/fxKLP+MQ6u89HtoDxX0G5w+Tdu6YdY1FcjHMnns6G5aV7uu w==;
+IronPort-SDR: Wlcoi66vwOti1IPenjateYrJ94evfPYNGbclsBSBYLS4n8V1FNeE9EeBgjNNxolP02rsl7R5JX
+ bf3RtzrofVcvDZxecI8ZKqakBQEwNsIUe1/snLkJrLu3qOiYFM7AAl/UuCyum+fwm3q9i+Sz1i
+ YN40JAFWJuu9NzVW7FlFONbCTQ1t5PsWN8oltHYI6aTQVg+QrG3aOBNKI6NYkSOOx7Sk2bTHPA
+ 3UnX6dUQGO2jvmfs9RCKUEhu2B6K03LgbQiCzpDFTk62bCsg18JdUn6DyZl/eJYtLffJ3hojuz
+ ULM=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979242"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:17 +0800
-IronPort-SDR: 9+fVLfqhHgg6Y+wCyB5AtRLPbVqpIcT2FBvmkpu3J8lWc3G3UIrrRvDzF452Ed9oFFtzqgUX3c
- ttP2i3CN1GJA==
+ by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:19 +0800
+IronPort-SDR: zmvR3GOQKb9bYgUfox0hHEHRb30glbmUFTi6erIjHNiZHTGD87wdF72MaHq7vGIYKyJJV/XHK7
+ XFFV8QvrH5+w==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 11:07:34 -0700
-IronPort-SDR: mKrlZ2BP5QBqiBYlItGSFGoSjYb+oFMPt35T5SdIswT7pSqZ86Rwc78i/H1PTOpTNRGsmI3QEo
- +kXiTN62hTkQ==
+ 10 Sep 2020 11:07:36 -0700
+IronPort-SDR: yp6OmKw2dmPUPIW+/OFTTXoVbfP7rPcT5BboCK9MnSrVjOViFaiY7qbfiyQzj0jRzUA2//T/zV
+ e1vZB9jC8b0g==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
- by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:18 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:20 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 12/30] hw/riscv: microchip_pfsoc: Connect a DMA controller
-Date: Thu, 10 Sep 2020 11:09:20 -0700
-Message-Id: <20200910180938.584205-13-alistair.francis@wdc.com>
+Subject: [PULL 19/30] hw/riscv: Move sifive_e_prci model to hw/misc
+Date: Thu, 10 Sep 2020 11:09:27 -0700
+Message-Id: <20200910180938.584205-20-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
@@ -95,120 +95,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-On the Icicle Kit board, the HSS firmware utilizes the on-chip DMA
-controller to move the 2nd stage bootloader in the system memory.
-Let's connect a DMA controller to Microchip PolarFire SoC.
+This is an effort to clean up the hw/riscv directory. Ideally it
+should only contain the RISC-V SoC / machine codes plus generic
+codes. Let's move sifive_e_prci model to hw/misc directory.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1598924352-89526-11-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1599129623-68957-2-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/microchip_pfsoc.h | 11 +++++++++++
- hw/riscv/microchip_pfsoc.c         | 15 +++++++++++++++
- hw/riscv/Kconfig                   |  1 +
- 3 files changed, 27 insertions(+)
+ include/hw/{riscv => misc}/sifive_e_prci.h | 0
+ hw/{riscv => misc}/sifive_e_prci.c         | 2 +-
+ hw/riscv/sifive_e.c                        | 2 +-
+ hw/misc/Kconfig                            | 3 +++
+ hw/misc/meson.build                        | 3 +++
+ hw/riscv/Kconfig                           | 1 +
+ hw/riscv/meson.build                       | 1 -
+ 7 files changed, 9 insertions(+), 3 deletions(-)
+ rename include/hw/{riscv => misc}/sifive_e_prci.h (100%)
+ rename hw/{riscv => misc}/sifive_e_prci.c (99%)
 
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index d810ee8484..63e786052a 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -23,6 +23,7 @@
- #define HW_MICROCHIP_PFSOC_H
+diff --git a/include/hw/riscv/sifive_e_prci.h b/include/hw/misc/sifive_e_prci.h
+similarity index 100%
+rename from include/hw/riscv/sifive_e_prci.h
+rename to include/hw/misc/sifive_e_prci.h
+diff --git a/hw/riscv/sifive_e_prci.c b/hw/misc/sifive_e_prci.c
+similarity index 99%
+rename from hw/riscv/sifive_e_prci.c
+rename to hw/misc/sifive_e_prci.c
+index 17dfa74715..8ec4ee4b41 100644
+--- a/hw/riscv/sifive_e_prci.c
++++ b/hw/misc/sifive_e_prci.c
+@@ -24,7 +24,7 @@
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "hw/hw.h"
+-#include "hw/riscv/sifive_e_prci.h"
++#include "hw/misc/sifive_e_prci.h"
  
- #include "hw/char/mchp_pfsoc_mmuart.h"
-+#include "hw/dma/sifive_pdma.h"
- #include "hw/sd/cadence_sdhci.h"
+ static uint64_t sifive_e_prci_read(void *opaque, hwaddr addr, unsigned int size)
+ {
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 36ccfb2071..7f43ed953a 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -43,8 +43,8 @@
+ #include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/sifive_uart.h"
+ #include "hw/riscv/sifive_e.h"
+-#include "hw/riscv/sifive_e_prci.h"
+ #include "hw/riscv/boot.h"
++#include "hw/misc/sifive_e_prci.h"
+ #include "chardev/char.h"
+ #include "sysemu/arch_init.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 92c397ca07..507398635b 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -134,4 +134,7 @@ config MAC_VIA
+ config AVR_POWER
+     bool
  
- typedef struct MicrochipPFSoCState {
-@@ -40,6 +41,7 @@ typedef struct MicrochipPFSoCState {
-     MchpPfSoCMMUartState *serial2;
-     MchpPfSoCMMUartState *serial3;
-     MchpPfSoCMMUartState *serial4;
-+    SiFivePDMAState dma;
-     CadenceSDHCIState sdhci;
- } MicrochipPFSoCState;
- 
-@@ -71,6 +73,7 @@ enum {
-     MICROCHIP_PFSOC_BUSERR_UNIT4,
-     MICROCHIP_PFSOC_CLINT,
-     MICROCHIP_PFSOC_L2CC,
-+    MICROCHIP_PFSOC_DMA,
-     MICROCHIP_PFSOC_L2LIM,
-     MICROCHIP_PFSOC_PLIC,
-     MICROCHIP_PFSOC_MMUART0,
-@@ -88,6 +91,14 @@ enum {
- };
- 
- enum {
-+    MICROCHIP_PFSOC_DMA_IRQ0 = 5,
-+    MICROCHIP_PFSOC_DMA_IRQ1 = 6,
-+    MICROCHIP_PFSOC_DMA_IRQ2 = 7,
-+    MICROCHIP_PFSOC_DMA_IRQ3 = 8,
-+    MICROCHIP_PFSOC_DMA_IRQ4 = 9,
-+    MICROCHIP_PFSOC_DMA_IRQ5 = 10,
-+    MICROCHIP_PFSOC_DMA_IRQ6 = 11,
-+    MICROCHIP_PFSOC_DMA_IRQ7 = 12,
-     MICROCHIP_PFSOC_EMMC_SD_IRQ = 88,
-     MICROCHIP_PFSOC_MMUART0_IRQ = 90,
-     MICROCHIP_PFSOC_MMUART1_IRQ = 91,
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 0b2e9ca175..d8ec973958 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -13,6 +13,7 @@
-  * 2) eNVM (Embedded Non-Volatile Memory)
-  * 3) MMUARTs (Multi-Mode UART)
-  * 4) Cadence eMMC/SDHC controller and an SD card connected to it
-+ * 5) SiFive Platform DMA (Direct Memory Access Controller)
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -71,6 +72,7 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_BUSERR_UNIT4] =    {  0x1704000,     0x1000 },
-     [MICROCHIP_PFSOC_CLINT] =           {  0x2000000,    0x10000 },
-     [MICROCHIP_PFSOC_L2CC] =            {  0x2010000,     0x1000 },
-+    [MICROCHIP_PFSOC_DMA] =             {  0x3000000,   0x100000 },
-     [MICROCHIP_PFSOC_L2LIM] =           {  0x8000000,  0x2000000 },
-     [MICROCHIP_PFSOC_PLIC] =            {  0xc000000,  0x4000000 },
-     [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
-@@ -114,6 +116,9 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
-                          TYPE_RISCV_CPU_SIFIVE_U54);
-     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", RESET_VECTOR);
- 
-+    object_initialize_child(obj, "dma-controller", &s->dma,
-+                            TYPE_SIFIVE_PDMA);
++config SIFIVE_E_PRCI
++    bool
 +
-     object_initialize_child(obj, "sd-controller", &s->sdhci,
-                             TYPE_CADENCE_SDHCI);
- }
-@@ -218,6 +223,16 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         memmap[MICROCHIP_PFSOC_PLIC].size);
-     g_free(plic_hart_config);
+ source macio/Kconfig
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index e1576b81cf..b6b2e5797f 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -21,6 +21,9 @@ softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
+ # Mac devices
+ softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
  
-+    /* DMA */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->dma), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->dma), 0,
-+                    memmap[MICROCHIP_PFSOC_DMA].base);
-+    for (i = 0; i < SIFIVE_PDMA_IRQS; i++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
-+                           qdev_get_gpio_in(DEVICE(s->plic),
-+                                            MICROCHIP_PFSOC_DMA_IRQ0 + i));
-+    }
++# RISC-V devices
++softmmu_ss.add(when: 'CONFIG_SIFIVE_E_PRCI', if_true: files('sifive_e_prci.c'))
 +
-     /* SYSREG */
-     create_unimplemented_device("microchip.pfsoc.sysreg",
-         memmap[MICROCHIP_PFSOC_SYSREG].base,
+ # PKUnity SoC devices
+ softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_pm.c'))
+ 
 diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 7412db9ad7..9032cb0cbd 100644
+index e53ab1efa5..5855e99aaa 100644
 --- a/hw/riscv/Kconfig
 +++ b/hw/riscv/Kconfig
-@@ -55,4 +55,5 @@ config MICROCHIP_PFSOC
+@@ -15,6 +15,7 @@ config SIFIVE_E
+     bool
+     select HART
      select SIFIVE
++    select SIFIVE_E_PRCI
      select UNIMP
-     select MCHP_PFSOC_MMUART
-+    select SIFIVE_PDMA
-     select CADENCE_SDHCI
+ 
+ config SIFIVE_U
+diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
+index c29a48c3f1..003994d1ea 100644
+--- a/hw/riscv/meson.build
++++ b/hw/riscv/meson.build
+@@ -10,7 +10,6 @@ riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_plic.c'))
+ riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_test.c'))
+ riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_uart.c'))
+ riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
+-riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e_prci.c'))
+ riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
+ riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u_otp.c'))
+ riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u_prci.c'))
 -- 
 2.28.0
 
