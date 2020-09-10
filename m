@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC75264FDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:54:04 +0200 (CEST)
-Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E560E264FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:56:04 +0200 (CEST)
+Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGSdu-0003ZK-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
+	id 1kGSfr-0006wC-TY
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSa3-0004m3-3w
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40081
- helo=us-smtp-1.mimecast.com)
+ id 1kGSa4-0004oc-0G
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:04 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45005
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSa1-0000cO-5N
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:02 -0400
+ id 1kGSa2-0000ca-7m
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599767400;
+ s=mimecast20190719; t=1599767401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tO1cF4uLddeS/rfTwEY8zoXQ+27FQblhXU4hYJJCTzo=;
- b=GdnEgjja+HSS5RFY6t5cyq0r2dLZi0KG0EXKMQO2wjOL1JXSIbZYoKkaWkvM16+v1xL9dY
- OkyqmbJpFZrdckE7OgUg0wPxxTm4NkRj75Iu5XHxdWbJZ0ehpeRmjVFXedvUvMimaUgSd5
- H0dR/gXiChOxpZ4OIKfXC5qQIBY2R14=
+ bh=yDSkuYKlOtfIM7UvBv7kRTHyikTp8v/R6T39bDeWySg=;
+ b=Du8jIMZjQDGX1yNgwj/OsqnYA36opPfIPl+CUCfurhioFwkiNGoBTvvKHgd6ke/m/2TQTY
+ IYMEdFrvXPotzxRjj6u09iWSV0hK6b22ZoBNG5uxohTV4X4GqEdb04OtZ21/OsCbE5HxDM
+ qrO6fm0mu38zcQil6pByTzOPwBfgugg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-WF6L2t5vMvGKhAiply5Tlg-1; Thu, 10 Sep 2020 15:49:58 -0400
-X-MC-Unique: WF6L2t5vMvGKhAiply5Tlg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-433-sFCDlwQJP2qq1JRLs-_UhA-1; Thu, 10 Sep 2020 15:49:59 -0400
+X-MC-Unique: sFCDlwQJP2qq1JRLs-_UhA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 763FB1007B00;
- Thu, 10 Sep 2020 19:49:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 741148CCC31;
+ Thu, 10 Sep 2020 19:49:58 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38FF37EB7A;
- Thu, 10 Sep 2020 19:49:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B3C719C66;
+ Thu, 10 Sep 2020 19:49:58 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/18] chardev: Rename PTY_CHARDEV to CHARDEV_PTY
-Date: Thu, 10 Sep 2020 15:48:54 -0400
-Message-Id: <20200910194903.4104696-10-ehabkost@redhat.com>
+Subject: [PATCH 10/18] chardev: Rename RINGBUF_CHARDEV to CHARDEV_RINGBUF
+Date: Thu, 10 Sep 2020 15:48:55 -0400
+Message-Id: <20200910194903.4104696-11-ehabkost@redhat.com>
 In-Reply-To: <20200910194903.4104696-1-ehabkost@redhat.com>
 References: <20200910194903.4104696-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:35:50
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,112 +95,63 @@ TYPE_CHARDEV_* constant names and the QOM type name strings
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- chardev/char-pty.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ chardev/char-ringbuf.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-index a2d1e7c985..4c1c877097 100644
---- a/chardev/char-pty.c
-+++ b/chardev/char-pty.c
-@@ -45,7 +45,7 @@ struct PtyChardev {
+diff --git a/chardev/char-ringbuf.c b/chardev/char-ringbuf.c
+index d40d21d3cf..8d2916cd78 100644
+--- a/chardev/char-ringbuf.c
++++ b/chardev/char-ringbuf.c
+@@ -42,19 +42,19 @@ struct RingBufChardev {
  };
- typedef struct PtyChardev PtyChardev;
+ typedef struct RingBufChardev RingBufChardev;
  
--DECLARE_INSTANCE_CHECKER(PtyChardev, PTY_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(PtyChardev, CHARDEV_PTY,
-                          TYPE_CHARDEV_PTY)
+-DECLARE_INSTANCE_CHECKER(RingBufChardev, RINGBUF_CHARDEV,
++DECLARE_INSTANCE_CHECKER(RingBufChardev, CHARDEV_RINGBUF,
+                          TYPE_CHARDEV_RINGBUF)
  
- static void pty_chr_state(Chardev *chr, int connected);
-@@ -62,7 +62,7 @@ static void pty_chr_timer_cancel(PtyChardev *s)
- static gboolean pty_chr_timer(gpointer opaque)
+ static size_t ringbuf_count(const Chardev *chr)
  {
-     struct Chardev *chr = CHARDEV(opaque);
--    PtyChardev *s = PTY_CHARDEV(opaque);
-+    PtyChardev *s = CHARDEV_PTY(opaque);
+-    const RingBufChardev *d = RINGBUF_CHARDEV(chr);
++    const RingBufChardev *d = CHARDEV_RINGBUF(chr);
  
-     pty_chr_timer_cancel(s);
-     if (!s->connected) {
-@@ -74,7 +74,7 @@ static gboolean pty_chr_timer(gpointer opaque)
+     return d->prod - d->cons;
+ }
  
- static void pty_chr_rearm_timer(Chardev *chr, int ms)
+ static int ringbuf_chr_write(Chardev *chr, const uint8_t *buf, int len)
  {
--    PtyChardev *s = PTY_CHARDEV(chr);
-+    PtyChardev *s = CHARDEV_PTY(chr);
-     char *name;
+-    RingBufChardev *d = RINGBUF_CHARDEV(chr);
++    RingBufChardev *d = CHARDEV_RINGBUF(chr);
+     int i;
  
-     pty_chr_timer_cancel(s);
-@@ -86,7 +86,7 @@ static void pty_chr_rearm_timer(Chardev *chr, int ms)
+     if (!buf || (len < 0)) {
+@@ -73,7 +73,7 @@ static int ringbuf_chr_write(Chardev *chr, const uint8_t *buf, int len)
  
- static void pty_chr_update_read_handler(Chardev *chr)
+ static int ringbuf_chr_read(Chardev *chr, uint8_t *buf, int len)
  {
--    PtyChardev *s = PTY_CHARDEV(chr);
-+    PtyChardev *s = CHARDEV_PTY(chr);
-     GPollFD pfd;
-     int rc;
-     QIOChannelFile *fioc = QIO_CHANNEL_FILE(s->ioc);
-@@ -108,7 +108,7 @@ static void pty_chr_update_read_handler(Chardev *chr)
+-    RingBufChardev *d = RINGBUF_CHARDEV(chr);
++    RingBufChardev *d = CHARDEV_RINGBUF(chr);
+     int i;
  
- static int char_pty_chr_write(Chardev *chr, const uint8_t *buf, int len)
+     qemu_mutex_lock(&chr->chr_write_lock);
+@@ -87,7 +87,7 @@ static int ringbuf_chr_read(Chardev *chr, uint8_t *buf, int len)
+ 
+ static void char_ringbuf_finalize(Object *obj)
  {
--    PtyChardev *s = PTY_CHARDEV(chr);
-+    PtyChardev *s = CHARDEV_PTY(chr);
+-    RingBufChardev *d = RINGBUF_CHARDEV(obj);
++    RingBufChardev *d = CHARDEV_RINGBUF(obj);
  
-     if (!s->connected) {
-         return len;
-@@ -118,7 +118,7 @@ static int char_pty_chr_write(Chardev *chr, const uint8_t *buf, int len)
- 
- static GSource *pty_chr_add_watch(Chardev *chr, GIOCondition cond)
+     g_free(d->cbuf);
+ }
+@@ -98,7 +98,7 @@ static void qemu_chr_open_ringbuf(Chardev *chr,
+                                   Error **errp)
  {
--    PtyChardev *s = PTY_CHARDEV(chr);
-+    PtyChardev *s = CHARDEV_PTY(chr);
-     if (!s->connected) {
-         return NULL;
-     }
-@@ -128,7 +128,7 @@ static GSource *pty_chr_add_watch(Chardev *chr, GIOCondition cond)
- static int pty_chr_read_poll(void *opaque)
- {
-     Chardev *chr = CHARDEV(opaque);
--    PtyChardev *s = PTY_CHARDEV(opaque);
-+    PtyChardev *s = CHARDEV_PTY(opaque);
+     ChardevRingbuf *opts = backend->u.ringbuf.data;
+-    RingBufChardev *d = RINGBUF_CHARDEV(chr);
++    RingBufChardev *d = CHARDEV_RINGBUF(chr);
  
-     s->read_bytes = qemu_chr_be_can_write(chr);
-     return s->read_bytes;
-@@ -137,7 +137,7 @@ static int pty_chr_read_poll(void *opaque)
- static gboolean pty_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
- {
-     Chardev *chr = CHARDEV(opaque);
--    PtyChardev *s = PTY_CHARDEV(opaque);
-+    PtyChardev *s = CHARDEV_PTY(opaque);
-     gsize len;
-     uint8_t buf[CHR_READ_BUF_LEN];
-     ssize_t ret;
-@@ -162,7 +162,7 @@ static gboolean pty_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
+     d->size = opts->has_size ? opts->size : 65536;
  
- static void pty_chr_state(Chardev *chr, int connected)
- {
--    PtyChardev *s = PTY_CHARDEV(chr);
-+    PtyChardev *s = CHARDEV_PTY(chr);
- 
-     if (!connected) {
-         remove_fd_in_watch(chr);
-@@ -189,7 +189,7 @@ static void pty_chr_state(Chardev *chr, int connected)
- static void char_pty_finalize(Object *obj)
- {
-     Chardev *chr = CHARDEV(obj);
--    PtyChardev *s = PTY_CHARDEV(obj);
-+    PtyChardev *s = CHARDEV_PTY(obj);
- 
-     pty_chr_state(chr, 0);
-     object_unref(OBJECT(s->ioc));
-@@ -220,7 +220,7 @@ static void char_pty_open(Chardev *chr,
-     qemu_printf("char device redirected to %s (label %s)\n",
-                 pty_name, chr->label);
- 
--    s = PTY_CHARDEV(chr);
-+    s = CHARDEV_PTY(chr);
-     s->ioc = QIO_CHANNEL(qio_channel_file_new_fd(master_fd));
-     name = g_strdup_printf("chardev-pty-%s", chr->label);
-     qio_channel_set_name(QIO_CHANNEL(s->ioc), name);
 -- 
 2.26.2
 
