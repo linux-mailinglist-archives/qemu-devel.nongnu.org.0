@@ -2,99 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D841B26455F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 13:37:01 +0200 (CEST)
-Received: from localhost ([::1]:44418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4046E26457C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 13:51:07 +0200 (CEST)
+Received: from localhost ([::1]:51618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGKsu-0000MK-U8
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 07:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
+	id 1kGL6V-0004av-Sj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 07:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kGKs8-00089y-8j
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 07:36:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35676)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kGL5S-00042i-VU
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 07:49:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58574
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kGKs5-0002vj-JL
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 07:36:11 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kGL5Q-0004I3-TX
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 07:49:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599737768;
+ s=mimecast20190719; t=1599738595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g68Ln2Ykm0AsGzDT36RNb3rZ1ltN22ArPGT5SDWCbBk=;
- b=FyylzW2a/0FEqR8XPPuTFe8qeFouGuOmfnOnN3t8EXZcLU+DaTGW5+7JY1J08QaVAGIesF
- qcgU7NkYZcnr1PLGh08YAiAkP/4S4m3p5b7i5otJeA/9kXtDCshou1gNqSId1rHgGJhvc7
- 4JTuS+6BX96oODOImJB7WxXd5vXBcUc=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-kfjTWmUkPLGxBiEoYzf5mg-1; Thu, 10 Sep 2020 07:36:06 -0400
-X-MC-Unique: kfjTWmUkPLGxBiEoYzf5mg-1
-Received: by mail-ej1-f72.google.com with SMTP id md9so2581792ejb.8
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 04:36:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=g68Ln2Ykm0AsGzDT36RNb3rZ1ltN22ArPGT5SDWCbBk=;
- b=dcp/GKpkLyFwSCSjEq2o1M2zuk2KdBj1tadn63Q3BGJWBGr2X5Cb1VJBmLkPH5yAGr
- X8bYnrUcIphv0F9kFrofHqdZ8hzrNIg7/CcoKahyz1Mg2AoWVV3DuimslRlryk/OkkAf
- GdXd328DEd9Wj4KwBka7M9jPwjkHqnZ14hFq1SJ1GXzloRUqwPrj0HBnpSv20s1aIn60
- Gh2M+8biQIXsVCQdTwQxHLzSw902t0PokdDm6OWvGY6Jhp5IatpRSYY5pBjGs5QUqfUr
- QLuT9KTEQx9dyUuKMZ8T5QDdZ5Knmu37k+yv9SjX2h1z3oTjbHDvCxmWzGl2YuxytBXF
- W8bQ==
-X-Gm-Message-State: AOAM530sj0BAXik8MJTLk88RyfPPD1a0xrJuA3H4iZbiWfG1MedPMpr7
- FtPOo86fCmJCccFT1wMlA8sdq+DcBl75/rIRZPZqe4247hrXqapzLU1mcfc6gpi6pRgmnHo5mVs
- HMewBiroib+k967o=
-X-Received: by 2002:a05:6402:70f:: with SMTP id
- w15mr9029434edx.202.1599737765683; 
- Thu, 10 Sep 2020 04:36:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9MRcEWHvXnnWCE/19WdyGtANc2GFua6jmtkInHUN59/gDC3dQTZo6HFVJY56Lsok1NEcSrw==
-X-Received: by 2002:a05:6402:70f:: with SMTP id
- w15mr9029399edx.202.1599737765385; 
- Thu, 10 Sep 2020 04:36:05 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:68f6:5b4d:4ee8:10c7?
- ([2001:b07:6468:f312:68f6:5b4d:4ee8:10c7])
- by smtp.gmail.com with ESMTPSA id m6sm6450319ejb.85.2020.09.10.04.36.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Sep 2020 04:36:04 -0700 (PDT)
-Subject: Re: [PATCH 5/6] hw/pci-host/q35: Rename PCI 'black hole as '(memory)
- hole'
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20200910070131.435543-1-philmd@redhat.com>
- <20200910070131.435543-6-philmd@redhat.com>
- <7dbdef90-1ca6-bf27-7084-af0c716d01d9@redhat.com>
- <20200910091454.GE1083348@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b6af444a-fb0b-ed98-60df-28ea67d6abe4@redhat.com>
-Date: Thu, 10 Sep 2020 13:36:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=Sjkjxl7XUETbHB6ANruWZFnmDHT7amDR67npklsZH2s=;
+ b=LhH9JwsXzYTFFGl7CXyfPa3nCEsIAlkf6eXmzkom/DzCixm0Iyy+jMo6Y+4JROMZbkQhbi
+ M3osZx83wbJ13u2uWTWBvQmI2GTd5erghYXq3lF0QRJkjpwyERGd+lH/edYXbNPpL0JdoQ
+ 9sMoU1XYrcH9kTDEh6yBSc0muy81HlM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-SgqgcIBnNWOnuR5o4e7goA-1; Thu, 10 Sep 2020 07:49:51 -0400
+X-MC-Unique: SgqgcIBnNWOnuR5o4e7goA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A6E9802B6C;
+ Thu, 10 Sep 2020 11:49:49 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC8FF1A923;
+ Thu, 10 Sep 2020 11:49:45 +0000 (UTC)
+Date: Thu, 10 Sep 2020 13:49:43 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v2 2/2] arm64: kvm: Introduce MTE VCPU feature
+Message-ID: <20200910114943.cedbzlqfcgxg7jqs@kamzik.brq.redhat.com>
+References: <20200904160018.29481-1-steven.price@arm.com>
+ <20200904160018.29481-3-steven.price@arm.com>
+ <20200909154804.mide6szbzgdy7jju@kamzik.brq.redhat.com>
+ <3a7e18af-84bd-cee3-d68f-e08f225fc166@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200910091454.GE1083348@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 00:49:43
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a7e18af-84bd-cee3-d68f-e08f225fc166@arm.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 03:02:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,82 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Peter Maydell <Peter.Maydell@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/09/20 11:14, Daniel P. Berrangé wrote:
-> On Thu, Sep 10, 2020 at 09:15:02AM +0200, Thomas Huth wrote:
->> On 10/09/2020 09.01, Philippe Mathieu-Daudé wrote:
->>> In order to use inclusive terminology, rename "blackhole"
->>> as "(memory)hole".
->>
->> A black hole is a well-known astronomical term, which is simply named
->> that way since it absorbes all light. I doubt that anybody could get
->> upset by this term?
+On Thu, Sep 10, 2020 at 10:21:07AM +0100, Steven Price wrote:
+> > We either need a KVM cap or a new CPU feature probing interface to avoid
+> > making userspace try features one at a time. It's too bad that VCPU_INIT
+> > doesn't clear all offending features from the feature set when returning
+> > EINVAL, because then userspace could create a scratch VCPU with everything
+> > it supports in order to see what KVM also supports in one go.
 > 
-> In this particular case I think the change is the right thing to do
-> simply because the astronomical analogy is not adding any value in
-> understanding. Calling it a "memoryhole" is more descriptive in what
-> is actually is.
+> If Peter's TELL_ME_WHAT_YOU_HAVE idea works out then perhaps we don't need
+> the cap? Or would it still be useful?
+>
 
-Absolutely not.  A memory hole ("memoryhole" is not an English word)
-would be easily confused with a hole in the memory map, which this is
-not.  For example on x86 systems the "PCI hole" is a hole between the
-end of low RAM and the bottom of the ROM that is reserved for memory
-mapped devices.  The "PCI hole" is explicitly left free by board code so
-that the OS can put PCI BARs in there.
+We wouldn't need it, but we don't _need_ it now either. It's not very
+convenient to probe vcpu features with scratch vcpus, especially if we
+must probe one at a time, but it works. The TELL_ME_WHAT_YOU_HAVE idea
+will only fix the one at a time issue, but still require a vcpu fd. If
+this feature becomes a VM feature then a cap or VM level API would help
+reduce the userspace probing work.
 
-These black hole MemoryRegions, instead, are present in the memory map
-and their purpose is to absorbs all writes and only sends back zeros,
-hiding the contents of SMRAM and TSEG from the guest.  Just like a black
-hole they are "something that exists".
-
-Therefore, both "memory hole" and "hole" as in Philippe's patch are
-worse than the astronomical metaphor.
-
-Paolo
-
->>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>  include/hw/pci-host/q35.h |  4 ++--
->>>  hw/pci-host/q35.c         | 38 +++++++++++++++++++-------------------
->>>  tests/qtest/q35-test.c    |  2 +-
->>>  3 files changed, 22 insertions(+), 22 deletions(-)
->>>
->>> diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
->>> index 070305f83df..0fb90aca18b 100644
->>> --- a/include/hw/pci-host/q35.h
->>> +++ b/include/hw/pci-host/q35.h
->>> @@ -48,8 +48,8 @@ typedef struct MCHPCIState {
->>>      PAMMemoryRegion pam_regions[13];
->>>      MemoryRegion smram_region, open_high_smram;
->>>      MemoryRegion smram, low_smram, high_smram;
->>> -    MemoryRegion tseg_blackhole, tseg_window;
->>> -    MemoryRegion smbase_blackhole, smbase_window;
->>> +    MemoryRegion tseg_hole, tseg_window;
->>> +    MemoryRegion smbase_hole, smbase_window;
->>
->> Maybe rather use smbase_memhole and tseg_memhole?
->>
->>  Thomas
->>
->>
-> 
-> Regards,
-> Daniel
-> 
+Thanks,
+drew
 
 
