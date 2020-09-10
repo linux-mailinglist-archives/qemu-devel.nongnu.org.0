@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91BE2646BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:18:48 +0200 (CEST)
-Received: from localhost ([::1]:39174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330152646CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:21:26 +0200 (CEST)
+Received: from localhost ([::1]:51304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGMTP-0000t1-QH
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:18:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33330)
+	id 1kGMVx-0005ot-9k
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGMQ3-0004Df-Mn
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:19 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56044)
+ id 1kGMQC-0004K9-Od
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:29 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGMQ1-0006BI-Uu
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:19 -0400
-Received: by mail-wm1-x344.google.com with SMTP id a65so5589801wme.5
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:15:17 -0700 (PDT)
+ id 1kGMQ5-0006EB-SP
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:27 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id g4so6669287wrs.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M4f+hM45++u5gmHF5wGmAw5i5AWpIMBzMXfEaibABW8=;
- b=sInO4zePqNtT3dsOvWzJnXceYmhdmFcbet9JWP4CH8Fo7MOPqjhaUzatGPGmeTsbad
- XC+RhWLTIFPWUUFjCjrQTKp/C4nL9ahSakMfczblvn8bB5KJCBxkBkjCMYkjfotuyjuv
- usdGYi7oXP/r/MkLOGfin2txQDjAb8Pc2hYLVqo7wTPuoMsm0nqdstSMc6ovyYd6ywqP
- kKHfHiXXKpnAeAmvIzyXkPvI4fI85huHQp7l+/mwxOM8EAQ0jTCcf9Dxny/Aq5pmwB44
- vJIikvvQry+ZFWoq0hBj2Vq+TTG8Qt27XIC4/BeIKeIHqS0kprzVJ4VEiWxO3+9MBoXI
- UCqQ==
+ bh=DEVVZdY9bSpEyzZCcrt4wAUF84l4cqCakjvurZYUtQY=;
+ b=yiuQ8uNZo0z4Y3bdSI9lQEBtwLxt6g1MeuVeOl/4rJQm4Rm1ixTcWozw9apgf79ybi
+ BfSzEadLd9vGd3EqlVZ7lmXFxmTmV6XdgylfRMlT/vgzCi7GaewibikrIDWaTvGyjyce
+ hiXVRSpe9we+0g4L/tzOHsUxx383a2CO99sWzSzJz2fK5DsoiLjj9m3uQB8KFnguB0lt
+ n37Kzf3oxc5WsErIlj/M2UQX4yrmPvYR456u21K1mcS/WnKydnYMfA8dSMd5qo5lIPD4
+ bLLQeqy29m+LhKURvDMUPTWdXLzX6ocDLG+f3cRlyu3Ct5akT0/mhqcS15Qf3RKY7tXE
+ 7NpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M4f+hM45++u5gmHF5wGmAw5i5AWpIMBzMXfEaibABW8=;
- b=WLWOnHByaVi166k1XHw6T2Rpu1aM5NQrGlR+dJr0e6RJEU2RxmhRw11MUPfQ5JDUmP
- SWm2TnbieMEva+V2pAKaee0Kk8K/bWaI3RHu/tNA0jZfITZ9M6L+Bjb+AQ524Jtj39AP
- 3nPC8Uebzo85NYOVqwB79GZSOv85svGKXIAlFuDvAooP05TeoBbhz/53FAHgIpr11WNH
- 1uC/Oy6RTYIobvt2XTAfgu9DzMBT8rsmli4tbFJ+yTN7lkQaRjZz3grzORHrlYqUbPY2
- GjFdUkK36pN4VzeX6JkwZmUbLdmpOg3sEcfz1EDG6+x+BxVAvbFCD2cWvpLJsC2wIleh
- 7eug==
-X-Gm-Message-State: AOAM530UuqphWRHlo+M0U5tDcpS6unWfvCqc/gpZVDrquk2ZGYEDJ934
- 40ppj8sQ/yZgOMxTNCuWRRt5X0+lcqsZ/w==
-X-Google-Smtp-Source: ABdhPJzAqqBQYGBXv+XXGG1f80EiahC9zaTUecPedFDyWjijger5Om9XYPi9SSA/3j24WcheimwOhA==
-X-Received: by 2002:a1c:2e4b:: with SMTP id u72mr14905wmu.69.1599743716478;
- Thu, 10 Sep 2020 06:15:16 -0700 (PDT)
+ bh=DEVVZdY9bSpEyzZCcrt4wAUF84l4cqCakjvurZYUtQY=;
+ b=oqZArA5eLL3SeBJaFcPm4X43gPW/RZyU5ohCEXXFt277O4aU6rZDBDicIaW76KCTWv
+ CmJTQ2aWQVgQEJh+rCcsMC4NoPrVLXM4CI0aOUagvq3gwkVa9Nr2PEm3Uxsu+LakCzK6
+ pCXSzpBauqrJKRAflfpI5e4nYRo12UWaSqR0OdD+3OvjrJ26cINRQ0bsx75nUTjn7gta
+ 5XUGd51b7eHDHHjaHIe4A323eh1kbL4gxgToxCKL/GhsHgE5naOv4ClWnLMWdS5SJWQm
+ X0jqsDvG+9Biwx5c/8hJrCKFK8eB8+v8AN/duA+uNRDajP/mwwI+VX1G+DoO7OEzfjQK
+ 4idw==
+X-Gm-Message-State: AOAM533T7bxsb2SjVgYHWvZMVCjDgCgekukTflDsX5IcsPy+1AjcPqsV
+ /3gt8KWfzpnCqoTjsTE1FDrj0A==
+X-Google-Smtp-Source: ABdhPJwvKfwDF18Kqv5bTpOqRs5FXsvIB3nE+brxCIs5XJ2dY71j/yJX3ucZBbOmeAEKvOwttwi9WQ==
+X-Received: by 2002:a5d:414b:: with SMTP id c11mr2814713wrq.181.1599743719460; 
+ Thu, 10 Sep 2020 06:15:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c18sm9469436wrx.63.2020.09.10.06.15.07
+ by smtp.gmail.com with ESMTPSA id k6sm3511635wmf.30.2020.09.10.06.15.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 10 Sep 2020 06:15:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 074F81FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 1DBEC1FF96;
  Thu, 10 Sep 2020 14:15:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/10] hw/i386: make explicit clearing of pch_rev_id
-Date: Thu, 10 Sep 2020 14:15:01 +0100
-Message-Id: <20200910131504.11341-8-alex.bennee@linaro.org>
+Subject: [PULL 08/10] tests: bump avocado version
+Date: Thu, 10 Sep 2020 14:15:02 +0100
+Message-Id: <20200910131504.11341-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200910131504.11341-1-alex.bennee@linaro.org>
 References: <20200910131504.11341-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,37 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ qemu-devel@nongnu.org, Willian Rampazzo <willianr@redhat.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some compilers (notably the Xenial gcc in Travis) fail to spot that
-this will always be set if pch_dev_id != 0xffff. Given this is setup
-code and using _Pragma to override is equally as ugly lets just remove
-the doubt from the compilers mind.
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
+Reverse debugging test uses gdb remote client of avocado framework.
+This client was fixed since the currently used version 76.
+Therefore this patch bumps the version to 81 and fixes command
+line version compatibility issue.
+
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200909112742.25730-8-alex.bennee@linaro.org>
+Message-Id: <159903462803.28509.16851113546106095750.stgit@pasha-ThinkPad-X280>
+Message-Id: <20200908202352.298506-2-philmd@redhat.com>
+Message-Id: <20200909112742.25730-9-alex.bennee@linaro.org>
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 32b1453e6a8..33fa035fb7f 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -930,7 +930,7 @@ void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
-     struct PCIDevice *bridge_dev;
-     int i, num;
-     uint16_t pch_dev_id = 0xffff;
--    uint8_t pch_rev_id;
-+    uint8_t pch_rev_id = 0;
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index f93e6112202..2baebc179e7 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -127,7 +127,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+             --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+             $(AVOCADO_TAGS) \
+-            $(if $(GITLAB_CI),,--failfast=on) tests/acceptance, \
++            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
  
-     num = ARRAY_SIZE(igd_combo_id_infos);
-     for (i = 0; i < num; i++) {
+ # Consolidated targets
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index f9c84b4ba1a..036691c9221 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,5 +1,5 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework==76.0
++avocado-framework==81.0
+ pycdlib==1.9.0
 -- 
 2.20.1
 
