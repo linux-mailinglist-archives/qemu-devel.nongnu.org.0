@@ -2,73 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6729C26452E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 13:10:40 +0200 (CEST)
-Received: from localhost ([::1]:41196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B46264536
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 13:13:56 +0200 (CEST)
+Received: from localhost ([::1]:49356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGKTP-0002wH-GC
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 07:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58938)
+	id 1kGKWZ-0006RH-LT
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 07:13:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kGKSY-00022u-N8
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 07:09:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48128
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kGKSV-0007d2-Hg
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 07:09:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599736182;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9z0YgDpSCQBbNKSX+jqWwZePm3HbDG14v+b918ZYSDI=;
- b=OHCBf9YQPvrF6biIGowzeEsfhQpyTR1a6avRX2JPv1BQcuHTNR3Y5mt36S8oYsQHcySFQD
- YrRMgfYmuPuOf/Ioa+F9zHTkXUnL5gphhVsRE7CEJB0Ft/cK7sw9UcjsgAxLwcvczy+ou/
- S5sVrWOv84WW+HlPwSI/5Gpv3fB74X8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-snUlGbQiOAqaVp2MwQR3WA-1; Thu, 10 Sep 2020 07:09:40 -0400
-X-MC-Unique: snUlGbQiOAqaVp2MwQR3WA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C00F71005E5E;
- Thu, 10 Sep 2020 11:09:38 +0000 (UTC)
-Received: from gondolin (ovpn-112-89.ams2.redhat.com [10.36.112.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 391E881F4C;
- Thu, 10 Sep 2020 11:09:20 +0000 (UTC)
-Date: Thu, 10 Sep 2020 13:09:17 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Collin Walling <walling@linux.ibm.com>
-Subject: Re: [PATCH v5 7/8] s390/kvm: header sync for diag318
-Message-ID: <20200910130917.1ae7bb1f.cohuck@redhat.com>
-In-Reply-To: <20200910093655.255774-8-walling@linux.ibm.com>
-References: <20200910093655.255774-1-walling@linux.ibm.com>
- <20200910093655.255774-8-walling@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kGKVe-0005mX-Sh; Thu, 10 Sep 2020 07:12:58 -0400
+Received: from mail-eopbgr70123.outbound.protection.outlook.com
+ ([40.107.7.123]:4494 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kGKVb-00084l-GU; Thu, 10 Sep 2020 07:12:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BRFiIE0xrvRNtdcukvqIHMpFmD6NYjXGXP6z8YFZr36n53zRlqJZnKscLx/JDjks1TsMg4x9nV8WvCVOp0ujdfaP+iT5IjrF6fJRSdTTKSVchbhZk9HeOmZRG4Wwk9W1axoWFPrwY3c5WZYflj5QO499Z+sovQk/fFwN3yzCQNxWSKpz+lxdpJo/BvPGXFeL/d0/V2Ow/br/sqzSRazXgQEGangNGFNCNGVNxiluGFmD7hBTbKx1DsRldhgAwa+S3kS0JN2050PxEsP4MfHO0sog1qY8cbjKpIo/Acx2wEtBKrfKljSfQeQoQaGId6VJlBh40hTK1tFXYf9PeNzI+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dmHyDQFwT47Dr2wK9PCM8Gxz2KcZCeKpkYRGaXXD0P8=;
+ b=Bk4g0uFA0GUiDxL4zqi/6uKQ8KogJ4jwEVHpWW2rZPqluIE3OQR1hmegUW1HP7SKqA+ybBsglnC4jOn6pnUW9hdlVRIYvZ8DYURWxd5tpVTBelMZ2m8V1sTOlmaY/jTIgV4jnEK3E5UVAXfN8xctn5b5q8I29bA1yh4aPcWIxSTmYeKXbOjNbJUC1fHq7xJ00A562VyNfOA1yh5uPHrJzte7vFLdNleBEK3EvUwh6Q7T2Dgc0mw/6kgbd+wUG89o8UbGLMZWcb6WxeQb/9fyMaWNEZjC6+R3ShgsAKQ2P8/Bpa5KTuif2htZ3mvE2fCTXr6tR5TbLP3HdYPikDrKuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dmHyDQFwT47Dr2wK9PCM8Gxz2KcZCeKpkYRGaXXD0P8=;
+ b=n4HgdZKCqTAIOaj61eJ2yyMJj1CXF6fGVtkZxci/PNhzZgCv9krMIQj1YJlN3gg16Fsu4qZl0siNbiKpjawoPFrNj65RBloLB1/8hOhUKNOGThmEbJvH2eWxKdZ4fo12z2FcVcQIjlfL1/DKfmMCyO0KrrQgWIF2N8iKbnPpnDI=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3285.eurprd08.prod.outlook.com (2603:10a6:209:4b::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Thu, 10 Sep
+ 2020 11:12:51 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%7]) with mapi id 15.20.3348.019; Thu, 10 Sep 2020
+ 11:12:51 +0000
+Subject: Re: [PATCH v4 2/4] block/nbd: define new max_write_zero_fast limit
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ fam@euphon.net, stefanha@redhat.com, den@openvz.org
+References: <20200611162655.4538-1-vsementsov@virtuozzo.com>
+ <20200611162655.4538-3-vsementsov@virtuozzo.com>
+ <ba407503-d235-da74-6b19-7774605b4ee4@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <1b784ce0-97b8-8b54-c852-8ee6691b7fd2@virtuozzo.com>
+Date: Thu, 10 Sep 2020 14:12:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+In-Reply-To: <ba407503-d235-da74-6b19-7774605b4ee4@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR01CA0082.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 03:02:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.150) by
+ AM0PR01CA0082.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Thu, 10 Sep 2020 11:12:51 +0000
+X-Originating-IP: [185.215.60.150]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 161c2469-37c0-4f6d-a062-08d8557a7548
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3285:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB32859A791119FBF3D68B41E3C1270@AM6PR08MB3285.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:651;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lhlxehju9AiwBMzSRF4HAQGvp5ejB7Y+VC1rvpzPpPxWJUSPmvUEKbErxKIG25Ks6NKRLShNCaNfoRbup/ktFXAMOAzWhDaTnWKsXHiRa99Ymn3ZKfnUt0GC7uwVXL5ZV4JpumX7KRv265yFpk0KSfrtxLgJaFWDqC3A+ylmD58eL44isvMT/TmOMaxlWVYr3KI8jDGLn3ZOdsWtm/DvG12b8acSXHxlW/myMqI0zlod4JG1MrJDMRB9CfWwGqDaBKuXpTsFX9NePoRbZWJyJvz66OanhXXiQ7IvVZHbnzKDzBe6POWg62rfQb48Cxne2nJQGD9O4EQsg7L64Daa3bodL0/A/PSqLksznwRAiJ/UxVcfc0vysCq1MQZrPnNj
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(39850400004)(136003)(396003)(86362001)(31696002)(107886003)(8676002)(31686004)(83380400001)(16576012)(36756003)(2906002)(316002)(53546011)(4326008)(66946007)(66556008)(52116002)(6486002)(66476007)(478600001)(2616005)(956004)(5660300002)(186003)(16526019)(8936002)(26005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: Zu4ogaZqXuXEW+rwQFdd21SYalaatMGnMPuvoug7Utc4MQmv6R79d5Mhfr4lUnIN4JeQtiLlZY5+uVItBdvrl1uSmMYtgdk+A9qMvtsL/+WWQC/22g4HnQVAOM+q196LoEBYmBM3LjYlaCqwBpnhbJDbgWmtn3wjiIbIFMDJol/EhPV1NDTy5zLtWniqwEeqhtDQFOFIrJ1GH5m2J9jPKbLUCPpH9htLxMH6Ztf4bjfwlMn4yyhdbyfDbJ01xMd868KV+d/mapfwOIUDsqdA9eWbtLMp15B0TnKCTagSBUCVGIN5wupDv1OpkG3cwIRYlUeyL9uE8VtMXwVpvdUz9HNdfCfCb7m+FGQqG7+SEBcRdeaH2RleZh+aiXFBrQiM3tRCYabaB8dvc7Ykv9auSVVGYD51omAj7/yVXjmTZHb89ebnUHjgn26pOwxfS/LQxCbZTLEy+ZsWf+mh8jc2edo8h7S+Lk3TVzPFFb05+7axSkRN7+8Vj/YnCyBbeCvXNvJWpNk5yHmYJYZkeloK8UApDEOvkK58lUmbRxFFE0ZuSzaonb1EZ/FNFbPG9sl/+d/JvgoZi7G474F+AqNO4hg8CmjNDmOS1VZWRiDwrV7h7SPp8gJSsNO+nKI+vb1AkP3VnGs2B7NaktBsdjesgw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 161c2469-37c0-4f6d-a062-08d8557a7548
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2020 11:12:51.5985 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lJ9mbUYuwjMEt8iaSzj60A4pzUeQj46s/bVJjcZlbXmW9zG6eYlm2R8TSPGYrVoefteopknx2VELPm3HB8IZMOOfHGv4FEGGE4pz35S9XRQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3285
+Received-SPF: pass client-ip=40.107.7.123;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 07:12:52
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,23 +120,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, mst@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, pbonzini@redhat.com, sumanthk@linux.ibm.com,
- mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Sep 2020 05:36:54 -0400
-Collin Walling <walling@linux.ibm.com> wrote:
+23.07.2020 23:32, Eric Blake wrote:
+> On 6/11/20 11:26 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> The NBD spec was recently updated to clarify that max_block doesn't
+>> relate to NBD_CMD_WRITE_ZEROES with NBD_CMD_FLAG_FAST_ZERO (which
+>> mirrors Qemu flag BDRV_REQ_NO_FALLBACK).
+>>
+>> bs->bl.max_write_zero_fast is zero by default which means using
+>> max_pwrite_zeroes. Update nbd driver to allow larger requests with
+>> BDRV_REQ_NO_FALLBACK.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/nbd.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/block/nbd.c b/block/nbd.c
+>> index 4ac23c8f62..b0584cf68d 100644
+>> --- a/block/nbd.c
+>> +++ b/block/nbd.c
+>> @@ -1956,6 +1956,7 @@ static void nbd_refresh_limits(BlockDriverState *bs, Error **errp)
+>>       bs->bl.request_alignment = min;
+>>       bs->bl.max_pdiscard = QEMU_ALIGN_DOWN(INT_MAX, min);
+>> +    bs->bl.max_pwrite_zeroes_fast = bs->bl.max_pdiscard;
+>>       bs->bl.max_pwrite_zeroes = max;
+> 
+> Do we even need max_pwrite_zeroes_fast?  Doesn't qemu behave correctly if we just blindly assign max_pdiscard and max_pwrite_zeroes to the same value near 2G?
+> 
 
-> Signed-off-by: Collin Walling <walling@linux.ibm.com>
-> ---
->  linux-headers/asm-s390/kvm.h | 7 +++++--
->  linux-headers/linux/kvm.h    | 1 +
->  2 files changed, 6 insertions(+), 2 deletions(-)
+Without BDRV_REQ_NO_FALLBACK, max_block is an actual limit for WRITE_ZERO.. So, in my understanding, it doesn't
 
-This needs to be replaced by a real headers update now. I'll do that
-myself, no need to repost.
 
+-- 
+Best regards,
+Vladimir
 
