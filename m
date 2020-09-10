@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C01264476
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:46:04 +0200 (CEST)
-Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7A12644AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:52:38 +0200 (CEST)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGK5b-0007fM-F3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:46:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52030)
+	id 1kGKBx-0000aJ-Ea
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJyD-000325-3f; Thu, 10 Sep 2020 06:38:25 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38486)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGKA9-0006uG-AP
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:50:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJy8-0003mg-Eq; Thu, 10 Sep 2020 06:38:24 -0400
-Received: by mail-pg1-x542.google.com with SMTP id l191so4023202pgd.5;
- Thu, 10 Sep 2020 03:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/hY+yQHTuO6c65IcDhojIGm+XDaALdXHmil6ThkS0qk=;
- b=hhPZt7rTjodD4Lsudf4N/87a26tspSvD0m+lFCyb7Det22uMsIp6IVjo5SmXqS5uBj
- V5NrrKMF4q0RAXHZ4oWyuJdqot/O/AhLeZ5v5XVv8RCnakQgstgR/K5WIB9AAFk2FadY
- aWf7oP9gNxTTJgJSoW65qLVsS1L03wFbkY2Fzp4cee4GZPLR/5NsfUQFP5tmGni2W8u4
- f8TjywOXqpkJ6E/7gHQ8FOI5UQoVmx5V0C9Deo7fuhmv86NcqCM/hb8Z/5wFCd15eBfW
- jkmql2c3yJDDEO4jN+cVhnQQB+0318cjDoJXVYcrJGrI3FGfyrCEl7sxiovJKXD/VP/o
- 7Yng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/hY+yQHTuO6c65IcDhojIGm+XDaALdXHmil6ThkS0qk=;
- b=pzHJUmCPase2h09/BBPAEh+mQm6cCeIeow9s7dCCBUq9gEIseCnVs0pInyRk92GY6C
- bwNDGPG1SoI2Qsu5UvlSzczsZpQDl05J7m5si8DZTiENq6RTf9kWFSZ/6rwRu3U81H3h
- biwxz0g9W0C2wSedB+OJVBciVTJddYr9+kiHLOiRtNtGjHy1LAMBFZitrOX6QA/plyV5
- a49OMs5jl9iYA15sP5VhNovKs5LbWIEeu0oV80TeQ6r5Aiu2KxooU42Yio6Mgl6NLUWS
- seoxn3ea7fU/Q7v9Nl//TX1eg88m1jrefQqApluucFIVFdu5JFthg0TELgdQn5XH0Vio
- S/Kw==
-X-Gm-Message-State: AOAM530QNPuACCIZBsMgxofSe4l6zMOCBMQQff+1u6u2biA0hlWfxDLy
- TPXseC+PHb+GmLEgm3rs+WuMlRgIwJ+yK0TaWHY=
-X-Google-Smtp-Source: ABdhPJxJkK1H4E/NTQbGIIUUr8QUvgXPjKyW+bR+25c536iA9RQIig4aKfMTzJa4ep6Ibj998t+ugQ==
-X-Received: by 2002:a63:4902:: with SMTP id w2mr4025870pga.311.1599734298413; 
- Thu, 10 Sep 2020 03:38:18 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id 99sm1781191pjo.40.2020.09.10.03.38.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 03:38:17 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 25/25] ci: Enable msys2 ci in cirrus
-Date: Thu, 10 Sep 2020 18:37:25 +0800
-Message-Id: <20200910103725.1439-9-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200910103725.1439-1-luoyonggang@gmail.com>
-References: <20200910103725.1439-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGKA6-0005RF-6A
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:50:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kGKA3-000245-Kj
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 10:50:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 83E842E80DC
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 10:50:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Sep 2020 10:41:12 -0000
+From: Yonggang Luo <1895122@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: luoyonggang
+X-Launchpad-Bug-Reporter: Yonggang Luo (luoyonggang)
+X-Launchpad-Bug-Modifier: Yonggang Luo (luoyonggang)
+Message-Id: <159973447247.11849.9583651644725576217.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1895122] [NEW] qemu on wsl tests failed,
+ this configured with debug
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="90a5703803d95539bdb5c0b289b1675630569e1e"; Instance="production"
+X-Launchpad-Hash: f262d234f7785095c007c616b4bebf887923f7e7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 06:50:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,104 +71,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Peter Lieven <pl@kamp.de>
+Reply-To: Bug 1895122 <1895122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Install msys2 in a proper way refer to https://github.com/cirruslabs/cirrus-ci-docs/issues/699
-The https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2 need to be updated.
-There is no need of --cross-prefix, open mingw64.exe instead of msys2.exe then we don't
-need the --cross-prefix, besides we using environment variable settings:
-    MSYS: winsymlinks:nativestrict
-    MSYSTEM: MINGW64
-    CHERE_INVOKING: 1
-to opening mingw64 native shell.
-We now running tests with make -i check to skip tests errors.
+Public bug reported:
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .cirrus.yml | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 690c6882e8..1ff9f0a72f 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -44,3 +44,63 @@ macos_xcode_task:
-                    --enable-werror --cc=clang || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check
-+
-+windows_msys2_task:
-+  windows_container:
-+    image: cirrusci/windowsservercore:cmake
-+    os_version: 2019
-+    cpu: 8
-+    memory: 8G
-+  env:
-+    MSYS: winsymlinks:nativestrict
-+    MSYSTEM: MINGW64
-+    CHERE_INVOKING: 1
-+  printenv_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
-+  install_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --needed --noconfirm -S bash pacman pacman-mirrors msys2-runtime"
-+    - taskkill /F /IM gpg-agent.exe
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed
-+        base-devel
-+        git
-+        mingw-w64-x86_64-python
-+        mingw-w64-x86_64-python-setuptools
-+        mingw-w64-x86_64-toolchain
-+        mingw-w64-x86_64-SDL2
-+        mingw-w64-x86_64-SDL2_image
-+        mingw-w64-x86_64-gtk3
-+        mingw-w64-x86_64-glib2
-+        mingw-w64-x86_64-ninja
-+        mingw-w64-x86_64-make
-+        mingw-w64-x86_64-jemalloc
-+        mingw-w64-x86_64-lzo2
-+        mingw-w64-x86_64-zstd
-+        mingw-w64-x86_64-libjpeg-turbo
-+        mingw-w64-x86_64-pixman
-+        mingw-w64-x86_64-libgcrypt
-+        mingw-w64-x86_64-capstone
-+        mingw-w64-x86_64-libpng
-+        mingw-w64-x86_64-libssh
-+        mingw-w64-x86_64-libxml2
-+        mingw-w64-x86_64-snappy
-+        mingw-w64-x86_64-libusb
-+        mingw-w64-x86_64-usbredir
-+        mingw-w64-x86_64-libtasn1
-+        mingw-w64-x86_64-libnfs
-+        mingw-w64-x86_64-nettle
-+        mingw-w64-x86_64-cyrus-sasl
-+        mingw-w64-x86_64-curl
-+        mingw-w64-x86_64-gnutls
-+        mingw-w64-x86_64-zstd"
-+  script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure --python=python3 --ninja=ninja"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j$NUMBER_OF_PROCESSORS"
-+  test_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
-+
--- 
-2.28.0.windows.1
+../configure --enable-debug-info --enable-debug
 
+**
+ERROR:../tests/test-util-filemonitor.c:704:test_file_monitor_events: assert=
+ion failed: (err =3D=3D 0)
+Aborted (core dumped)
+
+
+  TEST    iotest-qcow2: 271 [fail]
+QEMU          -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../../q=
+emu-system-x86_64" -nodefaults -display none -accel qtest
+QEMU_IMG      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../../q=
+emu-img" =
+
+QEMU_IO       -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../../q=
+emu-io"  --cache writeback --aio threads -f qcow2
+QEMU_NBD      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../../q=
+emu-nbd" =
+
+IMGFMT        -- qcow2 (compat=3D1.1)
+IMGPROTO      -- file
+PLATFORM      -- Linux/x86_64 DESKTOP-BLLJ03T 4.4.0-19041-Microsoft
+TEST_DIR      -- /home/lygstate/work/qemu/build/tests/qemu-iotests/scratch
+SOCK_DIR      -- /tmp/tmp.eyVcw8nLNQ
+SOCKET_SCM_HELPER -- /home/lygstate/work/qemu/build/tests/qemu-iotests/sock=
+et_scm_helper
+
+--- /home/lygstate/work/qemu/tests/qemu-iotests/271.out	2020-09-10 15:00:58=
+.190763400 +0800
++++ /home/lygstate/work/qemu/build/tests/qemu-iotests/271.out.bad	2020-09-1=
+0 18:38:25.625090800 +0800
+@@ -37,6 +37,7 @@
+ write -q -P PATTERN 0 64k
+ L2 entry #0: 0x8000000000050000 00000000ffffffff
+ discard -q 0 64k
++Content mismatch at offset 0!
+ L2 entry #0: 0x0000000000000000 ffffffff00000000
+ write -q -c -P PATTERN 0 64k
+ L2 entry #0: 0x4000000000050000 0000000000000000
+@@ -79,6 +80,7 @@
+ write -q -P PATTERN 0 64k
+ L2 entry #0: 0x8000000000050000 00000000ffffffff
+ discard -q 0 64k
++Content mismatch at offset 0!
+ L2 entry #0: 0x0000000000000000 ffffffff00000000
+ write -q -c -P PATTERN 0 64k
+ L2 entry #0: 0x4000000000050000 0000000000000000
+  TEST    iotest-qcow2: 283
+  TEST    iotest-qcow2: 287
+  TEST    iotest-qcow2: 290
+  TEST    iotest-qcow2: 292
+  TEST    iotest-qcow2: 299
+Not run: 060 181 220 259
+Failures: 271
+Failed 1 of 118 iotests
+make: [/home/lygstate/work/qemu/tests/Makefile.include:144: check-block] Er=
+ror 1 (ignored)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895122
+
+Title:
+  qemu on wsl tests failed, this configured with debug
+
+Status in QEMU:
+  New
+
+Bug description:
+  =
+
+  ../configure --enable-debug-info --enable-debug
+
+  **
+  ERROR:../tests/test-util-filemonitor.c:704:test_file_monitor_events: asse=
+rtion failed: (err =3D=3D 0)
+  Aborted (core dumped)
+
+  =
+
+    TEST    iotest-qcow2: 271 [fail]
+  QEMU          -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-system-x86_64" -nodefaults -display none -accel qtest
+  QEMU_IMG      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-img" =
+
+  QEMU_IO       -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-io"  --cache writeback --aio threads -f qcow2
+  QEMU_NBD      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-nbd" =
+
+  IMGFMT        -- qcow2 (compat=3D1.1)
+  IMGPROTO      -- file
+  PLATFORM      -- Linux/x86_64 DESKTOP-BLLJ03T 4.4.0-19041-Microsoft
+  TEST_DIR      -- /home/lygstate/work/qemu/build/tests/qemu-iotests/scratch
+  SOCK_DIR      -- /tmp/tmp.eyVcw8nLNQ
+  SOCKET_SCM_HELPER -- /home/lygstate/work/qemu/build/tests/qemu-iotests/so=
+cket_scm_helper
+
+  --- /home/lygstate/work/qemu/tests/qemu-iotests/271.out	2020-09-10 15:00:=
+58.190763400 +0800
+  +++ /home/lygstate/work/qemu/build/tests/qemu-iotests/271.out.bad	2020-09=
+-10 18:38:25.625090800 +0800
+  @@ -37,6 +37,7 @@
+   write -q -P PATTERN 0 64k
+   L2 entry #0: 0x8000000000050000 00000000ffffffff
+   discard -q 0 64k
+  +Content mismatch at offset 0!
+   L2 entry #0: 0x0000000000000000 ffffffff00000000
+   write -q -c -P PATTERN 0 64k
+   L2 entry #0: 0x4000000000050000 0000000000000000
+  @@ -79,6 +80,7 @@
+   write -q -P PATTERN 0 64k
+   L2 entry #0: 0x8000000000050000 00000000ffffffff
+   discard -q 0 64k
+  +Content mismatch at offset 0!
+   L2 entry #0: 0x0000000000000000 ffffffff00000000
+   write -q -c -P PATTERN 0 64k
+   L2 entry #0: 0x4000000000050000 0000000000000000
+    TEST    iotest-qcow2: 283
+    TEST    iotest-qcow2: 287
+    TEST    iotest-qcow2: 290
+    TEST    iotest-qcow2: 292
+    TEST    iotest-qcow2: 299
+  Not run: 060 181 220 259
+  Failures: 271
+  Failed 1 of 118 iotests
+  make: [/home/lygstate/work/qemu/tests/Makefile.include:144: check-block] =
+Error 1 (ignored)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895122/+subscriptions
 
