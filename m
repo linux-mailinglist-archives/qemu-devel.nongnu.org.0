@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68103264440
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:36:45 +0200 (CEST)
-Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301B8264444
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:38:19 +0200 (CEST)
+Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJwa-0006ex-CJ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50792)
+	id 1kGJy6-0001do-6L
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJs8-0007Yt-Dk; Thu, 10 Sep 2020 06:32:08 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:45642)
+ id 1kGJsD-0007gt-Ns; Thu, 10 Sep 2020 06:32:14 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:54987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJs5-00037D-TT; Thu, 10 Sep 2020 06:32:08 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id k15so4356076pfc.12;
- Thu, 10 Sep 2020 03:32:05 -0700 (PDT)
+ id 1kGJsC-000397-3N; Thu, 10 Sep 2020 06:32:13 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id mm21so2805965pjb.4;
+ Thu, 10 Sep 2020 03:32:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=27ajP4GoRfKO+nbwUgNlBqHfhHBZSCkZ9ODFQ91KtVY=;
- b=bdNnBtFDVWdjlRHENK6jjHaF+G+jcto5aAcuI4OlKC5ArI63bJUf32zTbXzonU8Ur5
- 2W6L3DhOPx2qq3IFOpHu+NfnhLWUmL9Bw6EgKzsIWb0LqcEcLn+q711ufjE1BlOdKEru
- k8rqkdvrEa7EECoiDrumJKnagGb4u7SN34xKO0Ykuh4CJ6RqwqzMtfNeYgb+IB6QFy/H
- c2nevmXqjlNzCMxnzrDh2IUY61nsF24qBEPvUnyZqJCEz7IAF3LB/YzwmSF8+aGndbVu
- 70Gd69Nyqks689u2NQrIa1y86R9pOQmNyQ5s7E+bgetTh8UaHKIxJ74siiEQA1ZXUCHq
- K9PQ==
+ bh=7zvfu2AU8jmrgTOs2oC3Qnm1T8TZc9G/7u0+CpqNJic=;
+ b=dS5bQc7X5RByKsqQdDo5kni3rKaRgoV8t3QhcDZqDlBWtElMizDvQwxfc1uCArxO4S
+ kbX3PrNTXP4U2eAPZbv/gS+l0IiZx5QdIRZbXOMl25WIfDdCO5dhr2sbUDL1PpiDuBDv
+ zXkre9Ga1bpugETwZthNm2z0xbLmY5sdT8RcW5NGpFiQqCCzthPhi2VlpKTZVkKPho9j
+ xTTBa0+8ca38D8rX4hzOkPZWfs3CuFPw9SkglO9FUNz3GB1Es8Wv6XBHBhZvguyvZQBg
+ U7yFhZuOw2u0SuUFiFm30QZ7I+ADEL6b2qYlSU0IDW00aBUJUWOY/uI7+IQCXBHHHhMM
+ vL/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=27ajP4GoRfKO+nbwUgNlBqHfhHBZSCkZ9ODFQ91KtVY=;
- b=C57u/DVd9msUE7ndqqNPd+BRtSKZq95RyrmyBVbdnPvSWefZXU5RLAeKzlMTKCQJew
- DkdCsXmCpf4vIqMNPzSyVtaMp2ASWtHYKfQspH57zJ3F7uT9NOGEvlFH5D6rP6sV8iEC
- QRG+GwzIdTPPP8TDqBoJluw9CtWFmtAtD+phC2Cn6WTSitPk4OKy6sITmdlo4V1V78G2
- +Z2kq6WIjgl3oi7go93kI15Xl/w1m4yUQP49QqcWI4Aat9yzxM9DFysz94qx/2qu1/Tp
- Zjz/0aIXC+pkzBo4fJzdiW/vZnYO/qHFXNutzU6M8opPRVNWb6HgEBaCt8u5S1hpX+2K
- GBsQ==
-X-Gm-Message-State: AOAM532Lq/cY4NsHkgNZQidppEBCLn28iiZqPjh4h/phJhHFBQDSb+ZT
- u8ORy81YoqsvksKHoeDW4jHNQelgfvAo/gjF/As=
-X-Google-Smtp-Source: ABdhPJzEhF71BGUAwfT+XmIx8le4mOr9jVPAwtPPh/a3U85SsTjqDxAtz71oALHwNRFHoV5rQxZT1w==
-X-Received: by 2002:a63:6647:: with SMTP id a68mr4058910pgc.450.1599733923691; 
- Thu, 10 Sep 2020 03:32:03 -0700 (PDT)
+ bh=7zvfu2AU8jmrgTOs2oC3Qnm1T8TZc9G/7u0+CpqNJic=;
+ b=HGFejR8A13n6gXeGHTYdMscA3AJKK6dSiy61B1aJHLDbQDkkR/C+7dxQW8R/0n7158
+ HmUYuosJ+Hb6yQS5PTxD5tFXXI+K/Zz2wofUnpenh1/dPCOBtdzGI9vTrEfe3G+s5cwJ
+ RdKw05PftNxGw7cpNer6OebIfrCIQcJJ8/vCUcMiIQlR4oFmGfH88l+zDEN48c3eUwV0
+ pQzPe+q7ucxLfNpJyEPxUYACFZv4ipP2L3YiEk9/cHm0HKKZ3sZz3jqDKyBu1f5i6OGB
+ FW2RsmO7BoGrKxPTJU1JBAF/t2ihzoGAOhZT5Wg8WCBpx3HtXzfnnVzvPwPAcsByXuD1
+ ydkA==
+X-Gm-Message-State: AOAM53187TYUqsVY6lFQpxw9urSMIAcfZaIWGomdYQBRqCf6IIrnlSHG
+ J4LCqg7BLMiceQzM5muXD9xSjj4psmMI6Q2uT0I=
+X-Google-Smtp-Source: ABdhPJxjscedJ89HNy27BZZKAWcgrtV40RPxHT5W1A+nDLhxCC1uCdrcpHtajvAIt9eqe4FrSya10w==
+X-Received: by 2002:a17:902:8544:: with SMTP id
+ d4mr4764711plo.142.1599733929922; 
+ Thu, 10 Sep 2020 03:32:09 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.31.58
+ by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.32.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 03:32:02 -0700 (PDT)
+ Thu, 10 Sep 2020 03:32:09 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 08/25] tests: disable /char/stdio/* tests in test-char.c on
- win32
-Date: Thu, 10 Sep 2020 18:30:42 +0800
-Message-Id: <20200910103059.987-9-luoyonggang@gmail.com>
+Subject: [PATCH v7 09/25] tests: Fixes test-replication.c on msys2/mingw.
+Date: Thu, 10 Sep 2020 18:30:43 +0800
+Message-Id: <20200910103059.987-10-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200910103059.987-1-luoyonggang@gmail.com>
 References: <20200910103059.987-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,93 +84,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These tests are blocking test-char to be finished.
-Disable them by using variable is_win32, so we doesn't
-need macro to open it. and easy recover those function
-latter.
+On Windows there is no path like /tmp/s_local_disk.XXXXXX
+Use g_get_tmp_dir instead of /tmp.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/test-char.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ tests/test-replication.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index d35cc839bc..184ddceab8 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -77,7 +77,6 @@ static void fe_event(void *opaque, QEMUChrEvent event)
-     }
- }
+diff --git a/tests/test-replication.c b/tests/test-replication.c
+index 9ab3666a90..e7cbd6b144 100644
+--- a/tests/test-replication.c
++++ b/tests/test-replication.c
+@@ -23,14 +23,14 @@
  
--#ifdef _WIN32
- static void char_console_test_subprocess(void)
- {
-     QemuOpts *opts;
-@@ -102,7 +101,7 @@ static void char_console_test(void)
-     g_test_trap_assert_passed();
-     g_test_trap_assert_stdout("CONSOLE");
- }
--#endif
-+
- static void char_stdio_test_subprocess(void)
- {
-     Chardev *chr;
-@@ -1448,7 +1447,11 @@ static SocketAddress unixaddr = {
+ /* primary */
+ #define P_ID "primary-id"
+-static char p_local_disk[] = "/tmp/p_local_disk.XXXXXX";
++static char *p_local_disk;
  
+ /* secondary */
+ #define S_ID "secondary-id"
+ #define S_LOCAL_DISK_ID "secondary-local-disk-id"
+-static char s_local_disk[] = "/tmp/s_local_disk.XXXXXX";
+-static char s_active_disk[] = "/tmp/s_active_disk.XXXXXX";
+-static char s_hidden_disk[] = "/tmp/s_hidden_disk.XXXXXX";
++static char *s_local_disk;
++static char *s_active_disk;
++static char *s_hidden_disk;
+ 
+ /* FIXME: steal from blockdev.c */
+ QemuOptsList qemu_drive_opts = {
+@@ -571,6 +571,11 @@ static void setup_sigabrt_handler(void)
  int main(int argc, char **argv)
  {
--    bool has_ipv4, has_ipv6;
-+    bool has_ipv4, has_ipv6, is_win32 = false;
-+
-+#ifdef _WIN32
-+    is_win32 = true;
-+#endif
+     int ret;
++    const char *tmpdir = g_get_tmp_dir();
++    p_local_disk = g_strdup_printf("%s/p_local_disk.XXXXXX", tmpdir);
++    s_local_disk = g_strdup_printf("%s/s_local_disk.XXXXXX", tmpdir);
++    s_active_disk = g_strdup_printf("%s/s_active_disk.XXXXXX", tmpdir);
++    s_hidden_disk = g_strdup_printf("%s/s_hidden_disk.XXXXXX", tmpdir);
+     qemu_init_main_loop(&error_fatal);
+     bdrv_init();
  
-     qemu_init_main_loop(&error_abort);
-     socket_init();
-@@ -1467,12 +1470,15 @@ int main(int argc, char **argv)
-     g_test_add_func("/char/invalid", char_invalid_test);
-     g_test_add_func("/char/ringbuf", char_ringbuf_test);
-     g_test_add_func("/char/mux", char_mux_test);
--#ifdef _WIN32
--    g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
--    g_test_add_func("/char/console", char_console_test);
--#endif
--    g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
--    g_test_add_func("/char/stdio", char_stdio_test);
-+    if (0) {
-+        g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
-+        g_test_add_func("/char/console", char_console_test);
-+    }
-+
-+    if (!is_win32) {
-+        g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
-+        g_test_add_func("/char/stdio", char_stdio_test);
-+    }
- #ifndef _WIN32
-     g_test_add_func("/char/pipe", char_pipe_test);
- #endif
-@@ -1534,7 +1540,7 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/char/socket/client/dupid-reconnect/" # name, \
-                          &client8 ##name, char_socket_client_dupid_test)
+@@ -605,5 +610,10 @@ int main(int argc, char **argv)
  
--    if (has_ipv4) {
-+    if (has_ipv4 && !is_win32) {
-         SOCKET_SERVER_TEST(tcp, &tcpaddr);
-         SOCKET_CLIENT_TEST(tcp, &tcpaddr);
-         g_test_add_data_func("/char/socket/server/two-clients/tcp", &tcpaddr,
+     cleanup_imgs();
+ 
++    g_free(p_local_disk);
++    g_free(s_local_disk);
++    g_free(s_active_disk);
++    g_free(s_hidden_disk);
++
+     return ret;
+ }
 -- 
 2.28.0.windows.1
 
