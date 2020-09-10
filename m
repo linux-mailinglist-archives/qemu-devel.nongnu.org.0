@@ -2,114 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2570F2647BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 16:09:35 +0200 (CEST)
-Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9A42647E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 16:21:15 +0200 (CEST)
+Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGNGY-0000LE-7g
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 10:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47708)
+	id 1kGNRq-0004Kr-OH
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 10:21:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGNFh-0008De-27
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:08:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47222
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGNFf-0005A3-0d
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:08:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599746918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=t9rwAF9aA7tjqUjoLtzS1fgHPnMnB5K89LDcUIfAi6U=;
- b=ccY47oByGfoXT8DMOOXvwVmLRzUbsQC8hRxrlDMcWi9u/lMb8IjsfBwmpmAZtXu1s3w5lA
- 7glm31zNsfmhGDLhyx4EHZ+QHUYvUmHnDoFhFKdF93gcahLXqOZBMdEVyst0N/IwwxB/Xn
- fl6IWFJ5PXQ7fz4YlX/OpAiVUcYnoJ8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-yFY8UbJxPbyMz7cmNcXMwg-1; Thu, 10 Sep 2020 10:08:34 -0400
-X-MC-Unique: yFY8UbJxPbyMz7cmNcXMwg-1
-Received: by mail-wr1-f72.google.com with SMTP id 33so2313674wre.0
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 07:08:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=t9rwAF9aA7tjqUjoLtzS1fgHPnMnB5K89LDcUIfAi6U=;
- b=s57Q/r8ea6kf68drh+WIjXE0ixOijuDGCUSFDsy7vdnhnx9eub4ZvPEYmENrBzgwvX
- zFZ67Bsi4mT29kxlDc1S/BnKDhaVCebYCBxo+WJOdRPONX8lHTrnWDWuaZtDMzOU8lOg
- 6cSf0H7rcC7ctCHi+UmzECzJFJgckd2g3XuyrJmwR4kQ33woh8ZMkJMEpmFaDLpVdY4l
- UTfNM1egoa81mlhqsNsq+cFW/ksdFW2b9f2t8iTCff1kblz2A7OatnCVa4jlQBwv4kR3
- 6BWO7ejCX/OHR/mVxTlGFsqPT7AEY9jHxGoJ9hABl20gtVlJxNnXwhuvj9GCNzSOzFy0
- ADVQ==
-X-Gm-Message-State: AOAM532532WfQzalGLDfWdn/LBnuSjD3xAiJnhisMgSW8qXGDbVKU9OB
- AkF/69y0aHDPH6z05+CtUzimm1uZ5SxhXIWjKGeqkhTUZ8U1ihXGEyXdLWLbBtGZyoLmlwn6HPz
- 1vhexoHsIOf60t0k=
-X-Received: by 2002:adf:f986:: with SMTP id f6mr8936160wrr.270.1599746913569; 
- Thu, 10 Sep 2020 07:08:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyb/XH1Rbc33nv9hvMzIYNE3wGeTHU/ESahDwHvPTi6vUNsVBh9PEvDZIbvVjZBBv1vmkxBGA==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr8936130wrr.270.1599746913282; 
- Thu, 10 Sep 2020 07:08:33 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id c14sm8900181wrv.12.2020.09.10.07.08.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Sep 2020 07:08:32 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] hw/timer/hpet: Trivial format string fix
-To: qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.vnet.ibm.com>
-References: <20200910135852.516809-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <35c826f7-bfbf-9e74-ad86-ef2d3262828f@redhat.com>
-Date: Thu, 10 Sep 2020 16:08:31 +0200
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1kGNMh-000252-4j
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:15:56 -0400
+Received: from foss.arm.com ([217.140.110.172]:58066)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1kGNMd-0005vt-Ti
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:15:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 747EB113E;
+ Thu, 10 Sep 2020 07:15:50 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 92E7F3F66E;
+ Thu, 10 Sep 2020 07:15:48 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] MTE support for KVM guest
+To: Andrew Jones <drjones@redhat.com>
+References: <20200904160018.29481-1-steven.price@arm.com>
+ <20200909152540.ylnrljd6aelxoxrf@kamzik.brq.redhat.com>
+ <857566df-1b98-84f7-9268-d092722dc749@arm.com>
+ <20200910062958.o55apuvdxmf3uiqb@kamzik.brq.redhat.com>
+ <37663bb6-d3a7-6f53-d0cd-88777633a2b2@arm.com>
+ <20200910135618.cvnlrgvhuy3amv6s@kamzik.brq.redhat.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <17efa848-9bda-26b2-b70f-040c9fa3f2da@arm.com>
+Date: Thu, 10 Sep 2020 15:14:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200910135852.516809-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:35:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20200910135618.cvnlrgvhuy3amv6s@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 10:15:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,29 +64,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <Peter.Maydell@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/20 3:58 PM, Philippe Mathieu-Daudé wrote:
-> Fix a format string and remove dead code.
+On 10/09/2020 14:56, Andrew Jones wrote:
+> On Thu, Sep 10, 2020 at 10:21:04AM +0100, Steven Price wrote:
+>> On 10/09/2020 07:29, Andrew Jones wrote:
+>>> But if userspace created the memslots with memory already set with
+>>> PROT_MTE, then this wouldn't be necessary, right? And, as long as
+>>> there's still a way to access the memory with tag checking disabled,
+>>> then it shouldn't be a problem.
+>>
+>> Yes, so one option would be to attempt to validate that the VMM has provided
+>> memory pages with the PG_mte_tagged bit set (e.g. by mapping with PROT_MTE).
+>> The tricky part here is that we support KVM_CAP_SYNC_MMU which means that
+>> the VMM can change the memory backing at any time - so we could end up in
+>> user_mem_abort() discovering that a page doesn't have PG_mte_tagged set - at
+>> that point there's no nice way of handling it (other than silently upgrading
+>> the page) so the VM is dead.
+>>
+>> So since enforcing that PG_mte_tagged is set isn't easy and provides a
+>> hard-to-debug foot gun to the VMM I decided the better option was to let the
+>> kernel set the bit automatically.
+>>
 > 
-> Since v1:
-> - Addressed Dov comments (fix format string + style):
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg739239.html
+> The foot gun still exists when migration is considered, no? If userspace
+> is telling a guest it can use MTE on its normal memory, but then doesn't
+> prepare that memory correctly, or remember to migrate the tags correctly
+> (which requires knowing the memory has tags and knowing how to get them),
+> then I guess the VM is in trouble one way or another.
 
-Dov, since you sent the same patches/code and sign them with
-your S-o-b, I added them here too, is that OK with you?
+Well not all VMMs support migration, and it's only migration that is 
+affected by this for a simple VMM (e.g. the changes to kvmtool are 
+minimal for MTE). But yes fundamentally if a VMM enables MTE it needs to 
+know how to deal with the extra tags everywhere.
 
-> 
-> Philippe Mathieu-Daudé (2):
->   hw/timer/hpet: Remove dead code
->   hw/timer/hpet: Fix DPRINTF format string
-> 
->  hw/timer/hpet.c | 23 ++++++-----------------
->  1 file changed, 6 insertions(+), 17 deletions(-)
-> 
+> I feel like we should trust the VMM to ensure MTE will work on any memory
+> the guest could use it on, and change the action in user_mem_abort() to
+> abort the guest with a big error message if it sees the flag is missing.
 
+I'm happy to change it, if you feel this is easier to debug.
+
+>>>>>
+>>>>> If userspace needs to write to guest memory then it should be due to
+>>>>> a device DMA or other specific hardware emulation. Those accesses can
+>>>>> be done with tag checking disabled.
+>>>>
+>>>> Yes, the question is can the VMM (sensibly) wrap the accesses with a
+>>>> disable/renable tag checking for the process sequence. The alternative at
+>>>> the moment is to maintain a separate (untagged) mapping for the purpose
+>>>> which might present it's own problems.
+>>>
+>>> Hmm, so there's no easy way to disable tag checking when necessary? If we
+>>> don't map the guest ram with PROT_MTE and continue setting the attribute
+>>> in KVM, as this series does, then we don't need to worry about it tag
+>>> checking when accessing the memory, but then we can't access the tags for
+>>> migration.
+>>
+>> There's a "TCO" (Tag Check Override) bit in PSTATE which allows disabling
+>> tag checking, so if it's reasonable to wrap accesses to the memory you can
+>> simply set the TCO bit, perform the memory access and then unset TCO. That
+>> would mean a single mapping with MTE enabled would work fine. What I don't
+>> have a clue about is whether it's practical in the VMM to wrap guest
+>> accesses like this.
+>>
+> 
+> At least QEMU goes through many abstractions to get to memory already.
+> There may already be a hook we could use, if not, it probably wouldn't
+> be too hard to add one (famous last words).
+
+Sounds good. My hope was that the abstractions were already in there.
+
+Thanks,
+
+Steve
 
