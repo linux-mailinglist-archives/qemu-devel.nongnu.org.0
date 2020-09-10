@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0717263DE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:02:58 +0200 (CEST)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0EF263DF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:04:43 +0200 (CEST)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGGbh-0006JV-OZ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
+	id 1kGGdP-0001Qd-2f
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:04:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGab-0004kd-8r
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:01:49 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23375
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGaf-0004rX-1W
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:01:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58755
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGaV-0001j9-L0
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:01:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGab-0001k3-Um
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:01:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599721303;
+ s=mimecast20190719; t=1599721309;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3LVq3GBMxvuW5ThC5No6G6me9ou9dAQJhQkLuf9vMHg=;
- b=Kna6C9SLL8kP0KHVgat50x7ub/fWQYKQ6eXubxX8H9gmiCYuKwEDqaGCQqn/mRCikX3/rl
- vsnTFv8tS4jLA5wsRFxW9wZhcU4iokm7Yy/uc3L72AERIoGJ7/bCC/YzMAPoBxbyQa6rkU
- bu72t5IjBlltwdrR4b2ZAXUhQWMUZ8o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-SHkuyu87MsiX1NbRnlA06g-1; Thu, 10 Sep 2020 03:01:41 -0400
-X-MC-Unique: SHkuyu87MsiX1NbRnlA06g-1
-Received: by mail-wm1-f72.google.com with SMTP id s24so1767571wmh.1
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 00:01:41 -0700 (PDT)
+ bh=r7XFBGUbtmw6+pIarSdnNbYpBrhpwFO1Rb8y52JScyA=;
+ b=JQWqLZgL3+6ESTe9xeUTqFY4cASa0xqGRxoCIQfIrlN0KNrjKBTDNcDbet4UbjYjo1ItYy
+ +H73VTXMVcP3kw8QtzNUupDgzNAcvHNKI+/wTUs00G4f0dS9litjP6wQxPSDO1K3vZ8MS1
+ Uqo1//1CgV/jUpIZlar93mArkYWxOKA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-zYrflcT4NjusIhfdOhpuSQ-1; Thu, 10 Sep 2020 03:01:47 -0400
+X-MC-Unique: zYrflcT4NjusIhfdOhpuSQ-1
+Received: by mail-wr1-f70.google.com with SMTP id a10so1863023wrw.22
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 00:01:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3LVq3GBMxvuW5ThC5No6G6me9ou9dAQJhQkLuf9vMHg=;
- b=Pg7LJX8ycY9eKpnpHT9Cx/8tCkRmiWGWpML72ucBdIL6EVSrVNBM4CthIWda5/e5zp
- Yq3AyRPrG4f0Riegr4FP30kuql9ZWTwlAANErHCZav5q6O2zU3+9rMMlr5eMPnAZeNDc
- nHY2sbOUXTJs4L8QdKahyUHbd5d/DZ3Xgiedl3vlymPQGqnqIZHrpxNZKFSFz37ScXbM
- RVbGJyC3EPDOSRrZitXiGH5pq4O2DI84H3ahtT7IM49Bof7RU/zn0o6MhvnS6maZ/SxH
- MhvkbDC1qe7VhUM3Bem9MNsvWhLIOBA9P1UzRsvrNQeOS0rEMSx4xkiyCK8qSGMmh+AQ
- rRmA==
-X-Gm-Message-State: AOAM531KcTWKEzeSslRcq6RdFBjYzgM4enA/WDkWaowl+BfPWiw24GWJ
- O5XShFU+JPZIE17YfenNpoiSxu44y/bR4eUeoMSaLG8cgMwzOakL7Cpm1m5q2EWbJrKO4RqgsMx
- s/sh16zs4JH35jjA=
-X-Received: by 2002:a7b:c182:: with SMTP id y2mr6733473wmi.21.1599721299940;
- Thu, 10 Sep 2020 00:01:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgp6jskt+jFoWEu9oClQRannFnMaW2ju14kuX/HT2/8P8+6b5Zro3I2ovA3LneRaIpwyvZzA==
-X-Received: by 2002:a7b:c182:: with SMTP id y2mr6733445wmi.21.1599721299694;
- Thu, 10 Sep 2020 00:01:39 -0700 (PDT)
+ bh=r7XFBGUbtmw6+pIarSdnNbYpBrhpwFO1Rb8y52JScyA=;
+ b=JPZvnio2fzpXeW6JlIyQwwThKM1COLs5+MehVCFkydo7Y4nltb82JfaLQokMZx3sSX
+ zMmVsDh9CHqLHlUtfPXJHCX3LCEqduIZAIdoEmNFqsLsrDiPkfblTXw5mSgc/Xifhq1H
+ YxfeYhQg8WZGVXRh+ofGY6F25nNokT0pKwDnpFRBbyB2WkpFLBB9YW31Xnd43PqbUgAH
+ AQZcMLwmwGVHJUSUN1IJ38nt+loYFuSreF8FLDIcBa4JaSjEY25F+oMl1cvPE+npha52
+ /TITp+jM0iJmWeVDhzdvJEqa4GnEtcOPzJ1Cr3wBWVBIxILrNra1Vb6mFg39xsoZpiXx
+ PMTQ==
+X-Gm-Message-State: AOAM531Vd/DKyAava52ZGM6NLBi3EbCtxBBf86Z1DDkJKpfRB7EW4rWR
+ HtFhb/jNZLb9NL8N00LsDUKdD6SfydOyhF4FNTwu0I56xnw6PlWg8+SyRswvNzPAJd64g3Afeal
+ q1Ao3ZNOPTvoCV68=
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr6726968wmc.98.1599721305959; 
+ Thu, 10 Sep 2020 00:01:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7BwDX40M9FcvmDDKL7Sv5M5flTDXcgcHzKzgkmRdWZC6SYh+Ne8NxJgQ8zHZWT11W+dNcDQ==
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr6726926wmc.98.1599721305563; 
+ Thu, 10 Sep 2020 00:01:45 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id o124sm2127336wmb.2.2020.09.10.00.01.38
+ by smtp.gmail.com with ESMTPSA id z7sm7666348wrw.93.2020.09.10.00.01.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 00:01:39 -0700 (PDT)
+ Thu, 10 Sep 2020 00:01:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] hw/ssi/aspeed_smc: Rename max_slaves as max_devices
-Date: Thu, 10 Sep 2020 09:01:26 +0200
-Message-Id: <20200910070131.435543-2-philmd@redhat.com>
+Subject: [PATCH 2/6] hw/core/stream: Rename StreamSlave as StreamSink
+Date: Thu, 10 Sep 2020 09:01:27 +0200
+Message-Id: <20200910070131.435543-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200910070131.435543-1-philmd@redhat.com>
 References: <20200910070131.435543-1-philmd@redhat.com>
@@ -113,192 +113,362 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to use inclusive terminology, rename max_slaves
-as max_devices.
+In order to use inclusive terminology, rename 'slave stream'
+as 'sink stream'.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/ssi/aspeed_smc.h |  2 +-
- hw/ssi/aspeed_smc.c         | 40 ++++++++++++++++++-------------------
- 2 files changed, 21 insertions(+), 21 deletions(-)
+ include/hw/ssi/xilinx_spips.h |  2 +-
+ include/hw/stream.h           | 46 +++++++++++++++++------------------
+ hw/core/stream.c              | 20 +++++++--------
+ hw/dma/xilinx_axidma.c        | 32 ++++++++++++------------
+ hw/net/xilinx_axienet.c       | 20 +++++++--------
+ hw/ssi/xilinx_spips.c         |  2 +-
+ 6 files changed, 61 insertions(+), 61 deletions(-)
 
-diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
-index 6fbbb238f15..52ae34e38d1 100644
---- a/include/hw/ssi/aspeed_smc.h
-+++ b/include/hw/ssi/aspeed_smc.h
-@@ -42,7 +42,7 @@ typedef struct AspeedSMCController {
-     uint8_t r_timings;
-     uint8_t nregs_timings;
-     uint8_t conf_enable_w0;
--    uint8_t max_slaves;
-+    uint8_t max_devices;
-     const AspeedSegments *segments;
-     hwaddr flash_window_base;
-     uint32_t flash_window_size;
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 795784e5f36..8219272016c 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -259,7 +259,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 1,
-+        .max_devices       = 1,
-         .segments          = aspeed_segments_legacy,
-         .flash_window_base = ASPEED_SOC_SMC_FLASH_BASE,
-         .flash_window_size = 0x6000000,
-@@ -275,7 +275,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 5,
-+        .max_devices       = 5,
-         .segments          = aspeed_segments_fmc,
-         .flash_window_base = ASPEED_SOC_FMC_FLASH_BASE,
-         .flash_window_size = 0x10000000,
-@@ -293,7 +293,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_SPI_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = SPI_CONF_ENABLE_W0,
--        .max_slaves        = 1,
-+        .max_devices       = 1,
-         .segments          = aspeed_segments_spi,
-         .flash_window_base = ASPEED_SOC_SPI_FLASH_BASE,
-         .flash_window_size = 0x10000000,
-@@ -309,7 +309,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 3,
-+        .max_devices       = 3,
-         .segments          = aspeed_segments_ast2500_fmc,
-         .flash_window_base = ASPEED_SOC_FMC_FLASH_BASE,
-         .flash_window_size = 0x10000000,
-@@ -327,7 +327,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 2,
-+        .max_devices       = 2,
-         .segments          = aspeed_segments_ast2500_spi1,
-         .flash_window_base = ASPEED_SOC_SPI_FLASH_BASE,
-         .flash_window_size = 0x8000000,
-@@ -343,7 +343,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 2,
-+        .max_devices       = 2,
-         .segments          = aspeed_segments_ast2500_spi2,
-         .flash_window_base = ASPEED_SOC_SPI2_FLASH_BASE,
-         .flash_window_size = 0x8000000,
-@@ -359,7 +359,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 1,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 3,
-+        .max_devices       = 3,
-         .segments          = aspeed_segments_ast2600_fmc,
-         .flash_window_base = ASPEED26_SOC_FMC_FLASH_BASE,
-         .flash_window_size = 0x10000000,
-@@ -377,7 +377,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 2,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 2,
-+        .max_devices       = 2,
-         .segments          = aspeed_segments_ast2600_spi1,
-         .flash_window_base = ASPEED26_SOC_SPI_FLASH_BASE,
-         .flash_window_size = 0x10000000,
-@@ -395,7 +395,7 @@ static const AspeedSMCController controllers[] = {
-         .r_timings         = R_TIMINGS,
-         .nregs_timings     = 3,
-         .conf_enable_w0    = CONF_ENABLE_W0,
--        .max_slaves        = 3,
-+        .max_devices       = 3,
-         .segments          = aspeed_segments_ast2600_spi2,
-         .flash_window_base = ASPEED26_SOC_SPI2_FLASH_BASE,
-         .flash_window_size = 0x10000000,
-@@ -476,7 +476,7 @@ static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
-     AspeedSegments seg;
+diff --git a/include/hw/ssi/xilinx_spips.h b/include/hw/ssi/xilinx_spips.h
+index 6a39b55a7bd..fde8a3ebda6 100644
+--- a/include/hw/ssi/xilinx_spips.h
++++ b/include/hw/ssi/xilinx_spips.h
+@@ -97,7 +97,7 @@ typedef struct {
+ typedef struct {
+     XilinxQSPIPS parent_obj;
+ 
+-    StreamSlave *dma;
++    StreamSink *dma;
+     int gqspi_irqline;
+ 
+     uint32_t regs[XLNX_ZYNQMP_SPIPS_R_MAX];
+diff --git a/include/hw/stream.h b/include/hw/stream.h
+index ed09e83683d..8ca161991ca 100644
+--- a/include/hw/stream.h
++++ b/include/hw/stream.h
+@@ -3,52 +3,52 @@
+ 
+ #include "qom/object.h"
+ 
+-/* stream slave. Used until qdev provides a generic way.  */
+-#define TYPE_STREAM_SLAVE "stream-slave"
++/* stream sink. Used until qdev provides a generic way.  */
++#define TYPE_STREAM_SINK "stream-slave"
+ 
+-#define STREAM_SLAVE_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(StreamSlaveClass, (klass), TYPE_STREAM_SLAVE)
+-#define STREAM_SLAVE_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(StreamSlaveClass, (obj), TYPE_STREAM_SLAVE)
+-#define STREAM_SLAVE(obj) \
+-     INTERFACE_CHECK(StreamSlave, (obj), TYPE_STREAM_SLAVE)
++#define STREAM_SINK_CLASS(klass) \
++     OBJECT_CLASS_CHECK(StreamSinkClass, (klass), TYPE_STREAM_SINK)
++#define STREAM_SINK_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(StreamSinkClass, (obj), TYPE_STREAM_SINK)
++#define STREAM_SINK(obj) \
++     INTERFACE_CHECK(StreamSink, (obj), TYPE_STREAM_SINK)
+ 
+-typedef struct StreamSlave StreamSlave;
++typedef struct StreamSink StreamSink;
+ 
+ typedef void (*StreamCanPushNotifyFn)(void *opaque);
+ 
+-typedef struct StreamSlaveClass {
++typedef struct StreamSinkClass {
+     InterfaceClass parent;
+     /**
+-     * can push - determine if a stream slave is capable of accepting at least
++     * can push - determine if a stream sink is capable of accepting at least
+      * one byte of data. Returns false if cannot accept. If not implemented, the
+-     * slave is assumed to always be capable of receiving.
+-     * @notify: Optional callback that the slave will call when the slave is
++     * sink is assumed to always be capable of receiving.
++     * @notify: Optional callback that the sink will call when the sink is
+      * capable of receiving again. Only called if false is returned.
+      * @notify_opaque: opaque data to pass to notify call.
+      */
+-    bool (*can_push)(StreamSlave *obj, StreamCanPushNotifyFn notify,
++    bool (*can_push)(StreamSink *obj, StreamCanPushNotifyFn notify,
+                      void *notify_opaque);
+     /**
+-     * push - push data to a Stream slave. The number of bytes pushed is
+-     * returned. If the slave short returns, the master must wait before trying
+-     * again, the slave may continue to just return 0 waiting for the vm time to
++     * push - push data to a Stream sink. The number of bytes pushed is
++     * returned. If the sink short returns, the master must wait before trying
++     * again, the sink may continue to just return 0 waiting for the vm time to
+      * advance. The can_push() function can be used to trap the point in time
+-     * where the slave is ready to receive again, otherwise polling on a QEMU
++     * where the sink is ready to receive again, otherwise polling on a QEMU
+      * timer will work.
+-     * @obj: Stream slave to push to
++     * @obj: Stream sink to push to
+      * @buf: Data to write
+      * @len: Maximum number of bytes to write
+      * @eop: End of packet flag
+      */
+-    size_t (*push)(StreamSlave *obj, unsigned char *buf, size_t len, bool eop);
+-} StreamSlaveClass;
++    size_t (*push)(StreamSink *obj, unsigned char *buf, size_t len, bool eop);
++} StreamSinkClass;
+ 
+ size_t
+-stream_push(StreamSlave *sink, uint8_t *buf, size_t len, bool eop);
++stream_push(StreamSink *sink, uint8_t *buf, size_t len, bool eop);
+ 
+ bool
+-stream_can_push(StreamSlave *sink, StreamCanPushNotifyFn notify,
++stream_can_push(StreamSink *sink, StreamCanPushNotifyFn notify,
+                 void *notify_opaque);
+ 
+ 
+diff --git a/hw/core/stream.c b/hw/core/stream.c
+index a65ad1208d8..19477d0f2df 100644
+--- a/hw/core/stream.c
++++ b/hw/core/stream.c
+@@ -3,32 +3,32 @@
+ #include "qemu/module.h"
+ 
+ size_t
+-stream_push(StreamSlave *sink, uint8_t *buf, size_t len, bool eop)
++stream_push(StreamSink *sink, uint8_t *buf, size_t len, bool eop)
+ {
+-    StreamSlaveClass *k =  STREAM_SLAVE_GET_CLASS(sink);
++    StreamSinkClass *k =  STREAM_SINK_GET_CLASS(sink);
+ 
+     return k->push(sink, buf, len, eop);
+ }
+ 
+ bool
+-stream_can_push(StreamSlave *sink, StreamCanPushNotifyFn notify,
++stream_can_push(StreamSink *sink, StreamCanPushNotifyFn notify,
+                 void *notify_opaque)
+ {
+-    StreamSlaveClass *k =  STREAM_SLAVE_GET_CLASS(sink);
++    StreamSinkClass *k =  STREAM_SINK_GET_CLASS(sink);
+ 
+     return k->can_push ? k->can_push(sink, notify, notify_opaque) : true;
+ }
+ 
+-static const TypeInfo stream_slave_info = {
+-    .name          = TYPE_STREAM_SLAVE,
++static const TypeInfo stream_sink_info = {
++    .name          = TYPE_STREAM_SINK,
+     .parent        = TYPE_INTERFACE,
+-    .class_size = sizeof(StreamSlaveClass),
++    .class_size = sizeof(StreamSinkClass),
+ };
+ 
+ 
+-static void stream_slave_register_types(void)
++static void stream_sink_register_types(void)
+ {
+-    type_register_static(&stream_slave_info);
++    type_register_static(&stream_sink_info);
+ }
+ 
+-type_init(stream_slave_register_types)
++type_init(stream_sink_register_types)
+diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+index a4812e480a0..cf12a852ea1 100644
+--- a/hw/dma/xilinx_axidma.c
++++ b/hw/dma/xilinx_axidma.c
+@@ -131,8 +131,8 @@ struct XilinxAXIDMA {
+     AddressSpace as;
+ 
+     uint32_t freqhz;
+-    StreamSlave *tx_data_dev;
+-    StreamSlave *tx_control_dev;
++    StreamSink *tx_data_dev;
++    StreamSink *tx_control_dev;
+     XilinxAXIDMAStreamSlave rx_data_dev;
+     XilinxAXIDMAStreamSlave rx_control_dev;
+ 
+@@ -264,8 +264,8 @@ static void stream_complete(struct Stream *s)
+     ptimer_transaction_commit(s->ptimer);
+ }
+ 
+-static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
+-                                 StreamSlave *tx_control_dev)
++static void stream_process_mem2s(struct Stream *s, StreamSink *tx_data_dev,
++                                 StreamSink *tx_control_dev)
+ {
+     uint32_t prev_d;
+     uint32_t txlen;
+@@ -387,7 +387,7 @@ static void xilinx_axidma_reset(DeviceState *dev)
+ }
+ 
+ static size_t
+-xilinx_axidma_control_stream_push(StreamSlave *obj, unsigned char *buf,
++xilinx_axidma_control_stream_push(StreamSink *obj, unsigned char *buf,
+                                   size_t len, bool eop)
+ {
+     XilinxAXIDMAStreamSlave *cs = XILINX_AXI_DMA_CONTROL_STREAM(obj);
+@@ -403,7 +403,7 @@ xilinx_axidma_control_stream_push(StreamSlave *obj, unsigned char *buf,
+ }
+ 
+ static bool
+-xilinx_axidma_data_stream_can_push(StreamSlave *obj,
++xilinx_axidma_data_stream_can_push(StreamSink *obj,
+                                    StreamCanPushNotifyFn notify,
+                                    void *notify_opaque)
+ {
+@@ -420,7 +420,7 @@ xilinx_axidma_data_stream_can_push(StreamSlave *obj,
+ }
+ 
+ static size_t
+-xilinx_axidma_data_stream_push(StreamSlave *obj, unsigned char *buf, size_t len,
++xilinx_axidma_data_stream_push(StreamSink *obj, unsigned char *buf, size_t len,
+                                bool eop)
+ {
+     XilinxAXIDMAStreamSlave *ds = XILINX_AXI_DMA_DATA_STREAM(obj);
+@@ -591,9 +591,9 @@ static void xilinx_axidma_init(Object *obj)
+ static Property axidma_properties[] = {
+     DEFINE_PROP_UINT32("freqhz", XilinxAXIDMA, freqhz, 50000000),
+     DEFINE_PROP_LINK("axistream-connected", XilinxAXIDMA,
+-                     tx_data_dev, TYPE_STREAM_SLAVE, StreamSlave *),
++                     tx_data_dev, TYPE_STREAM_SINK, StreamSink *),
+     DEFINE_PROP_LINK("axistream-control-connected", XilinxAXIDMA,
+-                     tx_control_dev, TYPE_STREAM_SLAVE, StreamSlave *),
++                     tx_control_dev, TYPE_STREAM_SINK, StreamSink *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -606,21 +606,21 @@ static void axidma_class_init(ObjectClass *klass, void *data)
+     device_class_set_props(dc, axidma_properties);
+ }
+ 
+-static StreamSlaveClass xilinx_axidma_data_stream_class = {
++static StreamSinkClass xilinx_axidma_data_stream_class = {
+     .push = xilinx_axidma_data_stream_push,
+     .can_push = xilinx_axidma_data_stream_can_push,
+ };
+ 
+-static StreamSlaveClass xilinx_axidma_control_stream_class = {
++static StreamSinkClass xilinx_axidma_control_stream_class = {
+     .push = xilinx_axidma_control_stream_push,
+ };
+ 
+ static void xilinx_axidma_stream_class_init(ObjectClass *klass, void *data)
+ {
+-    StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
++    StreamSinkClass *ssc = STREAM_SINK_CLASS(klass);
+ 
+-    ssc->push = ((StreamSlaveClass *)data)->push;
+-    ssc->can_push = ((StreamSlaveClass *)data)->can_push;
++    ssc->push = ((StreamSinkClass *)data)->push;
++    ssc->can_push = ((StreamSinkClass *)data)->can_push;
+ }
+ 
+ static const TypeInfo axidma_info = {
+@@ -638,7 +638,7 @@ static const TypeInfo xilinx_axidma_data_stream_info = {
+     .class_init    = xilinx_axidma_stream_class_init,
+     .class_data    = &xilinx_axidma_data_stream_class,
+     .interfaces = (InterfaceInfo[]) {
+-        { TYPE_STREAM_SLAVE },
++        { TYPE_STREAM_SINK },
+         { }
+     }
+ };
+@@ -650,7 +650,7 @@ static const TypeInfo xilinx_axidma_control_stream_info = {
+     .class_init    = xilinx_axidma_stream_class_init,
+     .class_data    = &xilinx_axidma_control_stream_class,
+     .interfaces = (InterfaceInfo[]) {
+-        { TYPE_STREAM_SLAVE },
++        { TYPE_STREAM_SINK },
+         { }
+     }
+ };
+diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+index 2e89f236b4a..0c4ac727207 100644
+--- a/hw/net/xilinx_axienet.c
++++ b/hw/net/xilinx_axienet.c
+@@ -323,8 +323,8 @@ struct XilinxAXIEnet {
+     SysBusDevice busdev;
+     MemoryRegion iomem;
+     qemu_irq irq;
+-    StreamSlave *tx_data_dev;
+-    StreamSlave *tx_control_dev;
++    StreamSink *tx_data_dev;
++    StreamSink *tx_control_dev;
+     XilinxAXIEnetStreamSlave rx_data_dev;
+     XilinxAXIEnetStreamSlave rx_control_dev;
+     NICState *nic;
+@@ -855,7 +855,7 @@ static ssize_t eth_rx(NetClientState *nc, const uint8_t *buf, size_t size)
+ }
+ 
+ static size_t
+-xilinx_axienet_control_stream_push(StreamSlave *obj, uint8_t *buf, size_t len,
++xilinx_axienet_control_stream_push(StreamSink *obj, uint8_t *buf, size_t len,
+                                    bool eop)
+ {
      int i;
+@@ -877,7 +877,7 @@ xilinx_axienet_control_stream_push(StreamSlave *obj, uint8_t *buf, size_t len,
+ }
  
--    for (i = 0; i < s->ctrl->max_slaves; i++) {
-+    for (i = 0; i < s->ctrl->max_devices; i++) {
-         if (i == cs) {
-             continue;
-         }
-@@ -537,7 +537,7 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
-      */
-     if ((s->ctrl->segments == aspeed_segments_ast2500_spi1 ||
-          s->ctrl->segments == aspeed_segments_ast2500_spi2) &&
--        cs == s->ctrl->max_slaves &&
-+        cs == s->ctrl->max_devices &&
-         seg.addr + seg.size != s->ctrl->segments[cs].addr +
-         s->ctrl->segments[cs].size) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-@@ -948,7 +948,7 @@ static void aspeed_smc_reset(DeviceState *d)
+ static size_t
+-xilinx_axienet_data_stream_push(StreamSlave *obj, uint8_t *buf, size_t size,
++xilinx_axienet_data_stream_push(StreamSink *obj, uint8_t *buf, size_t size,
+                                 bool eop)
+ {
+     XilinxAXIEnetStreamSlave *ds = XILINX_AXI_ENET_DATA_STREAM(obj);
+@@ -1005,9 +1005,9 @@ static Property xilinx_enet_properties[] = {
+     DEFINE_PROP_UINT32("txmem", XilinxAXIEnet, c_txmem, 0x1000),
+     DEFINE_NIC_PROPERTIES(XilinxAXIEnet, conf),
+     DEFINE_PROP_LINK("axistream-connected", XilinxAXIEnet,
+-                     tx_data_dev, TYPE_STREAM_SLAVE, StreamSlave *),
++                     tx_data_dev, TYPE_STREAM_SINK, StreamSink *),
+     DEFINE_PROP_LINK("axistream-control-connected", XilinxAXIEnet,
+-                     tx_control_dev, TYPE_STREAM_SLAVE, StreamSlave *),
++                     tx_control_dev, TYPE_STREAM_SINK, StreamSink *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -1023,14 +1023,14 @@ static void xilinx_enet_class_init(ObjectClass *klass, void *data)
+ static void xilinx_enet_control_stream_class_init(ObjectClass *klass,
+                                                   void *data)
+ {
+-    StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
++    StreamSinkClass *ssc = STREAM_SINK_CLASS(klass);
+ 
+     ssc->push = xilinx_axienet_control_stream_push;
+ }
+ 
+ static void xilinx_enet_data_stream_class_init(ObjectClass *klass, void *data)
+ {
+-    StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
++    StreamSinkClass *ssc = STREAM_SINK_CLASS(klass);
+ 
+     ssc->push = xilinx_axienet_data_stream_push;
+ }
+@@ -1049,7 +1049,7 @@ static const TypeInfo xilinx_enet_data_stream_info = {
+     .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+     .class_init    = xilinx_enet_data_stream_class_init,
+     .interfaces = (InterfaceInfo[]) {
+-            { TYPE_STREAM_SLAVE },
++            { TYPE_STREAM_SINK },
+             { }
      }
- 
-     /* setup the default segment register values and regions for all */
--    for (i = 0; i < s->ctrl->max_slaves; ++i) {
-+    for (i = 0; i < s->ctrl->max_devices; ++i) {
-         aspeed_smc_flash_set_segment_region(s, i,
-                     s->ctrl->segment_to_reg(s, &s->ctrl->segments[i]));
+ };
+@@ -1060,7 +1060,7 @@ static const TypeInfo xilinx_enet_control_stream_info = {
+     .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+     .class_init    = xilinx_enet_control_stream_class_init,
+     .interfaces = (InterfaceInfo[]) {
+-            { TYPE_STREAM_SLAVE },
++            { TYPE_STREAM_SINK },
+             { }
      }
-@@ -995,8 +995,8 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr addr, unsigned int size)
-         (s->ctrl->has_dma && addr == R_DMA_DRAM_ADDR) ||
-         (s->ctrl->has_dma && addr == R_DMA_LEN) ||
-         (s->ctrl->has_dma && addr == R_DMA_CHECKSUM) ||
--        (addr >= R_SEG_ADDR0 && addr < R_SEG_ADDR0 + s->ctrl->max_slaves) ||
--        (addr >= s->r_ctrl0 && addr < s->r_ctrl0 + s->ctrl->max_slaves)) {
-+        (addr >= R_SEG_ADDR0 && addr < R_SEG_ADDR0 + s->ctrl->max_devices) ||
-+        (addr >= s->r_ctrl0 && addr < s->r_ctrl0 + s->ctrl->max_devices)) {
+ };
+diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+index b9371dbf8d7..6109ba55107 100644
+--- a/hw/ssi/xilinx_spips.c
++++ b/hw/ssi/xilinx_spips.c
+@@ -1353,7 +1353,7 @@ static void xlnx_zynqmp_qspips_init(Object *obj)
+ {
+     XlnxZynqMPQSPIPS *rq = XLNX_ZYNQMP_QSPIPS(obj);
  
-         trace_aspeed_smc_read(addr, size, s->regs[addr]);
- 
-@@ -1270,7 +1270,7 @@ static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
-         int cs = addr - s->r_ctrl0;
-         aspeed_smc_flash_update_ctrl(&s->flashes[cs], value);
-     } else if (addr >= R_SEG_ADDR0 &&
--               addr < R_SEG_ADDR0 + s->ctrl->max_slaves) {
-+               addr < R_SEG_ADDR0 + s->ctrl->max_devices) {
-         int cs = addr - R_SEG_ADDR0;
- 
-         if (value != s->regs[R_SEG_ADDR0 + cs]) {
-@@ -1341,10 +1341,10 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
-     s->conf_enable_w0 = s->ctrl->conf_enable_w0;
- 
-     /* Enforce some real HW limits */
--    if (s->num_cs > s->ctrl->max_slaves) {
-+    if (s->num_cs > s->ctrl->max_devices) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: num_cs cannot exceed: %d\n",
--                      __func__, s->ctrl->max_slaves);
--        s->num_cs = s->ctrl->max_slaves;
-+                      __func__, s->ctrl->max_devices);
-+        s->num_cs = s->ctrl->max_devices;
-     }
- 
-     /* DMA irq. Keep it first for the initialization in the SoC */
-@@ -1376,7 +1376,7 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
-                           s->ctrl->flash_window_size);
-     sysbus_init_mmio(sbd, &s->mmio_flash);
- 
--    s->flashes = g_new0(AspeedSMCFlash, s->ctrl->max_slaves);
-+    s->flashes = g_new0(AspeedSMCFlash, s->ctrl->max_devices);
- 
-     /*
-      * Let's create a sub memory region for each possible slave. All
-@@ -1385,7 +1385,7 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
-      * module behind to handle the memory accesses. This depends on
-      * the board configuration.
-      */
--    for (i = 0; i < s->ctrl->max_slaves; ++i) {
-+    for (i = 0; i < s->ctrl->max_devices; ++i) {
-         AspeedSMCFlash *fl = &s->flashes[i];
- 
-         snprintf(name, sizeof(name), "%s.%d", s->ctrl->name, i);
+-    object_property_add_link(obj, "stream-connected-dma", TYPE_STREAM_SLAVE,
++    object_property_add_link(obj, "stream-connected-dma", TYPE_STREAM_SINK,
+                              (Object **)&rq->dma,
+                              object_property_allow_set_link,
+                              OBJ_PROP_LINK_STRONG);
 -- 
 2.26.2
 
