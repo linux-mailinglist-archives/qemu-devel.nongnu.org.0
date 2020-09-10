@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EADC264D7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:43:26 +0200 (CEST)
-Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2C5264D1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:34:48 +0200 (CEST)
+Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRXZ-0001C0-Ic
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
+	id 1kGRPD-000279-Tx
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:34:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCS-0005JL-1A
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29600)
+ id 1kGRCU-0005Ll-U9
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCH-00032s-Cx
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:33 -0400
+ id 1kGRCH-00032a-C3
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599762084;
+ s=mimecast20190719; t=1599762082;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r9wpfpFY9cCriCCJs74ijsD+iryOC4RfWojjLq6lqRU=;
- b=c4ugESYD88YFwsXUeuzCdNnyTzwQs3d45YwUxyDePe3mOqDfSrmDHSh2VLPLuKlad7dNUu
- HfyPmT40Ng4Oh1CRk3UGkjWb9leOJSO4rqeUcnb6bE0/Z/WQTTzISj76S+7DgdXXRyr5+E
- VvWdYaCJsHNEev1Imp9kPyk1d8gFhCI=
+ bh=TzJ0fBUbaOGpIRJlrVvOmS3lXKZBwJYdPPskPKJO3e8=;
+ b=hEwAPNbq4jTXdt81EvgdfJU7kENMtN4seqEiPjlI2Z3y5VgrAFquziUfwnA6AJTTGnjWSl
+ w15ZJl+6ukxsZwlhMMpXGxeC99u3Wftr6mblKzCl9TA2ktT8hGtmni4Itv0SXrWhyDsq/7
+ SsIObF47ZWu/C+wZkgmXbWomY4j0gQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-JyhnI7o3OkGXgCqUWLbSig-1; Thu, 10 Sep 2020 14:21:19 -0400
-X-MC-Unique: JyhnI7o3OkGXgCqUWLbSig-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-278-bSXDKS7VNiuAq1EiY75NbQ-1; Thu, 10 Sep 2020 14:21:20 -0400
+X-MC-Unique: bSXDKS7VNiuAq1EiY75NbQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B117864089;
- Thu, 10 Sep 2020 18:21:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C93B21882FC1;
+ Thu, 10 Sep 2020 18:21:19 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 769AD5D9CA;
- Thu, 10 Sep 2020 18:21:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D5A57EB7A;
+ Thu, 10 Sep 2020 18:21:19 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 04/33] qom: Allow class type name to be specified in
- OBJECT_DECLARE*
-Date: Thu, 10 Sep 2020 14:20:43 -0400
-Message-Id: <20200910182112.4030917-5-ehabkost@redhat.com>
+Subject: [PULL 05/33] qom: DECLARE_*_CHECKERS macros
+Date: Thu, 10 Sep 2020 14:20:44 -0400
+Message-Id: <20200910182112.4030917-6-ehabkost@redhat.com>
 In-Reply-To: <20200910182112.4030917-1-ehabkost@redhat.com>
 References: <20200910182112.4030917-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -69,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,93 +86,109 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Many QOM types don't follow the Type/TypeClass pattern
-on the instance/struct names.  Let the class struct name
-be specified in the OBJECT_DECLARE* macros.
+Sometimes the typedefs are buried inside another header, but
+we want to benefit from the automatic definition of type cast
+functions.  Introduce macros that will let type checkers be
+defined when typedefs are already available.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200831210740.126168-4-ehabkost@redhat.com>
+Message-Id: <20200831210740.126168-5-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/qom/object.h | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ include/qom/object.h | 72 +++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 58 insertions(+), 14 deletions(-)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index f515230f61..500e7dfa99 100644
+index 500e7dfa99..4cd84998c2 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -555,7 +555,8 @@ struct Object
+@@ -553,6 +553,62 @@ struct Object
+     Object *parent;
+ };
  
- /**
-  * OBJECT_DECLARE_TYPE:
-- * @ModuleObjName: the object name with initial capitalization
++/**
++ * DECLARE_INSTANCE_CHECKER:
++ * @InstanceType: instance struct name
++ * @OBJ_NAME: the object name in uppercase with underscore separators
++ * @TYPENAME: type name
++ *
++ * Direct usage of this macro should be avoided, and the complete
++ * OBJECT_DECLARE_TYPE macro is recommended instead.
++ *
++ * This macro will provide the three standard type cast functions for a
++ * QOM type.
++ */
++#define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
++    static inline G_GNUC_UNUSED InstanceType * \
++    OBJ_NAME(void *obj) \
++    { return OBJECT_CHECK(InstanceType, obj, TYPENAME); }
++
++/**
++ * DECLARE_CLASS_CHECKERS:
++ * @ClassType: class struct name
++ * @OBJ_NAME: the object name in uppercase with underscore separators
++ * @TYPENAME: type name
++ *
++ * Direct usage of this macro should be avoided, and the complete
++ * OBJECT_DECLARE_TYPE macro is recommended instead.
++ *
++ * This macro will provide the three standard type cast functions for a
++ * QOM type.
++ */
++#define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
++    static inline G_GNUC_UNUSED ClassType * \
++    OBJ_NAME##_GET_CLASS(void *obj) \
++    { return OBJECT_GET_CLASS(ClassType, obj, TYPENAME); } \
++    \
++    static inline G_GNUC_UNUSED ClassType * \
++    OBJ_NAME##_CLASS(void *klass) \
++    { return OBJECT_CLASS_CHECK(ClassType, klass, TYPENAME); }
++
++/**
++ * DECLARE_OBJ_CHECKERS:
 + * @InstanceType: instance struct name
 + * @ClassType: class struct name
-  * @module_obj_name: the object name in lowercase with underscore separators
-  * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-  *
-@@ -567,33 +568,33 @@ struct Object
-  *
-  * The object struct and class struct need to be declared manually.
-  */
--#define OBJECT_DECLARE_TYPE(ModuleObjName, module_obj_name, MODULE_OBJ_NAME) \
--    typedef struct ModuleObjName ModuleObjName; \
--    typedef struct ModuleObjName##Class ModuleObjName##Class; \
-+#define OBJECT_DECLARE_TYPE(InstanceType, ClassType, module_obj_name, MODULE_OBJ_NAME) \
-+    typedef struct InstanceType InstanceType; \
-+    typedef struct ClassType ClassType; \
++ * @OBJ_NAME: the object name in uppercase with underscore separators
++ * @TYPENAME: type name
++ *
++ * Direct usage of this macro should be avoided, and the complete
++ * OBJECT_DECLARE_TYPE macro is recommended instead.
++ *
++ * This macro will provide the three standard type cast functions for a
++ * QOM type.
++ */
++#define DECLARE_OBJ_CHECKERS(InstanceType, ClassType, OBJ_NAME, TYPENAME) \
++    DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
++    \
++    DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME)
++
+ /**
+  * OBJECT_DECLARE_TYPE:
+  * @InstanceType: instance struct name
+@@ -574,20 +630,8 @@ struct Object
      \
--    G_DEFINE_AUTOPTR_CLEANUP_FUNC(ModuleObjName, object_unref) \
-+    G_DEFINE_AUTOPTR_CLEANUP_FUNC(InstanceType, object_unref) \
+     G_DEFINE_AUTOPTR_CLEANUP_FUNC(InstanceType, object_unref) \
      \
--    static inline G_GNUC_UNUSED ModuleObjName##Class * \
-+    static inline G_GNUC_UNUSED ClassType * \
-     MODULE_OBJ_NAME##_GET_CLASS(void *obj) \
--    { return OBJECT_GET_CLASS(ModuleObjName##Class, obj, \
-+    { return OBJECT_GET_CLASS(ClassType, obj, \
-                               TYPE_##MODULE_OBJ_NAME); } \
-     \
--    static inline G_GNUC_UNUSED ModuleObjName##Class * \
-+    static inline G_GNUC_UNUSED ClassType * \
-     MODULE_OBJ_NAME##_CLASS(void *klass) \
--    { return OBJECT_CLASS_CHECK(ModuleObjName##Class, klass, \
-+    { return OBJECT_CLASS_CHECK(ClassType, klass, \
-                                 TYPE_##MODULE_OBJ_NAME); } \
-     \
--    static inline G_GNUC_UNUSED ModuleObjName * \
-+    static inline G_GNUC_UNUSED InstanceType * \
-     MODULE_OBJ_NAME(void *obj) \
--    { return OBJECT_CHECK(ModuleObjName, obj, \
-+    { return OBJECT_CHECK(InstanceType, obj, \
-                           TYPE_##MODULE_OBJ_NAME); }
+-    static inline G_GNUC_UNUSED ClassType * \
+-    MODULE_OBJ_NAME##_GET_CLASS(void *obj) \
+-    { return OBJECT_GET_CLASS(ClassType, obj, \
+-                              TYPE_##MODULE_OBJ_NAME); } \
+-    \
+-    static inline G_GNUC_UNUSED ClassType * \
+-    MODULE_OBJ_NAME##_CLASS(void *klass) \
+-    { return OBJECT_CLASS_CHECK(ClassType, klass, \
+-                                TYPE_##MODULE_OBJ_NAME); } \
+-    \
+-    static inline G_GNUC_UNUSED InstanceType * \
+-    MODULE_OBJ_NAME(void *obj) \
+-    { return OBJECT_CHECK(InstanceType, obj, \
+-                          TYPE_##MODULE_OBJ_NAME); }
++    DECLARE_OBJ_CHECKERS(InstanceType, ClassType, \
++                         MODULE_OBJ_NAME, TYPE_##MODULE_OBJ_NAME)
  
  /**
   * OBJECT_DECLARE_SIMPLE_TYPE:
-- * @ModuleObjName: the object name with initial caps
-+ * @InstanceType: instance struct name
-  * @module_obj_name: the object name in lowercase with underscore separators
-  * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-- * @ParentModuleObjName: the parent object name with initial caps
-+ * @ParentClassType: class struct name of parent type
-  *
-  * This does the same as OBJECT_DECLARE_TYPE(), but also declares
-  * the class struct, thus only the object struct needs to be declare
-@@ -602,10 +603,10 @@ struct Object
-  * This macro should be used unless the class struct needs to have
-  * virtual methods declared.
-  */
--#define OBJECT_DECLARE_SIMPLE_TYPE(ModuleObjName, module_obj_name, \
--                                   MODULE_OBJ_NAME, ParentModuleObjName) \
--    OBJECT_DECLARE_TYPE(ModuleObjName, module_obj_name, MODULE_OBJ_NAME) \
--    struct ModuleObjName##Class { ParentModuleObjName##Class parent_class; };
-+#define OBJECT_DECLARE_SIMPLE_TYPE(InstanceType, module_obj_name, \
-+                                   MODULE_OBJ_NAME, ParentClassType) \
-+    OBJECT_DECLARE_TYPE(InstanceType, InstanceType##Class, module_obj_name, MODULE_OBJ_NAME) \
-+    struct InstanceType##Class { ParentClassType parent_class; };
- 
- 
- /**
 -- 
 2.26.2
 
