@@ -2,89 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDC4263E25
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:11:14 +0200 (CEST)
-Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123CC263E0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:08:17 +0200 (CEST)
+Received: from localhost ([::1]:36948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGGjh-0008Hm-M1
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:11:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59798)
+	id 1kGGgq-0004Se-5t
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGb0-0005cg-9T
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:02:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGay-0001nL-Mi
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:02:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599721331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lGs5ABKm8y9Jc/D3T2fzKVj+EYzhUQk9uXM+DI2xiY8=;
- b=UfvytXJwaUshkoAXm5DqDY0WlAxkGs6JLz7inrVLQFBMqOghHj0HUW1dg2laFH8ZOp5UjC
- GT5LO2jfKjB2A/3+2ZzhLXYTdo8PlRb7lGhCrOlRBOMTvCt+VsHyu6QbD+Cuchj+Akdtbf
- 3HVZbM8KX8yDEbf0bpbbxH/RXPhh+Zk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-jMlzLLndMmOstmn3ryW6Xg-1; Thu, 10 Sep 2020 03:02:09 -0400
-X-MC-Unique: jMlzLLndMmOstmn3ryW6Xg-1
-Received: by mail-wm1-f70.google.com with SMTP id s19so1042791wme.2
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 00:02:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lGs5ABKm8y9Jc/D3T2fzKVj+EYzhUQk9uXM+DI2xiY8=;
- b=DTVHUHG014dyP7x17s8IZPSbjd9xU79vS75vs4YPmU4fgAs0U652dZM2eBfKkZ4zUo
- K8Q0Q70FpQmMW8CyicYzSSTB+CU/8R7yIDVK1Hb7eHvta/ytR14kFSdL3aq25B/dUN3h
- LVvtXoDwHaKkJTpqUpo2qtX9zHF1u4+JGnohVRhV85uvxqXXKh8iutkTHwfwES7vaiSZ
- BzUcW4BDzINs5ZvxaFhXrrPj5MEAXzSpHVEToL3ZRh8c8ea4zvXdlVJDxtZ9paFRgoSC
- ckxvAh85eUCslEFowky1blstqQR25Wdl8JLuU7e89m+Uj5aseCldZbuvJR/uSeufzu0n
- n84w==
-X-Gm-Message-State: AOAM531T6Hl9cZ1VPlZh/PtlBEzxeRHhG+1f5aokTaf0aGg7FVjxH0Fj
- S5UZvYXS8WyeD03vvULcu2qEy7MwxhRlVlGJUjOMj8rgwA7Sczcf8hXXi53IZqaYED1SSR8/F7Z
- PUt66REzCC30oFoc=
-X-Received: by 2002:a1c:4b04:: with SMTP id y4mr6890997wma.111.1599721328157; 
- Thu, 10 Sep 2020 00:02:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwE0Z695VXU3e9M0JVMx/m5jixlhhfySuGaTkiZxpc9kM9WGt9z1mdGK0NlEetghntMunzOLg==
-X-Received: by 2002:a1c:4b04:: with SMTP id y4mr6890972wma.111.1599721327946; 
- Thu, 10 Sep 2020 00:02:07 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id m185sm2221410wmf.5.2020.09.10.00.02.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 00:02:07 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] target/i386/kvm: Rename host_tsx_blacklisted() as
- host_tsx_broken()
-Date: Thu, 10 Sep 2020 09:01:31 +0200
-Message-Id: <20200910070131.435543-7-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200910070131.435543-1-philmd@redhat.com>
-References: <20200910070131.435543-1-philmd@redhat.com>
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 02:38:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1kGGan-0005AH-2B; Thu, 10 Sep 2020 03:02:01 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:60441)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1kGGak-0001jp-7j; Thu, 10 Sep 2020 03:02:00 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from [82.141.7.17] ([79.200.90.160]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+ Thu, 10 Sep 2020 09:01:38 +0200
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: [PATCH v2 01/21] block: Fixes nfs compiling error on msys2/mingw
+From: Peter Lieven <pl@kamp.de>
+In-Reply-To: <20200909094617.1582-2-luoyonggang@gmail.com>
+Date: Thu, 10 Sep 2020 09:01:39 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D8F68C97-16F7-48DA-A003-275A7C0D08F3@kamp.de>
+References: <20200909094617.1582-1-luoyonggang@gmail.com>
+ <20200909094617.1582-2-luoyonggang@gmail.com>
+To: Yonggang Luo <luoyonggang@gmail.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 03:01:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,53 +56,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Joel Stanley <joel@jms.id.au>, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu block <qemu-block@nongnu.org>,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to use inclusive terminology, rename host_tsx_blacklisted()
-as host_tsx_broken().
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- target/i386/kvm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 205b68bc0ce..3d640a8decf 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -302,7 +302,7 @@ static int get_para_features(KVMState *s)
-     return features;
- }
- 
--static bool host_tsx_blacklisted(void)
-+static bool host_tsx_broken(void)
- {
-     int family, model, stepping;\
-     char vendor[CPUID_VENDOR_SZ + 1];
-@@ -408,7 +408,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-     } else if (function == 6 && reg == R_EAX) {
-         ret |= CPUID_6_EAX_ARAT; /* safe to allow because of emulated APIC */
-     } else if (function == 7 && index == 0 && reg == R_EBX) {
--        if (host_tsx_blacklisted()) {
-+        if (host_tsx_broken()) {
-             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
-         }
-     } else if (function == 7 && index == 0 && reg == R_EDX) {
--- 
-2.26.2
+> Am 09.09.2020 um 11:45 schrieb Yonggang Luo <luoyonggang@gmail.com>:
+>=20
+> These compiling errors are fixed:
+> ../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
+>   27 | #include <poll.h>
+>      |          ^~~~~~~~
+> compilation terminated.
+>=20
+> ../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
+>   63 |     blkcnt_t st_blocks;
+>      |     ^~~~~~~~
+> ../block/nfs.c: In function 'nfs_client_open':
+> ../block/nfs.c:550:27: error: 'struct _stat64' has no member named =
+'st_blocks'
+>  550 |     client->st_blocks =3D st.st_blocks;
+>      |                           ^
+> ../block/nfs.c: In function 'nfs_get_allocated_file_size':
+> ../block/nfs.c:751:41: error: 'struct _stat64' has no member named =
+'st_blocks'
+>  751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
+>      |                                         ^
+> ../block/nfs.c: In function 'nfs_reopen_prepare':
+> ../block/nfs.c:805:31: error: 'struct _stat64' has no member named =
+'st_blocks'
+>  805 |         client->st_blocks =3D st.st_blocks;
+>      |                               ^
+> ../block/nfs.c: In function 'nfs_get_allocated_file_size':
+> ../block/nfs.c:752:1: error: control reaches end of non-void function =
+[-Werror=3Dreturn-type]
+>  752 | }
+>      | ^
+>=20
+> On msys2/mingw, there is no st_blocks in struct _stat64, so we use =
+consistence st_size instead.
+>=20
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+> block/nfs.c | 26 +++++++++++++++++---------
+> 1 file changed, 17 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/block/nfs.c b/block/nfs.c
+> index 61a249a9fc..34b2cd5708 100644
+> --- a/block/nfs.c
+> +++ b/block/nfs.c
+> @@ -24,7 +24,9 @@
+>=20
+> #include "qemu/osdep.h"
+>=20
+> +#if !defined(_WIN32)
+> #include <poll.h>
+> +#endif
+> #include "qemu/config-file.h"
+> #include "qemu/error-report.h"
+> #include "qapi/error.h"
+> @@ -51,6 +53,12 @@
+> #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)
+> #define QEMU_NFS_MAX_DEBUG_LEVEL 2
+>=20
+> +#if defined (_WIN32)
+> +#define nfs_stat __stat64
+> +#else
+> +#define nfs_stat stat
+> +#endif
+> +
+> typedef struct NFSClient {
+>     struct nfs_context *context;
+>     struct nfsfh *fh;
+> @@ -58,7 +66,7 @@ typedef struct NFSClient {
+>     bool has_zero_init;
+>     AioContext *aio_context;
+>     QemuMutex mutex;
+> -    blkcnt_t st_blocks;
+> +    int64_t st_size;
+>     bool cache_used;
+>     NFSServer *server;
+>     char *path;
+> @@ -70,7 +78,7 @@ typedef struct NFSRPC {
+>     int ret;
+>     int complete;
+>     QEMUIOVector *iov;
+> -    struct stat *st;
+> +    struct nfs_stat *st;
+>     Coroutine *co;
+>     NFSClient *client;
+> } NFSRPC;
+> @@ -419,7 +427,7 @@ static int64_t nfs_client_open(NFSClient *client, =
+BlockdevOptionsNfs *opts,
+>                                int flags, int open_flags, Error =
+**errp)
+> {
+>     int64_t ret =3D -EINVAL;
+> -    struct stat st;
+> +    struct nfs_stat st;
+>     char *file =3D NULL, *strp =3D NULL;
+>=20
+>     qemu_mutex_init(&client->mutex);
+> @@ -545,7 +553,7 @@ static int64_t nfs_client_open(NFSClient *client, =
+BlockdevOptionsNfs *opts,
+>     }
+>=20
+>     ret =3D DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
+> -    client->st_blocks =3D st.st_blocks;
+> +    client->st_size =3D st.st_size;
+>     client->has_zero_init =3D S_ISREG(st.st_mode);
+>     *strp =3D '/';
+>     goto out;
+> @@ -729,11 +737,11 @@ static int64_t =
+nfs_get_allocated_file_size(BlockDriverState *bs)
+> {
+>     NFSClient *client =3D bs->opaque;
+>     NFSRPC task =3D {0};
+> -    struct stat st;
+> +    struct nfs_stat st;
+>=20
+>     if (bdrv_is_read_only(bs) &&
+>         !(bs->open_flags & BDRV_O_NOCACHE)) {
+> -        return client->st_blocks * 512;
+> +        return client->st_size;
+>     }
+>=20
+>     task.bs =3D bs;
+> @@ -746,7 +754,7 @@ static int64_t =
+nfs_get_allocated_file_size(BlockDriverState *bs)
+>     nfs_set_events(client);
+>     BDRV_POLL_WHILE(bs, !task.complete);
+>=20
+> -    return (task.ret < 0 ? task.ret : st.st_blocks * 512);
+> +    return (task.ret < 0 ? task.ret : st.st_size);
+> }
+>=20
+> static int coroutine_fn
+> @@ -778,7 +786,7 @@ static int nfs_reopen_prepare(BDRVReopenState =
+*state,
+>                               BlockReopenQueue *queue, Error **errp)
+> {
+>     NFSClient *client =3D state->bs->opaque;
+> -    struct stat st;
+> +    struct nfs_stat st;
+>     int ret =3D 0;
+>=20
+>     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
+> @@ -800,7 +808,7 @@ static int nfs_reopen_prepare(BDRVReopenState =
+*state,
+>                        nfs_get_error(client->context));
+>             return ret;
+>         }
+> -        client->st_blocks =3D st.st_blocks;
+> +        client->st_size =3D st.st_size;
+>     }
+>=20
+>     return 0;
+> --=20
+> 2.28.0.windows.1
+>=20
+
+
+NACK. st_blocks and st_size is not the same. st_blocks is the number of =
+allocated blocks on disk. st_size is the virtual size of a file as it =
+may contain holes.
+I think the appropriate fix is to not implement =
+nfs_get_allocated_file_size on WIN32. Its not mandatory.
+
+Peter
+
 
 
