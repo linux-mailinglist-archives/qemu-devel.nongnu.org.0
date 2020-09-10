@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA86264FD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:52:23 +0200 (CEST)
-Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC75264FDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:54:04 +0200 (CEST)
+Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGScI-000081-Qo
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
+	id 1kGSdu-0003ZK-Fx
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSa2-0004jf-BK
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49453)
+ id 1kGSa3-0004m3-3w
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40081
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSZz-0000cF-TH
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:01 -0400
+ id 1kGSa1-0000cO-5N
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599767398;
+ s=mimecast20190719; t=1599767400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/DVmnWXbjfp4IFN03k1SQobCGFF9J4I2dpJoYqkax8Q=;
- b=NJjOPZv19b44s/AWelyUM3CI5yaucVQa+uflWx5O2jjB/eZg7PiKz1N6ivHHAW/dNS/T+8
- Ed6bS+5iS9rhYaLjZuX0TrRIBPrwm6wWyuS/toJLh42C/DL7LbupcNlVkSXy/xPM/id+5l
- VjL7BeKhdiorLSFEck2BoIpOJmla79U=
+ bh=tO1cF4uLddeS/rfTwEY8zoXQ+27FQblhXU4hYJJCTzo=;
+ b=GdnEgjja+HSS5RFY6t5cyq0r2dLZi0KG0EXKMQO2wjOL1JXSIbZYoKkaWkvM16+v1xL9dY
+ OkyqmbJpFZrdckE7OgUg0wPxxTm4NkRj75Iu5XHxdWbJZ0ehpeRmjVFXedvUvMimaUgSd5
+ H0dR/gXiChOxpZ4OIKfXC5qQIBY2R14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-3Fb4d7tGM_a1Wwq9NuLMLg-1; Thu, 10 Sep 2020 15:49:57 -0400
-X-MC-Unique: 3Fb4d7tGM_a1Wwq9NuLMLg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-451-WF6L2t5vMvGKhAiply5Tlg-1; Thu, 10 Sep 2020 15:49:58 -0400
+X-MC-Unique: WF6L2t5vMvGKhAiply5Tlg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DA958CCC24;
- Thu, 10 Sep 2020 19:49:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 763FB1007B00;
+ Thu, 10 Sep 2020 19:49:57 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4090819C4F;
- Thu, 10 Sep 2020 19:49:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38FF37EB7A;
+ Thu, 10 Sep 2020 19:49:57 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/18] chardev: Rename PARALLEL_CHARDEV to CHARDEV_PARALLEL
-Date: Thu, 10 Sep 2020 15:48:53 -0400
-Message-Id: <20200910194903.4104696-9-ehabkost@redhat.com>
+Subject: [PATCH 09/18] chardev: Rename PTY_CHARDEV to CHARDEV_PTY
+Date: Thu, 10 Sep 2020 15:48:54 -0400
+Message-Id: <20200910194903.4104696-10-ehabkost@redhat.com>
 In-Reply-To: <20200910194903.4104696-1-ehabkost@redhat.com>
 References: <20200910194903.4104696-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:35:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,67 +95,112 @@ TYPE_CHARDEV_* constant names and the QOM type name strings
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- chardev/char-parallel.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ chardev/char-pty.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/chardev/char-parallel.c b/chardev/char-parallel.c
-index 3d670bcb1d..7ab19339c7 100644
---- a/chardev/char-parallel.c
-+++ b/chardev/char-parallel.c
-@@ -48,7 +48,7 @@
- #include "chardev/char-parallel.h"
+diff --git a/chardev/char-pty.c b/chardev/char-pty.c
+index a2d1e7c985..4c1c877097 100644
+--- a/chardev/char-pty.c
++++ b/chardev/char-pty.c
+@@ -45,7 +45,7 @@ struct PtyChardev {
+ };
+ typedef struct PtyChardev PtyChardev;
  
- typedef struct ParallelChardev ParallelChardev;
--DECLARE_INSTANCE_CHECKER(ParallelChardev, PARALLEL_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(ParallelChardev, CHARDEV_PARALLEL,
-                          TYPE_CHARDEV_PARALLEL)
+-DECLARE_INSTANCE_CHECKER(PtyChardev, PTY_CHARDEV,
++DECLARE_INSTANCE_CHECKER(PtyChardev, CHARDEV_PTY,
+                          TYPE_CHARDEV_PTY)
  
- #if defined(__linux__)
-@@ -73,7 +73,7 @@ static int pp_hw_mode(ParallelChardev *s, uint16_t mode)
- 
- static int pp_ioctl(Chardev *chr, int cmd, void *arg)
+ static void pty_chr_state(Chardev *chr, int connected);
+@@ -62,7 +62,7 @@ static void pty_chr_timer_cancel(PtyChardev *s)
+ static gboolean pty_chr_timer(gpointer opaque)
  {
--    ParallelChardev *drv = PARALLEL_CHARDEV(chr);
-+    ParallelChardev *drv = CHARDEV_PARALLEL(chr);
-     int fd = drv->fd;
-     uint8_t b;
+     struct Chardev *chr = CHARDEV(opaque);
+-    PtyChardev *s = PTY_CHARDEV(opaque);
++    PtyChardev *s = CHARDEV_PTY(opaque);
  
-@@ -163,7 +163,7 @@ static void qemu_chr_open_pp_fd(Chardev *chr,
-                                 bool *be_opened,
-                                 Error **errp)
- {
--    ParallelChardev *drv = PARALLEL_CHARDEV(chr);
-+    ParallelChardev *drv = CHARDEV_PARALLEL(chr);
+     pty_chr_timer_cancel(s);
+     if (!s->connected) {
+@@ -74,7 +74,7 @@ static gboolean pty_chr_timer(gpointer opaque)
  
-     if (ioctl(fd, PPCLAIM) < 0) {
-         error_setg_errno(errp, errno, "not a parallel port");
-@@ -185,7 +185,7 @@ struct ParallelChardev {
+ static void pty_chr_rearm_timer(Chardev *chr, int ms)
+ {
+-    PtyChardev *s = PTY_CHARDEV(chr);
++    PtyChardev *s = CHARDEV_PTY(chr);
+     char *name;
  
- static int pp_ioctl(Chardev *chr, int cmd, void *arg)
- {
--    ParallelChardev *drv = PARALLEL_CHARDEV(chr);
-+    ParallelChardev *drv = CHARDEV_PARALLEL(chr);
-     uint8_t b;
+     pty_chr_timer_cancel(s);
+@@ -86,7 +86,7 @@ static void pty_chr_rearm_timer(Chardev *chr, int ms)
  
-     switch (cmd) {
-@@ -230,7 +230,7 @@ static void qemu_chr_open_pp_fd(Chardev *chr,
-                                 bool *be_opened,
-                                 Error **errp)
+ static void pty_chr_update_read_handler(Chardev *chr)
  {
--    ParallelChardev *drv = PARALLEL_CHARDEV(chr);
-+    ParallelChardev *drv = CHARDEV_PARALLEL(chr);
-     drv->fd = fd;
-     *be_opened = false;
- }
-@@ -286,7 +286,7 @@ static void char_parallel_finalize(Object *obj)
+-    PtyChardev *s = PTY_CHARDEV(chr);
++    PtyChardev *s = CHARDEV_PTY(chr);
+     GPollFD pfd;
+     int rc;
+     QIOChannelFile *fioc = QIO_CHANNEL_FILE(s->ioc);
+@@ -108,7 +108,7 @@ static void pty_chr_update_read_handler(Chardev *chr)
+ 
+ static int char_pty_chr_write(Chardev *chr, const uint8_t *buf, int len)
  {
- #if defined(__linux__)
+-    PtyChardev *s = PTY_CHARDEV(chr);
++    PtyChardev *s = CHARDEV_PTY(chr);
+ 
+     if (!s->connected) {
+         return len;
+@@ -118,7 +118,7 @@ static int char_pty_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ 
+ static GSource *pty_chr_add_watch(Chardev *chr, GIOCondition cond)
+ {
+-    PtyChardev *s = PTY_CHARDEV(chr);
++    PtyChardev *s = CHARDEV_PTY(chr);
+     if (!s->connected) {
+         return NULL;
+     }
+@@ -128,7 +128,7 @@ static GSource *pty_chr_add_watch(Chardev *chr, GIOCondition cond)
+ static int pty_chr_read_poll(void *opaque)
+ {
+     Chardev *chr = CHARDEV(opaque);
+-    PtyChardev *s = PTY_CHARDEV(opaque);
++    PtyChardev *s = CHARDEV_PTY(opaque);
+ 
+     s->read_bytes = qemu_chr_be_can_write(chr);
+     return s->read_bytes;
+@@ -137,7 +137,7 @@ static int pty_chr_read_poll(void *opaque)
+ static gboolean pty_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
+ {
+     Chardev *chr = CHARDEV(opaque);
+-    PtyChardev *s = PTY_CHARDEV(opaque);
++    PtyChardev *s = CHARDEV_PTY(opaque);
+     gsize len;
+     uint8_t buf[CHR_READ_BUF_LEN];
+     ssize_t ret;
+@@ -162,7 +162,7 @@ static gboolean pty_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
+ 
+ static void pty_chr_state(Chardev *chr, int connected)
+ {
+-    PtyChardev *s = PTY_CHARDEV(chr);
++    PtyChardev *s = CHARDEV_PTY(chr);
+ 
+     if (!connected) {
+         remove_fd_in_watch(chr);
+@@ -189,7 +189,7 @@ static void pty_chr_state(Chardev *chr, int connected)
+ static void char_pty_finalize(Object *obj)
+ {
      Chardev *chr = CHARDEV(obj);
--    ParallelChardev *drv = PARALLEL_CHARDEV(chr);
-+    ParallelChardev *drv = CHARDEV_PARALLEL(chr);
-     int fd = drv->fd;
+-    PtyChardev *s = PTY_CHARDEV(obj);
++    PtyChardev *s = CHARDEV_PTY(obj);
  
-     pp_hw_mode(drv, IEEE1284_MODE_COMPAT);
+     pty_chr_state(chr, 0);
+     object_unref(OBJECT(s->ioc));
+@@ -220,7 +220,7 @@ static void char_pty_open(Chardev *chr,
+     qemu_printf("char device redirected to %s (label %s)\n",
+                 pty_name, chr->label);
+ 
+-    s = PTY_CHARDEV(chr);
++    s = CHARDEV_PTY(chr);
+     s->ioc = QIO_CHANNEL(qio_channel_file_new_fd(master_fd));
+     name = g_strdup_printf("chardev-pty-%s", chr->label);
+     qio_channel_set_name(QIO_CHANNEL(s->ioc), name);
 -- 
 2.26.2
 
