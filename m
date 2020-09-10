@@ -2,59 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC3F264381
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:15:51 +0200 (CEST)
-Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DA82643A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:17:30 +0200 (CEST)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJcM-0000Ew-Gg
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:15:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45718)
+	id 1kGJdx-0003Rd-6r
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kGJb2-0007Ow-Rd
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:14:29 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:48439)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kGJb0-0000HK-TA
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:14:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=9UEUxjh3BqBUwq3V7SisMmIjEgjHU2phEw6uPPRbmFc=; b=GE9Ybbt9+8npQHlHdlV1dAH1Ql
- vnEgHLoikrFXa02eaZquOU1XkihSI5Qq4sKU5iQuamolxqO7C3eONzB57mu09NnnaUzoQp4kscJAq
- 3YSM8CjlKj+yoVYMIOsf457AMZHTjh2qq8hfKPtOJVwWmICdNYsw4SGpxhiYoaoTyrdEkAxQAydNN
- pwBSluYw5l6UkGqXkOFtSvLu1sEeGUpgcyYkyL0nI+N055fGoDsZiboS9w9NV9t7085Fyy5aAZlZp
- K/GYnqptJ19EzfQcGze2H15yAoAFXgyz0c5epeMuhAAyzAoozHhVb3wHOLZHbvU0FE//hP2ydv97k
- 1VdrrVtg==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, G 3 <programmingkidx@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
-Subject: Re: [RFC] QEMU as Xcode project on macOS
-Date: Thu, 10 Sep 2020 12:14:23 +0200
-Message-ID: <4878996.4JzhbN1UZ4@silver>
-In-Reply-To: <20200910093910.GG1083348@redhat.com>
-References: <2764135.D4k31Gy3CM@silver> <2421928.3WNMogbLRJ@silver>
- <20200910093910.GG1083348@redhat.com>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGJcy-0002BY-9g
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:16:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25216
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGJcw-0000dB-0z
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:16:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599732985;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=c3mMcRLsDOGAtW55Ge5Xf2MfbxiyZQ4QZpyj7sDXL68=;
+ b=SEeujr2OoHzS4zBbTe/O/Sf6XDIrIsESMT8YDehS+1Sw5+G4r20MpnP7zbdYjvDaW3JJZi
+ BfoC0wd1FZbxADQGVX+kGfANuRwWp02QbKzJ0puOz5xgl8Dua8g635CsFgx5IhR9G7ye31
+ W3FYcVyuHUVjAOSZGEpr0V4Z5j+lifY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-OpErvhvXM122eH3ngoTPKA-1; Thu, 10 Sep 2020 06:16:22 -0400
+X-MC-Unique: OpErvhvXM122eH3ngoTPKA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82566873084;
+ Thu, 10 Sep 2020 10:16:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-197.ams2.redhat.com
+ [10.36.112.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C6A71002D5E;
+ Thu, 10 Sep 2020 10:16:20 +0000 (UTC)
+Subject: Re: [PATCH 04/29] block/export: Add BlockExport infrastructure and
+ block-export-add
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200907182011.521007-1-kwolf@redhat.com>
+ <20200907182011.521007-5-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <410993e5-b127-da2f-160c-5910efa2bf9b@redhat.com>
+Date: Thu, 10 Sep 2020 12:16:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 05:32:37
+In-Reply-To: <20200907182011.521007-5-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 03:02:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,52 +108,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 10. September 2020 11:39:10 CEST Daniel P. Berrang=E9 wrote:
-> > Well, that's actually the whole point of this thread: saving developers'
-> > time. And I think the submodule solution is the most sane one.
-> >=20
-> > Frankly if you compile FOSS software on Mac that asks you to "just"
-> > install
-> > dependencies with Homebrew and co, it feels like you have 2 jobs: a
-> > software developer, and a distribution maintainer. The difference to the
-> > submodule though: a much larger amount of developers have to do that
-> > maintainer job (manually resolving conflicts & crashes, rollbacks, etc.=
-).
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV
+Content-Type: multipart/mixed; boundary="m49mjOsqnsJ2NvDsAS7EwMRMwciJMemye"
+
+--m49mjOsqnsJ2NvDsAS7EwMRMwciJMemye
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 07.09.20 20:19, Kevin Wolf wrote:
+> We want to have a common set of commands for all types of block exports.
+> Currently, this is only NBD, but we're going to add more types.
 >=20
-> I don't think it saves time. If you look at the bigger picture across
-> multiple project it costs time. Every project that depends on glib or
-> gtk or gnutls or etc  reinvents the wheel figuring out a suitable
-> recipe for bundling & building these dependencies. Worse is that they
-> will all do it slightly differently, or use a variety of versions, and
-> so users get a worse experiance too with different features available
-> and different things broken. Projects like HomeBrew exist precisely to
-> save developer time because these build steps can be figured out once,
-> and every project can now just rely on the well maintained HomeBrew
-> packages.
+> This patch adds the basic BlockExport and BlockExportDriver structs and
+> a QMP command block-export-add that creates a new export based on the
+> given BlockExportOptions.
+>=20
+> qmp_nbd_server_add() becomes a wrapper around qmp_block_export_add().
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  qapi/block-export.json   |  9 ++++++++
+>  include/block/export.h   | 33 +++++++++++++++++++++++++++
+>  include/block/nbd.h      |  5 ++++-
+>  block/export/export.c    | 48 ++++++++++++++++++++++++++++++++++++++++
+>  blockdev-nbd.c           | 28 +++++++++++++++++------
+>  nbd/server.c             | 15 ++++++++++++-
+>  block/export/meson.build |  1 +
+>  block/meson.build        |  2 ++
+>  meson.build              |  2 +-
+>  9 files changed, 133 insertions(+), 10 deletions(-)
+>  create mode 100644 include/block/export.h
+>  create mode 100644 block/export/export.c
+>  create mode 100644 block/export/meson.build
 
-That only works for consumers at most.
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-=46or developers it is actually the complete opposite on Mac: you start to=
-=20
-install things from somewhere, then you need to install something from=20
-somewhere else, manually build & install stuff, and you end up in conflicts=
-=20
-and misbehaviours all over the place.
 
-The way to go for devs on Mac is: 3rd party libs should not be installed in=
-to=20
-global space, rather be built & linked either as dynamic frameworks (includ=
-ing=20
-assets) or as static libs. Then apps always run with the precise version an=
-d=20
-flags of libs they were tested with and never conflict with another app's=20
-version/config of libs.
+--m49mjOsqnsJ2NvDsAS7EwMRMwciJMemye--
 
-Best regards,
-Christian Schoenebeck
+--bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9Z/PIACgkQ9AfbAGHV
+z0AwwQf/cSElRF1HE7IMgLXQgAFruGC1y/WFseyVEf3Yp5LN0VgbTgfrL+hzeuSJ
+BVGSV8PHm/rzs4e88cReN6LFJu1cNs0cZcIXg4o0iVBQZmRvGsXi7pH6nkH0Moaa
+eXaiSdVHTYumrnq9f9Gxtwcrmjt5pJlVj7FI+7JEDn/7z8DZRxedTcXFHBe1Bxzh
+KSl0Co1+twwQRPhnOYLtAYb4Oj5oKWPoaw/Pb+gW59B6GmByEZtcGpgEyeSxqbmc
+v5527cAvMCslv/WXk7vHS5sEAfsOp+sQQzSB+Kog+zEROf9l5YlP931W5bjlUeNK
+G/naIqOKc4DNNIhhphtAcVxYYk4vzg==
+=RZfJ
+-----END PGP SIGNATURE-----
+
+--bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV--
 
 
