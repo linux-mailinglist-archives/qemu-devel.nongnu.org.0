@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917F6264D9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:46:49 +0200 (CEST)
-Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F55264DC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:51:34 +0200 (CEST)
+Received: from localhost ([::1]:36890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRaq-0006Io-MJ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58132)
+	id 1kGRfR-00070H-L0
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:51:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCf-0005jG-4z
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25913
- helo=us-smtp-1.mimecast.com)
+ id 1kGRCe-0005hG-Aj
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:48 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52323
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCW-00035l-J8
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:48 -0400
+ id 1kGRCW-00035z-Qd
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599762097;
+ s=mimecast20190719; t=1599762098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F3sKMxahOjYTwSinktMwxAbRSsAgIiqhInGAWsm1MF0=;
- b=YjyNbw4lUENXUocVQrqMSaSr7Y2k1RruurW6XILDru94q0haLryLerFOexT+hwd4sQHkk0
- XhqXMA/f1xDKxhI0PCsBqUqvbxqdQj+eh4MR+NnsLjcXqHrYQuejInQBaSZuAFpLJ23HHO
- adCLlhupmWYTt4Gxz1SobPmNrBwPnlA=
+ bh=l3+rjCng41Ul0hAk/KtTt47/0GlS9R28kPcYZE4pXD0=;
+ b=id+wDMD7lc37aI9kjKbC23gP6TihopVb8NSy1s9C7WPTh4rdm0jmHA0em3prigJy53vwaq
+ N7wverV777T2GVLq3unIkFkIqDuQR0lrrUQYMCigma26tBOxRPeYC/a6XFSNWovmCZN0aR
+ dWTTdbD49uoRDi4MOdEGpIdpjrhckyM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-VR8uzkhSPGuzlz3E1IvfuA-1; Thu, 10 Sep 2020 14:21:33 -0400
-X-MC-Unique: VR8uzkhSPGuzlz3E1IvfuA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-541-lvlUklzKOseOAO3PAOQfUw-1; Thu, 10 Sep 2020 14:21:35 -0400
+X-MC-Unique: lvlUklzKOseOAO3PAOQfUw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10FAC801FD4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF43981CAFF;
  Thu, 10 Sep 2020 18:21:33 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2C125C1BD;
- Thu, 10 Sep 2020 18:21:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB0691002D40;
+ Thu, 10 Sep 2020 18:21:33 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 15/33] ap-device: Rename AP_DEVICE_TYPE to TYPE_AP_DEVICE
-Date: Thu, 10 Sep 2020 14:20:54 -0400
-Message-Id: <20200910182112.4030917-16-ehabkost@redhat.com>
+Subject: [PULL 16/33] dev-smartcard-reader: Rename CCID_DEV_NAME to
+ TYPE_USB_CCID_DEV
+Date: Thu, 10 Sep 2020 14:20:55 -0400
+Message-Id: <20200910182112.4030917-17-ehabkost@redhat.com>
 In-Reply-To: <20200910182112.4030917-1-ehabkost@redhat.com>
 References: <20200910182112.4030917-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:07:42
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,8 +83,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,62 +93,48 @@ This will make the type name constant consistent with the name of
 the type checking macro.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200902224311.1321159-6-ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200902224311.1321159-7-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/s390x/ap-device.h | 4 ++--
- hw/s390x/ap-device.c         | 2 +-
- hw/vfio/ap.c                 | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ hw/usb/dev-smartcard-reader.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/s390x/ap-device.h b/include/hw/s390x/ap-device.h
-index fb250a20f3..e502745de5 100644
---- a/include/hw/s390x/ap-device.h
-+++ b/include/hw/s390x/ap-device.h
-@@ -14,7 +14,7 @@
- #include "hw/qdev-core.h"
- #include "qom/object.h"
+diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
+index 432508c478..59b2248f34 100644
+--- a/hw/usb/dev-smartcard-reader.c
++++ b/hw/usb/dev-smartcard-reader.c
+@@ -60,10 +60,10 @@ do { \
+ #define D_MORE_INFO 3
+ #define D_VERBOSE 4
  
--#define AP_DEVICE_TYPE       "ap-device"
-+#define TYPE_AP_DEVICE       "ap-device"
- 
- struct APDevice {
-     DeviceState parent_obj;
-@@ -22,6 +22,6 @@ struct APDevice {
- typedef struct APDevice APDevice;
- 
- DECLARE_INSTANCE_CHECKER(APDevice, AP_DEVICE,
--                         AP_DEVICE_TYPE)
-+                         TYPE_AP_DEVICE)
- 
- #endif /* HW_S390X_AP_DEVICE_H */
-diff --git a/hw/s390x/ap-device.c b/hw/s390x/ap-device.c
-index fc0b41e937..237d1f19c5 100644
---- a/hw/s390x/ap-device.c
-+++ b/hw/s390x/ap-device.c
-@@ -21,7 +21,7 @@ static void ap_class_init(ObjectClass *klass, void *data)
+-#define CCID_DEV_NAME "usb-ccid"
++#define TYPE_USB_CCID_DEV "usb-ccid"
+ typedef struct USBCCIDState USBCCIDState;
+ DECLARE_INSTANCE_CHECKER(USBCCIDState, USB_CCID_DEV,
+-                         CCID_DEV_NAME)
++                         TYPE_USB_CCID_DEV)
+ /*
+  * The two options for variable sized buffers:
+  * make them constant size, for large enough constant,
+@@ -1462,7 +1462,7 @@ static void ccid_class_initfn(ObjectClass *klass, void *data)
  }
  
- static const TypeInfo ap_device_info = {
--    .name = AP_DEVICE_TYPE,
-+    .name = TYPE_AP_DEVICE,
-     .parent = TYPE_DEVICE,
-     .instance_size = sizeof(APDevice),
-     .class_size = sizeof(DeviceClass),
-diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-index f399ec0a31..68ed059b39 100644
---- a/hw/vfio/ap.c
-+++ b/hw/vfio/ap.c
-@@ -177,7 +177,7 @@ static void vfio_ap_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo ccid_info = {
+-    .name          = CCID_DEV_NAME,
++    .name          = TYPE_USB_CCID_DEV,
+     .parent        = TYPE_USB_DEVICE,
+     .instance_size = sizeof(USBCCIDState),
+     .class_init    = ccid_class_initfn,
+@@ -1495,7 +1495,7 @@ static void ccid_register_types(void)
+     type_register_static(&ccid_bus_info);
+     type_register_static(&ccid_card_type_info);
+     type_register_static(&ccid_info);
+-    usb_legacy_register(CCID_DEV_NAME, "ccid", NULL);
++    usb_legacy_register(TYPE_USB_CCID_DEV, "ccid", NULL);
+ }
  
- static const TypeInfo vfio_ap_info = {
-     .name = VFIO_AP_DEVICE_TYPE,
--    .parent = AP_DEVICE_TYPE,
-+    .parent = TYPE_AP_DEVICE,
-     .instance_size = sizeof(VFIOAPDevice),
-     .class_init = vfio_ap_class_init,
- };
+ type_init(ccid_register_types)
 -- 
 2.26.2
 
