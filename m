@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219F4264479
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:46:30 +0200 (CEST)
-Received: from localhost ([::1]:40672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E065526448E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:48:27 +0200 (CEST)
+Received: from localhost ([::1]:49318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGK61-00009M-4Z
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53264)
+	id 1kGK7u-0003lN-VJ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:48:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kGK4O-00069B-Iq
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:44:48 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47055
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGK5w-0000wC-MF
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:46:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30990
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kGK4L-0004Yb-N6
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:44:48 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGK5u-0004tf-M4
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:46:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599734682;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ox6APuBa9JS0cMoiD7coaRgGCs1a2JeKYl+jKRVTA5s=;
- b=K3eycBxvXGBxD2xkgadbXFbKw79FaPyiwFMVzSrE+hXNsPOxInHumAYZh/musEL26Vxsio
- chAy/rXFv0/zL5QJCTFtRWU3/q4QTwqj0TriUPZOMO20259c9tMZGYhH4GE3qa3f4fykmM
- SF1LedTm6wRL6PIyzQ+cWVnk9lwKva0=
+ s=mimecast20190719; t=1599734781;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=R8nLgHAtUi7CnmeK9vZpeK82RZ0UN/eACJxN1MaJp8k=;
+ b=LZ251r1Raum0RqkAWMc9ahcyqp1IpQt1ul5YNoBEPeKV9vOBhbeG3FDfavkfN+I+JojdSW
+ S0ZjrF0cku9/UEUJR471Sz4L74mRD+p8DJI4JUcwf0ZcLupgE1D8lymOYCaZT6vjPUugKn
+ oVs+6DZXSLr6MDOdio+zGo1oKbFs3yA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-LHE-1e_kMd6CeUo3OVciRQ-1; Thu, 10 Sep 2020 06:44:40 -0400
-X-MC-Unique: LHE-1e_kMd6CeUo3OVciRQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-486-HgnpihNHNfSQRxYxoTQj9g-1; Thu, 10 Sep 2020 06:46:00 -0400
+X-MC-Unique: HgnpihNHNfSQRxYxoTQj9g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7569510082EA;
- Thu, 10 Sep 2020 10:44:39 +0000 (UTC)
-Received: from localhost (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F0EA5C1CF;
- Thu, 10 Sep 2020 10:44:36 +0000 (UTC)
-Date: Thu, 10 Sep 2020 11:44:35 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v6 3/4] util/vfio-helpers: Introduce
- qemu_vfio_pci_init_msix_irqs()
-Message-ID: <20200910104435.GA45048@stefanha-x1.localdomain>
-References: <20200909142354.334859-1-philmd@redhat.com>
- <20200909142354.334859-4-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C3AF18B9F01;
+ Thu, 10 Sep 2020 10:45:59 +0000 (UTC)
+Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D1D08357B;
+ Thu, 10 Sep 2020 10:45:54 +0000 (UTC)
+Date: Thu, 10 Sep 2020 11:45:52 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC] QEMU as Xcode project on macOS
+Message-ID: <20200910104552.GH1083348@redhat.com>
+References: <2764135.D4k31Gy3CM@silver> <2421928.3WNMogbLRJ@silver>
+ <20200910093910.GG1083348@redhat.com> <4878996.4JzhbN1UZ4@silver>
+ <CAFEAcA_CPNppKwwJSu4O6U6qF-rfHR2NtG=hWBFatZmD4aiMdg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200909142354.334859-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAFEAcA_CPNppKwwJSu4O6U6qF-rfHR2NtG=hWBFatZmD4aiMdg@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 01:44:54
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 01:23:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,115 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Liviu Ionescu <ilg@livius.net>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, G 3 <programmingkidx@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---FCuugMFkClbJLl1L
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 10, 2020 at 11:35:46AM +0100, Peter Maydell wrote:
+> On Thu, 10 Sep 2020 at 11:14, Christian Schoenebeck
+> <qemu_oss@crudebyte.com> wrote:
+> > For developers it is actually the complete opposite on Mac: you start to
+> > install things from somewhere, then you need to install something from
+> > somewhere else, manually build & install stuff, and you end up in conflicts
+> > and misbehaviours all over the place.
+> 
+> This has not been my experience -- homebrew has everything, and
+> it doesn't have problems like this.
+> 
+> > The way to go for devs on Mac is: 3rd party libs should not be installed into
+> > global space, rather be built & linked either as dynamic frameworks (including
+> > assets) or as static libs. Then apps always run with the precise version and
+> > flags of libs they were tested with and never conflict with another app's
+> > version/config of libs.
+> 
+> Does Apple (or anybody else) provide a framework for doing this
+> so that developers of individual applications can just say "my
+> app needs libs X, Y, Z" and they don't have to mess around
+> finding, figuring out how to compile, and shipping the sources of
+> libs X, Y, Z? If there's a better mechanism than Homebrew for this
+> that's great, but at the moment what you seem to be saying is
+> "you should do a lot more work to manually set something up where
+> you ship the sources to all your dependencies and then build them
+> all". There's no way we're ever going to do that, it is just
+> way too much work for very little gain.
 
-On Wed, Sep 09, 2020 at 04:23:53PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> +/**
-> + * Initialize device MSIX IRQs and register event notifiers.
-> + * @irq_count: pointer to number of MSIX IRQs to initialize
-> + * @notifier: Array of @irq_count notifiers (each corresponding to a MSI=
-X IRQ)
-> +
-> + * If the number of IRQs requested exceeds the available on the device,
-> + * store the number of available IRQs in @irq_count and return -EOVERFLO=
-W.
-> + */
-> +int qemu_vfio_pci_init_msix_irqs(QEMUVFIOState *s, EventNotifier *notifi=
-er,
-> +                                 unsigned *irq_count, Error **errp)
-> +{
-> +    int r;
-> +    size_t irq_set_size;
-> +    struct vfio_irq_set *irq_set;
-> +    struct vfio_irq_info irq_info =3D {
-> +        .argsz =3D sizeof(irq_info),
-> +        .index =3D VFIO_PCI_MSIX_IRQ_INDEX
-> +    };
-> +
-> +    if (ioctl(s->device, VFIO_DEVICE_GET_IRQ_INFO, &irq_info)) {
-> +        error_setg_errno(errp, errno, "Failed to get device interrupt in=
-fo");
-> +        return -errno;
-> +    }
-> +    if (irq_info.count < *irq_count) {
-> +        error_setg(errp, "Not enough device interrupts available");
-> +        *irq_count =3D irq_info.count;
-> +        return -EOVERFLOW;
-> +    }
-> +    if (!(irq_info.flags & VFIO_IRQ_INFO_EVENTFD)) {
-> +        error_setg(errp, "Device interrupt doesn't support eventfd");
-> +        return -EINVAL;
-> +    }
-> +
-> +    irq_set_size =3D sizeof(*irq_set) + *irq_count * sizeof(int32_t);
-> +    irq_set =3D g_malloc0(irq_set_size);
-> +
-> +    /* Get to a known IRQ state */
-> +    *irq_set =3D (struct vfio_irq_set) {
-> +        .argsz =3D irq_set_size,
-> +        .flags =3D VFIO_IRQ_SET_DATA_EVENTFD | VFIO_IRQ_SET_ACTION_TRIGG=
-ER,
-> +        .index =3D irq_info.index,
-> +        .start =3D 0,
-> +        .count =3D *irq_count,
-> +    };
-> +
-> +    for (unsigned i =3D 0; i < *irq_count; i++) {
-> +        ((int32_t *)&irq_set->data)[i] =3D event_notifier_get_fd(&notifi=
-er[i]);
-> +    }
-> +    r =3D ioctl(s->device, VFIO_DEVICE_SET_IRQS, irq_set);
-> +    g_free(irq_set);
-> +    if (r <=3D 0) {
-> +        error_setg_errno(errp, errno, "Failed to setup device interrupts=
-");
-> +        return -errno;
-> +    } else if (r < *irq_count) {
-> +        error_setg(errp, "Not enough device interrupts available");
-> +        *irq_count =3D r;
-> +        return -EOVERFLOW;
-> +    }
+AFAICT both MacPorts and HomeBrew can be installed into custom locations,
+at least if you do a "from source" install of them, rather than using the
+pre-built packages.
 
-EOVERFLOW can occur in two cases: VFIO_DEVICE_GET_IRQ_INFO and
-VFIO_DEVICE_SET_IRQS.
-
-If it happens in the second case the notifier[] array has been
-registered successfully.
-
-The caller has no way of distinguishing the two cases. Therefore the
-caller doesn't know if the eventfds will be used by the kernel after
-EOVERFLOW.
-
-If the second case can ever happen then this function should probably
-call VFIO_DEVICE_SET_IRQS again with VFIO_IRQ_SET_DATA_NONE to
-unregister the eventfds before returning EOVERFLOW.
-
-STefan
-
---FCuugMFkClbJLl1L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9aA5MACgkQnKSrs4Gr
-c8jFSwgAtbtX/m48pRDuP8UIBPUINAnZiRUqVM+f6BswdP5nIFUIZqHJxiISTQBS
-QHH7lvSw6oljQ3QHQyY4vOHcJPmZCDW2hLtfy911gDvKw8Wa5EiTLCpSiesV4K/m
-AP+twhrNyLAt8UoG/xJm9s2kAbzsS7K2zPWuOjdYbbwzVfXnCZWn4qz6+E/c4QdX
-z0hDK0gNWLp8K/4opW4EKOQFxz62idNSoqhSVqDRwORRQ3sdX2Gg8k3Go+33U19f
-8vn0Qk9ayivjy8kbEHypYvaGcxDSKh5NXv301ISmmopxFowGWyFTsRkk/GTYVa2K
-DI0mYgE2hikYL9PlzYrtNwEy0jtywA==
-=AtoE
------END PGP SIGNATURE-----
-
---FCuugMFkClbJLl1L--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
