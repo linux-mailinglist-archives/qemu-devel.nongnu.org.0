@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B030D264D18
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:34:29 +0200 (CEST)
-Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B283264D32
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:38:21 +0200 (CEST)
+Received: from localhost ([::1]:38278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGROu-0001Ur-Oe
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
+	id 1kGRSe-0000yu-45
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRCA-0005Dr-SX
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:19 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28254)
+ id 1kGRCY-0005Qc-1l
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:42 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRC3-0002kZ-KX
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:18 -0400
+ id 1kGRCH-0002j9-Do
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762071; x=1631298071;
+ t=1599762085; x=1631298085;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=m4Psi2fGHIvIHYNecXt278/fZ9XwT1VoR3tJMpMyo7k=;
- b=WJdvdJpoN3KjiQxFt7DdVafHV6cwDyHeqFFdibcVBBc+LFGimV19p0UX
- v/hKrTOJYvE8RfchhJthRnCfFgqQBy0ejolsPsWSjyJB5lMqKSth6nT17
- CPLn7HMkJrERfEnc6BgVsR8EEp5ZBKxQ7b4oV/yz42rSn46FP6YT2ppQq
- 11Orv7OZXONFHTWkwuPs7LlSlivQCeQ9Oc3BdOFsSUCqlR0pU7Kyimh3a
- bMSO+uLi6dS1flgRpirhue6ptcFC0FnQQzt5l94WEb64n0V7+ywkfQ+B8
- XwSKK9sIf3LBwtyQ5qX/6P79rbc8mrbAWHzLLDJCug0cP5euVVmkrRPdm Q==;
-IronPort-SDR: oRmCEjcpOob889nvzqlcpT/CX6K6j3lt25vMLYsjaexgC3wPuiXRDMjsjXkwzZzvL3WHjKuCKm
- ew8MXjuvBF8cpFcycXdc4TeIiA0MPPkGnuYUX6amep0KOtPr979UvaaPG93CgiMIF54sc8j0qV
- JULfjVUBS1WNpRA3IyomvQ4908F4J3iu8OWAQ8zOpyxw8utY9/wyxTMUMTl5BW/CeZcRdj66yb
- v8sMWT30zhfg5ofgnmQdjLR3rJqOhG5fQTHxwuUCuwmGiJc5U8+TNtGCQxw1sU+BiNhAqSBTJl
- YSA=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979249"
+ bh=83CI6n2ELG/fVQomgA7VnyNY61J1Qy5pueTrmpjus1U=;
+ b=p/Sbst9Pvg8YIYjg+NWpcwNjgxD0209j2hfzkvKotIJl19skoogz2QDY
+ LBqYe+YRHQSaVGtxDeO+Lwlukenbpgpr1OVHI3uE1yEywD/knN4TpgdUn
+ L2CuGiKZtg5T5uaaRNdn2lOOzNsRpA0EBcnVG6Wt2RKH3u+0crw/7kLxH
+ Am65EUgC814BSuDlVnFyyNnjV3ECtGLy6cHt0nByouFNNtJgGbZL67EMD
+ fG/HII7G3CoqZheUT5G2g25NrmXZOqS96uEo21IbpzwS2/2B1ByqWTPFN
+ J3EmyVOj5JlvOx6v2GJn5aU/ZxOUV7cPr+OwmWaxJ+Nf9wFFe2dsk2n6A w==;
+IronPort-SDR: GYsQ9X6plNRpBFeU3VqYZiZS19BGdg8X4SngllLd8F1iDq2+t6/JgkTH9jRyxfsyDSaaJFWP8x
+ d3/38Q4RDSZruuV8bmpraT1k1sv5xa1kL8BSpOOKeR+tzyJehRaiQ+SH3euYwzSdf8C81WhoQt
+ fhZfkrhBT7h1K417c0QoK2oc8h7omR4gqLtbLmelW966hDvpA+SyVXN9KNO+1VqP1KKYk+9mZR
+ TIM7/GUnSYx+b0WHHAbafN4RSbKjUQNRaqmEeL9kq+93hcXB59cTw83jMbihZVWgadLSxNKI4p
+ Fas=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979250"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:21 +0800
-IronPort-SDR: GZQgmgoOl9Rrc/cEA19isCHD1Q0KoJbcZgcVK4EoRImlgikZ83+2FOCHZIKV1cb4SL/g+WIqWS
- b63DdvaAUAZQ==
+IronPort-SDR: VUvfy7ho2ml/b087SUy0YSm2hJYTgy+ADF7hPxwfdl709kaH75DdIozssG/IenXgSL91Hh4LEe
+ vmZyENDtde+A==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:38 -0700
-IronPort-SDR: ta/gvY420dGgATrcqUihxNVWRN0FaeTTP6yfGKk2iONN+qB4PK6pXzYMELSZw/Y5QONaikmfBg
- 0y4v77oINfNA==
+IronPort-SDR: mS+xXSNWWA8kp6y2LIUzxwX46ILl1sMx6znFeeGDslrLz1Wum4upvkX+nzIfbG74sBRyOjgmrp
+ jDGH4R0hqh6Q==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
- by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:21 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:22 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 25/30] hw/riscv: Move riscv_htif model to hw/char
-Date: Thu, 10 Sep 2020 11:09:33 -0700
-Message-Id: <20200910180938.584205-26-alistair.francis@wdc.com>
+Subject: [PULL 26/30] hw/riscv: Move sifive_uart model to hw/char
+Date: Thu, 10 Sep 2020 11:09:34 -0700
+Message-Id: <20200910180938.584205-27-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
@@ -97,113 +97,130 @@ From: Bin Meng <bin.meng@windriver.com>
 
 This is an effort to clean up the hw/riscv directory. Ideally it
 should only contain the RISC-V SoC / machine codes plus generic
-codes. Let's move riscv_htif model to hw/char directory.
+codes. Let's move sifive_uart model to hw/char directory.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1599129623-68957-8-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1599129623-68957-9-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/{riscv => char}/riscv_htif.h | 0
- hw/{riscv => char}/riscv_htif.c         | 2 +-
- hw/riscv/spike.c                        | 2 +-
- hw/char/Kconfig                         | 3 +++
- hw/char/meson.build                     | 1 +
- hw/riscv/Kconfig                        | 3 ---
- hw/riscv/meson.build                    | 1 -
- 7 files changed, 6 insertions(+), 6 deletions(-)
- rename include/hw/{riscv => char}/riscv_htif.h (100%)
- rename hw/{riscv => char}/riscv_htif.c (99%)
+ include/hw/{riscv => char}/sifive_uart.h | 0
+ hw/{riscv => char}/sifive_uart.c         | 2 +-
+ hw/riscv/sifive_e.c                      | 2 +-
+ hw/riscv/sifive_u.c                      | 2 +-
+ hw/char/Kconfig                          | 3 +++
+ hw/char/meson.build                      | 1 +
+ hw/riscv/Kconfig                         | 2 ++
+ hw/riscv/meson.build                     | 1 -
+ 8 files changed, 9 insertions(+), 4 deletions(-)
+ rename include/hw/{riscv => char}/sifive_uart.h (100%)
+ rename hw/{riscv => char}/sifive_uart.c (99%)
 
-diff --git a/include/hw/riscv/riscv_htif.h b/include/hw/char/riscv_htif.h
+diff --git a/include/hw/riscv/sifive_uart.h b/include/hw/char/sifive_uart.h
 similarity index 100%
-rename from include/hw/riscv/riscv_htif.h
-rename to include/hw/char/riscv_htif.h
-diff --git a/hw/riscv/riscv_htif.c b/hw/char/riscv_htif.c
+rename from include/hw/riscv/sifive_uart.h
+rename to include/hw/char/sifive_uart.h
+diff --git a/hw/riscv/sifive_uart.c b/hw/char/sifive_uart.c
 similarity index 99%
-rename from hw/riscv/riscv_htif.c
-rename to hw/char/riscv_htif.c
-index ca87a5cf9f..ba1af1cfc4 100644
---- a/hw/riscv/riscv_htif.c
-+++ b/hw/char/riscv_htif.c
-@@ -24,10 +24,10 @@
- #include "qapi/error.h"
- #include "qemu/log.h"
- #include "hw/sysbus.h"
-+#include "hw/char/riscv_htif.h"
- #include "hw/char/serial.h"
- #include "chardev/char.h"
+rename from hw/riscv/sifive_uart.c
+rename to hw/char/sifive_uart.c
+index 9350482662..3a00ba7f00 100644
+--- a/hw/riscv/sifive_uart.c
++++ b/hw/char/sifive_uart.c
+@@ -24,7 +24,7 @@
  #include "chardev/char-fe.h"
--#include "hw/riscv/riscv_htif.h"
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
+ #include "hw/hw.h"
+ #include "hw/irq.h"
+-#include "hw/riscv/sifive_uart.h"
++#include "hw/char/sifive_uart.h"
  
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 59d9d87c56..3fd152a035 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -31,11 +31,11 @@
- #include "hw/loader.h"
- #include "hw/sysbus.h"
+ /*
+  * Not yet implemented:
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 0ddcf1508d..40bbf530d4 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -39,9 +39,9 @@
+ #include "hw/misc/unimp.h"
  #include "target/riscv/cpu.h"
--#include "hw/riscv/riscv_htif.h"
  #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/spike.h"
+-#include "hw/riscv/sifive_uart.h"
+ #include "hw/riscv/sifive_e.h"
  #include "hw/riscv/boot.h"
- #include "hw/riscv/numa.h"
-+#include "hw/char/riscv_htif.h"
++#include "hw/char/sifive_uart.h"
  #include "hw/intc/sifive_clint.h"
+ #include "hw/intc/sifive_plic.h"
+ #include "hw/misc/sifive_e_prci.h"
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index faca2e829e..4f12a93188 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -46,9 +46,9 @@
+ #include "hw/misc/unimp.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+-#include "hw/riscv/sifive_uart.h"
+ #include "hw/riscv/sifive_u.h"
+ #include "hw/riscv/boot.h"
++#include "hw/char/sifive_uart.h"
+ #include "hw/intc/sifive_clint.h"
+ #include "hw/intc/sifive_plic.h"
  #include "chardev/char.h"
- #include "sysemu/arch_init.h"
 diff --git a/hw/char/Kconfig b/hw/char/Kconfig
-index 1d645554c7..91da92f617 100644
+index 91da92f617..939bc44758 100644
 --- a/hw/char/Kconfig
 +++ b/hw/char/Kconfig
-@@ -1,6 +1,9 @@
- config ESCC
-     bool
+@@ -58,3 +58,6 @@ config AVR_USART
  
-+config HTIF
-+    bool
-+
- config PARALLEL
+ config MCHP_PFSOC_MMUART
      bool
-     default y
++
++config SIFIVE_UART
++    bool
 diff --git a/hw/char/meson.build b/hw/char/meson.build
-index ae27932d00..3db623eeec 100644
+index 3db623eeec..196ac91fa2 100644
 --- a/hw/char/meson.build
 +++ b/hw/char/meson.build
-@@ -34,6 +34,7 @@ softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
+@@ -30,6 +30,7 @@ softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_uart.c'))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_uart.c'))
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
+ softmmu_ss.add(when: 'CONFIG_RENESAS_SCI', if_true: files('renesas_sci.c'))
++softmmu_ss.add(when: 'CONFIG_SIFIVE_UART', if_true: files('sifive_uart.c'))
+ softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
  softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
  softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmuart.c'))
- 
-+specific_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
- specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
- specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
- specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
 diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 23b7027e11..a0e256c344 100644
+index a0e256c344..a0461578a6 100644
 --- a/hw/riscv/Kconfig
 +++ b/hw/riscv/Kconfig
-@@ -1,6 +1,3 @@
--config HTIF
--    bool
--
- config HART
-     bool
+@@ -15,6 +15,7 @@ config SIFIVE_E
+     select SIFIVE_CLINT
+     select SIFIVE_GPIO
+     select SIFIVE_PLIC
++    select SIFIVE_UART
+     select SIFIVE_E_PRCI
+     select UNIMP
  
+@@ -27,6 +28,7 @@ config SIFIVE_U
+     select SIFIVE_GPIO
+     select SIFIVE_PDMA
+     select SIFIVE_PLIC
++    select SIFIVE_UART
+     select SIFIVE_U_OTP
+     select SIFIVE_U_PRCI
+     select UNIMP
 diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-index df3f89d062..90df67acc7 100644
+index 90df67acc7..967572d4f6 100644
 --- a/hw/riscv/meson.build
 +++ b/hw/riscv/meson.build
-@@ -8,7 +8,6 @@ riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_test.c'))
- riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_uart.c'))
+@@ -5,7 +5,6 @@ riscv_ss.add(when: 'CONFIG_HART', if_true: files('riscv_hart.c'))
+ riscv_ss.add(when: 'CONFIG_OPENTITAN', if_true: files('opentitan.c'))
+ riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c'))
+ riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_test.c'))
+-riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_uart.c'))
  riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
  riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
--riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('riscv_htif.c'))
  riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c'))
- riscv_ss.add(when: 'CONFIG_MICROCHIP_PFSOC', if_true: files('microchip_pfsoc.c'))
- 
 -- 
 2.28.0
 
