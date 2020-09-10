@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D0726414D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:16:54 +0200 (CEST)
-Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7DD264176
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:19:50 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGIhJ-0000iT-2d
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44844)
+	id 1kGIk9-0003gB-Nx
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kGIfq-0007no-VI
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:15:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20147)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kGIj9-00033l-Lc
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:18:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22254
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kGIfk-0005Lb-LA
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:15:22 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kGIj5-00072e-Ud
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:18:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599729315;
+ s=mimecast20190719; t=1599729522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SYKdmGzXSQ7HCv5LiVdGo0/EBV8908+KYpdowo+Lb5Q=;
- b=KRp99s2AxlVYho5GPfAP2QDRsEC/3T1CXEa8JvK+Dxhg3b2Bp9A+LO1/HAxBj0qqujIdfP
- djVfEWAC0oRSf2MvgccD4Rxxi9ULmtfgiXL96HVXXqjLAhIf1JugX4UFesVYzZDY6kQooJ
- +Hx7D79ImTsaV3zY3hjvchQXbXsi8eI=
+ in-reply-to:in-reply-to:references:references;
+ bh=uzE2BQxbH+WqIhzfhK97g2ym6oIhgiFzVgIEVTbVPvE=;
+ b=BAXQ83qL7ovrKubJDIeq5C8/N+5CZ+zxQZjJGzFml4NWrk1M/D8g1afpWYXZ3ap5rue2GY
+ P/AzuFtxgptZ65JB/K1tn9UJFSSv5+Yj6Qfx5fOP3JglN+4S1p6LGWe+1MVXcccyqXckcx
+ NdPXkVbpYMWW2J8TOdBPp2jfgZ//KFs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-4GudkGWIPOaKFA4a1Sq7HQ-1; Thu, 10 Sep 2020 05:15:13 -0400
-X-MC-Unique: 4GudkGWIPOaKFA4a1Sq7HQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-401-50YMkbwWNdG6P5nHSMGpeA-1; Thu, 10 Sep 2020 05:18:41 -0400
+X-MC-Unique: 50YMkbwWNdG6P5nHSMGpeA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE2AA109106F;
- Thu, 10 Sep 2020 09:15:12 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-112-29.ams2.redhat.com [10.36.112.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B60E3838D6;
- Thu, 10 Sep 2020 09:15:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1126618BA28F;
+ Thu, 10 Sep 2020 09:18:40 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-112-29.ams2.redhat.com [10.36.112.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 22BC260BF1;
+ Thu, 10 Sep 2020 09:18:34 +0000 (UTC)
+Date: Thu, 10 Sep 2020 11:18:33 +0200
 From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL v3] Block layer patches
-Date: Thu, 10 Sep 2020 11:15:09 +0200
-Message-Id: <20200910091509.14196-1-kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 1/4] docs: lift block-core.json rST header into parents
+Message-ID: <20200910091833.GD7100@linux.fritz.box>
+References: <20200908093113.47564-2-stefanha@redhat.com>
+ <f5de1038-5bf3-8bd4-d664-45d6f201ae9b@redhat.com>
+ <20200908142308.GD8175@linux.fritz.box>
+ <87h7s7z9g4.fsf@dusky.pond.sub.org>
+ <20200909075222.GA5219@linux.fritz.box>
+ <87v9gnw3q2.fsf@dusky.pond.sub.org>
+ <20200909132225.GE5219@linux.fritz.box>
+ <87y2ljt1fi.fsf@dusky.pond.sub.org>
+ <20200909153859.GF5219@linux.fritz.box>
+ <87pn6uryzj.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <87pn6uryzj.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 00:49:43
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 03:02:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,157 +87,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Kashyap Chamarthy <kchamart@redhat.com>,
+ afrosi@redhat.com, Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7c37270b3fbe3d034ba80e488761461676e21eb4:
+Am 10.09.2020 um 07:18 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 09.09.2020 um 17:28 hat Markus Armbruster geschrieben:
+> >> Kevin Wolf <kwolf@redhat.com> writes:
+> >> 
+> >> > Am 09.09.2020 um 14:10 hat Markus Armbruster geschrieben:
+> >> >> Kevin Wolf <kwolf@redhat.com> writes:
+> [...]
+> >> >> > There are orders that I can't get this way.
+> >> >> 
+> >> >> You're right, ordering by first include is not completely general.
+> >> >> 
+> >> >> >                                             For example, if I want to
+> >> >> > have "Block devices" documented before "Background jobs", there is no
+> >> >> > way to add includes to actually get this order without having
+> >> >> > "Background jobs" as a subsection in "Block devices".
+> >> >> 
+> >> >> "Background jobs" is job.json.
+> >> >> 
+> >> >> "Block devices" is block.json, which includes block-core.json, which
+> >> >> includes job.json.
+> >> >> 
+> >> >> To be able to put "Block devices" first, you'd have to break the chain
+> >> >> from block.json to job.json.  Which might even be an improvement:
+> >> >> 
+> >> >> $ wc -l qapi/*.json | awk '$1 >= 1000 { print }'
+> >> >>   5527 qapi/block-core.json
+> >> >>   1722 qapi/migration.json
+> >> >>   1617 qapi/misc.json
+> >> >>   1180 qapi/ui.json
+> >> >>  17407 total
+> >> >> 
+> >> >> Could we split block-core.json into several cohesive parts?
+> >> >
+> >> > Possibly. However, while it would be an improvement generally speaking,
+> >> > how does this change the specific problem? All of the smaller files will
+> >> > be included by block.json (or whatever file provides the "Block devices"
+> >> > chapter in the documentation) and at least one of them will still have
+> >> > to include job.json.
+> >> 
+> >> Splitting block-core.json can help only if other modules then use less
+> >> than all the parts.  In particular, as long as block.json includes the
+> >> same stuff, it'll surely still include jobs.json.  Could it include
+> >> less?
+> >
+> > Not if the documentation wants to have a single chapter for the block
+> > layer instead of many small block related top-level chapters.
+> >
+> > Otherwise we could include some things directly from qapi-schema.json,
+> > but obviously, that would still have to be after job.json for some
+> > parts.
+> 
+> You're right.
+> 
+> Being unable to talk about something before you define it may not be all
+> bad, though :)
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20200904-pull-request' into staging (2020-09-06 16:23:55 +0100)
+Yes, as long as the resulting order is what we want anyway, this is not
+a problem.
 
-are available in the Git repository at:
+I'm just not sure if we will always be aware of the include structure
+without tool support so that we would always declare the dependencies
+first. Nobody checks the headlines in the documentation after making
+schema changes.
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
-
-for you to fetch changes up to b9be6faed1a069526efdc80df7318b16afc6e116:
-
-  block/qcow2-cluster: Add missing "fallthrough" annotation (2020-09-10 11:11:13 +0200)
-
-----------------------------------------------------------------
-Block layer patches:
-
-- qemu-img create: Fail gracefully when backing file is an empty string
-- Fixes related to filter block nodes ("Deal with filters" series)
-- block/nvme: Various cleanups required to use multiple queues
-- block/nvme: Use NvmeBar structure from "block/nvme.h"
-- file-win32: Fix "locking" option
-- iotests: Allow running from different directory
-
-----------------------------------------------------------------
-Connor Kuehl (1):
-      block: Raise an error when backing file parameter is an empty string
-
-Kevin Wolf (2):
-      iotests: Allow running from different directory
-      file-win32: Fix "locking" option
-
-Max Reitz (43):
-      block: Add child access functions
-      block: Add chain helper functions
-      block: bdrv_cow_child() for bdrv_has_zero_init()
-      block: bdrv_set_backing_hd() is about bs->backing
-      block: Include filters when freezing backing chain
-      block: Drop bdrv_is_encrypted()
-      block: Add bdrv_supports_compressed_writes()
-      throttle: Support compressed writes
-      copy-on-read: Support compressed writes
-      block: Use bdrv_filter_(bs|child) where obvious
-      block: Use CAFs in block status functions
-      stream: Deal with filters
-      block: Use CAFs when working with backing chains
-      block: Use bdrv_cow_child() in bdrv_co_truncate()
-      block: Re-evaluate backing file handling in reopen
-      block: Flush all children in generic code
-      vmdk: Drop vmdk_co_flush()
-      block: Iterate over children in refresh_limits
-      block: Use CAFs in bdrv_refresh_filename()
-      block: Use CAF in bdrv_co_rw_vmstate()
-      block/snapshot: Fix fallback
-      block: Use CAFs for debug breakpoints
-      block: Improve get_allocated_file_size's default
-      block/null: Implement bdrv_get_allocated_file_size
-      blockdev: Use CAF in external_snapshot_prepare()
-      block: Report data child for query-blockstats
-      block: Use child access functions for QAPI queries
-      block-copy: Use CAF to find sync=top base
-      mirror: Deal with filters
-      backup: Deal with filters
-      commit: Deal with filters
-      nbd: Use CAF when looking for dirty bitmap
-      qemu-img: Use child access functions
-      block: Drop backing_bs()
-      blockdev: Fix active commit choice
-      block: Inline bdrv_co_block_status_from_*()
-      block: Leave BDS.backing_{file,format} constant
-      iotests: Test that qcow2's data-file is flushed
-      iotests: Let complete_and_wait() work with commit
-      iotests: Add filter commit test cases
-      iotests: Add filter mirror test cases
-      iotests: Add test for commit in sub directory
-      iotests: Test committing to overridden backing
-
-Philippe Mathieu-Daudé (18):
-      block/nvme: Replace magic value by SCALE_MS definition
-      block/nvme: Avoid further processing if trace event not enabled
-      block/nvme: Let nvme_create_queue_pair() fail gracefully
-      block/nvme: Define INDEX macros to ease code review
-      block/nvme: Improve error message when IO queue creation failed
-      block/nvme: Use common error path in nvme_add_io_queue()
-      block/nvme: Rename local variable
-      block/nvme: Use union of NvmeIdCtrl / NvmeIdNs structures
-      block/nvme: Replace qemu_try_blockalign0 by qemu_try_blockalign/memset
-      block/nvme: Replace qemu_try_blockalign(bs) by qemu_try_memalign(pg_sz)
-      block/nvme: Simplify nvme_init_queue() arguments
-      block/nvme: Replace BDRV_POLL_WHILE by AIO_WAIT_WHILE
-      block/nvme: Simplify nvme_create_queue_pair() arguments
-      block/nvme: Extract nvme_poll_queue()
-      block/nvme: Use an array of EventNotifier
-      block/nvme: Group controller registers in NVMeRegs structure
-      block/nvme: Use generic NvmeBar structure
-      block/nvme: Pair doorbell registers
-
-Thomas Huth (1):
-      block/qcow2-cluster: Add missing "fallthrough" annotation
-
- qapi/block-core.json           |  58 +++--
- include/block/block.h          |   2 +-
- include/block/block_int.h      |  95 +++++---
- block.c                        | 492 +++++++++++++++++++++++++++++++++--------
- block/backup-top.c             |   4 +-
- block/backup.c                 |   9 +-
- block/blkdebug.c               |   7 +-
- block/blklogwrites.c           |   1 -
- block/block-backend.c          |   7 +-
- block/block-copy.c             |   4 +-
- block/commit.c                 |  95 +++++---
- block/copy-on-read.c           |  13 +-
- block/file-win32.c             |  22 +-
- block/filter-compress.c        |   2 -
- block/io.c                     | 142 ++++++------
- block/mirror.c                 | 119 +++++++---
- block/monitor/block-hmp-cmds.c |   2 +-
- block/null.c                   |   7 +
- block/nvme.c                   | 248 +++++++++++----------
- block/qapi.c                   |  74 +++++--
- block/qcow2-cluster.c          |   1 +
- block/snapshot.c               | 104 +++++++--
- block/stream.c                 |  63 ++++--
- block/throttle.c               |  11 +-
- block/vmdk.c                   |  16 --
- blockdev.c                     | 101 +++++++--
- migration/block-dirty-bitmap.c |   8 +-
- nbd/server.c                   |   6 +-
- qemu-img.c                     |  43 ++--
- tests/qemu-iotests/iotests.py  |  10 +-
- tests/qemu-iotests/020         |  44 ++++
- tests/qemu-iotests/020.out     |  10 +
- tests/qemu-iotests/040         | 238 ++++++++++++++++++++
- tests/qemu-iotests/040.out     |   4 +-
- tests/qemu-iotests/041         | 146 +++++++++++-
- tests/qemu-iotests/041.out     |   4 +-
- tests/qemu-iotests/049         |   4 +
- tests/qemu-iotests/049.out     |   5 +
- tests/qemu-iotests/153.out     |   2 +-
- tests/qemu-iotests/184         |   3 +-
- tests/qemu-iotests/184.out     |  14 +-
- tests/qemu-iotests/204.out     |   1 +
- tests/qemu-iotests/228         |   6 +-
- tests/qemu-iotests/228.out     |   6 +-
- tests/qemu-iotests/244         |  49 ++++
- tests/qemu-iotests/244.out     |   7 +
- tests/qemu-iotests/245         |   4 +-
- tests/qemu-iotests/273.out     |   4 +-
- tests/qemu-iotests/check       |   2 +-
- 49 files changed, 1764 insertions(+), 555 deletions(-)
+Kevin
 
 
