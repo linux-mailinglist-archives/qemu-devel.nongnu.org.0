@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123CC263E0D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:08:17 +0200 (CEST)
-Received: from localhost ([::1]:36948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A492F263DF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:04:56 +0200 (CEST)
+Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGGgq-0004Se-5t
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59690)
+	id 1kGGdb-0001pj-OK
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1kGGan-0005AH-2B; Thu, 10 Sep 2020 03:02:01 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:60441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1kGGak-0001jp-7j; Thu, 10 Sep 2020 03:02:00 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from [82.141.7.17] ([79.200.90.160]) (authenticated user pl@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
- Thu, 10 Sep 2020 09:01:38 +0200
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [PATCH v2 01/21] block: Fixes nfs compiling error on msys2/mingw
-From: Peter Lieven <pl@kamp.de>
-In-Reply-To: <20200909094617.1582-2-luoyonggang@gmail.com>
-Date: Thu, 10 Sep 2020 09:01:39 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D8F68C97-16F7-48DA-A003-275A7C0D08F3@kamp.de>
-References: <20200909094617.1582-1-luoyonggang@gmail.com>
- <20200909094617.1582-2-luoyonggang@gmail.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 03:01:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGGcX-0000XC-LC
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:03:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGGcV-0001x0-HH
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:03:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599721425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XnZuoByvnH2UamRar6RMTxHRakWlHPGS7I+uk0rbUXc=;
+ b=Cv8VCsAutKlJX6j6VyE9o3/+MmOwLP7EjvQax1++zIgXph0qsrTF41hem2OSTOpnv7utLl
+ V20svMohyMZdcwXQZaxIlyk9cArVGGuqv/A7OT5X+MixNR9T08yTCwwTMpWDnjel7qbrBJ
+ 1LWBXt7yNcYSNwFntnxzSNj1Y3fQc68=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-GYpHCe46Mo2XAVHffXpUmg-1; Thu, 10 Sep 2020 03:03:41 -0400
+X-MC-Unique: GYpHCe46Mo2XAVHffXpUmg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7270B802B60;
+ Thu, 10 Sep 2020 07:03:39 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-86.ams2.redhat.com [10.36.112.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C1B183572;
+ Thu, 10 Sep 2020 07:03:29 +0000 (UTC)
+Subject: Re: [PATCH 1/6] hw/ssi/aspeed_smc: Rename max_slaves as max_devices
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200910070131.435543-1-philmd@redhat.com>
+ <20200910070131.435543-2-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <1ffe50ce-0f95-6e3b-665a-0a86573f97e7@redhat.com>
+Date: Thu, 10 Sep 2020 09:03:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200910070131.435543-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 00:49:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,181 +80,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu block <qemu-block@nongnu.org>,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> Am 09.09.2020 um 11:45 schrieb Yonggang Luo <luoyonggang@gmail.com>:
->=20
-> These compiling errors are fixed:
-> ../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
->   27 | #include <poll.h>
->      |          ^~~~~~~~
-> compilation terminated.
->=20
-> ../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
->   63 |     blkcnt_t st_blocks;
->      |     ^~~~~~~~
-> ../block/nfs.c: In function 'nfs_client_open':
-> ../block/nfs.c:550:27: error: 'struct _stat64' has no member named =
-'st_blocks'
->  550 |     client->st_blocks =3D st.st_blocks;
->      |                           ^
-> ../block/nfs.c: In function 'nfs_get_allocated_file_size':
-> ../block/nfs.c:751:41: error: 'struct _stat64' has no member named =
-'st_blocks'
->  751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
->      |                                         ^
-> ../block/nfs.c: In function 'nfs_reopen_prepare':
-> ../block/nfs.c:805:31: error: 'struct _stat64' has no member named =
-'st_blocks'
->  805 |         client->st_blocks =3D st.st_blocks;
->      |                               ^
-> ../block/nfs.c: In function 'nfs_get_allocated_file_size':
-> ../block/nfs.c:752:1: error: control reaches end of non-void function =
-[-Werror=3Dreturn-type]
->  752 | }
->      | ^
->=20
-> On msys2/mingw, there is no st_blocks in struct _stat64, so we use =
-consistence st_size instead.
->=20
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+On 10/09/2020 09.01, Philippe Mathieu-Daudé wrote:
+> In order to use inclusive terminology, rename max_slaves
+> as max_devices.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
-> block/nfs.c | 26 +++++++++++++++++---------
-> 1 file changed, 17 insertions(+), 9 deletions(-)
->=20
-> diff --git a/block/nfs.c b/block/nfs.c
-> index 61a249a9fc..34b2cd5708 100644
-> --- a/block/nfs.c
-> +++ b/block/nfs.c
-> @@ -24,7 +24,9 @@
->=20
-> #include "qemu/osdep.h"
->=20
-> +#if !defined(_WIN32)
-> #include <poll.h>
-> +#endif
-> #include "qemu/config-file.h"
-> #include "qemu/error-report.h"
-> #include "qapi/error.h"
-> @@ -51,6 +53,12 @@
-> #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)
-> #define QEMU_NFS_MAX_DEBUG_LEVEL 2
->=20
-> +#if defined (_WIN32)
-> +#define nfs_stat __stat64
-> +#else
-> +#define nfs_stat stat
-> +#endif
-> +
-> typedef struct NFSClient {
->     struct nfs_context *context;
->     struct nfsfh *fh;
-> @@ -58,7 +66,7 @@ typedef struct NFSClient {
->     bool has_zero_init;
->     AioContext *aio_context;
->     QemuMutex mutex;
-> -    blkcnt_t st_blocks;
-> +    int64_t st_size;
->     bool cache_used;
->     NFSServer *server;
->     char *path;
-> @@ -70,7 +78,7 @@ typedef struct NFSRPC {
->     int ret;
->     int complete;
->     QEMUIOVector *iov;
-> -    struct stat *st;
-> +    struct nfs_stat *st;
->     Coroutine *co;
->     NFSClient *client;
-> } NFSRPC;
-> @@ -419,7 +427,7 @@ static int64_t nfs_client_open(NFSClient *client, =
-BlockdevOptionsNfs *opts,
->                                int flags, int open_flags, Error =
-**errp)
-> {
->     int64_t ret =3D -EINVAL;
-> -    struct stat st;
-> +    struct nfs_stat st;
->     char *file =3D NULL, *strp =3D NULL;
->=20
->     qemu_mutex_init(&client->mutex);
-> @@ -545,7 +553,7 @@ static int64_t nfs_client_open(NFSClient *client, =
-BlockdevOptionsNfs *opts,
->     }
->=20
->     ret =3D DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
-> -    client->st_blocks =3D st.st_blocks;
-> +    client->st_size =3D st.st_size;
->     client->has_zero_init =3D S_ISREG(st.st_mode);
->     *strp =3D '/';
->     goto out;
-> @@ -729,11 +737,11 @@ static int64_t =
-nfs_get_allocated_file_size(BlockDriverState *bs)
-> {
->     NFSClient *client =3D bs->opaque;
->     NFSRPC task =3D {0};
-> -    struct stat st;
-> +    struct nfs_stat st;
->=20
->     if (bdrv_is_read_only(bs) &&
->         !(bs->open_flags & BDRV_O_NOCACHE)) {
-> -        return client->st_blocks * 512;
-> +        return client->st_size;
->     }
->=20
->     task.bs =3D bs;
-> @@ -746,7 +754,7 @@ static int64_t =
-nfs_get_allocated_file_size(BlockDriverState *bs)
->     nfs_set_events(client);
->     BDRV_POLL_WHILE(bs, !task.complete);
->=20
-> -    return (task.ret < 0 ? task.ret : st.st_blocks * 512);
-> +    return (task.ret < 0 ? task.ret : st.st_size);
-> }
->=20
-> static int coroutine_fn
-> @@ -778,7 +786,7 @@ static int nfs_reopen_prepare(BDRVReopenState =
-*state,
->                               BlockReopenQueue *queue, Error **errp)
-> {
->     NFSClient *client =3D state->bs->opaque;
-> -    struct stat st;
-> +    struct nfs_stat st;
->     int ret =3D 0;
->=20
->     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
-> @@ -800,7 +808,7 @@ static int nfs_reopen_prepare(BDRVReopenState =
-*state,
->                        nfs_get_error(client->context));
->             return ret;
->         }
-> -        client->st_blocks =3D st.st_blocks;
-> +        client->st_size =3D st.st_size;
->     }
->=20
->     return 0;
-> --=20
-> 2.28.0.windows.1
->=20
+>  include/hw/ssi/aspeed_smc.h |  2 +-
+>  hw/ssi/aspeed_smc.c         | 40 ++++++++++++++++++-------------------
+>  2 files changed, 21 insertions(+), 21 deletions(-)
 
-
-NACK. st_blocks and st_size is not the same. st_blocks is the number of =
-allocated blocks on disk. st_size is the virtual size of a file as it =
-may contain holes.
-I think the appropriate fix is to not implement =
-nfs_get_allocated_file_size on WIN32. Its not mandatory.
-
-Peter
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
