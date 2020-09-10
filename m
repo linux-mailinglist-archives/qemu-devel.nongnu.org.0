@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24069264DDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:54:24 +0200 (CEST)
-Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31AEA264DBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:50:30 +0200 (CEST)
+Received: from localhost ([::1]:60178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRiB-0003bI-5i
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58262)
+	id 1kGReP-0004ks-6B
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:50:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCq-0005vX-Ho
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:22:00 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45038
+ id 1kGRCo-0005u6-Kx
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22483
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCZ-00036s-EE
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:22:00 -0400
+ id 1kGRCa-000372-Cm
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599762102;
+ s=mimecast20190719; t=1599762103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KBBQHKCaZNmcoT8GjRywod67shGKvN15dsv6PCG16Vk=;
- b=YrTp1LXqppY8dZgfLaDk9QudOheuPSuGrkQoM9xQ+jLHoKOx7KZJYDMw1iaUJBz1JVPTh+
- YslJDBnaTDS+e+nRhytsQtmbMhTXeHYAlA3ckxVweke9mVgmOXjj4Tb2OvOx0NeVPgOab4
- B/zpUz2hyU80mY+id/if2I7ZYPK5GXE=
+ bh=/K3E4AQB9Wyo8p40roP4rTMm1MIlAuiE6H9hhreumsE=;
+ b=e8n8cBPON2brOTxccxRKzAhwtHtwxo2JU16fsP/UvEJCLlZj0q3tcJEH46whd8dVHwrhPI
+ +JhowHgtyj/acAW5I/C2SCH77pU755HJxcB/WdkG2UlTqjI5pBuI3IPf1bzn/lrvhSgK+p
+ HgmQmfREzqnrszWCQFbNmVkMpTS66ek=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-vgkw5TW7N4ukZJNzaYiZww-1; Thu, 10 Sep 2020 14:21:40 -0400
-X-MC-Unique: vgkw5TW7N4ukZJNzaYiZww-1
+ us-mta-296-pyZfWwn7PiiGdpVbrXqPTQ-1; Thu, 10 Sep 2020 14:21:41 -0400
+X-MC-Unique: pyZfWwn7PiiGdpVbrXqPTQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F78C1084C82;
- Thu, 10 Sep 2020 18:21:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA6AD18B9F09;
+ Thu, 10 Sep 2020 18:21:40 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B6C95C269;
- Thu, 10 Sep 2020 18:21:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CB7B5C1BD;
+ Thu, 10 Sep 2020 18:21:40 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 20/33] esp: Rename ESP_STATE to ESP
-Date: Thu, 10 Sep 2020 14:20:59 -0400
-Message-Id: <20200910182112.4030917-21-ehabkost@redhat.com>
+Subject: [PULL 21/33] filter-rewriter: Rename FILTER_COLO_REWRITER to
+ FILTER_REWRITER
+Date: Thu, 10 Sep 2020 14:21:00 -0400
+Message-Id: <20200910182112.4030917-22-ehabkost@redhat.com>
 In-Reply-To: <20200910182112.4030917-1-ehabkost@redhat.com>
 References: <20200910182112.4030917-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -84,7 +85,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
+ Zhang Chen <chen.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,114 +93,97 @@ Make the type checking macro name consistent with the TYPE_*
 constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
-Message-Id: <20200902224311.1321159-40-ehabkost@redhat.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Message-Id: <20200902224311.1321159-41-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/scsi/esp.h | 2 +-
- hw/dma/sparc32_dma.c  | 2 +-
- hw/m68k/q800.c        | 2 +-
- hw/mips/jazz.c        | 2 +-
- hw/scsi/esp.c         | 6 +++---
- hw/sparc/sun4m.c      | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+ net/filter-rewriter.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-index f281625dd5..20800dbf5b 100644
---- a/include/hw/scsi/esp.h
-+++ b/include/hw/scsi/esp.h
-@@ -67,7 +67,7 @@ struct ESPState {
+diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
+index 113e293207..44f6021dd8 100644
+--- a/net/filter-rewriter.c
++++ b/net/filter-rewriter.c
+@@ -25,7 +25,7 @@
  
- #define TYPE_ESP "esp"
- typedef struct SysBusESPState SysBusESPState;
--DECLARE_INSTANCE_CHECKER(SysBusESPState, ESP_STATE,
-+DECLARE_INSTANCE_CHECKER(SysBusESPState, ESP,
-                          TYPE_ESP)
+ #define TYPE_FILTER_REWRITER "filter-rewriter"
+ typedef struct RewriterState RewriterState;
+-DECLARE_INSTANCE_CHECKER(RewriterState, FILTER_COLO_REWRITER,
++DECLARE_INSTANCE_CHECKER(RewriterState, FILTER_REWRITER,
+                          TYPE_FILTER_REWRITER)
  
- struct SysBusESPState {
-diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index bcd1626fbd..d20a5bc065 100644
---- a/hw/dma/sparc32_dma.c
-+++ b/hw/dma/sparc32_dma.c
-@@ -303,7 +303,7 @@ static void sparc32_espdma_device_realize(DeviceState *dev, Error **errp)
+ #define FAILOVER_MODE_ON  true
+@@ -47,7 +47,7 @@ static void filter_rewriter_failover_mode(RewriterState *s)
  
-     d = qdev_new(TYPE_ESP);
-     object_property_add_child(OBJECT(dev), "esp", OBJECT(d));
--    sysbus = ESP_STATE(d);
-+    sysbus = ESP(d);
-     esp = &sysbus->esp;
-     esp->dma_memory_read = espdma_memory_read;
-     esp->dma_memory_write = espdma_memory_write;
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 1ca482ad81..ce4b47c3e3 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -290,7 +290,7 @@ static void q800_init(MachineState *machine)
-     /* SCSI */
- 
-     dev = qdev_new(TYPE_ESP);
--    sysbus_esp = ESP_STATE(dev);
-+    sysbus_esp = ESP(dev);
-     esp = &sysbus_esp->esp;
-     esp->dma_memory_read = NULL;
-     esp->dma_memory_write = NULL;
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index 82a6e3220e..47723093b6 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -309,7 +309,7 @@ static void mips_jazz_init(MachineState *machine,
- 
-     /* SCSI adapter */
-     dev = qdev_new(TYPE_ESP);
--    sysbus_esp = ESP_STATE(dev);
-+    sysbus_esp = ESP(dev);
-     esp = &sysbus_esp->esp;
-     esp->dma_memory_read = rc4030_dma_read;
-     esp->dma_memory_write = rc4030_dma_write;
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 405f8b7cbc..b84e0fe33e 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -929,7 +929,7 @@ static const struct SCSIBusInfo esp_scsi_info = {
- 
- static void sysbus_esp_gpio_demux(void *opaque, int irq, int level)
+ static void filter_rewriter_flush(NetFilterState *nf)
  {
--    SysBusESPState *sysbus = ESP_STATE(opaque);
-+    SysBusESPState *sysbus = ESP(opaque);
-     ESPState *s = &sysbus->esp;
+-    RewriterState *s = FILTER_COLO_REWRITER(nf);
++    RewriterState *s = FILTER_REWRITER(nf);
  
-     switch (irq) {
-@@ -945,7 +945,7 @@ static void sysbus_esp_gpio_demux(void *opaque, int irq, int level)
- static void sysbus_esp_realize(DeviceState *dev, Error **errp)
+     if (!qemu_net_queue_flush(s->incoming_queue)) {
+         /* Unable to empty the queue, purge remaining packets */
+@@ -252,7 +252,7 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
+                                          int iovcnt,
+                                          NetPacketSent *sent_cb)
  {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--    SysBusESPState *sysbus = ESP_STATE(dev);
-+    SysBusESPState *sysbus = ESP(dev);
-     ESPState *s = &sysbus->esp;
- 
-     sysbus_init_irq(sbd, &s->irq);
-@@ -967,7 +967,7 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
- 
- static void sysbus_esp_hard_reset(DeviceState *dev)
+-    RewriterState *s = FILTER_COLO_REWRITER(nf);
++    RewriterState *s = FILTER_REWRITER(nf);
+     Connection *conn;
+     ConnectionKey key;
+     Packet *pkt;
+@@ -350,7 +350,7 @@ static gboolean offset_is_nonzero(gpointer key,
+ static void colo_rewriter_handle_event(NetFilterState *nf, int event,
+                                        Error **errp)
  {
--    SysBusESPState *sysbus = ESP_STATE(dev);
-+    SysBusESPState *sysbus = ESP(dev);
-     esp_hard_reset(&sysbus->esp);
+-    RewriterState *rs = FILTER_COLO_REWRITER(nf);
++    RewriterState *rs = FILTER_REWRITER(nf);
+ 
+     switch (event) {
+     case COLO_EVENT_CHECKPOINT:
+@@ -370,7 +370,7 @@ static void colo_rewriter_handle_event(NetFilterState *nf, int event,
+ 
+ static void colo_rewriter_cleanup(NetFilterState *nf)
+ {
+-    RewriterState *s = FILTER_COLO_REWRITER(nf);
++    RewriterState *s = FILTER_REWRITER(nf);
+ 
+     /* flush packets */
+     if (s->incoming_queue) {
+@@ -381,7 +381,7 @@ static void colo_rewriter_cleanup(NetFilterState *nf)
+ 
+ static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
+ {
+-    RewriterState *s = FILTER_COLO_REWRITER(nf);
++    RewriterState *s = FILTER_REWRITER(nf);
+ 
+     s->connection_track_table = g_hash_table_new_full(connection_key_hash,
+                                                       connection_key_equal,
+@@ -392,7 +392,7 @@ static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
+ 
+ static bool filter_rewriter_get_vnet_hdr(Object *obj, Error **errp)
+ {
+-    RewriterState *s = FILTER_COLO_REWRITER(obj);
++    RewriterState *s = FILTER_REWRITER(obj);
+ 
+     return s->vnet_hdr;
+ }
+@@ -401,14 +401,14 @@ static void filter_rewriter_set_vnet_hdr(Object *obj,
+                                          bool value,
+                                          Error **errp)
+ {
+-    RewriterState *s = FILTER_COLO_REWRITER(obj);
++    RewriterState *s = FILTER_REWRITER(obj);
+ 
+     s->vnet_hdr = value;
  }
  
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 256033b9a0..947b69d159 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -335,7 +335,7 @@ static void *sparc32_dma_init(hwaddr dma_base,
-                                    OBJECT(dma), "espdma"));
-     sysbus_connect_irq(SYS_BUS_DEVICE(espdma), 0, espdma_irq);
+ static void filter_rewriter_init(Object *obj)
+ {
+-    RewriterState *s = FILTER_COLO_REWRITER(obj);
++    RewriterState *s = FILTER_REWRITER(obj);
  
--    esp = ESP_STATE(object_resolve_path_component(OBJECT(espdma), "esp"));
-+    esp = ESP(object_resolve_path_component(OBJECT(espdma), "esp"));
-     sysbus_mmio_map(SYS_BUS_DEVICE(esp), 0, esp_base);
-     scsi_bus_legacy_handle_cmdline(&esp->esp.bus);
- 
+     s->vnet_hdr = false;
+     s->failover_mode = FAILOVER_MODE_OFF;
 -- 
 2.26.2
 
