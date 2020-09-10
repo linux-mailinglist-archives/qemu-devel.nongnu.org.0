@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70364264DAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:48:33 +0200 (CEST)
-Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BBE264D89
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:44:50 +0200 (CEST)
+Received: from localhost ([::1]:37766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRcW-0001Lt-Cq
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
+	id 1kGRYv-0003m8-M8
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRCn-0005ss-Ar
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:58 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRCW-0002ls-T3
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762100; x=1631298100;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rO77UB4oLndqSP9kigufHZpDxo4ori3idNebpw70yeQ=;
- b=Xv4phEoUsDC2Kwfe3t3TnmX0Au1+8SMepHHARqT5Ho9P8JzzR/HCkR+V
- RZkadlw1xAb3YLJz4bMjmM4lJvT5e9a6w5Vi9Dmh14bDPVjH06EYdOPQ+
- b4TdqQZtpS7BXEB6M8Xj7xuy5ASNq9x5LHuU9xQdK1PpEt8KKxw1AWpwi
- 9eWSczc8nbljcPPtKkXip6SIIO8lDKnF5fW7amZc2KrbG+9+8gQJ8GxOV
- FmOUjEmkU5Pz4bMVM+6HHYhMJ2POyWu+sLNIdDwvDESHQaOnS8Vyh3MH4
- ByO3iQspLZuK9d2mDLBOK2c+ovbNwjy0cVWrOQ/ai1Oo5vxas+7Ob4rVT w==;
-IronPort-SDR: 79D+r/NYJZ2+llBlMxun++wR7kvCjjRaccxMx9EZukA+sG4WsMjb0WD9YHQvjiv35NOEgthjXG
- nRuMKj5hBvfA3AONvjxoiZexx5zwNaQq08MLeprKDfGotdJpXwXU+2JoPqp9MqwQXS1ASIAq76
- EQ5ZTySz0UTKXL1hzYxhGX8rg9bDxWR4H8YWK/SCxZcN5rHReW8PZ2FwtTWX+1RR8pjMKtrL86
- n/HMisgZxpMazfFoKZxegT2WUzHU61F4Nx+JPymyNu4Uf4XCjihCnCckaYdK3/aozPocotxBN0
- xFs=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979255"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:22 +0800
-IronPort-SDR: OHfB8KMIISSuYRKgQioUcW3tKIG+dvSl0PDyB4h31fsL5u+sUVLqDstTK10OTQ3gkvIVjvZH+g
- KiLTGF0/8P0Q==
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 11:07:39 -0700
-IronPort-SDR: ndHYO1HeeHMH59PfsvaofL5DlMpewyuqv+mILSYtMwyp2byQMw/vR2QjRCxo+pauSQgwd3x3N0
- 92BGKWE+f1Sw==
-WDCIronportException: Internal
-Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.59.152])
- by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:23 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 30/30] hw/riscv: Sort the Kconfig options in alphabetical order
-Date: Thu, 10 Sep 2020 11:09:38 -0700
-Message-Id: <20200910180938.584205-31-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
-References: <20200910180938.584205-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kGRCr-0005wc-B3; Thu, 10 Sep 2020 14:22:02 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:33769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kGRCd-00037R-Q1; Thu, 10 Sep 2020 14:22:00 -0400
+Received: by mail-il1-x142.google.com with SMTP id x2so6640556ilm.0;
+ Thu, 10 Sep 2020 11:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EDPigblih1cjap7Oi4kVPhbl5AZCj10BtXDekneIKSQ=;
+ b=UH3DlfDODyCHmCM0+yL8UILR1TN0nA+CDFWE5X/KUnUZTIfVWQO7K9p1OibfTepqam
+ tEM5uSxa8hDrA06QVaxWcr4tPJH5qmQQ75IdZi46Gy2+fMtMWuKjfa4jaP31Gq9WDLwQ
+ EgUt9AuFKHB3PNZPYZ5M3pX2VimAbmpuafFV7/WTdWmTh+6PcIp00Q9zTRwcRf+j5cPy
+ y6GJ8FwX0g4QJ1r2lKGdcS0QLuDMqUImX+LwYGn8hgRpICVqgFBnass23fbQc4m2sh/r
+ xdVvErtTPmRX6LMj+QbsgIA05mxCHw9o1Rgh3Twd7WLRRY3tokuh+4L74/QrQqLiE1BC
+ 44FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EDPigblih1cjap7Oi4kVPhbl5AZCj10BtXDekneIKSQ=;
+ b=ACii+CqCi49rzWy6fi/2hyWci0KA4j+4wBEbWSrF3ZqrRSefSiUbXkhC5ca9voIHGy
+ /4Bdpoj/KzXVp5JZk34O1h50PLxjWb2q5rf1Sq8WZreW3FLJaOABPXWZlSFL9tY5aAh8
+ JAe/FaeOuG6TzLv/I6D+O2JzOGLbO5T3QMQLhkgxkPKppt2yj0Eg03v7obLYtLljp4VM
+ 6f03yTfXD2Pec9Lu9/eM5Aksj3NxXb+NiJv9yFCy8zkEtbVuwBpJuEDksKAav80qgyN1
+ vDo+btsPNQi1d1nuzEVICmfniiKVm60CpMwCHIZ+Z3HdB09QefA5E3uFS8mdMAd0+ZUR
+ AJXQ==
+X-Gm-Message-State: AOAM530ixOLfXEGqhn5+OlLTqo7/iFEaQh6ktcirhFKi0DNCuTlVR8Qc
+ F8KekmyhbWo9iLsAN0glCQ2YgViTc8fvrwFJlXg=
+X-Google-Smtp-Source: ABdhPJyYCz/ZUSBXQcrAX6irGOO9WCvzVftUPng7j3JLK20JyHnooG373q70zAgc/QnFt/cEj7D8mvUpI/7X5mOAvZc=
+X-Received: by 2002:a92:c8d1:: with SMTP id c17mr2510027ilq.131.1599762105327; 
+ Thu, 10 Sep 2020 11:21:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=515d47f05=alistair.francis@wdc.com;
- helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 14:20:04
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20200901055822.2721209-1-natechancellor@gmail.com>
+ <CAKmqyKNRMmJgmZSPK6wqqNQW41QLHwChPi+1cjqao_x1Q_iryQ@mail.gmail.com>
+ <159916712670.15432.11504227918284494914@sif>
+In-Reply-To: <159916712670.15432.11504227918284494914@sif>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 10 Sep 2020 11:10:43 -0700
+Message-ID: <CAKmqyKMYKiM4Q-geEsNR3Us4vOn_u52omr6h2vcodbsr1hFW2g@mail.gmail.com>
+Subject: Re: [PATCH] riscv: sifive_test: Allow 16-bit writes to memory region
+To: Michael Roth <mdroth@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,118 +79,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Thu, Sep 3, 2020 at 2:05 PM Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
+>
+> Quoting Alistair Francis (2020-09-01 18:59:29)
+> > On Mon, Aug 31, 2020 at 10:59 PM Nathan Chancellor
+> > <natechancellor@gmail.com> wrote:
+> > >
+> > > When shutting down the machine running a mainline Linux kernel, the
+> > > following error happens:
+> > >
+> > > $ build/riscv64-softmmu/qemu-system-riscv64 -bios default -M virt \
+> > >     -display none -initrd rootfs.cpio -kernel Image -m 512m \
+> > >     -nodefaults -serial mon:stdio
+> > > ...
+> > > Requesting system poweroff
+> > > [    4.999630] reboot: Power down
+> > > sbi_trap_error: hart0: trap handler failed (error -2)
+> > > sbi_trap_error: hart0: mcause=0x0000000000000007 mtval=0x0000000000100000
+> > > sbi_trap_error: hart0: mepc=0x000000008000d4cc mstatus=0x0000000000001822
+> > > sbi_trap_error: hart0: ra=0x000000008000999e sp=0x0000000080015c78
+> > > sbi_trap_error: hart0: gp=0xffffffe000e76610 tp=0xffffffe0081b89c0
+> > > sbi_trap_error: hart0: s0=0x0000000080015c88 s1=0x0000000000000040
+> > > sbi_trap_error: hart0: a0=0x0000000000000000 a1=0x0000000080004024
+> > > sbi_trap_error: hart0: a2=0x0000000080004024 a3=0x0000000080004024
+> > > sbi_trap_error: hart0: a4=0x0000000000100000 a5=0x0000000000005555
+> > > sbi_trap_error: hart0: a6=0x0000000000004024 a7=0x0000000080011158
+> > > sbi_trap_error: hart0: s2=0x0000000000000000 s3=0x0000000080016000
+> > > sbi_trap_error: hart0: s4=0x0000000000000000 s5=0x0000000000000000
+> > > sbi_trap_error: hart0: s6=0x0000000000000001 s7=0x0000000000000000
+> > > sbi_trap_error: hart0: s8=0x0000000000000000 s9=0x0000000000000000
+> > > sbi_trap_error: hart0: s10=0x0000000000000000 s11=0x0000000000000008
+> > > sbi_trap_error: hart0: t0=0x0000000000000000 t1=0x0000000000000000
+> > > sbi_trap_error: hart0: t2=0x0000000000000000 t3=0x0000000000000000
+> > > sbi_trap_error: hart0: t4=0x0000000000000000 t5=0x0000000000000000
+> > > sbi_trap_error: hart0: t6=0x0000000000000000
+> > >
+> > > The kernel does a 16-bit write when powering off the machine, which
+> > > was allowed before commit 5d971f9e67 ("memory: Revert "memory: accept
+> > > mismatching sizes in memory_region_access_valid""). Make min_access_size
+> > > match reality so that the machine can shut down properly now.
+> > >
+> > > Cc: qemu-stable@nongnu.org
+> > > Fixes: 88a07990fa ("SiFive RISC-V Test Finisher")
+> > > Fixes: 5d971f9e67 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"")
+> > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> >
+> > Thanks!
+> >
+> > Applied to riscv-to-apply.next
+>
+> FYI, I'm hoping to pull this patch into the upcoming 5.0.1 stable
+> release. The freeze is scheduled for 2020-09-20, I will apply this if it
+> hits master before then.
 
-At present the Kconfig file is in disorder. Let's sort the options.
+I just sent a PR with this patch. Is this still on track to make it into 5.0.1?
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1599129623-68957-13-git-send-email-bmeng.cn@gmail.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/Kconfig | 58 ++++++++++++++++++++++++------------------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+Alistair
 
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index e152fdc7d9..2df978fe8d 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -1,36 +1,16 @@
- config IBEX
-     bool
- 
--config SIFIVE_E
--    bool
--    select MSI_NONBROKEN
--    select SIFIVE_CLINT
--    select SIFIVE_GPIO
--    select SIFIVE_PLIC
--    select SIFIVE_UART
--    select SIFIVE_E_PRCI
--    select UNIMP
--
--config SIFIVE_U
-+config MICROCHIP_PFSOC
-     bool
--    select CADENCE
-+    select CADENCE_SDHCI
-+    select MCHP_PFSOC_MMUART
-     select MSI_NONBROKEN
-     select SIFIVE_CLINT
--    select SIFIVE_GPIO
-     select SIFIVE_PDMA
-     select SIFIVE_PLIC
--    select SIFIVE_UART
--    select SIFIVE_U_OTP
--    select SIFIVE_U_PRCI
-     select UNIMP
- 
--config SPIKE
--    bool
--    select HTIF
--    select MSI_NONBROKEN
--    select SIFIVE_CLINT
--    select SIFIVE_PLIC
--
- config OPENTITAN
-     bool
-     select IBEX
-@@ -40,23 +20,43 @@ config RISCV_VIRT
-     bool
-     imply PCI_DEVICES
-     imply TEST_DEVICES
-+    select GOLDFISH_RTC
-     select MSI_NONBROKEN
-     select PCI
--    select SERIAL
--    select GOLDFISH_RTC
--    select VIRTIO_MMIO
-     select PCI_EXPRESS_GENERIC_BRIDGE
-     select PFLASH_CFI01
-+    select SERIAL
-     select SIFIVE_CLINT
-     select SIFIVE_PLIC
-     select SIFIVE_TEST
-+    select VIRTIO_MMIO
- 
--config MICROCHIP_PFSOC
-+config SIFIVE_E
-     bool
-     select MSI_NONBROKEN
-     select SIFIVE_CLINT
-+    select SIFIVE_GPIO
-+    select SIFIVE_PLIC
-+    select SIFIVE_UART
-+    select SIFIVE_E_PRCI
-     select UNIMP
--    select MCHP_PFSOC_MMUART
-+
-+config SIFIVE_U
-+    bool
-+    select CADENCE
-+    select MSI_NONBROKEN
-+    select SIFIVE_CLINT
-+    select SIFIVE_GPIO
-     select SIFIVE_PDMA
-     select SIFIVE_PLIC
--    select CADENCE_SDHCI
-+    select SIFIVE_UART
-+    select SIFIVE_U_OTP
-+    select SIFIVE_U_PRCI
-+    select UNIMP
-+
-+config SPIKE
-+    bool
-+    select HTIF
-+    select MSI_NONBROKEN
-+    select SIFIVE_CLINT
-+    select SIFIVE_PLIC
--- 
-2.28.0
-
+>
+> >
+> > Alistair
+> >
+> > > ---
+> > >
+> > > Please let me know if the tags are wrong or inappropriate, this is my
+> > > first QEMU patch.
+> > >
+> > >  hw/riscv/sifive_test.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
+> > > index 0c78fb2c93..8c70dd69df 100644
+> > > --- a/hw/riscv/sifive_test.c
+> > > +++ b/hw/riscv/sifive_test.c
+> > > @@ -59,7 +59,7 @@ static const MemoryRegionOps sifive_test_ops = {
+> > >      .write = sifive_test_write,
+> > >      .endianness = DEVICE_NATIVE_ENDIAN,
+> > >      .valid = {
+> > > -        .min_access_size = 4,
+> > > +        .min_access_size = 2,
+> > >          .max_access_size = 4
+> > >      }
+> > >  };
+> > >
+> > > base-commit: 2f4c51c0f384d7888a04b4815861e6d5fd244d75
+> > > --
+> > > 2.28.0
+> > >
+> > >
+> >
 
