@@ -2,100 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DA82643A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:17:30 +0200 (CEST)
-Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA8A2643CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:22:40 +0200 (CEST)
+Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJdx-0003Rd-6r
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
+	id 1kGJix-000856-DS
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGJcy-0002BY-9g
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:16:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25216
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGJcw-0000dB-0z
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:16:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599732985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c3mMcRLsDOGAtW55Ge5Xf2MfbxiyZQ4QZpyj7sDXL68=;
- b=SEeujr2OoHzS4zBbTe/O/Sf6XDIrIsESMT8YDehS+1Sw5+G4r20MpnP7zbdYjvDaW3JJZi
- BfoC0wd1FZbxADQGVX+kGfANuRwWp02QbKzJ0puOz5xgl8Dua8g635CsFgx5IhR9G7ye31
- W3FYcVyuHUVjAOSZGEpr0V4Z5j+lifY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-OpErvhvXM122eH3ngoTPKA-1; Thu, 10 Sep 2020 06:16:22 -0400
-X-MC-Unique: OpErvhvXM122eH3ngoTPKA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82566873084;
- Thu, 10 Sep 2020 10:16:21 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-197.ams2.redhat.com
- [10.36.112.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C6A71002D5E;
- Thu, 10 Sep 2020 10:16:20 +0000 (UTC)
-Subject: Re: [PATCH 04/29] block/export: Add BlockExport infrastructure and
- block-export-add
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200907182011.521007-1-kwolf@redhat.com>
- <20200907182011.521007-5-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <410993e5-b127-da2f-160c-5910efa2bf9b@redhat.com>
-Date: Thu, 10 Sep 2020 12:16:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200907182011.521007-5-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 03:02:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kGJiG-0007eF-2b
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:21:56 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:42394)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kGJiE-0001NJ-A8
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:21:55 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id q13so7883920ejo.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 03:21:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=SujVWcvMzIXiXIMI4TBXgOHM5sANwhKYyHMj51H/WBc=;
+ b=TrJ9VNpyk6rXoNOqL3Ck8QaWB9HFKA1Zbjx7LRwFQxTWAtiWJ27RyMOxrWhZihcISA
+ zC+UGTg8cl8wZ2Z6iJlIKWNa5gFcpfnRfoW683YggxoTf3cKXAUElphEjNuW8+x3l/fR
+ /FTO2Tl43wZegN1SHKY7K73OYIb7kbdw0mzof6xhTdrflqXCnmwInwQNrewOG3HEOEop
+ kWD8JEHVfwNzdWIOU7i2yGX/vtDfEXhNejXRHG//11If3eeVbxBCiaz6CHGxZlYkbk5P
+ FtX0beyy5mzu484YTxLiHzZtKYrnj2jwFYCPy06zfD86If7KgW9+Ues3qzBXJAHgpBet
+ dSfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=SujVWcvMzIXiXIMI4TBXgOHM5sANwhKYyHMj51H/WBc=;
+ b=GlHSF0hE8cleFH0fX8aqLI+pInEsq5ecOPPekizROhChLugy01Jzs1GyMLMiP7q18T
+ TcWMMUG2HcGMFBNnSy/SFB9AoQrOKmlCG95MhahvgD/JFcII3VaaFSp2XqgIqPVoFJBi
+ J0RmW07Gz4EM6vS2rIKLnUfjE4GsSPkbXRQzWlD5ObmvFD4/SDWjEMjjMms0jjizJHln
+ 93kbsuVbrtvoo/R2UuH0Q2m3aQQ0wcEVlyWH7YxZRAdSKGh+irC2TlGOTli/Ug2WlCsY
+ +srlfxteXc+8IAYGVFx6czlGVY2+EPexaP3cuGXOczWgfmcj/Ut7iCF91cT8oKdAFfVA
+ Gk9w==
+X-Gm-Message-State: AOAM532VRpOKDAOQxEJ1VYDsTJpE+VrIG2vsZ9S7PUn6MOlnc19j8iAt
+ xjmRWOz1rUNkpSUhK5n72L0HtQ==
+X-Google-Smtp-Source: ABdhPJwk8AZXkJ1CaKesbNb3KfOzg0pCS3C4DpkOkLXes8OYvDm2tQD16E1QiPJ15VtrzhSyDn81FQ==
+X-Received: by 2002:a17:906:b813:: with SMTP id
+ dv19mr7847707ejb.70.1599733312649; 
+ Thu, 10 Sep 2020 03:21:52 -0700 (PDT)
+Received: from wks.local ([86.120.181.246])
+ by smtp.gmail.com with ESMTPSA id s7sm6272426ejd.103.2020.09.10.03.21.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 10 Sep 2020 03:21:51 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: [RFC] QEMU as Xcode project on macOS
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <8640871f-366c-e7a9-549a-8403c36c5a0b@redhat.com>
+Date: Thu, 10 Sep 2020 13:21:50 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0E642A74-0472-47F7-A01F-FD776082B6D0@livius.net>
+References: <2764135.D4k31Gy3CM@silver> <13443969.F0S6BcH2UH@silver>
+ <20200909181355.GV1011023@redhat.com> <1695914.5EixHECA2G@silver>
+ <CAFEAcA9m6Qd1C2EXHKBfVrq_bd_AJo8ggf0t02bLufkmT5jZ=w@mail.gmail.com>
+ <F0F8F9BF-0B9F-430E-8381-87AD6B3077C8@livius.net>
+ <8640871f-366c-e7a9-549a-8403c36c5a0b@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
+Received-SPF: none client-ip=2a00:1450:4864:20::62f;
+ envelope-from=ilg@livius.net; helo=mail-ej1-x62f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,67 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, G 3 <programmingkidx@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV
-Content-Type: multipart/mixed; boundary="m49mjOsqnsJ2NvDsAS7EwMRMwciJMemye"
 
---m49mjOsqnsJ2NvDsAS7EwMRMwciJMemye
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
 
-On 07.09.20 20:19, Kevin Wolf wrote:
-> We want to have a common set of commands for all types of block exports.
-> Currently, this is only NBD, but we're going to add more types.
+> On 10 Sep 2020, at 12:20, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >=20
-> This patch adds the basic BlockExport and BlockExportDriver structs and
-> a QMP command block-export-add that creates a new export based on the
-> given BlockExportOptions.
+>  --python=3D/path/to/python3 --meson=3Dinternal
 >=20
-> qmp_nbd_server_add() becomes a wrapper around qmp_block_export_add().
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qapi/block-export.json   |  9 ++++++++
->  include/block/export.h   | 33 +++++++++++++++++++++++++++
->  include/block/nbd.h      |  5 ++++-
->  block/export/export.c    | 48 ++++++++++++++++++++++++++++++++++++++++
->  blockdev-nbd.c           | 28 +++++++++++++++++------
->  nbd/server.c             | 15 ++++++++++++-
->  block/export/meson.build |  1 +
->  block/meson.build        |  2 ++
->  meson.build              |  2 +-
->  9 files changed, 133 insertions(+), 10 deletions(-)
->  create mode 100644 include/block/export.h
->  create mode 100644 block/export/export.c
->  create mode 100644 block/export/meson.build
+> and the build will automatically use that same Python executable to =
+run
+> the scripts.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Ok, good to know.
 
+My standalone meson is intended for integration into Eclipse and Visual =
+Studio Code, and should also run on CI servers, so it has a different =
+audience.
 
---m49mjOsqnsJ2NvDsAS7EwMRMwciJMemye--
+Regards,
 
---bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9Z/PIACgkQ9AfbAGHV
-z0AwwQf/cSElRF1HE7IMgLXQgAFruGC1y/WFseyVEf3Yp5LN0VgbTgfrL+hzeuSJ
-BVGSV8PHm/rzs4e88cReN6LFJu1cNs0cZcIXg4o0iVBQZmRvGsXi7pH6nkH0Moaa
-eXaiSdVHTYumrnq9f9Gxtwcrmjt5pJlVj7FI+7JEDn/7z8DZRxedTcXFHBe1Bxzh
-KSl0Co1+twwQRPhnOYLtAYb4Oj5oKWPoaw/Pb+gW59B6GmByEZtcGpgEyeSxqbmc
-v5527cAvMCslv/WXk7vHS5sEAfsOp+sQQzSB+Kog+zEROf9l5YlP931W5bjlUeNK
-G/naIqOKc4DNNIhhphtAcVxYYk4vzg==
-=RZfJ
------END PGP SIGNATURE-----
-
---bBEdsw290zdOfHDgluiFW7Jrjs83VZLjV--
+Liviu
 
 
