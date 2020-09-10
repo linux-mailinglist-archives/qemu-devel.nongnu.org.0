@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44920264E4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:09:30 +0200 (CEST)
-Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C93264E2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:03:58 +0200 (CEST)
+Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRwn-0006VC-AH
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1kGRrR-0001p1-Lo
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:03:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kGRWy-0001Az-BI
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:42:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40533
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kGRWw-00062b-34
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:42:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599763364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u2dlaFLZnvytt+snVsWio5eSKLiVeNl9+rmakb0oaao=;
- b=POa2+9XEJda/p9jMeM4MakbI7RGlHyLMZrmTfg781VWqjiDWSi2TTFQhonaA999UEFDo/I
- FSEbnW7fP0o9+V2uUKNmf9neaw8rii1/hUT4H4Xs/GeAZwuL6rMxSoOD+dbUCu5mlz42w5
- 7zgYlTvUeyEJzb0bkxMSOyYU1TfB9IM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225--Delm-AVM_K0Br_iz_Fb6g-1; Thu, 10 Sep 2020 14:42:43 -0400
-X-MC-Unique: -Delm-AVM_K0Br_iz_Fb6g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D1FE1084D61
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:42:42 +0000 (UTC)
-Received: from work-vm (ovpn-114-164.phx2.redhat.com [10.3.114.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 309187512B;
- Thu, 10 Sep 2020 18:42:32 +0000 (UTC)
-Date: Thu, 10 Sep 2020 19:42:29 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
-Subject: Re: [PATCH v2 6/6] tools/virtiofsd: xattr name mapping examples
-Message-ID: <20200910184229.GP2814@work-vm>
-References: <20200827153657.111098-1-dgilbert@redhat.com>
- <20200827153657.111098-7-dgilbert@redhat.com>
- <20200909113553.GE1377607@lpt>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kGRml-0004JT-Sg; Thu, 10 Sep 2020 14:59:07 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:45509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kGRmk-0000k6-58; Thu, 10 Sep 2020 14:59:07 -0400
+Received: by mail-io1-xd41.google.com with SMTP id u126so8303692iod.12;
+ Thu, 10 Sep 2020 11:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f3i9UdW14qknfifNwkoRYPMhlcCxUFd3MCQEswGN9eU=;
+ b=IWEByQHHl6g+qkq7nKUfyL8XXtfN72Rxrsj7Ck1VrzqJxExu2834GyT7L1mW1ft4n2
+ ZC/R+0xm7lHYvO76+wK/FHNfDpvaTaQMhcS1h+uAi1mrHfkcjePBgwx0WZLZGSi0fZzQ
+ SWLDd08+aNo9lRDntiZd2SvQjW8+KWBrbkFPS5ZZH1VJW8CPmJgA3wMG9uxCjpaPUtet
+ P1hNm8brVlU6mFXPWFv+UHM2Leao6fIlaRLs+PEXn/NzxMpTEskZkh6wiLX6+GruiM3C
+ k9kqVbbDEUeqAsP6HGNzi2rpLfOGwNCBb9VSh6PenMmNAle6/FhVuswPoEkEscm/lfWS
+ CuIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f3i9UdW14qknfifNwkoRYPMhlcCxUFd3MCQEswGN9eU=;
+ b=h7qxIRGbsk/aT0PGW5onnxCOpq7fmSAf9PvAFOAVksj1Slti8Dp5i6t/WVa+lU0nBR
+ HVMVpp1YHckEKGRu3B+Zs3NESa0psT5saTKjKcVATmEDsn4qUlRA3OyacbJmfyf0fVEt
+ 81wjS429RYgZARCB9EoOWV2YaW7V3ZkjEnyO22vUF0F1N5eA1lkIkio3uF0hGvA12U75
+ oIYF9X0miLyQOceX8T8PnyPeMQlXU7IHhSeAG9s7WAuaQ/sFAZDDoCfK5FL8d85wbEnH
+ QKMl/Cb4kdU1O/hdmIDM5qKyDXXqfFxkCjoGJ04dp7MDJH236AjIwLpzZUi2N5SEjsfn
+ W1bg==
+X-Gm-Message-State: AOAM532PaVJdz/+cLivRJUdvNCyvgQvUQDkWBxnRl6NihiFz0YBLpAGs
+ V+u33hkn75IaoAuQWbj/LVuDd1VDJEHhht1hd2w=
+X-Google-Smtp-Source: ABdhPJwf+/i+E5pjDSoyPdR265wJ4juCUAdU6EsQPb6gK4ppON1Tau+aMX4uDO0oD9TRmWsCbkQfxAyvA1wF+zlSdUk=
+X-Received: by 2002:a02:3213:: with SMTP id j19mr9725079jaa.135.1599764344597; 
+ Thu, 10 Sep 2020 11:59:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200909113553.GE1377607@lpt>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:35:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <CAFEAcA9RcbWeM=hhUNH=Exdp_QT4s0GcCJdrpcvWkv2ea+o7cQ@mail.gmail.com>
+ <mhng-13d2ebf6-70bc-4130-9e11-6fa4391c64db@palmerdabbelt-glaptop1>
+In-Reply-To: <mhng-13d2ebf6-70bc-4130-9e11-6fa4391c64db@palmerdabbelt-glaptop1>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 10 Sep 2020 11:48:03 -0700
+Message-ID: <CAKmqyKPmOCikT3OYr9Bq0OeBpm41jpNd_7EQrZ-91AokPDG4SQ@mail.gmail.com>
+Subject: Re: [PATCH v5 06/11] riscv: Initial commit of OpenTitan machine
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,97 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, stefanha@redhat.com, qemu-devel@nongnu.org,
- vgoyal@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Ján Tomko (jtomko@redhat.com) wrote:
-> On a Thursday in 2020, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > Add a few examples of xattrmaps to the documentation.
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> > docs/tools/virtiofsd.rst | 49 ++++++++++++++++++++++++++++++++++++++++
-> > 1 file changed, 49 insertions(+)
-> > 
-> > diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> > index 2efa16d3c5..a138549862 100644
-> > --- a/docs/tools/virtiofsd.rst
-> > +++ b/docs/tools/virtiofsd.rst
-> > @@ -161,6 +161,55 @@ in which case a 'server' rule will always match on all names from
-> > the server.
-> > 
-> > 
-> > +xattr-mapping Examples
-> > +----------------------
-> > +
-> > +1) Prefix all attributes with 'user.virtiofs.'
-> > +
-> > +::
-> > +
-> > +-o xattrmap=":all:prefix::user.virtiofs.::all:bad:::"
-> > +
-> > +
-> > +This uses two rules, using : as the field separator;
-> > +the first rule prefixes and strips 'user.virtiofs.',
-> > +the second rule hides any non-prefixed attributes that
-> > +the host set.
-> > +
-> > +2) Prefix 'trusted.' attributes, allow others through
-> > +
-> > +::
-> > +
-> > +   "/all/prefix/trusted./user.virtiofs./
-> > +    /server/bad//trusted./
-> > +    /client/bad/user.virtiofs.trusted.//
-> > +    /all/ok///"
-> > +
-> > +
-> > +Here there are four rules, using / as the field
-> > +separator, and also demonstrating that new lines can
-> > +be included between rules.
-> > +The first rule is the prefixing of 'trusted.'.
-> > +The second rule hides unprefixed 'trusted.' attributes
-> > +on the host.
-> > +The third rule stops a guest from explicitily setting
-> 
-> explicitly
+On Wed, Sep 9, 2020 at 12:51 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>
+> On Wed, 09 Sep 2020 12:00:07 PDT (-0700), Peter Maydell wrote:
+> > On Wed, 9 Sep 2020 at 19:00, Alistair Francis <alistair23@gmail.com> wrote:
+> >>
+> >> On Tue, Sep 8, 2020 at 7:52 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >> > ...shouldn't the riscv64-softmmu config have CONFIG_OPENTITAN too?
+> >> > The usual principle is that the 64-bit executable can run the
+> >> > 32-bit boards too.
+> >>
+> >> I didn't know that was the general case. I'll send a patch to enable this.
+> >
+> > Somebody on IRC suggested that the riscv code currently
+> > assumes that #ifdef TARGET_RISCV64 implies a 64-bit CPU,
+> > ie that the 32-bit CPUs don't actually behave correctly
+> > if built into the qemu-system-riscv64 process, so you might
+> > want to check that things seem to work when you enable it...
 
-Thanks, I'll save that spare 'i' for another time.
+Yep, we don't even build the 32-bit CPUs for 64-bit.
 
-> > +the 'user.viritofs.trusted.' path directly.
-> > +Finally, the fourth rule lets all remaining attributes
-> > +through.
-> > +
-> > +3) Hide 'security.' attributes, and allow everything else
-> > +
-> > +::
-> > +
-> > +    "/all/bad/security./security./
-> > +     /all/ok///'
-> > +
-> > +The first rule combines what could be separate client and server
-> > +rules into a single 'all' rule, matching 'security.' in either
-> > +client arguments or lists returned from the host.  This stops
-> > +the client seeing any 'security.' attributes on the server and
-> > +stops it setting  any.
-> 
-> extra space.
+I'm going to leave this config disabled and we can add a TODO of
+fixing up riscv64-softmmu to support 32-bit and 64-bit.
 
-Gone.
+>
+> IIRC there's a whole bunch of that floating around the RISC-V port, so just
+> tossing a 32-bit CPU into qemu-system-riscv64 is going to result in garbage.
+> At the time we originally did the port we though we weren't goin to have
+> mixed-XLEN systems, but the ISA now allows for it so in theory we should go fix
+> all that.
 
-> Reviewed-by: Ján Tomko <jtomko@redhat.com>
+Dynamically changing XLEN is then another can of worms. Although there
+isn't much interest, it becomes more useful with the Hypervisor
+extensions supporting 32-bit guests on 64-bit systems.
 
-Thanks!
+Alistair
 
-> 
-> Jano
-
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+>
+> I don't think anyone has looked into doing it, though, as there isn't much
+> interest in mixed-XLEN systems (though oddly enough there was a glibc post
+> yesterday about them).
 
