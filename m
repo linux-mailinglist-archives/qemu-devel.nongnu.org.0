@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05AEA2654E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 00:17:00 +0200 (CEST)
-Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B232654F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 00:21:30 +0200 (CEST)
+Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGUsF-0002sN-2c
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 18:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58642)
+	id 1kGUwb-0001AK-OM
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 18:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGUqx-0001XD-P5
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:39 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22371
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kGUr0-0001eG-Uf
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGUqw-0002Yc-3d
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:39 -0400
+ id 1kGUqy-0002Yz-KF
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599776137;
+ s=mimecast20190719; t=1599776139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qXS3/olQEWE6olehVY6G/wq941xe6izMFWQeRubt6Cg=;
- b=eQNVB1E4IzFPdlO6j4VVu6YK7u0TwrKvTyhqMytcu2CBD8/K6wJ3ufxR043mcc6Da1uMSO
- y7N681BZ7sJr4WBnlOKBiqOeWYaprZnxZCz0u1d1sMCanPEHlVu2AUccFfZaZS03+FHV1w
- OEtjFW4hej2xtiW95k5qBeF4yTS75Io=
+ bh=JAOZ1frciEpUdXRUZJbDOCmWberBqBZnqPDiNgyYKkw=;
+ b=iyudjlyTtIr+rYcngsPasthywU/QbVikBWxvjFZ9SdsPix8yew5D4DOlaaQCaPmOHU8DO1
+ L5oHOqltmxyl8d4KM+f474cXRlgBQrUVzRszR+3O1Sq5K6ZqspOBjwGQXoK1ySXgFIp9+F
+ TNgMpTBtM3tPl0t+KyQwUiBdZ6sYFBk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-Tchw8kHqORabR0tVmEbyZg-1; Thu, 10 Sep 2020 18:15:35 -0400
-X-MC-Unique: Tchw8kHqORabR0tVmEbyZg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-200-0pGeX8ITNsyzQlaQLu5zVA-1; Thu, 10 Sep 2020 18:15:36 -0400
+X-MC-Unique: 0pGeX8ITNsyzQlaQLu5zVA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4348D1084C83;
- Thu, 10 Sep 2020 22:15:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47849802B79;
+ Thu, 10 Sep 2020 22:15:35 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C13675121;
- Thu, 10 Sep 2020 22:15:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFE9960BF1;
+ Thu, 10 Sep 2020 22:15:34 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] qom: Reformat section titles using Sphinx syntax
-Date: Thu, 10 Sep 2020 18:15:22 -0400
-Message-Id: <20200910221526.10041-6-ehabkost@redhat.com>
+Subject: [PATCH 6/9] qom: Indent existing code examples
+Date: Thu, 10 Sep 2020 18:15:23 -0400
+Message-Id: <20200910221526.10041-7-ehabkost@redhat.com>
 In-Reply-To: <20200910221526.10041-1-ehabkost@redhat.com>
 References: <20200910221526.10041-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 18:15:37
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 18:15:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,55 +87,450 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This indents existing code examples that are not indented yet,
+just to make future conversion to Sphinx markup easier to review.
+
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/qom/object.h | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ include/qom/object.h | 376 +++++++++++++++++++++----------------------
+ 1 file changed, 188 insertions(+), 188 deletions(-)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index d2eecdf872..da9ecb310f 100644
+index da9ecb310f..5d22ec95b2 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -120,7 +120,8 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *   </programlisting>
+@@ -41,34 +41,34 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *
+  * <example>
+  *   <title>Creating a minimal type</title>
+- *   <programlisting>
+- * #include "qdev.h"
+- *
+- * #define TYPE_MY_DEVICE "my-device"
+- *
+- * // No new virtual functions: we can reuse the typedef for the
+- * // superclass.
+- * typedef DeviceClass MyDeviceClass;
+- * typedef struct MyDevice
+- * {
+- *     DeviceState parent;
+- *
+- *     int reg0, reg1, reg2;
+- * } MyDevice;
+- *
+- * static const TypeInfo my_device_info = {
+- *     .name = TYPE_MY_DEVICE,
+- *     .parent = TYPE_DEVICE,
+- *     .instance_size = sizeof(MyDevice),
+- * };
+- *
+- * static void my_device_register_types(void)
+- * {
+- *     type_register_static(&my_device_info);
+- * }
+- *
+- * type_init(my_device_register_types)
+- *   </programlisting>
++ *      <programlisting>
++ *    #include "qdev.h"
++ *
++ *    #define TYPE_MY_DEVICE "my-device"
++ *
++ *    // No new virtual functions: we can reuse the typedef for the
++ *    // superclass.
++ *    typedef DeviceClass MyDeviceClass;
++ *    typedef struct MyDevice
++ *    {
++ *        DeviceState parent;
++ *
++ *        int reg0, reg1, reg2;
++ *    } MyDevice;
++ *
++ *    static const TypeInfo my_device_info = {
++ *        .name = TYPE_MY_DEVICE,
++ *        .parent = TYPE_DEVICE,
++ *        .instance_size = sizeof(MyDevice),
++ *    };
++ *
++ *    static void my_device_register_types(void)
++ *    {
++ *        type_register_static(&my_device_info);
++ *    }
++ *
++ *    type_init(my_device_register_types)
++ *      </programlisting>
   * </example>
   *
-- * # Class Initialization #
-+ * Class Initialization
-+ * ====================
+  * In the above example, we create a simple type that is described by #TypeInfo.
+@@ -79,22 +79,22 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * DEFINE_TYPES()
   *
-  * Before an object is initialized, the class for the object must be
-  * initialized.  There is only one class object for all instance objects
-@@ -193,7 +194,8 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *   </programlisting>
+  * <example>
+- *   <programlisting>
+- * static const TypeInfo device_types_info[] = {
+- *     {
+- *         .name = TYPE_MY_DEVICE_A,
+- *         .parent = TYPE_DEVICE,
+- *         .instance_size = sizeof(MyDeviceA),
+- *     },
+- *     {
+- *         .name = TYPE_MY_DEVICE_B,
+- *         .parent = TYPE_DEVICE,
+- *         .instance_size = sizeof(MyDeviceB),
+- *     },
+- * };
+- *
+- * DEFINE_TYPES(device_types_info)
+- *   </programlisting>
++ *      <programlisting>
++ *    static const TypeInfo device_types_info[] = {
++ *        {
++ *            .name = TYPE_MY_DEVICE_A,
++ *            .parent = TYPE_DEVICE,
++ *            .instance_size = sizeof(MyDeviceA),
++ *        },
++ *        {
++ *            .name = TYPE_MY_DEVICE_B,
++ *            .parent = TYPE_DEVICE,
++ *            .instance_size = sizeof(MyDeviceB),
++ *        },
++ *    };
++ *
++ *    DEFINE_TYPES(device_types_info)
++ *      </programlisting>
   * </example>
   *
-- * # Interfaces #
-+ * Interfaces
-+ * ==========
+  * Every type has an #ObjectClass associated with it.  #ObjectClass derivatives
+@@ -143,22 +143,22 @@ typedef struct InterfaceInfo InterfaceInfo;
   *
-  * Interfaces allow a limited form of multiple inheritance.  Instances are
-  * similar to normal types except for the fact that are only defined by
-@@ -206,7 +208,8 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * an argument to a method on its corresponding SomethingIfClass, or to
-  * dynamically cast it to an object that implements the interface.
+  * <example>
+  *   <title>Overriding a virtual function</title>
+- *   <programlisting>
+- * #include "qdev.h"
+- *
+- * void my_device_class_init(ObjectClass *klass, void *class_data)
+- * {
+- *     DeviceClass *dc = DEVICE_CLASS(klass);
+- *     dc->reset = my_device_reset;
+- * }
+- *
+- * static const TypeInfo my_device_info = {
+- *     .name = TYPE_MY_DEVICE,
+- *     .parent = TYPE_DEVICE,
+- *     .instance_size = sizeof(MyDevice),
+- *     .class_init = my_device_class_init,
+- * };
+- *   </programlisting>
++ *      <programlisting>
++ *    #include "qdev.h"
++ *
++ *    void my_device_class_init(ObjectClass *klass, void *class_data)
++ *    {
++ *        DeviceClass *dc = DEVICE_CLASS(klass);
++ *        dc->reset = my_device_reset;
++ *    }
++ *
++ *    static const TypeInfo my_device_info = {
++ *        .name = TYPE_MY_DEVICE,
++ *        .parent = TYPE_DEVICE,
++ *        .instance_size = sizeof(MyDevice),
++ *        .class_init = my_device_class_init,
++ *    };
++ *      </programlisting>
+  * </example>
   *
-- * # Methods #
-+ * Methods
-+ * =======
+  * Introducing new virtual methods requires a class to define its own
+@@ -167,31 +167,31 @@ typedef struct InterfaceInfo InterfaceInfo;
   *
-  * A <emphasis>method</emphasis> is a function within the namespace scope of
-  * a class. It usually operates on the object instance by passing it as a
-@@ -304,7 +307,8 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * The first example of such a QOM method was #CPUClass.reset,
-  * another example is #DeviceClass.realize.
+  * <example>
+  *   <title>Defining an abstract class</title>
+- *   <programlisting>
+- * #include "qdev.h"
+- *
+- * typedef struct MyDeviceClass
+- * {
+- *     DeviceClass parent;
+- *
+- *     void (*frobnicate) (MyDevice *obj);
+- * } MyDeviceClass;
+- *
+- * static const TypeInfo my_device_info = {
+- *     .name = TYPE_MY_DEVICE,
+- *     .parent = TYPE_DEVICE,
+- *     .instance_size = sizeof(MyDevice),
+- *     .abstract = true, // or set a default in my_device_class_init
+- *     .class_size = sizeof(MyDeviceClass),
+- * };
+- *
+- * void my_device_frobnicate(MyDevice *obj)
+- * {
+- *     MyDeviceClass *klass = MY_DEVICE_GET_CLASS(obj);
+- *
+- *     klass->frobnicate(obj);
+- * }
+- *   </programlisting>
++ *      <programlisting>
++ *    #include "qdev.h"
++ *
++ *    typedef struct MyDeviceClass
++ *    {
++ *        DeviceClass parent;
++ *
++ *        void (*frobnicate) (MyDevice *obj);
++ *    } MyDeviceClass;
++ *
++ *    static const TypeInfo my_device_info = {
++ *        .name = TYPE_MY_DEVICE,
++ *        .parent = TYPE_DEVICE,
++ *        .instance_size = sizeof(MyDevice),
++ *        .abstract = true, // or set a default in my_device_class_init
++ *        .class_size = sizeof(MyDeviceClass),
++ *    };
++ *
++ *    void my_device_frobnicate(MyDevice *obj)
++ *    {
++ *        MyDeviceClass *klass = MY_DEVICE_GET_CLASS(obj);
++ *
++ *        klass->frobnicate(obj);
++ *    }
++ *      </programlisting>
+  * </example>
   *
-- * # Standard type declaration and definition macros #
-+ * Standard type declaration and definition macros
-+ * ===============================================
+  * Interfaces
+@@ -236,68 +236,68 @@ typedef struct InterfaceInfo InterfaceInfo;
   *
-  * A lot of the code outlined above follows a standard pattern and naming
-  * convention. To reduce the amount of boilerplate code that needs to be
+  * <example>
+  *   <title>Overriding a virtual method</title>
+- *   <programlisting>
+- * typedef struct MyState MyState;
+- *
+- * typedef void (*MyDoSomething)(MyState *obj);
+- *
+- * typedef struct MyClass {
+- *     ObjectClass parent_class;
+- *
+- *     MyDoSomething do_something;
+- * } MyClass;
+- *
+- * static void my_do_something(MyState *obj)
+- * {
+- *     // do something
+- * }
+- *
+- * static void my_class_init(ObjectClass *oc, void *data)
+- * {
+- *     MyClass *mc = MY_CLASS(oc);
+- *
+- *     mc->do_something = my_do_something;
+- * }
+- *
+- * static const TypeInfo my_type_info = {
+- *     .name = TYPE_MY,
+- *     .parent = TYPE_OBJECT,
+- *     .instance_size = sizeof(MyState),
+- *     .class_size = sizeof(MyClass),
+- *     .class_init = my_class_init,
+- * };
+- *
+- * typedef struct DerivedClass {
+- *     MyClass parent_class;
+- *
+- *     MyDoSomething parent_do_something;
+- * } DerivedClass;
+- *
+- * static void derived_do_something(MyState *obj)
+- * {
+- *     DerivedClass *dc = DERIVED_GET_CLASS(obj);
+- *
+- *     // do something here
+- *     dc->parent_do_something(obj);
+- *     // do something else here
+- * }
+- *
+- * static void derived_class_init(ObjectClass *oc, void *data)
+- * {
+- *     MyClass *mc = MY_CLASS(oc);
+- *     DerivedClass *dc = DERIVED_CLASS(oc);
+- *
+- *     dc->parent_do_something = mc->do_something;
+- *     mc->do_something = derived_do_something;
+- * }
+- *
+- * static const TypeInfo derived_type_info = {
+- *     .name = TYPE_DERIVED,
+- *     .parent = TYPE_MY,
+- *     .class_size = sizeof(DerivedClass),
+- *     .class_init = derived_class_init,
+- * };
+- *   </programlisting>
++ *      <programlisting>
++ *    typedef struct MyState MyState;
++ *
++ *    typedef void (*MyDoSomething)(MyState *obj);
++ *
++ *    typedef struct MyClass {
++ *        ObjectClass parent_class;
++ *
++ *        MyDoSomething do_something;
++ *    } MyClass;
++ *
++ *    static void my_do_something(MyState *obj)
++ *    {
++ *        // do something
++ *    }
++ *
++ *    static void my_class_init(ObjectClass *oc, void *data)
++ *    {
++ *        MyClass *mc = MY_CLASS(oc);
++ *
++ *        mc->do_something = my_do_something;
++ *    }
++ *
++ *    static const TypeInfo my_type_info = {
++ *        .name = TYPE_MY,
++ *        .parent = TYPE_OBJECT,
++ *        .instance_size = sizeof(MyState),
++ *        .class_size = sizeof(MyClass),
++ *        .class_init = my_class_init,
++ *    };
++ *
++ *    typedef struct DerivedClass {
++ *        MyClass parent_class;
++ *
++ *        MyDoSomething parent_do_something;
++ *    } DerivedClass;
++ *
++ *    static void derived_do_something(MyState *obj)
++ *    {
++ *        DerivedClass *dc = DERIVED_GET_CLASS(obj);
++ *
++ *        // do something here
++ *        dc->parent_do_something(obj);
++ *        // do something else here
++ *    }
++ *
++ *    static void derived_class_init(ObjectClass *oc, void *data)
++ *    {
++ *        MyClass *mc = MY_CLASS(oc);
++ *        DerivedClass *dc = DERIVED_CLASS(oc);
++ *
++ *        dc->parent_do_something = mc->do_something;
++ *        mc->do_something = derived_do_something;
++ *    }
++ *
++ *    static const TypeInfo derived_type_info = {
++ *        .name = TYPE_DERIVED,
++ *        .parent = TYPE_MY,
++ *        .class_size = sizeof(DerivedClass),
++ *        .class_init = derived_class_init,
++ *    };
++ *      </programlisting>
+  * </example>
+  *
+  * Alternatively, object_class_by_name() can be used to obtain the class and
+@@ -981,24 +981,24 @@ Object *object_new(const char *typename);
+  *
+  * <example>
+  *   <title>Creating an object with properties</title>
+- *   <programlisting>
+- *   Error *err = NULL;
+- *   Object *obj;
+- *
+- *   obj = object_new_with_props(TYPE_MEMORY_BACKEND_FILE,
+- *                               object_get_objects_root(),
+- *                               "hostmem0",
+- *                               &err,
+- *                               "share", "yes",
+- *                               "mem-path", "/dev/shm/somefile",
+- *                               "prealloc", "yes",
+- *                               "size", "1048576",
+- *                               NULL);
+- *
+- *   if (!obj) {
+- *     error_reportf_err(err, "Cannot create memory backend: ");
+- *   }
+- *   </programlisting>
++ *      <programlisting>
++ *      Error *err = NULL;
++ *      Object *obj;
++ *
++ *      obj = object_new_with_props(TYPE_MEMORY_BACKEND_FILE,
++ *                                  object_get_objects_root(),
++ *                                  "hostmem0",
++ *                                  &err,
++ *                                  "share", "yes",
++ *                                  "mem-path", "/dev/shm/somefile",
++ *                                  "prealloc", "yes",
++ *                                  "size", "1048576",
++ *                                  NULL);
++ *
++ *      if (!obj) {
++ *        error_reportf_err(err, "Cannot create memory backend: ");
++ *      }
++ *      </programlisting>
+  * </example>
+  *
+  * The returned object will have one stable reference maintained
+@@ -1050,20 +1050,20 @@ void object_apply_compat_props(Object *obj);
+  *
+  * <example>
+  *   <title>Update an object's properties</title>
+- *   <programlisting>
+- *   Error *err = NULL;
+- *   Object *obj = ...get / create object...;
+- *
+- *   if (!object_set_props(obj,
+- *                         &err,
+- *                         "share", "yes",
+- *                         "mem-path", "/dev/shm/somefile",
+- *                         "prealloc", "yes",
+- *                         "size", "1048576",
+- *                         NULL)) {
+- *     error_reportf_err(err, "Cannot set properties: ");
+- *   }
+- *   </programlisting>
++ *      <programlisting>
++ *      Error *err = NULL;
++ *      Object *obj = ...get / create object...;
++ *
++ *      if (!object_set_props(obj,
++ *                            &err,
++ *                            "share", "yes",
++ *                            "mem-path", "/dev/shm/somefile",
++ *                            "prealloc", "yes",
++ *                            "size", "1048576",
++ *                            NULL)) {
++ *        error_reportf_err(err, "Cannot set properties: ");
++ *      }
++ *      </programlisting>
+  * </example>
+  *
+  * The returned object will have one stable reference maintained
+@@ -1516,15 +1516,15 @@ typedef struct ObjectPropertyIterator {
+  *
+  * <example>
+  *   <title>Using object property iterators</title>
+- *   <programlisting>
+- *   ObjectProperty *prop;
+- *   ObjectPropertyIterator iter;
+- *
+- *   object_property_iter_init(&iter, obj);
+- *   while ((prop = object_property_iter_next(&iter))) {
+- *     ... do something with prop ...
+- *   }
+- *   </programlisting>
++ *      <programlisting>
++ *      ObjectProperty *prop;
++ *      ObjectPropertyIterator iter;
++ *
++ *      object_property_iter_init(&iter, obj);
++ *      while ((prop = object_property_iter_next(&iter))) {
++ *        ... do something with prop ...
++ *      }
++ *      </programlisting>
+  * </example>
+  */
+ void object_property_iter_init(ObjectPropertyIterator *iter,
 -- 
 2.26.2
 
