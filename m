@@ -2,78 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1116B2646F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:28:47 +0200 (CEST)
-Received: from localhost ([::1]:45884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8132646F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:28:02 +0200 (CEST)
+Received: from localhost ([::1]:44050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGMd4-00072z-3V
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
+	id 1kGMcL-0006D4-Lu
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:28:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGMaT-000487-RE
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:26:06 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54918
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGMb8-0004vL-Nr
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:26:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49944
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGMaQ-0007zh-A3
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:26:05 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGMb6-00084D-Hn
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:26:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599744359;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x02Kpq5uNQIQ8Yywfi65sZksO1TUZy/tcSDDcjqrvyQ=;
- b=QcKofVbxQ1nSr//TWaJYweBZG/vBJ9niznP3oiOvZjS9KdbWbon8JdoZzq2n+pcsW1hysF
- qZGcuR9EThYkCM2rrRTgLLlQzE4QNpgM9JCJOAmvBMdwKoMBCcirUj7Zb3978SquZ6B7Rv
- LSyGzECDoMHKj7ZM+6yTTgXaOs8Mzgo=
+ s=mimecast20190719; t=1599744403;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=D02+IGjfeSb0w+lYeW1n2iyR9G6Iak/vnD2iekp6rWE=;
+ b=Avpub7BYj3a4558RhAakphr4Uetwbe1+9lJkGv5+9f671oHbQOsQnlqTGoWRcHh+ZyM9Mz
+ /dA4ShVAZ70le34gPami+FGTPZIUf1H/HufLcshOYUZwevIMUN5uokj04BukvL0zXGT9Lj
+ cWDvFSHNl3w5Oo4WeqkaVigCSk5YQ04=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-jTcfLOIjPxS_CP3S1dLuKA-1; Thu, 10 Sep 2020 09:25:58 -0400
-X-MC-Unique: jTcfLOIjPxS_CP3S1dLuKA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-2-HsbKobC3P5OJhD_AIXiPiQ-1; Thu, 10 Sep 2020 09:26:41 -0400
+X-MC-Unique: HsbKobC3P5OJhD_AIXiPiQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A65BA80EDA1;
- Thu, 10 Sep 2020 13:25:56 +0000 (UTC)
-Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9E927E8C1;
- Thu, 10 Sep 2020 13:25:53 +0000 (UTC)
-Date: Thu, 10 Sep 2020 14:25:50 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v1 6/7] migration/tls: add support for multifd
- tls-handshake
-Message-ID: <20200910132550.GV1083348@redhat.com>
-References: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
- <1599663177-53993-7-git-send-email-zhengchuan@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 665CE8018A1;
+ Thu, 10 Sep 2020 13:26:40 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-197.ams2.redhat.com
+ [10.36.112.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F6B61002D41;
+ Thu, 10 Sep 2020 13:26:39 +0000 (UTC)
+Subject: Re: [PATCH 18/29] block/export: Add 'id' option to block-export-add
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200907182011.521007-1-kwolf@redhat.com>
+ <20200907182011.521007-19-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <ffe609ec-eea4-f792-92fa-397bf7fa3b44@redhat.com>
+Date: Thu, 10 Sep 2020 15:26:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <1599663177-53993-7-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200907182011.521007-19-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="AWvVAQfI9rrUEUwFT0fruBke4TQevB9gp"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:07:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,83 +107,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, yuxiating@huawei.com,
- dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
- alex.chen@huawei.com, jinyan12@huawei.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 10:52:56PM +0800, Chuan Zheng wrote:
-> add support for multifd tls-handshake
-> 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> Signed-off-by: Yan Jin <jinyan12@huawei.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--AWvVAQfI9rrUEUwFT0fruBke4TQevB9gp
+Content-Type: multipart/mixed; boundary="0P7qkiDsNtED9WRRTJ4IUVfXK81K2X64z"
+
+--0P7qkiDsNtED9WRRTJ4IUVfXK81K2X64z
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 07.09.20 20:20, Kevin Wolf wrote:
+> We'll need an id to identify block exports in monitor commands. This
+> adds one.
+>=20
+> Note that this is different from the 'name' option in the NBD server,
+> which is the externally visible export name. While block export ids need
+> to be unique in the whole process, export names must be unique only for
+> the same server. Different export types or (potentially in the future)
+> multiple NBD servers can have the same export name externally, but still
+> need different block export ids internally.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  migration/multifd.c | 32 +++++++++++++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index b2076d7..2509187 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -719,11 +719,41 @@ out:
->      return NULL;
->  }
->  
-> +static bool multifd_channel_connect(MultiFDSendParams *p,
-> +                                    QIOChannel *ioc,
-> +                                    Error *error);
-> +
-> +static void multifd_tls_outgoing_handshake(QIOTask *task,
-> +                                           gpointer opaque)
-> +{
-> +    MultiFDSendParams *p = opaque;
-> +    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-> +    Error *err = NULL;
-> +
-> +    qio_task_propagate_error(task, &err);
-> +    multifd_channel_connect(p, ioc, err);
-> +}
-> +
->  static void multifd_tls_channel_connect(MultiFDSendParams *p,
->                                      QIOChannel *ioc,
->                                      Error **errp)
->  {
-> -    /* TODO */
-> +    MigrationState *s = p->s;
-> +    const char *hostname = s->hostname;
-> +    QIOChannelTLS *tioc;
-> +
-> +    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-> +    if (!tioc) {
-> +        return;
-> +    }
-> +
-> +    qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
-> +    qio_channel_tls_handshake(tioc,
-> +                              multifd_tls_outgoing_handshake,
-> +                              p,
-> +                              NULL,
-> +                              NULL);
-> +
->  }
+>  qapi/block-export.json               |  5 +++++
+>  include/block/export.h               |  3 +++
+>  block/export/export.c                | 26 ++++++++++++++++++++++++++
+>  blockdev-nbd.c                       |  1 +
+>  qemu-nbd.c                           |  1 +
+>  storage-daemon/qemu-storage-daemon.c |  2 +-
+>  tests/qemu-iotests/223.out           |  4 ++--
+>  7 files changed, 39 insertions(+), 3 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
-Please squash this back into the previous patch, and both are
-inter-dependant on each other, and thus don't make sense to split
+--0P7qkiDsNtED9WRRTJ4IUVfXK81K2X64z--
 
-Assuming it is squashed in
+--AWvVAQfI9rrUEUwFT0fruBke4TQevB9gp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9aKY0ACgkQ9AfbAGHV
+z0BIaggAtH0nAfO1/GPthHvT3pKyXCdEEygFc6i1FHKkp9lOaYZ1GNUH+voFKvuY
+deOJTaMGYYcpoJn82H8w9+rQ8GDpD11WPNVFsgBik8LS1dXMl/NJcVRcDfK0OCUy
+582BgFQRPtIEvsBQr4TnK8hzxmVKYbB16thB9teHjaVQlml7K0shJUQJnINna/r9
+6bk8WXdheYSyY94GbZcK0rSzfusneG0cBKu7cNnhnTLJTRlTvwnqgCprgW+PW6KM
+6SSI11XjnVoYsw0le764fWbSaF0Ijn0keSWmcosxn8yorL4wH/Xo99ddb7ORYTyX
+TeIEl8m/T5ZwR4iF0PpK1o9LjVUEWQ==
+=6WPb
+-----END PGP SIGNATURE-----
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--AWvVAQfI9rrUEUwFT0fruBke4TQevB9gp--
 
 
