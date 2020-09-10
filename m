@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A3D264CF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:30:32 +0200 (CEST)
-Received: from localhost ([::1]:59120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C3A264CE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:29:15 +0200 (CEST)
+Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRL5-0002SQ-R7
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:30:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
+	id 1kGRJq-00087a-CD
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBq-0004e2-GU
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:58 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28245)
+ id 1kGRBr-0004gA-BZ
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:59 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBn-0002iJ-LX
+ id 1kGRBo-0002lX-Kq
  for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762055; x=1631298055;
+ t=1599762056; x=1631298056;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Kel2qMKcnNbVOpgvW0DmRMyEhGmUQ5qLlm7Vxzj1CxM=;
- b=lEGwONpxgnSd0iPb8SSsKos05y/+eOM3sk/Q0gZoypWQexZ4VxYrAoT7
- rCVg2Q6OttlYvE2ti1dkcOxate49LOQBnIL6ybwG+WuOurWEnqg4ABbvG
- K9jWFnxTXck59oXenXC7oqh403EPLYOhOdwYe/xLztuoUKQoMgeKWNDWZ
- GOF5XPm3ZBVNqH9x0J7uxqP2LzfU1G6f9ySPxMLYrSKEFhPw90XWhkUDx
- Wdm+VDcKq+d+UzsoPsg0Yd5LIixs161JsWMZ54UnZlk92klbX0w83Glw6
- AV+amTqz38hdhpAvlyo2BcU6OHhNgkX4OypwPiIBmHNGYklvb3ToZi7xc A==;
-IronPort-SDR: CrG7qIGxonrONaz71Z+IBv+9k6BGDR9dI5+2f1x3ySOm9AnNcKHpJ5LdvF+LveBKo7y4abluWL
- B3LjZAa17AdrUcQIJad4MR71kFhrnqCNwUz9mNmRjyO2lEhXq2DBogAXO7weWoIvI4ovySYlNF
- em9UpOR5y3sA7ErTFTe/9UWb4tNF/a1IMNoq+ZRxyM89TzHh5/J8RHordp6aYZAETYWyVUvGfg
- D9BtlHMXh1TzNDDGnjJmTCY9P9Khf2+iHR0Pu8jLJ39zwmZJZ112GDkImJSuCphJg2RXNIOq0S
- 3cg=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979239"
+ bh=cXsVA5p/DqXijeQyHksD3R4PvZRbw0q4xEv/ESLL9bo=;
+ b=qAOOvpSIxbARSwNf/m0veqytldE4giGTwEhJUdhHvfRXlzcGz1PkGlDA
+ n04UT3/BIo0UzsKr2ENjQfi1MKQkguwKn+olFFoPeijhZSPvqncNFc+SH
+ SARXs2UYfNYeOHh9aERj281SOR6eW9nntChMjfJWUfHV2TaXkIZJdjSWe
+ J6KLAPp0BbuY8nd7rkyh0V2VWVfuPAs67Iv0jCRwv0fbAmiCciAZeyCTY
+ LWcboPlDD20fPrhLmrTDgBgXLvHu/eIfTNEKIuK/nvs6qZeGx79pIRVG5
+ 2io3E3o1rG9NyE+cqBdsQSQQ4aQt3LW3AjHy4KgBWrXRUKcXgLIL3+NWY A==;
+IronPort-SDR: D/T33LI68NV12au+pTtN4flNP5KqLXqMAZqQOZ7CrRttNsDO5PjRlhqtjHr8Y8kXwXB+YktQz5
+ m94lG/0FhE5TGg3zc7MhitWacgYBjBDaC9K96HA1cnDBe/lwkLxJ10z+8AHdAbREp3bwPPb2Dx
+ s+UGxJDi5GANOg6YqwY6IyN+JTe4qe3thhE5eroTMqt0XEU7DUKJqzxpcsDV/ROU/jMQCt8sTw
+ ZB2hK1EXBx2SAxdVboXO5KPgcKDShk8IuzHTzfNaWTsIRdGDIyzeDIHH77bYZozSQlf/qI8nW0
+ 3w8=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979240"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:19 +0800
-IronPort-SDR: unxAXy4PZ60OzkCHfcXjc7Lgcd/JAd2bpMh+W2Jan1w4CP+i0bQdY6syotXpnVhRxj2kfoDPs3
- 8GLZz9K9k4Pg==
+IronPort-SDR: avBAkphvHll9ghgUTclsszC62FpubjUnrSJDP/1GWNT+JnUO6Sh5TcTR3oIE6E1rf1ijGbIBTX
+ vMbCFGaoGckg==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:36 -0700
-IronPort-SDR: 6qbCYo3hklRd0pE+N+RPz6KNid7FjGEE9sRpivp+UFvIp2y2qryPwn1fZPOjbgyGlpOLBzmdBl
- lGRhrS4Pu2hg==
+IronPort-SDR: AvdKnmS5bTxuWgWV00DFpfywA3tjqP8Fp1SNCp01LRoQ2UMn5j8GtU+JD+REJU8KBpAR3q5x4c
+ IctQGH/6GshQ==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
@@ -56,10 +56,9 @@ Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 17/30] hw/riscv: clint: Avoid using hard-coded timebase
- frequency
-Date: Thu, 10 Sep 2020 11:09:25 -0700
-Message-Id: <20200910180938.584205-18-alistair.francis@wdc.com>
+Subject: [PULL 18/30] hw/riscv: sifive_u: Connect a DMA controller
+Date: Thu, 10 Sep 2020 11:09:26 -0700
+Message-Id: <20200910180938.584205-19-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
@@ -96,297 +95,144 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present the CLINT timestamp is using a hard-coded timebase
-frequency value SIFIVE_CLINT_TIMEBASE_FREQ. This might not be
-true for all boards.
-
-Add a new 'timebase-freq' property to the CLINT device, and
-update various functions to accept this as a parameter.
+SiFive FU540 SoC integrates a platform DMA controller with 4 DMA
+channels. This connects the exsiting SiFive PDMA model to the SoC,
+and adds its device tree data as well.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1598924352-89526-16-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1598924352-89526-17-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/sifive_clint.h |  4 +++-
- target/riscv/cpu.h              |  6 ++++--
- hw/riscv/microchip_pfsoc.c      |  6 +++++-
- hw/riscv/sifive_clint.c         | 26 +++++++++++++++-----------
- hw/riscv/sifive_e.c             |  3 ++-
- hw/riscv/sifive_u.c             |  3 ++-
- hw/riscv/spike.c                |  3 ++-
- hw/riscv/virt.c                 |  3 ++-
- target/riscv/cpu_helper.c       |  4 +++-
- target/riscv/csr.c              |  4 ++--
- 10 files changed, 40 insertions(+), 22 deletions(-)
+ include/hw/riscv/sifive_u.h | 11 +++++++++++
+ hw/riscv/sifive_u.c         | 30 ++++++++++++++++++++++++++++++
+ hw/riscv/Kconfig            |  1 +
+ 3 files changed, 42 insertions(+)
 
-diff --git a/include/hw/riscv/sifive_clint.h b/include/hw/riscv/sifive_clint.h
-index 9f5fb3d31d..a30be0f3d6 100644
---- a/include/hw/riscv/sifive_clint.h
-+++ b/include/hw/riscv/sifive_clint.h
-@@ -39,11 +39,13 @@ typedef struct SiFiveCLINTState {
-     uint32_t timecmp_base;
-     uint32_t time_base;
-     uint32_t aperture_size;
-+    uint32_t timebase_freq;
- } SiFiveCLINTState;
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index d3c0c00d10..793000a2ed 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -19,6 +19,7 @@
+ #ifndef HW_SIFIVE_U_H
+ #define HW_SIFIVE_U_H
  
- DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
-     uint32_t hartid_base, uint32_t num_harts, uint32_t sip_base,
--    uint32_t timecmp_base, uint32_t time_base, bool provide_rdtime);
-+    uint32_t timecmp_base, uint32_t time_base, uint32_t timebase_freq,
-+    bool provide_rdtime);
++#include "hw/dma/sifive_pdma.h"
+ #include "hw/net/cadence_gem.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_cpu.h"
+@@ -43,6 +44,7 @@ typedef struct SiFiveUSoCState {
+     SiFiveUPRCIState prci;
+     SIFIVEGPIOState gpio;
+     SiFiveUOTPState otp;
++    SiFivePDMAState dma;
+     CadenceGEMState gem;
  
- enum {
-     SIFIVE_SIP_BASE     = 0x0,
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0d1728a8cd..65daa73675 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -219,7 +219,8 @@ struct CPURISCVState {
-     pmp_table_t pmp_state;
- 
-     /* machine specific rdtime callback */
--    uint64_t (*rdtime_fn)(void);
-+    uint64_t (*rdtime_fn)(uint32_t);
-+    uint32_t rdtime_fn_arg;
- 
-     /* True if in debugger mode.  */
-     bool debugger;
-@@ -350,7 +351,8 @@ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
- int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
- uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
- #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
--void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void));
-+void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
-+                             uint32_t arg);
- #endif
- void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
- 
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 11ebdd1aa8..da6bd295ce 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -60,6 +60,9 @@
- #define BIOS_FILENAME   "hss.bin"
- #define RESET_VECTOR    0x20220000
- 
-+/* CLINT timebase frequency */
-+#define CLINT_TIMEBASE_FREQ 1000000
-+
- /* GEM version */
- #define GEM_REVISION    0x0107010c
- 
-@@ -187,7 +190,8 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     /* CLINT */
-     sifive_clint_create(memmap[MICROCHIP_PFSOC_CLINT].base,
-         memmap[MICROCHIP_PFSOC_CLINT].size, 0, ms->smp.cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        CLINT_TIMEBASE_FREQ, false);
- 
-     /* L2 cache controller */
-     create_unimplemented_device("microchip.pfsoc.l2cc",
-diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
-index 15e13d5f7a..fa1ddf2ccd 100644
---- a/hw/riscv/sifive_clint.c
-+++ b/hw/riscv/sifive_clint.c
-@@ -29,22 +29,23 @@
- #include "hw/riscv/sifive_clint.h"
- #include "qemu/timer.h"
- 
--static uint64_t cpu_riscv_read_rtc(void)
-+static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
- {
-     return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
--        SIFIVE_CLINT_TIMEBASE_FREQ, NANOSECONDS_PER_SECOND);
-+        timebase_freq, NANOSECONDS_PER_SECOND);
- }
- 
- /*
-  * Called when timecmp is written to update the QEMU timer or immediately
-  * trigger timer interrupt if mtimecmp <= current timer value.
-  */
--static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value)
-+static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
-+                                       uint32_t timebase_freq)
- {
-     uint64_t next;
-     uint64_t diff;
- 
--    uint64_t rtc_r = cpu_riscv_read_rtc();
-+    uint64_t rtc_r = cpu_riscv_read_rtc(timebase_freq);
- 
-     cpu->env.timecmp = value;
-     if (cpu->env.timecmp <= rtc_r) {
-@@ -59,7 +60,7 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value)
-     diff = cpu->env.timecmp - rtc_r;
-     /* back to ns (note args switched in muldiv64) */
-     next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--        muldiv64(diff, NANOSECONDS_PER_SECOND, SIFIVE_CLINT_TIMEBASE_FREQ);
-+        muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
-     timer_mod(cpu->env.timer, next);
- }
- 
-@@ -112,10 +113,10 @@ static uint64_t sifive_clint_read(void *opaque, hwaddr addr, unsigned size)
-         }
-     } else if (addr == clint->time_base) {
-         /* time_lo */
--        return cpu_riscv_read_rtc() & 0xFFFFFFFF;
-+        return cpu_riscv_read_rtc(clint->timebase_freq) & 0xFFFFFFFF;
-     } else if (addr == clint->time_base + 4) {
-         /* time_hi */
--        return (cpu_riscv_read_rtc() >> 32) & 0xFFFFFFFF;
-+        return (cpu_riscv_read_rtc(clint->timebase_freq) >> 32) & 0xFFFFFFFF;
-     }
- 
-     error_report("clint: invalid read: %08x", (uint32_t)addr);
-@@ -153,13 +154,13 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
-             /* timecmp_lo */
-             uint64_t timecmp_hi = env->timecmp >> 32;
-             sifive_clint_write_timecmp(RISCV_CPU(cpu),
--                timecmp_hi << 32 | (value & 0xFFFFFFFF));
-+                timecmp_hi << 32 | (value & 0xFFFFFFFF), clint->timebase_freq);
-             return;
-         } else if ((addr & 0x7) == 4) {
-             /* timecmp_hi */
-             uint64_t timecmp_lo = env->timecmp;
-             sifive_clint_write_timecmp(RISCV_CPU(cpu),
--                value << 32 | (timecmp_lo & 0xFFFFFFFF));
-+                value << 32 | (timecmp_lo & 0xFFFFFFFF), clint->timebase_freq);
-         } else {
-             error_report("clint: invalid timecmp write: %08x", (uint32_t)addr);
-         }
-@@ -194,6 +195,7 @@ static Property sifive_clint_properties[] = {
-     DEFINE_PROP_UINT32("timecmp-base", SiFiveCLINTState, timecmp_base, 0),
-     DEFINE_PROP_UINT32("time-base", SiFiveCLINTState, time_base, 0),
-     DEFINE_PROP_UINT32("aperture-size", SiFiveCLINTState, aperture_size, 0),
-+    DEFINE_PROP_UINT32("timebase-freq", SiFiveCLINTState, timebase_freq, 0),
-     DEFINE_PROP_END_OF_LIST(),
+     uint32_t serial;
+@@ -72,6 +74,7 @@ enum {
+     SIFIVE_U_MROM,
+     SIFIVE_U_CLINT,
+     SIFIVE_U_L2CC,
++    SIFIVE_U_PDMA,
+     SIFIVE_U_L2LIM,
+     SIFIVE_U_PLIC,
+     SIFIVE_U_PRCI,
+@@ -108,6 +111,14 @@ enum {
+     SIFIVE_U_GPIO_IRQ13 = 20,
+     SIFIVE_U_GPIO_IRQ14 = 21,
+     SIFIVE_U_GPIO_IRQ15 = 22,
++    SIFIVE_U_PDMA_IRQ0 = 23,
++    SIFIVE_U_PDMA_IRQ1 = 24,
++    SIFIVE_U_PDMA_IRQ2 = 25,
++    SIFIVE_U_PDMA_IRQ3 = 26,
++    SIFIVE_U_PDMA_IRQ4 = 27,
++    SIFIVE_U_PDMA_IRQ5 = 28,
++    SIFIVE_U_PDMA_IRQ6 = 29,
++    SIFIVE_U_PDMA_IRQ7 = 30,
+     SIFIVE_U_GEM_IRQ = 0x35
  };
  
-@@ -232,7 +234,8 @@ type_init(sifive_clint_register_types)
-  */
- DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
-     uint32_t hartid_base, uint32_t num_harts, uint32_t sip_base,
--    uint32_t timecmp_base, uint32_t time_base, bool provide_rdtime)
-+    uint32_t timecmp_base, uint32_t time_base, uint32_t timebase_freq,
-+    bool provide_rdtime)
- {
-     int i;
-     for (i = 0; i < num_harts; i++) {
-@@ -242,7 +245,7 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
-             continue;
-         }
-         if (provide_rdtime) {
--            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc);
-+            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_freq);
-         }
-         env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-                                   &sifive_clint_timer_cb, cpu);
-@@ -256,6 +259,7 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
-     qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
-     qdev_prop_set_uint32(dev, "time-base", time_base);
-     qdev_prop_set_uint32(dev, "aperture-size", size);
-+    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-     return dev;
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index cd7560d8ec..36ccfb2071 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -213,7 +213,8 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         memmap[SIFIVE_E_PLIC].size);
-     sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
-         memmap[SIFIVE_E_CLINT].size, 0, ms->smp.cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        SIFIVE_CLINT_TIMEBASE_FREQ, false);
-     create_unimplemented_device("riscv.sifive.e.aon",
-         memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
-     sifive_e_prci_create(memmap[SIFIVE_E_PRCI].base);
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 404d5e6918..2bc3992989 100644
+index 2bc3992989..79975372ef 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -706,7 +706,8 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_IRQ));
-     sifive_clint_create(memmap[SIFIVE_U_CLINT].base,
-         memmap[SIFIVE_U_CLINT].size, 0, ms->smp.cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        SIFIVE_CLINT_TIMEBASE_FREQ, false);
+@@ -14,6 +14,7 @@
+  * 4) GPIO (General Purpose Input/Output Controller)
+  * 5) OTP (One-Time Programmable) memory with stored serial number
+  * 6) GEM (Gigabit Ethernet Controller) and management block
++ * 7) DMA (Direct Memory Access Controller)
+  *
+  * This board currently generates devicetree dynamically that indicates at least
+  * two harts and up to five harts.
+@@ -73,6 +74,7 @@ static const struct MemmapEntry {
+     [SIFIVE_U_MROM] =     {     0x1000,     0xf000 },
+     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
+     [SIFIVE_U_L2CC] =     {  0x2010000,     0x1000 },
++    [SIFIVE_U_PDMA] =     {  0x3000000,   0x100000 },
+     [SIFIVE_U_L2LIM] =    {  0x8000000,  0x2000000 },
+     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
+     [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
+@@ -303,6 +305,22 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
+     g_free(nodename);
  
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->prci), errp)) {
++    nodename = g_strdup_printf("/soc/dma@%lx",
++        (long)memmap[SIFIVE_U_PDMA].base);
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cell(fdt, nodename, "#dma-cells", 1);
++    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
++        SIFIVE_U_PDMA_IRQ0, SIFIVE_U_PDMA_IRQ1, SIFIVE_U_PDMA_IRQ2,
++        SIFIVE_U_PDMA_IRQ3, SIFIVE_U_PDMA_IRQ4, SIFIVE_U_PDMA_IRQ5,
++        SIFIVE_U_PDMA_IRQ6, SIFIVE_U_PDMA_IRQ7);
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
++    qemu_fdt_setprop_cells(fdt, nodename, "reg",
++        0x0, memmap[SIFIVE_U_PDMA].base,
++        0x0, memmap[SIFIVE_U_PDMA].size);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible",
++                            "sifive,fu540-c000-pdma");
++    g_free(nodename);
++
+     nodename = g_strdup_printf("/soc/cache-controller@%lx",
+         (long)memmap[SIFIVE_U_L2CC].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+@@ -627,6 +645,7 @@ static void sifive_u_soc_instance_init(Object *obj)
+     object_initialize_child(obj, "otp", &s->otp, TYPE_SIFIVE_U_OTP);
+     object_initialize_child(obj, "gem", &s->gem, TYPE_CADENCE_GEM);
+     object_initialize_child(obj, "gpio", &s->gpio, TYPE_SIFIVE_GPIO);
++    object_initialize_child(obj, "pdma", &s->dma, TYPE_SIFIVE_PDMA);
+ }
+ 
+ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+@@ -730,6 +749,17 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+                                             SIFIVE_U_GPIO_IRQ0 + i));
+     }
+ 
++    /* PDMA */
++    sysbus_realize(SYS_BUS_DEVICE(&s->dma), errp);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->dma), 0, memmap[SIFIVE_U_PDMA].base);
++
++    /* Connect PDMA interrupts to the PLIC */
++    for (i = 0; i < SIFIVE_PDMA_IRQS; i++) {
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
++                           qdev_get_gpio_in(DEVICE(s->plic),
++                                            SIFIVE_U_PDMA_IRQ0 + i));
++    }
++
+     qdev_prop_set_uint32(DEVICE(&s->otp), "serial", s->serial);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->otp), errp)) {
          return;
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 56f5fe73c7..b54a396107 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -242,7 +242,8 @@ static void spike_board_init(MachineState *machine)
-         sifive_clint_create(
-             memmap[SPIKE_CLINT].base + i * memmap[SPIKE_CLINT].size,
-             memmap[SPIKE_CLINT].size, base_hartid, hart_count,
--            SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
-+            SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+            SIFIVE_CLINT_TIMEBASE_FREQ, false);
-     }
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 9032cb0cbd..e53ab1efa5 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -22,6 +22,7 @@ config SIFIVE_U
+     select CADENCE
+     select HART
+     select SIFIVE
++    select SIFIVE_PDMA
+     select UNIMP
  
-     /* register system main memory (actual RAM) */
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 6fca513ec9..c67a910e48 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -541,7 +541,8 @@ static void virt_machine_init(MachineState *machine)
-         sifive_clint_create(
-             memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size,
-             memmap[VIRT_CLINT].size, base_hartid, hart_count,
--            SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, true);
-+            SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+            SIFIVE_CLINT_TIMEBASE_FREQ, true);
- 
-         /* Per-socket PLIC hart topology configuration string */
-         plic_hart_config_len =
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 005880627e..f4c4111536 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -276,9 +276,11 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
-     return old;
- }
- 
--void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void))
-+void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
-+                             uint32_t arg)
- {
-     env->rdtime_fn = fn;
-+    env->rdtime_fn_arg = arg;
- }
- 
- void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 200001de74..26ae347b4a 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -351,7 +351,7 @@ static int read_time(CPURISCVState *env, int csrno, target_ulong *val)
-         return -RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    *val = env->rdtime_fn() + delta;
-+    *val = env->rdtime_fn(env->rdtime_fn_arg) + delta;
-     return 0;
- }
- 
-@@ -364,7 +364,7 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
-         return -RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    *val = (env->rdtime_fn() + delta) >> 32;
-+    *val = (env->rdtime_fn(env->rdtime_fn_arg) + delta) >> 32;
-     return 0;
- }
- #endif
+ config SPIKE
 -- 
 2.28.0
 
