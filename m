@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6988A2646B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:17:02 +0200 (CEST)
-Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378F72646B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:17:09 +0200 (CEST)
+Received: from localhost ([::1]:59046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGMRh-0005cb-9u
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:17:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33136)
+	id 1kGMRo-0005vC-5f
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:17:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGMPu-0003vy-5z
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:10 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56040)
+ id 1kGMPx-00040M-19
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:13 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGMPs-00064g-E6
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:09 -0400
-Received: by mail-wm1-x334.google.com with SMTP id a65so5589184wme.5
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:15:07 -0700 (PDT)
+ id 1kGMPv-00066x-BA
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:12 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id s12so6632211wrw.11
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1IVujaGcl6Gaeb44XvH6utm7tpVyG1R70wAp2OwcHKE=;
- b=QWasbVzqGjmIb6mcq+bDGufK48YF9mzK9gFFvYiuOwKW3ujXXBOxSjepx841Qn0ERZ
- /NGAAdiT9EehL8SBgR2liB8AV52gnqC3/b0Vv+VfzbECCV2Lo/ofYQloJ8m6vcQI+U9Y
- ofxnEZpU8pazgX1neTq+rl94WBAPCd0UKmVAeXO7/EgPhQINzsRmKBgdE8ge+vIfAQFb
- k5r8Ht59wagjlSEeHMrvmuvhSWcCz8BU2W7hrjbC4fDIIBPulkD7GtNlVwQ5mlQkrgCi
- YZeh+u59VRRmX2zC1bA83NsVvgp0LfVt8AS3pT125u9KFeArja8YDXvNzC8pxSA+YTqS
- NTpA==
+ bh=2cx8jHS3LDXcAjC1Gi1p55lLhOOKCtECYIqvv44WK10=;
+ b=hqaQz8MEie1GF6oYswJDmywE8n12EtaZ4paup5LTS7qqWM++rSPPcSXwJvcG3Ub3q2
+ Ze2LoN+xyT+FA5ITATgl9MrCxjg6cmbL6PsYKwKvMFoHoguDZkQsM7sRXcQ2qWE9VeHT
+ MuL/CQoDO10jZX8hJN98uFnfv0Tvc4Oafcir6J9RU0NDloXo9iiwkivJZ0dETjJ09lbC
+ MEDaZtXrpxCVB0hNCCEJ0d8o/hwoDRlWsOeWbExa52fgPSYh+gEz85xDz9wu3UnnsKlV
+ 250AREmaUjcynCdAlhNGIl33wKYV0OJgq0r29ZKudcbs0MYjJlQHM++FZ0dwcLfiXwkb
+ q9dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1IVujaGcl6Gaeb44XvH6utm7tpVyG1R70wAp2OwcHKE=;
- b=r/1sRu4DnLp+TLRfwwaLuKpzAnqf5EEuaaISpAfyZ2of5ZoakCsiCbm4WtwPtU44GN
- 0uzNFxdJk6L2MGbW0q+/KWDCZaDyFgclSkGNDeymPzqPu8m9BYXk9AJi+6FzjAnntmDy
- IpEut5VmMl5nMADxRMm14QDa53rDyKGo5urG7iBslqg5JS7gDbX3HTRx6rRk82RQGrwD
- CEuxVHWn6l1CXQl6/36PdqEkbfs9wI/annnqy/H3cdc6pfe8w4llJeVCMVBAbTz4BInA
- BjP0uX7eN7t6Mp/17Lijdg5JuZEatp1aOedeAnQ9n9yyeKcdhuwjQOI2aOFKwp3/w8+S
- XZjA==
-X-Gm-Message-State: AOAM533nmJypdCnqmd9pIFcjhxb6fXdGKdsg/t5qNfcHwo5I61p28RaW
- An1yOd+/DA8vf0vcHONJ3j82pw==
-X-Google-Smtp-Source: ABdhPJz5W4oHB5KcDDy1IcOmfNtvhSdSRWZxgKzsC1XVyKTiKLqcHa2boLy1lCaKs9bqzPqy119f2A==
-X-Received: by 2002:a1c:9a8d:: with SMTP id c135mr63339wme.58.1599743706263;
- Thu, 10 Sep 2020 06:15:06 -0700 (PDT)
+ bh=2cx8jHS3LDXcAjC1Gi1p55lLhOOKCtECYIqvv44WK10=;
+ b=E+NAZV5pEUjUXwL27Q8LqkpU8lFlPLkVvPbqJoAfdXe+jAjg6Ou5gKdIMHZPlWr1t6
+ +evVPd/sm1E0VMW2mPVAc+jADt1vd9jAx/uLynRWiAp/lXIy2kRkxaDH4+RNfjI4MwTd
+ Tl3aatXPFe4uePVYImNnrEbLmlK4ljZCS3CpyKjV8x05y2z7mnzUBjY1O4UHhmY+isBK
+ sEmrINpinsVywibhi7Mje/XYM5And8K2aP69U1dbkNlmSbdZR3lhBCTdDIiMQQuYGxxH
+ sYAC7d+lF15+IXTi4NCSO3GU7JA3rNZyhyO1uirXeQdm89VYim7mpsbS6rluxkvqKq08
+ R/qg==
+X-Gm-Message-State: AOAM530fI9+mGQ7X3GGlr6p+0dZVb4CZfat35ubDjjlFDDnavTeEbEGa
+ AUtxM4oUJEU/yQKU9Pb9pppbew==
+X-Google-Smtp-Source: ABdhPJwKvxg4pb/T0NM2vcuAnrhbJ29Uf/o/3XpFNVmxwr2pPIcS8WlkrTehU6ecUo4O0wIrjqg+9w==
+X-Received: by 2002:a5d:458e:: with SMTP id p14mr9053965wrq.61.1599743709923; 
+ Thu, 10 Sep 2020 06:15:09 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f1sm9030393wrt.20.2020.09.10.06.15.04
+ by smtp.gmail.com with ESMTPSA id i1sm11364022wrc.49.2020.09.10.06.15.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 06:15:04 -0700 (PDT)
+ Thu, 10 Sep 2020 06:15:05 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 77C6B1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 8F60A1FF8C;
  Thu, 10 Sep 2020 14:15:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/10] CODING_STYLE.rst: flesh out our naming conventions.
-Date: Thu, 10 Sep 2020 14:14:55 +0100
-Message-Id: <20200910131504.11341-2-alex.bennee@linaro.org>
+Subject: [PULL 02/10] usb-host: restrict workaround to new libusb versions
+Date: Thu, 10 Sep 2020 14:14:56 +0100
+Message-Id: <20200910131504.11341-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200910131504.11341-1-alex.bennee@linaro.org>
 References: <20200910131504.11341-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,67 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mention a few of the more common naming conventions we follow in the
-code base including common variable names and function prefix and
-suffix examples.
+From: Gerd Hoffmann <kraxel@redhat.com>
 
+Fixes build failures with old kernels (USBDEVFS_GET_SPEED missing),
+on the assumtion that distros with old kernels also have old libusb.
+
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200909112742.25730-2-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200902081445.3291-1-kraxel@redhat.com>
+Message-Id: <20200909112742.25730-3-alex.bennee@linaro.org>
 
-diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
-index 427699e0e42..8b13ef0669e 100644
---- a/CODING_STYLE.rst
-+++ b/CODING_STYLE.rst
-@@ -109,8 +109,41 @@ names are lower_case_with_underscores_ending_with_a_t, like the POSIX
- uint64_t and family.  Note that this last convention contradicts POSIX
- and is therefore likely to be changed.
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index 08604f787fd..c5d38cb09c0 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -942,7 +942,7 @@ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
+     usb_host_ep_update(s);
  
--When wrapping standard library functions, use the prefix ``qemu_`` to alert
--readers that they are seeing a wrapped version; otherwise avoid this prefix.
-+Variable Naming Conventions
-+---------------------------
-+
-+A number of short naming conventions exist for variables that use
-+common QEMU types. For example, the architecture independent CPUState
-+is often held as a ``cs`` pointer variable, whereas the concrete
-+CPUArchState is usually held in a pointer called ``env``.
-+
-+Likewise, in device emulation code the common DeviceState is usually
-+called ``dev``.
-+
-+Function Naming Conventions
-+---------------------------
-+
-+Wrapped version of standard library or GLib functions use a ``qemu_``
-+prefix to alert readers that they are seeing a wrapped version, for
-+example ``qemu_strtol`` or ``qemu_mutex_lock``.  Other utility functions
-+that are widely called from across the codebase should not have any
-+prefix, for example ``pstrcpy`` or bit manipulation functions such as
-+``find_first_bit``.
-+
-+The ``qemu_`` prefix is also used for functions that modify global
-+emulator state, for example ``qemu_add_vm_change_state_handler``.
-+However, if there is an obvious subsystem-specific prefix it should be
-+used instead.
-+
-+Public functions from a file or subsystem (declared in headers) tend
-+to have a consistent prefix to show where they came from. For example,
-+``tlb_`` for functions from ``cputlb.c`` or ``cpu_`` for functions
-+from cpus.c.
-+
-+If there are two versions of a function to be called with or without a
-+lock held, the function that expects the lock to be already held
-+usually uses the suffix ``_locked``.
-+
- 
- Block structure
- ===============
+     libusb_speed = libusb_get_device_speed(dev);
+-#ifdef CONFIG_LINUX
++#if LIBUSB_API_VERSION >= 0x01000107 && defined(CONFIG_LINUX)
+     if (hostfd && libusb_speed == 0) {
+         /*
+          * Workaround libusb bug: libusb_get_device_speed() does not
 -- 
 2.20.1
 
