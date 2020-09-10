@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0C526497B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 18:15:44 +0200 (CEST)
-Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A565264984
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 18:18:28 +0200 (CEST)
+Received: from localhost ([::1]:59440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGPEc-0000ZX-V3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 12:15:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53100)
+	id 1kGPHH-0001jp-Dm
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 12:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kGPDd-000070-QP
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 12:14:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56842
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kGPDc-0006iF-2O
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 12:14:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599754479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i2l/USfSIL0KAJeLsXJ8wLPZiOpcOIR3uPOAKTlc9zo=;
- b=IuwI55o8zUQTzTsuLbnHe0/ICW0gTU+WaZxd9QgGeVxmPT4ZN7uUFDrxiEjCzKC+zHMlll
- 86k9WNE3Ad4e55s7oqgxLjWo6ttOYTTGxgc4RW1ykgV1AdelZmawpzPLukQsIi/z1Wcvvv
- J5rPdRXtWzwPNWGn21MltLKokgwPI+E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-goWY9Wc-Ma26rbeg74fKMA-1; Thu, 10 Sep 2020 12:14:35 -0400
-X-MC-Unique: goWY9Wc-Ma26rbeg74fKMA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 816A164084
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 16:14:34 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-83.ams2.redhat.com
- [10.36.114.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8E261002D4E;
- Thu, 10 Sep 2020 16:14:33 +0000 (UTC)
-Subject: Re: [PATCH 05/10] roms/edk2: update submodule from edk2-stable201905
- to edk2-stable202008
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
-References: <20200908072939.30178-1-lersek@redhat.com>
- <20200908072939.30178-6-lersek@redhat.com>
- <1356c404-517c-cf5c-bc04-04237c03f572@redhat.com>
- <2e0b207b-d902-f56c-18d7-50998c7de991@redhat.com>
- <0309f104-854a-840b-8ec3-fb50960d7821@redhat.com>
- <96e060e8-767c-9f2c-942e-597b38473846@redhat.com>
- <3c7cc69e-566e-b405-f1da-c4e56c5c8e46@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <1084f73c-be40-3429-37d8-df0470d16080@redhat.com>
-Date: Thu, 10 Sep 2020 18:14:32 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kGPGP-0001Bd-QS
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 12:17:35 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40408)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kGPGM-00079x-PZ
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 12:17:33 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id t16so6901723edw.7
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 09:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d1zXZOEgjCvDqH4TQTfV6VGTaNJ2HtR22eSSv5aQpQI=;
+ b=ey9ydOUeMz6AnjSZymN2hY/+r4tmd0diLawBfjwdFXVYz3anLyOdzd2kSRhqC63nTX
+ SaCSr0qklDWHfwyvyi036fQ6G9atqBFN+PNEvvo/+lSKYONNa0VmB1gkqGhbljztujE1
+ RvEL+k7RieKlVcT7+g6AxWO/mSn5N9xsobPOAh4ThxXDXgqJPTw+eQ3pdBzuE+mqTIBy
+ /7l3fZijyWfTs6HGZEPb3BO4k4FL9GEuOKuNfbIyw4tZvltduV2I8AFF6GVmzqjfWo/4
+ 4SaVXdsnM292LRtep5ZPIPUvA/6nd1fVNGSElCC/H9V5SzWI7NBXrJXaVfvNgOyPPYMH
+ YSng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d1zXZOEgjCvDqH4TQTfV6VGTaNJ2HtR22eSSv5aQpQI=;
+ b=WCpC3Rxmt2RomnfqUEvg+LmWd3izKSc7XCO3umgRmlz/0iULS4+asRHmomx0gn6zBV
+ PjTg0N2q3bd8N0P5fcq1o+SX/jiPd6eWNES7n0f6CnkG9A9ZaAMpNqdLDOdozSrBr0Xo
+ ZOKijfdvtsIHejb+VD2y5TR5uSZT8V1Nm4gLn8zllmRUlxLUvXAc4b639XI8W7UM11s2
+ MinvMMPds5o9xZ/htTGDO9ZbtLe0cA+0v/pZh585tUcGZhqgDOd8wBK3b3yTo+lJDzVJ
+ qh2n5jqDTxwcREdaN4McdgOBemza0uP3Hm5heBOBH3V8qYwwwA2R8mjlBqioCzakMzRH
+ sdFQ==
+X-Gm-Message-State: AOAM5300FTKzztdOJTnFiJvOANDD2MBUSOY5PNd2zIP9XdEaD44aOCjy
+ nZGAlny+z3jqoQobYcegXBhdAcTE1nr5W+pqwUVzgw==
+X-Google-Smtp-Source: ABdhPJxkb3Z1wBFO4ZU32wnRsE1JVVA6ovzVttRJFzCBtrERAZl954led5+jkm3N3+TJznIcjLknnItLY1mpcPmkLaU=
+X-Received: by 2002:a50:f28b:: with SMTP id f11mr9948499edm.44.1599754649067; 
+ Thu, 10 Sep 2020 09:17:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3c7cc69e-566e-b405-f1da-c4e56c5c8e46@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:35:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <CAJoBWHwtE+HWkoj3a2pdYHOkPpG7ya=+-RRFvUp-SXwuTWvm5g@mail.gmail.com>
+In-Reply-To: <CAJoBWHwtE+HWkoj3a2pdYHOkPpG7ya=+-RRFvUp-SXwuTWvm5g@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Sep 2020 17:17:17 +0100
+Message-ID: <CAFEAcA8spQVin2vj2V5DJYQCR_BizqrRneoRMKhqKAzFv8EiMg@mail.gmail.com>
+Subject: Re: Master cannot execute MTE instructions
+To: Derrick McKee <derrick.mckee@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,73 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:ARM" <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/20 18:00, Philippe Mathieu-Daudé wrote:
-> On 9/10/20 5:44 PM, Laszlo Ersek wrote:
->> On 09/10/20 17:32, Philippe Mathieu-Daudé wrote:
->>> On 9/8/20 2:08 PM, Laszlo Ersek wrote:
->>>> On 09/08/20 10:22, Philippe Mathieu-Daudé wrote:
->>>>> Hi Laszlo,
->>>>>
->>>>> On 9/8/20 9:29 AM, Laszlo Ersek wrote:
->>>>>> Update the edk2 submodule from release edk2-stable201905 to
->>>>>> edk2-stable202008. The release notes can be read at
->>>>> [...]
->>>>>>
->>>>>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>> Ref: https://bugs.launchpad.net/qemu/+bug/1852196
->>>>>> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
->>>>>> ---
->>>>>>  roms/edk2 | 2 +-
->>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/roms/edk2 b/roms/edk2
->>>>>> index 20d2e5a125e3..06dc822d045c 160000
->>>>>> --- a/roms/edk2
->>>>>> +++ b/roms/edk2
->>>>>> @@ -1 +1 @@
->>>>>> -Subproject commit 20d2e5a125e34fc8501026613a71549b2a1a3e54
->>>>>> +Subproject commit 06dc822d045c2bb42e497487935485302486e151
->>>>>
->>>>> FYI applying this I got:
->>>>>
->>>>> Fetching submodule roms/edk2
->>>>> Fetching submodule roms/edk2/CryptoPkg/Library/OpensslLib/openssl
->>>>> From https://github.com/openssl/openssl
->>>>> Could not access submodule 'krb5'
->>>>> Errors during submodule fetch:
->>>>>         CryptoPkg/Library/OpensslLib/openssl
->>>>> Errors during submodule fetch:
->>>>>         roms/edk2
->>>>>
->>>>> Probably harmless, as if one care about this submodule,
->>>>> will run "make edk2-basetools" which runs 'git submodule
->>>>> update --init --force' and silently fixes the submodules.
->>>>>
->>>>
->>>> Did you pass the "--recursive" option to the "git submodule" perhaps?
->>>
->>> No I didn't used it.
->>
->> So what was the precise command? git-am, git-fetch, or something else?...
-> 
-> I only used:
-> 
->   git submodule sync
->   git submodule update
-> 
->>
->> I'm asking because I've genuinely not seen git attempt to fetch edk2 ->
->> openssl -> krb, apart from "--recursive".
->>
->> (Anyway, I don't think I can do anything about the krb5 fetch...)
-> 
-> Yeah I'm not worried about this, I was just curious.
+On Thu, 10 Sep 2020 at 16:06, Derrick McKee <derrick.mckee@gmail.com> wrote:
+>
+> Hi,
+>
+> As of commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a compiled with the default configuration, softmmu-aarch64 issues an illegal instruction fault when executing a memory tag instruction.  Below is a minimal code example that triggers the bug.
 
-Thanks. FWIW I can't reproduce the symptom, using the above commands.
+What QEMU command line are you using to run this?
+In particular, MTE is not enabled by default, so you need
+"-cpu max,mte=on" or similar, is not enabled for any
+board except 'virt', and doesn't work with KVM, only TCG.
 
-Laszlo
-
+thanks
+-- PMM
 
