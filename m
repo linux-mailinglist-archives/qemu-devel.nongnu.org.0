@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B482646A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:12:59 +0200 (CEST)
-Received: from localhost ([::1]:52294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D01F2646B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:17:04 +0200 (CEST)
+Received: from localhost ([::1]:58480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGMNm-0002wP-P1
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60688)
+	id 1kGMRj-0005hH-4H
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:17:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGMN4-0002Oh-9W
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:12:14 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53425
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGMN2-0005lL-8l
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:12:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599743531;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=kmvf/8+TJT7nZ+M/vgiAaGWat+FnAUtOVuwZjsObNgk=;
- b=WQ8w3F6b/bMyFTaW0xrPdwz/3jKNlcYf/uLLVmGEeZv+vFI3ec8SYwP+b/kPHnAbXRsGum
- YZKhNLuO2asQbCe+BhDVlpG5rsOv9IdcbbriU18SGK0P1btXf1cTAk15pjkpA5sQWgoLtW
- oFUdzE+X/pvFocbxOwSrfmPM8IFMluQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-tMRhBOh5PSWrnilBhmOzRw-1; Thu, 10 Sep 2020 09:11:56 -0400
-X-MC-Unique: tMRhBOh5PSWrnilBhmOzRw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23FCE1084C80;
- Thu, 10 Sep 2020 13:11:55 +0000 (UTC)
-Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 583895C1DC;
- Thu, 10 Sep 2020 13:11:52 +0000 (UTC)
-Date: Thu, 10 Sep 2020 14:11:49 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v1 1/7] migration/tls: save hostname into MigrationState
-Message-ID: <20200910131149.GS1083348@redhat.com>
-References: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
- <1599663177-53993-2-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kGMPw-0003yf-1I
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:12 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39271)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kGMPu-00066N-1Q
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:11 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a17so6661706wrn.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=etTkHB81m+vBMnLfUu95h/Yo/Aq1YAWNfTkFHGN6F6s=;
+ b=lxZlN8kXoduwhzouTpqnXzP3uYEdI8Ay+pigbL4Re5qXcM9wGFTRzCY5tjgB81Tkmg
+ bJBIHP2qpbJCLwsIKMVe70F/6/iL7qIOVp1WMDK03rpqBJQCMUiX3PiJfn/7YcSKKWLd
+ 6d6gGOrkaRNhzIhrBizC+M0+v98IFCIELXd2ys0d4jm6iDuRMbJCJqgDWYKOhoe/YAZ9
+ nFvWDmMXpG0me9b9mgoDkYzsM+BRKoBUUYvYPQWOcGWHqLvjIShhH1LHB16FeIyuawoh
+ T1n4U1dFobXbdiDTrUdK2pYm2b7sSmkdz1oXnGnAYLF2B2aoytf7cCCZrju7wmgoj2OX
+ rqJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=etTkHB81m+vBMnLfUu95h/Yo/Aq1YAWNfTkFHGN6F6s=;
+ b=bvdAec6p6kPPBi/UmYfeMtuB+sjbpPcMryZRJ6HvylTxvsv9+ITA9Wk2smVhg3v++d
+ YF8s4wnkodoHqOU42+Pv/31Cjj5wKd6NKfGBQ7gMF3+iwT/mU5SryAmu/GrvCG32ACww
+ DOzLlkmFGrwy1CkyCFFDXJ35lbd/EwbP9/sYZA8Av/VTDP9jZPKLKn3+WPBFZZGIfB6g
+ 35+h7Hh7yJBE6lQzQt5+/do6ssBbQ/NrNuusnM0KHnRg8TjC5CLA6Kfq5qQrRm1vWMDY
+ qz7RC25coNZSt3x170so359LLLbCwWeAFD2L60jMCpDrjHSZqvlTv3PvisFTI7XNqaCR
+ D0XQ==
+X-Gm-Message-State: AOAM5326gUHSE9TL+G3IbTNgqaJFbJnS2wJJo9OhHlQ3PK+x64CrrLo9
+ p8UyUb7RVf9Rf466C1ErGNv/KQ==
+X-Google-Smtp-Source: ABdhPJwvtAhKTCXTrREzXZfch+ZC20uDwHUyBQkPPj/p9l/7vhRWNeks/7QjCDENo7wKckPQkQNS6Q==
+X-Received: by 2002:adf:f3c4:: with SMTP id g4mr9181956wrp.168.1599743707471; 
+ Thu, 10 Sep 2020 06:15:07 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r15sm3652440wmn.24.2020.09.10.06.15.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Sep 2020 06:15:04 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 621091FF7E;
+ Thu, 10 Sep 2020 14:15:04 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/10] testing and other mix fixes
+Date: Thu, 10 Sep 2020 14:14:54 +0100
+Message-Id: <20200910131504.11341-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1599663177-53993-2-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,76 +86,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, yuxiating@huawei.com,
- dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
- alex.chen@huawei.com, jinyan12@huawei.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 09, 2020 at 10:52:51PM +0800, Chuan Zheng wrote:
-> hostname is need in multifd-tls, save hostname into MigrationState
-> 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> Signed-off-by: Yan Jin <jinyan12@huawei.com>
-> ---
->  migration/channel.c   | 5 +++++
->  migration/migration.c | 1 +
->  migration/migration.h | 5 +++++
->  3 files changed, 11 insertions(+)
-> 
-> diff --git a/migration/channel.c b/migration/channel.c
-> index 20e4c8e..2af3069 100644
-> --- a/migration/channel.c
-> +++ b/migration/channel.c
-> @@ -66,6 +66,11 @@ void migration_channel_connect(MigrationState *s,
->      trace_migration_set_outgoing_channel(
->          ioc, object_get_typename(OBJECT(ioc)), hostname, error);
->  
-> +    /* Save hostname into MigrationState for handshake */
-> +    if (hostname) {
-> +        s->hostname = g_strdup(hostname);
-> +    }
-> +
->      if (!error) {
->          if (s->parameters.tls_creds &&
->              *s->parameters.tls_creds &&
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 58a5452..e20b778 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1883,6 +1883,7 @@ void migrate_init(MigrationState *s)
->      s->migration_thread_running = false;
->      error_free(s->error);
->      s->error = NULL;
-> +    s->hostname = NULL;
->  
->      migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
->  
-> diff --git a/migration/migration.h b/migration/migration.h
-> index ae497bd..758f803 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -261,6 +261,11 @@ struct MigrationState
->       * (which is in 4M chunk).
->       */
->      uint8_t clear_bitmap_shift;
-> +
-> +    /*
-> +     * This save hostname when out-going migration starts
-> +     */
-> +    char *hostname;
->  };
+The following changes since commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a:
 
-Something needs to free(hostname) at the appropriate time, otherwise
-well have a memory leak if we run migration multiple times.
+  Merge remote-tracking branch 'remotes/kraxel/tags/sirius/ipxe-20200908-pull-request' into staging (2020-09-08 21:21:13 +0100)
 
+are available in the Git repository at:
 
-Regards,
-Daniel
+  https://github.com/stsquad/qemu.git tags/pull-testing-fixes-100920-1
+
+for you to fetch changes up to c17a386b6afe608086aa4d260e29662865680b7f:
+
+  plugins: move the more involved plugins to contrib (2020-09-10 10:47:03 +0100)
+
+----------------------------------------------------------------
+Various misc and testing fixes:
+
+  - Expand CODING_STYLE.rst a little more
+  - usb-host build fix
+  - allow check-softfloat unit tests without TCG
+  - simplify mips imm_branch so compiler isn't confused
+  - mark ppc64abi32 for deprecation
+  - more compiler soothing in pch_rev_id
+  - allow acceptance to skip missing binaries
+  - more a bunch of plugins to contrib
+
+----------------------------------------------------------------
+Alex Bennée (7):
+      CODING_STYLE.rst: flesh out our naming conventions.
+      tests/meson.build: fp tests don't need CONFIG_TCG
+      target/mips: simplify gen_compute_imm_branch logic
+      docs/system/deprecated: mark ppc64abi32-linux-user for deprecation
+      configure: don't enable ppc64abi32-linux-user by default
+      hw/i386: make explicit clearing of pch_rev_id
+      plugins: move the more involved plugins to contrib
+
+Gerd Hoffmann (1):
+      usb-host: restrict workaround to new libusb versions
+
+Pavel Dovgaluk (1):
+      tests: bump avocado version
+
+Philippe Mathieu-Daudé (1):
+      tests/acceptance: Add Test.fetch_asset(cancel_on_missing=True)
+
+ docs/devel/tcg-plugins.rst                    | 146 ++++++++++++++++++++++++++
+ docs/system/deprecated.rst                    |   7 ++
+ CODING_STYLE.rst                              |  37 ++++++-
+ configure                                     |  48 +++++----
+ Makefile                                      |  11 ++
+ {tests/plugin => contrib/plugins}/hotblocks.c |   0
+ {tests/plugin => contrib/plugins}/hotpages.c  |   0
+ {tests/plugin => contrib/plugins}/howvec.c    |   0
+ {tests/plugin => contrib/plugins}/lockstep.c  |   0
+ hw/i386/pc_piix.c                             |   2 +-
+ hw/usb/host-libusb.c                          |   2 +-
+ target/mips/translate.c                       |  12 +--
+ .travis.yml                                   |   2 +-
+ MAINTAINERS                                   |   3 +-
+ contrib/plugins/Makefile                      |  42 ++++++++
+ tests/Makefile.include                        |   4 +-
+ tests/acceptance/avocado_qemu/__init__.py     |  12 +++
+ tests/meson.build                             |   3 +-
+ tests/plugin/meson.build                      |   4 +-
+ tests/requirements.txt                        |   2 +-
+ tests/tcg/Makefile.target                     |   3 +-
+ 21 files changed, 297 insertions(+), 43 deletions(-)
+ rename {tests/plugin => contrib/plugins}/hotblocks.c (100%)
+ rename {tests/plugin => contrib/plugins}/hotpages.c (100%)
+ rename {tests/plugin => contrib/plugins}/howvec.c (100%)
+ rename {tests/plugin => contrib/plugins}/lockstep.c (100%)
+ create mode 100644 contrib/plugins/Makefile
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
