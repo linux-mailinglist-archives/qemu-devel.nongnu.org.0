@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DB82647DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 16:19:26 +0200 (CEST)
-Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6242647F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 16:28:31 +0200 (CEST)
+Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGNQ4-00047p-Lh
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 10:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50328)
+	id 1kGNYr-0007h0-Tj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 10:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGNPE-0003XA-Mh
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:18:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27147
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGNPB-0006V2-Dx
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:18:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599747508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wrwiAu8ykcFEn8slT3r2YKmw26HVegnqvltkVMTxqTI=;
- b=OMWeZa1sj6rr9ZRR5s6VtKpKmGAuRgtV0XNW9sIwc+x3Om2bwzqd3NI/GlOs+VD5G3+Byt
- Yv02JLK6O86EhTXgOG2mNr33+XZqR9ICuAhFA8TjA6ZZ9Z3KXzMA1D1u+clZ3mzzmRpLN0
- EaXepamll4SwM0lbjxB976V3ZSCvi3A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-clu5CjuPPeSoZrLQOpswJQ-1; Thu, 10 Sep 2020 10:18:25 -0400
-X-MC-Unique: clu5CjuPPeSoZrLQOpswJQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 310C61882FBE;
- Thu, 10 Sep 2020 14:18:23 +0000 (UTC)
-Received: from thuth.remote.csb (unknown [10.40.194.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0F385C5B0;
- Thu, 10 Sep 2020 14:18:11 +0000 (UTC)
-Subject: Re: [PATCH v7 17/25] cirrus: Building freebsd in a single short
-To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
-References: <20200910103725.1439-1-luoyonggang@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <7f348ead-0f90-0b9e-0afd-7c828091753f@redhat.com>
-Date: Thu, 10 Sep 2020 16:18:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kGNY9-0007EA-RQ
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:27:45 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kGNY7-0007e5-MC
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:27:45 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t76so6072302oif.7
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 07:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Yo6FoeJ8JgGmOCuTEbOd1fN1DhEY7OyYBQ45lu4dhfE=;
+ b=kEua+2bvRz10D6KkOYpJhAPyJWVmUXrRfdtpMzgzXB+8LAxqTt47z99S+aD7TjkUEb
+ ocr+O8XAiVr2dmSmU3uHDcu++HZdbVaKteSNpk4BXF7A++Jp+eBAhbMrBwiDeeq3CD30
+ y289boeFX3QiLW15p6D0vGTWF+a+oaDcLktn9IXZFQlrcV9QdOffHOuICF8qCaylvc7r
+ Fyo755Xcw5jRKJCEAUG7gtX2F6aPrLZzSyfrWv6soJbNPIRw8XP3uAv+CdbXau32i0bu
+ T4qgMvv7sBSm++u329TckM8nyY1oWq8RzT+cQw2qpRkJoTuUXWTonKAhhzhc8L2THflc
+ wlzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Yo6FoeJ8JgGmOCuTEbOd1fN1DhEY7OyYBQ45lu4dhfE=;
+ b=EbtpzLHFKUC4TQrm0/hLkLoxrv+8rANps6sp1xohNh+A4+PjVfg/qH1rvooPa1V7zg
+ xIeWiaoKv6B+7cst/mdyATNY+dCbSEbULZe3A6jBBIhs90MGhHB+iC835j4bsSOBiqn/
+ Q/jXRcDMR8vrQ7fSuu/JnFJDq1/MsnjQhirLGLKzFV/krOkSJOaLEFuX79YTl+wYZWxB
+ PxZ+WO/t8Wlfc9BbetSdgZEX97ESyWUFhD1zZo1I6PqrEBON9dccs2z9p2+1doKnxTcf
+ ZRA3rbp4OIb4heRrBgd3czn+16pqNDfglWIHm40cksMfM2pYZGQyBBy2p365cQkm0ila
+ TTHQ==
+X-Gm-Message-State: AOAM531FhWN6mQldjCjD+XS9FXnYwlr5vK0orDsOs0vPH0vBbFPpaq9Y
+ +Q/kQ5S8T3hpSPT91xdegITxJGzrMAPyhY4dk7U=
+X-Google-Smtp-Source: ABdhPJwlSm+xeaPPFx3VGmCj/e3H2Qnq1DZG/sKwkdVhLOxxZccA8HloiFWRqQR6EsiHu3PbFTyMXf0d4uuesoZI78A=
+X-Received: by 2002:aca:b454:: with SMTP id d81mr178468oif.150.1599748062287; 
+ Thu, 10 Sep 2020 07:27:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200910103725.1439-1-luoyonggang@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:07:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <1599661096-127913-1-git-send-email-zhengchuan@huawei.com>
+ <1599661096-127913-12-git-send-email-zhengchuan@huawei.com>
+In-Reply-To: <1599661096-127913-12-git-send-email-zhengchuan@huawei.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 10 Sep 2020 22:27:06 +0800
+Message-ID: <CAKXe6SLGySEt+S_c8311nXkeUjkBnKcwzCyXrovoR2xmk=nQ3g@mail.gmail.com>
+Subject: Re: [PATCH v7 11/12] migration/dirtyrate: Implement
+ qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+To: Chuan Zheng <zhengchuan@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,41 +80,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@FreeBSD.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Peter Lieven <pl@kamp.de>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>, dme@dme.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, xiexiangyou@huawei.com,
+ Qemu Developers <qemu-devel@nongnu.org>, AlexChen <alex.chen@huawei.com>,
+ ann.zhuangyanying@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/09/2020 12.37, Yonggang Luo wrote:
-> This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
-> ("cirrus.yml: Split FreeBSD job into two parts").
-> 
-> freebsd 1 hour limit not hit anymore
-> 
-> I think we going to a wrong direction, I think there is some tests a stall the test runner,
-> please look at
-> https://cirrus-ci.com/task/5110577531977728
-> When its running properly, the consumed time are little, but when tests running too long,
-> look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
-> 
-> And look at
-> https://cirrus-ci.com/task/6119341601062912
-> 
-> If the tests running properly, the time consuming are little
-> We should not hide the error by split them
+Chuan Zheng <zhengchuan@huawei.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=889=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:14=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could =
+be called
+>
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
+>  migration/dirtyrate.c | 62 +++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  qapi/migration.json   | 50 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 112 insertions(+)
+>
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index 2f9ac34..e9e9e35 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -61,6 +61,24 @@ static int dirtyrate_set_state(int *state, int old_sta=
+te, int new_state)
+>      }
+>  }
+>
+> +static struct DirtyRateInfo *query_dirty_rate_info(void)
+> +{
+> +    int64_t dirty_rate =3D DirtyStat.dirty_rate;
+> +    struct DirtyRateInfo *info =3D g_malloc0(sizeof(DirtyRateInfo));
+> +
+> +    if (CalculatingState =3D=3D DIRTY_RATE_STATUS_MEASURED) {
 
-Ok, but before we merge this patch, I'd like to understand (and fix if
-necessary) what is/was causing the slowdowns. Otherwise we'll continue
-to see failing CI runs, which is very annoying.
+Should we use atomic read 'CalculatingState'? The qmp thread maybe run
+with the sampled thread.
 
- Thomas
+> +        info->dirty_rate =3D dirty_rate;
+> +    } else {
+> +        info->dirty_rate =3D -1;
+> +    }
+> +
+> +    info->status =3D CalculatingState;
+> +    info->start_time =3D DirtyStat.start_time;
+> +    info->calc_time =3D DirtyStat.calc_time;
+> +
+> +    return info;
+> +}
+> +
 
+
+>  static void reset_dirtyrate_stat(void)
+>  {
+>      DirtyStat.total_dirty_samples =3D 0;
+> @@ -331,6 +349,8 @@ static void calculate_dirtyrate(struct DirtyRateConfi=
+g config)
+>
+>      msec =3D config.sample_period_seconds * 1000;
+>      msec =3D set_sample_page_period(msec, initial_time);
+> +    DirtyStat.start_time =3D initial_time / 1000;
+> +    DirtyStat.calc_time =3D msec / 1000;
+>
+>      rcu_read_lock();
+>      if (compare_page_hash_info(block_dinfo, block_index) < 0) {
+> @@ -362,3 +382,45 @@ void *get_dirtyrate_thread(void *arg)
+>                                DIRTY_RATE_STATUS_MEASURED);
+>      return NULL;
+>  }
+> +
+> +void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+> +{
+> +    static struct DirtyRateConfig config;
+> +    QemuThread thread;
+> +    int ret;
+> +
+> +    /*
+> +     * If the dirty rate is already being measured, don't attempt to sta=
+rt.
+> +     */
+> +    if (CalculatingState =3D=3D DIRTY_RATE_STATUS_MEASURING) {
+
+atomic read?
+
+> +        error_setg(errp, "the dirty rate is already being measured.");
+> +        return;
+> +    }
+> +
+> +    if (!get_sample_page_period(calc_time)) {
+> +        error_setg(errp, "calc-time is out of range[%d, %d].",
+> +                         MIN_FETCH_DIRTYRATE_TIME_SEC,
+> +                         MAX_FETCH_DIRTYRATE_TIME_SEC);
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * Init calculation state as unstarted.
+> +     */
+> +    ret =3D dirtyrate_set_state(&CalculatingState, CalculatingState,
+> +                              DIRTY_RATE_STATUS_UNSTARTED);
+> +    if (ret =3D=3D -1) {
+> +        error_setg(errp, "init dirty rate calculation state failed.");
+> +        return;
+> +    }
+> +
+> +    config.sample_period_seconds =3D calc_time;
+> +    config.sample_pages_per_gigabytes =3D DIRTYRATE_DEFAULT_SAMPLE_PAGES=
+;
+> +    qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+> +                       (void *)&config, QEMU_THREAD_DETACHED);
+> +}
+> +
+> +struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+> +{
+> +    return query_dirty_rate_info();
+> +}
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 061ff25..4b980a0 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1737,3 +1737,53 @@
+>  ##
+>  { 'enum': 'DirtyRateStatus',
+>    'data': [ 'unstarted', 'measuring', 'measured'] }
+> +
+> +##
+> +# @DirtyRateInfo:
+> +#
+> +# Information about current dirty page rate of vm.
+> +#
+> +# @dirty-rate: @dirtyrate describing the dirty page rate of vm
+> +#          in units of MB/s.
+> +#          If this field return '-1', it means querying is not
+> +#          start or not complete.
+> +#
+> +# @status: status containing dirtyrate query status includes
+> +#          'unstarted' or 'measuring' or 'measured'
+> +#
+> +# @start-time: start time in units of second for calculation
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# Since: 5.2
+> +#
+> +##
+> +{ 'struct': 'DirtyRateInfo',
+> +  'data': {'dirty-rate': 'int64',
+> +           'status': 'DirtyRateStatus',
+> +           'start-time': 'int64',
+> +           'calc-time': 'int64'} }
+> +
+> +##
+> +# @calc-dirty-rate:
+> +#
+> +# start calculating dirty page rate for vm
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# Since: 5.2
+> +#
+> +# Example:
+> +#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
+> +#
+> +##
+> +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
+> +
+> +##
+> +# @query-dirty-rate:
+> +#
+> +# query dirty page rate in units of MB/s for vm
+> +#
+> +# Since: 5.2
+> +##
+> +{ 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+> --
+> 1.8.3.1
+>
+>
 
