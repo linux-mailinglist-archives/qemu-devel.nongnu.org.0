@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575FB264427
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:32:39 +0200 (CEST)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E2F26442D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:34:24 +0200 (CEST)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJsc-0007SL-BM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:32:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50592)
+	id 1kGJuJ-0002JZ-BY
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:34:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJrO-0006VA-8E; Thu, 10 Sep 2020 06:31:22 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42291)
+ id 1kGJrU-0006b2-5e; Thu, 10 Sep 2020 06:31:28 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJrM-000342-HV; Thu, 10 Sep 2020 06:31:21 -0400
-Received: by mail-pl1-x642.google.com with SMTP id y6so703166plt.9;
- Thu, 10 Sep 2020 03:31:19 -0700 (PDT)
+ id 1kGJrS-00034b-Ek; Thu, 10 Sep 2020 06:31:27 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 67so3996764pgd.12;
+ Thu, 10 Sep 2020 03:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xNA58CMYg3J4BDUUZZNyKBJkTAFEv3p0kfY/snZM+Qs=;
- b=E5/EbFaR1dccCm6cc964KQO+y1nwMyx1EyY4PmhN7PEjQOdX7ScO3w63MbNKCsu//6
- AGC2EZI8wMOgmhY1MT67I+L4qWYJDUPvrgmBXTTXmCJjZNecaUoDmW64Xm0bW0NtLv0Q
- 2sgk8G6ePBAu/uBo1mkel+KqSfsK1NWojUN8oMCkpV0u21tOZ0F8T9eto+KMOynQjaRd
- TdkMOpdBet+F13HjLfKAdDyPxmzM7BtNpTBbqPdZ/BNiWS97G/xV2sR2wjZwe6cbidhi
- GFnBqR8rKwEtTd1Qp+Rm8FKKrc3LBqO9ZmALottKFU+xzrRT59S9PEjnbglXHpl1KIay
- 1sHw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CNPvacxKIPvNAAT6pnf6ItFkwT6w9lX5etFkypi0MqU=;
+ b=IxG+705s4HfVJTmkW4Etp8qIToKpzpikRor4KgwE7Z1E7pimX4d9Sx1wDuA3CaegI6
+ Lzvb4+zQyTEfF4U8CAt7rbg1RO+scWTdzPlULJ2oul+RQ0MYeyINSPJtny2sQ/SEfb4y
+ EJz+ztjRcdGud1lgcVpByyjt5EB8wXCzaA6Q/xXMrFfCKf8RI0FB7+LItwJlmVY+mbQS
+ Rh146ClVnDYOlPErmP45zdR1zDYgwKxiQi1ZbO2Bv4wje4fqe62p+0eJkgCtMMgH5BC/
+ kNhGxN8fBt1cJ0WBxWzQtqNc3KBW3iWIdWMSgOtyS3cBE4bz69WuAN0c+xeQHSdjOx9Q
+ Ek9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xNA58CMYg3J4BDUUZZNyKBJkTAFEv3p0kfY/snZM+Qs=;
- b=aof85ISRP8skEk2biTBHhl/z+7uPespoDtGrS50/e+yrYH0D01BHtt8lcYcN994wjM
- 4PINX0W6qUXpGDhTjtU95aYF+Ec7VIVuH7uEyHRsFZytVa4Fwz5fpV9jOJopo5vlFZhk
- /yP1vY+sBbrOXrYDhvPl7430bnA4sFdocxFEvGCvI0tWhwMQaz6TlKHhA98/BA4oY6OJ
- xT9PqfF/nZiGwhtL0jafAcLsg5YG4kyZZZ2qQByXM/z4cR2CMyN8SmR9BrPw9VnB6IK8
- PO2mSqm7p18RFvcD5Fx6+9ibA92AvCqRZ3I/oyrch1tOIxVTJ6CCi/K0kRqKP6sWaB88
- 4GDA==
-X-Gm-Message-State: AOAM532HrLSaSDKxnUbb87IAgOV4AG+i7CtLd9FCiriI+N7zpaIh15UW
- 72HsIjM9ykUj+nvjHY++jzqkJb7vL5m/HY1KN4w=
-X-Google-Smtp-Source: ABdhPJxNoT6H+qFQU/ttLBonV4Wr8XuQXu+fb2NpriVwuRHZo+jEKLunfkEPY4srQ05WPA33P5uxRw==
-X-Received: by 2002:a17:90a:a60e:: with SMTP id
- c14mr4832203pjq.31.1599733878216; 
- Thu, 10 Sep 2020 03:31:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CNPvacxKIPvNAAT6pnf6ItFkwT6w9lX5etFkypi0MqU=;
+ b=oJGxLrmbn1uRm7dPQWEpnhmspoX0OVgcpnP3vo7M3vTT6a6DsQR03pgrGP0RjaETq2
+ 90OXWy+bZF0caeFctqX+bbHGIpN2Isc1/QCeBN8ADAQuer3veiNORt13pfbRQXwtxIqS
+ DBp0Ewm56Rrzb7B9ysKKD0oiub049uK9iGmE6oHhpy+3LrcKUYAB01Sk/pzqzat0Szff
+ QWsEYVdLfbmW2/esuE4cAowLfDSbX+0lLVsfGWXLfyafMX5ZcyoECdjL9u051CBPD2AD
+ 2ZlPpVcUSRmKVqvAjWxdnhw2/WWTiu6NLDVzanNzoO/M4E4Ulp+P80TPxvrlHznPYQmQ
+ 6a5A==
+X-Gm-Message-State: AOAM532fwi6E9Pjymz6FhpNr0bsCMd5S7EEWfWdvslUAqmUWpT9pCTTd
+ zB1sI+B5PwwWnbAyzLtjOsGBe7ma4p5LmijzVzI=
+X-Google-Smtp-Source: ABdhPJwhsK7nsQ/7CyqWDCg4diLxwuri3qYmPRT8J2fZthBUFSp8KItvuAIntwkdMPpDmIHXwtIEDQ==
+X-Received: by 2002:a63:f546:: with SMTP id e6mr3843785pgk.7.1599733884285;
+ Thu, 10 Sep 2020 03:31:24 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.31.12
+ by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.31.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 03:31:17 -0700 (PDT)
+ Thu, 10 Sep 2020 03:31:23 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 00/25] W32, W64 msys2/mingw patches
-Date: Thu, 10 Sep 2020 18:30:34 +0800
-Message-Id: <20200910103059.987-1-luoyonggang@gmail.com>
+Subject: [PATCH v7 01/25] file-win32: Fix "locking" option
+Date: Thu, 10 Sep 2020 18:30:35 +0800
+Message-Id: <20200910103059.987-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
+In-Reply-To: <20200910103059.987-1-luoyonggang@gmail.com>
+References: <20200910103059.987-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x642.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,86 +87,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
  Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
  Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and=0D
-disable partial test-char tests.=0D
-And then fixes all unit tests failure on msys2/mingw=0D
-This fixes the reviews suggested in the mailling list=0D
-=0D
-Kevin Wolf (1):=0D
-  file-win32: Fix "locking" option=0D
-=0D
-Maxim Levitsky (1):=0D
-  rcu: Implement drain_call_rcu=0D
-=0D
-Yonggang Luo (23):=0D
-  block: Fixes nfs compiling error on msys2/mingw=0D
-  ci: fixes msys2 build by upgrading capstone to 4.0.2=0D
-  configure: Fixes ncursesw detection under msys2/mingw and enable=0D
-    curses=0D
-  win32: Simplify gmtime_r detection direct base on=0D
-    _POSIX_THREAD_SAFE_FUNCTIONS.=0D
-  curses: Fixes curses compiling errors.=0D
-  tests: disable /char/stdio/* tests in test-char.c on win32=0D
-  tests: Fixes test-replication.c on msys2/mingw.=0D
-  tests: test-replication disable /replication/secondary/* on=0D
-    msys2/mingw.=0D
-  osdep: file locking functions are not available on Win32=0D
-  meson: Use -b to ignore CR vs. CR-LF issues on Windows=0D
-  gcrypt: test_tls_psk_init should write binary file instead text file.=0D
-  tests: Enable crypto tests under msys2/mingw=0D
-  meson: remove empty else and duplicated gio deps=0D
-  vmstate: Fixes test-vmstate.c on msys2/mingw=0D
-  cirrus: Building freebsd in a single short=0D
-  tests: Convert g_free to g_autofree macro in test-logging.c=0D
-  tests: Fixes test-io-channel-socket.c tests under msys2/mingw=0D
-  tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence=0D
-    with aio-posix.c=0D
-  tests: Fixes test-io-channel-file by mask only owner file state mask=0D
-    bits=0D
-  tests: fix test-util-sockets.c=0D
-  tests: Fixes test-qdev-global-props.c=0D
-  rcu: fixes test-logging.c by call drain_call_rcu before rmdir_full=0D
-  ci: Enable msys2 ci in cirrus=0D
-=0D
- .cirrus.yml                      |  95 ++++++++++++-----=0D
- block/file-win32.c               |  22 +++-=0D
- block/nfs.c                      |  32 ++++--=0D
- capstone                         |   2 +-=0D
- configure                        |  61 +++--------=0D
- include/qemu/osdep.h             |   2 +-=0D
- include/qemu/rcu.h               |   1 +=0D
- include/sysemu/os-win32.h        |   4 +-=0D
- meson.build                      |   6 --=0D
- tests/crypto-tls-psk-helpers.c   |   6 +-=0D
- tests/crypto-tls-x509-helpers.c  | 169 ++++++++++++++++++++++++++++++-=0D
- tests/crypto-tls-x509-helpers.h  |   9 +-=0D
- tests/qapi-schema/meson.build    |   2 +-=0D
- tests/test-char.c                |  26 +++--=0D
- tests/test-crypto-tlscredsx509.c |  47 +++++----=0D
- tests/test-crypto-tlssession.c   |  68 +++++++------=0D
- tests/test-io-channel-file.c     |  10 +-=0D
- tests/test-io-channel-socket.c   |   2 +=0D
- tests/test-io-channel-tls.c      |  51 ++++++----=0D
- tests/test-logging.c             |   5 +-=0D
- tests/test-qdev-global-props.c   |   6 +-=0D
- tests/test-replication.c         |  22 +++-=0D
- tests/test-util-sockets.c        |   6 +-=0D
- tests/test-vmstate.c             |   3 +-=0D
- ui/curses.c                      |  14 +--=0D
- util/aio-win32.c                 |  11 +-=0D
- util/oslib-win32.c               |   2 +-=0D
- util/rcu.c                       |  55 ++++++++++=0D
- 28 files changed, 536 insertions(+), 203 deletions(-)=0D
-=0D
--- =0D
-2.28.0.windows.1=0D
-=0D
+From: Kevin Wolf <kwolf@redhat.com>
+
+The intended behaviour was that locking=off/auto work and have no
+effect (to remain compatible with file-posix), whereas locking=on would
+return an error. Unfortunately, the code forgot to remove "locking" from
+the options QDict, so any attempt to use the option would fail.
+
+Replace the option parsing code for "locking" with something that is
+part of the raw_runtime_opts QemuOptsList (so it is properly removed
+from the QDict) and looks more like file-posix.
+
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200907092739.9988-1-kwolf@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/file-win32.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/block/file-win32.c b/block/file-win32.c
+index ab69bd811a..e2900c3a51 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -299,6 +299,11 @@ static QemuOptsList raw_runtime_opts = {
+             .type = QEMU_OPT_STRING,
+             .help = "host AIO implementation (threads, native)",
+         },
++        {
++            .name = "locking",
++            .type = QEMU_OPT_STRING,
++            .help = "file locking mode (on/off/auto, default: auto)",
++        },
+         { /* end of list */ }
+     },
+ };
+@@ -333,6 +338,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     Error *local_err = NULL;
+     const char *filename;
+     bool use_aio;
++    OnOffAuto locking;
+     int ret;
+ 
+     s->type = FTYPE_FILE;
+@@ -343,10 +349,24 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+         goto fail;
+     }
+ 
+-    if (qdict_get_try_bool(options, "locking", false)) {
++    locking = qapi_enum_parse(&OnOffAuto_lookup,
++                              qemu_opt_get(opts, "locking"),
++                              ON_OFF_AUTO_AUTO, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        ret = -EINVAL;
++        goto fail;
++    }
++    switch (locking) {
++    case ON_OFF_AUTO_ON:
+         error_setg(errp, "locking=on is not supported on Windows");
+         ret = -EINVAL;
+         goto fail;
++    case ON_OFF_AUTO_OFF:
++    case ON_OFF_AUTO_AUTO:
++        break;
++    default:
++        g_assert_not_reached();
+     }
+ 
+     filename = qemu_opt_get(opts, "filename");
+-- 
+2.28.0.windows.1
+
 
