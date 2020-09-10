@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31142264790
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:57:55 +0200 (CEST)
-Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1A4264793
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:59:10 +0200 (CEST)
+Received: from localhost ([::1]:51864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGN5G-0007Pc-9r
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:57:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
+	id 1kGN6T-0000u0-H5
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kGN3z-00065S-Mz
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:56:35 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31596
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kGN3w-0003dG-Se
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:56:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599746191;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YSWFx/cofNH1Si60n2IPG1OZBCpHlootSbq1tR7ZiH4=;
- b=Y1Ii0OOB4+7FQEsgzSCaPk18UkojzygvxYMlqbz8awfmyda6/yw4EAdc60Uul9k/qRC3AG
- 1T1sXNwt+iY8bVVd5kcqVM/5Lj/dFLnwO5yoliTlZC5X/iMpFF+QlTgexk4m6qt20mex6M
- Sl+v4K/euMQLQYM2zrdupABa0NIk6Lk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-FLFqHds8Mi23NWWVl2_QoQ-1; Thu, 10 Sep 2020 09:56:28 -0400
-X-MC-Unique: FLFqHds8Mi23NWWVl2_QoQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E42B1084C80;
- Thu, 10 Sep 2020 13:56:26 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DECB81C51;
- Thu, 10 Sep 2020 13:56:20 +0000 (UTC)
-Date: Thu, 10 Sep 2020 15:56:18 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 0/2] MTE support for KVM guest
-Message-ID: <20200910135618.cvnlrgvhuy3amv6s@kamzik.brq.redhat.com>
-References: <20200904160018.29481-1-steven.price@arm.com>
- <20200909152540.ylnrljd6aelxoxrf@kamzik.brq.redhat.com>
- <857566df-1b98-84f7-9268-d092722dc749@arm.com>
- <20200910062958.o55apuvdxmf3uiqb@kamzik.brq.redhat.com>
- <37663bb6-d3a7-6f53-d0cd-88777633a2b2@arm.com>
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kGN43-0006EH-P0
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:56:40 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4736 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kGN41-0003di-Os
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:56:39 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 89A6E6220C6C585D8D40;
+ Thu, 10 Sep 2020 21:56:34 +0800 (CST)
+Received: from [127.0.0.1] (10.174.186.4) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 10 Sep 2020
+ 21:56:26 +0800
+Subject: Re: [PATCH v1 6/7] migration/tls: add support for multifd
+ tls-handshake
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <1599663177-53993-1-git-send-email-zhengchuan@huawei.com>
+ <1599663177-53993-7-git-send-email-zhengchuan@huawei.com>
+ <20200910132550.GV1083348@redhat.com>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <f631ddb9-27b9-7962-5f70-354d7f70f64c@huawei.com>
+Date: Thu, 10 Sep 2020 21:56:25 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37663bb6-d3a7-6f53-d0cd-88777633a2b2@arm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:07:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200910132550.GV1083348@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.186.4]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:55:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,76 +65,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <Peter.Maydell@arm.com>, Juan Quintela <quintela@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dave Martin <Dave.Martin@arm.com>
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, yuxiating@huawei.com,
+ dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, jinyan12@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 10, 2020 at 10:21:04AM +0100, Steven Price wrote:
-> On 10/09/2020 07:29, Andrew Jones wrote:
-> > But if userspace created the memslots with memory already set with
-> > PROT_MTE, then this wouldn't be necessary, right? And, as long as
-> > there's still a way to access the memory with tag checking disabled,
-> > then it shouldn't be a problem.
-> 
-> Yes, so one option would be to attempt to validate that the VMM has provided
-> memory pages with the PG_mte_tagged bit set (e.g. by mapping with PROT_MTE).
-> The tricky part here is that we support KVM_CAP_SYNC_MMU which means that
-> the VMM can change the memory backing at any time - so we could end up in
-> user_mem_abort() discovering that a page doesn't have PG_mte_tagged set - at
-> that point there's no nice way of handling it (other than silently upgrading
-> the page) so the VM is dead.
-> 
-> So since enforcing that PG_mte_tagged is set isn't easy and provides a
-> hard-to-debug foot gun to the VMM I decided the better option was to let the
-> kernel set the bit automatically.
->
 
-The foot gun still exists when migration is considered, no? If userspace
-is telling a guest it can use MTE on its normal memory, but then doesn't
-prepare that memory correctly, or remember to migrate the tags correctly
-(which requires knowing the memory has tags and knowing how to get them),
-then I guess the VM is in trouble one way or another.
 
-I feel like we should trust the VMM to ensure MTE will work on any memory
-the guest could use it on, and change the action in user_mem_abort() to
-abort the guest with a big error message if it sees the flag is missing.
- 
-> > > > 
-> > > > If userspace needs to write to guest memory then it should be due to
-> > > > a device DMA or other specific hardware emulation. Those accesses can
-> > > > be done with tag checking disabled.
-> > > 
-> > > Yes, the question is can the VMM (sensibly) wrap the accesses with a
-> > > disable/renable tag checking for the process sequence. The alternative at
-> > > the moment is to maintain a separate (untagged) mapping for the purpose
-> > > which might present it's own problems.
-> > 
-> > Hmm, so there's no easy way to disable tag checking when necessary? If we
-> > don't map the guest ram with PROT_MTE and continue setting the attribute
-> > in KVM, as this series does, then we don't need to worry about it tag
-> > checking when accessing the memory, but then we can't access the tags for
-> > migration.
+On 2020/9/10 21:25, Daniel P. Berrangé wrote:
+> On Wed, Sep 09, 2020 at 10:52:56PM +0800, Chuan Zheng wrote:
+>> add support for multifd tls-handshake
+>>
+>> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+>> Signed-off-by: Yan Jin <jinyan12@huawei.com>
+>> ---
+>>  migration/multifd.c | 32 +++++++++++++++++++++++++++++++-
+>>  1 file changed, 31 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/migration/multifd.c b/migration/multifd.c
+>> index b2076d7..2509187 100644
+>> --- a/migration/multifd.c
+>> +++ b/migration/multifd.c
+>> @@ -719,11 +719,41 @@ out:
+>>      return NULL;
+>>  }
+>>  
+>> +static bool multifd_channel_connect(MultiFDSendParams *p,
+>> +                                    QIOChannel *ioc,
+>> +                                    Error *error);
+>> +
+>> +static void multifd_tls_outgoing_handshake(QIOTask *task,
+>> +                                           gpointer opaque)
+>> +{
+>> +    MultiFDSendParams *p = opaque;
+>> +    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
+>> +    Error *err = NULL;
+>> +
+>> +    qio_task_propagate_error(task, &err);
+>> +    multifd_channel_connect(p, ioc, err);
+>> +}
+>> +
+>>  static void multifd_tls_channel_connect(MultiFDSendParams *p,
+>>                                      QIOChannel *ioc,
+>>                                      Error **errp)
+>>  {
+>> -    /* TODO */
+>> +    MigrationState *s = p->s;
+>> +    const char *hostname = s->hostname;
+>> +    QIOChannelTLS *tioc;
+>> +
+>> +    tioc = migration_tls_client_create(s, ioc, hostname, errp);
+>> +    if (!tioc) {
+>> +        return;
+>> +    }
+>> +
+>> +    qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
+>> +    qio_channel_tls_handshake(tioc,
+>> +                              multifd_tls_outgoing_handshake,
+>> +                              p,
+>> +                              NULL,
+>> +                              NULL);
+>> +
+>>  }
 > 
-> There's a "TCO" (Tag Check Override) bit in PSTATE which allows disabling
-> tag checking, so if it's reasonable to wrap accesses to the memory you can
-> simply set the TCO bit, perform the memory access and then unset TCO. That
-> would mean a single mapping with MTE enabled would work fine. What I don't
-> have a clue about is whether it's practical in the VMM to wrap guest
-> accesses like this.
 > 
-
-At least QEMU goes through many abstractions to get to memory already.
-There may already be a hook we could use, if not, it probably wouldn't
-be too hard to add one (famous last words).
-
-Thanks,
-drew
+> Please squash this back into the previous patch, and both are
+> inter-dependant on each other, and thus don't make sense to split
+> 
+> Assuming it is squashed in
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> 
+OK, will squash it in v2
+> 
+> 
+> Regards,
+> Daniel
+> 
 
 
