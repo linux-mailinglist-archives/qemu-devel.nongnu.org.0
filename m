@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF82264429
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:33:27 +0200 (CEST)
-Received: from localhost ([::1]:35482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECA126443F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:36:15 +0200 (CEST)
+Received: from localhost ([::1]:49394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJtO-0008Sk-20
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50672)
+	id 1kGJw6-0005iS-ID
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:36:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJrf-0006qv-Sy; Thu, 10 Sep 2020 06:31:40 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38368)
+ id 1kGJrm-0006vg-AD; Thu, 10 Sep 2020 06:31:46 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:35873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJrd-00035T-WC; Thu, 10 Sep 2020 06:31:39 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id u3so2824365pjr.3;
- Thu, 10 Sep 2020 03:31:37 -0700 (PDT)
+ id 1kGJrk-000362-FN; Thu, 10 Sep 2020 06:31:46 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id f2so1991165pgd.3;
+ Thu, 10 Sep 2020 03:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/w7rMoPRyhKUVrpbUOdbHX/Pq1woWbXw5jpZlifmP6A=;
- b=Eo5uIaVc5wULvc31tEOFRRP79bdD60QOEN6l7pgqcNIDeOqJ2tUGGt/cYPWltX6Y4/
- ZD78DvtHbz5KPKWgXWxh1l1ZogUmGwzw7bAJ5X9+V3I2f/CDhwpFv8txQpBKkhrQpdsr
- VqwK7lSoqBFD+aFHaPcwLgcWifLPWi8boNTJo2EybTkLOCMi1jHh3NMGK7SnAiM8nj5h
- TZJWqIRJQP6w+6094qBpJgB/nsYwnaraNX6+dR82dydlWFasu1EafGYys2VWVpJN56Yd
- CONnxcF5eqlJ7OCRLpE1PFOTJk3tXw04tMAXfZpOOoQ/zSTI8pVU5oPkCDRhKFyWGGGY
- E6BA==
+ bh=/Q/d/vfX2r5ok5sWGBwNZjHxKJu0oUaT5gHBOiJ10fI=;
+ b=ns4QmS2IsnRySuQXjBp5ziFLlXrPQogKSSJJtJVmXGSjvZxfl+0Ve1FiiJLfOPe6fa
+ gkUj33aNZeE6TBnhY30Rv2Xe0Z3pE5ZJGZXOp0jIkypJJm7ynwLpI/1217QBHXNC+SMi
+ LiM25i3jcmD5lRKuEzhbkR3CALywcozV0/ezq+qq7sXnXqz4VkY70fkz5GJ9PmZYNS6I
+ U85093PaLTvwMt9wTX1h2zKwlm48UMpijAPwGbxpKt8iBdtD2t7vfLUkYpaFwqoSeSw8
+ JYxg7jTdXz6SYVI6ALvaO0bUZ/y3AZsEKLSQVtkR6IpWofM4tha37tDJQvY7Wz6JtmWx
+ F+Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/w7rMoPRyhKUVrpbUOdbHX/Pq1woWbXw5jpZlifmP6A=;
- b=HYY00x5agqE2rVE10vWJIHNAv310W+WStnGcBs6kqka8ZyHBiAsnv0BelA/ZduQ/bD
- KUO+oeVT+5E2P/ahS/qDrKOJ3GfPwtzQMNOOLr+oAPi77Ka8r5Ix7lJndoEU7fOdf8lB
- 0bLp+mMW/CPq3Dg5ZEXOl42PDmb3ronp0/ulJ2HJyWgydErGvNfDdkj/f8zWxo1dgNll
- H999bmV9RRTOjR87kPfGX/mpZAaeGsTaraplVUZtzXeR3O+P7comTtHtO1qBNDB521f8
- tL6B/jvjakntejr79jZz9tZegXqerZGRamS4kujUc8t98kikdQ60T/kvI8OEPvKJmSFn
- oXJQ==
-X-Gm-Message-State: AOAM531uielh3FTECUaRdHVA0WepbOZoi4JKtICMLy38N9HkpYzJuoNT
- ZPSU5HVt74QQQvD8Lef+xCHRR+ltA84+lLpJAB8=
-X-Google-Smtp-Source: ABdhPJwDee9G7F6jL1wTNWSi64CepyYbA4UZFrw44YKeLjLTY38YrbM7oIpjii365c1qTNErz64y2w==
-X-Received: by 2002:a17:902:ff12:: with SMTP id
- f18mr4779227plj.118.1599733895722; 
- Thu, 10 Sep 2020 03:31:35 -0700 (PDT)
+ bh=/Q/d/vfX2r5ok5sWGBwNZjHxKJu0oUaT5gHBOiJ10fI=;
+ b=ix8A/GPlBJ75LK5prTL8bR4YU5stXIeZ5nGi93uL0eyduWyaXURXMdi77+1wuOZhQd
+ J+mKcgWhCuzwd3J5qUFB+Yj/SgbjD51b2kJWTLv8viD5dyDTyN77ARJXHK8vTJrlHH9d
+ RCmq6U2xKZ8kc846Dr15RIe5BlxuBOsD00xw5UiN+mq8x/3oGkS8cVvZsyzqlvYDVaRj
+ WjCEQdtQ7x45lPATUwmq0270lAW4Y87p3OHMoyLsZZrafWAxaWEiu4SpNxo6F8EmNxyt
+ unST36frMdVEoGuJJKfIrU7jnXvMNpqUcaf5u89uskbxLa6Is2mogUe0V8w0/l268HON
+ tgFA==
+X-Gm-Message-State: AOAM532TT1Rn2DiqtJWjjt09EV/eeclSr67qn+BjUWNBu7l5NOz010M8
+ Qa8YXdliBfad68MFbSSictvECqnNIxM8RSMerYo=
+X-Google-Smtp-Source: ABdhPJxv8yQi8TLku5oEqgOsYkaUKBDDlK+5QV+s4yw5e9tgEms1QBayJaDSBeU3Ja2GEigXmHeTHg==
+X-Received: by 2002:a63:30c2:: with SMTP id w185mr3970567pgw.436.1599733901328; 
+ Thu, 10 Sep 2020 03:31:41 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.31.29
+ by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.31.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 03:31:34 -0700 (PDT)
+ Thu, 10 Sep 2020 03:31:40 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 03/25] block: Fixes nfs compiling error on msys2/mingw
-Date: Thu, 10 Sep 2020 18:30:37 +0800
-Message-Id: <20200910103059.987-4-luoyonggang@gmail.com>
+Subject: [PATCH v7 04/25] ci: fixes msys2 build by upgrading capstone to 4.0.2
+Date: Thu, 10 Sep 2020 18:30:38 +0800
+Message-Id: <20200910103059.987-5-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200910103059.987-1-luoyonggang@gmail.com>
 References: <20200910103059.987-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,143 +95,75 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These compiling errors are fixed:
-../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
-   27 | #include <poll.h>
-      |          ^~~~~~~~
-compilation terminated.
+The currently random version capstone have the following compiling issue:
+  CC      /c/work/xemu/qemu/build/slirp/src/arp_table.o
+make[1]: *** No rule to make target “/c/work/xemu/qemu/build/capstone/capstone.lib”。 Stop.
 
-../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
-   63 |     blkcnt_t st_blocks;
-      |     ^~~~~~~~
-../block/nfs.c: In function 'nfs_client_open':
-../block/nfs.c:550:27: error: 'struct _stat64' has no member named 'st_blocks'
-  550 |     client->st_blocks = st.st_blocks;
-      |                           ^
-../block/nfs.c: In function 'nfs_get_allocated_file_size':
-../block/nfs.c:751:41: error: 'struct _stat64' has no member named 'st_blocks'
-  751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
-      |                                         ^
-../block/nfs.c: In function 'nfs_reopen_prepare':
-../block/nfs.c:805:31: error: 'struct _stat64' has no member named 'st_blocks'
-  805 |         client->st_blocks = st.st_blocks;
-      |                               ^
-../block/nfs.c: In function 'nfs_get_allocated_file_size':
-../block/nfs.c:752:1: error: control reaches end of non-void function [-Werror=return-type]
-  752 | }
-      | ^
+Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1 are the tagged version 4.0.2
+when upgrading to this version, the folder structure of include are changed to
+qemu\capstone\include
+│  platform.h
+│
+├─capstone
+│      arm.h
+│      arm64.h
+│      capstone.h
+│      evm.h
+│      m680x.h
+│      m68k.h
+│      mips.h
+│      platform.h
+│      ppc.h
+│      sparc.h
+│      systemz.h
+│      tms320c64x.h
+│      x86.h
+│      xcore.h
+│
+└─windowsce
+        intrin.h
+        stdint.h
 
-On msys2/mingw, there is no st_blocks in struct _stat64, so we use consistence st_size instead.
+in capstone. so we need add extra include path -I${source_path}/capstone/include/capstone
+for directly #include <capstone.h>, and the exist include path should preserve, because
+in capstone code there something like #include "capstone/capstone.h"
+
+If only using
+    capstone_cflags="-I${source_path}/capstone/include/capstone"
+Then will cause the following compiling error:
+
+  CC      cs.o
+cs.c:17:10: fatal error: 'capstone/capstone.h' file not found
+#include <capstone/capstone.h>
+         ^~~~~~~~~~~~~~~~~~~~~
+1 error generated.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- block/nfs.c | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+ capstone  | 2 +-
+ configure | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/nfs.c b/block/nfs.c
-index 61a249a9fc..db6d8c2d2b 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -24,7 +24,9 @@
+diff --git a/capstone b/capstone
+index 22ead3e0bf..1d23053284 160000
+--- a/capstone
++++ b/capstone
+@@ -1 +1 @@
+-Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
++Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1
+diff --git a/configure b/configure
+index 4231d56bcc..f4f8bc3756 100755
+--- a/configure
++++ b/configure
+@@ -5156,7 +5156,7 @@ case "$capstone" in
+       LIBCAPSTONE=libcapstone.a
+     fi
+     capstone_libs="-Lcapstone -lcapstone"
+-    capstone_cflags="-I${source_path}/capstone/include"
++    capstone_cflags="-I${source_path}/capstone/include -I${source_path}/capstone/include/capstone"
+     ;;
  
- #include "qemu/osdep.h"
- 
-+#if !defined(_WIN32)
- #include <poll.h>
-+#endif
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-@@ -51,6 +53,13 @@
- #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)
- #define QEMU_NFS_MAX_DEBUG_LEVEL 2
- 
-+#if defined (_WIN32)
-+#define nfs_stat __stat64
-+typedef long long blkcnt_t;
-+#else
-+#define nfs_stat stat
-+#endif
-+
- typedef struct NFSClient {
-     struct nfs_context *context;
-     struct nfsfh *fh;
-@@ -70,7 +79,7 @@ typedef struct NFSRPC {
-     int ret;
-     int complete;
-     QEMUIOVector *iov;
--    struct stat *st;
-+    struct nfs_stat *st;
-     Coroutine *co;
-     NFSClient *client;
- } NFSRPC;
-@@ -415,11 +424,20 @@ static void nfs_file_close(BlockDriverState *bs)
-     nfs_client_close(client);
- }
- 
-+static blkcnt_t nfs_get_st_blocks(const struct nfs_stat *st)
-+{
-+#if defined(_WIN32)
-+    return (st->st_size + 511) / 512;
-+#else
-+    return st->st_blocks;
-+#endif
-+}
-+
- static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
-                                int flags, int open_flags, Error **errp)
- {
-     int64_t ret = -EINVAL;
--    struct stat st;
-+    struct nfs_stat st;
-     char *file = NULL, *strp = NULL;
- 
-     qemu_mutex_init(&client->mutex);
-@@ -545,7 +563,7 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
-     }
- 
-     ret = DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
--    client->st_blocks = st.st_blocks;
-+    client->st_blocks = nfs_get_st_blocks(&st);
-     client->has_zero_init = S_ISREG(st.st_mode);
-     *strp = '/';
-     goto out;
-@@ -729,7 +747,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
- {
-     NFSClient *client = bs->opaque;
-     NFSRPC task = {0};
--    struct stat st;
-+    struct nfs_stat st;
- 
-     if (bdrv_is_read_only(bs) &&
-         !(bs->open_flags & BDRV_O_NOCACHE)) {
-@@ -746,7 +764,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
-     nfs_set_events(client);
-     BDRV_POLL_WHILE(bs, !task.complete);
- 
--    return (task.ret < 0 ? task.ret : st.st_blocks * 512);
-+    return (task.ret < 0 ? task.ret : nfs_get_st_blocks(&st) * 512);
- }
- 
- static int coroutine_fn
-@@ -778,7 +796,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
-                               BlockReopenQueue *queue, Error **errp)
- {
-     NFSClient *client = state->bs->opaque;
--    struct stat st;
-+    struct nfs_stat st;
-     int ret = 0;
- 
-     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
-@@ -800,7 +818,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
-                        nfs_get_error(client->context));
-             return ret;
-         }
--        client->st_blocks = st.st_blocks;
-+        client->st_blocks = nfs_get_st_blocks(&st);
-     }
- 
-     return 0;
+   system)
 -- 
 2.28.0.windows.1
 
