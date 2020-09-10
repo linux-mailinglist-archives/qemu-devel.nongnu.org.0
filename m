@@ -2,96 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7856126417F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:21:22 +0200 (CEST)
-Received: from localhost ([::1]:36226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC642641A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:26:33 +0200 (CEST)
+Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGIld-0004zN-IQ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:21:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51852)
+	id 1kGIqd-0000Wn-RA
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:26:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kGIkn-0004VW-6T
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:20:29 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31182
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kGIkl-0007gX-Le
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:20:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599729626;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SO4bWm/cPcTUGLfCpzWg/uVQUUhYZlQj1nC54fzA/M8=;
- b=PRH/D+GcB45A24JF1ZRfJcxhiDIR3n4HdIZHy6GuGydV5Hf9q9Zq1abb8kMjzvIpsSFmXp
- C5WHtJbn5Y3AZ/N2JXlPBlY8bJKWFN1H/i95RCWhN99+W3EcZFk3V0b3ImJ6Ewwl8FMyc9
- waB04Jd8DddutFE3fthrvM0JG8qs1X4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221--Ztar0i2M1ya5yNEqwL7eQ-1; Thu, 10 Sep 2020 05:20:25 -0400
-X-MC-Unique: -Ztar0i2M1ya5yNEqwL7eQ-1
-Received: by mail-ej1-f69.google.com with SMTP id m24so2479813ejr.9
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 02:20:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SO4bWm/cPcTUGLfCpzWg/uVQUUhYZlQj1nC54fzA/M8=;
- b=DWmeUXFWXzmZdFg4JhNzs3nWneJeS6JMGFd4SVpZxtM+OQftiwe4x/cdpS497/O4bw
- peIzlZiKE+mLr3LTIyR5ls6jbkp8ECZHNwaTuzAZsW3IDYn9YMpenNkec3v1GhwGW08l
- VRvnecafTce+4TeHXARsQZIUgr/832QdhmagXgZ0qSJ8i6RdUvtK5YCEyq1a8iEoiqmi
- aviZlMnb6p5+uUBCbHu3mQp4Z//0DFZl3L6mEosZ+jjNhjmDpgrzdiCGMI+bGM8d74X8
- VeRhjz2R0LXN6VVvVWfvtOFXij/cMBUeI6BUMUlNuc3NgGduKu7pIzpcNTg2n1qYkm57
- QELQ==
-X-Gm-Message-State: AOAM5304XLJ4i5SA9z8SehClxPkA9C+XnjQ4f80otvyNo1JSw5nMNmQK
- BX5P4EAXeiI2oesgJ4zDTpu6g1fdhwxM2KHEpgpJFMqF6djbB4JYt+0dnpyi6BmZt0dzbq+E7qk
- zN2kDwoAVtAUw+6s=
-X-Received: by 2002:aa7:c70a:: with SMTP id i10mr8369056edq.218.1599729624075; 
- Thu, 10 Sep 2020 02:20:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCXnWymC2DNmEis24kgZHf6f5Sw5QjpIfxT5XybcN5+ahR5wB4HShZF0uwqxcBzgzPTxQZjQ==
-X-Received: by 2002:aa7:c70a:: with SMTP id i10mr8369031edq.218.1599729623894; 
- Thu, 10 Sep 2020 02:20:23 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:2744:1c91:fa55:fa01?
- ([2001:b07:6468:f312:2744:1c91:fa55:fa01])
- by smtp.gmail.com with ESMTPSA id d13sm6406624edl.68.2020.09.10.02.20.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Sep 2020 02:20:23 -0700 (PDT)
-Subject: Re: [RFC] QEMU as Xcode project on macOS
-To: Liviu Ionescu <ilg@livius.net>, Peter Maydell <peter.maydell@linaro.org>
-References: <2764135.D4k31Gy3CM@silver> <13443969.F0S6BcH2UH@silver>
- <20200909181355.GV1011023@redhat.com> <1695914.5EixHECA2G@silver>
- <CAFEAcA9m6Qd1C2EXHKBfVrq_bd_AJo8ggf0t02bLufkmT5jZ=w@mail.gmail.com>
- <F0F8F9BF-0B9F-430E-8381-87AD6B3077C8@livius.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8640871f-366c-e7a9-549a-8403c36c5a0b@redhat.com>
-Date: Thu, 10 Sep 2020 11:20:28 +0200
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1kGIla-0005P6-Cg
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:21:18 -0400
+Received: from foss.arm.com ([217.140.110.172]:51344)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1kGIlW-0007yc-Jo
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:21:17 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4410101E;
+ Thu, 10 Sep 2020 02:21:11 -0700 (PDT)
+Received: from [192.168.1.79] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E12263F68F;
+ Thu, 10 Sep 2020 02:21:09 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] MTE support for KVM guest
+To: Andrew Jones <drjones@redhat.com>
+References: <20200904160018.29481-1-steven.price@arm.com>
+ <20200909152540.ylnrljd6aelxoxrf@kamzik.brq.redhat.com>
+ <857566df-1b98-84f7-9268-d092722dc749@arm.com>
+ <20200910062958.o55apuvdxmf3uiqb@kamzik.brq.redhat.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <37663bb6-d3a7-6f53-d0cd-88777633a2b2@arm.com>
+Date: Thu, 10 Sep 2020 10:21:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <F0F8F9BF-0B9F-430E-8381-87AD6B3077C8@livius.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200910062958.o55apuvdxmf3uiqb@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 00:49:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 05:21:11
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,32 +62,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>, G 3 <programmingkidx@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <Peter.Maydell@arm.com>, linux-kernel@vger.kernel.org,
+ Juan Quintela <quintela@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+ Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/09/20 22:13, Liviu Ionescu wrote:
->> ... You still need a Python 3.5 or better for the other scripts 
->> QEMU has as part of its build process, so you will still need a
->> python other than the Apple /usr/bin/python to build even if you
->> have a standalone meson with its own python.
->
-> Ah, sure, if the build script uses Python for other purposes you'll
-> need one, but the embedded Python will allow the standalone meson to
-> run properly regardless of what Python you install.
+On 10/09/2020 07:29, Andrew Jones wrote:
+> On Wed, Sep 09, 2020 at 05:04:15PM +0100, Steven Price wrote:
+>> On 09/09/2020 16:25, Andrew Jones wrote:
+>>> On Fri, Sep 04, 2020 at 05:00:16PM +0100, Steven Price wrote:
+>>>>    2. Automatically promotes (normal host) memory given to the guest to be
+>>>>       tag enabled (sets PG_mte_tagged), if any VCPU has MTE enabled. The
+>>>>       tags are cleared if the memory wasn't previously MTE enabled.
+>>>
+>>> Shouldn't this be up to the guest? Or, is this required in order for the
+>>> guest to use tagging at all. Something like making the guest IPAs memtag
+>>> capable, but if the guest doesn't enable tagging then there is no guest
+>>> impact? In any case, shouldn't userspace be the one that adds PROT_MTE
+>>> to the memory regions it wants the guest to be able to use tagging with,
+>>> rather than KVM adding the attribute page by page?
+>>
+>> I think I've probably explained this badly.
+>>
+>> The guest can choose how to populate the stage 1 mapping - so can choose
+>> which parts of memory are accessed tagged or not. However, the hypervisor
+>> cannot restrict this in stage 2 (except by e.g. making the memory uncached
+>> but that's obviously not great - however devices forward to the guest can be
+>> handled like this).
+>>
+>> Because the hypervisor cannot restrict the guest's access to the tags, the
+>> hypervisor must assume that all memory given to the guest could have the
+>> tags accessed. So it must (a) clear any stale data from the tags, and (b)
+>> ensure that the tags are preserved (e.g. when swapping pages out).
+>>
+> 
+> Yes, this is how I understood it.
 
-Note that if you use the version of Meson that is bundled with QEMU, you
-can use
+Ok, I've obviously misunderstood your comment instead ;)
 
-  --python=/path/to/python3 --meson=internal
+>> Because of the above the current series automatically sets PG_mte_tagged on
+>> the pages. Note that this doesn't change the mappings that the VMM has (a
+>> non-PROT_MTE mapping will still not have access to the tags).
+> 
+> But if userspace created the memslots with memory already set with
+> PROT_MTE, then this wouldn't be necessary, right? And, as long as
+> there's still a way to access the memory with tag checking disabled,
+> then it shouldn't be a problem.
 
-and the build will automatically use that same Python executable to run
-the scripts.
+Yes, so one option would be to attempt to validate that the VMM has 
+provided memory pages with the PG_mte_tagged bit set (e.g. by mapping 
+with PROT_MTE). The tricky part here is that we support KVM_CAP_SYNC_MMU 
+which means that the VMM can change the memory backing at any time - so 
+we could end up in user_mem_abort() discovering that a page doesn't have 
+PG_mte_tagged set - at that point there's no nice way of handling it 
+(other than silently upgrading the page) so the VM is dead.
 
-Paolo
+So since enforcing that PG_mte_tagged is set isn't easy and provides a 
+hard-to-debug foot gun to the VMM I decided the better option was to let 
+the kernel set the bit automatically.
 
+>>>
+>>> If userspace needs to write to guest memory then it should be due to
+>>> a device DMA or other specific hardware emulation. Those accesses can
+>>> be done with tag checking disabled.
+>>
+>> Yes, the question is can the VMM (sensibly) wrap the accesses with a
+>> disable/renable tag checking for the process sequence. The alternative at
+>> the moment is to maintain a separate (untagged) mapping for the purpose
+>> which might present it's own problems.
+> 
+> Hmm, so there's no easy way to disable tag checking when necessary? If we
+> don't map the guest ram with PROT_MTE and continue setting the attribute
+> in KVM, as this series does, then we don't need to worry about it tag
+> checking when accessing the memory, but then we can't access the tags for
+> migration.
+
+There's a "TCO" (Tag Check Override) bit in PSTATE which allows 
+disabling tag checking, so if it's reasonable to wrap accesses to the 
+memory you can simply set the TCO bit, perform the memory access and 
+then unset TCO. That would mean a single mapping with MTE enabled would 
+work fine. What I don't have a clue about is whether it's practical in 
+the VMM to wrap guest accesses like this.
+
+>>
+>>>>
+>>>> If it's not practical to either disable tag checking in the VMM or
+>>>> maintain multiple mappings then the alternatives I'm aware of are:
+>>>>
+>>>>    * Provide a KVM-specific method to extract the tags from guest memory.
+>>>>      This might also have benefits in terms of providing an easy way to
+>>>>      read bulk tag data from guest memory (since the LDGM instruction
+>>>>      isn't available at EL0).
+>>>
+>>> Maybe we need a new version of KVM_GET_DIRTY_LOG that also provides
+>>> the tags for all addresses of each dirty page.
+>>
+>> Certainly possible, although it seems to conflate two operations: "get list
+>> of dirty pages", "get tags from page". It would also require a lot of return
+>> space (size of slot/32).
+>>
+> 
+> It would require num-set-bits * host-page-size / 16 / 2, right?
+
+Yes, where the worst case is all bits set which is size/32. Since you 
+don't know at the time of the call how many bits are going to be set I'm 
+not sure how you would design the API which doesn't require 
+preallocating the worst case.
+
+>>>>    * Provide support for user space setting the TCMA0 or TCMA1 bits in
+>>>>      TCR_EL1. These would allow the VMM to generate pointers which are not
+>>>>      tag checked.
+>>>
+>>> So this is necessary to allow the VMM to keep tag checking enabled for
+>>> itself, plus map guest memory as PROT_MTE, and write to that memory when
+>>> needed?
+>>
+>> This is certainly one option. The architecture provides two "magic" values
+>> (all-0s and all-1s) which can be configured using TCMAx to be treated
+>> differently. The VMM could therefore construct pointers to otherwise tagged
+>> memory which would be treated as untagged.
+>>
+>> However, Catalin's user space series doesn't at the moment expose this
+>> functionality.
+>>
+> 
+> So if I understand correctly this would allow us to map the guest memory
+> with PAGE_MTE and still access the memory when needed. If so, then this
+> sounds interesting.
+
+Yes - you could derive a pointer which didn't perform tag checking. Note 
+that this also requires the rest of user space to play along (i.e. 
+understand that the tag value is reserved). I believe for user space we 
+have to use the all-0s value which means that a standard pointer 
+(top-byte is 0) would be unchecked.
+
+Steve
 
