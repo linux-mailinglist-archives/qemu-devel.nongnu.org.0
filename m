@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADD0264DED
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:56:17 +0200 (CEST)
-Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8ACA264DA1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:47:17 +0200 (CEST)
+Received: from localhost ([::1]:46126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRk0-0006gn-PF
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
+	id 1kGRbI-0007FL-N7
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCw-00067Z-Mt
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:22:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30864
+ id 1kGRCu-00061f-HH
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:22:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60577
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGRCo-00039O-BY
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:22:06 -0400
+ id 1kGRCj-00038W-GA
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:22:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599762116;
+ s=mimecast20190719; t=1599762112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9d3w3vq3xDiGR0tvfJkqLbBaoO9YQl9D9kE2nTayO1o=;
- b=OGC40fWI+9eJAbdN0WBiIOeNd8v4LMQhicLKwQQzAdc8iPgATwzCL0sGi1fv+V4sEBuX5s
- BjeZebZCaU4EutNWU7oraJDviIjYInQI8+TvbtyA2QlNDgcOgp0Xm5hhbsX/697fcgAqvS
- SsKBrl6LDr88NbPAXencbmu/M+W4uY4=
+ bh=oszayQ0VGZ94gc4rNIdB3VO4jFeqqjzbkxRkmz3dAZs=;
+ b=P1C3y7zak6NEbeenm5tK2Kg0EPtJr5r8xoholCeMKYVBaK8UjzBikA0mDpw7c0w/A7mzkZ
+ wZZq5rmJMDy17urOawEsgxv6REqP3Z+2Kmg3IM0c/QI45kuFjKVthSkSM7L7qMQ5h8lInH
+ xsURpTMvNghs8R29zxxLHJ3tN0NOb0Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-aZiZfG9gORqTISy86VyUyQ-1; Thu, 10 Sep 2020 14:21:48 -0400
-X-MC-Unique: aZiZfG9gORqTISy86VyUyQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-107-pvQxR_HqPFS-lQCwyy3vrA-1; Thu, 10 Sep 2020 14:21:50 -0400
+X-MC-Unique: pvQxR_HqPFS-lQCwyy3vrA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F115581CBF1;
- Thu, 10 Sep 2020 18:21:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3F8B1084C9F;
+ Thu, 10 Sep 2020 18:21:49 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED1565C1BD;
- Thu, 10 Sep 2020 18:21:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADD407EEC9;
+ Thu, 10 Sep 2020 18:21:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 25/33] vfio: Rename PCI_VFIO to VFIO_PCI
-Date: Thu, 10 Sep 2020 14:21:04 -0400
-Message-Id: <20200910182112.4030917-26-ehabkost@redhat.com>
+Subject: [PULL 27/33] tusb6010: Rename TUSB to TUSB6010
+Date: Thu, 10 Sep 2020 14:21:06 -0400
+Message-Id: <20200910182112.4030917-28-ehabkost@redhat.com>
 In-Reply-To: <20200910182112.4030917-1-ehabkost@redhat.com>
 References: <20200910182112.4030917-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -84,138 +84,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eric Auger <eric.auger@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the type checking macro name consistent with the TYPE_*
-constant.
+Make type checking function name consistent with the TYPE_TUSB6010
+constant and QOM type name ("tusb6010").
 
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Suggested-by: "Daniel P. Berrangé" <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20200902224311.1321159-56-ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200903180128.1523959-9-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/vfio/pci.h |  2 +-
- hw/vfio/pci.c | 22 +++++++++++-----------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ hw/usb/tusb6010.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 846d60e56c..5e53d5b863 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -116,7 +116,7 @@ typedef struct VFIOMSIXInfo {
+diff --git a/hw/usb/tusb6010.c b/hw/usb/tusb6010.c
+index 2bee3ae59f..dd20996d13 100644
+--- a/hw/usb/tusb6010.c
++++ b/hw/usb/tusb6010.c
+@@ -32,7 +32,7 @@
  
- #define TYPE_VFIO_PCI "vfio-pci"
- typedef struct VFIOPCIDevice VFIOPCIDevice;
--DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, PCI_VFIO,
-+DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, VFIO_PCI,
-                          TYPE_VFIO_PCI)
+ #define TYPE_TUSB6010 "tusb6010"
+ typedef struct TUSBState TUSBState;
+-DECLARE_INSTANCE_CHECKER(TUSBState, TUSB,
++DECLARE_INSTANCE_CHECKER(TUSBState, TUSB6010,
+                          TYPE_TUSB6010)
  
- struct VFIOPCIDevice {
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 3611dcd38b..0d83eb0e47 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -230,7 +230,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
+ struct TUSBState {
+@@ -779,7 +779,7 @@ static void tusb6010_irq(void *opaque, int source, int level)
  
- static void vfio_intx_routing_notifier(PCIDevice *pdev)
+ static void tusb6010_reset(DeviceState *dev)
  {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     PCIINTxRoute route;
+-    TUSBState *s = TUSB(dev);
++    TUSBState *s = TUSB6010(dev);
+     int i;
  
-     if (vdev->interrupt != VFIO_INT_INTx) {
-@@ -456,7 +456,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
- static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-                                    MSIMessage *msg, IOHandler *handler)
+     s->test_reset = TUSB_PROD_TEST_RESET_VAL;
+@@ -815,7 +815,7 @@ static void tusb6010_reset(DeviceState *dev)
+ 
+ static void tusb6010_realize(DeviceState *dev, Error **errp)
  {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIOMSIVector *vector;
-     int ret;
+-    TUSBState *s = TUSB(dev);
++    TUSBState *s = TUSB6010(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
  
-@@ -541,7 +541,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
- 
- static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIOMSIVector *vector = &vdev->msi_vectors[nr];
- 
-     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
-@@ -1048,7 +1048,7 @@ static const MemoryRegionOps vfio_vga_ops = {
-  */
- static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIORegion *region = &vdev->bars[bar].region;
-     MemoryRegion *mmap_mr, *region_mr, *base_mr;
-     PCIIORegion *r;
-@@ -1094,7 +1094,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
-  */
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
- 
-     memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
-@@ -1127,7 +1127,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- void vfio_pci_write_config(PCIDevice *pdev,
-                            uint32_t addr, uint32_t val, int len)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     uint32_t val_le = cpu_to_le32(val);
- 
-     trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
-@@ -2701,7 +2701,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
- 
- static void vfio_realize(PCIDevice *pdev, Error **errp)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
-     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
-@@ -3033,7 +3033,7 @@ error:
- 
- static void vfio_instance_finalize(Object *obj)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-     vfio_display_finalize(vdev);
-@@ -3057,7 +3057,7 @@ static void vfio_instance_finalize(Object *obj)
- 
- static void vfio_exitfn(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
- 
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-@@ -3075,7 +3075,7 @@ static void vfio_exitfn(PCIDevice *pdev)
- 
- static void vfio_pci_reset(DeviceState *dev)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(dev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(dev);
- 
-     trace_vfio_pci_reset(vdev->vbasedev.name);
- 
-@@ -3115,7 +3115,7 @@ post_reset:
- static void vfio_instance_init(Object *obj)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(obj);
--    VFIOPCIDevice *vdev = PCI_VFIO(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI(obj);
- 
-     device_add_bootindex_property(obj, &vdev->bootindex,
-                                   "bootindex", NULL,
+     s->otg_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, tusb_otg_tick, s);
 -- 
 2.26.2
 
