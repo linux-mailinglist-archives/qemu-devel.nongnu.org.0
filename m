@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77601263E18
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:09:49 +0200 (CEST)
-Received: from localhost ([::1]:41702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7C3263DEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 09:04:09 +0200 (CEST)
+Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGGiK-0006Re-Hj
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:09:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59726)
+	id 1kGGcq-00008g-Bk
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 03:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGaq-0005ID-P2
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:02:04 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54693
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGbE-0006AH-Bg
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:02:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22824
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGao-0001lV-CU
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:02:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGGbC-0001p5-GK
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 03:02:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599721321;
+ s=mimecast20190719; t=1599721345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rOfPlRcHNPnFEFQL04D9b7WV0+f6qJ96Y7nXN27AiJ8=;
- b=E8HoDR1xakX1Zi/Tk+P3apWt62fnF/8LzuoaQLhUiPQ1/RxXFiBa6luEkKGd23xnMyXszt
- Qv+xkCpyOiGeFUl7T4zO7XhVARYPNJfltRxIeHJbxdRQksLPZCKmigCWh+pniBgnGJuvQt
- r0hKNROiRD1A8NtlT0pPKCCq/bk0dzo=
+ bh=O4TiFU/E5h3g7pzVC+3Y38BqYPnJSqtGxVteMoOcLyc=;
+ b=hnIqR0sqyocjmFNmXrMbQOtg40c1Ag7S1ykKNTg84rThJdxQzEf3K/3cK6NqxY2s82LGBI
+ 3y2m1631oJRiHPY3cHlEFL07GLQ/nBsN2MqgsQkiNEGVv/+4XaXlzilww2VHx1gfCw2TYk
+ PCUpyjy5LBTpC+yjNeEh5ehvBbSj3/E=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-ZYJEFeImO1K6mPG6avtPuQ-1; Thu, 10 Sep 2020 03:02:00 -0400
-X-MC-Unique: ZYJEFeImO1K6mPG6avtPuQ-1
-Received: by mail-wm1-f72.google.com with SMTP id u5so1302676wme.3
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 00:01:59 -0700 (PDT)
+ us-mta-572-tRsT0714MGK9SzopjMDGWw-1; Thu, 10 Sep 2020 03:02:04 -0400
+X-MC-Unique: tRsT0714MGK9SzopjMDGWw-1
+Received: by mail-wm1-f72.google.com with SMTP id x81so1295179wmg.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 00:02:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rOfPlRcHNPnFEFQL04D9b7WV0+f6qJ96Y7nXN27AiJ8=;
- b=WcjfoOVNXp+b47Sxe0q3w5WqNSWOiBvh+8vkSfrIarW9RoaHTR6Yg254iQrTmbLjVH
- 1/tIYJEEWcm5MA9x1FaQNxePYDrBTQQjRuRoSqwL9kt7/TeIweZjFmwgUiJ13luHmqSX
- Ba+9LguzrME7LtX/EXj+jdBXH1YFN1m5h2OwYjHxmYTxrHdwJUFmVn5O8qxY+kFTSDOU
- EDPse1O057bklsjRRoOGBxLNu1XVQ2+S5DCDQ6pxhLksze+3F/Olp2B8prxxbPYBWHwt
- aIUY7/XMVUTNswgkhBiYeE79/nzM+JyiL50/29Jf+p7doStaTBS7iBxK8LNEMTvDqV3J
- fgUw==
-X-Gm-Message-State: AOAM5309L+a9HUpwliyCDD+2/A8QfEHzvm0fAAmHEZ/fbXG3mLBKoCdb
- LXyynS9CmNPDFM8G66ztogoXC1hlmtdvjBwA1OVELYV2aswdrhfxdbNNT49L7k1FrHK5+TwGAD1
- FTAXHxTTTD+ENwrk=
-X-Received: by 2002:adf:e852:: with SMTP id d18mr8003809wrn.40.1599721316984; 
- Thu, 10 Sep 2020 00:01:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlwpG0tUUcWG7cYI6DeHX0M5TDMJpNZQcQfEC1vqrWrbjug/Hj3GDkPn1UBSppzX4Ol1mWhw==
-X-Received: by 2002:adf:e852:: with SMTP id d18mr8003791wrn.40.1599721316799; 
- Thu, 10 Sep 2020 00:01:56 -0700 (PDT)
+ bh=O4TiFU/E5h3g7pzVC+3Y38BqYPnJSqtGxVteMoOcLyc=;
+ b=o6ipS3of5sFmrfI6IRMrOw9/l+LkCY/IklWQ8WFHaszSzPoRl8ootZhKajjlE3Z/m4
+ +t4/b+lNSSuf/9neybtD4+O0aAdMxUQTDxLw1M323eU0pJUR8c6FxZi4Im4x8mnGO+me
+ xgYtm4vVAQaUXauxoUNkgaM+a8PhzudVmXdLC3fiKlTbgiQG6Ey5PlEcz5TaIwuy3Wbj
+ LkZtdBwgJOpMqbiA4t0Qpf9JGqpv0CGWrMmn3BEE0uBcECkxG1kgBbVRABTuIb1JKkhI
+ IkSRFiOh2xv4rUIEMV2SlwBVBReiR27qoPOrDuEi7hsxcuk7GRo2J/ofP/bznEPwT7DW
+ sxnA==
+X-Gm-Message-State: AOAM530IykhL5VWGlsogdBvkyUXQiebE+MnXaQnmVMLdOsX4Y3FZQDnH
+ iW3TZBHuShqb0izk9GClLxgzjd5AjY4iHV7WSXq5xNSfAlsi8V7qOwxAtvgTXNxMm8g159GX1WH
+ DLdpm++oDQjSL2eg=
+X-Received: by 2002:a1c:c256:: with SMTP id s83mr7016240wmf.93.1599721322696; 
+ Thu, 10 Sep 2020 00:02:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRCTkH+/DmTsf56gy1ymOQ2OzxrWvy46F4cviEpju4FPjr5Ind5bZnv+UsKffp56Gc1+5NYw==
+X-Received: by 2002:a1c:c256:: with SMTP id s83mr7016210wmf.93.1599721322497; 
+ Thu, 10 Sep 2020 00:02:02 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id f6sm2615123wme.32.2020.09.10.00.01.55
+ by smtp.gmail.com with ESMTPSA id z15sm7347660wrv.94.2020.09.10.00.02.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 00:01:56 -0700 (PDT)
+ Thu, 10 Sep 2020 00:02:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] hw/net/xilinx_axienet: Rename StreamSlave as StreamSink
-Date: Thu, 10 Sep 2020 09:01:29 +0200
-Message-Id: <20200910070131.435543-5-philmd@redhat.com>
+Subject: [PATCH 5/6] hw/pci-host/q35: Rename PCI 'black hole as '(memory) hole'
+Date: Thu, 10 Sep 2020 09:01:30 +0200
+Message-Id: <20200910070131.435543-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200910070131.435543-1-philmd@redhat.com>
 References: <20200910070131.435543-1-philmd@redhat.com>
@@ -74,17 +74,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 01:44:54
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 01:23:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,103 +113,137 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to use inclusive terminology, rename 'slave stream'
-as 'sink stream'.
+In order to use inclusive terminology, rename "blackhole"
+as "(memory)hole".
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/net/xilinx_axienet.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ include/hw/pci-host/q35.h |  4 ++--
+ hw/pci-host/q35.c         | 38 +++++++++++++++++++-------------------
+ tests/qtest/q35-test.c    |  2 +-
+ 3 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index 0c4ac727207..4e48535f373 100644
---- a/hw/net/xilinx_axienet.c
-+++ b/hw/net/xilinx_axienet.c
-@@ -46,11 +46,11 @@
-      OBJECT_CHECK(XilinxAXIEnet, (obj), TYPE_XILINX_AXI_ENET)
+diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
+index 070305f83df..0fb90aca18b 100644
+--- a/include/hw/pci-host/q35.h
++++ b/include/hw/pci-host/q35.h
+@@ -48,8 +48,8 @@ typedef struct MCHPCIState {
+     PAMMemoryRegion pam_regions[13];
+     MemoryRegion smram_region, open_high_smram;
+     MemoryRegion smram, low_smram, high_smram;
+-    MemoryRegion tseg_blackhole, tseg_window;
+-    MemoryRegion smbase_blackhole, smbase_window;
++    MemoryRegion tseg_hole, tseg_window;
++    MemoryRegion smbase_hole, smbase_window;
+     bool has_smram_at_smbase;
+     Range pci_hole;
+     uint64_t below_4g_mem_size;
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index b67cb9c29f8..21f58ccfa28 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -266,20 +266,20 @@ static const TypeInfo q35_host_info = {
+  * MCH D0:F0
+  */
  
- #define XILINX_AXI_ENET_DATA_STREAM(obj) \
--     OBJECT_CHECK(XilinxAXIEnetStreamSlave, (obj),\
-+     OBJECT_CHECK(XilinxAXIEnetStreamSink, (obj),\
-      TYPE_XILINX_AXI_ENET_DATA_STREAM)
- 
- #define XILINX_AXI_ENET_CONTROL_STREAM(obj) \
--     OBJECT_CHECK(XilinxAXIEnetStreamSlave, (obj),\
-+     OBJECT_CHECK(XilinxAXIEnetStreamSink, (obj),\
-      TYPE_XILINX_AXI_ENET_CONTROL_STREAM)
- 
- /* Advertisement control register. */
-@@ -310,10 +310,10 @@ struct TEMAC  {
-     void *parent;
- };
- 
--typedef struct XilinxAXIEnetStreamSlave XilinxAXIEnetStreamSlave;
-+typedef struct XilinxAXIEnetStreamSink XilinxAXIEnetStreamSink;
- typedef struct XilinxAXIEnet XilinxAXIEnet;
- 
--struct XilinxAXIEnetStreamSlave {
-+struct XilinxAXIEnetStreamSink {
-     Object parent;
- 
-     struct XilinxAXIEnet *enet;
-@@ -325,8 +325,8 @@ struct XilinxAXIEnet {
-     qemu_irq irq;
-     StreamSink *tx_data_dev;
-     StreamSink *tx_control_dev;
--    XilinxAXIEnetStreamSlave rx_data_dev;
--    XilinxAXIEnetStreamSlave rx_control_dev;
-+    XilinxAXIEnetStreamSink rx_data_dev;
-+    XilinxAXIEnetStreamSink rx_control_dev;
-     NICState *nic;
-     NICConf conf;
- 
-@@ -859,7 +859,7 @@ xilinx_axienet_control_stream_push(StreamSink *obj, uint8_t *buf, size_t len,
-                                    bool eop)
+-static uint64_t blackhole_read(void *ptr, hwaddr reg, unsigned size)
++static uint64_t memoryhole_read(void *ptr, hwaddr reg, unsigned size)
  {
-     int i;
--    XilinxAXIEnetStreamSlave *cs = XILINX_AXI_ENET_CONTROL_STREAM(obj);
-+    XilinxAXIEnetStreamSink *cs = XILINX_AXI_ENET_CONTROL_STREAM(obj);
-     XilinxAXIEnet *s = cs->enet;
+     return 0xffffffff;
+ }
  
-     assert(eop);
-@@ -880,7 +880,7 @@ static size_t
- xilinx_axienet_data_stream_push(StreamSink *obj, uint8_t *buf, size_t size,
-                                 bool eop)
+-static void blackhole_write(void *opaque, hwaddr addr, uint64_t val,
++static void memoryhole_write(void *opaque, hwaddr addr, uint64_t val,
+                             unsigned width)
  {
--    XilinxAXIEnetStreamSlave *ds = XILINX_AXI_ENET_DATA_STREAM(obj);
-+    XilinxAXIEnetStreamSink *ds = XILINX_AXI_ENET_DATA_STREAM(obj);
-     XilinxAXIEnet *s = ds->enet;
+     /* nothing */
+ }
  
-     /* TX enable ?  */
-@@ -954,8 +954,8 @@ static NetClientInfo net_xilinx_enet_info = {
- static void xilinx_enet_realize(DeviceState *dev, Error **errp)
- {
-     XilinxAXIEnet *s = XILINX_AXI_ENET(dev);
--    XilinxAXIEnetStreamSlave *ds = XILINX_AXI_ENET_DATA_STREAM(&s->rx_data_dev);
--    XilinxAXIEnetStreamSlave *cs = XILINX_AXI_ENET_CONTROL_STREAM(
-+    XilinxAXIEnetStreamSink *ds = XILINX_AXI_ENET_DATA_STREAM(&s->rx_data_dev);
-+    XilinxAXIEnetStreamSink *cs = XILINX_AXI_ENET_CONTROL_STREAM(
-                                                             &s->rx_control_dev);
+-static const MemoryRegionOps blackhole_ops = {
+-    .read = blackhole_read,
+-    .write = blackhole_write,
++static const MemoryRegionOps memoryhole_ops = {
++    .read = memoryhole_read,
++    .write = memoryhole_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .valid.min_access_size = 1,
+     .valid.max_access_size = 4,
+@@ -393,12 +393,12 @@ static void mch_update_smram(MCHPCIState *mch)
+     } else {
+         tseg_size = 0;
+     }
+-    memory_region_del_subregion(mch->system_memory, &mch->tseg_blackhole);
+-    memory_region_set_enabled(&mch->tseg_blackhole, tseg_size);
+-    memory_region_set_size(&mch->tseg_blackhole, tseg_size);
++    memory_region_del_subregion(mch->system_memory, &mch->tseg_hole);
++    memory_region_set_enabled(&mch->tseg_hole, tseg_size);
++    memory_region_set_size(&mch->tseg_hole, tseg_size);
+     memory_region_add_subregion_overlap(mch->system_memory,
+                                         mch->below_4g_mem_size - tseg_size,
+-                                        &mch->tseg_blackhole, 1);
++                                        &mch->tseg_hole, 1);
  
-     object_property_add_link(OBJECT(ds), "enet", "xlnx.axi-ethernet",
-@@ -1046,7 +1046,7 @@ static const TypeInfo xilinx_enet_info = {
- static const TypeInfo xilinx_enet_data_stream_info = {
-     .name          = TYPE_XILINX_AXI_ENET_DATA_STREAM,
-     .parent        = TYPE_OBJECT,
--    .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
-+    .instance_size = sizeof(struct XilinxAXIEnetStreamSink),
-     .class_init    = xilinx_enet_data_stream_class_init,
-     .interfaces = (InterfaceInfo[]) {
-             { TYPE_STREAM_SINK },
-@@ -1057,7 +1057,7 @@ static const TypeInfo xilinx_enet_data_stream_info = {
- static const TypeInfo xilinx_enet_control_stream_info = {
-     .name          = TYPE_XILINX_AXI_ENET_CONTROL_STREAM,
-     .parent        = TYPE_OBJECT,
--    .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
-+    .instance_size = sizeof(struct XilinxAXIEnetStreamSink),
-     .class_init    = xilinx_enet_control_stream_class_init,
-     .interfaces = (InterfaceInfo[]) {
-             { TYPE_STREAM_SINK },
+     memory_region_set_enabled(&mch->tseg_window, tseg_size);
+     memory_region_set_size(&mch->tseg_window, tseg_size);
+@@ -456,7 +456,7 @@ static void mch_update_smbase_smram(MCHPCIState *mch)
+     } else {
+         lck = false;
+     }
+-    memory_region_set_enabled(&mch->smbase_blackhole, lck);
++    memory_region_set_enabled(&mch->smbase_hole, lck);
+     memory_region_set_enabled(&mch->smbase_window, lck);
+     memory_region_transaction_commit();
+ }
+@@ -601,13 +601,13 @@ static void mch_realize(PCIDevice *d, Error **errp)
+     memory_region_set_enabled(&mch->high_smram, true);
+     memory_region_add_subregion(&mch->smram, 0xfeda0000, &mch->high_smram);
+ 
+-    memory_region_init_io(&mch->tseg_blackhole, OBJECT(mch),
+-                          &blackhole_ops, NULL,
+-                          "tseg-blackhole", 0);
+-    memory_region_set_enabled(&mch->tseg_blackhole, false);
++    memory_region_init_io(&mch->tseg_hole, OBJECT(mch),
++                          &memoryhole_ops, NULL,
++                          "tseg-hole", 0);
++    memory_region_set_enabled(&mch->tseg_hole, false);
+     memory_region_add_subregion_overlap(mch->system_memory,
+                                         mch->below_4g_mem_size,
+-                                        &mch->tseg_blackhole, 1);
++                                        &mch->tseg_hole, 1);
+ 
+     memory_region_init_alias(&mch->tseg_window, OBJECT(mch), "tseg-window",
+                              mch->ram_memory, mch->below_4g_mem_size, 0);
+@@ -619,13 +619,13 @@ static void mch_realize(PCIDevice *d, Error **errp)
+      * This is not what hardware does, so it's QEMU specific hack.
+      * See commit message for details.
+      */
+-    memory_region_init_io(&mch->smbase_blackhole, OBJECT(mch), &blackhole_ops,
+-                          NULL, "smbase-blackhole",
++    memory_region_init_io(&mch->smbase_hole, OBJECT(mch), &memoryhole_ops,
++                          NULL, "smbase-hole",
+                           MCH_HOST_BRIDGE_SMBASE_SIZE);
+-    memory_region_set_enabled(&mch->smbase_blackhole, false);
++    memory_region_set_enabled(&mch->smbase_hole, false);
+     memory_region_add_subregion_overlap(mch->system_memory,
+                                         MCH_HOST_BRIDGE_SMBASE_ADDR,
+-                                        &mch->smbase_blackhole, 1);
++                                        &mch->smbase_hole, 1);
+ 
+     memory_region_init_alias(&mch->smbase_window, OBJECT(mch),
+                              "smbase-window", mch->ram_memory,
+diff --git a/tests/qtest/q35-test.c b/tests/qtest/q35-test.c
+index b7cf1449906..7cddd0a7f61 100644
+--- a/tests/qtest/q35-test.c
++++ b/tests/qtest/q35-test.c
+@@ -231,7 +231,7 @@ static void test_smram_smbase_lock(void)
+         qpci_config_writeb(pcidev, MCH_HOST_BRIDGE_F_SMBASE, i);
+         g_assert(qpci_config_readb(pcidev, MCH_HOST_BRIDGE_F_SMBASE) == 0x02);
+ 
+-        /* RAM access should go into black hole */
++        /* RAM access should go into memory hole */
+         qtest_writeb(qts, SMBASE, SMRAM_TEST_PATTERN);
+         g_assert_cmpint(qtest_readb(qts, SMBASE), ==, 0xff);
+     }
 -- 
 2.26.2
 
