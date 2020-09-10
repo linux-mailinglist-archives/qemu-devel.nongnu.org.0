@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77F9264C25
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:02:42 +0200 (CEST)
-Received: from localhost ([::1]:55554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2895C264C32
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:05:05 +0200 (CEST)
+Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGQu9-0001M4-Ox
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50762)
+	id 1kGQwS-0002pP-8E
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:05:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGQsZ-0000ks-ET
+ id 1kGQsZ-0000kj-0s
  for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:01:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53110)
+Received: from indium.canonical.com ([91.189.90.7]:53124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGQsT-0007YG-NW
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:01:03 -0400
+ id 1kGQsT-0007YL-Sn
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:01:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kGQsQ-00069h-Si
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:00:54 +0000
+ id 1kGQsR-00069k-P1
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:00:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D83292E8053
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:00:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BA7F62E80DC
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:00:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Sep 2020 17:47:52 -0000
+Date: Thu, 10 Sep 2020 17:51:06 -0000
 From: Laurent Vivier <1895053@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: laurent-vivier petunia2000
 X-Launchpad-Bug-Reporter: Petunia (petunia2000)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
 References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159976007303.21135.6648450208051221407.malone@wampee.canonical.com>
+Message-Id: <159976026657.21444.17630831327155273919.malone@wampee.canonical.com>
 Subject: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to start
  Journal Service.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: d4f07abff467964f64872aba3d76f4a58f7f5d89
+X-Launchpad-Hash: 1fe667896513e9b2ae0e4d400a06b5db516b7fd6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 12:30:55
@@ -77,50 +77,13 @@ Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm sorry, it works fine for me on Fedora 32 with qemu built from GIT
-v5.1.0.
+Perhaps the problem is triggered by the host systemd version as I have:
 
-$ uname -r
-5.8.4-200.fc32.x86_64
-
-wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest
-mv raspios_lite_armhf_latest raspios_lite_armhf_latest.zip
-unzip raspios_lite_armhf_latest.zip
-modprobe loop max_part=3D8
-mkdir root
-sudo losetup -f 2020-08-20-raspios-buster-armhf-lite.img
-sudo mount /dev/loop0p2 root
-sudo mount /dev/loop0p1 root/boot
-sudo systemd-nspawn -D root --boot --bind $HOME/Objects/qemu/linux-user/qem=
-u-arm:/qemu-arm
-Spawning container root on /raspios/root.
-Press ^] three times within 1s to kill container.
-systemd 241 running in system mode. (+PAM +AUDIT +SELINUX +IMA +APPARMOR +S=
-MACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP =
-+BLKID +ELFUTILS +KMOD -IDN2 +IDN -PCRE2 default-hierarchy=3Dhybrid)
-Detected virtualization systemd-nspawn.
-Detected architecture arm.
-
-Welcome to Raspbian GNU/Linux 10 (buster)!
-....
-Raspbian GNU/Linux 10 raspberrypi console
-raspberrypi login: pi
-Password: =
-
-Last login: Thu Sep 10 19:40:15 CEST 2020 on pts/0
-Linux raspberrypi 5.8.4-200.fc32.x86_64 #1 SMP Wed Aug 26 22:28:08 UTC 2020=
- armv7l
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-pi@raspberrypi:~ $ /qemu-arm -version
-qemu-arm version 5.1.0 (v5.1.0)
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-pi@raspberrypi:~ $
+$ systemd-nspawn --version
+systemd 245 (v245.7-1.fc32)
++PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +=
+GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2 -IDN +PC=
+RE2 default-hierarchy=3Dunified
 
 -- =
 
