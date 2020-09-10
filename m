@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459B6264D21
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:34:59 +0200 (CEST)
-Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32D6264D06
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:33:18 +0200 (CEST)
+Received: from localhost ([::1]:42762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRPO-0002Re-AQ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57220)
+	id 1kGRNl-0007LI-Uk
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:33:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBc-0004A0-16
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:44 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28248)
+ id 1kGRBb-00049A-JU
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:43 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBX-0002j9-VJ
+ id 1kGRBX-0002ls-Vw
  for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1599762039; x=1631298039;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=G41gKu2XitSL4Fp+Wr8ihEjovr03vnAPD5/BKz1N9wg=;
- b=k/BZejqhZrbJMjJN0F9koMQFnCjDMjexOe7VCBoj7H7WT0b3bhyQFedC
- t8oR1+eFyV0c3VAzhDco56lf1Y1mf6tNwnmQUBCiBrLsExsbFVV7xBnmn
- w7kNw8SQbW7kPrGdJmyVpYGMvvQWEG280RgYgZeyCfYC2cXY0B9dDPNQN
- Mk8NB9K2kGjqcAc1Zj8ncR6kjrHytA2PyfenV/+4NPX9c1LZ9EX4m2eWZ
- 7LvxJ25NEFy7JtJKqrciVjzpKRoEPZ+wHe/LpJRxDaHXZ3N0J2oU4VPCT
- nNYD+1u5uyptTD1AuLoCvp0cixtsd1PH1WN4GBuyUtJhb197roN+F9kCK w==;
-IronPort-SDR: CvKrLuTrINszinW4jqVP2ykQ1QBkFRR1iuvuTxwVraOnxkCAYSW6YsUkRttwVu/s2uW3ub10MF
- 58DcUZh4okEicfckvOJEH6AjyrosKk0zXcb0u0gfR421rHxf8iCnzX0/YFSUNbBcMLmRQN46zl
- 5sgk5ZeIhtaI6jVmvHpfY+G4HEqJ6C/e/QDxfCLQZ11vRkyWUs7uEFHZ3TZ/c43uUxlISl8hyG
- TahkQWa+458KwiAs/LfVUq7Q9sW73oPEFsOTvtB81ncG6d4mfqh3zHic+WKkvTgDcOhCUrDkHy
- YTg=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979224"
+ bh=iptJpfiZ63i1NDAqgAsgWv1ohQVos0tXxwXue4ctwfY=;
+ b=pRnVJttjmqy1pPl33+/1mrncsSnnC7UAbmGi+tlQ5YbUFsNcSExxrQ3D
+ +5piBXg6smVqE8EpQMK9OW4i8yMITtUyqXOsJM3+TLpCz88nNhEQfHV6G
+ ilH1yahjDkR/SQJCBC4HUkX2o3yXNLv1GG5qgWLd6s+6Zxc8YNPyYh116
+ wSBbdh+C6BxU9BOQCdR+1tnQyQmJqjhpyK9CeMoRoBwanhL6hNeckTFHJ
+ gVk1m01dSIfhEujgnsUam7mQy7efKA8fljomd7ktKbbodrfffOX3PdD35
+ e8D4u3PXT8RvYwcfvE37Dbt/bp6tadyqC/S54oMt3TI9d0ypZRE2UnWZk w==;
+IronPort-SDR: NzVhkNYtMVy9YTVfUJiHMnOtZnW4ZoW1nSBNLMZHHmy4YpXeiNpIOtSzc/7YOfBU6k9ibW+VcI
+ moNxFOL+ywnLGaVXYoYMXaZEHTVWmbzofSzaNP74VqCHg3P71uwTEAaJ9Z/Q++Pg959kK5Mmqc
+ 0EjWHzfpV7j6JUdjLRAp+X/JNArmn6QuqUGILpICg1dJ1V7WEXPoJZilqshQRnF5neQzNtTsoA
+ cXL+1yUb8vH55lA0CPy/Rulmvp4Ol0ti8RZiJ3BjH6+IWgmVfJh/koqXfrg67TAXhbOF1kc4T3
+ /xg=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979227"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:17 +0800
-IronPort-SDR: GQNUXNts3tMm3eljmursR1Vl4sD/yzWK4ajEmNSONeP029jC4I85nQS6q1f7iRcUX/3VteY87f
- +eslcpWL18PQ==
+IronPort-SDR: L6egi5iGTcWdSZnyTG/LvDCQT7cEVW52dnKT4xRT4WJp3E+wJLT6RYGO4+4fZPGWHrxmf1HMDE
+ simKfxXMDXCA==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:34 -0700
-IronPort-SDR: //biqQMYJ87l1oNubhkgGBkXsF6YVJH4xNUNyCCUadTYY9stoG6dD8usjCDBckRPLb/YfmEu0D
- 7YVgWeRQKfNw==
+IronPort-SDR: XOKwtaM2nJVShErYU9Bbkl9Ga1AjY9k43ZLrWnyERo9xRl9QIYaD3s7uc7ueVlWh/2ZNgHRX3x
+ UDQajEJARR2A==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
@@ -56,15 +56,13 @@ Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 10/30] hw/riscv: microchip_pfsoc: Connect a Cadence SDHCI
- controller and an SD card
-Date: Thu, 10 Sep 2020 11:09:18 -0700
-Message-Id: <20200910180938.584205-11-alistair.francis@wdc.com>
+Subject: [PULL 11/30] hw/dma: Add SiFive platform DMA controller emulation
+Date: Thu, 10 Sep 2020 11:09:19 -0700
+Message-Id: <20200910180938.584205-12-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=515d47f05=alistair.francis@wdc.com;
@@ -91,158 +89,434 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Microchip PolarFire SoC integrates one Cadence SDHCI controller.
-On the Icicle Kit board, one eMMC chip and an external SD card
-connect to this controller depending on different configuration.
+Microchip PolarFire SoC integrates a DMA engine that supports:
+* Independent concurrent DMA transfers using 4 DMA channels
+* Generation of interrupts on various conditions during execution
+which is actually an IP reused from the SiFive FU540 chip.
 
-As QEMU does not support eMMC yet, we just emulate the SD card
-configuration. To test this, the Hart Software Services (HSS)
-should choose the SD card configuration:
-
-$ cp boards/icicle-kit-es/def_config.sdcard .config
-$ make BOARD=icicle-kit-es
-
-The SD card image can be built from the Yocto BSP at:
-https://github.com/polarfire-soc/meta-polarfire-soc-yocto-bsp
-
-Note the generated SD card image should be resized before use:
-$ qemu-img resize /path/to/sdcard.img 4G
-
-Launch QEMU with the following command:
-$ qemu-system-riscv64 -nographic -M microchip-icicle-kit -sd sdcard.img
+This creates a model to support both polling and interrupt modes.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1598924352-89526-9-git-send-email-bmeng.cn@gmail.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <1598924352-89526-10-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/microchip_pfsoc.h |  4 ++++
- hw/riscv/microchip_pfsoc.c         | 23 +++++++++++++++++++++++
- hw/riscv/Kconfig                   |  1 +
- 3 files changed, 28 insertions(+)
+ include/hw/dma/sifive_pdma.h |  57 +++++++
+ hw/dma/sifive_pdma.c         | 313 +++++++++++++++++++++++++++++++++++
+ hw/dma/Kconfig               |   3 +
+ hw/dma/meson.build           |   1 +
+ 4 files changed, 374 insertions(+)
+ create mode 100644 include/hw/dma/sifive_pdma.h
+ create mode 100644 hw/dma/sifive_pdma.c
 
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index a5efa1dcb8..d810ee8484 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -23,6 +23,7 @@
- #define HW_MICROCHIP_PFSOC_H
- 
- #include "hw/char/mchp_pfsoc_mmuart.h"
-+#include "hw/sd/cadence_sdhci.h"
- 
- typedef struct MicrochipPFSoCState {
-     /*< private >*/
-@@ -39,6 +40,7 @@ typedef struct MicrochipPFSoCState {
-     MchpPfSoCMMUartState *serial2;
-     MchpPfSoCMMUartState *serial3;
-     MchpPfSoCMMUartState *serial4;
-+    CadenceSDHCIState sdhci;
- } MicrochipPFSoCState;
- 
- #define TYPE_MICROCHIP_PFSOC    "microchip.pfsoc"
-@@ -74,6 +76,7 @@ enum {
-     MICROCHIP_PFSOC_MMUART0,
-     MICROCHIP_PFSOC_SYSREG,
-     MICROCHIP_PFSOC_MPUCFG,
-+    MICROCHIP_PFSOC_EMMC_SD,
-     MICROCHIP_PFSOC_MMUART1,
-     MICROCHIP_PFSOC_MMUART2,
-     MICROCHIP_PFSOC_MMUART3,
-@@ -85,6 +88,7 @@ enum {
- };
- 
- enum {
-+    MICROCHIP_PFSOC_EMMC_SD_IRQ = 88,
-     MICROCHIP_PFSOC_MMUART0_IRQ = 90,
-     MICROCHIP_PFSOC_MMUART1_IRQ = 91,
-     MICROCHIP_PFSOC_MMUART2_IRQ = 92,
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index cee959a5e0..0b2e9ca175 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -12,6 +12,7 @@
-  * 1) PLIC (Platform Level Interrupt Controller)
-  * 2) eNVM (Embedded Non-Volatile Memory)
-  * 3) MMUARTs (Multi-Mode UART)
-+ * 4) Cadence eMMC/SDHC controller and an SD card connected to it
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -75,6 +76,7 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
-     [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
-     [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
-+    [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-@@ -111,6 +113,9 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
-     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type",
-                          TYPE_RISCV_CPU_SIFIVE_U54);
-     qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", RESET_VECTOR);
+diff --git a/include/hw/dma/sifive_pdma.h b/include/hw/dma/sifive_pdma.h
+new file mode 100644
+index 0000000000..e319bbd6c4
+--- /dev/null
++++ b/include/hw/dma/sifive_pdma.h
+@@ -0,0 +1,57 @@
++/*
++ * SiFive Platform DMA emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+    object_initialize_child(obj, "sd-controller", &s->sdhci,
-+                            TYPE_CADENCE_SDHCI);
- }
- 
- static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-@@ -223,6 +228,13 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         memmap[MICROCHIP_PFSOC_MPUCFG].base,
-         memmap[MICROCHIP_PFSOC_MPUCFG].size);
- 
-+    /* SDHCI */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
-+                    memmap[MICROCHIP_PFSOC_EMMC_SD].base);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
-+        qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_EMMC_SD_IRQ));
++#ifndef SIFIVE_PDMA_H
++#define SIFIVE_PDMA_H
 +
-     /* MMUARTs */
-     s->serial0 = mchp_pfsoc_mmuart_create(system_memory,
-         memmap[MICROCHIP_PFSOC_MMUART0].base,
-@@ -290,6 +302,7 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-     MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-+    DriveInfo *dinfo = drive_get_next(IF_SD);
- 
-     /* Sanity check on RAM size */
-     if (machine->ram_size < mc->default_ram_size) {
-@@ -312,6 +325,16 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
- 
-     /* Load the firmware */
-     riscv_find_and_load_firmware(machine, BIOS_FILENAME, RESET_VECTOR, NULL);
++struct sifive_pdma_chan {
++    uint32_t control;
++    uint32_t next_config;
++    uint64_t next_bytes;
++    uint64_t next_dst;
++    uint64_t next_src;
++    uint32_t exec_config;
++    uint64_t exec_bytes;
++    uint64_t exec_dst;
++    uint64_t exec_src;
++    int state;
++};
 +
-+    /* Attach an SD card */
-+    if (dinfo) {
-+        CadenceSDHCIState *sdhci = &(s->soc.sdhci);
-+        DeviceState *card = qdev_new(TYPE_SD_CARD);
++#define SIFIVE_PDMA_CHANS           4
++#define SIFIVE_PDMA_IRQS            (SIFIVE_PDMA_CHANS * 2)
++#define SIFIVE_PDMA_REG_SIZE        0x100000
++#define SIFIVE_PDMA_CHAN_NO(reg)    ((reg & (SIFIVE_PDMA_REG_SIZE - 1)) >> 12)
 +
-+        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo),
-+                                &error_fatal);
-+        qdev_realize_and_unref(card, sdhci->bus, &error_fatal);
++typedef struct SiFivePDMAState {
++    SysBusDevice parent;
++    MemoryRegion iomem;
++    qemu_irq irq[SIFIVE_PDMA_IRQS];
++
++    struct sifive_pdma_chan chan[SIFIVE_PDMA_CHANS];
++} SiFivePDMAState;
++
++#define TYPE_SIFIVE_PDMA    "sifive.pdma"
++
++#define SIFIVE_PDMA(obj)    \
++    OBJECT_CHECK(SiFivePDMAState, (obj), TYPE_SIFIVE_PDMA)
++
++#endif /* SIFIVE_PDMA_H */
+diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+new file mode 100644
+index 0000000000..e1f6fedbda
+--- /dev/null
++++ b/hw/dma/sifive_pdma.c
+@@ -0,0 +1,313 @@
++/*
++ * SiFive Platform DMA emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "sysemu/dma.h"
++#include "hw/dma/sifive_pdma.h"
++
++#define DMA_CONTROL         0x000
++#define   CONTROL_CLAIM     BIT(0)
++#define   CONTROL_RUN       BIT(1)
++#define   CONTROL_DONE_IE   BIT(14)
++#define   CONTROL_ERR_IE    BIT(15)
++#define   CONTROL_DONE      BIT(30)
++#define   CONTROL_ERR       BIT(31)
++
++#define DMA_NEXT_CONFIG     0x004
++#define   CONFIG_REPEAT     BIT(2)
++#define   CONFIG_ORDER      BIT(3)
++#define   CONFIG_WRSZ_SHIFT 24
++#define   CONFIG_RDSZ_SHIFT 28
++#define   CONFIG_SZ_MASK    0xf
++
++#define DMA_NEXT_BYTES      0x008
++#define DMA_NEXT_DST        0x010
++#define DMA_NEXT_SRC        0x018
++#define DMA_EXEC_CONFIG     0x104
++#define DMA_EXEC_BYTES      0x108
++#define DMA_EXEC_DST        0x110
++#define DMA_EXEC_SRC        0x118
++
++enum dma_chan_state {
++    DMA_CHAN_STATE_IDLE,
++    DMA_CHAN_STATE_STARTED,
++    DMA_CHAN_STATE_ERROR,
++    DMA_CHAN_STATE_DONE
++};
++
++static void sifive_pdma_run(SiFivePDMAState *s, int ch)
++{
++    uint64_t bytes = s->chan[ch].next_bytes;
++    uint64_t dst = s->chan[ch].next_dst;
++    uint64_t src = s->chan[ch].next_src;
++    uint32_t config = s->chan[ch].next_config;
++    int wsize, rsize, size;
++    uint8_t buf[64];
++    int n;
++
++    /* do nothing if bytes to transfer is zero */
++    if (!bytes) {
++        goto error;
 +    }
- }
++
++    /*
++     * The manual does not describe how the hardware behaviors when
++     * config.wsize and config.rsize are given different values.
++     * A common case is memory to memory DMA, and in this case they
++     * are normally the same. Abort if this expectation fails.
++     */
++    wsize = (config >> CONFIG_WRSZ_SHIFT) & CONFIG_SZ_MASK;
++    rsize = (config >> CONFIG_RDSZ_SHIFT) & CONFIG_SZ_MASK;
++    if (wsize != rsize) {
++        goto error;
++    }
++
++    /*
++     * Calculate the transaction size
++     *
++     * size field is base 2 logarithm of DMA transaction size,
++     * but there is an upper limit of 64 bytes per transaction.
++     */
++    size = wsize;
++    if (size > 6) {
++        size = 6;
++    }
++    size = 1 << size;
++
++    /* the bytes to transfer should be multiple of transaction size */
++    if (bytes % size) {
++        goto error;
++    }
++
++    /* indicate a DMA transfer is started */
++    s->chan[ch].state = DMA_CHAN_STATE_STARTED;
++    s->chan[ch].control &= ~CONTROL_DONE;
++    s->chan[ch].control &= ~CONTROL_ERR;
++
++    /* load the next_ registers into their exec_ counterparts */
++    s->chan[ch].exec_config = config;
++    s->chan[ch].exec_bytes = bytes;
++    s->chan[ch].exec_dst = dst;
++    s->chan[ch].exec_src = src;
++
++    for (n = 0; n < bytes / size; n++) {
++        cpu_physical_memory_read(s->chan[ch].exec_src, buf, size);
++        cpu_physical_memory_write(s->chan[ch].exec_dst, buf, size);
++        s->chan[ch].exec_src += size;
++        s->chan[ch].exec_dst += size;
++        s->chan[ch].exec_bytes -= size;
++    }
++
++    /* indicate a DMA transfer is done */
++    s->chan[ch].state = DMA_CHAN_STATE_DONE;
++    s->chan[ch].control &= ~CONTROL_RUN;
++    s->chan[ch].control |= CONTROL_DONE;
++
++    /* reload exec_ registers if repeat is required */
++    if (s->chan[ch].next_config & CONFIG_REPEAT) {
++        s->chan[ch].exec_bytes = bytes;
++        s->chan[ch].exec_dst = dst;
++        s->chan[ch].exec_src = src;
++    }
++
++    return;
++
++error:
++    s->chan[ch].state = DMA_CHAN_STATE_ERROR;
++    s->chan[ch].control |= CONTROL_ERR;
++    return;
++}
++
++static inline void sifive_pdma_update_irq(SiFivePDMAState *s, int ch)
++{
++    bool done_ie, err_ie;
++
++    done_ie = !!(s->chan[ch].control & CONTROL_DONE_IE);
++    err_ie = !!(s->chan[ch].control & CONTROL_ERR_IE);
++
++    if (done_ie && (s->chan[ch].control & CONTROL_DONE)) {
++        qemu_irq_raise(s->irq[ch * 2]);
++    } else {
++        qemu_irq_lower(s->irq[ch * 2]);
++    }
++
++    if (err_ie && (s->chan[ch].control & CONTROL_ERR)) {
++        qemu_irq_raise(s->irq[ch * 2 + 1]);
++    } else {
++        qemu_irq_lower(s->irq[ch * 2 + 1]);
++    }
++
++    s->chan[ch].state = DMA_CHAN_STATE_IDLE;
++}
++
++static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
++{
++    SiFivePDMAState *s = opaque;
++    int ch = SIFIVE_PDMA_CHAN_NO(offset);
++    uint64_t val = 0;
++
++    if (ch >= SIFIVE_PDMA_CHANS) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
++                      __func__, ch);
++        return 0;
++    }
++
++    offset &= 0xfff;
++    switch (offset) {
++    case DMA_CONTROL:
++        val = s->chan[ch].control;
++        break;
++    case DMA_NEXT_CONFIG:
++        val = s->chan[ch].next_config;
++        break;
++    case DMA_NEXT_BYTES:
++        val = s->chan[ch].next_bytes;
++        break;
++    case DMA_NEXT_DST:
++        val = s->chan[ch].next_dst;
++        break;
++    case DMA_NEXT_SRC:
++        val = s->chan[ch].next_src;
++        break;
++    case DMA_EXEC_CONFIG:
++        val = s->chan[ch].exec_config;
++        break;
++    case DMA_EXEC_BYTES:
++        val = s->chan[ch].exec_bytes;
++        break;
++    case DMA_EXEC_DST:
++        val = s->chan[ch].exec_dst;
++        break;
++    case DMA_EXEC_SRC:
++        val = s->chan[ch].exec_src;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
++        break;
++    }
++
++    return val;
++}
++
++static void sifive_pdma_write(void *opaque, hwaddr offset,
++                              uint64_t value, unsigned size)
++{
++    SiFivePDMAState *s = opaque;
++    int ch = SIFIVE_PDMA_CHAN_NO(offset);
++
++    if (ch >= SIFIVE_PDMA_CHANS) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
++                      __func__, ch);
++        return;
++    }
++
++    offset &= 0xfff;
++    switch (offset) {
++    case DMA_CONTROL:
++        s->chan[ch].control = value;
++
++        if (value & CONTROL_RUN) {
++            sifive_pdma_run(s, ch);
++        }
++
++        sifive_pdma_update_irq(s, ch);
++        break;
++    case DMA_NEXT_CONFIG:
++        s->chan[ch].next_config = value;
++        break;
++    case DMA_NEXT_BYTES:
++        s->chan[ch].next_bytes = value;
++        break;
++    case DMA_NEXT_DST:
++        s->chan[ch].next_dst = value;
++        break;
++    case DMA_NEXT_SRC:
++        s->chan[ch].next_src = value;
++        break;
++    case DMA_EXEC_CONFIG:
++    case DMA_EXEC_BYTES:
++    case DMA_EXEC_DST:
++    case DMA_EXEC_SRC:
++        /* these are read-only registers */
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
++        break;
++    }
++}
++
++static const MemoryRegionOps sifive_pdma_ops = {
++    .read = sifive_pdma_read,
++    .write = sifive_pdma_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    /* there are 32-bit and 64-bit wide registers */
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    }
++};
++
++static void sifive_pdma_realize(DeviceState *dev, Error **errp)
++{
++    SiFivePDMAState *s = SIFIVE_PDMA(dev);
++    int i;
++
++    memory_region_init_io(&s->iomem, OBJECT(dev), &sifive_pdma_ops, s,
++                          TYPE_SIFIVE_PDMA, SIFIVE_PDMA_REG_SIZE);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
++
++    for (i = 0; i < SIFIVE_PDMA_IRQS; i++) {
++        sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq[i]);
++    }
++}
++
++static void sifive_pdma_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "SiFive Platform DMA controller";
++    dc->realize = sifive_pdma_realize;
++}
++
++static const TypeInfo sifive_pdma_info = {
++    .name          = TYPE_SIFIVE_PDMA,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SiFivePDMAState),
++    .class_init    = sifive_pdma_class_init,
++};
++
++static void sifive_pdma_register_types(void)
++{
++    type_register_static(&sifive_pdma_info);
++}
++
++type_init(sifive_pdma_register_types)
+diff --git a/hw/dma/Kconfig b/hw/dma/Kconfig
+index 5c61b67bc0..d67492d36c 100644
+--- a/hw/dma/Kconfig
++++ b/hw/dma/Kconfig
+@@ -20,3 +20,6 @@ config ZYNQ_DEVCFG
  
- static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index ceb7c166a3..7412db9ad7 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -55,3 +55,4 @@ config MICROCHIP_PFSOC
-     select SIFIVE
-     select UNIMP
-     select MCHP_PFSOC_MMUART
-+    select CADENCE_SDHCI
+ config STP2000
+     bool
++
++config SIFIVE_PDMA
++    bool
+diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+index ff5bb3748f..b991d7698c 100644
+--- a/hw/dma/meson.build
++++ b/hw/dma/meson.build
+@@ -13,3 +13,4 @@ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zdma.c'))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dma.c', 'soc_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
++softmmu_ss.add(when: 'CONFIG_SIFIVE_PDMA', if_true: files('sifive_pdma.c'))
 -- 
 2.28.0
 
