@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EF926444E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:42:30 +0200 (CEST)
-Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D385C26444F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:42:32 +0200 (CEST)
+Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGK29-0001OB-BQ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51618)
+	id 1kGK2B-0001UV-Th
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kGJvy-0006gC-W6
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:36:07 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:37707)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kGJxd-0001hO-Gl; Thu, 10 Sep 2020 06:37:49 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kGJvu-0003bK-5B
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:36:06 -0400
-Received: by mail-ej1-x629.google.com with SMTP id nw23so7958987ejb.4
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 03:35:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=04+xVqSGcUiX75AMsbiZHzufhmG03CHuVknTWVvnvog=;
- b=owKF8j/RxgtsGB0neTVpmMqFGC6xlOGJfYL3iCuHT2xY89632LhHd90ZzdL3qU2PN8
- sUSwyPnuI7QPEtNaJMHryMrBENMCyGhmSbFoVF9gK3YfeiRh1a2ms8VM6P9uFHWRGzBd
- r4rE+BJfIs3torl76VUxuI9KkbUSHnxwzIoeIKLjMgexQA3zKJurAdyrBHHxSlpTzIDZ
- 45z4FtxgIC7HTlJGTYZ3x2aJrU1sc0ostbRNisVfONbRmxzDZpRuNyE5SYv3W31ztfjF
- F/JRNF3gcGnVaEnh/kqxL3SEO0x4UNLLypqosCab7FPoIam6g02kZ4MNvyJDqtb2slsO
- 4IXw==
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kGJxZ-0003ib-QE; Thu, 10 Sep 2020 06:37:49 -0400
+Received: by mail-pl1-x643.google.com with SMTP id x18so707201pll.6;
+ Thu, 10 Sep 2020 03:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xS967nwniiPoKExhe31AY1Igl1jhGzMmH4nTv98GjJU=;
+ b=Y+IhmG7DjtVxyR77ap8/AWFkOPkC6AVy1gPAxHG0nsMnAABK8TlZGg7NXW9ab2uJ8M
+ WgdfYpPa0fTl3sFKQ+IlO7e5jMBqpfzbtxccRlTBdFi/zJUlDJ/09ja80oIZhZICGXxj
+ z8hF0c63hKGX85/MO2NX8OXDO6kNOXCWqISth7ozpNm1bd1XFhsvNmrXBXKN2UuJjqu6
+ cv+jfnKQ7AOMYbOqNjqFf17D6xto0PreXV42YGhLXzoopT1WP0q5hx/yS3OGHPMFBGhr
+ /41bRQzGn6r5mIPI47GEDn2Gf7fKetSNZuCBOOSg6LSZFXDKAVlRm3WxnAiQNlZChIad
+ scwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=04+xVqSGcUiX75AMsbiZHzufhmG03CHuVknTWVvnvog=;
- b=KTuoUHly7/mV9qYkSLLOPfcIpyPo/423hSlmbvhWs3fYtaTO6uAKjCKckLeYhuKYaM
- vdEa9+krrU2flJUuEP3luyUeZOMqQu+jMf6xF9xwp0u+7qDlo8kIriU5n9G93DFe4wLc
- hWhriFCgqpwrtY1KiXGGeh/l+u1JyDWI42aLuKkzRVZDQo6EuPTchdbbpB4A0xKRV78O
- XADhUrFV1BIDw0nY4yiJKgvYu4X+lNKl2FmwFGNmbzuKA38pwnZs5i92+6C85RZWNA73
- fp0Gf81VNWCg8J3/t5Q1ATTF3aibRTGj7HoEmmlRptIXxVq62/0ZOiiOEtDiahSamQkL
- kK4Q==
-X-Gm-Message-State: AOAM530AdsTwh5uDniyNsMolgSBcHQ0M/BApOGPb93t/X2xGYeRADK3d
- 0VWeCidAmxbHL2r1O9ulc0XywTpZQ4gxJI4RvDYBkA==
-X-Google-Smtp-Source: ABdhPJzLMvz7CH8X6UvvBF4TiYTwIpF7FdDLAz2Nb23ew2/HiUhY0aMZVPq+15P0nkx01hpJqN2bZo3qTU/ijMwSrmk=
-X-Received: by 2002:a17:906:d936:: with SMTP id
- rn22mr8118845ejb.4.1599734157992; 
- Thu, 10 Sep 2020 03:35:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xS967nwniiPoKExhe31AY1Igl1jhGzMmH4nTv98GjJU=;
+ b=ba1U2gBe2+SeRdYU4ANGhLWk9zy5WcweOfDSXP4s7pxcotZW4IGbR6PnDglOSy4Eoe
+ 4TMja2khvF/vxq+z72A61cJp3iSTGNVpiAencRZOXLbmyoQgI0TkOvgnV69nXJWHKsZ1
+ wFD3DbMHDSDtLlE/BJB5hnGmilewHyJ3JPnP4klo+QXCPH6U9FY05vY7ca5psf2EiUTs
+ GSlPkRPJ7UiTVRZWylf04kuKf6go4u9K37FjHngLIwoXZSaAedPt7J7F04B+ZMtFp1qV
+ 5hULi/naO2ei9l8+B9IfX0+z7KOHzmax72KCDXyubUZJH+MsHKyBNzqu+aH6MQARskw6
+ gBvw==
+X-Gm-Message-State: AOAM533yUxhcxUN5F+d2m7vEq9rm31fMHZNNvLZAxq+Yr/ozOMd+I31R
+ PTydrY0K7IlYi5l82otxJxiOGGMCvutSSxP+8qw=
+X-Google-Smtp-Source: ABdhPJymFGfQQvyI+isSMpk3XKDvcKczORr/wbDO+vQ+8HigohpaK6O66SuoV47B0OseItxNiXGR7A==
+X-Received: by 2002:a17:90a:d702:: with SMTP id
+ y2mr4787029pju.216.1599734263449; 
+ Thu, 10 Sep 2020 03:37:43 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id 99sm1781191pjo.40.2020.09.10.03.37.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Sep 2020 03:37:42 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 17/25] cirrus: Building freebsd in a single short
+Date: Thu, 10 Sep 2020 18:37:17 +0800
+Message-Id: <20200910103725.1439-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-References: <2764135.D4k31Gy3CM@silver> <2421928.3WNMogbLRJ@silver>
- <20200910093910.GG1083348@redhat.com> <4878996.4JzhbN1UZ4@silver>
-In-Reply-To: <4878996.4JzhbN1UZ4@silver>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Sep 2020 11:35:46 +0100
-Message-ID: <CAFEAcA_CPNppKwwJSu4O6U6qF-rfHR2NtG=hWBFatZmD4aiMdg@mail.gmail.com>
-Subject: Re: [RFC] QEMU as Xcode project on macOS
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,41 +82,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, QEMU Developers <qemu-devel@nongnu.org>,
- G 3 <programmingkidx@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Ed Maste <emaste@FreeBSD.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Sep 2020 at 11:14, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
-> For developers it is actually the complete opposite on Mac: you start to
-> install things from somewhere, then you need to install something from
-> somewhere else, manually build & install stuff, and you end up in conflicts
-> and misbehaviours all over the place.
+This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
+("cirrus.yml: Split FreeBSD job into two parts").
 
-This has not been my experience -- homebrew has everything, and
-it doesn't have problems like this.
+freebsd 1 hour limit not hit anymore
 
-> The way to go for devs on Mac is: 3rd party libs should not be installed into
-> global space, rather be built & linked either as dynamic frameworks (including
-> assets) or as static libs. Then apps always run with the precise version and
-> flags of libs they were tested with and never conflict with another app's
-> version/config of libs.
+I think we going to a wrong direction, I think there is some tests a stall the test runner,
+please look at
+https://cirrus-ci.com/task/5110577531977728
+When its running properly, the consumed time are little, but when tests running too long,
+look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
 
-Does Apple (or anybody else) provide a framework for doing this
-so that developers of individual applications can just say "my
-app needs libs X, Y, Z" and they don't have to mess around
-finding, figuring out how to compile, and shipping the sources of
-libs X, Y, Z? If there's a better mechanism than Homebrew for this
-that's great, but at the moment what you seem to be saying is
-"you should do a lot more work to manually set something up where
-you ship the sources to all your dependencies and then build them
-all". There's no way we're ever going to do that, it is just
-way too much work for very little gain.
+And look at
+https://cirrus-ci.com/task/6119341601062912
 
-thanks
--- PMM
+If the tests running properly, the time consuming are little
+We should not hide the error by split them
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Ed Maste <emaste@FreeBSD.org>
+---
+ .cirrus.yml | 35 ++++++++---------------------------
+ 1 file changed, 8 insertions(+), 27 deletions(-)
+
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 3dd9fcff7f..690c6882e8 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -1,38 +1,19 @@
+ env:
+   CIRRUS_CLONE_DEPTH: 1
+ 
+-freebsd_1st_task:
++freebsd_12_task:
+   freebsd_instance:
+     image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gsed
+-    nettle perl5 pixman pkgconf png usbredir
++    cpu: 8
++    memory: 8G
++  install_script:
++    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
++    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
++          nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --disable-user --target-list-exclude='alpha-softmmu
+-        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
+-        --enable-werror || { cat config.log; exit 1; }
+-    - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake -j$(sysctl -n hw.ncpu) check
+-
+-freebsd_2nd_task:
+-  freebsd_instance:
+-    image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
+-    nettle perl5 pixman pkgconf png SDL2 usbredir
+-  script:
+-    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
+-        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
+-        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
+-        || { cat config.log; exit 1; }
++    - ../configure --enable-werror || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake -j$(sysctl -n hw.ncpu) check
+ 
+-- 
+2.28.0.windows.1
+
 
