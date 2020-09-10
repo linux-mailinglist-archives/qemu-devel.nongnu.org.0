@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2895C264C32
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:05:05 +0200 (CEST)
-Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D84264C40
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:07:21 +0200 (CEST)
+Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGQwS-0002pP-8E
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
+	id 1kGQyf-0004OK-0O
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGQsZ-0000kj-0s
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:01:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53124)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGQsT-0007YL-Sn
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:01:02 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kGQsR-00069k-P1
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:00:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BA7F62E80DC
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:00:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGQsn-0000up-Gd
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:01:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20816
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGQsk-0007cR-It
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:01:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599760873;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=54+A6YhiBniSksDS6b6+M7V+fY8ulvkCSDbaexCYRVs=;
+ b=cTAjfWmGnfD1+280RxFpPPOvFUhhk3NjMkNlehKyUuZ45DrAvTzaW3Lgh8Ubpjz7i7QQg5
+ /uKNvj3uENmtMhqoFUuc9B0ML6cAm+t7ERaNwtMrJH3B3OSirrV2X4TGUB+dWnQ22LkDL/
+ PHmecFkXsbpQUjGVgXi2rMJpKrjSDWU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-CboV6w7rM7e4RWe831rq5A-1; Thu, 10 Sep 2020 14:00:52 -0400
+X-MC-Unique: CboV6w7rM7e4RWe831rq5A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32AC61084C82;
+ Thu, 10 Sep 2020 18:00:50 +0000 (UTC)
+Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC078100238C;
+ Thu, 10 Sep 2020 18:00:43 +0000 (UTC)
+Date: Thu, 10 Sep 2020 19:00:41 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v7 17/25] cirrus: Building freebsd in a single short
+Message-ID: <20200910180041.GJ1083348@redhat.com>
+References: <20200910103725.1439-1-luoyonggang@gmail.com>
+ <7f348ead-0f90-0b9e-0afd-7c828091753f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Sep 2020 17:51:06 -0000
-From: Laurent Vivier <1895053@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier petunia2000
-X-Launchpad-Bug-Reporter: Petunia (petunia2000)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159976026657.21444.17630831327155273919.malone@wampee.canonical.com>
-Subject: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to start
- Journal Service.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 1fe667896513e9b2ae0e4d400a06b5db516b7fd6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 12:30:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7f348ead-0f90-0b9e-0afd-7c828091753f@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:35:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,66 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
+ Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Perhaps the problem is triggered by the host systemd version as I have:
+On Thu, Sep 10, 2020 at 04:18:10PM +0200, Thomas Huth wrote:
+> On 10/09/2020 12.37, Yonggang Luo wrote:
+> > This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
+> > ("cirrus.yml: Split FreeBSD job into two parts").
+> > 
+> > freebsd 1 hour limit not hit anymore
+> > 
+> > I think we going to a wrong direction, I think there is some tests a stall the test runner,
+> > please look at
+> > https://cirrus-ci.com/task/5110577531977728
+> > When its running properly, the consumed time are little, but when tests running too long,
+> > look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
+> > 
+> > And look at
+> > https://cirrus-ci.com/task/6119341601062912
+> > 
+> > If the tests running properly, the time consuming are little
+> > We should not hide the error by split them
+> 
+> Ok, but before we merge this patch, I'd like to understand (and fix if
+> necessary) what is/was causing the slowdowns. Otherwise we'll continue
+> to see failing CI runs, which is very annoying.
 
-$ systemd-nspawn --version
-systemd 245 (v245.7-1.fc32)
-+PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +=
-GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2 -IDN +PC=
-RE2 default-hierarchy=3Dunified
+I think we need the test harness to print out the time duration for
+each test in order to stand a chance of find the slow one.
 
--- =
+A hack like this could be sufficient:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895053
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index 9cbb2e374d..9103ae65b9 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -20,7 +20,7 @@ print('''
+ SPEED = quick
+ 
+ # $1 = environment, $2 = test command, $3 = test name, $4 = dir
+-.test-human-tap = $1 $(if $4,(cd $4 && $2),$2) < /dev/null | ./scripts/tap-driver.pl --test-name="$3" $(if $(V),,--show-failures-only)
++.test-human-tap = export then=`date +%s` ; $1 $(if $4,(cd $4 && $2),$2) < /dev/null | ./scripts/tap-driver.pl --test-name="$3" $(if $(V),,--show-failures-only) ; export now=`date +%s` ; delta=`expr $$now - $$then` ; $(if $(V),echo "TIME $$delta seconds",true)
+ .test-human-exitcode = $1 $(PYTHON) scripts/test-driver.py $(if $4,-C$4) $(if $(V),--verbose) -- $2 < /dev/null
+ .test-tap-tap = $1 $(if $4,(cd $4 && $2),$2) < /dev/null | sed "s/^[a-z][a-z]* [0-9]*/& $3/" || true
+ .test-tap-exitcode = printf "%s\\n" 1..1 "`$1 $(if $4,(cd $4 && $2),$2) < /dev/null > /dev/null || echo "not "`ok 1 $3"
 
-Title:
-  Cannot nspawn raspbian 10 [FAILED] Failed to start Journal Service.
 
-Status in QEMU:
-  New
+not sure if there is a nicer way todo this but itworks ok for make check-unit
+at least
 
-Bug description:
-  Hi, I'm using nspawn and asked the question @systemd-devel. They redirect=
-ed me to you, guessing that nspawn calls a syscall or ioctl qemu isnt aware=
- of and can't implement properly?
-  They were like: "Sorry, that's not my department." ^^
 
-  Maybe you can reproduce the issue or help me investigating whats wrong
-  or put the ball right back into their court? :D
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-  Testscript:
-  wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -o r.zip
-  unzip r.zip
-  LOOP=3D$(losetup --show -Pf *raspios-buster-armhf-lite.img)
-  mount ${LOOP}p2 /mnt
-  mount ${LOOP}p1 /mnt/boot
-  systemd-nspawn --bind /usr/bin/qemu-arm-static --boot --directory=3D/mnt =
--- systemd.log_level=3Ddebug
-
-  Output:
-  see attachment
-
-  System:
-  uname -a
-  Linux MArch 5.8.7-arch1-1 #1 SMP PREEMPT Sat, 05 Sep 2020 12:31:32 +0000
-  x86_64 GNU/Linux
-
-  qemu-arm-static --version
-  qemu-arm version 5.1.0
-
-  systemd-nspawn --version
-  systemd 246 (246.4-1-arch)
-  +PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP +LIBCRYPTSETUP
-  +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2=
- -IDN
-  +PCRE2 default-hierarchy=3Dhybrid
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895053/+subscriptions
 
