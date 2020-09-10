@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE4C264D3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:38:50 +0200 (CEST)
-Received: from localhost ([::1]:39870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DC2264CFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:32:44 +0200 (CEST)
+Received: from localhost ([::1]:40786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRT7-0001co-NT
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:38:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
+	id 1kGRND-0006XS-7i
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:32:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRC7-0005Ai-Vz
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:16 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28245)
+ id 1kGRC8-0005Cs-TJ
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:18 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRC1-0002iJ-2b
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:15 -0400
+ id 1kGRC1-0002lX-KR
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762068; x=1631298068;
+ t=1599762069; x=1631298069;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=azIj7Grzk9u7U4SLkM89iVKUP+j6O4QSjeJGv0fKma4=;
- b=HrkZNXQH+WveMq62I9aVEVRKA4YG2YTAyxAAg2NgLP1V1iVuddfRSTbD
- hUiLxOSR0I9gLynkkPAGqEr9rJ9KlzXDgilmekWi0UTzqRj7jWC3+gkMO
- PG1D5IP8oiCA0szbZy68LKY1+5M3XeptoIJlbS4xbN19HTdS/Ies2Jk0N
- o/M77vSA/ddjh/nnCPc+pApYIh28ohLg3pNvcWtBMuWPq166tRbuR+c90
- J8z0+sWU7MfOX4lLJSYHmaz5DuUKYZCJ1VXD7CzN2Ut3mctbOK+T3GIuW
- G+A6/waBrkCpQNX/vk4wRLrotdhybxE9oNueeBYhY2/h9EUWYlmSx0G+i w==;
-IronPort-SDR: MROGCePjbFYiQxjdzbfR2qr/kq1iVPjCY+TaOR9i3yj6oRPOBXzbPR99V+yS2YJTupi4mneH2P
- B8gdFxAA5FLFtynT5sXEPiBQRLkAUcPxSM8W1RIb4nSaRX/1Oej5xN2Zrs7Ozf+glbAWrKMHNE
- cIIL0rsISE0FHZBgxsdMIqCeVmf4otrdCpMO2Uq9wojh3+kl53Q1UVJDvAwsY1vIO+hWk5+EUt
- J2/4tSnUjBielsSDU6dIWLm3A6GV2eIF0aZx6o1ADWG9Poz0ZLj4K8pAXQDwVvO5u/gIsvoGem
- ZAQ=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979245"
+ bh=Ov3bj3OzgEsMtry51ZXp6+8csJeMVO3LF47JbLSfTb8=;
+ b=Kzg8Ah67+N8HqoCutIR2uvrZptyY52hT5Q9pckwFkSeVNEU0B6x0h5S0
+ K0i3UVmAR1ruizpB5f1S63nuUTLkB8DaABQHYGuCNj9V7Cb7t53B/DKKP
+ /xTeSlHYCvCrTQp+hyee1a+xGb5JKi68YaiLo4x34W2xm8GHkLckiZFFq
+ BohBDkM842aeX8GeGWK0wcWWztrOgqcB8DySUrjWY58gPTcnLKhIMkhQb
+ j7+x4vU4ZBjbFxJpjyPQB/4mBf+KzuyTHb6XSbE2JMortDtGvwh56fcJS
+ f9DDMuSr2DPvN849iMSAQagYKI5mqdpFkmNDWwYtyz+NlEieHz43lIzNo g==;
+IronPort-SDR: otAtNpf7nOTWOuAG8a08VX9OGNXweAYww1yC8QppQv3zxhnCwQbKd8lT8IKXwPWE8LBf8X/wgF
+ i/7aFTb/WbyPUw1jKQR6yMZuAML42PaoI+nvzmaPbbd5GJCBGPsqIA46+wDgH1VfgbFAQO6Kw9
+ VIkbZnxmpavZw5QHtrkfN5no4ex9UZ/KrhRUuJbaPzAHSDKLrxpGOnfWDErMuZR3d7fa/8h6IK
+ KjCm2Ftr2dwDxYGTgBrpMd/4bG0Qv+Q6yL9yrOJJhL47R4Six/UXLsOXIJWzpaeBxRJRYXbMjO
+ X4Y=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979246"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:20 +0800
-IronPort-SDR: Gqm7GMAE9nnqEUsql+XmeGzw+B95WoWC0X0s8ci+AirFCMr4s3fA7cunJfwFaQp2GV4t8qFYcI
- jaG6MukNy8Pw==
+ by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:21 +0800
+IronPort-SDR: CJKr6PIl6js6Nvg4hvEfd9ezx9LWsgLsi4uAidXx3xfNX16w2IqoSXF4jwPLS7nLOumarah1Zf
+ Lie5pQiVjdag==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:37 -0700
-IronPort-SDR: 7zZuISMb1Wy86kCmQq90uiBSWIQ8RN653dTwe1YmsZcPFAO8NF3Aqmd/knUVnjljZqZBOxjZVb
- SP36ydEG0WIw==
+IronPort-SDR: 8YikdC/I3xZsrKfJp2eYuJMckAm+D46SN+hqFIQr7ECdKOBnm/yVYtBeCzmlFADqNR/fbaQT9S
+ etLWBgcup4og==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
- by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:20 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:21 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 22/30] hw/riscv: Move sifive_gpio model to hw/gpio
-Date: Thu, 10 Sep 2020 11:09:30 -0700
-Message-Id: <20200910180938.584205-23-alistair.francis@wdc.com>
+Subject: [PULL 23/30] hw/riscv: Move sifive_clint model to hw/intc
+Date: Thu, 10 Sep 2020 11:09:31 -0700
+Message-Id: <20200910180938.584205-24-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
@@ -97,178 +97,205 @@ From: Bin Meng <bin.meng@windriver.com>
 
 This is an effort to clean up the hw/riscv directory. Ideally it
 should only contain the RISC-V SoC / machine codes plus generic
-codes. Let's move sifive_gpio model to hw/gpio directory.
-
-Note this also removes the trace-events in the hw/riscv directory,
-since gpio is the only supported trace target in that directory.
+codes. Let's move sifive_clint model to hw/intc directory.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1599129623-68957-5-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1599129623-68957-6-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/trace.h                         | 1 -
- include/hw/{riscv => gpio}/sifive_gpio.h | 0
- include/hw/riscv/sifive_e.h              | 2 +-
- include/hw/riscv/sifive_u.h              | 2 +-
- hw/{riscv => gpio}/sifive_gpio.c         | 2 +-
- hw/gpio/Kconfig                          | 3 +++
- hw/gpio/meson.build                      | 1 +
- hw/gpio/trace-events                     | 6 ++++++
- hw/riscv/Kconfig                         | 2 ++
- hw/riscv/meson.build                     | 1 -
- hw/riscv/trace-events                    | 7 -------
- meson.build                              | 1 -
- 12 files changed, 15 insertions(+), 13 deletions(-)
- delete mode 100644 hw/riscv/trace.h
- rename include/hw/{riscv => gpio}/sifive_gpio.h (100%)
- rename hw/{riscv => gpio}/sifive_gpio.c (99%)
- delete mode 100644 hw/riscv/trace-events
+ include/hw/{riscv => intc}/sifive_clint.h | 0
+ hw/{riscv => intc}/sifive_clint.c         | 2 +-
+ hw/riscv/microchip_pfsoc.c                | 2 +-
+ hw/riscv/sifive_e.c                       | 2 +-
+ hw/riscv/sifive_u.c                       | 2 +-
+ hw/riscv/spike.c                          | 2 +-
+ hw/riscv/virt.c                           | 2 +-
+ hw/intc/Kconfig                           | 3 +++
+ hw/intc/meson.build                       | 1 +
+ hw/riscv/Kconfig                          | 5 +++++
+ hw/riscv/meson.build                      | 1 -
+ 11 files changed, 15 insertions(+), 7 deletions(-)
+ rename include/hw/{riscv => intc}/sifive_clint.h (100%)
+ rename hw/{riscv => intc}/sifive_clint.c (99%)
 
-diff --git a/hw/riscv/trace.h b/hw/riscv/trace.h
-deleted file mode 100644
-index 8c0e3ca1f3..0000000000
---- a/hw/riscv/trace.h
-+++ /dev/null
-@@ -1 +0,0 @@
--#include "trace/trace-hw_riscv.h"
-diff --git a/include/hw/riscv/sifive_gpio.h b/include/hw/gpio/sifive_gpio.h
+diff --git a/include/hw/riscv/sifive_clint.h b/include/hw/intc/sifive_clint.h
 similarity index 100%
-rename from include/hw/riscv/sifive_gpio.h
-rename to include/hw/gpio/sifive_gpio.h
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index 637414130b..b1400843c2 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -21,7 +21,7 @@
- 
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_cpu.h"
--#include "hw/riscv/sifive_gpio.h"
-+#include "hw/gpio/sifive_gpio.h"
- 
- #define TYPE_RISCV_E_SOC "riscv.sifive.e.soc"
- #define RISCV_E_SOC(obj) \
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 936a3bd0b1..fe5c580845 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -23,7 +23,7 @@
- #include "hw/net/cadence_gem.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_cpu.h"
--#include "hw/riscv/sifive_gpio.h"
-+#include "hw/gpio/sifive_gpio.h"
- #include "hw/misc/sifive_u_otp.h"
- #include "hw/misc/sifive_u_prci.h"
- 
-diff --git a/hw/riscv/sifive_gpio.c b/hw/gpio/sifive_gpio.c
+rename from include/hw/riscv/sifive_clint.h
+rename to include/hw/intc/sifive_clint.h
+diff --git a/hw/riscv/sifive_clint.c b/hw/intc/sifive_clint.c
 similarity index 99%
-rename from hw/riscv/sifive_gpio.c
-rename to hw/gpio/sifive_gpio.c
-index aac6b44cac..78bf29e996 100644
---- a/hw/riscv/sifive_gpio.c
-+++ b/hw/gpio/sifive_gpio.c
-@@ -15,7 +15,7 @@
- #include "qemu/log.h"
- #include "hw/irq.h"
+rename from hw/riscv/sifive_clint.c
+rename to hw/intc/sifive_clint.c
+index fa1ddf2ccd..0f41e5ea1c 100644
+--- a/hw/riscv/sifive_clint.c
++++ b/hw/intc/sifive_clint.c
+@@ -26,7 +26,7 @@
+ #include "hw/sysbus.h"
+ #include "target/riscv/cpu.h"
  #include "hw/qdev-properties.h"
--#include "hw/riscv/sifive_gpio.h"
-+#include "hw/gpio/sifive_gpio.h"
- #include "migration/vmstate.h"
- #include "trace.h"
+-#include "hw/riscv/sifive_clint.h"
++#include "hw/intc/sifive_clint.h"
+ #include "qemu/timer.h"
  
-diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
-index 9227cb5598..b6fdaa2586 100644
---- a/hw/gpio/Kconfig
-+++ b/hw/gpio/Kconfig
-@@ -7,3 +7,6 @@ config PL061
+ static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index da6bd295ce..131eea1ef3 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -48,9 +48,9 @@
+ #include "hw/misc/unimp.h"
+ #include "hw/riscv/boot.h"
+ #include "hw/riscv/riscv_hart.h"
+-#include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/sifive_plic.h"
+ #include "hw/riscv/microchip_pfsoc.h"
++#include "hw/intc/sifive_clint.h"
+ #include "sysemu/sysemu.h"
  
- config GPIO_KEY
+ /*
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 7f43ed953a..3bdb16e697 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -40,10 +40,10 @@
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_plic.h"
+-#include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/sifive_uart.h"
+ #include "hw/riscv/sifive_e.h"
+ #include "hw/riscv/boot.h"
++#include "hw/intc/sifive_clint.h"
+ #include "hw/misc/sifive_e_prci.h"
+ #include "chardev/char.h"
+ #include "sysemu/arch_init.h"
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 79975372ef..7187d1ad17 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -47,10 +47,10 @@
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_plic.h"
+-#include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/sifive_uart.h"
+ #include "hw/riscv/sifive_u.h"
+ #include "hw/riscv/boot.h"
++#include "hw/intc/sifive_clint.h"
+ #include "chardev/char.h"
+ #include "net/eth.h"
+ #include "sysemu/arch_init.h"
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index b54a396107..59d9d87c56 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -33,10 +33,10 @@
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_htif.h"
+ #include "hw/riscv/riscv_hart.h"
+-#include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/spike.h"
+ #include "hw/riscv/boot.h"
+ #include "hw/riscv/numa.h"
++#include "hw/intc/sifive_clint.h"
+ #include "chardev/char.h"
+ #include "sysemu/arch_init.h"
+ #include "sysemu/device_tree.h"
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index c67a910e48..bce2020d02 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -31,11 +31,11 @@
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_plic.h"
+-#include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/sifive_test.h"
+ #include "hw/riscv/virt.h"
+ #include "hw/riscv/boot.h"
+ #include "hw/riscv/numa.h"
++#include "hw/intc/sifive_clint.h"
+ #include "chardev/char.h"
+ #include "sysemu/arch_init.h"
+ #include "sysemu/device_tree.h"
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index 2ae1e89497..f499d0f8df 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -67,3 +67,6 @@ config RX_ICU
+ 
+ config LOONGSON_LIOINTC
      bool
 +
-+config SIFIVE_GPIO
++config SIFIVE_CLINT
 +    bool
-diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
-index 6bcdfa6b1d..86cae9a0f3 100644
---- a/hw/gpio/meson.build
-+++ b/hw/gpio/meson.build
-@@ -10,3 +10,4 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_gpio.c'))
- softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gpio.c'))
- softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
- softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_gpio.c'))
-+softmmu_ss.add(when: 'CONFIG_SIFIVE_GPIO', if_true: files('sifive_gpio.c'))
-diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
-index c1271fdfb2..6e3f048745 100644
---- a/hw/gpio/trace-events
-+++ b/hw/gpio/trace-events
-@@ -5,3 +5,9 @@ nrf51_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" PR
- nrf51_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 " value 0x%" PRIx64
- nrf51_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
- nrf51_gpio_update_output_irq(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
-+
-+# sifive_gpio.c
-+sifive_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" PRIx64
-+sifive_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 " value 0x%" PRIx64
-+sifive_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
-+sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index c16f7f036e..1e20daab77 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -47,6 +47,7 @@ specific_ss.add(when: 'CONFIG_RX_ICU', if_true: files('rx_icu.c'))
+ specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: files('s390_flic.c'))
+ specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
+ specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
++specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
+ specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+ specific_ss.add(when: 'CONFIG_XICS_KVM', if_true: files('xics_kvm.c'))
+ specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
 diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 76eaf77a80..5a8335bfec 100644
+index 5a8335bfec..f8bb7e7a05 100644
 --- a/hw/riscv/Kconfig
 +++ b/hw/riscv/Kconfig
 @@ -15,6 +15,7 @@ config SIFIVE_E
      bool
      select HART
      select SIFIVE
-+    select SIFIVE_GPIO
++    select SIFIVE_CLINT
+     select SIFIVE_GPIO
      select SIFIVE_E_PRCI
      select UNIMP
- 
-@@ -23,6 +24,7 @@ config SIFIVE_U
+@@ -24,6 +25,7 @@ config SIFIVE_U
      select CADENCE
      select HART
      select SIFIVE
-+    select SIFIVE_GPIO
++    select SIFIVE_CLINT
+     select SIFIVE_GPIO
      select SIFIVE_PDMA
      select SIFIVE_U_OTP
-     select SIFIVE_U_PRCI
+@@ -35,6 +37,7 @@ config SPIKE
+     select HART
+     select HTIF
+     select SIFIVE
++    select SIFIVE_CLINT
+ 
+ config OPENTITAN
+     bool
+@@ -54,11 +57,13 @@ config RISCV_VIRT
+     select PCI_EXPRESS_GENERIC_BRIDGE
+     select PFLASH_CFI01
+     select SIFIVE
++    select SIFIVE_CLINT
+ 
+ config MICROCHIP_PFSOC
+     bool
+     select HART
+     select SIFIVE
++    select SIFIVE_CLINT
+     select UNIMP
+     select MCHP_PFSOC_MMUART
+     select SIFIVE_PDMA
 diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-index 74a73b2a44..90003793d4 100644
+index 90003793d4..d0b4cafaec 100644
 --- a/hw/riscv/meson.build
 +++ b/hw/riscv/meson.build
-@@ -5,7 +5,6 @@ riscv_ss.add(when: 'CONFIG_HART', if_true: files('riscv_hart.c'))
+@@ -4,7 +4,6 @@ riscv_ss.add(files('numa.c'))
+ riscv_ss.add(when: 'CONFIG_HART', if_true: files('riscv_hart.c'))
  riscv_ss.add(when: 'CONFIG_OPENTITAN', if_true: files('opentitan.c'))
  riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c'))
- riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_clint.c'))
--riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_gpio.c'))
+-riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_clint.c'))
  riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_plic.c'))
  riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_test.c'))
  riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_uart.c'))
-diff --git a/hw/riscv/trace-events b/hw/riscv/trace-events
-deleted file mode 100644
-index 6d59233e23..0000000000
---- a/hw/riscv/trace-events
-+++ /dev/null
-@@ -1,7 +0,0 @@
--# See docs/devel/tracing.txt for syntax documentation.
--
--# hw/gpio/sifive_gpio.c
--sifive_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" PRIx64
--sifive_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 " value 0x%" PRIx64
--sifive_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
--sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
-diff --git a/meson.build b/meson.build
-index 5421eca66a..bc869c676a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -773,7 +773,6 @@ if have_system
-     'hw/watchdog',
-     'hw/xen',
-     'hw/gpio',
--    'hw/riscv',
-     'migration',
-     'net',
-     'ui',
 -- 
 2.28.0
 
