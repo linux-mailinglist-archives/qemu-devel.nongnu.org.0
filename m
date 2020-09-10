@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79940264FFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:57:59 +0200 (CEST)
-Received: from localhost ([::1]:38190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFE1265004
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:59:18 +0200 (CEST)
+Received: from localhost ([::1]:44680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGShi-0002md-G0
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
+	id 1kGSiz-0005a2-J2
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:59:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSai-0006cE-Ov
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23869)
+ id 1kGSaq-0006rY-Mv
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37793
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSag-0000lj-P2
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:44 -0400
+ id 1kGSan-0000nx-DX
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599767442;
+ s=mimecast20190719; t=1599767448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H9vNKAG8qHMhl5vDePVh8sY3FceBRYSzy2AKH9J7ecE=;
- b=NDwtBBrHJtLT6HBigEAH+8MSHeH2GNlZqvpgRH2muoTn98hqpIcB3ChGOS3mCm3xkEOlPZ
- 16iieloiTU3Zg938zx6ZMjnhF7jxGSExPhatu89WfptO35aeI89l+C7rMAqJqCsJ/gA4//
- rLOrYaexiuRNCfenPOFesFha0nVQ7MI=
+ bh=meSyVk5F9C2UK8oJsE6YKKdolkeEEIbEB3IIlhaqprI=;
+ b=DMkhvXWWVNiTc6k+Bc7+JQZ0wRtH0j1+QanoSjYvAW3c3dgvabr3SmJ7aXLHRJ/hyCyK6/
+ 2EOD8uH951Sd2ImqCKq8FpGgI3nIGOgk+g1j+cgKArifm0+dKZXiTp99+GbGSxsoKRCo5Y
+ Rt/hOyGSB8s8EDB+bQZJoHoJK7ApCfU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-YZcJghuJOX2brIf5dhqGbQ-1; Thu, 10 Sep 2020 15:50:40 -0400
-X-MC-Unique: YZcJghuJOX2brIf5dhqGbQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-380-mWlgypEPOqC7YQji-mn0Ww-1; Thu, 10 Sep 2020 15:50:46 -0400
+X-MC-Unique: mWlgypEPOqC7YQji-mn0Ww-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F3C010082E6;
- Thu, 10 Sep 2020 19:50:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04191425D1;
+ Thu, 10 Sep 2020 19:50:46 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E95315C1BD;
- Thu, 10 Sep 2020 19:50:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBB2B7E8F9;
+ Thu, 10 Sep 2020 19:50:39 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/18] chardev: Rename WIN_CHARDEV to CHARDEV_WIN
-Date: Thu, 10 Sep 2020 15:49:02 -0400
-Message-Id: <20200910194903.4104696-18-ehabkost@redhat.com>
+Subject: [PATCH 18/18] chardev: Rename WIN_STDIO_CHARDEV to CHARDEV_WIN_STDIO
+Date: Thu, 10 Sep 2020 15:49:03 -0400
+Message-Id: <20200910194903.4104696-19-ehabkost@redhat.com>
 In-Reply-To: <20200910194903.4104696-1-ehabkost@redhat.com>
 References: <20200910194903.4104696-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:07:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,104 +95,74 @@ TYPE_CHARDEV_* constant names and the QOM type name strings
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/chardev/char-win.h |  2 +-
- chardev/char-pipe.c        |  2 +-
- chardev/char-win.c         | 14 +++++++-------
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ chardev/char-win-stdio.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/chardev/char-win.h b/include/chardev/char-win.h
-index 485521469c..0e718d60c4 100644
---- a/include/chardev/char-win.h
-+++ b/include/chardev/char-win.h
-@@ -44,7 +44,7 @@ typedef struct WinChardev WinChardev;
- #define NRECVBUF 2048
+diff --git a/chardev/char-win-stdio.c b/chardev/char-win-stdio.c
+index a4771ab82e..46f715afb1 100644
+--- a/chardev/char-win-stdio.c
++++ b/chardev/char-win-stdio.c
+@@ -40,13 +40,13 @@ struct WinStdioChardev {
+ };
+ typedef struct WinStdioChardev WinStdioChardev;
  
- #define TYPE_CHARDEV_WIN "chardev-win"
--DECLARE_INSTANCE_CHECKER(WinChardev, WIN_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(WinChardev, CHARDEV_WIN,
-                          TYPE_CHARDEV_WIN)
+-DECLARE_INSTANCE_CHECKER(WinStdioChardev, WIN_STDIO_CHARDEV,
++DECLARE_INSTANCE_CHECKER(WinStdioChardev, CHARDEV_WIN_STDIO,
+                          TYPE_CHARDEV_WIN_STDIO)
  
- void win_chr_set_file(Chardev *chr, HANDLE file, bool keep_open);
-diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-index fd12c9e63b..96854cfe99 100644
---- a/chardev/char-pipe.c
-+++ b/chardev/char-pipe.c
-@@ -43,7 +43,7 @@
- static int win_chr_pipe_init(Chardev *chr, const char *filename,
-                              Error **errp)
- {
--    WinChardev *s = WIN_CHARDEV(chr);
-+    WinChardev *s = CHARDEV_WIN(chr);
-     OVERLAPPED ov;
-     int ret;
-     DWORD size;
-diff --git a/chardev/char-win.c b/chardev/char-win.c
-index d4fb44c4dc..39cfd12177 100644
---- a/chardev/char-win.c
-+++ b/chardev/char-win.c
-@@ -30,7 +30,7 @@
- 
- static void win_chr_read(Chardev *chr, DWORD len)
- {
--    WinChardev *s = WIN_CHARDEV(chr);
-+    WinChardev *s = CHARDEV_WIN(chr);
-     int max_size = qemu_chr_be_can_write(chr);
-     int ret, err;
-     uint8_t buf[CHR_READ_BUF_LEN];
-@@ -61,7 +61,7 @@ static void win_chr_read(Chardev *chr, DWORD len)
- static int win_chr_serial_poll(void *opaque)
+ static void win_stdio_wait_func(void *opaque)
  {
      Chardev *chr = CHARDEV(opaque);
--    WinChardev *s = WIN_CHARDEV(opaque);
-+    WinChardev *s = CHARDEV_WIN(opaque);
-     COMSTAT status;
-     DWORD comerr;
+-    WinStdioChardev *stdio = WIN_STDIO_CHARDEV(opaque);
++    WinStdioChardev *stdio = CHARDEV_WIN_STDIO(opaque);
+     INPUT_RECORD       buf[4];
+     int                ret;
+     DWORD              dwSize;
+@@ -79,7 +79,7 @@ static void win_stdio_wait_func(void *opaque)
  
-@@ -75,7 +75,7 @@ static int win_chr_serial_poll(void *opaque)
- 
- int win_chr_serial_init(Chardev *chr, const char *filename, Error **errp)
+ static DWORD WINAPI win_stdio_thread(LPVOID param)
  {
--    WinChardev *s = WIN_CHARDEV(chr);
-+    WinChardev *s = CHARDEV_WIN(chr);
-     COMMCONFIG comcfg;
-     COMMTIMEOUTS cto = { 0, 0, 0, 0, 0};
-     COMSTAT comstat;
-@@ -142,7 +142,7 @@ int win_chr_serial_init(Chardev *chr, const char *filename, Error **errp)
- int win_chr_pipe_poll(void *opaque)
+-    WinStdioChardev *stdio = WIN_STDIO_CHARDEV(param);
++    WinStdioChardev *stdio = CHARDEV_WIN_STDIO(param);
+     int                ret;
+     DWORD              dwSize;
+ 
+@@ -118,7 +118,7 @@ static DWORD WINAPI win_stdio_thread(LPVOID param)
+ static void win_stdio_thread_wait_func(void *opaque)
  {
      Chardev *chr = CHARDEV(opaque);
--    WinChardev *s = WIN_CHARDEV(opaque);
-+    WinChardev *s = CHARDEV_WIN(opaque);
-     DWORD size;
+-    WinStdioChardev *stdio = WIN_STDIO_CHARDEV(opaque);
++    WinStdioChardev *stdio = CHARDEV_WIN_STDIO(opaque);
  
-     PeekNamedPipe(s->file, NULL, 0, NULL, &size, NULL);
-@@ -156,7 +156,7 @@ int win_chr_pipe_poll(void *opaque)
- /* Called with chr_write_lock held.  */
- static int win_chr_write(Chardev *chr, const uint8_t *buf, int len1)
+     if (qemu_chr_be_can_write(chr)) {
+         qemu_chr_be_write(chr, &stdio->win_stdio_buf, 1);
+@@ -129,7 +129,7 @@ static void win_stdio_thread_wait_func(void *opaque)
+ 
+ static void qemu_chr_set_echo_win_stdio(Chardev *chr, bool echo)
  {
--    WinChardev *s = WIN_CHARDEV(chr);
-+    WinChardev *s = CHARDEV_WIN(chr);
-     DWORD len, ret, size, err;
+-    WinStdioChardev *stdio = WIN_STDIO_CHARDEV(chr);
++    WinStdioChardev *stdio = CHARDEV_WIN_STDIO(chr);
+     DWORD              dwMode = 0;
  
-     len = len1;
-@@ -192,7 +192,7 @@ static int win_chr_write(Chardev *chr, const uint8_t *buf, int len1)
- static void char_win_finalize(Object *obj)
+     GetConsoleMode(stdio->hStdIn, &dwMode);
+@@ -146,7 +146,7 @@ static void qemu_chr_open_stdio(Chardev *chr,
+                                 bool *be_opened,
+                                 Error **errp)
  {
-     Chardev *chr = CHARDEV(obj);
--    WinChardev *s = WIN_CHARDEV(chr);
-+    WinChardev *s = CHARDEV_WIN(chr);
+-    WinStdioChardev *stdio = WIN_STDIO_CHARDEV(chr);
++    WinStdioChardev *stdio = CHARDEV_WIN_STDIO(chr);
+     DWORD              dwMode;
+     int                is_console = 0;
  
-     if (s->hsend) {
-         CloseHandle(s->hsend);
-@@ -214,7 +214,7 @@ static void char_win_finalize(Object *obj)
+@@ -213,7 +213,7 @@ err1:
  
- void win_chr_set_file(Chardev *chr, HANDLE file, bool keep_open)
+ static void char_win_stdio_finalize(Object *obj)
  {
--    WinChardev *s = WIN_CHARDEV(chr);
-+    WinChardev *s = CHARDEV_WIN(chr);
+-    WinStdioChardev *stdio = WIN_STDIO_CHARDEV(obj);
++    WinStdioChardev *stdio = CHARDEV_WIN_STDIO(obj);
  
-     s->keep_open = keep_open;
-     s->file = file;
+     if (stdio->hInputReadyEvent != INVALID_HANDLE_VALUE) {
+         CloseHandle(stdio->hInputReadyEvent);
 -- 
 2.26.2
 
