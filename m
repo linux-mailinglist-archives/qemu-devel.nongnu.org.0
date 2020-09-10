@@ -2,22 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B232654F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 00:21:30 +0200 (CEST)
-Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A7726550E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 00:27:23 +0200 (CEST)
+Received: from localhost ([::1]:37980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGUwb-0001AK-OM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 18:21:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
+	id 1kGV2I-0004n4-H2
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 18:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGUr0-0001eG-Uf
+ id 1kGUr0-0001df-Lb
  for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48293)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43209
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGUqy-0002Yz-KF
+ id 1kGUqy-0002Ys-7r
  for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599776139;
@@ -25,49 +26,49 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JAOZ1frciEpUdXRUZJbDOCmWberBqBZnqPDiNgyYKkw=;
- b=iyudjlyTtIr+rYcngsPasthywU/QbVikBWxvjFZ9SdsPix8yew5D4DOlaaQCaPmOHU8DO1
- L5oHOqltmxyl8d4KM+f474cXRlgBQrUVzRszR+3O1Sq5K6ZqspOBjwGQXoK1ySXgFIp9+F
- TNgMpTBtM3tPl0t+KyQwUiBdZ6sYFBk=
+ bh=FrTuC4pCOjSVubxkREqLU1XmJmDqUMdSxDfM4YAiRVE=;
+ b=NuXTpjjMZkeRKmdDNGnpHEJ2/SuYYDz2b7qoFI+a6uGxX/gzOO2vM4oVUDBFi9xE44Mmt5
+ FHjJ2/+pWIRxYwNaRjIaE4JNS5+qXdrOfETjMYZSkLD3qVnctqw8WPY4O049BNZuJu8+OJ
+ ivWBsjNvnWwB8DzMjTlSU5g4cy13pDc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-0pGeX8ITNsyzQlaQLu5zVA-1; Thu, 10 Sep 2020 18:15:36 -0400
-X-MC-Unique: 0pGeX8ITNsyzQlaQLu5zVA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-272-7y-AJYIRNE2DSJ3yPriJWQ-1; Thu, 10 Sep 2020 18:15:37 -0400
+X-MC-Unique: 7y-AJYIRNE2DSJ3yPriJWQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47849802B79;
- Thu, 10 Sep 2020 22:15:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38C24100746B;
+ Thu, 10 Sep 2020 22:15:36 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EFE9960BF1;
- Thu, 10 Sep 2020 22:15:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E79647E8F9;
+ Thu, 10 Sep 2020 22:15:35 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/9] qom: Indent existing code examples
-Date: Thu, 10 Sep 2020 18:15:23 -0400
-Message-Id: <20200910221526.10041-7-ehabkost@redhat.com>
+Subject: [PATCH 7/9] qom: Add code block markup to all code blocks
+Date: Thu, 10 Sep 2020 18:15:24 -0400
+Message-Id: <20200910221526.10041-8-ehabkost@redhat.com>
 In-Reply-To: <20200910221526.10041-1-ehabkost@redhat.com>
 References: <20200910221526.10041-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 18:15:31
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 18:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,450 +88,347 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This indents existing code examples that are not indented yet,
-just to make future conversion to Sphinx markup easier to review.
+Convert all example/codelisting markup to Sphinx code-block.
+
+There are a few sections where backslashes at the end of lines
+break code formatting.  A comment was added noting that this is
+an issue.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/qom/object.h | 376 +++++++++++++++++++++----------------------
- 1 file changed, 188 insertions(+), 188 deletions(-)
+ include/qom/object.h | 135 ++++++++++++++++++-------------------------
+ 1 file changed, 56 insertions(+), 79 deletions(-)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index da9ecb310f..5d22ec95b2 100644
+index 5d22ec95b2..75ef97da31 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -41,34 +41,34 @@ typedef struct InterfaceInfo InterfaceInfo;
+@@ -31,6 +31,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+ /**
+  * DOC:
   *
-  * <example>
-  *   <title>Creating a minimal type</title>
-- *   <programlisting>
-- * #include "qdev.h"
-- *
-- * #define TYPE_MY_DEVICE "my-device"
-- *
-- * // No new virtual functions: we can reuse the typedef for the
-- * // superclass.
-- * typedef DeviceClass MyDeviceClass;
-- * typedef struct MyDevice
-- * {
-- *     DeviceState parent;
-- *
-- *     int reg0, reg1, reg2;
-- * } MyDevice;
-- *
-- * static const TypeInfo my_device_info = {
-- *     .name = TYPE_MY_DEVICE,
-- *     .parent = TYPE_DEVICE,
-- *     .instance_size = sizeof(MyDevice),
-- * };
-- *
-- * static void my_device_register_types(void)
-- * {
-- *     type_register_static(&my_device_info);
-- * }
-- *
-- * type_init(my_device_register_types)
-- *   </programlisting>
-+ *      <programlisting>
-+ *    #include "qdev.h"
++ * .. highlight:: c
 + *
-+ *    #define TYPE_MY_DEVICE "my-device"
+  * The QEMU Object Model provides a framework for registering user creatable
+  * types and instantiating objects from those types.  QOM provides the following
+  * features:
+@@ -39,9 +41,9 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *  - Support for single-inheritance of types
+  *  - Multiple inheritance of stateless interfaces
+  *
+- * <example>
+- *   <title>Creating a minimal type</title>
+- *      <programlisting>
++ * .. code-block::
++ *    :caption: Creating a minimal type
 + *
-+ *    // No new virtual functions: we can reuse the typedef for the
-+ *    // superclass.
-+ *    typedef DeviceClass MyDeviceClass;
-+ *    typedef struct MyDevice
-+ *    {
-+ *        DeviceState parent;
-+ *
-+ *        int reg0, reg1, reg2;
-+ *    } MyDevice;
-+ *
-+ *    static const TypeInfo my_device_info = {
-+ *        .name = TYPE_MY_DEVICE,
-+ *        .parent = TYPE_DEVICE,
-+ *        .instance_size = sizeof(MyDevice),
-+ *    };
-+ *
-+ *    static void my_device_register_types(void)
-+ *    {
-+ *        type_register_static(&my_device_info);
-+ *    }
-+ *
-+ *    type_init(my_device_register_types)
-+ *      </programlisting>
-  * </example>
+  *    #include "qdev.h"
+  *
+  *    #define TYPE_MY_DEVICE "my-device"
+@@ -68,8 +70,6 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *    }
+  *
+  *    type_init(my_device_register_types)
+- *      </programlisting>
+- * </example>
   *
   * In the above example, we create a simple type that is described by #TypeInfo.
-@@ -79,22 +79,22 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * #TypeInfo describes information about the type including what it inherits
+@@ -78,8 +78,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * Alternatively several static types could be registered using helper macro
   * DEFINE_TYPES()
   *
-  * <example>
-- *   <programlisting>
-- * static const TypeInfo device_types_info[] = {
-- *     {
-- *         .name = TYPE_MY_DEVICE_A,
-- *         .parent = TYPE_DEVICE,
-- *         .instance_size = sizeof(MyDeviceA),
-- *     },
-- *     {
-- *         .name = TYPE_MY_DEVICE_B,
-- *         .parent = TYPE_DEVICE,
-- *         .instance_size = sizeof(MyDeviceB),
-- *     },
-- * };
-- *
-- * DEFINE_TYPES(device_types_info)
-- *   </programlisting>
-+ *      <programlisting>
-+ *    static const TypeInfo device_types_info[] = {
-+ *        {
-+ *            .name = TYPE_MY_DEVICE_A,
-+ *            .parent = TYPE_DEVICE,
-+ *            .instance_size = sizeof(MyDeviceA),
-+ *        },
-+ *        {
-+ *            .name = TYPE_MY_DEVICE_B,
-+ *            .parent = TYPE_DEVICE,
-+ *            .instance_size = sizeof(MyDeviceB),
-+ *        },
-+ *    };
+- * <example>
+- *      <programlisting>
++ * .. code-block::
 + *
-+ *    DEFINE_TYPES(device_types_info)
-+ *      </programlisting>
-  * </example>
+  *    static const TypeInfo device_types_info[] = {
+  *        {
+  *            .name = TYPE_MY_DEVICE_A,
+@@ -94,8 +94,6 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *    };
+  *
+  *    DEFINE_TYPES(device_types_info)
+- *      </programlisting>
+- * </example>
   *
   * Every type has an #ObjectClass associated with it.  #ObjectClass derivatives
-@@ -143,22 +143,22 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * are instantiated dynamically but there is only ever one instance for any
+@@ -108,17 +106,19 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * OBJECT_CHECK() and OBJECT_CLASS_CHECK() to make it easier to convert to a
+  * specific type:
   *
-  * <example>
-  *   <title>Overriding a virtual function</title>
+- * <example>
+- *   <title>Typecasting macros</title>
 - *   <programlisting>
-- * #include "qdev.h"
-- *
-- * void my_device_class_init(ObjectClass *klass, void *class_data)
-- * {
-- *     DeviceClass *dc = DEVICE_CLASS(klass);
-- *     dc->reset = my_device_reset;
-- * }
-- *
-- * static const TypeInfo my_device_info = {
-- *     .name = TYPE_MY_DEVICE,
-- *     .parent = TYPE_DEVICE,
-- *     .instance_size = sizeof(MyDevice),
-- *     .class_init = my_device_class_init,
-- * };
++ * .. kernel-doc messes up with the code block below because of the
++ *    backslash at the end of lines.  This will be fixes if we move this
++ *    content to qom.rst.
++ *
++ * .. code-block::
++ *    :caption: Typecasting macros
++ *
+  *    #define MY_DEVICE_GET_CLASS(obj) \
+  *       OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
+  *    #define MY_DEVICE_CLASS(klass) \
+  *       OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
+  *    #define MY_DEVICE(obj) \
+  *       OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
 - *   </programlisting>
-+ *      <programlisting>
-+ *    #include "qdev.h"
+- * </example>
+  *
+  * Class Initialization
+  * ====================
+@@ -141,9 +141,9 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * its virtual functions.  Here is how the above example might be modified
+  * to introduce an overridden virtual function:
+  *
+- * <example>
+- *   <title>Overriding a virtual function</title>
+- *      <programlisting>
++ * .. code-block::
++ *    :caption: Overriding a virtual function
 + *
-+ *    void my_device_class_init(ObjectClass *klass, void *class_data)
-+ *    {
-+ *        DeviceClass *dc = DEVICE_CLASS(klass);
-+ *        dc->reset = my_device_reset;
-+ *    }
-+ *
-+ *    static const TypeInfo my_device_info = {
-+ *        .name = TYPE_MY_DEVICE,
-+ *        .parent = TYPE_DEVICE,
-+ *        .instance_size = sizeof(MyDevice),
-+ *        .class_init = my_device_class_init,
-+ *    };
-+ *      </programlisting>
-  * </example>
+  *    #include "qdev.h"
+  *
+  *    void my_device_class_init(ObjectClass *klass, void *class_data)
+@@ -158,16 +158,14 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *        .instance_size = sizeof(MyDevice),
+  *        .class_init = my_device_class_init,
+  *    };
+- *      </programlisting>
+- * </example>
   *
   * Introducing new virtual methods requires a class to define its own
-@@ -167,31 +167,31 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * struct and to add a .class_size member to the #TypeInfo.  Each method
+  * will also have a wrapper function to call it easily:
   *
-  * <example>
-  *   <title>Defining an abstract class</title>
-- *   <programlisting>
-- * #include "qdev.h"
-- *
-- * typedef struct MyDeviceClass
-- * {
-- *     DeviceClass parent;
-- *
-- *     void (*frobnicate) (MyDevice *obj);
-- * } MyDeviceClass;
-- *
-- * static const TypeInfo my_device_info = {
-- *     .name = TYPE_MY_DEVICE,
-- *     .parent = TYPE_DEVICE,
-- *     .instance_size = sizeof(MyDevice),
-- *     .abstract = true, // or set a default in my_device_class_init
-- *     .class_size = sizeof(MyDeviceClass),
-- * };
-- *
-- * void my_device_frobnicate(MyDevice *obj)
-- * {
-- *     MyDeviceClass *klass = MY_DEVICE_GET_CLASS(obj);
-- *
-- *     klass->frobnicate(obj);
-- * }
-- *   </programlisting>
-+ *      <programlisting>
-+ *    #include "qdev.h"
+- * <example>
+- *   <title>Defining an abstract class</title>
+- *      <programlisting>
++ * .. code-block::
++ *    :caption: Defining an abstract class
 + *
-+ *    typedef struct MyDeviceClass
-+ *    {
-+ *        DeviceClass parent;
-+ *
-+ *        void (*frobnicate) (MyDevice *obj);
-+ *    } MyDeviceClass;
-+ *
-+ *    static const TypeInfo my_device_info = {
-+ *        .name = TYPE_MY_DEVICE,
-+ *        .parent = TYPE_DEVICE,
-+ *        .instance_size = sizeof(MyDevice),
-+ *        .abstract = true, // or set a default in my_device_class_init
-+ *        .class_size = sizeof(MyDeviceClass),
-+ *    };
-+ *
-+ *    void my_device_frobnicate(MyDevice *obj)
-+ *    {
-+ *        MyDeviceClass *klass = MY_DEVICE_GET_CLASS(obj);
-+ *
-+ *        klass->frobnicate(obj);
-+ *    }
-+ *      </programlisting>
-  * </example>
+  *    #include "qdev.h"
+  *
+  *    typedef struct MyDeviceClass
+@@ -191,8 +189,6 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *
+  *        klass->frobnicate(obj);
+  *    }
+- *      </programlisting>
+- * </example>
   *
   * Interfaces
-@@ -236,68 +236,68 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * ==========
+@@ -230,13 +226,13 @@ typedef struct InterfaceInfo InterfaceInfo;
   *
-  * <example>
-  *   <title>Overriding a virtual method</title>
-- *   <programlisting>
-- * typedef struct MyState MyState;
-- *
-- * typedef void (*MyDoSomething)(MyState *obj);
-- *
-- * typedef struct MyClass {
-- *     ObjectClass parent_class;
-- *
-- *     MyDoSomething do_something;
-- * } MyClass;
-- *
-- * static void my_do_something(MyState *obj)
-- * {
-- *     // do something
-- * }
-- *
-- * static void my_class_init(ObjectClass *oc, void *data)
-- * {
-- *     MyClass *mc = MY_CLASS(oc);
-- *
-- *     mc->do_something = my_do_something;
-- * }
-- *
-- * static const TypeInfo my_type_info = {
-- *     .name = TYPE_MY,
-- *     .parent = TYPE_OBJECT,
-- *     .instance_size = sizeof(MyState),
-- *     .class_size = sizeof(MyClass),
-- *     .class_init = my_class_init,
-- * };
-- *
-- * typedef struct DerivedClass {
-- *     MyClass parent_class;
-- *
-- *     MyDoSomething parent_do_something;
-- * } DerivedClass;
-- *
-- * static void derived_do_something(MyState *obj)
-- * {
-- *     DerivedClass *dc = DERIVED_GET_CLASS(obj);
-- *
-- *     // do something here
-- *     dc->parent_do_something(obj);
-- *     // do something else here
-- * }
-- *
-- * static void derived_class_init(ObjectClass *oc, void *data)
-- * {
-- *     MyClass *mc = MY_CLASS(oc);
-- *     DerivedClass *dc = DERIVED_CLASS(oc);
-- *
-- *     dc->parent_do_something = mc->do_something;
-- *     mc->do_something = derived_do_something;
-- * }
-- *
-- * static const TypeInfo derived_type_info = {
-- *     .name = TYPE_DERIVED,
-- *     .parent = TYPE_MY,
-- *     .class_size = sizeof(DerivedClass),
-- *     .class_init = derived_class_init,
-- * };
-- *   </programlisting>
-+ *      <programlisting>
-+ *    typedef struct MyState MyState;
+  * To invoke the method being overridden, the preferred solution is to store
+  * the original value in the overriding class before overriding the method.
+- * This corresponds to |[ {super,base}.method(...) ]| in Java and C#
++ * This corresponds to ``{super,base}.method(...)`` in Java and C#
+  * respectively; this frees the overriding class from hardcoding its parent
+  * class, which someone might choose to change at some point.
+  *
+- * <example>
+- *   <title>Overriding a virtual method</title>
+- *      <programlisting>
++ * .. code-block::
++ *    :caption: Overriding a virtual method
 + *
-+ *    typedef void (*MyDoSomething)(MyState *obj);
-+ *
-+ *    typedef struct MyClass {
-+ *        ObjectClass parent_class;
-+ *
-+ *        MyDoSomething do_something;
-+ *    } MyClass;
-+ *
-+ *    static void my_do_something(MyState *obj)
-+ *    {
-+ *        // do something
-+ *    }
-+ *
-+ *    static void my_class_init(ObjectClass *oc, void *data)
-+ *    {
-+ *        MyClass *mc = MY_CLASS(oc);
-+ *
-+ *        mc->do_something = my_do_something;
-+ *    }
-+ *
-+ *    static const TypeInfo my_type_info = {
-+ *        .name = TYPE_MY,
-+ *        .parent = TYPE_OBJECT,
-+ *        .instance_size = sizeof(MyState),
-+ *        .class_size = sizeof(MyClass),
-+ *        .class_init = my_class_init,
-+ *    };
-+ *
-+ *    typedef struct DerivedClass {
-+ *        MyClass parent_class;
-+ *
-+ *        MyDoSomething parent_do_something;
-+ *    } DerivedClass;
-+ *
-+ *    static void derived_do_something(MyState *obj)
-+ *    {
-+ *        DerivedClass *dc = DERIVED_GET_CLASS(obj);
-+ *
-+ *        // do something here
-+ *        dc->parent_do_something(obj);
-+ *        // do something else here
-+ *    }
-+ *
-+ *    static void derived_class_init(ObjectClass *oc, void *data)
-+ *    {
-+ *        MyClass *mc = MY_CLASS(oc);
-+ *        DerivedClass *dc = DERIVED_CLASS(oc);
-+ *
-+ *        dc->parent_do_something = mc->do_something;
-+ *        mc->do_something = derived_do_something;
-+ *    }
-+ *
-+ *    static const TypeInfo derived_type_info = {
-+ *        .name = TYPE_DERIVED,
-+ *        .parent = TYPE_MY,
-+ *        .class_size = sizeof(DerivedClass),
-+ *        .class_init = derived_class_init,
-+ *    };
-+ *      </programlisting>
-  * </example>
+  *    typedef struct MyState MyState;
+  *
+  *    typedef void (*MyDoSomething)(MyState *obj);
+@@ -297,8 +293,6 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *        .class_size = sizeof(DerivedClass),
+  *        .class_init = derived_class_init,
+  *    };
+- *      </programlisting>
+- * </example>
   *
   * Alternatively, object_class_by_name() can be used to obtain the class and
-@@ -981,24 +981,24 @@ Object *object_new(const char *typename);
+  * its non-overridden methods for a specific type. This would correspond to
+@@ -320,18 +314,16 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * OBJECT_DECLARE_SIMPLE_TYPE macro is suitable, and is commonly placed
+  * in the header file:
   *
-  * <example>
-  *   <title>Creating an object with properties</title>
+- * <example>
+- *   <title>Declaring a simple type</title>
 - *   <programlisting>
-- *   Error *err = NULL;
-- *   Object *obj;
-- *
-- *   obj = object_new_with_props(TYPE_MEMORY_BACKEND_FILE,
-- *                               object_get_objects_root(),
-- *                               "hostmem0",
-- *                               &err,
-- *                               "share", "yes",
-- *                               "mem-path", "/dev/shm/somefile",
-- *                               "prealloc", "yes",
-- *                               "size", "1048576",
-- *                               NULL);
-- *
-- *   if (!obj) {
-- *     error_reportf_err(err, "Cannot create memory backend: ");
-- *   }
++ * .. code-block::
++ *    :caption: Declaring a simple type
++ *
+  *     OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
 - *   </programlisting>
-+ *      <programlisting>
-+ *      Error *err = NULL;
-+ *      Object *obj;
+- * </example>
+  *
+  * This is equivalent to the following:
+  *
+- * <example>
+- *   <title>Expansion from declaring a simple type</title>
+- *   <programlisting>
++ * .. code-block::
++ *    :caption: Expansion from declaring a simple type
 + *
-+ *      obj = object_new_with_props(TYPE_MEMORY_BACKEND_FILE,
-+ *                                  object_get_objects_root(),
-+ *                                  "hostmem0",
-+ *                                  &err,
-+ *                                  "share", "yes",
-+ *                                  "mem-path", "/dev/shm/somefile",
-+ *                                  "prealloc", "yes",
-+ *                                  "size", "1048576",
-+ *                                  NULL);
+  *     typedef struct MyDevice MyDevice;
+  *     typedef struct MyDeviceClass MyDeviceClass;
+  *
+@@ -347,8 +339,6 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *     struct MyDeviceClass {
+  *         DeviceClass parent_class;
+  *     };
+- *   </programlisting>
+- * </example>
+  *
+  * The 'struct MyDevice' needs to be declared separately.
+  * If the type requires virtual functions to be declared in the class
+@@ -359,18 +349,16 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * To implement the type, the OBJECT_DEFINE macro family is available.
+  * In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
+  *
+- * <example>
+- *   <title>Defining a simple type</title>
+- *   <programlisting>
++ * .. code-block::
++ *    :caption: Defining a simple type
 + *
-+ *      if (!obj) {
-+ *        error_reportf_err(err, "Cannot create memory backend: ");
-+ *      }
-+ *      </programlisting>
-  * </example>
+  *     OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
+- *   </programlisting>
+- * </example>
+  *
+  * This is equivalent to the following:
+  *
+- * <example>
+- *   <title>Expansion from defining a simple type</title>
+- *   <programlisting>
++ * .. code-block::
++ *    :caption: Expansion from defining a simple type
++ *
+  *     static void my_device_finalize(Object *obj);
+  *     static void my_device_class_init(ObjectClass *oc, void *data);
+  *     static void my_device_init(Object *obj);
+@@ -391,8 +379,6 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *         type_register_static(&my_device_info);
+  *     }
+  *     type_init(my_device_register_types);
+- *   </programlisting>
+- * </example>
+  *
+  * This is sufficient to get the type registered with the type
+  * system, and the three standard methods now need to be implemented
+@@ -402,24 +388,20 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * OBJECT_DEFINE_TYPE_WITH_INTERFACES() macro can be used instead.
+  * This accepts an array of interface type names.
+  *
+- * <example>
+- *   <title>Defining a simple type implementing interfaces</title>
+- *   <programlisting>
++ * .. code-block::
++ *    :caption: Defining a simple type implementing interfaces
++ *
+  *     OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
+  *                                        MY_DEVICE, DEVICE,
+  *                                        { TYPE_USER_CREATABLE }, { NULL })
+- *   </programlisting>
+- * </example>
+  *
+  * If the type is not intended to be instantiated, then then
+  * the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
+  *
+- * <example>
+- *   <title>Defining a simple type</title>
+- *   <programlisting>
++ * .. code-block::
++ *    :caption: Defining a simple abstract type
++ *
+  *     OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
+- *   </programlisting>
+- * </example>
+  */
+ 
+ 
+@@ -979,9 +961,9 @@ Object *object_new(const char *typename);
+  * object will be marked complete once all the properties have been
+  * processed.
+  *
+- * <example>
+- *   <title>Creating an object with properties</title>
+- *      <programlisting>
++ * .. code-block::
++ *    :caption: Creating an object with properties
++ *
+  *      Error *err = NULL;
+  *      Object *obj;
+  *
+@@ -998,8 +980,6 @@ Object *object_new(const char *typename);
+  *      if (!obj) {
+  *        error_reportf_err(err, "Cannot create memory backend: ");
+  *      }
+- *      </programlisting>
+- * </example>
   *
   * The returned object will have one stable reference maintained
-@@ -1050,20 +1050,20 @@ void object_apply_compat_props(Object *obj);
+  * for as long as it is present in the object hierarchy.
+@@ -1048,9 +1028,9 @@ void object_apply_compat_props(Object *obj);
+  * strings. The propname of %NULL indicates the end of the property
+  * list.
   *
-  * <example>
-  *   <title>Update an object's properties</title>
-- *   <programlisting>
-- *   Error *err = NULL;
-- *   Object *obj = ...get / create object...;
-- *
-- *   if (!object_set_props(obj,
-- *                         &err,
-- *                         "share", "yes",
-- *                         "mem-path", "/dev/shm/somefile",
-- *                         "prealloc", "yes",
-- *                         "size", "1048576",
-- *                         NULL)) {
-- *     error_reportf_err(err, "Cannot set properties: ");
-- *   }
-- *   </programlisting>
-+ *      <programlisting>
-+ *      Error *err = NULL;
-+ *      Object *obj = ...get / create object...;
+- * <example>
+- *   <title>Update an object's properties</title>
+- *      <programlisting>
++ * .. code-block::
++ *    :caption: Update an object's properties
 + *
-+ *      if (!object_set_props(obj,
-+ *                            &err,
-+ *                            "share", "yes",
-+ *                            "mem-path", "/dev/shm/somefile",
-+ *                            "prealloc", "yes",
-+ *                            "size", "1048576",
-+ *                            NULL)) {
-+ *        error_reportf_err(err, "Cannot set properties: ");
-+ *      }
-+ *      </programlisting>
-  * </example>
+  *      Error *err = NULL;
+  *      Object *obj = ...get / create object...;
+  *
+@@ -1063,8 +1043,6 @@ void object_apply_compat_props(Object *obj);
+  *                            NULL)) {
+  *        error_reportf_err(err, "Cannot set properties: ");
+  *      }
+- *      </programlisting>
+- * </example>
   *
   * The returned object will have one stable reference maintained
-@@ -1516,15 +1516,15 @@ typedef struct ObjectPropertyIterator {
+  * for as long as it is present in the object hierarchy.
+@@ -1152,10 +1130,11 @@ bool object_initialize_child_with_propsv(Object *parentobj,
+  * object.
+  * @type: The name of the type of the object to instantiate.
   *
-  * <example>
-  *   <title>Using object property iterators</title>
-- *   <programlisting>
-- *   ObjectProperty *prop;
-- *   ObjectPropertyIterator iter;
-- *
-- *   object_property_iter_init(&iter, obj);
-- *   while ((prop = object_property_iter_next(&iter))) {
-- *     ... do something with prop ...
-- *   }
-- *   </programlisting>
-+ *      <programlisting>
-+ *      ObjectProperty *prop;
-+ *      ObjectPropertyIterator iter;
+- * This is like
+- * object_initialize_child_with_props(parent, propname,
+- *                                    child, sizeof(*child), type,
+- *                                    &error_abort, NULL)
++ * This is like::
 + *
-+ *      object_property_iter_init(&iter, obj);
-+ *      while ((prop = object_property_iter_next(&iter))) {
-+ *        ... do something with prop ...
-+ *      }
-+ *      </programlisting>
-  * </example>
++ *   object_initialize_child_with_props(parent, propname,
++ *                                      child, sizeof(*child), type,
++ *                                      &error_abort, NULL)
+  */
+ #define object_initialize_child(parent, propname, child, type)          \
+     object_initialize_child_internal((parent), (propname),              \
+@@ -1514,9 +1493,9 @@ typedef struct ObjectPropertyIterator {
+  *
+  * Typical usage pattern would be
+  *
+- * <example>
+- *   <title>Using object property iterators</title>
+- *      <programlisting>
++ * .. code-block:: c
++ *    :caption: Using object property iterators
++ *
+  *      ObjectProperty *prop;
+  *      ObjectPropertyIterator iter;
+  *
+@@ -1524,8 +1503,6 @@ typedef struct ObjectPropertyIterator {
+  *      while ((prop = object_property_iter_next(&iter))) {
+  *        ... do something with prop ...
+  *      }
+- *      </programlisting>
+- * </example>
   */
  void object_property_iter_init(ObjectPropertyIterator *iter,
+                                Object *obj);
 -- 
 2.26.2
 
