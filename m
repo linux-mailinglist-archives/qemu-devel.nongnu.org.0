@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E23E264FF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:56:22 +0200 (CEST)
-Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCC4264FFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:57:58 +0200 (CEST)
+Received: from localhost ([::1]:38146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGSg9-0007oJ-JN
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54422)
+	id 1kGShh-0002lm-Ac
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSaa-0006CV-QY
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55839
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kGSai-0006ZY-05
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40318
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSaY-0000l9-Sk
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:36 -0400
+ id 1kGSaf-0000lT-LU
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599767434;
+ s=mimecast20190719; t=1599767440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c2fYi56w25yKX3HrO4TcH8qU2ViT59jrGukaF3OOs3o=;
- b=I07P92NJuECMZv3tuPlVOXR+PIDofFj1mgW+RDCQR2wtvUFqOA+pDowQwqcvcPrU4lm2Cc
- c1hOGLdQU41ungAi02pj+aQZj+qNILJP+ueFJdprt74Lw0JvqYuhRzhtOOoQWjEotIke0F
- 1zuaLvrnonzj0B44Sch1PKr4e6jh9Nc=
+ bh=nlA62odmh2HZphdCDpVBp6BSdOLXWunBO2fvyN59ZUk=;
+ b=DpOy/iCI9w+y6/i1fgWbgmSgLoYXkhRrHaOKwQ98gSyjbbEg7jfl//YLfaCnVw5lpwslhT
+ fNbz+dm4zOQrRqiFrRXziCbkvNVCD9JWUZWRPtdKTYp3+I6qYS6Lq+wLh5aTgzdD/GW1jF
+ haufTUopy8GZy64iDPTbZvAKwW9Jv1k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-e7dMc9PcPuu8fwxKoiCH8A-1; Thu, 10 Sep 2020 15:50:32 -0400
-X-MC-Unique: e7dMc9PcPuu8fwxKoiCH8A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-196-OSLEgkZ3P3OoN4F4IxhaUA-1; Thu, 10 Sep 2020 15:50:39 -0400
+X-MC-Unique: OSLEgkZ3P3OoN4F4IxhaUA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44403800683;
- Thu, 10 Sep 2020 19:50:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AA0E1074640;
+ Thu, 10 Sep 2020 19:50:38 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95D7319C4F;
- Thu, 10 Sep 2020 19:50:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64BD55C1BD;
+ Thu, 10 Sep 2020 19:50:32 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/18] chardev: Rename VC_CHARDEV to CHARDEV_VC
-Date: Thu, 10 Sep 2020 15:49:00 -0400
-Message-Id: <20200910194903.4104696-16-ehabkost@redhat.com>
+Subject: [PATCH 16/18] chardev: Rename WCTABLET_CHARDEV to CHARDEV_WCTABLET
+Date: Thu, 10 Sep 2020 15:49:01 -0400
+Message-Id: <20200910194903.4104696-17-ehabkost@redhat.com>
 In-Reply-To: <20200910194903.4104696-1-ehabkost@redhat.com>
 References: <20200910194903.4104696-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:07:44
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 09:07:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,110 +95,67 @@ TYPE_CHARDEV_* constant names and the QOM type name strings
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- ui/console.c   | 10 +++++-----
- ui/gtk.c       |  8 ++++----
- ui/spice-app.c |  2 +-
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ chardev/wctablet.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/ui/console.c b/ui/console.c
-index f8d7643fe4..37a7c4a713 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1090,12 +1090,12 @@ struct VCChardev {
- typedef struct VCChardev VCChardev;
+diff --git a/chardev/wctablet.c b/chardev/wctablet.c
+index 95e005f5a5..c5b0be0451 100644
+--- a/chardev/wctablet.c
++++ b/chardev/wctablet.c
+@@ -86,7 +86,7 @@ struct TabletChardev {
+ typedef struct TabletChardev TabletChardev;
  
- #define TYPE_CHARDEV_VC "chardev-vc"
--DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(VCChardev, CHARDEV_VC,
-                          TYPE_CHARDEV_VC)
+ #define TYPE_CHARDEV_WCTABLET "chardev-wctablet"
+-DECLARE_INSTANCE_CHECKER(TabletChardev, WCTABLET_CHARDEV,
++DECLARE_INSTANCE_CHECKER(TabletChardev, CHARDEV_WCTABLET,
+                          TYPE_CHARDEV_WCTABLET)
  
- static int vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ 
+@@ -187,7 +187,7 @@ static QemuInputHandler wctablet_handler = {
+ 
+ static void wctablet_chr_accept_input(Chardev *chr)
  {
--    VCChardev *drv = VC_CHARDEV(chr);
-+    VCChardev *drv = CHARDEV_VC(chr);
-     QemuConsole *s = drv->console;
-     int i;
+-    TabletChardev *tablet = WCTABLET_CHARDEV(chr);
++    TabletChardev *tablet = CHARDEV_WCTABLET(chr);
+     int len, canWrite;
  
-@@ -2108,7 +2108,7 @@ int qemu_console_get_height(QemuConsole *con, int fallback)
- 
- static void vc_chr_set_echo(Chardev *chr, bool echo)
+     canWrite = qemu_chr_be_can_write(chr);
+@@ -208,7 +208,7 @@ static void wctablet_chr_accept_input(Chardev *chr)
+ static int wctablet_chr_write(struct Chardev *chr,
+                               const uint8_t *buf, int len)
  {
--    VCChardev *drv = VC_CHARDEV(chr);
-+    VCChardev *drv = CHARDEV_VC(chr);
-     QemuConsole *s = drv->console;
+-    TabletChardev *tablet = WCTABLET_CHARDEV(chr);
++    TabletChardev *tablet = CHARDEV_WCTABLET(chr);
+     unsigned int i, clen;
+     char *pos;
  
-     s->echo = echo;
-@@ -2148,7 +2148,7 @@ static const GraphicHwOps text_console_ops = {
+@@ -297,7 +297,7 @@ static int wctablet_chr_write(struct Chardev *chr,
  
- static void text_console_do_init(Chardev *chr, DisplayState *ds)
+ static int wctablet_chr_ioctl(Chardev *chr, int cmd, void *arg)
  {
--    VCChardev *drv = VC_CHARDEV(chr);
-+    VCChardev *drv = CHARDEV_VC(chr);
-     QemuConsole *s = drv->console;
-     int g_width = 80 * FONT_WIDTH;
-     int g_height = 24 * FONT_HEIGHT;
-@@ -2205,7 +2205,7 @@ static void vc_chr_open(Chardev *chr,
-                         Error **errp)
+-    TabletChardev *tablet = WCTABLET_CHARDEV(chr);
++    TabletChardev *tablet = CHARDEV_WCTABLET(chr);
+     QEMUSerialSetParams *ssp;
+ 
+     switch (cmd) {
+@@ -317,7 +317,7 @@ static int wctablet_chr_ioctl(Chardev *chr, int cmd, void *arg)
+ 
+ static void wctablet_chr_finalize(Object *obj)
  {
-     ChardevVC *vc = backend->u.vc.data;
--    VCChardev *drv = VC_CHARDEV(chr);
-+    VCChardev *drv = CHARDEV_VC(chr);
-     QemuConsole *s;
-     unsigned width = 0;
-     unsigned height = 0;
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 1c59de2af4..30c607a412 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -179,7 +179,7 @@ struct VCChardev {
- typedef struct VCChardev VCChardev;
+-    TabletChardev *tablet = WCTABLET_CHARDEV(obj);
++    TabletChardev *tablet = CHARDEV_WCTABLET(obj);
  
- #define TYPE_CHARDEV_VC "chardev-vc"
--DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(VCChardev, CHARDEV_VC,
-                          TYPE_CHARDEV_VC)
- 
- bool gtk_use_gl_area;
-@@ -1693,7 +1693,7 @@ static void gd_vc_adjustment_changed(GtkAdjustment *adjustment, void *opaque)
- 
- static int gd_vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
+     qemu_input_handler_unregister(tablet->hs);
+     g_free(tablet);
+@@ -328,7 +328,7 @@ static void wctablet_chr_open(Chardev *chr,
+                               bool *be_opened,
+                               Error **errp)
  {
--    VCChardev *vcd = VC_CHARDEV(chr);
-+    VCChardev *vcd = CHARDEV_VC(chr);
-     VirtualConsole *vc = vcd->console;
+-    TabletChardev *tablet = WCTABLET_CHARDEV(chr);
++    TabletChardev *tablet = CHARDEV_WCTABLET(chr);
  
-     vte_terminal_feed(VTE_TERMINAL(vc->vte.terminal), (const char *)buf, len);
-@@ -1702,7 +1702,7 @@ static int gd_vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
+     *be_opened = true;
  
- static void gd_vc_chr_set_echo(Chardev *chr, bool echo)
- {
--    VCChardev *vcd = VC_CHARDEV(chr);
-+    VCChardev *vcd = CHARDEV_VC(chr);
-     VirtualConsole *vc = vcd->console;
- 
-     if (vc) {
-@@ -1784,7 +1784,7 @@ static GSList *gd_vc_vte_init(GtkDisplayState *s, VirtualConsole *vc,
-     GtkWidget *box;
-     GtkWidget *scrollbar;
-     GtkAdjustment *vadjustment;
--    VCChardev *vcd = VC_CHARDEV(chr);
-+    VCChardev *vcd = CHARDEV_VC(chr);
- 
-     vc->s = s;
-     vc->vte.echo = vcd->echo;
-diff --git a/ui/spice-app.c b/ui/spice-app.c
-index 93e105c6ee..e66c422e02 100644
---- a/ui/spice-app.c
-+++ b/ui/spice-app.c
-@@ -47,7 +47,7 @@ struct VCChardev {
- typedef struct VCChardev VCChardev;
- 
- #define TYPE_CHARDEV_VC "chardev-vc"
--DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(VCChardev, CHARDEV_VC,
-                          TYPE_CHARDEV_VC)
- 
- static ChardevBackend *
 -- 
 2.26.2
 
