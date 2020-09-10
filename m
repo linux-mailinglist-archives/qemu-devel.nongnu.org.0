@@ -2,57 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FEF264529
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 13:10:13 +0200 (CEST)
-Received: from localhost ([::1]:39388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB40626452F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 13:11:27 +0200 (CEST)
+Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGKSy-0002C3-2I
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 07:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
+	id 1kGKUA-0003z7-OV
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 07:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1kGKFU-0005nV-Ef
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:56:16 -0400
-Received: from mga03.intel.com ([134.134.136.65]:26688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1kGKFR-0005xR-Uf
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:56:16 -0400
-IronPort-SDR: 3O07h3uE9uDc0/MbFVgBwLY3oofKGS7LIw7o+o3TF6hakrWsqlfeTABivZC4UdY1jgqJTKJVMZ
- GTzlCAztHTbA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="158545518"
-X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="158545518"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 03:54:40 -0700
-IronPort-SDR: 6lQCFRgiZbizOl2qMz20I6mWGJjl28N2f9P80ruZ6BSjXM4gMMHF6teKC3RGDuwyDjVVRXzelb
- Q+s4qoPh774g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="334140109"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga008.jf.intel.com with ESMTP; 10 Sep 2020 03:54:40 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org, alex.williamson@redhat.com, peterx@redhat.com,
- jasowang@redhat.com
-Subject: [RFC v10 25/25] intel_iommu: modify x-scalable-mode to be string
- option
-Date: Thu, 10 Sep 2020 03:56:38 -0700
-Message-Id: <1599735398-6829-26-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1599735398-6829-1-git-send-email-yi.l.liu@intel.com>
-References: <1599735398-6829-1-git-send-email-yi.l.liu@intel.com>
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=yi.l.liu@intel.com;
- helo=mga03.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 06:54:39
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kGKG9-00076R-1m
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:56:57 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:35224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kGKG6-0006IO-Qu
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:56:56 -0400
+Received: by mail-ed1-x529.google.com with SMTP id i1so5865698edv.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 03:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=XHD8+o9rBKTBEWiboce4LpdiiKgt5drAfpuf/AnQXBI=;
+ b=coqVH2fJkTlHmkbSMi6pvkm2rovvmoTdihqkYP6QTitmBjDxN88sd866ML2peFCrpD
+ JfZ9h5EG4E1LQRyMv9x7dZA8l32y1IK23pjKpy93jzl64NQdMB4J7vduiGTVuidr9ZEB
+ 0ut1U7B4iubUFn6FSdI3BDOo75mAvFLXBHIgN6UVDbqkzZfTvVmD+zR9hvndcnakDZHB
+ nk25/c6vRSeWvUrI3w/uRA11zsZYZ6k4nrWA99RyFMyvNDKDqpNjgWzWlcaJOkT7Wxms
+ DRxPWEhQL6w0Ja4kAL+EpAbczDGBx6pV6oJiX1glGj0FVixh/PNcvcrX6x6m3+qqsVpS
+ VCgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=XHD8+o9rBKTBEWiboce4LpdiiKgt5drAfpuf/AnQXBI=;
+ b=oxZXDEN/wGtnLSk5eEAnKic3mZHQOKYFgfgw7EPyFHmcyMa/TFGDKzFh4Gss287WIa
+ eFqg3BJdCzbo4ErwLjlyN7596stUzx3j7vcbN+OVAH/VKDuhKOcX7DCKR9bG3MDVBeqg
+ 2e4vNVIGSvkhDffdBQOn2qk6uRMi5ky9WmbjhLpgT74IFyYHL/1KR0vj209yGoOC5KZb
+ th27JRcPBf3UjlNhrAkyDAbYDNBrtrLoIMvvftL1hwhh1ZtuB33X/NkRhhN0dhYTc4xz
+ cj16LIm8cctjCba2dmKXYvnnaDpKyiifaima4/scVqj0u46m8pkvDTQujZ/r9gb8GwMX
+ NwWw==
+X-Gm-Message-State: AOAM533kKtNcfrQwyqFvEotr1PABX2fRSXIG3Fo4nbyeXIUPNoR4ky2F
+ O40/cJqvc45zzV/cSLzVAzIpzA==
+X-Google-Smtp-Source: ABdhPJytqjRZo7fAiypMhCKrPH244swRMyNrWr+76nKgWFNXEO/6jlNZgZPaCYjBDMcR7WHQw9A8ew==
+X-Received: by 2002:a50:fd83:: with SMTP id o3mr8461124edt.176.1599735413195; 
+ Thu, 10 Sep 2020 03:56:53 -0700 (PDT)
+Received: from wks.local ([86.120.181.246])
+ by smtp.gmail.com with ESMTPSA id m16sm6480082ejl.69.2020.09.10.03.56.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 10 Sep 2020 03:56:52 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: [RFC] QEMU as Xcode project on macOS
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <20200910104552.GH1083348@redhat.com>
+Date: Thu, 10 Sep 2020 13:56:51 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E3A8F45F-689E-4F11-BCF4-A36D042F9698@livius.net>
+References: <2764135.D4k31Gy3CM@silver> <2421928.3WNMogbLRJ@silver>
+ <20200910093910.GG1083348@redhat.com> <4878996.4JzhbN1UZ4@silver>
+ <CAFEAcA_CPNppKwwJSu4O6U6qF-rfHR2NtG=hWBFatZmD4aiMdg@mail.gmail.com>
+ <20200910104552.GH1083348@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
+Received-SPF: none client-ip=2a00:1450:4864:20::529;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x529.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,182 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- hao.wu@intel.com, Richard Henderson <rth@twiddle.net>,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, G 3 <programmingkidx@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Intel VT-d 3.0 introduces scalable mode, and it has a bunch of capabilities
-related to scalable mode translation, thus there are multiple combinations.
-While this vIOMMU implementation wants simplify it for user by providing
-typical combinations. User could config it by "x-scalable-mode" option. The
-usage is as below:
 
-"-device intel-iommu,x-scalable-mode=["legacy"|"modern"|"off"]"
 
- - "legacy": gives support for SL page table
- - "modern": gives support for FL page table, pasid, virtual command
- - "off": no scalable mode support
- -  if not configured, means no scalable mode support, if not proper
-    configured, will throw error
+> On 10 Sep 2020, at 13:45, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>=20
+> AFAICT both MacPorts and HomeBrew can be installed into custom =
+locations,
+> at least if you do a "from source" install of them, rather than using =
+the
+> pre-built packages.
 
-Note: this patch is supposed to be merged when the whole vSVA patch series
-were merged.
+Yes, I use this for HomeBrew, but generally you cannot select the =
+individual versions for libraries and tools, the Ruby code used to build =
+packages is in a Git, you can checkout a moment in time, but you get the =
+selection of versions at that moment.
 
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
----
-rfcv5 (v2) -> rfcv6:
-*) reports want_nested to VFIO;
-*) assert iommu_set/unset_iommu_context() if vIOMMU is not scalable modern.
----
- hw/i386/intel_iommu.c          | 39 +++++++++++++++++++++++++++++++++++----
- hw/i386/intel_iommu_internal.h |  3 +++
- include/hw/i386/intel_iommu.h  |  2 ++
- 3 files changed, 40 insertions(+), 4 deletions(-)
+If you try using individual Ruby files for different packages, you =
+generally run into dependency issues.
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 2010c33..9781a18 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -4050,7 +4050,7 @@ static Property vtd_properties[] = {
-     DEFINE_PROP_UINT8("aw-bits", IntelIOMMUState, aw_bits,
-                       VTD_HOST_ADDRESS_WIDTH),
-     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
--    DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
-+    DEFINE_PROP_STRING("x-scalable-mode", IntelIOMMUState, scalable_mode_str),
-     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -4419,6 +4419,7 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
- static int vtd_dev_get_iommu_attr(PCIBus *bus, void *opaque, int32_t devfn,
-                                    IOMMUAttr attr, void *data)
- {
-+    IntelIOMMUState *s = opaque;
-     int ret = 0;
- 
-     assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
-@@ -4428,8 +4429,7 @@ static int vtd_dev_get_iommu_attr(PCIBus *bus, void *opaque, int32_t devfn,
-     {
-         bool *pdata = data;
- 
--        /* return false until vSVA is ready */
--        *pdata = false;
-+        *pdata = s->scalable_modern ? true : false;
-         break;
-     }
-     default:
-@@ -4523,6 +4523,8 @@ static int vtd_dev_set_iommu_context(PCIBus *bus, void *opaque,
-     VTDHostIOMMUContext *vtd_dev_icx;
- 
-     assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
-+    /* only modern scalable supports set_ioimmu_context */
-+    assert(s->scalable_modern);
- 
-     vtd_bus = vtd_find_add_bus(s, bus);
- 
-@@ -4557,6 +4559,8 @@ static void vtd_dev_unset_iommu_context(PCIBus *bus, void *opaque, int devfn)
-     VTDHostIOMMUContext *vtd_dev_icx;
- 
-     assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
-+    /* only modern scalable supports unset_ioimmu_context */
-+    assert(s->scalable_modern);
- 
-     vtd_bus = vtd_find_add_bus(s, bus);
- 
-@@ -4784,8 +4788,13 @@ static void vtd_init(IntelIOMMUState *s)
-     }
- 
-     /* TODO: read cap/ecap from host to decide which cap to be exposed. */
--    if (s->scalable_mode) {
-+    if (s->scalable_mode && !s->scalable_modern) {
-         s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
-+    } else if (s->scalable_mode && s->scalable_modern) {
-+        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_PASID |
-+                   VTD_ECAP_FLTS | VTD_ECAP_PSS(VTD_PASID_SS) |
-+                   VTD_ECAP_VCS;
-+        s->vccap |= VTD_VCCAP_PAS;
-     }
- 
-     if (!s->cap_finalized) {
-@@ -4926,6 +4935,28 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-         return false;
-     }
- 
-+    if (s->scalable_mode_str &&
-+        (strcmp(s->scalable_mode_str, "off") &&
-+         strcmp(s->scalable_mode_str, "modern") &&
-+         strcmp(s->scalable_mode_str, "legacy"))) {
-+        error_setg(errp, "Invalid x-scalable-mode config,"
-+                         "Please use \"modern\", \"legacy\" or \"off\"");
-+        return false;
-+    }
-+
-+    if (s->scalable_mode_str &&
-+        !strcmp(s->scalable_mode_str, "legacy")) {
-+        s->scalable_mode = true;
-+        s->scalable_modern = false;
-+    } else if (s->scalable_mode_str &&
-+        !strcmp(s->scalable_mode_str, "modern")) {
-+        s->scalable_mode = true;
-+        s->scalable_modern = true;
-+    } else {
-+        s->scalable_mode = false;
-+        s->scalable_modern = false;
-+    }
-+
-     return true;
- }
- 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 9b4fc67..afb4c6a 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -197,7 +197,9 @@
- #define VTD_ECAP_MHMV               (15ULL << 20)
- #define VTD_ECAP_SRS                (1ULL << 31)
- #define VTD_ECAP_SMTS               (1ULL << 43)
-+#define VTD_ECAP_VCS                (1ULL << 44)
- #define VTD_ECAP_SLTS               (1ULL << 46)
-+#define VTD_ECAP_FLTS               (1ULL << 47)
- 
- /* 1st level related caps */
- #define VTD_CAP_FL1GP               (1ULL << 56)
-@@ -209,6 +211,7 @@
- #define VTD_ECAP_PSS(val)           (((val) & 0x1fULL) << 35)
- #define VTD_ECAP_PASID              (1ULL << 40)
- 
-+#define VTD_PASID_SS                (19)
- #define VTD_GET_PSS(val)            (((val) >> 35) & 0x1f)
- #define VTD_ECAP_PSS_MASK           (0x1fULL << 35)
- 
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 1aab882..fd64364 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -263,6 +263,8 @@ struct IntelIOMMUState {
- 
-     bool caching_mode;              /* RO - is cap CM enabled? */
-     bool scalable_mode;             /* RO - is Scalable Mode supported? */
-+    char *scalable_mode_str;        /* RO - admin's Scalable Mode config */
-+    bool scalable_modern;           /* RO - is modern SM supported? */
- 
-     dma_addr_t root;                /* Current root table pointer */
-     bool root_scalable;             /* Type of root table (scalable or not) */
--- 
-2.7.4
+
+Regards,
+
+Liviu
+
 
 
