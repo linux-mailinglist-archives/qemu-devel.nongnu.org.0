@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C0A264FE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:54:28 +0200 (CEST)
-Received: from localhost ([::1]:49850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E23E264FF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:56:22 +0200 (CEST)
+Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGSeJ-0004Mn-Gj
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54406)
+	id 1kGSg9-0007oJ-JN
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSaU-0005vz-Gj
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28250
+ id 1kGSaa-0006CV-QY
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55839
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSaS-0000jK-Jd
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:30 -0400
+ id 1kGSaY-0000l9-Sk
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:50:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599767427;
+ s=mimecast20190719; t=1599767434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yEfAtE+0wDZ7+bvuWCzZ1RN/j1HSUrKTvd6UcuRBbJk=;
- b=hcbrNUzPou6/z95i08gJleMLg8a7ptbWdl3PguuEsxS7I40rXSFTNJVjoApp8qMAwLpA47
- b5scP4oggtdjdrY8EJmYJZAfuDtCtKGviTW80QGXSJRZvhuAE+wnpO3KBF1xs0wuh05EzH
- nRW89nk966YhOAWDeo1mlSpMiv9HTFc=
+ bh=c2fYi56w25yKX3HrO4TcH8qU2ViT59jrGukaF3OOs3o=;
+ b=I07P92NJuECMZv3tuPlVOXR+PIDofFj1mgW+RDCQR2wtvUFqOA+pDowQwqcvcPrU4lm2Cc
+ c1hOGLdQU41ungAi02pj+aQZj+qNILJP+ueFJdprt74Lw0JvqYuhRzhtOOoQWjEotIke0F
+ 1zuaLvrnonzj0B44Sch1PKr4e6jh9Nc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-z4YkpfkTNnSLyKb5Wp0LLg-1; Thu, 10 Sep 2020 15:50:26 -0400
-X-MC-Unique: z4YkpfkTNnSLyKb5Wp0LLg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-396-e7dMc9PcPuu8fwxKoiCH8A-1; Thu, 10 Sep 2020 15:50:32 -0400
+X-MC-Unique: e7dMc9PcPuu8fwxKoiCH8A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81E1F801AF2;
- Thu, 10 Sep 2020 19:50:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44403800683;
+ Thu, 10 Sep 2020 19:50:31 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44C9675125;
- Thu, 10 Sep 2020 19:50:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95D7319C4F;
+ Thu, 10 Sep 2020 19:50:25 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/18] chardev: Rename UDP_CHARDEV to CHARDEV_UDP
-Date: Thu, 10 Sep 2020 15:48:59 -0400
-Message-Id: <20200910194903.4104696-15-ehabkost@redhat.com>
+Subject: [PATCH 15/18] chardev: Rename VC_CHARDEV to CHARDEV_VC
+Date: Thu, 10 Sep 2020 15:49:00 -0400
+Message-Id: <20200910194903.4104696-16-ehabkost@redhat.com>
 In-Reply-To: <20200910194903.4104696-1-ehabkost@redhat.com>
 References: <20200910194903.4104696-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -95,74 +95,110 @@ TYPE_CHARDEV_* constant names and the QOM type name strings
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- chardev/char-udp.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ ui/console.c   | 10 +++++-----
+ ui/gtk.c       |  8 ++++----
+ ui/spice-app.c |  2 +-
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/chardev/char-udp.c b/chardev/char-udp.c
-index 16b5dbce58..9fa5b19a22 100644
---- a/chardev/char-udp.c
-+++ b/chardev/char-udp.c
-@@ -45,13 +45,13 @@ struct UdpChardev {
- };
- typedef struct UdpChardev UdpChardev;
+diff --git a/ui/console.c b/ui/console.c
+index f8d7643fe4..37a7c4a713 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1090,12 +1090,12 @@ struct VCChardev {
+ typedef struct VCChardev VCChardev;
  
--DECLARE_INSTANCE_CHECKER(UdpChardev, UDP_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(UdpChardev, CHARDEV_UDP,
-                          TYPE_CHARDEV_UDP)
+ #define TYPE_CHARDEV_VC "chardev-vc"
+-DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
++DECLARE_INSTANCE_CHECKER(VCChardev, CHARDEV_VC,
+                          TYPE_CHARDEV_VC)
  
- /* Called with chr_write_lock held.  */
- static int udp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ static int vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
  {
--    UdpChardev *s = UDP_CHARDEV(chr);
-+    UdpChardev *s = CHARDEV_UDP(chr);
+-    VCChardev *drv = VC_CHARDEV(chr);
++    VCChardev *drv = CHARDEV_VC(chr);
+     QemuConsole *s = drv->console;
+     int i;
  
-     return qio_channel_write(
-         s->ioc, (const char *)buf, len, NULL);
-@@ -72,7 +72,7 @@ static void udp_chr_flush_buffer(UdpChardev *s)
- static int udp_chr_read_poll(void *opaque)
+@@ -2108,7 +2108,7 @@ int qemu_console_get_height(QemuConsole *con, int fallback)
+ 
+ static void vc_chr_set_echo(Chardev *chr, bool echo)
  {
-     Chardev *chr = CHARDEV(opaque);
--    UdpChardev *s = UDP_CHARDEV(opaque);
-+    UdpChardev *s = CHARDEV_UDP(opaque);
+-    VCChardev *drv = VC_CHARDEV(chr);
++    VCChardev *drv = CHARDEV_VC(chr);
+     QemuConsole *s = drv->console;
  
-     s->max_size = qemu_chr_be_can_write(chr);
+     s->echo = echo;
+@@ -2148,7 +2148,7 @@ static const GraphicHwOps text_console_ops = {
  
-@@ -87,7 +87,7 @@ static int udp_chr_read_poll(void *opaque)
- static gboolean udp_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
+ static void text_console_do_init(Chardev *chr, DisplayState *ds)
  {
-     Chardev *chr = CHARDEV(opaque);
--    UdpChardev *s = UDP_CHARDEV(opaque);
-+    UdpChardev *s = CHARDEV_UDP(opaque);
-     ssize_t ret;
- 
-     if (s->max_size == 0) {
-@@ -108,7 +108,7 @@ static gboolean udp_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
- 
- static void udp_chr_update_read_handler(Chardev *chr)
+-    VCChardev *drv = VC_CHARDEV(chr);
++    VCChardev *drv = CHARDEV_VC(chr);
+     QemuConsole *s = drv->console;
+     int g_width = 80 * FONT_WIDTH;
+     int g_height = 24 * FONT_HEIGHT;
+@@ -2205,7 +2205,7 @@ static void vc_chr_open(Chardev *chr,
+                         Error **errp)
  {
--    UdpChardev *s = UDP_CHARDEV(chr);
-+    UdpChardev *s = CHARDEV_UDP(chr);
+     ChardevVC *vc = backend->u.vc.data;
+-    VCChardev *drv = VC_CHARDEV(chr);
++    VCChardev *drv = CHARDEV_VC(chr);
+     QemuConsole *s;
+     unsigned width = 0;
+     unsigned height = 0;
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 1c59de2af4..30c607a412 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -179,7 +179,7 @@ struct VCChardev {
+ typedef struct VCChardev VCChardev;
  
-     remove_fd_in_watch(chr);
-     if (s->ioc) {
-@@ -122,7 +122,7 @@ static void udp_chr_update_read_handler(Chardev *chr)
- static void char_udp_finalize(Object *obj)
+ #define TYPE_CHARDEV_VC "chardev-vc"
+-DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
++DECLARE_INSTANCE_CHECKER(VCChardev, CHARDEV_VC,
+                          TYPE_CHARDEV_VC)
+ 
+ bool gtk_use_gl_area;
+@@ -1693,7 +1693,7 @@ static void gd_vc_adjustment_changed(GtkAdjustment *adjustment, void *opaque)
+ 
+ static int gd_vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
  {
-     Chardev *chr = CHARDEV(obj);
--    UdpChardev *s = UDP_CHARDEV(obj);
-+    UdpChardev *s = CHARDEV_UDP(obj);
+-    VCChardev *vcd = VC_CHARDEV(chr);
++    VCChardev *vcd = CHARDEV_VC(chr);
+     VirtualConsole *vc = vcd->console;
  
-     remove_fd_in_watch(chr);
-     if (s->ioc) {
-@@ -200,7 +200,7 @@ static void qmp_chardev_open_udp(Chardev *chr,
-     SocketAddress *remote_addr = socket_address_flatten(udp->remote);
-     QIOChannelSocket *sioc = qio_channel_socket_new();
-     char *name;
--    UdpChardev *s = UDP_CHARDEV(chr);
-+    UdpChardev *s = CHARDEV_UDP(chr);
-     int ret;
+     vte_terminal_feed(VTE_TERMINAL(vc->vte.terminal), (const char *)buf, len);
+@@ -1702,7 +1702,7 @@ static int gd_vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
  
-     ret = qio_channel_socket_dgram_sync(sioc, local_addr, remote_addr, errp);
+ static void gd_vc_chr_set_echo(Chardev *chr, bool echo)
+ {
+-    VCChardev *vcd = VC_CHARDEV(chr);
++    VCChardev *vcd = CHARDEV_VC(chr);
+     VirtualConsole *vc = vcd->console;
+ 
+     if (vc) {
+@@ -1784,7 +1784,7 @@ static GSList *gd_vc_vte_init(GtkDisplayState *s, VirtualConsole *vc,
+     GtkWidget *box;
+     GtkWidget *scrollbar;
+     GtkAdjustment *vadjustment;
+-    VCChardev *vcd = VC_CHARDEV(chr);
++    VCChardev *vcd = CHARDEV_VC(chr);
+ 
+     vc->s = s;
+     vc->vte.echo = vcd->echo;
+diff --git a/ui/spice-app.c b/ui/spice-app.c
+index 93e105c6ee..e66c422e02 100644
+--- a/ui/spice-app.c
++++ b/ui/spice-app.c
+@@ -47,7 +47,7 @@ struct VCChardev {
+ typedef struct VCChardev VCChardev;
+ 
+ #define TYPE_CHARDEV_VC "chardev-vc"
+-DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
++DECLARE_INSTANCE_CHECKER(VCChardev, CHARDEV_VC,
+                          TYPE_CHARDEV_VC)
+ 
+ static ChardevBackend *
 -- 
 2.26.2
 
