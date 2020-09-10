@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C3A264CE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:29:15 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F96264C9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:16:31 +0200 (CEST)
+Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRJq-00087a-CD
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57414)
+	id 1kGR7V-0007jr-PO
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBr-0004gA-BZ
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:59 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBo-0002lX-Kq
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762056; x=1631298056;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=cXsVA5p/DqXijeQyHksD3R4PvZRbw0q4xEv/ESLL9bo=;
- b=qAOOvpSIxbARSwNf/m0veqytldE4giGTwEhJUdhHvfRXlzcGz1PkGlDA
- n04UT3/BIo0UzsKr2ENjQfi1MKQkguwKn+olFFoPeijhZSPvqncNFc+SH
- SARXs2UYfNYeOHh9aERj281SOR6eW9nntChMjfJWUfHV2TaXkIZJdjSWe
- J6KLAPp0BbuY8nd7rkyh0V2VWVfuPAs67Iv0jCRwv0fbAmiCciAZeyCTY
- LWcboPlDD20fPrhLmrTDgBgXLvHu/eIfTNEKIuK/nvs6qZeGx79pIRVG5
- 2io3E3o1rG9NyE+cqBdsQSQQ4aQt3LW3AjHy4KgBWrXRUKcXgLIL3+NWY A==;
-IronPort-SDR: D/T33LI68NV12au+pTtN4flNP5KqLXqMAZqQOZ7CrRttNsDO5PjRlhqtjHr8Y8kXwXB+YktQz5
- m94lG/0FhE5TGg3zc7MhitWacgYBjBDaC9K96HA1cnDBe/lwkLxJ10z+8AHdAbREp3bwPPb2Dx
- s+UGxJDi5GANOg6YqwY6IyN+JTe4qe3thhE5eroTMqt0XEU7DUKJqzxpcsDV/ROU/jMQCt8sTw
- ZB2hK1EXBx2SAxdVboXO5KPgcKDShk8IuzHTzfNaWTsIRdGDIyzeDIHH77bYZozSQlf/qI8nW0
- 3w8=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979240"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:19 +0800
-IronPort-SDR: avBAkphvHll9ghgUTclsszC62FpubjUnrSJDP/1GWNT+JnUO6Sh5TcTR3oIE6E1rf1ijGbIBTX
- vMbCFGaoGckg==
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 11:07:36 -0700
-IronPort-SDR: AvdKnmS5bTxuWgWV00DFpfywA3tjqP8Fp1SNCp01LRoQ2UMn5j8GtU+JD+REJU8KBpAR3q5x4c
- IctQGH/6GshQ==
-WDCIronportException: Internal
-Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.59.152])
- by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:19 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 18/30] hw/riscv: sifive_u: Connect a DMA controller
-Date: Thu, 10 Sep 2020 11:09:26 -0700
-Message-Id: <20200910180938.584205-19-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
-References: <20200910180938.584205-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
+ id 1kGR5o-00079z-1h; Thu, 10 Sep 2020 14:14:44 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
+ id 1kGR5l-0001VT-Es; Thu, 10 Sep 2020 14:14:43 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t76so6808217oif.7;
+ Thu, 10 Sep 2020 11:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
+ :cc:references:message-id:user-agent:subject:date;
+ bh=CIw4nu+O6ExZkZNMiHB9u3Fr00VdNoG4TVgcHBDa4Po=;
+ b=MS8wezdzdYebR7zl3jjSWOQzKm8GLHwAc0siFTGgIOEzKvQiCy9KeemwmdkVqajHMl
+ mxX+84qyhJfDjTkLHrOtlTWhLnA8zb03LhfKnE4/UWZoM6j0NlbRPiotmfRqcEL/Otix
+ CQX2Et1jy3KPjDNFfUVC67v3joH7sMqtKSBCrfMOYGCbqO6V7/w39M2KcnaY+6w4AjlH
+ 9NkgXXtr67LDPWi1rhaNrNqkILkdI8UYRvbYrvZQvdbW8B88KhWDjINW1Ftk8ePz8rSg
+ zu7kGAnAGQdnpY6F6mcYdfmbzbkYMOESJ+yBVL1dnwAsz8r01ZFZDcDGCRyQugA9IPTV
+ PsmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
+ :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
+ bh=CIw4nu+O6ExZkZNMiHB9u3Fr00VdNoG4TVgcHBDa4Po=;
+ b=Pz2/BojD/LECw3/KX63+C9r9iTgncvG3/WmPJLfx+7YbZpyEDQPJT8VkbPwPkS1RJS
+ PJhexAb1YDfHmMXi+YED40huvKQ0ASlUKzrJaDPlGlkepySQ+JltGsjoyj7LucFMBTyD
+ KwQJ0xI1eIbohPIO6aJNDwQZPcT+XYunaKUPqNSS7+5wdjuNEKpXiUc4UEDg35HDZEgu
+ +TEg4qsGP1pmcFQon1yiLlXgK925q5Sh5QJCYIfmROqKQjv++w1F6n1mA9IfjCQ9XZGQ
+ 98hICiI7Fvrx7j3fG1aReOqlJzSU8BPI+iuHNZ60MCzfEFI1xV8DL4lqYKdIdcHuFdHq
+ U1OA==
+X-Gm-Message-State: AOAM530LirtH4XM4aYja+5bHBaWazTV2rXZCiocvurIDm1pqLSYMJ4tv
+ A5G8P7SIil3Pk/3Z9zZc5dVycGqSW9I=
+X-Google-Smtp-Source: ABdhPJxA8FS64SAWRR3qtsCjgiUkUdQWxSxy/AmId9mk/RHt/eLOS7IexqNLCxA/Y3+sobwsIKAavA==
+X-Received: by 2002:aca:6c6:: with SMTP id 189mr770267oig.134.1599761678453;
+ Thu, 10 Sep 2020 11:14:38 -0700 (PDT)
+Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
+ [76.251.165.188])
+ by smtp.gmail.com with ESMTPSA id 39sm925780oto.67.2020.09.10.11.14.37
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 10 Sep 2020 11:14:37 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=515d47f05=alistair.francis@wdc.com;
- helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 14:20:04
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+To: qemu-devel@nongnu.org
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
+References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
+Message-ID: <159976167179.29065.15527378176057475720@sif>
+User-Agent: alot/0.7
+Subject: Re: [PATCH 00/77] Patch Round-up for stable 5.0.1,
+ freeze on 2020-09-10
+Date: Thu, 10 Sep 2020 13:14:31 -0500
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,152 +86,360 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Quoting Michael Roth (2020-09-03 15:58:18)
+> Hi everyone,
+> =
 
-SiFive FU540 SoC integrates a platform DMA controller with 4 DMA
-channels. This connects the exsiting SiFive PDMA model to the SoC,
-and adds its device tree data as well.
+> The following new patches are queued for QEMU stable v5.0.1:
+> =
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1598924352-89526-17-git-send-email-bmeng.cn@gmail.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- include/hw/riscv/sifive_u.h | 11 +++++++++++
- hw/riscv/sifive_u.c         | 30 ++++++++++++++++++++++++++++++
- hw/riscv/Kconfig            |  1 +
- 3 files changed, 42 insertions(+)
+>   https://github.com/mdroth/qemu/commits/stable-5.0-staging
+> =
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index d3c0c00d10..793000a2ed 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -19,6 +19,7 @@
- #ifndef HW_SIFIVE_U_H
- #define HW_SIFIVE_U_H
- 
-+#include "hw/dma/sifive_pdma.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_cpu.h"
-@@ -43,6 +44,7 @@ typedef struct SiFiveUSoCState {
-     SiFiveUPRCIState prci;
-     SIFIVEGPIOState gpio;
-     SiFiveUOTPState otp;
-+    SiFivePDMAState dma;
-     CadenceGEMState gem;
- 
-     uint32_t serial;
-@@ -72,6 +74,7 @@ enum {
-     SIFIVE_U_MROM,
-     SIFIVE_U_CLINT,
-     SIFIVE_U_L2CC,
-+    SIFIVE_U_PDMA,
-     SIFIVE_U_L2LIM,
-     SIFIVE_U_PLIC,
-     SIFIVE_U_PRCI,
-@@ -108,6 +111,14 @@ enum {
-     SIFIVE_U_GPIO_IRQ13 = 20,
-     SIFIVE_U_GPIO_IRQ14 = 21,
-     SIFIVE_U_GPIO_IRQ15 = 22,
-+    SIFIVE_U_PDMA_IRQ0 = 23,
-+    SIFIVE_U_PDMA_IRQ1 = 24,
-+    SIFIVE_U_PDMA_IRQ2 = 25,
-+    SIFIVE_U_PDMA_IRQ3 = 26,
-+    SIFIVE_U_PDMA_IRQ4 = 27,
-+    SIFIVE_U_PDMA_IRQ5 = 28,
-+    SIFIVE_U_PDMA_IRQ6 = 29,
-+    SIFIVE_U_PDMA_IRQ7 = 30,
-     SIFIVE_U_GEM_IRQ = 0x35
- };
- 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 2bc3992989..79975372ef 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -14,6 +14,7 @@
-  * 4) GPIO (General Purpose Input/Output Controller)
-  * 5) OTP (One-Time Programmable) memory with stored serial number
-  * 6) GEM (Gigabit Ethernet Controller) and management block
-+ * 7) DMA (Direct Memory Access Controller)
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -73,6 +74,7 @@ static const struct MemmapEntry {
-     [SIFIVE_U_MROM] =     {     0x1000,     0xf000 },
-     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
-     [SIFIVE_U_L2CC] =     {  0x2010000,     0x1000 },
-+    [SIFIVE_U_PDMA] =     {  0x3000000,   0x100000 },
-     [SIFIVE_U_L2LIM] =    {  0x8000000,  0x2000000 },
-     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
-     [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
-@@ -303,6 +305,22 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
-     g_free(nodename);
- 
-+    nodename = g_strdup_printf("/soc/dma@%lx",
-+        (long)memmap[SIFIVE_U_PDMA].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "#dma-cells", 1);
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-+        SIFIVE_U_PDMA_IRQ0, SIFIVE_U_PDMA_IRQ1, SIFIVE_U_PDMA_IRQ2,
-+        SIFIVE_U_PDMA_IRQ3, SIFIVE_U_PDMA_IRQ4, SIFIVE_U_PDMA_IRQ5,
-+        SIFIVE_U_PDMA_IRQ6, SIFIVE_U_PDMA_IRQ7);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_PDMA].base,
-+        0x0, memmap[SIFIVE_U_PDMA].size);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+                            "sifive,fu540-c000-pdma");
-+    g_free(nodename);
-+
-     nodename = g_strdup_printf("/soc/cache-controller@%lx",
-         (long)memmap[SIFIVE_U_L2CC].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-@@ -627,6 +645,7 @@ static void sifive_u_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "otp", &s->otp, TYPE_SIFIVE_U_OTP);
-     object_initialize_child(obj, "gem", &s->gem, TYPE_CADENCE_GEM);
-     object_initialize_child(obj, "gpio", &s->gpio, TYPE_SIFIVE_GPIO);
-+    object_initialize_child(obj, "pdma", &s->dma, TYPE_SIFIVE_PDMA);
- }
- 
- static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-@@ -730,6 +749,17 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-                                             SIFIVE_U_GPIO_IRQ0 + i));
-     }
- 
-+    /* PDMA */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->dma), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->dma), 0, memmap[SIFIVE_U_PDMA].base);
-+
-+    /* Connect PDMA interrupts to the PLIC */
-+    for (i = 0; i < SIFIVE_PDMA_IRQS; i++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
-+                           qdev_get_gpio_in(DEVICE(s->plic),
-+                                            SIFIVE_U_PDMA_IRQ0 + i));
-+    }
-+
-     qdev_prop_set_uint32(DEVICE(&s->otp), "serial", s->serial);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->otp), errp)) {
-         return;
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 9032cb0cbd..e53ab1efa5 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -22,6 +22,7 @@ config SIFIVE_U
-     select CADENCE
-     select HART
-     select SIFIVE
-+    select SIFIVE_PDMA
-     select UNIMP
- 
- config SPIKE
--- 
-2.28.0
+> Patch freeze is 2020-09-10, and the release is planned for 2020-09-15:
+> =
 
+>   https://wiki.qemu.org/Planning/5.0
+> =
+
+> Please respond here or CC qemu-stable@nongnu.org on any additional patches
+> you think should be included in the release.
+
+Updated staging tree with the following patches:
+  virtio-ccw: fix virtio_set_ind_atomic
+  nvram: Exit QEMU if NVRAM cannot contain all -prom-env data
+  9p: null terminate fs driver options list
+
+and removed as suggested:
+  virtio: list legacy-capable devices
+  virtio: verify that legacy support is not accidentally on
+
+Thanks for the suggestions!
+
+> =
+
+> Thanks!
+> =
+
+> =
+
+> ----------------------------------------------------------------
+> Alexander Duyck (3):
+>       virtio-balloon: Prevent guest from starting a report when we didn't=
+ request one
+>       virtio-balloon: Add locking to prevent possible race when starting =
+hinting
+>       virtio-balloon: Replace free page hinting references to 'report' wi=
+th 'hint'
+> =
+
+> Alistair Francis (1):
+>       hw/riscv: Allow 64 bit access to SiFive CLINT
+> =
+
+> Allan Peramaki (1):
+>       hw/audio/gus: Fix registers 32-bit access
+> =
+
+> Andrew Melnychenko (1):
+>       virtio-pci: Changed vdev to proxy for VirtIO PCI BAR callbacks.
+> =
+
+> Christian Schoenebeck (1):
+>       xen-9pfs: Fix log messages of reply errors
+> =
+
+> Cornelia Huck (3):
+>       linux-headers: update against Linux 5.7-rc3
+>       virtio: list legacy-capable devices
+>       virtio: verify that legacy support is not accidentally on
+> =
+
+> Dan Robertson (1):
+>       9pfs: include linux/limits.h for XATTR_SIZE_MAX
+> =
+
+> David Hildenbrand (4):
+>       virtio-balloon: fix free page hinting without an iothread
+>       virtio-balloon: fix free page hinting check on unrealize
+>       virtio-balloon: unref the iothread when unrealizing
+>       virtio-balloon: always indicate S_DONE when migration fails
+> =
+
+> Eric Blake (4):
+>       nbd/server: Avoid long error message assertions CVE-2020-10761
+>       block: Call attention to truncation of long NBD exports
+>       nbd: Avoid off-by-one in long export name truncation
+>       nbd: Fix large trim/zero requests
+> =
+
+> Gerd Hoffmann (1):
+>       usb: fix setup_len init (CVE-2020-14364)
+> =
+
+> Graeme Gregory (1):
+>       hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
+> =
+
+> Greg Kurz (1):
+>       9p: Lock directory streams with a CoMutex
+> =
+
+> Helge Deller (2):
+>       Fix tulip breakage
+>       hw/display/artist: Unbreak size mismatch memory accesses
+> =
+
+> Igor Mammedov (1):
+>       hostmem: don't use mbind() if host-nodes is empty
+> =
+
+> Jason Wang (1):
+>       net: use peer when purging queue in qemu_flush_or_purge_queue_packe=
+ts()
+> =
+
+> Kevin Wolf (1):
+>       iotests/283: Use consistent size for source and target
+> =
+
+> Laurent Vivier (1):
+>       xhci: fix valid.max_access_size to access address registers
+> =
+
+> Liu Yi L (1):
+>       intel_iommu: Use correct shift for 256 bits qi descriptor
+> =
+
+> Marc-Andr=C3=A9 Lureau (1):
+>       qga: fix assert regression on guest-shutdown
+> =
+
+> Mark Cave-Ayland (1):
+>       Update OpenBIOS images to 7f28286f built from submodule.
+> =
+
+> Markus Armbruster (4):
+>       net/virtio: Fix failover_replug_primary() return value regression
+>       error: Use error_reportf_err() where appropriate
+>       usb/dev-mtp: Fix Error double free after inotify failure
+>       qdev: Fix device_add DRIVER,help to print to monitor
+> =
+
+> Max Reitz (3):
+>       virtiofsd: Whitelist fchmod
+>       block: Fix bdrv_aligned_p*v() for qiov_offset !=3D 0
+>       iotests/028: Add test for cross-base-EOF reads
+> =
+
+> Michael S. Tsirkin (1):
+>       memory: Revert "memory: accept mismatching sizes in memory_region_a=
+ccess_valid"
+> =
+
+> Michael Tokarev (1):
+>       acpi: accept byte and word access to core ACPI registers
+> =
+
+> Michal Privoznik (2):
+>       util: Introduce qemu_get_host_name()
+>       qga: Use qemu_get_host_name() instead of g_get_host_name()
+> =
+
+> Niek Linnenbank (1):
+>       docs/orangepi: Add instructions for resizing SD image to power of t=
+wo
+> =
+
+> Omar Sandoval (1):
+>       9pfs: local: ignore O_NOATIME if we don't have permissions
+> =
+
+> Paolo Bonzini (3):
+>       KVM: x86: believe what KVM says about WAITPKG
+>       libqos: usb-hcd-ehci: use 32-bit write for config register
+>       libqos: pci-pc: use 32-bit write for EJ register
+> =
+
+> Pavel Dovgaluk (3):
+>       tests/acceptance: allow console interaction with specific VMs
+>       tests/acceptance: refactor boot_linux to allow code reuse
+>       tests/acceptance: refactor boot_linux_console test to allow code re=
+use
+> =
+
+> Philippe Mathieu-Daud=C3=A9 (9):
+>       hw/net/e1000e: Do not abort() on invalid PSRCTL register value
+>       tests/acceptance/boot_linux: Tag tests using a SD card with 'device=
+:sd'
+>       tests/acceptance/boot_linux: Expand SD card image to power of 2
+>       hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
+>       hw/sd/sdcard: Simplify realize() a bit
+>       hw/sd/sdcard: Do not allow invalid SD card sizes
+>       hw/sd/sdcard: Update coding style to make checkpatch.pl happy
+>       hw/sd/sdcard: Do not switch to ReceivingData if address is invalid
+>       libvhost-user: Report descriptor index on panic
+> =
+
+> Prasad J Pandit (2):
+>       ati-vga: check mm_index before recursive call (CVE-2020-13800)
+>       es1370: check total frame count against current frame
+> =
+
+> Raphael Pour (1):
+>       qemu-nbd: Close inherited stderr
+> =
+
+> Richard Henderson (2):
+>       target/arm: Clear tail in gvec_fmul_idx_*, gvec_fmla_idx_*
+>       target/hppa: Free some temps in do_sub
+> =
+
+> Sergei Trofimovich (1):
+>       linux-user/strace.list: fix epoll_create{,1} -strace output
+> =
+
+> Stefan Berger (2):
+>       tpm: tpm_spapr: Exit on TPM backend failures
+>       tests: tpm: Skip over pcrUpdateCounter byte in result comparison
+> =
+
+> Stefan Hajnoczi (4):
+>       virtiofsd: add --rlimit-nofile=3DNUM option
+>       virtiofsd: stay below fs.file-max sysctl value (CVE-2020-10717)
+>       aio-posix: don't duplicate fd handler deletion in fdmon_io_uring_de=
+stroy()
+>       aio-posix: disable fdmon-io_uring when GSource is used
+> =
+
+> Stefano Stabellini (2):
+>       Revert "9p: init_in_iov_from_pdu can truncate the size"
+>       xen/9pfs: yield when there isn't enough room on the ring
+> =
+
+> Thomas Huth (1):
+>       net: Do not include a newline in the id of -nic devices
+> =
+
+> Vladimir Sementsov-Ogievskiy (1):
+>       migration/block-dirty-bitmap: fix dirty_bitmap_mig_before_vm_start
+> =
+
+> Yuri Benditovich (1):
+>       virtio-net: align RSC fields with updated virtio-net header
+> =
+
+> lichun (1):
+>       chardev/tcp: Fix error message double free error
+> =
+
+>  backends/hostmem.c                                 |   6 +-
+>  block.c                                            |   7 +-
+>  block/io.c                                         |  10 +-
+>  block/nbd.c                                        |  21 ++--
+>  chardev/char-socket.c                              |   8 +-
+>  contrib/libvhost-user/libvhost-user.c              |   4 +-
+>  docs/system/arm/orangepi.rst                       |  16 ++-
+>  hw/9pfs/9p-util.h                                  |  13 ++
+>  hw/9pfs/9p.c                                       |  34 ++----
+>  hw/9pfs/9p.h                                       |  10 +-
+>  hw/9pfs/virtio-9p-device.c                         |  11 +-
+>  hw/9pfs/xen-9p-backend.c                           |  41 +++++--
+>  hw/acpi/core.c                                     |   9 +-
+>  hw/arm/sbsa-ref.c                                  |   2 +-
+>  hw/audio/es1370.c                                  |   7 +-
+>  hw/audio/gusemu_hal.c                              |   2 +-
+>  hw/audio/gusemu_mixer.c                            |   2 +-
+>  hw/display/artist.c                                |  12 +-
+>  hw/display/ati.c                                   |  10 +-
+>  hw/i386/intel_iommu.c                              |   7 +-
+>  hw/i386/intel_iommu_internal.h                     |   3 +-
+>  hw/net/e1000e_core.c                               |  10 +-
+>  hw/net/tulip.c                                     |   6 -
+>  hw/net/virtio-net.c                                |  29 +----
+>  hw/riscv/sifive_clint.c                            |   2 +-
+>  hw/s390x/virtio-ccw.c                              |   6 +
+>  hw/sd/pxa2xx_mmci.c                                |   4 +-
+>  hw/sd/sd.c                                         |  90 ++++++++++----
+>  hw/tpm/tpm_spapr.c                                 |   5 +-
+>  hw/usb/core.c                                      |  16 ++-
+>  hw/usb/dev-mtp.c                                   |  11 +-
+>  hw/usb/hcd-xhci.c                                  |   4 +-
+>  hw/virtio/virtio-balloon.c                         | 133 ++++++++++++---=
+------
+>  hw/virtio/virtio-pci.c                             |  38 ++++--
+>  hw/virtio/virtio.c                                 |  25 ++++
+>  include/block/aio.h                                |   3 +
+>  include/hw/virtio/virtio-balloon.h                 |  20 ++--
+>  include/hw/virtio/virtio.h                         |   2 +
+>  include/qemu/osdep.h                               |  10 ++
+>  include/standard-headers/linux/ethtool.h           |  10 +-
+>  include/standard-headers/linux/input-event-codes.h |   5 +-
+>  include/standard-headers/linux/pci_regs.h          |   2 +
+>  include/standard-headers/linux/vhost_types.h       |   8 ++
+>  include/standard-headers/linux/virtio_balloon.h    |  12 +-
+>  include/standard-headers/linux/virtio_ids.h        |   1 +
+>  include/standard-headers/linux/virtio_net.h        | 102 +++++++++++++++-
+>  linux-headers/COPYING                              |   2 +
+>  linux-headers/asm-x86/kvm.h                        |   1 +
+>  linux-headers/asm-x86/unistd_32.h                  |   1 +
+>  linux-headers/asm-x86/unistd_64.h                  |   1 +
+>  linux-headers/asm-x86/unistd_x32.h                 |   1 +
+>  linux-headers/linux/kvm.h                          |  47 +++++++-
+>  linux-headers/linux/mman.h                         |   5 +-
+>  linux-headers/linux/userfaultfd.h                  |  40 +++++--
+>  linux-headers/linux/vfio.h                         |  37 ++++++
+>  linux-headers/linux/vhost.h                        |  24 ++++
+>  linux-user/strace.list                             |   4 +-
+>  memory.c                                           |  29 ++---
+>  migration/block-dirty-bitmap.c                     |   2 +-
+>  nbd/server.c                                       |  51 ++++++--
+>  net/net.c                                          |   4 +-
+>  pc-bios/openbios-ppc                               | Bin 696912 -> 69691=
+2 bytes
+>  pc-bios/openbios-sparc32                           | Bin 382048 -> 38204=
+8 bytes
+>  pc-bios/openbios-sparc64                           | Bin 1593408 -> 1593=
+408 bytes
+>  qdev-monitor.c                                     |   2 +-
+>  qemu-nbd.c                                         |  13 +-
+>  qga/commands.c                                     |  17 ++-
+>  qga/main.c                                         |   6 +-
+>  roms/openbios                                      |   2 +-
+>  scsi/qemu-pr-helper.c                              |   4 +-
+>  target/arm/vec_helper.c                            |   2 +
+>  target/hppa/translate.c                            |   2 +
+>  target/i386/cpu.c                                  |   3 +
+>  target/i386/kvm.c                                  |  11 +-
+>  target/i386/kvm_i386.h                             |   1 +
+>  tests/acceptance/avocado_qemu/__init__.py          |  13 +-
+>  tests/acceptance/boot_linux.py                     |  49 ++++----
+>  tests/acceptance/boot_linux_console.py             |  55 ++++++---
+>  tests/qemu-iotests/028                             |  19 +++
+>  tests/qemu-iotests/028.out                         |  11 ++
+>  tests/qemu-iotests/143                             |   4 +
+>  tests/qemu-iotests/143.out                         |   2 +
+>  tests/qemu-iotests/283                             |   6 +-
+>  tests/qemu-iotests/283.out                         |   2 +-
+>  tests/qtest/libqos/pci-pc.c                        |   2 +-
+>  tests/qtest/tpm-util.c                             |   6 +-
+>  tests/qtest/usb-hcd-ehci-test.c                    |   2 +-
+>  tools/virtiofsd/fuse_lowlevel.h                    |   1 +
+>  tools/virtiofsd/helper.c                           |  47 ++++++++
+>  tools/virtiofsd/passthrough_ll.c                   |  22 ++--
+>  tools/virtiofsd/seccomp.c                          |   1 +
+>  util/aio-posix.c                                   |  13 ++
+>  util/aio-win32.c                                   |   4 +
+>  util/async.c                                       |   1 +
+>  util/fdmon-io_uring.c                              |  13 +-
+>  util/oslib-posix.c                                 |  35 ++++++
+>  util/oslib-win32.c                                 |  13 ++
+>  97 files changed, 1045 insertions(+), 377 deletions(-)
+> =
+
+>=20
 
