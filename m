@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF7F264291
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:41:01 +0200 (CEST)
-Received: from localhost ([::1]:54030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054062642AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:46:01 +0200 (CEST)
+Received: from localhost ([::1]:34586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJ4e-00006E-8P
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:41:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35662)
+	id 1kGJ9U-0003wS-2W
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGJ3B-0006sY-A4
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:39:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55988)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kGJ8Y-0003UM-PD
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:45:02 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49905
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGJ37-0003fr-QF
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:39:28 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kGJ8V-0004VT-N2
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:45:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599730763;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1599731097;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UJMJyRzObNSzgsm7nKTBhtIdlUcnnERbJ5o1q7a0ciI=;
- b=DeZp8Gh8p6cl+FugftWunwKCqm0B2RXcWnNJpBW/W0j5Wsc4Lwtt9IknBbW714cp219AOw
- BFtl9u7ITf0As+0o2ysFim6VBeYHraEb8e6XGnua8FJcp6ixDb1kAIzoCD+zM9g6lB5Wyj
- qucI3wJf32sIV3FRwXLBm07dbN5f2Pg=
+ bh=bGa7uuTKrniryse7b6RfRiHvGWqP43tAL7Cv37d0EU8=;
+ b=iEnqcx0xKmqoI7Q+XGU87HldLuPE6kpccrhajMilMlSnw7FXPuzoXzzVonEFcUvjoVgVzV
+ URjizPWroOsbNgxJscyEzoesNrJJqlS9WlTPveXUx50h+I38/FTOKMAM84u+A2moiw33PN
+ CvMXx36BFtNmGzh9Qwa4S1YkSm3m4F0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-uRVKf8UVNO6_we5Y9MFxTQ-1; Thu, 10 Sep 2020 05:39:19 -0400
-X-MC-Unique: uRVKf8UVNO6_we5Y9MFxTQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-400-bqllOOGpO1WwWzTlBNWy8w-1; Thu, 10 Sep 2020 05:44:56 -0400
+X-MC-Unique: bqllOOGpO1WwWzTlBNWy8w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 890321008542;
- Thu, 10 Sep 2020 09:39:18 +0000 (UTC)
-Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 347F65D9E8;
- Thu, 10 Sep 2020 09:39:13 +0000 (UTC)
-Date: Thu, 10 Sep 2020 10:39:10 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [RFC] QEMU as Xcode project on macOS
-Message-ID: <20200910093910.GG1083348@redhat.com>
-References: <2764135.D4k31Gy3CM@silver> <1695914.5EixHECA2G@silver>
- <20200910073710.GA1083348@redhat.com> <2421928.3WNMogbLRJ@silver>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F74310082E6
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 09:44:55 +0000 (UTC)
+Received: from work-vm (ovpn-113-128.ams2.redhat.com [10.36.113.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C4CD73A40;
+ Thu, 10 Sep 2020 09:44:50 +0000 (UTC)
+Date: Thu, 10 Sep 2020 10:44:47 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v2 5/6] migration: Maintain postcopy faulted addresses
+Message-ID: <20200910094447.GB2814@work-vm>
+References: <20200908203022.341615-1-peterx@redhat.com>
+ <20200908203022.341615-6-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2421928.3WNMogbLRJ@silver>
+In-Reply-To: <20200908203022.341615-6-peterx@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 02:38:59
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 01:44:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,49 +82,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, qemu-devel@nongnu.org,
- G 3 <programmingkidx@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Xiaohui Li <xiaohli@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 10, 2020 at 11:32:35AM +0200, Christian Schoenebeck wrote:
-> On Donnerstag, 10. September 2020 09:37:10 CEST Daniel P. Berrangé wrote:
-> > I don't think we want to be adding more 3rd party deps as submodules, quite
-> > the opposite, we want to remove more submodules we currently have.
-> > 
-> > Bundling every important dep we use as a submodule and providing build
-> > rules, means we're effectively re-inventing Homebrew / MacPorts and this is
-> > not a sane use of our time.
+* Peter Xu (peterx@redhat.com) wrote:
+> Maintain a list of faulted addresses on the destination host for which we're
+> waiting on.  This is implemented using a GTree rather than a real list to make
+> sure even there're plenty of vCPUs/threads that are faulting, the lookup will
+> still be fast with O(log(N)) (because we'll do that after placing each page).
+> It should bring a slight overhead, but ideally that shouldn't be a big problem
+> simply because in most cases the requested page list will be short.
 > 
-> Well, that's actually the whole point of this thread: saving developers' time. 
-> And I think the submodule solution is the most sane one.
->
-> Frankly if you compile FOSS software on Mac that asks you to "just" install 
-> dependencies with Homebrew and co, it feels like you have 2 jobs: a software 
-> developer, and a distribution maintainer. The difference to the submodule 
-> though: a much larger amount of developers have to do that maintainer job 
-> (manually resolving conflicts & crashes, rollbacks, etc.).
+> Actually we did similar things for postcopy blocktime measurements.  This patch
+> didn't use that simply because:
+> 
+>   (1) blocktime measurement is towards vcpu threads only, but here we need to
+>       record all faulted addresses, including main thread and external
+>       thread (like, DPDK via vhost-user).
+> 
+>   (2) blocktime measurement will require UFFD_FEATURE_THREAD_ID, but here we
+>       don't want to add that extra dependency on the kernel version since not
+>       necessary.  E.g., we don't need to know which thread faulted on which
+>       page, we also don't care about multiple threads faulting on the same
+>       page.  But we only care about what addresses are faulted so waiting for a
+>       page copying from src.
+> 
+>   (3) blocktime measurement is not enabled by default.  However we need this by
+>       default especially for postcopy recover.
+> 
+> Another thing to mention is that this patch introduced a new mutex to serialize
+> the receivedmap and the page_requested tree, however that serialization does
+> not cover other procedures like UFFDIO_COPY.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-I don't think it saves time. If you look at the bigger picture across
-multiple project it costs time. Every project that depends on glib or
-gtk or gnutls or etc  reinvents the wheel figuring out a suitable
-recipe for bundling & building these dependencies. Worse is that they
-will all do it slightly differently, or use a variety of versions, and
-so users get a worse experiance too with different features available
-and different things broken. Projects like HomeBrew exist precisely to
-save developer time because these build steps can be figured out once,
-and every project can now just rely on the well maintained HomeBrew
-packages.
-
-Regards,
-Daniel
+> ---
+>  migration/migration.c    | 44 +++++++++++++++++++++++++++++++++++++++-
+>  migration/migration.h    | 19 ++++++++++++++++-
+>  migration/postcopy-ram.c | 18 +++++++++++++---
+>  migration/trace-events   |  2 ++
+>  4 files changed, 78 insertions(+), 5 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 6e06b6f4e6..3a12378429 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -143,6 +143,13 @@ static int migration_maybe_pause(MigrationState *s,
+>                                   int new_state);
+>  static void migrate_fd_cancel(MigrationState *s);
+>  
+> +static gint page_request_addr_cmp(gconstpointer ap, gconstpointer bp)
+> +{
+> +    uint64_t a = (uint64_t) ap, b = (uint64_t) bp;
+> +
+> +    return (a > b) - (a < b);
+> +}
+> +
+>  void migration_object_init(void)
+>  {
+>      MachineState *ms = MACHINE(qdev_get_machine());
+> @@ -165,6 +172,8 @@ void migration_object_init(void)
+>      qemu_event_init(&current_incoming->main_thread_load_event, false);
+>      qemu_sem_init(&current_incoming->postcopy_pause_sem_dst, 0);
+>      qemu_sem_init(&current_incoming->postcopy_pause_sem_fault, 0);
+> +    qemu_mutex_init(&current_incoming->page_request_mutex);
+> +    current_incoming->page_requested = g_tree_new(page_request_addr_cmp);
+>  
+>      if (!migration_object_check(current_migration, &err)) {
+>          error_report_err(err);
+> @@ -238,6 +247,11 @@ void migration_incoming_state_destroy(void)
+>          mis->postcopy_remote_fds = NULL;
+>      }
+>  
+> +    if (mis->page_requested) {
+> +        g_tree_destroy(mis->page_requested);
+> +        mis->page_requested = NULL;
+> +    }
+> +
+>      if (mis->socket_address_list) {
+>          qapi_free_SocketAddressList(mis->socket_address_list);
+>          mis->socket_address_list = NULL;
+> @@ -247,6 +261,7 @@ void migration_incoming_state_destroy(void)
+>      qemu_sem_destroy(&mis->postcopy_pause_sem_dst);
+>      qemu_sem_destroy(&mis->postcopy_pause_sem_fault);
+>      qemu_mutex_destroy(&mis->rp_mutex);
+> +    qemu_mutex_destroy(&mis->page_request_mutex);
+>  }
+>  
+>  static void migrate_generate_event(int new_state)
+> @@ -357,8 +372,35 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+>  }
+>  
+>  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+> -                              RAMBlock *rb, ram_addr_t start)
+> +                              RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+>  {
+> +    uint64_t aligned = haddr & (-qemu_target_page_size());
+> +    bool received;
+> +
+> +    WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
+> +        received = ramblock_recv_bitmap_test_byte_offset(rb, start);
+> +        if (!received && !g_tree_lookup(mis->page_requested,
+> +                                        (gpointer) aligned)) {
+> +            /*
+> +             * The page has not been received, and it's not yet in the page
+> +             * request list.  Queue it.  Set the value of element to 1, so that
+> +             * things like g_tree_lookup() will return TRUE (1) when found.
+> +             */
+> +            g_tree_insert(mis->page_requested, (gpointer) aligned,
+> +                          (gpointer) 1);
+> +            mis->page_requested_count++;
+> +            trace_postcopy_page_req_add(aligned, mis->page_requested_count);
+> +        }
+> +    }
+> +
+> +    /*
+> +     * If the page is there, skip sending the message.  We don't even need the
+> +     * lock because as long as the page arrived, it'll be there forever.
+> +     */
+> +    if (received) {
+> +        return 0;
+> +    }
+> +
+>      return migrate_send_rp_message_req_pages(mis, rb, start);
+>  }
+>  
+> diff --git a/migration/migration.h b/migration/migration.h
+> index f552725305..81311dc154 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -103,6 +103,23 @@ struct MigrationIncomingState {
+>  
+>      /* List of listening socket addresses  */
+>      SocketAddressList *socket_address_list;
+> +
+> +    /* A tree of pages that we requested to the source VM */
+> +    GTree *page_requested;
+> +    /* For debugging purpose only, but would be nice to keep */
+> +    int page_requested_count;
+> +    /*
+> +     * The mutex helps to maintain the requested pages that we sent to the
+> +     * source, IOW, to guarantee coherent between the page_requests tree and
+> +     * the per-ramblock receivedmap.  Note! This does not guarantee consistency
+> +     * of the real page copy procedures (using UFFDIO_[ZERO]COPY).  E.g., even
+> +     * if one bit in receivedmap is cleared, UFFDIO_COPY could have happened
+> +     * for that page already.  This is intended so that the mutex won't
+> +     * serialize and blocked by slow operations like UFFDIO_* ioctls.  However
+> +     * this should be enough to make sure the page_requested tree always
+> +     * contains valid information.
+> +     */
+> +    QemuMutex page_request_mutex;
+>  };
+>  
+>  MigrationIncomingState *migration_incoming_get_current(void);
+> @@ -329,7 +346,7 @@ void migrate_send_rp_shut(MigrationIncomingState *mis,
+>  void migrate_send_rp_pong(MigrationIncomingState *mis,
+>                            uint32_t value);
+>  int migrate_send_rp_req_pages(MigrationIncomingState *mis, RAMBlock *rb,
+> -                              ram_addr_t start);
+> +                              ram_addr_t start, uint64_t haddr);
+>  int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+>                                        RAMBlock *rb, ram_addr_t start);
+>  void migrate_send_rp_recv_bitmap(MigrationIncomingState *mis,
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index d333c3fd0e..a30627e838 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -684,7 +684,7 @@ int postcopy_request_shared_page(struct PostCopyFD *pcfd, RAMBlock *rb,
+>                                          qemu_ram_get_idstr(rb), rb_offset);
+>          return postcopy_wake_shared(pcfd, client_addr, rb);
+>      }
+> -    migrate_send_rp_req_pages(mis, rb, aligned_rbo);
+> +    migrate_send_rp_req_pages(mis, rb, aligned_rbo, client_addr);
+>      return 0;
+>  }
+>  
+> @@ -979,7 +979,8 @@ retry:
+>               * Send the request to the source - we want to request one
+>               * of our host page sizes (which is >= TPS)
+>               */
+> -            ret = migrate_send_rp_req_pages(mis, rb, rb_offset);
+> +            ret = migrate_send_rp_req_pages(mis, rb, rb_offset,
+> +                                            msg.arg.pagefault.address);
+>              if (ret) {
+>                  /* May be network failure, try to wait for recovery */
+>                  if (ret == -EIO && postcopy_pause_fault_thread(mis)) {
+> @@ -1149,10 +1150,21 @@ static int qemu_ufd_copy_ioctl(MigrationIncomingState *mis, void *host_addr,
+>          ret = ioctl(userfault_fd, UFFDIO_ZEROPAGE, &zero_struct);
+>      }
+>      if (!ret) {
+> +        qemu_mutex_lock(&mis->page_request_mutex);
+>          ramblock_recv_bitmap_set_range(rb, host_addr,
+>                                         pagesize / qemu_target_page_size());
+> +        /*
+> +         * If this page resolves a page fault for a previous recorded faulted
+> +         * address, take a special note to maintain the requested page list.
+> +         */
+> +        if (g_tree_lookup(mis->page_requested, (gconstpointer)host_addr)) {
+> +            g_tree_remove(mis->page_requested, (gconstpointer)host_addr);
+> +            mis->page_requested_count--;
+> +            trace_postcopy_page_req_del((uint64_t)host_addr,
+> +                                        mis->page_requested_count);
+> +        }
+> +        qemu_mutex_unlock(&mis->page_request_mutex);
+>          mark_postcopy_blocktime_end((uintptr_t)host_addr);
+> -
+>      }
+>      return ret;
+>  }
+> diff --git a/migration/trace-events b/migration/trace-events
+> index 4ab0a503d2..b89ce02cb0 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -157,6 +157,7 @@ postcopy_pause_return_path(void) ""
+>  postcopy_pause_return_path_continued(void) ""
+>  postcopy_pause_continued(void) ""
+>  postcopy_start_set_run(void) ""
+> +postcopy_page_req_add(uint64_t addr, int count) "new page req 0x%lx total %d"
+>  source_return_path_thread_bad_end(void) ""
+>  source_return_path_thread_end(void) ""
+>  source_return_path_thread_entry(void) ""
+> @@ -267,6 +268,7 @@ postcopy_ram_incoming_cleanup_blocktime(uint64_t total) "total blocktime %" PRIu
+>  postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_offset) "for %s in %s offset 0x%"PRIx64
+>  postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
+>  postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
+> +postcopy_page_req_del(uint64_t addr, int count) "resolved page req 0x%lx total %d"
+>  
+>  get_mem_fault_cpu_index(int cpu, uint32_t pid) "cpu: %d, pid: %u"
+>  
+> -- 
+> 2.26.2
+> 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
