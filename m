@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73227265518
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 00:29:23 +0200 (CEST)
-Received: from localhost ([::1]:42048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1324326554D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 01:03:54 +0200 (CEST)
+Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGV4E-0006W9-Hm
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 18:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
+	id 1kGVbc-0006ob-PF
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 19:03:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGUr3-0001jt-MR
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:45 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54325
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGUr0-0002ZE-94
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 18:15:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599776141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tG/pW3vTJTnW+q+g1akUTFpCvWQ55Kt6koedwJ/Vv1E=;
- b=KUUFLOdE/uthW7TcsR3/+LC/0zCaLOiEYahNV+T+nsYAE14Aj+rMLf+AcxVoM5QBJZZO9W
- SxPrGoXCARud7s0jWmRxKPnGuW+ABtKARfkwbMGmfbJk/HAdJ66TGfcJfc8m3nZjzoqGqW
- +FaeoU+glBy635vVoykXJ3oYXNtrB/E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-rS97hnP7O7KWnrCsTh1emA-1; Thu, 10 Sep 2020 18:15:39 -0400
-X-MC-Unique: rS97hnP7O7KWnrCsTh1emA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C345802B78;
- Thu, 10 Sep 2020 22:15:38 +0000 (UTC)
-Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F26E51002D57;
- Thu, 10 Sep 2020 22:15:37 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 9/9] docs: Move object.h overview doc comment to qom.rst
-Date: Thu, 10 Sep 2020 18:15:26 -0400
-Message-Id: <20200910221526.10041-10-ehabkost@redhat.com>
-In-Reply-To: <20200910221526.10041-1-ehabkost@redhat.com>
-References: <20200910221526.10041-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kGVaf-0006OM-DO
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 19:02:53 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52151)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kGVad-00080q-Mz
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 19:02:53 -0400
+Received: by mail-wm1-x336.google.com with SMTP id w2so2472045wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 16:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:mime-version:from:to:date:subject;
+ bh=DTJuyGEpxLSMbCwyWl6+Zhhs8VvtTFISusECgL+YMUA=;
+ b=VUNfWv3GYE+26HVvESe1moNOimazODEsRfw8KTFXEbYkGP6N6mNcX68T8h7ribWG6u
+ pOJXgRlXqLsidmw/AQmAmywSXPiTNOzvaGEUrwN647Dv3EUliRV/ju9UMvtnjvPEYfZO
+ EiUe3DamO6ZkH8JsnECB1gjhX0ujWY2UgMUIuUNeXgP/UIy/+9Q/+ma4KBSaHiT+6GxO
+ Wov931MhMZO2yR6XH4zV2RIjB9akD9VNYU4OkUclVe7D5Gwh42UlCl+rOsSFBQnz7FVz
+ hRfNKcWRIUzpCyjesd/FI45TkzhGtPNbUe/5jxteVH5mgeP0ViP8O7HBH0NGd6x56yF9
+ oCnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
+ bh=DTJuyGEpxLSMbCwyWl6+Zhhs8VvtTFISusECgL+YMUA=;
+ b=AzsFQao4pkOtiLzGf8E+DvKs6Haj72dV7s4srz4tK0AhwEwqjpJBhEF0PsxExLvqtj
+ PDkzRAvvid84f4ZQU+mzyDWFhoL/lbQbU2j6vJdh+8cs4N4bL6x0VvZs5GuZKEtG8q9B
+ /JlxpCelhf/D2dzOpHf9BEXtPTNxZnb3scwqXjZ3yVjE3K11V8WXIFcrsZouXU100YQC
+ sVdqbw73coHFwwApQZCKYjGLhzBIhrDqM2/P59YVuG3RC40OHsKhdS87eMIK01WObn7X
+ wWzFkWji3Ga2fjz8qf/4rGnuy+SKZj2OiDr8cJj2drEO/EKSGn3eAw1CeawDrG20+V7Y
+ 4wUg==
+X-Gm-Message-State: AOAM531xha8FhE1W7YWBPXN6x8OZ7FBP2PVkziiaXKZgrQWt4/Lbcpnz
+ t4wvSHoyRyWIoi8WOISWOuB2jOKLY9DVSQ==
+X-Google-Smtp-Source: ABdhPJzX4shoWPYP9sA12XRyAA9JCJF/yAksQg+sDW1iUH1M8A5olWeefoBWHcK3NXfag63fvIfZjg==
+X-Received: by 2002:a7b:c210:: with SMTP id x16mr2188772wmi.37.1599778968726; 
+ Thu, 10 Sep 2020 16:02:48 -0700 (PDT)
+Received: from [127.0.1.1] ([197.58.222.12])
+ by smtp.gmail.com with ESMTPSA id y5sm365899wmg.21.2020.09.10.16.02.46
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Sep 2020 16:02:47 -0700 (PDT)
+Message-ID: <5f5ab097.1c69fb81.a88a5.0a81@mx.google.com>
+Content-Type: multipart/alternative;
+ boundary="===============0067788902490198713=="
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 18:15:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 11 Sep 2020 01:02:44 +0200
+Subject: [REPORT] Nightly Performance Tests - Thursday, September 10, 2020
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wm1-x336.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
+ MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,797 +82,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the whole contents of the overview doc comment from object.h
-to qom.rst.
+--===============0067788902490198713==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-This makes the documentation source easier to read and edit, and
-also solves the backslash escaping issue at the typecasting macro
-examples.
+<html><body><pre>
+Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+Host Memory      : 15.49 GB
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- docs/devel/qom.rst   | 373 ++++++++++++++++++++++++++++++++++++++++++
- include/qom/object.h | 377 -------------------------------------------
- 2 files changed, 373 insertions(+), 377 deletions(-)
+Start Time (UTC) : 2020-09-10 22:30:02
+End Time (UTC)   : 2020-09-10 23:02:44
+Execution Time   : 0:32:42.042974
 
-diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-index dc5be79a4a..2070a2ced4 100644
---- a/docs/devel/qom.rst
-+++ b/docs/devel/qom.rst
-@@ -2,4 +2,377 @@
- The QEMU Object Model (QOM)
- ===========================
- 
-+.. highlight:: c
-+
-+The QEMU Object Model provides a framework for registering user creatable
-+types and instantiating objects from those types.  QOM provides the following
-+features:
-+
-+ - System for dynamically registering types
-+ - Support for single-inheritance of types
-+ - Multiple inheritance of stateless interfaces
-+
-+.. code-block::
-+   :caption: Creating a minimal type
-+
-+   #include "qdev.h"
-+
-+   #define TYPE_MY_DEVICE "my-device"
-+
-+   // No new virtual functions: we can reuse the typedef for the
-+   // superclass.
-+   typedef DeviceClass MyDeviceClass;
-+   typedef struct MyDevice
-+   {
-+       DeviceState parent;
-+
-+       int reg0, reg1, reg2;
-+   } MyDevice;
-+
-+   static const TypeInfo my_device_info = {
-+       .name = TYPE_MY_DEVICE,
-+       .parent = TYPE_DEVICE,
-+       .instance_size = sizeof(MyDevice),
-+   };
-+
-+   static void my_device_register_types(void)
-+   {
-+       type_register_static(&my_device_info);
-+   }
-+
-+   type_init(my_device_register_types)
-+
-+In the above example, we create a simple type that is described by #TypeInfo.
-+#TypeInfo describes information about the type including what it inherits
-+from, the instance and class size, and constructor/destructor hooks.
-+
-+Alternatively several static types could be registered using helper macro
-+DEFINE_TYPES()
-+
-+.. code-block::
-+
-+   static const TypeInfo device_types_info[] = {
-+       {
-+           .name = TYPE_MY_DEVICE_A,
-+           .parent = TYPE_DEVICE,
-+           .instance_size = sizeof(MyDeviceA),
-+       },
-+       {
-+           .name = TYPE_MY_DEVICE_B,
-+           .parent = TYPE_DEVICE,
-+           .instance_size = sizeof(MyDeviceB),
-+       },
-+   };
-+
-+   DEFINE_TYPES(device_types_info)
-+
-+Every type has an #ObjectClass associated with it.  #ObjectClass derivatives
-+are instantiated dynamically but there is only ever one instance for any
-+given type.  The #ObjectClass typically holds a table of function pointers
-+for the virtual methods implemented by this type.
-+
-+Using object_new(), a new #Object derivative will be instantiated.  You can
-+cast an #Object to a subclass (or base-class) type using
-+object_dynamic_cast().  You typically want to define macro wrappers around
-+OBJECT_CHECK() and OBJECT_CLASS_CHECK() to make it easier to convert to a
-+specific type:
-+
-+.. code-block::
-+   :caption: Typecasting macros
-+
-+#define MY_DEVICE_GET_CLASS(obj) \
-+      OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-+   #define MY_DEVICE_CLASS(klass) \
-+      OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-+   #define MY_DEVICE(obj) \
-+      OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-+
-+Class Initialization
-+====================
-+
-+Before an object is initialized, the class for the object must be
-+initialized.  There is only one class object for all instance objects
-+that is created lazily.
-+
-+Classes are initialized by first initializing any parent classes (if
-+necessary).  After the parent class object has initialized, it will be
-+copied into the current class object and any additional storage in the
-+class object is zero filled.
-+
-+The effect of this is that classes automatically inherit any virtual
-+function pointers that the parent class has already initialized.  All
-+other fields will be zero filled.
-+
-+Once all of the parent classes have been initialized, #TypeInfo::class_init
-+is called to let the class being instantiated provide default initialize for
-+its virtual functions.  Here is how the above example might be modified
-+to introduce an overridden virtual function:
-+
-+.. code-block::
-+   :caption: Overriding a virtual function
-+
-+   #include "qdev.h"
-+
-+   void my_device_class_init(ObjectClass *klass, void *class_data)
-+   {
-+       DeviceClass *dc = DEVICE_CLASS(klass);
-+       dc->reset = my_device_reset;
-+   }
-+
-+   static const TypeInfo my_device_info = {
-+       .name = TYPE_MY_DEVICE,
-+       .parent = TYPE_DEVICE,
-+       .instance_size = sizeof(MyDevice),
-+       .class_init = my_device_class_init,
-+   };
-+
-+Introducing new virtual methods requires a class to define its own
-+struct and to add a .class_size member to the #TypeInfo.  Each method
-+will also have a wrapper function to call it easily:
-+
-+.. code-block::
-+   :caption: Defining an abstract class
-+
-+   #include "qdev.h"
-+
-+   typedef struct MyDeviceClass
-+   {
-+       DeviceClass parent;
-+
-+       void (*frobnicate) (MyDevice *obj);
-+   } MyDeviceClass;
-+
-+   static const TypeInfo my_device_info = {
-+       .name = TYPE_MY_DEVICE,
-+       .parent = TYPE_DEVICE,
-+       .instance_size = sizeof(MyDevice),
-+       .abstract = true, // or set a default in my_device_class_init
-+       .class_size = sizeof(MyDeviceClass),
-+   };
-+
-+   void my_device_frobnicate(MyDevice *obj)
-+   {
-+       MyDeviceClass *klass = MY_DEVICE_GET_CLASS(obj);
-+
-+       klass->frobnicate(obj);
-+   }
-+
-+Interfaces
-+==========
-+
-+Interfaces allow a limited form of multiple inheritance.  Instances are
-+similar to normal types except for the fact that are only defined by
-+their classes and never carry any state.  As a consequence, a pointer to
-+an interface instance should always be of incomplete type in order to be
-+sure it cannot be dereferenced.  That is, you should define the
-+'typedef struct SomethingIf SomethingIf' so that you can pass around
-+``SomethingIf *si`` arguments, but not define a ``struct SomethingIf { ... }``.
-+The only things you can validly do with a ``SomethingIf *`` are to pass it as
-+an argument to a method on its corresponding SomethingIfClass, or to
-+dynamically cast it to an object that implements the interface.
-+
-+Methods
-+=======
-+
-+A <emphasis>method</emphasis> is a function within the namespace scope of
-+a class. It usually operates on the object instance by passing it as a
-+strongly-typed first argument.
-+If it does not operate on an object instance, it is dubbed
-+<emphasis>class method</emphasis>.
-+
-+Methods cannot be overloaded. That is, the #ObjectClass and method name
-+uniquely identity the function to be called; the signature does not vary
-+except for trailing varargs.
-+
-+Methods are always <emphasis>virtual</emphasis>. Overriding a method in
-+#TypeInfo.class_init of a subclass leads to any user of the class obtained
-+via OBJECT_GET_CLASS() accessing the overridden function.
-+The original function is not automatically invoked. It is the responsibility
-+of the overriding class to determine whether and when to invoke the method
-+being overridden.
-+
-+To invoke the method being overridden, the preferred solution is to store
-+the original value in the overriding class before overriding the method.
-+This corresponds to ``{super,base}.method(...)`` in Java and C#
-+respectively; this frees the overriding class from hardcoding its parent
-+class, which someone might choose to change at some point.
-+
-+.. code-block::
-+   :caption: Overriding a virtual method
-+
-+   typedef struct MyState MyState;
-+
-+   typedef void (*MyDoSomething)(MyState *obj);
-+
-+   typedef struct MyClass {
-+       ObjectClass parent_class;
-+
-+       MyDoSomething do_something;
-+   } MyClass;
-+
-+   static void my_do_something(MyState *obj)
-+   {
-+       // do something
-+   }
-+
-+   static void my_class_init(ObjectClass *oc, void *data)
-+   {
-+       MyClass *mc = MY_CLASS(oc);
-+
-+       mc->do_something = my_do_something;
-+   }
-+
-+   static const TypeInfo my_type_info = {
-+       .name = TYPE_MY,
-+       .parent = TYPE_OBJECT,
-+       .instance_size = sizeof(MyState),
-+       .class_size = sizeof(MyClass),
-+       .class_init = my_class_init,
-+   };
-+
-+   typedef struct DerivedClass {
-+       MyClass parent_class;
-+
-+       MyDoSomething parent_do_something;
-+   } DerivedClass;
-+
-+   static void derived_do_something(MyState *obj)
-+   {
-+       DerivedClass *dc = DERIVED_GET_CLASS(obj);
-+
-+       // do something here
-+       dc->parent_do_something(obj);
-+       // do something else here
-+   }
-+
-+   static void derived_class_init(ObjectClass *oc, void *data)
-+   {
-+       MyClass *mc = MY_CLASS(oc);
-+       DerivedClass *dc = DERIVED_CLASS(oc);
-+
-+       dc->parent_do_something = mc->do_something;
-+       mc->do_something = derived_do_something;
-+   }
-+
-+   static const TypeInfo derived_type_info = {
-+       .name = TYPE_DERIVED,
-+       .parent = TYPE_MY,
-+       .class_size = sizeof(DerivedClass),
-+       .class_init = derived_class_init,
-+   };
-+
-+Alternatively, object_class_by_name() can be used to obtain the class and
-+its non-overridden methods for a specific type. This would correspond to
-+``MyClass::method(...)`` in C++.
-+
-+The first example of such a QOM method was #CPUClass.reset,
-+another example is #DeviceClass.realize.
-+
-+Standard type declaration and definition macros
-+===============================================
-+
-+A lot of the code outlined above follows a standard pattern and naming
-+convention. To reduce the amount of boilerplate code that needs to be
-+written for a new type there are two sets of macros to generate the
-+common parts in a standard format.
-+
-+A type is declared using the OBJECT_DECLARE macro family. In types
-+which do not require any virtual functions in the class, the
-+OBJECT_DECLARE_SIMPLE_TYPE macro is suitable, and is commonly placed
-+in the header file:
-+
-+.. code-block::
-+   :caption: Declaring a simple type
-+
-+    OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+
-+This is equivalent to the following:
-+
-+.. code-block::
-+   :caption: Expansion from declaring a simple type
-+
-+    typedef struct MyDevice MyDevice;
-+    typedef struct MyDeviceClass MyDeviceClass;
-+
-+    G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
-+
-+    #define MY_DEVICE_GET_CLASS(void *obj) \
-+            OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-+    #define MY_DEVICE_CLASS(void *klass) \
-+            OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-+    #define MY_DEVICE(void *obj)
-+            OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-+
-+    struct MyDeviceClass {
-+        DeviceClass parent_class;
-+    };
-+
-+The 'struct MyDevice' needs to be declared separately.
-+If the type requires virtual functions to be declared in the class
-+struct, then the alternative OBJECT_DECLARE_TYPE() macro can be
-+used. This does the same as OBJECT_DECLARE_SIMPLE_TYPE(), but without
-+the 'struct MyDeviceClass' definition.
-+
-+To implement the type, the OBJECT_DEFINE macro family is available.
-+In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
-+
-+.. code-block::
-+   :caption: Defining a simple type
-+
-+    OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+
-+This is equivalent to the following:
-+
-+.. code-block::
-+   :caption: Expansion from defining a simple type
-+
-+    static void my_device_finalize(Object *obj);
-+    static void my_device_class_init(ObjectClass *oc, void *data);
-+    static void my_device_init(Object *obj);
-+
-+    static const TypeInfo my_device_info = {
-+        .parent = TYPE_DEVICE,
-+        .name = TYPE_MY_DEVICE,
-+        .instance_size = sizeof(MyDevice),
-+        .instance_init = my_device_init,
-+        .instance_finalize = my_device_finalize,
-+        .class_size = sizeof(MyDeviceClass),
-+        .class_init = my_device_class_init,
-+    };
-+
-+    static void
-+    my_device_register_types(void)
-+    {
-+        type_register_static(&my_device_info);
-+    }
-+    type_init(my_device_register_types);
-+
-+This is sufficient to get the type registered with the type
-+system, and the three standard methods now need to be implemented
-+along with any other logic required for the type.
-+
-+If the type needs to implement one or more interfaces, then the
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES() macro can be used instead.
-+This accepts an array of interface type names.
-+
-+.. code-block::
-+   :caption: Defining a simple type implementing interfaces
-+
-+    OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
-+                                       MY_DEVICE, DEVICE,
-+                                       { TYPE_USER_CREATABLE }, { NULL })
-+
-+If the type is not intended to be instantiated, then then
-+the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-+
-+.. code-block::
-+   :caption: Defining a simple abstract type
-+
-+    OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+
-+
-+
-+API Reference
-+-------------
-+
- .. kernel-doc:: include/qom/object.h
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 75ef97da31..8632484cc0 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -28,383 +28,6 @@ typedef struct InterfaceInfo InterfaceInfo;
- 
- #define TYPE_OBJECT "object"
- 
--/**
-- * DOC:
-- *
-- * .. highlight:: c
-- *
-- * The QEMU Object Model provides a framework for registering user creatable
-- * types and instantiating objects from those types.  QOM provides the following
-- * features:
-- *
-- *  - System for dynamically registering types
-- *  - Support for single-inheritance of types
-- *  - Multiple inheritance of stateless interfaces
-- *
-- * .. code-block::
-- *    :caption: Creating a minimal type
-- *
-- *    #include "qdev.h"
-- *
-- *    #define TYPE_MY_DEVICE "my-device"
-- *
-- *    // No new virtual functions: we can reuse the typedef for the
-- *    // superclass.
-- *    typedef DeviceClass MyDeviceClass;
-- *    typedef struct MyDevice
-- *    {
-- *        DeviceState parent;
-- *
-- *        int reg0, reg1, reg2;
-- *    } MyDevice;
-- *
-- *    static const TypeInfo my_device_info = {
-- *        .name = TYPE_MY_DEVICE,
-- *        .parent = TYPE_DEVICE,
-- *        .instance_size = sizeof(MyDevice),
-- *    };
-- *
-- *    static void my_device_register_types(void)
-- *    {
-- *        type_register_static(&my_device_info);
-- *    }
-- *
-- *    type_init(my_device_register_types)
-- *
-- * In the above example, we create a simple type that is described by #TypeInfo.
-- * #TypeInfo describes information about the type including what it inherits
-- * from, the instance and class size, and constructor/destructor hooks.
-- *
-- * Alternatively several static types could be registered using helper macro
-- * DEFINE_TYPES()
-- *
-- * .. code-block::
-- *
-- *    static const TypeInfo device_types_info[] = {
-- *        {
-- *            .name = TYPE_MY_DEVICE_A,
-- *            .parent = TYPE_DEVICE,
-- *            .instance_size = sizeof(MyDeviceA),
-- *        },
-- *        {
-- *            .name = TYPE_MY_DEVICE_B,
-- *            .parent = TYPE_DEVICE,
-- *            .instance_size = sizeof(MyDeviceB),
-- *        },
-- *    };
-- *
-- *    DEFINE_TYPES(device_types_info)
-- *
-- * Every type has an #ObjectClass associated with it.  #ObjectClass derivatives
-- * are instantiated dynamically but there is only ever one instance for any
-- * given type.  The #ObjectClass typically holds a table of function pointers
-- * for the virtual methods implemented by this type.
-- *
-- * Using object_new(), a new #Object derivative will be instantiated.  You can
-- * cast an #Object to a subclass (or base-class) type using
-- * object_dynamic_cast().  You typically want to define macro wrappers around
-- * OBJECT_CHECK() and OBJECT_CLASS_CHECK() to make it easier to convert to a
-- * specific type:
-- *
-- * .. kernel-doc messes up with the code block below because of the
-- *    backslash at the end of lines.  This will be fixes if we move this
-- *    content to qom.rst.
-- *
-- * .. code-block::
-- *    :caption: Typecasting macros
-- *
-- *    #define MY_DEVICE_GET_CLASS(obj) \
-- *       OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-- *    #define MY_DEVICE_CLASS(klass) \
-- *       OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-- *    #define MY_DEVICE(obj) \
-- *       OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-- *
-- * Class Initialization
-- * ====================
-- *
-- * Before an object is initialized, the class for the object must be
-- * initialized.  There is only one class object for all instance objects
-- * that is created lazily.
-- *
-- * Classes are initialized by first initializing any parent classes (if
-- * necessary).  After the parent class object has initialized, it will be
-- * copied into the current class object and any additional storage in the
-- * class object is zero filled.
-- *
-- * The effect of this is that classes automatically inherit any virtual
-- * function pointers that the parent class has already initialized.  All
-- * other fields will be zero filled.
-- *
-- * Once all of the parent classes have been initialized, #TypeInfo::class_init
-- * is called to let the class being instantiated provide default initialize for
-- * its virtual functions.  Here is how the above example might be modified
-- * to introduce an overridden virtual function:
-- *
-- * .. code-block::
-- *    :caption: Overriding a virtual function
-- *
-- *    #include "qdev.h"
-- *
-- *    void my_device_class_init(ObjectClass *klass, void *class_data)
-- *    {
-- *        DeviceClass *dc = DEVICE_CLASS(klass);
-- *        dc->reset = my_device_reset;
-- *    }
-- *
-- *    static const TypeInfo my_device_info = {
-- *        .name = TYPE_MY_DEVICE,
-- *        .parent = TYPE_DEVICE,
-- *        .instance_size = sizeof(MyDevice),
-- *        .class_init = my_device_class_init,
-- *    };
-- *
-- * Introducing new virtual methods requires a class to define its own
-- * struct and to add a .class_size member to the #TypeInfo.  Each method
-- * will also have a wrapper function to call it easily:
-- *
-- * .. code-block::
-- *    :caption: Defining an abstract class
-- *
-- *    #include "qdev.h"
-- *
-- *    typedef struct MyDeviceClass
-- *    {
-- *        DeviceClass parent;
-- *
-- *        void (*frobnicate) (MyDevice *obj);
-- *    } MyDeviceClass;
-- *
-- *    static const TypeInfo my_device_info = {
-- *        .name = TYPE_MY_DEVICE,
-- *        .parent = TYPE_DEVICE,
-- *        .instance_size = sizeof(MyDevice),
-- *        .abstract = true, // or set a default in my_device_class_init
-- *        .class_size = sizeof(MyDeviceClass),
-- *    };
-- *
-- *    void my_device_frobnicate(MyDevice *obj)
-- *    {
-- *        MyDeviceClass *klass = MY_DEVICE_GET_CLASS(obj);
-- *
-- *        klass->frobnicate(obj);
-- *    }
-- *
-- * Interfaces
-- * ==========
-- *
-- * Interfaces allow a limited form of multiple inheritance.  Instances are
-- * similar to normal types except for the fact that are only defined by
-- * their classes and never carry any state.  As a consequence, a pointer to
-- * an interface instance should always be of incomplete type in order to be
-- * sure it cannot be dereferenced.  That is, you should define the
-- * 'typedef struct SomethingIf SomethingIf' so that you can pass around
-- * ``SomethingIf *si`` arguments, but not define a ``struct SomethingIf { ... }``.
-- * The only things you can validly do with a ``SomethingIf *`` are to pass it as
-- * an argument to a method on its corresponding SomethingIfClass, or to
-- * dynamically cast it to an object that implements the interface.
-- *
-- * Methods
-- * =======
-- *
-- * A <emphasis>method</emphasis> is a function within the namespace scope of
-- * a class. It usually operates on the object instance by passing it as a
-- * strongly-typed first argument.
-- * If it does not operate on an object instance, it is dubbed
-- * <emphasis>class method</emphasis>.
-- *
-- * Methods cannot be overloaded. That is, the #ObjectClass and method name
-- * uniquely identity the function to be called; the signature does not vary
-- * except for trailing varargs.
-- *
-- * Methods are always <emphasis>virtual</emphasis>. Overriding a method in
-- * #TypeInfo.class_init of a subclass leads to any user of the class obtained
-- * via OBJECT_GET_CLASS() accessing the overridden function.
-- * The original function is not automatically invoked. It is the responsibility
-- * of the overriding class to determine whether and when to invoke the method
-- * being overridden.
-- *
-- * To invoke the method being overridden, the preferred solution is to store
-- * the original value in the overriding class before overriding the method.
-- * This corresponds to ``{super,base}.method(...)`` in Java and C#
-- * respectively; this frees the overriding class from hardcoding its parent
-- * class, which someone might choose to change at some point.
-- *
-- * .. code-block::
-- *    :caption: Overriding a virtual method
-- *
-- *    typedef struct MyState MyState;
-- *
-- *    typedef void (*MyDoSomething)(MyState *obj);
-- *
-- *    typedef struct MyClass {
-- *        ObjectClass parent_class;
-- *
-- *        MyDoSomething do_something;
-- *    } MyClass;
-- *
-- *    static void my_do_something(MyState *obj)
-- *    {
-- *        // do something
-- *    }
-- *
-- *    static void my_class_init(ObjectClass *oc, void *data)
-- *    {
-- *        MyClass *mc = MY_CLASS(oc);
-- *
-- *        mc->do_something = my_do_something;
-- *    }
-- *
-- *    static const TypeInfo my_type_info = {
-- *        .name = TYPE_MY,
-- *        .parent = TYPE_OBJECT,
-- *        .instance_size = sizeof(MyState),
-- *        .class_size = sizeof(MyClass),
-- *        .class_init = my_class_init,
-- *    };
-- *
-- *    typedef struct DerivedClass {
-- *        MyClass parent_class;
-- *
-- *        MyDoSomething parent_do_something;
-- *    } DerivedClass;
-- *
-- *    static void derived_do_something(MyState *obj)
-- *    {
-- *        DerivedClass *dc = DERIVED_GET_CLASS(obj);
-- *
-- *        // do something here
-- *        dc->parent_do_something(obj);
-- *        // do something else here
-- *    }
-- *
-- *    static void derived_class_init(ObjectClass *oc, void *data)
-- *    {
-- *        MyClass *mc = MY_CLASS(oc);
-- *        DerivedClass *dc = DERIVED_CLASS(oc);
-- *
-- *        dc->parent_do_something = mc->do_something;
-- *        mc->do_something = derived_do_something;
-- *    }
-- *
-- *    static const TypeInfo derived_type_info = {
-- *        .name = TYPE_DERIVED,
-- *        .parent = TYPE_MY,
-- *        .class_size = sizeof(DerivedClass),
-- *        .class_init = derived_class_init,
-- *    };
-- *
-- * Alternatively, object_class_by_name() can be used to obtain the class and
-- * its non-overridden methods for a specific type. This would correspond to
-- * ``MyClass::method(...)`` in C++.
-- *
-- * The first example of such a QOM method was #CPUClass.reset,
-- * another example is #DeviceClass.realize.
-- *
-- * Standard type declaration and definition macros
-- * ===============================================
-- *
-- * A lot of the code outlined above follows a standard pattern and naming
-- * convention. To reduce the amount of boilerplate code that needs to be
-- * written for a new type there are two sets of macros to generate the
-- * common parts in a standard format.
-- *
-- * A type is declared using the OBJECT_DECLARE macro family. In types
-- * which do not require any virtual functions in the class, the
-- * OBJECT_DECLARE_SIMPLE_TYPE macro is suitable, and is commonly placed
-- * in the header file:
-- *
-- * .. code-block::
-- *    :caption: Declaring a simple type
-- *
-- *     OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-- *
-- * This is equivalent to the following:
-- *
-- * .. code-block::
-- *    :caption: Expansion from declaring a simple type
-- *
-- *     typedef struct MyDevice MyDevice;
-- *     typedef struct MyDeviceClass MyDeviceClass;
-- *
-- *     G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
-- *
-- *     #define MY_DEVICE_GET_CLASS(void *obj) \
-- *             OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-- *     #define MY_DEVICE_CLASS(void *klass) \
-- *             OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-- *     #define MY_DEVICE(void *obj)
-- *             OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-- *
-- *     struct MyDeviceClass {
-- *         DeviceClass parent_class;
-- *     };
-- *
-- * The 'struct MyDevice' needs to be declared separately.
-- * If the type requires virtual functions to be declared in the class
-- * struct, then the alternative OBJECT_DECLARE_TYPE() macro can be
-- * used. This does the same as OBJECT_DECLARE_SIMPLE_TYPE(), but without
-- * the 'struct MyDeviceClass' definition.
-- *
-- * To implement the type, the OBJECT_DEFINE macro family is available.
-- * In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
-- *
-- * .. code-block::
-- *    :caption: Defining a simple type
-- *
-- *     OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-- *
-- * This is equivalent to the following:
-- *
-- * .. code-block::
-- *    :caption: Expansion from defining a simple type
-- *
-- *     static void my_device_finalize(Object *obj);
-- *     static void my_device_class_init(ObjectClass *oc, void *data);
-- *     static void my_device_init(Object *obj);
-- *
-- *     static const TypeInfo my_device_info = {
-- *         .parent = TYPE_DEVICE,
-- *         .name = TYPE_MY_DEVICE,
-- *         .instance_size = sizeof(MyDevice),
-- *         .instance_init = my_device_init,
-- *         .instance_finalize = my_device_finalize,
-- *         .class_size = sizeof(MyDeviceClass),
-- *         .class_init = my_device_class_init,
-- *     };
-- *
-- *     static void
-- *     my_device_register_types(void)
-- *     {
-- *         type_register_static(&my_device_info);
-- *     }
-- *     type_init(my_device_register_types);
-- *
-- * This is sufficient to get the type registered with the type
-- * system, and the three standard methods now need to be implemented
-- * along with any other logic required for the type.
-- *
-- * If the type needs to implement one or more interfaces, then the
-- * OBJECT_DEFINE_TYPE_WITH_INTERFACES() macro can be used instead.
-- * This accepts an array of interface type names.
-- *
-- * .. code-block::
-- *    :caption: Defining a simple type implementing interfaces
-- *
-- *     OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
-- *                                        MY_DEVICE, DEVICE,
-- *                                        { TYPE_USER_CREATABLE }, { NULL })
-- *
-- * If the type is not intended to be instantiated, then then
-- * the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-- *
-- * .. code-block::
-- *    :caption: Defining a simple abstract type
-- *
-- *     OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-- */
--
--
- typedef struct ObjectProperty ObjectProperty;
- 
- /**
--- 
-2.26.2
+Status           : SUCCESS
 
+Note:
+Changes denoted by '-----' are less than 0.01%.
+
+--------------------------------------------------------
+            SUMMARY REPORT - COMMIT 9435a8b3
+--------------------------------------------------------
+                    AVERAGE RESULTS
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 158 530 784       -----     +1.704%
+alpha              1 914 942 924       -----     +3.522%
+arm                8 076 533 542       -----     +2.308%
+hppa               4 261 686 945       -----     +3.163%
+m68k               2 690 301 917       -----     +7.134%
+mips               1 861 908 658       -----     +2.485%
+mipsel             2 008 238 228       -----     +2.676%
+mips64             1 918 619 080       -----     +2.817%
+mips64el           2 051 558 749       -----     +3.026%
+ppc                2 480 186 117       -----      +3.11%
+ppc64              2 576 712 845       -----     +3.143%
+ppc64le            2 558 834 556       -----     +3.172%
+riscv64            1 406 686 610       -----     +2.648%
+s390x              3 158 138 926       -----     +3.119%
+sh4                2 364 607 396       -----     +3.341%
+sparc64            3 318 699 569       -----     +3.855%
+x86_64             1 775 939 491       -----     +2.167%
+--------------------------------------------------------
+
+                   DETAILED RESULTS
+--------------------------------------------------------
+Test Program: dijkstra_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            3 062 763 459       -----      +1.43%
+alpha              3 191 841 001       -----     +3.695%
+arm               16 357 297 933       -----     +2.348%
+hppa               7 228 403 780       -----     +3.086%
+m68k               4 294 067 102       -----     +9.693%
+mips               3 051 322 440       -----     +2.423%
+mipsel             3 231 546 639       -----      +2.87%
+mips64             3 245 809 829       -----     +2.595%
+mips64el           3 414 221 164       -----     +3.021%
+ppc                4 914 569 790       -----     +4.741%
+ppc64              5 098 154 111       -----     +4.565%
+ppc64le            5 082 401 939       -----      +4.58%
+riscv64            2 192 269 262       -----     +1.954%
+s390x              4 584 587 581       -----     +2.898%
+sh4                3 949 198 637       -----     +3.468%
+sparc64            4 586 104 691       -----     +4.235%
+x86_64             2 484 245 145       -----     +1.757%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: dijkstra_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 210 378 588       -----     +1.502%
+alpha              1 494 107 106       -----     +2.148%
+arm                8 263 049 727       -----     +2.667%
+hppa               5 207 320 779       -----     +3.047%
+m68k               1 725 888 114       -----     +2.528%
+mips               1 495 115 474       -----     +1.484%
+mipsel             1 497 166 302       -----      +1.48%
+mips64             1 715 414 160       -----     +1.893%
+mips64el           1 695 215 089       -----     +1.909%
+ppc                2 014 612 573       -----     +1.822%
+ppc64              2 206 266 568       -----     +2.138%
+ppc64le            2 197 979 170       -----     +2.145%
+riscv64            1 354 881 275       -----     +2.393%
+s390x              2 916 095 691       -----     +1.236%
+sh4                1 990 694 661       -----     +2.678%
+sparc64            2 874 141 872       -----     +3.827%
+x86_64             1 554 138 280       -----      +2.13%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: matmult_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            1 412 435 761       -----     +0.313%
+alpha              3 233 965 145       -----     +7.472%
+arm                8 545 308 485       -----      +1.09%
+hppa               3 483 531 263       -----     +4.466%
+m68k               3 919 118 884       -----    +18.433%
+mips               2 344 652 365       -----     +4.085%
+mipsel             3 329 919 269       -----     +5.178%
+mips64             2 359 024 447       -----     +4.075%
+mips64el           3 343 645 738       -----     +5.166%
+ppc                3 209 508 853       -----     +3.248%
+ppc64              3 287 502 957       -----     +3.173%
+ppc64le            3 287 153 675       -----     +3.172%
+riscv64            1 221 606 805       -----     +0.277%
+s390x              2 874 163 366       -----     +5.826%
+sh4                3 544 105 721       -----      +6.42%
+sparc64            3 426 096 125       -----     +7.138%
+x86_64             1 249 071 152       -----     +0.334%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: matmult_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64              598 864 863       -----     +0.616%
+alpha                372 414 237       -----     +0.671%
+arm                  746 707 111       -----     +1.479%
+hppa                 674 272 873       -----     +1.182%
+m68k                 410 580 652       -----     +0.921%
+mips                 499 574 846       -----     +0.506%
+mipsel               499 528 256       -----     +0.503%
+mips64               481 532 174       -----     +0.595%
+mips64el             465 054 923       -----     +0.618%
+ppc                  341 384 086       -----     +0.959%
+ppc64                393 795 623       -----     +0.966%
+ppc64le              393 960 396       -----      +0.96%
+riscv64              351 687 309       -----     +0.779%
+s390x                494 450 640       -----     +0.604%
+sh4                  402 830 492       -----      +0.94%
+sparc64              495 859 497       -----     +1.173%
+x86_64               403 084 915       -----     +0.872%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 709 863 029       -----     +2.424%
+alpha              1 969 439 178       -----     +3.679%
+arm                8 323 171 662       -----     +2.589%
+hppa               3 188 321 174       -----       +2.9%
+m68k               4 953 955 479       -----    +15.153%
+mips               2 123 797 225       -----      +3.05%
+mipsel             2 124 245 267       -----     +3.049%
+mips64             1 999 025 547       -----     +3.404%
+mips64el           1 996 425 900       -----     +3.409%
+ppc                2 819 303 133       -----     +5.436%
+ppc64              2 768 184 484       -----     +5.513%
+ppc64le            2 724 784 344       -----     +5.603%
+riscv64            1 638 315 172       -----      +4.02%
+s390x              2 519 121 166       -----     +3.364%
+sh4                2 595 707 021       -----     +3.001%
+sparc64            3 988 894 171       -----     +2.745%
+x86_64             2 033 621 227       -----     +3.242%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 193 582 978       -----     +2.925%
+alpha              1 521 265 687       -----     +4.191%
+arm                3 465 586 950       -----      +2.76%
+hppa               2 280 038 450       -----     +3.821%
+m68k               1 843 194 263       -----     +3.583%
+mips               1 557 907 115       -----     +3.855%
+mipsel             1 560 655 719       -----     +3.851%
+mips64             1 563 396 142       -----     +4.411%
+mips64el           1 542 678 568       -----     +4.474%
+ppc                1 728 753 603       -----     +3.668%
+ppc64              1 842 443 090       -----     +3.555%
+ppc64le            1 791 802 082       -----      +3.66%
+riscv64            1 348 872 936       -----     +4.654%
+s390x              2 184 086 583       -----      +3.32%
+sh4                1 946 655 083       -----     +3.633%
+sparc64            3 452 122 015       -----     +2.934%
+x86_64             1 813 700 562       -----     +3.546%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_string
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 592 380 801       -----     +2.474%
+alpha              1 855 811 010       -----     +3.486%
+arm                7 347 829 719       -----     +2.684%
+hppa               4 758 759 606       -----     +3.543%
+m68k               2 376 789 657       -----     +3.566%
+mips               2 166 456 607       -----     +2.525%
+mipsel             2 163 390 517       -----     +2.528%
+mips64             2 029 232 065       -----     +3.116%
+mips64el           2 011 629 663       -----     +3.145%
+ppc                2 492 974 714       -----     +2.674%
+ppc64              2 464 701 159       -----     +2.488%
+ppc64le            2 445 233 729       -----     +2.505%
+riscv64            1 625 024 128       -----     +3.951%
+s390x              4 194 618 404       -----     +6.623%
+sh4                2 164 286 704       -----     +3.173%
+sparc64            4 299 396 367       -----     +4.062%
+x86_64             2 940 161 055       -----     +2.638%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: search_string
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 487 976 795       -----     +1.947%
+alpha              1 680 700 035       -----     +2.834%
+arm               11 563 316 755       -----     +2.849%
+hppa               7 272 847 637       -----     +3.263%
+m68k               1 998 821 185       -----     +3.198%
+mips               1 656 443 199       -----      +1.95%
+mipsel             1 659 453 855       -----     +1.947%
+mips64             1 955 518 278       -----     +2.446%
+mips64el           1 943 598 954       -----     +2.462%
+ppc                2 320 382 187       -----     +2.334%
+ppc64              2 552 654 771       -----     +2.742%
+ppc64le            2 547 361 116       -----     +2.748%
+riscv64            1 520 835 998       -----     +3.157%
+s390x              5 497 987 980       -----     +1.078%
+sh4                2 323 380 855       -----     +3.417%
+sparc64            3 426 981 821       -----     +4.726%
+x86_64             1 729 493 593       -----     +2.814%
+--------------------------------------------------------
+
+
+</pre></body></html>
+
+--===============0067788902490198713==--
 
