@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE95265194
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 22:58:08 +0200 (CEST)
-Received: from localhost ([::1]:49864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAAE2651DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 23:03:45 +0200 (CEST)
+Received: from localhost ([::1]:33654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGTdv-0001rR-0H
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 16:58:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41108)
+	id 1kGTjM-00077T-3D
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 17:03:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kGTae-0004Mv-4N; Thu, 10 Sep 2020 16:54:44 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kGTac-0000I4-ER; Thu, 10 Sep 2020 16:54:43 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a17so8650496wrn.6;
- Thu, 10 Sep 2020 13:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jeiRRdPErRrtK9Gj9+R/jotAsL7dELgR1Q5VvxS+mnE=;
- b=MwT0F4ZkItt59sl5P0p/1brApND5TzyvcuJOxWoG1vHwonqaKFLSRKqs6voVhxcasF
- 6mIWcvE8h8AIy2oPhmXI6JIkFeuC1ws0l38c05VmustMPfA282GXWDXPD2nOO1HMAidd
- UASReW9SSRUMGP0J/PbRcElHSi8pQ9vEKgt50rN/qTepWT8NAxIwLHHMFNnaglrl+E/g
- YLC9gFZea+zzrOd8qvr5EBN/QPS97wq9oMKqX3gufJOEwZcsP4n5rhmRacmz04dcMXbz
- z80xviK3eGRe2J93G9HQmbudw+S3R+eau7gmxiwGZY8f3NQ26CqEdohj8Ri1gNC9xUxh
- imdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jeiRRdPErRrtK9Gj9+R/jotAsL7dELgR1Q5VvxS+mnE=;
- b=YKcILOMPoftgfFYVuSvyPTS/d3EICEGtL4wJZ9Dm277UEFeA0L3xJs2mbkh1Sp///O
- 57dZbvGNIvO0CF0DGgUNk6yeVRStJuYO7RKEOPI0ooGDSNZ32IBAXFmjpNdSHbrAKEad
- ce3qyeREnZRRAYvcJrKi4LYzI0juHCG0Fc87WkR8Qo7b4i06Oy27Vg5rBED4NYrIO+dl
- AZeQYOixtdocZsT8TkIE16aWU9WxEVfqnv2H5H60vFIWU4xqfIJTxFrufV3ZPoy0AC7s
- 7iqnnef82zYqzXEHWH7KJ1ldSJEx6pyf9g/VOc1Dt3m0VN9apyv9K9A9JhjcBmfA2Wne
- F8gg==
-X-Gm-Message-State: AOAM532j9GyWdYKfz/zt4n34cv2kI0gUnvOEzyTfxU368rHn01n6nxAv
- eTbLQYl+6fwf+mJ190yFKqkBFb3lMWg=
-X-Google-Smtp-Source: ABdhPJz43sqO8iE6A8rNnWADbMBL/Ns5liM0btki4oJoBmddWIVTjYjFWVrjrMcAnTkBp7mqadFOEA==
-X-Received: by 2002:adf:bb44:: with SMTP id x4mr10814862wrg.76.1599771280425; 
- Thu, 10 Sep 2020 13:54:40 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id t1sm5089317wmi.16.2020.09.10.13.54.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 13:54:39 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 7/7] hw/arm/tosa: Replace fprintf() calls by LED devices
-Date: Thu, 10 Sep 2020 22:54:29 +0200
-Message-Id: <20200910205429.727766-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200910205429.727766-1-f4bug@amsat.org>
-References: <20200910205429.727766-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
+ id 1kGThp-0005fB-8A; Thu, 10 Sep 2020 17:02:09 -0400
+Received: from mgw-02.mpynet.fi ([82.197.21.91]:41234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
+ id 1kGThk-0001Ki-Pn; Thu, 10 Sep 2020 17:02:07 -0400
+Received: from pps.filterd (mgw-02.mpynet.fi [127.0.0.1])
+ by mgw-02.mpynet.fi (8.16.0.42/8.16.0.42) with SMTP id 08AKrBlF058142;
+ Fri, 11 Sep 2020 00:01:23 +0300
+Received: from ex13.tuxera.com (ex13.tuxera.com [178.16.184.72])
+ by mgw-02.mpynet.fi with ESMTP id 33bxbvp0j9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Fri, 11 Sep 2020 00:01:23 +0300
+Received: from [192.168.0.79] (62.78.240.173) by tuxera-exch.ad.tuxera.com
+ (10.20.48.11) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 11 Sep
+ 2020 00:01:22 +0300
+Subject: Re: [PATCH 07/14] block/blklogwrites: drop error propagation
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ <qemu-block@nongnu.org>
+References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
+ <20200909185930.26524-8-vsementsov@virtuozzo.com>
+From: Ari Sundholm <ari@tuxera.com>
+Message-ID: <8856cf15-4092-55b7-6537-a6beb4ce8a18@tuxera.com>
+Date: Fri, 11 Sep 2020 00:01:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200909185930.26524-8-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [62.78.240.173]
+X-ClientProxiedBy: tuxera-exch.ad.tuxera.com (10.20.48.11) To
+ tuxera-exch.ad.tuxera.com (10.20.48.11)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-10_09:2020-09-10,
+ 2020-09-10 signatures=0
+X-Proofpoint-Spam-Details: rule=mpy_notspam policy=mpy score=0 bulkscore=0
+ malwarescore=0 mlxscore=0
+ suspectscore=0 spamscore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009100185
+Received-SPF: pass client-ip=82.197.21.91; envelope-from=ari@tuxera.com;
+ helo=mgw-02.mpynet.fi
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 17:01:57
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,123 +75,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: kwolf@redhat.com, berto@igalia.com, pavel.dovgaluk@ispras.ru,
+ qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org, stefanha@redhat.com,
+ pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The recently added LED device reports LED status changes with
-the 'led_set_intensity' trace event. It is less invasive than
-the fprintf() calls. We need however to have a binary built
-with tracing support.
+Hi Vladimir!
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/tosa.c  | 40 +++++++++++++++-------------------------
- hw/arm/Kconfig |  1 +
- 2 files changed, 16 insertions(+), 25 deletions(-)
+Thank you for working on this. My comments below.
 
-diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index 90eef1f14dd..f23651fd775 100644
---- a/hw/arm/tosa.c
-+++ b/hw/arm/tosa.c
-@@ -24,6 +24,7 @@
- #include "hw/irq.h"
- #include "hw/ssi/ssi.h"
- #include "hw/sysbus.h"
-+#include "hw/misc/led.h"
- #include "exec/address-spaces.h"
- 
- #define TOSA_RAM 0x04000000
-@@ -81,26 +82,6 @@ typedef struct TosaMiscGPIOState {
-     SysBusDevice parent_obj;
- } TosaMiscGPIOState;
- 
--static void tosa_gpio_leds(void *opaque, int line, int level)
--{
--    switch (line) {
--    case 0:
--        fprintf(stderr, "blue LED %s.\n", level ? "on" : "off");
--        break;
--    case 1:
--        fprintf(stderr, "green LED %s.\n", level ? "on" : "off");
--        break;
--    case 2:
--        fprintf(stderr, "amber LED %s.\n", level ? "on" : "off");
--        break;
--    case 3:
--        fprintf(stderr, "wlan LED %s.\n", level ? "on" : "off");
--        break;
--    default:
--        g_assert_not_reached();
--    }
--}
--
- static void tosa_reset(void *opaque, int line, int level)
- {
-     if (level) {
-@@ -112,7 +93,6 @@ static void tosa_misc_gpio_init(Object *obj)
- {
-     DeviceState *dev = DEVICE(obj);
- 
--    qdev_init_gpio_in_named(dev, tosa_gpio_leds, "leds", 4);
-     qdev_init_gpio_in_named(dev, tosa_reset, "reset", 1);
- }
- 
-@@ -122,6 +102,7 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
-                 TC6393xbState *tmio)
- {
-     DeviceState *misc_gpio;
-+    LEDState *led[4];
- 
-     misc_gpio = sysbus_create_simple(TYPE_TOSA_MISC_GPIO, -1, NULL);
- 
-@@ -143,14 +124,23 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
-                         qdev_get_gpio_in(cpu->gpio, TOSA_GPIO_JC_CF_IRQ),
-                         NULL);
- 
-+    led[0] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_BLUE, "bluetooth");
-+    led[1] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_GREEN, "note");
-+    led[2] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_AMBER, "charger-error");
-+    led[3] = led_create_simple(OBJECT(misc_gpio), GPIO_POLARITY_ACTIVE_HIGH,
-+                               LED_COLOR_GREEN, "wlan");
-+
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_BT_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 0));
-+                          qdev_get_gpio_in(DEVICE(led[0]), 0));
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_NOTE_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 1));
-+                          qdev_get_gpio_in(DEVICE(led[1]), 0));
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_CHRG_ERR_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 2));
-+                          qdev_get_gpio_in(DEVICE(led[2]), 0));
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_WLAN_LED,
--                          qdev_get_gpio_in_named(misc_gpio, "leds", 3));
-+                          qdev_get_gpio_in(DEVICE(led[3]), 0));
- 
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_TC6393XB_L3V_ON, tc6393xb_l3v_get(tmio));
- 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 06ba1c355b1..bbcfa098ae2 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -150,6 +150,7 @@ config TOSA
-     select ZAURUS  # scoop
-     select MICRODRIVE
-     select PXA2XX
-+    select LED
- 
- config SPITZ
-     bool
--- 
-2.26.2
+On 9/9/20 9:59 PM, Vladimir Sementsov-Ogievskiy wrote:
+> It's simple to avoid error propagation in blk_log_writes_open(), we
+> just need to refactor blk_log_writes_find_cur_log_sector() a bit.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/blklogwrites.c | 23 +++++++++++------------
+>   1 file changed, 11 insertions(+), 12 deletions(-)
+> 
+> diff --git a/block/blklogwrites.c b/block/blklogwrites.c
+> index 7ef046cee9..c7da507b2d 100644
+> --- a/block/blklogwrites.c
+> +++ b/block/blklogwrites.c
+> @@ -96,10 +96,10 @@ static inline bool blk_log_writes_sector_size_valid(uint32_t sector_size)
+>           sector_size < (1ull << 24);
+>   }
+>   
+> -static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
+> -                                                   uint32_t sector_size,
+> -                                                   uint64_t nr_entries,
+> -                                                   Error **errp)
+> +static int64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
 
+I'd rather not change the return type for reasons detailed below.
+
+> +                                                  uint32_t sector_size,
+> +                                                  uint64_t nr_entries,
+> +                                                  Error **errp)
+>   {
+>       uint64_t cur_sector = 1;
+>       uint64_t cur_idx = 0;
+> @@ -112,13 +112,13 @@ static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
+>           if (read_ret < 0) {
+>               error_setg_errno(errp, -read_ret,
+>                                "Failed to read log entry %"PRIu64, cur_idx);
+> -            return (uint64_t)-1ull;
+> +            return read_ret;
+
+This is OK, provided the change in return type signedness is necessary 
+in the first place.
+
+>           }
+>   
+>           if (cur_entry.flags & ~cpu_to_le64(LOG_FLAG_MASK)) {
+>               error_setg(errp, "Invalid flags 0x%"PRIx64" in log entry %"PRIu64,
+>                          le64_to_cpu(cur_entry.flags), cur_idx);
+> -            return (uint64_t)-1ull;
+> +            return -EINVAL;
+
+This is OK, provided the return type signedness change is necessary, 
+although we already do have errp to indicate any errors.
+
+>           }
+>   
+>           /* Account for the sector of the entry itself */
+> @@ -143,7 +143,6 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
+>   {
+>       BDRVBlkLogWritesState *s = bs->opaque;
+>       QemuOpts *opts;
+> -    Error *local_err = NULL;
+>       int ret;
+>       uint64_t log_sector_size;
+>       bool log_append;
+> @@ -215,15 +214,15 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
+>           s->nr_entries = 0;
+>   
+>           if (blk_log_writes_sector_size_valid(log_sector_size)) {
+> -            s->cur_log_sector =
+> +            int64_t cur_log_sector =
+>                   blk_log_writes_find_cur_log_sector(s->log_file, log_sector_size,
+> -                                    le64_to_cpu(log_sb.nr_entries), &local_err);
+> -            if (local_err) {
+> -                ret = -EINVAL;
+> -                error_propagate(errp, local_err);
+> +                                    le64_to_cpu(log_sb.nr_entries), errp);
+> +            if (cur_log_sector < 0) {
+> +                ret = cur_log_sector;
+
+This changes the semantics slightly. Changing the return type to int64 
+may theoretically cause valid return values to be interpreted as errors. 
+Since we already do have a dedicated out pointer for the error value 
+(errp), why not use it?
+
+Assigning cur_log_sector to ret looks a bit odd to me. Why not use the 
+original -EINVAL - or maybe some more appropriate errno value than -EINVAL?
+
+I think the desired effect of this change could be achieved with less 
+churn. How about just making just the following change in addition to 
+adding ERRP_GUARD() to the beginning of the function and getting rid of 
+local_err:
+
+-                                    le64_to_cpu(log_sb.nr_entries), 
+&local_err);
++                                    le64_to_cpu(log_sb.nr_entries), errp);
+-            if (local_err) {
++            if (*errp) {
+                  ret = -EINVAL;
+-                error_propagate(errp, local_err);
+>                   goto fail_log;
+>               }
+>   
+> +            s->cur_log_sector = cur_log_sector;
+>               s->nr_entries = le64_to_cpu(log_sb.nr_entries);
+>           }
+>       } else {
+> 
+
+Best regards,
+Ari Sundholm
+ari@tuxera.com
 
