@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054062642AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:46:01 +0200 (CEST)
-Received: from localhost ([::1]:34586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE34126437C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:15:17 +0200 (CEST)
+Received: from localhost ([::1]:53366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJ9U-0003wS-2W
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:46:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37132)
+	id 1kGJbo-00080i-Tj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kGJ8Y-0003UM-PD
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:45:02 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49905
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kGJYj-0003jc-VE
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:12:05 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28610
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kGJ8V-0004VT-N2
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:45:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kGJYh-0008Px-Iv
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:12:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599731097;
+ s=mimecast20190719; t=1599732722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bGa7uuTKrniryse7b6RfRiHvGWqP43tAL7Cv37d0EU8=;
- b=iEnqcx0xKmqoI7Q+XGU87HldLuPE6kpccrhajMilMlSnw7FXPuzoXzzVonEFcUvjoVgVzV
- URjizPWroOsbNgxJscyEzoesNrJJqlS9WlTPveXUx50h+I38/FTOKMAM84u+A2moiw33PN
- CvMXx36BFtNmGzh9Qwa4S1YkSm3m4F0=
+ bh=ma7q1simR2rynLoRew9FwTp/KAFJ6ksUqQ5XP2CSOq0=;
+ b=XLrgefKIQTablJDmXWefPMfYPUfVQ6TbE6ZixFwRV/IMJiigsBACStn8CBdh7C/BHuDYtV
+ pSvVdaJhtM8Vi3dPrwEivs/Tq+rROlY2CFIZAXVZZ2wyzFGsqo+F8Fdw1k22nBZM4wNqOh
+ 21bndo+V+9IOxIOhLtv2N32PWGjMSws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-bqllOOGpO1WwWzTlBNWy8w-1; Thu, 10 Sep 2020 05:44:56 -0400
-X-MC-Unique: bqllOOGpO1WwWzTlBNWy8w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-221-uJvZyDXzOhudDSsKvdVMnw-1; Thu, 10 Sep 2020 06:11:51 -0400
+X-MC-Unique: uJvZyDXzOhudDSsKvdVMnw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F74310082E6
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 09:44:55 +0000 (UTC)
-Received: from work-vm (ovpn-113-128.ams2.redhat.com [10.36.113.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4CD73A40;
- Thu, 10 Sep 2020 09:44:50 +0000 (UTC)
-Date: Thu, 10 Sep 2020 10:44:47 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2 5/6] migration: Maintain postcopy faulted addresses
-Message-ID: <20200910094447.GB2814@work-vm>
-References: <20200908203022.341615-1-peterx@redhat.com>
- <20200908203022.341615-6-peterx@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FF94189E60A
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 10:11:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 819BE702E7;
+ Thu, 10 Sep 2020 10:11:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 93D64113865F; Thu, 10 Sep 2020 09:44:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Meson can't recover from deletion of generated QAPI file(s)
+References: <87pn6vw2he.fsf@dusky.pond.sub.org>
+ <233ad355-3803-fb42-a27d-164a3c6a5e7e@redhat.com>
+Date: Thu, 10 Sep 2020 09:44:54 +0200
+In-Reply-To: <233ad355-3803-fb42-a27d-164a3c6a5e7e@redhat.com> (Paolo
+ Bonzini's message of "Wed, 9 Sep 2020 16:34:22 +0200")
+Message-ID: <87k0x2qdmx.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200908203022.341615-6-peterx@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 01:44:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 00:49:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,242 +83,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaohui Li <xiaohli@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Maintain a list of faulted addresses on the destination host for which we're
-> waiting on.  This is implemented using a GTree rather than a real list to make
-> sure even there're plenty of vCPUs/threads that are faulting, the lookup will
-> still be fast with O(log(N)) (because we'll do that after placing each page).
-> It should bring a slight overhead, but ideally that shouldn't be a big problem
-> simply because in most cases the requested page list will be short.
-> 
-> Actually we did similar things for postcopy blocktime measurements.  This patch
-> didn't use that simply because:
-> 
->   (1) blocktime measurement is towards vcpu threads only, but here we need to
->       record all faulted addresses, including main thread and external
->       thread (like, DPDK via vhost-user).
-> 
->   (2) blocktime measurement will require UFFD_FEATURE_THREAD_ID, but here we
->       don't want to add that extra dependency on the kernel version since not
->       necessary.  E.g., we don't need to know which thread faulted on which
->       page, we also don't care about multiple threads faulting on the same
->       page.  But we only care about what addresses are faulted so waiting for a
->       page copying from src.
-> 
->   (3) blocktime measurement is not enabled by default.  However we need this by
->       default especially for postcopy recover.
-> 
-> Another thing to mention is that this patch introduced a new mutex to serialize
-> the receivedmap and the page_requested tree, however that serialization does
-> not cover other procedures like UFFDIO_COPY.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> On 09/09/20 14:37, Markus Armbruster wrote:
+>> Watch this:
+>> 
+>>     $ rm qapi/qapi-types-error.h 
+>>     $ make
+>>     Generating qemu-version.h with a meson_exe.py custom command
+>>     Compiling C object qom/libqom.fa.p/object_interfaces.c.o
+>>     In file included from ../qom/object_interfaces.c:4:
+>>     /work/armbru/qemu/include/qapi/error.h:275:10: fatal error: qapi/qapi-types-error.h: No such file or directory
+>>       275 | #include "qapi/qapi-types-error.h"
+>>           |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>     compilation terminated.
+>>     make: *** [Makefile.ninja:348: qom/libqom.fa.p/object_interfaces.c.o] Error 1
+>> 
+>> To recover, I have to run qapi-gen.py manually and exactly right, or
+>> blow away the build tree and start over.
+>> 
+>> The old build system did what a build system should: it remade the files
+>> that are missing or out of date.
+>> 
+>> I'm still too clueless about Meson to debug this, but I hope I can learn
+>> from watching you fix it.
+>
+> Unfortunately you won't learn much about Meson, you would learn that 
+> Make is messy but you don't need that.  You can also learn a little bit 
+> about the new design of the QEMU build system though, so I'll explain 
+> and not just send a patch.
 
-> ---
->  migration/migration.c    | 44 +++++++++++++++++++++++++++++++++++++++-
->  migration/migration.h    | 19 ++++++++++++++++-
->  migration/postcopy-ram.c | 18 +++++++++++++---
->  migration/trace-events   |  2 ++
->  4 files changed, 78 insertions(+), 5 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 6e06b6f4e6..3a12378429 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -143,6 +143,13 @@ static int migration_maybe_pause(MigrationState *s,
->                                   int new_state);
->  static void migrate_fd_cancel(MigrationState *s);
->  
-> +static gint page_request_addr_cmp(gconstpointer ap, gconstpointer bp)
-> +{
-> +    uint64_t a = (uint64_t) ap, b = (uint64_t) bp;
-> +
-> +    return (a > b) - (a < b);
-> +}
-> +
->  void migration_object_init(void)
->  {
->      MachineState *ms = MACHINE(qdev_get_machine());
-> @@ -165,6 +172,8 @@ void migration_object_init(void)
->      qemu_event_init(&current_incoming->main_thread_load_event, false);
->      qemu_sem_init(&current_incoming->postcopy_pause_sem_dst, 0);
->      qemu_sem_init(&current_incoming->postcopy_pause_sem_fault, 0);
-> +    qemu_mutex_init(&current_incoming->page_request_mutex);
-> +    current_incoming->page_requested = g_tree_new(page_request_addr_cmp);
->  
->      if (!migration_object_check(current_migration, &err)) {
->          error_report_err(err);
-> @@ -238,6 +247,11 @@ void migration_incoming_state_destroy(void)
->          mis->postcopy_remote_fds = NULL;
->      }
->  
-> +    if (mis->page_requested) {
-> +        g_tree_destroy(mis->page_requested);
-> +        mis->page_requested = NULL;
-> +    }
-> +
->      if (mis->socket_address_list) {
->          qapi_free_SocketAddressList(mis->socket_address_list);
->          mis->socket_address_list = NULL;
-> @@ -247,6 +261,7 @@ void migration_incoming_state_destroy(void)
->      qemu_sem_destroy(&mis->postcopy_pause_sem_dst);
->      qemu_sem_destroy(&mis->postcopy_pause_sem_fault);
->      qemu_mutex_destroy(&mis->rp_mutex);
-> +    qemu_mutex_destroy(&mis->page_request_mutex);
->  }
->  
->  static void migrate_generate_event(int new_state)
-> @@ -357,8 +372,35 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
->  }
->  
->  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
-> -                              RAMBlock *rb, ram_addr_t start)
-> +                              RAMBlock *rb, ram_addr_t start, uint64_t haddr)
->  {
-> +    uint64_t aligned = haddr & (-qemu_target_page_size());
-> +    bool received;
-> +
-> +    WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
-> +        received = ramblock_recv_bitmap_test_byte_offset(rb, start);
-> +        if (!received && !g_tree_lookup(mis->page_requested,
-> +                                        (gpointer) aligned)) {
-> +            /*
-> +             * The page has not been received, and it's not yet in the page
-> +             * request list.  Queue it.  Set the value of element to 1, so that
-> +             * things like g_tree_lookup() will return TRUE (1) when found.
-> +             */
-> +            g_tree_insert(mis->page_requested, (gpointer) aligned,
-> +                          (gpointer) 1);
-> +            mis->page_requested_count++;
-> +            trace_postcopy_page_req_add(aligned, mis->page_requested_count);
-> +        }
-> +    }
-> +
-> +    /*
-> +     * If the page is there, skip sending the message.  We don't even need the
-> +     * lock because as long as the page arrived, it'll be there forever.
-> +     */
-> +    if (received) {
-> +        return 0;
-> +    }
-> +
->      return migrate_send_rp_message_req_pages(mis, rb, start);
->  }
->  
-> diff --git a/migration/migration.h b/migration/migration.h
-> index f552725305..81311dc154 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -103,6 +103,23 @@ struct MigrationIncomingState {
->  
->      /* List of listening socket addresses  */
->      SocketAddressList *socket_address_list;
-> +
-> +    /* A tree of pages that we requested to the source VM */
-> +    GTree *page_requested;
-> +    /* For debugging purpose only, but would be nice to keep */
-> +    int page_requested_count;
-> +    /*
-> +     * The mutex helps to maintain the requested pages that we sent to the
-> +     * source, IOW, to guarantee coherent between the page_requests tree and
-> +     * the per-ramblock receivedmap.  Note! This does not guarantee consistency
-> +     * of the real page copy procedures (using UFFDIO_[ZERO]COPY).  E.g., even
-> +     * if one bit in receivedmap is cleared, UFFDIO_COPY could have happened
-> +     * for that page already.  This is intended so that the mutex won't
-> +     * serialize and blocked by slow operations like UFFDIO_* ioctls.  However
-> +     * this should be enough to make sure the page_requested tree always
-> +     * contains valid information.
-> +     */
-> +    QemuMutex page_request_mutex;
->  };
->  
->  MigrationIncomingState *migration_incoming_get_current(void);
-> @@ -329,7 +346,7 @@ void migrate_send_rp_shut(MigrationIncomingState *mis,
->  void migrate_send_rp_pong(MigrationIncomingState *mis,
->                            uint32_t value);
->  int migrate_send_rp_req_pages(MigrationIncomingState *mis, RAMBlock *rb,
-> -                              ram_addr_t start);
-> +                              ram_addr_t start, uint64_t haddr);
->  int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
->                                        RAMBlock *rb, ram_addr_t start);
->  void migrate_send_rp_recv_bitmap(MigrationIncomingState *mis,
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index d333c3fd0e..a30627e838 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -684,7 +684,7 @@ int postcopy_request_shared_page(struct PostCopyFD *pcfd, RAMBlock *rb,
->                                          qemu_ram_get_idstr(rb), rb_offset);
->          return postcopy_wake_shared(pcfd, client_addr, rb);
->      }
-> -    migrate_send_rp_req_pages(mis, rb, aligned_rbo);
-> +    migrate_send_rp_req_pages(mis, rb, aligned_rbo, client_addr);
->      return 0;
->  }
->  
-> @@ -979,7 +979,8 @@ retry:
->               * Send the request to the source - we want to request one
->               * of our host page sizes (which is >= TPS)
->               */
-> -            ret = migrate_send_rp_req_pages(mis, rb, rb_offset);
-> +            ret = migrate_send_rp_req_pages(mis, rb, rb_offset,
-> +                                            msg.arg.pagefault.address);
->              if (ret) {
->                  /* May be network failure, try to wait for recovery */
->                  if (ret == -EIO && postcopy_pause_fault_thread(mis)) {
-> @@ -1149,10 +1150,21 @@ static int qemu_ufd_copy_ioctl(MigrationIncomingState *mis, void *host_addr,
->          ret = ioctl(userfault_fd, UFFDIO_ZEROPAGE, &zero_struct);
->      }
->      if (!ret) {
-> +        qemu_mutex_lock(&mis->page_request_mutex);
->          ramblock_recv_bitmap_set_range(rb, host_addr,
->                                         pagesize / qemu_target_page_size());
-> +        /*
-> +         * If this page resolves a page fault for a previous recorded faulted
-> +         * address, take a special note to maintain the requested page list.
-> +         */
-> +        if (g_tree_lookup(mis->page_requested, (gconstpointer)host_addr)) {
-> +            g_tree_remove(mis->page_requested, (gconstpointer)host_addr);
-> +            mis->page_requested_count--;
-> +            trace_postcopy_page_req_del((uint64_t)host_addr,
-> +                                        mis->page_requested_count);
-> +        }
-> +        qemu_mutex_unlock(&mis->page_request_mutex);
->          mark_postcopy_blocktime_end((uintptr_t)host_addr);
-> -
->      }
->      return ret;
->  }
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 4ab0a503d2..b89ce02cb0 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -157,6 +157,7 @@ postcopy_pause_return_path(void) ""
->  postcopy_pause_return_path_continued(void) ""
->  postcopy_pause_continued(void) ""
->  postcopy_start_set_run(void) ""
-> +postcopy_page_req_add(uint64_t addr, int count) "new page req 0x%lx total %d"
->  source_return_path_thread_bad_end(void) ""
->  source_return_path_thread_end(void) ""
->  source_return_path_thread_entry(void) ""
-> @@ -267,6 +268,7 @@ postcopy_ram_incoming_cleanup_blocktime(uint64_t total) "total blocktime %" PRIu
->  postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_offset) "for %s in %s offset 0x%"PRIx64
->  postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
->  postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
-> +postcopy_page_req_del(uint64_t addr, int count) "resolved page req 0x%lx total %d"
->  
->  get_mem_fault_cpu_index(int cpu, uint32_t pid) "cpu: %d, pid: %u"
->  
-> -- 
-> 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Appreciated!
+
+> The bad news this tells you about the build system is that, when 
+> debugging an issue, you have to figure out if it's a bug in Meson,
+> in the meson.build files, or in ninja2make.  Of course the second
+> is the common case, but you never know especially now that there are
+> more people using ninja2make in anger.
+>
+> Generating Makefile.ninja gets finicky because ninja (while it has other
+> things I don't like) is a little more expressive than Make as far as
+> simple build rules are concerned, therefore it doesn't need the stamp
+> file trick.  So while we there may be one or two more bugs like this one
+> down the road, ninja2make should not be an issue as soon as its teething
+> problems are solved.
+
+A Make replacement must address its issues to be credible.
+
+Make's traditional inability to directly express "rule updates multiple
+files" and "rule may or may not actually change its target(s)" has
+always been an issue.  Countless Make users have had to learn the stamp
+file work-around, and how to cope with its drawbacks.  I distinctly
+remember grappling with it back in the 90s.
+
+> (As an aside: the GNU Make 4.3 "grouped targets" feature can sometimes
+> eliminate stamp files, but it would not help here.  The stamp file has
+> another feature, namely the custom command can decide not to touch
+> its outputs if they won't change.  This avoid more rebuilds.
+
+This is *essential* when generating headers.  Without it, touching any
+QAPI module or any part of the QAPI generator recompiles pretty much
+everything.
+
+>                                                               Grouped
+> targets don't have a way to do with that).
+
+Yes.  Also, TIL grouped targets :)
+
+> The good news is that there's an easy(ish) way to do this.  The build 
+> system is quite "linear" in how it works, so the first step should be to 
+> look at build.ninja and see what the rules are like.  Here you'd see
+> something like:
+>
+>   build long list of files: CUSTOM_COMMAND actual prerequisites
+>    COMMAND = ...
+>    description = Generating$ shared$ QAPI$ source$ files
+>
+> Your twenty-plus-years-of-writing-Makefiles spidey sense will tingle, as 
+> you can figure out that this is not going to be trivial to convert to 
+> Makefiles.  If you open Makefile.ninja you see the familiar stamp file
+> trick:
+>
+>   long list of files: CUSTOM_COMMAND@57579de3eef.stamp; @:
+>   CUSTOM_COMMAND@57579de3eef.stamp: actual prerequisites
+> 	$(ninja-command-restat)
+>
+> and that's where the bug is.  If you delete one of the output files, Make
+> only runs ":" and does not rebuild it.  One solution is to add:
+>
+>   ifneq (long list of files, $(wildcard long list of files))
+>   .PHONY: CUSTOM_COMMAND@57579de3eef.stamp
+>   endif
+>
+> This way, if any of the prerequites is missing (not just older than the 
+> stamp file), the rule for CUSTOM_COMMAND@57579de3eef.stamp will always 
+> be executed.
+
+Neat trick!
+
+Now I remember the old Makefiles actually didn't recover all by
+themselves either, because they didn't use this trick.  Manual recovery
+was "easy", though: remove the stamp file.
+
+I ran into the "can't recover from deletion of generated QAPI file(s)"
+issue when I updated a silly script of mine that helps me diff them.  To
+force regeneration, the script removes them (relying on ccache to keep
+compilation time in check).  Pre-Meson, it removed the stamp files.  I
+didn't see any in meson.build, so I dropped their removal, nothing
+worked, and I got quite confused.
+
+> This is fairly simple to do:
+>
+> diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
+> index 627a1cab45..6f0e35c727 100755
+> --- a/scripts/ninjatool.py
+> +++ b/scripts/ninjatool.py
+> @@ -908,6 +908,9 @@ class Ninja2Make(NinjaParserEventsWithVars):
+>              else:
+>                  stamp = '%s@%s.stamp' % (rule, sha1_text(targets)[0:11])
+>              self.print('%s: %s; @:' % (targets, stamp))
+> +            self.print('ifneq (%s, $(wildcard %s))' % (targets, targets))
+> +            self.print('.PHONY: %s' % (stamp, ))
+> +            self.print('endif')
+>              self.print('%s: %s | %s; ${ninja-command-restat}' % (stamp, inputs, orderonly))
+>              self.rule_targets[rule].append(stamp)
+>              self.stamp_targets[rule].append(stamp)
+>
+> To avoid this whole class of issues we could just use ninja to build QEMU
+> (Make would launch it, so there would still be no user-facing changes).
+> ninja2make's main strength was that it supported incremental conversion,
+> but right now all of the binaries are built by Meson therefore it's not
+> really *necessary* anymore.  Dropping ninja2make removes a relatively
+> expensive part of the build as well as a nontrivial amount of code.
+
+Makes sense to me.
+
+> Another advantage would be that ninja tracks command lines and automatically
+> rebuilds things if the command line has changed.  This is quite hard and
+> expensive to do with Make so ninja2make does not even try, but it has bitten
+> Philippe.
+>
+> Of course, the main disadvantage is that it adds another dependency.
+
+Yes.  Drop in the bucket?
+
+We already depend on ninja-the-language, we just feed it to ninja2make
+instead of ninja.
+
+> I will send the above patch formally soonish, but I wouldn't mind if somebody
+> else helped merging it.
+
+Thank you very much for taking the time to explain!
 
 
