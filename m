@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB87E264CCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:24:48 +0200 (CEST)
-Received: from localhost ([::1]:34546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4120264CBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:23:03 +0200 (CEST)
+Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRFX-0000rI-UK
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56960)
+	id 1kGRDq-00073U-Nf
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBJ-0003bR-Ia
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:25 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28248)
+ id 1kGRBK-0003ed-Ak; Thu, 10 Sep 2020 14:20:26 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBF-0002j9-8a
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:25 -0400
+ id 1kGRBH-0002kZ-R0; Thu, 10 Sep 2020 14:20:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762021; x=1631298021;
+ t=1599762023; x=1631298023;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=jsyBOr6d4kpx/wa6iWDrWapk7zk9J6ee0j6qg7YbxLg=;
- b=NtIq+q+4ma68UzSxLAKY+X4rkNbIwdUZVT4NkMxjqQphcaG3e9e+rSYB
- 3uu43fjGih6tExFSjYWcV0k9dDy2Qrv/iVzBiC1BGy2Mcdh/byeRjdGR8
- fV42/Jmc3ENhj4+Cwf6JRLYUaSRfACK4OuqKM6/yMnJKbovnWauI50wl6
- djUV9gOtVdC7LA9aHM5ja8eTJRvVTuG7CJUtzKOu+3u8W2G9x1qAJ0mFY
- DQlzkPrIhfTohd1vX/8yEmQDY9jnGS8CxT/K33lhGlgDJAE7ylV1pb9rN
- hdGWQTsfcWt333AwL4IuiHeGwwPrY2vU5iByydFq4gbAQ15S30G2yf3XJ w==;
-IronPort-SDR: zKPryPBEB+HRIrJoP289x7h4IjoRlJxfAT0hjOrfmim/e0/g2jfRI3qMKDzTIyRWvPWbHf8cF+
- mx79VVvsHNqBtGBJf4qR+xfAdSA2gbK6i0X/NjFkQoLj7lUvWfqxgYkhIEvDNeTvoGV1JE6c7g
- uTDN4x5BBdQ8/9zyWxb5jOgNKo/zBuH8feQ3JARtzUkX+RJxDj37b9vsTkI8sdHvl4dHDl7f5I
- D/idpdK+R1Nem/2oCqlA0IhlS3MLY3Bs93cdDYEPFGZziwHFc9nv//IRnHKvQUPz+AX1hw0+uB
- 9aQ=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979202"
+ bh=KB3dWLk2WQBSmIbfJFgcXf3TDb7sLydLaxLIXsEB1Bo=;
+ b=dw+MndgCNvEo1cB+1GmVs00HUgFyyv5kc5ijT9NHBc/WWWgediIcv/VE
+ UDxE2GW65rrlantaqxP1MY17NKakbeZ6i8dDxJT8xb7ljiT6JWpKeLRC1
+ zld2MFVWqhGKVXGiOn3sXmjSxi6w+x3BolZW7ssrCKPPIiJoRFh23jLkW
+ aTsRGvzCkos2SfZu4T9/EsE/Ks2nHsxt9o1OZIZ2iFrOfjbrAgBtX4b1f
+ xteHEK1S2/csELkt+aZqNMsOkksjug+GByulKT0O42bRsSml0Ty7RAIQe
+ UTLnfJtQIsqreYQMq1Rc98wUJzYT9oc0dXt2xsNJfOFSX0z0EgmnyxZXm Q==;
+IronPort-SDR: BqeGeAppZrm0Dr2Ig0RYZT6wyz4WUk4VCbdgAS6v75wDfo+ftvSWty1//OHz6TmVi5DgvCkgO7
+ YNjrkeuYYcUS3zH1RV6RXnspZw2F0UU8hiCMg9xzuSk38RL49ch3nC5DCELtjXOzUeAQ34gBBA
+ w92IXjDQscWoCg51X/eL2bLtOYJi5QKXXU5c+wUWUZFxTdNLICvucAK3GXo5vfeqrLIDmKfoTR
+ m1EmQ5ByDG2rG9R4ebfxSN5LcKJPK9JMbwS1KLQTmMbZgnKazK0JAF5/yNjiC1J8NOO/3VUeHT
+ Soo=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979204"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:14 +0800
-IronPort-SDR: QEY3Rza+coTol7Gv4FRLd5cqRiHsA4/hRCMVs5bow6UAN3t2u+c1gxtvA8A4ujgBFKYmlRsV9t
- o5zpUFn07kRA==
+IronPort-SDR: c0ADv9N1XqY5NRYGiQEQbjsC04XV0GwK2zMKQbLPwRdBizLjeNZk3PsBERh8JNk5cBEUaylxjK
+ zTncfUcSW6uQ==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:31 -0700
-IronPort-SDR: kKL8miW+kbcuMjIGPFf+MbhuXlvVrwz9CIxxlTlV7HN3CtllX5BKp1Hr40qmjglpPbQsy6Mj77
- mcr+KsiUFowA==
+IronPort-SDR: jpES+eWP0NDgFF7j+sACicub7+b+v1O+hfee4qgfvwLUnpAQSgfPdk+ZHXip4YsuKY/VKdJsVX
+ ZTNAa4L4L8Dw==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
@@ -56,10 +54,9 @@ Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 01/30] target/riscv: Fix bug in getting trap cause name for
- trace_riscv_trap
-Date: Thu, 10 Sep 2020 11:09:09 -0700
-Message-Id: <20200910180938.584205-2-alistair.francis@wdc.com>
+Subject: [PULL 02/30] riscv: sifive_test: Allow 16-bit writes to memory region
+Date: Thu, 10 Sep 2020 11:09:10 -0700
+Message-Id: <20200910180938.584205-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
@@ -89,80 +86,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Yifei Jiang <jiangyifei@huawei.com>, Yipeng Yin <yinyipeng1@huawei.com>
+Cc: alistair23@gmail.com, Nathan Chancellor <natechancellor@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yifei Jiang <jiangyifei@huawei.com>
+From: Nathan Chancellor <natechancellor@gmail.com>
 
-When the cause number is equal to or greater than 23, print "(unknown)" in
-trace_riscv_trap. The max valid number of riscv_excp_names is 23, so the last
-excpetion "guest_store_page_fault" can not be printed.
+When shutting down the machine running a mainline Linux kernel, the
+following error happens:
 
-In addition, the current check of cause is invalid for riscv_intr_names. So
-introduce riscv_cpu_get_trap_name to get the trap cause name.
+$ build/riscv64-softmmu/qemu-system-riscv64 -bios default -M virt \
+    -display none -initrd rootfs.cpio -kernel Image -m 512m \
+    -nodefaults -serial mon:stdio
+...
+Requesting system poweroff
+[    4.999630] reboot: Power down
+sbi_trap_error: hart0: trap handler failed (error -2)
+sbi_trap_error: hart0: mcause=0x0000000000000007 mtval=0x0000000000100000
+sbi_trap_error: hart0: mepc=0x000000008000d4cc mstatus=0x0000000000001822
+sbi_trap_error: hart0: ra=0x000000008000999e sp=0x0000000080015c78
+sbi_trap_error: hart0: gp=0xffffffe000e76610 tp=0xffffffe0081b89c0
+sbi_trap_error: hart0: s0=0x0000000080015c88 s1=0x0000000000000040
+sbi_trap_error: hart0: a0=0x0000000000000000 a1=0x0000000080004024
+sbi_trap_error: hart0: a2=0x0000000080004024 a3=0x0000000080004024
+sbi_trap_error: hart0: a4=0x0000000000100000 a5=0x0000000000005555
+sbi_trap_error: hart0: a6=0x0000000000004024 a7=0x0000000080011158
+sbi_trap_error: hart0: s2=0x0000000000000000 s3=0x0000000080016000
+sbi_trap_error: hart0: s4=0x0000000000000000 s5=0x0000000000000000
+sbi_trap_error: hart0: s6=0x0000000000000001 s7=0x0000000000000000
+sbi_trap_error: hart0: s8=0x0000000000000000 s9=0x0000000000000000
+sbi_trap_error: hart0: s10=0x0000000000000000 s11=0x0000000000000008
+sbi_trap_error: hart0: t0=0x0000000000000000 t1=0x0000000000000000
+sbi_trap_error: hart0: t2=0x0000000000000000 t3=0x0000000000000000
+sbi_trap_error: hart0: t4=0x0000000000000000 t5=0x0000000000000000
+sbi_trap_error: hart0: t6=0x0000000000000000
 
-Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+The kernel does a 16-bit write when powering off the machine, which
+was allowed before commit 5d971f9e67 ("memory: Revert "memory: accept
+mismatching sizes in memory_region_access_valid""). Make min_access_size
+match reality so that the machine can shut down properly now.
+
+Cc: qemu-stable@nongnu.org
+Fixes: 88a07990fa ("SiFive RISC-V Test Finisher")
+Fixes: 5d971f9e67 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"")
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200814035819.1214-1-jiangyifei@huawei.com>
+Message-Id: <20200901055822.2721209-1-natechancellor@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        |  1 +
- target/riscv/cpu.c        | 11 +++++++++++
- target/riscv/cpu_helper.c |  4 ++--
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ hw/riscv/sifive_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 383808bf88..d3589ae6ea 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -312,6 +312,7 @@ extern const char * const riscv_fpr_regnames[];
- extern const char * const riscv_excp_names[];
- extern const char * const riscv_intr_names[];
- 
-+const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
- void riscv_cpu_do_interrupt(CPUState *cpu);
- int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 228b9bdb5d..bcdce85c5e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -96,6 +96,17 @@ const char * const riscv_intr_names[] = {
-     "reserved"
- };
- 
-+const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
-+{
-+    if (async) {
-+        return (cause < ARRAY_SIZE(riscv_intr_names)) ?
-+               riscv_intr_names[cause] : "(unknown)";
-+    } else {
-+        return (cause < ARRAY_SIZE(riscv_excp_names)) ?
-+               riscv_excp_names[cause] : "(unknown)";
-+    }
-+}
-+
- static void set_misa(CPURISCVState *env, target_ulong misa)
- {
-     env->misa_mask = env->misa = misa;
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index dc7ae3e7b1..005880627e 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -892,8 +892,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         }
+diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
+index 0c78fb2c93..8c70dd69df 100644
+--- a/hw/riscv/sifive_test.c
++++ b/hw/riscv/sifive_test.c
+@@ -59,7 +59,7 @@ static const MemoryRegionOps sifive_test_ops = {
+     .write = sifive_test_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .valid = {
+-        .min_access_size = 4,
++        .min_access_size = 2,
+         .max_access_size = 4
      }
- 
--    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval, cause < 23 ?
--        (async ? riscv_intr_names : riscv_excp_names)[cause] : "(unknown)");
-+    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval,
-+        riscv_cpu_get_trap_name(cause, async));
- 
-     if (env->priv <= PRV_S &&
-             cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
+ };
 -- 
 2.28.0
 
