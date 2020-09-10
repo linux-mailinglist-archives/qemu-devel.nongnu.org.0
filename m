@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F53F264CDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:27:00 +0200 (CEST)
-Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3065264CDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:27:30 +0200 (CEST)
+Received: from localhost ([::1]:45790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRHf-0004Mp-I2
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
+	id 1kGRI9-0005Vv-Sj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBM-0003kv-Lu
+ id 1kGRBM-0003kC-Dk
  for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:28 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28248)
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBJ-0002j9-O0
+ id 1kGRBK-0002iJ-9W
  for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762025; x=1631298025;
+ t=1599762026; x=1631298026;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DcSFJxbrWZPewmkc1peDcd+g7R2g60jkbjy/rJ/vb90=;
- b=cYEdXf7bKNKNxIQc9R9M7Xk8wca/nol08AlzdinP0ZDZ1rc45cj2obvn
- BsDCFFhSDVDMEvQ+Mno+0AvO6Q7i47/xazuPEwm5nhAMCmsfb4YNryuFJ
- mLmx5uTzF7vXEOKuNnfPQpOAUYjFdprvNIccg3JmKUw9VinNENtNYlqvF
- oxv9bGFkDcpE+AZ4DDa3Ap+yGx0RnqhRRR98qPoj/DYALmj4UtoNdNmGp
- 5lcBTDwYB9ISo1sHAaszFtCwX4TDPEHc61kLesRIitJcv3rduL4jAY8e+
- J+PXWOiH1vZBpDyWWAFbzNomEpXkpVVZEgLQJg2cUTnFzbNsgmKOqYdRn w==;
-IronPort-SDR: Covi7HhwEQBCxizNKuoOrgNeVZfGMpBmSkjo8eNYTvxDnWYWqIp9g45sQt5wNKfJ9p0NdiFIGV
- j+0RlvGFVFjWmUAgs9CaJRpPh9/p15Im+nCwCaeBeADA40fAdrH1CXar9lhmYm8OvzAEIbS4iP
- 5RtNVDZqLX/f88n1JrZCwJFLFVJhnNqGMTbz9/iyXdVu8jJ4x/I6+0T6Q7hPuZAGBFIQIEkbwT
- BfkF+C1FpSTc3mKH2664cvmfCe5PiASELn9+KNyI3n9yDzIL21tnklnR3Af1byKrmAZ1diIlkm
- f+Y=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979212"
+ bh=yEenwpRSDjt+DZK8AH3l3bbgGA7TljyyQ73PcK2esB8=;
+ b=TokG6u4iFk0g1SlQds/vz4+c27JSw1aPr8ylC3Xg/ORe3uAZ9xl0EeMI
+ u+bO8sZbwSf7QB6cN6gvq6qUtZ0zyvdVcL9TsE6W34qGaJQzDenZjnx1G
+ gzZMeKrulpqygZ8U31M3R0UI4/dgdmEY468Z0qy2m/OE5c/HIg0UqoBXV
+ fsiNA/JF83mcAFB6iARql1nZFCem78Bpg2QwfD4XyB8B7derwmRDwkTEF
+ ZI/W3iswEKPzSzZrmZ17CrsWoadvz5Wbyy+3c/EWCavhe1b6wyfOsKxWF
+ XzaB1OdoPsC6BlvX+VnB6/iYra2Dyj4y6RM1fLHDCc/7CbEfFHiKxevvV w==;
+IronPort-SDR: rKCiMWo2+i0iFv4r7YMEx8lGguDsMQKpgj8X5URSMY5yg5TG8c33UvfoRD8MLhIJNlEKQ4G9Va
+ a3jVK4OLoYK8+FpNHPQZuRyZR9j9lscB26SGFMEnXX4Zl6AJy26BZgjquucrwR/qvRZ0CEUdx+
+ 1CRBq5vwVhZQY3G6pCfchY1ofYcnK6Z1Tax5Xl17Z/hf6RGnl8BILeI+vCaddtSKj1+IFc87Mq
+ OmONGK55GiAheJk7Pe8F57QChDwUUZBMbIOe9YYLXEm1Ni51SQTWP/Os+/TavErGBCDBZzFbEk
+ /mg=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979215"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:15 +0800
-IronPort-SDR: ivkWtxuyyHGkcFb6zl0K9jFCDgBC7LbUpKh2QB7zp7aN3gKHdjWmfjiE6Na6Vcthd4MJGNCcGE
- DJXOm0fN6ajA==
+IronPort-SDR: rZdpdayAzKyNDv/BYlbN+B7kouMN0S1efkLHFNbgbBrYzXFXt69XN89aRvO69hda19ymvZR2cZ
+ 8rxNCCEHJqaQ==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:32 -0700
-IronPort-SDR: AoyJV2PXrZHjGtxiAwVKaXX6jmNkDdwLV1vhEn67Ks65Zsv2LGtx/znHQY4kMIJh4r+69o4dDK
- ZuR5pbV3AH6Q==
+IronPort-SDR: ZXwa8l2eXrIWAEORCX6BXVtN7nuxjAhkJFs+G996iy3JGvKrVnOTuv2Am/wmKWQnB3E0qBloKz
+ x/84eJreeivQ==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
@@ -56,9 +56,10 @@ Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/30] hw/riscv: hart: Add a new 'resetvec' property
-Date: Thu, 10 Sep 2020 11:09:12 -0700
-Message-Id: <20200910180938.584205-5-alistair.francis@wdc.com>
+Subject: [PULL 05/30] target/riscv: cpu: Set reset vector based on the
+ configured property value
+Date: Thu, 10 Sep 2020 11:09:13 -0700
+Message-Id: <20200910180938.584205-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
@@ -97,54 +98,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-RISC-V machines do not instantiate RISC-V CPUs directly, instead
-they do that via the hart array. Add a new property for the reset
-vector address to allow the value to be passed to the CPU, before
-CPU is realized.
+Now that we have the newly introduced 'resetvec' property in the
+RISC-V CPU and HART, instead of hard-coding the reset vector addr
+in the CPU's instance_init(), move that to riscv_cpu_realize()
+based on the configured property value from the RISC-V machines.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <1598924352-89526-3-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1598924352-89526-4-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/riscv_hart.h | 1 +
- hw/riscv/riscv_hart.c         | 3 +++
- 2 files changed, 4 insertions(+)
+ hw/riscv/opentitan.c | 1 +
+ hw/riscv/sifive_e.c  | 1 +
+ hw/riscv/sifive_u.c  | 2 ++
+ target/riscv/cpu.c   | 7 ++-----
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
-index c75856fa73..77aa4bc948 100644
---- a/include/hw/riscv/riscv_hart.h
-+++ b/include/hw/riscv/riscv_hart.h
-@@ -37,6 +37,7 @@ typedef struct RISCVHartArrayState {
-     uint32_t num_harts;
-     uint32_t hartid_base;
-     char *cpu_type;
-+    uint64_t resetvec;
-     RISCVCPU *harts;
- } RISCVHartArrayState;
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 23ba3b4bfc..0531bd879b 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -111,6 +111,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+                             &error_abort);
++    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8090, &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
  
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index f59fe52f0f..613ea2aaa0 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -31,6 +31,8 @@ static Property riscv_harts_props[] = {
-     DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
-     DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
-     DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
-+    DEFINE_PROP_UINT64("resetvec", RISCVHartArrayState, resetvec,
-+                       DEFAULT_RSTVEC),
-     DEFINE_PROP_END_OF_LIST(),
- };
+     /* Boot ROM */
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index ca55cc438a..cd7560d8ec 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -177,6 +177,7 @@ static void sifive_e_soc_init(Object *obj)
+     object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
+     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+                             &error_abort);
++    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x1004, &error_abort);
+     object_initialize_child(obj, "riscv.sifive.e.gpio0", &s->gpio,
+                             TYPE_SIFIVE_GPIO);
+ }
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index a48046c6a0..404d5e6918 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -611,6 +611,7 @@ static void sifive_u_soc_instance_init(Object *obj)
+     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-harts", 1);
+     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "hartid-base", 0);
+     qdev_prop_set_string(DEVICE(&s->e_cpus), "cpu-type", SIFIVE_E_CPU);
++    qdev_prop_set_uint64(DEVICE(&s->e_cpus), "resetvec", 0x1004);
  
-@@ -44,6 +46,7 @@ static bool riscv_hart_realize(RISCVHartArrayState *s, int idx,
-                                char *cpu_type, Error **errp)
- {
-     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx], cpu_type);
-+    qdev_prop_set_uint64(DEVICE(&s->harts[idx]), "resetvec", s->resetvec);
-     s->harts[idx].env.mhartid = s->hartid_base + idx;
-     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
-     return qdev_realize(DEVICE(&s->harts[idx]), NULL, errp);
+     object_initialize_child(obj, "u-cluster", &s->u_cluster, TYPE_CPU_CLUSTER);
+     qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
+@@ -620,6 +621,7 @@ static void sifive_u_soc_instance_init(Object *obj)
+     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
+     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
+     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", SIFIVE_U_CPU);
++    qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
+ 
+     object_initialize_child(obj, "prci", &s->prci, TYPE_SIFIVE_U_PRCI);
+     object_initialize_child(obj, "otp", &s->otp, TYPE_SIFIVE_U_OTP);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f6aeecac15..57c006df5d 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -139,7 +139,6 @@ static void riscv_any_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_11_0);
+-    set_resetvec(env, DEFAULT_RSTVEC);
+ }
+ 
+ static void riscv_base_cpu_init(Object *obj)
+@@ -147,7 +146,6 @@ static void riscv_base_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, 0);
+-    set_resetvec(env, DEFAULT_RSTVEC);
+ }
+ 
+ static void rvxx_sifive_u_cpu_init(Object *obj)
+@@ -155,7 +153,6 @@ static void rvxx_sifive_u_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    set_resetvec(env, 0x1004);
+ }
+ 
+ static void rvxx_sifive_e_cpu_init(Object *obj)
+@@ -163,7 +160,6 @@ static void rvxx_sifive_e_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     set_misa(env, RVXLEN | RVI | RVM | RVA | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    set_resetvec(env, 0x1004);
+     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+ }
+ 
+@@ -174,7 +170,6 @@ static void rv32_ibex_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     set_misa(env, RV32 | RVI | RVM | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    set_resetvec(env, 0x8090);
+     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+ }
+ 
+@@ -384,6 +379,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         set_feature(env, RISCV_FEATURE_PMP);
+     }
+ 
++    set_resetvec(env, cpu->cfg.resetvec);
++
+     /* If misa isn't set (rv32 and rv64 machines) set it here */
+     if (!env->misa) {
+         /* Do some ISA extension error checking */
 -- 
 2.28.0
 
