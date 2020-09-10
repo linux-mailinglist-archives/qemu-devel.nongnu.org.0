@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1032643EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:26:03 +0200 (CEST)
-Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D67C264421
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:31:34 +0200 (CEST)
+Received: from localhost ([::1]:53932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJmE-00029f-HY
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:26:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48626)
+	id 1kGJrY-00049l-GJ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kGJkg-00013T-Vt
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:24:26 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:39717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1kGJkf-0001nu-2p
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:24:26 -0400
-Received: by mail-ej1-x636.google.com with SMTP id p9so7923193ejf.6
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 03:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=+HBcZmOCz4+yOe2VI8CHY572Ns1Lj2c3OZKQ2k85hu0=;
- b=gMkFHFMHukLtgIS4NXfvEc3Nx/r0N7dD71SxDt8DoPk73pRsZUFS/VMxCKrfQo66ff
- mvEqBpsNXeZa+vhBVOmN91dOHc9TJ8VqhRN3tM94yM2v1KlIrLa9LyoSz4e36LzoZq02
- KLDhMWQpNwPKYWD/HBWnJtA9EKsTOOoZ7ZCRPwdY5xSsT7c3Kf+/UEJNtxSyGIqrEh5W
- S/hh3tlE+Dgy6NjRdJO9z+31Jsz2K3geXgGtDl0xpJsn8+QhOSDJiM+czoRUjUyD1Fpl
- EJFhO2jsNp4l6JrmSMfemqZ51qwXJRi/wjxEwgxAif6zb6A2Ad0R+amK51j62JBAZ2nM
- 3ljQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=+HBcZmOCz4+yOe2VI8CHY572Ns1Lj2c3OZKQ2k85hu0=;
- b=dFjbPfuUbj3fjdyi5xLJJHg/dq+bDKoNxSLTO03rLEdrKbwcby6Er+8WBwJwTc4W6f
- 7utGxyL1qGIdMpKcrKuo+wkQY2K5A9EwfzzRc6VbBtwy1K0nmO7ko3PNVttxYX4hkAb3
- FEo/DOo7WeJKMb2rLegh9wPX6/BIIxnBB39xTeylrLSOOhlXmotemyi3htl8Z32HxxuI
- h6fp1p0UQjKT4yBxmiXize4Jw7tLrb2OUsmstkSnqL/S/S2aDHH+lxewRY0mvTC8fnYZ
- Yj+Z7ub2HSRoO9ZL4eTrMafROaoKG468w4ITB7QEgVj/ShjMPd9nUiHgMdkj8qSjCF0W
- 7qEQ==
-X-Gm-Message-State: AOAM530HLzRRyueByXVGCaOiO5xteBHnrOPA6ssuQsKqP3m9gcaJveRq
- J7BvcuORMKUv1OeqsHoDQ3zwnQ==
-X-Google-Smtp-Source: ABdhPJzMZFZZxsYo00DAcV2Cq2ZCJiNLUvAo7ZA27vwP3kVijH1QtAvVqdRLFcAfbrrUAKwGMwUKGw==
-X-Received: by 2002:a17:906:46d5:: with SMTP id
- k21mr7783720ejs.247.1599733462854; 
- Thu, 10 Sep 2020 03:24:22 -0700 (PDT)
-Received: from wks.local ([86.120.181.246])
- by smtp.gmail.com with ESMTPSA id s19sm6446196eja.54.2020.09.10.03.24.21
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 10 Sep 2020 03:24:22 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [RFC] QEMU as Xcode project on macOS
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <4878996.4JzhbN1UZ4@silver>
-Date: Thu, 10 Sep 2020 13:24:21 +0300
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <DD8F8921-C3C6-435B-8D92-9DC1B4A504A6@livius.net>
-References: <2764135.D4k31Gy3CM@silver> <2421928.3WNMogbLRJ@silver>
- <20200910093910.GG1083348@redhat.com> <4878996.4JzhbN1UZ4@silver>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-Received-SPF: none client-ip=2a00:1450:4864:20::636;
- envelope-from=ilg@livius.net; helo=mail-ej1-x636.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1kGJlK-0001Uy-DR
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:25:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:53080)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1kGJlE-0001uT-22
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:25:02 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A14DC1063;
+ Thu, 10 Sep 2020 03:24:58 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6FED23F68F;
+ Thu, 10 Sep 2020 03:24:56 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] MTE support for KVM guest
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+References: <20200904160018.29481-1-steven.price@arm.com>
+ <8e661984-70bc-790c-8636-39dcd8b00131@linaro.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <842807ac-562a-36ce-8061-aa323341b605@arm.com>
+Date: Thu, 10 Sep 2020 11:24:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <8e661984-70bc-790c-8636-39dcd8b00131@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 05:21:11
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,34 +62,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, G 3 <programmingkidx@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <Peter.Maydell@arm.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/09/2020 01:33, Richard Henderson wrote:
+> On 9/4/20 9:00 AM, Steven Price wrote:
+>>   3. Doesn't provide any new methods for the VMM to access the tags on
+>>      memory.
+> ...
+>> (3) may be problematic and I'd welcome input from those familiar with
+>> VMMs. User space cannot access tags unless the memory is mapped with the
+>> PROT_MTE flag. However enabling PROT_MTE will also enable tag checking
+>> for the user space process (assuming the VMM enables tag checking for
+>> the process)...
+> 
+> The latest version of the kernel patches for user mte support has separate
+> controls for how tag check fail is reported.  Including
+> 
+>> +- ``PR_MTE_TCF_NONE``  - *Ignore* tag check faults
+> 
+> That may be less than optimal once userland starts uses tags itself, e.g.
+> running qemu itself with an mte-aware malloc.
+> 
+> Independent of that, there's also the TCO bit, which can be toggled by any
+> piece of code that wants to disable checking locally.
 
+Yes, I would expect the TCO bit is the best option for wrapping accesses 
+to make them unchecked.
 
-> On 10 Sep 2020, at 13:14, Christian Schoenebeck =
-<qemu_oss@crudebyte.com> wrote:
->=20
-> The way to go for devs on Mac is: 3rd party libs should not be =
-installed into=20
-> global space, rather be built & linked either as dynamic frameworks =
-(including=20
-> assets) or as static libs. Then apps always run with the precise =
-version and=20
-> flags of libs they were tested with and never conflict with another =
-app's=20
-> version/config of libs.
+> However, none of that is required for accessing tags.  User space can always
+> load/store tags via LDG/STG.  That's going to be slow, though.
 
-Fully agree.
+Yes as things stand LDG/STG is the way for user space to access tags. 
+Since I don't have any real hardware I can't really comment on speed.
 
-Just that I use the same concept for all my builds (Linux & Windows), =
-not only the Mac builds.
+> It's a shame that LDGM/STGM are privileged instructions.  I don't understand
+> why that was done, since there's absolutely nothing that those insns can do
+> that you can't do with (up to) 16x LDG/STG.
 
-Liviu
+It is a shame, however I suspect this is because to use those 
+instructions you need to know the block size held in GMID_EL1. And at 
+least in theory that could vary between CPUs.
 
+> I think it might be worth adding some sort of kernel entry point that can bulk
+> copy tags, e.g. page aligned quantities.  But that's just a speed of migration
+> thing and could come later.
+
+When we have some real hardware it would be worth profiling this. At the 
+moment I've no idea whether the kernel entry overhead would make such an 
+interface useful from a performance perspective or not.
+
+Steve
 
