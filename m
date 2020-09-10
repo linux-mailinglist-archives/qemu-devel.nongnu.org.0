@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA4226442E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:34:36 +0200 (CEST)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF82264429
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:33:27 +0200 (CEST)
+Received: from localhost ([::1]:35482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGJuV-0002rq-Lb
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
+	id 1kGJtO-0008Sk-20
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJrZ-0006h4-Hd; Thu, 10 Sep 2020 06:31:33 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42794)
+ id 1kGJrf-0006qv-Sy; Thu, 10 Sep 2020 06:31:40 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kGJrX-00034v-UY; Thu, 10 Sep 2020 06:31:33 -0400
-Received: by mail-pg1-x544.google.com with SMTP id m5so4001872pgj.9;
- Thu, 10 Sep 2020 03:31:31 -0700 (PDT)
+ id 1kGJrd-00035T-WC; Thu, 10 Sep 2020 06:31:39 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id u3so2824365pjr.3;
+ Thu, 10 Sep 2020 03:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
- b=VtHyrs6W59+ZMPKsMatHUlP5LUz4ht3SgEbKjtYNX5I0OHoH6qmNChGGR4vcdAPT2b
- e3LUETCafApG4e0EUeuEFPx1uIDXC+CZsrLUIxeDANqGln/QEcT0sanfQrP8RGJ1E2bJ
- kn1GPUdME+0dX9tmLdETylGWWN5/WpAXUaYnGdrp1MtT6jFR721OVwRrjyJ6wogY0F9Q
- dfUs6guIP4rZmVPnywCv7VuEEy9ETYJW97B473C8Hlb3ecSMTRMvQIsaUNsn5EFIrqoS
- 6+K5UYTZHB+6W1NYiIz5tGFKyI+Jb+sIkY0IpTqISmvy5zE7hnRX6TYdKeNBHG2V3Mxs
- BmQg==
+ bh=/w7rMoPRyhKUVrpbUOdbHX/Pq1woWbXw5jpZlifmP6A=;
+ b=Eo5uIaVc5wULvc31tEOFRRP79bdD60QOEN6l7pgqcNIDeOqJ2tUGGt/cYPWltX6Y4/
+ ZD78DvtHbz5KPKWgXWxh1l1ZogUmGwzw7bAJ5X9+V3I2f/CDhwpFv8txQpBKkhrQpdsr
+ VqwK7lSoqBFD+aFHaPcwLgcWifLPWi8boNTJo2EybTkLOCMi1jHh3NMGK7SnAiM8nj5h
+ TZJWqIRJQP6w+6094qBpJgB/nsYwnaraNX6+dR82dydlWFasu1EafGYys2VWVpJN56Yd
+ CONnxcF5eqlJ7OCRLpE1PFOTJk3tXw04tMAXfZpOOoQ/zSTI8pVU5oPkCDRhKFyWGGGY
+ E6BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
- b=Z95zR27xdN/lUz5H1dRt8AqkFnYidtNFuVCN8owdpG3Za6OevgxXja7MoiMdHflydp
- S81fjerbz5C7uCQ7pznGsOAEAVvyGSYUrsydCQyxaPWJzUnqkeV2rpWcigjqNqQ2UGkh
- EQ7bfvNMAsZeOiq/1BdzlQZ64/V6hvvsRaZMZOEieArMPniZ0VtkaU0H2Sg9phtZHBti
- HOvEnZ0+UjZK5rcYgXXjY+q4IpMtsTy6GuMHka0GjpjYDS7rQw4fS1Fiutc1A+k8t8sS
- bDM9PwoIw5MX69QvHVqSVRVSa1VfOKYihyK46hSRlU1NrftuD9YbmPC7TucbAlDLRL8v
- W/Yw==
-X-Gm-Message-State: AOAM533Ts8tFQV4u0sI8kHsQm3V3ZQa+MXWWZMbqp9vhuAIcWHT6F2Wc
- LG19KAPKTEdhworB4WyRSG55X5uzSD26JsbNpXs=
-X-Google-Smtp-Source: ABdhPJwlDMV6t16kMXnhqrgL5W2pVpRNuK1hp9ODmj2VUBdU4RTrvvaR+Ae9IVjtr+KqnrMBv5dHIQ==
-X-Received: by 2002:a05:6a00:2b1:: with SMTP id
- q17mr4723301pfs.74.1599733889567; 
- Thu, 10 Sep 2020 03:31:29 -0700 (PDT)
+ bh=/w7rMoPRyhKUVrpbUOdbHX/Pq1woWbXw5jpZlifmP6A=;
+ b=HYY00x5agqE2rVE10vWJIHNAv310W+WStnGcBs6kqka8ZyHBiAsnv0BelA/ZduQ/bD
+ KUO+oeVT+5E2P/ahS/qDrKOJ3GfPwtzQMNOOLr+oAPi77Ka8r5Ix7lJndoEU7fOdf8lB
+ 0bLp+mMW/CPq3Dg5ZEXOl42PDmb3ronp0/ulJ2HJyWgydErGvNfDdkj/f8zWxo1dgNll
+ H999bmV9RRTOjR87kPfGX/mpZAaeGsTaraplVUZtzXeR3O+P7comTtHtO1qBNDB521f8
+ tL6B/jvjakntejr79jZz9tZegXqerZGRamS4kujUc8t98kikdQ60T/kvI8OEPvKJmSFn
+ oXJQ==
+X-Gm-Message-State: AOAM531uielh3FTECUaRdHVA0WepbOZoi4JKtICMLy38N9HkpYzJuoNT
+ ZPSU5HVt74QQQvD8Lef+xCHRR+ltA84+lLpJAB8=
+X-Google-Smtp-Source: ABdhPJwDee9G7F6jL1wTNWSi64CepyYbA4UZFrw44YKeLjLTY38YrbM7oIpjii365c1qTNErz64y2w==
+X-Received: by 2002:a17:902:ff12:: with SMTP id
+ f18mr4779227plj.118.1599733895722; 
+ Thu, 10 Sep 2020 03:31:35 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.31.24
+ by smtp.googlemail.com with ESMTPSA id g21sm2000203pfh.30.2020.09.10.03.31.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 03:31:28 -0700 (PDT)
+ Thu, 10 Sep 2020 03:31:34 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 02/25] rcu: Implement drain_call_rcu
-Date: Thu, 10 Sep 2020 18:30:36 +0800
-Message-Id: <20200910103059.987-3-luoyonggang@gmail.com>
+Subject: [PATCH v7 03/25] block: Fixes nfs compiling error on msys2/mingw
+Date: Thu, 10 Sep 2020 18:30:37 +0800
+Message-Id: <20200910103059.987-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200910103059.987-1-luoyonggang@gmail.com>
 References: <20200910103059.987-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,111 +83,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
  Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
  Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+These compiling errors are fixed:
+../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
+   27 | #include <poll.h>
+      |          ^~~~~~~~
+compilation terminated.
 
-This will allow is to preserve the semantics of hmp_device_del,
-that the device is deleted immediatly which was changed by previos
-patch that delayed this to RCU callback
+../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
+   63 |     blkcnt_t st_blocks;
+      |     ^~~~~~~~
+../block/nfs.c: In function 'nfs_client_open':
+../block/nfs.c:550:27: error: 'struct _stat64' has no member named 'st_blocks'
+  550 |     client->st_blocks = st.st_blocks;
+      |                           ^
+../block/nfs.c: In function 'nfs_get_allocated_file_size':
+../block/nfs.c:751:41: error: 'struct _stat64' has no member named 'st_blocks'
+  751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
+      |                                         ^
+../block/nfs.c: In function 'nfs_reopen_prepare':
+../block/nfs.c:805:31: error: 'struct _stat64' has no member named 'st_blocks'
+  805 |         client->st_blocks = st.st_blocks;
+      |                               ^
+../block/nfs.c: In function 'nfs_get_allocated_file_size':
+../block/nfs.c:752:1: error: control reaches end of non-void function [-Werror=return-type]
+  752 | }
+      | ^
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+On msys2/mingw, there is no st_blocks in struct _stat64, so we use consistence st_size instead.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- include/qemu/rcu.h |  1 +
- util/rcu.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ block/nfs.c | 32 +++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 570aa603eb..0e375ebe13 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -133,6 +133,7 @@ struct rcu_head {
- };
+diff --git a/block/nfs.c b/block/nfs.c
+index 61a249a9fc..db6d8c2d2b 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -24,7 +24,9 @@
  
- extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
-+extern void drain_call_rcu(void);
+ #include "qemu/osdep.h"
  
- /* The operands of the minus operator must have the same type,
-  * which must be the one that we specify in the cast.
-diff --git a/util/rcu.c b/util/rcu.c
-index 60a37f72c3..c4fefa9333 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -293,6 +293,61 @@ void call_rcu1(struct rcu_head *node, void (*func)(struct rcu_head *node))
-     qemu_event_set(&rcu_call_ready_event);
++#if !defined(_WIN32)
+ #include <poll.h>
++#endif
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+@@ -51,6 +53,13 @@
+ #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)
+ #define QEMU_NFS_MAX_DEBUG_LEVEL 2
+ 
++#if defined (_WIN32)
++#define nfs_stat __stat64
++typedef long long blkcnt_t;
++#else
++#define nfs_stat stat
++#endif
++
+ typedef struct NFSClient {
+     struct nfs_context *context;
+     struct nfsfh *fh;
+@@ -70,7 +79,7 @@ typedef struct NFSRPC {
+     int ret;
+     int complete;
+     QEMUIOVector *iov;
+-    struct stat *st;
++    struct nfs_stat *st;
+     Coroutine *co;
+     NFSClient *client;
+ } NFSRPC;
+@@ -415,11 +424,20 @@ static void nfs_file_close(BlockDriverState *bs)
+     nfs_client_close(client);
  }
  
-+
-+struct rcu_drain {
-+    struct rcu_head rcu;
-+    QemuEvent drain_complete_event;
-+};
-+
-+static void drain_rcu_callback(struct rcu_head *node)
++static blkcnt_t nfs_get_st_blocks(const struct nfs_stat *st)
 +{
-+    struct rcu_drain *event = (struct rcu_drain *)node;
-+    qemu_event_set(&event->drain_complete_event);
++#if defined(_WIN32)
++    return (st->st_size + 511) / 512;
++#else
++    return st->st_blocks;
++#endif
 +}
 +
-+/*
-+ * This function ensures that all pending RCU callbacks
-+ * on the current thread are done executing
-+
-+ * drops big qemu lock during the wait to allow RCU thread
-+ * to process the callbacks
-+ *
-+ */
-+
-+void drain_call_rcu(void)
-+{
-+    struct rcu_drain rcu_drain;
-+    bool locked = qemu_mutex_iothread_locked();
-+
-+    memset(&rcu_drain, 0, sizeof(struct rcu_drain));
-+    qemu_event_init(&rcu_drain.drain_complete_event, false);
-+
-+    if (locked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+
-+    /*
-+     * RCU callbacks are invoked in the same order as in which they
-+     * are registered, thus we can be sure that when 'drain_rcu_callback'
-+     * is called, all RCU callbacks that were registered on this thread
-+     * prior to calling this function are completed.
-+     *
-+     * Note that since we have only one global queue of the RCU callbacks,
-+     * we also end up waiting for most of RCU callbacks that were registered
-+     * on the other threads, but this is a side effect that shoudn't be
-+     * assumed.
-+     */
-+
-+    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
-+    qemu_event_wait(&rcu_drain.drain_complete_event);
-+
-+    if (locked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+
-+}
-+
- void rcu_register_thread(void)
+ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+                                int flags, int open_flags, Error **errp)
  {
-     assert(rcu_reader.ctr == 0);
+     int64_t ret = -EINVAL;
+-    struct stat st;
++    struct nfs_stat st;
+     char *file = NULL, *strp = NULL;
+ 
+     qemu_mutex_init(&client->mutex);
+@@ -545,7 +563,7 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+     }
+ 
+     ret = DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
+-    client->st_blocks = st.st_blocks;
++    client->st_blocks = nfs_get_st_blocks(&st);
+     client->has_zero_init = S_ISREG(st.st_mode);
+     *strp = '/';
+     goto out;
+@@ -729,7 +747,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
+ {
+     NFSClient *client = bs->opaque;
+     NFSRPC task = {0};
+-    struct stat st;
++    struct nfs_stat st;
+ 
+     if (bdrv_is_read_only(bs) &&
+         !(bs->open_flags & BDRV_O_NOCACHE)) {
+@@ -746,7 +764,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
+     nfs_set_events(client);
+     BDRV_POLL_WHILE(bs, !task.complete);
+ 
+-    return (task.ret < 0 ? task.ret : st.st_blocks * 512);
++    return (task.ret < 0 ? task.ret : nfs_get_st_blocks(&st) * 512);
+ }
+ 
+ static int coroutine_fn
+@@ -778,7 +796,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                               BlockReopenQueue *queue, Error **errp)
+ {
+     NFSClient *client = state->bs->opaque;
+-    struct stat st;
++    struct nfs_stat st;
+     int ret = 0;
+ 
+     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
+@@ -800,7 +818,7 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                        nfs_get_error(client->context));
+             return ret;
+         }
+-        client->st_blocks = st.st_blocks;
++        client->st_blocks = nfs_get_st_blocks(&st);
+     }
+ 
+     return 0;
 -- 
 2.28.0.windows.1
 
