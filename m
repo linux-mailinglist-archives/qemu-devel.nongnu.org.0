@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DC9264131
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:15:06 +0200 (CEST)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6964E26414F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:17:17 +0200 (CEST)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGIfZ-0006v4-KK
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42032)
+	id 1kGIhg-0001Ob-HF
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:17:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kGIe4-0005lT-TE
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:13:32 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50214
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGIg9-0008Gr-5J
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:15:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50632
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kGIe2-0004Ru-KL
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:13:32 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGIg6-0005f8-3C
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:15:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599729209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1599729337;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/5AQztNYHwwJ5hQ66DuML/KSqkJbT0YqhTYu4pGO7N8=;
- b=K4Fhys+7h97qf+8u5N5Z0nN/8WdjrIhNin1PE+1h3QfTKsSKtaoqDMpDPic5VEA8nIUx8J
- Brjj7GAq1b1DjvPeM8VOevfz5Mp7tvt8JwT291LmMBRL7Hf9SR33yV32FMdmV2y5yoajAV
- AgpsGcVKW5Cn9iV8XnXTVm55VnqxKVw=
+ bh=W4LhbyuqlF5S6rmEVd7X2hXE/FDCj8fqPB7MayxFhdk=;
+ b=A8TEpczKA1ro7p6GoZA1IxbfYh2K71LzX6OvH1UJ0vN5PMLaDX+lpTP4g5cPqWnR/XJoub
+ 8zgjEYSSScAi+rMWqQXFj6LaMtfIBgV3kDYc51d8hEMuL28KoTXlon0jm43lRYp7EbwTSF
+ 8OEPWd/Yn62qy8LwUTv8+Rq1Z/7qza4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-WbdsEDQ-MyiFrOgX6D2-NQ-1; Thu, 10 Sep 2020 05:13:27 -0400
-X-MC-Unique: WbdsEDQ-MyiFrOgX6D2-NQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-494-j17T7367PC2YHoZh06ZP8g-1; Thu, 10 Sep 2020 05:15:09 -0400
+X-MC-Unique: j17T7367PC2YHoZh06ZP8g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 930FE1007483;
- Thu, 10 Sep 2020 09:13:26 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-29.ams2.redhat.com [10.36.112.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FC051002D62;
- Thu, 10 Sep 2020 09:13:25 +0000 (UTC)
-Date: Thu, 10 Sep 2020 11:13:23 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PULL v2] Block layer patches
-Message-ID: <20200910091323.GC7100@linux.fritz.box>
-References: <20200908115322.325832-1-kwolf@redhat.com>
- <CAFEAcA-wrgOC9oqdqBuVSTiidaRcwbgQWF08zD=TSetSwn_tjA@mail.gmail.com>
- <480db253-9aa4-39c3-592f-bc5cfea1997b@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A0481091061;
+ Thu, 10 Sep 2020 09:15:07 +0000 (UTC)
+Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA18960C07;
+ Thu, 10 Sep 2020 09:14:56 +0000 (UTC)
+Date: Thu, 10 Sep 2020 10:14:54 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 5/6] hw/pci-host/q35: Rename PCI 'black hole as '(memory)
+ hole'
+Message-ID: <20200910091454.GE1083348@redhat.com>
+References: <20200910070131.435543-1-philmd@redhat.com>
+ <20200910070131.435543-6-philmd@redhat.com>
+ <7dbdef90-1ca6-bf27-7084-af0c716d01d9@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <480db253-9aa4-39c3-592f-bc5cfea1997b@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 00:49:43
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7dbdef90-1ca6-bf27-7084-af0c716d01d9@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 01:23:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,33 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- mreitz@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-devel@nongnu.org, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.09.2020 um 00:09 hat Eric Blake geschrieben:
-> On 9/9/20 4:55 PM, Peter Maydell wrote:
+On Thu, Sep 10, 2020 at 09:15:02AM +0200, Thomas Huth wrote:
+> On 10/09/2020 09.01, Philippe Mathieu-Daudé wrote:
+> > In order to use inclusive terminology, rename "blackhole"
+> > as "(memory)hole".
 > 
-> > 
-> > This fails 'make check' on NetBSD and OpenBSD:
-> > 
-> > ./check: line 47: realpath: command not found
-> > ./check: line 60: /common.env: No such file or directory
-> > check: failed to source common.env (make sure the qemu-iotests are run
-> > from tests/qemu-iotests in the build tree)
-> > gmake: *** [/home/qemu/qemu-test.vcb7nz/src/tests/Makefile.include:144:
-> > check-block] Error 1
+> A black hole is a well-known astronomical term, which is simply named
+> that way since it absorbes all light. I doubt that anybody could get
+> upset by this term?
+
+In this particular case I think the change is the right thing to do
+simply because the astronomical analogy is not adding any value in
+understanding. Calling it a "memoryhole" is more descriptive in what
+is actually is.
+
 > 
-> BSD has 'readlink -f' (and so does coreutils on Linux), which does the same
-> thing as the Linux-only realpath.
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > ---
+> >  include/hw/pci-host/q35.h |  4 ++--
+> >  hw/pci-host/q35.c         | 38 +++++++++++++++++++-------------------
+> >  tests/qtest/q35-test.c    |  2 +-
+> >  3 files changed, 22 insertions(+), 22 deletions(-)
+> > 
+> > diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
+> > index 070305f83df..0fb90aca18b 100644
+> > --- a/include/hw/pci-host/q35.h
+> > +++ b/include/hw/pci-host/q35.h
+> > @@ -48,8 +48,8 @@ typedef struct MCHPCIState {
+> >      PAMMemoryRegion pam_regions[13];
+> >      MemoryRegion smram_region, open_high_smram;
+> >      MemoryRegion smram, low_smram, high_smram;
+> > -    MemoryRegion tseg_blackhole, tseg_window;
+> > -    MemoryRegion smbase_blackhole, smbase_window;
+> > +    MemoryRegion tseg_hole, tseg_window;
+> > +    MemoryRegion smbase_hole, smbase_window;
+> 
+> Maybe rather use smbase_memhole and tseg_memhole?
+> 
+>  Thomas
+> 
+> 
 
-Thanks, I'll use that in v3.
-
-Max, if v3 doesn't go through either, please take over the pull request
-as I will be on PTO until the 22th.
-
-Kevin
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
