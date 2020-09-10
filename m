@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4120264CBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:23:03 +0200 (CEST)
-Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F6C264CD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:25:44 +0200 (CEST)
+Received: from localhost ([::1]:37406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRDq-00073U-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56998)
+	id 1kGRGR-00020a-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBK-0003ed-Ak; Thu, 10 Sep 2020 14:20:26 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28254)
+ id 1kGRBL-0003gh-23
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:27 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRBH-0002kZ-R0; Thu, 10 Sep 2020 14:20:25 -0400
+ id 1kGRBJ-0002lX-6L
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:20:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762023; x=1631298023;
+ t=1599762025; x=1631298025;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KB3dWLk2WQBSmIbfJFgcXf3TDb7sLydLaxLIXsEB1Bo=;
- b=dw+MndgCNvEo1cB+1GmVs00HUgFyyv5kc5ijT9NHBc/WWWgediIcv/VE
- UDxE2GW65rrlantaqxP1MY17NKakbeZ6i8dDxJT8xb7ljiT6JWpKeLRC1
- zld2MFVWqhGKVXGiOn3sXmjSxi6w+x3BolZW7ssrCKPPIiJoRFh23jLkW
- aTsRGvzCkos2SfZu4T9/EsE/Ks2nHsxt9o1OZIZ2iFrOfjbrAgBtX4b1f
- xteHEK1S2/csELkt+aZqNMsOkksjug+GByulKT0O42bRsSml0Ty7RAIQe
- UTLnfJtQIsqreYQMq1Rc98wUJzYT9oc0dXt2xsNJfOFSX0z0EgmnyxZXm Q==;
-IronPort-SDR: BqeGeAppZrm0Dr2Ig0RYZT6wyz4WUk4VCbdgAS6v75wDfo+ftvSWty1//OHz6TmVi5DgvCkgO7
- YNjrkeuYYcUS3zH1RV6RXnspZw2F0UU8hiCMg9xzuSk38RL49ch3nC5DCELtjXOzUeAQ34gBBA
- w92IXjDQscWoCg51X/eL2bLtOYJi5QKXXU5c+wUWUZFxTdNLICvucAK3GXo5vfeqrLIDmKfoTR
- m1EmQ5ByDG2rG9R4ebfxSN5LcKJPK9JMbwS1KLQTmMbZgnKazK0JAF5/yNjiC1J8NOO/3VUeHT
- Soo=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979204"
+ bh=cgkn63owk9JaN5uw0jXsxy1SrZwwtjqItIhdm4FhcPo=;
+ b=kkRHtTjXKdGi9wJ0JvTxz/Yl54uUtZNVAw/d42Cbyrw8OJqa0gx5P37F
+ zpjzmH/K46GdflDWWsZtR+lHPbwpnwtqAe4R5GpslHhTqVEJ02ZXVxY1Y
+ O5IccJSd/Ly8L7WguYzpt8rqYSw5jim63U8+NQEbvDL5L+DLRt+X/VvI/
+ CemaPSbwOoQRGynCwFrn8zLCNI8jed0+1n5FteSWvllVlY8UPO9vItd4H
+ Hv+U9oo1bzHcF6op05zJM0/9x/UK8GSFLESXpJnd1Vt528DbV7OsfpUaz
+ ty+m0COz3CDDVfmXVFC+myC1M88oJ4P1orYQp3P32EybSmzrSUmzdjOIf A==;
+IronPort-SDR: ZwuH2Qo5fFPX/zFNU2HaEpqx78iE6ekX/9Ym3rUKXQzvSsTFrN18K193dxwi6ehKztDUSdSxw0
+ YJ3NangYg/vZT0gvYdV5BQiYYApRe8JG4GqFQr4uonNqlGHRAeR7i5Ra4Vhak/IqaxjwchxjAd
+ wGA4FAHz8ADnyPkbeQDnHhb7hIRgx6KMhRdjII8cNSwuzMKiKCTtQAao21+hj/QKWbOfOfdexc
+ 5nlP6qix73YdDYfLp+XGlwPowL72gCWhNdgzAt//cxIBM51QmQFaJ08q9WrIqrwuTfAELJoO6T
+ LZM=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979210"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:14 +0800
-IronPort-SDR: c0ADv9N1XqY5NRYGiQEQbjsC04XV0GwK2zMKQbLPwRdBizLjeNZk3PsBERh8JNk5cBEUaylxjK
- zTncfUcSW6uQ==
+IronPort-SDR: dMx8f8gpQ0Vp59bJhkdysyTuXwo9Zka48yymeEf9GkOQQcmzfTWtbQAxNqTIANrioLWpvfTUj+
+ s7FI1MwbvDHg==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:31 -0700
-IronPort-SDR: jpES+eWP0NDgFF7j+sACicub7+b+v1O+hfee4qgfvwLUnpAQSgfPdk+ZHXip4YsuKY/VKdJsVX
- ZTNAa4L4L8Dw==
+IronPort-SDR: ntCa7pAP2g4djQoRp9hjBPsozkKnfCVy0iVterfz/nqTx384Y1LWyfB3ilD1tuqOvT+cwUD9ax
+ 5ZuxuqYKsnrQ==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
- by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:14 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:15 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/30] riscv: sifive_test: Allow 16-bit writes to memory region
-Date: Thu, 10 Sep 2020 11:09:10 -0700
-Message-Id: <20200910180938.584205-3-alistair.francis@wdc.com>
+Subject: [PULL 03/30] target/riscv: cpu: Add a new 'resetvec' property
+Date: Thu, 10 Sep 2020 11:09:11 -0700
+Message-Id: <20200910180938.584205-4-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=515d47f05=alistair.francis@wdc.com;
@@ -86,73 +89,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Nathan Chancellor <natechancellor@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nathan Chancellor <natechancellor@gmail.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-When shutting down the machine running a mainline Linux kernel, the
-following error happens:
+Currently the reset vector address is hard-coded in a RISC-V CPU's
+instance_init() routine. In a real world we can have 2 exact same
+CPUs except for the reset vector address, which is pretty common in
+the RISC-V core IP licensing business.
 
-$ build/riscv64-softmmu/qemu-system-riscv64 -bios default -M virt \
-    -display none -initrd rootfs.cpio -kernel Image -m 512m \
-    -nodefaults -serial mon:stdio
-...
-Requesting system poweroff
-[    4.999630] reboot: Power down
-sbi_trap_error: hart0: trap handler failed (error -2)
-sbi_trap_error: hart0: mcause=0x0000000000000007 mtval=0x0000000000100000
-sbi_trap_error: hart0: mepc=0x000000008000d4cc mstatus=0x0000000000001822
-sbi_trap_error: hart0: ra=0x000000008000999e sp=0x0000000080015c78
-sbi_trap_error: hart0: gp=0xffffffe000e76610 tp=0xffffffe0081b89c0
-sbi_trap_error: hart0: s0=0x0000000080015c88 s1=0x0000000000000040
-sbi_trap_error: hart0: a0=0x0000000000000000 a1=0x0000000080004024
-sbi_trap_error: hart0: a2=0x0000000080004024 a3=0x0000000080004024
-sbi_trap_error: hart0: a4=0x0000000000100000 a5=0x0000000000005555
-sbi_trap_error: hart0: a6=0x0000000000004024 a7=0x0000000080011158
-sbi_trap_error: hart0: s2=0x0000000000000000 s3=0x0000000080016000
-sbi_trap_error: hart0: s4=0x0000000000000000 s5=0x0000000000000000
-sbi_trap_error: hart0: s6=0x0000000000000001 s7=0x0000000000000000
-sbi_trap_error: hart0: s8=0x0000000000000000 s9=0x0000000000000000
-sbi_trap_error: hart0: s10=0x0000000000000000 s11=0x0000000000000008
-sbi_trap_error: hart0: t0=0x0000000000000000 t1=0x0000000000000000
-sbi_trap_error: hart0: t2=0x0000000000000000 t3=0x0000000000000000
-sbi_trap_error: hart0: t4=0x0000000000000000 t5=0x0000000000000000
-sbi_trap_error: hart0: t6=0x0000000000000000
+Normally reset vector address is a configurable parameter. Let's
+create a 64-bit property to store the reset vector address which
+covers both 32-bit and 64-bit CPUs.
 
-The kernel does a 16-bit write when powering off the machine, which
-was allowed before commit 5d971f9e67 ("memory: Revert "memory: accept
-mismatching sizes in memory_region_access_valid""). Make min_access_size
-match reality so that the machine can shut down properly now.
-
-Cc: qemu-stable@nongnu.org
-Fixes: 88a07990fa ("SiFive RISC-V Test Finisher")
-Fixes: 5d971f9e67 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"")
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200901055822.2721209-1-natechancellor@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <1598924352-89526-2-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/cpu.h | 1 +
+ target/riscv/cpu.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-index 0c78fb2c93..8c70dd69df 100644
---- a/hw/riscv/sifive_test.c
-+++ b/hw/riscv/sifive_test.c
-@@ -59,7 +59,7 @@ static const MemoryRegionOps sifive_test_ops = {
-     .write = sifive_test_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-     .valid = {
--        .min_access_size = 4,
-+        .min_access_size = 2,
-         .max_access_size = 4
-     }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index d3589ae6ea..0d1728a8cd 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -291,6 +291,7 @@ typedef struct RISCVCPU {
+         uint16_t elen;
+         bool mmu;
+         bool pmp;
++        uint64_t resetvec;
+     } cfg;
+ } RISCVCPU;
+ 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index bcdce85c5e..f6aeecac15 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -529,6 +529,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
++    DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
+     DEFINE_PROP_END_OF_LIST(),
  };
+ 
 -- 
 2.28.0
 
