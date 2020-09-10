@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B66264FD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:52:52 +0200 (CEST)
-Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8700264FEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 21:56:21 +0200 (CEST)
+Received: from localhost ([::1]:58034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGScl-00011m-7h
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54204)
+	id 1kGSg8-0007mo-RF
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 15:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSZl-0003vO-21
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:49:45 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25426
+ id 1kGSZu-0004ML-G7
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:49:54 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50139
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kGSZj-0000bC-AB
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:49:44 -0400
+ id 1kGSZs-0000bm-Lj
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 15:49:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599767382;
+ s=mimecast20190719; t=1599767392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8jZLnLTQJNdWJTI+v3xFFNgHXfxyVCGfTNuu+LgRjlk=;
- b=LmCLHJb3B66Ytv2uWltUH/bseXWvvmPOQsWG6iJX1vDWgDOj0MbI0uyHzb3KdQ+uoDyBlB
- ShbHJc2rlX5S1Jn13wIqb5FzUQRNvs24+Zcu+oWjKWoOPkAbROm91JqQrvfkYPXPKKtOEw
- gOVa0jz79EjdQfA1EMFWqfgMgEB15mE=
+ bh=rX4kafdmfGZKxi2RxomZg4CDzZ1oTRFgvM+T8+rbqIs=;
+ b=Qh8de0zikLcfdZTck9pojH36uvMwL7gIChAjUy2KQ296n00A5DXG/mJNrtC4NpuBlI3ioP
+ euEB+D6IQM0LrGF7LCABVhqKuaAdbezL0Ie9Fbxa+MUfqOE6tKV+xqAZIXvHIG9hHF87JE
+ vygpu9ktWEliNldVBRgtA6bfxeH9Kf0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-HEo0YXVhPIG2tGypR0Kb3g-1; Thu, 10 Sep 2020 15:49:40 -0400
-X-MC-Unique: HEo0YXVhPIG2tGypR0Kb3g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-513-NXE0ar2EMg6j0XI-tD_zpQ-1; Thu, 10 Sep 2020 15:49:50 -0400
+X-MC-Unique: NXE0ar2EMg6j0XI-tD_zpQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF160801AF2;
- Thu, 10 Sep 2020 19:49:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A49E107465B;
+ Thu, 10 Sep 2020 19:49:49 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 968E97E8F9;
- Thu, 10 Sep 2020 19:49:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2A017EB7A;
+ Thu, 10 Sep 2020 19:49:40 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/18] chardev: Rename FD_CHARDEV to CHARDEV_FD
-Date: Thu, 10 Sep 2020 15:48:51 -0400
-Message-Id: <20200910194903.4104696-7-ehabkost@redhat.com>
+Subject: [PATCH 07/18] chardev: Rename MUX_CHARDEV to CHARDEV_MUX
+Date: Thu, 10 Sep 2020 15:48:52 -0400
+Message-Id: <20200910194903.4104696-8-ehabkost@redhat.com>
 In-Reply-To: <20200910194903.4104696-1-ehabkost@redhat.com>
 References: <20200910194903.4104696-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -95,102 +95,163 @@ TYPE_CHARDEV_* constant names and the QOM type name strings
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/chardev/char-fd.h |  2 +-
- chardev/char-fd.c         | 14 +++++++-------
- chardev/char-serial.c     |  2 +-
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ chardev/chardev-internal.h |  2 +-
+ chardev/char-fe.c          |  4 ++--
+ chardev/char-mux.c         | 22 +++++++++++-----------
+ chardev/char.c             |  2 +-
+ 4 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/include/chardev/char-fd.h b/include/chardev/char-fd.h
-index 9de0e440de..707f7f1700 100644
---- a/include/chardev/char-fd.h
-+++ b/include/chardev/char-fd.h
-@@ -38,7 +38,7 @@ typedef struct FDChardev FDChardev;
+diff --git a/chardev/chardev-internal.h b/chardev/chardev-internal.h
+index aba0240759..740d56bf94 100644
+--- a/chardev/chardev-internal.h
++++ b/chardev/chardev-internal.h
+@@ -54,7 +54,7 @@ struct MuxChardev {
+ };
+ typedef struct MuxChardev MuxChardev;
  
- #define TYPE_CHARDEV_FD "chardev-fd"
+-DECLARE_INSTANCE_CHECKER(MuxChardev, MUX_CHARDEV,
++DECLARE_INSTANCE_CHECKER(MuxChardev, CHARDEV_MUX,
+                          TYPE_CHARDEV_MUX)
+ #define CHARDEV_IS_MUX(chr)                             \
+     object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_MUX)
+diff --git a/chardev/char-fe.c b/chardev/char-fe.c
+index 474715c5a9..419835c340 100644
+--- a/chardev/char-fe.c
++++ b/chardev/char-fe.c
+@@ -196,7 +196,7 @@ bool qemu_chr_fe_init(CharBackend *b, Chardev *s, Error **errp)
  
--DECLARE_INSTANCE_CHECKER(FDChardev, FD_CHARDEV,
-+DECLARE_INSTANCE_CHECKER(FDChardev, CHARDEV_FD,
-                          TYPE_CHARDEV_FD)
+     if (s) {
+         if (CHARDEV_IS_MUX(s)) {
+-            MuxChardev *d = MUX_CHARDEV(s);
++            MuxChardev *d = CHARDEV_MUX(s);
  
- void qemu_chr_open_fd(Chardev *chr, int fd_in, int fd_out);
-diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-index c2d8101106..b1701c4e4a 100644
---- a/chardev/char-fd.c
-+++ b/chardev/char-fd.c
+             if (d->mux_cnt >= MAX_MUX) {
+                 goto unavailable;
+@@ -231,7 +231,7 @@ void qemu_chr_fe_deinit(CharBackend *b, bool del)
+             b->chr->be = NULL;
+         }
+         if (CHARDEV_IS_MUX(b->chr)) {
+-            MuxChardev *d = MUX_CHARDEV(b->chr);
++            MuxChardev *d = CHARDEV_MUX(b->chr);
+             d->backends[b->tag] = NULL;
+         }
+         if (del) {
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index 6f980bb836..a9dcbf2cc0 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
 @@ -36,7 +36,7 @@
  /* Called with chr_write_lock held.  */
- static int fd_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ static int mux_chr_write(Chardev *chr, const uint8_t *buf, int len)
  {
--    FDChardev *s = FD_CHARDEV(chr);
-+    FDChardev *s = CHARDEV_FD(chr);
+-    MuxChardev *d = MUX_CHARDEV(chr);
++    MuxChardev *d = CHARDEV_MUX(chr);
+     int ret;
+     if (!d->timestamps) {
+         ret = qemu_chr_fe_write(&d->chr, buf, len);
+@@ -128,7 +128,7 @@ static void mux_chr_send_event(MuxChardev *d, int mux_nr, QEMUChrEvent event)
  
-     return io_channel_send(s->ioc_out, buf, len);
- }
-@@ -44,7 +44,7 @@ static int fd_chr_write(Chardev *chr, const uint8_t *buf, int len)
- static gboolean fd_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
+ static void mux_chr_be_event(Chardev *chr, QEMUChrEvent event)
+ {
+-    MuxChardev *d = MUX_CHARDEV(chr);
++    MuxChardev *d = CHARDEV_MUX(chr);
+ 
+     if (d->focus != -1) {
+         mux_chr_send_event(d, d->focus, event);
+@@ -182,7 +182,7 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
+ 
+ static void mux_chr_accept_input(Chardev *chr)
+ {
+-    MuxChardev *d = MUX_CHARDEV(chr);
++    MuxChardev *d = CHARDEV_MUX(chr);
+     int m = d->focus;
+     CharBackend *be = d->backends[m];
+ 
+@@ -195,7 +195,7 @@ static void mux_chr_accept_input(Chardev *chr)
+ 
+ static int mux_chr_can_read(void *opaque)
+ {
+-    MuxChardev *d = MUX_CHARDEV(opaque);
++    MuxChardev *d = CHARDEV_MUX(opaque);
+     int m = d->focus;
+     CharBackend *be = d->backends[m];
+ 
+@@ -213,7 +213,7 @@ static int mux_chr_can_read(void *opaque)
+ static void mux_chr_read(void *opaque, const uint8_t *buf, int size)
  {
      Chardev *chr = CHARDEV(opaque);
--    FDChardev *s = FD_CHARDEV(opaque);
-+    FDChardev *s = CHARDEV_FD(opaque);
-     int len;
-     uint8_t buf[CHR_READ_BUF_LEN];
-     ssize_t ret;
-@@ -74,7 +74,7 @@ static gboolean fd_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
- static int fd_chr_read_poll(void *opaque)
+-    MuxChardev *d = MUX_CHARDEV(opaque);
++    MuxChardev *d = CHARDEV_MUX(opaque);
+     int m = d->focus;
+     CharBackend *be = d->backends[m];
+     int i;
+@@ -234,7 +234,7 @@ static void mux_chr_read(void *opaque, const uint8_t *buf, int size)
+ 
+ void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event)
  {
-     Chardev *chr = CHARDEV(opaque);
--    FDChardev *s = FD_CHARDEV(opaque);
-+    FDChardev *s = CHARDEV_FD(opaque);
+-    MuxChardev *d = MUX_CHARDEV(chr);
++    MuxChardev *d = CHARDEV_MUX(chr);
+     int i;
  
-     s->max_size = qemu_chr_be_can_write(chr);
-     return s->max_size;
-@@ -82,13 +82,13 @@ static int fd_chr_read_poll(void *opaque)
+     if (!machine_init_done) {
+@@ -254,7 +254,7 @@ static void mux_chr_event(void *opaque, QEMUChrEvent event)
  
- static GSource *fd_chr_add_watch(Chardev *chr, GIOCondition cond)
+ static GSource *mux_chr_add_watch(Chardev *s, GIOCondition cond)
  {
--    FDChardev *s = FD_CHARDEV(chr);
-+    FDChardev *s = CHARDEV_FD(chr);
-     return qio_channel_create_watch(s->ioc_out, cond);
- }
+-    MuxChardev *d = MUX_CHARDEV(s);
++    MuxChardev *d = CHARDEV_MUX(s);
+     Chardev *chr = qemu_chr_fe_get_driver(&d->chr);
+     ChardevClass *cc = CHARDEV_GET_CLASS(chr);
  
- static void fd_chr_update_read_handler(Chardev *chr)
+@@ -267,7 +267,7 @@ static GSource *mux_chr_add_watch(Chardev *s, GIOCondition cond)
+ 
+ static void char_mux_finalize(Object *obj)
  {
--    FDChardev *s = FD_CHARDEV(chr);
-+    FDChardev *s = CHARDEV_FD(chr);
+-    MuxChardev *d = MUX_CHARDEV(obj);
++    MuxChardev *d = CHARDEV_MUX(obj);
+     int i;
  
-     remove_fd_in_watch(chr);
-     if (s->ioc_in) {
-@@ -102,7 +102,7 @@ static void fd_chr_update_read_handler(Chardev *chr)
- static void char_fd_finalize(Object *obj)
+     for (i = 0; i < d->mux_cnt; i++) {
+@@ -281,7 +281,7 @@ static void char_mux_finalize(Object *obj)
+ 
+ static void mux_chr_update_read_handlers(Chardev *chr)
  {
-     Chardev *chr = CHARDEV(obj);
--    FDChardev *s = FD_CHARDEV(obj);
-+    FDChardev *s = CHARDEV_FD(obj);
+-    MuxChardev *d = MUX_CHARDEV(chr);
++    MuxChardev *d = CHARDEV_MUX(chr);
  
-     remove_fd_in_watch(chr);
-     if (s->ioc_in) {
-@@ -130,7 +130,7 @@ int qmp_chardev_open_file_source(char *src, int flags, Error **errp)
- void qemu_chr_open_fd(Chardev *chr,
-                       int fd_in, int fd_out)
+     /* Fix up the real driver with mux routines */
+     qemu_chr_fe_set_handlers_full(&d->chr,
+@@ -295,7 +295,7 @@ static void mux_chr_update_read_handlers(Chardev *chr)
+ 
+ void mux_set_focus(Chardev *chr, int focus)
  {
--    FDChardev *s = FD_CHARDEV(chr);
-+    FDChardev *s = CHARDEV_FD(chr);
-     char *name;
+-    MuxChardev *d = MUX_CHARDEV(chr);
++    MuxChardev *d = CHARDEV_MUX(chr);
  
-     s->ioc_in = QIO_CHANNEL(qio_channel_file_new_fd(fd_in));
-diff --git a/chardev/char-serial.c b/chardev/char-serial.c
-index 7c3d84ae24..de1705d2a8 100644
---- a/chardev/char-serial.c
-+++ b/chardev/char-serial.c
-@@ -178,7 +178,7 @@ static void tty_serial_init(int fd, int speed,
- 
- static int tty_serial_ioctl(Chardev *chr, int cmd, void *arg)
+     assert(focus >= 0);
+     assert(focus < d->mux_cnt);
+@@ -316,7 +316,7 @@ static void qemu_chr_open_mux(Chardev *chr,
  {
--    FDChardev *s = FD_CHARDEV(chr);
-+    FDChardev *s = CHARDEV_FD(chr);
-     QIOChannelFile *fioc = QIO_CHANNEL_FILE(s->ioc_in);
+     ChardevMux *mux = backend->u.mux.data;
+     Chardev *drv;
+-    MuxChardev *d = MUX_CHARDEV(chr);
++    MuxChardev *d = CHARDEV_MUX(chr);
  
-     switch (cmd) {
+     drv = qemu_chr_find(mux->chardev);
+     if (drv == NULL) {
+diff --git a/chardev/char.c b/chardev/char.c
+index 77e7ec814f..43fb8bd50e 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -308,7 +308,7 @@ static const TypeInfo char_type_info = {
+ static bool qemu_chr_is_busy(Chardev *s)
+ {
+     if (CHARDEV_IS_MUX(s)) {
+-        MuxChardev *d = MUX_CHARDEV(s);
++        MuxChardev *d = CHARDEV_MUX(s);
+         return d->mux_cnt >= 0;
+     } else {
+         return s->be != NULL;
 -- 
 2.26.2
 
