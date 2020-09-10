@@ -2,57 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810EA26423F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:35:02 +0200 (CEST)
-Received: from localhost ([::1]:34768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9B1264277
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 11:38:32 +0200 (CEST)
+Received: from localhost ([::1]:42014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGIyq-0000QY-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60914)
+	id 1kGJ2F-0003hw-BB
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 05:38:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kGIwg-0006Yd-6I
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:32:46 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:60739)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kGJ15-00022s-AT; Thu, 10 Sep 2020 05:37:19 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kGIwb-0002Va-8G
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 05:32:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=r4jlAeKMxz4zmcg9GTziYtnLyqQInHTBPUmMMvEbGZI=; b=M2+jWwGi2wJM9Edsh0XlV3to98
- vWy+ySi2+CM6H5DaIjYRsMSy5neSblQnzeiHbeQjLNmoZ/24sYnWMGiruO6DnAo2z1jf0NQB60yDf
- sinNh+mcs0yYK9rvuhvrf7VcB8PxTLfeV6CPiL9YW/ieVoRb1j6HOpTHVwk4caQ5zFtTalsrPGQ27
- HYIBmfRh3DUeFIfo6PK8mHm9TwPxklewoyObHcJQjkW29yuERnYR5GHYBDt8bAe4vBTf0k+HfZ6sU
- 5wFCn0ZHvN8+/c05S/Jndc9aIaWRl+WL58I050jHOOLTYrszvYv4vrcT+Sswbm6PxTe9uFvUZkCH1
- cQDwkNQw==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Liviu Ionescu <ilg@livius.net>,
- G 3 <programmingkidx@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
-Subject: Re: [RFC] QEMU as Xcode project on macOS
-Date: Thu, 10 Sep 2020 11:32:35 +0200
-Message-ID: <2421928.3WNMogbLRJ@silver>
-In-Reply-To: <20200910073710.GA1083348@redhat.com>
-References: <2764135.D4k31Gy3CM@silver> <1695914.5EixHECA2G@silver>
- <20200910073710.GA1083348@redhat.com>
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kGJ11-0003Qu-6c; Thu, 10 Sep 2020 05:37:19 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08A9Xbrl098990; Thu, 10 Sep 2020 05:37:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=mwGrLLPo1BZCFqaigaL+8xe0eKKdSk53E8eSw7ho/VY=;
+ b=BqbaHDuJSJWUM1Lo5jqNEHK8BwBaDgVue3/1mZQXE9tBXoHu1tS4AA+WohwzwZ7iSFDY
+ PP32EWt4AXoZQ1uGSOBwkC9UfTXXD/N7RTNSbQCdrWFgVTGfQ+vfqAvQKuqmRbvQjjha
+ tDiRpiZXR6br6jauTM2RP6BVyc8eiYHIhHeK5/tl3NES/yiUg3t9J1+7nrLv0d9xLxIu
+ KPe5yWnMNwafukUkq1NTEVFUiauOZ10Jqm1QTrA4nqca9L0u48eaAAhYYdz4Wlhq3KVR
+ 76qL3GzDVVcdIVuRbwx8kyTq4SVh65vS1ZIOtdpgVRCjx9cfjJe/4Nr6MGDnIADW9DzC aA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fh2hh6d6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 05:37:13 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08A9YEEk101488;
+ Thu, 10 Sep 2020 05:37:12 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fh2hh6ca-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 05:37:12 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08A9Vv6P030763;
+ Thu, 10 Sep 2020 09:37:11 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma01dal.us.ibm.com with ESMTP id 33d46n2p6s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 09:37:11 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08A9bAkC48562474
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Sep 2020 09:37:10 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 55B3E112064;
+ Thu, 10 Sep 2020 09:37:10 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1FDB2112062;
+ Thu, 10 Sep 2020 09:37:10 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.85.156.134])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Sep 2020 09:37:10 +0000 (GMT)
+From: Collin Walling <walling@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v5 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
+Date: Thu, 10 Sep 2020 05:36:47 -0400
+Message-Id: <20200910093655.255774-1-walling@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 05:32:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-10_01:2020-09-10,
+ 2020-09-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ spamscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009100088
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 05:37:13
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,33 +106,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
+ cohuck@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com, mst@redhat.com,
+ pbonzini@redhat.com, sumanthk@linux.ibm.com, mihajlov@linux.ibm.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 10. September 2020 09:37:10 CEST Daniel P. Berrang=E9 wrote:
-> I don't think we want to be adding more 3rd party deps as submodules, qui=
-te
-> the opposite, we want to remove more submodules we currently have.
->=20
-> Bundling every important dep we use as a submodule and providing build
-> rules, means we're effectively re-inventing Homebrew / MacPorts and this =
-is
-> not a sane use of our time.
+Janosch, Thomas, Conny: I've removed your r-b's from patch #3 since I
+added some g_mallocs in place and I'd like to make sure things are
+done properly there (explained in changelog, but let me know if further
+explanation is necessary).
 
-Well, that's actually the whole point of this thread: saving developers' ti=
-me.=20
-And I think the submodule solution is the most sane one.
+Janosch, please let me know if the changes to #3 are safe under PV.
 
-=46rankly if you compile FOSS software on Mac that asks you to "just" insta=
-ll=20
-dependencies with Homebrew and co, it feels like you have 2 jobs: a softwar=
-e=20
-developer, and a distribution maintainer. The difference to the submodule=20
-though: a much larger amount of developers have to do that maintainer job=20
-(manually resolving conflicts & crashes, rollbacks, etc.).
+Thanks.
 
-Best regards,
-Christian Schoenebeck
+Changelog:
 
+    v5
+
+    • removed sccb_verify_length function
+        - will simply use the length check code that was in place before
+
+    • introduced a macro for calculating required SCCB length
+        - takes a struct and max # of cpus as args
+
+    • work_sccb size is now dynamically allocated based on the length
+      provided by the guest kernel, instead of always using a static
+      4K size
+        - as such, the SCCB will have to be read twice:
+            - first time to retrieve the header
+            - second time with proper size after space for work_sccb 
+              is allocated
+
+    v4
+    
+    • added r-b's and ack's (thanks, everyone!)
+
+    • renamed boundary and length function
+
+    • updated header sync to reflect a change discussed in the respective
+        KVM patches
+
+    • s/data_len/offset_cpu
+
+    • added /* fallthrough */ comment in boundary check
+
+    v3
+
+    • Device IOCTLs removed
+        - diag 318 info is now communicated via sync_regs
+
+    • Reset code removed
+        - this is now handled in KVM
+        - diag318_info is stored within the CPU reset portion of the
+            S390CPUState
+
+    • Various cleanups for ELS preliminary patches
+
+    v2
+
+    • QEMU now handles the instruction call
+        - as such, the "enable diag 318" IOCTL has been removed
+
+    • patch #1 now changes the read scp/cpu info functions to
+      retrieve the machine state once
+        - as such, I have not added any ack's or r-bs since this
+          patch differs from the previous version
+
+    • patch #3 introduces a new "get_read_scp_info_data_len"
+      function in order clean-up the variable data length assignment
+      in patch #7
+        - a comment above this function should help clarify what's
+          going on to make things a bit easier to read
+
+    • other misc clean ups and fixes
+        - s/diag318/diag_318 in order to keep the naming scheme
+          consistent with Linux and other diag-related code
+        - s/byte_134/fac134 to align naming scheme with Linux
+
+-----------------------------------------------------------------------
+
+This patch series introduces two features for an s390 KVM quest:
+    - Extended-Length SCCB (els) for the Read SCP/CPU Info SCLP 
+        commands
+    - DIAGNOSE 0x318 (diag_318) enabling / migration handling
+
+The diag 318 feature depends on els and KVM support.
+
+The els feature is handled entirely with QEMU, and does not require 
+KVM support.
+
+Both features are made available starting with the zEC12-full model.
+
+These patches are introduced together for two main reasons:
+    - els allows diag 318 to exist while retaining the original 248 
+        VCPU max
+    - diag 318 is presented to show how els is useful
+
+Full els support is dependant on the Linux kernel, which must react
+to the SCLP response code and set an appropriate-length SCCB. 
+
+A user should take care when tuning the CPU model for a VM.
+If a user defines a VM with els support and specifies 248 CPUs, but
+the guest Linux kernel cannot react to the SCLP response code, then
+the guest will crash immediately upon kernel startup.
+
+Collin L. Walling (8):
+  s390/sclp: get machine once during read scp/cpu info
+  s390/sclp: rework sclp boundary checks
+  s390/sclp: read sccb from mem based on provided length
+  s390/sclp: check sccb len before filling in data
+  s390/sclp: use cpu offset to locate cpu entries
+  s390/sclp: add extended-length sccb support for kvm guest
+  s390/kvm: header sync for diag318
+  s390: guest support for diagnose 0x318
+
+ hw/s390x/event-facility.c           |   2 +-
+ hw/s390x/sclp.c                     | 145 ++++++++++++++++++++--------
+ include/hw/s390x/sclp.h             |   6 +-
+ linux-headers/asm-s390/kvm.h        |   7 +-
+ linux-headers/linux/kvm.h           |   1 +
+ target/s390x/cpu.h                  |   2 +
+ target/s390x/cpu_features.h         |   1 +
+ target/s390x/cpu_features_def.h.inc |   4 +
+ target/s390x/cpu_models.c           |   1 +
+ target/s390x/gen-features.c         |   2 +
+ target/s390x/kvm.c                  |  39 ++++++++
+ target/s390x/machine.c              |  17 ++++
+ 12 files changed, 183 insertions(+), 44 deletions(-)
+
+-- 
+2.26.2
 
 
