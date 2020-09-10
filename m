@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C314D2647AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 16:04:17 +0200 (CEST)
-Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1DAB2647A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 16:02:17 +0200 (CEST)
+Received: from localhost ([::1]:59418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGNBQ-0005zC-SD
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 10:04:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45436)
+	id 1kGN9U-00047u-SV
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 10:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGN6U-0001db-St
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:59:10 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28478
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kGN6S-0003t4-MI
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:59:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599746347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZoFYGRmakF5g5oQA1REcNZ0QsgbkYiu/M6HpT8wcTwo=;
- b=QgZOGZh+necEm2rvQ2yrX6TbR51UkqSFsDAp4mk4fkNZAKbBKyxNGpfClT7UfShk3+phqc
- yiRpEKCp0gjbOFfXVSgwgtXUV9jcJ/ygqAc7h2arbSLuh+XUQkP70uF9wEm/IxtVMOusHg
- cC3Z7okduE1w0+UuhH1Xu4+Oi2A312U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-fX9lGT51NSWjmyux4bxgqQ-1; Thu, 10 Sep 2020 09:59:05 -0400
-X-MC-Unique: fX9lGT51NSWjmyux4bxgqQ-1
-Received: by mail-wm1-f72.google.com with SMTP id d22so35121wmd.6
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:59:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kGN7t-0003DN-Ub
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:00:37 -0400
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:34813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kGN7n-00047B-Ur
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 10:00:37 -0400
+Received: by mail-oo1-xc44.google.com with SMTP id o20so1469826ook.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 07:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bhEcD7xo6DzegloYJoWZqzs/lg/Hhl6C7s1uCMA04J0=;
+ b=mWX0csWjF3sRA5CAU4zfkP3tC3E9okRS88VOcVpErDBufJf+2sO2eo9BxUhUyoDkOV
+ u0hSN54sOhbRIvkLdyMmkPUqVezzeyvY8ZUDbcqwKvtJxMUuQQnyrLtyfuVkQHq2GrRv
+ EdU2Js+ItlNxb591qMTn/fQI4o+ALhRLS7/6cXDbNvARHdx44JBF9ONBKQaDqEvcjAPH
+ XVKzcmxwhJ2b05xnbc4cY40quLLGneBE1429CXsuOAM7pye1FHckSXmwQ2DM4qZG1wNg
+ bhP40usriNLHl9A6vnx/GrgdrE/ItT35ddEpKMZeJC0yny5sklmoUqtnf2chJ+ciBoLh
+ VAJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZoFYGRmakF5g5oQA1REcNZ0QsgbkYiu/M6HpT8wcTwo=;
- b=ZEYFcHtpq4rInNWtEHOsolV4Ll2bv3ZlFHg4s/pvcFnoG91Wp6Rtfcm6WMQQXgDz6b
- gxKdGVc3c+XbK3UxU4tKNF8p3ZBxjJ1V683AGePpLJpnV21IlkxCL7jgDASXbdGqcq80
- 6A1bXmPQMW2sKe3An8EQzEn8CcWF8i8ejLsyY8kc/yhb0y2ztI7UlEC/O572/4Ga4tNO
- 244xV6mTbG6apkQuVSxwZYni0NRUjTZucJf45A96LJQKqVV+evvaqymq5AJZlkQ5+YK3
- N1wDZYv+9JQq7ZsZqWmMg5bEfr2BhJvbDJx0Rcsn+LlWEzaUrcoupB3yxMWmNS2bjX0V
- CcUw==
-X-Gm-Message-State: AOAM532Htqk66gW1a/ibVNBOBB3t8q+jXVmF/1TLxCNcRawJeaf3awYE
- WZsMccZjmIUwCYCJIxpu8oRgMsA+fZIwTCfYBo0LbpJaJq6r7baUYtyNbcEWMVf/EI/2giwZqQ4
- Ozx/8WpVjQ5HQJ5s=
-X-Received: by 2002:a5d:634d:: with SMTP id b13mr9430872wrw.324.1599746344464; 
- Thu, 10 Sep 2020 06:59:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwy6RIhL+x/0FP0Y9VjyGYMw3xGiuSxmmhaKbxe8cBobjfShD25xqqCwP6BM5Yq37IhOZALSQ==
-X-Received: by 2002:a5d:634d:: with SMTP id b13mr9430848wrw.324.1599746344288; 
- Thu, 10 Sep 2020 06:59:04 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id q20sm3640924wmj.5.2020.09.10.06.59.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 06:59:03 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] hw/timer/hpet: Fix DPRINTF format string
-Date: Thu, 10 Sep 2020 15:58:52 +0200
-Message-Id: <20200910135852.516809-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200910135852.516809-1-philmd@redhat.com>
-References: <20200910135852.516809-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bhEcD7xo6DzegloYJoWZqzs/lg/Hhl6C7s1uCMA04J0=;
+ b=R4Rfi6gLkFXEIZbCQScLjFBzzP8bJDVcOL/8o18t9NQRzbDPqQGyUcF8vnmeeudTcY
+ WIo+KqiTonUkDZE++PDK3+br3qSjqdWlPUTHTZq4ruFZODAXXzR6toIlYCbn51OYPVNd
+ VEqktAAmMYPv9W++noe40AUXG7wL7ZCoU6HbpQ/EmGGtw8xAGmzlnVXIeBxok/qsHWsi
+ snLRfAAVdqht+Ydc4mt6zsKlT5MYUIzAsuKWxEETh9tsHMUk9mc3yjbAaDAidYlXichV
+ UMjhW88oH4bF41zScKkxu6Haj+VXMJNZeWUxv7yuTtCTo7SZZOpc+VMRXipeqVrABeSj
+ N5ZA==
+X-Gm-Message-State: AOAM531ByhLIYoNLdc7YakFSJDajsqzqsqaMNLSNAnGXrxb+V/P/q35g
+ SHz1zc5eulJ1YrQjzwz5DAL3omOTKFVBYVeVH7I=
+X-Google-Smtp-Source: ABdhPJygA25JYwq4xThQSLKdARmaWq7BnC8J01kFgvL1yl4ZoPM1QtMtp7/liPIyu1roqf/U1t40rWtrhqCcKifi4hI=
+X-Received: by 2002:a4a:ae4c:: with SMTP id a12mr4567884oon.60.1599746429281; 
+ Thu, 10 Sep 2020 07:00:29 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 08:38:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <1599661096-127913-1-git-send-email-zhengchuan@huawei.com>
+ <1599661096-127913-10-git-send-email-zhengchuan@huawei.com>
+In-Reply-To: <1599661096-127913-10-git-send-email-zhengchuan@huawei.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 10 Sep 2020 21:59:53 +0800
+Message-ID: <CAKXe6S+D+15MW2=Bq2o1NGmCgke0EErbPu_-KGbT0PSPhpAASA@mail.gmail.com>
+Subject: Re: [PATCH v7 09/12] migration/dirtyrate: Implement
+ set_sample_page_period() and get_sample_page_period()
+To: Chuan Zheng <zhengchuan@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,66 +80,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Dov Murik <dovmurik@linux.vnet.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>, dme@dme.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, xiexiangyou@huawei.com,
+ Qemu Developers <qemu-devel@nongnu.org>, AlexChen <alex.chen@huawei.com>,
+ ann.zhuangyanying@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix building with HPET_DEBUG enabled:
+Chuan Zheng <zhengchuan@huawei.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=889=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:15=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Implement set_sample_page_period()/get_sample_page_period() to sleep
+> specific time between sample actions.
+>
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+> ---
+>  migration/dirtyrate.c | 24 ++++++++++++++++++++++++
+>  migration/dirtyrate.h |  6 ++++++
+>  2 files changed, 30 insertions(+)
+>
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index ae1959b..8a30261 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -27,6 +27,30 @@
+>  static int CalculatingState =3D DIRTY_RATE_STATUS_UNSTARTED;
+>  static struct DirtyRateStat DirtyStat;
+>
+> +static int64_t set_sample_page_period(int64_t msec, int64_t initial_time=
+)
+> +{
+> +    int64_t current_time;
+> +
+> +    current_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> +    if ((current_time - initial_time) >=3D msec) {
+> +        msec =3D current_time - initial_time;
+> +    } else {
+> +        g_usleep((msec + initial_time - current_time) * 1000);
+> +    }
+> +
+> +    return msec;
+> +}
+> +
+> +static bool get_sample_page_period(int64_t sec)
 
-  hw/timer/hpet.c:512:73: error: format specifies type 'unsigned int' but the argument has type 'uint64_t' (aka 'unsigned long') [-Werror,-Wformat]
-      DPRINTF("qemu: Enter hpet_ram_writel at %" PRIx64 " = %#x\n", addr, value);
-                                                            ~~~           ^~~~~
-                                                            %#lx
-  hw/timer/hpet.c:655:21: error: format specifies type 'unsigned int' but the argument has type 'uint64_t' (aka 'unsigned long') [-Werror,-Wformat]
-                      value, s->hpet_counter);
-                      ^~~~~
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/timer/hpet.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+This function name may confuse people the this will get the period.
+But in fact you just check whether the 'period' is valid.
+I think it is better to name it to be 'is_sample_period_valid' or
+something meaningful.
 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index b683f64f1d3..20bd0388740 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -495,7 +495,8 @@ static void hpet_ram_write(void *opaque, hwaddr addr,
-     HPETState *s = opaque;
-     uint64_t old_val, new_val, val, index;
- 
--    DPRINTF("qemu: Enter hpet_ram_writel at %" PRIx64 " = %#x\n", addr, value);
-+    DPRINTF("qemu: Enter hpet_ram_writel at %#" HWADDR_PRIx " = %#"PRIx64"\n",
-+            addr, value);
-     index = addr;
-     old_val = hpet_ram_read(opaque, addr, 4);
-     new_val = value;
-@@ -637,7 +638,8 @@ static void hpet_ram_write(void *opaque, hwaddr addr,
-             }
-             s->hpet_counter =
-                 (s->hpet_counter & 0xffffffff00000000ULL) | value;
--            DPRINTF("qemu: HPET counter written. ctr = %#x -> %" PRIx64 "\n",
-+            DPRINTF("qemu: HPET counter written. ctr = %#"
-+                    PRIx64 " -> %#" PRIx64 "\n",
-                     value, s->hpet_counter);
-             break;
-         case HPET_COUNTER + 4:
-@@ -646,7 +648,8 @@ static void hpet_ram_write(void *opaque, hwaddr addr,
-             }
-             s->hpet_counter =
-                 (s->hpet_counter & 0xffffffffULL) | (((uint64_t)value) << 32);
--            DPRINTF("qemu: HPET counter + 4 written. ctr = %#x -> %" PRIx64 "\n",
-+            DPRINTF("qemu: HPET counter + 4 written. ctr = %#"
-+                    PRIx64 " -> %#" PRIx64 "\n",
-                     value, s->hpet_counter);
-             break;
-         default:
--- 
-2.26.2
+Thanks,
+Li Qiang
 
+> +{
+> +    if (sec < MIN_FETCH_DIRTYRATE_TIME_SEC ||
+> +        sec > MAX_FETCH_DIRTYRATE_TIME_SEC) {
+> +        return false;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>  static int dirtyrate_set_state(int *state, int old_state, int new_state)
+>  {
+>      assert(new_state < DIRTY_RATE_STATUS__MAX);
+> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+> index faaf9da..8f9bc80 100644
+> --- a/migration/dirtyrate.h
+> +++ b/migration/dirtyrate.h
+> @@ -29,6 +29,12 @@
+>   */
+>  #define MIN_RAMBLOCK_SIZE                         128
+>
+> +/*
+> + * Take 1s as minimum time for calculation duration
+> + */
+> +#define MIN_FETCH_DIRTYRATE_TIME_SEC              1
+> +#define MAX_FETCH_DIRTYRATE_TIME_SEC              60
+> +
+>  struct DirtyRateConfig {
+>      uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+>      int64_t sample_period_seconds; /* time duration between two sampling=
+ */
+> --
+> 1.8.3.1
+>
+>
 
