@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A765264493
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:49:17 +0200 (CEST)
-Received: from localhost ([::1]:52664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C11126448C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 12:48:13 +0200 (CEST)
+Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGK8i-0005Ca-Hq
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:49:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53752)
+	id 1kGK7g-0003Q2-6g
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 06:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1kGK6a-00025K-Uu
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:47:05 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41196)
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1kGK6k-0002GU-Fi
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:47:14 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1kGK6Z-0004vR-7x
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:47:04 -0400
-Received: by mail-pl1-x643.google.com with SMTP id m15so720400pls.8
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 03:47:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1kGK6h-0004xj-Vr
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 06:47:14 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id s2so2836795pjr.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 03:47:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KjNeJ0OHMTFoWSl8hs1f2FDbzHjoDqMgfcwgM18B2LQ=;
- b=RIJv4bo23IcX09LvY/0oxpc9+1scYlKHzMlSUBoeWOqHx8rsjuwswle2rYkgDZ0w6R
- Z7rsNhQDPx86ycxsd30DysCaRLDqSchFURYZ+wGb1m+CThYoiDFB+52jCOTuc/WZsTpy
- 7XNZZ+fgUGlEcjVevh0s1wOKP6wQz/NNvZTCQ=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=UZ3usPZQMy5X6Hme0WfoonfrWOf+pic6zqR1s5SrtwE=;
+ b=DoyjAtpPHQ1XTzjMrbnIBTknbpQh78XNnLTz54LixlHXhpzyUwgIzGYn3u8R9iMmBF
+ siqiK8FLgnzbwkzMjwhEJr9ocP/0A5cd7HVjqFwBghYXq4yffGL3FYi31klBf4pTaKS1
+ 2np/xlVGbZRshbbCadygQkyAG0Jz+tZitE5d4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KjNeJ0OHMTFoWSl8hs1f2FDbzHjoDqMgfcwgM18B2LQ=;
- b=FWD8m2UaSPSBlWTVsIjs46LhlEINS6tK6r9BgMS4QDbiwDNkHDqr647diCvAA4YbJv
- SMhNHp2IIfa46eXy8r1yP5BYKhQm9CzWjYuLtPv/LiFVZpk0Z+o4/WR4kcm47DiiFaaW
- 6uT4oxPstAK93wDDMH6+PpjR1vX5qDXL9uekn5Ed9q3tSVZ9oGTkSDIKaKnhUCRfXrum
- HO8Wo/KnCIarrGoPzwJDd4Gry7qp6/4IrIUc9Q5flhwfg4PgaqXqRLYZ9H2m5TmUiC4Y
- /uKJVYePy3yv6ULNUB1Vu856kLowEts9FZaveFRl1gDinHyHGJO/Hk4oh+B1OY+rxf8F
- 8Lcw==
-X-Gm-Message-State: AOAM531TWLgzWy+EI6oF5IHVfn42R5qy+acSV8i0V8XF+cDISwfoGFHc
- 8mT+22ijjo09chSFPnuBe0AYvY1P7GVu+lv5
-X-Google-Smtp-Source: ABdhPJyU2lsOAYU8nTxWZiEXN4paSZ8D41GdUd0rOyD1PVQJoUHaPsIQi5zD24HBYsPQnkRmaitbMA==
-X-Received: by 2002:a17:90b:1990:: with SMTP id
- mv16mr4381774pjb.81.1599734820740; 
- Thu, 10 Sep 2020 03:47:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UZ3usPZQMy5X6Hme0WfoonfrWOf+pic6zqR1s5SrtwE=;
+ b=Z8cTKOqDYFYt/A35dAGEHwyOH5RuBMG4HvVWTP4h3d2uO3GYfBYGX59VGQIhwNMDUc
+ sODf9Xqtu6AS91ox1nrm5+uBPXi/XJIIlqvPpGpjFjfiM/6EjOtADqF28g3d6V/80KqN
+ sWYfp2OqJ4EwjDGbWLGWFm3A0BALTMur85NMqAT70JsOTnGpTuNmEQ4z7GohuI+z0dZ+
+ Roj2jLAsvAZd+EjY1C9hflusxOtPW0kcecwWuTmVnEcyXXoLa/dvTKh4Llm3elOjxsPU
+ rNRpC+RzlupiO1E3F2DmSS4Lhj+foqi2FfKxWOgD2bZ+P+e+H9xBRaAFX+BLaBQMY1eD
+ ZJYA==
+X-Gm-Message-State: AOAM532RnzEUQ0irMpGj/VPJIEnlXINcBUeIZnfvDl22s+W8gv/bzbXD
+ 4cumOkfFN2+4VN3CZRca8Vm8oVqcBteiFaKf
+X-Google-Smtp-Source: ABdhPJx6Poo5lFTmOURBD7yj7GgBQC7S5BbQ5geZNvLkbAEVeGJeAZ3gT6SMJ6pPSRWFAXrI6xW3vQ==
+X-Received: by 2002:a17:90b:93:: with SMTP id
+ bb19mr4780966pjb.162.1599734829820; 
+ Thu, 10 Sep 2020 03:47:09 -0700 (PDT)
 Received: from localhost.localdomain (125-227-154-100.HINET-IP.hinet.net.
  [125.227.154.100])
- by smtp.googlemail.com with ESMTPSA id 31sm4783840pgs.59.2020.09.10.03.46.58
+ by smtp.googlemail.com with ESMTPSA id 31sm4783840pgs.59.2020.09.10.03.47.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 03:47:00 -0700 (PDT)
+ Thu, 10 Sep 2020 03:47:09 -0700 (PDT)
 From: Derek Su <dereksu@qnap.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/1] COLO: only flush dirty ram pages from colo cache
-Date: Thu, 10 Sep 2020 10:46:49 +0000
-Message-Id: <20200910104650.1182807-1-dereksu@qnap.com>
+Subject: [PATCH v1 1/1] COLO: only flush dirty ram pages from colo cache
+Date: Thu, 10 Sep 2020 10:46:50 +0000
+Message-Id: <20200910104650.1182807-2-dereksu@qnap.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200910104650.1182807-1-dereksu@qnap.com>
+References: <20200910104650.1182807-1-dereksu@qnap.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=dereksu@qnap.com; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=dereksu@qnap.com; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,33 +86,87 @@ Cc: Derek Su <dereksu@qnap.com>, zhang.zhanghailiang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the secondary side, the colo_flush_ram_cache() calls
-migration_bitmap_find_dirty() finding the dirty pages and
-flushes them to host. But ram_state's ram_bulk_stage flag is always
+In secondary side, the colo_flush_ram_cache() calls
+migration_bitmap_find_dirty() to finding the dirty pages and
+flush them to host. But ram_state's ram_bulk_stage flag is always
 enabled in secondary side, it leads to the whole ram pages copy
 instead of only dirty pages.
 
-In the test VM with 4GB RAM under the steady state, the
-colo_flush_ram_cache() consumes 650 ms.
+Here, the ram_bulk_stage in secondary side is disabled in the
+preparation of COLO incoming process to avoid the whole dirty
+ram pages flush.
 
-Here, the ram_bulk_stage flag in secondary side is disabled in the
-preparation of COLO incoming process to avoid the whole dirty ram
-pages flush.
-
-After patching, the time consumption of colo_flush_ram_cache() is
-reduced to 10 ms averagely.
-
-Please help to review and give comments, thanks a lot!
-
-
-Derek Su (1):
-  COLO: only flush dirty ram pages from colo cache
-
+Signed-off-by: Derek Su <dereksu@qnap.com>
+---
  migration/colo.c |  6 +++++-
  migration/ram.c  | 10 ++++++++++
  migration/ram.h  |  3 +++
  3 files changed, 18 insertions(+), 1 deletion(-)
 
+diff --git a/migration/colo.c b/migration/colo.c
+index ea7d1e9d4e..6e644db306 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -844,6 +844,8 @@ void *colo_process_incoming_thread(void *opaque)
+         return NULL;
+     }
+ 
++    colo_disable_ram_bulk_stage();
++
+     failover_init_state();
+ 
+     mis->to_src_file = qemu_file_get_return_path(mis->from_src_file);
+@@ -873,7 +875,7 @@ void *colo_process_incoming_thread(void *opaque)
+         goto out;
+     }
+ #else
+-        abort();
++    abort();
+ #endif
+     vm_start();
+     trace_colo_vm_state_change("stop", "run");
+@@ -924,6 +926,8 @@ out:
+         qemu_fclose(fb);
+     }
+ 
++    colo_enable_ram_bulk_stage();
++
+     /* Hope this not to be too long to loop here */
+     qemu_sem_wait(&mis->colo_incoming_sem);
+     qemu_sem_destroy(&mis->colo_incoming_sem);
+diff --git a/migration/ram.c b/migration/ram.c
+index 76d4fee5d5..65e9b12058 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3357,6 +3357,16 @@ static bool postcopy_is_running(void)
+     return ps >= POSTCOPY_INCOMING_LISTENING && ps < POSTCOPY_INCOMING_END;
+ }
+ 
++void colo_enable_ram_bulk_stage(void)
++{
++    ram_state->ram_bulk_stage = true;
++}
++
++void colo_disable_ram_bulk_stage(void)
++{
++    ram_state->ram_bulk_stage = false;
++}
++
+ /*
+  * Flush content of RAM cache into SVM's memory.
+  * Only flush the pages that be dirtied by PVM or SVM or both.
+diff --git a/migration/ram.h b/migration/ram.h
+index 2eeaacfa13..c1c0ebbe0f 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -69,4 +69,7 @@ void colo_flush_ram_cache(void);
+ void colo_release_ram_cache(void);
+ void colo_incoming_start_dirty_log(void);
+ 
++void colo_enable_ram_bulk_stage(void);
++void colo_disable_ram_bulk_stage(void);
++
+ #endif
 -- 
 2.25.1
 
