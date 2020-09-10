@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378F72646B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:17:09 +0200 (CEST)
-Received: from localhost ([::1]:59046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E992646C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 15:20:06 +0200 (CEST)
+Received: from localhost ([::1]:46756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGMRo-0005vC-5f
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:17:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
+	id 1kGMUf-0003uZ-18
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 09:20:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGMPx-00040M-19
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:13 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44137)
+ id 1kGMQ2-0004CE-UA
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:18 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGMPv-00066x-BA
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:12 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id s12so6632211wrw.11
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:15:10 -0700 (PDT)
+ id 1kGMPw-00067J-NH
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 09:15:18 -0400
+Received: by mail-wm1-x332.google.com with SMTP id z9so14070wmk.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 06:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2cx8jHS3LDXcAjC1Gi1p55lLhOOKCtECYIqvv44WK10=;
- b=hqaQz8MEie1GF6oYswJDmywE8n12EtaZ4paup5LTS7qqWM++rSPPcSXwJvcG3Ub3q2
- Ze2LoN+xyT+FA5ITATgl9MrCxjg6cmbL6PsYKwKvMFoHoguDZkQsM7sRXcQ2qWE9VeHT
- MuL/CQoDO10jZX8hJN98uFnfv0Tvc4Oafcir6J9RU0NDloXo9iiwkivJZ0dETjJ09lbC
- MEDaZtXrpxCVB0hNCCEJ0d8o/hwoDRlWsOeWbExa52fgPSYh+gEz85xDz9wu3UnnsKlV
- 250AREmaUjcynCdAlhNGIl33wKYV0OJgq0r29ZKudcbs0MYjJlQHM++FZ0dwcLfiXwkb
- q9dA==
+ bh=eti/00xuqW2aTyT+ZU1Cdkbf/mkV1wbPcRPArTMTYBw=;
+ b=Y342jatoHXMXkVZ843PLKIXqJVZB9SUySXLH+EWRBDClBaVt0muSjmgtyV8IOuxSZa
+ X1LHJYqv/8wj8jsXfxyC1oSO7qxW+yXCEEmO/ZjL+mQxx5ey1Npctjirs2D+CRjeAOSZ
+ rJ1zpoLN8abcFnCtqRE00BdGveXDEskX6TzLEjgncmU/UTI1CnTAwooXlS+5tt9XAx32
+ lItHa+hxb5LkxDm344hXNbP6Dv0ZbddJ3XcLoMzhBRN0LiypKbxjUix/TyFVVQOPsWt5
+ U6W8E4LGZkYSDWHAyRLGPHkB9LmdDJrDhFgkstohiuK7ROblQiDJQVMEOKFnZ8IIIvk2
+ nfeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2cx8jHS3LDXcAjC1Gi1p55lLhOOKCtECYIqvv44WK10=;
- b=E+NAZV5pEUjUXwL27Q8LqkpU8lFlPLkVvPbqJoAfdXe+jAjg6Ou5gKdIMHZPlWr1t6
- +evVPd/sm1E0VMW2mPVAc+jADt1vd9jAx/uLynRWiAp/lXIy2kRkxaDH4+RNfjI4MwTd
- Tl3aatXPFe4uePVYImNnrEbLmlK4ljZCS3CpyKjV8x05y2z7mnzUBjY1O4UHhmY+isBK
- sEmrINpinsVywibhi7Mje/XYM5And8K2aP69U1dbkNlmSbdZR3lhBCTdDIiMQQuYGxxH
- sYAC7d+lF15+IXTi4NCSO3GU7JA3rNZyhyO1uirXeQdm89VYim7mpsbS6rluxkvqKq08
- R/qg==
-X-Gm-Message-State: AOAM530fI9+mGQ7X3GGlr6p+0dZVb4CZfat35ubDjjlFDDnavTeEbEGa
- AUtxM4oUJEU/yQKU9Pb9pppbew==
-X-Google-Smtp-Source: ABdhPJwKvxg4pb/T0NM2vcuAnrhbJ29Uf/o/3XpFNVmxwr2pPIcS8WlkrTehU6ecUo4O0wIrjqg+9w==
-X-Received: by 2002:a5d:458e:: with SMTP id p14mr9053965wrq.61.1599743709923; 
- Thu, 10 Sep 2020 06:15:09 -0700 (PDT)
+ bh=eti/00xuqW2aTyT+ZU1Cdkbf/mkV1wbPcRPArTMTYBw=;
+ b=tGkKSPuPHUB8JwT+vfhgeb9hmOqILypB/Jos3oV9Jid+Pc2O9eT0I4Gbl1vZ8wciV9
+ qqeEVR3YHC+yIhRLk1VYk03D5JC9U4KZV29c4P9jDaWo6VrawYEK3Gb+6GhIdsND5aTq
+ Mun41GsyUokOvnY3mXKbD3jDqHib4PStXIGPcFT432rqk7uXNTIB7kZbfJm1sO6liwII
+ 0n7XCYqC58v2B9itfsZZryVQ/ypg+VX9CfIr6WUHZj4h4u4NFPlKf7cIeh7dSkQ7nNsq
+ 9wATrZ1JCxpK5sNGUEZ3eZiewXV9Zc37rzV3lvqy9eUQAvowW+ogNPXKPV6+n1O1n71O
+ 4KdA==
+X-Gm-Message-State: AOAM532ssdXVj+JunEvQjVTD7O3OErC3wpEzSVIyZJMqsv51/EMAu9ql
+ fC84CA00ruIIl+FhxspEwc9yDA==
+X-Google-Smtp-Source: ABdhPJwxdhzQKJF+WthDET5Z9eYPGGvlAtC3xdtAuvaPOvNTP9bCS9/yYFu823Kkoh3zLe7jrrJv4w==
+X-Received: by 2002:a7b:cd89:: with SMTP id y9mr58823wmj.72.1599743711217;
+ Thu, 10 Sep 2020 06:15:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i1sm11364022wrc.49.2020.09.10.06.15.04
+ by smtp.gmail.com with ESMTPSA id 59sm9542540wro.82.2020.09.10.06.15.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Sep 2020 06:15:05 -0700 (PDT)
+ Thu, 10 Sep 2020 06:15:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8F60A1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id A59B61FF8F;
  Thu, 10 Sep 2020 14:15:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/10] usb-host: restrict workaround to new libusb versions
-Date: Thu, 10 Sep 2020 14:14:56 +0100
-Message-Id: <20200910131504.11341-3-alex.bennee@linaro.org>
+Subject: [PULL 03/10] tests/meson.build: fp tests don't need CONFIG_TCG
+Date: Thu, 10 Sep 2020 14:14:57 +0100
+Message-Id: <20200910131504.11341-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200910131504.11341-1-alex.bennee@linaro.org>
 References: <20200910131504.11341-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,37 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+As the tests build only softfloat.c no actual TCG machinary is needed
+to test them (as is evidenced by GCC check-softfloat). Might as well
+fix the wording on Travis while at it.
 
-Fixes build failures with old kernels (USBDEVFS_GET_SPEED missing),
-on the assumtion that distros with old kernels also have old libusb.
-
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200902081445.3291-1-kraxel@redhat.com>
-Message-Id: <20200909112742.25730-3-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200909112742.25730-4-alex.bennee@linaro.org>
 
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 08604f787fd..c5d38cb09c0 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -942,7 +942,7 @@ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
-     usb_host_ep_update(s);
+diff --git a/.travis.yml b/.travis.yml
+index 1d0ade0a133..65341634d02 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -138,7 +138,7 @@ jobs:
  
-     libusb_speed = libusb_get_device_speed(dev);
--#ifdef CONFIG_LINUX
-+#if LIBUSB_API_VERSION >= 0x01000107 && defined(CONFIG_LINUX)
-     if (hostfd && libusb_speed == 0) {
-         /*
-          * Workaround libusb bug: libusb_get_device_speed() does not
+ 
+     # Just build tools and run minimal unit and softfloat checks
+-    - name: "GCC check-softfloat (user)"
++    - name: "GCC check-unit and check-softfloat"
+       env:
+         - BASE_CONFIG="--enable-tools"
+         - CONFIG="--disable-user --disable-system"
+diff --git a/tests/meson.build b/tests/meson.build
+index 998e4c48f90..dae8a77df14 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -259,8 +259,9 @@ test('decodetree', sh,
+      workdir: meson.current_source_dir() / 'decode',
+      suite: 'decodetree')
+ 
++subdir('fp')
++
+ if 'CONFIG_TCG' in config_host
+-  subdir('fp')
+   if 'CONFIG_PLUGIN' in config_host
+     subdir('plugin')
+   endif
 -- 
 2.20.1
 
