@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F17264D50
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:40:20 +0200 (CEST)
-Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70364264DAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Sep 2020 20:48:33 +0200 (CEST)
+Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGRUZ-0004LU-IW
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
+	id 1kGRcW-0001Lt-Cq
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 14:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRCY-0005SV-M3
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:42 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28254)
+ id 1kGRCn-0005ss-Ar
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:58 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:28259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=515d47f05=alistair.francis@wdc.com>)
- id 1kGRCL-0002kZ-UN
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:42 -0400
+ id 1kGRCW-0002ls-T3
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 14:21:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599762089; x=1631298089;
+ t=1599762100; x=1631298100;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=YvOEbbp6ScBwUhApI8GBFOEg5ocmLn8l1tkl1H1frOc=;
- b=GClyu0oBmH2qQh3l9aHahLhUx5R2eQL3HpfKuP8YW/p3kllKeEtae0Zw
- uhgcjWTx6M8k7hMkQIRw0nFQTYE5DC0m/+IIBZSzQcBNx1tFa7nHOLgxp
- T7pVfzd0RSkTFLL3clcGtNg2T2nQrx8YYn7xIw7J9GqL6i8LeQZwJtpl9
- 2sYd1GXwEzqc74vmElVhpAFfAkdLr2RX6dCgZk1sd2I2N8o7aL8Iy4jA0
- uILHxmsqT4V++ivRbrM8R9E1+WFCokrQkFZu3ccXe28OrvZG0lmS4VGrk
- /zhd2tsax48sBO7lkqshZVwxFPdy3fCzjP93bCdpu5y6vZsBKsjyIattj g==;
-IronPort-SDR: KiCI/+aEXcW4lAGKyuaL0yvC5Nc1SbP27PzDBkzWkjdJkMjr9JmM7wxW4+wWnbu98wQ/eXfPY7
- 7T9VLxOekXbPlEPZdxx6LNFFbH4o8YKiae3b/9+JJxieG14/cMj9QQCaSRQHixEih+xzq4J9CL
- K/BGC8rJHrV470lT2YbDCosVgQqat0I4V55PNfo3mCDdVgwq8j4cSFseBToYUaABq2QJHY4x85
- Pb0H0LUVyp7bUcP+/cKpJkXdOCWQQ1eyTTpZZxU/T/iCL8Rm5OYqQY7ZZQAHij9lF2XYnzAoEZ
- /7s=
-X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979254"
+ bh=rO77UB4oLndqSP9kigufHZpDxo4ori3idNebpw70yeQ=;
+ b=Xv4phEoUsDC2Kwfe3t3TnmX0Au1+8SMepHHARqT5Ho9P8JzzR/HCkR+V
+ RZkadlw1xAb3YLJz4bMjmM4lJvT5e9a6w5Vi9Dmh14bDPVjH06EYdOPQ+
+ b4TdqQZtpS7BXEB6M8Xj7xuy5ASNq9x5LHuU9xQdK1PpEt8KKxw1AWpwi
+ 9eWSczc8nbljcPPtKkXip6SIIO8lDKnF5fW7amZc2KrbG+9+8gQJ8GxOV
+ FmOUjEmkU5Pz4bMVM+6HHYhMJ2POyWu+sLNIdDwvDESHQaOnS8Vyh3MH4
+ ByO3iQspLZuK9d2mDLBOK2c+ovbNwjy0cVWrOQ/ai1Oo5vxas+7Ob4rVT w==;
+IronPort-SDR: 79D+r/NYJZ2+llBlMxun++wR7kvCjjRaccxMx9EZukA+sG4WsMjb0WD9YHQvjiv35NOEgthjXG
+ nRuMKj5hBvfA3AONvjxoiZexx5zwNaQq08MLeprKDfGotdJpXwXU+2JoPqp9MqwQXS1ASIAq76
+ EQ5ZTySz0UTKXL1hzYxhGX8rg9bDxWR4H8YWK/SCxZcN5rHReW8PZ2FwtTWX+1RR8pjMKtrL86
+ n/HMisgZxpMazfFoKZxegT2WUzHU61F4Nx+JPymyNu4Uf4XCjihCnCckaYdK3/aozPocotxBN0
+ xFs=
+X-IronPort-AV: E=Sophos;i="5.76,413,1592841600"; d="scan'208";a="146979255"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2020 02:20:22 +0800
-IronPort-SDR: ntYyqS91P4qAkg38gCkS98bTo4hTCgDWFiTGnRgZ/SZH5MublzeKxIA+d0FEt+QKqDq8ibDglK
- ZCmOcr3mRD5Q==
+IronPort-SDR: OHfB8KMIISSuYRKgQioUcW3tKIG+dvSl0PDyB4h31fsL5u+sUVLqDstTK10OTQ3gkvIVjvZH+g
+ KiLTGF0/8P0Q==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 11:07:39 -0700
-IronPort-SDR: DHYDo/RUlrq3yvUpfSRA4KYUAqcGE8eWpC+/KG2eNKiq3u+ZReZ8GHQtc8XdwwPASRi3H/mnmu
- yYpR8KFV8YoQ==
+IronPort-SDR: ndHYO1HeeHMH59PfsvaofL5DlMpewyuqv+mILSYtMwyp2byQMw/vR2QjRCxo+pauSQgwd3x3N0
+ 92BGKWE+f1Sw==
 WDCIronportException: Internal
 Received: from fwvkpc2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.152])
- by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:22 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 10 Sep 2020 11:20:23 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 29/30] hw/riscv: Drop CONFIG_SIFIVE
-Date: Thu, 10 Sep 2020 11:09:37 -0700
-Message-Id: <20200910180938.584205-30-alistair.francis@wdc.com>
+Subject: [PULL 30/30] hw/riscv: Sort the Kconfig options in alphabetical order
+Date: Thu, 10 Sep 2020 11:09:38 -0700
+Message-Id: <20200910180938.584205-31-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910180938.584205-1-alistair.francis@wdc.com>
 References: <20200910180938.584205-1-alistair.francis@wdc.com>
@@ -95,78 +95,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The name SIFIVE is too vague to convey the required component of
-MSI_NONBROKEN. Let's drop the option, and select MSI_NONBROKEN in
-each machine instead.
+At present the Kconfig file is in disorder. Let's sort the options.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1599129623-68957-12-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1599129623-68957-13-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/Kconfig | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ hw/riscv/Kconfig | 58 ++++++++++++++++++++++++------------------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 7d017bc7c3..e152fdc7d9 100644
+index e152fdc7d9..2df978fe8d 100644
 --- a/hw/riscv/Kconfig
 +++ b/hw/riscv/Kconfig
-@@ -1,13 +1,9 @@
+@@ -1,36 +1,16 @@
  config IBEX
      bool
  
--config SIFIVE
+-config SIFIVE_E
 -    bool
 -    select MSI_NONBROKEN
+-    select SIFIVE_CLINT
+-    select SIFIVE_GPIO
+-    select SIFIVE_PLIC
+-    select SIFIVE_UART
+-    select SIFIVE_E_PRCI
+-    select UNIMP
 -
- config SIFIVE_E
+-config SIFIVE_U
++config MICROCHIP_PFSOC
      bool
--    select SIFIVE
-+    select MSI_NONBROKEN
+-    select CADENCE
++    select CADENCE_SDHCI
++    select MCHP_PFSOC_MMUART
+     select MSI_NONBROKEN
      select SIFIVE_CLINT
-     select SIFIVE_GPIO
-     select SIFIVE_PLIC
-@@ -18,7 +14,7 @@ config SIFIVE_E
- config SIFIVE_U
-     bool
-     select CADENCE
--    select SIFIVE
-+    select MSI_NONBROKEN
-     select SIFIVE_CLINT
-     select SIFIVE_GPIO
+-    select SIFIVE_GPIO
      select SIFIVE_PDMA
-@@ -31,7 +27,7 @@ config SIFIVE_U
- config SPIKE
-     bool
-     select HTIF
--    select SIFIVE
-+    select MSI_NONBROKEN
-     select SIFIVE_CLINT
      select SIFIVE_PLIC
+-    select SIFIVE_UART
+-    select SIFIVE_U_OTP
+-    select SIFIVE_U_PRCI
+     select UNIMP
  
-@@ -44,20 +40,20 @@ config RISCV_VIRT
+-config SPIKE
+-    bool
+-    select HTIF
+-    select MSI_NONBROKEN
+-    select SIFIVE_CLINT
+-    select SIFIVE_PLIC
+-
+ config OPENTITAN
+     bool
+     select IBEX
+@@ -40,23 +20,43 @@ config RISCV_VIRT
      bool
      imply PCI_DEVICES
      imply TEST_DEVICES
-+    select MSI_NONBROKEN
++    select GOLDFISH_RTC
+     select MSI_NONBROKEN
      select PCI
-     select SERIAL
-     select GOLDFISH_RTC
-     select VIRTIO_MMIO
+-    select SERIAL
+-    select GOLDFISH_RTC
+-    select VIRTIO_MMIO
      select PCI_EXPRESS_GENERIC_BRIDGE
      select PFLASH_CFI01
--    select SIFIVE
++    select SERIAL
      select SIFIVE_CLINT
      select SIFIVE_PLIC
      select SIFIVE_TEST
++    select VIRTIO_MMIO
  
- config MICROCHIP_PFSOC
+-config MICROCHIP_PFSOC
++config SIFIVE_E
      bool
--    select SIFIVE
-+    select MSI_NONBROKEN
+     select MSI_NONBROKEN
      select SIFIVE_CLINT
++    select SIFIVE_GPIO
++    select SIFIVE_PLIC
++    select SIFIVE_UART
++    select SIFIVE_E_PRCI
      select UNIMP
-     select MCHP_PFSOC_MMUART
+-    select MCHP_PFSOC_MMUART
++
++config SIFIVE_U
++    bool
++    select CADENCE
++    select MSI_NONBROKEN
++    select SIFIVE_CLINT
++    select SIFIVE_GPIO
+     select SIFIVE_PDMA
+     select SIFIVE_PLIC
+-    select CADENCE_SDHCI
++    select SIFIVE_UART
++    select SIFIVE_U_OTP
++    select SIFIVE_U_PRCI
++    select UNIMP
++
++config SPIKE
++    bool
++    select HTIF
++    select MSI_NONBROKEN
++    select SIFIVE_CLINT
++    select SIFIVE_PLIC
 -- 
 2.28.0
 
