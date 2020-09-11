@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426D8266213
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:26:15 +0200 (CEST)
-Received: from localhost ([::1]:49634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE03A266229
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:30:36 +0200 (CEST)
+Received: from localhost ([::1]:55512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGkwI-00032f-B6
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43970)
+	id 1kGl0V-0005b8-NV
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGkuQ-0001xa-FE
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:24:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35167
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kGkuN-0006Oc-Pa
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:24:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599837855;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=xdg6kiQbx4t6mfdB8vw8E9TPvsPyMjvWzwqpQumToK4=;
- b=UAtcz74oR53EKrhX7RsdkcGxEQ/PyL+GakKNndkfZQdmnI2lcL+rkV0hbhxSr0cGEk44ur
- O5qj1jhDXXk+let3zo5uNgm/uDCcJtkZ8YxdzT8H2374Vt2ki6zX8K08TPQAtx7/Pn34VS
- Ue2h/CujI7v51h3ucUp7vBNCMIrw4XU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-NAuC4LlXM2ehMAuaiXkDdQ-1; Fri, 11 Sep 2020 11:24:03 -0400
-X-MC-Unique: NAuC4LlXM2ehMAuaiXkDdQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC2D4107B273;
- Fri, 11 Sep 2020 15:24:01 +0000 (UTC)
-Received: from redhat.com (ovpn-113-229.ams2.redhat.com [10.36.113.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D67E60C04;
- Fri, 11 Sep 2020 15:23:56 +0000 (UTC)
-Date: Fri, 11 Sep 2020 16:23:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: PATCH: Increase System Firmware Max Size
-Message-ID: <20200911152353.GI1203593@redhat.com>
-References: <CS1PR8401MB0327EF9D532330BA44257AFCF3240@CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM>
- <20c5210f-8199-a9e7-9297-0bea06c4d9ae@redhat.com>
- <20200911083408.GA3310@work-vm>
- <ae2d820e-78c6-da92-2fa6-73c1a7d10333@redhat.com>
- <20200911150602.GH3310@work-vm>
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kGkxs-0004fs-Om
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:27:52 -0400
+Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:36597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kGkxn-0006xQ-FQ
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:27:52 -0400
+Received: by mail-oo1-xc2c.google.com with SMTP id z1so2369123ooj.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 08:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LvQPPPyxhSDdVmsdUdnoGbhJ6/LUlD0/ySFigPsgfww=;
+ b=f7BRYU2/l+sCMp/8+ver4kLCj/b2cecA7DXcN3fvOnLmdcbkM3HY7zZwnadsPq6glU
+ up+n4ksby2gN/RQCHzVbdx2JAPNYOsMMUmNAj/t5iwFt3TrKy/bXJ9IvK1zHiOhonoyW
+ wx+zpeViCtTBt4ncZpE6s54kCysfahfc0ZIZGEgHuKZ5COuwT7k5ligA6NqmUPu4RGYa
+ MqRuP776qht/j2S4LVPos1/PaUWMKMFZKcEy2k65UqacHMpnuBvRT6+W39oTx8hyTMDq
+ 3Mod0hcgJboi6N22xrdqWDh4BZdoJHKmivTR5Ez4llsweV30xSregNX+EStSJcu0xvHi
+ vgvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LvQPPPyxhSDdVmsdUdnoGbhJ6/LUlD0/ySFigPsgfww=;
+ b=QOhCp5cObeeVAXCHgigLw0Qc7AYEJmM5HLl3NOLCv9oLrVvoQ29Xx6sNkZNO/1VMxL
+ K+5gk/Fr2fLly+Q3g+AzVO4FfD5gjTYnnVRMD5p+TRjRoAWNRptlgIjUM/8qMRjgbU3H
+ agYD+32HxOX6G2xY4DD5VEFRTOKyjiz2qHkM+M/nQxSAp9nobkfMohaNxqyxgrG9qOIA
+ FaHmNSA5v2+ATmaVS+NxCBdv1izqMBpRUAu7hYqBxof6CyswV+80QHOBvbrBHLP5GFnf
+ IXTk3u3gw+cTWJpfyMnMEp8jW8C9NV1DGnvyN/8biDs6nZ9PeF/azF0lhVLug3D8qBNC
+ +f7w==
+X-Gm-Message-State: AOAM530QxtPV+2Gs6Hn4vlwUa0EEf/m9+FobgdnftaX5wUGIvSLoQ+My
+ 6bf5dLVLYHDmMqYGvxtAaqOASvKDUP7ibycmt/Y=
+X-Google-Smtp-Source: ABdhPJwtqIEt8BacJbaaZDjj3VslRnDJRykTOSG1qYk22U4qa46JpWP6pgEzyGOHlEHDwhuQS3sOBAWB1ju/NDtKR3w=
+X-Received: by 2002:a4a:5a06:: with SMTP id v6mr2020136ooa.22.1599838066279;
+ Fri, 11 Sep 2020 08:27:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200911150602.GH3310@work-vm>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 09:43:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
+In-Reply-To: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Fri, 11 Sep 2020 23:27:10 +0800
+Message-ID: <CAKXe6SLEWJZU3a1ut9NL5drzTRX4YhD3waJ4JjyjJf2iWMU1Hw@mail.gmail.com>
+Subject: Re: About 'qemu-security' mailing list
+To: P J P <ppandit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc2c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,89 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "mst@redhat.com" <mst@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, "McMillan,
- Erich" <erich.mcmillan@hp.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 11, 2020 at 04:06:02PM +0100, Dr. David Alan Gilbert wrote:
-> * Laszlo Ersek (lersek@redhat.com) wrote:
-> > On 09/11/20 10:34, Dr. David Alan Gilbert wrote:
+P J P <ppandit@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8811=E6=97=A5=E5=
+=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8810:21=E5=86=99=E9=81=93=EF=BC=9A
+>
+>    Hello all,
+>
+> Recently while conversing with DanPB this point came up
+>
+>     -> https://www.qemu.org/contribute/security-process/
+>
+> * Currently QEMU security team is a handful of individual contacts which
+>    restricts community participation in dealing with these issues.
+>
+> * The Onus also lies with the individuals to inform the community about Q=
+EMU
+>    security issues, as they come in.
+>
+>
+> Proposal: (to address above limitations)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> * We set up a new 'qemu-security' mailing list.
+>
+> * QEMU security issues are reported to this new list only.
+>
+> * Representatives from various communities subscribe to this list. (List =
+maybe
+>    moderated in the beginning.)
+>
+> * As QEMU issues come in, participants on the 'qemu-security' list shall
+>    discuss and decide about how to triage them further.
+>
+> Please kindly let us know your views about it. I'd appreciate if you have=
+ any
+> suggestions/inputs/comments about the same.
 
-> > > it doesn't have any pretty graphics
-> > > or snazzy stuff,
-> > 
-> > Which is arguably completely superfluous on every possible platform one
-> > can imagine. On the other hand, if you want a real serial port on
-> > workstation class hardware, you may have to order a separate part (if
-> > you are lucky and you *can* order one). Serial-over-LAN is a complete
-> > non-replacement.
-> > 
-> > The reason (should I say: excuse) for the firmware to exist is to (a)
-> > boot operating systems, (b) abstract away some ugly platform-specific
-> > hardware for OS runtime (by providing ACPI and SMBIOS descriptions, and
-> > a *small* set of runtime services). We can maybe add (c) "root of trust".
-> > 
-> > In practice, physical firmware is becoming the hw vendor's OS before
-> > (and under) your OS, one you cannot replace, and one whose updates can
-> > brick your hardware. Permitting the same feature creep on virtual
-> > platforms is wrong.
-> 
-> On the firmware you develop that choice is fine; but there's no reason
-> to force that restriction onto others.
-> 
-> > > or have to survive configuring lots of hardware; also
-> > > I'm aware of other companies who are looking at putting big blobs
-> > > of stuff in firmware for open uses;
-> > 
-> > Key term being "open uses". Let us see them.
-> 
-> Well yes, I think we know who we're speaking about here and we're
-> working on it.
+Hi Prasad,
+Great idea.
 
-I don't think we need to dictate that firmware used with QEMU has to be
-open source.
+Like other project, sometimes they have two mailing lists.
+The first is 'security', this list should contains the core developers.
+The second is 'predisclosure', the organization can participate this
+lists and discuss the disclosure process.
 
-If someone wants to use a closed source firmware that is fine. They simply
-can't expect us to help debug problems in QEMU when using the closed source
-firmware, without first demonstrating it with an open source firmware we can
-see.
+But as for qemu, most of the security issues doesn't need an embargo date.
+I think one 'qemu-security' is ok.  I think this mailing lists can
+contain the currently individuals and the some qemu developer
+and also some organizations who uses qemu.
 
-> > > so I don't see a problem with
-> > > changing this limit from the QEMU side of things.
-> > 
-> > I do. Software and data always expand to consume all available space,
-> > and it's going to cause a conflict between UEFI features and platform
-> > MMIO sooner or later. Then I'll get the privilege of shuffling around
-> > the crap in OVMF (all of which is "indispensable" or course).
-> > 
-> > If we ever go down this route, it needs to benefit open source directly
-> > and significantly.
-> 
-> Being able to use QEMU to let vendors debug their platform firmware is a
-> perfectly reasonable use of QEMU; maybe not of your OVMF build - we
-> need to keep the restrictions on the two separate.
+Thanks,
+Li Qiang
 
-Agreed, I can understand the motivation to not want to change the QEMU
-defaults, but I don't see why we should have this as a hard coded
-limit that is not runtime configurable.
 
-IOW, why can't we keep our current default and provide a machine type
-property "firmware_max_size" which users can opt-in to setting if
-their particular firmware exceeds normal defaults. That won't impact
-us for migration compat in any way, and lets users have flexibility t
-do what they want.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>
+>
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+>
+>
 
