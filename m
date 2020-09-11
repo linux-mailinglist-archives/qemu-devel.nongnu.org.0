@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4C82661D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:08:13 +0200 (CEST)
-Received: from localhost ([::1]:34676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4A72661D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:11:04 +0200 (CEST)
+Received: from localhost ([::1]:42858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGkeq-0001Jr-Vj
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38492)
+	id 1kGkhb-0004iG-Iz
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:11:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGkdS-0008Vc-M7
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:06:46 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41136)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGkdQ-0002Qt-N9
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:06:46 -0400
-Received: by mail-wr1-x442.google.com with SMTP id w5so11808379wrp.8
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 08:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=npdYPn+cwnqwItvjTsSiNKZyjiKbiUavqiNYOCY7bHA=;
- b=rP0lEEgAWdlc8nhkGCaQybRLoWpyjSS6YYESGz2VV85Or9wLicLNdRv+1BAizRAiiX
- J6OKoZ20XxVoKixaZzM3muHNChx4IEFQT0RL/QuWbW9MRfkZ2WF5Xd4nGFtCfZ0vPL8a
- 6vCxHAphnvDvrtvTnJQU1dYFogKQRf3I4qGDnO1i+IFIXBQhgBcSxdqoRJ++/fxt7KuV
- rb9vkw3qsxcX6NoWg7oBQh539EFWpz3WZ93Nl/0bVd0zMRcxzmY+VGT80XCE2bL49wk9
- OZSbIbATUitJJy8WMwMKZ9Pd2RqhcwWfZUaY+GmxhrtEzSFcOXpbvBNka6QEo5eu8xnK
- lz0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=npdYPn+cwnqwItvjTsSiNKZyjiKbiUavqiNYOCY7bHA=;
- b=kXqYmZYRAaOhfnuACn/FzBHt+KzL77UDV9N1WuQ3HiUuj2HRF+FJUdv8kxvRna+Hfj
- 6Ft8c+slnyZeiF5b4yFm6l14ZNiOcB68Az3cvFc0S0Hy7QYNqQW8WhbxBQwg3Yv3uiVa
- mtKTtERZihOLTYABV9sUDNXXuDuUHl7/OPhNu1vS3HFJeVBtYKM4p6dNpb/nyezHBkty
- RJyp4AEj8FW8dUnbDHWQr316CJ9PmC6DmCYhNPULcwcOq62wvUSb4wKetM2PNFyb5EWl
- W8tYgOFTzicRl/14QKa9faO/fPHvgs8goOdy1Kf5FGdFN1z+LCygOfHxiOfZ/QjKuu/W
- ySTw==
-X-Gm-Message-State: AOAM532tSLyyVQtyyC5TJh902rTg/N2UpPW5bhpsCCdeFCr3/jFtQ+M5
- 7zqRMzPx1BjMSWYmnRtFCI4ycpE5fLnc6YEe03xegg==
-X-Google-Smtp-Source: ABdhPJwWnXlsHCSI6xJSrMdW2ETnB2BKr1YJDuz4tz+jUgryX4MmfHtQZSPbuj++zfNq8p240eSC1BH9oVuCxfMCj+M=
-X-Received: by 2002:adf:bb44:: with SMTP id x4mr2493873wrg.76.1599836802252;
- Fri, 11 Sep 2020 08:06:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGkfw-0003UT-I5
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:09:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42160
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGkft-0002pp-DJ
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:09:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599836956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m+ypHs5vC97lN5+75lAocZ56x1Rk5+UiqmOIwFnnsDg=;
+ b=DZrtZIiGDAJBRO/W5qy2fkbdxCOu+NKyEp9QBXqh2i8lrJYcVyJt2XJOisJYlrj4v8exn8
+ tP5vSsRWuVm92cUz9R8u7iGHr+gEafRKZNy5V1ERK/S8MyDJY1I3i7t7rUg7MQi7ShNYZM
+ RNQutgjhLt2UVI1pybblgL5hebf7zcg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-21GzStI-OLKnwfXAhSg5nw-1; Fri, 11 Sep 2020 11:09:12 -0400
+X-MC-Unique: 21GzStI-OLKnwfXAhSg5nw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06F8256BE6;
+ Fri, 11 Sep 2020 15:09:11 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-1.ams2.redhat.com [10.36.115.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3960381C4D;
+ Fri, 11 Sep 2020 15:08:54 +0000 (UTC)
+Subject: Re: [PATCH v5 8/8] s390: guest support for diagnose 0x318
+To: Collin Walling <walling@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20200910093655.255774-1-walling@linux.ibm.com>
+ <20200910093655.255774-9-walling@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <6707d734-772d-0a34-0980-6d8e71873238@redhat.com>
+Date: Fri, 11 Sep 2020 17:08:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200905103520.12626-1-ani@anisinha.ca>
- <20200905103520.12626-3-ani@anisinha.ca>
- <448ada27-1a94-44ed-89fa-001a70213ad7@Spark>
- <20200911105931-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200911105931-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 11 Sep 2020 20:36:30 +0530
-Message-ID: <CAARzgwwGWznB5dcS_BmT7zgHFxM05+f6_nr04DrFQrCjAiM5LQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] tests/acpi: unit test for
- 'acpi-pci-hotplug-with-bridge-support' bridge flag
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::442;
- envelope-from=ani@anisinha.ca; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200910093655.255774-9-walling@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 00:33:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.469, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,127 +84,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: frankja@linux.ibm.com, mst@redhat.com, cohuck@redhat.com, david@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, pbonzini@redhat.com,
+ sumanthk@linux.ibm.com, mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 11, 2020 at 8:29 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Thu, Sep 10, 2020 at 10:34:20PM +0530, Ani Sinha wrote:
-> > On Sep 5, 2020, 16:05 +0530, Ani Sinha <ani@anisinha.ca>, wrote:
-> >
-> >     This change adds a new unit test for the global flag
-> >
-> >     'acpi-pci-hotplug-with-bridge-support' which is available for cold plugged
-> >     pci
-> >
-> >     bridges in i440fx. The flag can be used to turn off acpi based hotplug
-> >     support
-> >
-> >     for all the slots of the pci bus.
-> >
-> >
-> >
-> >     Tested on the upstream qemu master branch on top of tag v5.1.0
-> >
-> >
-> > Can someone please review this?
-> >
-> >
-> >
-> >     Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> >
-> >
-> >
-> >
-> I queues this.
+On 10/09/2020 11.36, Collin Walling wrote:
+> DIAGNOSE 0x318 (diag318) is an s390 instruction that allows the storage
+> of diagnostic information that is collected by the firmware in the case
+> of hardware/firmware service events.
+> 
+> QEMU handles the instruction by storing the info in the CPU state. A
+> subsequent register sync will communicate the data to the hypervisor.
+> 
+> QEMU handles the migration via a VM State Description.
+> 
+> This feature depends on the Extended-Length SCCB (els) feature. If
+> els is not present, then a warning will be printed and the SCLP bit
+> that allows the Linux kernel to execute the instruction will not be
+> set.
+> 
+> Availability of this instruction is determined by byte 134 (aka fac134)
+> bit 0 of the SCLP Read Info block. This coincidentally expands into the
+> space used for CPU entries, which means VMs running with the diag318
+> capability may not be able to read information regarding all CPUs
+> unless the guest kernel supports an extended-length SCCB.
+> 
+> This feature is not supported in protected virtualization mode.
+> 
+> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+> Acked-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  hw/s390x/sclp.c                     |  5 +++++
+>  include/hw/s390x/sclp.h             |  3 +++
+>  target/s390x/cpu.h                  |  2 ++
+>  target/s390x/cpu_features.h         |  1 +
+>  target/s390x/cpu_features_def.h.inc |  3 +++
+>  target/s390x/cpu_models.c           |  1 +
+>  target/s390x/gen-features.c         |  1 +
+>  target/s390x/kvm.c                  | 31 +++++++++++++++++++++++++++++
+>  target/s390x/machine.c              | 17 ++++++++++++++++
+>  9 files changed, 64 insertions(+)
+> 
+> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+> index 87d468087b..ad5d70e14d 100644
+> --- a/hw/s390x/sclp.c
+> +++ b/hw/s390x/sclp.c
+> @@ -139,6 +139,11 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+>      s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
+>                           read_info->conf_char_ext);
+>  
+> +    if (s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB)) {
+> +        s390_get_feat_block(S390_FEAT_TYPE_SCLP_FAC134,
+> +                            &read_info->fac134);
+> +    }
 
-cool. When is the next pull Michael?
+Wasn't this feature also possible if there are less than 240 CPUs? Or do
+I mix that up with something else? ... well, maybe it's best anyway if
+we only allow this when ELS is enabled.
 
->
-> >     ---
-> >
-> >     tests/qtest/bios-tables-test.c | 15 +++++++++++++++
-> >
-> >     1 file changed, 15 insertions(+)
-> >
-> >
-> >
-> >     diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/
-> >     bios-tables-test.c
-> >
-> >     index a2c0070306..e52a36e775 100644
-> >
-> >     --- a/tests/qtest/bios-tables-test.c
-> >
-> >     +++ b/tests/qtest/bios-tables-test.c
-> >
-> >     @@ -723,6 +723,20 @@ static void test_acpi_piix4_root_hotplug(void)
-> >
-> >     free_test_data(&data);
-> >
-> >     }
-> >
-> >
-> >
-> >     +static void test_acpi_piix4_bridge_hotplug(void)
-> >
-> >     +{
-> >
-> >     + test_data data;
-> >
-> >     +
-> >
-> >     + memset(&data, 0, sizeof(data));
-> >
-> >     + data.machine = MACHINE_PC;
-> >
-> >     + data.variant = ".hpbridge";
-> >
-> >     + data.required_struct_types = base_required_struct_types;
-> >
-> >     + data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-> >
-> >     + test_acpi_one("-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off
-> >     "
-> >
-> >     + "-device pci-bridge,chassis_nr=1", &data);
-> >
-> >     + free_test_data(&data);
-> >
-> >     +}
-> >
-> >     +
-> >
-> >     static void test_acpi_q35_tcg(void)
-> >
-> >     {
-> >
-> >     test_data data;
-> >
-> >     @@ -1117,6 +1131,7 @@ int main(int argc, char *argv[])
-> >
-> >     qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
-> >
-> >     qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
-> >
-> >     qtest_add_func("acpi/piix4/hotplug", test_acpi_piix4_root_hotplug);
-> >
-> >     + qtest_add_func("acpi/piix4/brhotplug", test_acpi_piix4_bridge_hotplug);
-> >
-> >     qtest_add_func("acpi/q35", test_acpi_q35_tcg);
-> >
-> >     qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
-> >
-> >     qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
-> >
-> >     --
-> >
-> >     2.17.1
-> >
-> >
-> >
->
+>      read_info->facilities = cpu_to_be64(SCLP_HAS_CPU_INFO |
+>                                          SCLP_HAS_IOA_RECONFIG);
+>  
+> diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
+> index 141e57f765..516f949109 100644
+> --- a/include/hw/s390x/sclp.h
+> +++ b/include/hw/s390x/sclp.h
+> @@ -133,6 +133,9 @@ typedef struct ReadInfo {
+>      uint16_t highest_cpu;
+>      uint8_t  _reserved5[124 - 122];     /* 122-123 */
+>      uint32_t hmfai;
+> +    uint8_t  _reserved7[134 - 128];     /* 128-133 */
+> +    uint8_t  fac134;
+> +    uint8_t  _reserved8[144 - 135];     /* 135-143 */
+>      struct CPUEntry entries[];
+
+Could you please add a comment after entries[] like,
+
+ /* only here with "ELS", it's at offset 128 otherwise */
+
+?
+
+>  } QEMU_PACKED ReadInfo;
+>  
+[...]
+>  static uint16_t full_GEN12_GA2[] = {
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index a2d5ad78f6..b79feeba9f 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -105,6 +105,7 @@
+>  
+>  #define DIAG_TIMEREVENT                 0x288
+>  #define DIAG_IPL                        0x308
+> +#define DIAG_SET_CONTROL_PROGRAM_CODES  0x318
+>  #define DIAG_KVM_HYPERCALL              0x500
+>  #define DIAG_KVM_BREAKPOINT             0x501
+>  
+> @@ -602,6 +603,11 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+>          cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_ETOKEN;
+>      }
+>  
+> +    if (can_sync_regs(cs, KVM_SYNC_DIAG318)) {
+> +        cs->kvm_run->s.regs.diag318 = env->diag318_info;
+> +        cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
+> +    }
+> +
+>      /* Finally the prefix */
+>      if (can_sync_regs(cs, KVM_SYNC_PREFIX)) {
+>          cs->kvm_run->s.regs.prefix = env->psa;
+> @@ -741,6 +747,10 @@ int kvm_arch_get_registers(CPUState *cs)
+>          }
+>      }
+>  
+> +    if (can_sync_regs(cs, KVM_SYNC_DIAG318)) {
+> +        env->diag318_info = cs->kvm_run->s.regs.diag318;
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> @@ -1601,6 +1611,19 @@ static int handle_sw_breakpoint(S390CPU *cpu, struct kvm_run *run)
+>      return -ENOENT;
+>  }
+>  
+> +static void handle_diag_318(S390CPU *cpu, struct kvm_run *run)
+> +{
+> +    uint64_t reg = (run->s390_sieic.ipa & 0x00f0) >> 4;
+> +    uint64_t diag318_info = run->s.regs.gprs[reg];
+> +
+> +    cpu->env.diag318_info = diag318_info;
+> +
+> +    if (can_sync_regs(CPU(cpu), KVM_SYNC_DIAG318)) {
+> +        run->s.regs.diag318 = diag318_info;
+> +        run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
+> +    }
+> +}
+
+What's supposed to happen if a guest calls diag 318 but the
+S390_FEAT_DIAG_318 has not been enabled? Shouldn't there be a program
+interrupt in that case?
+
+ Thomas
+
 
