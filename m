@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89850266911
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:42:17 +0200 (CEST)
-Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270EC266917
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:44:17 +0200 (CEST)
+Received: from localhost ([::1]:60522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGow4-0008Aj-0h
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44984)
+	id 1kGoy0-0004EO-0w
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGoo7-0003DU-1k; Fri, 11 Sep 2020 15:34:03 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:47377)
+ id 1kGoo1-0002wn-8Y; Fri, 11 Sep 2020 15:33:57 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:43811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGoo5-0000rV-7x; Fri, 11 Sep 2020 15:34:02 -0400
+ id 1kGonz-0000qB-40; Fri, 11 Sep 2020 15:33:56 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MsrV2-1kW1Ku3qw4-00tBCE; Fri, 11 Sep 2020 21:33:49 +0200
+ id 1N3omW-1kh2ty0cU4-00zjhC; Fri, 11 Sep 2020 21:33:50 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/18] test-vmstate: remove unnecessary code in
- match_interval_mapping_node
-Date: Fri, 11 Sep 2020 21:33:25 +0200
-Message-Id: <20200911193330.1148942-14-laurent@vivier.eu>
+Subject: [PULL 14/18] target/i386/kvm: Rename host_tsx_blacklisted() as
+ host_tsx_broken()
+Date: Fri, 11 Sep 2020 21:33:26 +0200
+Message-Id: <20200911193330.1148942-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zUMa+ifWKXfiliAtzAp9S1WzSxOX2l29IOjWwDZNHPGOvNxcfCZ
- 8Jl5Fk8z/3yV29GER/jQXVhnnjeW9Sb3kvGraeO2BPB8D9ccWIb11vYlfVITITAZUNMgzc0
- nQzSEC+Hge922iJdo6YLhFtA4MReHB3LsdnDTbyeaGp+DiCczT1RW0ikUZ/+8/9kfouzKmO
- qJAWebWzTd8ik6jQvWNkw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SsnXC+ZFTxo=:d7qKma8lvLuGRwj2S5pPwc
- 7ZjtJnJTxb8kuDmPR3iejYhxcVBlbgauN6PkcXyFcROd8m8L711AxahwFeARogGYTxFnDemnI
- ZwKLSmaTildwg8up22ofW3jIeDjfljl1zKQ/9Eiw/L2T0+Ab/1qvoM62R9Nj3JXMxtCn8uAXC
- P04TLo3QnGgu/Vz0Cy+E0a94IfX3TOReg3iJik0Jr1Z32vosARJrK9Niyu5QYWvNKzpI6YtCb
- B5GxK5vx57a5a3uTG+WUOcJ+xXHAvvDlfWG+rFNcRimnIyl+dr0Nem35MsOF5mX92az+XszWi
- JpoTYbhCnwR1A3K8CD87OWi9Ptc3MLw9Creq4C0lMp2i7YwknSU0slya4B/H50VjBf2LpUrio
- faFBfww3NMMH/mjj/s/tV7OOPaXmPORyQxfKepmFMCJv8CtM+Kw6SkkkjqxVOQfrwvtsWGn3n
- s2MK/S0iSyO89pgyF/ne91l/WhS+vKZiC4pE/jo0QBUECfvImQeTCsdBtK90hDlfrg10Ngt82
- L/H7ejZv5XBvgI3T0YYcdkK1Fkkabfw6cL4cC+j9PM5cWuQSaRFVim1iXM/4HirCqGB3JQlX1
- tGj7kZ1XvQ/ChZFVMUQp69BMbJavLzEHtDLPo6+lm03qyTrh6atTBz+/CHMpVicqR/LxuvZX9
- e1I4mXV7DN8AMEzEou7SS6Ftq6JYDN2gTj5mJtiEfEOCViOxyWGnYQQNJBvofdejoBDdH99Cj
- 0L9zCT13YqBiMptDnmuAbsQv7qTKMp0zF907Wuwt61FuUuA11KFl0u7DY2VkcJby1Q+ozQkaT
- QYBE5GhJUHcYdTRx1OJmGDE6D19+mMdjrs9xjCiXYPEc9JFXoYq99oIylFwgxo+wTshsFqs
+X-Provags-ID: V03:K1:ByzX+nKrU9Pn4umFephF1QbtRl8A/12WTAEMwwAf2fcVuf8nmQy
+ DmLcO6ggFMt+YE36skQSW1hF9QBFEYmX57411DBFQFrUVCDpCCDREKpzbpfjAuMf7/M/Mks
+ 4HTyAYYDRQxNzlC3kXdQUSL89vLB9BZIa9VuKfU/Br3c+nG2utj5ritqL6G6UDOBBn4Y6+j
+ 0wS6QAcjOZQFwv3jnsO7w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:secB9ygbXB4=:wb8DnbEG1Acrhl06BddOd7
+ Fy/EqviGqcXbgjR6wZ7UT99ODYUwIjNm1YXHfJ9Ez85rf0AI7zlGDXx9edjhEiccrT07BVaT+
+ W5+YbEBeFByN7b0iBHe6dfVnLltEHRpiP3VMGbI1JUl7efWMJ38HZExNQ0s23Tcf/lDj87Rd/
+ F2DZoo/kNVrLKf+CnnDXUof3wnZiIOkQMDAz4ZFASy9Y73GpWwBtycvs8ygzkVFEP6HJePnSW
+ iZ2KNiZyM79PYETAmKAogy5Uwg106shzQpfUVSndASVuRCWCdgOXkftBJRPfBPhle2kjvJutR
+ cR/n1lGLidQcMI8FVcXspxWtokUr5U1uoFGDeSM2mBa37leHJfpphGzb8M91/Kr5+mK+msG9Y
+ lYELfwMb1EM+3kqn77mEbvE3iniTlbT7jBicxPzMO30p0Cvk2Kro0wlaszdhxqO14PYf202Ab
+ Ozeaz+7zqrgchQA6L64dv63HqIqVU34jLVZZPKWloD6fSZv6y8VLn6HXgB3k7VFRI8mmnFjya
+ AsMnWxTZVaMweVU05yDrIKlIWetH/JUQ+2//51QwlyNCKaaJchiIT/kgCzN0P6AGcm/mXvEvB
+ W00fkq7KKZV1PbTOJVsUPHlW2xEOm8xp5K70g9XL+rHyx2cIOlf95XIzqSjn4iSAOEyIfn7z9
+ TNt2KyhdHvFDFJYM1zkventj2+0dCE1XQ+2xvm1aMmiFoDemMvGskrnm66HCsko5pJCCSi3aa
+ MZtiz7owggrHCbeh3Eizjvn5tW5RVw0x3jAJTzYktDekvYGgrWIWsEs7xYaf1t4JfDqiP87L1
+ SBocenNMPVi+FzHxv3Qdx2pPrFXM282rA/y6wU0gxzDR3fg0rnTd14gsU0SShMxhai9GhGl
 Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:39
@@ -70,39 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-'str' is not used in match_interval_mapping_node(), remove it.
+In order to use inclusive terminology, rename host_tsx_blacklisted()
+as host_tsx_broken().
 
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200910023818.11880-1-pannengyuan@huawei.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20200910070131.435543-7-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/test-vmstate.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/i386/kvm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
-index f8de709a0b2b..1c763015d03c 100644
---- a/tests/test-vmstate.c
-+++ b/tests/test-vmstate.c
-@@ -1055,9 +1055,6 @@ static gboolean match_interval_mapping_node(gpointer key,
-     TestGTreeMapping *map_a, *map_b;
-     TestGTreeInterval *a, *b;
-     struct match_node_data *d = (struct match_node_data *)data;
--    char *str = g_strdup_printf("dest");
--
--    g_free(str);
-     a = (TestGTreeInterval *)key;
-     b = (TestGTreeInterval *)d->key;
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 205b68bc0ce8..3d640a8decf6 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -302,7 +302,7 @@ static int get_para_features(KVMState *s)
+     return features;
+ }
  
+-static bool host_tsx_blacklisted(void)
++static bool host_tsx_broken(void)
+ {
+     int family, model, stepping;\
+     char vendor[CPUID_VENDOR_SZ + 1];
+@@ -408,7 +408,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+     } else if (function == 6 && reg == R_EAX) {
+         ret |= CPUID_6_EAX_ARAT; /* safe to allow because of emulated APIC */
+     } else if (function == 7 && index == 0 && reg == R_EBX) {
+-        if (host_tsx_blacklisted()) {
++        if (host_tsx_broken()) {
+             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+         }
+     } else if (function == 7 && index == 0 && reg == R_EDX) {
 -- 
 2.26.2
 
