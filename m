@@ -2,76 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA39265BD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:45:37 +0200 (CEST)
-Received: from localhost ([::1]:46984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B49D265BE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:47:36 +0200 (CEST)
+Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGega-0006H1-6v
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34896)
+	id 1kGeiV-0002fY-6J
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kGefP-0004k1-9n
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:44:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45936)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGehQ-0000ub-Ny
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:46:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30331
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kGefN-0002h0-9w
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:44:22 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGehP-00032h-0k
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:46:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599813859;
+ s=mimecast20190719; t=1599813986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9QNJuYBhTVKA3GpVBpvZTq5HkfhFxEv+FdYhjsJi8pw=;
- b=C6IrUN3Dcp4XPUPtk+w0HNHsU26bbUU9N3YL67Q4RXW77TqLaSk7/myJSHuIDwdDA3pDfY
- mKtH2CKD1kWzhNN+e3G9oGV4LNp6QfHuU0YcsDUMuzvIhVeEiNZib5z5UYQ5uY5otj5XAi
- kgrbtdzHy+OPS7YZCFeht3R+6VllVEo=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=F1z4iVP+6kMvtlzS1eRRE7RgixOQjf4iGUxcEMSKBTM=;
+ b=OgQVAlU/BNUHD2M1kBUfEJVR1YKQqeQQ40mF7di+8mP89g/ngO7LTnMqmf75jU7vCPbwvZ
+ fxIkw9M/t3oWf2jTrVL+x2v3N/SaaVknazqTrrQWcUjXN8v/r2uXol8icStusDc5Y8mnz+
+ AZIJLLZjh/XSYZr4hEPg3aeJNS7M5Js=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-3WWnhqtsONSXeFDwknO6kQ-1; Fri, 11 Sep 2020 04:44:17 -0400
-X-MC-Unique: 3WWnhqtsONSXeFDwknO6kQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-214-CiCa77baMsqvnYh68YIEog-1; Fri, 11 Sep 2020 04:46:20 -0400
+X-MC-Unique: CiCa77baMsqvnYh68YIEog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14D088030B8;
- Fri, 11 Sep 2020 08:44:16 +0000 (UTC)
-Received: from localhost (ovpn-114-60.ams2.redhat.com [10.36.114.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8D112C31E;
- Fri, 11 Sep 2020 08:44:12 +0000 (UTC)
-Date: Fri, 11 Sep 2020 09:44:11 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v6 3/4] util/vfio-helpers: Introduce
- qemu_vfio_pci_init_msix_irqs()
-Message-ID: <20200911084411.GA81586@stefanha-x1.localdomain>
-References: <20200909142354.334859-1-philmd@redhat.com>
- <20200909142354.334859-4-philmd@redhat.com>
- <20200910104435.GA45048@stefanha-x1.localdomain>
- <4df84b90-68f6-7d69-024a-30ab2af5cc7e@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A71FF108E8A2;
+ Fri, 11 Sep 2020 08:46:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-148.ams2.redhat.com
+ [10.36.113.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F81E7E8F5;
+ Fri, 11 Sep 2020 08:46:18 +0000 (UTC)
+Subject: Re: [PATCH 0/2] Fix error handling in preallocate_co()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1599573989.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <91da123d-f3c1-95f0-d195-8a0dbfa0edeb@redhat.com>
+Date: Fri, 11 Sep 2020 10:46:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <4df84b90-68f6-7d69-024a-30ab2af5cc7e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <cover.1599573989.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="k1lZvvs/B4yU6o8G"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 23:26:59
+ protocol="application/pgp-signature";
+ boundary="cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:40:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,125 +107,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---k1lZvvs/B4yU6o8G
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E
+Content-Type: multipart/mixed; boundary="btre2uFtxSSgWOTsOXPSBnP24YMMieRKi"
+
+--btre2uFtxSSgWOTsOXPSBnP24YMMieRKi
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 10, 2020 at 05:29:25PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Hi Stefan, Alex.
+On 08.09.20 16:08, Alberto Garcia wrote:
+> This is a follow-up to "Fix removal of list members from
+> BDRVQcow2State.cluster_allocs":
 >=20
-> On 9/10/20 12:44 PM, Stefan Hajnoczi wrote:
-> > On Wed, Sep 09, 2020 at 04:23:53PM +0200, Philippe Mathieu-Daud=C3=A9 w=
-rote:
-> >> +/**
-> >> + * Initialize device MSIX IRQs and register event notifiers.
-> >> + * @irq_count: pointer to number of MSIX IRQs to initialize
-> >> + * @notifier: Array of @irq_count notifiers (each corresponding to a =
-MSIX IRQ)
-> >> +
-> >> + * If the number of IRQs requested exceeds the available on the devic=
-e,
-> >> + * store the number of available IRQs in @irq_count and return -EOVER=
-FLOW.
-> >> + */
-> >> +int qemu_vfio_pci_init_msix_irqs(QEMUVFIOState *s, EventNotifier *not=
-ifier,
-> >> +                                 unsigned *irq_count, Error **errp)
-> >> +{
-> >> +    int r;
-> >> +    size_t irq_set_size;
-> >> +    struct vfio_irq_set *irq_set;
-> >> +    struct vfio_irq_info irq_info =3D {
-> >> +        .argsz =3D sizeof(irq_info),
-> >> +        .index =3D VFIO_PCI_MSIX_IRQ_INDEX
-> >> +    };
-> >> +
-> >> +    if (ioctl(s->device, VFIO_DEVICE_GET_IRQ_INFO, &irq_info)) {
-> >> +        error_setg_errno(errp, errno, "Failed to get device interrupt=
- info");
-> >> +        return -errno;
-> >> +    }
-> >> +    if (irq_info.count < *irq_count) {
-> >> +        error_setg(errp, "Not enough device interrupts available");
-> >> +        *irq_count =3D irq_info.count;
-> >> +        return -EOVERFLOW;
-> >> +    }
-> >> +    if (!(irq_info.flags & VFIO_IRQ_INFO_EVENTFD)) {
-> >> +        error_setg(errp, "Device interrupt doesn't support eventfd");
-> >> +        return -EINVAL;
-> >> +    }
-> >> +
-> >> +    irq_set_size =3D sizeof(*irq_set) + *irq_count * sizeof(int32_t);
-> >> +    irq_set =3D g_malloc0(irq_set_size);
-> >> +
-> >> +    /* Get to a known IRQ state */
-> >> +    *irq_set =3D (struct vfio_irq_set) {
-> >> +        .argsz =3D irq_set_size,
-> >> +        .flags =3D VFIO_IRQ_SET_DATA_EVENTFD | VFIO_IRQ_SET_ACTION_TR=
-IGGER,
-> >> +        .index =3D irq_info.index,
-> >> +        .start =3D 0,
-> >> +        .count =3D *irq_count,
-> >> +    };
-> >> +
-> >> +    for (unsigned i =3D 0; i < *irq_count; i++) {
-> >> +        ((int32_t *)&irq_set->data)[i] =3D event_notifier_get_fd(&not=
-ifier[i]);
-> >> +    }
-> >> +    r =3D ioctl(s->device, VFIO_DEVICE_SET_IRQS, irq_set);
-> >> +    g_free(irq_set);
-> >> +    if (r <=3D 0) {
-> >> +        error_setg_errno(errp, errno, "Failed to setup device interru=
-pts");
-> >> +        return -errno;
-> >> +    } else if (r < *irq_count) {
-> >> +        error_setg(errp, "Not enough device interrupts available");
-> >> +        *irq_count =3D r;
-> >> +        return -EOVERFLOW;
-> >> +    }
-> >=20
-> > EOVERFLOW can occur in two cases: VFIO_DEVICE_GET_IRQ_INFO and
-> > VFIO_DEVICE_SET_IRQS.
+>    https://lists.gnu.org/archive/html/qemu-block/2020-09/msg00247.html
 >=20
-> Yes.
+> However the patches themselves are independent and can be applied
+> separately.
 >=20
-> >=20
-> > If it happens in the second case the notifier[] array has been
-> > registered successfully.
+> Regards,
 >=20
-> No, I don't think so:
+> Berto
 >=20
-> vfio_pci_set_msi_trigger() register the notifier only if
-> vfio_msi_enable() succeeded (returned 0). If vfio_msi_enable()
-> failed it returns the number of vectors available but do
-> not register the notifiers.
+> Alberto Garcia (2):
+>   qcow2: Handle QCowL2Meta on error in preallocate_co()
+>   qcow2: Make qcow2_free_any_clusters() free only one cluster
+>=20
+>  block/qcow2.h          |  4 ++--
+>  block/qcow2-cluster.c  |  6 +++---
+>  block/qcow2-refcount.c |  8 ++++----
+>  block/qcow2.c          | 40 +++++++++++++++++-----------------------
+>  4 files changed, 26 insertions(+), 32 deletions(-)
 
-Good, thanks!
+Thanks, applied to my block branch:
 
-Stefan
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 
---k1lZvvs/B4yU6o8G
+
+--btre2uFtxSSgWOTsOXPSBnP24YMMieRKi--
+
+--cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9bONsACgkQnKSrs4Gr
-c8jgyAgAt+Xdm/2Pcn7FyNJREwOKuhLS7jlGC2w6k1qnb6C5uO1jZ3EvkAkWHlcS
-DyFmePDrH4aiFQZ/cQaDYHZY69MumyZi9aRKthhrR7JDbtWjk6OqoyfcKicWGutx
-AkbIqXF0OU5iGsU/i6sVEvAyZIxlATZtee+slpqZ4rRVNkBPRIFJU2ZOEI4y6MoK
-kMn9Iv+7POSgQpDTUPvuz7jIyfgobpMpO48tE/zRGM0BULGrJY6tFjQjYQ/QaG9L
-dqtoUrHurlaG2yDY/LP/NKRXX9XKUnvnjpsfEeXNyi1VxwYSu+Eh6SbTyYgkIJ9t
-J7NDeCMygZD0Qp731HMd3luXfTpEEQ==
-=G06V
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9bOVkACgkQ9AfbAGHV
+z0Bf3ggAlMdxj0pZ6WO8w5xn8YAOiTkIOenl9pX/xiMUPqWU1Vvx4n09/WC8FUv4
+aXgOlSf0CstVlxXXHigSisGTvCwki4Auuvop1VRh/m9QHNbAurfgIsKAdWE3ZQmn
+/arK+LYJesdkK0apPYmek5y3EdoPgDEVI+cJ34yxsAD/9mSizp7yiBXxTecN/TTw
+il+UIHwLaIYjrpIzMT85nmmb3FVyg8osejmUhaDUFHM89WPX+GzVNno1LmetEOS/
+Rj5L7VQd+g/0XSWmEc3vscnIl+vj5lHTBG7qTBgmGPKRU/4QMuBZB5LrL0E1Gt8j
+nTwqDBv/Uj9JL2Mx18d7MWGQ9KCwqw==
+=ikEj
 -----END PGP SIGNATURE-----
 
---k1lZvvs/B4yU6o8G--
+--cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E--
 
 
