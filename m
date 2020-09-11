@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCC1265BBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:35:43 +0200 (CEST)
-Received: from localhost ([::1]:48802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD1A265BC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:41:30 +0200 (CEST)
+Received: from localhost ([::1]:57190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGeX0-0003R3-6x
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:35:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32784)
+	id 1kGecb-0007Ey-M8
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kGeW6-0002Tb-5C; Fri, 11 Sep 2020 04:34:46 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:50647)
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1kGebQ-0005mB-Sm; Fri, 11 Sep 2020 04:40:16 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:45868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kGeW3-0001Sv-Pw; Fri, 11 Sep 2020 04:34:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.98])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 488326067AB5;
- Fri, 11 Sep 2020 10:34:39 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 11 Sep
- 2020 10:34:38 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R00224bd067e-23a0-447f-bf6b-e09b54b5dfab,
- 864FBEA0465FE1F0C66A9C6AC37977A76827B8ED) smtp.auth=groug@kaod.org
-Date: Fri, 11 Sep 2020 10:34:37 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 08/14] blockjob: return status from block_job_set_speed()
-Message-ID: <20200911103437.39ba59e7@bahia.lan>
-In-Reply-To: <20200909185930.26524-9-vsementsov@virtuozzo.com>
-References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
- <20200909185930.26524-9-vsementsov@virtuozzo.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: a025a0a2-29ac-4e72-bccd-afda911e9646
-X-Ovh-Tracer-Id: 3935864600211855803
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudehledgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehkfiholhhfsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 04:34:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1kGebM-00029m-6d; Fri, 11 Sep 2020 04:40:14 -0400
+Received: from sas1-ec30c78b6c5b.qloud-c.yandex.net
+ (sas1-ec30c78b6c5b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:2704:0:640:ec30:c78b])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 62B1D2E14DD;
+ Fri, 11 Sep 2020 11:40:07 +0300 (MSK)
+Received: from sas2-32987e004045.qloud-c.yandex.net
+ (sas2-32987e004045.qloud-c.yandex.net [2a02:6b8:c08:b889:0:640:3298:7e00])
+ by sas1-ec30c78b6c5b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ tbd42YlPJN-e2vi9dMb; Fri, 11 Sep 2020 11:40:07 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1599813607; bh=/1IkPW8SgKZi0C7XPMMhMNC+CPgYH6AncZedQ2SzGzg=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=I84DR4y8b8dBsz7kDEIUAi/rDuUN4KDm3VMS8tdvcMymEeZRRwR5vJ2cJO1T/8Y7Y
+ m6pwbglNWJ2IgK9dseZGq9hEot9FZUyYmU2gAAXpHSoK8feh8JXKVydmjPxt3mCrVe
+ Iha7dX589FYINrcEkXXk9Pnv4LEEQNyCtB6hc7lI=
+Authentication-Results: sas1-ec30c78b6c5b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:7216::1:a])
+ by sas2-32987e004045.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ v35icu4tRa-e2lWlHXo; Fri, 11 Sep 2020 11:40:02 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (Client certificate not present)
+From: Dima Stepanov <dimastep@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/7] vhost-user-blk: fix the migration issue and enhance
+ qtests
+Date: Fri, 11 Sep 2020 11:39:42 +0300
+Message-Id: <cover.1599813294.git.dimastep@yandex-team.ru>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 04:40:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,94 +71,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, pavel.dovgaluk@ispras.ru,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
- ari@tuxera.com
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, stefanha@gmail.com, jasowang@redhat.com,
+ dgilbert@redhat.com, mreitz@redhat.com, fengli@smartx.com,
+ yc-core@yandex-team.ru, pbonzini@redhat.com, raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  9 Sep 2020 21:59:24 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+v4 -> v5:
+  - vhost: check queue state in the vhost_dev_set_log routine
+    tests/qtest/vhost-user-test: prepare the tests for adding new
+    dev class
+    tests/qtest/vhost-user-test: add support for the
+    vhost-user-blk device
+    tests/qtest/vhost-user-test: add migrate_reconnect test
+    Reviewed-by: Raphael Norwitz
+  - Update qtest, by merging vhost-user-blk "if" case with the
+    virtio-blk case.
 
-> Better to return status together with setting errp. It allows to avoid
-> error propagation in the caller.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+v3 -> v4:
+  - vhost: recheck dev state in the vhost_migration_log routine
+    Reviewed-by: Raphael Norwitz
+  - vhost: check queue state in the vhost_dev_set_log routine
+    Use "continue" instead of "break" to handle non-initialized
+    virtqueue case.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+v2 -> v3:
+  - update commit message for the 
+    "vhost: recheck dev state in the vhost_migration_log routine" commit
+  - rename "started" field of the VhostUserBlk structure to
+    "started_vu", so there will be no confustion with the VHOST started
+    field
+  - update vhost-user-test.c to always initialize nq local variable
+    (spotted by patchew)
 
->  include/block/blockjob.h |  2 +-
->  blockjob.c               | 18 ++++++++----------
->  2 files changed, 9 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-> index 35faa3aa26..d200f33c10 100644
-> --- a/include/block/blockjob.h
-> +++ b/include/block/blockjob.h
-> @@ -139,7 +139,7 @@ bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs);
->   * Set a rate-limiting parameter for the job; the actual meaning may
->   * vary depending on the job type.
->   */
-> -void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
-> +bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
->  
->  /**
->   * block_job_query:
-> diff --git a/blockjob.c b/blockjob.c
-> index 470facfd47..afddf7a1fb 100644
-> --- a/blockjob.c
-> +++ b/blockjob.c
-> @@ -254,28 +254,30 @@ static bool job_timer_pending(Job *job)
->      return timer_pending(&job->sleep_timer);
->  }
->  
-> -void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-> +bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
->  {
->      int64_t old_speed = job->speed;
->  
-> -    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp)) {
-> -        return;
-> +    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
-> +        return false;
->      }
->      if (speed < 0) {
->          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "speed",
->                     "a non-negative value");
-> -        return;
-> +        return false;
->      }
->  
->      ratelimit_set_speed(&job->limit, speed, BLOCK_JOB_SLICE_TIME);
->  
->      job->speed = speed;
->      if (speed && speed <= old_speed) {
-> -        return;
-> +        return true;
->      }
->  
->      /* kick only if a timer is pending */
->      job_enter_cond(&job->job, job_timer_pending);
-> +
-> +    return true;
->  }
->  
->  int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
-> @@ -448,12 +450,8 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
->  
->      /* Only set speed when necessary to avoid NotSupported error */
->      if (speed != 0) {
-> -        Error *local_err = NULL;
-> -
-> -        block_job_set_speed(job, speed, &local_err);
-> -        if (local_err) {
-> +        if (!block_job_set_speed(job, speed, errp)) {
->              job_early_fail(&job->job);
-> -            error_propagate(errp, local_err);
->              return NULL;
->          }
->      }
+v1 -> v2:
+  - add comments to connected/started fields in the header file
+  - move the "s->started" logic from the vhost_user_blk_disconnect
+    routine to the vhost_user_blk_stop routine
+
+Reference e-mail threads:
+  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01509.html
+  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05241.html
+
+If vhost-user daemon is used as a backend for the vhost device, then we
+should consider a possibility of disconnect at any moment. There was a general
+question here: should we consider it as an error or okay state for the vhost-user
+devices during migration process?
+I think the disconnect event for the vhost-user devices should not break the
+migration process, because:
+  - the device will be in the stopped state, so it will not be changed
+    during migration
+  - if reconnect will be made the migration log will be reinitialized as
+    part of reconnect/init process:
+    #0  vhost_log_global_start (listener=0x563989cf7be0)
+    at hw/virtio/vhost.c:920
+    #1  0x000056398603d8bc in listener_add_address_space (listener=0x563989cf7be0,
+        as=0x563986ea4340 <address_space_memory>)
+    at softmmu/memory.c:2664
+    #2  0x000056398603dd30 in memory_listener_register (listener=0x563989cf7be0,
+        as=0x563986ea4340 <address_space_memory>)
+    at softmmu/memory.c:2740
+    #3  0x0000563985fd6956 in vhost_dev_init (hdev=0x563989cf7bd8,
+        opaque=0x563989cf7e30, backend_type=VHOST_BACKEND_TYPE_USER,
+        busyloop_timeout=0)
+    at hw/virtio/vhost.c:1385
+    #4  0x0000563985f7d0b8 in vhost_user_blk_connect (dev=0x563989cf7990)
+    at hw/block/vhost-user-blk.c:315
+    #5  0x0000563985f7d3f6 in vhost_user_blk_event (opaque=0x563989cf7990,
+        event=CHR_EVENT_OPENED)
+    at hw/block/vhost-user-blk.c:379
+The first patch in the patchset fixes this issue by setting vhost device to the
+stopped state in the disconnect handler and check it the vhost_migration_log()
+routine before returning from the function.
+qtest framework was updated to test vhost-user-blk functionality. The
+vhost-user-blk/vhost-user-blk-tests/migrate_reconnect test was added to reproduce
+the original issue found.
+
+Dima Stepanov (7):
+  vhost: recheck dev state in the vhost_migration_log routine
+  vhost: check queue state in the vhost_dev_set_log routine
+  tests/qtest/vhost-user-test: prepare the tests for adding new dev
+    class
+  tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
+  tests/qtest/vhost-user-test: add support for the vhost-user-blk device
+  tests/qtest/vhost-user-test: add migrate_reconnect test
+  tests/qtest/vhost-user-test: enable the reconnect tests
+
+ hw/block/vhost-user-blk.c          |  19 ++-
+ hw/virtio/vhost.c                  |  39 ++++-
+ include/hw/virtio/vhost-user-blk.h |  10 ++
+ tests/qtest/libqos/virtio-blk.c    |  14 +-
+ tests/qtest/vhost-user-test.c      | 290 +++++++++++++++++++++++++++++++------
+ 5 files changed, 322 insertions(+), 50 deletions(-)
+
+-- 
+2.7.4
 
 
