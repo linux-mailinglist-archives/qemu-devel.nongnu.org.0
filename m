@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95383266907
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:39:33 +0200 (CEST)
-Received: from localhost ([::1]:37898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89850266911
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:42:17 +0200 (CEST)
+Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGotQ-0003QZ-Kz
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:39:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
+	id 1kGow4-0008Aj-0h
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGoo1-0002ym-Rg; Fri, 11 Sep 2020 15:33:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:60437)
+ id 1kGoo7-0003DU-1k; Fri, 11 Sep 2020 15:34:03 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:47377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonx-0000pl-F7; Fri, 11 Sep 2020 15:33:57 -0400
+ id 1kGoo5-0000rV-7x; Fri, 11 Sep 2020 15:34:02 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N94FT-1kcuQm0rXb-0164xR; Fri, 11 Sep 2020 21:33:47 +0200
+ id 1MsrV2-1kW1Ku3qw4-00tBCE; Fri, 11 Sep 2020 21:33:49 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/18] hw: hyperv: vmbus: Fix 32bit compilation
-Date: Fri, 11 Sep 2020 21:33:24 +0200
-Message-Id: <20200911193330.1148942-13-laurent@vivier.eu>
+Subject: [PULL 13/18] test-vmstate: remove unnecessary code in
+ match_interval_mapping_node
+Date: Fri, 11 Sep 2020 21:33:25 +0200
+Message-Id: <20200911193330.1148942-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:K4gAqu5gqDOiQPAt7j4PednT7s9z+df7zh63luO3srHDbESqqmT
- L+y+/SRIztKLnUXqISo/RraJQtbT5tflDaY8iECxMMThzbZjApz2N4MviXBpT6+8LQXi8qr
- +N2/XFRJjwSUGmGusH03HMwGa4Id5GmcyRXEYEGnWJfMqqMtySWVQknAnZKzEYK58XUjC5w
- yZzNh1ZtQkVu4KY3P1euQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uM8ICdled2c=:Hmcc8M85HnqHFY9KCqnI6g
- 2NzWChgIn3HsxHpKenpsY3xeohG/MCDgH3Jv/PX0ru10hLoZgzCKeTmqN5Slphj1P47T6Z57/
- HOKV/78J6xq76EXQcvXWUw4AMvFmAWgJ7MjjqsGL3d8KRt2kiqHJL2hrhfVPWyHIlxT4B5N0z
- r//cPCITfvg8PL9NzvSpvIxVbn0rH4Bi9kkdYAbTV2DNznX3RlMNtEkee+r8kgSmX4KYaovRo
- Al9qHs2mCD5nzFI+zAUGjkYJx5wTOSItA1/8fDjDilK0TYWqZr5ihRbpSIEjSLiBPXPc8dhtl
- o9VPg25mK0htLfUXCTde77TScwdcFkpezkBBlPKpJbM5wo5Fd6eCF35wDauXJ3s+IrwSdBlyy
- YBudl6Aifuv/GsyzNK0t5e1X9iS0zYa5IswaIf/M8wzZz4Eg3WEPt0rrTRvysjeKCucv2suie
- xqaYESAgdzhNdalqlJ+emSD7MIj3BqbE7nT6FTf+iXzTvZELmvkAIBjtMUz0YwRSQTa9f61+V
- bbr7dlFZYYNS4U4B0ZPJZBkN/icFWIzxikKnU0pDprf1slQ9xB/5/7NuMxKEDJf1+68KVEzP+
- ebobamn/ZhmeEG+uNOViXFLQUViSmp+w0bR1dMN3yUP/RoFSUQ0wjWnWFJWNpyENm6RLspuRJ
- m52To9fFbuso9JHfEFwStUtJIVh2OGyOh1vohET1lsKkFDSZqPwSdJw0WUw3ijuTRfq7+0Q6W
- y0hNahPRkBLJObgsuR8mv5mfX0+sF/ue8hxg632CS+AOaMzEwi6Z+zNjj2yMmfq9cB/zYrb4Z
- Y7q57PnUrj60L5V5YRoP5zq85AtjmZmDAIzz1lZ2FBgI+vj6M/touSuEN5K27WSHsDc55Rg
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:zUMa+ifWKXfiliAtzAp9S1WzSxOX2l29IOjWwDZNHPGOvNxcfCZ
+ 8Jl5Fk8z/3yV29GER/jQXVhnnjeW9Sb3kvGraeO2BPB8D9ccWIb11vYlfVITITAZUNMgzc0
+ nQzSEC+Hge922iJdo6YLhFtA4MReHB3LsdnDTbyeaGp+DiCczT1RW0ikUZ/+8/9kfouzKmO
+ qJAWebWzTd8ik6jQvWNkw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SsnXC+ZFTxo=:d7qKma8lvLuGRwj2S5pPwc
+ 7ZjtJnJTxb8kuDmPR3iejYhxcVBlbgauN6PkcXyFcROd8m8L711AxahwFeARogGYTxFnDemnI
+ ZwKLSmaTildwg8up22ofW3jIeDjfljl1zKQ/9Eiw/L2T0+Ab/1qvoM62R9Nj3JXMxtCn8uAXC
+ P04TLo3QnGgu/Vz0Cy+E0a94IfX3TOReg3iJik0Jr1Z32vosARJrK9Niyu5QYWvNKzpI6YtCb
+ B5GxK5vx57a5a3uTG+WUOcJ+xXHAvvDlfWG+rFNcRimnIyl+dr0Nem35MsOF5mX92az+XszWi
+ JpoTYbhCnwR1A3K8CD87OWi9Ptc3MLw9Creq4C0lMp2i7YwknSU0slya4B/H50VjBf2LpUrio
+ faFBfww3NMMH/mjj/s/tV7OOPaXmPORyQxfKepmFMCJv8CtM+Kw6SkkkjqxVOQfrwvtsWGn3n
+ s2MK/S0iSyO89pgyF/ne91l/WhS+vKZiC4pE/jo0QBUECfvImQeTCsdBtK90hDlfrg10Ngt82
+ L/H7ejZv5XBvgI3T0YYcdkK1Fkkabfw6cL4cC+j9PM5cWuQSaRFVim1iXM/4HirCqGB3JQlX1
+ tGj7kZ1XvQ/ChZFVMUQp69BMbJavLzEHtDLPo6+lm03qyTrh6atTBz+/CHMpVicqR/LxuvZX9
+ e1I4mXV7DN8AMEzEou7SS6Ftq6JYDN2gTj5mJtiEfEOCViOxyWGnYQQNJBvofdejoBDdH99Cj
+ 0L9zCT13YqBiMptDnmuAbsQv7qTKMp0zF907Wuwt61FuUuA11KFl0u7DY2VkcJby1Q+ozQkaT
+ QYBE5GhJUHcYdTRx1OJmGDE6D19+mMdjrs9xjCiXYPEc9JFXoYq99oIylFwgxo+wTshsFqs
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,47 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Jon Doron <arilou@gmail.com>
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jon Doron <arilou@gmail.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Fix 32-bit build error for vmbus:
+'str' is not used in match_interval_mapping_node(), remove it.
 
-  hw/hyperv/vmbus.c: In function ‘gpadl_iter_io’:
-  hw/hyperv/vmbus.c:383:13: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-  383 |         p = (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) | off_in_page);
-      |             ^
-  cc1: all warnings being treated as errors
-
-Fixes: 0d71f7082d7 ("vmbus: vmbus implementation")
-Signed-off-by: Jon Doron <arilou@gmail.com>
-Tested-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200715084326.678715-3-arilou@gmail.com>
-[lv: updated with commit description from <20200906050113.2783642-1-richard.henderson@linaro.org>]
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200910023818.11880-1-pannengyuan@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/hyperv/vmbus.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/test-vmstate.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index 75af6b83dde7..6ef895bc352b 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -380,7 +380,8 @@ static ssize_t gpadl_iter_io(GpadlIter *iter, void *buf, uint32_t len)
-             }
-         }
+diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
+index f8de709a0b2b..1c763015d03c 100644
+--- a/tests/test-vmstate.c
++++ b/tests/test-vmstate.c
+@@ -1055,9 +1055,6 @@ static gboolean match_interval_mapping_node(gpointer key,
+     TestGTreeMapping *map_a, *map_b;
+     TestGTreeInterval *a, *b;
+     struct match_node_data *d = (struct match_node_data *)data;
+-    char *str = g_strdup_printf("dest");
+-
+-    g_free(str);
+     a = (TestGTreeInterval *)key;
+     b = (TestGTreeInterval *)d->key;
  
--        p = (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) | off_in_page);
-+        p = (void *)(uintptr_t)(((uintptr_t)iter->map & TARGET_PAGE_MASK) |
-+                off_in_page);
-         if (iter->dir == DMA_DIRECTION_FROM_DEVICE) {
-             memcpy(p, buf, cplen);
-         } else {
 -- 
 2.26.2
 
