@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD95D2668F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:36:42 +0200 (CEST)
-Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47122668F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:37:45 +0200 (CEST)
+Received: from localhost ([::1]:57188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGoqf-0006EZ-OC
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
+	id 1kGorg-0008Fx-T8
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:37:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonq-0002gS-44; Fri, 11 Sep 2020 15:33:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:35715)
+ id 1kGonn-0002Zk-1h; Fri, 11 Sep 2020 15:33:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:33945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGono-0000oV-Gx; Fri, 11 Sep 2020 15:33:45 -0400
+ id 1kGonj-0000ne-Sh; Fri, 11 Sep 2020 15:33:42 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MLRgp-1jyKLM0plL-00ISSv; Fri, 11 Sep 2020 21:33:35 +0200
+ id 1MyNoa-1kShwq1D2q-00yhVm; Fri, 11 Sep 2020 21:33:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/18] hw/mips/fuloong2e: Convert pointless error message to an
- assert()
-Date: Fri, 11 Sep 2020 21:33:13 +0200
-Message-Id: <20200911193330.1148942-2-laurent@vivier.eu>
+Subject: [PULL 02/18] hw/isa/isa-bus: Replace hw_error() by assert()
+Date: Fri, 11 Sep 2020 21:33:14 +0200
+Message-Id: <20200911193330.1148942-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:W6d0M8xiDFfJGbyVtJHHG7N7kNRbKGLWK4jJG48cK3TzhzDMdia
- IVRiUrQ5TRdaCsCYLGPJa+bJe0hP63R3jyLnpGn14uNeFtQk5bDsYITACheJjl6VN40yzVr
- HuIaSg1YBkH+3F8o659PoPgVSI9edT4qdzzvFYOeT9k4IUB+KNCv3qbD0VNcfN9q62B1SGo
- LRVO5giEnv9pdFegavjZA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1liJtNPbD+A=:yDw3vphphqB8zWAli9r/3z
- wKVRpHPWodn94qiIE2Gdxi00rRXVKhZ2mbl8MsBzQFf5+j86C8vyuep6jhMbrYYnQPxNQ/trN
- asBGTDzVMBdFnQBNHoZKwlawyB78Wk0O4ded82/tTv4GiLH78DOl31kmE75tDcIOkXZFYrDYV
- 0VgDLjev3tIyixyPZlAIFzrZYnYDq0oJ3wUz0quGd1pA9ViwBBpGmdr4bwxuTgemxleUA97R2
- 1ZBoVhiCjFiEJ7kIaXm/lUqXvkoGhkK6Y5iuQlrJvDyAsR64i0JyC8O3XYx5+e8yqfn/tE8OT
- eVT0DLisnvXo9ue/86rOtlSNmCtahTWCpia57o2OMZFnwKirpjyAJJG3jfpgilsVgdFXjDi1L
- A2GM1bdjSzaD4uCU2mqXPwbmf/gk0EJvb1itns1QHF+sdu/h+aVtAriCByVoHNWm/m5qVH6b/
- AUdr6XxXo/loZDbeIg2wnFwRGuZbCSJzU5gxAVkTQj60w6kAiqvJtf9e/823qD49XCA9pmtkO
- ZWmPSLlMb/qtXwLAHtz2JthRgSC3s988qkR25hceYEm+tPmGfGuOFiPEMlXDa6fqgMaIeLOKF
- 6g7WUGI5i+fThANYco3+504Nw8e5rWxocEl9MyCpmgG7T2Hm5gieLr+vNTue75s88PzWnhKC2
- bprTsnKzsNQ85jcLIdlyIeq8WYkvN75KYzs7AqBiMs9+Ha+LapBEeeNd9o078nZLgyts+kgm6
- yH87G2LGUxhH2u+x267ahSSMl48iBwZjfBS97EedlyyRBhv0tnLkaLv2TNSrl8+RmaO7inKIu
- +SMe1CbVVpd3qSS6S94Tv4Pjki9nII0lmua4qSm2IjjfyEj4H4pe36qvFeBX6HIm0nVYuf1
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:T5tDDC6sn8sfomspzaRG6piVUoCJq/6+OY5a/NPxdgYZBZQMAQp
+ 4elPTyTwbRZw55Gpo1Ub6lkDCTWmxhQvWaveUsCC6z7Nd+XXS+2iCZHTQq+YFgjD5UP4bS2
+ WgvrN9GJr/kDObO+EDeY4AtpRDTMZwJEVcUZP2wcC6YAEUfAZ/W+zmxLXPjVsO/ip4nSBFp
+ SF4P5VOkc+2pB6TVc7caw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7QDBlccRhQM=:lo18sON3JHGEEOcvvUxGa0
+ 87rpIorodcFlGL4dePZQMIR8vGmWF8oC2vEzwbEk+T+wVcnqHXm07aQrMCamlx4dONwuZaTqf
+ Hoqds7Ztrjl3NOXG/YtiW2EO0AFOo9RuqRNwn1yzzOLcFhyw17kz4TWcx/OFl7yhn4Vq+Ju4t
+ lxQGUSX/C58CY13IM5ATeSe8vR7YFLjY0IWnEEvZueX6/n27cHNqjNUtadW0C2AthGXMcGlTB
+ U/vb22suJoAfflKGdSFXhBGZ1jKSNNts7hlgEQRZUHA9IudSYKIG76o5wa1e9qIXfknV5Dzqj
+ kJ3dlkbf7U20YMTHozp7NoxiLiMGwMUJ7cyMcuO4DNmeVpCU3UvaGj//HzoefRT5Ap2wJBmXM
+ 2v/7m7EG4wsUFSX5NguULUXfYzhSPqwGxs3sYdOK+ESl2xnIMXthoaM10eb8yiwX2hEhZQMCU
+ 25Pod5+mnbkTRqrA9UKLhnNJAaEVkZKpo7gzMA0ITBYgF9WAYA+VmgRGt1K8NSX9wmW1TE6LK
+ GJW/hCXFotSB5sMpTr4dKNyBUBXygyNRjAdd4Civ10VfbQ7WHEzuot/oPgJDkRD+A/qQ2yUFn
+ 4zZ19rjY5FEryEljZOxyo1IrR23HJAQrJSg1qdrUP1Xbnt0OcVq3WgBs1oqVKP/d1BTs3jLpc
+ 0Ov92a/aE6YfVjNtUXH1YK3deR71RadX1MFVslBBPscKtQtmuGZpAImyIz2h6B7z16/DFoey8
+ xQrB1N/MtqCn7KvqRTcejE23dB1vlYxR5/XP5fo8upgd8zEE7ktC4dnn/mggtdyAqR9VHgJ7h
+ jNLgaSHZyokKmQbL6V63Itd5OX6yXgTvMTbwtUvklxXbx2rewgp2vSDpRNMMB+VH8ROxU2R
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,8 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Huacai Chen <chenhc@lemote.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -80,36 +78,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Displaying "vt82c686b_init error" doesn't give any hint about why
-this call failed. As this message targets developers and not users,
-replace the pointless error message by a call to assert() which
-will provide more useful information.
+As we can never have more than ISA_NUM_IRQS (16) ISA IRQs,
+replace the not very interesting hw_error() call by an
+assert() which is more useful to debug condition that can
+not happen.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Huacai Chen <chenhc@lemote.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200901104043.91383-3-f4bug@amsat.org>
+Message-Id: <20200901104043.91383-6-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/mips/fuloong2e.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/isa/isa-bus.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 8ca31e5162c4..f28609976bf4 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -240,10 +240,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     PCIDevice *dev;
- 
-     isa_bus = vt82c686b_isa_init(pci_bus, PCI_DEVFN(slot, 0));
--    if (!isa_bus) {
--        fprintf(stderr, "vt82c686b_init error\n");
--        exit(1);
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 58fde178f92a..10bb7ffa43ae 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -21,7 +21,6 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
+-#include "hw/hw.h"
+ #include "monitor/monitor.h"
+ #include "hw/sysbus.h"
+ #include "sysemu/sysemu.h"
+@@ -85,18 +84,14 @@ void isa_bus_irqs(ISABus *bus, qemu_irq *irqs)
+ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
+ {
+     assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
+-    if (isairq >= ISA_NUM_IRQS) {
+-        hw_error("isa irq %d invalid", isairq);
 -    }
-+    assert(isa_bus);
-     *p_isa_bus = isa_bus;
-     /* Interrupt controller */
-     /* The 8259 -> IP5  */
++    assert(isairq < ISA_NUM_IRQS);
+     return isabus->irqs[isairq];
+ }
+ 
+ void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
+ {
+     assert(dev->nirqs < ARRAY_SIZE(dev->isairq));
+-    if (isairq >= ISA_NUM_IRQS) {
+-        hw_error("isa irq %d invalid", isairq);
+-    }
++    assert(isairq < ISA_NUM_IRQS);
+     dev->isairq[dev->nirqs] = isairq;
+     *p = isa_get_irq(dev, isairq);
+     dev->nirqs++;
 -- 
 2.26.2
 
