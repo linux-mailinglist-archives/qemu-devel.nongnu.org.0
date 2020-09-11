@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288E32668F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:38:57 +0200 (CEST)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95383266907
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:39:33 +0200 (CEST)
+Received: from localhost ([::1]:37898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGosq-00028I-5L
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
+	id 1kGotQ-0003QZ-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:39:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonz-0002rF-71; Fri, 11 Sep 2020 15:33:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:37531)
+ id 1kGoo1-0002ym-Rg; Fri, 11 Sep 2020 15:33:57 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:60437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonx-0000pt-Fv; Fri, 11 Sep 2020 15:33:54 -0400
+ id 1kGonx-0000pl-F7; Fri, 11 Sep 2020 15:33:57 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MlbPO-1kyAJM1Ox0-00ikm8; Fri, 11 Sep 2020 21:33:46 +0200
+ id 1N94FT-1kcuQm0rXb-0164xR; Fri, 11 Sep 2020 21:33:47 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/18] kconfig: fix comment referring to old Makefiles
-Date: Fri, 11 Sep 2020 21:33:23 +0200
-Message-Id: <20200911193330.1148942-12-laurent@vivier.eu>
+Subject: [PULL 12/18] hw: hyperv: vmbus: Fix 32bit compilation
+Date: Fri, 11 Sep 2020 21:33:24 +0200
+Message-Id: <20200911193330.1148942-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JbJE6hEwoNqmKtwsTiUeACjKP1Ty9bABu8wpcMB39zJV4Adg3Zl
- R61wQJXshlbM+sFknRYk2vENeeISaH2LWRgiqFpLxLJHyBQJcGZ0B5e6figS8bv6XGbnQ90
- 04dHuzj/dv1JxIs99Dn+E2nUc5MnMvbi5dBz2+qTFZi7aaK787Vv7Sr5GOkQqenXLu5m4jz
- C2jvGwUaK9cigc5Gx0alg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x3n0pGJDLXE=:/fJJsH/gGymy+uK8sdmUsY
- YMpZ79v9YnR0kWkcBu2z7lxAulZfR5N3sgLTR6tRbT5X8G8caWLJdFlUbwbBl1rborGqywzV/
- HTBNWEAO/r3apyhM2QRiBcFFMFDt8eTIyM7NeROrAe5gIcQgzkeAl+dWwiFFGl0loml2BlGwD
- 7U1qQAEydUwHUGNN0Aa6kikNFf2D1DNicdXFjmDux73f8rdp34KbrCFaYQHGI+IiSdrpDroXg
- jBBlDZtEgEw4wOjoI6H8erd7ON03Zlp7ydX8tjNNXrZJ3g06m73rnUsGtg0QYFViYRa2SAm43
- I+In2SOt1FVFaEdMDyOyCkg/P7a7ywzwDcll60GuVpB2C8gQD81b8S0B5N9KFIm4zQ24eyisy
- zXo/FJ0TvDRRZ6WkaTL1IMnKNAjnpBf+AU4i7wJlROYHZSRJ7j7qDjvrhMp4EGSy72FKoKRiU
- ZbOM57YnOrPFS5u/8Q+VZOe+THSdMlPp5ZhL1E2EjcVS/3D0RfN3nfks3FPSBWDRCBmcSvK9S
- yJ2eVK/FfrDapObuaeSb3GpTllRUOMde3Fxtbxvh8gr24w1xnoU3PkZ/CQ60rGzkYnr1Gqydo
- swkePXB98/+tqxtAHhcGOLR1e4FZjw8+g9tRL++lrr38cBykEB98doIkFQY9CFMpbvoLARnEd
- LuvrHmBbPHDO92W8QCW99nyVCu9P643cuKU9NGR1MxmXBK1ndN9ZOoDqHLSGfaFC7Ne7JC/pj
- Wbm1NZA+zSImOVPGqarygZxuHyLC/rfaExUkK41W3dSCZ7hyjALqVLM2mcX8yi3yCIftqBTHd
- zs8QHIIOT6KU4I21w5I2Havluoueh1IcPYjJ0G4cS8+/OKTAh21mT96TVPWW1TQpbzKn9Rn
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:K4gAqu5gqDOiQPAt7j4PednT7s9z+df7zh63luO3srHDbESqqmT
+ L+y+/SRIztKLnUXqISo/RraJQtbT5tflDaY8iECxMMThzbZjApz2N4MviXBpT6+8LQXi8qr
+ +N2/XFRJjwSUGmGusH03HMwGa4Id5GmcyRXEYEGnWJfMqqMtySWVQknAnZKzEYK58XUjC5w
+ yZzNh1ZtQkVu4KY3P1euQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uM8ICdled2c=:Hmcc8M85HnqHFY9KCqnI6g
+ 2NzWChgIn3HsxHpKenpsY3xeohG/MCDgH3Jv/PX0ru10hLoZgzCKeTmqN5Slphj1P47T6Z57/
+ HOKV/78J6xq76EXQcvXWUw4AMvFmAWgJ7MjjqsGL3d8KRt2kiqHJL2hrhfVPWyHIlxT4B5N0z
+ r//cPCITfvg8PL9NzvSpvIxVbn0rH4Bi9kkdYAbTV2DNznX3RlMNtEkee+r8kgSmX4KYaovRo
+ Al9qHs2mCD5nzFI+zAUGjkYJx5wTOSItA1/8fDjDilK0TYWqZr5ihRbpSIEjSLiBPXPc8dhtl
+ o9VPg25mK0htLfUXCTde77TScwdcFkpezkBBlPKpJbM5wo5Fd6eCF35wDauXJ3s+IrwSdBlyy
+ YBudl6Aifuv/GsyzNK0t5e1X9iS0zYa5IswaIf/M8wzZz4Eg3WEPt0rrTRvysjeKCucv2suie
+ xqaYESAgdzhNdalqlJ+emSD7MIj3BqbE7nT6FTf+iXzTvZELmvkAIBjtMUz0YwRSQTa9f61+V
+ bbr7dlFZYYNS4U4B0ZPJZBkN/icFWIzxikKnU0pDprf1slQ9xB/5/7NuMxKEDJf1+68KVEzP+
+ ebobamn/ZhmeEG+uNOViXFLQUViSmp+w0bR1dMN3yUP/RoFSUQ0wjWnWFJWNpyENm6RLspuRJ
+ m52To9fFbuso9JHfEFwStUtJIVh2OGyOh1vohET1lsKkFDSZqPwSdJw0WUw3ijuTRfq7+0Q6W
+ y0hNahPRkBLJObgsuR8mv5mfX0+sF/ue8hxg632CS+AOaMzEwi6Z+zNjj2yMmfq9cB/zYrb4Z
+ Y7q57PnUrj60L5V5YRoP5zq85AtjmZmDAIzz1lZ2FBgI+vj6M/touSuEN5K27WSHsDc55Rg
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,35 +70,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Jon Doron <arilou@gmail.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200908094244.26327-1-pbonzini@redhat.com>
+Fix 32-bit build error for vmbus:
+
+  hw/hyperv/vmbus.c: In function ‘gpadl_iter_io’:
+  hw/hyperv/vmbus.c:383:13: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
+  383 |         p = (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) | off_in_page);
+      |             ^
+  cc1: all warnings being treated as errors
+
+Fixes: 0d71f7082d7 ("vmbus: vmbus implementation")
+Signed-off-by: Jon Doron <arilou@gmail.com>
+Tested-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Message-Id: <20200715084326.678715-3-arilou@gmail.com>
+[lv: updated with commit description from <20200906050113.2783642-1-richard.henderson@linaro.org>]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- Kconfig.host | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/hyperv/vmbus.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Kconfig.host b/Kconfig.host
-index a6d871c399d0..4af19bf70ef9 100644
---- a/Kconfig.host
-+++ b/Kconfig.host
-@@ -1,6 +1,6 @@
- # These are "proxy" symbols used to pass config-host.mak values
--# down to Kconfig.  See also MINIKCONF_ARGS in the Makefile:
--# these two need to be kept in sync.
-+# down to Kconfig.  See also kconfig_external_symbols in
-+# meson.build: these two need to be kept in sync.
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index 75af6b83dde7..6ef895bc352b 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -380,7 +380,8 @@ static ssize_t gpadl_iter_io(GpadlIter *iter, void *buf, uint32_t len)
+             }
+         }
  
- config LINUX
-     bool
+-        p = (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) | off_in_page);
++        p = (void *)(uintptr_t)(((uintptr_t)iter->map & TARGET_PAGE_MASK) |
++                off_in_page);
+         if (iter->dir == DMA_DIRECTION_FROM_DEVICE) {
+             memcpy(p, buf, cplen);
+         } else {
 -- 
 2.26.2
 
