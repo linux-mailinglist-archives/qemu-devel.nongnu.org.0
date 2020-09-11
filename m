@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90520266085
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 15:45:18 +0200 (CEST)
-Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3F8266082
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 15:43:54 +0200 (CEST)
+Received: from localhost ([::1]:42716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGjMb-0002Yy-Le
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 09:45:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54024)
+	id 1kGjLF-0000hT-Vh
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 09:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kGjJp-0007e5-UO
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 09:42:25 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:46823)
+ id 1kGjJr-0007gL-5p
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 09:42:27 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:38659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kGjJn-0002ly-FW
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 09:42:25 -0400
-Received: by mail-ej1-x642.google.com with SMTP id z23so13819062ejr.13
+ id 1kGjJp-0002mA-K4
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 09:42:26 -0400
+Received: by mail-ed1-x542.google.com with SMTP id c8so9995631edv.5
  for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 06:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Qgjd5IoBDklcBr4dzvOP83PbUpl1nXQnUvNpMJ7K9tY=;
- b=eA/3vz+G0S8GGD6b0OMRQx6G8Thu2ey/R/wyucsPQJds7Wl5EigXLZP/uQ56nkITSz
- yiizmZvWwzMvLP8Q+4uBafIT+jfZrZjozw7FtYKAD/b7wQJjafLPmKgsAOwvsdNfGPNE
- FE4e21pmX6fn+zCxjx7rIATbX8/HfkRzGONhM8kd2n9ZRZso19pPrxIBpsN/q5EtgUE2
- 50ePZoH1gr2CzJWFP+AQhCBdZZF7IYHypG3tqJWPWhO8ChiOYnaCWkW/WSWmyKfcwPV8
- Tadx9Dl8+1zXhItZQjRycf4nSfzahY1+Qm6AHqw6WxBIhH2cdQto904t6w3a2hDchR9s
- fRng==
+ bh=GkKR887fLWOo4DC15+qJV+odLhc3rljp4gn44gOfM4I=;
+ b=AjIVIHJOZ55sDAN+PJovqaHhO5Mgw9YfeOAVRE0u1Q3oc1G4TxH/BN38HgTwVfiK9P
+ FDtGlKFAte/Udrv7a+Krcl00DSD4qL6FC+gAOU/Yc2s7ggTHb2zhSWmPwiLHEkBHzt8E
+ 5uiJYXsWkZlcOmP5I3VM95hxrBr/dqFH6S5Dw6ZquZ6x2kjstgVG+Bt8x0Lr8kyn/pIg
+ xIO0vHmvgOtMM4FvBCS2zy4q/1SSbwtVYohJsrJ7OlwDCdRcR8R6nxaYOidaZteriqMv
+ cojiuAwqXYzgVJ0ZIoBV/S3gzKxCjPJ/MTthCx9EuVrnnpWftvjwTp84eW/1GjrpL+kc
+ qUqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=Qgjd5IoBDklcBr4dzvOP83PbUpl1nXQnUvNpMJ7K9tY=;
- b=P8jY9QpdDFJyMiPsohc+GYpA4NDnZZwkUDOdDaAeBp/tIYNbuSx/uPBmWmwb6kkwpY
- z4c1TSJfnp/sw1pUqiFrH8nTa6qTbNnAy8NinTiYUpZjTP28xeo0na3QVq6XGWnyV+Zs
- Rd+7ndGOzi49cc8Efxfmvj2n+QG6efUQKgdFy2eYJ2nTYWjmyqZvIIrYCosMrhqixs5Y
- QF7NKmX2ZphpaFCggD0CSt5TPKtvaaTXfXiqrPGJdpGjZoJag9Zm7JKBJJpJcNBRsjdt
- T4r0IWUlgzL9PsSN8ktmS3Gm6uwgQ7jXnUySSkF5zx+kVfHcQTcAOKBnHHv/RoT/2kPw
- 7vhw==
-X-Gm-Message-State: AOAM530Wj5iVJeDIg7rKs1/Bifzm76GOM97NBTsFjk48ycZPc7wMPX8p
- DBp3i7zfsr5BXb4mThAnmKGRtbhnKyQ=
-X-Google-Smtp-Source: ABdhPJyVa10YdRzO1aRORaCNMVyEm+W7EWVZNzOFep16J9KfOo+ufvENbxJ6fYaK9yIEGZ86CwrgtA==
-X-Received: by 2002:a17:907:118c:: with SMTP id
- uz12mr2068486ejb.321.1599831741400; 
- Fri, 11 Sep 2020 06:42:21 -0700 (PDT)
+ bh=GkKR887fLWOo4DC15+qJV+odLhc3rljp4gn44gOfM4I=;
+ b=YRwRJiMP9GjVWUCQ1k2oFt3R466B0jfh943wHIpai3FriltACeFihLiV36dOrqZ0Gk
+ d8m1pc988mtrmZzeQq3TGE+EWwZtuETbe6CQ3/3OnzW00qjh6x0SHSg3RiW4RVRNGhXG
+ Mm+KfeMpYT9F9oyBpzM8+Qp6AVE8sa0jHbYQHBZsl9uerKYmoz7DYuhXwY5HF0dqTFA+
+ FQGxegzq1dganXw+Rh8aIdtq+mVmnSeBieril4l2cKX3s106rSEFCZjMqVr+3t2nFNfH
+ 3o65N5JDw8+Lp8GT3l5hOmOR1QsXOtNEfWv29DpJSkR61Fcovdy4ZL5SQNiOQYY0WdQw
+ w0uQ==
+X-Gm-Message-State: AOAM530reBNJWvCGmOM6yZb+cGsFHUabjeGTcbyckIWOP76A+Grj9JQw
+ VdMzg8/QZXwpH2gxrnjuy8Nd/+3Ct+I=
+X-Google-Smtp-Source: ABdhPJy+c11jtdNBM8j8qwlmY1Ul3ZO4izmh2bC1Y2/LtURfoctxYJT4zCVL5fOXzzdTHnAC123Baw==
+X-Received: by 2002:a50:875c:: with SMTP id 28mr2060098edv.20.1599831742273;
+ Fri, 11 Sep 2020 06:42:22 -0700 (PDT)
 Received: from donizetti.lan ([2001:b07:6468:f312:5568:7f99:4893:a5b6])
- by smtp.gmail.com with ESMTPSA id i35sm1757165edi.41.2020.09.11.06.42.20
+ by smtp.gmail.com with ESMTPSA id i35sm1757165edi.41.2020.09.11.06.42.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 06:42:20 -0700 (PDT)
+ Fri, 11 Sep 2020 06:42:21 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: clean up build_by_default
-Date: Fri, 11 Sep 2020 15:42:19 +0200
-Message-Id: <20200911134221.46636-1-pbonzini@redhat.com>
+Subject: [PATCH] ninjatool: rebuild multi-output targets if outputs are missing
+Date: Fri, 11 Sep 2020 15:42:20 +0200
+Message-Id: <20200911134221.46636-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -84,112 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Reitz <mreitz@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build all executables by default except for the known-broken ones.
+The "stamp file trick" used to group targets of a single multi-output rule
+prevents the user from deleting one such target in order to force its
+rebuild.  Doing so will not touch the stamp file, and therefore only
+the dummy ":" command will be executed.
 
-This also allows running qemu-iotests without manually building
-socket_scm_helper.
+With this patch, ninjatool writes rules that force-rebuild the stamp
+file if any of its outputs are missing.  Rebuilding the missing
+target therefore causes the stamp file to be rebuilt too.
 
-Reported-by: Max Reitz <mreitz@redhat.com>
+Reported-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/build-system.rst    | 5 +++++
- tests/fp/meson.build           | 2 --
- tests/meson.build              | 3 +--
- tests/qemu-iotests/meson.build | 3 +--
- trace/meson.build              | 1 -
- ui/shader/meson.build          | 1 -
- 6 files changed, 7 insertions(+), 8 deletions(-)
+ scripts/ninjatool.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 08e85c69e1..2ee368fad6 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -193,6 +193,11 @@ compilation as possible. The Meson "sourceset" functionality is used
- to list the files and their dependency on various configuration  
- symbols.
- 
-+All executables are built by default, except for some `contrib/`
-+binaries that are known to fail to build on some platforms (for example
-+32-bit or big-endian platforms).  Tests are also built by default,
-+though that might change in the future.
-+
- Various subsystems that are common to both tools and emulators have
- their own sourceset, for example `block_ss` for the block device subsystem,
- `chardev_ss` for the character device subsystem, etc.  These sourcesets
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 8779a17aab..24739ad421 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -541,7 +541,6 @@ fpcflags += [
- fptest = executable(
-   'fp-test',
-   ['fp-test.c', tfdir / 'slowfloat.c', '../../fpu/softfloat.c'],
--  build_by_default: false,
-   link_with: [libtestfloat, libsoftfloat],
-   dependencies: [qemuutil],
-   include_directories: [sfinc, include_directories(tfdir)],
-@@ -628,7 +627,6 @@ test('fp-test:mulAdd', fptest,
- fpbench = executable(
-   'fp-bench',
-   ['fp-bench.c', '../../fpu/softfloat.c'],
--  build_by_default: false,
-   link_with: [libtestfloat, libsoftfloat],
-   dependencies: [qemuutil],
-   include_directories: [sfinc, include_directories(tfdir)],
-diff --git a/tests/meson.build b/tests/meson.build
-index 998e4c48f9..3683512dca 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -246,8 +246,7 @@ if have_tools and 'CONFIG_VHOST_USER' in config_host
-   executable('vhost-user-bridge',
-              sources: files('vhost-user-bridge.c'),
-              link_with: [libvhost_user],
--             dependencies: [qemuutil],
--             build_by_default: false)
-+             dependencies: [qemuutil])
- endif
- 
- if have_system and 'CONFIG_POSIX' in config_host
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index 60470936b4..67aed1e492 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -1,6 +1,5 @@
- if 'CONFIG_LINUX' in config_host
--    socket_scm_helper = executable('socket_scm_helper', 'socket_scm_helper.c',
--                                    build_by_default: false)
-+    socket_scm_helper = executable('socket_scm_helper', 'socket_scm_helper.c')
- else
-     socket_scm_helper = []
- endif
-diff --git a/trace/meson.build b/trace/meson.build
-index b36937d3a6..d5fc45c628 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -70,7 +70,6 @@ foreach d : [
-                 output: d[0],
-                 input: meson.source_root() / 'trace-events',
-                 command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
--                build_by_default: true, # to be removed when added to a target
-                 capture: true)
-   specific_ss.add(gen)
- endforeach
-diff --git a/ui/shader/meson.build b/ui/shader/meson.build
-index f69e44ed89..592bf596b9 100644
---- a/ui/shader/meson.build
-+++ b/ui/shader/meson.build
-@@ -9,7 +9,6 @@ foreach e : shaders
-   genh += custom_target(output,
-                 output: output,
-                 capture: true,
--                build_by_default: true, # to be removed when added to a target
-                 input: files('@0@.@1@'.format(e[0], e[1])),
-                 command: [shaderinclude, '@INPUT0@'])
- endforeach
+diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
+index 627a1cab45..6f0e35c727 100755
+--- a/scripts/ninjatool.py
++++ b/scripts/ninjatool.py
+@@ -908,6 +908,9 @@ class Ninja2Make(NinjaParserEventsWithVars):
+             else:
+                 stamp = '%s@%s.stamp' % (rule, sha1_text(targets)[0:11])
+             self.print('%s: %s; @:' % (targets, stamp))
++            self.print('ifneq (%s, $(wildcard %s))' % (targets, targets))
++            self.print('.PHONY: %s' % (stamp, ))
++            self.print('endif')
+             self.print('%s: %s | %s; ${ninja-command-restat}' % (stamp, inputs, orderonly))
+             self.rule_targets[rule].append(stamp)
+             self.stamp_targets[rule].append(stamp)
 -- 
 2.26.2
 
