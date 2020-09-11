@@ -2,99 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B49D265BE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:47:36 +0200 (CEST)
-Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAD6265BE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:50:02 +0200 (CEST)
+Received: from localhost ([::1]:34332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGeiV-0002fY-6J
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35446)
+	id 1kGekr-0004YP-Qr
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:50:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGehQ-0000ub-Ny
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:46:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30331
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kGekA-00048t-JZ
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:49:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37974
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGehP-00032h-0k
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:46:28 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kGek9-0003Mu-2x
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:49:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599813986;
+ s=mimecast20190719; t=1599814156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F1z4iVP+6kMvtlzS1eRRE7RgixOQjf4iGUxcEMSKBTM=;
- b=OgQVAlU/BNUHD2M1kBUfEJVR1YKQqeQQ40mF7di+8mP89g/ngO7LTnMqmf75jU7vCPbwvZ
- fxIkw9M/t3oWf2jTrVL+x2v3N/SaaVknazqTrrQWcUjXN8v/r2uXol8icStusDc5Y8mnz+
- AZIJLLZjh/XSYZr4hEPg3aeJNS7M5Js=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jS8XQLp7h9JQXVvB3S63foCbiUhcGGDVLw77BV+QCxw=;
+ b=GQbOFJn4+qcItxWyUfywXJWr0gS534D2nvZiAeq+xQPLM5uK65DfdjLFc5uPnn0PHdhrqo
+ Hkt4pnZ9PvZECMEEaY6lgQJQIxtun68T+oJnoA74+EqICG0EcYgtLjjOgexJypodb0KMv1
+ jBzt4s1XXu0KKy6BliFnbJxdkb7mJpg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-CiCa77baMsqvnYh68YIEog-1; Fri, 11 Sep 2020 04:46:20 -0400
-X-MC-Unique: CiCa77baMsqvnYh68YIEog-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-332-8qcfpvAhMue3TopjdnVs5Q-1; Fri, 11 Sep 2020 04:49:14 -0400
+X-MC-Unique: 8qcfpvAhMue3TopjdnVs5Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A71FF108E8A2;
- Fri, 11 Sep 2020 08:46:19 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-148.ams2.redhat.com
- [10.36.113.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F81E7E8F5;
- Fri, 11 Sep 2020 08:46:18 +0000 (UTC)
-Subject: Re: [PATCH 0/2] Fix error handling in preallocate_co()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1599573989.git.berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <91da123d-f3c1-95f0-d195-8a0dbfa0edeb@redhat.com>
-Date: Fri, 11 Sep 2020 10:46:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE36A10BBEDE;
+ Fri, 11 Sep 2020 08:49:12 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19D2D75127;
+ Fri, 11 Sep 2020 08:49:08 +0000 (UTC)
+Date: Fri, 11 Sep 2020 10:49:07 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Subject: Re: [PULL 02/10] usb-host: restrict workaround to new libusb versions
+Message-ID: <20200911104907.604673ce@redhat.com>
+In-Reply-To: <20200910131504.11341-3-alex.bennee@linaro.org>
+References: <20200910131504.11341-1-alex.bennee@linaro.org>
+ <20200910131504.11341-3-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <cover.1599573989.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:40:15
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:28:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,66 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E
-Content-Type: multipart/mixed; boundary="btre2uFtxSSgWOTsOXPSBnP24YMMieRKi"
+On Thu, 10 Sep 2020 14:14:56 +0100
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
---btre2uFtxSSgWOTsOXPSBnP24YMMieRKi
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 08.09.20 16:08, Alberto Garcia wrote:
-> This is a follow-up to "Fix removal of list members from
-> BDRVQcow2State.cluster_allocs":
+> From: Gerd Hoffmann <kraxel@redhat.com>
 >=20
->    https://lists.gnu.org/archive/html/qemu-block/2020-09/msg00247.html
+> Fixes build failures with old kernels (USBDEVFS_GET_SPEED missing),
+> on the assumtion that distros with old kernels also have old libusb.
 >=20
-> However the patches themselves are independent and can be applied
-> separately.
+> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Message-Id: <20200902081445.3291-1-kraxel@redhat.com>
+> Message-Id: <20200909112742.25730-3-alex.bennee@linaro.org>
+
+Can we get this merged to fix travis-ci builds, please.
+
 >=20
-> Regards,
->=20
-> Berto
->=20
-> Alberto Garcia (2):
->   qcow2: Handle QCowL2Meta on error in preallocate_co()
->   qcow2: Make qcow2_free_any_clusters() free only one cluster
->=20
->  block/qcow2.h          |  4 ++--
->  block/qcow2-cluster.c  |  6 +++---
->  block/qcow2-refcount.c |  8 ++++----
->  block/qcow2.c          | 40 +++++++++++++++++-----------------------
->  4 files changed, 26 insertions(+), 32 deletions(-)
-
-Thanks, applied to my block branch:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-
-
---btre2uFtxSSgWOTsOXPSBnP24YMMieRKi--
-
---cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9bOVkACgkQ9AfbAGHV
-z0Bf3ggAlMdxj0pZ6WO8w5xn8YAOiTkIOenl9pX/xiMUPqWU1Vvx4n09/WC8FUv4
-aXgOlSf0CstVlxXXHigSisGTvCwki4Auuvop1VRh/m9QHNbAurfgIsKAdWE3ZQmn
-/arK+LYJesdkK0apPYmek5y3EdoPgDEVI+cJ34yxsAD/9mSizp7yiBXxTecN/TTw
-il+UIHwLaIYjrpIzMT85nmmb3FVyg8osejmUhaDUFHM89WPX+GzVNno1LmetEOS/
-Rj5L7VQd+g/0XSWmEc3vscnIl+vj5lHTBG7qTBgmGPKRU/4QMuBZB5LrL0E1Gt8j
-nTwqDBv/Uj9JL2Mx18d7MWGQ9KCwqw==
-=ikEj
------END PGP SIGNATURE-----
-
---cqKQG2m3uQodzFnZDlsRMt0EIR2kOFj6E--
+> diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+> index 08604f787fd..c5d38cb09c0 100644
+> --- a/hw/usb/host-libusb.c
+> +++ b/hw/usb/host-libusb.c
+> @@ -942,7 +942,7 @@ static int usb_host_open(USBHostDevice *s, libusb_dev=
+ice *dev, int hostfd)
+>      usb_host_ep_update(s);
+> =20
+>      libusb_speed =3D libusb_get_device_speed(dev);
+> -#ifdef CONFIG_LINUX
+> +#if LIBUSB_API_VERSION >=3D 0x01000107 && defined(CONFIG_LINUX)
+>      if (hostfd && libusb_speed =3D=3D 0) {
+>          /*
+>           * Workaround libusb bug: libusb_get_device_speed() does not
 
 
