@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592B22668F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:37:54 +0200 (CEST)
-Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDD126690E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:41:22 +0200 (CEST)
+Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGorp-0008Pw-4b
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44832)
+	id 1kGovB-0006eY-KG
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonx-0002lk-Fj; Fri, 11 Sep 2020 15:33:53 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:37719)
+ id 1kGonq-0002iY-TJ; Fri, 11 Sep 2020 15:33:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:49643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonp-0000oZ-5C; Fri, 11 Sep 2020 15:33:53 -0400
+ id 1kGonp-0000od-5h; Fri, 11 Sep 2020 15:33:46 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Md76B-1kp3UV3saB-00aGKf; Fri, 11 Sep 2020 21:33:41 +0200
+ id 1MfL5v-1kiRmY32Vf-00gt6v; Fri, 11 Sep 2020 21:33:42 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/18] Makefile: Skip the meson subdir in cscope/TAGS/ctags
-Date: Fri, 11 Sep 2020 21:33:19 +0200
-Message-Id: <20200911193330.1148942-8-laurent@vivier.eu>
+Subject: [PULL 08/18] hw/net/e1000e: Remove overwritten read handler for
+ STATUS register
+Date: Fri, 11 Sep 2020 21:33:20 +0200
+Message-Id: <20200911193330.1148942-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MrHVAjpRelqQJOP4hIAj+9NIxnoOOpmCfTXNZKY5j5cnzohF2r5
- ab/wkV+l6CIhQ8MZ5yoqGAzCZ504nGnx1PVxt38BDUzlYyG6Qg392ZEPkaljEBbKvXbd6Jp
- f8W9xkCiWxdWLPiAv+AfR8txbnDRaX94EGLGQTSHDxSxj4Fj/WBwN0JdYvdP51myD4E/J3X
- YkbNMCWLbILUiirXOZHpA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wP4UtN7fN6I=:OmSpA/3FqvmXSi2z9V0z7Y
- 0VTlzInQafdSVlM9hnKrlvrZUzILtP4pIbJXPtSEXhZR4U8S7IkadZgfOJ+EGESKoG0wCGB4s
- 3WJ4mbvhRM7DlihiZU8FYkWj6La/8VAbnLYolYvmvamLNmTCvsCxVletfLo7EF2FWlZFUl9OB
- LmeU7kHshB539ILL6mSfV27XZQ7/KtaJgDdPAYrl0Ov788kffW5LF/JrLJo9zOnaH4NaOcmt1
- GcHejQXf5RRVxIBRW8LPJeAvwxBg4JBMg3GZlxZbHpgxMF2+jDQnCCls5ingy0wdwcWTHHUhr
- Ess6VouZFLYKBiK0MWFhVfrgqK0VynDViwLzt7j9siQDACUthpxzgrk4pF42P+qYGolOJH4uJ
- sWjzpVY8Il573U5kemYDA5aZhgyRTSlLEoMmZ7a61+JID4nNLalzEJQBaPW+x/sNWsVKVhmu8
- tBUc7cVnqyw7Ct3TBD0psUigUVz6ZAQ9Y9WIVB77YrTIZXniK0flM6X1UzsE89w6nT0XhMhqe
- NcXBCajVyTYvGLdyLWOirH63RYWaGgRcuq22iW7JTkxSO+Tfs08DV66gnjoskmSlCpL73J9lB
- q5e5L5QLnM7QYMITAgFu2dzosOnMwrYWF/AbP2W+psP0EmBe9jMtfdIFnZOuIcEu92H2OTiOR
- lgxNMZiIXCmY9LVSwjgzTbHUnqf8iaRr2c+En0X8ANW4wYSjDq+RKpYMWiqyQiO8E4GzX1QKh
- opO98FbV7BxzjzPLR+KPcB62V4RlVz6HEQG8722HTzgC+pAFzvujuU8WLgCT5yxR4caby+RYJ
- ZrBzE4kidLWPdTSTTrGmQievbnrZh3w4h9UbVlG6fd3JwpL900YG20eCSDls69XBSYXYCPK
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Sf2oOc/V610s/ecndz6lKV1wa7DBCekol9y2GpdW4qy79KRGsGA
+ P4HbYN2xNqrnT4JCb9+PPSgoiKP3nUYqFMw8sfJQ/7o3VxmjBcxopN1ESKI+2vVjVfa3n22
+ cuah/XcWonczpm19y1xphitMMHLIvfGVR8Mz+klSixHHcr9ThfIKaPUh6ZwdtIm+ISRLlxv
+ IvaCQKbLMAGgWlc1Tx0Rg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Uhy+ph77yhM=:8CKwEN7xgbgoPhuGsCWcET
+ vnNymzpcp2x+RCsejWFGQgH6UonEG6zbPl8b+V0Sfg3RmcHPgRhV/IygYlvbxaSpdceCKwrR6
+ WTteGS3MPOmGyEo+G7eW+VlKZ3mAMVVLsvjgS5IbzcKjsJFBEO6uJZsuJxe5L/iqcw0rx9ss1
+ JwTsHP7CQ8+exKse9YF6HHSCCc9jAHADuEdU2qcBAd79TfPACmpNbSGEimxVtrW/5y5EM3z/7
+ Vf1tpNp3KUEiq0ijh4bKODa6f7squxQw2N9ifPABA2U9BrlYW0jxY5A1yhsXMPygnfb9HLkHX
+ slC+W7qgB7x7rs5qOoHUoaQynNrn1LlbCMzXLwj/+lV7QxQT+cFEfNij6BuOBa9qTNiV5yCYp
+ GMIYq/HA/cVoYS1ilp/ZKzSr/Bk2kwQlxIbiUh80NXJoG6ROCy1138sPlgI4mAD/65S2AV3RH
+ D3bEg4m8IYQYvhmEjKZOorGCRi/1cKV7ZYu4DW00BpfkJWpzciDI9B7ZDYh9VAPPOzvIPFG4W
+ f9d4IL3SOGPUDhxCk4wo23xm5H9ufZVK3I1j+6n01R/HaA7x/k6477jTIDer1EO1h2tSIR8E4
+ /NBypvAol/CHuCmDxCgs9ToqmTavhH8d1XVmVzbBJU8JWWN9hPNQxCuZs0Toj4zD+1V9eHZ4D
+ G3paFfxzHcaYf31mF2FvGhkaKZ5S5u1ob+sFtLWbYHob8geqP1Ac8EKbD/csMa3dUDTPg/9xx
+ iRcokHOzDt/0cHYrhieVMldtOfFhw5YbQ1yx0JeIOOFOWKW/93cfQZ0hCjbZuyd/66yonXK2v
+ qaNkLTFgHPWQRjZoUK4mxlh+K85w5pqi+5MfLJC0ETEX2XPdDoPFd8biRQbYGeKmcNjLWF1
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,57 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-If the meson submodule is present, we don't really want to index its
-source code. Consolidate the find command in a single place and use
-it for cscope, ctags and etags. Note that this now causes ctags and
-etags to also index assembly files, but this is okay since they both
-have been supporting assembly since 2001 at least.
+The STATUS register readop handler is initialized first with
+the generic e1000e_mac_readreg() handler:
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <159916247553.691541.10480293747685886851.stgit@bahia.lan>
+  2861 #define e1000e_getreg(x)    [x] = e1000e_mac_readreg
+  2862 typedef uint32_t (*readops)(E1000ECore *, int);
+  2863 static const readops e1000e_macreg_readops[] = {
+  ....
+  2919     e1000e_getreg(STATUS),
+
+Then overwritten with the specific e1000e_get_status handler:
+
+  3018     [STATUS]  = e1000e_get_status,
+
+To avoid confusion, remove the overwritten initialization.
+
+6f3fbe4ed0 ("net: Introduce e1000e device emulation")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <20200904131402.590055-2-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- Makefile | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/net/e1000e_core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 83bc40b255db..2ed19310cf74 100644
---- a/Makefile
-+++ b/Makefile
-@@ -221,20 +221,22 @@ distclean: clean ninja-distclean
- 	rm -f linux-headers/asm
- 	rm -Rf .sdk
- 
-+find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o -name "*.[chsS]"
-+
- .PHONY: ctags
- ctags:
- 	rm -f tags
--	find "$(SRC_PATH)" -name '*.[hc]' -exec ctags --append {} +
-+	$(find-src-path) -exec ctags --append {} +
- 
- .PHONY: TAGS
- TAGS:
- 	rm -f TAGS
--	find "$(SRC_PATH)" -name '*.[hc]' -exec etags --append {} +
-+	$(find-src-path) -exec etags --append {} +
- 
- .PHONY: cscope
- cscope:
- 	rm -f "$(SRC_PATH)"/cscope.*
--	find "$(SRC_PATH)/" -name "*.[chsS]" -print | sed -e 's,^\./,,' > "$(SRC_PATH)/cscope.files"
-+	$(find-src-path) -print | sed -e 's,^\./,,' > "$(SRC_PATH)/cscope.files"
- 	cscope -b -i"$(SRC_PATH)/cscope.files"
- 
- # Needed by "meson install"
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index bcd186cac524..5170e6a45633 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -2916,7 +2916,6 @@ static const readops e1000e_macreg_readops[] = {
+     e1000e_getreg(TSYNCRXCTL),
+     e1000e_getreg(TDH),
+     e1000e_getreg(LEDCTL),
+-    e1000e_getreg(STATUS),
+     e1000e_getreg(TCTL),
+     e1000e_getreg(TDBAL),
+     e1000e_getreg(TDLEN),
 -- 
 2.26.2
 
