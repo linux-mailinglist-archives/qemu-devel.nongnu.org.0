@@ -2,81 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1663B266913
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:43:15 +0200 (CEST)
-Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE3F26692F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:51:27 +0200 (CEST)
+Received: from localhost ([::1]:46628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGox0-0002Ai-54
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46234)
+	id 1kGp4w-0001oL-H6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kGouF-0006ay-2P
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 15:40:23 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:41245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kGouD-0001ak-EP
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 15:40:22 -0400
-Received: by mail-pg1-x543.google.com with SMTP id y1so1042264pgk.8
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 12:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=fzsN2kmp759BPhrivZCf0ftkqqjeCNXbrECqPg8QK3A=;
- b=nVUJDjbYmKKhvCJuBkUTEPJbTeWY9Sp9fSkEhU30G87x92A9Dpb+hURHjdAqqAsq+e
- cLdnz5RwrTIaX7mDrftfaibNYeWB37PJHlODHUyp+GbgmHF4R64pLJVr8PMT/TL9/7WO
- QfgScagcR5FswXXijnBOsgeRBVN0trbURZaxuAdpULJfOAAuTGDVzsKF0ZUT0+71y1gK
- 8A/b8TUhjmIM2avIksEl8CHjGa1DCA+wEnanULYNSrHC9ktnDNqsMWR4oWJUeqBJPwjd
- nJr0VkrDeLjrScYmUXrSUHuKu1daUyFosLK2p36hreAS13Lry0diNjsn9Gr5hZxKAd9B
- ivQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fzsN2kmp759BPhrivZCf0ftkqqjeCNXbrECqPg8QK3A=;
- b=gut0brP8i4jkR4/TZhTFaKo1kg4Iim0i09k9OyPyBHKzjp+ItNi88uXkHuBDr+Jljn
- 9gHw0p3XQVmqdtYzMtyU8M3wRzZc+31Let6Y4fOagbmoKd9KyVQPTlxnXfEA3x2E/tqF
- ggjT4++gyLbx5fzZIXQecj/Cxefe2DZhRSKkq7q5neE+AnVDCb/ZThIH4AQt7l0uXYnT
- q1sgDDQkZupp/laUI4VDv5U+uT4o07ci7XFTo87ZOqd/pUVhfvDcrZNHTbr2uTN1F0BD
- tlNuEwC7AQsjwfjjmPbgcAjW1DUb0tWG9qr0Ukkx3jmmfCyMyGzexYxUGZQvMuAIZJtD
- zf5Q==
-X-Gm-Message-State: AOAM530/wdFsf+idh/F+5WT9fuyNRNbdZCPiGHYpLYhImZfvMgV2JhSC
- sHjnlOkUWov6zB5ecBTC8aNPJnS/LvVB2Q==
-X-Google-Smtp-Source: ABdhPJzyB0pDHanPZre0eYqbgqwCb9XTFMw7j33lS3U4YomYviV+RdbQvb/KJgm0YSTwnbphBXPtXA==
-X-Received: by 2002:a62:8f4a:: with SMTP id n71mr3605478pfd.141.1599853219124; 
- Fri, 11 Sep 2020 12:40:19 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gi20sm2611596pjb.28.2020.09.11.12.40.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Sep 2020 12:40:18 -0700 (PDT)
-Subject: Re: [PATCH 0/5] handle M-profile in fp16_arith isar_feature test
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1kGovE-00080v-Cr; Fri, 11 Sep 2020 15:41:24 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:60280)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1kGov9-0001k0-8T; Fri, 11 Sep 2020 15:41:24 -0400
+Received: from [172.17.10.18] (unknown [172.17.10.18])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 3434B21C31;
+ Fri, 11 Sep 2020 19:41:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1599853274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mco1yf6QqNRxCf73wZn48JWfmYkCiitl9wTq52Sz4M4=;
+ b=u7ugHPsGp0BJsbWkR1QcW61wBzQaPBPldDoW6oHJnNXc3fwz+bH/HqeeDGBCJ7rYx0L7c8
+ ptHl8IgGnHAoi4JrUhmlZ8ZYpquct1Coh4lSm6mTp7/wJEXuuiH/nqtLVCYgrRv49Lhahe
+ ezwDHvgUz+PLxvDknIpABMZ92oUidT4=
+Subject: Re: [PATCH v5 2/7] hw/misc/led: Allow connecting from GPIO output
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20200910173855.4068-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <df87b4ec-2091-6d1f-9f5e-3f3617f7cf92@linaro.org>
-Date: Fri, 11 Sep 2020 12:40:16 -0700
+References: <20200910205429.727766-1-f4bug@amsat.org>
+ <20200910205429.727766-3-f4bug@amsat.org>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <448947fa-805a-69d6-258f-6e337c4c5076@greensocs.com>
+Date: Fri, 11 Sep 2020 21:42:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200910173855.4068-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200910205429.727766-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:41:15
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
 X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.469,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,47 +67,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-arm@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/20 10:38 AM, Peter Maydell wrote:
-> This series leaves us with two different ways to check for "is this
-> M-profile?" -- the old ARM_FEATURE_M bit, and also the new
-> isar_feature_aa32_mprofile() test.  We could in theory convert the
-> users of ARM_FEATURE_M, but I haven't, because there are a lot of
-> callsites, and it can't be done automatically:
+Hi Phil,
+
+On 9/10/20 10:54 PM, Philippe Mathieu-Daudé wrote:
+> Some devices expose GPIO lines.
 > 
->  * arm_feature() takes the CPUARMState* whereas cpu_isar_feature()
->    takes the ARMCPU*, so each callsite needs manual attention to
->    identify whether it already has a 'cpu' local variable and
->    add one if it doesn't
->  * awkwardly, the KVM-on-AArch64-only host case does not zero
->    out these ID register fields (see the comment in kvm64.c
->    kvm_arm_get_host_cpu_features()), so calling the
->    isar_feature function is only valid if we already know that
->    this CPU is AArch32 -- this would need manually checking
->    at all callsites. (Unless we wanted to change our minds about
->    leaving UNKNOWN values in the ID register fields.)
+> Add a GPIO qdev input to our LED device, so we can
+> connect a GPIO output using qdev_connect_gpio_out().
+> 
+> When used with GPIOs, the intensity can only be either
+> minium or maximum. This depends of the polarity of the
+> GPIO (which can be inverted).
+> Declare the GpioPolarity type to model the polarity.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   include/hw/misc/led.h  |  8 ++++++++
+>   include/hw/qdev-core.h |  8 ++++++++
+>   hw/misc/led.c          | 17 ++++++++++++++++-
+>   3 files changed, 32 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/misc/led.h b/include/hw/misc/led.h
+> index f5afaa34bfb..71c9b8c59bf 100644
+> --- a/include/hw/misc/led.h
+> +++ b/include/hw/misc/led.h
+> @@ -38,10 +38,16 @@ typedef struct LEDState {
+>       /* Public */
+>   
+>       uint8_t intensity_percent;
+> +    qemu_irq irq;
+>   
+>       /* Properties */
+>       char *description;
+>       char *color;
+> +    /*
+> +     * When used with GPIO, the intensity at reset is related
+> +     * to the GPIO polarity.
+> +     */
+> +    bool inverted_polarity;
+>   } LEDState;
+>   
+>   /**
+> @@ -71,6 +77,7 @@ void led_set_state(LEDState *s, bool is_emitting);
+>   /**
+>    * led_create_simple: Create and realize a LED device
+>    * @parentobj: the parent object
+> + * @gpio_polarity: GPIO polarity
+>    * @color: color of the LED
+>    * @description: description of the LED (optional)
+>    *
+> @@ -78,6 +85,7 @@ void led_set_state(LEDState *s, bool is_emitting);
+>    * drop the reference to it (the device is realized).
+>    */
+>   LEDState *led_create_simple(Object *parentobj,
+> +                            GpioPolarity gpio_polarity,
+>                               LEDColor color,
+>                               const char *description);
+>   
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index ea3f73a282d..846354736a5 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -424,6 +424,14 @@ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
+>   void qdev_machine_creation_done(void);
+>   bool qdev_machine_modified(void);
+>   
+> +/**
+> + * GpioPolarity: Polarity of a GPIO line
+> + */
+> +typedef enum {
+> +    GPIO_POLARITY_ACTIVE_LOW,
+> +    GPIO_POLARITY_ACTIVE_HIGH
+> +} GpioPolarity;
+> +
+>   /**
+>    * qdev_get_gpio_in: Get one of a device's anonymous input GPIO lines
+>    * @dev: Device whose GPIO we want
+> diff --git a/hw/misc/led.c b/hw/misc/led.c
+> index 89acd9acbb7..3ef4f5e0469 100644
+> --- a/hw/misc/led.c
+> +++ b/hw/misc/led.c
+> @@ -10,6 +10,7 @@
+>   #include "migration/vmstate.h"
+>   #include "hw/qdev-properties.h"
+>   #include "hw/misc/led.h"
+> +#include "hw/irq.h"
+>   #include "trace.h"
+>   
+>   #define LED_INTENSITY_PERCENT_MAX   100
+> @@ -53,11 +54,19 @@ void led_set_state(LEDState *s, bool is_emitting)
+>       led_set_intensity(s, is_emitting ? LED_INTENSITY_PERCENT_MAX : 0);
+>   }
+>   
+> +static void led_set_state_gpio_handler(void *opaque, int line, int new_state)
+> +{
+> +    LEDState *s = LED(opaque);
+> +
+> +    assert(line == 0);
+> +    led_set_state(s, !!new_state != s->inverted_polarity);
+> +}
+> +
+>   static void led_reset(DeviceState *dev)
+>   {
+>       LEDState *s = LED(dev);
+>   
+> -    led_set_state(s, false);
+> +    led_set_state(s, s->inverted_polarity);
+>   }
+>   
+>   static const VMStateDescription vmstate_led = {
+> @@ -84,11 +93,14 @@ static void led_realize(DeviceState *dev, Error **errp)
+>       if (s->description == NULL) {
+>           s->description = g_strdup("n/a");
+>       }
+> +
+> +    qdev_init_gpio_in(DEVICE(s), led_set_state_gpio_handler, 1);
+>   }
+>   
+>   static Property led_properties[] = {
+>       DEFINE_PROP_STRING("color", LEDState, color),
+>       DEFINE_PROP_STRING("description", LEDState, description),
+> +    DEFINE_PROP_BOOL("polarity-inverted", LEDState, inverted_polarity, false),
+I was wondering, since the GpioPolarity type you introduce is not used 
+in the GPIO API, and since you use a boolean property here. Wouldn't it 
+be clearer is you name this property "active-low"? Because 
+"polarity-inverted" doesn't tell what the polarity is in the first 
+place. Moreover since this property only affects the LED GPIO, and not 
+the LED API (led_set_state), I think you can even name it 
+"gpio-active-low" to make this clear.
 
-That is why I had suggested moving env->features to cpu->isar.features, so that
-it would be nearby.
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> @@ -119,6 +131,7 @@ static void led_register_types(void)
+>   type_init(led_register_types)
+>   
+>   LEDState *led_create_simple(Object *parentobj,
+> +                            GpioPolarity gpio_polarity,
+You could go with a boolean here also and name the parameter 
+gpio_active_low, but I don't have a strong opinion on this.
 
-Which would give us
+So with or without those modifications:
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
-static inline bool isar_feature(const ARMISARegisters *id,
-                                int feature)
-{
-    return extract64(id->features, feature, 1);
-}
-
-static inline bool arm_feature(CPUARMState *env, int feature)
-{
-    return isar_feature(&env_archcpu(env)->isar, feature);
-}
-
-But what you have at present solves the current problem, where we know we're in
-aa32 mode in translate.c.
-
-
-r~
+>                               LEDColor color,
+>                               const char *description)
+>   {
+> @@ -126,6 +139,8 @@ LEDState *led_create_simple(Object *parentobj,
+>       DeviceState *dev;
+>   
+>       dev = qdev_new(TYPE_LED);
+> +    qdev_prop_set_bit(dev, "polarity-inverted",
+> +                      gpio_polarity == GPIO_POLARITY_ACTIVE_LOW);
+>       qdev_prop_set_string(dev, "color", led_color_name[color]);
+>       if (!description) {
+>           static unsigned undescribed_led_id;
+> 
 
