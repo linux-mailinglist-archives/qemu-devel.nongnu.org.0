@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E52B26691A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:45:45 +0200 (CEST)
-Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 288E32668F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:38:57 +0200 (CEST)
+Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGozQ-0006GP-5X
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
+	id 1kGosq-00028I-5L
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGoo8-0003H8-II; Fri, 11 Sep 2020 15:34:04 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:51749)
+ id 1kGonz-0002rF-71; Fri, 11 Sep 2020 15:33:55 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:37531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGoo6-0000re-FN; Fri, 11 Sep 2020 15:34:04 -0400
+ id 1kGonx-0000pt-Fv; Fri, 11 Sep 2020 15:33:54 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MqZE0-1kuIQL1PM0-00mcfC; Fri, 11 Sep 2020 21:33:45 +0200
+ id 1MlbPO-1kyAJM1Ox0-00ikm8; Fri, 11 Sep 2020 21:33:46 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/18] meson.build: tweak sdl-image error message
-Date: Fri, 11 Sep 2020 21:33:22 +0200
-Message-Id: <20200911193330.1148942-11-laurent@vivier.eu>
+Subject: [PULL 11/18] kconfig: fix comment referring to old Makefiles
+Date: Fri, 11 Sep 2020 21:33:23 +0200
+Message-Id: <20200911193330.1148942-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VNrmQrRzyrOXhlp05PCPfiNOyfd2vzwDSlBEpdOlNI1dydqOlPX
- NVXd40ouFNz+WYole/4+GAPQtghb+bJRBbjatVj4fKl6rJcx26/mRQteMOBFnfKBWj34ekP
- i5W93fharJ76/2OgKd/b/RK3695FrRDhxKCYNJD77fTt8d0uqFt2C+keq2zpNEpJ+DXwzy4
- UfzpeTzRRdYK6xkYYO4Gw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eLeDbJgHpts=:wphjyO+wZA5BmfIA2ZDyEE
- TSScBPnYBgu4w7pcPCR+OzqiP91VM0sxBFaxASPx84FuKLZ61uLsffjbiuvM+lUxT9fKXPu7t
- QCZAlzcu2zvrS4R5o8ymYRkIoFgbRRpH+VVvFoRNel7uygetpAeYSlzIlEfUtk1V15wZRQFtw
- Qnd1ug9CSLOEpEwBuUB981tWwVJ6TSrLpt3ygfrbAitN9uJ0TE/OnF62wJJ7rP7grzZhcIEzx
- eZG4pGjRsSelmXfemnTa8GJ62UTgxJbSHYAAxkDL56/63AQVgJGcZbwZzQ1YjsNAkbMFIwH2l
- RfbzvHr879MjscOJz3lDKyc1do4p//+XOvpmOfd721m3MnIHZAJuCr501bWlnxLTiuLruKGdP
- 5GG1rMAabpw3pvEIFbx3Yatq1bGIvzPzjIWL6Da38RDEfdQvK0vsFtfXQtwwMIX/6MQeF6lNM
- MBuFpLqsI+c4Pifaq12CYlcdtHn2pZPAU9mNYdDSHTbIbVy6CxhoUZ/lUTL7y0Xkf1LK+TWU1
- kM/GWtFiRWbutakk5v2tFWq5ozUQlXaCBolExh2pTzXdIjlmzH1621veM/KdZNlZMvrcdBsIo
- Upf9J5roIt4pyyJD8br2OefEMUFJlsYg0kr5IPQm7tEBL8w73FgoAWIdYXvNRmTRBTUvbYVDw
- W11jserIkr/zJFRRpg2Jtq7OX5UReKdC2Cg1APZPWuns6xqMqz2nXPO2ysOYTSi0XTaT5CTwL
- lK1Zh5tnjSHugX0vT3gBshtzGv+pp0SLPJ7UJIwdJuj2NZ04l2axqnw+WRRAJcnlhPxWLaOut
- U2XWzVFDEiB8+3dDrZ0OHPXOKz58KqWijacJptdbrB4RWzySxHM8FeUnpff8HJDqOtJFJyv
+X-Provags-ID: V03:K1:JbJE6hEwoNqmKtwsTiUeACjKP1Ty9bABu8wpcMB39zJV4Adg3Zl
+ R61wQJXshlbM+sFknRYk2vENeeISaH2LWRgiqFpLxLJHyBQJcGZ0B5e6figS8bv6XGbnQ90
+ 04dHuzj/dv1JxIs99Dn+E2nUc5MnMvbi5dBz2+qTFZi7aaK787Vv7Sr5GOkQqenXLu5m4jz
+ C2jvGwUaK9cigc5Gx0alg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:x3n0pGJDLXE=:/fJJsH/gGymy+uK8sdmUsY
+ YMpZ79v9YnR0kWkcBu2z7lxAulZfR5N3sgLTR6tRbT5X8G8caWLJdFlUbwbBl1rborGqywzV/
+ HTBNWEAO/r3apyhM2QRiBcFFMFDt8eTIyM7NeROrAe5gIcQgzkeAl+dWwiFFGl0loml2BlGwD
+ 7U1qQAEydUwHUGNN0Aa6kikNFf2D1DNicdXFjmDux73f8rdp34KbrCFaYQHGI+IiSdrpDroXg
+ jBBlDZtEgEw4wOjoI6H8erd7ON03Zlp7ydX8tjNNXrZJ3g06m73rnUsGtg0QYFViYRa2SAm43
+ I+In2SOt1FVFaEdMDyOyCkg/P7a7ywzwDcll60GuVpB2C8gQD81b8S0B5N9KFIm4zQ24eyisy
+ zXo/FJ0TvDRRZ6WkaTL1IMnKNAjnpBf+AU4i7wJlROYHZSRJ7j7qDjvrhMp4EGSy72FKoKRiU
+ ZbOM57YnOrPFS5u/8Q+VZOe+THSdMlPp5ZhL1E2EjcVS/3D0RfN3nfks3FPSBWDRCBmcSvK9S
+ yJ2eVK/FfrDapObuaeSb3GpTllRUOMde3Fxtbxvh8gr24w1xnoU3PkZ/CQ60rGzkYnr1Gqydo
+ swkePXB98/+tqxtAHhcGOLR1e4FZjw8+g9tRL++lrr38cBykEB98doIkFQY9CFMpbvoLARnEd
+ LuvrHmBbPHDO92W8QCW99nyVCu9P643cuKU9NGR1MxmXBK1ndN9ZOoDqHLSGfaFC7Ne7JC/pj
+ Wbm1NZA+zSImOVPGqarygZxuHyLC/rfaExUkK41W3dSCZ7hyjALqVLM2mcX8yi3yCIftqBTHd
+ zs8QHIIOT6KU4I21w5I2Havluoueh1IcPYjJ0G4cS8+/OKTAh21mT96TVPWW1TQpbzKn9Rn
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:45
@@ -70,51 +70,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rafael Kitover <rkitover@gmail.com>, qemu-trivial@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Sergei Trofimovich <slyfox@gentoo.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergei Trofimovich <slyfox@gentoo.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Before the change missing SDL was reported as:
-
-    ../meson.build:253:4: ERROR: Expected 1 arguments, got 2.
-
-After the error as:
-
-    ../meson.build:258:4: ERROR: Problem encountered: sdl-image required, but SDL was not found
-
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-CC: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-CC: Rafael Kitover <rkitover@gmail.com>
-Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200908074016.2593596-1-slyfox@gentoo.org>
+Message-Id: <20200908094244.26327-1-pbonzini@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- meson.build | 4 ++--
+ Kconfig.host | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 5421eca66a02..9dec3f5b2d4f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -273,8 +273,8 @@ if sdl.found()
-                          method: 'pkg-config', static: enable_static)
- else
-   if get_option('sdl_image').enabled()
--    error('sdl-image required, but SDL was @0@',
--          get_option('sdl').disabled() ? 'disabled' : 'not found')
-+    error('sdl-image required, but SDL was @0@'.format(
-+          get_option('sdl').disabled() ? 'disabled' : 'not found'))
-   endif
-   sdl_image = not_found
- endif
+diff --git a/Kconfig.host b/Kconfig.host
+index a6d871c399d0..4af19bf70ef9 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -1,6 +1,6 @@
+ # These are "proxy" symbols used to pass config-host.mak values
+-# down to Kconfig.  See also MINIKCONF_ARGS in the Makefile:
+-# these two need to be kept in sync.
++# down to Kconfig.  See also kconfig_external_symbols in
++# meson.build: these two need to be kept in sync.
+ 
+ config LINUX
+     bool
 -- 
 2.26.2
 
