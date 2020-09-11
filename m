@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CA4265BCE
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:42:00 +0200 (CEST)
-Received: from localhost ([::1]:58668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3537265BDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:46:22 +0200 (CEST)
+Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGed5-0007vN-2D
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34092)
+	id 1kGehJ-00080F-UL
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1kGebb-0006AO-Vz; Fri, 11 Sep 2020 04:40:28 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:46284)
+ id 1kGebe-0006GF-0k; Fri, 11 Sep 2020 04:40:30 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:39190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1kGebZ-0002IS-UY; Fri, 11 Sep 2020 04:40:27 -0400
+ id 1kGebc-0002Im-0L; Fri, 11 Sep 2020 04:40:29 -0400
 Received: from sas1-ec30c78b6c5b.qloud-c.yandex.net
  (sas1-ec30c78b6c5b.qloud-c.yandex.net
  [IPv6:2a02:6b8:c14:2704:0:640:ec30:c78b])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 24F132E1563;
- Fri, 11 Sep 2020 11:40:24 +0300 (MSK)
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 297402E14F1;
+ Fri, 11 Sep 2020 11:40:26 +0300 (MSK)
 Received: from sas2-32987e004045.qloud-c.yandex.net
  (sas2-32987e004045.qloud-c.yandex.net [2a02:6b8:c08:b889:0:640:3298:7e00])
  by sas1-ec30c78b6c5b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- kI4PcUgUWD-eNvax9Q5; Fri, 11 Sep 2020 11:40:24 +0300
+ OIF454btik-ePvu5g28; Fri, 11 Sep 2020 11:40:26 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1599813624; bh=b5snXHHDHtcmCko458PfyzZLiPKMk7C2Doeto1/vuhQ=;
+ t=1599813626; bh=q/BEie8WWdulCQ+K3Z9sfH9Ao00pTgDfrRPfxe/FziU=;
  h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
  Subject:To:From:Cc;
- b=UlDFsQnBEA6wADQPj5I7ZNFoJ7rXUev2jsvod3DHZOsUvcLv/pc//VJZsUMek1vth
- 1JpajKrCY1OEdHPwrQDA68nboH5QjKOkd7lEyMTH+BOVkT7AbK26h94nBh+3QRBs23
- MZnqArHQdA6Ojb7glyiZaJ9nDtcyXHfboUlAKo6s=
+ b=c5gpYJ1tzBK9sH3o1iqxLpqIr0HiLAluUIlc/GaczcVwRkIy98Q46eVwt/0F7xBCv
+ Rbah60VUvukeVaM9J/uFFUc5rOHR2dkCk4g+VC0FkYpHO6VQEhD7mkvuManzf51pA4
+ p7B+anTsDVWTnKsnc0iMwZ2cy+XrrJsXXcTQ4l1c=
 Authentication-Results: sas1-ec30c78b6c5b.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b080:7216::1:a])
  by sas2-32987e004045.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- v35icu4tRa-eMlWTkhG; Fri, 11 Sep 2020 11:40:23 +0300
+ v35icu4tRa-ePlWrTQg; Fri, 11 Sep 2020 11:40:25 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Dima Stepanov <dimastep@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 6/7] tests/qtest/vhost-user-test: add migrate_reconnect test
-Date: Fri, 11 Sep 2020 11:39:48 +0300
-Message-Id: <6f38139d24a1be703a6f1c7d983faccdf21d2a9a.1599813294.git.dimastep@yandex-team.ru>
+Subject: [PATCH v5 7/7] tests/qtest/vhost-user-test: enable the reconnect tests
+Date: Fri, 11 Sep 2020 11:39:49 +0300
+Message-Id: <9fee5b17c7940f9126ba7cc014b09106c98118db.1599813294.git.dimastep@yandex-team.ru>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1599813294.git.dimastep@yandex-team.ru>
 References: <cover.1599813294.git.dimastep@yandex-team.ru>
 In-Reply-To: <cover.1599813294.git.dimastep@yandex-team.ru>
 References: <cover.1599813294.git.dimastep@yandex-team.ru>
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 04:40:08
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 04:40:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,72 +82,53 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new migrate_reconnect test for the vhost-user-blk device. Perform a
-disconnect after sending response for the VHOST_USER_SET_LOG_BASE
-command.
+For now a QTEST_VHOST_USER_FIXME environment variable is used to
+separate reconnect tests for the vhost-user-net device. Looks like the
+reconnect functionality is pretty stable, so this separation is
+deprecated.
+Remove it and enable these tests for the default run.
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- tests/qtest/vhost-user-test.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ tests/qtest/vhost-user-test.c | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index a8af613..4b715d3 100644
+index 4b715d3..4b96312 100644
 --- a/tests/qtest/vhost-user-test.c
 +++ b/tests/qtest/vhost-user-test.c
-@@ -146,6 +146,7 @@ static VhostUserMsg m __attribute__ ((unused));
- enum {
-     TEST_FLAGS_OK,
-     TEST_FLAGS_DISCONNECT,
-+    TEST_FLAGS_MIGRATE_DISCONNECT,
-     TEST_FLAGS_BAD,
-     TEST_FLAGS_END,
- };
-@@ -436,6 +437,15 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE);
- 
-         g_cond_broadcast(&s->data_cond);
-+        /*
-+         * Perform disconnect after sending a response. In this
-+         * case the next write command on the QEMU side (for now
-+         * it is SET_FEATURES will return -1, because of disconnect.
-+         */
-+        if (s->test_flags == TEST_FLAGS_MIGRATE_DISCONNECT) {
-+            qemu_chr_fe_disconnect(chr);
-+            s->test_flags = TEST_FLAGS_BAD;
-+        }
-         break;
- 
-     case VHOST_USER_SET_VRING_BASE:
-@@ -737,6 +747,17 @@ static void *vhost_user_test_setup_memfd(GString *cmd_line, void *arg)
-     return server;
- }
- 
-+static void *vhost_user_test_setup_migrate_reconnect(GString *cmd_line,
-+        void *arg)
-+{
-+    TestServer *server;
-+
-+    server = vhost_user_test_setup_memfd(cmd_line, arg);
-+    server->test_flags = TEST_FLAGS_MIGRATE_DISCONNECT;
-+
-+    return server;
-+}
-+
- static void test_read_guest_mem(void *obj, void *arg, QGuestAllocator *alloc)
- {
-     TestServer *server = arg;
-@@ -1150,5 +1171,9 @@ static void register_vhost_user_test(void)
-     opts.before = vhost_user_test_setup_memfd;
-     qos_add_test("migrate", "vhost-user-blk",
+@@ -1140,20 +1140,17 @@ static void register_vhost_user_test(void)
+                  "virtio-net",
                   test_migrate, &opts);
+ 
+-    /* keeps failing on build-system since Aug 15 2017 */
+-    if (getenv("QTEST_VHOST_USER_FIXME")) {
+-        opts.before = vhost_user_test_setup_reconnect;
+-        qos_add_test("vhost-user/reconnect", "virtio-net",
+-                     test_reconnect, &opts);
+-
+-        opts.before = vhost_user_test_setup_connect_fail;
+-        qos_add_test("vhost-user/connect-fail", "virtio-net",
+-                     test_vhost_user_started, &opts);
+-
+-        opts.before = vhost_user_test_setup_flags_mismatch;
+-        qos_add_test("vhost-user/flags-mismatch", "virtio-net",
+-                     test_vhost_user_started, &opts);
+-    }
++    opts.before = vhost_user_test_setup_reconnect;
++    qos_add_test("vhost-user/reconnect", "virtio-net",
++                 test_reconnect, &opts);
 +
-+    opts.before = vhost_user_test_setup_migrate_reconnect;
-+    qos_add_test("migrate_reconnect", "vhost-user-blk",
-+                 test_migrate, &opts);
- }
- libqos_init(register_vhost_user_test);
++    opts.before = vhost_user_test_setup_connect_fail;
++    qos_add_test("vhost-user/connect-fail", "virtio-net",
++                 test_vhost_user_started, &opts);
++
++    opts.before = vhost_user_test_setup_flags_mismatch;
++    qos_add_test("vhost-user/flags-mismatch", "virtio-net",
++                 test_vhost_user_started, &opts);
+ 
+     opts.before = vhost_user_test_setup_multiqueue;
+     opts.edge.extra_device_opts = "mq=on";
 -- 
 2.7.4
 
