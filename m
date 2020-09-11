@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258B8265BDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:46:29 +0200 (CEST)
-Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEEA265BDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:45:56 +0200 (CEST)
+Received: from localhost ([::1]:48928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGehQ-0008G1-1h
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:46:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34988)
+	id 1kGegt-00078M-5D
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kGefY-00055y-He
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:44:32 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32378
+ id 1kGefc-0005H5-Pd
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:44:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57403
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kGefW-0002iM-Ra
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:44:32 -0400
+ id 1kGefb-0002is-4F
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:44:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599813870;
+ s=mimecast20190719; t=1599813874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Ul0LxVebiw5sWSzU7HFK0sjEAUbfdx5vqwM/Vw1sus=;
- b=Jdpeg3v5WeIioksZoLVloy9hCtv2x/+6WR/+dyI1hF7ybSQ3RTuk95fxgZ75pTdkBRSVRN
- K5cfcVWx4p3wlMCKjVhvkpk8TnFy6XN+0eKv8v9oGJhtDKPgqEyPHmpHd5dtb2vXaC96jj
- o6Q8iQudKb28jEdNeAVMw7oVVdVIiyc=
+ bh=9TTA9MZ8aUIl276MUEBXq81ro2HhgcO3JcrlnA45PJU=;
+ b=LXbOtnwhqKE7BFo4kGh6J4kn/Uicq3Jgz9b6xNOx936iHXu5aT9xNd+/NetDzfpfq0rPK9
+ uZbply95fTFsfrIZ4T255r4UpsZwAUe2mfb4G1qFmpTDVfytCbrNIFsczbhj4TR7fhzXU3
+ 5CfdSOZphoPaWGK2CINhVl2T/M64tUc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-wdqJ4vm6Mt2kPuknNj6dtQ-1; Fri, 11 Sep 2020 04:44:28 -0400
-X-MC-Unique: wdqJ4vm6Mt2kPuknNj6dtQ-1
+ us-mta-412-Esj6XvldP1evPYuENna4Dw-1; Fri, 11 Sep 2020 04:44:30 -0400
+X-MC-Unique: Esj6XvldP1evPYuENna4Dw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2659D10BBEF1;
- Fri, 11 Sep 2020 08:44:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13A6210BBEDA;
+ Fri, 11 Sep 2020 08:44:29 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82E8681C44;
- Fri, 11 Sep 2020 08:44:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FEB581C44;
+ Fri, 11 Sep 2020 08:44:27 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] doc: Cleanup "'-mem-path' fallback to RAM" deprecation
- text
-Date: Fri, 11 Sep 2020 04:44:09 -0400
-Message-Id: <20200911084410.788171-3-imammedo@redhat.com>
+Subject: [PATCH 3/3] numa: remove fixup numa_state->num_nodes to MAX_NODES
+Date: Fri, 11 Sep 2020 04:44:10 -0400
+Message-Id: <20200911084410.788171-4-imammedo@redhat.com>
 In-Reply-To: <20200911084410.788171-1-imammedo@redhat.com>
 References: <20200911084410.788171-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 00:33:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:40:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,54 +88,35 @@ Cc: ehabkost@redhat.com, mst@redhat.com, libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it was actually removed in 5.0,
-commit 68a86dc15c (numa: remove deprecated -mem-path fallback to anonymous RAM)
-clean up forgotten remnants in docs.
+current code permits only nodeids in [0..MAX_NODES) range
+due to nodeid check in
+
+  parse_numa_node()
+      if (nodenr >= MAX_NODES) {
+          error_setg(errp, "Max number of NUMA nodes reached: %"
+
+so subj fixup is not reachable, drop it.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- docs/system/deprecated.rst | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ hw/core/numa.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 6f9441005a..f252c92901 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -104,17 +104,6 @@ error in the future.
- The ``-realtime mlock=on|off`` argument has been replaced by the
- ``-overcommit mem-lock=on|off`` argument.
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 706c1e84c6..7d5d413001 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -677,10 +677,6 @@ void numa_complete_configuration(MachineState *ms)
+     if (ms->numa_state->num_nodes > 0) {
+         uint64_t numa_total;
  
--``-mem-path`` fallback to RAM (since 4.1)
--'''''''''''''''''''''''''''''''''''''''''
+-        if (ms->numa_state->num_nodes > MAX_NODES) {
+-            ms->numa_state->num_nodes = MAX_NODES;
+-        }
 -
--Currently if guest RAM allocation from file pointed by ``mem-path``
--fails, QEMU falls back to allocating from RAM, which might result
--in unpredictable behavior since the backing file specified by the user
--is ignored. In the future, users will be responsible for making sure
--the backing storage specified with ``-mem-path`` can actually provide
--the guest RAM configured with ``-m`` and QEMU will fail to start up if
--RAM allocation is unsuccessful.
--
- RISC-V ``-bios`` (since 5.1)
- ''''''''''''''''''''''''''''
- 
-@@ -624,6 +613,16 @@ New machine versions (since 5.1) will not accept the option but it will still
- work with old machine types. User can check the QAPI schema to see if the legacy
- option is supported by looking at MachineInfo::numa-mem-supported property.
- 
-+``-mem-path`` fallback to RAM (remove 5.0)
-+''''''''''''''''''''''''''''''''''''''''''
-+
-+If guest RAM allocation from file pointed by ``mem-path`` failed,
-+QEMU was falling back to allocating from RAM, which might have resulted
-+in unpredictable behavior since the backing file specified by the user
-+as ignored. Currently, users are responsible for making sure the backing storage
-+specified with ``-mem-path`` can actually provide the guest RAM configured with
-+``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
-+
- Block devices
- -------------
- 
+         numa_total = 0;
+         for (i = 0; i < ms->numa_state->num_nodes; i++) {
+             numa_total += numa_info[i].node_mem;
 -- 
 2.27.0
 
