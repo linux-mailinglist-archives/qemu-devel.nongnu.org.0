@@ -2,105 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB40C265A7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 09:25:35 +0200 (CEST)
-Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736532659D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 09:03:00 +0200 (CEST)
+Received: from localhost ([::1]:49232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGdR8-0003Nu-3R
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 03:25:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
+	id 1kGd5G-0004Wy-Ui
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 03:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
- id 1kGY9U-00030S-1V
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:47:00 -0400
-Received: from us-smtp-delivery-162.mimecast.com ([63.128.21.162]:46558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
- id 1kGY9R-0002wu-Ne
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:46:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com;
- s=mimecast20180716; t=1599788816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=Hs3ydqFsagqFJ+7NUNfymMc/6ohNVUuwi4/7FnB5yNQ=;
- b=Rm6Cb/lYt8ZHVn6opEOd7LbAO4znqqadhVm9PK+vBsEF2Eou+N4eBPjVgEDwuxDCesJA/x
- Q5R2JM8I5abLUAGU2eMEdfNAwyCQtoNrtZ6ucCv8XnxzhNjs4HNtKKkAyRXskLZ3+2V/Pk
- hQsaa3hdN7QEulqIssk3BefZnSyzF3k=
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
- (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-7eMTf-niPCK6kEd4ZWCgGw-1; Thu, 10 Sep 2020 21:45:38 -0400
-X-MC-Unique: 7eMTf-niPCK6kEd4ZWCgGw-1
-Received: from CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
- (2a01:111:e400:7507::9) by CS1PR8401MB0485.NAMPRD84.PROD.OUTLOOK.COM
- (2a01:111:e400:750a::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 11 Sep
- 2020 01:45:36 +0000
-Received: from CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::40df:1118:3bef:736c]) by CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::40df:1118:3bef:736c%12]) with mapi id 15.20.3370.016; Fri, 11 Sep
- 2020 01:45:36 +0000
-From: "McMillan, Erich" <erich.mcmillan@hp.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "mst@redhat.com" <mst@redhat.com>, "marcel.apfelbaum@gmail.com"
- <marcel.apfelbaum@gmail.com>, "qemu-trivial@nongnu.org"
- <qemu-trivial@nongnu.org>
-Subject: PATCH: Increase System Firmware Max Size
-Thread-Topic: PATCH: Increase System Firmware Max Size
-Thread-Index: AQHWh9wbvH3PA15ju0WtYVYwRPIQ7g==
-Date: Fri, 11 Sep 2020 01:45:36 +0000
-Message-ID: <CS1PR8401MB0327EF9D532330BA44257AFCF3240@CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [76.199.17.212]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fbf460bd-9506-4529-ba02-08d855f4615f
-x-ms-traffictypediagnostic: CS1PR8401MB0485:
-x-microsoft-antispam-prvs: <CS1PR8401MB0485C75A63C7B2FA32344F40F3240@CS1PR8401MB0485.NAMPRD84.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: E5BSQ1FPwbjTkw1E/ol4rskbcOon4GoHT+r1FkggJNvZNxzd0s4ObC9YvSK24fO9IjEN2rQIpvrz7b1VseHM3BVEhCNz1newNt3GULqGOVJN7S15L6GUgsaVXZ3F1qARcDQXl6sZ3zWVPHtf9fFmaeF9zldVizdXUv6JOxTXwYFQSNA2pUBThYDYjRWqVtYPv7A8Gio9GquGDQ+uaq/yP8I/FsOOByyZWTgsSArk8RUqYa2CxS7wjbDiLaCNBq1IwflDK9bJLE8/znRT/atrcoozaZVMD9g5PBBQuuoMhPtaVpisb+nvGxSRHeqBTKcCT6XqpYFt7DBVyy+tKQF91g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(366004)(376002)(136003)(39860400002)(396003)(346002)(19627405001)(52536014)(8676002)(26005)(8936002)(86362001)(83380400001)(5660300002)(91956017)(76116006)(66946007)(4744005)(71200400001)(66446008)(4326008)(66556008)(64756008)(66476007)(316002)(6916009)(54906003)(2906002)(33656002)(478600001)(6506007)(186003)(9686003)(7696005)(55016002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 7yJuiamxNlvZ7Vh/ItH0SSjVEA727k7LZiDgn6KpJxpkgLsV/eTH5+iuhbTws/zifUylB3yWGNjLBRIb4rowKj6WXR7gSfUepbB+87ghwJhPwLEE5aGVLr5tzWllO4Dr/osdOtk1edjur0zPBbg5z1of7qG2B4yQKvhBLRLb5OujzOj4WD1Jte8TM+q3USmXzGeweO/uTHptir8utJu+qFn5CMC7pgpo5OkoX33A9U8fKM3PHAOZgN/NcA/TUQ4rEBf8oF/q0B4FTValYSJjG5pKu2KSW36quQrDidPRr5yABdqfFeuch6JLhCDLGu9tmpK6LGTDbg2yDTFUQ4prz9ooVLQeW8gkKzeONlUUKZIrmgvyumWLKO5jvPVtsxY/UUEGqrzx7fYHCHohJAQZywA8J1vCiJ+Eo9uA7HwI/t/eVKUhhkxkdDyYm609bidARPSffADRW6HCq8LY8xjzzBt0Lvm8a8wVutqxFa+Fs7gpM0vbtNRJn6GVjR2AMddDHWOvJJKQRZA1omklvM+JiXyYbTBlvZd2bIMlp9fUSCNj93KSyqT5Cy6vp6U5Fwprs3q5ElTfH/T6ZUf7YqU04ku7kInaR9BG5tLc0YXS0M6z2yqqkMyuVRp7g6yucDawJP68seu5oG+sFzzNIZOFew==
-x-ms-exchange-transport-forked: True
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kGd4P-0003xF-QL; Fri, 11 Sep 2020 03:02:05 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:44463)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kGd4N-0006O0-RE; Fri, 11 Sep 2020 03:02:05 -0400
+Received: from [192.168.100.1] ([82.252.148.206]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MHG4c-1kL0mk3g2a-00DKlQ; Fri, 11 Sep 2020 09:01:43 +0200
+Subject: Re: elf2dmp: Fix memory leak on main() error paths
+To: Thomas Huth <thuth@redhat.com>, AlexChen <alex.chen@huawei.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+References: <5F463659.8080101@huawei.com>
+ <c9a661c3-7a86-8ae7-6304-6110d0bfb461@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <7467ade8-25c8-509c-f766-1af6bce3a729@vivier.eu>
+Date: Fri, 11 Sep 2020 09:01:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-OriginatorOrg: hp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbf460bd-9506-4529-ba02-08d855f4615f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2020 01:45:36.5420 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: ca7981a2-785a-463d-b82a-3db87dfc3ce6
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OYz5GAIYKtniDtHU7An89J1srOzd70jTlbj9uenLEe0xfO2VaZZ8z/9xRsD07LZl1D+I/pJmCK0QVL4ssRHRzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CS1PR8401MB0485
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA62A171 smtp.mailfrom=erich.mcmillan@hp.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: hp.com
-Content-Type: multipart/alternative;
- boundary="_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_"
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.162; envelope-from=erich.mcmillan@hp.com;
- helo=us-smtp-delivery-162.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 21:45:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c9a661c3-7a86-8ae7-6304-6110d0bfb461@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:/MO0KaQef5SeKR9Z3AJzptBjJPyCtpdsu9AS2M6mzx/kTL6PS6p
+ 2tkYIteb8GnwL4FzlA5FqzXZK2v4gwUp1d/DcjLUqrYaN5VLffYOc8RnV2YRgqgn4Jw3i2M
+ seGVJwhN8g+ApGM33y3X+aJLy2i2BClcnZO/3thFST6S9hZSEbAsIWG4/YA0MhnnDk8pFDn
+ YmlGG+i0+qZIc/OvYqEUA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6FbZLTQ/cwk=:RcH+NoafOIQtDRzkmLEF4i
+ tQt3PYdXGrLsyvN9D9Zcxlyd+ElfNmJL0F6+2YuMcROGeM+4+GWOjyngmGWAlNmLshS2Sk4uL
+ 7WUl6oAhybU+l9JmCQEoEwbcBJ8d+HbQ47Lp5WYNC8YFxSGEUbbJaE6eo5sRZQIZogF/bLN3t
+ hrOehRdkbTxlgifUHpsGF34ki9m0F1L4VwFU0ZsH8wUzbwtfl9bcdH5j0BDfEsv392Hmno/Cn
+ 71pC/e0q1UKvQgzwsIXVsGzFW9IRKelFnMyTL5tQ1wZ86DoWV9lrcHAl3idTV9k7BbLoBJrxJ
+ j5YJnIQV9aswI2SbAYjOQNqhaTfsn2ih5h6/19+hYOrT8TL+gC2PgCooM1de2DnKg3Dv+3FTl
+ lysTxgt9XmxxxVTJyxQ8CrJQwmoLEMBDOoQSjNZiBqqgLe3SFZAYBnSjeLQHUI64/Tm8M5Fbw
+ zaK+RghG6OLjleqk+PVQbcxlgzf+pffOtlrKSg/HZd2hjRpYS8GupgfWlXBSKNZy0uRI0KH+z
+ 6Q6BcuJq8UqQa8GQ0DQjo4/ButLMhwLsHtD/7cw5OU7dd/ntYTUwwSRFVXl6i76X+3MQwfZUV
+ MtTRz9Cyd3c5fQY1gcEqiOFb68r4AbF3ZEMC9qJGGbeH3Uo476KQC6O7535VIPZQ86xAUZZDN
+ zilfzAQm/oWaqdwTid13NtjFYxBuwuIDz+iaBEU7TZNRd75ncU7sv47qM/Up7RMPfEeMiZNSf
+ B7h+xzuFVSyTBbqjjMoy6M0Kiq6U4N/ewMkbZAtKgaFnNRtPfYF7nLJrm3cYJOCwFSfbF60k/
+ WuuSd2NGbon8PUGqDRdSmN3AqDiJ5wJ7mNgShEbUaKq7/gjndLu/yRUfW1MuVGrTROCoSIE
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:01:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.576,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 11 Sep 2020 03:24:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,117 +116,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: zhengchuan@huawei.com, QEMU Trivial <qemu-trivial@nongnu.org>,
+ zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Le 11/09/2020 à 06:18, Thomas Huth a écrit :
+> On 26/08/2020 12.15, AlexChen wrote:
+>> From: AlexChen <alex.chen@huawei.com>
+>>
+>> The 'kdgb' is allocating memory in get_kdbg(), but it is not freed
+>> in both fill_header() and fill_context() failed branches, fix it.
+>>
+>> Signed-off-by: AlexChen <alex.chen@huawei.com>
+>> ---
+>>  contrib/elf2dmp/main.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+>> index 9a2dbc2902..ac746e49e0 100644
+>> --- a/contrib/elf2dmp/main.c
+>> +++ b/contrib/elf2dmp/main.c
+>> @@ -568,12 +568,12 @@ int main(int argc, char *argv[])
+>>      if (fill_header(&header, &ps, &vs, KdDebuggerDataBlock, kdbg,
+>>              KdVersionBlock, qemu_elf.state_nr)) {
+>>          err = 1;
+>> -        goto out_pdb;
+>> +        goto out_kdbg;
+>>      }
+>>
+>>      if (fill_context(kdbg, &vs, &qemu_elf)) {
+>>          err = 1;
+>> -        goto out_pdb;
+>> +        goto out_kdbg;
+>>      }
+>>
+>>      if (write_dump(&ps, &header, argv[2])) {
+>>
+> 
+> I think this could go via qemu-trivial (now on CC:).
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+> 
 
-Hi all,
+Applied to my trivial-patches branch.
 
-(this is my first Qemu patch submission, please let me know if my formattin=
-g/content needs to be fixed).
-We have a need for increased firmware size, currently we are building Qemu =
-with the following change to test our Uefi Firmware and it works well for u=
-s. Hope that this change can be made to open source. Thank you.
--------
-Increase allowed system firmware size to 16M per comment suggesting up to 1=
-8M is permissible.
-
- Signed-off-by: Erich McMillan <erich.mcmillan@hp.com>
-
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index b8d8ef59eb17c6ace8194fc69c3d27809becfbc0..f6f7cd744d0690cee0355fbd19f=
-fdcdb71ea75ca 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -46,7 +46,7 @@
-  * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB=
- in
-  * size.
-  */
--#define FLASH_SIZE_LIMIT (8 * MiB)
-+#define FLASH_SIZE_LIMIT (16 * MiB)
-
- #define FLASH_SECTOR_SIZE 4096
--------
-
-
---_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_
-Content-Type: text/html; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-Hi all,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-(this is my first Qemu patch submission, please let me know if my formattin=
-g/content needs to be fixed).<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-We have a need for increased firmware size, currently we are building Qemu =
-with the following change to test our Uefi Firmware and it works well for u=
-s. Hope that this change can be made to open source. Thank you.<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
--------<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-Increase allowed system firmware size to 16M per comment suggesting up to 1=
-8M is permissible.<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-&nbsp;Signed-off-by: Erich McMillan &lt;erich.mcmillan@hp.com&gt;<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-<div>index b8d8ef59eb17c6ace8194fc69c3d27809becfbc0..f6f7cd744d0690cee0355f=
-bd19ffdcdb71ea75ca 100644</div>
-<div>--- a/hw/i386/pc_sysfw.c</div>
-<div>+++ b/hw/i386/pc_sysfw.c</div>
-<div>@@ -46,7 +46,7 @@</div>
-<div>&nbsp; * only 18MB-4KB below 4G. For now, restrict the cumulative mapp=
-ing to 8MB in</div>
-<div>&nbsp; * size.</div>
-<div>&nbsp; */</div>
-<div>-#define FLASH_SIZE_LIMIT (8 * MiB)</div>
-<div>+#define FLASH_SIZE_LIMIT (16 * MiB)</div>
-<div>&nbsp;</div>
-<div>&nbsp;#define FLASH_SECTOR_SIZE 4096</div>
-<div>-------<br>
-</div>
-&nbsp;<br>
-</div>
-</body>
-</html>
-
---_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_--
-
+Thanks,
+Laurent
 
