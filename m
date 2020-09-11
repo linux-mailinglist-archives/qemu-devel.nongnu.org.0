@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47122668F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:37:45 +0200 (CEST)
-Received: from localhost ([::1]:57188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258EE2668EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:35:45 +0200 (CEST)
+Received: from localhost ([::1]:48054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGorg-0008Fx-T8
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:37:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
+	id 1kGopk-0004U4-5c
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonn-0002Zk-1h; Fri, 11 Sep 2020 15:33:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:33945)
+ id 1kGono-0002bg-5J; Fri, 11 Sep 2020 15:33:44 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:58637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonj-0000ne-Sh; Fri, 11 Sep 2020 15:33:42 -0400
+ id 1kGonl-0000nl-2p; Fri, 11 Sep 2020 15:33:43 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MyNoa-1kShwq1D2q-00yhVm; Fri, 11 Sep 2020 21:33:36 +0200
+ id 1Mtxxk-1kX7nh13eO-00uHew; Fri, 11 Sep 2020 21:33:37 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/18] hw/isa/isa-bus: Replace hw_error() by assert()
-Date: Fri, 11 Sep 2020 21:33:14 +0200
-Message-Id: <20200911193330.1148942-3-laurent@vivier.eu>
+Subject: [PULL 03/18] hw/acpi/tco: Remove unused definitions
+Date: Fri, 11 Sep 2020 21:33:15 +0200
+Message-Id: <20200911193330.1148942-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:T5tDDC6sn8sfomspzaRG6piVUoCJq/6+OY5a/NPxdgYZBZQMAQp
- 4elPTyTwbRZw55Gpo1Ub6lkDCTWmxhQvWaveUsCC6z7Nd+XXS+2iCZHTQq+YFgjD5UP4bS2
- WgvrN9GJr/kDObO+EDeY4AtpRDTMZwJEVcUZP2wcC6YAEUfAZ/W+zmxLXPjVsO/ip4nSBFp
- SF4P5VOkc+2pB6TVc7caw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7QDBlccRhQM=:lo18sON3JHGEEOcvvUxGa0
- 87rpIorodcFlGL4dePZQMIR8vGmWF8oC2vEzwbEk+T+wVcnqHXm07aQrMCamlx4dONwuZaTqf
- Hoqds7Ztrjl3NOXG/YtiW2EO0AFOo9RuqRNwn1yzzOLcFhyw17kz4TWcx/OFl7yhn4Vq+Ju4t
- lxQGUSX/C58CY13IM5ATeSe8vR7YFLjY0IWnEEvZueX6/n27cHNqjNUtadW0C2AthGXMcGlTB
- U/vb22suJoAfflKGdSFXhBGZ1jKSNNts7hlgEQRZUHA9IudSYKIG76o5wa1e9qIXfknV5Dzqj
- kJ3dlkbf7U20YMTHozp7NoxiLiMGwMUJ7cyMcuO4DNmeVpCU3UvaGj//HzoefRT5Ap2wJBmXM
- 2v/7m7EG4wsUFSX5NguULUXfYzhSPqwGxs3sYdOK+ESl2xnIMXthoaM10eb8yiwX2hEhZQMCU
- 25Pod5+mnbkTRqrA9UKLhnNJAaEVkZKpo7gzMA0ITBYgF9WAYA+VmgRGt1K8NSX9wmW1TE6LK
- GJW/hCXFotSB5sMpTr4dKNyBUBXygyNRjAdd4Civ10VfbQ7WHEzuot/oPgJDkRD+A/qQ2yUFn
- 4zZ19rjY5FEryEljZOxyo1IrR23HJAQrJSg1qdrUP1Xbnt0OcVq3WgBs1oqVKP/d1BTs3jLpc
- 0Ov92a/aE6YfVjNtUXH1YK3deR71RadX1MFVslBBPscKtQtmuGZpAImyIz2h6B7z16/DFoey8
- xQrB1N/MtqCn7KvqRTcejE23dB1vlYxR5/XP5fo8upgd8zEE7ktC4dnn/mggtdyAqR9VHgJ7h
- jNLgaSHZyokKmQbL6V63Itd5OX6yXgTvMTbwtUvklxXbx2rewgp2vSDpRNMMB+VH8ROxU2R
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:lytElenqQ/jkApA2KD0dlZ7WvY0XwOzKahOEJvBCS+/K7IWbE9Y
+ RFxC4CfKUOPWsG8jnExJi6ggrOq+4/2IjrmLwU3Il3jhGma+rQn7zT3ssFEbFN39eu6wigJ
+ ktQk778rI+lC7sN0Ams0T8eMajWia/cKJ7smUe5VlGmcGWq4YQ5stbNd+wJksSIYMZiS529
+ 5qSW5mA8I1fS5sSDz+DKA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KE7inTOMhi0=:ZndHDxmf0MC5OOHoHLZb3e
+ GHNqOWqiu/FGC1CJ+3RKUUfUtFv7BoAQNptDDe6g8deSWvQGY+bSDOcmf9j2YbH4X7VaCZANl
+ HTQMQK1Weaaa28mQCaiFzLckB6L96cujMwy/yjt1R0gEx6elsml3MFr5/w4NVES0P5L1wFkwt
+ fpyj9H6DrJUFTYCySIBB7yU3gcsqfhsiF+ZQUtFOnaMnyIm/D9TItJ3obx4rr9ldeGMzXoC5H
+ T7TLvFhvhXncHx4UIbSiIliQyiIPiba8XYKTUTtq1fuCkeAQoGu3Dxhub0duB1O9jT6pY9598
+ ghyv0gL4Gfui6ZDib0j8nhU2M8kfYEOlxRNRKobfJoblbLFpGkd80QOyXGaOBS/9S/wGR0Zxz
+ 5D4yA3gmjobqc9/EN6eadWcyOEYLNZg49Han/b+3vO0/9NUCeRIqU+o7YVJ6lWdgW8YOhHa/F
+ tE/51+DwxGRx+Q0505odW2xpRcx2g5xGUyQghEgjzOmq52nv3bhHStVa382+s0u6XuNJwkDwJ
+ ZTcSIyAW9x0Lxb5qPnZXvmNmWLyCwhrkP6assldyNqnn5yp52PL6mZ5bKY/9Jpiu+p2cRDv+j
+ y/GHKFLh/0cJYVBq9cuXCckHinjBOzvrit/UAACD0rt/EXYvAkd4EK8qMjPCJ8+0JITXYWH9E
+ 8+Ie58mHC4CNC74x9wQtCgtIhp1ixrNGbhsdPf5I1fbyzx1MKvMMwA28XWogpSzVfJ5euk5wf
+ ZueY4XUBfhPzMMfbmrvVcsPwrR/SP89xNd1dvZZIszYnlEp497g6ge/V7PrjsrdHOG/CC65ch
+ F1YkjUlJy0akbQDqXz9c53gmPrMaGaiFR5k6oyOp8mwhUrH8s9fwbcipGCVs+6CTV0nzpWi
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,60 +70,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-As we can never have more than ISA_NUM_IRQS (16) ISA IRQs,
-replace the not very interesting hw_error() call by an
-assert() which is more useful to debug condition that can
-not happen.
+TCO_DEBUG() and DEBUG definitions are not used, remove them.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200901104043.91383-6-f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200901101951.85892-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/isa/isa-bus.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ hw/acpi/tco.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 58fde178f92a..10bb7ffa43ae 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -21,7 +21,6 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
--#include "hw/hw.h"
- #include "monitor/monitor.h"
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
-@@ -85,18 +84,14 @@ void isa_bus_irqs(ISABus *bus, qemu_irq *irqs)
- qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
- {
-     assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
--    if (isairq >= ISA_NUM_IRQS) {
--        hw_error("isa irq %d invalid", isairq);
--    }
-+    assert(isairq < ISA_NUM_IRQS);
-     return isabus->irqs[isairq];
- }
+diff --git a/hw/acpi/tco.c b/hw/acpi/tco.c
+index fb9052dbca2a..cf1e68a5393b 100644
+--- a/hw/acpi/tco.c
++++ b/hw/acpi/tco.c
+@@ -15,17 +15,6 @@
+ #include "hw/acpi/tco.h"
+ #include "trace.h"
  
- void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
- {
-     assert(dev->nirqs < ARRAY_SIZE(dev->isairq));
--    if (isairq >= ISA_NUM_IRQS) {
--        hw_error("isa irq %d invalid", isairq);
--    }
-+    assert(isairq < ISA_NUM_IRQS);
-     dev->isairq[dev->nirqs] = isairq;
-     *p = isa_get_irq(dev, isairq);
-     dev->nirqs++;
+-//#define DEBUG
+-
+-#ifdef DEBUG
+-#define TCO_DEBUG(fmt, ...)                                     \
+-    do {                                                        \
+-        fprintf(stderr, "%s "fmt, __func__, ## __VA_ARGS__);    \
+-    } while (0)
+-#else
+-#define TCO_DEBUG(fmt, ...) do { } while (0)
+-#endif
+-
+ enum {
+     TCO_RLD_DEFAULT         = 0x0000,
+     TCO_DAT_IN_DEFAULT      = 0x00,
 -- 
 2.26.2
 
