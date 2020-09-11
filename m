@@ -2,65 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EFC265954
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 08:26:49 +0200 (CEST)
-Received: from localhost ([::1]:33728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB40C265A7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 09:25:35 +0200 (CEST)
+Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGcWG-0003xk-De
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 02:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34040)
+	id 1kGdR8-0003Nu-3R
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 03:25:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kGcVU-0003PL-6q; Fri, 11 Sep 2020 02:26:00 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:49669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kGcVR-0001sY-Q8; Fri, 11 Sep 2020 02:25:59 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BD8D959DC40A;
- Fri, 11 Sep 2020 08:25:54 +0200 (CEST)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 11 Sep
- 2020 08:25:53 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0020f8465f2-d2aa-420c-b116-c932b61acd28,
- 864FBEA0465FE1F0C66A9C6AC37977A76827B8ED) smtp.auth=groug@kaod.org
-Date: Fri, 11 Sep 2020 08:25:52 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [for-5.2 v4 10/10] s390: Recognize host-trust-limitation option
-Message-ID: <20200911082552.1b7d7bde@bahia.lan>
-In-Reply-To: <20200911000718.GF66834@yekko.fritz.box>
-References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
- <20200724025744.69644-11-david@gibson.dropbear.id.au>
- <20200907172253.0a51f5f7.pasic@linux.ibm.com>
- <20200910133609.4ac88c25.cohuck@redhat.com>
- <20200910202924.3616935a.pasic@linux.ibm.com>
- <20200911000718.GF66834@yekko.fritz.box>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
+ id 1kGY9U-00030S-1V
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:47:00 -0400
+Received: from us-smtp-delivery-162.mimecast.com ([63.128.21.162]:46558)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
+ id 1kGY9R-0002wu-Ne
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:46:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com;
+ s=mimecast20180716; t=1599788816;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=Hs3ydqFsagqFJ+7NUNfymMc/6ohNVUuwi4/7FnB5yNQ=;
+ b=Rm6Cb/lYt8ZHVn6opEOd7LbAO4znqqadhVm9PK+vBsEF2Eou+N4eBPjVgEDwuxDCesJA/x
+ Q5R2JM8I5abLUAGU2eMEdfNAwyCQtoNrtZ6ucCv8XnxzhNjs4HNtKKkAyRXskLZ3+2V/Pk
+ hQsaa3hdN7QEulqIssk3BefZnSyzF3k=
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+ (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-7eMTf-niPCK6kEd4ZWCgGw-1; Thu, 10 Sep 2020 21:45:38 -0400
+X-MC-Unique: 7eMTf-niPCK6kEd4ZWCgGw-1
+Received: from CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
+ (2a01:111:e400:7507::9) by CS1PR8401MB0485.NAMPRD84.PROD.OUTLOOK.COM
+ (2a01:111:e400:750a::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 11 Sep
+ 2020 01:45:36 +0000
+Received: from CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::40df:1118:3bef:736c]) by CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::40df:1118:3bef:736c%12]) with mapi id 15.20.3370.016; Fri, 11 Sep
+ 2020 01:45:36 +0000
+From: "McMillan, Erich" <erich.mcmillan@hp.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "mst@redhat.com" <mst@redhat.com>, "marcel.apfelbaum@gmail.com"
+ <marcel.apfelbaum@gmail.com>, "qemu-trivial@nongnu.org"
+ <qemu-trivial@nongnu.org>
+Subject: PATCH: Increase System Firmware Max Size
+Thread-Topic: PATCH: Increase System Firmware Max Size
+Thread-Index: AQHWh9wbvH3PA15ju0WtYVYwRPIQ7g==
+Date: Fri, 11 Sep 2020 01:45:36 +0000
+Message-ID: <CS1PR8401MB0327EF9D532330BA44257AFCF3240@CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [76.199.17.212]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fbf460bd-9506-4529-ba02-08d855f4615f
+x-ms-traffictypediagnostic: CS1PR8401MB0485:
+x-microsoft-antispam-prvs: <CS1PR8401MB0485C75A63C7B2FA32344F40F3240@CS1PR8401MB0485.NAMPRD84.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: E5BSQ1FPwbjTkw1E/ol4rskbcOon4GoHT+r1FkggJNvZNxzd0s4ObC9YvSK24fO9IjEN2rQIpvrz7b1VseHM3BVEhCNz1newNt3GULqGOVJN7S15L6GUgsaVXZ3F1qARcDQXl6sZ3zWVPHtf9fFmaeF9zldVizdXUv6JOxTXwYFQSNA2pUBThYDYjRWqVtYPv7A8Gio9GquGDQ+uaq/yP8I/FsOOByyZWTgsSArk8RUqYa2CxS7wjbDiLaCNBq1IwflDK9bJLE8/znRT/atrcoozaZVMD9g5PBBQuuoMhPtaVpisb+nvGxSRHeqBTKcCT6XqpYFt7DBVyy+tKQF91g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(366004)(376002)(136003)(39860400002)(396003)(346002)(19627405001)(52536014)(8676002)(26005)(8936002)(86362001)(83380400001)(5660300002)(91956017)(76116006)(66946007)(4744005)(71200400001)(66446008)(4326008)(66556008)(64756008)(66476007)(316002)(6916009)(54906003)(2906002)(33656002)(478600001)(6506007)(186003)(9686003)(7696005)(55016002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: 7yJuiamxNlvZ7Vh/ItH0SSjVEA727k7LZiDgn6KpJxpkgLsV/eTH5+iuhbTws/zifUylB3yWGNjLBRIb4rowKj6WXR7gSfUepbB+87ghwJhPwLEE5aGVLr5tzWllO4Dr/osdOtk1edjur0zPBbg5z1of7qG2B4yQKvhBLRLb5OujzOj4WD1Jte8TM+q3USmXzGeweO/uTHptir8utJu+qFn5CMC7pgpo5OkoX33A9U8fKM3PHAOZgN/NcA/TUQ4rEBf8oF/q0B4FTValYSJjG5pKu2KSW36quQrDidPRr5yABdqfFeuch6JLhCDLGu9tmpK6LGTDbg2yDTFUQ4prz9ooVLQeW8gkKzeONlUUKZIrmgvyumWLKO5jvPVtsxY/UUEGqrzx7fYHCHohJAQZywA8J1vCiJ+Eo9uA7HwI/t/eVKUhhkxkdDyYm609bidARPSffADRW6HCq8LY8xjzzBt0Lvm8a8wVutqxFa+Fs7gpM0vbtNRJn6GVjR2AMddDHWOvJJKQRZA1omklvM+JiXyYbTBlvZd2bIMlp9fUSCNj93KSyqT5Cy6vp6U5Fwprs3q5ElTfH/T6ZUf7YqU04ku7kInaR9BG5tLc0YXS0M6z2yqqkMyuVRp7g6yucDawJP68seu5oG+sFzzNIZOFew==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qq16TA.RbBJtpBs.5w6QU1y";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 603d3a54-b52f-44da-a31e-7633abf7e05f
-X-Ovh-Tracer-Id: 1761470407334599123
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudehkedguddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelgffgfeeugedugeekveeiveevjeffhfduvdegffetkeeiveeufefgledtgfeiteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegvhhgrsghkohhsthesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 02:19:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: hp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbf460bd-9506-4529-ba02-08d855f4615f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2020 01:45:36.5420 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ca7981a2-785a-463d-b82a-3db87dfc3ce6
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OYz5GAIYKtniDtHU7An89J1srOzd70jTlbj9uenLEe0xfO2VaZZ8z/9xRsD07LZl1D+I/pJmCK0QVL4ssRHRzg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CS1PR8401MB0485
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA62A171 smtp.mailfrom=erich.mcmillan@hp.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: hp.com
+Content-Type: multipart/alternative;
+ boundary="_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_"
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.162; envelope-from=erich.mcmillan@hp.com;
+ helo=us-smtp-delivery-162.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 21:45:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 11 Sep 2020 03:24:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,152 +112,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, ehabkost@redhat.com, dgilbert@redhat.com,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>,
- "Daniel P.
- =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, mdroth@linux.vnet.ibm.com,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/qq16TA.RbBJtpBs.5w6QU1y
-Content-Type: text/plain; charset=US-ASCII
+--_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 11 Sep 2020 10:07:18 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Hi all,
 
-> On Thu, Sep 10, 2020 at 08:29:24PM +0200, Halil Pasic wrote:
-> > On Thu, 10 Sep 2020 13:36:09 +0200
-> > Cornelia Huck <cohuck@redhat.com> wrote:
-> >=20
-> > > On Mon, 7 Sep 2020 17:22:53 +0200
-> > > Halil Pasic <pasic@linux.ibm.com> wrote:
-> > >=20
-> > > > On Fri, 24 Jul 2020 12:57:44 +1000
-> > > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > > >=20
-> > > > > At least some s390 cpu models support "Protected Virtualization" =
-(PV),
-> > > > > a mechanism to protect guests from eavesdropping by a compromised
-> > > > > hypervisor.
-> > > > >=20
-> > > > > This is similar in function to other mechanisms like AMD's SEV and
-> > > > > POWER's PEF, which are controlled bythe "host-trust-limitation"
-> > > > > machine option.  s390 is a slightly special case, because we alre=
-ady
-> > > > > supported PV, simply by using a CPU model with the required featu=
-re
-> > > > > (S390_FEAT_UNPACK).
-> > > > >=20
-> > > > > To integrate this with the option used by other platforms, we
-> > > > > implement the following compromise:
-> > > > >=20
-> > > > >  - When the host-trust-limitation option is set, s390 will recogn=
-ize
-> > > > >    it, verify that the CPU can support PV (failing if not) and set
-> > > > >    virtio default options necessary for encrypted or protected gu=
-ests,
-> > > > >    as on other platforms.  i.e. if host-trust-limitation is set, =
-we
-> > > > >    will either create a guest capable of entering PV mode, or fail
-> > > > >    outright =20
-> > > >=20
-> > > > Shouldn't we also fail outright if the virtio features are not PV
-> > > > compatible (invalid configuration)?
-> > > >=20
-> > > > I would like to see something like follows as a part of this series.
-> > > > ----------------------------8<--------------------------
-> > > > From: Halil Pasic <pasic@linux.ibm.com>
-> > > > Date: Mon, 7 Sep 2020 15:00:17 +0200
-> > > > Subject: [PATCH] virtio: handle host trust limitation
-> > > >=20
-> > > > If host_trust_limitation_enabled() returns true, then emulated virt=
-io
-> > > > devices must offer VIRTIO_F_ACCESS_PLATFORM, because the device is =
-not
-> > > > capable of accessing all of the guest memory. Otherwise we are in
-> > > > violation of the virtio specification.
-> > > >=20
-> > > > Let's fail realize if we detect that VIRTIO_F_ACCESS_PLATFORM featu=
-re is
-> > > > obligatory but missing.
-> > > >=20
-> > > > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > > > ---
-> > > >  hw/virtio/virtio.c | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > >=20
-> > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > > > index 5bd2a2f621..19b4b0a37a 100644
-> > > > --- a/hw/virtio/virtio.c
-> > > > +++ b/hw/virtio/virtio.c
-> > > > @@ -27,6 +27,7 @@
-> > > >  #include "hw/virtio/virtio-access.h"
-> > > >  #include "sysemu/dma.h"
-> > > >  #include "sysemu/runstate.h"
-> > > > +#include "exec/host-trust-limitation.h"
-> > > > =20
-> > > >  /*
-> > > >   * The alignment to use between consumer and producer parts of vri=
-ng.
-> > > > @@ -3618,6 +3619,12 @@ static void virtio_device_realize(DeviceStat=
-e *dev, Error **errp)
-> > > >      /* Devices should either use vmsd or the load/save methods */
-> > > >      assert(!vdc->vmsd || !vdc->load);
-> > > > =20
-> > > > +    if (host_trust_limitation_enabled(MACHINE(qdev_get_machine()))
-> > > > +        && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)=
-) {
-> > > > +        error_setg(&err, "devices without VIRTIO_F_ACCESS_PLATFORM=
- are not compatible with host trust imitation");
-> > > > +        error_propagate(errp, err);
-> > > > +        return;
-> > >=20
-> > > How can we get here? I assume only if the user explicitly turned the
-> > > feature off while turning HTL on, as otherwise patch 9 should have
-> > > taken care of it?
-> > >=20
-> >=20
-> > Yes, we can get here only if iommu_platform is explicitly turned off.
->=20
-> Right.. my assumption was that if you really want to specify
-> contradictory options, you get to keep both pieces.  Or, more
-> seriously, there might be some weird experimental cases where this
-> combination could do something useful if you really know what you're
-> doing, and explicitly telling qemu to do this implies you know what
-> you're doing.
->=20
+(this is my first Qemu patch submission, please let me know if my formattin=
+g/content needs to be fixed).
+We have a need for increased firmware size, currently we are building Qemu =
+with the following change to test our Uefi Firmware and it works well for u=
+s. Hope that this change can be made to open source. Thank you.
+-------
+Increase allowed system firmware size to 16M per comment suggesting up to 1=
+8M is permissible.
 
-I guess this deserves at least a warning for the case of someone that
-doesn't really know what they're doing, eg. borrowing a complex QEMU
-command line or libvirt XML from somewhere else ?
+ Signed-off-by: Erich McMillan <erich.mcmillan@hp.com>
 
---Sig_/qq16TA.RbBJtpBs.5w6QU1y
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index b8d8ef59eb17c6ace8194fc69c3d27809becfbc0..f6f7cd744d0690cee0355fbd19f=
+fdcdb71ea75ca 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -46,7 +46,7 @@
+  * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB=
+ in
+  * size.
+  */
+-#define FLASH_SIZE_LIMIT (8 * MiB)
++#define FLASH_SIZE_LIMIT (16 * MiB)
 
------BEGIN PGP SIGNATURE-----
+ #define FLASH_SECTOR_SIZE 4096
+-------
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl9bGHAACgkQcdTV5YIv
-c9aLFw//SBEpcqO6AeWXyaEf1IuQO8Jdfa+YbYgQ+f3kss0PYrJVnbHDS6NKGHEV
-VCHF1PfT4R7ELXOFc8cCIEmbF0X0giH4fDoTxhSUNz33hC5GRYe5mJp2DKHcuDYo
-6wH0mmBu0OqU3Sa7Bce7kaWSovngQqxlTBFLSK44szJ/W+Pm5uG8F6LYEEJbQLr+
-L0fMyJusrozpPESWcHoRAk9C2EiUi7xGVUUcCBEkF9Iqa5f5D2h/bNzqVHzRQhTm
-LIaL5M8rH21Np/UYD23HZEDf4TDgfJo2NoZFkdGUDnQ9QNS5xBdG5xFuNlPEixTi
-RyWWogofOp06IEmmFi3KitZ7EjATJSVi+Zl2xcdK3LMj8ehd6GPOqzNOK1oNzVUS
-T8vfgzjGG8NtcV4GAzrX8NdRdg+4q8d7nWleUiSxh5acDCFkvrsjKoSVZGh3XAOX
-9p4Rk9aXKB2eSQirglsgbqbUMgAH0VpOpury69BM1CSMFGJlFdgY4M/JrGhlsldM
-/Io/Dv/C91UyCG52P5Nv7KD0C5hkpFsvKO207LuR+jbRu9seOiF6cLrnRyS6F+w3
-6UGAub1oZamWpnbLZ3/c/WWhymR8MIFKaUe+YCxjI+qRJPUj/WcuLKCy+/0zjWCl
-qph/FWyVqrKJRkoqDJUz+0Q8rvI1sYTuWc6ljJbemtXQyGT7tHo=
-=/qie
------END PGP SIGNATURE-----
 
---Sig_/qq16TA.RbBJtpBs.5w6QU1y--
+--_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_
+Content-Type: text/html; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+Hi all,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+(this is my first Qemu patch submission, please let me know if my formattin=
+g/content needs to be fixed).<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+We have a need for increased firmware size, currently we are building Qemu =
+with the following change to test our Uefi Firmware and it works well for u=
+s. Hope that this change can be made to open source. Thank you.<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+-------<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+Increase allowed system firmware size to 16M per comment suggesting up to 1=
+8M is permissible.<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+&nbsp;Signed-off-by: Erich McMillan &lt;erich.mcmillan@hp.com&gt;<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+<div>index b8d8ef59eb17c6ace8194fc69c3d27809becfbc0..f6f7cd744d0690cee0355f=
+bd19ffdcdb71ea75ca 100644</div>
+<div>--- a/hw/i386/pc_sysfw.c</div>
+<div>+++ b/hw/i386/pc_sysfw.c</div>
+<div>@@ -46,7 +46,7 @@</div>
+<div>&nbsp; * only 18MB-4KB below 4G. For now, restrict the cumulative mapp=
+ing to 8MB in</div>
+<div>&nbsp; * size.</div>
+<div>&nbsp; */</div>
+<div>-#define FLASH_SIZE_LIMIT (8 * MiB)</div>
+<div>+#define FLASH_SIZE_LIMIT (16 * MiB)</div>
+<div>&nbsp;</div>
+<div>&nbsp;#define FLASH_SECTOR_SIZE 4096</div>
+<div>-------<br>
+</div>
+&nbsp;<br>
+</div>
+</body>
+</html>
+
+--_000_CS1PR8401MB0327EF9D532330BA44257AFCF3240CS1PR8401MB0327_--
+
 
