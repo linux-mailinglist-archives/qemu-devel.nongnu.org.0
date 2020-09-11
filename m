@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C964265CAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 11:41:59 +0200 (CEST)
-Received: from localhost ([::1]:53236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E313265D59
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 12:05:48 +0200 (CEST)
+Received: from localhost ([::1]:41002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGfZ8-0001Vh-5j
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 05:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
+	id 1kGfwA-0001Du-VP
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 06:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kGfXw-0000Xi-SJ; Fri, 11 Sep 2020 05:40:44 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:45231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kGfXu-0001jw-Vy; Fri, 11 Sep 2020 05:40:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.121])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0933D59F2CD2;
- Fri, 11 Sep 2020 11:40:12 +0200 (CEST)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 11 Sep
- 2020 11:40:12 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002a9726582-7c06-446a-80e4-d396b60e5c3d,
- 864FBEA0465FE1F0C66A9C6AC37977A76827B8ED) smtp.auth=groug@kaod.org
-Date: Fri, 11 Sep 2020 11:40:11 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 12/14] block/qcow2: read_cache_sizes: return status value
-Message-ID: <20200911114011.0a9eba59@bahia.lan>
-In-Reply-To: <20200909185930.26524-13-vsementsov@virtuozzo.com>
-References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
- <20200909185930.26524-13-vsementsov@virtuozzo.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kGfvP-0000gp-Di; Fri, 11 Sep 2020 06:04:59 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:50520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kGfvN-0005AF-IA; Fri, 11 Sep 2020 06:04:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=L3M85WFIyglAa81GENKXQSmyaI3tn8tdUSjlCX1r8uI=; 
+ b=oAoNuiJU/yCvW71md4EmeH/DDLK3O5yUfG2MHb/gpqrG5X+h0IYLzcOt7gXe+lDV9R1amE0mEwUmd51sekBKAjStVZGEniHraYi0Q95yzTNC4ZI05kPk1ptamCaCBOJOf28ZNNIOdubbsdt7XZvDh64pjG7EqNP1jQMuT1kSRr90uNpm7RLgINAVHfbSvaKfJoY0qtv+KcFPH2kZWhQIqgUCQNoGEMbnSRhIhPoHkr9B9Bp1PwCe0UlG4ZAu8HVO5rYtYTvoMOxTozJSz6rAG0+PL/oYBy+UeI+I7D1eHVhhve2VCB3WPBHM0pPvIP3fHl5HSf9vHyAId85Xu461ig==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kGfvJ-0007a7-Jk; Fri, 11 Sep 2020 12:04:53 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kGfvJ-0004Bl-9j; Fri, 11 Sep 2020 12:04:53 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 2/2] qcow2: Skip copy-on-write when allocating a zero
+ cluster
+In-Reply-To: <7f0ae868-07ca-2267-eb27-2787ff86e801@virtuozzo.com>
+References: <cover.1599759873.git.berto@igalia.com>
+ <0350dd55702eacd701e0aea924b101db7448a517.1599759873.git.berto@igalia.com>
+ <7f0ae868-07ca-2267-eb27-2787ff86e801@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 11 Sep 2020 12:04:53 +0200
+Message-ID: <w51blichbne.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 90f77ad8-a500-4f0a-9247-1dd1001daf9a
-X-Ovh-Tracer-Id: 5042905683400890811
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudehledgvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehkfiholhhfsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 02:19:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 06:04:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,92 +65,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, pavel.dovgaluk@ispras.ru,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
- ari@tuxera.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  9 Sep 2020 21:59:28 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+On Fri 11 Sep 2020 11:34:37 AM CEST, Vladimir Sementsov-Ogievskiy wrote:
+>> -        if (!is_zero_cow(bs, m)) {
+>> +        ret = is_zero_cow(bs, m);
+>> +        if (ret < 0) {
+>> +            return ret;
+>
+> It's a common practice to treat block-status errors as "unknown"
+> status and not error-out immediately:
+>
+>   - really, it's not critical, we can continue assuming non-zero
+>   - if there are real problems with IO, we'll most probably fail on
+>   real read or write operation, and report its status, which seems
+>   better for user than block-status error
 
-> It's better to return status together with setting errp. It allows to
-> reduce error propagation.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+But what's the problem exactly, does this complicate the code too much?
+:-?
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+> So, I'd keep existing logic in handle_alloc_space(). And, if you agree
+> and resend, probably good to split this patch into two, one for
+> block.h/io.c and one for qcow2.c (still, I'm OK with it as one patch).
 
->  block/qcow2.c | 19 +++++++++----------
->  1 file changed, 9 insertions(+), 10 deletions(-)
-> 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index c2cd9434cc..31dd28d19e 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -869,7 +869,7 @@ static void qcow2_attach_aio_context(BlockDriverState *bs,
->      cache_clean_timer_init(bs, new_context);
->  }
->  
-> -static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
-> +static bool read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
->                               uint64_t *l2_cache_size,
->                               uint64_t *l2_cache_entry_size,
->                               uint64_t *refcount_cache_size, Error **errp)
-> @@ -907,16 +907,16 @@ static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
->              error_setg(errp, QCOW2_OPT_CACHE_SIZE ", " QCOW2_OPT_L2_CACHE_SIZE
->                         " and " QCOW2_OPT_REFCOUNT_CACHE_SIZE " may not be set "
->                         "at the same time");
-> -            return;
-> +            return false;
->          } else if (l2_cache_size_set &&
->                     (l2_cache_max_setting > combined_cache_size)) {
->              error_setg(errp, QCOW2_OPT_L2_CACHE_SIZE " may not exceed "
->                         QCOW2_OPT_CACHE_SIZE);
-> -            return;
-> +            return false;
->          } else if (*refcount_cache_size > combined_cache_size) {
->              error_setg(errp, QCOW2_OPT_REFCOUNT_CACHE_SIZE " may not exceed "
->                         QCOW2_OPT_CACHE_SIZE);
-> -            return;
-> +            return false;
->          }
->  
->          if (l2_cache_size_set) {
-> @@ -955,8 +955,10 @@ static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
->          error_setg(errp, "L2 cache entry size must be a power of two "
->                     "between %d and the cluster size (%d)",
->                     1 << MIN_CLUSTER_BITS, s->cluster_size);
-> -        return;
-> +        return false;
->      }
-> +
-> +    return true;
->  }
->  
->  typedef struct Qcow2ReopenState {
-> @@ -983,7 +985,6 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
->      int i;
->      const char *encryptfmt;
->      QDict *encryptopts = NULL;
-> -    Error *local_err = NULL;
->      int ret;
->  
->      qdict_extract_subqdict(options, &encryptopts, "encrypt.");
-> @@ -996,10 +997,8 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
->      }
->  
->      /* get L2 table/refcount block cache size from command line options */
-> -    read_cache_sizes(bs, opts, &l2_cache_size, &l2_cache_entry_size,
-> -                     &refcount_cache_size, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> +    if (!read_cache_sizes(bs, opts, &l2_cache_size, &l2_cache_entry_size,
-> +                          &refcount_cache_size, errp)) {
->          ret = -EINVAL;
->          goto fail;
->      }
+Sure, I can split the patch if I have to resend it.
 
+Berto
 
