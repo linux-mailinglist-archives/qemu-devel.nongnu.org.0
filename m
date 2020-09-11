@@ -2,108 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D56726629D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:54:55 +0200 (CEST)
-Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 817A32662BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:59:29 +0200 (CEST)
+Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGlO2-0005CS-CN
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51290)
+	id 1kGlSS-0001BJ-I7
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGlMO-0003mc-DA; Fri, 11 Sep 2020 11:53:12 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:60595)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGlMM-0002pR-NC; Fri, 11 Sep 2020 11:53:12 -0400
-Received: from [192.168.100.1] ([82.252.129.222]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MEmEf-1kI9Cu42UF-00GJGU; Fri, 11 Sep 2020 17:52:48 +0200
-Subject: Re: [PATCH v2 0/2] util/hexdump: Cleanup qemu_hexdump()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-References: <20200822180950.1343963-1-f4bug@amsat.org>
- <d91cbe5f-9a24-dbc7-c726-2e3eda8e980a@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <14d8b6e6-8783-1978-c2d3-90ea1deb3daf@vivier.eu>
-Date: Fri, 11 Sep 2020 17:52:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kGlR7-0000OA-VR
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:58:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25217
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kGlR5-0003Va-68
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:58:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599839882;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VpvudN1ylKN0LeCEEpwiGyn6NF9sek89l9tGMtAig9M=;
+ b=GFS6KvnwPQjg1EN1xdk2jcMxFnJakdYjOeVbOJR3UvTGX+BrQjt9SKa4H2P8sw2sW8IYGy
+ xf0spxIVPA6QrzUHYvQbuCal5oyyKYRoWD09gcu/4onbgaE2QvAq4psWQ2kAtZGD8vivMs
+ i8szdxYBh8yNQ5+Xl3cZpp9K2I5QqGw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-4mw_gpYNPxyv8MGji8-Bpg-1; Fri, 11 Sep 2020 11:58:00 -0400
+X-MC-Unique: 4mw_gpYNPxyv8MGji8-Bpg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 237BB802B6E;
+ Fri, 11 Sep 2020 15:57:59 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-62.ams2.redhat.com
+ [10.36.113.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0CB66805D2;
+ Fri, 11 Sep 2020 15:57:53 +0000 (UTC)
+Subject: Re: PATCH: Increase System Firmware Max Size
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <CS1PR8401MB0327EF9D532330BA44257AFCF3240@CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM>
+ <20c5210f-8199-a9e7-9297-0bea06c4d9ae@redhat.com>
+ <20200911083408.GA3310@work-vm>
+ <ae2d820e-78c6-da92-2fa6-73c1a7d10333@redhat.com>
+ <20200911150602.GH3310@work-vm>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <8e2d0bf7-a206-124c-15b0-0f0071ef5a11@redhat.com>
+Date: Fri, 11 Sep 2020 17:57:53 +0200
 MIME-Version: 1.0
-In-Reply-To: <d91cbe5f-9a24-dbc7-c726-2e3eda8e980a@amsat.org>
+In-Reply-To: <20200911150602.GH3310@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vtupUH7giwmAr5uRcbNMBV5tgKth7ulAdnfMOSeSAbTwCd/dRIu
- 6Gu4tlBcplxe2/+EIB0UvOVmX3cbPXI7RWdtyTPOhOa4vPWFIEUX9qohOJtrOpiGu0Hi2RF
- VqYbXvl1k9lPRjljJ4NQ0b3ICL1SOYkgIWDjW3MES8eJoVlulLSP+0Ey5p9M5ffFv15aTfC
- CibPQ37G+Jd4PWCUkN1Ew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LmG1S3XJfaw=:zip1Bs5DL+bbuvPDX/prB9
- gLTrtSaUT8/Rn0rBMGyIR2cUkcTH5j+olfb9v7HYfxRm8dj/vMTRVolKs7hBQiTnnomgr1/gv
- gdcyrXGCkxlGOi3E3t4w3ePLvWk2/NTXqCMu9NHEFouTONKfgVshB8akUX9sLPh5NPL/dT55N
- Q+/hZ7qFACKi6BNxkBOj9ANNmd8OhWXEGpXZhVoIjZCKcHYiTBHyvVtxM2LyDVg7rmLDRXABI
- RsgUHL5ALrRi6zcWBg2lleXeZR3M/qmZqs5sQReE3mrpbPIx4RO8x1PF1YBxbrFFJOGHbBvNi
- qEGKEQ/90MnMYcRwup4Rif/NjV9ItxnUBU1UztfE9qr1tXKJU9RmrHWVEGQuGlOQDOyHilv/Y
- 1lUlmYYxP1NMP9TDXuGaCIZMcP7MPQXSAniWgtVhzCYUDz9wzv5BmjPxF2e9wnEETTjVQTDya
- xEuC8nEC7W7UtyeI1OR+d+PW+5KW0QdDuEaN1NTea4dzVP3Du9hSTueqEg3RDozTQaKbQPwn/
- fOTv8A/+1E5fEAhNz2NX8FNCmb284nSXsuzVFsIwUKwjIzIRfgxqxyTYbIL4AaTKynyA10tPd
- VyxdIrfF4x2pvJf7uctRHTxX3/uWlOLEgEgoshkx/bRNuUvzMWYyhf4FQbFwhkR92Z7/bwoai
- KaV7uMyeKiN3cgE+Caz2H9ndm6UaEngT9Jw7ln4oIesBp5WbJSAghcp/l10XV8117z8jEXjlt
- vm2cG0oLpmu2zQxSUIZgMl2278ObnpFMKMAeyT2TQHfW4er2DHoV5MysdygL7qb9KrcqsD952
- Ic65BO4QbdOjMRTrm7c5arcpzXTVkT/r7t88j1zwscgSyMxeQ65X3A1n/vF7v39+FsSzxnQ
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 11:53:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.469,
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 09:43:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,33 +85,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, Zhang Chen <chen.zhang@intel.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "mst@redhat.com" <mst@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "McMillan,
+ Erich" <erich.mcmillan@hp.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/09/2020 à 16:35, Philippe Mathieu-Daudé a écrit :
-> Hi Laurent,
-> 
-> On 8/22/20 8:09 PM, Philippe Mathieu-Daudé wrote:
->> - Pass const void* buffer
->> - Reorder arguments
->>
->> Supersedes: <20200822150457.1322519-1-f4bug@amsat.org>
->>
->> Philippe Mathieu-Daudé (2):
->>   util/hexdump: Convert to take a void pointer argument
->>   util/hexdump: Reorder qemu_hexdump() arguments
-> 
-> This series is fully reviewed, can it go via
-> your qemu-trivial tree?
+On 09/11/20 17:06, Dr. David Alan Gilbert wrote:
+> * Laszlo Ersek (lersek@redhat.com) wrote:
+>> On 09/11/20 10:34, Dr. David Alan Gilbert wrote:
 
-Done.
+>>> I'm missing what this constant exists for - why is the
+>>> check there at all  Is there something else that lives below this
+>>> address that we have to protect?
+>>
+>> Yes, some MMIOs that I'm at least aware of are IO_APIC_DEFAULT_ADDRESS
+>> (0xfec00000), TPM_PPI_ADDR_BASE (0xFED45000), APIC_DEFAULT_ADDRESS
+>> (0xfee00000).
+>>
+>> They are not directly adjacent with pflash; nor should they be.
+> 
+> Hmm those need explicitly checks adding somewhere against
+> FLASH_SIZE_LIMIT!
 
-Thanks,
-Laurent
+Yes, that would be nice. I don't know how it works. Maybe when adding
+the next MemoryRegion there's an error or an assert(). No clue.
+
+>> If you increase the size limit (without tieing it to a machine type),
+>> then, with an upgraded QEMU and the same (old) machine type, you can
+>> start a guest with a larger-than-earlier (cumulative) flash size. Then,
+>> when you try to migrate this to an old QEMU (but same machine type),
+>> it's a bad surprise. I understand that backwards migration is not
+>> universally supported (or expected), but I don't want this problem to
+>> land on my desk *ever*.
+> 
+> I support backwards migration; but that migration wouldn't work anyway -
+> wouldn't that fail nicely with a mismatched RAMBlock size?
+
+My point wasn't that the guest would be lost or corrupted, only that it
+couldn't be migrated. We'd say "for this, you have to upgrade QEMU on
+the destination host as well, or use a smaller firmware", and they'd say
+"we don't want either of those things".
+
+>>> Our UEFI firmware is pretty sparse;
+>>
+>> Yes, in part because I strive to keep it that way.
+> 
+> But that's your choice, on our firmware implementation; that's not a
+> requirement of QEMU or q35.
+
+Right; if we can keep regressions out (not just functional regressions,
+but workflow / use case regressions too), then it's OK to support more
+use cases.
+
+By workflow / use case regressions I mean that it should not become more
+difficult to maintain OVMF as a result of the patch. (It should not
+imply that now people can stuff even more cruft into OVMF, because "hey
+there's more room now".)
+
+>> The reason (should I say: excuse) for the firmware to exist is to (a)
+>> boot operating systems, (b) abstract away some ugly platform-specific
+>> hardware for OS runtime (by providing ACPI and SMBIOS descriptions, and
+>> a *small* set of runtime services). We can maybe add (c) "root of trust".
+>>
+>> In practice, physical firmware is becoming the hw vendor's OS before
+>> (and under) your OS, one you cannot replace, and one whose updates can
+>> brick your hardware. Permitting the same feature creep on virtual
+>> platforms is wrong.
+> 
+> On the firmware you develop that choice is fine; but there's no reason
+> to force that restriction onto others.
+
+Technically, I agree. It's fine to run larger UEFI firmware as long as
+the default size restriction for the default (or traditional) UEFI
+firmware remains the same.
+
+Turn the size limit into a property, keep the same default value,
+implement the migration aspects; specify *very clearly* in the commit
+message what particular firmware this knob is being introduced for.
+
+... And I'd still be grumpy, because it increases maintenance burden for
+QEMU (and possibly OVMF too -- "hey we got more room now!"; see above),
+without open source users benefiting from the change. It's not like
+we'll ever be able to run, or read the source code of, that 8MB+
+firmware image, is it?
+
+>>> or have to survive configuring lots of hardware; also
+>>> I'm aware of other companies who are looking at putting big blobs
+>>> of stuff in firmware for open uses;
+>>
+>> Key term being "open uses". Let us see them.
+> 
+> Well yes, I think we know who we're speaking about here and we're
+> working on it.
+
+Sorry, I wasn't clear enough.
+
+I *know* we're going to see *those* "open uses" that you meant.
+
+Precisely because they are "open uses", they have a chance at justifying
+the churn.
+
+My intent was to apply your (valid) argument to *this* proposal -- let
+us see the "open uses" for *this* particular proposal.
+
+Notice, in the thread starter:
+
+"We have a need for increased firmware size", "our Uefi Firmware",
+"change can be made to open source" --> it's obviously for the sake of a
+proprietary platform firmware. Do you feel comfortable about taking on
+more risks, reviews and maintenance for that?
+
+(Note that I'm not singling out this particular proprietary guest
+payload. I feel the exact same way when QEMU is being contorted for
+Windows of OSX guests, but at least those guest payloads are universally
+available to users, if the users are willing to comply with the
+corresponding terms and conditions.)
+
+> Being able to use QEMU to let vendors debug their platform firmware is a
+> perfectly reasonable use of QEMU; maybe not of your OVMF build - we
+> need to keep the restrictions on the two separate.
+
+You as a QEMU maintainer / reviewer, and I as an OVMF maintainer /
+reviewer, are going to pay with our time and effort for a proprietary
+guest oriented change that normal QEMU users won't even be able to run,
+let alone read, modify, distribute.
+
+But yes, technically speaking, we can replace the size limit constant
+with a property, I think.
+
+Laszlo
+
 
