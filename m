@@ -2,68 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F79C265BC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:36:58 +0200 (CEST)
-Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81A4265BA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 10:32:20 +0200 (CEST)
+Received: from localhost ([::1]:42266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGeYD-0004xw-Dl
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32958)
+	id 1kGeTj-0000XC-K6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 04:32:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGeWx-0003sy-IM
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:35:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGeWv-0001bu-Ak
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:35:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kGeWt-0004QJ-BT
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 08:35:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 558D52E80AB
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 08:35:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGeSv-0008SD-KL
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:31:29 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37507
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGeSt-00018A-Gd
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 04:31:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599813085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0bVxKIUYAv+Rcx3MbhxI432bqgJWWZnG/6CREdHSjTQ=;
+ b=esn4PEJH6PhaFgwz+Sg8tjNNpi8BtH7Da9ULCAv9ycC72WQ6ITWLjaQXXrqjWYQZBMmGLo
+ s95EF8tYekjpyEB8gj64DnHEQUQajO1SNgymNePBUW2ASnbwDBuPPgPnKwkUlcCbEr7457
+ /mRNIA1nxEfYqu5+IA772oCjiD0WiDQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-OGUuFWvmPU2saa9hWEVvPw-1; Fri, 11 Sep 2020 04:31:23 -0400
+X-MC-Unique: OGUuFWvmPU2saa9hWEVvPw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F32D10BBECE;
+ Fri, 11 Sep 2020 08:31:22 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-148.ams2.redhat.com
+ [10.36.113.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EBEE60BFA;
+ Fri, 11 Sep 2020 08:31:21 +0000 (UTC)
+Subject: Re: [PATCH] qemu-img: Support bitmap --merge into backing image
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200909123358.1244744-1-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <32a96bcc-78de-a13e-c090-ad00c3b4c4ad@redhat.com>
+Date: Fri, 11 Sep 2020 10:31:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2020 08:30:15 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1895080@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
-X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
-Message-Id: <159981301514.17958.6383374661853049832.malone@soybean.canonical.com>
-Subject: [Bug 1895080] Re: pgb_reserved_va: Assertion `addr == test' failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 8d967eaec65f65cd9735f108c59561101cc67803
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 02:05:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200909123358.1244744-1-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="aqqpdLzvAcAdfFU0AVaJ5i5d26uki6wPc"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:40:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,71 +107,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eyal Shenitzky <eshenitz@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have you got a static version of the test binary (or a mini rootfs with
-the libraries it needs)?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--aqqpdLzvAcAdfFU0AVaJ5i5d26uki6wPc
+Content-Type: multipart/mixed; boundary="gV7FH1UhGR1z1zDqNt72qOyUtnsP4LBX1"
 
--- =
+--gV7FH1UhGR1z1zDqNt72qOyUtnsP4LBX1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895080
+On 09.09.20 14:33, Eric Blake wrote:
+> If you have the chain 'base.qcow2 <- top.qcow2' and want to merge a
+> bitmap from top into base, qemu-img was failing with:
+>=20
+> qemu-img: Could not open 'top.qcow2': Could not open backing file: Failed=
+ to get shared "write" lock
+> Is another process using the image [base.qcow2]?
+>=20
+> The easiest fix is to not open the entire backing chain of the source
+> image, so that we aren't worrying about competing BDS visiting the
+> backing image as both a read-only backing of the source and the
+> writeable destination.
+>=20
+> Fixes: http://bugzilla.redhat.com/1877209
+> Reported-by: Eyal Shenitzky <eshenitz@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  qemu-img.c                 |  3 +-
+>  tests/qemu-iotests/291     | 12 ++++++++
+>  tests/qemu-iotests/291.out | 56 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 70 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/qemu-img.c b/qemu-img.c
+> index eb2fc1f86243..b15098a2f9b3 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -4755,7 +4755,8 @@ static int img_bitmap(int argc, char **argv)
+>      }
+>      bs =3D blk_bs(blk);
+>      if (src_filename) {
+> -        src =3D img_open(false, src_filename, src_fmt, 0, false, false, =
+false);
+> +        src =3D img_open(false, src_filename, src_fmt, BDRV_O_NO_BACKING=
+,
+> +                       false, false, false);
 
-Title:
-  pgb_reserved_va: Assertion `addr =3D=3D test' failed
+Why not do the same for the destination BB?
 
-Status in QEMU:
-  New
+>          if (!src) {
+>              goto out;
+>          }
+> diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
+> index 1e0bb76959bb..4f837b205655 100755
+> --- a/tests/qemu-iotests/291
+> +++ b/tests/qemu-iotests/291
 
-Bug description:
-  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
-  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
-  user.
+[...]
 
-  Firstly, compile fails:
-  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
-  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
-IZE=E2=80=99 undeclared here (not in a function)
-       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+> @@ -107,6 +116,9 @@ $QEMU_IMG map --output=3Djson --image-opts \
+>  nbd_server_start_unix_socket -r -f qcow2 -B b2 "$TEST_IMG"
+>  $QEMU_IMG map --output=3Djson --image-opts \
+>      "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b2" | _filter_qemu_img_map
+> +nbd_server_start_unix_socket -r -f qcow2 -B b3 "$TEST_IMG"
 
-  I have to add below include to linux-user/strace.c
-  diff --git a/linux-user/strace.c b/linux-user/strace.c
-  index 11fea14fba..22e51d4a8a 100644
-  --- a/linux-user/strace.c
-  +++ b/linux-user/strace.c
-  @@ -7,6 +7,7 @@
-   #include <sys/mount.h>
-   #include <arpa/inet.h>
-   #include <netinet/tcp.h>
-  +#include <linux/falloc.h>
-   #include <linux/if_packet.h>
-   #include <linux/netlink.h>
-   #include <sched.h>
+Why not look into $TEST_IMG.base to see specifically whether the bitmap
+is there?
 
-  Then trying qemu-riscv32 with a simple ELF, I get:
-  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
-failed.
+(I also am quite surprised that it=E2=80=99s even possible to export bitmap=
+s
+from backing nodes, but, well.)
 
-  strace shows that:
-  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
-VE, -1, 0) =3D 0x10000
-  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
-git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
-' failed.
-  ) =3D 103
+Max
 
-  The source code is in the function pgb_reserved_va (linux-
-  user/elfload.c). I think mmap cannot guarantee that the returned
-  pointer (test) equals to the parameter of addr. So is this a bug to
-  assert (addr =3D=3D test)?
 
-  Attached configure script and test ELF file.
+--gV7FH1UhGR1z1zDqNt72qOyUtnsP4LBX1--
 
-  Thanks.
+--aqqpdLzvAcAdfFU0AVaJ5i5d26uki6wPc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9bNdcACgkQ9AfbAGHV
+z0AvRQf+JBSuUlqxdRTLCAKVX1SKBAiCCvShsDCKEUJPQmqHo9LuC8xY0NOkey8w
+K8O4wq9B97lYqi6PCtSqg3sNk1v/RGtdOUsstSKMrSBdgn61IBrou+4h090RUOxp
+Z3p2Bm2Ugg/zJAv8At+ZKrHBOZm1Sfni3kNvTLYHHc6OsBIwPYy3pE9zMZt1rooC
+tqbR5skzQKzw8XsSWLLqBlpxxGw8kRi/owAfMY7TZnd8LEP/c3sTGAQgWy9Tn99u
+raMoemfcyJ82PLvk5GC/RNUk2UGYJgu4V9qO+yaI0g84TY+7v8n1D+hQtE9pRKeX
+JLIVbLp0KNDzzFS3PhDR5F4bKnb/kg==
+=ny26
+-----END PGP SIGNATURE-----
+
+--aqqpdLzvAcAdfFU0AVaJ5i5d26uki6wPc--
+
 
