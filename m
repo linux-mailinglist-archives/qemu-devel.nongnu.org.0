@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804F0265A94
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 09:34:44 +0200 (CEST)
-Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6B4265A91
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 09:33:28 +0200 (CEST)
+Received: from localhost ([::1]:49372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGdZz-00032o-F6
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 03:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48082)
+	id 1kGdYl-0001Od-G6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 03:33:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kGdXS-0008Uw-8e; Fri, 11 Sep 2020 03:32:06 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38812)
+ id 1kGdXd-0000G2-7S; Fri, 11 Sep 2020 03:32:17 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:43328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kGdXQ-0002CY-HO; Fri, 11 Sep 2020 03:32:05 -0400
-Received: by mail-lf1-x144.google.com with SMTP id y11so4980131lfl.5;
- Fri, 11 Sep 2020 00:32:00 -0700 (PDT)
+ id 1kGdXb-0002FL-Qe; Fri, 11 Sep 2020 03:32:16 -0400
+Received: by mail-lf1-x143.google.com with SMTP id y2so4953487lfy.10;
+ Fri, 11 Sep 2020 00:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=gLWFaOrTgYE9gb7vfvSK1qpEJDLObDW4x6A89Wj47sE=;
- b=J9S5khHysLs8NJ7BNlj7gJ8WBPGTPm34CVbBTUbMTeVEoOZC0IsmPxU+MQZUOk9i/V
- E8q/IKjL3Z5ny4GYADQ8eDp8Ui7hFaqdizplVDg28yJXb3Pfw3DBXHuDMDVGzDX54yfd
- F042DpuoH9om/VI+nSYQX/jdxWSqPLWhVUM1FwGtjl3w83km8KFct2KMWQ1tTNnrFZq2
- C40FIEU3Dn/R2pLdopymR1Ha22XrDpMBb9XdmYpc38DondqPxynGhYmjwgoAz580clGj
- 4tqZUx1u2sK+9Q5Qp8wIupAWzwwUcT+VBcp2HqB48J7u1gp2XKQh0fsP26jUiQXDIZZ7
- N7/A==
+ bh=LHK4F2MqWd5dXKy2V+64wHdCsq3BPH6G32kaFVS1Kgg=;
+ b=UNV2LkEjubfC/T5nSdh5SJQEeFEi+/GuTRy/PdeUmphzfexU206EnRai71uF2gRuaA
+ IzvGp1pSIwarpiPgMDh1q8s8jH8rE0hyo3KMsCt68m0uRFNYIKpoTBbEs+gG0gA1Bm7B
+ coX9xzWLNnjUtL1klXrTbpYVZBlCrFnSqCFCnQiY+Xc6vz8amBpGd+V0uQ7LeF256iPo
+ 7Hn/qLsgr/Y6sCDJgMyfj5L4Hr5+WwWHkIYK8YUs1TehOZDpoDM/ly3ZvJfFcfSp5Z2V
+ j65gPkHQWFVCq0S2N6MvkqyLUCq5UIoz+tuVlXjfqd3LGBdwxpVhi3UEsx2FrffvdZVn
+ ENNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=gLWFaOrTgYE9gb7vfvSK1qpEJDLObDW4x6A89Wj47sE=;
- b=N2rdJ7G8xc0sis7X6MJSqs9Uamt25L3bG6/yewqWpGK7CO9SALVaAayT+gjB39wFie
- AaDzoeS8FTHMdNoR/361rqBGr+iPPpmK29Ku6UX8SFhALGDpqRDfQeYaoEfUSGIoJmMn
- HGCRkFJLGAmido+0Fs7Bdi19TAsxDSHB2BM8v7vruvn4hsnrpmMoUzvtmwyLsgEa04Im
- 42yFvHJMZhy+q+kgprRgZlGasfgA1gMp2OHIrGKtYoFGqZMQ954k8Xqgk7WFbMNT2nYU
- syPzVwCzSVpKXETagP/O/GjFSw6rtEdRLqOWdW5niP7dr8jbow1Am24HYf5Mb45RgC11
- 03gw==
-X-Gm-Message-State: AOAM5311VyLuftpX6wpd5JwOenqyd7ZzOTgiR8fwT+iAP9r89U95907m
- g6uTLk/JJnjHbcCV+e4qJf7xW4CeFUtMEw==
-X-Google-Smtp-Source: ABdhPJynaUdw0cL24VPHKuwLMvVQCWLtF4qVFNhOWznD/sR29cSv/Nil8HkSdxS5NbVPVXctVcFXRA==
-X-Received: by 2002:a19:8247:: with SMTP id e68mr304829lfd.65.1599809518529;
- Fri, 11 Sep 2020 00:31:58 -0700 (PDT)
+ bh=LHK4F2MqWd5dXKy2V+64wHdCsq3BPH6G32kaFVS1Kgg=;
+ b=l59QQQN7U2u3vqrR0YfXgcpnmhHU0wMwYO44VRtFO6j8O09ErdVtprsaqH2F6Ca6Td
+ gb/la7Cp2aY/8hQaWlZOioHXoRNj6n4jJ01+4UrFlRaYwjVSOqb69P6/WaZgUO+IfwNk
+ QI9YhLEfF9SncOZA7U7arhKk2tj1rvC+DZEVfBGz4jpPCV+J0hcC5ImOOe4uIkc6HxSa
+ Ronkyl2Bm7vMOrGeoH0W2uWdFJlwdac1fVEG5cmz57QfIVoCG+/8Qs33/wFwzEQOCHrS
+ qtLo0d0oBThR5QriDryTjz163F2f5fL+AXTFjttNEBgIEizH1czBlP9V2bM4iIhTraxR
+ K2MQ==
+X-Gm-Message-State: AOAM533HZHVOTyljZ51K95vLdDC3AIs+5oO3K/THWBuZ4anLdPlQhO0e
+ OjGOyaS6zmHRxY5RaaKvg7o=
+X-Google-Smtp-Source: ABdhPJxyeuqUgihgOc4fwupdHuaN5J/O1r9PTCdHVhBWU7k75LyYISClw14MKQIX4EKOUkT1VwT9LQ==
+X-Received: by 2002:a19:ca48:: with SMTP id h8mr297019lfj.173.1599809532525;
+ Fri, 11 Sep 2020 00:32:12 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id a12sm365545ljk.109.2020.09.11.00.31.57
+ by smtp.gmail.com with ESMTPSA id j4sm362441ljc.116.2020.09.11.00.32.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 00:31:58 -0700 (PDT)
-Date: Fri, 11 Sep 2020 09:31:57 +0200
+ Fri, 11 Sep 2020 00:32:11 -0700 (PDT)
+Date: Fri, 11 Sep 2020 09:32:11 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/6] hw/dma/xilinx_axidma: Rename StreamSlave as StreamSink
-Message-ID: <20200911073157.GD2954729@toto>
+Subject: Re: [PATCH 4/6] hw/net/xilinx_axienet: Rename StreamSlave as
+ StreamSink
+Message-ID: <20200911073211.GE2954729@toto>
 References: <20200910070131.435543-1-philmd@redhat.com>
- <20200910070131.435543-4-philmd@redhat.com>
- <71dad67c-a36e-8cd1-1f47-7a9bba1c74b0@redhat.com>
+ <20200910070131.435543-5-philmd@redhat.com>
+ <9214b56d-59e7-1229-bf01-b6dca0445014@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <71dad67c-a36e-8cd1-1f47-7a9bba1c74b0@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
+In-Reply-To: <9214b56d-59e7-1229-bf01-b6dca0445014@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -2
@@ -100,124 +101,110 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 11, 2020 at 09:28:34AM +0200, Paolo Bonzini wrote:
+On Fri, Sep 11, 2020 at 09:28:38AM +0200, Paolo Bonzini wrote:
 > On 10/09/20 09:01, Philippe Mathieu-Daudé wrote:
 > > In order to use inclusive terminology, rename 'slave stream'
 > > as 'sink stream'.
 > > 
 > > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > > ---
-> >  hw/dma/xilinx_axidma.c | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
+> >  hw/net/xilinx_axienet.c | 24 ++++++++++++------------
+> >  1 file changed, 12 insertions(+), 12 deletions(-)
 > > 
-> > diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-> > index cf12a852ea1..19e14a2997e 100644
-> > --- a/hw/dma/xilinx_axidma.c
-> > +++ b/hw/dma/xilinx_axidma.c
+> > diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+> > index 0c4ac727207..4e48535f373 100644
+> > --- a/hw/net/xilinx_axienet.c
+> > +++ b/hw/net/xilinx_axienet.c
 > > @@ -46,11 +46,11 @@
-> >       OBJECT_CHECK(XilinxAXIDMA, (obj), TYPE_XILINX_AXI_DMA)
+> >       OBJECT_CHECK(XilinxAXIEnet, (obj), TYPE_XILINX_AXI_ENET)
 > >  
-> >  #define XILINX_AXI_DMA_DATA_STREAM(obj) \
-> > -     OBJECT_CHECK(XilinxAXIDMAStreamSlave, (obj),\
-> > +     OBJECT_CHECK(XilinxAXIDMAStreamSink, (obj),\
-> >       TYPE_XILINX_AXI_DMA_DATA_STREAM)
+> >  #define XILINX_AXI_ENET_DATA_STREAM(obj) \
+> > -     OBJECT_CHECK(XilinxAXIEnetStreamSlave, (obj),\
+> > +     OBJECT_CHECK(XilinxAXIEnetStreamSink, (obj),\
+> >       TYPE_XILINX_AXI_ENET_DATA_STREAM)
 > >  
-> >  #define XILINX_AXI_DMA_CONTROL_STREAM(obj) \
-> > -     OBJECT_CHECK(XilinxAXIDMAStreamSlave, (obj),\
-> > +     OBJECT_CHECK(XilinxAXIDMAStreamSink, (obj),\
-> >       TYPE_XILINX_AXI_DMA_CONTROL_STREAM)
+> >  #define XILINX_AXI_ENET_CONTROL_STREAM(obj) \
+> > -     OBJECT_CHECK(XilinxAXIEnetStreamSlave, (obj),\
+> > +     OBJECT_CHECK(XilinxAXIEnetStreamSink, (obj),\
+> >       TYPE_XILINX_AXI_ENET_CONTROL_STREAM)
 > >  
-> >  #define R_DMACR             (0x00 / 4)
-> > @@ -63,7 +63,7 @@
-> >  #define CONTROL_PAYLOAD_SIZE (CONTROL_PAYLOAD_WORDS * (sizeof(uint32_t)))
-> >  
-> >  typedef struct XilinxAXIDMA XilinxAXIDMA;
-> > -typedef struct XilinxAXIDMAStreamSlave XilinxAXIDMAStreamSlave;
-> > +typedef struct XilinxAXIDMAStreamSink XilinxAXIDMAStreamSink;
-> >  
-> >  enum {
-> >      DMACR_RUNSTOP = 1,
-> > @@ -118,7 +118,7 @@ struct Stream {
-> >      unsigned char txbuf[16 * 1024];
+> >  /* Advertisement control register. */
+> > @@ -310,10 +310,10 @@ struct TEMAC  {
+> >      void *parent;
 > >  };
 > >  
-> > -struct XilinxAXIDMAStreamSlave {
-> > +struct XilinxAXIDMAStreamSink {
+> > -typedef struct XilinxAXIEnetStreamSlave XilinxAXIEnetStreamSlave;
+> > +typedef struct XilinxAXIEnetStreamSink XilinxAXIEnetStreamSink;
+> >  typedef struct XilinxAXIEnet XilinxAXIEnet;
+> >  
+> > -struct XilinxAXIEnetStreamSlave {
+> > +struct XilinxAXIEnetStreamSink {
 > >      Object parent;
 > >  
-> >      struct XilinxAXIDMA *dma;
-> > @@ -133,8 +133,8 @@ struct XilinxAXIDMA {
-> >      uint32_t freqhz;
+> >      struct XilinxAXIEnet *enet;
+> > @@ -325,8 +325,8 @@ struct XilinxAXIEnet {
+> >      qemu_irq irq;
 > >      StreamSink *tx_data_dev;
 > >      StreamSink *tx_control_dev;
-> > -    XilinxAXIDMAStreamSlave rx_data_dev;
-> > -    XilinxAXIDMAStreamSlave rx_control_dev;
-> > +    XilinxAXIDMAStreamSink rx_data_dev;
-> > +    XilinxAXIDMAStreamSink rx_control_dev;
+> > -    XilinxAXIEnetStreamSlave rx_data_dev;
+> > -    XilinxAXIEnetStreamSlave rx_control_dev;
+> > +    XilinxAXIEnetStreamSink rx_data_dev;
+> > +    XilinxAXIEnetStreamSink rx_control_dev;
+> >      NICState *nic;
+> >      NICConf conf;
 > >  
-> >      struct Stream streams[2];
-> >  
-> > @@ -390,7 +390,7 @@ static size_t
-> >  xilinx_axidma_control_stream_push(StreamSink *obj, unsigned char *buf,
-> >                                    size_t len, bool eop)
+> > @@ -859,7 +859,7 @@ xilinx_axienet_control_stream_push(StreamSink *obj, uint8_t *buf, size_t len,
+> >                                     bool eop)
 > >  {
-> > -    XilinxAXIDMAStreamSlave *cs = XILINX_AXI_DMA_CONTROL_STREAM(obj);
-> > +    XilinxAXIDMAStreamSink *cs = XILINX_AXI_DMA_CONTROL_STREAM(obj);
-> >      struct Stream *s = &cs->dma->streams[1];
-> >  
-> >      if (len != CONTROL_PAYLOAD_SIZE) {
-> > @@ -407,7 +407,7 @@ xilinx_axidma_data_stream_can_push(StreamSink *obj,
-> >                                     StreamCanPushNotifyFn notify,
-> >                                     void *notify_opaque)
-> >  {
-> > -    XilinxAXIDMAStreamSlave *ds = XILINX_AXI_DMA_DATA_STREAM(obj);
-> > +    XilinxAXIDMAStreamSink *ds = XILINX_AXI_DMA_DATA_STREAM(obj);
-> >      struct Stream *s = &ds->dma->streams[1];
-> >  
-> >      if (!stream_running(s) || stream_idle(s)) {
-> > @@ -423,7 +423,7 @@ static size_t
-> >  xilinx_axidma_data_stream_push(StreamSink *obj, unsigned char *buf, size_t len,
-> >                                 bool eop)
-> >  {
-> > -    XilinxAXIDMAStreamSlave *ds = XILINX_AXI_DMA_DATA_STREAM(obj);
-> > +    XilinxAXIDMAStreamSink *ds = XILINX_AXI_DMA_DATA_STREAM(obj);
-> >      struct Stream *s = &ds->dma->streams[1];
-> >      size_t ret;
-> >  
-> > @@ -534,8 +534,8 @@ static const MemoryRegionOps axidma_ops = {
-> >  static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
-> >  {
-> >      XilinxAXIDMA *s = XILINX_AXI_DMA(dev);
-> > -    XilinxAXIDMAStreamSlave *ds = XILINX_AXI_DMA_DATA_STREAM(&s->rx_data_dev);
-> > -    XilinxAXIDMAStreamSlave *cs = XILINX_AXI_DMA_CONTROL_STREAM(
-> > +    XilinxAXIDMAStreamSink *ds = XILINX_AXI_DMA_DATA_STREAM(&s->rx_data_dev);
-> > +    XilinxAXIDMAStreamSink *cs = XILINX_AXI_DMA_CONTROL_STREAM(
-> >                                                              &s->rx_control_dev);
 > >      int i;
+> > -    XilinxAXIEnetStreamSlave *cs = XILINX_AXI_ENET_CONTROL_STREAM(obj);
+> > +    XilinxAXIEnetStreamSink *cs = XILINX_AXI_ENET_CONTROL_STREAM(obj);
+> >      XilinxAXIEnet *s = cs->enet;
 > >  
-> > @@ -634,7 +634,7 @@ static const TypeInfo axidma_info = {
-> >  static const TypeInfo xilinx_axidma_data_stream_info = {
-> >      .name          = TYPE_XILINX_AXI_DMA_DATA_STREAM,
+> >      assert(eop);
+> > @@ -880,7 +880,7 @@ static size_t
+> >  xilinx_axienet_data_stream_push(StreamSink *obj, uint8_t *buf, size_t size,
+> >                                  bool eop)
+> >  {
+> > -    XilinxAXIEnetStreamSlave *ds = XILINX_AXI_ENET_DATA_STREAM(obj);
+> > +    XilinxAXIEnetStreamSink *ds = XILINX_AXI_ENET_DATA_STREAM(obj);
+> >      XilinxAXIEnet *s = ds->enet;
+> >  
+> >      /* TX enable ?  */
+> > @@ -954,8 +954,8 @@ static NetClientInfo net_xilinx_enet_info = {
+> >  static void xilinx_enet_realize(DeviceState *dev, Error **errp)
+> >  {
+> >      XilinxAXIEnet *s = XILINX_AXI_ENET(dev);
+> > -    XilinxAXIEnetStreamSlave *ds = XILINX_AXI_ENET_DATA_STREAM(&s->rx_data_dev);
+> > -    XilinxAXIEnetStreamSlave *cs = XILINX_AXI_ENET_CONTROL_STREAM(
+> > +    XilinxAXIEnetStreamSink *ds = XILINX_AXI_ENET_DATA_STREAM(&s->rx_data_dev);
+> > +    XilinxAXIEnetStreamSink *cs = XILINX_AXI_ENET_CONTROL_STREAM(
+> >                                                              &s->rx_control_dev);
+> >  
+> >      object_property_add_link(OBJECT(ds), "enet", "xlnx.axi-ethernet",
+> > @@ -1046,7 +1046,7 @@ static const TypeInfo xilinx_enet_info = {
+> >  static const TypeInfo xilinx_enet_data_stream_info = {
+> >      .name          = TYPE_XILINX_AXI_ENET_DATA_STREAM,
 > >      .parent        = TYPE_OBJECT,
-> > -    .instance_size = sizeof(struct XilinxAXIDMAStreamSlave),
-> > +    .instance_size = sizeof(struct XilinxAXIDMAStreamSink),
-> >      .class_init    = xilinx_axidma_stream_class_init,
-> >      .class_data    = &xilinx_axidma_data_stream_class,
+> > -    .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+> > +    .instance_size = sizeof(struct XilinxAXIEnetStreamSink),
+> >      .class_init    = xilinx_enet_data_stream_class_init,
 > >      .interfaces = (InterfaceInfo[]) {
-> > @@ -646,7 +646,7 @@ static const TypeInfo xilinx_axidma_data_stream_info = {
-> >  static const TypeInfo xilinx_axidma_control_stream_info = {
-> >      .name          = TYPE_XILINX_AXI_DMA_CONTROL_STREAM,
+> >              { TYPE_STREAM_SINK },
+> > @@ -1057,7 +1057,7 @@ static const TypeInfo xilinx_enet_data_stream_info = {
+> >  static const TypeInfo xilinx_enet_control_stream_info = {
+> >      .name          = TYPE_XILINX_AXI_ENET_CONTROL_STREAM,
 > >      .parent        = TYPE_OBJECT,
-> > -    .instance_size = sizeof(struct XilinxAXIDMAStreamSlave),
-> > +    .instance_size = sizeof(struct XilinxAXIDMAStreamSink),
-> >      .class_init    = xilinx_axidma_stream_class_init,
-> >      .class_data    = &xilinx_axidma_control_stream_class,
+> > -    .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+> > +    .instance_size = sizeof(struct XilinxAXIEnetStreamSink),
+> >      .class_init    = xilinx_enet_control_stream_class_init,
 > >      .interfaces = (InterfaceInfo[]) {
+> >              { TYPE_STREAM_SINK },
 > > 
 > 
 > Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 
