@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EB92668F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:37:37 +0200 (CEST)
-Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5253D2668ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:35:46 +0200 (CEST)
+Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGorY-0007yE-3K
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:37:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44748)
+	id 1kGopl-0004Vc-Ci
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGono-0002bx-9w; Fri, 11 Sep 2020 15:33:44 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:37863)
+ id 1kGono-0002dA-Oc; Fri, 11 Sep 2020 15:33:44 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:42009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonl-0000nt-Jm; Fri, 11 Sep 2020 15:33:43 -0400
+ id 1kGonm-0000o0-UV; Fri, 11 Sep 2020 15:33:44 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M7v18-1kBqz20Pi6-0054S0; Fri, 11 Sep 2020 21:33:38 +0200
+ id 1Mpkwn-1ksvug00JZ-00qD2F; Fri, 11 Sep 2020 21:33:39 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/18] hw/gpio/omap_gpio: Replace fprintf() by
- qemu_log_mask(GUEST_ERROR)
-Date: Fri, 11 Sep 2020 21:33:16 +0200
-Message-Id: <20200911193330.1148942-5-laurent@vivier.eu>
+Subject: [PULL 05/18] hw/gpio/max7310: Replace disabled printf() by
+ qemu_log_mask(UNIMP)
+Date: Fri, 11 Sep 2020 21:33:17 +0200
+Message-Id: <20200911193330.1148942-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+7pCVak8FRWtEZ4bdydUkPxwzLeyVjymMOBult1BSAyGuSu3QYq
- 05aB4SX+0n2hyqigg1td9JQvZAOC+0MW1PF4G/Fss5A6fT1hrN4sEkV9pUW7Z6QPxnWqoij
- j42AaAWyGpy6ksxuyoJq62B6P9hWiqs++BvtLd0i8ZF+zxiXvNjUJfwK7HffNT1imA/scmS
- ja4KAnOVYLYCECMpvXojA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ewk3hdxN/P4=:DBFEnQnuGS28A4KV3Pw5Tv
- 3G14hrvtbFw0lh9PHyDetbrSKGM0g4Bit3R8KyDY3yGlpCqR89KmgVjAeGeL8cq5Rh1R5qBV4
- RZ5elIBdswZBKr6diBIs3vtDtcddQChzHJ8KbWbn+h3z5okHm6rzSpih0bCc7jNBctY278HKL
- orTM16dQ1HbbTQoDSbYfoSNGADAYn11NCIT4w11TGqQfz4AEsT3vtOAAzYzTOkwQvrVlpgnls
- VqoXSaWIkme35qF0Sc3oD75BGUyVQbb3GkZy2hFiTZ/cQro+f/Rm0W15nNVQHK7HAGEJlQSaY
- 8OTBHE+kllGe3wcYKZa55TzQ7Y/1Pyw4n0KRBojcwxE3o1J7Ww7BEhGmUqIHWjFyOZ/Xl5fI1
- RTQrhPX69cepVqdnjYvpJq6bFdBm6ysWW2O/9qtBuLcoetbcvBC8rh4mRpUeW42XaucnTg8K5
- tY1mUWds7CEA4Yn842F3cglgb30yIqVPZbdMg3lOKnw29LgSgC2tezIsYcJy+ZBPaIfjomaqw
- uSm+eBTuSocVBH0KVhN4yZHtvtbzhB6mml1yWrpGvtVFZECxaKyfiLH53CrOWjjCxJt1yBNsn
- UNTTBL2fPyfloP6axpaAONjN0n4E/A/1dIjVWjk8NTeoRtFKpDUplU21oKQadLDtSDL2dBV7z
- NMjSWttxwZv9BguIRHOnoO/WBVovWCJEKqTn0J+zYONOnZScyiEf41ugzbSdFGUnHaai7OmVs
- rCJdg87RxmDH8QzDR9Dk51hNQUC+05e7cXSDFHrIJ0ODBVd2VdnrYWwFKxMF7Iho2iqri2ChN
- 3GR4HFIxsA64Ypwr76pqL+2hVgUV/UGpLHGYrYH+SgH1vsSlOw3tzFjhMhXeN7/wqR3hsW6
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:6HHjcsMsC1UMVlJ9ehessa7IF8hgB8UCqK7rXrhkuKOysz/RmEt
+ ndeSnj1EeH9C/m138K8ixt6mQzMQ5LNOE7grltRNgqF2cKvoRT31iWoSEhgRZk1+CBUhUr0
+ NBkgcj+P7D9ygLIjaQUygMRDYMjxLPs5qcFDSlE2U7nPAVq7TJBZ+9f2W16P1kJ6mttKluR
+ mUQv/yFW/weDU7VWT+7xw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fkaGS7uf30Q=:piGLu2HK1rJYlZMDXKZj2L
+ WR/ulubabyADErZVn2UR0uUgXMcPK1XdNnseIivoYVgFlZ1nyyGgmISOCtUKOhxWE26Ik+uyW
+ RsUSDy7pb3Fqi/QK/+eraHP+MWLaXxOp5ED2klwEzgvNv5BLpkzus/xt09Y4TfVL1ryOFJqly
+ 3pJGDc+mD8JZmgFHTJnCu3ADiedl45bVtrskZkuspoXGZxdJ83fPrxnlORaog5YCCEoNVyDsZ
+ DIBnarJWjxHNjzjzwAu7DCAzH93BezHe8QhsybdJsV/Qj4vF2252ieJeIl39XBpC/kFDZOort
+ 4zhvGwviW3Un/uFZUuqpt+HQ/nPrgG8GUqvx+WpFuupR+Qi8wqWvEyELYJfJ27SepWnODbO9h
+ IMqpwokCm/cVQYUGrfEeH7mAjHEwfcm0gqL+LgrGd8nIHdzz9zEQDtB5jBx/v3U9giwzb6XX1
+ 2PYTL0xgjzaMK3sjRmYzPvtnLqRTLVIkDzR+Vm7ZdvygBzMoqillG3CW2ompvlzkZVSJa35+8
+ luM+liCyyt9XXMTZ/L9U8mW85yzlEuG523cCzDmamkrE3LIxD4opOnSpeun7BalENj301+OEC
+ gJusMwZKmr0WnBP3YmZpz9/xYF/ab819GEM7Hs7KKmIWp69hxgRKp19r/fwV1Iqh9ngkrr8qm
+ 5hITzj3K3DMhbxfJXzHzgOXqOk6zKe/mbi3y0mcLF7RRYvJ/Ko3wnr+fX6m8H5OagG3IssEzK
+ nhTaQ++7xIVmak1fuoZD9JAbVl16HG2mRIlHFXaLMdXDUmUcy6LlJ7jXQPPnY58j1B8kc1THg
+ xleFj3Qyjz68RajPqGiFepIBeyX0Qy7G07Fvs6rmDLVIgytNba1PtrOBqO+oNwU9EGcpdLk
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -78,33 +78,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Replace fprintf() by qemu_log_mask(LOG_GUEST_ERROR).
+Replace disabled printf() by qemu_log_mask(UNIMP).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200901104234.92159-2-f4bug@amsat.org>
+Message-Id: <20200901104234.92159-3-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/gpio/omap_gpio.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/gpio/max7310.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/gpio/omap_gpio.c b/hw/gpio/omap_gpio.c
-index f662c4cb9588..e25084b40c95 100644
---- a/hw/gpio/omap_gpio.c
-+++ b/hw/gpio/omap_gpio.c
-@@ -392,8 +392,10 @@ static void omap2_gpio_module_write(void *opaque, hwaddr addr,
-         break;
+diff --git a/hw/gpio/max7310.c b/hw/gpio/max7310.c
+index 4f78774dc8f2..3e298c2d349c 100644
+--- a/hw/gpio/max7310.c
++++ b/hw/gpio/max7310.c
+@@ -13,6 +13,7 @@
+ #include "hw/hw.h"
+ #include "hw/irq.h"
+ #include "migration/vmstate.h"
++#include "qemu/log.h"
+ #include "qemu/module.h"
  
-     case 0x10:	/* GPIO_SYSCONFIG */
--        if (((value >> 3) & 3) == 3)
--            fprintf(stderr, "%s: bad IDLEMODE value\n", __func__);
-+        if (((value >> 3) & 3) == 3) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Illegal IDLEMODE value: 3\n", __func__);
-+        }
-         if (value & 2)
-             omap2_gpio_module_reset(s);
-         s->config[0] = value & 0x1d;
+ #define TYPE_MAX7310 "max7310"
+@@ -68,9 +69,8 @@ static uint8_t max7310_rx(I2CSlave *i2c)
+         return 0xff;
+ 
+     default:
+-#ifdef VERBOSE
+-        printf("%s: unknown register %02x\n", __func__, s->command);
+-#endif
++        qemu_log_mask(LOG_UNIMP, "%s: Unsupported register 0x02%" PRIx8 "\n",
++                      __func__, s->command);
+         break;
+     }
+     return 0xff;
+@@ -122,9 +122,8 @@ static int max7310_tx(I2CSlave *i2c, uint8_t data)
+     case 0x00:	/* Input port - ignore writes */
+         break;
+     default:
+-#ifdef VERBOSE
+-        printf("%s: unknown register %02x\n", __func__, s->command);
+-#endif
++        qemu_log_mask(LOG_UNIMP, "%s: Unsupported register 0x02%" PRIx8 "\n",
++                      __func__, s->command);
+         return 1;
+     }
+ 
 -- 
 2.26.2
 
