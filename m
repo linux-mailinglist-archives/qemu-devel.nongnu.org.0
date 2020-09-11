@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D795A26625A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:43:47 +0200 (CEST)
-Received: from localhost ([::1]:40120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2113C266279
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 17:48:39 +0200 (CEST)
+Received: from localhost ([::1]:50770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGlDG-0003Z5-Vr
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48624)
+	id 1kGlHx-0008Lo-Ue
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 11:48:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kGlAr-0001yz-MK
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:41:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24229
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGlH8-0007sD-Ho
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:47:46 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41409
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kGlAp-000174-Hb
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:41:17 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kGlH5-0001zg-MR
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 11:47:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599838874;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=REVACPM0Uu7i9touFnN874v73TvchaKvsz2iiCqQ5+w=;
- b=cmdZE+Ke/5SzOaOYIqGxAQXrzb4KgaJdnyoSLsNTeRtpPKg/R2evSeE0VquhbDT26YVtMf
- zL7HjD4S8+v7yRZKzWpsBAgA3iUJAr98YPjHJHmvDcjya5O1VhvjC+e/ZdYMi44ugpskRl
- dH3+imnm7U3uQ7UuTjxz+FBgcWAh7JU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-kaTHJMwrNRyUQGcXUC08Rw-1; Fri, 11 Sep 2020 11:41:12 -0400
-X-MC-Unique: kaTHJMwrNRyUQGcXUC08Rw-1
-Received: by mail-wm1-f72.google.com with SMTP id k12so1998678wmj.1
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 08:41:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=REVACPM0Uu7i9touFnN874v73TvchaKvsz2iiCqQ5+w=;
- b=Gd9Wsmy9AgwOisbrx+8+ZiAzFJTRK7wep1Yxt6CDgYAzKncY4rVdE6o/4hXGh6Kk08
- TSZxvXkHPZRK4h9rFTJf/H8Li3GnytMRnOSQfnoHuDkoIi3hM0BdlJAJ+ifclgsZmZPo
- 8Bl3/AZD+tVbCIqG9TAMdT3tW5MMvbRzrn2+lg6miJaPpXuesYf4ntrfHyw19VnSzOT0
- +7P6B8tXOxeMSkxZ5YO3m8KFoBbGRmo+wh+5I/3gOb5PdqsW3p25agtP9uq2Ao8G4iys
- vy5+DbXs/HLmUgiSsvirG0dovWobyPK8yj+/vaRXvrpKAoJHSbje7NP/eCw3xi4Pmt7l
- xdwA==
-X-Gm-Message-State: AOAM533gpSGdgkPicGSlyDQBNtGxrg2URTyrcM0bqDjVb4qBeUbtfLVS
- LWIZQ8JBzV+8qZIE4QmY/lD3uDmEKsafabcRQdg4F4duJ440enlVS8xX/ZH/rFKsFS1VTyb1esc
- 78BNSzKr+Dge34Sw=
-X-Received: by 2002:a5d:51ce:: with SMTP id n14mr2625010wrv.8.1599838871486;
- Fri, 11 Sep 2020 08:41:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6tu+RHCKUT/BOG9BrlHWsbGVlTwJphdINvWdvv6a84KhN0F1dRM8tMfIATla8va+D3SIIzA==
-X-Received: by 2002:a5d:51ce:: with SMTP id n14mr2624998wrv.8.1599838871252;
- Fri, 11 Sep 2020 08:41:11 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5568:7f99:4893:a5b6?
- ([2001:b07:6468:f312:5568:7f99:4893:a5b6])
- by smtp.gmail.com with ESMTPSA id 70sm5501805wme.15.2020.09.11.08.41.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Sep 2020 08:41:10 -0700 (PDT)
-Subject: Re: [PATCH] WHPX: vmware cpuid leaf for tsc and apic frequency
-To: Sunil Muthuswamy <sunilmut@microsoft.com>,
- Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>
-References: <SN4PR2101MB08808DFDDC3F442BBEAADFF4C0710@SN4PR2101MB0880.namprd21.prod.outlook.com>
- <SN4PR2101MB0880639FEAA957A1A3FE26ECC0510@SN4PR2101MB0880.namprd21.prod.outlook.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <47a5e03d-914b-9753-f1e4-54118caccd9e@redhat.com>
-Date: Fri, 11 Sep 2020 17:41:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ s=mimecast20190719; t=1599839261;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Qldg5I0egSU6mHzNQ6ouudBvy85FNvWxGdUFSTIPBxA=;
+ b=coIZ7H+MbQv8LW7Gksf33s/bkBQWZKfq6G2g1v8b+PC6KKnlqbmnxyARgPsVcHqgjJgL1z
+ Z2HRwY7nM3b+XpcXclKNbwKubewkbCNpiS7TMRS/gMfktFcvB6ys6ihrOz7UXKFp81/KkD
+ Xc1iTI/dzyBkv3TWdG7Nn7XAXGZqgno=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-nSyneRtqPyClEXGyeeEcIQ-1; Fri, 11 Sep 2020 11:47:35 -0400
+X-MC-Unique: nSyneRtqPyClEXGyeeEcIQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81556801F97
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 15:47:34 +0000 (UTC)
+Received: from redhat.com (ovpn-113-229.ams2.redhat.com [10.36.113.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C45612C31E;
+ Fri, 11 Sep 2020 15:47:33 +0000 (UTC)
+Date: Fri, 11 Sep 2020 16:47:30 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: P J P <ppandit@redhat.com>
+Subject: Re: About 'qemu-security' mailing list
+Message-ID: <20200911154730.GK1203593@redhat.com>
+References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
 MIME-Version: 1.0
-In-Reply-To: <SN4PR2101MB0880639FEAA957A1A3FE26ECC0510@SN4PR2101MB0880.namprd21.prod.outlook.com>
+In-Reply-To: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 09:43:46
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 00:33:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.469, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,239 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/09/20 01:32, Sunil Muthuswamy wrote:
-> Can I please get some eyes on this?
-
-Yes, sorry about the bad timing (5.1 freeze + Meson conversion +
-parental leave).
-
-Paolo
-
->> -----Original Message-----
->> From: Sunil Muthuswamy
->> Sent: Thursday, July 30, 2020 3:11 PM
->> To: Paolo Bonzini <pbonzini@redhat.com>; Richard Henderson <rth@twiddle.net>; Eduardo Habkost <ehabkost@redhat.com>
->> Cc: qemu-devel@nongnu.org; Stefan Weil <sw@weilnetz.de>
->> Subject: [PATCH] WHPX: vmware cpuid leaf for tsc and apic frequency
->>
->> Newer versions of WHPX provide the capability to query the tsc
->> and apic frequency. Expose these through the vmware cpuid leaf.
->> This patch doesnt support setting the tsc frequency; that will
->> come as a separate fix.
->>
->> Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
->> ---
->>  target/i386/whp-dispatch.h |  3 +-
->>  target/i386/whpx-all.c     | 94 ++++++++++++++++++++++++++++++++++----
->>  2 files changed, 86 insertions(+), 11 deletions(-)
->>
->> diff --git a/target/i386/whp-dispatch.h b/target/i386/whp-dispatch.h
->> index e4695c349f..b18aba20ed 100644
->> --- a/target/i386/whp-dispatch.h
->> +++ b/target/i386/whp-dispatch.h
->> @@ -2,10 +2,11 @@
->>  #define WHP_DISPATCH_H
->>
->>  #include <windows.h>
->> -
->>  #include <WinHvPlatform.h>
->>  #include <WinHvEmulation.h>
->>
->> +#define WHV_E_UNKNOWN_CAPABILITY 0x80370300L
->> +
->>  #define LIST_WINHVPLATFORM_FUNCTIONS(X) \
->>    X(HRESULT, WHvGetCapability, (WHV_CAPABILITY_CODE CapabilityCode, VOID* CapabilityBuffer, UINT32
->> CapabilityBufferSizeInBytes, UINT32* WrittenSizeInBytes)) \
->>    X(HRESULT, WHvCreatePartition, (WHV_PARTITION_HANDLE* Partition)) \
->> diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
->> index c78baac6df..da4c135925 100644
->> --- a/target/i386/whpx-all.c
->> +++ b/target/i386/whpx-all.c
->> @@ -27,6 +27,8 @@
->>  #include <WinHvPlatform.h>
->>  #include <WinHvEmulation.h>
->>
->> +#define HYPERV_APIC_BUS_FREQUENCY      (200000000ULL)
->> +
->>  struct whpx_state {
->>      uint64_t mem_quota;
->>      WHV_PARTITION_HANDLE partition;
->> @@ -1061,6 +1063,18 @@ static int whpx_vcpu_run(CPUState *cpu)
->>              cpu_x86_cpuid(env, cpuid_fn, 0, (UINT32 *)&rax, (UINT32 *)&rbx,
->>                  (UINT32 *)&rcx, (UINT32 *)&rdx);
->>              switch (cpuid_fn) {
->> +            case 0x40000000:
->> +                /* Expose the vmware cpu frequency cpuid leaf */
->> +                rax = 0x40000010;
->> +                rbx = rcx = rdx = 0;
->> +                break;
->> +
->> +            case 0x40000010:
->> +                rax = env->tsc_khz;
->> +                rbx = env->apic_bus_freq / 1000; /* Hz to KHz */
->> +                rcx = rdx = 0;
->> +                break;
->> +
->>              case 0x80000001:
->>                  /* Remove any support of OSVW */
->>                  rcx &= ~CPUID_EXT3_OSVW;
->> @@ -1193,6 +1207,10 @@ int whpx_init_vcpu(CPUState *cpu)
->>      struct whpx_state *whpx = &whpx_global;
->>      struct whpx_vcpu *vcpu;
->>      Error *local_error = NULL;
->> +    struct CPUX86State *env = (CPUArchState *)(cpu->env_ptr);
->> +    X86CPU *x86_cpu = X86_CPU(cpu);
->> +    UINT64 freq = 0;
->> +    int ret;
->>
->>      /* Add migration blockers for all unsupported features of the
->>       * Windows Hypervisor Platform
->> @@ -1207,7 +1225,8 @@ int whpx_init_vcpu(CPUState *cpu)
->>              error_report_err(local_error);
->>              migrate_del_blocker(whpx_migration_blocker);
->>              error_free(whpx_migration_blocker);
->> -            return -EINVAL;
->> +            ret = -EINVAL;
->> +            goto error;
->>          }
->>      }
->>
->> @@ -1215,7 +1234,8 @@ int whpx_init_vcpu(CPUState *cpu)
->>
->>      if (!vcpu) {
->>          error_report("WHPX: Failed to allocte VCPU context.");
->> -        return -ENOMEM;
->> +        ret = -ENOMEM;
->> +        goto error;
->>      }
->>
->>      hr = whp_dispatch.WHvEmulatorCreateEmulator(
->> @@ -1224,8 +1244,8 @@ int whpx_init_vcpu(CPUState *cpu)
->>      if (FAILED(hr)) {
->>          error_report("WHPX: Failed to setup instruction completion support,"
->>                       " hr=%08lx", hr);
->> -        g_free(vcpu);
->> -        return -EINVAL;
->> +        ret = -EINVAL;
->> +        goto error;
->>      }
->>
->>      hr = whp_dispatch.WHvCreateVirtualProcessor(
->> @@ -1234,17 +1254,72 @@ int whpx_init_vcpu(CPUState *cpu)
->>          error_report("WHPX: Failed to create a virtual processor,"
->>                       " hr=%08lx", hr);
->>          whp_dispatch.WHvEmulatorDestroyEmulator(vcpu->emulator);
->> -        g_free(vcpu);
->> -        return -EINVAL;
->> +        ret = -EINVAL;
->> +        goto error;
->>      }
->>
->> -    vcpu->interruptable = true;
->> +    /*
->> +     * vcpu's TSC frequency is either specified by user, or use the value
->> +     * provided by Hyper-V if the former is not present. In the latter case, we
->> +     * query it from Hyper-V and record in env->tsc_khz, so that vcpu's TSC
->> +     * frequency can be migrated later via this field.
->> +     */
->> +    if (!env->tsc_khz) {
->> +        hr = whp_dispatch.WHvGetCapability(
->> +            WHvCapabilityCodeProcessorClockFrequency, &freq, sizeof(freq),
->> +                NULL);
->> +        if (hr != WHV_E_UNKNOWN_CAPABILITY) {
->> +            if (FAILED(hr)) {
->> +                printf("WHPX: Failed to query tsc frequency, hr=0x%08lx\n", hr);
->> +            } else {
->> +                env->tsc_khz = freq / 1000; /* Hz to KHz */
->> +            }
->> +        }
->> +    }
->>
->> +    env->apic_bus_freq = HYPERV_APIC_BUS_FREQUENCY;
->> +    hr = whp_dispatch.WHvGetCapability(
->> +        WHvCapabilityCodeInterruptClockFrequency, &freq, sizeof(freq), NULL);
->> +    if (hr != WHV_E_UNKNOWN_CAPABILITY) {
->> +        if (FAILED(hr)) {
->> +            printf("WHPX: Failed to query apic bus frequency hr=0x%08lx\n", hr);
->> +        } else {
->> +            env->apic_bus_freq = freq;
->> +        }
->> +    }
->> +
->> +    /*
->> +     * If the vmware cpuid frequency leaf option is set, and we have a valid
->> +     * tsc value, trap the corresponding cpuid's.
->> +     */
->> +    if (x86_cpu->vmware_cpuid_freq && env->tsc_khz) {
->> +        UINT32 cpuidExitList[] = {1, 0x80000001, 0x40000000, 0x40000010};
->> +
->> +        hr = whp_dispatch.WHvSetPartitionProperty(
->> +                whpx->partition,
->> +                WHvPartitionPropertyCodeCpuidExitList,
->> +                cpuidExitList,
->> +                RTL_NUMBER_OF(cpuidExitList) * sizeof(UINT32));
->> +
->> +        if (FAILED(hr)) {
->> +            error_report("WHPX: Failed to set partition CpuidExitList hr=%08lx",
->> +                        hr);
->> +            ret = -EINVAL;
->> +            goto error;
->> +        }
->> +    }
->> +
->> +    vcpu->interruptable = true;
->>      cpu->vcpu_dirty = true;
->>      cpu->hax_vcpu = (struct hax_vcpu_state *)vcpu;
->>      qemu_add_vm_change_state_handler(whpx_cpu_update_state, cpu->env_ptr);
->>
->>      return 0;
->> +
->> +error:
->> +    g_free(vcpu);
->> +
->> +    return ret;
->>  }
->>
->>  int whpx_vcpu_exec(CPUState *cpu)
->> @@ -1493,6 +1568,7 @@ static int whpx_accel_init(MachineState *ms)
->>      WHV_CAPABILITY whpx_cap;
->>      UINT32 whpx_cap_size;
->>      WHV_PARTITION_PROPERTY prop;
->> +    UINT32 cpuidExitList[] = {1, 0x80000001};
->>
->>      whpx = &whpx_global;
->>
->> @@ -1551,7 +1627,6 @@ static int whpx_accel_init(MachineState *ms)
->>          goto error;
->>      }
->>
->> -    UINT32 cpuidExitList[] = {1, 0x80000001};
->>      hr = whp_dispatch.WHvSetPartitionProperty(
->>          whpx->partition,
->>          WHvPartitionPropertyCodeCpuidExitList,
->> @@ -1579,14 +1654,13 @@ static int whpx_accel_init(MachineState *ms)
->>      printf("Windows Hypervisor Platform accelerator is operational\n");
->>      return 0;
->>
->> -  error:
->> +error:
->>
->>      if (NULL != whpx->partition) {
->>          whp_dispatch.WHvDeletePartition(whpx->partition);
->>          whpx->partition = NULL;
->>      }
->>
->> -
->>      return ret;
->>  }
->>
->> --
->> 2.25.1
+On Fri, Sep 11, 2020 at 07:50:24PM +0530, P J P wrote:
+>   Hello all,
 > 
+> Recently while conversing with DanPB this point came up
+> 
+>    -> https://www.qemu.org/contribute/security-process/
+> 
+> * Currently QEMU security team is a handful of individual contacts which
+>   restricts community participation in dealing with these issues.
+> 
+> * The Onus also lies with the individuals to inform the community about QEMU
+>   security issues, as they come in.
+> 
+> 
+> Proposal: (to address above limitations)
+> =========
+> 
+> * We set up a new 'qemu-security' mailing list.
+> 
+> * QEMU security issues are reported to this new list only.
+> 
+> * Representatives from various communities subscribe to this list. (List maybe
+>   moderated in the beginning.)
+
+For libvirt we have the list membership targetted as being nominated
+security representatives of any downstream distributor of libvirt.
+ie essentially the security people from various OS vendors. Other
+members can be considered on a case by case basis if they want to
+make their case.
+
+FWIW, we have the libvirt-security list moderated at all times, and
+manually approve mails from non-members in order to prevent it being
+a spam trap. Manual moderation is not too much of a burden assuming
+the rate of CVEs isn't huge !
+
+> * As QEMU issues come in, participants on the 'qemu-security' list shall
+>   discuss and decide about how to triage them further.
+
+For libvirt-security, members are required to respect the project's
+declared embargo policy. This sets as a 2 week maximum by default,
+anything beyond 2 weeks has to be explicitly requested as appropriate
+and not have objection from members of the list.  QEMU doesn't set any
+explicit default embargo period right now just saying it is via mutual
+agreement:
+
+  https://www.qemu.org/contribute/security-process/
+
+this might want to be clarified to set a default expectation, because
+with a list of members you won't want to wait for everyone to explicitly
+approve a date. You want people to know what to expect as a default
+upfront, and only have the discussions in cases which need more time.
+
+I'm not saying QEMU has to be 2 weeks - perhaps just look at a sample
+of the past year's CVEs in QEMU and use them as a guide for a reasonable
+default period to handle or publish the issues.
+
+> Please kindly let us know your views about it. I'd appreciate if you have
+> any suggestions/inputs/comments about the same.
+
+I'm in favour of this, since this is what we have done for libvirt
+upstream security response handling, and it has been a clear improvement
+on our previous process involving CC'ing individual developers.
+
+It makes the security response process more of a level playing field for
+all downstreams QEMU distributors.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
