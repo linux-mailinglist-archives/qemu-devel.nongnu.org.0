@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5253D2668ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:35:46 +0200 (CEST)
-Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E652C266905
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:39:29 +0200 (CEST)
+Received: from localhost ([::1]:37506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGopl-0004Vc-Ci
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44760)
+	id 1kGotM-0003Gh-Ud
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGono-0002dA-Oc; Fri, 11 Sep 2020 15:33:44 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:42009)
+ id 1kGonp-0002eP-7w; Fri, 11 Sep 2020 15:33:45 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:37177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonm-0000o0-UV; Fri, 11 Sep 2020 15:33:44 -0400
+ id 1kGonm-0000o6-VQ; Fri, 11 Sep 2020 15:33:44 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mpkwn-1ksvug00JZ-00qD2F; Fri, 11 Sep 2020 21:33:39 +0200
+ id 1MTfgb-1k6ccT0kJR-00TzJf; Fri, 11 Sep 2020 21:33:40 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] hw/gpio/max7310: Replace disabled printf() by
- qemu_log_mask(UNIMP)
-Date: Fri, 11 Sep 2020 21:33:17 +0200
-Message-Id: <20200911193330.1148942-6-laurent@vivier.eu>
+Subject: [PULL 06/18] Makefile: Drop extra phony cscope
+Date: Fri, 11 Sep 2020 21:33:18 +0200
+Message-Id: <20200911193330.1148942-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6HHjcsMsC1UMVlJ9ehessa7IF8hgB8UCqK7rXrhkuKOysz/RmEt
- ndeSnj1EeH9C/m138K8ixt6mQzMQ5LNOE7grltRNgqF2cKvoRT31iWoSEhgRZk1+CBUhUr0
- NBkgcj+P7D9ygLIjaQUygMRDYMjxLPs5qcFDSlE2U7nPAVq7TJBZ+9f2W16P1kJ6mttKluR
- mUQv/yFW/weDU7VWT+7xw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fkaGS7uf30Q=:piGLu2HK1rJYlZMDXKZj2L
- WR/ulubabyADErZVn2UR0uUgXMcPK1XdNnseIivoYVgFlZ1nyyGgmISOCtUKOhxWE26Ik+uyW
- RsUSDy7pb3Fqi/QK/+eraHP+MWLaXxOp5ED2klwEzgvNv5BLpkzus/xt09Y4TfVL1ryOFJqly
- 3pJGDc+mD8JZmgFHTJnCu3ADiedl45bVtrskZkuspoXGZxdJ83fPrxnlORaog5YCCEoNVyDsZ
- DIBnarJWjxHNjzjzwAu7DCAzH93BezHe8QhsybdJsV/Qj4vF2252ieJeIl39XBpC/kFDZOort
- 4zhvGwviW3Un/uFZUuqpt+HQ/nPrgG8GUqvx+WpFuupR+Qi8wqWvEyELYJfJ27SepWnODbO9h
- IMqpwokCm/cVQYUGrfEeH7mAjHEwfcm0gqL+LgrGd8nIHdzz9zEQDtB5jBx/v3U9giwzb6XX1
- 2PYTL0xgjzaMK3sjRmYzPvtnLqRTLVIkDzR+Vm7ZdvygBzMoqillG3CW2ompvlzkZVSJa35+8
- luM+liCyyt9XXMTZ/L9U8mW85yzlEuG523cCzDmamkrE3LIxD4opOnSpeun7BalENj301+OEC
- gJusMwZKmr0WnBP3YmZpz9/xYF/ab819GEM7Hs7KKmIWp69hxgRKp19r/fwV1Iqh9ngkrr8qm
- 5hITzj3K3DMhbxfJXzHzgOXqOk6zKe/mbi3y0mcLF7RRYvJ/Ko3wnr+fX6m8H5OagG3IssEzK
- nhTaQ++7xIVmak1fuoZD9JAbVl16HG2mRIlHFXaLMdXDUmUcy6LlJ7jXQPPnY58j1B8kc1THg
- xleFj3Qyjz68RajPqGiFepIBeyX0Qy7G07Fvs6rmDLVIgytNba1PtrOBqO+oNwU9EGcpdLk
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:P5pbF6IVxKRfx62q1+IVYkTf7lX5zxdS1J31WHZ31XgHpvkRr3t
+ 9DwdSrl2dydc/G7L5Z5cOanPIXJaNoUeJW4M5pKGGRHflj6IP0JQyApGCuh5QGQhEaBzDpI
+ Ai/6dbMVDTeIIGVtXcLMoFZM/6TZ7w8SaFTsNYy/Bs9j52MeTZd+/mGEYF5rbAVZ6Xn3JfG
+ uOIlSN0jaRLAgIfDBU+dA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XFLQPU2ZFIA=:tiUAQFxOIGEtCOB5CD4FVY
+ gPRzC9sU/5ZPA9jdXdwaUaTnxSyWAIy08dn0XxOW1lycDpmdIhfQRQfxcj43K/bW0IqInCNp6
+ X/o08Ol7oKWNxoLlYbHHe6pqPhNcVpC0uqvwPBgYXbp0wQrZJlARBI9DoqIMdISpF4Jglds80
+ sWItSllXpF+kZ1G9HJ/feLcqOxAPs1KRlcTLYcZQLof0mhlAaGXidQLDuISTMzk09IH1b+tRJ
+ P03d7BsokXbvI/pToT3EfQZlmDAIeuTvp7NHKpG7Fu6yVnfXilIGVvuqtzFJydipC8hshwH83
+ 65O7XGBUsn53omTBJ952Upep8+CnhOa6mXIqE4CEJN93yHx1zFIkX07bqs3q3COooaTbaZXbE
+ lTE6qzQuFLT1m/lEQiAXjMupsjizE3X3XTbzZhqp/F2LTf45IdQpIBy7hFy9eAuwLZOzLJp2Q
+ 12R/2q3TTStgb+yCzjDpvVVsj7CTprcsWMRY6nZx9NwRM7J6xqaObcmGBs28xY5ygUlGdRXCd
+ 9oE4/9fw8Ue8cT1eZ1bTb1mVWEtiaq5ZcVCU6v7Ltrmmf2Or8rLFBtJ2UyZNDBDr298msOdR5
+ K4BcvO76i/bngvGEFiWTxj8sdK9qwei2QwAuGj2R48EWP1bZpDPETjZt8kacD//GCCEAmh6iC
+ xz5iRFh1Z/AveWu9e1PsCW81BjUjStcO+ZrnyVdpeSWgKzOVl54pTCIItvgRZXjs1ET+u67Wz
+ bNwSgv2e1wzyQBgHSc4HV7Hnh6kKgdJ4aZYPTCypCVT/1cdDxM3JWTsheSs0wDatOxEh1TlTh
+ QGgupdjbrcigIpPiXw8kdQQPaPjVmb4asSUE8gFYlJtZsdpayfJemSGh7LYBxKOFTyp4lJ7
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -72,58 +70,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Greg Kurz <groug@kaod.org>
 
-Replace disabled printf() by qemu_log_mask(UNIMP).
+Commit d79864058a64 added a dedicated phony line for cscope.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fixes: d79864058a64 ("Makefile: Add back TAGS/ctags/cscope rules")
+Signed-off-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200901104234.92159-3-f4bug@amsat.org>
+Message-Id: <159916246865.691541.16619858522304817323.stgit@bahia.lan>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/gpio/max7310.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/gpio/max7310.c b/hw/gpio/max7310.c
-index 4f78774dc8f2..3e298c2d349c 100644
---- a/hw/gpio/max7310.c
-+++ b/hw/gpio/max7310.c
-@@ -13,6 +13,7 @@
- #include "hw/hw.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
+diff --git a/Makefile b/Makefile
+index d6c5c9fdef1a..83bc40b255db 100644
+--- a/Makefile
++++ b/Makefile
+@@ -128,7 +128,7 @@ build.ninja: config-host.mak
+ Makefile: ;
+ configure: ;
  
- #define TYPE_MAX7310 "max7310"
-@@ -68,9 +69,8 @@ static uint8_t max7310_rx(I2CSlave *i2c)
-         return 0xff;
+-.PHONY: all clean cscope distclean install \
++.PHONY: all clean distclean install \
+ 	recurse-all dist msi FORCE
  
-     default:
--#ifdef VERBOSE
--        printf("%s: unknown register %02x\n", __func__, s->command);
--#endif
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported register 0x02%" PRIx8 "\n",
-+                      __func__, s->command);
-         break;
-     }
-     return 0xff;
-@@ -122,9 +122,8 @@ static int max7310_tx(I2CSlave *i2c, uint8_t data)
-     case 0x00:	/* Input port - ignore writes */
-         break;
-     default:
--#ifdef VERBOSE
--        printf("%s: unknown register %02x\n", __func__, s->command);
--#endif
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported register 0x02%" PRIx8 "\n",
-+                      __func__, s->command);
-         return 1;
-     }
- 
+ SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory --quiet)
 -- 
 2.26.2
 
