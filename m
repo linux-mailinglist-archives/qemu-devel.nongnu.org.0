@@ -2,77 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B9726681B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 20:12:40 +0200 (CEST)
-Received: from localhost ([::1]:51862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D906226682B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 20:17:40 +0200 (CEST)
+Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGnXL-0000G5-4A
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 14:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54544)
+	id 1kGncB-0005GN-VN
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 14:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGnVy-000746-6o
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 14:11:14 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33350)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGnVw-0006S3-7U
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 14:11:13 -0400
-Received: by mail-wm1-x341.google.com with SMTP id e11so4600557wme.0
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 11:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5zxhtey0uqfDoQuwnHiQ0xRWtHQx2b3fbCDBzVwf8B4=;
- b=uJXEHbrbYcaQFqdHQQUZCzY8HjYEyzz6DQPYRj0gRWGJ/CtrcPq4nUbT7+R95pSMUJ
- 4C+EhNa3PiNlWKvciluRy1Oz3TN+o8DgCCNAPatIoap2Mj3Ne3WWD3aJUippFDW0+VVf
- cAm0U96zliyz4xG4C78k9KkC4e99Uzyg2dIcGlJNs2r7N6ijxyPVPZkyh842TAFwV1yp
- B24KHRtx0ImQWzaZXDGqdqP9sPTWtvYkhI44HH9poBkobT6pXk2ynJuDqEX1cf+kM0ND
- 279XhsD9qYJnrY5ZDQ9tSnmf7n14FBsyo9xkgyZ6On0LuZt4tcnetl7mtTMuQLm9pPJ0
- TDzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5zxhtey0uqfDoQuwnHiQ0xRWtHQx2b3fbCDBzVwf8B4=;
- b=dNQ6xLDFcm3uPW1DENTBnMlVfYsV4ggtGkYLoSwEuZQy4EPgtLa5EaFnLBpCQtmraU
- QnNXtBj/IJ85S+eWQxq1cGDq1Y6ekUOPGwXUmp7ywaaiNPb7MDj5dwt5m7sXQj9WjAS+
- lIIfzS9dU9v0dk7mYF+UQvTZsZz9j8YjrrFqoKqRS4H74SOEfCpjddT9SqNUtHu/2Ih+
- qe0IA6jUj9zrtje/lUcgnVNOLC+1JoEJ2MXhT6+oVYuJ74vN6smh1AXRfON3M1zrVZKW
- /zcu5I4R/2siv3FSSK0/aP0mm6UFk1kqr52kYPOoUHxrPvOPGOn/BbSGTbz5P9sQ909t
- slKA==
-X-Gm-Message-State: AOAM531lDGdeKLwVQjhRQ//1HeCdQaK+RyatHMxsE9qpq43r0uXjLEca
- 84+b7URD3PnSpsXIyGGGWoEQ2HRwoDYl24fsHn5x0zSo4l0iksxd
-X-Google-Smtp-Source: ABdhPJwsV5p0m4Dde2OVWC2wUpy7NobrrfZtx4pgplJWM94a2S8h/Sq5S3rqyc1lEdslVMPR3N+yZQGY3gcbk4ukdBM=
-X-Received: by 2002:a1c:e256:: with SMTP id z83mr3622678wmg.137.1599847870002; 
- Fri, 11 Sep 2020 11:11:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kGnb8-0004PL-5Y; Fri, 11 Sep 2020 14:16:34 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kGnb6-0007Gn-3U; Fri, 11 Sep 2020 14:16:33 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08BI2NG6143185; Fri, 11 Sep 2020 14:16:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=LwvA878EJyMxvECZnj5gGhCCLzZI2w2UpLcVKBb5uQY=;
+ b=MnZh28Syve+152MnnaGqJNF1BCNXM29dcWizN9LPhKUJfJv4IBr/JghBot072v1Jp5ha
+ UBDeErPiyfyh5AcZ957fcArzXVBo4FnbMlgDNYrIYEI6L+P8Ao5l3tBDdGJwmzhZGP+L
+ YJeC1uUCsKs/hVa0w5iZiivgPwvSns5d4zgDf+7wH1RDiXZLzno7lRUOCsAxB6/TWlkK
+ 3R0M7cseJfDRZWW2qjczQpovE3a1JiIqQqs6+Dp9MSDgUsIgtqpv0MC9X2wm4HiNBfun
+ tWwT4F58kfvAh8klXK0DUregSGkSzSvE2YBt2BAY5EWBapr3CM+BM63gHjbn0YkNKMgT RQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33ge380g9d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Sep 2020 14:16:30 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08BI2eEf143847;
+ Fri, 11 Sep 2020 14:16:30 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33ge380g94-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Sep 2020 14:16:29 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08BIBxJI023790;
+ Fri, 11 Sep 2020 18:16:29 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 33d46ngx63-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Sep 2020 18:16:29 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08BIGSrB15008316
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Sep 2020 18:16:28 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4AD7B2805A;
+ Fri, 11 Sep 2020 18:16:28 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E9AC62805C;
+ Fri, 11 Sep 2020 18:16:27 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.85.172.6])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Fri, 11 Sep 2020 18:16:27 +0000 (GMT)
+Subject: Re: [PATCH v5 3/8] s390/sclp: read sccb from mem based on provided
+ length
+From: Collin Walling <walling@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20200910093655.255774-1-walling@linux.ibm.com>
+ <20200910093655.255774-4-walling@linux.ibm.com>
+ <02dabe89-8df2-90d4-c7f1-5ef951942639@redhat.com>
+ <811e906a-689e-a53c-706e-5d6217ef3cb2@linux.ibm.com>
+Message-ID: <2b7a8807-279f-1256-e89b-0f53ae6d5623@linux.ibm.com>
+Date: Fri, 11 Sep 2020 14:16:27 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200904161000.12115-1-ani@anisinha.ca>
- <CAMDeoFVQWeWArPty2z4rNbdmS7O2X66SaONqiKzFqFpaKwuNDg@mail.gmail.com>
- <98b26cfa-3ff7-4302-9fc2-0e6672cfbd08@Spark>
- <a6c38469-356d-4629-be12-92129e1b1b96@Spark>
- <20200911115138-mutt-send-email-mst@kernel.org>
- <CAARzgwyKccWaPDSwsAg7bW7=F7DxAsf7Lw=TvqOkp_i6tdXZow@mail.gmail.com>
- <20200911120838-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200911120838-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 11 Sep 2020 23:40:58 +0530
-Message-ID: <CAARzgwxB5jXq3iQ6orE=gfc0c4FvnxN3AodLDGaMWFshCnQDCw@mail.gmail.com>
-Subject: Re: [PATCH v3] i440fx/acpi: do not add hotplug related amls for cold
- plugged bridges
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::341;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <811e906a-689e-a53c-706e-5d6217ef3cb2@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-11_08:2020-09-10,
+ 2020-09-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ mlxscore=0 mlxlogscore=999 priorityscore=1501 malwarescore=0 phishscore=0
+ spamscore=0 suspectscore=2 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009110142
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 09:50:13
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.469,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,251 +115,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: frankja@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, mst@redhat.com,
+ pbonzini@redhat.com, sumanthk@linux.ibm.com, mihajlov@linux.ibm.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 11, 2020 at 9:39 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Fri, Sep 11, 2020 at 09:35:42PM +0530, Ani Sinha wrote:
-> > On Fri, Sep 11, 2020 at 9:22 PM Michael S. Tsirkin <mst@redhat.com> wro=
-te:
-> > >
-> > > On Thu, Sep 10, 2020 at 12:19:19AM +0530, Ani Sinha wrote:
-> > > > On Sep 10, 2020, 00:00 +0530, Ani Sinha <ani@anisinha.ca>, wrote:
-> > > >
-> > > >     On Sep 9, 2020, 23:20 +0530, Julia Suvorova <jusual@redhat.com>=
-, wrote:
-> > > >
-> > > >         On Fri, Sep 4, 2020 at 6:10 PM Ani Sinha <ani@anisinha.ca> =
-wrote:
-> > > >
-> > > >
-> > > >
-> > > >             Cold plugged bridges are not hot unpluggable, even when=
- their
-> > > >             hotplug
-> > > >
-> > > >             property (acpi-pci-hotplug-with-bridge-support) is turn=
-ed off.
-> > > >             Please see
-> > > >
-> > > >             the function acpi_pcihp_pc_no_hotplug() (thanks Julia).=
- However,
-> > > >             with
-> > > >
-> > > >             the current implementaton, windows would try to hot-unp=
-lug a pci
-> > > >             bridge when
-> > > >
-> > > >             it's hotplug switch is off. This is regardless of wheth=
-er there are
-> > > >             devices
-> > > >
-> > > >             attached to the bridge. This is because we add amls lik=
-e _EJ0 etc
-> > > >             for the
-> > > >
-> > > >             pci slot where the bridge is cold plugged. We have a de=
-mo video
-> > > >             here:
-> > > >
-> > > >             https://youtu.be/pME2sjyQweo
-> > > >
-> > > >
-> > > >
-> > > >             In this fix, we identify a cold plugged bridge and for =
-cold plugged
-> > > >             bridges,
-> > > >
-> > > >             we do not add the appropriate amls and acpi methods tha=
-t are used
-> > > >             by the OS
-> > > >
-> > > >             to identify a hot-pluggable/unpluggable pci device. Aft=
-er this
-> > > >             change, Windows
-> > > >
-> > > >             does not show an option to eject the PCI bridge. A demo=
- video is
-> > > >             here:
-> > > >
-> > > >             https://youtu.be/kbgej5B9Hgs
-> > > >
-> > > >
-> > > >
-> > > >             While at it, I have also updated a stale comment.
-> > > >
-> > > >
-> > > >
-> > > >             This change is tested with a Windows 2012R2 guest image=
- and Windows
-> > > >             2019 server
-> > > >
-> > > >             guest image running on Ubuntu 18.04 host. This change i=
-s based off
-> > > >             of upstream
-> > > >
-> > > >             qemu master branch tag v5.1.0.
-> > > >
-> > > >
-> > > >
-> > > >             Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > > >
-> > > >
-> > > >
-> > > >         Reviewed-by: Julia Suvorova <jusual@redhat.com>
-> > > >
-> > > >
-> > > >
-> > > >         BTW, aren't all bridges handled in build_append_pci_bus_dev=
-ices()
-> > > >         cold-plugged?
-> > > >
-> > > >
-> > > >
-> > > >     Yes they are.
-> > > >
-> > > >
-> > > > Maybe as an improvement we can simply identify a bridge instead of =
-a cold
-> > > > plugged bridge. However let=E2=80=99s have that improvement as a se=
-parate patch on top
-> > > > of this. Also let=E2=80=99s see what Igor thinks.
-> > >
-> > > Well this changes acpi tables so I don't see how this will pass
-> > > the unit tests. Did you test this change?
-> >
-> > There were no unit tests to cover this bridge flag. I have added the
-> > unit tests. It's the same one you have queued.
->
->
-> Hmm. somehow the new tests fail for me ...
+On 9/10/20 1:56 PM, Collin Walling wrote:
+> On 9/10/20 1:50 PM, Thomas Huth wrote:
+>> On 10/09/2020 11.36, Collin Walling wrote:
+>>> The header contained within the SCCB passed to the SCLP service call
+>>> contains the actual length of the SCCB. Instead of allocating a static
+>>> 4K size for the work sccb, let's allow for a variable size determined
+>>> by the value in the header. The proper checks are already in place to
+>>> ensure the SCCB length is sufficent to store a full response and that
+>>> the length does not cross any explicitly-set boundaries.
+>>>
+>>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>>> ---
+>>>  hw/s390x/event-facility.c |  2 +-
+>>>  hw/s390x/sclp.c           | 58 ++++++++++++++++++++++-----------------
+>>>  include/hw/s390x/sclp.h   |  2 +-
+>>>  3 files changed, 35 insertions(+), 27 deletions(-)
+>>>
+>>> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+>>> index 645b4080c5..ed92ce510d 100644
+>>> --- a/hw/s390x/event-facility.c
+>>> +++ b/hw/s390x/event-facility.c
+>>> @@ -213,7 +213,7 @@ static uint16_t handle_sccb_read_events(SCLPEventFacility *ef, SCCB *sccb,
+>>>  
+>>>      event_buf = &red->ebh;
+>>>      event_buf->length = 0;
+>>> -    slen = sizeof(sccb->data);
+>>> +    slen = sccb_data_len(sccb);
+>>>  
+>>>      rc = SCLP_RC_NO_EVENT_BUFFERS_STORED;
+>>>  
+>>> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+>>> index 69a8724dc7..cb8e2e8ec3 100644
+>>> --- a/hw/s390x/sclp.c
+>>> +++ b/hw/s390x/sclp.c
+>>> @@ -231,25 +231,30 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+>>>  {
+>>>      SCLPDevice *sclp = get_sclp_device();
+>>>      SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
+>>> -    SCCB work_sccb;
+>>> -    hwaddr sccb_len = sizeof(SCCB);
+>>> +    SCCBHeader header;
+>>> +    SCCB *work_sccb;
+>>
+>> I'd maybe use "g_autofree SCCB *work_sccb = NULL" so you don't have to
+>> worry about doing the g_free() later.
+> 
+> Can do.
+> 
+>>
+>>> -    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
+>>> +    s390_cpu_pv_mem_read(env_archcpu(env), 0, &header, sizeof(SCCBHeader));
+>>> +
+>>> +    work_sccb = g_malloc0(header.length);
+>>
+>> Please use be16_to_cpu(header.length) here as well.
+> 
+> Good catch, thanks!
+> 
 
+Shouldn't the mallocs use cpu_to_be16 instead since the header length
+was read in from a cpu?
 
-Ok I was working off v5.1.0 tag. Did not realize. I rebased all my
-patches to the latest master and reworked the unit tests.
-I have sent you the entire patch set as exists in my workspace. It
-passes unit tests.
+[...]
 
->
-> > >
-> > >
-> > > >
-> > > >
-> > > >
-> > > >             ---
-> > > >
-> > > >             hw/i386/acpi-build.c | 12 ++++++------
-> > > >
-> > > >             1 file changed, 6 insertions(+), 6 deletions(-)
-> > > >
-> > > >
-> > > >
-> > > >             changelog:
-> > > >
-> > > >             v3: commit log updates providing more accurate informat=
-ion as
-> > > >             received from Julia.
-> > > >
-> > > >             v2: cosmetic commit log updates with patch testing info=
-rmation.
-> > > >
-> > > >             v1: initial patch.
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >             diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.=
-c
-> > > >
-> > > >             index b7bcbbbb2a..90b863f4ec 100644
-> > > >
-> > > >             --- a/hw/i386/acpi-build.c
-> > > >
-> > > >             +++ b/hw/i386/acpi-build.c
-> > > >
-> > > >             @@ -359,6 +359,7 @@ static void build_append_pci_bus_de=
-vices(Aml
-> > > >             *parent_scope, PCIBus *bus,
-> > > >
-> > > >             int slot =3D PCI_SLOT(i);
-> > > >
-> > > >             bool hotplug_enabled_dev;
-> > > >
-> > > >             bool bridge_in_acpi;
-> > > >
-> > > >             + bool cold_plugged_bridge;
-> > > >
-> > > >
-> > > >
-> > > >             if (!pdev) {
-> > > >
-> > > >             if (bsel) { /* add hotplug slots for non present device=
-s */
-> > > >
-> > > >             @@ -380,15 +381,14 @@ static void build_append_pci_bus_=
-devices(Aml
-> > > >             *parent_scope, PCIBus *bus,
-> > > >
-> > > >             pc =3D PCI_DEVICE_GET_CLASS(pdev);
-> > > >
-> > > >             dc =3D DEVICE_GET_CLASS(pdev);
-> > > >
-> > > >
-> > > >
-> > > >             - /* When hotplug for bridges is enabled, bridges are
-> > > >
-> > > >             - * described in ACPI separately (see build_pci_bus_end=
-).
-> > > >
-> > > >             - * In this case they aren't themselves hot-pluggable.
-> > > >
-> > > >             + /*
-> > > >
-> > > >             + * Cold plugged bridges aren't themselves hot-pluggabl=
-e.
-> > > >
-> > > >             * Hotplugged bridges *are* hot-pluggable.
-> > > >
-> > > >             */
-> > > >
-> > > >             - bridge_in_acpi =3D pc->is_bridge && pcihp_bridge_en &=
-&
-> > > >
-> > > >             - !DEVICE(pdev)->hotplugged;
-> > > >
-> > > >             + cold_plugged_bridge =3D pc->is_bridge && !DEVICE(pdev=
-)->hotplugged;
-> > > >
-> > > >             + bridge_in_acpi =3D cold_plugged_bridge && pcihp_bridg=
-e_en;
-> > > >
-> > > >
-> > > >
-> > > >             - hotplug_enabled_dev =3D bsel && dc->hotpluggable && !
-> > > >             bridge_in_acpi;
-> > > >
-> > > >             + hotplug_enabled_dev =3D bsel && dc->hotpluggable && !
-> > > >             cold_plugged_bridge;
-> > > >
-> > > >
-> > > >
-> > > >             if (pc->class_id =3D=3D PCI_CLASS_BRIDGE_ISA) {
-> > > >
-> > > >             continue;
-> > > >
-> > > >             --
-> > > >
-> > > >             2.17.1
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > >
->
+-- 
+Regards,
+Collin
+
+Stay safe and stay healthy
 
