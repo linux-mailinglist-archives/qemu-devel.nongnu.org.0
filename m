@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270EC266917
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:44:17 +0200 (CEST)
-Received: from localhost ([::1]:60522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1CC26690A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:40:07 +0200 (CEST)
+Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGoy0-0004EO-0w
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
+	id 1kGoty-0004fy-8r
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGoo1-0002wn-8Y; Fri, 11 Sep 2020 15:33:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:43811)
+ id 1kGoo2-00031w-Tq; Fri, 11 Sep 2020 15:33:58 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:49519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonz-0000qB-40; Fri, 11 Sep 2020 15:33:56 -0400
+ id 1kGoo0-0000qZ-TW; Fri, 11 Sep 2020 15:33:58 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N3omW-1kh2ty0cU4-00zjhC; Fri, 11 Sep 2020 21:33:50 +0200
+ id 1MMY9X-1jzQoC2fFH-00JYvd; Fri, 11 Sep 2020 21:33:52 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/18] target/i386/kvm: Rename host_tsx_blacklisted() as
- host_tsx_broken()
-Date: Fri, 11 Sep 2020 21:33:26 +0200
-Message-Id: <20200911193330.1148942-15-laurent@vivier.eu>
+Subject: [PULL 15/18] hw/arm/pxa2xx: Add missing fallthrough comment
+Date: Fri, 11 Sep 2020 21:33:27 +0200
+Message-Id: <20200911193330.1148942-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ByzX+nKrU9Pn4umFephF1QbtRl8A/12WTAEMwwAf2fcVuf8nmQy
- DmLcO6ggFMt+YE36skQSW1hF9QBFEYmX57411DBFQFrUVCDpCCDREKpzbpfjAuMf7/M/Mks
- 4HTyAYYDRQxNzlC3kXdQUSL89vLB9BZIa9VuKfU/Br3c+nG2utj5ritqL6G6UDOBBn4Y6+j
- 0wS6QAcjOZQFwv3jnsO7w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:secB9ygbXB4=:wb8DnbEG1Acrhl06BddOd7
- Fy/EqviGqcXbgjR6wZ7UT99ODYUwIjNm1YXHfJ9Ez85rf0AI7zlGDXx9edjhEiccrT07BVaT+
- W5+YbEBeFByN7b0iBHe6dfVnLltEHRpiP3VMGbI1JUl7efWMJ38HZExNQ0s23Tcf/lDj87Rd/
- F2DZoo/kNVrLKf+CnnDXUof3wnZiIOkQMDAz4ZFASy9Y73GpWwBtycvs8ygzkVFEP6HJePnSW
- iZ2KNiZyM79PYETAmKAogy5Uwg106shzQpfUVSndASVuRCWCdgOXkftBJRPfBPhle2kjvJutR
- cR/n1lGLidQcMI8FVcXspxWtokUr5U1uoFGDeSM2mBa37leHJfpphGzb8M91/Kr5+mK+msG9Y
- lYELfwMb1EM+3kqn77mEbvE3iniTlbT7jBicxPzMO30p0Cvk2Kro0wlaszdhxqO14PYf202Ab
- Ozeaz+7zqrgchQA6L64dv63HqIqVU34jLVZZPKWloD6fSZv6y8VLn6HXgB3k7VFRI8mmnFjya
- AsMnWxTZVaMweVU05yDrIKlIWetH/JUQ+2//51QwlyNCKaaJchiIT/kgCzN0P6AGcm/mXvEvB
- W00fkq7KKZV1PbTOJVsUPHlW2xEOm8xp5K70g9XL+rHyx2cIOlf95XIzqSjn4iSAOEyIfn7z9
- TNt2KyhdHvFDFJYM1zkventj2+0dCE1XQ+2xvm1aMmiFoDemMvGskrnm66HCsko5pJCCSi3aa
- MZtiz7owggrHCbeh3Eizjvn5tW5RVw0x3jAJTzYktDekvYGgrWIWsEs7xYaf1t4JfDqiP87L1
- SBocenNMPVi+FzHxv3Qdx2pPrFXM282rA/y6wU0gxzDR3fg0rnTd14gsU0SShMxhai9GhGl
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:MFlSvULitaydFXZ1z6AuKK+Pklr0g/yjNEpPSc4suR87LECVFeI
+ atTidlOQpKNbzZMiqsOsO5tFr1sFUQczA4QS7xKwGwYId64+JP3Ch0QfBdYXpVrNA+Ri3gp
+ xXOs3Sx8Z8p3o/PzGcGfXnqazut3fQzJ4zYB0JT8Hl9gYjT3y/v3KOi4TglaUeLxRSGZtmP
+ NEH/35ysKQgk52O/KnCkA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NmYKcVDTjTA=:PpYvzJSdhmoF2gdezkJ8bD
+ Ao9ZYhxovp4/4D3VW868TC+3L24gnsdwQ9pgHfiVDL5+fu77wouifgRkYUAVMscXHtxkC4oZy
+ MmPP/ut4cEOWa5tQSIj9z1Ntxda9X75R1Gt2J1POznyG/C/LVLE7+8G5Os/pBxuoGlBRZifKM
+ cYy0NUK0710tf+tGUR5t5FkYIIEr2AL0KhSvSYNlJeGv/yiq4o4aMWKdBalHbdmSmqzagFVFm
+ sNKav4oQsilAkBtwX4gDOirv6HzHTIUCcOZhzCqpR716tAFrduVkyR6fDqlh1an14TzmjCkGM
+ gp0deSCPYyv8EyToSF5GkofcBufUx3p2OTDcCEsAA3nq49NvofL8p5svwp6M9O/t5Vk+Hxip8
+ FNzYfUrmjnTqQw9P6kyBfDitFMK0PB4QyP0oGhfKANdYFWYcNJVZp3/r1kxGa53fPNFg89BOt
+ KyuKuJMxuziuXaKJB+97X8Wgzo/mVMHkeyKNlHDiQUFYpxc2aN5hg8oUpWmPFaKnjq69rzrN5
+ kA0eZ7SZ+knX3nIo5g3RhNfZIrj5hGaDcCX4Yym6VGRSe7GD06z7LDPcVxdCB8rUQW0kok5yM
+ w/JnTpWy/tEggdupV+arbY3rR6JqIiO122br2SiBO2lotQAUzBqGigozUi8eE4i+3gbdNP6Yu
+ f070XiHEKePdoW4bNf7erMUBrsrfJUQnDkMoZ2zPoy2wWazOfNZOumf/Cy+trC+CrD4iYPzLi
+ +o7I3pFi+9XmRjihiBun0vqKXf4N6TfV3nsekw7l8ZZvdgyvew2+xMmaCT5N642fgLakUdQPC
+ rCQu1L9+f04vNpYNgC4ZzvxQJGiETctKoKsgTWo9A9IWtpO42bHIXCn88z/+p+9I7u5Gu9J
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -71,49 +70,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-In order to use inclusive terminology, rename host_tsx_blacklisted()
-as host_tsx_broken().
+Let's make this file compilable with -Werror=implicit-fallthrough :
+Looking at the code, it seems like the fallthrough is intended here,
+so we should add the corresponding "/* fallthrough */" comment here.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200910070131.435543-7-philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200911121844.404434-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/i386/kvm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/pxa2xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 205b68bc0ce8..3d640a8decf6 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -302,7 +302,7 @@ static int get_para_features(KVMState *s)
-     return features;
- }
- 
--static bool host_tsx_blacklisted(void)
-+static bool host_tsx_broken(void)
- {
-     int family, model, stepping;\
-     char vendor[CPUID_VENDOR_SZ + 1];
-@@ -408,7 +408,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-     } else if (function == 6 && reg == R_EAX) {
-         ret |= CPUID_6_EAX_ARAT; /* safe to allow because of emulated APIC */
-     } else if (function == 7 && index == 0 && reg == R_EBX) {
--        if (host_tsx_blacklisted()) {
-+        if (host_tsx_broken()) {
-             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index 76975d17a461..c1f45b2adfa0 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -443,7 +443,7 @@ static void pxa2xx_mm_write(void *opaque, hwaddr addr,
+             s->mm_regs[addr >> 2] = value;
+             break;
          }
-     } else if (function == 7 && index == 0 && reg == R_EDX) {
+-
++        /* fallthrough */
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
 -- 
 2.26.2
 
