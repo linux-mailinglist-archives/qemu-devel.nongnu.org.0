@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84772265F91
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 14:31:22 +0200 (CEST)
-Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CE5265FB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 14:41:39 +0200 (CEST)
+Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGiD3-0002BJ-L2
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 08:31:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33446)
+	id 1kGiN0-00087F-R1
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 08:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kGiBO-0000uF-14
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:29:38 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21809
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kGiBL-0000W6-6y
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:29:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599827373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zw6ebTmNottPvntqoMHMJ+3ou7u2escwtItJ8yKcHT0=;
- b=ZPQcEpKkc8AqN5AAeStR8FiUrJGeodx7yZwk8OBp2JmBRnbQue8/N4EKGtwz9KI2B4qvpB
- iyAh5nx+4C8agZ7QLeI6NKjUSeDk5A74bGwl2inEH3leduVScuzkwGV0agPbD8decIaD9c
- dxNJXROyoTIKUj8URD5s4iA2cRMusCw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-zGTIgbyKO1ibUEdqJxviGA-1; Fri, 11 Sep 2020 08:29:15 -0400
-X-MC-Unique: zGTIgbyKO1ibUEdqJxviGA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3827380EF9E;
- Fri, 11 Sep 2020 12:29:14 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.192.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B60385C1BD;
- Fri, 11 Sep 2020 12:29:06 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] hw: usb: hcd-ohci: check len and frame_number variables
-Date: Fri, 11 Sep 2020 17:57:03 +0530
-Message-Id: <20200911122703.126696-1-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGiMG-0007g8-NK
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:40:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGiME-00029d-3T
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:40:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kGiMB-0005rq-W7
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 12:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EF4E22E806F
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 12:40:47 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:40:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 11 Sep 2020 12:32:15 -0000
+From: Hansni Bu <1895080@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
+X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
+X-Launchpad-Bug-Modifier: Hansni Bu (hansni)
+References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
+ <92de5ee0-629a-640a-d547-8c2d650742f2@vivier.eu> <87tuw4odwk.fsf@linaro.org>
+ <87r1r8odph.fsf@linaro.org>
+ <CAGTPX+DAoJcw2y9gPjkP6kGXEQW7=e1tohM8vND9j9Qtxuc5vw@mail.gmail.com>
+ <87o8mco7el.fsf@linaro.org>
+Message-Id: <CAGTPX+Dacxwh8O7XE+6j5OE8gnFoN-2DYuCNDENVtWtbCkDa=Q@mail.gmail.com>
+Subject: Re: [Bug 1895080] [NEW] pgb_reserved_va: Assertion `addr == test'
+ failed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 15cb8d105d7229e0402d0a1b40e07eb045e395b0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 02:05:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,113 +77,291 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>, Yongkang Jia <j_kangel@163.com>,
- Gaoning Pan <pgn@zju.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>,
- Yi Ren <yunye.ry@alibaba-inc.com>
+Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+> > No, it's not set by CentOS-7.5.
+> > Does it mean that we just cannot run the ELF in such a case? I've tried
+> > many times, the assert always fails. Maybe, we can blame CentOS-7.5.
+>
+> The trouble is without MAP_FIXED_NOREPLACE we are at the mercy of the
+> host kernel to allow the address request to be honoured. A plain
+> MAP_FIXED won't do as it can clober existing mappings. In theory a
+> suitable hole has been identified but sometimes the kernel makes a
+> decision to offset the suggested mapping for it's own reasons.
+>
 
-While servicing the OHCI transfer descriptors(TD), OHCI host
-controller derives variables 'start_addr', 'end_addr', 'len'
-etc. from values supplied by the host controller driver.
-Host controller driver may supply values such that using
-above variables leads to out-of-bounds access or loop issues.
-Add checks to avoid them.
+MAP_FIXED_NOREPLACE is quite a new feature.
 
-AddressSanitizer: stack-buffer-overflow on address 0x7ffd53af76a0
-  READ of size 2 at 0x7ffd53af76a0 thread T0
-  #0 ohci_service_iso_td ../hw/usb/hcd-ohci.c:734
-  #1 ohci_service_ed_list ../hw/usb/hcd-ohci.c:1180
-  #2 ohci_process_lists ../hw/usb/hcd-ohci.c:1214
-  #3 ohci_frame_boundary ../hw/usb/hcd-ohci.c:1257
-  #4 timerlist_run_timers ../util/qemu-timer.c:572
-  #5 qemu_clock_run_timers ../util/qemu-timer.c:586
-  #6 qemu_clock_run_all_timers ../util/qemu-timer.c:672
-  #7 main_loop_wait ../util/main-loop.c:527
-  #8 qemu_main_loop ../softmmu/vl.c:1676
-  #9 main ../softmmu/main.c:50
 
-Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-Reported-by: Yongkang Jia <j_kangel@163.com>
-Reported-by: Yi Ren <yunye.ry@alibaba-inc.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- hw/usb/hcd-ohci.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+> > BTW: with the option "-p 65536", the case runs successfully.
+>
+> Hmm interesting. I wonder if we are seeing a fail due to mmap_min_addr?
+> What does:
+>
+>   /proc/sys/vm/mmap_min_addr
+>
+> give you on the system?
+>
 
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 1e6e85e86a..76fb9282e3 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -691,6 +691,11 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-            the next ISO TD of the same ED */
-         trace_usb_ohci_iso_td_relative_frame_number_big(relative_frame_number,
-                                                         frame_count);
-+        if (OHCI_CC_DATAOVERRUN == OHCI_BM(iso_td.flags, TD_CC)) {
-+            /* avoid infinite loop */
-+            return 1;
-+        }
-+
-         OHCI_SET_BM(iso_td.flags, TD_CC, OHCI_CC_DATAOVERRUN);
-         ed->head &= ~OHCI_DPTR_MASK;
-         ed->head |= (iso_td.next & OHCI_DPTR_MASK);
-@@ -731,7 +736,11 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-     }
- 
-     start_offset = iso_td.offset[relative_frame_number];
--    next_offset = iso_td.offset[relative_frame_number + 1];
-+    if (relative_frame_number < frame_count) {
-+        next_offset = iso_td.offset[relative_frame_number + 1];
-+    } else {
-+        next_offset = iso_td.be;
-+    }
- 
-     if (!(OHCI_BM(start_offset, TD_PSW_CC) & 0xe) || 
-         ((relative_frame_number < frame_count) && 
-@@ -764,7 +773,12 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-         }
-     } else {
-         /* Last packet in the ISO TD */
--        end_addr = iso_td.be;
-+        end_addr = next_offset;
-+    }
-+
-+    if (start_addr > end_addr) {
-+        trace_usb_ohci_iso_td_bad_cc_overrun(start_addr, end_addr);
-+        return 1;
-     }
- 
-     if ((start_addr & OHCI_PAGE_MASK) != (end_addr & OHCI_PAGE_MASK)) {
-@@ -773,6 +787,9 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-     } else {
-         len = end_addr - start_addr + 1;
-     }
-+    if (len > sizeof(ohci->usb_buf)) {
-+        len = sizeof(ohci->usb_buf);
-+    }
- 
-     if (len && dir != OHCI_TD_DIR_IN) {
-         if (ohci_copy_iso_td(ohci, start_addr, end_addr, ohci->usb_buf, len,
-@@ -975,8 +992,16 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
-         if ((td.cbp & 0xfffff000) != (td.be & 0xfffff000)) {
-             len = (td.be & 0xfff) + 0x1001 - (td.cbp & 0xfff);
-         } else {
-+            if (td.cbp > td.be) {
-+                trace_usb_ohci_iso_td_bad_cc_overrun(td.cbp, td.be);
-+                ohci_die(ohci);
-+                return 1;
-+            }
-             len = (td.be - td.cbp) + 1;
-         }
-+        if (len > sizeof(ohci->usb_buf)) {
-+            len = sizeof(ohci->usb_buf);
-+        }
- 
-         pktlen = len;
-         if (len && dir != OHCI_TD_DIR_IN) {
--- 
-2.26.2
+It gives me 4096. And guest_base has this value. Maybe that's the strange
+point. mmap_min_addr give us 0x1000. While we are requesting this address,
+the kernel gives us 0x10000.
 
+
+>
+> You can manually set the reserved_va and the base address using -R and
+> -B although that is more of a developer work around. I think moving the
+> assert to the condition above would be an improvement just because it
+> tells us what the requested base address was and what the kernel decided
+> to give us.
+>
+
+Setting guest_base with -B to 0x10000 works. Tried some -R values, no luck.
+Agree to print a more hintful message.
+
+
+>
+> >
+> > On Fri, Sep 11, 2020 at 5:50 PM Alex Benn=C3=A9e <1895080@bugs.launchpa=
+d.net>
+> > wrote:
+> >
+> >> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+> >>
+> >> > Laurent Vivier <laurent@vivier.eu> writes:
+> >> >
+> >> <snip>
+> >> >>> Then trying qemu-riscv32 with a simple ELF, I get:
+> >> >>> linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D=
+ test'
+> >> failed.
+> >> >>>
+> >> >>> strace shows that:
+> >> >>> mmap(0x1000, 4294963200, PROT_NONE,
+> >> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
+> >> >>> write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
+> >> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr
+> =3D=3D
+> >> test' failed.
+> >> >>> ) =3D 103
+> >> >>>
+> >> >>> The source code is in the function pgb_reserved_va (linux-
+> >> >>> user/elfload.c). I think mmap cannot guarantee that the returned
+> >> pointer
+> >> >>> (test) equals to the parameter of addr. So is this a bug to assert
+> >> (addr
+> >> >>> =3D=3D test)?
+> >> >>
+> >> > I'm assuming CentOS 7.5 actually has a definition for
+> >> > MAP_FIXED_NOREPLACE which should ensure we get what we asked for -
+> >> > otherwise we are in the position of hoping the kernel honours what we
+> >> > asked for.
+> >>
+> >> Doh re-reading I see it's not set in the strace output. Maybe we should
+> >> promote the assert case to the failure leg so we have:
+> >>
+> >>     if (addr =3D=3D MAP_FAILED || addr !=3D test) {
+> >>         error_report(...)
+> >>     }
+> >>
+> >> so we at least fail with a user friendly error rather than an abort?
+> >>
+> >> --
+> >> Alex Benn=C3=A9e
+> >>
+> >> --
+> >> You received this bug notification because you are subscribed to the b=
+ug
+> >> report.
+> >> https://bugs.launchpad.net/bugs/1895080
+> >>
+> >> Title:
+> >>   pgb_reserved_va: Assertion `addr =3D=3D test' failed
+> >>
+> >> Status in QEMU:
+> >>   New
+> >>
+> >> Bug description:
+> >>   This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
+> >>   (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
+> >>   user.
+> >>
+> >>   Firstly, compile fails:
+> >>   Compiling C object
+> libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
+> >>   ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_K=
+EEP_SIZE=E2=80=99
+> >> undeclared here (not in a function)
+> >>        FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+> >>
+> >>   I have to add below include to linux-user/strace.c
+> >>   diff --git a/linux-user/strace.c b/linux-user/strace.c
+> >>   index 11fea14fba..22e51d4a8a 100644
+> >>   --- a/linux-user/strace.c
+> >>   +++ b/linux-user/strace.c
+> >>   @@ -7,6 +7,7 @@
+> >>    #include <sys/mount.h>
+> >>    #include <arpa/inet.h>
+> >>    #include <netinet/tcp.h>
+> >>   +#include <linux/falloc.h>
+> >>    #include <linux/if_packet.h>
+> >>    #include <linux/netlink.h>
+> >>    #include <sched.h>
+> >>
+> >>   Then trying qemu-riscv32 with a simple ELF, I get:
+> >>   linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D t=
+est'
+> >> failed.
+> >>
+> >>   strace shows that:
+> >>   mmap(0x1000, 4294963200, PROT_NONE,
+> >> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
+> >>   write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
+> >> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr
+> =3D=3D
+> >> test' failed.
+> >>   ) =3D 103
+> >>
+> >>   The source code is in the function pgb_reserved_va (linux-
+> >>   user/elfload.c). I think mmap cannot guarantee that the returned
+> >>   pointer (test) equals to the parameter of addr. So is this a bug to
+> >>   assert (addr =3D=3D test)?
+> >>
+> >>   Attached configure script and test ELF file.
+> >>
+> >>   Thanks.
+> >>
+> >> To manage notifications about this bug go to:
+> >> https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
+> >>
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1895080
+>
+> Title:
+>   pgb_reserved_va: Assertion `addr =3D=3D test' failed
+>
+> Status in QEMU:
+>   New
+>
+> Bug description:
+>   This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
+>   (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
+>   user.
+>
+>   Firstly, compile fails:
+>   Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
+>   ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP=
+_SIZE=E2=80=99
+> undeclared here (not in a function)
+>        FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+>
+>   I have to add below include to linux-user/strace.c
+>   diff --git a/linux-user/strace.c b/linux-user/strace.c
+>   index 11fea14fba..22e51d4a8a 100644
+>   --- a/linux-user/strace.c
+>   +++ b/linux-user/strace.c
+>   @@ -7,6 +7,7 @@
+>    #include <sys/mount.h>
+>    #include <arpa/inet.h>
+>    #include <netinet/tcp.h>
+>   +#include <linux/falloc.h>
+>    #include <linux/if_packet.h>
+>    #include <linux/netlink.h>
+>    #include <sched.h>
+>
+>   Then trying qemu-riscv32 with a simple ELF, I get:
+>   linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test'
+> failed.
+>
+>   strace shows that:
+>   mmap(0x1000, 4294963200, PROT_NONE,
+> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
+>   write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
+> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =
+=3D=3D
+> test' failed.
+>   ) =3D 103
+>
+>   The source code is in the function pgb_reserved_va (linux-
+>   user/elfload.c). I think mmap cannot guarantee that the returned
+>   pointer (test) equals to the parameter of addr. So is this a bug to
+>   assert (addr =3D=3D test)?
+>
+>   Attached configure script and test ELF file.
+>
+>   Thanks.
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895080
+
+Title:
+  pgb_reserved_va: Assertion `addr =3D=3D test' failed
+
+Status in QEMU:
+  New
+
+Bug description:
+  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
+  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
+  user.
+
+  Firstly, compile fails:
+  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
+  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
+IZE=E2=80=99 undeclared here (not in a function)
+       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+
+  I have to add below include to linux-user/strace.c
+  diff --git a/linux-user/strace.c b/linux-user/strace.c
+  index 11fea14fba..22e51d4a8a 100644
+  --- a/linux-user/strace.c
+  +++ b/linux-user/strace.c
+  @@ -7,6 +7,7 @@
+   #include <sys/mount.h>
+   #include <arpa/inet.h>
+   #include <netinet/tcp.h>
+  +#include <linux/falloc.h>
+   #include <linux/if_packet.h>
+   #include <linux/netlink.h>
+   #include <sched.h>
+
+  Then trying qemu-riscv32 with a simple ELF, I get:
+  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
+failed.
+
+  strace shows that:
+  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
+VE, -1, 0) =3D 0x10000
+  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
+git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
+' failed.
+  ) =3D 103
+
+  The source code is in the function pgb_reserved_va (linux-
+  user/elfload.c). I think mmap cannot guarantee that the returned
+  pointer (test) equals to the parameter of addr. So is this a bug to
+  assert (addr =3D=3D test)?
+
+  Attached configure script and test ELF file.
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
 
