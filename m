@@ -2,84 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC81265F13
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 13:55:58 +0200 (CEST)
-Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7251B265F3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 14:09:58 +0200 (CEST)
+Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGhen-0002um-7H
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 07:55:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52182)
+	id 1kGhsL-0007kS-2e
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 08:09:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGhdf-0002F7-S8
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 07:54:47 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kGhdd-0003zx-MF
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 07:54:47 -0400
-Received: by mail-wr1-x442.google.com with SMTP id j2so11193540wrx.7
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 04:54:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=VFoByf3PGihN1goL6ZvA0tVV1xMv374D+1AeJJt5zEA=;
- b=Qso0HxCVaDQSBn24j4wojHz0Md1wLVlP/dfoZxSJbugpvYVlbocbWgooRaFpwqEwrz
- dGuCUkJWkpXCRd5yIUdqow9BLZ8MkgRoyvw6ZV3/WP456SotF27lM5lvkDuDt6wrynKY
- n99/g4GYt9QFaL5m7GLvIeWDhF+omjFLLmbfDwRNngNUo73lsuBnZV6U80btWujgkEsU
- 2maz9Q78CsLGxXVJJaIQz19lJmAJBLJGIF1d9FOfK6aF7m+sB9h/YH8VE+p3P/LesUlM
- DKxeKB+NMpOkSJKvD192XhH/4mwQY430S9T+B9M3JcJ8HcQveMYPhuxEln4ye5dNP4D+
- wxhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=VFoByf3PGihN1goL6ZvA0tVV1xMv374D+1AeJJt5zEA=;
- b=pDwb4HOayBEMNmwF24105y2j7rwqpzcjaHIm6efeHsyhOFjjAjwsh1En/z9S6RwaBd
- 6ICB79k+rdcpgTrX6u3q8sSYW90CTkQ/pwJeysnl52SdKFfc75ifnNID5etkY2vK1B25
- u8W8IyAulWjOEfLFd5VuV0OFxAGFjVvBKU4DELc49t2cwUaoQB7+gfiCvxf9tK6r4tho
- vw9Xn1rIqYSSdfk44d25v32XyUCwcS6Lzo7NrnD3tyQ+Di9aa1przB/S89sXk21hh9og
- k4rjIFFz4oHdwddsXJwOOTeS+XLFRe1fc/lRDPEyI/GFrD9e8/JJkhXobISiVvvLQOU2
- hgjQ==
-X-Gm-Message-State: AOAM531uvCZCS/d6KefLMSrQuGasL8fsR+On0OcGFONz1zPhMki+JcCD
- yzP+x0uY/cBdchWjW0f5oav4HA==
-X-Google-Smtp-Source: ABdhPJyBUNDi2sD7TcOrddCOjdElcn+sdzDE5WWsVCI/hJvmIPtY0E7JHiGnEIH1187xUxoFe36HHA==
-X-Received: by 2002:adf:ff90:: with SMTP id j16mr1853174wrr.105.1599825284160; 
- Fri, 11 Sep 2020 04:54:44 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t22sm4745118wmt.1.2020.09.11.04.54.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 04:54:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 53D111FF7E;
- Fri, 11 Sep 2020 12:54:42 +0100 (BST)
-References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
- <92de5ee0-629a-640a-d547-8c2d650742f2@vivier.eu>
- <87tuw4odwk.fsf@linaro.org> <87r1r8odph.fsf@linaro.org>
- <CAGTPX+DAoJcw2y9gPjkP6kGXEQW7=e1tohM8vND9j9Qtxuc5vw@mail.gmail.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bug 1895080 <1895080@bugs.launchpad.net>
-Subject: Re: [Bug 1895080] [NEW] pgb_reserved_va: Assertion `addr == test'
- failed
-In-reply-to: <CAGTPX+DAoJcw2y9gPjkP6kGXEQW7=e1tohM8vND9j9Qtxuc5vw@mail.gmail.com>
-Date: Fri, 11 Sep 2020 12:54:42 +0100
-Message-ID: <87o8mco7el.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <atmgnd@outlook.com>)
+ id 1kGhrc-0007KS-5P
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:09:12 -0400
+Received: from mail-oln040092253103.outbound.protection.outlook.com
+ ([40.92.253.103]:39520 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <atmgnd@outlook.com>)
+ id 1kGhra-00062X-2u
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:09:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NiYVYGPlrISHuLKGsJNU/J6mXOEjtWbB4lmLCRFPR4WzzJWlKiXtXbhy+FzD7LC1RZnleRNCY7qYFOVAKG+zDkgItxOnjYoaySgQQbZlhOrSwE9ug2e9D8bVPhef7ypBM8QEMVC9HrONtLJ/yoq+Dqqb97x2YCxAQqMoSEa4NgWpkCLu3tx5tG+CFuwcBDejRqN/dNNr0kPY2iLdL1Ub2T8k+Hbk1VYLZ+CQ7v95wkvn4BbJQCtnViJXpCu33DpiKyIIAbB/vV/IKY00VM51Z5PxRxnCC4WQrgk7HoRukBJuy98U3Tmd0qJ8HeGFnM+Up/wcC+9dCDb5XpskzSrSLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dfSNojWlY9msgfa0aH49aKi2sC+f09i45QemLUH3zCI=;
+ b=EAF3yhc1nPtOslEW5d5SjdN31feh9+eSGvgLkWMdRfzLh+M+27JIKWl3d5wUyyNOV8nJKRcwBv1AerrgmbrxqxvtroPykR3Icq6NmI+H3AjeUKPfCyxX2oKL+5tfH8cH+GYX/bxmZN3L8dA1e8Vyv4SWmuypyf15MGkT61B8P2+268L/TWiijec+huc355Qr4T8JTEgWEPGSO8iz6siN5YOJQQUhH8XYZuf0soooSV5YGVmVZ4ukcWDMKuFHcgUOSxYmLIvLc/I5k9ckaG94B+IaNWz0dHWYVwr4dLe0JwR6jLWdYdL3GkMHAQSqfIL2B703by1dubLamUfSskLaYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dfSNojWlY9msgfa0aH49aKi2sC+f09i45QemLUH3zCI=;
+ b=E0QxvY17mTjvrBQ+Rny0C+holVSE934N5BmZzvFlh/BWFanLjcVt1UhWtMwLLwVt1fPhebaJUzZV3AxWPVldk745/Sf0O7c9ma0/omXO1mCeeXIn5TffXVFV1uTXeauvgjttp9CD85Jix99lAstId6u1Ypc4ckbOcevxjRsPJj4OehXXAmDXfec79Bd/VDqec9VvN2IV+dElmM7ntf0BOcT5RtsAIyW6YEXN5IyPXL0SqM6KIvFTsVB0uPgs1U8+42koFe3ssJ2apzQutGTiMQz07vf+p4iaptOPZggNTd6eNpNmf51FZYaNvQSH6TDvBIDMH1pGTKE8O+f4SawywQ==
+Received: from HK2APC01FT012.eop-APC01.prod.protection.outlook.com
+ (2a01:111:e400:7ebc::50) by
+ HK2APC01HT203.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::355)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 11 Sep
+ 2020 11:53:56 +0000
+Received: from SYBP282MB0012.AUSP282.PROD.OUTLOOK.COM (10.152.248.60) by
+ HK2APC01FT012.mail.protection.outlook.com (10.152.248.165) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.16 via Frontend Transport; Fri, 11 Sep 2020 11:53:56 +0000
+Received: from SYBP282MB0012.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::69c8:4a0a:9647:972f]) by SYBP282MB0012.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::69c8:4a0a:9647:972f%6]) with mapi id 15.20.3370.017; Fri, 11 Sep 2020
+ 11:53:56 +0000
+From: zhou qi <atmgnd@outlook.com>
+To: "DirtY.iCE.hu@gmail.com" <DirtY.iCE.hu@gmail.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: =?utf-8?B?6L2s5Y+ROiBbUEFUQ0ggUkVTRU5EXSBGaXggdmlkZW8gcGxheWJhY2sgc2xv?=
+ =?utf-8?Q?wdown_when_spice_client_no_audio_enabled?=
+Thread-Topic: [PATCH RESEND] Fix video playback slowdown when spice client no
+ audio enabled
+Thread-Index: AQHWiDI6at0TaITbzk2yFrosmHXFkQ==
+Date: Fri, 11 Sep 2020 11:53:56 +0000
+Message-ID: <SYBP282MB0012C2BA15BB428F4A5506B3C9240@SYBP282MB0012.AUSP282.PROD.OUTLOOK.COM>
+References: <SYBP282MB00121EE06C845D33A07413BAC9270@SYBP282MB0012.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <SYBP282MB00121EE06C845D33A07413BAC9270@SYBP282MB0012.AUSP282.PROD.OUTLOOK.COM>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:0371851A5E7B9F0C68C31C5A0D526BF10AF79F451B333181D3924E3E764971F3;
+ UpperCasedChecksum:E513796088DC452173C55B3E0009FF9CC3D3ACBC8E5B54C454EE6573E3447D23;
+ SizeAsReceived:2973; Count:43
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [vL75E4LPXN1/N0xRrkgf5Iac/N25Go21ZsY6uWs2Brc=]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 43
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: f2216fad-24a7-47a5-5a07-08d856495cde
+x-ms-traffictypediagnostic: HK2APC01HT203:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5WlIgeoF2N7luio605Xq90fzs06tWRKDHUTgDU1txU6HyDWxBHB6EoaLHsBjXjdt5/nAvn16wIFMC15B+7Q6lxTMbidKsMJFEkp7VYeOfIrigz1Kc8tq8zI/qvqyZ678bTQlVCHl+eRwtk9pvmMhs5jCpuzWhyO2zmutdeEQwzMFa0QPtlsHwmZzi76O5L41Trl5bxgxAxMfSqdrGsrW3UY5LveS+I+bpBBBT8Ld0xU=
+x-ms-exchange-antispam-messagedata: o0H+GRNWdzhbu659kRyRVXyLS0okLaKqd+/XpllNvcF/pNbfMq7/UJy9WsDWEyNbid1J8jopCncLXiwiXNAu7xv92X5j+eJaNQTnklGLHs04ntO/wLyCETTQA7Fi/CBz8SF+MMFYJKHC99Ap8Wwwhg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT012.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2216fad-24a7-47a5-5a07-08d856495cde
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2020 11:53:56.2123 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT203
+Received-SPF: pass client-ip=40.92.253.103; envelope-from=atmgnd@outlook.com;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 08:09:06
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,152 +115,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Hansni Bu <1895080@bugs.launchpad.net> writes:
-
-> No, it's not set by CentOS-7.5.
-> Does it mean that we just cannot run the ELF in such a case? I've tried
-> many times, the assert always fails. Maybe, we can blame CentOS-7.5.
-
-The trouble is without MAP_FIXED_NOREPLACE we are at the mercy of the
-host kernel to allow the address request to be honoured. A plain
-MAP_FIXED won't do as it can clober existing mappings. In theory a
-suitable hole has been identified but sometimes the kernel makes a
-decision to offset the suggested mapping for it's own reasons.=20
-
-> BTW: with the option "-p 65536", the case runs successfully.
-
-Hmm interesting. I wonder if we are seeing a fail due to mmap_min_addr?
-What does:
-
-  /proc/sys/vm/mmap_min_addr
-
-give you on the system?
-
-You can manually set the reserved_va and the base address using -R and
--B although that is more of a developer work around. I think moving the
-assert to the condition above would be an improvement just because it
-tells us what the requested base address was and what the kernel decided
-to give us.
-
->
-> On Fri, Sep 11, 2020 at 5:50 PM Alex Benn=C3=A9e <1895080@bugs.launchpad.=
-net>
-> wrote:
->
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>
->> > Laurent Vivier <laurent@vivier.eu> writes:
->> >
->> <snip>
->> >>> Then trying qemu-riscv32 with a simple ELF, I get:
->> >>> linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D t=
-est'
->> failed.
->> >>>
->> >>> strace shows that:
->> >>> mmap(0x1000, 4294963200, PROT_NONE,
->> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
->> >>> write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
->> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =
-=3D=3D
->> test' failed.
->> >>> ) =3D 103
->> >>>
->> >>> The source code is in the function pgb_reserved_va (linux-
->> >>> user/elfload.c). I think mmap cannot guarantee that the returned
->> pointer
->> >>> (test) equals to the parameter of addr. So is this a bug to assert
->> (addr
->> >>> =3D=3D test)?
->> >>
->> > I'm assuming CentOS 7.5 actually has a definition for
->> > MAP_FIXED_NOREPLACE which should ensure we get what we asked for -
->> > otherwise we are in the position of hoping the kernel honours what we
->> > asked for.
->>
->> Doh re-reading I see it's not set in the strace output. Maybe we should
->> promote the assert case to the failure leg so we have:
->>
->>     if (addr =3D=3D MAP_FAILED || addr !=3D test) {
->>         error_report(...)
->>     }
->>
->> so we at least fail with a user friendly error rather than an abort?
->>
->> --
->> Alex Benn=C3=A9e
->>
->> --
->> You received this bug notification because you are subscribed to the bug
->> report.
->> https://bugs.launchpad.net/bugs/1895080
->>
->> Title:
->>   pgb_reserved_va: Assertion `addr =3D=3D test' failed
->>
->> Status in QEMU:
->>   New
->>
->> Bug description:
->>   This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
->>   (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
->>   user.
->>
->>   Firstly, compile fails:
->>   Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c=
-.o
->>   ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEE=
-P_SIZE=E2=80=99
->> undeclared here (not in a function)
->>        FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
->>
->>   I have to add below include to linux-user/strace.c
->>   diff --git a/linux-user/strace.c b/linux-user/strace.c
->>   index 11fea14fba..22e51d4a8a 100644
->>   --- a/linux-user/strace.c
->>   +++ b/linux-user/strace.c
->>   @@ -7,6 +7,7 @@
->>    #include <sys/mount.h>
->>    #include <arpa/inet.h>
->>    #include <netinet/tcp.h>
->>   +#include <linux/falloc.h>
->>    #include <linux/if_packet.h>
->>    #include <linux/netlink.h>
->>    #include <sched.h>
->>
->>   Then trying qemu-riscv32 with a simple ELF, I get:
->>   linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D tes=
-t'
->> failed.
->>
->>   strace shows that:
->>   mmap(0x1000, 4294963200, PROT_NONE,
->> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
->>   write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
->> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =
-=3D=3D
->> test' failed.
->>   ) =3D 103
->>
->>   The source code is in the function pgb_reserved_va (linux-
->>   user/elfload.c). I think mmap cannot guarantee that the returned
->>   pointer (test) equals to the parameter of addr. So is this a bug to
->>   assert (addr =3D=3D test)?
->>
->>   Attached configure script and test ELF file.
->>
->>   Thanks.
->>
->> To manage notifications about this bug go to:
->> https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
->>
-
-
---=20
-Alex Benn=C3=A9e
+QmVjYXVzZSBJIGRvbid0IHJlY2VpdmVkIGFueSBmZWVkYmFjaywgc28gaSBoYXZlIGRlY2lkZSBy
+ZXNlbmQgYWdhaW4uIHdpdGggbW9yZSBkZXRhaWwuCkBEaXJ0WS5pQ0UuaHUsIENhbiB5b3UgcmV2
+aWV3IHRoaXMgcGF0Y2g/IG9yIHNvbWVvbmUgZWxzZSBoYXMgdGltZSA/CgpJc3N1ZTogdmlkZW8g
+cGxheWJhY2sgc2xvd2Rvd24sIHVzaW5nIHNwaWNlIGNsaWVudCAtLXNwaWNlLWRpc2FibGUtYXVk
+aW8gb3B0aW9uCkhvdyB0byByZXByb2R1Y2U6CiAgICAxLiBjb21waWxlIHFlbXUgbWFzdGVyIGZv
+ciB4ODZfNjQgdGFyZ2V0IHdpdGggc3BpY2UgZW5hYmxlZC4KICAgIDIuIGxhdWNoZXIgYSB3aW5k
+b3dzIDcgdmlydHVhbCBtYWNoaW5lIHdpdGggc29tZSBsaWtlOiBxZW11LXN5c3RlbS14ODZfNjQg
+LS1lbmFibGUta3ZtIC1NIHEzNSxhY2NlbD1rdm0gLWRpc3BsYXkgbm9uZSAgLXNwaWNlIHBvcnQ9
+NTkwNyxhZGRyPTAuMC4wLjAsZGlzYWJsZS10aWNrZXRpbmcgLWRldmljZSBpbnRlbC1oZGEsaWQ9
+czAgLWRldmljZSBoZGEtZHVwbGV4LGlkPXMwLWNvZGVjMCxidXM9czAuMCxjYWQ9MAogICAgMy4g
+Y29ubmVjdCB0aGUgdmlydHVhbCBtYWNoaW5lIHVzaW5nIG9mZmljaWFsIHJlbW90ZS12aWV3ZXIg
+d2l0aG91dCBzcGljZSBhdWRpbyBjaGFubmVsLiB3aGljaCBpczoKICAgICAgICByZW1vdGUtdmll
+d2VyIHNwaWNlOi8vbG9jYWxob3N0OjU5MDcgLS1zcGljZS1kaXNhYmxlLWF1ZGlvCiAgICA0LiBv
+cGVuIHdpbmRvd3Mgc2FtcGxlIHZpZGVvIHVzaW5nIGRlZmF1bHQgbWVkaWEgcGxheWVyLiB2aWRl
+byBsb2NhdGlvbjogQzpcVXNlcnNcUHVibGljXFZpZGVvc1xTYW1wbGUgVmlkZW9zXFdpbGRsaWZl
+LndtdgogICAgICAgIFlvdSB3aWxsIHNlZSB0aGUgdmlkZW8gcGxheWJhY2sgc3BlZWQgaXMgdmVy
+eSBzbG93LgoKSSBIQVZFIFRFU1QgUUVNVSA0LjIuMSBET0VTIE5PVCBIQVZFIFRISVMgSVNTVUUu
+IEFuZCBJIGJlbGlldmUgdGhpcyBpc3N1ZSB3YXMgaW5kcm9kdWNlZCBieSB0aGlzIGNvbW1pdDog
+aHR0cHM6Ly9naXRodWIuY29tL3FlbXUvcWVtdS9jb21taXQvZmIzNWMyY2VjNTg5ODVmMGI4ZDI3
+MzNmMWI5MTkyNzU0MmVlYjNmZAoKYmVzdCByZWdhcmRzCgrlj5Hku7bkuro6IHpob3UgcWkgPGF0
+bWduZEBvdXRsb29rLmNvbT4K5Y+R6YCB5pe26Ze0OiAyMDIw5bm0OeaciDEw5pelIDE5OjE3CuaU
+tuS7tuS6ujogcWVtdS1kZXZlbEBub25nbnUub3JnIDxxZW11LWRldmVsQG5vbmdudS5vcmc+CuS4
+u+mimDogW1BBVENIXSBGaXggdmlkZW8gcGxheWJhY2sgc2xvd2Rvd24gd2hlbiBzcGljZSBjbGll
+bnQgbm8gYXVkaW8gZW5hYmxlZCAKwqAKRnJvbSBlOGMyZTI4M2YwOTU0ZGUyNTVhMzJlYTcwZDU3
+N2Q1ZTYxOTkyMzk5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBRaSBaaG91IDxhdG1n
+bmRAb3V0bG9vay5jb20+CkRhdGU6IFRodSwgMTAgU2VwIDIwMjAgMTk6MDk6MjkgKzA4MDAKU3Vi
+amVjdDogW1BBVENIXSBGaXggdmlkZW8gcGxheWJhY2sgc2xvd2Rvd24gd2hlbiBzcGljZSBjbGll
+bnQgbm8gYXVkaW8gZW5hYmxlZAoKWW91IHdpbGwgZ2V0IHZpZGVvIHBsYXliYWNrIHNsb3dkb3du
+IG9uIHRoZSBmb2xsb3dpbmcgY2FzZXMKCjEuIHVzZSBvZmZpY2lhbCBzcGljZSBjbGllbnQgd2l0
+aCBhdWRpbyBjaGFubmVsIGRpc2FibGVkLCB1c2UgLS1zcGljZS1kaXNhYmxlLWF1ZGlvCsKgwqAg
+b3B0aW9uCjIuIHRoaXJ0cGFydCBjbGllbnQgZG9lc24ndCBpbXBsZW1lbnQgYXVkaW8gY2hhbm5l
+bAoKcmVmOiBodHRwczovL2dpdGh1Yi5jb20vcWVtdS9xZW11L2NvbW1pdC9mYjM1YzJjZWM1ODk4
+NWYwYjhkMjczM2YxYjkxOTI3NTQyZWViM2ZkClNpZ25lZC1vZmYtYnk6IFFpIFpob3UgPGF0bWdu
+ZEBvdXRsb29rLmNvbT4KLS0tCsKgYXVkaW8vYXVkaW8uYyB8IDYgKysrKystCsKgMSBmaWxlIGNo
+YW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2F1ZGlv
+L2F1ZGlvLmMgYi9hdWRpby9hdWRpby5jCmluZGV4IGNlOGM2ZGVjNWYuLjUwZmViZTE5MGYgMTAw
+NjQ0Ci0tLSBhL2F1ZGlvL2F1ZGlvLmMKKysrIGIvYXVkaW8vYXVkaW8uYwpAQCAtMTA5MSw3ICsx
+MDkxLDExIEBAIHN0YXRpYyBzaXplX3QgYXVkaW9fcGNtX2h3X3J1bl9vdXQoSFdWb2ljZU91dCAq
+aHcsIHNpemVfdCBsaXZlKQrCoMKgwqDCoCB3aGlsZSAobGl2ZSkgewrCoMKgwqDCoMKgwqDCoMKg
+IHNpemVfdCBzaXplLCBkZWNyLCBwcm9jOwrCoMKgwqDCoMKgwqDCoMKgIHZvaWQgKmJ1ZiA9IGh3
+LT5wY21fb3BzLT5nZXRfYnVmZmVyX291dChodywgJnNpemUpOwotwqDCoMKgwqDCoMKgwqAgaWYg
+KCFidWYgfHwgc2l6ZSA9PSAwKSB7CisKK8KgwqDCoMKgwqDCoMKgIGlmICghYnVmKSB7CivCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIGh3LT5taXhfYnVmLT5wb3MgPSAoaHctPm1peF9idWYtPnBvcyAr
+IGxpdmUpICUgaHctPm1peF9idWYtPnNpemU7CivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVy
+biBjbGlwcGVkICsgbGl2ZTsKK8KgwqDCoMKgwqDCoMKgIH0gZWxzZSBpZiAoIHNpemUgPT0gMCkg
+ewrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7CsKgwqDCoMKgwqDCoMKgwqAgfQrCoAot
+LSAKMi4xNy4x
 
