@@ -2,102 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BC4265C9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 11:35:33 +0200 (CEST)
-Received: from localhost ([::1]:45420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD73265CFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 11:51:40 +0200 (CEST)
+Received: from localhost ([::1]:34086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGfSv-0006G8-2c
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 05:35:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46818)
+	id 1kGfiV-000667-IV
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 05:51:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGfRy-0005Ov-Tz
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 05:34:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56084
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kGfRt-00010V-63
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 05:34:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599816867;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+TNrizVZVrck21HhJ6CpqLnNgD+VQWn+1D5PHVNngXA=;
- b=ibS5xU14KTwIwtf6YuPnS/LyDcFMUiuARIC30IGdqyjh1f9Gl9rZ/yR34V90ov9jJ01oVw
- zo2P7xJpyyEBlhVx/PhYTib2cC2t0GT2iCRzn6RTG0s243tl1FbuaK4n1y8N8QTRfXjHgL
- 5jevyh8RoJXn31Aq8MrJdWUX4b5mNiU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-srUWZVjjPFiBzFh6bJ_Low-1; Fri, 11 Sep 2020 05:34:09 -0400
-X-MC-Unique: srUWZVjjPFiBzFh6bJ_Low-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 356E8801AC4;
- Fri, 11 Sep 2020 09:34:08 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-148.ams2.redhat.com
- [10.36.113.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4561181C4C;
- Fri, 11 Sep 2020 09:34:04 +0000 (UTC)
-Subject: Re: [PATCH 0/2] block: remove stale runtime_opts
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200806211345.2925343-1-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <bf1b791c-ad97-db9e-b577-0fe0c16d4fbd@redhat.com>
-Date: Fri, 11 Sep 2020 11:34:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGfhf-0005DT-69
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 05:50:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGfha-0003Sp-TF
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 05:50:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kGfhZ-0002Sx-0t
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 09:50:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 056102E80AB
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 09:50:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200806211345.2925343-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="bFYgeWfiHSP77yf30SuWTD7NAn74fIyqV"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 00:33:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 11 Sep 2020 09:34:19 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1895080@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
+X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
+ <92de5ee0-629a-640a-d547-8c2d650742f2@vivier.eu>
+Message-Id: <87tuw4odwk.fsf@linaro.org>
+Subject: Re: [Bug 1895080] [NEW] pgb_reserved_va: Assertion `addr == test'
+ failed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 3d9fe1cea08bb58cb19de1a33ba21d2f351efa5c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 02:05:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -106,55 +74,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Jason Dillaman <dillaman@redhat.com>,
- qemu-block@nongnu.org
+Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---bFYgeWfiHSP77yf30SuWTD7NAn74fIyqV
-Content-Type: multipart/mixed; boundary="bfDDAxmnsfV4oR2D3N0J5gYyYr2PaFAuO"
+Laurent Vivier <laurent@vivier.eu> writes:
 
---bfDDAxmnsfV4oR2D3N0J5gYyYr2PaFAuO
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> Le 10/09/2020 =C3=A0 07:21, Launchpad Bug Tracker a =C3=A9crit :
+>> This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
+>> (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
+>> user.
+>
+> I tried to build qemu-5.1 on CentOS-7.5.1 but as python 3.5 is not
+> available, I gave up.
+>
+>> Firstly, compile fails:
+>> Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
+>> ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_=
+SIZE=E2=80=99 undeclared here (not in a function)
+>>      FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+>> =
 
-On 06.08.20 23:13, John Snow wrote:
->=20
->=20
-> John Snow (2):
->   block/rbd: remove runtime_opts
->   block/qcow: remove runtime opts
->=20
->  block/qcow.c |  9 ---------
->  block/rbd.c  | 42 ------------------------------------------
->  2 files changed, 51 deletions(-)
+>> I have to add below include to linux-user/strace.c
+>> diff --git a/linux-user/strace.c b/linux-user/strace.c
+>> index 11fea14fba..22e51d4a8a 100644
+>> --- a/linux-user/strace.c
+>> +++ b/linux-user/strace.c
+>> @@ -7,6 +7,7 @@
+>>  #include <sys/mount.h>
+>>  #include <arpa/inet.h>
+>>  #include <netinet/tcp.h>
+>> +#include <linux/falloc.h>
+>>  #include <linux/if_packet.h>
+>>  #include <linux/netlink.h>
+>>  #include <sched.h>
+>
+> In fact, fallocate(2) says fcntl.h must be included.
+> And qemu/osdep.h includes it.
+> So you should not have this problem.
+>
+>> =
 
-Thanks, applied to my block branch:
+>> Then trying qemu-riscv32 with a simple ELF, I get:
+>> linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test'=
+ failed.
+>> =
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+>> strace shows that:
+>> mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESE=
+RVE, -1, 0) =3D 0x10000
+>> write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu=
+.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D tes=
+t' failed.
+>> ) =3D 103
+>> =
+
+>> The source code is in the function pgb_reserved_va (linux-
+>> user/elfload.c). I think mmap cannot guarantee that the returned pointer
+>> (test) equals to the parameter of addr. So is this a bug to assert (addr
+>> =3D=3D test)?
+>
+> I think Alex Benn=C3=A9e knows better this code than I do, so cc'ing him.
+
+It should be able to do so because the earlier code (pgb_static) checks
+for a hole the size of reserved_va in the host memory map. This should
+be fairly easy for 32 bit guests given the amount of spare address space
+you have on a 64 bit system.
+
+I'm assuming CentOS 7.5 actually has a definition for
+MAP_FIXED_NOREPLACE which should ensure we get what we asked for -
+otherwise we are in the position of hoping the kernel honours what we
+asked for.
+
+>
+> Thnaks
+> Laurent
 
 
---bfDDAxmnsfV4oR2D3N0J5gYyYr2PaFAuO--
+-- =
 
---bFYgeWfiHSP77yf30SuWTD7NAn74fIyqV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Alex Benn=C3=A9e
 
------BEGIN PGP SIGNATURE-----
+-- =
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9bRIoACgkQ9AfbAGHV
-z0B/VwgAw0pTKQ+6vjR55VI1q61/A9Fx535jLn+vmqb2/GskqXKqE0sWsvas9HT5
-eBy7FNBkV8hEl9QN0JPWft4+zrYSYFJOy0l7jfqoltlCisSFZ8srV7JKh0ZUjEjg
-du1LIfxI7821yI+/e5gTDt71qzSIvF0i2GiB0/QPmpJgb2ur3nbk7a0VAFeW8qA5
-10Jev9hmI1arotcfwJVvng4R3HZ6xVdDM4XefQLCTVpKQIRmzybHl105sdNi2xYW
-2ZlPNnNMnB2TtcK6sgTLc0DZovNUdYfGZ+oXL7fsQOcUeFYEPphTWon9XivmqPoD
-AtuTa8mcoCdsgaMNSUMeCpXpZnundg==
-=utF8
------END PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895080
 
---bFYgeWfiHSP77yf30SuWTD7NAn74fIyqV--
+Title:
+  pgb_reserved_va: Assertion `addr =3D=3D test' failed
 
+Status in QEMU:
+  New
+
+Bug description:
+  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
+  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
+  user.
+
+  Firstly, compile fails:
+  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
+  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
+IZE=E2=80=99 undeclared here (not in a function)
+       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+
+  I have to add below include to linux-user/strace.c
+  diff --git a/linux-user/strace.c b/linux-user/strace.c
+  index 11fea14fba..22e51d4a8a 100644
+  --- a/linux-user/strace.c
+  +++ b/linux-user/strace.c
+  @@ -7,6 +7,7 @@
+   #include <sys/mount.h>
+   #include <arpa/inet.h>
+   #include <netinet/tcp.h>
+  +#include <linux/falloc.h>
+   #include <linux/if_packet.h>
+   #include <linux/netlink.h>
+   #include <sched.h>
+
+  Then trying qemu-riscv32 with a simple ELF, I get:
+  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
+failed.
+
+  strace shows that:
+  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
+VE, -1, 0) =3D 0x10000
+  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
+git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
+' failed.
+  ) =3D 103
+
+  The source code is in the function pgb_reserved_va (linux-
+  user/elfload.c). I think mmap cannot guarantee that the returned
+  pointer (test) equals to the parameter of addr. So is this a bug to
+  assert (addr =3D=3D test)?
+
+  Attached configure script and test ELF file.
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
 
