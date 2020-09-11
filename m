@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835BC265F25
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 14:02:06 +0200 (CEST)
-Received: from localhost ([::1]:39534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BF9265F67
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 14:19:57 +0200 (CEST)
+Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGhkj-0004zs-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 08:02:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53750)
+	id 1kGi20-0002qs-50
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 08:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGhje-0004Yy-KF
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGhjb-0004uK-Sv
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:00:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kGhjZ-0000GZ-TC
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 12:00:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 93B722E80EC
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 12:00:53 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2020 11:54:42 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1895080@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
-X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
- <92de5ee0-629a-640a-d547-8c2d650742f2@vivier.eu> <87tuw4odwk.fsf@linaro.org>
- <87r1r8odph.fsf@linaro.org>
- <CAGTPX+DAoJcw2y9gPjkP6kGXEQW7=e1tohM8vND9j9Qtxuc5vw@mail.gmail.com>
-Message-Id: <87o8mco7el.fsf@linaro.org>
-Subject: Re: [Bug 1895080] [NEW] pgb_reserved_va: Assertion `addr == test'
- failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: ea9e47830665da6789d1f21d14ee05645d0f86df
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 02:05:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGi11-00027D-K1
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:18:55 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28866
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kGi10-0007Rl-9j
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 08:18:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599826733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=0sonYEoIK5vfUm9HV1fIji2OCjDdFDC+pHgrtmXxuUc=;
+ b=aFHJHOdSCeQkV39gk6dMedC3NChdT/3wDYA4eFxuAaFbZ1m4U+t4Nu16N+HZvtH3FqSNib
+ GZ6JfKFg66Ef8XY8mvBL4KuiDEcJaTIJb3wKEqgTy8g/2AF1Gr13j+MGW1HPQByGcK8Xrq
+ OzEdZd/a1lFKovUnQCeM2MRVhHLowwg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-S6Q7ZHrENDKE6GmYZaanVQ-1; Fri, 11 Sep 2020 08:18:49 -0400
+X-MC-Unique: S6Q7ZHrENDKE6GmYZaanVQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C228030DD;
+ Fri, 11 Sep 2020 12:18:48 +0000 (UTC)
+Received: from thuth.com (ovpn-115-1.ams2.redhat.com [10.36.115.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2755C7E8F1;
+ Fri, 11 Sep 2020 12:18:46 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-arm@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] hw/arm/pxa2xx: Add missing fallthrough comment
+Date: Fri, 11 Sep 2020 14:18:44 +0200
+Message-Id: <20200911121844.404434-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:40:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,214 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hansni Bu <1895080@bugs.launchpad.net> writes:
+Let's make this file compilable with -Werror=implicit-fallthrough :
+Looking at the code, it seems like the fallthrough is intended here,
+so we should add the corresponding "/* fallthrough */" comment here.
 
-> No, it's not set by CentOS-7.5.
-> Does it mean that we just cannot run the ELF in such a case? I've tried
-> many times, the assert always fails. Maybe, we can blame CentOS-7.5.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/arm/pxa2xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The trouble is without MAP_FIXED_NOREPLACE we are at the mercy of the
-host kernel to allow the address request to be honoured. A plain
-MAP_FIXED won't do as it can clober existing mappings. In theory a
-suitable hole has been identified but sometimes the kernel makes a
-decision to offset the suggested mapping for it's own reasons. =
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index 76975d17a4..c1f45b2adf 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -443,7 +443,7 @@ static void pxa2xx_mm_write(void *opaque, hwaddr addr,
+             s->mm_regs[addr >> 2] = value;
+             break;
+         }
+-
++        /* fallthrough */
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+-- 
+2.18.2
 
-
-> BTW: with the option "-p 65536", the case runs successfully.
-
-Hmm interesting. I wonder if we are seeing a fail due to mmap_min_addr?
-What does:
-
-  /proc/sys/vm/mmap_min_addr
-
-give you on the system?
-
-You can manually set the reserved_va and the base address using -R and
--B although that is more of a developer work around. I think moving the
-assert to the condition above would be an improvement just because it
-tells us what the requested base address was and what the kernel decided
-to give us.
-
->
-> On Fri, Sep 11, 2020 at 5:50 PM Alex Benn=C3=A9e <1895080@bugs.launchpad.=
-net>
-> wrote:
->
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>
->> > Laurent Vivier <laurent@vivier.eu> writes:
->> >
->> <snip>
->> >>> Then trying qemu-riscv32 with a simple ELF, I get:
->> >>> linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D t=
-est'
->> failed.
->> >>>
->> >>> strace shows that:
->> >>> mmap(0x1000, 4294963200, PROT_NONE,
->> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
->> >>> write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
->> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =
-=3D=3D
->> test' failed.
->> >>> ) =3D 103
->> >>>
->> >>> The source code is in the function pgb_reserved_va (linux-
->> >>> user/elfload.c). I think mmap cannot guarantee that the returned
->> pointer
->> >>> (test) equals to the parameter of addr. So is this a bug to assert
->> (addr
->> >>> =3D=3D test)?
->> >>
->> > I'm assuming CentOS 7.5 actually has a definition for
->> > MAP_FIXED_NOREPLACE which should ensure we get what we asked for -
->> > otherwise we are in the position of hoping the kernel honours what we
->> > asked for.
->>
->> Doh re-reading I see it's not set in the strace output. Maybe we should
->> promote the assert case to the failure leg so we have:
->>
->>     if (addr =3D=3D MAP_FAILED || addr !=3D test) {
->>         error_report(...)
->>     }
->>
->> so we at least fail with a user friendly error rather than an abort?
->>
->> --
->> Alex Benn=C3=A9e
->>
->> --
->> You received this bug notification because you are subscribed to the bug
->> report.
->> https://bugs.launchpad.net/bugs/1895080
->>
->> Title:
->>   pgb_reserved_va: Assertion `addr =3D=3D test' failed
->>
->> Status in QEMU:
->>   New
->>
->> Bug description:
->>   This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
->>   (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
->>   user.
->>
->>   Firstly, compile fails:
->>   Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c=
-.o
->>   ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEE=
-P_SIZE=E2=80=99
->> undeclared here (not in a function)
->>        FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
->>
->>   I have to add below include to linux-user/strace.c
->>   diff --git a/linux-user/strace.c b/linux-user/strace.c
->>   index 11fea14fba..22e51d4a8a 100644
->>   --- a/linux-user/strace.c
->>   +++ b/linux-user/strace.c
->>   @@ -7,6 +7,7 @@
->>    #include <sys/mount.h>
->>    #include <arpa/inet.h>
->>    #include <netinet/tcp.h>
->>   +#include <linux/falloc.h>
->>    #include <linux/if_packet.h>
->>    #include <linux/netlink.h>
->>    #include <sched.h>
->>
->>   Then trying qemu-riscv32 with a simple ELF, I get:
->>   linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D tes=
-t'
->> failed.
->>
->>   strace shows that:
->>   mmap(0x1000, 4294963200, PROT_NONE,
->> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
->>   write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
->> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =
-=3D=3D
->> test' failed.
->>   ) =3D 103
->>
->>   The source code is in the function pgb_reserved_va (linux-
->>   user/elfload.c). I think mmap cannot guarantee that the returned
->>   pointer (test) equals to the parameter of addr. So is this a bug to
->>   assert (addr =3D=3D test)?
->>
->>   Attached configure script and test ELF file.
->>
->>   Thanks.
->>
->> To manage notifications about this bug go to:
->> https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
->>
-
-
--- =
-
-Alex Benn=C3=A9e
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895080
-
-Title:
-  pgb_reserved_va: Assertion `addr =3D=3D test' failed
-
-Status in QEMU:
-  New
-
-Bug description:
-  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
-  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
-  user.
-
-  Firstly, compile fails:
-  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
-  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
-IZE=E2=80=99 undeclared here (not in a function)
-       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
-
-  I have to add below include to linux-user/strace.c
-  diff --git a/linux-user/strace.c b/linux-user/strace.c
-  index 11fea14fba..22e51d4a8a 100644
-  --- a/linux-user/strace.c
-  +++ b/linux-user/strace.c
-  @@ -7,6 +7,7 @@
-   #include <sys/mount.h>
-   #include <arpa/inet.h>
-   #include <netinet/tcp.h>
-  +#include <linux/falloc.h>
-   #include <linux/if_packet.h>
-   #include <linux/netlink.h>
-   #include <sched.h>
-
-  Then trying qemu-riscv32 with a simple ELF, I get:
-  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
-failed.
-
-  strace shows that:
-  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
-VE, -1, 0) =3D 0x10000
-  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
-git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
-' failed.
-  ) =3D 103
-
-  The source code is in the function pgb_reserved_va (linux-
-  user/elfload.c). I think mmap cannot guarantee that the returned
-  pointer (test) equals to the parameter of addr. So is this a bug to
-  assert (addr =3D=3D test)?
-
-  Attached configure script and test ELF file.
-
-  Thanks.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
 
