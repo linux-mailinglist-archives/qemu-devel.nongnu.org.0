@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805DA265671
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 03:14:02 +0200 (CEST)
-Received: from localhost ([::1]:49782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81FF2656D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 04:06:04 +0200 (CEST)
+Received: from localhost ([::1]:36428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGXdZ-0003m8-44
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 21:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
+	id 1kGYRv-0005Fs-9j
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 22:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iwatchnima@gmail.com>)
- id 1kGXcb-0002sc-Ks
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:13:01 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44226)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <iwatchnima@gmail.com>)
- id 1kGXcZ-0007Ol-Rj
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:13:01 -0400
-Received: by mail-wr1-x430.google.com with SMTP id s12so9668314wrw.11
- for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 18:12:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=xjjfcLp/S/DgiOyjX0IQjWV/kOCJXMeNKU/CADeSptg=;
- b=uJykHANL5uzh/L0O6eji3tu1EdCXiTKOx+Nfxa90x7TrS/c4Xef3dPTygZR7kwvI5S
- 4Ix22/ArujtZAN5xPDWQjuA+cVoHMBFKj7Y/fZRpD9g2kqO0V4t46sljWNJ5FSYJCc9B
- YNNNPWsz0CoKPkqYfKOTtAKIoBgSclGRlJSTOCl601noIil0hydz6iKLdd0KHbd8aGrx
- WVi+g+3qdBC4GJS8IreB7tHfZkAzui8jKlXn5g+3tRONlK1XicVmQp7vuUS/R81prNhp
- iZoxV8Jcsr7RGSAyyIheTLKwEcqxrwnL+HNTL9Tu2jpenIbxgvWwuZp555G5TCvse0bD
- wTdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=xjjfcLp/S/DgiOyjX0IQjWV/kOCJXMeNKU/CADeSptg=;
- b=fFYpYZAFtChBRI+IS8Nqo4ROkmDMwqbXFlyI6yrQLVPi0N0Idfi01yKPhkJEVNnqUH
- 0G2vpK7EESqI0au3tcwGcfnDtRfbI0/HEzjnxQ3Fc/A5AHHfuKKc4xg2J3DJhVGvfJTX
- LbTE0h2O/mnEs2t2so4AMFysI1DJRnrv2eOSKbjCSmy+A/fss3kt2u9Jz1rWomIw+OK2
- cSpRRUFq3ilgVontbUwp0xNKRKJrWUD5DaFw1pwl+MJB2M643nELk57oQWMBMKIDsXzS
- csLgpvbsVX3geEQB+dCbot54WaoJJ1f0DSvp/FVZ0ergAk02CYZCD8goObUsM804Xi6W
- WBsg==
-X-Gm-Message-State: AOAM5308NN0V0YVDgaxng6s+y/xujco2vm6Qkkq5k7uH/bxcEp0GzlvR
- PaMB8I0pS/JBL9yo7/9TOt7Dq9VU0vnUcFegxAL3g0t7uVq8Rs1H
-X-Google-Smtp-Source: ABdhPJzYbp7F2N6OwHaRcbDsOOJyQtTS7eD6zb3t3/VhGh4/VdYa/l/xm/ixuOXiTQv9EvOOa5+KYvaEyZCf/OTdgjA=
-X-Received: by 2002:a5d:5042:: with SMTP id h2mr11752297wrt.409.1599786777617; 
- Thu, 10 Sep 2020 18:12:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kGYQt-0004h3-Dw; Thu, 10 Sep 2020 22:04:59 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:49455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kGYQp-0004qk-Qk; Thu, 10 Sep 2020 22:04:59 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BnfG760H0z9sVD; Fri, 11 Sep 2020 12:04:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1599789887;
+ bh=UEYW9bd4ufUoKe/6L46GU0olcLvQXPJyyqz3qnQQFNI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cVpjOr9dW+lEJbnJyXROtSVk6K90ja5dYhsNlxXkr25fkWIBhb3eK+cyM0bvViP7x
+ RjDeXE76qlwn1hy5O8l4Pr/oHOuPQh00ARQKCsuH05baiiNKNlwHAFsw5nzHx85sp4
+ DsGQAfm3QlzcBGtVtp8mioEtWi7TVseOeRDsiOuU=
+Date: Fri, 11 Sep 2020 12:04:42 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [for-5.2 v4 09/10] host trust limitation: Alter virtio default
+ properties for protected guests
+Message-ID: <20200911020442.GH66834@yekko.fritz.box>
+References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
+ <20200724025744.69644-10-david@gibson.dropbear.id.au>
+ <20200907171046.18211111.pasic@linux.ibm.com>
 MIME-Version: 1.0
-From: zou xu <iwatchnima@gmail.com>
-Date: Fri, 11 Sep 2020 09:12:41 +0800
-Message-ID: <CA+Lzsy=o9yshAAAacuTwcs3Hfr4MfWiX-SiUf5A2Fds3vGOrAQ@mail.gmail.com>
-Subject: [PATCH 1/1] accel/tcg/user-exec: support computing is_write for mips32
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000098aa3305aeff62d5"
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=iwatchnima@gmail.com; helo=mail-wr1-x430.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Bg2esWel0ueIH/G/"
+Content-Disposition: inline
+In-Reply-To: <20200907171046.18211111.pasic@linux.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,115 +62,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
+ frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Boris Fiuczynski <fiuczy@linux.ibm.com>, qemu-ppc@nongnu.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Bjoern Walk <bwalk@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>,
+ mdroth@linux.vnet.ibm.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000098aa3305aeff62d5
-Content-Type: text/plain; charset="UTF-8"
 
-From 533ed02427bdaf0265f62fcb4f961854a41b7037 Mon Sep 17 00:00:00 2001
-From: ZouXu <iwatchnima@gmail.com>
-Date: Wed, 9 Sep 2020 21:59:13 +0800
-Subject: [PATCH 1/1] accel/tcg/user-exec: support computing is_write for
- mips32
-
-Those MIPS32 instructions can cause store operation:
-SB/SH/SW/SD/SWL/SWR/SDL/SDR/CACHE
-SC/SCD/SWC1/SWC2/SDC1/SDC2
----
- accel/tcg/user-exec.c | 34 +++++++++++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 3 deletions(-)
-
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index bb039eb32d..b5ad721aa5 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -708,10 +708,38 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-     siginfo_t *info = pinfo;
-     ucontext_t *uc = puc;
-     greg_t pc = uc->uc_mcontext.pc;
--    int is_write;
-+    int is_write = 0;
-+
-+    /* Detect store by reading the instruction at the program counter. */
-+    uint32_t insn = *(uint32_t *)pc;
-+    switch(insn>>29) {
-+    case 0x5:
-+        switch((insn>>26) & 0x7) {
-+        case 0x0: /* SB */
-+        case 0x1: /* SH */
-+        case 0x2: /* SWL */
-+        case 0x3: /* SW */
-+        case 0x4: /* SDL */
-+        case 0x5: /* SDR */
-+        case 0x6: /* SWR */
-+        case 0x7: /* CACHE */
-+            is_write = 1;
-+        }
-+        break;
-+    case 0x7:
-+        switch((insn>>26) & 0x7) {
-+        case 0x0: /* SC */
-+        case 0x1: /* SWC1 */
-+        case 0x2: /* SWC2 */
-+        case 0x4: /* SCD */
-+        case 0x5: /* SDC1 */
-+        case 0x6: /* SDC2 */
-+        case 0x7: /* SD */
-+            is_write = 1;
-+        }
-+        break;
-+    }
-
--    /* XXX: compute is_write */
--    is_write = 0;
-     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
- }
-
--- 
-2.25.1
-
---00000000000098aa3305aeff62d5
-Content-Type: text/html; charset="UTF-8"
+--Bg2esWel0ueIH/G/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">From 533ed02427bdaf0265f62fcb4f961854a41b7037 Mon Sep 17 0=
-0:00:00 2001<br>From: ZouXu &lt;<a href=3D"mailto:iwatchnima@gmail.com">iwa=
-tchnima@gmail.com</a>&gt;<br>Date: Wed, 9 Sep 2020 21:59:13 +0800<br>Subjec=
-t: [PATCH 1/1] accel/tcg/user-exec: support computing is_write for<br>=C2=
-=A0mips32<br><br>Those MIPS32 instructions can cause store operation:<br>SB=
-/SH/SW/SD/SWL/SWR/SDL/SDR/CACHE<br>SC/SCD/SWC1/SWC2/SDC1/SDC2<br>---<br>=C2=
-=A0accel/tcg/user-exec.c | 34 +++++++++++++++++++++++++++++++---<br>=C2=A01=
- file changed, 31 insertions(+), 3 deletions(-)<br><br>diff --git a/accel/t=
-cg/user-exec.c b/accel/tcg/user-exec.c<br>index bb039eb32d..b5ad721aa5 1006=
-44<br>--- a/accel/tcg/user-exec.c<br>+++ b/accel/tcg/user-exec.c<br>@@ -708=
-,10 +708,38 @@ int cpu_signal_handler(int host_signum, void *pinfo,<br>=C2=
-=A0 =C2=A0 =C2=A0siginfo_t *info =3D pinfo;<br>=C2=A0 =C2=A0 =C2=A0ucontext=
-_t *uc =3D puc;<br>=C2=A0 =C2=A0 =C2=A0greg_t pc =3D uc-&gt;uc_mcontext.pc;=
-<br>- =C2=A0 =C2=A0int is_write;<br>+ =C2=A0 =C2=A0int is_write =3D 0;<br>+=
- =C2=A0 <br>+ =C2=A0 =C2=A0/* Detect store by reading the instruction at th=
-e program counter. */<br>+ =C2=A0 =C2=A0uint32_t insn =3D *(uint32_t *)pc;<=
-br>+ =C2=A0 =C2=A0switch(insn&gt;&gt;29) {<br>+ =C2=A0 =C2=A0case 0x5:<br>+=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0switch((insn&gt;&gt;26) &amp; 0x7) {<br>+ =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0case 0x0: /* SB */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-case 0x1: /* SH */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x2: /* SWL */<br>+=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x3: /* SW */<br>+ =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0case 0x4: /* SDL */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x5: /* SDR =
-*/<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x6: /* SWR */<br>+ =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0case 0x7: /* CACHE */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0is_write =3D 1;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0break;<br>+ =C2=A0 =C2=A0case 0x7:<br>+ =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0switch((insn&gt;&gt;26) &amp; 0x7) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-case 0x0: /* SC */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x1: /* SWC1 */<br>=
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x2: /* SWC2 */<br>+ =C2=A0 =C2=A0 =C2=A0=
- =C2=A0case 0x4: /* SCD */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x5: /* SDC=
-1 */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x6: /* SDC2 */<br>+ =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0case 0x7: /* SD */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0is_write =3D 1;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0=
- =C2=A0 =C2=A0break;<br>+ =C2=A0 =C2=A0}<br>=C2=A0<br>- =C2=A0 =C2=A0/* XXX=
-: compute is_write */<br>- =C2=A0 =C2=A0is_write =3D 0;<br>=C2=A0 =C2=A0 =
-=C2=A0return handle_cpu_signal(pc, info, is_write, &amp;uc-&gt;uc_sigmask);=
-<br>=C2=A0}<br>=C2=A0<br>-- <br>2.25.1<br><br></div>
+On Mon, Sep 07, 2020 at 05:10:46PM +0200, Halil Pasic wrote:
+> On Fri, 24 Jul 2020 12:57:43 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > The default behaviour for virtio devices is not to use the platforms no=
+rmal
+> > DMA paths, but instead to use the fact that it's running in a hypervisor
+> > to directly access guest memory.  That doesn't work if the guest's memo=
+ry
+> > is protected from hypervisor access, such as with AMD's SEV or POWER's =
+PEF.
+> >=20
+> > So, if a host trust limitation mechanism is enabled, then apply the
+> > iommu_platform=3Don option so it will go through normal DMA mechanisms.
+> > Those will presumably have some way of marking memory as shared with the
+> > hypervisor or hardware so that DMA will work.
+>=20
+> Sorry for being this late. I had to do some high priority debugging,
+> which made me drop everything else, and after that I had some vacation.
+>=20
+> I have some questions about the bigger picture. The promised benefit of
+> this patch for users that invoke QEMU manually is relatively clear: it
+> alters the default value of some virtio properties, so that using the
+> defaults does not result in a bugous configuration.
 
---00000000000098aa3305aeff62d5--
+Right.
+
+> This comes at a price. I used to think of device property default values
+> like this. If I don't specify it and I use the default machine, I will
+> effectively get the the default value of of the property (as reported by
+> qemu -device dev-name,?). If I use a compat machine, then I will get the
+> compatibility default value: i.e. the what is reported as the default
+> value, if I invoke the binary whose default machine is my compat machine.
+
+Hm, ok.  My mental model has always been that defaults were
+essentially per-machine-type.  Which, I grant you isn't really
+consistent with the existence of the -device dev,? probing.  On the
+other hand, it's possible for a machine/platforms to impose
+restrictions on almost any property of almost any device, and it would
+suck for the user to have to know all of them just in order to start
+things up with default options.
+
+Given that model, extending that to per-machine-variant, including
+machine options like htl seemed natural.
+
+> With this patch, that reasoning is not valid any more. Did we do
+> something like this before, or is this the first time we introduce this
+> complication?
+
+I don't know off hand if we have per-machine differences for certain
+options in practice, or only in theory.
+
+> In any case, I suppose, this change needs a documentation update, which I
+> could not find in the series.
+
+Uh.. fair enough.. I just need to figure out where.
+
+> How are things supposed to pan out when QEMU is used with management
+> software?
+>=20
+> I was told that libvirt's policy is to be explicit and not let QEMU use
+> defaults. But this policy does not seem to apply to iommu_platform -- at
+> least not on s390x. Why is this? Is this likely to change in the future?
+
+Ugh.. so.  That policy of libvirt's is very double edged.  It's there
+because it allows libvirt to create consistent machines that can be
+migrated properly and so forth.  However, it basically locks libvirt
+into having to know about every option of qemu, ever.  Unsurprisingly
+there are some gaps, hence things like this.
+
+Unfortunately that can't be fixed without substantially redesigning
+libvirt in a way that can't maintain compatibility.
+
+> Furthermore, the libvirt documentation is IMHO not that great when it
+> comes to iommu_platform. All I've found is=20
+>=20
+> """
+> Virtio-related options
+>=20
+>=20
+> QEMU's virtio devices have some attributes related to the virtio transpor=
+t under the driver element: The iommu attribute enables the use of emulated=
+ IOMMU by the device.=20
+> """
+>=20
+> which:
+> * Is not explicit about the default, but suggests that default is off
+>   (because it needs to be enabled), which would reflect the current state
+>   of affairs (without this patch).
+> * Makes me wonder, to what extent does the libvirt concept correspond
+>   to the virtio semantics of _F_ACCESS_PLATFORM. I.e. we don't really
+>   do any IOMMU emulation with virtio-ccw.
+>=20
+> I guess host trust limitation is something that is to be expressed in
+> libvirt, or? Do we have a design for that?
+
+Yeah, I guess we'd need to.  See "having to know about every option"
+above :/.  No, I haven't thought about a design for that.
+
+> I was also reflecting on how does this patch compare to on/off/auto, but
+> this email is already too long, so decided keep my thoughts for myself
+> -- for now.
+
+on/off/auto works for your case on s390, but I don't think it works
+for POWER, though I forget the details, so maybe I'm wrong about that.
+
+
+>=20
+> Regards,
+> Halil
+>=20
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/core/machine.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index b599b0ba65..2a723bf07b 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -28,6 +28,8 @@
+> >  #include "hw/mem/nvdimm.h"
+> >  #include "migration/vmstate.h"
+> >  #include "exec/host-trust-limitation.h"
+> > +#include "hw/virtio/virtio.h"
+> > +#include "hw/virtio/virtio-pci.h"
+> > =20
+> >  GlobalProperty hw_compat_5_0[] =3D {
+> >      { "virtio-balloon-device", "page-poison", "false" },
+> > @@ -1161,6 +1163,15 @@ void machine_run_board_init(MachineState *machin=
+e)
+> >           * areas.
+> >           */
+> >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
+> > +
+> > +        /*
+> > +         * Virtio devices can't count on directly accessing guest
+> > +         * memory, so they need iommu_platform=3Don to use normal DMA
+> > +         * mechanisms.  That requires disabling legacy virtio support
+> > +         * for virtio pci devices
+> > +         */
+> > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy", =
+"on");
+> > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform=
+", "on");
+> >      }
+> > =20
+> >      machine_class->init(machine);
+>=20
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Bg2esWel0ueIH/G/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9a2zgACgkQbDjKyiDZ
+s5LUWQ/+JAEQF1QbBjie/H5DePAHcxyz0RicZ/ylbFd9VrPJxg4Xtmjb5SEZZNLu
+HelpPexAlX58cpxwyCdRYcBEKlaxowOXsxcPoQ33wwXaksLNuneyi+fB3QuE6y51
+VMm3xwieIun9oBWsNZZ4Bfl0uvsZlxAozqFAekcqpJKWwo4egSTAfkIfXWyC2ayd
+XRBTPucT60ZrJ34eMKD2r9eSTjjHo/hL1/pTheRnBVaJuz6HxiCV+qkGueqhWkTQ
+SfYD6iTcezjZ9Rk46KBSjv1dgQgWSIfv9sXuobuumvmDTJkGucOkQOJu3tOXn1ib
+bOpSsjdY+p4X18QynQcJV51VbltL2Oi3dzo0X2JbdrB1QBdldZXlEl7PeRzTDXzD
+cB07l0EYKHX7ylAj902/5w+H0D+vgWDzaygxA0GqdeRS678HW7NyW+oRJ+TaS/os
+Q/VWrEyeczGqMFT3O9nLosBTTIzc7Pv8yo25QJOSAwNYgJZUSdeGfjszg4w7PTgQ
+Kbn6iN6NSYwTFumlmr5ncE9RK6QmqIgIkF34Of9zkvNmsDgxAGPPuRao94oQSzQO
+fOhXuZzNMWYu/3BkyIUv3YrmeFABpvQDD9naN4sRWRfbgyuujdAljudRn8mkEY1s
+KTI7N3VfJ0kQ5p79OD5wY/GCC7jhShEXq9K69ANiDW6Z5DaabNU=
+=rqX/
+-----END PGP SIGNATURE-----
+
+--Bg2esWel0ueIH/G/--
 
