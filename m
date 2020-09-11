@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDD126690E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:41:22 +0200 (CEST)
-Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F518266912
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:43:01 +0200 (CEST)
+Received: from localhost ([::1]:54478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGovB-0006eY-KG
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44812)
+	id 1kGowm-0001nj-G0
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:43:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonq-0002iY-TJ; Fri, 11 Sep 2020 15:33:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:49643)
+ id 1kGony-0002na-1M; Fri, 11 Sep 2020 15:33:54 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:39069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonp-0000od-5h; Fri, 11 Sep 2020 15:33:46 -0400
+ id 1kGonq-0000pD-OT; Fri, 11 Sep 2020 15:33:53 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MfL5v-1kiRmY32Vf-00gt6v; Fri, 11 Sep 2020 21:33:42 +0200
+ id 1Mm9NA-1kyiH82wNs-00iCoM; Fri, 11 Sep 2020 21:33:43 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] hw/net/e1000e: Remove overwritten read handler for
- STATUS register
-Date: Fri, 11 Sep 2020 21:33:20 +0200
-Message-Id: <20200911193330.1148942-9-laurent@vivier.eu>
+Subject: [PULL 09/18] hw/net/e1000e: Remove duplicated write handler for
+ FLSWDATA register
+Date: Fri, 11 Sep 2020 21:33:21 +0200
+Message-Id: <20200911193330.1148942-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Sf2oOc/V610s/ecndz6lKV1wa7DBCekol9y2GpdW4qy79KRGsGA
- P4HbYN2xNqrnT4JCb9+PPSgoiKP3nUYqFMw8sfJQ/7o3VxmjBcxopN1ESKI+2vVjVfa3n22
- cuah/XcWonczpm19y1xphitMMHLIvfGVR8Mz+klSixHHcr9ThfIKaPUh6ZwdtIm+ISRLlxv
- IvaCQKbLMAGgWlc1Tx0Rg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Uhy+ph77yhM=:8CKwEN7xgbgoPhuGsCWcET
- vnNymzpcp2x+RCsejWFGQgH6UonEG6zbPl8b+V0Sfg3RmcHPgRhV/IygYlvbxaSpdceCKwrR6
- WTteGS3MPOmGyEo+G7eW+VlKZ3mAMVVLsvjgS5IbzcKjsJFBEO6uJZsuJxe5L/iqcw0rx9ss1
- JwTsHP7CQ8+exKse9YF6HHSCCc9jAHADuEdU2qcBAd79TfPACmpNbSGEimxVtrW/5y5EM3z/7
- Vf1tpNp3KUEiq0ijh4bKODa6f7squxQw2N9ifPABA2U9BrlYW0jxY5A1yhsXMPygnfb9HLkHX
- slC+W7qgB7x7rs5qOoHUoaQynNrn1LlbCMzXLwj/+lV7QxQT+cFEfNij6BuOBa9qTNiV5yCYp
- GMIYq/HA/cVoYS1ilp/ZKzSr/Bk2kwQlxIbiUh80NXJoG6ROCy1138sPlgI4mAD/65S2AV3RH
- D3bEg4m8IYQYvhmEjKZOorGCRi/1cKV7ZYu4DW00BpfkJWpzciDI9B7ZDYh9VAPPOzvIPFG4W
- f9d4IL3SOGPUDhxCk4wo23xm5H9ufZVK3I1j+6n01R/HaA7x/k6477jTIDer1EO1h2tSIR8E4
- /NBypvAol/CHuCmDxCgs9ToqmTavhH8d1XVmVzbBJU8JWWN9hPNQxCuZs0Toj4zD+1V9eHZ4D
- G3paFfxzHcaYf31mF2FvGhkaKZ5S5u1ob+sFtLWbYHob8geqP1Ac8EKbD/csMa3dUDTPg/9xx
- iRcokHOzDt/0cHYrhieVMldtOfFhw5YbQ1yx0JeIOOFOWKW/93cfQZ0hCjbZuyd/66yonXK2v
- qaNkLTFgHPWQRjZoUK4mxlh+K85w5pqi+5MfLJC0ETEX2XPdDoPFd8biRQbYGeKmcNjLWF1
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Y/4Sk9ZML6j6d7n4zSs4wCwLlVgPAzfY2WrD6YIIDM30LKGNFML
+ ljMQ17ZVwLHCpUytAcSfMZBzQCprAwZZoRpl7IL6kZWczDLsIDqTN5WouRTpyZ7+0eFhA0c
+ akMa1Nsrm81XwwIVVEe5P2jQ7tWl1XCR7voTHoORb/QbyFyludvSBVpzxjnR2WL9JQC3gRn
+ PNOdaNLF75m5lyelh6D2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wwAWt+jCFKA=:DEREyALNF8B/RQCivYJ1x0
+ mOSVPrr2Ne/h2Vcq3swlZ63CUcyO7e3p8FwMqJDDG5kI+m8V6yD222uRYb/KUtpQIWa7UHOe7
+ wyAJusnAbW2oZs7u+Kj5gfwPeysupvoKeR5QIRmt1liNcyx4WUOXyDJiicuh5uQz3Qej9Qjiw
+ l1iMsq3BzIInv4JtCH5+CK7yE5kwW4TAhHO+7ACRE+lYJ77HWlLf5WvuXtBvis2iVDiDqOEwN
+ /YNJpozUEeXOE5N34xV/QuTZr4YFe2DL41YZP0pvTMB/vmSbOKwbrU0u9xAyyoovdwD7ByFdF
+ 3QMBRdMNWtMepOW9LUEBkTabB+Gvzizp3sCMwQbKmTu1Jp2hgCUGNYdYyJTbYrwwSi4+4tX3M
+ L3d1tnx+M/aYjV+HD4TmNzcbjS+h5zSJGiVpQb2fO3/XjnUK0KfIpK65OdUACzeYqg3DXNmtR
+ 77twjq0y8GDD83z3ljs9xeggte9DOu1Y6bXGq4005WnAiwZ7+Zd3SQksBD9sAFPT/O6YONd8h
+ 5W/c1RUTfMaWfqPu6Ui4GKu13zucjmI6a+ptXdCB4CaCu7i8Qs6xsN23tcWWcliCmcGPvzDre
+ 2PE7zx5StOJKDhvLtNmMr94mFZQx1u6YaFaYye8kYinaCXJZIt4qIi2Yw1LHB/A1PIUCWUd+p
+ vwc4tLVxyuoSN47B12ANe3SWHZ45XrV7qcE0oe4S6UTDJ8Q+67wc2njoyGEXU48KOPpWRL3TX
+ WIRFKConZrp4iPwzxOM2RRrGpHVanLWuQWXI3opPk+na2vGnQG/krSbxp/5B4F+fLK1IF/ZKi
+ ugbwL9yp89d9eDzBYExiuOPG94/gOqBKNbe657CzP6NMlP6N+lVWYdARLDLllTpVdBDwNa3
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -79,42 +79,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The STATUS register readop handler is initialized first with
-the generic e1000e_mac_readreg() handler:
+The FLSWDATA register writeop handler is initialized twice:
 
-  2861 #define e1000e_getreg(x)    [x] = e1000e_mac_readreg
-  2862 typedef uint32_t (*readops)(E1000ECore *, int);
-  2863 static const readops e1000e_macreg_readops[] = {
+  3067 #define e1000e_putreg(x)    [x] = e1000e_mac_writereg
+  3068 typedef void (*writeops)(E1000ECore *, int, uint32_t);
+  3069 static const writeops e1000e_macreg_writeops[] = {
   ....
-  2919     e1000e_getreg(STATUS),
+  3102     e1000e_putreg(FLSWDATA),
+  ....
+  3145     e1000e_putreg(FLSWDATA),
 
-Then overwritten with the specific e1000e_get_status handler:
+To avoid confusion, remove the duplicated initialization.
 
-  3018     [STATUS]  = e1000e_get_status,
-
-To avoid confusion, remove the overwritten initialization.
-
-6f3fbe4ed0 ("net: Introduce e1000e device emulation")
+Fixes: 6f3fbe4ed0 ("net: Introduce e1000e device emulation")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20200904131402.590055-2-f4bug@amsat.org>
+Message-Id: <20200904131402.590055-3-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
  hw/net/e1000e_core.c | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index bcd186cac524..5170e6a45633 100644
+index 5170e6a45633..bcfd46696ff7 100644
 --- a/hw/net/e1000e_core.c
 +++ b/hw/net/e1000e_core.c
-@@ -2916,7 +2916,6 @@ static const readops e1000e_macreg_readops[] = {
-     e1000e_getreg(TSYNCRXCTL),
-     e1000e_getreg(TDH),
-     e1000e_getreg(LEDCTL),
--    e1000e_getreg(STATUS),
-     e1000e_getreg(TCTL),
-     e1000e_getreg(TDBAL),
-     e1000e_getreg(TDLEN),
+@@ -3141,7 +3141,6 @@ static const writeops e1000e_macreg_writeops[] = {
+     e1000e_putreg(RXCFGL),
+     e1000e_putreg(TSYNCRXCTL),
+     e1000e_putreg(TSYNCTXCTL),
+-    e1000e_putreg(FLSWDATA),
+     e1000e_putreg(EXTCNF_SIZE),
+     e1000e_putreg(EEMNGCTL),
+     e1000e_putreg(RA),
 -- 
 2.26.2
 
