@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C252668EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:35:41 +0200 (CEST)
-Received: from localhost ([::1]:47662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD95D2668F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:36:42 +0200 (CEST)
+Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGoph-0004KQ-0V
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:35:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
+	id 1kGoqf-0006EZ-OC
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonj-0002Xw-11; Fri, 11 Sep 2020 15:33:39 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:37843)
+ id 1kGonq-0002gS-44; Fri, 11 Sep 2020 15:33:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:35715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGong-0000nO-NJ; Fri, 11 Sep 2020 15:33:38 -0400
+ id 1kGono-0000oV-Gx; Fri, 11 Sep 2020 15:33:45 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MtPzy-1kWZpT2vnS-00upci; Fri, 11 Sep 2020 21:33:34 +0200
+ id 1MLRgp-1jyKLM0plL-00ISSv; Fri, 11 Sep 2020 21:33:35 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/18] Trivial branch for 5.2 patches
-Date: Fri, 11 Sep 2020 21:33:12 +0200
-Message-Id: <20200911193330.1148942-1-laurent@vivier.eu>
+Subject: [PULL 01/18] hw/mips/fuloong2e: Convert pointless error message to an
+ assert()
+Date: Fri, 11 Sep 2020 21:33:13 +0200
+Message-Id: <20200911193330.1148942-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
+References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Uf1ImHGN3hTCyItTuo1NSRy+QQeqZKpPch5ylqEbMnYLi5mncEh
- /phlRp2Peq37BptkEMxOeOX4Q0UB+xGrm0Xqrki/ekT9Zyql9WxNbpvG3Ht4b0hURQzc/MN
- KkLvSdWQvBSnlydZxZ4kzdLmJOuwbHuCsizZmpy6xDnJ0Y+wo3xOC5nDAJMuEAPL9dQbE8f
- B1IzdaYrozXGwzqM/8aug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:p3sUHaW7zsE=:7+ynzq724ge7URL9KWOMuF
- 1kGRGrwe/9WHiE7nzReq1eDB7iJdiuKtdkrHGrZeMNiqEK/HRMZYzPyQn+Uh8Ozl+N0PpqC2J
- i3jtNAGKyi+NNaRQn20A+97ZwKQHBEFr4HiJ6yeMDwnvEngeeW6xZT6MAT3vW4bIv2dLicA1e
- qcoDQxBhtiIP4lf7RemVigJko4mXXpTTUnvnSH5juxirtXdx9shiHD0ZnzRW4aWyFBYDCJ4FX
- 2YFN9S/Et/dvbaMx15kBFrgDB2ixTIWnqU4qoYf7wyHWRr3oDT/geH0pZZ215KBir/4TiKiVu
- IBzS7zlA6aHOrImDOpNKfgDymekkJiJgJHCIqRwz68Aeih59H1jwYL3DsTgx6UVmeB80ihGVO
- kyb6yZmIoOg16tW8j2ouX417OFi6M/NdnJ25aHMQwMycrTHMUdYTHleTyDbkcX8A1CahzwzHE
- 9sMo44+9wjW0Ru7hEUmxBHNATVKLHyLiJTUgGamCsBuEG03SdeyGuXjdDS5JrAbIX7jV6eqhQ
- cG5Diz6y/fdtIn88UlVlxEo6HNRR99RePoQBmfqeuNLR+KgZRbeSX/7jNdF7bh+IKbMz5yW3o
- g/Z4rnl0B5Qo4nTPJg+thLNFLy1OCgk5cYxPO93V+WuReol3iRWmthCip9nXIBd0a1Kxf7L7G
- KEENJTmIH5MEIteABiXO8v8s6io6xkGo3kSX4i6jjcAZfP8jHjv73yJLv1/5jKHbKc8lcYEyO
- Jl5hh3PblczWzdoKu9ZVNeLP7747mZXuEiRcBnD7ZXyqgiHHs/i+/Af2ekXyBCigN3drhivuT
- 4GpGnq1mJAYiUaaVDNeDgi4kxHAMbyNIhSGrWVBWqgejpQ+IIqL+8b1dBHNIn68L6yq8AZx
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:W6d0M8xiDFfJGbyVtJHHG7N7kNRbKGLWK4jJG48cK3TzhzDMdia
+ IVRiUrQ5TRdaCsCYLGPJa+bJe0hP63R3jyLnpGn14uNeFtQk5bDsYITACheJjl6VN40yzVr
+ HuIaSg1YBkH+3F8o659PoPgVSI9edT4qdzzvFYOeT9k4IUB+KNCv3qbD0VNcfN9q62B1SGo
+ LRVO5giEnv9pdFegavjZA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1liJtNPbD+A=:yDw3vphphqB8zWAli9r/3z
+ wKVRpHPWodn94qiIE2Gdxi00rRXVKhZ2mbl8MsBzQFf5+j86C8vyuep6jhMbrYYnQPxNQ/trN
+ asBGTDzVMBdFnQBNHoZKwlawyB78Wk0O4ded82/tTv4GiLH78DOl31kmE75tDcIOkXZFYrDYV
+ 0VgDLjev3tIyixyPZlAIFzrZYnYDq0oJ3wUz0quGd1pA9ViwBBpGmdr4bwxuTgemxleUA97R2
+ 1ZBoVhiCjFiEJ7kIaXm/lUqXvkoGhkK6Y5iuQlrJvDyAsR64i0JyC8O3XYx5+e8yqfn/tE8OT
+ eVT0DLisnvXo9ue/86rOtlSNmCtahTWCpia57o2OMZFnwKirpjyAJJG3jfpgilsVgdFXjDi1L
+ A2GM1bdjSzaD4uCU2mqXPwbmf/gk0EJvb1itns1QHF+sdu/h+aVtAriCByVoHNWm/m5qVH6b/
+ AUdr6XxXo/loZDbeIg2wnFwRGuZbCSJzU5gxAVkTQj60w6kAiqvJtf9e/823qD49XCA9pmtkO
+ ZWmPSLlMb/qtXwLAHtz2JthRgSC3s988qkR25hceYEm+tPmGfGuOFiPEMlXDa6fqgMaIeLOKF
+ 6g7WUGI5i+fThANYco3+504Nw8e5rWxocEl9MyCpmgG7T2Hm5gieLr+vNTue75s88PzWnhKC2
+ bprTsnKzsNQ85jcLIdlyIeq8WYkvN75KYzs7AqBiMs9+Ha+LapBEeeNd9o078nZLgyts+kgm6
+ yH87G2LGUxhH2u+x267ahSSMl48iBwZjfBS97EedlyyRBhv0tnLkaLv2TNSrl8+RmaO7inKIu
+ +SMe1CbVVpd3qSS6S94Tv4Pjki9nII0lmua4qSm2IjjfyEj4H4pe36qvFeBX6HIm0nVYuf1
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,90 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Huacai Chen <chenhc@lemote.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/sirius/ipxe-20200908-pu=
-ll=3D=0D
--request' into staging (2020-09-08 21:21:13 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-request=
-=0D
-=0D
-for you to fetch changes up to 8821e21414468b1810f0ccf38bcbfa5c0bd1d56b:=0D
-=0D
-  target/i386/kvm: Add missing fallthrough comment (2020-09-11 21:25:59 +02=
-00)=0D
-=0D
-----------------------------------------------------------------=0D
-trivial patches pull request 20200911=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Greg Kurz (2):=0D
-  Makefile: Drop extra phony cscope=0D
-  Makefile: Skip the meson subdir in cscope/TAGS/ctags=0D
-=0D
-Jon Doron (1):=0D
-  hw: hyperv: vmbus: Fix 32bit compilation=0D
-=0D
-Pan Nengyuan (1):=0D
-  test-vmstate: remove unnecessary code in match_interval_mapping_node=0D
-=0D
-Paolo Bonzini (1):=0D
-  kconfig: fix comment referring to old Makefiles=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (10):=0D
-  hw/mips/fuloong2e: Convert pointless error message to an assert()=0D
-  hw/isa/isa-bus: Replace hw_error() by assert()=0D
-  hw/acpi/tco: Remove unused definitions=0D
-  hw/gpio/omap_gpio: Replace fprintf() by qemu_log_mask(GUEST_ERROR)=0D
-  hw/gpio/max7310: Replace disabled printf() by qemu_log_mask(UNIMP)=0D
-  hw/net/e1000e: Remove overwritten read handler for STATUS register=0D
-  hw/net/e1000e: Remove duplicated write handler for FLSWDATA register=0D
-  target/i386/kvm: Rename host_tsx_blacklisted() as host_tsx_broken()=0D
-  util/hexdump: Convert to take a void pointer argument=0D
-  util/hexdump: Reorder qemu_hexdump() arguments=0D
-=0D
-Sergei Trofimovich (1):=0D
-  meson.build: tweak sdl-image error message=0D
-=0D
-Thomas Huth (2):=0D
-  hw/arm/pxa2xx: Add missing fallthrough comment=0D
-  target/i386/kvm: Add missing fallthrough comment=0D
-=0D
- Kconfig.host             |  4 ++--=0D
- Makefile                 | 10 ++++++----=0D
- hw/acpi/tco.c            | 11 -----------=0D
- hw/arm/pxa2xx.c          |  2 +-=0D
- hw/dma/xlnx_dpdma.c      |  2 +-=0D
- hw/gpio/max7310.c        | 11 +++++------=0D
- hw/gpio/omap_gpio.c      |  6 ++++--=0D
- hw/hyperv/vmbus.c        |  3 ++-=0D
- hw/isa/isa-bus.c         |  9 ++-------=0D
- hw/mips/fuloong2e.c      |  5 +----=0D
- hw/net/e1000e_core.c     |  2 --=0D
- hw/net/fsl_etsec/etsec.c |  2 +-=0D
- hw/net/fsl_etsec/rings.c |  2 +-=0D
- hw/sd/sd.c               |  2 +-=0D
- hw/usb/redirect.c        |  2 +-=0D
- include/qemu-common.h    |  3 ++-=0D
- meson.build              |  4 ++--=0D
- net/colo-compare.c       | 24 ++++++++++++------------=0D
- net/net.c                |  2 +-=0D
- target/i386/kvm.c        |  5 +++--=0D
- tests/test-vmstate.c     |  3 ---=0D
- util/hexdump.c           |  4 +++-=0D
- util/iov.c               |  2 +-=0D
- 23 files changed, 52 insertions(+), 68 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Displaying "vt82c686b_init error" doesn't give any hint about why
+this call failed. As this message targets developers and not users,
+replace the pointless error message by a call to assert() which
+will provide more useful information.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Huacai Chen <chenhc@lemote.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200901104043.91383-3-f4bug@amsat.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/mips/fuloong2e.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 8ca31e5162c4..f28609976bf4 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -240,10 +240,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     PCIDevice *dev;
+ 
+     isa_bus = vt82c686b_isa_init(pci_bus, PCI_DEVFN(slot, 0));
+-    if (!isa_bus) {
+-        fprintf(stderr, "vt82c686b_init error\n");
+-        exit(1);
+-    }
++    assert(isa_bus);
+     *p_isa_bus = isa_bus;
+     /* Interrupt controller */
+     /* The 8259 -> IP5  */
+-- 
+2.26.2
+
 
