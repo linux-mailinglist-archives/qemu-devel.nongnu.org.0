@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F518266912
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:43:01 +0200 (CEST)
-Received: from localhost ([::1]:54478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E52B26691A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 21:45:45 +0200 (CEST)
+Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGowm-0001nj-G0
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:43:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44842)
+	id 1kGozQ-0006GP-5X
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 15:45:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGony-0002na-1M; Fri, 11 Sep 2020 15:33:54 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:39069)
+ id 1kGoo8-0003H8-II; Fri, 11 Sep 2020 15:34:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:51749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kGonq-0000pD-OT; Fri, 11 Sep 2020 15:33:53 -0400
+ id 1kGoo6-0000re-FN; Fri, 11 Sep 2020 15:34:04 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mm9NA-1kyiH82wNs-00iCoM; Fri, 11 Sep 2020 21:33:43 +0200
+ id 1MqZE0-1kuIQL1PM0-00mcfC; Fri, 11 Sep 2020 21:33:45 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/18] hw/net/e1000e: Remove duplicated write handler for
- FLSWDATA register
-Date: Fri, 11 Sep 2020 21:33:21 +0200
-Message-Id: <20200911193330.1148942-10-laurent@vivier.eu>
+Subject: [PULL 10/18] meson.build: tweak sdl-image error message
+Date: Fri, 11 Sep 2020 21:33:22 +0200
+Message-Id: <20200911193330.1148942-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200911193330.1148942-1-laurent@vivier.eu>
 References: <20200911193330.1148942-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Y/4Sk9ZML6j6d7n4zSs4wCwLlVgPAzfY2WrD6YIIDM30LKGNFML
- ljMQ17ZVwLHCpUytAcSfMZBzQCprAwZZoRpl7IL6kZWczDLsIDqTN5WouRTpyZ7+0eFhA0c
- akMa1Nsrm81XwwIVVEe5P2jQ7tWl1XCR7voTHoORb/QbyFyludvSBVpzxjnR2WL9JQC3gRn
- PNOdaNLF75m5lyelh6D2w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wwAWt+jCFKA=:DEREyALNF8B/RQCivYJ1x0
- mOSVPrr2Ne/h2Vcq3swlZ63CUcyO7e3p8FwMqJDDG5kI+m8V6yD222uRYb/KUtpQIWa7UHOe7
- wyAJusnAbW2oZs7u+Kj5gfwPeysupvoKeR5QIRmt1liNcyx4WUOXyDJiicuh5uQz3Qej9Qjiw
- l1iMsq3BzIInv4JtCH5+CK7yE5kwW4TAhHO+7ACRE+lYJ77HWlLf5WvuXtBvis2iVDiDqOEwN
- /YNJpozUEeXOE5N34xV/QuTZr4YFe2DL41YZP0pvTMB/vmSbOKwbrU0u9xAyyoovdwD7ByFdF
- 3QMBRdMNWtMepOW9LUEBkTabB+Gvzizp3sCMwQbKmTu1Jp2hgCUGNYdYyJTbYrwwSi4+4tX3M
- L3d1tnx+M/aYjV+HD4TmNzcbjS+h5zSJGiVpQb2fO3/XjnUK0KfIpK65OdUACzeYqg3DXNmtR
- 77twjq0y8GDD83z3ljs9xeggte9DOu1Y6bXGq4005WnAiwZ7+Zd3SQksBD9sAFPT/O6YONd8h
- 5W/c1RUTfMaWfqPu6Ui4GKu13zucjmI6a+ptXdCB4CaCu7i8Qs6xsN23tcWWcliCmcGPvzDre
- 2PE7zx5StOJKDhvLtNmMr94mFZQx1u6YaFaYye8kYinaCXJZIt4qIi2Yw1LHB/A1PIUCWUd+p
- vwc4tLVxyuoSN47B12ANe3SWHZ45XrV7qcE0oe4S6UTDJ8Q+67wc2njoyGEXU48KOPpWRL3TX
- WIRFKConZrp4iPwzxOM2RRrGpHVanLWuQWXI3opPk+na2vGnQG/krSbxp/5B4F+fLK1IF/ZKi
- ugbwL9yp89d9eDzBYExiuOPG94/gOqBKNbe657CzP6NMlP6N+lVWYdARLDLllTpVdBDwNa3
+X-Provags-ID: V03:K1:VNrmQrRzyrOXhlp05PCPfiNOyfd2vzwDSlBEpdOlNI1dydqOlPX
+ NVXd40ouFNz+WYole/4+GAPQtghb+bJRBbjatVj4fKl6rJcx26/mRQteMOBFnfKBWj34ekP
+ i5W93fharJ76/2OgKd/b/RK3695FrRDhxKCYNJD77fTt8d0uqFt2C+keq2zpNEpJ+DXwzy4
+ UfzpeTzRRdYK6xkYYO4Gw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eLeDbJgHpts=:wphjyO+wZA5BmfIA2ZDyEE
+ TSScBPnYBgu4w7pcPCR+OzqiP91VM0sxBFaxASPx84FuKLZ61uLsffjbiuvM+lUxT9fKXPu7t
+ QCZAlzcu2zvrS4R5o8ymYRkIoFgbRRpH+VVvFoRNel7uygetpAeYSlzIlEfUtk1V15wZRQFtw
+ Qnd1ug9CSLOEpEwBuUB981tWwVJ6TSrLpt3ygfrbAitN9uJ0TE/OnF62wJJ7rP7grzZhcIEzx
+ eZG4pGjRsSelmXfemnTa8GJ62UTgxJbSHYAAxkDL56/63AQVgJGcZbwZzQ1YjsNAkbMFIwH2l
+ RfbzvHr879MjscOJz3lDKyc1do4p//+XOvpmOfd721m3MnIHZAJuCr501bWlnxLTiuLruKGdP
+ 5GG1rMAabpw3pvEIFbx3Yatq1bGIvzPzjIWL6Da38RDEfdQvK0vsFtfXQtwwMIX/6MQeF6lNM
+ MBuFpLqsI+c4Pifaq12CYlcdtHn2pZPAU9mNYdDSHTbIbVy6CxhoUZ/lUTL7y0Xkf1LK+TWU1
+ kM/GWtFiRWbutakk5v2tFWq5ozUQlXaCBolExh2pTzXdIjlmzH1621veM/KdZNlZMvrcdBsIo
+ Upf9J5roIt4pyyJD8br2OefEMUFJlsYg0kr5IPQm7tEBL8w73FgoAWIdYXvNRmTRBTUvbYVDw
+ W11jserIkr/zJFRRpg2Jtq7OX5UReKdC2Cg1APZPWuns6xqMqz2nXPO2ysOYTSi0XTaT5CTwL
+ lK1Zh5tnjSHugX0vT3gBshtzGv+pp0SLPJ7UJIwdJuj2NZ04l2axqnw+WRRAJcnlhPxWLaOut
+ U2XWzVFDEiB8+3dDrZ0OHPXOKz58KqWijacJptdbrB4RWzySxHM8FeUnpff8HJDqOtJFJyv
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 15:33:45
@@ -71,47 +70,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Rafael Kitover <rkitover@gmail.com>, qemu-trivial@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Sergei Trofimovich <slyfox@gentoo.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Sergei Trofimovich <slyfox@gentoo.org>
 
-The FLSWDATA register writeop handler is initialized twice:
+Before the change missing SDL was reported as:
 
-  3067 #define e1000e_putreg(x)    [x] = e1000e_mac_writereg
-  3068 typedef void (*writeops)(E1000ECore *, int, uint32_t);
-  3069 static const writeops e1000e_macreg_writeops[] = {
-  ....
-  3102     e1000e_putreg(FLSWDATA),
-  ....
-  3145     e1000e_putreg(FLSWDATA),
+    ../meson.build:253:4: ERROR: Expected 1 arguments, got 2.
 
-To avoid confusion, remove the duplicated initialization.
+After the error as:
 
-Fixes: 6f3fbe4ed0 ("net: Introduce e1000e device emulation")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20200904131402.590055-3-f4bug@amsat.org>
+    ../meson.build:258:4: ERROR: Problem encountered: sdl-image required, but SDL was not found
+
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+CC: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+CC: Rafael Kitover <rkitover@gmail.com>
+Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200908074016.2593596-1-slyfox@gentoo.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/e1000e_core.c | 1 -
- 1 file changed, 1 deletion(-)
+ meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 5170e6a45633..bcfd46696ff7 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -3141,7 +3141,6 @@ static const writeops e1000e_macreg_writeops[] = {
-     e1000e_putreg(RXCFGL),
-     e1000e_putreg(TSYNCRXCTL),
-     e1000e_putreg(TSYNCTXCTL),
--    e1000e_putreg(FLSWDATA),
-     e1000e_putreg(EXTCNF_SIZE),
-     e1000e_putreg(EEMNGCTL),
-     e1000e_putreg(RA),
+diff --git a/meson.build b/meson.build
+index 5421eca66a02..9dec3f5b2d4f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -273,8 +273,8 @@ if sdl.found()
+                          method: 'pkg-config', static: enable_static)
+ else
+   if get_option('sdl_image').enabled()
+-    error('sdl-image required, but SDL was @0@',
+-          get_option('sdl').disabled() ? 'disabled' : 'not found')
++    error('sdl-image required, but SDL was @0@'.format(
++          get_option('sdl').disabled() ? 'disabled' : 'not found'))
+   endif
+   sdl_image = not_found
+ endif
 -- 
 2.26.2
 
