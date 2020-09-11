@@ -2,71 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4DD265DCE
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 12:27:21 +0200 (CEST)
-Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EC0265DAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 12:19:57 +0200 (CEST)
+Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGgH2-0004Qa-3t
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 06:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58720)
+	id 1kGg9t-0000IF-3C
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 06:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGgFf-0003MP-OP
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 06:25:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49228)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kGgFd-0007xq-1g
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 06:25:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kGgFY-00016O-W2
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 10:25:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F12EF2E8127
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 10:25:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kGg8f-0007oW-Iw; Fri, 11 Sep 2020 06:18:41 -0400
+Received: from mail-eopbgr10117.outbound.protection.outlook.com
+ ([40.107.1.117]:64643 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kGg8c-00074J-Dt; Fri, 11 Sep 2020 06:18:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dF4ZY75dwwUDgsssU4W0RsLJ4Z9+vTX2SSLMB1pFumjO59+kziMtAx7O3otbIImc2zivyaKKzkgt9aW2LfoAAMkxVIFfFcO9Zw2ijQSQJjuVN4Yf03dF7nR7EAXGIqDaVtTdeD+1+hNuG2v7p45IhYPtopOtFIVAt0gDUWvU1CnbXdPcehFcbDSC+HEfePpHhuEq/DS7meoNsSjrnOYFZyRpv7lXKanq9oljUfuda/71QqjB5aEVinjbdD+fS22M/IyC6Ywd74cJX/NBpRA40J7zI49wfQo78CXbPM0iUThS1vE3+z6LdB1lrvWX1sn5O1MVjstzj3l7p+sUo28n6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EtvD1PK7g0TRxYql1DOCK6MVly9x0QkQkGr8iT7KR98=;
+ b=jDLCCVNiA76rNCntA/gDr0V0yMA5VUudplSb3c8ZMfOlzF/7N7hdoj3WWDczTC1UgXKrxmSa/GbZ8IZ5vJrQZZVfRCKW/rUcr5yCtJleseRCVXEjBxPRP5pbi349TzL/Np38QO12kg8gJh5gaYmyg6pt2o4qoIeI5LdDjJi9Knj7i+zzYB75QXA6uykaz5Oe9+3/VhreaGM3k0XaZ5ETVOTRoqYSniKjVWRoIHKz7pNovjj42845DwrdN9zgfvT2E3J8i8puy2BPuWT3a9TyOKmbvpbXmaQzgNTvk/5C0ZHIqCWMgzsydamSzhAdos8qP15vUH9OEecauW3Ia61RAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EtvD1PK7g0TRxYql1DOCK6MVly9x0QkQkGr8iT7KR98=;
+ b=rD6Tn0n1+bBfEzpdISQjgKIVloQtoAzYhoEUbgLfpsJWQy1M4fN7y2oagJR8M+1iOXTqXnbQ9n4NjcIGRHEdfE9ZpkcaxLpZXNV2hcIKGt9STFTukEYG5xh3pxeB1j9rEeCsFmExaz+L2ll1Z66zjgVHEwWTW5h3R+6xWRYbJdU=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB2982.eurprd08.prod.outlook.com (2603:10a6:209:43::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 11 Sep
+ 2020 10:18:34 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%7]) with mapi id 15.20.3348.019; Fri, 11 Sep 2020
+ 10:18:34 +0000
+Subject: Re: [PATCH 11/14] block/qcow2-bitmap: return startus from
+ qcow2_store_persistent_dirty_bitmaps
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ berto@igalia.com, eblake@redhat.com, jsnow@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, pavel.dovgaluk@ispras.ru, ari@tuxera.com,
+ mreitz@redhat.com, kwolf@redhat.com
+References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
+ <20200909185930.26524-12-vsementsov@virtuozzo.com>
+ <20200911113838.482b062e@bahia.lan>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <2d8099d0-c04c-8b91-fd1e-f988cbba14ce@virtuozzo.com>
+Date: Fri, 11 Sep 2020 13:18:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+In-Reply-To: <20200911113838.482b062e@bahia.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM4PR0902CA0014.eurprd09.prod.outlook.com
+ (2603:10a6:200:9b::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2020 10:18:30 -0000
-From: Hansni Bu <1895080@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
-X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
-X-Launchpad-Bug-Modifier: Hansni Bu (hansni)
-References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
- <92de5ee0-629a-640a-d547-8c2d650742f2@vivier.eu> <87tuw4odwk.fsf@linaro.org>
- <87r1r8odph.fsf@linaro.org>
-Message-Id: <CAGTPX+DAoJcw2y9gPjkP6kGXEQW7=e1tohM8vND9j9Qtxuc5vw@mail.gmail.com>
-Subject: Re: [Bug 1895080] [NEW] pgb_reserved_va: Assertion `addr == test'
- failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: dc125b74cab5526412c912ed249b6268dac1fede
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 02:05:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.150) by
+ AM4PR0902CA0014.eurprd09.prod.outlook.com (2603:10a6:200:9b::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Fri, 11 Sep 2020 10:18:33 +0000
+X-Originating-IP: [185.215.60.150]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cb625127-7808-45a4-21c2-08d8563c0a23
+X-MS-TrafficTypeDiagnostic: AM6PR08MB2982:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB29821DAC70609B342CE89966C1240@AM6PR08MB2982.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:233;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /Ls6DS2UrEysl7fPbSV94r+7lyLEsd0f92EX9Mh8T5haLM9r1VbhwkfZrsha2EJPCE9qG337f8HS3bRPcrpVVRFySz2F8WYxXbzuUlBsGplnToSnze+xKPYTdn5lHS0Z55KmANMZTmFlmmdLsgrkQnORZ6HhKLApvJYVQ5E4H8/wPqx7QmEykMs/P1UEHb9v7e6aeF66dihe+NfBu+sDbMr/z6O1HKedxutojUTqVv5nLab9kapz6u/eBhPalzLWOIoU/Ey7DTUGS4lnQLT/ahJQibpY+2X+c1Oh3zA390Pu3vf7Dwtmlb0TslwDfW5HGUYVR04xIDbE2C8RSqooIMxew8i1KGmPf3iI6Rp+uVwWQXh8xOu6D+7icN2CuA7jTZP7c+5rxRBnb/jxVTNPpA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(396003)(136003)(376002)(346002)(366004)(31696002)(316002)(66574015)(5660300002)(8936002)(19627235002)(66946007)(6916009)(66556008)(4326008)(31686004)(66476007)(956004)(86362001)(478600001)(2616005)(2906002)(36756003)(16576012)(6486002)(7416002)(16526019)(26005)(83380400001)(52116002)(186003)(8676002)(14143004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 4KPvCCn/51MSbbNof8hmxez2YuQ/dffXAIsTpUljkzpWCuy+k0aLhs6UgwMzTVAecb+OeqynD4d0QDCARENGR13GJCt+3gQrAYB/iQngf32yCNswSVYHjmu4l7nuVBdHe2IOeFahStOxXJOSyaS5LsCoG6YQNka6+a23WWDA9TV7HpUqcB4/KltJ5y6O1nMXXkMDEv1f7efooQ7ClcH7zht4itJN/TNef2jxl/Z2o3uaHcL/Hpig5eSgyd/xGvHTRyJ9xLGSX93GbVxyZNhEBxL18qLSyHhgAAyD/QWSUQpm2STQuMFpFsiQMvEJQnnjAGdRe2rI2+jyC5C0YMGc+5X43NlUjptsNFPqrEj6uvWHk4U/eXaKMkZHGheHiYj0qgkES2+5L9OLF8mhdJB7P0zCQCPCT+tczhY3a9sR07oBCNxhhEs+O8uboNf2J3T211qfeFc6cyRf1QPXGT0s0gA6AvZT5J21riLGSs8J9xmLnsCUpsNoQaMGC5BbCVowY7qJ4XI0LrDIAVweKPSbnKwELqIoXjAx5jrara8YJOhXM2WG74npIhnd1ipGpPY7W41rduxNZjxZWnCb9Aj5LXH5VpXZ7/Tspwl4uiGthlYmT8N/QBh2T7/wtr/wuBR37dAtOwp6hf/5qhFhUpxpGg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb625127-7808-45a4-21c2-08d8563c0a23
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2020 10:18:34.2529 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RE5qFRfZ7KcKno3p7RREQmwmOl9e5J1KVXqOrM8EDKvg+ieGbVHMRuOQyT2r1n4cGdDFriGW820RkpOWJP7YKj1ddMxTF7qlRy6o6UxojUQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB2982
+Received-SPF: pass client-ip=40.107.1.117;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 06:18:35
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-3.576, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,183 +122,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No, it's not set by CentOS-7.5.
-Does it mean that we just cannot run the ELF in such a case? I've tried
-many times, the assert always fails. Maybe, we can blame CentOS-7.5.
-BTW: with the option "-p 65536", the case runs successfully.
+11.09.2020 12:38, Greg Kurz wrote:
+> s/startus/status
+> 
+> On Wed,  9 Sep 2020 21:59:27 +0300
+> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+> 
+>> It's better to return status together with setting errp. It makes
+>> possible to avoid error propagation.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/qcow2.h        |  2 +-
+>>   block/qcow2-bitmap.c | 13 ++++++-------
+>>   2 files changed, 7 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/block/qcow2.h b/block/qcow2.h
+>> index e7e662533b..49824be5c6 100644
+>> --- a/block/qcow2.h
+>> +++ b/block/qcow2.h
+>> @@ -972,7 +972,7 @@ bool qcow2_get_bitmap_info_list(BlockDriverState *bs,
+>>                                   Qcow2BitmapInfoList **info_list, Error **errp);
+>>   int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp);
+>>   int qcow2_truncate_bitmaps_check(BlockDriverState *bs, Error **errp);
+>> -void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
+>> +bool qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
+>>                                             bool release_stored, Error **errp);
+>>   int qcow2_reopen_bitmaps_ro(BlockDriverState *bs, Error **errp);
+>>   bool qcow2_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
+>> diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+>> index f58923fce3..5eeff1cb1c 100644
+>> --- a/block/qcow2-bitmap.c
+>> +++ b/block/qcow2-bitmap.c
+>> @@ -1524,9 +1524,10 @@ out:
+>>    * readonly to begin with, and whether we opened directly or reopened to that
+>>    * state shouldn't matter for the state we get afterward.
+>>    */
+>> -void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
+>> +bool qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
+>>                                             bool release_stored, Error **errp)
+>>   {
+>> +    ERRP_GUARD();
+> 
+> Maybe worth mentioning in the changelog that this ERRP_GUARD() fixes
+> an error_prepend(errp, ...) not visible in the patch context.
 
-On Fri, Sep 11, 2020 at 5:50 PM Alex Benn=C3=A9e <1895080@bugs.launchpad.ne=
-t>
-wrote:
+Ah yes. Actually this is occasional thing I didn't want to include into this patch
+(and int this part I). So we can just drop it and leave for part II or part III,
+or add a note into commit message
 
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->
-> > Laurent Vivier <laurent@vivier.eu> writes:
-> >
-> <snip>
-> >>> Then trying qemu-riscv32 with a simple ELF, I get:
-> >>> linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D te=
-st'
-> failed.
-> >>>
-> >>> strace shows that:
-> >>> mmap(0x1000, 4294963200, PROT_NONE,
-> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
-> >>> write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
-> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =
-=3D=3D
-> test' failed.
-> >>> ) =3D 103
-> >>>
-> >>> The source code is in the function pgb_reserved_va (linux-
-> >>> user/elfload.c). I think mmap cannot guarantee that the returned
-> pointer
-> >>> (test) equals to the parameter of addr. So is this a bug to assert
-> (addr
-> >>> =3D=3D test)?
-> >>
-> > I'm assuming CentOS 7.5 actually has a definition for
-> > MAP_FIXED_NOREPLACE which should ensure we get what we asked for -
-> > otherwise we are in the position of hoping the kernel honours what we
-> > asked for.
->
-> Doh re-reading I see it's not set in the strace output. Maybe we should
-> promote the assert case to the failure leg so we have:
->
->     if (addr =3D=3D MAP_FAILED || addr !=3D test) {
->         error_report(...)
->     }
->
-> so we at least fail with a user friendly error rather than an abort?
->
-> --
-> Alex Benn=C3=A9e
->
-> --
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1895080
->
-> Title:
->   pgb_reserved_va: Assertion `addr =3D=3D test' failed
->
-> Status in QEMU:
->   New
->
-> Bug description:
->   This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
->   (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
->   user.
->
->   Firstly, compile fails:
->   Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
->   ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP=
-_SIZE=E2=80=99
-> undeclared here (not in a function)
->        FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
->
->   I have to add below include to linux-user/strace.c
->   diff --git a/linux-user/strace.c b/linux-user/strace.c
->   index 11fea14fba..22e51d4a8a 100644
->   --- a/linux-user/strace.c
->   +++ b/linux-user/strace.c
->   @@ -7,6 +7,7 @@
->    #include <sys/mount.h>
->    #include <arpa/inet.h>
->    #include <netinet/tcp.h>
->   +#include <linux/falloc.h>
->    #include <linux/if_packet.h>
->    #include <linux/netlink.h>
->    #include <sched.h>
->
->   Then trying qemu-riscv32 with a simple ELF, I get:
->   linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test'
-> failed.
->
->   strace shows that:
->   mmap(0x1000, 4294963200, PROT_NONE,
-> MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) =3D 0x10000
->   write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32:
-> ../qemu.git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =
-=3D=3D
-> test' failed.
->   ) =3D 103
->
->   The source code is in the function pgb_reserved_va (linux-
->   user/elfload.c). I think mmap cannot guarantee that the returned
->   pointer (test) equals to the parameter of addr. So is this a bug to
->   assert (addr =3D=3D test)?
->
->   Attached configure script and test ELF file.
->
->   Thanks.
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
->
+> 
+> Anyway,
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
--- =
+Thanks a lot for reviewing :)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895080
+Hmm.. With this series I understand the following:
 
-Title:
-  pgb_reserved_va: Assertion `addr =3D=3D test' failed
+1. It's no sense in simple applying scripts/coccinelle/errp-guard.cocci to the whole code-base, because:
 
-Status in QEMU:
-  New
+   - it produces a lot of "if (*errp)" in places where it is really simple to avoid error propagation at all, like in this series
+   - reviewing is the hardest part of the process
 
-Bug description:
-  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
-  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
-  user.
+So, if we have to review these changes anyway, it's better to invest a bit more time into patch creation, and make code correspond to our modern error API recommendations.
 
-  Firstly, compile fails:
-  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
-  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
-IZE=E2=80=99 undeclared here (not in a function)
-       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+2. So, the process turns into following steps:
 
-  I have to add below include to linux-user/strace.c
-  diff --git a/linux-user/strace.c b/linux-user/strace.c
-  index 11fea14fba..22e51d4a8a 100644
-  --- a/linux-user/strace.c
-  +++ b/linux-user/strace.c
-  @@ -7,6 +7,7 @@
-   #include <sys/mount.h>
-   #include <arpa/inet.h>
-   #include <netinet/tcp.h>
-  +#include <linux/falloc.h>
-   #include <linux/if_packet.h>
-   #include <linux/netlink.h>
-   #include <sched.h>
+   - apply scripts/coccinelle/errp-guard.cocci
+   - look through patches and do obvious refactorings (like this series)
+   - keep ERRP_GUARD where necessary (appending info to error, or where refactoring of function return status is too invasive and not simple)
 
-  Then trying qemu-riscv32 with a simple ELF, I get:
-  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
-failed.
+3. Obviously, that's too much for me :) Of course, I will invest some time into making the series like this one, and reviewing them, but I can't do it for weeks and months. (My original сunning plan to simply push ~100 generated commits with my s-o-b and become the greatest contributor failed:)
 
-  strace shows that:
-  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
-VE, -1, 0) =3D 0x10000
-  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
-git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
-' failed.
-  ) =3D 103
+The good thing is that now, with ERRP_GUARD finally merged, we can produce parallel series like this, and they will be processed in parallel by different maintainers (and Markus will have to merge series for subsystems with unavailable maintainers).
 
-  The source code is in the function pgb_reserved_va (linux-
-  user/elfload.c). I think mmap cannot guarantee that the returned
-  pointer (test) equals to the parameter of addr. So is this a bug to
-  assert (addr =3D=3D test)?
+So, everybody is welcome to the process [2]. Probably we want to make a separate announcement in a list with short recommendations and instructions? But who read announcements..
 
-  Attached configure script and test ELF file.
+> 
+>>       BdrvDirtyBitmap *bitmap;
+>>       BDRVQcow2State *s = bs->opaque;
+>>       uint32_t new_nb_bitmaps = s->nb_bitmaps;
+>> @@ -1546,7 +1547,7 @@ void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
+>>           bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
+>>                                      s->bitmap_directory_size, errp);
+>>           if (bm_list == NULL) {
+>> -            return;
+>> +            return false;
+>>           }
+>>       }
+>>   
+>> @@ -1661,7 +1662,7 @@ success:
+>>       }
+>>   
+>>       bitmap_list_free(bm_list);
+>> -    return;
+>> +    return true;
+>>   
+>>   fail:
+>>       QSIMPLEQ_FOREACH(bm, bm_list, entry) {
+>> @@ -1679,16 +1680,14 @@ fail:
+>>       }
+>>   
+>>       bitmap_list_free(bm_list);
+>> +    return false;
+>>   }
+>>   
+>>   int qcow2_reopen_bitmaps_ro(BlockDriverState *bs, Error **errp)
+>>   {
+>>       BdrvDirtyBitmap *bitmap;
+>> -    Error *local_err = NULL;
+>>   
+>> -    qcow2_store_persistent_dirty_bitmaps(bs, false, &local_err);
+>> -    if (local_err != NULL) {
+>> -        error_propagate(errp, local_err);
+>> +    if (!qcow2_store_persistent_dirty_bitmaps(bs, false, errp)) {
+>>           return -EINVAL;
+>>       }
+>>   
+> 
 
-  Thanks.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
+-- 
+Best regards,
+Vladimir
 
