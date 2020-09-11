@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56DD265641
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 02:58:20 +0200 (CEST)
-Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CF4265678
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 03:16:46 +0200 (CEST)
+Received: from localhost ([::1]:51914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGXON-0006CL-Sz
-	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 20:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60610)
+	id 1kGXgD-0004ye-AN
+	for lists+qemu-devel@lfdr.de; Thu, 10 Sep 2020 21:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1kGXNM-0005mL-FP
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 20:57:17 -0400
-Received: from mga07.intel.com ([134.134.136.100]:5586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1kGXNJ-0005Xi-8y
- for qemu-devel@nongnu.org; Thu, 10 Sep 2020 20:57:15 -0400
-IronPort-SDR: PxQE/0sGmuiEyv9jqV/hm9W9yzIjzZea7f2TFDkxklTlE2H3Dg5/+jiLIQ5d/JjEkIGpb5FL5l
- MumHvJRWgADw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="222866151"
-X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; d="scan'208";a="222866151"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 17:57:07 -0700
-IronPort-SDR: wEaes0t1JUF1+JRg83PT+AuKW2T0+i+m5Tw+HlOmyZYCycW14clh/UZyAcInoSfvgV57x5vsXO
- IQI6/6NUTH5A==
-X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; d="scan'208";a="481112652"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2020 17:57:01 -0700
-Date: Fri, 11 Sep 2020 08:56:00 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200911005559.GA3932@joy-OptiPlex-7040>
-References: <20200825163925.1c19b0f0.cohuck@redhat.com>
- <20200826064117.GA22243@joy-OptiPlex-7040>
- <20200828154741.30cfc1a3.cohuck@redhat.com>
- <8f5345be73ebf4f8f7f51d6cdc9c2a0d8e0aa45e.camel@redhat.com>
- <20200831044344.GB13784@joy-OptiPlex-7040>
- <20200908164130.2fe0d106.cohuck@redhat.com>
- <20200909021308.GA1277@joy-OptiPlex-7040>
- <20200910143822.2071eca4.cohuck@redhat.com>
- <7cebcb6c8d1a1452b43e8358ee6ee18a150a0238.camel@redhat.com>
- <20200910120244.71e7b630@w520.home>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGXfC-0004VN-9s
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:15:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40184)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kGXfA-0007jf-AT
+ for qemu-devel@nongnu.org; Thu, 10 Sep 2020 21:15:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kGXf6-0005Tt-Vm
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 01:15:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E123C2E80DB
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 01:15:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200910120244.71e7b630@w520.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=yan.y.zhao@intel.com; helo=mga07.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 20:57:08
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 11 Sep 2020 01:05:49 -0000
+From: Darren Blaber <1895219@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: keymaps vnc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dmbtech
+X-Launchpad-Bug-Reporter: Darren Blaber (dmbtech)
+X-Launchpad-Bug-Modifier: Darren Blaber (dmbtech)
+Message-Id: <159978635021.22139.4037516560250644869.malonedeb@wampee.canonical.com>
+Subject: [Bug 1895219] [NEW] qemu git -vnc fails due to missing en-us keymap
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: e980c620ac1274a19a0fb335b2e9d0cba07b7f86
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/10 21:15:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,107 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
- eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
- openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, Parav Pandit <parav@mellanox.com>,
- jian-feng.ding@intel.com, dgilbert@redhat.com, zhenyuw@linux.intel.com,
- hejie.xu@intel.com, bao.yumeng@zte.com.cn, Jiri Pirko <jiri@mellanox.com>,
- eskultet@redhat.com, Sean Mooney <smooney@redhat.com>,
- intel-gvt-dev@lists.freedesktop.org,
- Daniel =?iso-8859-1?Q?P=2EBerrang=E9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, dinechin@redhat.com, devel@ovirt.org
+Reply-To: Bug 1895219 <1895219@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 10, 2020 at 12:02:44PM -0600, Alex Williamson wrote:
-> On Thu, 10 Sep 2020 13:50:11 +0100
-> Sean Mooney <smooney@redhat.com> wrote:
-> 
-> > On Thu, 2020-09-10 at 14:38 +0200, Cornelia Huck wrote:
-> > > On Wed, 9 Sep 2020 10:13:09 +0800
-> > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > >   
-> > > > > > still, I'd like to put it more explicitly to make ensure it's not missed:
-> > > > > > the reason we want to specify compatible_type as a trait and check
-> > > > > > whether target compatible_type is the superset of source
-> > > > > > compatible_type is for the consideration of backward compatibility.
-> > > > > > e.g.
-> > > > > > an old generation device may have a mdev type xxx-v4-yyy, while a newer
-> > > > > > generation  device may be of mdev type xxx-v5-yyy.
-> > > > > > with the compatible_type traits, the old generation device is still
-> > > > > > able to be regarded as compatible to newer generation device even their
-> > > > > > mdev types are not equal.    
-> > > > > 
-> > > > > If you want to support migration from v4 to v5, can't the (presumably
-> > > > > newer) driver that supports v5 simply register the v4 type as well, so
-> > > > > that the mdev can be created as v4? (Just like QEMU versioned machine
-> > > > > types work.)    
-> > > > 
-> > > > yes, it should work in some conditions.
-> > > > but it may not be that good in some cases when v5 and v4 in the name string
-> > > > of mdev type identify hardware generation (e.g. v4 for gen8, and v5 for
-> > > > gen9)
-> > > > 
-> > > > e.g.
-> > > > (1). when src mdev type is v4 and target mdev type is v5 as
-> > > > software does not support it initially, and v4 and v5 identify hardware
-> > > > differences.  
-> > > 
-> > > My first hunch here is: Don't introduce types that may be compatible
-> > > later. Either make them compatible, or make them distinct by design,
-> > > and possibly add a different, compatible type later.
-> > >   
-> > > > then after software upgrade, v5 is now compatible to v4, should the
-> > > > software now downgrade mdev type from v5 to v4?
-> > > > not sure if moving hardware generation info into a separate attribute
-> > > > from mdev type name is better. e.g. remove v4, v5 in mdev type, while use
-> > > > compatible_pci_ids to identify compatibility.  
-> > > 
-> > > If the generations are compatible, don't mention it in the mdev type.
-> > > If they aren't, use distinct types, so that management software doesn't
-> > > have to guess. At least that would be my naive approach here.  
-> > yep that is what i would prefer to see too.
-> > >   
-> > > > 
-> > > > (2) name string of mdev type is composed by "driver_name + type_name".
-> > > > in some devices, e.g. qat, different generations of devices are binding to
-> > > > drivers of different names, e.g. "qat-v4", "qat-v5".
-> > > > then though type_name is equal, mdev type is not equal. e.g.
-> > > > "qat-v4-type1", "qat-v5-type1".  
-> > > 
-> > > I guess that shows a shortcoming of that "driver_name + type_name"
-> > > approach? Or maybe I'm just confused.  
-> > yes i really dont like haveing the version in the mdev-type name 
-> > i would stongly perfger just qat-type-1 wehere qat is just there as a way of namespacing.
-> > although symmetric-cryto, asymmetric-cryto and compression woudl be a better name then type-1, type-2, type-3 if
-> > that is what they would end up mapping too. e.g. qat-compression or qat-aes is a much better name then type-1
-> > higher layers of software are unlikely to parse the mdev names but as a human looking at them its much eaiser to
-> > understand if the names are meaningful. the qat prefix i think is important however to make sure that your mdev-types
-> > dont colide with other vendeors mdev types. so i woudl encurage all vendors to prefix there mdev types with etiher the
-> > device name or the vendor.
-> 
-> +1 to all this, the mdev type is meant to indicate a software
-> compatible interface, if different hardware versions can be software
-> compatible, then don't make the job of finding a compatible device
-> harder.  The full type is a combination of the vendor driver name plus
-> the vendor provided type name specifically in order to provide a type
-> namespace per vendor driver.  That's done at the mdev core level.
-> Thanks,
+Public bug reported:
 
-hi Alex,
-got it. so do you suggest that vendors use consistent driver name over
-generations of devices?
-for qat, they create different modules for each generation. This
-practice is not good if they want to support migration between devices
-of different generations, right?
+If trying to run qemu with -vnc :0, it will fail with:
+./qemu-system-x86_64 -vnc :2
+qemu-system-x86_64: -vnc :2: could not read keymap file: 'en-us'
 
-and can I understand that we don't want support of migration between
-different mdev types even in future ?
+share/keymaps is missing en-us keymap and only has sl and sv, confirmed
+previous stable versions had en-us.
 
-Thanks
-Yan
+Tried with multiple targets, on arm64 and amd64
 
+Git commit hash: 9435a8b3dd35f1f926f1b9127e8a906217a5518a (head)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: keymaps vnc
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895219
+
+Title:
+  qemu git -vnc fails due to missing en-us keymap
+
+Status in QEMU:
+  New
+
+Bug description:
+  If trying to run qemu with -vnc :0, it will fail with:
+  ./qemu-system-x86_64 -vnc :2
+  qemu-system-x86_64: -vnc :2: could not read keymap file: 'en-us'
+
+  share/keymaps is missing en-us keymap and only has sl and sv,
+  confirmed previous stable versions had en-us.
+
+  Tried with multiple targets, on arm64 and amd64
+
+  Git commit hash: 9435a8b3dd35f1f926f1b9127e8a906217a5518a (head)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895219/+subscriptions
 
