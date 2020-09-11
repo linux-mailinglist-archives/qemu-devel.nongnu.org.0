@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F45826681F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 20:15:04 +0200 (CEST)
-Received: from localhost ([::1]:57798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B9726681B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 20:12:40 +0200 (CEST)
+Received: from localhost ([::1]:51862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGnZf-0002i0-Mm
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 14:15:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
+	id 1kGnXL-0000G5-4A
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 14:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGnVG-0005zI-UJ
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 14:10:30 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39446)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGnVy-000746-6o
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 14:11:14 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGnVF-0006EI-3s
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 14:10:30 -0400
-Received: by mail-wm1-x342.google.com with SMTP id b79so5609212wmb.4
- for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 11:10:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kGnVw-0006S3-7U
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 14:11:13 -0400
+Received: by mail-wm1-x341.google.com with SMTP id e11so4600557wme.0
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 11:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=URAH7WXrk6s4Noy+jgoHfYAFcO/gIgJ0g7+5O707IPM=;
- b=CKxLHReLMU/fQlynOZJtwMOH+0/XqORp4a01OXX3ct7aJYTkiPBhzLB5lr0xiqQZjX
- 71zyuxlM/sW95TxRZkcUWYO7ukdqBz39yRRs0p2rpFeDOBLXdDMfTHtMUod7chP4Ci+d
- WR9pfVlvIeRqL70PEUQJN1iK7cLJlYt2zUeyHCcXDZGMjAQrg97cSR1G1ZtYleRXt9hL
- 43ZX+rxcR0SbEgEut8YYfbBFX8Mb1CaddVZ4C1ZSh2IwwDtpXDvnhfrybBDpzAxqWCq4
- x9tCfTditfN1xYtrShN6K0sCNMs8sxtF/OwvlkXB42gX58ngo0oikV+X8QyCNaBqVwa5
- RR3Q==
+ :cc:content-transfer-encoding;
+ bh=5zxhtey0uqfDoQuwnHiQ0xRWtHQx2b3fbCDBzVwf8B4=;
+ b=uJXEHbrbYcaQFqdHQQUZCzY8HjYEyzz6DQPYRj0gRWGJ/CtrcPq4nUbT7+R95pSMUJ
+ 4C+EhNa3PiNlWKvciluRy1Oz3TN+o8DgCCNAPatIoap2Mj3Ne3WWD3aJUippFDW0+VVf
+ cAm0U96zliyz4xG4C78k9KkC4e99Uzyg2dIcGlJNs2r7N6ijxyPVPZkyh842TAFwV1yp
+ B24KHRtx0ImQWzaZXDGqdqP9sPTWtvYkhI44HH9poBkobT6pXk2ynJuDqEX1cf+kM0ND
+ 279XhsD9qYJnrY5ZDQ9tSnmf7n14FBsyo9xkgyZ6On0LuZt4tcnetl7mtTMuQLm9pPJ0
+ TDzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=URAH7WXrk6s4Noy+jgoHfYAFcO/gIgJ0g7+5O707IPM=;
- b=lPjXIcsOxawmEoe+btGG1nkrIxTMYFqxoOt9OlmL0Uk5miDiWOQ7x6nmFqbxiWn4wo
- GLArixog7L3SjudPvjQioWU6Y1ibNVDlmguxDx7Cfd19M7T7VcoCswfUk5xcLgUxvvLN
- ylAyea7eW02F+srOHre9VCVZKgPJVn4o7BrhJIqvav6q/cDMOJlOZs5puNFQPNOdmRuG
- NLiAQZyeQSmqfDJjZvLVGO3X1er0ykvugmTlvlP+1dgcvkD1lwULWrAOhf7nL173bpiP
- pOfAp5jAUUVg0vPttauhcOyANXGWzp9HbFGkSyagJV/5wcz2pbUnMFYEuDZ9Z3L4ADX5
- Efqg==
-X-Gm-Message-State: AOAM530O0TlvR45BLVQh19bFhwGE0rAnScISNzcOC3I5uO63rHW8zDqf
- KjQBSN1dfFmd4QK/pkpB7FWZevvMwJHVCalM0Ofqew==
-X-Google-Smtp-Source: ABdhPJyVtJeSMlR8sD5XqEBU0Jbcq3045YzIO0JwWHAGoJ63sEmKo2rwBLyQYnmiYf2wKNQnR9412fuIPvrJvAam2Zg=
-X-Received: by 2002:a05:600c:2182:: with SMTP id
- e2mr3453238wme.102.1599847827544; 
- Fri, 11 Sep 2020 11:10:27 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5zxhtey0uqfDoQuwnHiQ0xRWtHQx2b3fbCDBzVwf8B4=;
+ b=dNQ6xLDFcm3uPW1DENTBnMlVfYsV4ggtGkYLoSwEuZQy4EPgtLa5EaFnLBpCQtmraU
+ QnNXtBj/IJ85S+eWQxq1cGDq1Y6ekUOPGwXUmp7ywaaiNPb7MDj5dwt5m7sXQj9WjAS+
+ lIIfzS9dU9v0dk7mYF+UQvTZsZz9j8YjrrFqoKqRS4H74SOEfCpjddT9SqNUtHu/2Ih+
+ qe0IA6jUj9zrtje/lUcgnVNOLC+1JoEJ2MXhT6+oVYuJ74vN6smh1AXRfON3M1zrVZKW
+ /zcu5I4R/2siv3FSSK0/aP0mm6UFk1kqr52kYPOoUHxrPvOPGOn/BbSGTbz5P9sQ909t
+ slKA==
+X-Gm-Message-State: AOAM531lDGdeKLwVQjhRQ//1HeCdQaK+RyatHMxsE9qpq43r0uXjLEca
+ 84+b7URD3PnSpsXIyGGGWoEQ2HRwoDYl24fsHn5x0zSo4l0iksxd
+X-Google-Smtp-Source: ABdhPJwsV5p0m4Dde2OVWC2wUpy7NobrrfZtx4pgplJWM94a2S8h/Sq5S3rqyc1lEdslVMPR3N+yZQGY3gcbk4ukdBM=
+X-Received: by 2002:a1c:e256:: with SMTP id z83mr3622678wmg.137.1599847870002; 
+ Fri, 11 Sep 2020 11:11:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200905103520.12626-1-ani@anisinha.ca>
- <20200911120548-mutt-send-email-mst@kernel.org>
- <CAARzgwz9XkQQ=9t0bMp4qf=hMa+6Bb9MHtsffKED_aOTwHfvtQ@mail.gmail.com>
- <CAARzgwxHgUkh+gq+BHBLfJ3bPWeiwsC8ZtGr7Trngzs_C7DYdw@mail.gmail.com>
-In-Reply-To: <CAARzgwxHgUkh+gq+BHBLfJ3bPWeiwsC8ZtGr7Trngzs_C7DYdw@mail.gmail.com>
+References: <20200904161000.12115-1-ani@anisinha.ca>
+ <CAMDeoFVQWeWArPty2z4rNbdmS7O2X66SaONqiKzFqFpaKwuNDg@mail.gmail.com>
+ <98b26cfa-3ff7-4302-9fc2-0e6672cfbd08@Spark>
+ <a6c38469-356d-4629-be12-92129e1b1b96@Spark>
+ <20200911115138-mutt-send-email-mst@kernel.org>
+ <CAARzgwyKccWaPDSwsAg7bW7=F7DxAsf7Lw=TvqOkp_i6tdXZow@mail.gmail.com>
+ <20200911120838-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200911120838-mutt-send-email-mst@kernel.org>
 From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 11 Sep 2020 23:40:16 +0530
-Message-ID: <CAARzgwy9fHzCimRXVwaun0T9Ld6PO2a=k3TzOuGFTpWS7FoE1Q@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] unit tests for change 'do not add hotplug related
- amls for cold plugged bridges'
+Date: Fri, 11 Sep 2020 23:40:58 +0530
+Message-ID: <CAARzgwxB5jXq3iQ6orE=gfc0c4FvnxN3AodLDGaMWFshCnQDCw@mail.gmail.com>
+Subject: Re: [PATCH v3] i440fx/acpi: do not add hotplug related amls for cold
+ plugged bridges
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::342;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x342.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2a00:1450:4864:20::341;
+ envelope-from=ani@anisinha.ca; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -81,15 +85,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 11, 2020 at 9:51 PM Ani Sinha <ani@anisinha.ca> wrote:
+On Fri, Sep 11, 2020 at 9:39 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> I can't repro the breakage. What test command line are you running
-> with? I am using " make check-qtest-x86_64 V=1"
+> On Fri, Sep 11, 2020 at 09:35:42PM +0530, Ani Sinha wrote:
+> > On Fri, Sep 11, 2020 at 9:22 PM Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+> > >
+> > > On Thu, Sep 10, 2020 at 12:19:19AM +0530, Ani Sinha wrote:
+> > > > On Sep 10, 2020, 00:00 +0530, Ani Sinha <ani@anisinha.ca>, wrote:
+> > > >
+> > > >     On Sep 9, 2020, 23:20 +0530, Julia Suvorova <jusual@redhat.com>=
+, wrote:
+> > > >
+> > > >         On Fri, Sep 4, 2020 at 6:10 PM Ani Sinha <ani@anisinha.ca> =
+wrote:
+> > > >
+> > > >
+> > > >
+> > > >             Cold plugged bridges are not hot unpluggable, even when=
+ their
+> > > >             hotplug
+> > > >
+> > > >             property (acpi-pci-hotplug-with-bridge-support) is turn=
+ed off.
+> > > >             Please see
+> > > >
+> > > >             the function acpi_pcihp_pc_no_hotplug() (thanks Julia).=
+ However,
+> > > >             with
+> > > >
+> > > >             the current implementaton, windows would try to hot-unp=
+lug a pci
+> > > >             bridge when
+> > > >
+> > > >             it's hotplug switch is off. This is regardless of wheth=
+er there are
+> > > >             devices
+> > > >
+> > > >             attached to the bridge. This is because we add amls lik=
+e _EJ0 etc
+> > > >             for the
+> > > >
+> > > >             pci slot where the bridge is cold plugged. We have a de=
+mo video
+> > > >             here:
+> > > >
+> > > >             https://youtu.be/pME2sjyQweo
+> > > >
+> > > >
+> > > >
+> > > >             In this fix, we identify a cold plugged bridge and for =
+cold plugged
+> > > >             bridges,
+> > > >
+> > > >             we do not add the appropriate amls and acpi methods tha=
+t are used
+> > > >             by the OS
+> > > >
+> > > >             to identify a hot-pluggable/unpluggable pci device. Aft=
+er this
+> > > >             change, Windows
+> > > >
+> > > >             does not show an option to eject the PCI bridge. A demo=
+ video is
+> > > >             here:
+> > > >
+> > > >             https://youtu.be/kbgej5B9Hgs
+> > > >
+> > > >
+> > > >
+> > > >             While at it, I have also updated a stale comment.
+> > > >
+> > > >
+> > > >
+> > > >             This change is tested with a Windows 2012R2 guest image=
+ and Windows
+> > > >             2019 server
+> > > >
+> > > >             guest image running on Ubuntu 18.04 host. This change i=
+s based off
+> > > >             of upstream
+> > > >
+> > > >             qemu master branch tag v5.1.0.
+> > > >
+> > > >
+> > > >
+> > > >             Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > >
+> > > >
+> > > >
+> > > >         Reviewed-by: Julia Suvorova <jusual@redhat.com>
+> > > >
+> > > >
+> > > >
+> > > >         BTW, aren't all bridges handled in build_append_pci_bus_dev=
+ices()
+> > > >         cold-plugged?
+> > > >
+> > > >
+> > > >
+> > > >     Yes they are.
+> > > >
+> > > >
+> > > > Maybe as an improvement we can simply identify a bridge instead of =
+a cold
+> > > > plugged bridge. However let=E2=80=99s have that improvement as a se=
+parate patch on top
+> > > > of this. Also let=E2=80=99s see what Igor thinks.
+> > >
+> > > Well this changes acpi tables so I don't see how this will pass
+> > > the unit tests. Did you test this change?
+> >
+> > There were no unit tests to cover this bridge flag. I have added the
+> > unit tests. It's the same one you have queued.
+>
+>
+> Hmm. somehow the new tests fail for me ...
+
 
 Ok I was working off v5.1.0 tag. Did not realize. I rebased all my
 patches to the latest master and reworked the unit tests.
@@ -97,33 +215,121 @@ I have sent you the entire patch set as exists in my workspace. It
 passes unit tests.
 
 >
-> On Fri, Sep 11, 2020 at 9:41 PM Ani Sinha <ani@anisinha.ca> wrote:
-> >
-> > On Fri, Sep 11, 2020 at 9:38 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 > > >
 > > >
-> > > I am not sure why, but the expected files did not match for me.
+> > > >
+> > > >
+> > > >
+> > > >             ---
+> > > >
+> > > >             hw/i386/acpi-build.c | 12 ++++++------
+> > > >
+> > > >             1 file changed, 6 insertions(+), 6 deletions(-)
+> > > >
+> > > >
+> > > >
+> > > >             changelog:
+> > > >
+> > > >             v3: commit log updates providing more accurate informat=
+ion as
+> > > >             received from Julia.
+> > > >
+> > > >             v2: cosmetic commit log updates with patch testing info=
+rmation.
+> > > >
+> > > >             v1: initial patch.
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >             diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.=
+c
+> > > >
+> > > >             index b7bcbbbb2a..90b863f4ec 100644
+> > > >
+> > > >             --- a/hw/i386/acpi-build.c
+> > > >
+> > > >             +++ b/hw/i386/acpi-build.c
+> > > >
+> > > >             @@ -359,6 +359,7 @@ static void build_append_pci_bus_de=
+vices(Aml
+> > > >             *parent_scope, PCIBus *bus,
+> > > >
+> > > >             int slot =3D PCI_SLOT(i);
+> > > >
+> > > >             bool hotplug_enabled_dev;
+> > > >
+> > > >             bool bridge_in_acpi;
+> > > >
+> > > >             + bool cold_plugged_bridge;
+> > > >
+> > > >
+> > > >
+> > > >             if (!pdev) {
+> > > >
+> > > >             if (bsel) { /* add hotplug slots for non present device=
+s */
+> > > >
+> > > >             @@ -380,15 +381,14 @@ static void build_append_pci_bus_=
+devices(Aml
+> > > >             *parent_scope, PCIBus *bus,
+> > > >
+> > > >             pc =3D PCI_DEVICE_GET_CLASS(pdev);
+> > > >
+> > > >             dc =3D DEVICE_GET_CLASS(pdev);
+> > > >
+> > > >
+> > > >
+> > > >             - /* When hotplug for bridges is enabled, bridges are
+> > > >
+> > > >             - * described in ACPI separately (see build_pci_bus_end=
+).
+> > > >
+> > > >             - * In this case they aren't themselves hot-pluggable.
+> > > >
+> > > >             + /*
+> > > >
+> > > >             + * Cold plugged bridges aren't themselves hot-pluggabl=
+e.
+> > > >
+> > > >             * Hotplugged bridges *are* hot-pluggable.
+> > > >
+> > > >             */
+> > > >
+> > > >             - bridge_in_acpi =3D pc->is_bridge && pcihp_bridge_en &=
+&
+> > > >
+> > > >             - !DEVICE(pdev)->hotplugged;
+> > > >
+> > > >             + cold_plugged_bridge =3D pc->is_bridge && !DEVICE(pdev=
+)->hotplugged;
+> > > >
+> > > >             + bridge_in_acpi =3D cold_plugged_bridge && pcihp_bridg=
+e_en;
+> > > >
+> > > >
+> > > >
+> > > >             - hotplug_enabled_dev =3D bsel && dc->hotpluggable && !
+> > > >             bridge_in_acpi;
+> > > >
+> > > >             + hotplug_enabled_dev =3D bsel && dc->hotpluggable && !
+> > > >             cold_plugged_bridge;
+> > > >
+> > > >
+> > > >
+> > > >             if (pc->class_id =3D=3D PCI_CLASS_BRIDGE_ISA) {
+> > > >
+> > > >             continue;
+> > > >
+> > > >             --
+> > > >
+> > > >             2.17.1
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
 > > >
-> > > I dropped these for now:
-> > >
-> > > tests/acpi: add a new ACPI table in order to test root pci hotplug on/off
-> > > tests/acpi: add a new unit test to test hotplug off/on feature on the root pci bus
-> > > tests/acpi: document addition of table DSDT.roothp for unit testing root pci hotplug on/off
-> >
-> > This was already reviewed by Igor.
-> >
-> > > tests/acpi: add newly added acpi DSDT table blob for pci bridge hotplug flag
-> > > tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support' bridge flag
-> > > tests/acpi: list added acpi table binary file for pci bridge hotplug test
-> > >
-> >
-> > I will double check this one.
-> >
-> > > I suspect you have another change in there.
-> > >
-> > > Pls check and post a single series with all these tests.
-> > >
-> > > --
-> > > MST
-> > >
+>
 
