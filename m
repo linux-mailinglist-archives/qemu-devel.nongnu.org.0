@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894712658BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 07:27:28 +0200 (CEST)
-Received: from localhost ([::1]:49722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8562658C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 07:30:57 +0200 (CEST)
+Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGbap-0000WW-Ek
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 01:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52758)
+	id 1kGbeC-0005Kw-3V
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 01:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kGbWx-0001KU-KX
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 01:23:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21959
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kGbWu-0002Yi-3b
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 01:23:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599801802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9RWA3lJTwxAbxRxOXDAvm9J7zahY3ZbT8YxlmKSUGN8=;
- b=eNudNka67YEk/SXQDrT+v72w4Jy9hEjKIMatZ6kQAtKdDetoCo/tulrm0Vg4D17z8P+Bn2
- 5STVcaSR5JwoKQBMc81Z2GsMugXwk4z0doF9LvKg9TmGHujfeB0RmkY1Sahndy2rmg9fGR
- cPuIfHmjt0hl+kLbMWGnD1QlQQtC59o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-hUaTwk1EMO2JRGpUVuBFrg-1; Fri, 11 Sep 2020 01:23:18 -0400
-X-MC-Unique: hUaTwk1EMO2JRGpUVuBFrg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0815B34914;
- Fri, 11 Sep 2020 05:23:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 834D019C59;
- Fri, 11 Sep 2020 05:23:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D16B6113865F; Fri, 11 Sep 2020 07:23:10 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 07/14] block/blklogwrites: drop error propagation
-References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
- <20200909185930.26524-8-vsementsov@virtuozzo.com>
- <20200910192440.695b8e81@bahia.lan>
-Date: Fri, 11 Sep 2020 07:23:10 +0200
-In-Reply-To: <20200910192440.695b8e81@bahia.lan> (Greg Kurz's message of "Thu, 
- 10 Sep 2020 19:24:40 +0200")
-Message-ID: <878sdghoox.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 01:23:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from
+ <3XwlbXwsKCt4HSKINNEMOENGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--hskinnemoen.bounces.google.com>)
+ id 1kGbVC-0006zK-IB
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 01:21:38 -0400
+Received: from mail-qt1-x849.google.com ([2607:f8b0:4864:20::849]:52303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3XwlbXwsKCt4HSKINNEMOENGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--hskinnemoen.bounces.google.com>)
+ id 1kGbVA-0002QH-RO
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 01:21:38 -0400
+Received: by mail-qt1-x849.google.com with SMTP id j19so5811229qtp.19
+ for <qemu-devel@nongnu.org>; Thu, 10 Sep 2020 22:21:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:in-reply-to:message-id:mime-version:references:subject
+ :from:to:cc:content-transfer-encoding;
+ bh=jBZwDlWnsXv8fYpfjYXs3i4Ofn5g1IAL3EUrT3H87yo=;
+ b=cFcAc0yhWKOGL9qIfC7puel5BdzOFStGI4JoclyQAyVCElDTMlWirdpx6/Foi5pQhA
+ KFUBfTNSrtlm0EG08rBA6JfsrbZ204IveFdgbGtyeZGL5qf0D1N3pc2GAbKo0ZtkoFo/
+ 31TtOKL4YuVy36obJIP42dMOG1lKz6ccvdeowxpKqc891SmT1x/KW1cJipo91SNqQdot
+ +9SFGx1Hg20qnydPNwfg025D6dCyA6z34TwtNmoAqnO/gU2pwmNdG9auGyCR6tNZkzCQ
+ SkZaYrJ6ryt0XyJfvgr2S6XdVArCwWFfYT5dq42/ORPn95FMHNmZX+sqsB4exNWl9foG
+ k6Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc:content-transfer-encoding;
+ bh=jBZwDlWnsXv8fYpfjYXs3i4Ofn5g1IAL3EUrT3H87yo=;
+ b=l2hazGwFNRHJ3Pt7kzQchmbqzBtpqpcZx9wwZgJKZRC2dN4nb8XUYx+Le8beJlDLN1
+ silCTNntK6U8QsBYaocY65mk9d9czRT7RyqEvO67kDcXPJE2uK2Id+l5Y1Reuiw6mcNz
+ H9cDsNK0zzYSEni7ZIAkO94Gw1igbf0/5oUUXa9/6Okya5LcpdZcpdz5cMATa66ivra7
+ kgSHrpl5Z2WxvaHakOEa/9vS/UZNa/m8/oK12DXjHBtan31YLy0Piu356ZPQ5DMJV14v
+ wQtXMx1qnWdrEdUf/c7Svvpp6Wb6NBR8v3XCYJG6xkfX6YsTf/AyGzWBzb8wBHwOvxot
+ BS3A==
+X-Gm-Message-State: AOAM531QvmFCRCPwvwpWwlJd64FQuOQph6q0MiRsWx9S4fGOd7k4KR8q
+ 8CMlJiHP7kG2K93aJRIwDBmbNWXAH1elqppHNw==
+X-Google-Smtp-Source: ABdhPJytc9FlwDOwIKM4ef5yS3zxFbqnaE5ja6Z5p+OqPmmaQ7olxSMS+Oo5yIYGnIifYqhdq+4G2h/rCYMNSsPb3Q==
+X-Received: from skybert.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:3107])
+ (user=hskinnemoen job=sendgmr) by 2002:a05:6214:10c9:: with SMTP id
+ r9mr520096qvs.0.1599801695003; Thu, 10 Sep 2020 22:21:35 -0700 (PDT)
+Date: Thu, 10 Sep 2020 22:21:01 -0700
+In-Reply-To: <20200911052101.2602693-1-hskinnemoen@google.com>
+Message-Id: <20200911052101.2602693-15-hskinnemoen@google.com>
+Mime-Version: 1.0
+References: <20200911052101.2602693-1-hskinnemoen@google.com>
+X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
+Subject: [PATCH v9 14/14] tests/acceptance: console boot tests for quanta-gsj
+To: peter.maydell@linaro.org, f4bug@amsat.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
+ kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::849;
+ envelope-from=3XwlbXwsKCt4HSKINNEMOENGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--hskinnemoen.bounces.google.com;
+ helo=mail-qt1-x849.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,111 +86,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- berto@igalia.com, stefanha@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, pavel.dovgaluk@ispras.ru,
- pbonzini@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
+From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
+This adds two acceptance tests for the quanta-gsj machine.
 
-> On Wed,  9 Sep 2020 21:59:23 +0300
-> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
->
->> It's simple to avoid error propagation in blk_log_writes_open(), we
->> just need to refactor blk_log_writes_find_cur_log_sector() a bit.
->> 
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>  block/blklogwrites.c | 23 +++++++++++------------
->>  1 file changed, 11 insertions(+), 12 deletions(-)
->> 
->> diff --git a/block/blklogwrites.c b/block/blklogwrites.c
->> index 7ef046cee9..c7da507b2d 100644
->> --- a/block/blklogwrites.c
->> +++ b/block/blklogwrites.c
->> @@ -96,10 +96,10 @@ static inline bool blk_log_writes_sector_size_valid(uint32_t sector_size)
->>          sector_size < (1ull << 24);
->>  }
->>  
->> -static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
->> -                                                   uint32_t sector_size,
->> -                                                   uint64_t nr_entries,
->> -                                                   Error **errp)
->> +static int64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
->> +                                                  uint32_t sector_size,
->> +                                                  uint64_t nr_entries,
->> +                                                  Error **errp)
->>  {
->>      uint64_t cur_sector = 1;
->>      uint64_t cur_idx = 0;
->> @@ -112,13 +112,13 @@ static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
->>          if (read_ret < 0) {
->>              error_setg_errno(errp, -read_ret,
->>                               "Failed to read log entry %"PRIu64, cur_idx);
->> -            return (uint64_t)-1ull;
->> +            return read_ret;
->
-> This changes the error status of blk_log_writes_open() from -EINVAL to
-> whatever is returned by bdrv_pread(). I guess this is an improvement
-> worth to be mentioned in the changelog.
->
->>          }
->>  
->>          if (cur_entry.flags & ~cpu_to_le64(LOG_FLAG_MASK)) {
->>              error_setg(errp, "Invalid flags 0x%"PRIx64" in log entry %"PRIu64,
->>                         le64_to_cpu(cur_entry.flags), cur_idx);
->> -            return (uint64_t)-1ull;
->> +            return -EINVAL;
->>          }
->>  
->>          /* Account for the sector of the entry itself */
->> @@ -143,7 +143,6 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
->>  {
->>      BDRVBlkLogWritesState *s = bs->opaque;
->>      QemuOpts *opts;
->> -    Error *local_err = NULL;
->>      int ret;
->>      uint64_t log_sector_size;
->>      bool log_append;
->> @@ -215,15 +214,15 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
->>          s->nr_entries = 0;
->>  
->>          if (blk_log_writes_sector_size_valid(log_sector_size)) {
->> -            s->cur_log_sector =
->> +            int64_t cur_log_sector =
->>                  blk_log_writes_find_cur_log_sector(s->log_file, log_sector_size,
->> -                                    le64_to_cpu(log_sb.nr_entries), &local_err);
->> -            if (local_err) {
->> -                ret = -EINVAL;
->> -                error_propagate(errp, local_err);
->> +                                    le64_to_cpu(log_sb.nr_entries), errp);
->> +            if (cur_log_sector < 0) {
->> +                ret = cur_log_sector;
->
-> This is converting int64_t to int, which is usually not recommended.
-> In practice this is probably okay because cur_log_sector is supposed
-> to be a negative errno (ie. an int) in this case.
+One test downloads a lightly patched openbmc flash image from github and
+verifies that it boots all the way to the login prompt.
 
-It isn't: blk_log_writes_find_cur_log_sector() returns (uint64_t)-1ull
-on error.
+The other test downloads a kernel, initrd and dtb built from the same
+openbmc source and verifies that the kernel detects all CPUs and boots
+to the point where it can't find the root filesystem (because we have no
+flash image in this case).
 
-Aside: returning uint64_t is awkward.  We commonly use a signed integer
-for non-negative offset or negative error.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+---
+ tests/acceptance/boot_linux_console.py | 83 ++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
-> Maybe make this clear with a an assert(cur_log_sector >= INT_MIN) ?
-
-Unless we change blk_log_writes_find_cur_log_sector() to return a
-negative errno code, we need to ret = -EINVAL here.  Let's keep this
-series simple.
-
->>                  goto fail_log;
->>              }
->>  
->> +            s->cur_log_sector = cur_log_sector;
->>              s->nr_entries = le64_to_cpu(log_sb.nr_entries);
->>          }
->>      } else {
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
+_linux_console.py
+index aaa781a581..4a366ce93e 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -568,6 +568,89 @@ class BootLinuxConsole(LinuxKernelTest):
+                                                 'sda')
+         # cubieboard's reboot is not functioning; omit reboot test.
+=20
++    def test_arm_quanta_gsj(self):
++        """
++        :avocado: tags=3Darch:arm
++        :avocado: tags=3Dmachine:quanta-gsj
++        """
++        # 25 MiB compressed, 32 MiB uncompressed.
++        image_url =3D (
++                'https://github.com/hskinnemoen/openbmc/releases/download/=
+'
++                '20200711-gsj-qemu-0/obmc-phosphor-image-gsj.static.mtd.gz=
+')
++        image_hash =3D '14895e634923345cb5c8776037ff7876df96f6b1'
++        image_path_gz =3D self.fetch_asset(image_url, asset_hash=3Dimage_h=
+ash)
++        image_name =3D 'obmc.mtd'
++        image_path =3D os.path.join(self.workdir, image_name)
++        archive.gzip_uncompress(image_path_gz, image_path)
++
++        self.vm.set_console()
++        drive_args =3D 'file=3D' + image_path + ',if=3Dmtd,bus=3D0,unit=3D=
+0'
++        self.vm.add_args('-drive', drive_args)
++        self.vm.launch()
++
++        # Disable drivers and services that stall for a long time during b=
+oot,
++        # to avoid running past the 90-second timeout. These may be remove=
+d
++        # as the corresponding device support is added.
++        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + (
++                'console=3D${console} '
++                'mem=3D${mem} '
++                'initcall_blacklist=3Dnpcm_i2c_bus_driver_init '
++                'systemd.mask=3Dsystemd-random-seed.service '
++                'systemd.mask=3Ddropbearkey.service '
++        )
++
++        self.wait_for_console_pattern('> BootBlock by Nuvoton')
++        self.wait_for_console_pattern('>Device: Poleg BMC NPCM730')
++        self.wait_for_console_pattern('>Skip DDR init.')
++        self.wait_for_console_pattern('U-Boot ')
++        interrupt_interactive_console_until_pattern(
++                self, 'Hit any key to stop autoboot:', 'U-Boot>')
++        exec_command_and_wait_for_pattern(
++                self, "setenv bootargs ${bootargs} " + kernel_command_line=
+,
++                'U-Boot>')
++        exec_command_and_wait_for_pattern(
++                self, 'run romboot', 'Booting Kernel from flash')
++        self.wait_for_console_pattern('Booting Linux on physical CPU 0x0')
++        self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socket 0')
++        self.wait_for_console_pattern('OpenBMC Project Reference Distro')
++        self.wait_for_console_pattern('gsj login:')
++
++    def test_arm_quanta_gsj_initrd(self):
++        """
++        :avocado: tags=3Darch:arm
++        :avocado: tags=3Dmachine:quanta-gsj
++        """
++        initrd_url =3D (
++                'https://github.com/hskinnemoen/openbmc/releases/download/=
+'
++                '20200711-gsj-qemu-0/obmc-phosphor-initramfs-gsj.cpio.xz')
++        initrd_hash =3D '98fefe5d7e56727b1eb17d5c00311b1b5c945300'
++        initrd_path =3D self.fetch_asset(initrd_url, asset_hash=3Dinitrd_h=
+ash)
++        kernel_url =3D (
++                'https://github.com/hskinnemoen/openbmc/releases/download/=
+'
++                '20200711-gsj-qemu-0/uImage-gsj.bin')
++        kernel_hash =3D 'fa67b2f141d56d39b3c54305c0e8a899c99eb2c7'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel_h=
+ash)
++        dtb_url =3D (
++                'https://github.com/hskinnemoen/openbmc/releases/download/=
+'
++                '20200711-gsj-qemu-0/nuvoton-npcm730-gsj.dtb')
++        dtb_hash =3D '18315f7006d7b688d8312d5c727eecd819aa36a4'
++        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
++
++        self.vm.set_console()
++        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=3DttyS0,115200n8 '
++                               'earlycon=3Duart8250,mmio32,0xf0001000')
++        self.vm.add_args('-kernel', kernel_path,
++                         '-initrd', initrd_path,
++                         '-dtb', dtb_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++
++        self.wait_for_console_pattern('Booting Linux on physical CPU 0x0')
++        self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socket 0')
++        self.wait_for_console_pattern(
++                'Give root password for system maintenance')
++
+     def test_arm_orangepi(self):
+         """
+         :avocado: tags=3Darch:arm
+--=20
+2.28.0.526.ge36021eeef-goog
 
 
