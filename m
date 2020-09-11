@@ -2,96 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF87826650E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 18:51:54 +0200 (CEST)
-Received: from localhost ([::1]:36640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A92266515
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Sep 2020 18:53:03 +0200 (CEST)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGmHB-0003Cb-RB
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 12:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
+	id 1kGmII-0004gG-5M
+	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 12:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kGmEk-0000HR-BB; Fri, 11 Sep 2020 12:49:22 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kGmEi-0003PV-Hw; Fri, 11 Sep 2020 12:49:22 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08BGXDvn073745; Fri, 11 Sep 2020 12:49:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references; s=pp1;
- bh=fLuGlc5qYivQtHnGlPezPFDEkmyERGJoIew3981MzZc=;
- b=ewWQ4UjJWc3t9aSas6YZEdRdhz8cTEVc1452LsAwqCfwBubNILI4r4ii05BOW89jrVMU
- C08gJEtu12bfStuRaSNPUe2B9JVjP9k0oev/VLU7IOsngxDL149NvrX9tz4lXEtZ8RIc
- 99JNSsw/70ff6QAxSVNL/woYu/8j5f6/9osOkPi7B8QfHrr2baVAsYUkh+2xj5PhLaoL
- YK7bdEsQS4XEOENYfB1kckG+JgCrnO+WxNr3FSWzNzpYwx3bIjMFRO3ftngCsiJ70+py
- wZi89sIhx3tpvs9Ij7bmH4joUVuQyEkXxzqxllX7FBcg9g6LTcQbv3X5ipeKbdpqYdvy jQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33gc8hhja1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Sep 2020 12:49:18 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08BGlZDE147612;
- Fri, 11 Sep 2020 12:49:18 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33gc8hhj9e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Sep 2020 12:49:18 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08BGm686017387;
- Fri, 11 Sep 2020 16:49:17 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01dal.us.ibm.com with ESMTP id 33d46ngaqd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Sep 2020 16:49:17 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08BGnFg151577100
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Sep 2020 16:49:15 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 94BCC6A04D;
- Fri, 11 Sep 2020 16:49:15 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7856B6A047;
- Fri, 11 Sep 2020 16:49:14 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.91.207])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 11 Sep 2020 16:49:14 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: alex.williamson@redhat.com, cohuck@redhat.com
-Subject: [PATCH 3/3] vfio: Create shared routine for scanning info capabilities
-Date: Fri, 11 Sep 2020 12:49:07 -0400
-Message-Id: <1599842947-4051-4-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1599842947-4051-1-git-send-email-mjrosato@linux.ibm.com>
-References: <1599842947-4051-1-git-send-email-mjrosato@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-11_08:2020-09-10,
- 2020-09-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009110134
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 12:49:17
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kGmHW-0004AY-F1
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 12:52:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51738
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kGmHU-0003lp-Kn
+ for qemu-devel@nongnu.org; Fri, 11 Sep 2020 12:52:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599843131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KdqJbrxL/AwxVkgJA8HBG/XJzgdBc1MfdvhlV2cP3Dw=;
+ b=JbyQZ6nFL3tB+ZYirLcB8/NIrYALP0Fx4N7stEtA4gGUVkUzOWXkvhFizL8Ub0D3Y8KrLt
+ wjI/Nv25cqZaDOLiBdg6NEWehLpXxgBsRRbUuYeLdBggts8n4QEh7n5MXz/avD3P4vfGrS
+ MRNakwudCVwul0lNcrmwO3c8XuZQKJg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-lwu8TFuRNAqRRRXD3Uldyg-1; Fri, 11 Sep 2020 12:52:09 -0400
+X-MC-Unique: lwu8TFuRNAqRRRXD3Uldyg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7B881074643;
+ Fri, 11 Sep 2020 16:52:06 +0000 (UTC)
+Received: from w520.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1151F1A8AC;
+ Fri, 11 Sep 2020 16:51:57 +0000 (UTC)
+Date: Fri, 11 Sep 2020 10:51:55 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200911105155.184e32a0@w520.home>
+In-Reply-To: <20200911005559.GA3932@joy-OptiPlex-7040>
+References: <20200825163925.1c19b0f0.cohuck@redhat.com>
+ <20200826064117.GA22243@joy-OptiPlex-7040>
+ <20200828154741.30cfc1a3.cohuck@redhat.com>
+ <8f5345be73ebf4f8f7f51d6cdc9c2a0d8e0aa45e.camel@redhat.com>
+ <20200831044344.GB13784@joy-OptiPlex-7040>
+ <20200908164130.2fe0d106.cohuck@redhat.com>
+ <20200909021308.GA1277@joy-OptiPlex-7040>
+ <20200910143822.2071eca4.cohuck@redhat.com>
+ <7cebcb6c8d1a1452b43e8358ee6ee18a150a0238.camel@redhat.com>
+ <20200910120244.71e7b630@w520.home>
+ <20200911005559.GA3932@joy-OptiPlex-7040>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 03:28:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,82 +88,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- schnelle@linux.ibm.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, rth@twiddle.net
+Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
+ eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
+ openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
+ kevin.tian@intel.com, Parav Pandit <parav@mellanox.com>,
+ jian-feng.ding@intel.com, dgilbert@redhat.com, zhenyuw@linux.intel.com,
+ hejie.xu@intel.com, bao.yumeng@zte.com.cn, Jiri Pirko <jiri@mellanox.com>,
+ eskultet@redhat.com, Sean Mooney <smooney@redhat.com>,
+ intel-gvt-dev@lists.freedesktop.org,
+ Daniel =?UTF-8?B?UC5CZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, dinechin@redhat.com, devel@ovirt.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than duplicating the same loop in multiple locations,
-create a static function to do the work.
+On Fri, 11 Sep 2020 08:56:00 +0800
+Yan Zhao <yan.y.zhao@intel.com> wrote:
 
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/vfio/common.c | 33 +++++++++++++++------------------
- 1 file changed, 15 insertions(+), 18 deletions(-)
+> On Thu, Sep 10, 2020 at 12:02:44PM -0600, Alex Williamson wrote:
+> > On Thu, 10 Sep 2020 13:50:11 +0100
+> > Sean Mooney <smooney@redhat.com> wrote:
+> >   
+> > > On Thu, 2020-09-10 at 14:38 +0200, Cornelia Huck wrote:  
+> > > > On Wed, 9 Sep 2020 10:13:09 +0800
+> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > >     
+> > > > > > > still, I'd like to put it more explicitly to make ensure it's not missed:
+> > > > > > > the reason we want to specify compatible_type as a trait and check
+> > > > > > > whether target compatible_type is the superset of source
+> > > > > > > compatible_type is for the consideration of backward compatibility.
+> > > > > > > e.g.
+> > > > > > > an old generation device may have a mdev type xxx-v4-yyy, while a newer
+> > > > > > > generation  device may be of mdev type xxx-v5-yyy.
+> > > > > > > with the compatible_type traits, the old generation device is still
+> > > > > > > able to be regarded as compatible to newer generation device even their
+> > > > > > > mdev types are not equal.      
+> > > > > > 
+> > > > > > If you want to support migration from v4 to v5, can't the (presumably
+> > > > > > newer) driver that supports v5 simply register the v4 type as well, so
+> > > > > > that the mdev can be created as v4? (Just like QEMU versioned machine
+> > > > > > types work.)      
+> > > > > 
+> > > > > yes, it should work in some conditions.
+> > > > > but it may not be that good in some cases when v5 and v4 in the name string
+> > > > > of mdev type identify hardware generation (e.g. v4 for gen8, and v5 for
+> > > > > gen9)
+> > > > > 
+> > > > > e.g.
+> > > > > (1). when src mdev type is v4 and target mdev type is v5 as
+> > > > > software does not support it initially, and v4 and v5 identify hardware
+> > > > > differences.    
+> > > > 
+> > > > My first hunch here is: Don't introduce types that may be compatible
+> > > > later. Either make them compatible, or make them distinct by design,
+> > > > and possibly add a different, compatible type later.
+> > > >     
+> > > > > then after software upgrade, v5 is now compatible to v4, should the
+> > > > > software now downgrade mdev type from v5 to v4?
+> > > > > not sure if moving hardware generation info into a separate attribute
+> > > > > from mdev type name is better. e.g. remove v4, v5 in mdev type, while use
+> > > > > compatible_pci_ids to identify compatibility.    
+> > > > 
+> > > > If the generations are compatible, don't mention it in the mdev type.
+> > > > If they aren't, use distinct types, so that management software doesn't
+> > > > have to guess. At least that would be my naive approach here.    
+> > > yep that is what i would prefer to see too.  
+> > > >     
+> > > > > 
+> > > > > (2) name string of mdev type is composed by "driver_name + type_name".
+> > > > > in some devices, e.g. qat, different generations of devices are binding to
+> > > > > drivers of different names, e.g. "qat-v4", "qat-v5".
+> > > > > then though type_name is equal, mdev type is not equal. e.g.
+> > > > > "qat-v4-type1", "qat-v5-type1".    
+> > > > 
+> > > > I guess that shows a shortcoming of that "driver_name + type_name"
+> > > > approach? Or maybe I'm just confused.    
+> > > yes i really dont like haveing the version in the mdev-type name 
+> > > i would stongly perfger just qat-type-1 wehere qat is just there as a way of namespacing.
+> > > although symmetric-cryto, asymmetric-cryto and compression woudl be a better name then type-1, type-2, type-3 if
+> > > that is what they would end up mapping too. e.g. qat-compression or qat-aes is a much better name then type-1
+> > > higher layers of software are unlikely to parse the mdev names but as a human looking at them its much eaiser to
+> > > understand if the names are meaningful. the qat prefix i think is important however to make sure that your mdev-types
+> > > dont colide with other vendeors mdev types. so i woudl encurage all vendors to prefix there mdev types with etiher the
+> > > device name or the vendor.  
+> > 
+> > +1 to all this, the mdev type is meant to indicate a software
+> > compatible interface, if different hardware versions can be software
+> > compatible, then don't make the job of finding a compatible device
+> > harder.  The full type is a combination of the vendor driver name plus
+> > the vendor provided type name specifically in order to provide a type
+> > namespace per vendor driver.  That's done at the mdev core level.
+> > Thanks,  
+> 
+> hi Alex,
+> got it. so do you suggest that vendors use consistent driver name over
+> generations of devices?
+> for qat, they create different modules for each generation. This
+> practice is not good if they want to support migration between devices
+> of different generations, right?
+> 
+> and can I understand that we don't want support of migration between
+> different mdev types even in future ?
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 84ac3be..aac07bd 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -825,17 +825,12 @@ static void vfio_listener_release(VFIOContainer *container)
-     }
- }
- 
--struct vfio_info_cap_header *
--vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-+static struct vfio_info_cap_header *
-+vfio_get_cap(void *ptr, uint32_t cap_offset, uint16_t id)
- {
-     struct vfio_info_cap_header *hdr;
--    void *ptr = info;
--
--    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
--        return NULL;
--    }
- 
--    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-+    for (hdr = ptr + cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-         if (hdr->id == id) {
-             return hdr;
-         }
-@@ -844,23 +839,25 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-     return NULL;
- }
- 
-+
-+struct vfio_info_cap_header *
-+vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-+{
-+    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
-+        return NULL;
-+    }
-+
-+    return vfio_get_cap((void *)info, info->cap_offset, id);
-+}
-+
- static struct vfio_info_cap_header *
- vfio_get_iommu_type1_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
- {
--    struct vfio_info_cap_header *hdr;
--    void *ptr = info;
--
-     if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
-         return NULL;
-     }
- 
--    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
--        if (hdr->id == id) {
--            return hdr;
--        }
--    }
--
--    return NULL;
-+    return vfio_get_cap((void *)info, info->cap_offset, id);
- }
- 
- static unsigned int vfio_get_info_dma_limit(struct vfio_iommu_type1_info *info)
--- 
-1.8.3.1
+You need to balance your requirements here.  If you're creating
+different drivers per generation, that suggests different device APIs,
+which is a legitimate use case for different mdev types.  However if
+you're expecting migration compatibility, that must be seamless to the
+guest, therefore the device API must be identical.  That suggests that
+migration between different types doesn't make much sense.  If a new
+generation device wants to expose a new mdev type with new features or
+device API, yet also support migration with an older mdev type, why
+wouldn't it simply expose both the old and the new type?  It seems much
+more supportable to simply instantiate an instance of the older type
+than to create an instance of the new type, which by the contents of
+the migration stream is configured to behave as the older type.  The
+latter sounds very difficult to test.
+
+A challenge when we think about migration between different types,
+particularly across different vendor drivers, is that the migration
+stream is opaque, it's device and vendor specific.  Therefore it's not
+only difficult for userspace to understand the compatibility matrix, but
+also to actually support it in software, maintaining version and bug
+compatibility across different drivers.  It's clearly much, much easier
+when the same code base (and thus the same mdev type) is producing and
+consuming the migration data.  Thanks,
+
+Alex
 
 
