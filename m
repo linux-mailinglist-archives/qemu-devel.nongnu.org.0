@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DC3267A0B
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:42:31 +0200 (CEST)
-Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED51267A0F
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:44:39 +0200 (CEST)
+Received: from localhost ([::1]:42846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kH3vK-0003Dk-RH
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
+	id 1kH3xO-0006ap-7J
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH3tj-0001QQ-8B; Sat, 12 Sep 2020 07:40:51 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52438)
+ id 1kH3tk-0001Re-Lo; Sat, 12 Sep 2020 07:40:52 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH3th-0000Td-Bx; Sat, 12 Sep 2020 07:40:50 -0400
-Received: by mail-wm1-x342.google.com with SMTP id q9so6613180wmj.2;
- Sat, 12 Sep 2020 04:40:48 -0700 (PDT)
+ id 1kH3tj-0000Tv-9y; Sat, 12 Sep 2020 07:40:52 -0400
+Received: by mail-wr1-x442.google.com with SMTP id c18so13890509wrm.9;
+ Sat, 12 Sep 2020 04:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+zuqPSYAeaFQaEt/7hHxldynFjZI77037Thg6Y4y1PE=;
- b=pj5cC+KyXZRxRJdjHTAAGqGXL7FvZBP4iU0KEHTCv2TY+QGyZORynKaR0Kp0MjqD/V
- JHLE+2U/vv3Dl8wDJUbf1Ajro3ZQ1YfD7KV0uTpNkmE/RU6RVvSy9GRUAS8WiBpP+FtM
- o1zsDKBfhPgGU97ggAcs+Of/4/Y/+CvclSy7aFbuWCHk1pv9xmnOr1pCYmwqsl4wJ8Rq
- K00Ah7lBlg7mpoGwi1174q0qcI2KCfBJQ3tbviKeJf/yZrW86mS4w1XNcxuMaWJibgDQ
- 45PqfwWnabHd3UaHiqW24czF8kKKYOgb3kBGdPuj+HgGmY4/OsLb9CEz4RPaq5gor3zv
- yU5A==
+ bh=Fmud8Lbb3PnhfRHff2nlfxUUQJbBHq4EO52NCriy+1s=;
+ b=vYJbAEZHbLqfoeL9iRz5iWgKqkJkWJsUIyoX5ePJhC/JUt/yPJHKUBF5b6dJzBdxQG
+ daXfB5Z/jYIzNJRSazXT3Abd9UUAQJ9IgmZrmT1BtRvut/quC1Tfb8H08B+zsd+iDDFG
+ Jaizh6ezIGa5LJ0lyRw6b/O/eU7xJU7/6SeqzHnU/eeG9ExdDahJm+fcO6Jj11xnRfUH
+ dToR2BpePZr1nR5dcOA+vlOj2RY46IKPxvYs//i6RmeHuSnnhNxJp44btPfAR5iVQt3+
+ /MC9HZzblmByiMQ7qWNWMUwnCmxic3wZV99O7KsFKg6r/MVme7yj0B0tK5aUKZRv5+FR
+ jXVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+zuqPSYAeaFQaEt/7hHxldynFjZI77037Thg6Y4y1PE=;
- b=rU4/oCx5j9/tbKLgfVhZogXbTafNb9xr4dTpFqiEzjiqGz9xeAeO3So51WtfRfOq6z
- kmR4kC50ZCcolF0B1VyQMNCCdJ4kJtMGp4G4SNIV7pleVPfZ20KefnRYqghFhq/odMyl
- fZxfP/iTavnYqq+euV4539Rei7YZviAjhFrP60xUyq+Kk9AAO2Q4skdaQl+GvGh3PwEb
- 1R9dznxHfK9zbdVzpCE5hkYFBMFM3a8e3TxAcqvd29AfwHJXkzXO+o0NVaxlzCOltdlY
- AhJP63LA/mM5U52amJO8TkzIOkU+O5y0zYhljpPsKGwHok1isJptmHI5EVYtSzjWc+hY
- oV6w==
-X-Gm-Message-State: AOAM532rNKP1zlSx96hjEWVDItTJrlo3U8abxcvn1Cem1G23w0VFfBV/
- 62kahKLQ7f0+skB97uaPqz4=
-X-Google-Smtp-Source: ABdhPJyIVvexm0+D6gC6t70mYlf81cymW5MRpW+tSOOPZeTfaTCCfSQdtwF4twsnDGssGduqi43IRg==
-X-Received: by 2002:a1c:4e02:: with SMTP id g2mr6253397wmh.3.1599910847737;
- Sat, 12 Sep 2020 04:40:47 -0700 (PDT)
+ bh=Fmud8Lbb3PnhfRHff2nlfxUUQJbBHq4EO52NCriy+1s=;
+ b=T4KAisYZbMFYo3FbxQh01xQf9LmSMD8PqsHdK83soJyJ2GXCRYFjbk8wHXudd2Jlx+
+ BUKmwSehWmC7O3dB+oUDlaWVkjTf2+x5IM5S0Erbf9kMfDpHANNtw8CPdtOdBm5RiRe/
+ YqGU9Ii5bQFxMLbdM7gipekUx74ZXZNn8+Ui0C5GBNmYNYvbaiRXJLFjHBfAMtzymMlJ
+ Tlons4rhHQm6ivEfvrZzb+I/zF3QXS62aSyxub2S8AU0mQx0xJkCjtiDcgAyo1//iCcK
+ gfqPbqOj3FfsqjGc2Yw+1Oan2OpNifj1AlQqG7UFkIQ16zwm97aqQ8RHYJ7Gejtp2wZX
+ lowQ==
+X-Gm-Message-State: AOAM532+FVCaOwkzcaUIy4ZWs7b3EORc8TCPH6RUFNlWVytXK8Y0Lp5q
+ vl9S2yYPcOpCsv6bk+HGYqmuWMYCLs0=
+X-Google-Smtp-Source: ABdhPJzWb0TFRP6+IZ2tw5gL18ksvv+aRAEYvXo532BVMwzGTNnI+xK2FrjUGUnzgUAKEaVSJjZZTA==
+X-Received: by 2002:adf:f508:: with SMTP id q8mr6228485wro.233.1599910848926; 
+ Sat, 12 Sep 2020 04:40:48 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id h6sm9373895wmb.22.2020.09.12.04.40.46
+ by smtp.gmail.com with ESMTPSA id h6sm9373895wmb.22.2020.09.12.04.40.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 04:40:47 -0700 (PDT)
+ Sat, 12 Sep 2020 04:40:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 4/7] hw/char/serial: Rename I/O read/write trace events
-Date: Sat, 12 Sep 2020 13:40:37 +0200
-Message-Id: <20200912114040.918464-5-f4bug@amsat.org>
+Subject: [PATCH v2 5/7] hw/char/serial: Make 'wakeup' property boolean
+Date: Sat, 12 Sep 2020 13:40:38 +0200
+Message-Id: <20200912114040.918464-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200912114040.918464-1-f4bug@amsat.org>
 References: <20200912114040.918464-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,57 +95,58 @@ Cc: qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The serial_mm_read/write() handlers from the TYPE_SERIAL_MM device
-call the serial_ioport_read/write() handlers with shifted offset.
+Make the "wakeup" property introduced in commit 9826fd597df
+("suspend: make serial ports wakeup the guest") a boolean.
 
-When looking at the trace events from this MMIO device, it is
-confusing to read the accesses as I/O. Simplify using generic
-trace event names which make sense the various uses.
+As we want to reuse the generic serial properties in the
+ISA model (next commit), expose this property.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/serial.c     | 4 ++--
- hw/char/trace-events | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ include/hw/char/serial.h | 2 +-
+ hw/char/serial-isa.c     | 2 +-
+ hw/char/serial.c         | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
+index 264f529a7f1..09845721384 100644
+--- a/include/hw/char/serial.h
++++ b/include/hw/char/serial.h
+@@ -61,7 +61,7 @@ struct SerialState {
+     uint32_t baudbase;
+     uint32_t tsr_retry;
+     guint watch_tag;
+-    uint32_t wakeup;
++    bool wakeup;
+ 
+     /* Time when the last byte was successfully sent out of the tsr */
+     uint64_t last_xmit_ts;
+diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
+index d4aad81a85c..7e1b36c3f67 100644
+--- a/hw/char/serial-isa.c
++++ b/hw/char/serial-isa.c
+@@ -119,7 +119,7 @@ static Property serial_isa_properties[] = {
+     DEFINE_PROP_UINT32("iobase",  ISASerialState, iobase,  -1),
+     DEFINE_PROP_UINT32("irq",    ISASerialState, isairq,  -1),
+     DEFINE_PROP_CHR("chardev",   ISASerialState, state.chr),
+-    DEFINE_PROP_UINT32("wakeup", ISASerialState, state.wakeup, 0),
++    DEFINE_PROP_BOOL("wakeup",   ISASerialState, state.wakeup, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 1e70294f28a..ade4adfd526 100644
+index ade4adfd526..ade89fadb44 100644
 --- a/hw/char/serial.c
 +++ b/hw/char/serial.c
-@@ -333,7 +333,7 @@ static void serial_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-     SerialState *s = opaque;
+@@ -1015,6 +1015,7 @@ static const TypeInfo serial_io_info = {
+ static Property serial_properties[] = {
+     DEFINE_PROP_CHR("chardev", SerialState, chr),
+     DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
++    DEFINE_PROP_BOOL("wakeup", SerialState, wakeup, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-     assert(size == 1 && addr < 8);
--    trace_serial_ioport_write(addr, val);
-+    trace_serial_write(addr, val);
-     switch(addr) {
-     default:
-     case 0:
-@@ -550,7 +550,7 @@ static uint64_t serial_ioport_read(void *opaque, hwaddr addr, unsigned size)
-         ret = s->scr;
-         break;
-     }
--    trace_serial_ioport_read(addr, ret);
-+    trace_serial_read(addr, ret);
-     return ret;
- }
- 
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 17304bef26d..609df10fed4 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -5,8 +5,8 @@ parallel_ioport_read(const char *desc, uint16_t addr, uint8_t value) "read [%s]
- parallel_ioport_write(const char *desc, uint16_t addr, uint8_t value) "write [%s] addr 0x%02x val 0x%02x"
- 
- # serial.c
--serial_ioport_read(uint16_t addr, uint8_t value) "read addr 0x%02x val 0x%02x"
--serial_ioport_write(uint16_t addr, uint8_t value) "write addr 0x%02x val 0x%02x"
-+serial_read(uint16_t addr, uint8_t value) "read addr 0x%02x val 0x%02x"
-+serial_write(uint16_t addr, uint8_t value) "write addr 0x%02x val 0x%02x"
- serial_update_parameters(uint64_t baudrate, char parity, int data_bits, int stop_bits) "baudrate=%"PRIu64" parity='%c' data=%d stop=%d"
- 
- # virtio-serial-bus.c
 -- 
 2.26.2
 
