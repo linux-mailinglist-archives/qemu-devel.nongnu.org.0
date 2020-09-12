@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6176A267CC4
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 00:55:30 +0200 (CEST)
-Received: from localhost ([::1]:41288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B30267CC7
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 00:56:52 +0200 (CEST)
+Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHEQb-0003mv-Ej
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 18:55:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47502)
+	id 1kHERv-0006xF-If
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 18:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHEHX-0003wl-T2; Sat, 12 Sep 2020 18:46:07 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35849)
+ id 1kHEHc-00044U-3A; Sat, 12 Sep 2020 18:46:12 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHEHW-0004UJ-7K; Sat, 12 Sep 2020 18:46:07 -0400
-Received: by mail-pg1-x542.google.com with SMTP id f2so6748505pgd.3;
- Sat, 12 Sep 2020 15:46:05 -0700 (PDT)
+ id 1kHEHa-0004Ud-6m; Sat, 12 Sep 2020 18:46:11 -0400
+Received: by mail-pf1-x442.google.com with SMTP id d6so9678985pfn.9;
+ Sat, 12 Sep 2020 15:46:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
- b=jHmvi8LEbYgMToHQ52XQT2TcfvNTW+1GLczEAD+R86zh93R5kUN49R2yDear5okwI+
- 55ecrVuh2x6SF6oKgOgq4qsvyqvpeRj344Qx6/KOkEgR7NujJ6bHm6Uu79QS5CFHrnU/
- 97N7zYCwFSBfZ2yapKvyNb01VJaLHNnXgcN93XctfbnilrInOTJN37ap70fYVtwJfdI7
- hJXCMR33JKoMROc59KI4ZCReV8S16Xjv2WGfiJqRU2zn6o/ihHSFBAidGNbkm6TNM2DS
- vBsu9eA9UNnJcwjtg+h17PITSkHC7Yrsnk0xLOgHrI7kbCoBIINB6RjaofvUPMYW4D1q
- GAuw==
+ bh=ks2bOk3jYOHrXnI/Shz64S+t7ePZagOpQ3Ju/TypT6Y=;
+ b=ge4TkZtAR+zIBsnkngBC+8ZPnxcHkgF3tpb21HevxpcyElI8T0+bcXfNHFBD790vdN
+ vn5bBi/SwqmzvTuMn6aoee+eUyJ/wAiPYj68dNWDy4C+ol6cUQ5Sns+0hbgxm7vuis+H
+ wzwS487vrvT9WB1A+0xU9xk65FeppXvFgjPlPwX3eQmo4xXs6U9hEH0MQA+AXlP0bhvQ
+ Ciu7j1inLi+iNJu41KhFW9ZtBwkcsJZ53MnKta5NlqHmYI8UEwdF6K7Lk5c5dM7dPdKt
+ ezRdZyZSQoxH176tR6xe2BDSFYPYE31kojjsq8IvPANvb/RhTqWtVMYSqLMfXss+5PSV
+ YESg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
- b=kG3bJc6As3enagKZsoFQfTm0Bxj9G8IMrXrcJAqjG1ejVSjnsbLn9qE+RMpwQ9JUjO
- F5CKiygZcv1wIIRFX83E4im/fVXIjNK6GRdJAFEUUeLxuFKVrOjd/EGERyhUFiJKbWTE
- eiBzMsLUR4aJpDvABMunpLzsHFa+mXMBibRw+mmvuJRRR4XCkp9k3tL6MfCi0ENvM/Ri
- MTHCMjdZ2IstUG1XwHFuHcZOl6/WwXvpOSfdhCTue8RgSheDnG87cDuGUyvJOTxkf4A4
- yJs+dKDBUBmGqu/YT3KDPTK+tO3PO01ilzL715tnD+AoENPxB73Y7Zm+sjwSAwASnbif
- gExQ==
-X-Gm-Message-State: AOAM5335xe5hUIMr+NpE7iyme50bDSWKc/SUDTx887Ge8g4+U2vHOYNV
- LS922B5HCdC7t+6tqiBZCQPeTMp0NF4fqhAzzD4=
-X-Google-Smtp-Source: ABdhPJy2MXXmCzZkjfPBisZ4yaM9BHQrES4zrJNmqt2G6nXy/B+lQHHqDE/51FKyuZ7DIihM8ctEpw==
-X-Received: by 2002:a63:7d5a:: with SMTP id m26mr6034071pgn.373.1599950763824; 
- Sat, 12 Sep 2020 15:46:03 -0700 (PDT)
+ bh=ks2bOk3jYOHrXnI/Shz64S+t7ePZagOpQ3Ju/TypT6Y=;
+ b=P85Pwk156NvUpJ9XYCinLd5FtCPU8941kX2rVDxUcx16gEaz5WYQsXZJf0Zd5CmJkk
+ 15oxddJxkkkSUQFn+00MHzX7NZPXjDHDtSJ6q1UoQvaRAX/4+oxgeAw8ukVKMTIMkUy4
+ /y6EeWK8uraYwYi3UrxSzwQ9wIXJaqAuQpfqo7SKG/fU4/3+4JkR+Q/bRpBdfL4xaMjN
+ /7Zg8iIbcMotyaleNFziGCmsjtlqTScrgfZTa/A+dXOrUU2sr2fFZdF7G6UqbpIrzo3Q
+ s54vah6xqMH7v5lv1ESBZVtvqE0TK9olMAJN4xcCnej1vG5SvlcC2H9r/vc3ztKxafTa
+ Q2kQ==
+X-Gm-Message-State: AOAM533ZWg5N+PpRX5cQTBjfTxPTCC+xugOOrrasQm29q9ka4664KzYe
+ ml/z8R4YmiYs1emqTP3sBo796SLSnwYFGQO5tjo=
+X-Google-Smtp-Source: ABdhPJxdeCUDjO6Slik77TTdsHiyBxXngb3Tt6JHgNCO83BjGZIHL277mJbn5yaWbbxAw3yEP368nw==
+X-Received: by 2002:aa7:9730:0:b029:13e:d13d:a091 with SMTP id
+ k16-20020aa797300000b029013ed13da091mr7796971pfg.40.1599950768210; 
+ Sat, 12 Sep 2020 15:46:08 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id t10sm4639266pgp.15.2020.09.12.15.45.59
+ by smtp.googlemail.com with ESMTPSA id t10sm4639266pgp.15.2020.09.12.15.46.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 15:46:03 -0700 (PDT)
+ Sat, 12 Sep 2020 15:46:07 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 17/27] tests: Convert g_free to g_autofree macro in
- test-logging.c
-Date: Sun, 13 Sep 2020 06:44:21 +0800
-Message-Id: <20200912224431.1428-18-luoyonggang@gmail.com>
+Subject: [PATCH v8 18/27] tests: Fixes test-io-channel-socket.c tests under
+ msys2/mingw
+Date: Sun, 13 Sep 2020 06:44:22 +0800
+Message-Id: <20200912224431.1428-19-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200912224431.1428-1-luoyonggang@gmail.com>
 References: <20200912224431.1428-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,40 +94,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
  Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_autofree are prefer than g_free when possible.
+Currently test-io-channel-socket doesn't init with
+qemu_init_main_loop
+and that's cause the qemu_aio_context not inited,
+and the following is the stack when null pointer accessed:
+
+qemu_fd_register (c:\work\xemu\qemu\util\main-loop.c:336)
+qemu_try_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:224)
+qemu_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:230)
+socket_can_bind_connect (c:\work\xemu\qemu\tests\socket-helpers.c:93)
+socket_check_protocol_support (c:\work\xemu\qemu\tests\socket-helpers.c:141)
+main (c:\work\xemu\qemu\tests\test-io-channel-socket.c:568)
+__tmainCRTStartup (@__tmainCRTStartup:142)
+mainCRTStartup (@1400014f6..140001539:3)
+BaseThreadInitThunk (@BaseThreadInitThunk:9)
+RtlUserThreadStart (@RtlUserThreadStart:12)
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/test-logging.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/test-io-channel-socket.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/test-logging.c b/tests/test-logging.c
-index 8a1161de1d..783fe09a27 100644
---- a/tests/test-logging.c
-+++ b/tests/test-logging.c
-@@ -196,7 +196,7 @@ static void rmdir_full(gchar const *root)
+diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
+index d43083a766..743577d744 100644
+--- a/tests/test-io-channel-socket.c
++++ b/tests/test-io-channel-socket.c
+@@ -25,6 +25,7 @@
+ #include "socket-helpers.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#include "qemu/main-loop.h"
  
- int main(int argc, char **argv)
- {
--    gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
-+    g_autofree gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
-     int rc;
+ 
+ static void test_io_channel_set_socket_bufs(QIOChannel *src,
+@@ -556,6 +557,7 @@ int main(int argc, char **argv)
+     bool has_ipv4, has_ipv6;
+ 
+     module_call_init(MODULE_INIT_QOM);
++    qemu_init_main_loop(&error_abort);
+     socket_init();
  
      g_test_init(&argc, &argv, NULL);
-@@ -212,6 +212,5 @@ int main(int argc, char **argv)
-     rc = g_test_run();
- 
-     rmdir_full(tmp_path);
--    g_free(tmp_path);
-     return rc;
- }
 -- 
 2.28.0.windows.1
 
