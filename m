@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D35267A0D
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:44:24 +0200 (CEST)
-Received: from localhost ([::1]:41832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DC3267A0B
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:42:31 +0200 (CEST)
+Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kH3x9-0006AH-R4
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53542)
+	id 1kH3vK-0003Dk-RH
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH3ti-0001QG-0B; Sat, 12 Sep 2020 07:40:51 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51459)
+ id 1kH3tj-0001QQ-8B; Sat, 12 Sep 2020 07:40:51 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH3tg-0000TP-7L; Sat, 12 Sep 2020 07:40:49 -0400
-Received: by mail-wm1-x342.google.com with SMTP id w2so6619965wmi.1;
- Sat, 12 Sep 2020 04:40:47 -0700 (PDT)
+ id 1kH3th-0000Td-Bx; Sat, 12 Sep 2020 07:40:50 -0400
+Received: by mail-wm1-x342.google.com with SMTP id q9so6613180wmj.2;
+ Sat, 12 Sep 2020 04:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ziCw1jrdbRRxzZUuAacPeDfn99gOs6JW3cbKwKy/6Wo=;
- b=TsZpsrhJ3RhWZIJyw16+9bzFXZyg5ncW7kck6EcoSZ8ZhUz4o7YPT5TIxK0ptSMD5l
- SjOf5qYNqjBiXqm9tO+JcJNKnM6aWwOXsmjBWl0UojGAkKBRiEXmKUgGyeBtNKOFyxFk
- DRkY0E+mCjaHTuAxPrEQ36yecUFEPEhSf+jTJOwqp9Snq1apB1f7C4f5WWqltDdrXVxb
- Hk81uwkLK/tSwiKWUcoHAEFrRcogiFZsbv7RSwzY2UgvRoZCtaMJ8aP+ZsNyPbVNEomc
- C6bhAgrYPoyhgqeEdNwlDMDKuLraXuhqBCZBnY7h+dj3Uy2RUGMzEuOerPsqf5gV7Ugc
- anSg==
+ bh=+zuqPSYAeaFQaEt/7hHxldynFjZI77037Thg6Y4y1PE=;
+ b=pj5cC+KyXZRxRJdjHTAAGqGXL7FvZBP4iU0KEHTCv2TY+QGyZORynKaR0Kp0MjqD/V
+ JHLE+2U/vv3Dl8wDJUbf1Ajro3ZQ1YfD7KV0uTpNkmE/RU6RVvSy9GRUAS8WiBpP+FtM
+ o1zsDKBfhPgGU97ggAcs+Of/4/Y/+CvclSy7aFbuWCHk1pv9xmnOr1pCYmwqsl4wJ8Rq
+ K00Ah7lBlg7mpoGwi1174q0qcI2KCfBJQ3tbviKeJf/yZrW86mS4w1XNcxuMaWJibgDQ
+ 45PqfwWnabHd3UaHiqW24czF8kKKYOgb3kBGdPuj+HgGmY4/OsLb9CEz4RPaq5gor3zv
+ yU5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ziCw1jrdbRRxzZUuAacPeDfn99gOs6JW3cbKwKy/6Wo=;
- b=tAne9t0eXm86QUjwkeym7jXw6ofYK2W95188hXoDUxRGXApdxvjbsM6W+yFyaO1waD
- fHuiTn9WW2Vk09gnRDbOdKDcQfTgRWGDGqno/3rgUhOSrAu0B1ApRvVT0AtA0b8XAGLy
- nKeWFO93WnjDmbm3U47l4yDzyA+Bj9aN8j92A0FGQ834whNWPGswExejbXjnd3MwP8pC
- 5YoMSDnF1EAFmAZqElUoEitsktC+h2mtzw30RFYDusDx7MvaMVjupXtzs65CGVZAw//O
- 8oLlhTAIwFjwgH9/y3EKTN+75orKeir2ngTwkYIPTMpTjvAWzjmZyqFR+nAL6wG/+0Fn
- ASXQ==
-X-Gm-Message-State: AOAM5326BqWXHNjXnaTZoyun3Yhw8qPuiHhRJMiIByyDbm4c9i0k3iJY
- GNr2BKckTrjntcxUS4VskGQ=
-X-Google-Smtp-Source: ABdhPJxvI/WOGV6Fo61vJPY+cPr8BV3k0ADGPI8FRgkd1nBBH18I4hf3/vqIJeD+D6P1uXdpjYpIgQ==
-X-Received: by 2002:a1c:c2c6:: with SMTP id s189mr1791879wmf.146.1599910846444; 
- Sat, 12 Sep 2020 04:40:46 -0700 (PDT)
+ bh=+zuqPSYAeaFQaEt/7hHxldynFjZI77037Thg6Y4y1PE=;
+ b=rU4/oCx5j9/tbKLgfVhZogXbTafNb9xr4dTpFqiEzjiqGz9xeAeO3So51WtfRfOq6z
+ kmR4kC50ZCcolF0B1VyQMNCCdJ4kJtMGp4G4SNIV7pleVPfZ20KefnRYqghFhq/odMyl
+ fZxfP/iTavnYqq+euV4539Rei7YZviAjhFrP60xUyq+Kk9AAO2Q4skdaQl+GvGh3PwEb
+ 1R9dznxHfK9zbdVzpCE5hkYFBMFM3a8e3TxAcqvd29AfwHJXkzXO+o0NVaxlzCOltdlY
+ AhJP63LA/mM5U52amJO8TkzIOkU+O5y0zYhljpPsKGwHok1isJptmHI5EVYtSzjWc+hY
+ oV6w==
+X-Gm-Message-State: AOAM532rNKP1zlSx96hjEWVDItTJrlo3U8abxcvn1Cem1G23w0VFfBV/
+ 62kahKLQ7f0+skB97uaPqz4=
+X-Google-Smtp-Source: ABdhPJyIVvexm0+D6gC6t70mYlf81cymW5MRpW+tSOOPZeTfaTCCfSQdtwF4twsnDGssGduqi43IRg==
+X-Received: by 2002:a1c:4e02:: with SMTP id g2mr6253397wmh.3.1599910847737;
+ Sat, 12 Sep 2020 04:40:47 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id h6sm9373895wmb.22.2020.09.12.04.40.45
+ by smtp.gmail.com with ESMTPSA id h6sm9373895wmb.22.2020.09.12.04.40.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 04:40:45 -0700 (PDT)
+ Sat, 12 Sep 2020 04:40:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 3/7] hw/char/serial: Remove old DEBUG_SERIAL commented code
-Date: Sat, 12 Sep 2020 13:40:36 +0200
-Message-Id: <20200912114040.918464-4-f4bug@amsat.org>
+Subject: [PATCH v2 4/7] hw/char/serial: Rename I/O read/write trace events
+Date: Sat, 12 Sep 2020 13:40:37 +0200
+Message-Id: <20200912114040.918464-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200912114040.918464-1-f4bug@amsat.org>
 References: <20200912114040.918464-1-f4bug@amsat.org>
@@ -95,52 +95,57 @@ Cc: qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All useful DPRINTF() calls have been converted to trace
-events.  Remove a pointless one in the IOEventHandler,
-and drop the DEBUG_SERIAL ifdef'ry.
+The serial_mm_read/write() handlers from the TYPE_SERIAL_MM device
+call the serial_ioport_read/write() handlers with shifted offset.
+
+When looking at the trace events from this MMIO device, it is
+confusing to read the accesses as I/O. Simplify using generic
+trace event names which make sense the various uses.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/serial.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ hw/char/serial.c     | 4 ++--
+ hw/char/trace-events | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/char/serial.c b/hw/char/serial.c
-index fb41337b661..1e70294f28a 100644
+index 1e70294f28a..ade4adfd526 100644
 --- a/hw/char/serial.c
 +++ b/hw/char/serial.c
-@@ -36,8 +36,6 @@
- #include "trace.h"
- #include "hw/qdev-properties.h"
- 
--//#define DEBUG_SERIAL
--
- #define UART_LCR_DLAB	0x80	/* Divisor latch access bit */
- 
- #define UART_IER_MSI	0x08	/* Enable Modem status interrupt */
-@@ -102,14 +100,6 @@
- 
- #define MAX_XMIT_RETRY      4
- 
--#ifdef DEBUG_SERIAL
--#define DPRINTF(fmt, ...) \
--do { fprintf(stderr, "serial: " fmt , ## __VA_ARGS__); } while (0)
--#else
--#define DPRINTF(fmt, ...) \
--do {} while (0)
--#endif
--
- static void serial_receive1(void *opaque, const uint8_t *buf, int size);
- static void serial_xmit(SerialState *s);
- 
-@@ -636,7 +626,6 @@ static void serial_receive1(void *opaque, const uint8_t *buf, int size)
- static void serial_event(void *opaque, QEMUChrEvent event)
- {
+@@ -333,7 +333,7 @@ static void serial_ioport_write(void *opaque, hwaddr addr, uint64_t val,
      SerialState *s = opaque;
--    DPRINTF("event %x\n", event);
-     if (event == CHR_EVENT_BREAK)
-         serial_receive_break(s);
+ 
+     assert(size == 1 && addr < 8);
+-    trace_serial_ioport_write(addr, val);
++    trace_serial_write(addr, val);
+     switch(addr) {
+     default:
+     case 0:
+@@ -550,7 +550,7 @@ static uint64_t serial_ioport_read(void *opaque, hwaddr addr, unsigned size)
+         ret = s->scr;
+         break;
+     }
+-    trace_serial_ioport_read(addr, ret);
++    trace_serial_read(addr, ret);
+     return ret;
  }
+ 
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 17304bef26d..609df10fed4 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -5,8 +5,8 @@ parallel_ioport_read(const char *desc, uint16_t addr, uint8_t value) "read [%s]
+ parallel_ioport_write(const char *desc, uint16_t addr, uint8_t value) "write [%s] addr 0x%02x val 0x%02x"
+ 
+ # serial.c
+-serial_ioport_read(uint16_t addr, uint8_t value) "read addr 0x%02x val 0x%02x"
+-serial_ioport_write(uint16_t addr, uint8_t value) "write addr 0x%02x val 0x%02x"
++serial_read(uint16_t addr, uint8_t value) "read addr 0x%02x val 0x%02x"
++serial_write(uint16_t addr, uint8_t value) "write addr 0x%02x val 0x%02x"
+ serial_update_parameters(uint64_t baudrate, char parity, int data_bits, int stop_bits) "baudrate=%"PRIu64" parity='%c' data=%d stop=%d"
+ 
+ # virtio-serial-bus.c
 -- 
 2.26.2
 
