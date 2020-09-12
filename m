@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079ED267CBF
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 00:54:04 +0200 (CEST)
-Received: from localhost ([::1]:36232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6176A267CC4
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 00:55:30 +0200 (CEST)
+Received: from localhost ([::1]:41288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHEPD-0001fl-2q
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 18:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47476)
+	id 1kHEQb-0003mv-Ej
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 18:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHEHT-0003lN-GL; Sat, 12 Sep 2020 18:46:03 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44892)
+ id 1kHEHX-0003wl-T2; Sat, 12 Sep 2020 18:46:07 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHEHR-0004U2-Ia; Sat, 12 Sep 2020 18:46:03 -0400
-Received: by mail-pg1-x543.google.com with SMTP id 7so8751382pgm.11;
- Sat, 12 Sep 2020 15:46:00 -0700 (PDT)
+ id 1kHEHW-0004UJ-7K; Sat, 12 Sep 2020 18:46:07 -0400
+Received: by mail-pg1-x542.google.com with SMTP id f2so6748505pgd.3;
+ Sat, 12 Sep 2020 15:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xS967nwniiPoKExhe31AY1Igl1jhGzMmH4nTv98GjJU=;
- b=AQsFK5Z5IcEbCnEEKRl3zg9ZUJQC7bRmBLA3fC3doD2gIbvIJBQUW8/DQ7hPMnu7Mj
- /EXCck1L13VqfDzvwcL5DepxGuWs1aNNgefzl39YJDxM1N9uXCLHlJGhvij3RMMT2wpt
- atUFap83bqqP8WZjG/2v96QWr7Izwma2cFHrPx2epmdRDCklGMU+YLz+zV36ATBcT2Lv
- gO6/9nPl4KPI1lHR4ritH6RPuBTMoEBgrvWn0WP/STxrv7Rm44ka9UmzuqNaxEjxHAQY
- 4GVqQl/0Q9APNDQ8O1AyzFedK3bHK8j2NQ4MztOHXuZCwJo7qzoij606TffNeW1pR55f
- K1IQ==
+ bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
+ b=jHmvi8LEbYgMToHQ52XQT2TcfvNTW+1GLczEAD+R86zh93R5kUN49R2yDear5okwI+
+ 55ecrVuh2x6SF6oKgOgq4qsvyqvpeRj344Qx6/KOkEgR7NujJ6bHm6Uu79QS5CFHrnU/
+ 97N7zYCwFSBfZ2yapKvyNb01VJaLHNnXgcN93XctfbnilrInOTJN37ap70fYVtwJfdI7
+ hJXCMR33JKoMROc59KI4ZCReV8S16Xjv2WGfiJqRU2zn6o/ihHSFBAidGNbkm6TNM2DS
+ vBsu9eA9UNnJcwjtg+h17PITSkHC7Yrsnk0xLOgHrI7kbCoBIINB6RjaofvUPMYW4D1q
+ GAuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xS967nwniiPoKExhe31AY1Igl1jhGzMmH4nTv98GjJU=;
- b=DgWGf+8EanoY6E3mhI5xHp66lzi1UWlcwKYIATyjS+YuR16+GRjijgTFc+3O4dWiVZ
- GWBrROkscpI6x1rBkcuafLmwuGowpVGteqpbWY/D33lAuBHqYNLEOtfGQiooqiKFBR5G
- WqP/abqJeTTsazgTw5lTjTldOX437NhnyaTs3iMMzWH2zthvhQZp6wUhm/i7P6Sgo63G
- YQYAOkjFfcd5ngfXUAnkXYLDaf7rMSoCghx9EHM54wCj4ehFRVYlrkmYjSUHsOzGuhFw
- UpWIQxyh9EEkr0hHt8EyBT68ZrRb7nOf01/jTfAp+os/BRb8eqqemU+LtrWMXG6hFCHg
- 9W4g==
-X-Gm-Message-State: AOAM532tSq1V99hCtRRNdJDTHFhGBU1nEWwDLGLhYbzV/aS/Lwsxf8AE
- 6xjIxT9oLsq3ONgB4/8an9tJoXqey618K+qahBg=
-X-Google-Smtp-Source: ABdhPJzuX0Jfb7Bu6YcWn7b331fCviSxOOTmPiASbdQdnhMcgd83DWeNUDVAhuzNNjkd4PrGlMjy/w==
-X-Received: by 2002:a62:1743:: with SMTP id 64mr7757961pfx.133.1599950759360; 
- Sat, 12 Sep 2020 15:45:59 -0700 (PDT)
+ bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
+ b=kG3bJc6As3enagKZsoFQfTm0Bxj9G8IMrXrcJAqjG1ejVSjnsbLn9qE+RMpwQ9JUjO
+ F5CKiygZcv1wIIRFX83E4im/fVXIjNK6GRdJAFEUUeLxuFKVrOjd/EGERyhUFiJKbWTE
+ eiBzMsLUR4aJpDvABMunpLzsHFa+mXMBibRw+mmvuJRRR4XCkp9k3tL6MfCi0ENvM/Ri
+ MTHCMjdZ2IstUG1XwHFuHcZOl6/WwXvpOSfdhCTue8RgSheDnG87cDuGUyvJOTxkf4A4
+ yJs+dKDBUBmGqu/YT3KDPTK+tO3PO01ilzL715tnD+AoENPxB73Y7Zm+sjwSAwASnbif
+ gExQ==
+X-Gm-Message-State: AOAM5335xe5hUIMr+NpE7iyme50bDSWKc/SUDTx887Ge8g4+U2vHOYNV
+ LS922B5HCdC7t+6tqiBZCQPeTMp0NF4fqhAzzD4=
+X-Google-Smtp-Source: ABdhPJy2MXXmCzZkjfPBisZ4yaM9BHQrES4zrJNmqt2G6nXy/B+lQHHqDE/51FKyuZ7DIihM8ctEpw==
+X-Received: by 2002:a63:7d5a:: with SMTP id m26mr6034071pgn.373.1599950763824; 
+ Sat, 12 Sep 2020 15:46:03 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id t10sm4639266pgp.15.2020.09.12.15.45.55
+ by smtp.googlemail.com with ESMTPSA id t10sm4639266pgp.15.2020.09.12.15.45.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 15:45:58 -0700 (PDT)
+ Sat, 12 Sep 2020 15:46:03 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 16/27] cirrus: Building freebsd in a single short
-Date: Sun, 13 Sep 2020 06:44:20 +0800
-Message-Id: <20200912224431.1428-17-luoyonggang@gmail.com>
+Subject: [PATCH v8 17/27] tests: Convert g_free to g_autofree macro in
+ test-logging.c
+Date: Sun, 13 Sep 2020 06:44:21 +0800
+Message-Id: <20200912224431.1428-18-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200912224431.1428-1-luoyonggang@gmail.com>
 References: <20200912224431.1428-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,92 +86,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ed Maste <emaste@FreeBSD.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
  qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
  Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
-("cirrus.yml: Split FreeBSD job into two parts").
-
-freebsd 1 hour limit not hit anymore
-
-I think we going to a wrong direction, I think there is some tests a stall the test runner,
-please look at
-https://cirrus-ci.com/task/5110577531977728
-When its running properly, the consumed time are little, but when tests running too long,
-look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
-
-And look at
-https://cirrus-ci.com/task/6119341601062912
-
-If the tests running properly, the time consuming are little
-We should not hide the error by split them
+g_autofree are prefer than g_free when possible.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Ed Maste <emaste@FreeBSD.org>
 ---
- .cirrus.yml | 35 ++++++++---------------------------
- 1 file changed, 8 insertions(+), 27 deletions(-)
+ tests/test-logging.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 3dd9fcff7f..690c6882e8 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -1,38 +1,19 @@
- env:
-   CIRRUS_CLONE_DEPTH: 1
+diff --git a/tests/test-logging.c b/tests/test-logging.c
+index 8a1161de1d..783fe09a27 100644
+--- a/tests/test-logging.c
++++ b/tests/test-logging.c
+@@ -196,7 +196,7 @@ static void rmdir_full(gchar const *root)
  
--freebsd_1st_task:
-+freebsd_12_task:
-   freebsd_instance:
-     image_family: freebsd-12-1
--    cpu: 4
--    memory: 4G
--  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
--    bash curl cyrus-sasl git glib gmake gnutls gsed
--    nettle perl5 pixman pkgconf png usbredir
-+    cpu: 8
-+    memory: 8G
-+  install_script:
-+    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
-+    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
-+          nettle perl5 pixman pkgconf png usbredir
-   script:
-     - mkdir build
-     - cd build
--    - ../configure --disable-user --target-list-exclude='alpha-softmmu
--        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
--        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
--        --enable-werror || { cat config.log; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake -j$(sysctl -n hw.ncpu) check
--
--freebsd_2nd_task:
--  freebsd_instance:
--    image_family: freebsd-12-1
--    cpu: 4
--    memory: 4G
--  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
--    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
--    nettle perl5 pixman pkgconf png SDL2 usbredir
--  script:
--    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
--        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
--        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
--        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
--        || { cat config.log; exit 1; }
-+    - ../configure --enable-werror || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake -j$(sysctl -n hw.ncpu) check
+ int main(int argc, char **argv)
+ {
+-    gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
++    g_autofree gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
+     int rc;
  
+     g_test_init(&argc, &argv, NULL);
+@@ -212,6 +212,5 @@ int main(int argc, char **argv)
+     rc = g_test_run();
+ 
+     rmdir_full(tmp_path);
+-    g_free(tmp_path);
+     return rc;
+ }
 -- 
 2.28.0.windows.1
 
