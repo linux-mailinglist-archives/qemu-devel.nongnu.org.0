@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D142678D9
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 10:31:47 +0200 (CEST)
-Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBA82678D8
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 10:31:35 +0200 (CEST)
+Received: from localhost ([::1]:41160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kH0wk-0003OK-Cq
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 04:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44544)
+	id 1kH0wY-00030R-Gn
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 04:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH0us-00022z-I4
- for qemu-devel@nongnu.org; Sat, 12 Sep 2020 04:29:50 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39254)
+ id 1kH0ut-00024H-Mh
+ for qemu-devel@nongnu.org; Sat, 12 Sep 2020 04:29:51 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH0uq-00022Z-NK
- for qemu-devel@nongnu.org; Sat, 12 Sep 2020 04:29:50 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a17so13612357wrn.6
- for <qemu-devel@nongnu.org>; Sat, 12 Sep 2020 01:29:48 -0700 (PDT)
+ id 1kH0ur-00022m-QR
+ for qemu-devel@nongnu.org; Sat, 12 Sep 2020 04:29:51 -0400
+Received: by mail-wr1-x444.google.com with SMTP id m6so13647674wrn.0
+ for <qemu-devel@nongnu.org>; Sat, 12 Sep 2020 01:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5pysvA1syRNHSzPZgeEEJUg4BktCjm4zQbvoXzGgB2w=;
- b=MeKKaH7CKjNaFs7w0tEmfVxr0mySHNXsn+Qs0t3g1AVcfAzOimViHBswJJGTh28cCq
- nyQLKkGwtXEmpZ4GCqRBbI0dVF9/QiuhNcUPX1mtxuvVXwdpqsbYX3CkAHcRVDdcceOz
- MOPazqGhLa6I2yN+unBzHR1x/MQ8w5GPMtxNJrH+b2RvJ7ODy4xJAa7oBC1JIlVkSVP9
- UL4xSrh/YbiVyBMhI/b/SJzUhpjni0lYG4igdtDsUqDe4T8xaI8TTlZQjyxiO2SNFNms
- 3eOvjLiR6xM0d//qRcQ2Kjux2Et811SSsAmMS0J46OEqWQLxAwjBC338xHHiKtMy8f7F
- 16sw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sRmT9s6gxreTis3LbuIGANYw4jl0FBXlKwAjDaThnyE=;
+ b=dmJkUqjQLxjUEhk3JjA28gOZXMqOFceO6OO67PrEV9PzcC3jsl0yeAybKVIW+twfsD
+ O08uqax+lqQuAF7zktMpmhFKsdzNaMxc78S+WderMVPT5kECo1CSQSF+K3rMl2YX5b3B
+ i1wAItIJmc+WX3Zm3ADXjYwGnOxZ4Le03RiHUqH9TdiUT7FLwzyoNtkOuO7PT6hXJWXS
+ baaWyuRXkg632jtXnOKtHYXBy4gjMVvxO4qsaGASrDRy740r7ecXVInHc1kq757HJeTc
+ EP+4bFq/YTfHZqh4SVzqg1M03lyrxWRIy/7QEGaNpdB7WrUGBbTFHI5Tmcj+Vf1qTsF2
+ LcoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=5pysvA1syRNHSzPZgeEEJUg4BktCjm4zQbvoXzGgB2w=;
- b=GQaYuR6KwRKc2WSEbboqC+ysDEMzPdQQYOl3p+JAZ/Yfxsd8SlI7HUk2yYsJ+kgerR
- c8rIH2umF6e0UB4Vpf33HasaXzy2C2cLfhFbO+GSATjM4sVHBDodwAuMp5CEriuVFwjx
- ukxPI516n9xXDiHbtVwfvCyLNC9dXi1wujVE1ETZ5tXesWpag8LU+yCDc62s6cluaRDv
- DlEXF3eTl/yTUsZ1W1nGuB71DDGHFrEwEHUiqmZpCMDESdnfT10Dp4iRxMdnA02ey/sD
- 1Z1OcF1wvlHL4KYb8N+PkpL+sIvMuaEN/4TBVg0l8WfHnpV6mnhzz9ffi3XOEh48dW2F
- hvLA==
-X-Gm-Message-State: AOAM531e20ArYhwrzXnhFP+1HVefxMOXGKV3bZtoTItbKUCk7HV6T0ki
- ZEWHktn6qmtIp+SwuRl43fBZb7RVnM4=
-X-Google-Smtp-Source: ABdhPJxgCHjR5VE3U0GYYPFOlRcyhllXXtTzQjIQ5gMSAXJ8Yieh4lLEu2wpHoqk9wlWH8KqjOk1BQ==
-X-Received: by 2002:a5d:608a:: with SMTP id w10mr5659159wrt.48.1599899386813; 
- Sat, 12 Sep 2020 01:29:46 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=sRmT9s6gxreTis3LbuIGANYw4jl0FBXlKwAjDaThnyE=;
+ b=FYI9TRb2HpQk6bquTLOy0yfbRCt1imNlcyLyBB4LuC4SMEXtYb+9gEwLYLepRfscre
+ SofEbMYUesi4y5C7UtLmQvxGuoL8fcj9fqUXzKyvm6U2RL2DkTYF/dYkPg7D+XZ/iUL3
+ uF1LWsrrMfdAIF9Pzf67BBSvlKhCfz2VNaB9Daxj/4OdZuIH+8kJ2bRt0O4Wen1wA229
+ AanakOhy3qLFyRoRZH5UTM9kM7TWJjDvoQgFrEqe3Ea6uxwYU3zLfyC48EQR6WV/GZcW
+ ZUT44zhJ2QHC20Atl7EixrI5JhujnRChC61USi76GTNFMgcmY0mxB9KST69oXfaPeSo5
+ TdCw==
+X-Gm-Message-State: AOAM531EgnrPwp2SLyLcQihp/ByyEl2ofbwUtJ5mRemMhbB+To9zY+3Z
+ viWjzjde+VkTmedMZjhd7mnmnFUVDXs=
+X-Google-Smtp-Source: ABdhPJzJUVFWcGD6npESWVNmWeXi3bzXWmk24AkYwVkVUoNE403MAtZ82QIYNRGIRxodHp+E373hBw==
+X-Received: by 2002:a5d:4710:: with SMTP id y16mr6031768wrq.203.1599899388204; 
+ Sat, 12 Sep 2020 01:29:48 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id t188sm9598698wmf.41.2020.09.12.01.29.45
+ by smtp.gmail.com with ESMTPSA id t188sm9598698wmf.41.2020.09.12.01.29.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 01:29:45 -0700 (PDT)
+ Sat, 12 Sep 2020 01:29:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] hw/char: Remove TYPE_SERIAL_IO
-Date: Sat, 12 Sep 2020 10:29:42 +0200
-Message-Id: <20200912082944.890972-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/2] hw/mips/mipssim: Use MMIO serial device on fake ISA I/O
+Date: Sat, 12 Sep 2020 10:29:43 +0200
+Message-Id: <20200912082944.890972-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200912082944.890972-1-f4bug@amsat.org>
+References: <20200912082944.890972-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::444;
@@ -88,34 +91,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the TYPE_SERIAL_IO which is simply a superset of
-TYPE_SERIAL_MM, as suggested by Paolo and Peter here:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg721806.html
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-All patches reviewed (patch #1 already queued in Paolo's misc tree).
+The 'mipssim' is not a real hardware, it is a simulator.
 
-Since v2:
-- Rebased on "QOM boilerplate cleanup"
+There is an ISA MMIO space mapped at 0x1fd00000, however
+this is not a real ISA bus (no ISA IRQ). So can not use
+the TYPE_ISA_SERIAL device...
+Instead we have been using a plain MMIO device, but named
+it IO.
 
-Since v1:
-- Reword migration comment (Marc-André)
+TYPE_SERIAL_IO is a subset of TYPE_SERIAL_MM, using
+regshift=0 and endianness=DEVICE_LITTLE_ENDIAN.
 
-Philippe Mathieu-Daudé (2):
-  hw/mips/mipssim: Use MMIO serial device on fake ISA I/O
-  hw/char/serial: Remove TYPE_SERIAL_IO (superset of TYPE_SERIAL_MM)
+Directly use the TYPE_SERIAL_MM device, enforcing the
+regshift/endianness values. 'regshift' default is already
+'0'. 'endianness' is meaningless for 8-bit accesses.
 
- hw/char/serial.c  | 41 -----------------------------------------
- hw/mips/mipssim.c |  5 +++--
- 2 files changed, 3 insertions(+), 43 deletions(-)
+This change breaks migration back compatibility, but
+this is not an issue for the mipssim machine.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/mips/mipssim.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
+index 1b3b7622035..5d4ad74828d 100644
+--- a/hw/mips/mipssim.c
++++ b/hw/mips/mipssim.c
+@@ -216,10 +216,11 @@ mips_mipssim_init(MachineState *machine)
+      * MIPS CPU INT2, which is interrupt 4.
+      */
+     if (serial_hd(0)) {
+-        DeviceState *dev = qdev_new(TYPE_SERIAL_IO);
++        DeviceState *dev = qdev_new(TYPE_SERIAL_MM);
+ 
+         qdev_prop_set_chr(dev, "chardev", serial_hd(0));
+-        qdev_set_legacy_instance_id(dev, 0x3f8, 2);
++        qdev_prop_set_uint8(dev, "regshift", 0);
++        qdev_prop_set_uint8(dev, "endianness", DEVICE_LITTLE_ENDIAN);
+         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[4]);
+         sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8,
 -- 
 2.26.2
 
