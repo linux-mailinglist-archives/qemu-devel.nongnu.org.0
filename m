@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EA3267CB6
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 00:50:41 +0200 (CEST)
-Received: from localhost ([::1]:50326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00B1267CCA
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 00:58:12 +0200 (CEST)
+Received: from localhost ([::1]:55100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHELw-0004D8-1N
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 18:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47540)
+	id 1kHETD-0001HM-Ql
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 18:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHEHg-0004ED-6s; Sat, 12 Sep 2020 18:46:16 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46591)
+ id 1kHEHk-0004P0-9D; Sat, 12 Sep 2020 18:46:20 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHEHe-0004Uw-GN; Sat, 12 Sep 2020 18:46:15 -0400
-Received: by mail-pl1-x643.google.com with SMTP id d16so2643582pll.13;
- Sat, 12 Sep 2020 15:46:13 -0700 (PDT)
+ id 1kHEHi-0004WF-Mo; Sat, 12 Sep 2020 18:46:19 -0400
+Received: by mail-pg1-x544.google.com with SMTP id z17so1006413pgc.4;
+ Sat, 12 Sep 2020 15:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eTowCOmFGkug/aztHy6I04JZoGONhdCbvgRzQeqIV9w=;
- b=WOahd/LsIS1V37NqDXOQSi6ZEe8xfUdawSmAfG1lTSfXJSJEt1EnMq0C8vvd/3cI2l
- 8ItiyrdGKZOP+lfuC8JoGvjh4kgJuXjw03AOzlwTgxx40zPAZjH56ewyUiQb+I9i+/Lf
- WCnH+bs88QrjvI5lXPVbFYEVeQQb5a7QbsRHdHVMkfiP+T8McwrwNCwdjgqV1cW6WuJp
- BWxl5L7LfxiLkYCMldKM5yDmYXM4r0upzdKUewrM/fdp/FUhAMx7jBvUWrWgOuoE/8Wh
- Y09F3LvgmJNHWqBq8qj7MRQCXlxc8J8sZwZf5r1aGPKnPx0jzTMNQikIb0+gri2TDP+2
- KUTg==
+ bh=raGFyZs6MR9nEefX4kmRsgZPLq8a4zwcDe8/ve9JX8Y=;
+ b=fY/tK3Cpuvo/QA9ZWpgEo4m50ZEfcpRy42u8NOhm3BjXw0wUnkPJbZpdiliGNLBKog
+ bXelf+DfBB2u0E4vSC9WV4Ayp3fOclws5ZPa6b7G/G/0LsGHo9SISjtWGZ5Vw8wzmMgs
+ k+U2hhVxVSTI2nSIPAL4Rwx5ajWS6jgAGTc/zvc7PaxBpV0E1x3X28L8v7ue5eBESEU2
+ 9jI6gzwaNEFZ27hAokXv7Hc+z5uLPtiOi/G8yvHlcO9wM++ouvLqKBcS6FPEbfvckRj9
+ S+T0t+rVVqwAHu+Qkrfm0OTiK70w6W7MVeh/NhCgiDDEKaqk0aCFII1h1uZQLU/Dfr3k
+ WLiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eTowCOmFGkug/aztHy6I04JZoGONhdCbvgRzQeqIV9w=;
- b=fSqDn7OcTaNios1JQ7LYzBGZf9rq204UxVJVj4yewf2puOIrnnC7mZXo+wTBTWH3Tm
- 3jxr4hKh7f6r19FpakQTgndQhagXs9mlCwz1XHn98Sp7lVcxlrokL28TsOL7ym6i9RFv
- gYR/kKkXWLYnoRGzaJsww7i65Fjkf/f7VLjYq0G/h5OmLvs0IEEH7RGwUpjCbQc780iu
- 5TyWXecfzYMlK4TzVkxDiRHAEZpVfNsJ+TtlO1Ra36Be0OH8Ji3s6C+Tu6bjYiQ9Ui51
- wPh+5+I4vQlRonrgsnb5K8BaNsjA9zS7qVumYv0EWzV1SPBNrMe+1acc9qGasZQDgwn4
- qD7Q==
-X-Gm-Message-State: AOAM531TjSjatzx3h0VVo6iA8xK7xzBVUS018TZ+sROLTyMjA5550z94
- fQM/D0G1GxxT0JyAQjv12Dnb0FdK6PlqKZ9PiUo=
-X-Google-Smtp-Source: ABdhPJxKh+kSvkkJUwX2zSNjgzSNND4GdM1g9LF6evnDYSGmP1ccPE/3byYV/gsLt6Fu+78A79IEcQ==
-X-Received: by 2002:a17:902:9a8e:: with SMTP id
- w14mr7973020plp.6.1599950772381; 
- Sat, 12 Sep 2020 15:46:12 -0700 (PDT)
+ bh=raGFyZs6MR9nEefX4kmRsgZPLq8a4zwcDe8/ve9JX8Y=;
+ b=Jg9wPbRXvVerdAexWqyp3ztiUKxJqZTOW35TnAuzLW7arFtBT5eYUErXzUiPhIOGS/
+ HjnUel10VI1ODQGJyjNXVa8PHFZkPp8KIsh4tCAbd16m4mtZ/Z5T1CXU6vnF90d55Bgf
+ cn5LFYIRyXW94xW+CYUCLJvVDRSewLHQTGfDPM2AUhSSG83oHh4X2cxHorXMQs0c/cNY
+ O9zKslF6x4xT/n8Z4Coak56lJM0YkNGK5eIZokSEdUGOSF8WaIHzcXlz+P+jIjl5Rwn4
+ VKybDJRsOgp/EAAU5WRYa3DbOnBDCBUsX9/b1Fz6AwJYU0o9c2TLfxvCFuKsZFw52sDk
+ /ywA==
+X-Gm-Message-State: AOAM532TwBJR2El2m/+v8Hm21jmZFlth6ru1kUC3Bw04m+x42p6CIoNK
+ vMEtgeZAs+wACdQQRCLrXfLvIryqeiavgXELgKU=
+X-Google-Smtp-Source: ABdhPJx0kmt7ptJBB42CKsfSXjm94zRnMmI4KxxLwR1wNMJbdHsNkAy+gChBfnKya299a95Y3nPSOw==
+X-Received: by 2002:a63:d257:: with SMTP id t23mr6231472pgi.212.1599950776522; 
+ Sat, 12 Sep 2020 15:46:16 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id t10sm4639266pgp.15.2020.09.12.15.46.08
+ by smtp.googlemail.com with ESMTPSA id t10sm4639266pgp.15.2020.09.12.15.46.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 15:46:11 -0700 (PDT)
+ Sat, 12 Sep 2020 15:46:15 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 19/27] tests: fixes aio-win32 about aio_remove_fd_handler,
- get it consistence with aio-posix.c
-Date: Sun, 13 Sep 2020 06:44:23 +0800
-Message-Id: <20200912224431.1428-20-luoyonggang@gmail.com>
+Subject: [PATCH v8 20/27] tests: Fixes test-io-channel-file by mask only owner
+ file state mask bits
+Date: Sun, 13 Sep 2020 06:44:24 +0800
+Message-Id: <20200912224431.1428-21-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200912224431.1428-1-luoyonggang@gmail.com>
 References: <20200912224431.1428-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,49 +95,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a fixes for
-(C:\work\xemu\qemu\build\tests\test-aio-multithread.exe:19100): GLib-CRITICAL **: 23:03:24.965: g_source_remove_poll: assertion '!SOURCE_DESTROYED (source)' failed
-ERROR test-aio-multithread - Bail out! GLib-FATAL-CRITICAL: g_source_remove_poll: assertion '!SOURCE_DESTROYED (source)' failed
-
-(C:\work\xemu\qemu\build\tests\test-bdrv-drain.exe:21036): GLib-CRITICAL **: 23:03:29.861: g_source_remove_poll: assertion '!SOURCE_DESTROYED (source)' failed
-ERROR test-bdrv-drain - Bail out! GLib-FATAL-CRITICAL: g_source_remove_poll: assertion '!SOURCE_DESTROYED (source)' failed
-
-And the idea comes from https://patchwork.kernel.org/patch/9975239/
+This is the error on msys2/mingw
+Running test test-io-channel-file
+**
+ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
+ERROR test-io-channel-file - Bail out! ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- util/aio-win32.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ tests/test-io-channel-file.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/util/aio-win32.c b/util/aio-win32.c
-index 953c56ab48..9899546a8a 100644
---- a/util/aio-win32.c
-+++ b/util/aio-win32.c
-@@ -37,6 +37,15 @@ struct AioHandler {
+diff --git a/tests/test-io-channel-file.c b/tests/test-io-channel-file.c
+index bac2b07562..1b0e8d7c1b 100644
+--- a/tests/test-io-channel-file.c
++++ b/tests/test-io-channel-file.c
+@@ -28,6 +28,12 @@
+ #define TEST_FILE "tests/test-io-channel-file.txt"
+ #define TEST_MASK 0600
  
- static void aio_remove_fd_handler(AioContext *ctx, AioHandler *node)
- {
-+    /* If the GSource is in the process of being destroyed then
-+     * g_source_remove_poll() causes an assertion failure.  Skip
-+     * removal in that case, because glib cleans up its state during
-+     * destruction anyway.
-+     */
-+    if (!g_source_is_destroyed(&ctx->source)) {
-+        g_source_remove_poll(&ctx->source, &node->pfd);
-+    }
++#ifdef _WIN32
++#define TEST_MASK_EXPECT 0700
++#else
++#define TEST_MASK_EXPECT 0777
++#endif
 +
-     /* If aio_poll is in progress, just mark the node as deleted */
-     if (qemu_lockcnt_count(&ctx->list_lock)) {
-         node->deleted = 1;
-@@ -139,8 +148,6 @@ void aio_set_event_notifier(AioContext *ctx,
-     /* Are we deleting the fd handler? */
-     if (!io_notify) {
-         if (node) {
--            g_source_remove_poll(&ctx->source, &node->pfd);
--
-             aio_remove_fd_handler(ctx, node);
-         }
-     } else {
+ static void test_io_channel_file_helper(int flags)
+ {
+     QIOChannel *src, *dst;
+@@ -56,7 +62,9 @@ static void test_io_channel_file_helper(int flags)
+     umask(mask);
+     ret = stat(TEST_FILE, &st);
+     g_assert_cmpint(ret, >, -1);
+-    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & 0777);
++    /* On Windows the stat() function in the C library checks only
++     the FAT-style READONLY attribute and does not look at the ACL at all. */
++    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & TEST_MASK_EXPECT);
+ 
+     unlink(TEST_FILE);
+     object_unref(OBJECT(src));
 -- 
 2.28.0.windows.1
 
