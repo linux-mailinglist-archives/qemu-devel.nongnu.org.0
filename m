@@ -2,50 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665E726771E
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 03:50:14 +0200 (CEST)
-Received: from localhost ([::1]:38751 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93316267812
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 08:03:01 +0200 (CEST)
+Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kGug9-0001Qu-19
-	for lists+qemu-devel@lfdr.de; Fri, 11 Sep 2020 21:50:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48758)
+	id 1kGycm-00020a-5j
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 02:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kGufH-0000W3-1P
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 21:49:20 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:47306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kGufF-0003Fc-09
- for qemu-devel@nongnu.org; Fri, 11 Sep 2020 21:49:18 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 08C1mPGl029499
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 11 Sep 2020 21:48:32 -0400
-Date: Fri, 11 Sep 2020 21:48:25 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Li Qiang <liq3ea@gmail.com>
-Subject: Re: [PATCH] hw: usb: hcd-ohci: check len and frame_number variables
-Message-ID: <20200912014825.eg73ixfjkknzd46n@mozz.bu.edu>
-References: <20200911122703.126696-1-ppandit@redhat.com>
- <CAKXe6SLFG1XMCw7yNM3bres29jiqJ5oLpJUgzXGjj8ay=NkwHQ@mail.gmail.com>
- <20200911192045.3amzn6zlaynpxbfy@mozz.bu.edu>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kGybV-0001Mu-Hh
+ for qemu-devel@nongnu.org; Sat, 12 Sep 2020 02:01:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kGybT-0001Wq-4R
+ for qemu-devel@nongnu.org; Sat, 12 Sep 2020 02:01:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599890497;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gl2AtlMXNqKvTmPK+6Z4nh0TVjCyOpaXQ00n1fpFNqc=;
+ b=RrY+cVFIycz9JgF1LOD3fXvk7rQMvD76KomXurEQcA3JJKbXID1Rg9wcB5fFy0+3uX5sOy
+ cug+bSE1V7gMZy8Kils9CuUIwhHgHbemD6bO/Z5BiAOzUro4CkT8ScGnwzxel1cQje7chG
+ hAToegmQs3FMOE4C5xHxUjKLofiP3Ok=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-UAa2Re4AMQalTkX3OvoDZA-1; Sat, 12 Sep 2020 02:01:35 -0400
+X-MC-Unique: UAa2Re4AMQalTkX3OvoDZA-1
+Received: by mail-wm1-f71.google.com with SMTP id a7so1673382wmc.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Sep 2020 23:01:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gl2AtlMXNqKvTmPK+6Z4nh0TVjCyOpaXQ00n1fpFNqc=;
+ b=LRQ/9W9j7P/E3iOTFxBthptNzSU5/ZYIBP//k0icWc8b+6r8qeBBlUNoQ+9IDXK0Zj
+ CLsNXA8gW4FIiirSU13xVf5Dx1dDSzQ8dwk6nLib0IjivsJkw9EnCNVBv0xIW8T7mMH8
+ Iag/E+/KJJjl85r5lqX6Yi8K1Xl9bD//O98EFLGewCu1FuSNqx0N5JhMFpKeX/yVetFA
+ B5D9tCFDxqBcfq6GXkaEtmoySJCPFkd0bCcY7yGCFggutTo4B2RsNIMVou28O1QSAVoE
+ cEeulbp2s8vXH3kbuNG4yKvOrkyOMv90wA77XiMrrz5zZPi5PSVNpdBA4PXRtwlgW36/
+ TCIA==
+X-Gm-Message-State: AOAM533Jc3B3Dc9Eicsperrn+7AytUgFS8pwQhIbS6QBgS7/nBTRBDsU
+ QotU1b9aly8RM9yKFwSdzUkXImKQRBxrlhQbWMV/CTstzRb2uLJhnDZrozTAtNTtKyF1NngdgLe
+ LkdLXK+LYMWjpYOo=
+X-Received: by 2002:a1c:7714:: with SMTP id t20mr5734235wmi.55.1599890494249; 
+ Fri, 11 Sep 2020 23:01:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAz3LYjm0ULsjJ7PFs3pE9KI5HeANjEihDIHjNBSdqeZwduh4mU/81Grk535fRy3WpkjP1Bw==
+X-Received: by 2002:a1c:7714:: with SMTP id t20mr5734216wmi.55.1599890493915; 
+ Fri, 11 Sep 2020 23:01:33 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id m13sm8278190wrr.74.2020.09.11.23.01.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Sep 2020 23:01:33 -0700 (PDT)
+Subject: Re: [PATCH v2] scripts/git.orderfile: Display meson files along with
+ buildsys ones
+To: Laszlo Ersek <lersek@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200907161222.41915-1-philmd@redhat.com>
+ <bd658d44-d9bd-81d1-f3c7-89c0d61f6dd2@redhat.com>
+ <79de1ef4-6e08-6f1c-030e-f40e7410e06c@redhat.com>
+ <2d435bb0-eb8d-7a12-b962-2bce246c30fb@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3b529fd7-aae4-645e-c956-aa6f9fc2aea5@redhat.com>
+Date: Sat, 12 Sep 2020 08:01:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <2d435bb0-eb8d-7a12-b962-2bce246c30fb@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200911192045.3amzn6zlaynpxbfy@mozz.bu.edu>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/11 21:49:15
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/12 02:01:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.469, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,207 +106,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
- Yi Ren <yunye.ry@alibaba-inc.com>, Yongkang Jia <j_kangel@163.com>,
- Gaoning Pan <pgn@zju.edu.cn>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200911 1520, Alexander Bulekov wrote:
-> On 200911 2257, Li Qiang wrote:
-> > P J P <ppandit@redhat.com> 于2020年9月11日周五 下午8:30写道：
-> > >
-> > > From: Prasad J Pandit <pjp@fedoraproject.org>
-> > >
-> > > While servicing the OHCI transfer descriptors(TD), OHCI host
-> > > controller derives variables 'start_addr', 'end_addr', 'len'
-> > > etc. from values supplied by the host controller driver.
-> > > Host controller driver may supply values such that using
-> > > above variables leads to out-of-bounds access or loop issues.
-> > > Add checks to avoid them.
-> > >
-> > > AddressSanitizer: stack-buffer-overflow on address 0x7ffd53af76a0
-> > >   READ of size 2 at 0x7ffd53af76a0 thread T0
-> > >   #0 ohci_service_iso_td ../hw/usb/hcd-ohci.c:734
-> > >   #1 ohci_service_ed_list ../hw/usb/hcd-ohci.c:1180
-> > >   #2 ohci_process_lists ../hw/usb/hcd-ohci.c:1214
-> > >   #3 ohci_frame_boundary ../hw/usb/hcd-ohci.c:1257
-> > >   #4 timerlist_run_timers ../util/qemu-timer.c:572
-> > >   #5 qemu_clock_run_timers ../util/qemu-timer.c:586
-> > >   #6 qemu_clock_run_all_timers ../util/qemu-timer.c:672
-> > >   #7 main_loop_wait ../util/main-loop.c:527
-> > >   #8 qemu_main_loop ../softmmu/vl.c:1676
-> > >   #9 main ../softmmu/main.c:50
-> > >
-> > 
-> > Hello Prasad,
-> > Could you also provide the reproducer?
-> > 
-> > > Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-> > > Reported-by: Yongkang Jia <j_kangel@163.com>
-> > > Reported-by: Yi Ren <yunye.ry@alibaba-inc.com>
-> > > Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> > > ---
-> > >  hw/usb/hcd-ohci.c | 29 +++++++++++++++++++++++++++--
-> > >  1 file changed, 27 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-> > > index 1e6e85e86a..76fb9282e3 100644
-> > > --- a/hw/usb/hcd-ohci.c
-> > > +++ b/hw/usb/hcd-ohci.c
-> > > @@ -691,6 +691,11 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-> > >             the next ISO TD of the same ED */
-> > >          trace_usb_ohci_iso_td_relative_frame_number_big(relative_frame_number,
-> > >                                                          frame_count);
-> > > +        if (OHCI_CC_DATAOVERRUN == OHCI_BM(iso_td.flags, TD_CC)) {
-> > > +            /* avoid infinite loop */
-> > > +            return 1;
-> > > +        }
-> > 
-> > I think it is better to split this patch to 2 or three as the infinite
-> > loop as the buffer overflow are independent.
-> > 
-> > 1. here the infinite loop
-> > 
-> > > +
-> > >          OHCI_SET_BM(iso_td.flags, TD_CC, OHCI_CC_DATAOVERRUN);
-> > >          ed->head &= ~OHCI_DPTR_MASK;
-> > >          ed->head |= (iso_td.next & OHCI_DPTR_MASK);
-> > > @@ -731,7 +736,11 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-> > >      }
-> > >
-> > >      start_offset = iso_td.offset[relative_frame_number];
-> > > -    next_offset = iso_td.offset[relative_frame_number + 1];
-> > > +    if (relative_frame_number < frame_count) {
-> > > +        next_offset = iso_td.offset[relative_frame_number + 1];
-> > > +    } else {
-> > > +        next_offset = iso_td.be;
-> > > +    }
-> > 
-> > 2. here the stack buffer overflow
+On 08/09/20 14:30, Laszlo Ersek wrote:
+> 
+> The current working directory is the source tree.
+> 
+> The working directory is pristine, as in:
+> $ git reset --hard
+> $ git clean -ffdx
+> $ git submodule deinit --force --all
+> 
+> Then:
+> 
+> $ git submodule update --init --force
+> $ make clean
+> $ git status
 
-... and for the stack overflow:
+I see.  We should probably rename the Makefile in the source tree, since
+it is only meant to be used from the build tree.
 
-cat << EOF | ./qemu-system-i386 -device pci-ohci,id=usb \
--nodefaults -qtest stdio -nographic
-outl 0xcf8 0x80001013
-outl 0xcfc 0xfdff5955
-outl 0xcf8 0x80001002
-outl 0xcfc 0xd3073d2f
-writeq 0x55000000 0x5a55b984d3fd0200
-clock_step
-clock_step
-clock_step
-clock_step
-clock_step
-clock_step
-write 0x18 0x1 0x7a
-write 0x19 0x1 0xab
-write 0xab7b 0x1 0xab
-write 0xab7f 0x1 0xff
-write 0xab82 0x1 0x7a
-write 0xab83 0x1 0xab
-write 0xab70 0x1 0xff
-write 0xab71 0x1 0xff
-write 0xab73 0x1 0xff
-write 0xab75 0x1 0xab
-clock_step
-EOF
+Paolo
 
-> > >
-> > >      if (!(OHCI_BM(start_offset, TD_PSW_CC) & 0xe) ||
-> > >          ((relative_frame_number < frame_count) &&
-> > > @@ -764,7 +773,12 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-> > >          }
-> > >      } else {
-> > >          /* Last packet in the ISO TD */
-> > > -        end_addr = iso_td.be;
-> > > +        end_addr = next_offset;
-> > > +    }
-> > > +
-> > > +    if (start_addr > end_addr) {
-> > > +        trace_usb_ohci_iso_td_bad_cc_overrun(start_addr, end_addr);
-> > > +        return 1;
-> > >      }
-> > >
-> > >      if ((start_addr & OHCI_PAGE_MASK) != (end_addr & OHCI_PAGE_MASK)) {
-> > > @@ -773,6 +787,9 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
-> > >      } else {
-> > >          len = end_addr - start_addr + 1;
-> > >      }
-> > > +    if (len > sizeof(ohci->usb_buf)) {
-> > > +        len = sizeof(ohci->usb_buf);
-> > > +    }
-> > >
-> > >      if (len && dir != OHCI_TD_DIR_IN) {
-> > >          if (ohci_copy_iso_td(ohci, start_addr, end_addr, ohci->usb_buf, len,
-> > > @@ -975,8 +992,16 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
-> > >          if ((td.cbp & 0xfffff000) != (td.be & 0xfffff000)) {
-> > >              len = (td.be & 0xfff) + 0x1001 - (td.cbp & 0xfff);
-> > >          } else {
-> > > +            if (td.cbp > td.be) {
-> > > +                trace_usb_ohci_iso_td_bad_cc_overrun(td.cbp, td.be);
-> > > +                ohci_die(ohci);
-> > > +                return 1;
-> > > +            }
-> > >              len = (td.be - td.cbp) + 1;
-> > >          }
-> > > +        if (len > sizeof(ohci->usb_buf)) {
-> > > +            len = sizeof(ohci->usb_buf);
-> > > +        }
-> > >
-> > 
-> > 3. Then here is the heap overflow.
-> > 
-> 
-> Maybe this is the heap-overflow?
-> 
-> cat << EOF | ./qemu-system-i386 -device pci-ohci,id=usbb \
-> -device usb-tablet,bus=usbb.0,port=1,usb_version=1 \
-> -nodefaults -qtest stdio -nographic
-> outl 0xcf8 0x80001013
-> outl 0xcfc 0x1fd555a
-> outl 0xcf8 0x80001002
-> outl 0xcfc 0x7fe072f
-> write 0x5a000004 0x1 0xa5
-> write 0x0 0x1 0x26
-> write 0x1 0x1 0xfc
-> write 0xfc27 0x1 0xaa
-> write 0xfc30 0x1 0x04
-> write 0x40006 0x1 0x27
-> write 0x4000e 0x1 0x27
-> write 0x40011 0x1 0xff
-> EOF
-> 
-> ==3325498==ERROR: AddressSanitizer: heap-buffer-overflow 
-> WRITE of size 131661824 at 0x6270000031a0 thread T0
-> #0 0x5564784a5a9f in __asan_memcpy (u-system-i386+0x2db6a9f)
-> #1 0x55647abc4cee in flatview_read_continue exec.c:3246:13
-> #2 0x55647abc7513 in flatview_read exec.c:3279:12
-> #3 0x55647abc7068 in address_space_read_full exec.c:3292:18
-> #4 0x55647abc8208 in address_space_rw exec.c:3320:16
-> #5 0x5564798a9467 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
-> #6 0x5564798a8e85 in dma_memory_rw include/sysemu/dma.h:110:12
-> #7 0x5564798b1d16 in ohci_copy_iso_td hw/usb/hcd-ohci.c:624:9
-> #8 0x5564798a2d66 in ohci_service_iso_td hw/usb/hcd-ohci.c:778:13
-> #9 0x556479897e1b in ohci_service_ed_list hw/usb/hcd-ohci.c:1180:21
-> #10 0x556479889dc6 in ohci_frame_boundary hw/usb/hcd-ohci.c:1245:9
-> #11 0x55647c40c527 in timerlist_run_timers util/qemu-timer.c:572:9
-> 
-> -Alex
-> 
-> > 
-> > So I think it can be more easier to review to split this to 3 patches.
-> > 
-> > Thanks,
-> > Li Qiang
-> > 
-> > >          pktlen = len;
-> > >          if (len && dir != OHCI_TD_DIR_IN) {
-> > > --
-> > > 2.26.2
-> > >
-> > >
-> > 
 
