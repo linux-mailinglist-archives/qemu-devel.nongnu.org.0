@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574BE267A1B
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:47:22 +0200 (CEST)
-Received: from localhost ([::1]:51394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807DD267A26
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:52:51 +0200 (CEST)
+Received: from localhost ([::1]:35344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kH401-0001qt-Ec
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:47:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54538)
+	id 1kH45K-0007Cy-Cm
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kH3yt-0000pp-EV; Sat, 12 Sep 2020 07:46:11 -0400
-Resent-Date: Sat, 12 Sep 2020 07:46:11 -0400
-Resent-Message-Id: <E1kH3yt-0000pp-EV@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21739)
+ id 1kH44M-0006MP-0B; Sat, 12 Sep 2020 07:51:50 -0400
+Resent-Date: Sat, 12 Sep 2020 07:51:50 -0400
+Resent-Message-Id: <E1kH44M-0006MP-0B@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kH3yq-0001Bq-7E; Sat, 12 Sep 2020 07:46:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1599911138; cv=none; 
+ id 1kH44J-0001xP-2U; Sat, 12 Sep 2020 07:51:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1599911499; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=NpyK+xZKx70DXbTovQXVmXJODBe0HKQcrnE9WHZhp2wJyrUbgWDi1pp75pqaJWyhVJulEJ9gZQE4abc4G7UQ++l0wtfbDjs0V6/QyD35ZcRbhUjKw10s81PvcEr4c6Vl3FEyn171spU8AAV3GpdrqEVje3twEmdynK16cB1yjDU=
+ b=YlVyhdjcXf4EkZvKuwv38WmUUvcJqtlkzlSrJ8Zfbjx4XfvDDEDooqlNV5eLUkINnXRSPzxrcWQwy47ydcUU7nyJcONfXA1gAPTXciloz7Jakri7wYXYML1hk5WFcz5LELXh/RNkdWmvc32kQ0HK41r8w1KSt6m+SiptQlkm2+o=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1599911138;
+ s=zohoarc; t=1599911499;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=aCxoM4AXWk57R1bBJOAV77lsW4swUVKiN7ytiTR6I1M=; 
- b=k7kuz3rulU54Y7ZQOo4K6Z2hCbMVq4hVX7ObPVVMSjZ+xyDB3eQO7LFYzTJdFTfgsyw0yjkx0C2twd/fH/VVOZnP9wcpjgOmk5siuIIKs3YM3vpCtq6U45ovcrD1SuvV6A1KM4jiaYldYFZMs/sUgQK8RFfOlsnbJdGFv1V4oes=
+ bh=sN/AFpJCetBpDvrWs4ZQ7Hg2+jCKnzjH0XS764mkfww=; 
+ b=JX1EkmmazZ6rf0JtmPxW+tdm6MTy5K8dlFmlK14UMJ8msHezDh3r+9O8D9qq8PEOzMtxDsrAY2QITjxT9bLtDgxz5muD6BPYKLtqQx8DsGgzEyuU+980YIxyNbzZ96yU4gp9X+Xit9Awj2lryQpQgLaoxFz4yuuZO7PRoz6h30w=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  spf=pass  smtp.mailfrom=no-reply@patchew.org;
  dmarc=pass header.from=<no-reply@patchew.org>
  header.from=<no-reply@patchew.org>
 Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1599911137707498.56034969088284;
- Sat, 12 Sep 2020 04:45:37 -0700 (PDT)
+ mx.zohomail.com with SMTPS id 1599911498853626.8770697356559;
+ Sat, 12 Sep 2020 04:51:38 -0700 (PDT)
 Subject: Re: [PATCH v2 0/7] hw/char/serial: Housekeeping
-Message-ID: <159991113647.32613.1847386236215843361@66eaa9a8a123>
+Message-ID: <159991149749.32613.12575399331176448998@66eaa9a8a123>
 In-Reply-To: <20200912114040.918464-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -43,7 +43,7 @@ Content-Transfer-Encoding: base64
 Resent-From: 
 From: no-reply@patchew.org
 To: f4bug@amsat.org
-Date: Sat, 12 Sep 2020 04:45:37 -0700 (PDT)
+Date: Sat, 12 Sep 2020 04:51:38 -0700 (PDT)
 X-ZohoMailClient: External
 Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
  helo=sender4-of-o57.zoho.com
@@ -74,11 +74,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxMjExNDA0MC45MTg0
-NjQtMS1mNGJ1Z0BhbXNhdC5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIGJ1aWxkIHRl
-c3Qgb24gRnJlZUJTRCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0YWlscyBiZWxvdy4KCgoKCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIw
-MDkxMjExNDA0MC45MTg0NjQtMS1mNGJ1Z0BhbXNhdC5vcmcvdGVzdGluZy5GcmVlQlNELz90eXBl
-PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
-dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
-dy1kZXZlbEByZWRoYXQuY29t
+NjQtMS1mNGJ1Z0BhbXNhdC5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKCk4vQS4gSW50ZXJuYWwgZXJyb3Igd2hpbGUgcmVhZGluZyBsb2cgZmlsZQoKCgpU
+aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAw
+OTEyMTE0MDQwLjkxODQ2NC0xLWY0YnVnQGFtc2F0Lm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
