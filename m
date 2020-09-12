@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED51267A0F
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:44:39 +0200 (CEST)
-Received: from localhost ([::1]:42846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF25267A14
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Sep 2020 13:46:02 +0200 (CEST)
+Received: from localhost ([::1]:47038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kH3xO-0006ap-7J
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53568)
+	id 1kH3yj-0008Kt-9E
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 07:46:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH3tk-0001Re-Lo; Sat, 12 Sep 2020 07:40:52 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42767)
+ id 1kH3tl-0001S6-9h; Sat, 12 Sep 2020 07:40:54 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kH3tj-0000Tv-9y; Sat, 12 Sep 2020 07:40:52 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c18so13890509wrm.9;
- Sat, 12 Sep 2020 04:40:49 -0700 (PDT)
+ id 1kH3tj-0000U9-MS; Sat, 12 Sep 2020 07:40:53 -0400
+Received: by mail-wr1-x444.google.com with SMTP id k15so13889912wrn.10;
+ Sat, 12 Sep 2020 04:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Fmud8Lbb3PnhfRHff2nlfxUUQJbBHq4EO52NCriy+1s=;
- b=vYJbAEZHbLqfoeL9iRz5iWgKqkJkWJsUIyoX5ePJhC/JUt/yPJHKUBF5b6dJzBdxQG
- daXfB5Z/jYIzNJRSazXT3Abd9UUAQJ9IgmZrmT1BtRvut/quC1Tfb8H08B+zsd+iDDFG
- Jaizh6ezIGa5LJ0lyRw6b/O/eU7xJU7/6SeqzHnU/eeG9ExdDahJm+fcO6Jj11xnRfUH
- dToR2BpePZr1nR5dcOA+vlOj2RY46IKPxvYs//i6RmeHuSnnhNxJp44btPfAR5iVQt3+
- /MC9HZzblmByiMQ7qWNWMUwnCmxic3wZV99O7KsFKg6r/MVme7yj0B0tK5aUKZRv5+FR
- jXVw==
+ bh=N67Bz+24f+wBD0rV7TEX/Zf0E80v4TcJaPqWQArNwlY=;
+ b=r3KxYLcuUvV5lUkpg0Lhq85OYjCS6HCUPCKAyTSuwAFh/TbyHTeg+AOdnAR471PXKD
+ FYgYUHnNUdTY8qvDpV+9dGGJWirGICJb/W4BZ+4IBU4QOFihaqAYhEBhJ0v1t8xOVaQT
+ sBZ4zrKX7uHgKVizIIVHLKziLKKHDsmq6NrSzpKiUWO03xS0rGUIzSTUcBNyrxUCNFOk
+ FHAoV3iB4+E0Jv2pkbBbLTnN/DG8H0gpYHDrcAGSpHhA3+im3Rwg2CLreea48VxGx9Zn
+ wOmsC1gT3HQgZO9SN0myyI8+uP89MPTQoktWAMzwzKM80RcgAHyaQw4//UovpiqH65ep
+ 55FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Fmud8Lbb3PnhfRHff2nlfxUUQJbBHq4EO52NCriy+1s=;
- b=T4KAisYZbMFYo3FbxQh01xQf9LmSMD8PqsHdK83soJyJ2GXCRYFjbk8wHXudd2Jlx+
- BUKmwSehWmC7O3dB+oUDlaWVkjTf2+x5IM5S0Erbf9kMfDpHANNtw8CPdtOdBm5RiRe/
- YqGU9Ii5bQFxMLbdM7gipekUx74ZXZNn8+Ui0C5GBNmYNYvbaiRXJLFjHBfAMtzymMlJ
- Tlons4rhHQm6ivEfvrZzb+I/zF3QXS62aSyxub2S8AU0mQx0xJkCjtiDcgAyo1//iCcK
- gfqPbqOj3FfsqjGc2Yw+1Oan2OpNifj1AlQqG7UFkIQ16zwm97aqQ8RHYJ7Gejtp2wZX
- lowQ==
-X-Gm-Message-State: AOAM532+FVCaOwkzcaUIy4ZWs7b3EORc8TCPH6RUFNlWVytXK8Y0Lp5q
- vl9S2yYPcOpCsv6bk+HGYqmuWMYCLs0=
-X-Google-Smtp-Source: ABdhPJzWb0TFRP6+IZ2tw5gL18ksvv+aRAEYvXo532BVMwzGTNnI+xK2FrjUGUnzgUAKEaVSJjZZTA==
-X-Received: by 2002:adf:f508:: with SMTP id q8mr6228485wro.233.1599910848926; 
- Sat, 12 Sep 2020 04:40:48 -0700 (PDT)
+ bh=N67Bz+24f+wBD0rV7TEX/Zf0E80v4TcJaPqWQArNwlY=;
+ b=qqQhAZKFty78Oo7kERnzVee3YLxu0mTPFLY32tbdLZyILvAxKGnpFx4Gs9EJCnCai6
+ UvTAifcMVNtPUrdOp7As004V9bFua5o9qx40nxNzc49bYf9JQOk7kYHGtSiBJIaYQl4x
+ +PGIEhZlMkwu62tEjW2K8E0nPJqGSDX7stHiFxbfRn5qg6NJEIBXuZTFF3UndNnShlj6
+ ibjgrzXhJTxWAprLalEmROhFjqsRVYISHjxYgP7CfqovHRNj6nCBFXP3OrEocANuVrzN
+ IGOFgkXlMKc9xVEi9gzeLztiCyF9U3tZ95xcuTLRGJuAUC0VGK9f3B9oTWOf59uiDv5S
+ jz/Q==
+X-Gm-Message-State: AOAM531szLuwNmlKmm6GmOzesqsWSSUk1C1flL94KU2KqSk7pi9l8BDq
+ Cy5CpttAmw25oc9+OTGfPbw=
+X-Google-Smtp-Source: ABdhPJzZAm4pWL8H6baPYXXgcOzlWCXgOnzB4LqyQPJZG6W+h6+NwoQLRu18srNripdb1hp2adChEA==
+X-Received: by 2002:adf:fb87:: with SMTP id a7mr7020429wrr.390.1599910850109; 
+ Sat, 12 Sep 2020 04:40:50 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id h6sm9373895wmb.22.2020.09.12.04.40.47
+ by smtp.gmail.com with ESMTPSA id h6sm9373895wmb.22.2020.09.12.04.40.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Sep 2020 04:40:48 -0700 (PDT)
+ Sat, 12 Sep 2020 04:40:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] hw/char/serial: Make 'wakeup' property boolean
-Date: Sat, 12 Sep 2020 13:40:38 +0200
-Message-Id: <20200912114040.918464-6-f4bug@amsat.org>
+Subject: [PATCH v2 6/7] hw/char/serial: Alias QDEV properties from generic
+ serial object
+Date: Sat, 12 Sep 2020 13:40:39 +0200
+Message-Id: <20200912114040.918464-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200912114040.918464-1-f4bug@amsat.org>
 References: <20200912114040.918464-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,58 +96,61 @@ Cc: qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the "wakeup" property introduced in commit 9826fd597df
-("suspend: make serial ports wakeup the guest") a boolean.
-
-As we want to reuse the generic serial properties in the
-ISA model (next commit), expose this property.
+Instead of overwritting the properties of the generic 'state'
+object, alias them.
+Note we can now propagate the "baudbase" property (except on
+the PCI multi-UART device).
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/char/serial.h | 2 +-
- hw/char/serial-isa.c     | 2 +-
- hw/char/serial.c         | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ hw/char/serial-isa.c | 4 ++--
+ hw/char/serial-pci.c | 3 ++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index 264f529a7f1..09845721384 100644
---- a/include/hw/char/serial.h
-+++ b/include/hw/char/serial.h
-@@ -61,7 +61,7 @@ struct SerialState {
-     uint32_t baudbase;
-     uint32_t tsr_retry;
-     guint watch_tag;
--    uint32_t wakeup;
-+    bool wakeup;
- 
-     /* Time when the last byte was successfully sent out of the tsr */
-     uint64_t last_xmit_ts;
 diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
-index d4aad81a85c..7e1b36c3f67 100644
+index 7e1b36c3f67..c0607476c22 100644
 --- a/hw/char/serial-isa.c
 +++ b/hw/char/serial-isa.c
-@@ -119,7 +119,7 @@ static Property serial_isa_properties[] = {
+@@ -118,8 +118,6 @@ static Property serial_isa_properties[] = {
+     DEFINE_PROP_UINT32("index",  ISASerialState, index,   -1),
      DEFINE_PROP_UINT32("iobase",  ISASerialState, iobase,  -1),
      DEFINE_PROP_UINT32("irq",    ISASerialState, isairq,  -1),
-     DEFINE_PROP_CHR("chardev",   ISASerialState, state.chr),
--    DEFINE_PROP_UINT32("wakeup", ISASerialState, state.wakeup, 0),
-+    DEFINE_PROP_BOOL("wakeup",   ISASerialState, state.wakeup, false),
+-    DEFINE_PROP_CHR("chardev",   ISASerialState, state.chr),
+-    DEFINE_PROP_BOOL("wakeup",   ISASerialState, state.wakeup, false),
      DEFINE_PROP_END_OF_LIST(),
  };
  
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index ade4adfd526..ade89fadb44 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -1015,6 +1015,7 @@ static const TypeInfo serial_io_info = {
- static Property serial_properties[] = {
-     DEFINE_PROP_CHR("chardev", SerialState, chr),
-     DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
-+    DEFINE_PROP_BOOL("wakeup", SerialState, wakeup, false),
-     DEFINE_PROP_END_OF_LIST(),
+@@ -140,6 +138,8 @@ static void serial_isa_initfn(Object *o)
+     ISASerialState *self = ISA_SERIAL(o);
+ 
+     object_initialize_child(o, "serial", &self->state, TYPE_SERIAL);
++
++    qdev_alias_all_properties(DEVICE(&self->state), o);
+ }
+ 
+ static const TypeInfo serial_isa_info = {
+diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
+index f68948154e0..81da2783f9e 100644
+--- a/hw/char/serial-pci.c
++++ b/hw/char/serial-pci.c
+@@ -84,7 +84,6 @@ static const VMStateDescription vmstate_pci_serial = {
  };
  
+ static Property serial_pci_properties[] = {
+-    DEFINE_PROP_CHR("chardev",  PCISerialState, state.chr),
+     DEFINE_PROP_UINT8("prog_if",  PCISerialState, prog_if, 0x02),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+@@ -109,6 +108,8 @@ static void serial_pci_init(Object *o)
+     PCISerialState *ps = PCI_SERIAL(o);
+ 
+     object_initialize_child(o, "serial", &ps->state, TYPE_SERIAL);
++
++    qdev_alias_all_properties(DEVICE(&ps->state), o);
+ }
+ 
+ static const TypeInfo serial_pci_info = {
 -- 
 2.26.2
 
