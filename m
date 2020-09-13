@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F60E268010
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 18:04:05 +0200 (CEST)
-Received: from localhost ([::1]:36432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D273A268017
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 18:06:33 +0200 (CEST)
+Received: from localhost ([::1]:49432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHUTz-0002ZP-JX
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 12:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53770)
+	id 1kHUWO-0007q7-T9
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 12:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHUQm-0008JB-D0; Sun, 13 Sep 2020 12:00:44 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:46644)
+ id 1kHUS6-0000iR-Bm; Sun, 13 Sep 2020 12:02:06 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:37833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHUQi-00019S-VO; Sun, 13 Sep 2020 12:00:44 -0400
-Received: by mail-lj1-x241.google.com with SMTP id a22so16451760ljp.13;
- Sun, 13 Sep 2020 09:00:39 -0700 (PDT)
+ id 1kHUS3-0001El-Hl; Sun, 13 Sep 2020 12:02:06 -0400
+Received: by mail-lj1-x244.google.com with SMTP id n25so16502701ljj.4;
+ Sun, 13 Sep 2020 09:01:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:reply-to:from:date:message-id
  :subject:to:cc;
- bh=7Gbha9a9tcrYkTAvUULCkhrAqPA/d9a3tNTb37VAqKY=;
- b=INepk4EX9+OqftIdOVCmdV0AESlkatXnlZhIf78Rdt7B6PkjDbb6bAzMnvCRoEDDpU
- x1qDyYB0l/bbPz7VZC2NXPIhG7tVeLg/rUPVjf4kXTpqiyrvWZ6ceTTaz3atDRKAfqB8
- xsl8pX+g1Nl0+y1Pfznb/CLjtrPo3c8wrCyvdzTjh8nVPkcXba/5jLORAOTFq3OXvjNk
- 8eRuB0uVcSvlJMTtyFFiirs0VLd4j4xohSkdiIZ75aVCM9uTyOfzTP0IUCMCGLRZHoKY
- T+1XdLE4LMzGLiI9QdCuotbtpluHc3fkHW4KsdalaXyS6UH36yEykPKlhPEAo2Y9mCyC
- IROg==
+ bh=VBjD5YigITfEftkqmBaZgUPBAxCG0cniJBZFUE7nokw=;
+ b=LgbqTtv4otg2tkonNQFfteKGEkiXf9gSB4o+DUG/8J/Bw/hV4FTDiKyHZoplJN/v6q
+ Fkj3ZCvz/olo+wkJ1/90dpE+cUnTM1Last1ZHWbbfkN3g4pacWeZ9UnJhUExMyKDyr5s
+ +urTF+4OZfRXtkC0+4KgQZXTZ03X4WQhDWm/Tuv8zAl1dZHz17lpRRi0ga0BzxsrAbqM
+ CDv64PTeQUNpezd/L+agghaR/i1YXwI7U2/1hwP3M0mrqPGyYFoMUV31xzM5UWq5ximf
+ WuZUyKOLYGJ8OVxcfkML2wAjgcDm0dtI26/49oq5JRoEsKasoIyCkBOIS4tHmC2Q+Pvj
+ EAHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
  :from:date:message-id:subject:to:cc;
- bh=7Gbha9a9tcrYkTAvUULCkhrAqPA/d9a3tNTb37VAqKY=;
- b=tCuV5Bu7kUpxbCRt13cpFhU/tcnpJshbEMOP6wFMRWNTE3xwbev6v0gX01cJWCL57q
- RM30usKNGs1TMIcF5CZ5QlbxSUndriG97Xjxlf+/K9I/oZEWVABSIRMSq5BOsfT9CFYO
- Box0/eOXn8XVSMIwYgkqZJusEwUP8uk9N7qzG044z2JzVPz7Vg71mBnYt0mh4F1UZr30
- yQjI1mhH2XVwRNhWe9CGZSwkT8Q767g3Z9iVc4kW8XFiBo++5ZvEjyrLx/bYt/1LRLPS
- 1EXzqXlowZ2Nu7j70L1djaZSeoueJvyvleObxbM+98sMsUaMWw1ISa05+ONE4qamrg3e
- CWmg==
-X-Gm-Message-State: AOAM533BWVJBEh3KRlUwPlqtkALTybEHpBmU5FYeJLCpSjkqAWUuSlsR
- YKR8Pcy9g/alXXjAsZfkOWZVMyLM5ED4hTIaU9g=
-X-Google-Smtp-Source: ABdhPJwyGCULAl7qxZbJy4HlRAUjey4IfyhpUEiqAQ3Yl/enuY+YaWiIATq8fCw66AT6NjBhr6wxRXhE2nPFjjY7spc=
-X-Received: by 2002:a2e:89d6:: with SMTP id c22mr3975279ljk.242.1600012837737; 
- Sun, 13 Sep 2020 09:00:37 -0700 (PDT)
+ bh=VBjD5YigITfEftkqmBaZgUPBAxCG0cniJBZFUE7nokw=;
+ b=Mi89/DYKcCe8+PIOYjrqhqzyDHVIpXM24YbC8QWfKrJ4OnVBwVXL0eHb9CG7G7nDgp
+ iCoZDV/V9XRXs1UrLHU/lav0l0rwOQrYp3Eb/p6VI2xR6aohOZ5B6uCRuhTqe4A3UHow
+ UJtYX2Nq6w6nehTL263VBVnXVSDGYRWD+9lnFgs3okJxME+z2tavwN6X5MZFmwH9zXdo
+ J866u1fCYSLkiC8k5uZ37MgC8pg1iqik8jmKJMUZxLf2ByyQgOxsheGt9Zh1/pYLIuuE
+ 9IqqdoEC6Txy/N+sh4gmk9rf1Yqv2N22fviSSjBl1/vGDF3GuA6U8QQTKTBK50dZufrl
+ jdnA==
+X-Gm-Message-State: AOAM530A+LmV5n53njsFckJoBccMYuDwidH0bloC/oYW3nh31X1DKPSW
+ dqJz+tuAuqluSIzopjnyEVpfDwVosww1LLmFj9A=
+X-Google-Smtp-Source: ABdhPJwYL22gKF9yyaBMrIXL9r8W4uhGTs5giNgP1Y6ODCCTtE0ppSzumOK79+BwBLTFHFhQr6Lx7LI5oUK7RY2pOvE=
+X-Received: by 2002:a2e:86d3:: with SMTP id n19mr4070220ljj.368.1600012916506; 
+ Sun, 13 Sep 2020 09:01:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200912224431.1428-1-luoyonggang@gmail.com>
- <20200912224431.1428-3-luoyonggang@gmail.com>
- <5a805c5b-53d5-322e-1031-ddd68154b9e0@redhat.com>
-In-Reply-To: <5a805c5b-53d5-322e-1031-ddd68154b9e0@redhat.com>
+ <20200912224431.1428-12-luoyonggang@gmail.com>
+ <c6ed5abf-2c71-bded-7efc-33baa0b415af@redhat.com>
+In-Reply-To: <c6ed5abf-2c71-bded-7efc-33baa0b415af@redhat.com>
 From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Mon, 14 Sep 2020 00:00:26 +0800
-Message-ID: <CAE2XoE_HtV_YDEdjh2824G+Csz+yR-2WZg7JYb_DNkX=xPUA6A@mail.gmail.com>
-Subject: Re: [PATCH v8 02/27] block: Fixes nfs compiling error on msys2/mingw
+Date: Mon, 14 Sep 2020 00:01:45 +0800
+Message-ID: <CAE2XoE-mFPm=chadNahHgCsa3tSjxRXMH3te29ODV=emWdLjYA@mail.gmail.com>
+Subject: Re: [PATCH v8 11/27] meson: Use -b to ignore CR vs. CR-LF issues on
+ Windows
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d4578d05af340480"
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x241.google.com
+Content-Type: multipart/alternative; boundary="0000000000008643ff05af3409c0"
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,194 +86,55 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
  qemu-level <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d4578d05af340480
+--0000000000008643ff05af3409c0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 13, 2020 at 11:47 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+On Sun, Sep 13, 2020 at 11:35 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
 .com>
 wrote:
 
 > On 9/13/20 12:44 AM, Yonggang Luo wrote:
-> > These compiling errors are fixed:
-> > ../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
-> >    27 | #include <poll.h>
-> >       |          ^~~~~~~~
-> > compilation terminated.
-> >
-> > ../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
-> >    63 |     blkcnt_t st_blocks;
-> >       |     ^~~~~~~~
-> > ../block/nfs.c: In function 'nfs_client_open':
-> > ../block/nfs.c:550:27: error: 'struct _stat64' has no member named
-> 'st_blocks'
-> >   550 |     client->st_blocks =3D st.st_blocks;
-> >       |                           ^
-> > ../block/nfs.c: In function 'nfs_get_allocated_file_size':
-> > ../block/nfs.c:751:41: error: 'struct _stat64' has no member named
-> 'st_blocks'
-> >   751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
-> >       |                                         ^
-> > ../block/nfs.c: In function 'nfs_reopen_prepare':
-> > ../block/nfs.c:805:31: error: 'struct _stat64' has no member named
-> 'st_blocks'
-> >   805 |         client->st_blocks =3D st.st_blocks;
-> >       |                               ^
-> > ../block/nfs.c: In function 'nfs_get_allocated_file_size':
-> > ../block/nfs.c:752:1: error: control reaches end of non-void function
-> [-Werror=3Dreturn-type]
-> >   752 | }
-> >       | ^
-> >
-> > On msys2/mingw, there is no st_blocks in struct _stat64, so we use
-> consistence st_size instead.
+> > On windows, a difference in line endings causes testsuite failures
+> > complaining that every single line in files such as
+> > 'tests/qapi-schemadoc-good.texi' is wrong.  Fix it by adding -b to diff=
+.
+>
+> Isn't '--strip-trailing-cr' more adapted?
+>
+> er, I did that before.....
+
 > >
 > > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > Reviewed-by: Eric Blake <eblake@redhat.com>
+> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > > ---
-> >  block/nfs.c | 26 ++++++++++++++++++++++----
-> >  1 file changed, 22 insertions(+), 4 deletions(-)
+> >  tests/qapi-schema/meson.build | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/block/nfs.c b/block/nfs.c
-> > index 61a249a9fc..98b48f363b 100644
-> > --- a/block/nfs.c
-> > +++ b/block/nfs.c
-> > @@ -24,7 +24,9 @@
+> > diff --git a/tests/qapi-schema/meson.build
+> b/tests/qapi-schema/meson.build
+> > index c87d141417..f1449298b0 100644
+> > --- a/tests/qapi-schema/meson.build
+> > +++ b/tests/qapi-schema/meson.build
+> > @@ -220,6 +220,6 @@ qapi_doc =3D custom_target('QAPI doc',
 > >
-> >  #include "qemu/osdep.h"
-> >
-> > +#if !defined(_WIN32)
-> >  #include <poll.h>
-> > +#endif
-> >  #include "qemu/config-file.h"
-> >  #include "qemu/error-report.h"
-> >  #include "qapi/error.h"
-> > @@ -51,6 +53,12 @@
-> >  #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)
-> >  #define QEMU_NFS_MAX_DEBUG_LEVEL 2
-> >
-> > +#if defined (_WIN32)
-> > +#define nfs_stat __stat64
-> > +#else
-> > +#define nfs_stat stat
-> > +#endif
-> > +
-> >  typedef struct NFSClient {
-> >      struct nfs_context *context;
-> >      struct nfsfh *fh;
-> > @@ -58,7 +66,9 @@ typedef struct NFSClient {
-> >      bool has_zero_init;
-> >      AioContext *aio_context;
-> >      QemuMutex mutex;
-> > +#if !defined (_WIN32)
-> >      blkcnt_t st_blocks;
->
-> What about adding a "typedef off_t blkcnt_t;" or
-> similar typedef instead? Then no need to #ifdef
-> the st_blocks uses.
->
-No, I did that before and someone else have objection
-
->
-> > +#endif
-> >      bool cache_used;
-> >      NFSServer *server;
-> >      char *path;
-> > @@ -70,7 +80,7 @@ typedef struct NFSRPC {
-> >      int ret;
-> >      int complete;
-> >      QEMUIOVector *iov;
-> > -    struct stat *st;
-> > +    struct nfs_stat *st;
-> >      Coroutine *co;
-> >      NFSClient *client;
-> >  } NFSRPC;
-> > @@ -419,7 +429,7 @@ static int64_t nfs_client_open(NFSClient *client,
-> BlockdevOptionsNfs *opts,
-> >                                 int flags, int open_flags, Error **errp=
-)
-> >  {
-> >      int64_t ret =3D -EINVAL;
-> > -    struct stat st;
-> > +    struct nfs_stat st;
-> >      char *file =3D NULL, *strp =3D NULL;
-> >
-> >      qemu_mutex_init(&client->mutex);
-> > @@ -545,7 +555,9 @@ static int64_t nfs_client_open(NFSClient *client,
-> BlockdevOptionsNfs *opts,
-> >      }
-> >
-> >      ret =3D DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
-> > +#if !defined (_WIN32)
-> >      client->st_blocks =3D st.st_blocks;
-> > +#endif
-> >      client->has_zero_init =3D S_ISREG(st.st_mode);
-> >      *strp =3D '/';
-> >      goto out;
-> > @@ -706,6 +718,7 @@ static int nfs_has_zero_init(BlockDriverState *bs)
-> >      return client->has_zero_init;
-> >  }
-> >
-> > +#if !defined (_WIN32)
-> >  /* Called (via nfs_service) with QemuMutex held.  */
-> >  static void
-> >  nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void
-> *data,
-> > @@ -729,7 +742,7 @@ static int64_t
-> nfs_get_allocated_file_size(BlockDriverState *bs)
-> >  {
-> >      NFSClient *client =3D bs->opaque;
-> >      NFSRPC task =3D {0};
-> > -    struct stat st;
-> > +    struct nfs_stat st;
-> >
-> >      if (bdrv_is_read_only(bs) &&
-> >          !(bs->open_flags & BDRV_O_NOCACHE)) {
-> > @@ -748,6 +761,7 @@ static int64_t
-> nfs_get_allocated_file_size(BlockDriverState *bs)
-> >
-> >      return (task.ret < 0 ? task.ret : st.st_blocks * 512);
-> >  }
-> > +#endif
-> >
-> >  static int coroutine_fn
-> >  nfs_file_co_truncate(BlockDriverState *bs, int64_t offset, bool exact,
-> > @@ -778,7 +792,7 @@ static int nfs_reopen_prepare(BDRVReopenState *stat=
-e,
-> >                                BlockReopenQueue *queue, Error **errp)
-> >  {
-> >      NFSClient *client =3D state->bs->opaque;
-> > -    struct stat st;
-> > +    struct nfs_stat st;
-> >      int ret =3D 0;
-> >
-> >      if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
-> > @@ -800,7 +814,9 @@ static int nfs_reopen_prepare(BDRVReopenState *stat=
-e,
-> >                         nfs_get_error(client->context));
-> >              return ret;
-> >          }
-> > +#if !defined (_WIN32)
-> >          client->st_blocks =3D st.st_blocks;
-> > +#endif
-> >      }
-> >
-> >      return 0;
-> > @@ -869,7 +885,9 @@ static BlockDriver bdrv_nfs =3D {
-> >      .create_opts                    =3D &nfs_create_opts,
-> >
-> >      .bdrv_has_zero_init             =3D nfs_has_zero_init,
-> > +#if !defined (_WIN32)
-> >      .bdrv_get_allocated_file_size   =3D nfs_get_allocated_file_size,
-> > +#endif
-> >      .bdrv_co_truncate               =3D nfs_file_co_truncate,
-> >
-> >      .bdrv_file_open                 =3D nfs_file_open,
+> >  # "full_path()" needed here to work around
+> >  # https://github.com/mesonbuild/meson/issues/7585
+> > -test('QAPI doc', diff, args: ['-u', files('doc-good.texi'),
+> qapi_doc[0].full_path()],
+> > +test('QAPI doc', diff, args: ['-b', '-u', files('doc-good.texi'),
+> qapi_doc[0].full_path()],
+> >       depends: qapi_doc,
+> >       suite: ['qapi-schema', 'qapi-doc'])
 > >
 >
 >
@@ -285,216 +147,54 @@ Yours
     sincerely,
 Yonggang Luo
 
---000000000000d4578d05af340480
+--0000000000008643ff05af3409c0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 13, 2020 at 11:47 PM Phil=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 13, 2020 at 11:35 PM Phil=
 ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
 hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
 margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
 t:1ex">On 9/13/20 12:44 AM, Yonggang Luo wrote:<br>
-&gt; These compiling errors are fixed:<br>
-&gt; ../block/nfs.c:27:10: fatal error: poll.h: No such file or directory<b=
-r>
-&gt;=C2=A0 =C2=A0 27 | #include &lt;poll.h&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~=
+&gt; On windows, a difference in line endings causes testsuite failures<br>
+&gt; complaining that every single line in files such as<br>
+&gt; &#39;tests/qapi-schemadoc-good.texi&#39; is wrong.=C2=A0 Fix it by add=
+ing -b to diff.<br>
 <br>
-&gt; compilation terminated.<br>
-&gt; <br>
-&gt; ../block/nfs.c:63:5: error: unknown type name &#39;blkcnt_t&#39;<br>
-&gt;=C2=A0 =C2=A0 63 |=C2=A0 =C2=A0 =C2=A0blkcnt_t st_blocks;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0^~~~~~~~<br>
-&gt; ../block/nfs.c: In function &#39;nfs_client_open&#39;:<br>
-&gt; ../block/nfs.c:550:27: error: &#39;struct _stat64&#39; has no member n=
-amed &#39;st_blocks&#39;<br>
-&gt;=C2=A0 =C2=A0550 |=C2=A0 =C2=A0 =C2=A0client-&gt;st_blocks =3D st.st_bl=
-ocks;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^<br>
-&gt; ../block/nfs.c: In function &#39;nfs_get_allocated_file_size&#39;:<br>
-&gt; ../block/nfs.c:751:41: error: &#39;struct _stat64&#39; has no member n=
-amed &#39;st_blocks&#39;<br>
-&gt;=C2=A0 =C2=A0751 |=C2=A0 =C2=A0 =C2=A0return (task.ret &lt; 0 ? task.re=
-t : st.st_blocks * 512);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^<br>
-&gt; ../block/nfs.c: In function &#39;nfs_reopen_prepare&#39;:<br>
-&gt; ../block/nfs.c:805:31: error: &#39;struct _stat64&#39; has no member n=
-amed &#39;st_blocks&#39;<br>
-&gt;=C2=A0 =C2=A0805 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0client-&gt;st_block=
-s =3D st.st_blocks;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^<br>
-&gt; ../block/nfs.c: In function &#39;nfs_get_allocated_file_size&#39;:<br>
-&gt; ../block/nfs.c:752:1: error: control reaches end of non-void function =
-[-Werror=3Dreturn-type]<br>
-&gt;=C2=A0 =C2=A0752 | }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0| ^<br>
-&gt; <br>
-&gt; On msys2/mingw, there is no st_blocks in struct _stat64, so we use con=
-sistence st_size instead.<br>
+Isn&#39;t &#39;--strip-trailing-cr&#39; more adapted?<br>
+<br></blockquote><div>er, I did that before.....=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
 &gt; <br>
 &gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.co=
 m" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
+&gt; Reviewed-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" targe=
+t=3D"_blank">eblake@redhat.com</a>&gt;<br>
+&gt; Reviewed-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@re=
+dhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 block/nfs.c | 26 ++++++++++++++++++++++----<br>
-&gt;=C2=A0 1 file changed, 22 insertions(+), 4 deletions(-)<br>
+&gt;=C2=A0 tests/qapi-schema/meson.build | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
 &gt; <br>
-&gt; diff --git a/block/nfs.c b/block/nfs.c<br>
-&gt; index 61a249a9fc..98b48f363b 100644<br>
-&gt; --- a/block/nfs.c<br>
-&gt; +++ b/block/nfs.c<br>
-&gt; @@ -24,7 +24,9 @@<br>
+&gt; diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.b=
+uild<br>
+&gt; index c87d141417..f1449298b0 100644<br>
+&gt; --- a/tests/qapi-schema/meson.build<br>
+&gt; +++ b/tests/qapi-schema/meson.build<br>
+&gt; @@ -220,6 +220,6 @@ qapi_doc =3D custom_target(&#39;QAPI doc&#39;,<br>
 &gt;=C2=A0 <br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt;=C2=A0 <br>
-&gt; +#if !defined(_WIN32)<br>
-&gt;=C2=A0 #include &lt;poll.h&gt;<br>
-&gt; +#endif<br>
-&gt;=C2=A0 #include &quot;qemu/config-file.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/error-report.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt; @@ -51,6 +53,12 @@<br>
-&gt;=C2=A0 #define QEMU_NFS_MAX_PAGECACHE_SIZE (8388608 / NFS_BLKSIZE)<br>
-&gt;=C2=A0 #define QEMU_NFS_MAX_DEBUG_LEVEL 2<br>
-&gt;=C2=A0 <br>
-&gt; +#if defined (_WIN32)<br>
-&gt; +#define nfs_stat __stat64<br>
-&gt; +#else<br>
-&gt; +#define nfs_stat stat<br>
-&gt; +#endif<br>
-&gt; +<br>
-&gt;=C2=A0 typedef struct NFSClient {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 struct nfs_context *context;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 struct nfsfh *fh;<br>
-&gt; @@ -58,7 +66,9 @@ typedef struct NFSClient {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool has_zero_init;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 AioContext *aio_context;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 QemuMutex mutex;<br>
-&gt; +#if !defined (_WIN32)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 blkcnt_t st_blocks;<br>
-<br>
-What about adding a &quot;typedef off_t blkcnt_t;&quot; or<br>
-similar typedef instead? Then no need to #ifdef<br>
-the st_blocks uses.<br></blockquote><div>No, I did that before and someone =
-else have objection=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-<br>
-&gt; +#endif<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool cache_used;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 NFSServer *server;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 char *path;<br>
-&gt; @@ -70,7 +80,7 @@ typedef struct NFSRPC {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int ret;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int complete;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 QEMUIOVector *iov;<br>
-&gt; -=C2=A0 =C2=A0 struct stat *st;<br>
-&gt; +=C2=A0 =C2=A0 struct nfs_stat *st;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Coroutine *co;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 NFSClient *client;<br>
-&gt;=C2=A0 } NFSRPC;<br>
-&gt; @@ -419,7 +429,7 @@ static int64_t nfs_client_open(NFSClient *client, =
-BlockdevOptionsNfs *opts,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int flags, int open_flags, =
-Error **errp)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int64_t ret =3D -EINVAL;<br>
-&gt; -=C2=A0 =C2=A0 struct stat st;<br>
-&gt; +=C2=A0 =C2=A0 struct nfs_stat st;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 char *file =3D NULL, *strp =3D NULL;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 qemu_mutex_init(&amp;client-&gt;mutex);<br>
-&gt; @@ -545,7 +555,9 @@ static int64_t nfs_client_open(NFSClient *client, =
-BlockdevOptionsNfs *opts,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ret =3D DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE)=
-;<br>
-&gt; +#if !defined (_WIN32)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 client-&gt;st_blocks =3D st.st_blocks;<br>
-&gt; +#endif<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 client-&gt;has_zero_init =3D S_ISREG(st.st_mode);<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 *strp =3D &#39;/&#39;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 goto out;<br>
-&gt; @@ -706,6 +718,7 @@ static int nfs_has_zero_init(BlockDriverState *bs)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return client-&gt;has_zero_init;<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; +#if !defined (_WIN32)<br>
-&gt;=C2=A0 /* Called (via nfs_service) with QemuMutex held.=C2=A0 */<br>
-&gt;=C2=A0 static void<br>
-&gt;=C2=A0 nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs,=
- void *data,<br>
-&gt; @@ -729,7 +742,7 @@ static int64_t nfs_get_allocated_file_size(BlockDr=
-iverState *bs)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 NFSClient *client =3D bs-&gt;opaque;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 NFSRPC task =3D {0};<br>
-&gt; -=C2=A0 =C2=A0 struct stat st;<br>
-&gt; +=C2=A0 =C2=A0 struct nfs_stat st;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (bdrv_is_read_only(bs) &amp;&amp;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !(bs-&gt;open_flags &amp; BDRV_O_NOC=
-ACHE)) {<br>
-&gt; @@ -748,6 +761,7 @@ static int64_t nfs_get_allocated_file_size(BlockDr=
-iverState *bs)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return (task.ret &lt; 0 ? task.ret : st.st_blocks =
-* 512);<br>
-&gt;=C2=A0 }<br>
-&gt; +#endif<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static int coroutine_fn<br>
-&gt;=C2=A0 nfs_file_co_truncate(BlockDriverState *bs, int64_t offset, bool =
-exact,<br>
-&gt; @@ -778,7 +792,7 @@ static int nfs_reopen_prepare(BDRVReopenState *sta=
-te,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BlockReopenQueue *queue, Error **=
-errp)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 NFSClient *client =3D state-&gt;bs-&gt;opaque;<br>
-&gt; -=C2=A0 =C2=A0 struct stat st;<br>
-&gt; +=C2=A0 =C2=A0 struct nfs_stat st;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int ret =3D 0;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (state-&gt;flags &amp; BDRV_O_RDWR &amp;&amp; b=
-drv_is_read_only(state-&gt;bs)) {<br>
-&gt; @@ -800,7 +814,9 @@ static int nfs_reopen_prepare(BDRVReopenState *sta=
-te,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0nfs_get_error(client-&gt;context));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +#if !defined (_WIN32)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 client-&gt;st_blocks =3D st.st_block=
-s;<br>
-&gt; +#endif<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt; @@ -869,7 +885,9 @@ static BlockDriver bdrv_nfs =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .create_opts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &amp;nfs_create_opts,<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .bdrv_has_zero_init=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0=3D nfs_has_zero_init,<br>
-&gt; +#if !defined (_WIN32)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .bdrv_get_allocated_file_size=C2=A0 =C2=A0=3D nfs_=
-get_allocated_file_size,<br>
-&gt; +#endif<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .bdrv_co_truncate=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0=3D nfs_file_co_truncate,<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .bdrv_file_open=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D nfs_file_open,<br>
+&gt;=C2=A0 # &quot;full_path()&quot; needed here to work around<br>
+&gt;=C2=A0 # <a href=3D"https://github.com/mesonbuild/meson/issues/7585" re=
+l=3D"noreferrer" target=3D"_blank">https://github.com/mesonbuild/meson/issu=
+es/7585</a><br>
+&gt; -test(&#39;QAPI doc&#39;, diff, args: [&#39;-u&#39;, files(&#39;doc-go=
+od.texi&#39;), qapi_doc[0].full_path()],<br>
+&gt; +test(&#39;QAPI doc&#39;, diff, args: [&#39;-b&#39;, &#39;-u&#39;, fil=
+es(&#39;doc-good.texi&#39;), qapi_doc[0].full_path()],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0depends: qapi_doc,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0suite: [&#39;qapi-schema&#39;, &#39;qapi-doc=
+&#39;])<br>
 &gt; <br>
 <br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
@@ -502,5 +202,5 @@ get_allocated_file_size,<br>
 =87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
 =A0 sincerely,<br>Yonggang Luo<br></div></div>
 
---000000000000d4578d05af340480--
+--0000000000008643ff05af3409c0--
 
