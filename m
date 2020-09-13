@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526B3268118
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 22:00:06 +0200 (CEST)
-Received: from localhost ([::1]:44300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9F226811B
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 22:04:05 +0200 (CEST)
+Received: from localhost ([::1]:51242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHYA5-0003gf-UC
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 15:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36564)
+	id 1kHYEG-0006po-Uo
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 16:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHY5A-00056Z-0i
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 15:54:40 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57891
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHY53-0002Iy-Kj
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 15:54:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600026873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jiuz3W2sZ7VlK8ICF0vLUvvEj8+IXBRkvq6aeyu4OD4=;
- b=AiQX24ryy3I+pdQ/5crzhzzSqkuFGhgclxtZEMLlS+s61vreOIqlg0/6+EVLhm1zZMj6P1
- QkE1aFRxEo0jPYfOzcqJzy8WlTxrbAciVE4pr2E+WPrKnemJF55aYJ8Gij8qUb8qMQWZYs
- 6BBQIJZCn2UdmWmDKX9NXCWM0neaIJU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-FKpysaMTP6u35DZcy9KsTA-1; Sun, 13 Sep 2020 15:54:31 -0400
-X-MC-Unique: FKpysaMTP6u35DZcy9KsTA-1
-Received: by mail-wr1-f69.google.com with SMTP id o6so5900141wrp.1
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 12:54:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Jiuz3W2sZ7VlK8ICF0vLUvvEj8+IXBRkvq6aeyu4OD4=;
- b=OZg91omkHQelHSG6BW0yzq5GSmDbtzroGDj7KoWWfCamKqAs7lplAgEXShenV0LQUW
- dP0Hy7e/yCAKTecSqlE9ShpiY99dnZ9meifDPi6Q2bGGMD6Y4nBuyLgy+qFzVBR7uTN4
- ATGSe4BBOzhHbHpLnjTikI4bVXWFCKR10ptAAdgVeag8a3BDN1XCbnPtTnh75cFvp3MO
- khwsxS4b+BOYPItDFj3Q6s0o/RR09YV06NxiRD6eSjpp0PPLv2bf4CBKMF8MY2ueSr4U
- MLAQz08aVlskJgCKI/8xS3Mkj4qiicjDsTPFW9G+inAol4kRY9Lp7eWnDacrdnr5sC9t
- uG1A==
-X-Gm-Message-State: AOAM532at9nVLU3Ngrrlj8rNV8TgnB7uRL2FzZ+Wnv5/xZePdpo36/q1
- epDcWkLgdo6kNF6Cy03+IZ/PgA1v7sdBiXhTDcVZyJb+wmSZQNPNAE6G3Al3aQsrXWssQqgANSF
- jtXOJT5xByZd9W60=
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr12271861wrr.283.1600026869426; 
- Sun, 13 Sep 2020 12:54:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznSYQGOYPg6I8x5MW5/y4mBTtz82MhAaRCP2sFBxod0BM5X62rNnePMqgMBZ4Luqku6by9fg==
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr12271842wrr.283.1600026869078; 
- Sun, 13 Sep 2020 12:54:29 -0700 (PDT)
-Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id n4sm16622024wrp.61.2020.09.13.12.54.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 12:54:28 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v5 8/8] qapi: Extract PCI commands to 'pci.json'
-Date: Sun, 13 Sep 2020 21:53:48 +0200
-Message-Id: <20200913195348.1064154-9-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200913195348.1064154-1-philmd@redhat.com>
-References: <20200913195348.1064154-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1kHYCW-0004jL-Qu
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 16:02:16 -0400
+Received: from mga09.intel.com ([134.134.136.24]:10352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1kHYCU-0003DE-5l
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 16:02:16 -0400
+IronPort-SDR: ELd4sNJM8Sod35MKWD+rxkqbruDlnikTEUpf4gyXK+Ir6ndsSKahds3iK63KvPzI82HlrJGFtD
+ 3qD6FaAndOrQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9743"; a="159935876"
+X-IronPort-AV: E=Sophos;i="5.76,423,1592895600"; d="scan'208";a="159935876"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2020 13:02:08 -0700
+IronPort-SDR: z3GIX3wV/5s7SqzrcO6vr+xHLMmStqr8fYClJ+XwYQ1LqcpFycYLoRsyaj15oiQM2iVuJoy7jA
+ +157mmbf6GXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,423,1592895600"; d="scan'208";a="482075148"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga005.jf.intel.com with ESMTP; 13 Sep 2020 13:02:08 -0700
+Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 13 Sep 2020 13:02:07 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 14 Sep 2020 04:02:05 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
+ Mon, 14 Sep 2020 04:02:05 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Derek Su <dereksu@qnap.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v1 2/2] colo-compare: Record packet creation time by
+ QEMU_CLOCK_REALTIME
+Thread-Topic: [PATCH v1 2/2] colo-compare: Record packet creation time by
+ QEMU_CLOCK_REALTIME
+Thread-Index: AQHWiETF87zrE2R0cEag8anmIvFjdqlm/1sQ
+Date: Sun, 13 Sep 2020 20:02:05 +0000
+Message-ID: <817fd011098a4fc6a6790c17414a71a8@intel.com>
+References: <20200911190508.1316487-1-dereksu@qnap.com>
+ <20200911190508.1316487-3-dereksu@qnap.com>
+In-Reply-To: <20200911190508.1316487-3-dereksu@qnap.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/13 09:40:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=chen.zhang@intel.com;
+ helo=mga09.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/13 16:02:08
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,746 +91,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "jasowang@redhat.com" <jasowang@redhat.com>,
+ "lizhijian@cn.fujitsu.com" <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only qemu-system-FOO and qemu-storage-daemon provide QMP
-monitors, therefore such declarations and definitions are
-irrelevant for user-mode emulation.
 
-Extracting the PCI commands to their own schema reduces
-the size of the qapi-misc* headers generated, and allows
-pulling less declarations/definitions to user-mode.
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- qapi/misc.json        | 306 ----------------------------------------
- qapi/pci.json         | 316 ++++++++++++++++++++++++++++++++++++++++++
- qapi/qapi-schema.json |   1 +
- hw/pci/pci-stub.c     |   2 +-
- hw/pci/pci.c          |   2 +-
- monitor/hmp-cmds.c    |   1 +
- MAINTAINERS           |   1 +
- qapi/meson.build      |   1 +
- 8 files changed, 322 insertions(+), 308 deletions(-)
- create mode 100644 qapi/pci.json
+> -----Original Message-----
+> From: Derek Su <dereksu@qnap.com>
+> Sent: Saturday, September 12, 2020 3:05 AM
+> To: qemu-devel@nongnu.org
+> Cc: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com;
+> jasowang@redhat.com; Derek Su <dereksu@qnap.com>
+> Subject: [PATCH v1 2/2] colo-compare: Record packet creation time by
+> QEMU_CLOCK_REALTIME
+>=20
+> Record packet creation time by QEMU_CLOCK_REALTIME instead of
+> QEMU_CLOCK_HOST. The time difference between `now` and packet
+> `creation_ms` has the possibility of an unexpected negative value and res=
+ults
+> in wrong comparison after changing the host clock.
+>=20
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 4b00b18e547..694d2142f37 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -157,312 +157,6 @@
- { 'command': 'query-iothreads', 'returns': ['IOThreadInfo'],
-   'allow-preconfig': true }
- 
--##
--# @PciMemoryRange:
--#
--# A PCI device memory region
--#
--# @base: the starting address (guest physical)
--#
--# @limit: the ending address (guest physical)
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciMemoryRange', 'data': {'base': 'int', 'limit': 'int'} }
--
--##
--# @PciMemoryRegion:
--#
--# Information about a PCI device I/O region.
--#
--# @bar: the index of the Base Address Register for this region
--#
--# @type: - 'io' if the region is a PIO region
--#        - 'memory' if the region is a MMIO region
--#
--# @size: memory size
--#
--# @prefetch: if @type is 'memory', true if the memory is prefetchable
--#
--# @mem_type_64: if @type is 'memory', true if the BAR is 64-bit
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciMemoryRegion',
--  'data': {'bar': 'int', 'type': 'str', 'address': 'int', 'size': 'int',
--           '*prefetch': 'bool', '*mem_type_64': 'bool' } }
--
--##
--# @PciBusInfo:
--#
--# Information about a bus of a PCI Bridge device
--#
--# @number: primary bus interface number.  This should be the number of the
--#          bus the device resides on.
--#
--# @secondary: secondary bus interface number.  This is the number of the
--#             main bus for the bridge
--#
--# @subordinate: This is the highest number bus that resides below the
--#               bridge.
--#
--# @io_range: The PIO range for all devices on this bridge
--#
--# @memory_range: The MMIO range for all devices on this bridge
--#
--# @prefetchable_range: The range of prefetchable MMIO for all devices on
--#                      this bridge
--#
--# Since: 2.4
--##
--{ 'struct': 'PciBusInfo',
--  'data': {'number': 'int', 'secondary': 'int', 'subordinate': 'int',
--           'io_range': 'PciMemoryRange',
--           'memory_range': 'PciMemoryRange',
--           'prefetchable_range': 'PciMemoryRange' } }
--
--##
--# @PciBridgeInfo:
--#
--# Information about a PCI Bridge device
--#
--# @bus: information about the bus the device resides on
--#
--# @devices: a list of @PciDeviceInfo for each device on this bridge
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciBridgeInfo',
--  'data': {'bus': 'PciBusInfo', '*devices': ['PciDeviceInfo']} }
--
--##
--# @PciDeviceClass:
--#
--# Information about the Class of a PCI device
--#
--# @desc: a string description of the device's class
--#
--# @class: the class code of the device
--#
--# Since: 2.4
--##
--{ 'struct': 'PciDeviceClass',
--  'data': {'*desc': 'str', 'class': 'int'} }
--
--##
--# @PciDeviceId:
--#
--# Information about the Id of a PCI device
--#
--# @device: the PCI device id
--#
--# @vendor: the PCI vendor id
--#
--# @subsystem: the PCI subsystem id (since 3.1)
--#
--# @subsystem-vendor: the PCI subsystem vendor id (since 3.1)
--#
--# Since: 2.4
--##
--{ 'struct': 'PciDeviceId',
--  'data': {'device': 'int', 'vendor': 'int', '*subsystem': 'int',
--            '*subsystem-vendor': 'int'} }
--
--##
--# @PciDeviceInfo:
--#
--# Information about a PCI device
--#
--# @bus: the bus number of the device
--#
--# @slot: the slot the device is located in
--#
--# @function: the function of the slot used by the device
--#
--# @class_info: the class of the device
--#
--# @id: the PCI device id
--#
--# @irq: if an IRQ is assigned to the device, the IRQ number
--#
--# @irq_pin: the IRQ pin, zero means no IRQ (since 5.1)
--#
--# @qdev_id: the device name of the PCI device
--#
--# @pci_bridge: if the device is a PCI bridge, the bridge information
--#
--# @regions: a list of the PCI I/O regions associated with the device
--#
--# Notes: the contents of @class_info.desc are not stable and should only be
--#        treated as informational.
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciDeviceInfo',
--  'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
--           'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
--           '*irq': 'int', 'irq_pin': 'int', 'qdev_id': 'str',
--           '*pci_bridge': 'PciBridgeInfo', 'regions': ['PciMemoryRegion'] }}
--
--##
--# @PciInfo:
--#
--# Information about a PCI bus
--#
--# @bus: the bus index
--#
--# @devices: a list of devices on this bus
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciInfo', 'data': {'bus': 'int', 'devices': ['PciDeviceInfo']} }
--
--##
--# @query-pci:
--#
--# Return information about the PCI bus topology of the guest.
--#
--# Returns: a list of @PciInfo for each PCI bus. Each bus is
--#          represented by a json-object, which has a key with a json-array of
--#          all PCI devices attached to it. Each device is represented by a
--#          json-object.
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "query-pci" }
--# <- { "return": [
--#          {
--#             "bus": 0,
--#             "devices": [
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 0,
--#                   "class_info": {
--#                      "class": 1536,
--#                      "desc": "Host bridge"
--#                   },
--#                   "id": {
--#                      "device": 32902,
--#                      "vendor": 4663
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 1,
--#                   "class_info": {
--#                      "class": 1537,
--#                      "desc": "ISA bridge"
--#                   },
--#                   "id": {
--#                      "device": 32902,
--#                      "vendor": 28672
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 1,
--#                   "class_info": {
--#                      "class": 257,
--#                      "desc": "IDE controller"
--#                   },
--#                   "id": {
--#                      "device": 32902,
--#                      "vendor": 28688
--#                   },
--#                   "function": 1,
--#                   "regions": [
--#                      {
--#                         "bar": 4,
--#                         "size": 16,
--#                         "address": 49152,
--#                         "type": "io"
--#                      }
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 2,
--#                   "class_info": {
--#                      "class": 768,
--#                      "desc": "VGA controller"
--#                   },
--#                   "id": {
--#                      "device": 4115,
--#                      "vendor": 184
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                      {
--#                         "prefetch": true,
--#                         "mem_type_64": false,
--#                         "bar": 0,
--#                         "size": 33554432,
--#                         "address": 4026531840,
--#                         "type": "memory"
--#                      },
--#                      {
--#                         "prefetch": false,
--#                         "mem_type_64": false,
--#                         "bar": 1,
--#                         "size": 4096,
--#                         "address": 4060086272,
--#                         "type": "memory"
--#                      },
--#                      {
--#                         "prefetch": false,
--#                         "mem_type_64": false,
--#                         "bar": 6,
--#                         "size": 65536,
--#                         "address": -1,
--#                         "type": "memory"
--#                      }
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "irq": 11,
--#                   "slot": 4,
--#                   "class_info": {
--#                      "class": 1280,
--#                      "desc": "RAM controller"
--#                   },
--#                   "id": {
--#                      "device": 6900,
--#                      "vendor": 4098
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                      {
--#                         "bar": 0,
--#                         "size": 32,
--#                         "address": 49280,
--#                         "type": "io"
--#                      }
--#                   ]
--#                }
--#             ]
--#          }
--#       ]
--#    }
--#
--# Note: This example has been shortened as the real response is too long.
--#
--##
--{ 'command': 'query-pci', 'returns': ['PciInfo'] }
--
- ##
- # @stop:
- #
-diff --git a/qapi/pci.json b/qapi/pci.json
-new file mode 100644
-index 00000000000..b79cbd787be
---- /dev/null
-+++ b/qapi/pci.json
-@@ -0,0 +1,316 @@
-+# -*- Mode: Python -*-
-+# vim: filetype=python
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+##
-+# = PCI
-+##
-+
-+##
-+# @PciMemoryRange:
-+#
-+# A PCI device memory region
-+#
-+# @base: the starting address (guest physical)
-+#
-+# @limit: the ending address (guest physical)
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciMemoryRange', 'data': {'base': 'int', 'limit': 'int'} }
-+
-+##
-+# @PciMemoryRegion:
-+#
-+# Information about a PCI device I/O region.
-+#
-+# @bar: the index of the Base Address Register for this region
-+#
-+# @type: - 'io' if the region is a PIO region
-+#        - 'memory' if the region is a MMIO region
-+#
-+# @size: memory size
-+#
-+# @prefetch: if @type is 'memory', true if the memory is prefetchable
-+#
-+# @mem_type_64: if @type is 'memory', true if the BAR is 64-bit
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciMemoryRegion',
-+  'data': {'bar': 'int', 'type': 'str', 'address': 'int', 'size': 'int',
-+           '*prefetch': 'bool', '*mem_type_64': 'bool' } }
-+
-+##
-+# @PciBusInfo:
-+#
-+# Information about a bus of a PCI Bridge device
-+#
-+# @number: primary bus interface number.  This should be the number of the
-+#          bus the device resides on.
-+#
-+# @secondary: secondary bus interface number.  This is the number of the
-+#             main bus for the bridge
-+#
-+# @subordinate: This is the highest number bus that resides below the
-+#               bridge.
-+#
-+# @io_range: The PIO range for all devices on this bridge
-+#
-+# @memory_range: The MMIO range for all devices on this bridge
-+#
-+# @prefetchable_range: The range of prefetchable MMIO for all devices on
-+#                      this bridge
-+#
-+# Since: 2.4
-+##
-+{ 'struct': 'PciBusInfo',
-+  'data': {'number': 'int', 'secondary': 'int', 'subordinate': 'int',
-+           'io_range': 'PciMemoryRange',
-+           'memory_range': 'PciMemoryRange',
-+           'prefetchable_range': 'PciMemoryRange' } }
-+
-+##
-+# @PciBridgeInfo:
-+#
-+# Information about a PCI Bridge device
-+#
-+# @bus: information about the bus the device resides on
-+#
-+# @devices: a list of @PciDeviceInfo for each device on this bridge
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciBridgeInfo',
-+  'data': {'bus': 'PciBusInfo', '*devices': ['PciDeviceInfo']} }
-+
-+##
-+# @PciDeviceClass:
-+#
-+# Information about the Class of a PCI device
-+#
-+# @desc: a string description of the device's class
-+#
-+# @class: the class code of the device
-+#
-+# Since: 2.4
-+##
-+{ 'struct': 'PciDeviceClass',
-+  'data': {'*desc': 'str', 'class': 'int'} }
-+
-+##
-+# @PciDeviceId:
-+#
-+# Information about the Id of a PCI device
-+#
-+# @device: the PCI device id
-+#
-+# @vendor: the PCI vendor id
-+#
-+# @subsystem: the PCI subsystem id (since 3.1)
-+#
-+# @subsystem-vendor: the PCI subsystem vendor id (since 3.1)
-+#
-+# Since: 2.4
-+##
-+{ 'struct': 'PciDeviceId',
-+  'data': {'device': 'int', 'vendor': 'int', '*subsystem': 'int',
-+            '*subsystem-vendor': 'int'} }
-+
-+##
-+# @PciDeviceInfo:
-+#
-+# Information about a PCI device
-+#
-+# @bus: the bus number of the device
-+#
-+# @slot: the slot the device is located in
-+#
-+# @function: the function of the slot used by the device
-+#
-+# @class_info: the class of the device
-+#
-+# @id: the PCI device id
-+#
-+# @irq: if an IRQ is assigned to the device, the IRQ number
-+#
-+# @irq_pin: the IRQ pin, zero means no IRQ (since 5.1)
-+#
-+# @qdev_id: the device name of the PCI device
-+#
-+# @pci_bridge: if the device is a PCI bridge, the bridge information
-+#
-+# @regions: a list of the PCI I/O regions associated with the device
-+#
-+# Notes: the contents of @class_info.desc are not stable and should only be
-+#        treated as informational.
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciDeviceInfo',
-+  'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
-+           'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
-+           '*irq': 'int', 'irq_pin': 'int', 'qdev_id': 'str',
-+           '*pci_bridge': 'PciBridgeInfo', 'regions': ['PciMemoryRegion'] }}
-+
-+##
-+# @PciInfo:
-+#
-+# Information about a PCI bus
-+#
-+# @bus: the bus index
-+#
-+# @devices: a list of devices on this bus
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciInfo', 'data': {'bus': 'int', 'devices': ['PciDeviceInfo']} }
-+
-+##
-+# @query-pci:
-+#
-+# Return information about the PCI bus topology of the guest.
-+#
-+# Returns: a list of @PciInfo for each PCI bus. Each bus is
-+#          represented by a json-object, which has a key with a json-array of
-+#          all PCI devices attached to it. Each device is represented by a
-+#          json-object.
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "query-pci" }
-+# <- { "return": [
-+#          {
-+#             "bus": 0,
-+#             "devices": [
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 0,
-+#                   "class_info": {
-+#                      "class": 1536,
-+#                      "desc": "Host bridge"
-+#                   },
-+#                   "id": {
-+#                      "device": 32902,
-+#                      "vendor": 4663
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 1,
-+#                   "class_info": {
-+#                      "class": 1537,
-+#                      "desc": "ISA bridge"
-+#                   },
-+#                   "id": {
-+#                      "device": 32902,
-+#                      "vendor": 28672
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 1,
-+#                   "class_info": {
-+#                      "class": 257,
-+#                      "desc": "IDE controller"
-+#                   },
-+#                   "id": {
-+#                      "device": 32902,
-+#                      "vendor": 28688
-+#                   },
-+#                   "function": 1,
-+#                   "regions": [
-+#                      {
-+#                         "bar": 4,
-+#                         "size": 16,
-+#                         "address": 49152,
-+#                         "type": "io"
-+#                      }
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 2,
-+#                   "class_info": {
-+#                      "class": 768,
-+#                      "desc": "VGA controller"
-+#                   },
-+#                   "id": {
-+#                      "device": 4115,
-+#                      "vendor": 184
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                      {
-+#                         "prefetch": true,
-+#                         "mem_type_64": false,
-+#                         "bar": 0,
-+#                         "size": 33554432,
-+#                         "address": 4026531840,
-+#                         "type": "memory"
-+#                      },
-+#                      {
-+#                         "prefetch": false,
-+#                         "mem_type_64": false,
-+#                         "bar": 1,
-+#                         "size": 4096,
-+#                         "address": 4060086272,
-+#                         "type": "memory"
-+#                      },
-+#                      {
-+#                         "prefetch": false,
-+#                         "mem_type_64": false,
-+#                         "bar": 6,
-+#                         "size": 65536,
-+#                         "address": -1,
-+#                         "type": "memory"
-+#                      }
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "irq": 11,
-+#                   "slot": 4,
-+#                   "class_info": {
-+#                      "class": 1280,
-+#                      "desc": "RAM controller"
-+#                   },
-+#                   "id": {
-+#                      "device": 6900,
-+#                      "vendor": 4098
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                      {
-+#                         "bar": 0,
-+#                         "size": 32,
-+#                         "address": 49280,
-+#                         "type": "io"
-+#                      }
-+#                   ]
-+#                }
-+#             ]
-+#          }
-+#       ]
-+#    }
-+#
-+# Note: This example has been shortened as the real response is too long.
-+#
-+##
-+{ 'command': 'query-pci', 'returns': ['PciInfo'] }
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 4d8b3a9afe2..54c8ba64441 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -86,3 +86,4 @@
- { 'include': 'misc-target.json' }
- { 'include': 'audio.json' }
- { 'include': 'acpi.json' }
-+{ 'include': 'pci.json' }
-diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
-index cc2a2e1f735..3a027c42e43 100644
---- a/hw/pci/pci-stub.c
-+++ b/hw/pci/pci-stub.c
-@@ -22,7 +22,7 @@
- #include "sysemu/sysemu.h"
- #include "monitor/monitor.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-pci.h"
- #include "qapi/qmp/qerror.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index de0fae10ab9..e950e72d848 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -46,7 +46,7 @@
- #include "hw/hotplug.h"
- #include "hw/boards.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-pci.h"
- #include "qemu/cutils.h"
- 
- //#define DEBUG_PCI
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index de01ba20845..dc0de392196 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -36,6 +36,7 @@
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
-+#include "qapi/qapi-commands-pci.h"
- #include "qapi/qapi-commands-rocker.h"
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-tpm.h"
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ce0ccad49b..4d912cf0e98 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1598,6 +1598,7 @@ F: include/hw/pci/*
- F: hw/misc/pci-testdev.c
- F: hw/pci/*
- F: hw/pci-bridge/*
-+F: qapi/pci.json
- F: docs/pci*
- F: docs/specs/*pci*
- F: default-configs/pci.mak
-diff --git a/qapi/meson.build b/qapi/meson.build
-index f57acc24026..298b510492b 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -35,6 +35,7 @@ qapi_all_modules = [
-   'net',
-   'pragma',
-   'qdev',
-+  'pci',
-   'qom',
-   'rdma',
-   'rocker',
--- 
-2.26.2
+Hi Derek,
+
+I think this issue caused by other code in this file use the qemu_clock_get=
+_ms(QEMU_CLOCK_VIRTUAL);
+I will change all code to QEMU_CLOCK_HOST to fix it with the patch 1/2.=20
+
+Thanks
+Zhang Chen
+
+> Signed-off-by: Derek Su <dereksu@qnap.com>
+> ---
+>  net/colo-compare.c | 2 +-
+>  net/colo.c         | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/net/colo-compare.c b/net/colo-compare.c index
+> c4de86ef34..29d7f986e3 100644
+> --- a/net/colo-compare.c
+> +++ b/net/colo-compare.c
+> @@ -621,7 +621,7 @@ static int colo_packet_compare_other(Packet *spkt,
+> Packet *ppkt)
+>=20
+>  static int colo_old_packet_check_one(Packet *pkt, void *user_data)  {
+> -    int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_HOST);
+> +    int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+>      uint32_t check_time =3D *(uint32_t *)user_data;
+>=20
+>      if ((now - pkt->creation_ms) > check_time) { diff --git a/net/colo.c
+> b/net/colo.c index a6c66d829a..0441910169 100644
+> --- a/net/colo.c
+> +++ b/net/colo.c
+> @@ -164,7 +164,7 @@ Packet *packet_new(const void *data, int size, int
+> vnet_hdr_len)
+>=20
+>      pkt->data =3D g_memdup(data, size);
+>      pkt->size =3D size;
+> -    pkt->creation_ms =3D qemu_clock_get_ms(QEMU_CLOCK_HOST);
+> +    pkt->creation_ms =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+>      pkt->vnet_hdr_len =3D vnet_hdr_len;
+>      pkt->tcp_seq =3D 0;
+>      pkt->tcp_ack =3D 0;
+> --
+> 2.25.1
 
 
