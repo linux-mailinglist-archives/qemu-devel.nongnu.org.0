@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DD3267E37
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 08:55:24 +0200 (CEST)
-Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BEC267F1D
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 12:07:17 +0200 (CEST)
+Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHLv1-0006jo-Bw
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 02:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37478)
+	id 1kHOui-0001wa-W2
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 06:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHLuM-0006KI-NX
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 02:54:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35144)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kHOtB-0000bY-1i
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 06:05:41 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:41068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHLuK-0008TS-Ll
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 02:54:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kHLuH-0006pq-Fb
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 06:54:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6F5FF2E80DB
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 06:54:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 13 Sep 2020 06:44:28 -0000
-From: kjonca <1618301@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kHOt9-0002CY-8S
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 06:05:40 -0400
+Received: by mail-ej1-x635.google.com with SMTP id lo4so19154899ejb.8
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 03:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C3CKsHFEXu9QF+enjHbXNt7O5KP6EoU9+3Nd9C1nI+E=;
+ b=PysrgOn1KOoy+Rrr62V9LgwmznOkxMN4TRVVgETdjMwzSYbhgQ4oYSK29Oz9vEaLuu
+ xrtsHWcrYCj9pnSpfg/rPFGfBDXxPktiaMcbNLIcN4bMwOkTGz2ap00B5NFrnlvY4IqB
+ lhiYBp2e/K/fYVNHl3iKvDvFuS9b8vjr2G6kNKL8SWoOdZOlqtXbdsI9NQsOv4oSM8VE
+ 31ChV43kL2BhCW9pgXpbLJtFrP8ZqZ79sx4TfJRXb2ug2VjiJJz8arfeiFsUlQ8u/m+e
+ ELg1WhcfeQfHRnBlARlN6jEEobVvQn+O3jQxOLXXWbkJlNe42hF2jD7i5MaADQenSX1Z
+ xyWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=C3CKsHFEXu9QF+enjHbXNt7O5KP6EoU9+3Nd9C1nI+E=;
+ b=gRDeZ74vKvjhGcYWhAb9dv+AB5yYzdyapKbx3McPLg0L8TRXspAj7px7grB8O/SSEp
+ qyvw2GbPsY/2rnLGbte8QZ5yw9zqeG82J1y5MOvIOSFWgMyfI7+sXvNKU0Q3x8DKkhuL
+ XV+FNaLrV/KJKDoZ/LeOLpX7mhT9BlOBAgX2f5E9hs0KVre58hKGDMNz1u76EcaHD5Vq
+ xTFEwrDS965TpGHWyPviWiq5S2g/dEfe1FTy8TzyTyQwXVHE0F0Gu97s/8qZ9LdArUSg
+ g7lmX6XqouUr1Iog9T/AEX7WGGWSKadPl+KoIA2OaUDlq7VYQggfnKzjWWYpetAdKgvH
+ YAag==
+X-Gm-Message-State: AOAM530PX6XsZIUgfyShkaYfrZJbCXxIiBgv8mjj79gB5MsNslQlTPYv
+ ejBorPpMatGVZXvrQolh8MP1JdHC4Sg=
+X-Google-Smtp-Source: ABdhPJx3RQuLTjrKkaozgy/f5LysaQpPqHCLbcblRqGj+UmT1mCOj9eKPFByms1KO5RFunOf2wgV1w==
+X-Received: by 2002:a17:906:4a19:: with SMTP id
+ w25mr9312700eju.199.1599991536827; 
+ Sun, 13 Sep 2020 03:05:36 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:9c8:f845:9041:a5ee])
+ by smtp.gmail.com with ESMTPSA id
+ g11sm6690286edj.85.2020.09.13.03.05.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Sep 2020 03:05:36 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 3u-mail kjonca
-X-Launchpad-Bug-Reporter: nivekuil (3u-mail)
-X-Launchpad-Bug-Modifier: kjonca (kjonca)
-References: <20160830031518.12252.40741.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159997946816.2024.11204459017937614158.malone@chaenomeles.canonical.com>
-Subject: [Bug 1618301] Re: qemu-input: Mouse stops working in Windows guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: c0777acd025a26f8151def85b6d06e87315b47fd
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/13 02:54:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [RFC PATCH 0/3] Automatically convert configure options to meson
+ build options
+Date: Sun, 13 Sep 2020 12:05:31 +0200
+Message-Id: <20200913100534.22084-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,69 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1618301 <1618301@bugs.launchpad.net>
+Cc: marcandre.lureau@redhat.com, berrange@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another observation  (not sure if 100% relevant) =
+Right now meson_options.txt lists less than a dozen options, but about
+40 more could come as configure tests are converted and moved to
+meson.build.  Each option needs code in configure to parse it and pass
+the option down to Meson as a -D command-line argument; in addition the
+default must be duplicated between configure and meson_options.txt.
 
-When I leave "Generic PS/2 mouse" as an ONLY pointing device, I can observe=
- erratic moving ("jumping") cursor in (at least) windows guests (NT4 sp 6 ,=
- XP, Win 8.1)
+This series tries to remove the code duplication by passing unknown
+--enable and --disable options to a Python program, and using
+Meson's introspection support to match those to meson_options.txt
 
-QEMU emulator version 5.0.0 (Debian 1:5.0-6)
+The disadvantages are:
 
--- =
+- because we parse command-line options before meson is available,
+the introspection output is stored in the source tree.  The output
+is slightly modified using the "jq" tool in order to ensure that it's
+stable and that modifications to meson_buildoptions.txt do not cause
+horrible conflicts.  This is the main reason for the unattractive
+diffstat (the number of JSON lines added is higher than the number
+of configure lines removed, though of course the latter are code
+that must be maintained manually and the former is not).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1618301
+- we now need Python to generate the full help, so if Python is
+missing we can only print a partial message and direct the user
+to specify the interpreter with --python.  It would be possible to fix
+this by rewriting the script in Perl (at least on Fedora, JSON::PP is
+always installed if Perl is, because it's a dependency for CPAN; I'd
+have to check Ubuntu and the BSDs), or if we want to write it as a
+Bourne shell script, to further massage the introspection output into
+for example TAB-separated values.
 
-Title:
-  qemu-input: Mouse stops working in Windows guest
+Opinions are welcome on whether this is worthwhile and how to solve
+the above doubts.
 
-Status in QEMU:
-  New
+Paolo
 
-Bug description:
-  ROCCAT Kone XTD mouse will randomly stop working in the guest until
-  it's restarted.  Windows Event Viewer shows an error in i8042prt, with
-  the message "Could not set the mouse resolution". The XML log:
+Paolo Bonzini (3):
+  configure: quote command line arguments in config.status
+  configure: early test for Python
+  configure: automatically parse command line for meson -D options
 
-  - <Event xmlns=3D"http://schemas.microsoft.com/win/2004/08/events/event">
-  - <System>
-    <Provider Name=3D"i8042prt" /> =
+ Makefile                                |   6 ++
+ configure                               | 107 ++++++++-----------
+ docs/devel/build-system.rst             |  35 +------
+ meson-buildoptions.json                 | 130 ++++++++++++++++++++++++
+ scripts/configure-parse-buildoptions.py |  94 +++++++++++++++++
+ 5 files changed, 280 insertions(+), 92 deletions(-)
+ create mode 100644 meson-buildoptions.json
+ create mode 100644 scripts/configure-parse-buildoptions.py
 
-    <EventID Qualifiers=3D"49157">23</EventID> =
+-- 
+2.26.2
 
-    <Level>2</Level> =
-
-    <Task>0</Task> =
-
-    <Keywords>0x80000000000000</Keywords> =
-
-    <TimeCreated SystemTime=3D"2016-08-30T02:52:00.354536300Z" /> =
-
-    <EventRecordID>5708</EventRecordID> =
-
-    <Channel>System</Channel> =
-
-    <Computer>cronus</Computer> =
-
-    <Security /> =
-
-    </System>
-  - <EventData>
-    <Data /> =
-
-    <Binary>000008000100000000000000170005C03205000000000000000000000000000=
-000000000000000000000000000000000</Binary> =
-
-    </EventData>
-    </Event>
-
-  Host is running Linux 4.7.2 with QEMU 2.6.1.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1618301/+subscriptions
 
