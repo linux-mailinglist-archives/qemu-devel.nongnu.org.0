@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8BDB2681AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 00:22:31 +0200 (CEST)
-Received: from localhost ([::1]:43068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7909C2681E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 01:47:29 +0200 (CEST)
+Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHaOE-0003Ig-P2
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 18:22:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59054)
+	id 1kHbiS-0007W0-0P
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 19:47:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=518fa018e=dmitry.fomichev@wdc.com>)
- id 1kHaHZ-0000xT-OM; Sun, 13 Sep 2020 18:15:38 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:42054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=518fa018e=dmitry.fomichev@wdc.com>)
- id 1kHaHX-0001Hh-1X; Sun, 13 Sep 2020 18:15:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1600035334; x=1631571334;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4lmXrVv8vWfsQpV3JfcR+Z7HzkK2EhDx634mziV0q6w=;
- b=jFo9xaPhVlEgTahUeuVUXz7BAJKgGYCNSY2GoCKjgT0nd7fY/imuROlw
- LP0X/ZgQKCzMVVM2r8b1wmi/D2dxJ1jdF5uC5BiSUCaTnlxItmzGkQwDm
- x+Sgt1hv2lfvR5xYOTedmSGN/n9mHI7F9d5F3LWRrcITHRt2OlFBu61V6
- mgBbGsRn+TI0mCNKrRciVL1UFe+y90OUMnT0AmI2kI1KWezQdeREqv8By
- LAY37LZcJ9/MMoqlBug64m//7yDxLjGFBb9plfOew0UPgo9sX8U0oM4QB
- tWOS7zSgZ6Xx23X4LUh9H8HpkTy6R+RYQqAK+XQ1mNzAywnSL4OisF2UH Q==;
-IronPort-SDR: mosYTyKC4m213p3djkBhTOmduJdD2i1WLLdh1vk4bBbS9rkIYz6gs2DHIl/87sOnTtibMTJtLb
- 2rJ300GnDcQOJV0K51o/aVt0z5aJZ1hz6tTG+bYIqs4PWjYY5PBBvdZgM2CH+9Oj02j9MjIrNB
- PfAJ9yWkTb4DiO2gAINUq0hKAUUZULbhthlxiHxREav/B4QayryLgqjzAyLqmJuaY6rkbJVBSi
- 2uZs27qvhGdDeyLlZt1bqvehkPYOu8fUA5aCmEPxc7zM5dPJbDQ3TMmxxB2FTN001hJoL4XAn7
- xqI=
-X-IronPort-AV: E=Sophos;i="5.76,423,1592841600"; d="scan'208";a="147179075"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 14 Sep 2020 06:15:16 +0800
-IronPort-SDR: in056m9MESwZV+xb/CFiaA6dixclYuByFAxUX9/YwVZCVzZEghNwshaUkhmLgZCwxIyttN7jj9
- IKC7t9GowSaQ==
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2020 15:02:29 -0700
-IronPort-SDR: ljl7OXn+eZkvSrytXPmTTxbT5vKLbHhFQxXY+8vz8HLoFoLySyme5lI5+OmMpsWX8Are2mxJ+S
- 6hoEakhdUO+Q==
-WDCIronportException: Internal
-Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 13 Sep 2020 15:15:15 -0700
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v3 15/15] hw/block/nvme: Document zoned parameters in usage
- text
-Date: Mon, 14 Sep 2020 07:14:36 +0900
-Message-Id: <20200913221436.22844-16-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200913221436.22844-1-dmitry.fomichev@wdc.com>
-References: <20200913221436.22844-1-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <ameynarkhede03@gmail.com>)
+ id 1kHbgM-0006AB-Ry
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 19:45:18 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33153)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ameynarkhede03@gmail.com>)
+ id 1kHbgK-00027c-Pz
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 19:45:18 -0400
+Received: by mail-pf1-x441.google.com with SMTP id c196so11169253pfc.0
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 16:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6C86PRe3PD1jHOlF067N6BH04+k7qnO7PTI/UUZDrl8=;
+ b=fwVgi/RECgT/8vq1m9jYLNewQZTIXDYl+umVwrTcSAFPe5srlcSv+NU5C4oG1Cnvjy
+ RjWHYYzVydhmGR7EHfBLwTMpYiLrTRhKsdpwGtiYO3LWfOepKc7e59cktkPdM10OXtfu
+ TGwmDK9O88xaS7W9D7GqjiMbYKgPNvOBwvbeYRESxZsNLUtX17Zp6fGD/udiMRsV3Lmi
+ WXFw4zjhUo0fqV7cgJJwU/lAjBaWlHdRxh9M1/fNkAiVn3338qbivDgQE2gFHvcXd4PV
+ mtyG1S5OR6aNdUixDklGqy4d8RRwSXssL0uSpf0Ps6oZW3YXMdFtKJqHU4u9iVDVvOuU
+ PJ7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6C86PRe3PD1jHOlF067N6BH04+k7qnO7PTI/UUZDrl8=;
+ b=AblSiVmVyxRhQJr6Wr2pQkfHJsTrNfW6vaNgsWSgl1pl7/FZnNZFRR+cCbz1IKeoyX
+ 0/DBo+WLxKl7FgLqy7wilp8WZIZBtV/5+od0veGDiEWTBR2lXhGMOAB7j5sV9Ue2ohlx
+ Fv5VBCz5yn25nXalZs9O7GLhinZGdr2j12VD0DjoCwCJh/2TXh/qkfQcwn2eY9YExjLX
+ I5aDss6jOIFnzSeruxIwOER2A4ffjKDH1MUjjm+nNffcXusENd9GMp3fqeKWr4P3R0TK
+ IsZWCc8k/3YrKSfSR8gE76m+aTim5S5A/XBXEoqcx0u7s1O41Lsyb7TRyxjXTPvU6cpP
+ m1Yw==
+X-Gm-Message-State: AOAM530RgsJlpYoyWtRCfwVjXvhYpSbzd+qbp9LNqm/DHbzBAqfSKbHQ
+ xnimdUrNYPDRLFYGrq6L5y0zLdaGSLGfOHnt
+X-Google-Smtp-Source: ABdhPJwK7aQ4/OhIh8mHcBQHdQoIFXqPgluaTDLStUow9zeez1C4eZbfJHSGiX7Xt1kYRBk2LjaRYQ==
+X-Received: by 2002:a63:4451:: with SMTP id t17mr8654811pgk.92.1600040714887; 
+ Sun, 13 Sep 2020 16:45:14 -0700 (PDT)
+Received: from localhost.localdomain ([49.32.9.241])
+ by smtp.googlemail.com with ESMTPSA id l1sm6768830pgo.11.2020.09.13.16.45.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Sep 2020 16:45:14 -0700 (PDT)
+From: Amey Narkhede <ameynarkhede03@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/scsi/vmw_pvscsi.c: Fix wrong usage of gboolean types in
+ PVSCSIState
+Date: Mon, 14 Sep 2020 05:14:51 +0530
+Message-Id: <20200913234451.170022-1-ameynarkhede03@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=518fa018e=dmitry.fomichev@wdc.com; helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/13 18:14:44
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=ameynarkhede03@gmail.com; helo=mail-pf1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,94 +84,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: fam@euphon.net, pbonzini@redhat.com,
+ Amey Narkhede <ameynarkhede03@gmail.com>, dmitry.fleytman@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added brief descriptions of the new device properties that are
-now available to users to configure features of Zoned Namespace
-Command Set in the emulator.
+rings_info_valid, msg_ring_info_valid and use_msg fields of struct
+PVSCSIState are using gboolean TRUE/FALSE values with the type uint8_t.
+Change their type to bool along with the usage of initialization macro
+VMSTATE_BOOL during initialization of vmstate_pvscsi and
+pvscsi_properties.
 
-This patch is for documentation only, no functionality change.
-
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Signed-off-by: Amey Narkhede <ameynarkhede03@gmail.com>
 ---
- hw/block/nvme.c | 43 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 2 deletions(-)
+ hw/scsi/vmw_pvscsi.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 41f4c0dacd..d0900c2871 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -9,7 +9,7 @@
-  */
- 
- /**
-- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
-+ * Reference Specs: http://www.nvmexpress.org, 1.4, 1.3, 1.2, 1.1, 1.0e
-  *
-  *  https://nvmexpress.org/developers/nvme-specification/
-  */
-@@ -22,7 +22,7 @@
-  *              [pmrdev=<mem_backend_file_id>,] \
-  *              max_ioqpairs=<N[optional]>, \
-  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
-- *              mdts=<N[optional]>
-+ *              mdts=<N[optional]>, zoned=<true|false[optional]>
-  *
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-@@ -48,6 +48,45 @@
-  *   completion when there are no oustanding AERs. When the maximum number of
-  *   enqueued events are reached, subsequent events will be dropped.
-  *
-+ * Setting `zoned` to true makes the device to support zoned namespaces.
-+ * In this case, of the following options are available to configure zoned
-+ * operation:
-+ *     zone_size=<zone size in MiB, default: 128MiB>
-+ *
-+ *     zone_capacity=<zone capacity in MiB, default: zone_size>
-+ *         The value 0 (default) forces zone capacity to be the same as zone
-+ *         size. The value of this property may not exceed zone size.
-+ *
-+ *     zone_file=<zone metadata file name, default: none>
-+ *         Zone metadata file, if specified, allows zone information
-+ *         to be persistent across shutdowns and restarts.
-+ *
-+ *     zone_descr_ext_size=<zone descriptor extension size, default 0>
-+ *         This value needs to be specified in 64B units. If it is zero,
-+ *         namespace(s) will not support zone descriptor extensions.
-+ *
-+ *     max_active=<Maximum Active Resources (zones), default: 0 - no limit>
-+ *
-+ *     max_open=<Maximum Open Resources (zones), default: 0 - no limit>
-+ *
-+ *     zone_append_size_limit=<zone append size limit, in KiB, default: MDTS>
-+ *         The maximum I/O size that can be supported by Zone Append
-+ *         command. Since internally this this value is maintained as
-+ *         ZASL = log2(<maximum append size> / <page size>), some
-+ *         values assigned to this property may be rounded down and
-+ *         result in a lower maximum ZA data size being in effect.
-+ *         If MDTS property is not assigned, the default value of 128KiB is
-+ *         used as ZASL.
-+ *
-+ *     offline_zones=<the number of offline zones to inject, default: 0>
-+ *
-+ *     rdonly_zones=<the number of read-only zones to inject, default: 0>
-+ *
-+ *     cross_zone_read=<enables Read Across Zone Boundaries, default: true>
-+ *
-+ *     fill_pattern=<data fill pattern, default: 0x00>
-+ *         The byte pattern to return for any portions of unwritten data
-+ *         during read.
-  */
- 
- #include "qemu/osdep.h"
--- 
-2.21.0
+diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
+index c071e0c7aa..86f00e3d7e 100644
+--- a/hw/scsi/vmw_pvscsi.c
++++ b/hw/scsi/vmw_pvscsi.c
+@@ -123,9 +123,9 @@ typedef struct {
+     /* Collector for current command data */
+     uint32_t curr_cmd_data[PVSCSI_MAX_CMD_DATA_WORDS];
 
+-    uint8_t rings_info_valid;            /* Whether data rings initialized   */
+-    uint8_t msg_ring_info_valid;         /* Whether message ring initialized */
+-    uint8_t use_msg;                     /* Whether to use message ring      */
++    bool rings_info_valid;            /* Whether data rings initialized   */
++    bool msg_ring_info_valid;         /* Whether message ring initialized */
++    bool use_msg;                     /* Whether to use message ring      */
+
+     uint8_t msi_used;                    /* For migration compatibility      */
+     PVSCSIRingInfo rings;                /* Data transfer rings manager      */
+@@ -349,8 +349,8 @@ pvscsi_reset_state(PVSCSIState *s)
+     s->reg_command_status = PVSCSI_COMMAND_PROCESSING_SUCCEEDED;
+     s->reg_interrupt_status = 0;
+     pvscsi_ring_cleanup(&s->rings);
+-    s->rings_info_valid = FALSE;
+-    s->msg_ring_info_valid = FALSE;
++    s->rings_info_valid = false;
++    s->msg_ring_info_valid = false;
+     QTAILQ_INIT(&s->pending_queue);
+     QTAILQ_INIT(&s->completion_queue);
+ }
+@@ -792,7 +792,7 @@ pvscsi_on_cmd_setup_rings(PVSCSIState *s)
+     pvscsi_dbg_dump_tx_rings_config(rc);
+     pvscsi_ring_init_data(&s->rings, rc);
+
+-    s->rings_info_valid = TRUE;
++    s->rings_info_valid = true;
+     return PVSCSI_COMMAND_PROCESSING_SUCCEEDED;
+ }
+
+@@ -874,7 +874,7 @@ pvscsi_on_cmd_setup_msg_ring(PVSCSIState *s)
+         if (pvscsi_ring_init_msg(&s->rings, rc) < 0) {
+             return PVSCSI_COMMAND_PROCESSING_FAILED;
+         }
+-        s->msg_ring_info_valid = TRUE;
++        s->msg_ring_info_valid = true;
+     }
+     return sizeof(PVSCSICmdDescSetupMsgRing) / sizeof(uint32_t);
+ }
+@@ -1232,9 +1232,9 @@ static const VMStateDescription vmstate_pvscsi = {
+         VMSTATE_UINT32(curr_cmd_data_cntr, PVSCSIState),
+         VMSTATE_UINT32_ARRAY(curr_cmd_data, PVSCSIState,
+                              ARRAY_SIZE(((PVSCSIState *)NULL)->curr_cmd_data)),
+-        VMSTATE_UINT8(rings_info_valid, PVSCSIState),
+-        VMSTATE_UINT8(msg_ring_info_valid, PVSCSIState),
+-        VMSTATE_UINT8(use_msg, PVSCSIState),
++        VMSTATE_BOOL(rings_info_valid, PVSCSIState),
++        VMSTATE_BOOL(msg_ring_info_valid, PVSCSIState),
++        VMSTATE_BOOL(use_msg, PVSCSIState),
+
+         VMSTATE_UINT64(rings.rs_pa, PVSCSIState),
+         VMSTATE_UINT32(rings.txr_len_mask, PVSCSIState),
+@@ -1255,7 +1255,7 @@ static const VMStateDescription vmstate_pvscsi = {
+ };
+
+ static Property pvscsi_properties[] = {
+-    DEFINE_PROP_UINT8("use_msg", PVSCSIState, use_msg, 1),
++    DEFINE_PROP_BOOL("use_msg", PVSCSIState, use_msg, true),
+     DEFINE_PROP_BIT("x-old-pci-configuration", PVSCSIState, compat_flags,
+                     PVSCSI_COMPAT_OLD_PCI_CONFIGURATION_BIT, false),
+     DEFINE_PROP_BIT("x-disable-pcie", PVSCSIState, compat_flags,
+--
+2.28.0
+
+This is my first qemu patch. Let know if there are any mistakes
 
