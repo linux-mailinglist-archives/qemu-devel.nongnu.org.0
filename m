@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F339E267F1C
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 12:07:16 +0200 (CEST)
-Received: from localhost ([::1]:45036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99D2267F1E
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 12:07:18 +0200 (CEST)
+Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHOuh-0001si-H2
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 06:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57290)
+	id 1kHOuj-0001xU-RB
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 06:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kHOtB-0000bX-1b
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 06:05:41 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36263)
+ id 1kHOtC-0000cR-Gz
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 06:05:42 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kHOt9-0002Ci-Ee
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 06:05:40 -0400
-Received: by mail-ej1-x642.google.com with SMTP id e23so19196971eja.3
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 03:05:39 -0700 (PDT)
+ id 1kHOtB-0002EF-0h
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 06:05:42 -0400
+Received: by mail-ed1-x534.google.com with SMTP id b12so14683135edz.11
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 03:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8u7qVIji/P6iDBnP9RNpMszmujgXnbWqw7uGLeKpFr0=;
- b=vZ9RxewQQozeRyK+1qPtX7GHPu8JvZ6BJchCWSDvQagc/LIZM/CM080HlSOaFnLSU0
- vA0afcQX3OJVpnLYp2hU15F7AOzV2tICXmVlYGOk68zkWtZQk3ljBMiS2qjCfleYUUR+
- D5/OwKZzrotKGCkyAjI7s39v3KBhu5ONvps8TTTU8hjPQ89vJNT9FXbcOKYZhVJ45frj
- EQOC9U1Y4GqtUZbwhCj090mnsUKZXZTWqUH2h7hwdXXQHk+s5vtz5gDmKAtTKPyO61mx
- dTyST2moyw7log3up1QGJGqKuzgXykNDeWbT5LJgl9xaaaPFwQl+u7WYWyVOjnLOHdSG
- DgaQ==
+ bh=DtaDJQIlwIYvq2X082N0v4uFIfZ0Kcg079ABQmsDHiE=;
+ b=A4N2voeYBC2qsKyH8x6m1146Un++nAZ7mCqQOPq7Z+aKyudXH8E0+vRilGsQb98lSc
+ KM3ESx9hn/xxjPCyUCZy+9TkUqaQhQ6UyUUl9WaoePvPm+n9XIx/BQ+B1FOY6nByMaN2
+ DyVDKmhMt2ATRljJxKWtDic+4FR+2nV+AfNbsry9LwQbWo5FQuFy/jTOEHR/VG8LuL15
+ 2rCaHDjMF7Uy5VBtJhGkWjkfXo+zTuUsJ/R4xrCJzHZXAe9Rij0sKNPzEOjuPDRAw80d
+ 9sKMfMF0itkYvtgAxUIqWuypyazZq874poDxN4ItBewQ7pSR390YUlqYO8+AE7TNkD0K
+ krSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8u7qVIji/P6iDBnP9RNpMszmujgXnbWqw7uGLeKpFr0=;
- b=T1fEC36VJd9Niiy5eKI5LHcn3sQWa6aDFnLo/XydZL2RRn5JpOhGdx6TlpCOy3x/gX
- IXCpri8t2IutybDfRx6ocDzZHILdYlh8MxZKfm7xwZfm6pBiaVUauVGVIEmkIH/ROtXl
- 40ZKVG9jlpmFt2hN9PLkQ3D557YXJWCM42pjid6qP8Q9xvOhgpZVQaNCaxKXmzWldqPi
- o+4/wdPiM+vqFvMS39nXV1kaKXNjDB2FPBLLoBXjnUXgAHfjV9uaJPx1NpjSm7jqJcDF
- M7qwouoEz0p3pkx5gaSYcR0dwVQ7jbojdRhQwjwdopQvPjqjKlg7f/CfpskhsFjmJswI
- 0kkA==
-X-Gm-Message-State: AOAM5302/tWmsCW9TVkeLAkJARdBzQ6Bb8WLwoXOJaQOUiRD+Jcu7I2n
- 8iI07m9BOHtEbfj8E+3UejeN60aWPhI=
-X-Google-Smtp-Source: ABdhPJwVeCuyoyC2evhAHHUM8H+7jpiIujmNF2qN0wjIqJ8+24wC+SH+STZk4I9NnYXbVyY/cpqh1g==
-X-Received: by 2002:a17:906:838f:: with SMTP id
- p15mr10039657ejx.315.1599991537996; 
- Sun, 13 Sep 2020 03:05:37 -0700 (PDT)
+ bh=DtaDJQIlwIYvq2X082N0v4uFIfZ0Kcg079ABQmsDHiE=;
+ b=Sj5ikP070jd9xaeZ5Hp9uzxqV2iEKpif3u47jZVE9Kzwcg7/XMXYLQ4kO9wolyLer8
+ 0zhW0v7laBmw/0E2kjJqptJmv/cR4bzcJMGKj1kHPTKrauNaO9M5wNzsctLbEFwQMJL+
+ tre/PwHdVLNlSwhaB+1Lrj8HURZ2cMkU8KiU5ejWfYgvAcxLNwBa+D+KqNUWt6pmKI1F
+ fAPY0ke2oQpifRQL8jkkyxEHPjai/pJUeTyF6winWYatPkpt8KOf5Cv6mnxUo1ay5aiz
+ 5EeiW7B9wEp+5yFam6sLMbNzFmttLbS/HVouFnIAP55smHU5v3/evEERBVflNK/ZNmU3
+ Sx1g==
+X-Gm-Message-State: AOAM532wKbA8ywj7C4klnWt1RGFvv5Y0CZswTfXnUU/+gkNS8Lr9ele9
+ mG40eq08IMjkk4r8qv2/1YPZPSome8s=
+X-Google-Smtp-Source: ABdhPJyBb+BZ4B0OhPVVmPjn5giuL9o6HUt+PvhujlkT+7UH4fIPvleAxLIx77LWy555RwFhIIwXvw==
+X-Received: by 2002:aa7:d785:: with SMTP id s5mr11738576edq.154.1599991539070; 
+ Sun, 13 Sep 2020 03:05:39 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:9c8:f845:9041:a5ee])
  by smtp.gmail.com with ESMTPSA id
- g11sm6690286edj.85.2020.09.13.03.05.36
+ g11sm6690286edj.85.2020.09.13.03.05.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 03:05:37 -0700 (PDT)
+ Sun, 13 Sep 2020 03:05:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] configure: quote command line arguments in config.status
-Date: Sun, 13 Sep 2020 12:05:32 +0200
-Message-Id: <20200913100534.22084-2-pbonzini@redhat.com>
+Subject: [PATCH 2/3] configure: early test for Python
+Date: Sun, 13 Sep 2020 12:05:33 +0200
+Message-Id: <20200913100534.22084-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200913100534.22084-1-pbonzini@redhat.com>
 References: <20200913100534.22084-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -91,35 +90,58 @@ Cc: marcandre.lureau@redhat.com, berrange@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ configure | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/configure b/configure
-index 53723ace57..beae010e39 100755
+index beae010e39..b4f5d2e272 100755
 --- a/configure
 +++ b/configure
-@@ -89,6 +89,10 @@ printf " '%s'" "$0" "$@" >> config.log
- echo >> config.log
- echo "#" >> config.log
- 
-+quote_sh() {
-+    printf "'%s'" "$(echo "$1" | sed "s,','\\',")"
-+}
-+
- print_error() {
-     (echo
-     echo "ERROR: $1"
-@@ -8061,7 +8065,7 @@ preserve_env WINDRES
- 
- printf "exec" >>config.status
- for i in "$0" "$@"; do
--  test "$i" = --skip-meson || printf " '%s'" "$i" >>config.status
-+  test "$i" = --skip-meson || printf " %s" "$(quote_sh $i)" >>config.status
+@@ -1631,6 +1631,23 @@ for opt do
+   esac
  done
- echo ' "$@"' >>config.status
- chmod +x config.status
+ 
++if test -n "$python"
++then
++    # Preserve python version since some functionality is dependent on it
++    python_version=$($python -c 'import sys; print("%d.%d.%d" % (sys.version_info[0], sys.version_info[1], sys.version_info[2]))' 2>/dev/null)
++
++    # Suppress writing compiled files
++    python="$python -B"
++
++    # Note that if the Python conditional here evaluates True we will exit
++    # with status 1 which is a shell 'false' value.
++    if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
++        print_error "Cannot use '$python', Python >= 3.5 is required." \
++            "Use --python=/path/to/python to specify a supported Python."
++        python=
++    fi
++fi
++
+ firmwarepath="${firmwarepath:-$prefix/share/qemu-firmware}"
+ libdir="${libdir:-$prefix/lib}"
+ libexecdir="${libexecdir:-$prefix/libexec}"
+@@ -1962,19 +1979,6 @@ then
+     error_exit "Python not found. Use --python=/path/to/python"
+ fi
+ 
+-# Note that if the Python conditional here evaluates True we will exit
+-# with status 1 which is a shell 'false' value.
+-if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
+-  error_exit "Cannot use '$python', Python >= 3.5 is required." \
+-      "Use --python=/path/to/python to specify a supported Python."
+-fi
+-
+-# Preserve python version since some functionality is dependent on it
+-python_version=$($python -c 'import sys; print("%d.%d.%d" % (sys.version_info[0], sys.version_info[1], sys.version_info[2]))' 2>/dev/null)
+-
+-# Suppress writing compiled files
+-python="$python -B"
+-
+ if test -z "$meson"; then
+     if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.1; then
+         meson=meson
 -- 
 2.26.2
 
