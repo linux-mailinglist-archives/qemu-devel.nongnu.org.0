@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BB7267D47
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 04:37:51 +0200 (CEST)
-Received: from localhost ([::1]:41212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C83267D4D
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Sep 2020 04:39:49 +0200 (CEST)
+Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHHtm-0006Wz-3p
-	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 22:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47928)
+	id 1kHHvh-00021c-2Q
+	for lists+qemu-devel@lfdr.de; Sat, 12 Sep 2020 22:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kHHso-0004wl-MR
- for qemu-devel@nongnu.org; Sat, 12 Sep 2020 22:36:50 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:43814 helo=huawei.com)
+ id 1kHHsn-0004wS-VI
+ for qemu-devel@nongnu.org; Sat, 12 Sep 2020 22:36:49 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:43810 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kHHsl-0003W1-5p
- for qemu-devel@nongnu.org; Sat, 12 Sep 2020 22:36:50 -0400
+ id 1kHHsl-0003W2-69
+ for qemu-devel@nongnu.org; Sat, 12 Sep 2020 22:36:49 -0400
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 6A5BD4E9FF9FDBB6C7DE;
+ by Forcepoint Email with ESMTP id 610A2AAA757FD8435F1E;
  Sun, 13 Sep 2020 10:36:43 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sun, 13 Sep 2020
- 10:36:33 +0800
+ 10:36:34 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
  <berrange@redhat.com>
-Subject: [PATCH v3 3/6] migration/tls: add MigrationState and tls_hostname
- into MultiFDSendParams
-Date: Sun, 13 Sep 2020 10:47:33 +0800
-Message-ID: <1599965256-72150-4-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v3 4/6] migration/tls: extract cleanup function for common-use
+Date: Sun, 13 Sep 2020 10:47:34 +0800
+Message-ID: <1599965256-72150-5-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1599965256-72150-1-git-send-email-zhengchuan@huawei.com>
 References: <1599965256-72150-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
@@ -67,65 +67,75 @@ Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MigrationState is need for tls session build and tls hostname is need
-for tls handshake, add both MigrationState and tls_hostname
-into MultiFDSendParams.
+multifd channel cleanup is need if multifd handshake failed,
+let's extract it.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Yan Jin <jinyan12@huawei.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/multifd.c | 5 +++++
- migration/multifd.h | 4 ++++
- 2 files changed, 9 insertions(+)
+ migration/multifd.c | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index d044120..3e41d9e 100644
+index 3e41d9e..fe08911 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -543,11 +543,14 @@ void multifd_save_cleanup(void)
+@@ -720,6 +720,23 @@ out:
+     return NULL;
+ }
  
-         socket_send_channel_destroy(p->c);
-         p->c = NULL;
-+        p->s = NULL;
-         qemu_mutex_destroy(&p->mutex);
-         qemu_sem_destroy(&p->sem);
-         qemu_sem_destroy(&p->sem_sync);
-         g_free(p->name);
-         p->name = NULL;
-+        g_free(p->tls_hostname);
-+        p->tls_hostname = NULL;
-         multifd_pages_clear(p->pages);
-         p->pages = NULL;
-         p->packet_len = 0;
-@@ -779,6 +782,8 @@ int multifd_save_setup(Error **errp)
-         p->packet->magic = cpu_to_be32(MULTIFD_MAGIC);
-         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
-         p->name = g_strdup_printf("multifdsend_%d", i);
-+        p->s = migrate_get_current();
-+        p->tls_hostname = g_strdup(p->s->hostname);
-         socket_send_channel_create(multifd_new_send_channel_async, p);
++static void multifd_new_send_channel_cleanup(MultiFDSendParams *p,
++                                             QIOChannel *ioc, Error *err)
++{
++     migrate_set_error(migrate_get_current(), err);
++     /* Error happen, we need to tell who pay attention to me */
++     qemu_sem_post(&multifd_send_state->channels_ready);
++     qemu_sem_post(&p->sem_sync);
++     /*
++      * Although multifd_send_thread is not created, but main migration
++      * thread neet to judge whether it is running, so we need to mark
++      * its status.
++      */
++     p->quit = true;
++     object_unref(OBJECT(ioc));
++     error_free(err);
++}
++
+ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
+ {
+     MultiFDSendParams *p = opaque;
+@@ -728,25 +745,18 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
+ 
+     trace_multifd_new_send_channel_async(p->id);
+     if (qio_task_propagate_error(task, &local_err)) {
+-        migrate_set_error(migrate_get_current(), local_err);
+-        /* Error happen, we need to tell who pay attention to me */
+-        qemu_sem_post(&multifd_send_state->channels_ready);
+-        qemu_sem_post(&p->sem_sync);
+-        /*
+-         * Although multifd_send_thread is not created, but main migration
+-         * thread neet to judge whether it is running, so we need to mark
+-         * its status.
+-         */
+-        p->quit = true;
+-        object_unref(OBJECT(sioc));
+-        error_free(local_err);
++        goto cleanup;
+     } else {
+         p->c = QIO_CHANNEL(sioc);
+         qio_channel_set_delay(p->c, false);
+         p->running = true;
+         qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
+                            QEMU_THREAD_JOINABLE);
++        return;
      }
++
++cleanup:
++    multifd_new_send_channel_cleanup(p, sioc, local_err);
+ }
  
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 448a03d..2b400e7 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -66,11 +66,15 @@ typedef struct {
- } MultiFDPages_t;
- 
- typedef struct {
-+    /* Migration State */
-+    MigrationState *s;
-     /* this fields are not changed once the thread is created */
-     /* channel number */
-     uint8_t id;
-     /* channel thread name */
-     char *name;
-+    /* tls hostname */
-+    char *tls_hostname;
-     /* channel thread id */
-     QemuThread thread;
-     /* communication channel */
+ int multifd_save_setup(Error **errp)
 -- 
 1.8.3.1
 
