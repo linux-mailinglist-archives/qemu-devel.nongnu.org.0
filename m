@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524112691D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:41:21 +0200 (CEST)
-Received: from localhost ([::1]:33968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21390269207
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:47:43 +0200 (CEST)
+Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrXc-0002Lg-Cc
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:41:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33548)
+	id 1kHrdm-0000Zh-3R
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHptu-0007ct-Ew
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:56:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22243)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHpts-00065R-RM
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:56:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600095372;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HRR56tZ89YFcw6lWtw8qRwQp34wLz0vujyER+i4Xs4k=;
- b=OpLeIXiUFlD9Q5UXNulEQfQesSc4z1A9Ex6AO/Eo2F94FBL4EF7fK4GmBYtiLgzfSKrXIu
- ZNilvJgGFBTaxnI1j3U985elkBmkJsOHDl3pTQuKun2v1ftFfXXDMNsHZJcKDx4mraumhr
- u37N2L64KV1TcYhvPTQD8O6E1gAW5+w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-c6DJz_Y9MAa8LX3Zsw52VQ-1; Mon, 14 Sep 2020 10:56:09 -0400
-X-MC-Unique: c6DJz_Y9MAa8LX3Zsw52VQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CEEE18B9F01;
- Mon, 14 Sep 2020 14:56:08 +0000 (UTC)
-Received: from localhost (ovpn-114-80.ams2.redhat.com [10.36.114.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A199610AF;
- Mon, 14 Sep 2020 14:56:07 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3] iotests: Drop readlink -f
-Date: Mon, 14 Sep 2020 16:56:06 +0200
-Message-Id: <20200914145606.94620-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHq0Z-0004av-1g
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:03:10 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHq0S-0007Rs-Un
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:03:06 -0400
+Received: by mail-wr1-x431.google.com with SMTP id s12so19097189wrw.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZtpT+xt6cTZNa7AtMysMjQ4Nuvw3w7evk1Aqw/sDTfg=;
+ b=cgJsAnPdJc0904I3/SSV5vXDfExlj2W1d+siN4UkUoFFYhZXyi0bzbbTI25XxgFPgu
+ e/jAQg2xQUfiC6IwYLMpvaoAsEob1EfWDgLf7X/y4pVGUYWfOB/bEWGOgV2Zik6jZfAy
+ HEgnmnC3233pnRP0IiinTMIMXBpUBWTiO+seR6ZbSHykVcW0qRCqNDPR3WHO6k37+odH
+ qqgMmvmJKpbdWY/nEv9aOd/iEq/enOJpHKMcZ8LTzV8xT73Atx0+9KosUzjrfCXhgLdk
+ 8+QxiHwo9uiNs7aYsPAaSRBsrr1eJ2/aHCO0pe7zdx/gh3Jz3VFiSEbX6Nh+FyWpUHPy
+ klrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZtpT+xt6cTZNa7AtMysMjQ4Nuvw3w7evk1Aqw/sDTfg=;
+ b=MtroOdfPEiLNKIdYW+64lp9Pjeqy1zZxRR4CVzfvCg2BaY7Qa+4Oin8pAlYQh2DKM1
+ u/8491L8xC0xgNNL+1xPVZJEy/us9YyEC+TFOzmVXwMHLEQChdh8u4/cte8kgMQXCVlA
+ YvswS+D+3dLNFlf9QmhzDh+eC3UYCVd7NkPlp717aeEdms/hvOTC7W3O/46srU4xYZbS
+ q9yv7zT4q5rY5PtdXThQ5u5cJIGeLSFYVhq5lV9HrEzsRyrYEnG3wr3j5pQU03lcmB8z
+ U/n9xN3ZWAsn2jypUSz4pn47s5d8NJslRbGjiUw9xUt64sYVJIA6DPo6yPPKFuqp1m6h
+ 3wIw==
+X-Gm-Message-State: AOAM533roTb6GDLKqWNcNmfw5pTDBYVq1SdhTAOL5PK8bBBV/TY3CogC
+ LpWU5YdZ5jGrBfbxm7TiftOrqIRPPCaPCelv
+X-Google-Smtp-Source: ABdhPJwUJXuF3zUZpy5Ux6nVB4il6UGyNH7d5d+Z5GXz/kAEx4Qa31DnKsTlGm7KXvSn5791jr8U/Q==
+X-Received: by 2002:adf:fa52:: with SMTP id y18mr16631208wrr.264.1600095777358; 
+ Mon, 14 Sep 2020 08:02:57 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id v17sm22315615wrc.23.2020.09.14.08.02.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Sep 2020 08:02:56 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/32] target-arm queue
+Date: Mon, 14 Sep 2020 16:02:54 +0100
+Message-Id: <20200914150254.6489-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,44 +84,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On macOS, (out of the box) readlink does not have -f.  We do not really
-need readlink here, though, it was just a replacement for realpath
-(which is not available on our BSD test systems), which we needed to
-make the $(dirname) into an absolute path.
+For some reason the xilinx can bus patches built in my local config
+but not in the merge-test ones; dropped those.
 
-Instead of using either, just use "cd; pwd" like is done for
-$source_iotests.
+-- PMM
 
-Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
-       ("iotests: Allow running from different directory")
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Claudio Fontana <cfontana@suse.de>
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/check | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit a68694cd1f3e5448cca814ff39b871f9ebd71ed5:
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index e14a1f354d..678b6e4910 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -44,7 +44,7 @@ then
-         _init_error "failed to obtain source tree name from check symlink"
-     fi
-     source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
--    build_iotests=$(readlink -f $(dirname "$0"))
-+    build_iotests=$(cd "$(dirname "$0")"; pwd)
- else
-     # called from the source tree
-     source_iotests=$PWD
--- 
-2.26.2
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200914' into staging (2020-09-14 12:18:58 +0100)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200914-1
+
+for you to fetch changes up to 4fe986dd4480308ecf07200cfbd3c3d494a0f639:
+
+  tests/acceptance: console boot tests for quanta-gsj (2020-09-14 14:24:59 +0100)
+
+----------------------------------------------------------------
+ * hw/misc/a9scu: Do not allow invalid CPU count
+ * hw/misc/a9scu: Minor cleanups
+ * hw/timer/armv7m_systick: assert that board code set system_clock_scale
+ * decodetree: Improve identifier matching
+ * target/arm: Clean up neon fp insn size field decode
+ * target/arm: Remove KVM support for 32-bit Arm hosts
+ * hw/arm/mps2: New board models mps2-an386, mps2-an500
+ * Deprecate Unicore32 port
+ * Deprecate lm32 port
+ * target/arm: Count PMU events when MDCR.SPME is set
+ * hw/arm: versal-virt: Correct the tx/rx GEM clocks
+ * New Nuvoton iBMC board models npcm750-evb, quanta-gsj
+
+----------------------------------------------------------------
+Aaron Lindsay (1):
+      target/arm: Count PMU events when MDCR.SPME is set
+
+Edgar E. Iglesias (1):
+      hw/arm: versal-virt: Correct the tx/rx GEM clocks
+
+Havard Skinnemoen (14):
+      hw/misc: Add NPCM7xx System Global Control Registers device model
+      hw/misc: Add NPCM7xx Clock Controller device model
+      hw/timer: Add NPCM7xx Timer device model
+      hw/arm: Add NPCM730 and NPCM750 SoC models
+      hw/arm: Add two NPCM7xx-based machines
+      roms: Add virtual Boot ROM for NPCM7xx SoCs
+      hw/arm: Load -bios image as a boot ROM for npcm7xx
+      hw/nvram: NPCM7xx OTP device model
+      hw/mem: Stubbed out NPCM7xx Memory Controller model
+      hw/ssi: NPCM7xx Flash Interface Unit device model
+      hw/arm: Wire up BMC boot flash for npcm750-evb and quanta-gsj
+      hw/arm/npcm7xx: add board setup stub for CPU and UART clocks
+      docs/system: Add Nuvoton machine documentation
+      tests/acceptance: console boot tests for quanta-gsj
+
+Peter Maydell (11):
+      hw/timer/armv7m_systick: assert that board code set system_clock_scale
+      target/arm: Convert Neon 3-same-fp size field to MO_* in decode
+      target/arm: Convert Neon VCVT fp size field to MO_* in decode
+      target/arm: Convert VCMLA, VCADD size field to MO_* in decode
+      target/arm: Remove KVM support for 32-bit Arm hosts
+      target/arm: Remove no-longer-reachable 32-bit KVM code
+      hw/arm/mps2: New board model mps2-an386
+      hw/arm/mps2: New board model mps2-an500
+      docs/system/arm/mps2.rst: Make board list consistent
+      Deprecate Unicore32 port
+      Deprecate lm32 port
+
+Philippe Mathieu-Daudé (4):
+      hw/misc/a9scu: Do not allow invalid CPU count
+      hw/misc/a9scu: Simplify setting MemoryRegionOps::valid fields
+      hw/misc/a9scu: Simplify setting MemoryRegionOps::impl fields
+      hw/misc/a9scu: Report unimplemented accesses with qemu_log_mask(UNIMP)
+
+Richard Henderson (1):
+      decodetree: Improve identifier matching
+
+ docs/system/arm/mps2.rst               |  20 +-
+ docs/system/arm/nuvoton.rst            |  92 +++++
+ docs/system/deprecated.rst             |  32 +-
+ docs/system/target-arm.rst             |   1 +
+ configure                              |   2 +-
+ default-configs/arm-softmmu.mak        |   1 +
+ include/hw/arm/npcm7xx.h               | 112 +++++++
+ include/hw/mem/npcm7xx_mc.h            |  36 ++
+ include/hw/misc/npcm7xx_clk.h          |  48 +++
+ include/hw/misc/npcm7xx_gcr.h          |  43 +++
+ include/hw/nvram/npcm7xx_otp.h         |  79 +++++
+ include/hw/ssi/npcm7xx_fiu.h           |  73 ++++
+ include/hw/timer/npcm7xx_timer.h       |  78 +++++
+ target/arm/kvm-consts.h                |   7 -
+ target/arm/kvm_arm.h                   |   6 -
+ target/arm/neon-dp.decode              |  18 +-
+ target/arm/neon-shared.decode          |  18 +-
+ tests/decode/succ_ident1.decode        |   7 +
+ hw/arm/mps2.c                          |  97 +++++-
+ hw/arm/npcm7xx.c                       | 532 +++++++++++++++++++++++++++++
+ hw/arm/npcm7xx_boards.c                | 197 +++++++++++
+ hw/arm/xlnx-versal-virt.c              |   2 +-
+ hw/mem/npcm7xx_mc.c                    |  84 +++++
+ hw/misc/a9scu.c                        |  59 ++--
+ hw/misc/npcm7xx_clk.c                  | 266 +++++++++++++++
+ hw/misc/npcm7xx_gcr.c                  | 269 +++++++++++++++
+ hw/nvram/npcm7xx_otp.c                 | 440 ++++++++++++++++++++++++
+ hw/ssi/npcm7xx_fiu.c                   | 572 +++++++++++++++++++++++++++++++
+ hw/timer/armv7m_systick.c              |   8 +
+ hw/timer/npcm7xx_timer.c               | 543 ++++++++++++++++++++++++++++++
+ target/arm/cpu.c                       | 101 +++---
+ target/arm/helper.c                    |   2 +-
+ target/arm/kvm.c                       |   7 -
+ target/arm/kvm32.c                     | 595 ---------------------------------
+ .gitmodules                            |   3 +
+ MAINTAINERS                            |  10 +
+ hw/arm/Kconfig                         |   9 +
+ hw/arm/meson.build                     |   1 +
+ hw/mem/meson.build                     |   1 +
+ hw/misc/meson.build                    |   4 +
+ hw/misc/trace-events                   |   8 +
+ hw/nvram/meson.build                   |   1 +
+ hw/ssi/meson.build                     |   1 +
+ hw/ssi/trace-events                    |  11 +
+ hw/timer/meson.build                   |   1 +
+ hw/timer/trace-events                  |   5 +
+ pc-bios/README                         |   6 +
+ pc-bios/meson.build                    |   1 +
+ pc-bios/npcm7xx_bootrom.bin            | Bin 0 -> 768 bytes
+ roms/Makefile                          |   7 +
+ roms/vbootrom                          |   1 +
+ scripts/decodetree.py                  |  46 ++-
+ target/arm/meson.build                 |   5 +-
+ target/arm/translate-neon.c.inc        |  42 ++-
+ tests/acceptance/boot_linux_console.py |  83 +++++
+ 55 files changed, 3910 insertions(+), 783 deletions(-)
+ create mode 100644 docs/system/arm/nuvoton.rst
+ create mode 100644 include/hw/arm/npcm7xx.h
+ create mode 100644 include/hw/mem/npcm7xx_mc.h
+ create mode 100644 include/hw/misc/npcm7xx_clk.h
+ create mode 100644 include/hw/misc/npcm7xx_gcr.h
+ create mode 100644 include/hw/nvram/npcm7xx_otp.h
+ create mode 100644 include/hw/ssi/npcm7xx_fiu.h
+ create mode 100644 include/hw/timer/npcm7xx_timer.h
+ create mode 100644 tests/decode/succ_ident1.decode
+ create mode 100644 hw/arm/npcm7xx.c
+ create mode 100644 hw/arm/npcm7xx_boards.c
+ create mode 100644 hw/mem/npcm7xx_mc.c
+ create mode 100644 hw/misc/npcm7xx_clk.c
+ create mode 100644 hw/misc/npcm7xx_gcr.c
+ create mode 100644 hw/nvram/npcm7xx_otp.c
+ create mode 100644 hw/ssi/npcm7xx_fiu.c
+ create mode 100644 hw/timer/npcm7xx_timer.c
+ delete mode 100644 target/arm/kvm32.c
+ create mode 100644 pc-bios/npcm7xx_bootrom.bin
+ create mode 160000 roms/vbootrom
 
