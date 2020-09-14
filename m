@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01B7269618
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 22:11:50 +0200 (CEST)
-Received: from localhost ([::1]:41232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7138B2696D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 22:42:33 +0200 (CEST)
+Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHupJ-0007ab-Ag
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 16:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55256)
+	id 1kHvJ2-0006qP-GW
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 16:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHuoK-00079W-MJ
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 16:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34960)
+ id 1kHvHQ-0005dU-Ob
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 16:40:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHuoI-0002Lx-OM
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 16:10:48 -0400
+ id 1kHvHO-00066s-CI
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 16:40:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kHuoG-0005MV-Pm
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 20:10:44 +0000
+ id 1kHvHJ-0000oN-4B
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 20:40:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B36662E80DC
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 20:10:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E94A72E80EA
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 20:40:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Sep 2020 20:05:14 -0000
-From: Nick Bauer <1894869@bugs.launchpad.net>
+Date: Mon, 14 Sep 2020 20:34:54 -0000
+From: Alex Williamson <1894869@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,18 +40,18 @@ X-Launchpad-Bug-Tags: chelsio t4
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 1butteryadmin
+X-Launchpad-Bug-Commenters: 1butteryadmin alex-l-williamson
 X-Launchpad-Bug-Reporter: Nick Bauer (1butteryadmin)
-X-Launchpad-Bug-Modifier: Nick Bauer (1butteryadmin)
+X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
 References: <159958042175.17914.10047848067927369523.malonedeb@soybean.canonical.com>
-Message-Id: <160011391480.21912.14442151580363170369.launchpad@wampee.canonical.com>
+Message-Id: <160011569472.21382.13955443088386827995.malone@wampee.canonical.com>
 Subject: [Bug 1894869] Re: Chelsio T4 has old MSIX PBA offset bug
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 2b21789eb98c33d0ffdda15d485655d45324d906
+X-Launchpad-Hash: 80601d31f947eb72e34681d011cb6084e2fe8b9c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 16:10:45
@@ -78,13 +78,35 @@ Reply-To: Bug 1894869 <1894869@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Bug watch added: bugzilla.proxmox.com/ #2969
-   https://bugzilla.proxmox.com/show_bug.cgi?id=3D2969
+There are no BAR resources for this device:
 
-** Also affects: debian via
-   https://bugzilla.proxmox.com/show_bug.cgi?id=3D2969
-   Importance: Unknown
-       Status: Unknown
+83:00.7 Ethernet controller [0200]: Chelsio Communications Inc Device [1425=
+:0000]
+	Subsystem: Chelsio Communications Inc Device [1425:0000]
+	Physical Slot: 818
+	Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr+ Steppi=
+ng- SERR+ FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <TAbort- =
+<MAbort- >SERR- <PERR- INTx-
+	NUMA node: 1
+
+Note the lack of any regions here.
+
+	Capabilities: [40] Power Management version 3
+		Flags: PMEClk- DSI+ D1- D2- AuxCurrent=3D0mA PME(D0-,D1-,D2-,D3hot-,D3col=
+d-)
+		Status: D3 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
+	Capabilities: [48] MSI: Enable- Count=3D1/32 Maskable+ 64bit+
+		Address: 0000000000000000  Data: 0000
+		Masking: 00000000  Pending: 00000000
+	Capabilities: [60] MSI-X: Enable- Count=3D32 Masked-
+		Vector table: BAR=3D4 offset=3D00000000
+		PBA: BAR=3D4 offset=3D00001000
+
+There is no BAR4 for either the vector table or the PBA, the device is
+broken.  Maybe check dmesg for resource allocation errors.  Note that a
+device ID of 0000 is also reported for this device.  Does this device
+provide any useful function in the host outside of vfio?
 
 -- =
 
