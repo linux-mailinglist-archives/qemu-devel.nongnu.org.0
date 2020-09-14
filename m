@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D71026890D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:16:16 +0200 (CEST)
-Received: from localhost ([::1]:52042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A46268919
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:17:55 +0200 (CEST)
+Received: from localhost ([::1]:56612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHlWx-000888-4Q
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60246)
+	id 1kHlYZ-0001cB-2E
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kHlW6-0007eD-Qv
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:15:22 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44094)
+ id 1kHlXq-0001Ab-S3
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:17:10 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kHlW5-0007Tm-6g
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:15:22 -0400
-Received: by mail-wr1-x432.google.com with SMTP id s12so18040621wrw.11
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 03:15:20 -0700 (PDT)
+ id 1kHlXp-0007h3-9O
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:17:10 -0400
+Received: by mail-wr1-x431.google.com with SMTP id z1so18071835wrt.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 03:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=1j6iFCN3R8KhmwBqpw1NePKqpf4XYXzO9vRPsnj/qSI=;
- b=So8nvsxYyyzlqoykxH+LdM6/QBbpPfaSLHuNFzstpAsDRvLn99C8tQiEL1DraqTTFL
- XEn/C36Ei7tKLD14InvNey1GOLZ25w0FRb2CaGswvHdpzEbkJ0cdEv09bDrRyTdp95nO
- 1nMsxg+uEPT4ytZotKKOTWp3xCoSykJWPBZryaHGi2IGgeCO9leuyzJI95oH+WiuuoRX
- kZT76TTWG91/e1aTGMbRFzTRjjJ74wIeUl70hUZY7awXzuYNSlaqqy62ZPM5LYkgNdwi
- qURqP1Yw27mVllDeqorD/PnXWQs58zrc39u2hLCvpfDevASxivjqK6g0L2fqygw5MiuJ
- rSjA==
+ bh=kuNaYyzbN7QXKzEuw88cXjksdnL764Z4J4EXAD1g98g=;
+ b=m/B+8XYIzg/HTluRRgF3LpDsFdtMJ0PNIV2WIuYOD+jNGBVkpupnv/pMgZm9cD4tpq
+ 62I0eZSf8a7ADji3IWPty/Qwr7WSlyHRjSJuhX59Cbgwj/hbhgx2P3FBX7bmQ56w7QJ9
+ uPiknAqVZDjcaaXYxwy0908BegJKJ6/2mvIx1tVTgQbqxASErMTIxjNeWM3+IppHY7wk
+ f/LTPF/P2lQIgeomm9F+3LsPmq8jJ93xDG5FzcZDGQX+PKV7SmoAx3LwjkNn7IMR6sQa
+ azGiFeMXE/pFN7hkaK8YnGrIM++nVIGYGf8kKXuB9RFmbZyWUvPgQ6PMqSFF+KWX6b5k
+ PEjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=1j6iFCN3R8KhmwBqpw1NePKqpf4XYXzO9vRPsnj/qSI=;
- b=n0n4Yf7rlHLhAFrElhpPxnNfrqFZWV1c6szVqR8wfeCKkcwg2BgTf3cXSv4KbIwbnr
- d45d0R8hwsMqHMXWPMq6pEgSqerbYP070eT2fgI31LUSqqr1JRmHPxaVe8hJvTMKnT+Z
- uZGxx0xERugM+acJSwHjBYfc2hHZLkRg6Yd2L6btFgqsBrNy8PK6KFcZSt5m7gU3j6F6
- mm4lq3I0dHG5f1FE4ubE2w/UoJDyj41Rml2ML1c3/Ylis76rIVw2i2x4iKZwsuHQy+7Y
- yw0xv4uKm8IwV/D8n0XTkNMkEhnpVAk/cBKk8pSsdc4SJfni3iNbYA9i6BWzjQy6HNM/
- s7YA==
-X-Gm-Message-State: AOAM5326q/zZLgR7HVc/85JKvdtj5GnlXZbFLqNi535Dr8EjrZc/5gmC
- pSvWwULj9ox8Uhczmn5xP3U=
-X-Google-Smtp-Source: ABdhPJx57PsXVyigZiZj70FZTG/s+R75WNnJPnFVKDuZNVfjI7udteFdVaxJmW4IjsQ5zl2NBJSG3Q==
-X-Received: by 2002:adf:8b48:: with SMTP id v8mr15161044wra.21.1600078519872; 
- Mon, 14 Sep 2020 03:15:19 -0700 (PDT)
+ bh=kuNaYyzbN7QXKzEuw88cXjksdnL764Z4J4EXAD1g98g=;
+ b=bRt5oECXJ0M6DeW+PGc/2shgpebjdCrGzWQafdjBah+kE8gyxzegr3c2y0zHUXPbnz
+ knIkpAR/nppqsaHCRi7uv2GGzuGU9W+fqTrLl4gmU4vRJuv880JFppK+fp1uT93QB58q
+ KmthIzePqjSN6V6K60QyFrKmKjD/iWs48yewTjcFj4tOwQQu/y3x9uf94z8syx+YGX17
+ kiyzgnQ854h9XzLAtI7Sf8UtYsnY1Qo32eIXD5/LzkDFl4aEfq6EQZVmGX+p/utPHU0Z
+ 4rhR20Y/PGCydyOz0JKbxnDuu07WAjX+VKFgCnPVxYKxFoYW4QSJcGdLv0JvttF0SpxP
+ M6mw==
+X-Gm-Message-State: AOAM531b5mz6a2KSBuUaCRBKkCQycCh0huZof84lFtPhXmuITsoPVWab
+ Pa04klaG50bpn4u/Apkc7/o=
+X-Google-Smtp-Source: ABdhPJzwIglKa9GM6KcLMwg+zVws9Vg/JHB67IWXo64f9Bi3UevFBC5HTqkwOoSOqJKcKqYoYp1dGA==
+X-Received: by 2002:a5d:66c1:: with SMTP id k1mr15146660wrw.34.1600078627297; 
+ Mon, 14 Sep 2020 03:17:07 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id d23sm1802472wmb.6.2020.09.14.03.15.18
+ by smtp.gmail.com with ESMTPSA id q192sm20467657wme.13.2020.09.14.03.17.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 03:15:18 -0700 (PDT)
-Date: Mon, 14 Sep 2020 11:15:17 +0100
+ Mon, 14 Sep 2020 03:17:06 -0700 (PDT)
+Date: Mon, 14 Sep 2020 11:17:05 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: ppandit@redhat.com
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Subject: Re: About 'qemu-security' mailing list
-Message-ID: <20200914101517.GD579094@stefanha-x1.localdomain>
+Message-ID: <20200914101705.GE579094@stefanha-x1.localdomain>
 References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
  <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
+ <25dc926b-7bc0-930e-109a-1cb3c03565c7@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XvKFcGCOAo53UbWW"
+ protocol="application/pgp-signature"; boundary="G6nVm6DDWH/FONJq"
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x432.google.com
+In-Reply-To: <25dc926b-7bc0-930e-109a-1cb3c03565c7@amsat.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,52 +87,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+ QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---XvKFcGCOAo53UbWW
-Content-Type: text/plain; charset=us-ascii
+--G6nVm6DDWH/FONJq
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 11, 2020 at 04:51:49PM +0100, Peter Maydell wrote:
-> It sounds like you
-> want it to be a larger grouping than that and maybe also
-> want to use it as a mechanism for informing downstream distros
-> etc about QEMU security issues, which is to say you're
-> proposing an overhaul and change to our security process,
-> not merely "we'd like to create a mailing list" ?
+On Mon, Sep 14, 2020 at 09:38:07AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> I don't think so, as I took care to encrypt a bug report and
+> received the reply unencrypted =3D) Not sure this is the default
+> although, as this was my unique experience following the security
+> process.
 
-Yes, please discuss the reasons for wanting a mailing list:
-
-Is the goal to involve more people in triaging CVEs in a timely manner?
-
-Is the goal to include new people who have recently asked to participate?
-
-Is the goal to use an easier workflow than manually sending encrypted
-email to a handful of people?
-
-etc
+Hopefully a one-time mistake. Confidentiality is necessary for the
+disclosure of security bugs, otherwise users are put at risk.
 
 Stefan
 
---XvKFcGCOAo53UbWW
+--G6nVm6DDWH/FONJq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9fQrUACgkQnKSrs4Gr
-c8j7Qwf+L/qZl5ExVQrNwzxZEZY3W/fDR98kdidczaA/YXjxVEQXrTPiODphYXcC
-2YzF+wjtxB1R1qoRFYnkcRcasRjYcpu/H04JJKHBnWfrxTugrxqzva3SU2/b9ZsH
-j0j/0Masf6FO70Metb3AHxSznRx0IPMN+na3rQwOFE39j2spPmOn0Um8YvlvYAT/
-kbDNHasfHHRM0QjIavA8TN1/f40PBCarEzpMO7tt2DP5LLZPEH/AeI17jUMD5X4e
-vDwFCbj+yIncJaEkDz6tr+TYkq8B5Ub5EGwVPipLixMu1aSL5PEWpz2824DRDlnv
-i/wPaBgOVaYmwGilQz1fU6iCeOq8eQ==
-=X3sB
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9fQyAACgkQnKSrs4Gr
+c8iJHgf+JlOXn5sWuc7YMykVY3uuH26tj8//eSZlCxaY0DGkbsWhTPkVYg4lELZi
+l9pXOWhhDLhCxV6UHFc7Y0KuG2jEuwCRBIWTR0OUViaaheMcvZULvJUroBA/0mQN
+iXgFM/CGWuQiDDw09BQynhbK9du52tCkWcpz9SmjEQyZWnUSGtSlTVafGyyuDtnS
+hyqUeoFJe2IDOZRMIRVcwfZmt2mUCwzxnLhCRiv0jAF0YGzpv6gMIiJ0I3UzX6rf
+vcxNWCy4zwG6t89u2DMhmTb88LOgOiewPuC3VFS5ZrX5w8ZZshGR3ebtcQnjnfUZ
+MKXbnQE+VsGkUWCRwUsQMf6UQ5zZaw==
+=CFlV
 -----END PGP SIGNATURE-----
 
---XvKFcGCOAo53UbWW--
+--G6nVm6DDWH/FONJq--
 
