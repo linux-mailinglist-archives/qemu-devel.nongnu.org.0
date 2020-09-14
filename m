@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A87D26825C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 03:50:13 +0200 (CEST)
-Received: from localhost ([::1]:57858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74606268257
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 03:46:52 +0200 (CEST)
+Received: from localhost ([::1]:53302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHddE-0000em-93
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 21:50:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
+	id 1kHdZz-0007Ai-GJ
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 21:46:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Mingli.Yu@windriver.com>)
- id 1kHdcb-0000Ep-At
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:49:33 -0400
-Received: from mail5.windriver.com ([192.103.53.11]:43450 helo=mail5.wrs.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Mingli.Yu@windriver.com>)
- id 1kHdcY-0007IV-Ik
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:49:32 -0400
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
- [147.11.189.40])
- by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08E1n5B9027605
- (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:49:16 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 13 Sep 2020 18:48:55 -0700
-From: <mingli.yu@windriver.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] lockable.h: always define unknown_lock_type
-Date: Mon, 14 Sep 2020 09:42:36 +0800
-Message-ID: <20200914014236.2355289-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kHdZ7-0006cv-ND
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:45:57 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kHdZ5-00074O-3N
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:45:57 -0400
+Received: by mail-pf1-x442.google.com with SMTP id o20so11195811pfp.11
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3LihhM1ePbr3F1AZDzpEqifVn3GiR/199hCi1SIAod4=;
+ b=FBiP++UZ/My1B9muJqSXiYqcloB6NFqrowYZwv+GClONf/vSby0HNyvBd2tVb/D8Gz
+ auTp74kZdr7QT5VM7xvJSw6lKO2sj+WGuvmo/HjX954DCUDo+Vl4hiCBiXqpH7Qm7/YB
+ xPW2BWfcJYrHxHQ/W2iccUSiagGRRSFsxOhcuYawoZgprmeGiSwfPtWSxSc4ZBvlaUAL
+ ig34pkwfwPPO8ZX+7wSxYg9NbdPju1xeiNwdOOz5yUXwXoYoAsBvHRD/hszVzSu8ayHf
+ Oumyu3LyIKcO1uOyWKZDTIlABY/0P5w5bFmwARXLWFIoORCIvvajSaSDJ7K7OMr+27MP
+ Fx8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3LihhM1ePbr3F1AZDzpEqifVn3GiR/199hCi1SIAod4=;
+ b=RMYgai5ZTAbs0i9MBF1s9L1IZQmifKs21ELFHdnNTwo+J5V6bZ6J/yi3UmLqj2c+ez
+ hqJj1n80NqAobFK7HcRzCwupdPPvmC9drfadv2nG0NiIi6g6vpHZhQdsWlOtUfD5U02d
+ iOUqShogpRO8kVv3GdNi7UihZ0NbNuWYh332xuI2v3SD627tUA62DaOALTKXRXVq73q5
+ N5LCdvM7ljKCq+GQx/QMgRzw3DkYULL4QoOe/ziQeJJf/tjeZXEWIOOPKbK1XRkOuvHy
+ kM3LV8900Srjqwy/MesOa4e8ZEn17NW3f33woev7jlFdqBl/g1W0TmrNNbG3SaBITgXs
+ kt8g==
+X-Gm-Message-State: AOAM532K10FFiUt2U0ZzUczfAhwAWZgf10GG4YTmLsqhEqjDPgxc9+E3
+ 5hmTk2UD7A3MmU/YA1Cp16cPDA==
+X-Google-Smtp-Source: ABdhPJyMLtXnhkhcLCF2XyBa6FESLqH+6TEaf+AiUh/iBX7PWZUMCmiaFCGc5fQcvbK1fDEj3RaD2A==
+X-Received: by 2002:a17:902:b583:b029:d1:c807:da44 with SMTP id
+ a3-20020a170902b583b02900d1c807da44mr2673096pls.15.1600047953482; 
+ Sun, 13 Sep 2020 18:45:53 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id u10sm8411250pfn.122.2020.09.13.18.45.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Sep 2020 18:45:52 -0700 (PDT)
+Subject: Re: [PATCH v6 2/7] hw/misc/led: Allow connecting from GPIO output
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200912134041.946260-1-f4bug@amsat.org>
+ <20200912134041.946260-3-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d33781e5-58a7-f94e-a2bc-8c2eb763f2ec@linaro.org>
+Date: Sun, 13 Sep 2020 18:45:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200912134041.946260-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=192.103.53.11;
- envelope-from=Mingli.Yu@windriver.com; helo=mail5.wrs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/13 21:49:26
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,50 +91,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-arm@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mingli Yu <mingli.yu@windriver.com>
-
-There comes below build failure when use gcc 10.1.0 and
-"-Og" passed to compiler.
- | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:25: undefined reference to `unknown_lock_type'
- | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o: in function `fsdev_co_throttle_request':
- | /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: undefined reference to `unknown_lock_type'
- | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o:/mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: more undefined references to `unknown_lock_type' follow
- | collect2: error: ld returned 1 exit status
-
-So always define unknown_lock_type to fix the above error.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- include/qemu/lockable.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
-index b620023141..e792ed9a69 100644
---- a/include/qemu/lockable.h
-+++ b/include/qemu/lockable.h
-@@ -25,17 +25,12 @@ struct QemuLockable {
- };
- 
- /* This function gives an error if an invalid, non-NULL pointer type is passed
-- * to QEMU_MAKE_LOCKABLE.  For optimized builds, we can rely on dead-code elimination
-- * from the compiler, and give the errors already at link time.
-+ * to QEMU_MAKE_LOCKABLE.
-  */
--#if defined(__OPTIMIZE__) && !defined(__SANITIZE_ADDRESS__)
--void unknown_lock_type(void *);
--#else
- static inline void unknown_lock_type(void *unused)
- {
-     abort();
- }
--#endif
- 
- static inline __attribute__((__always_inline__)) QemuLockable *
- qemu_make_lockable(void *x, QemuLockable *lockable)
--- 
-2.26.2
-
+On 9/12/20 6:40 AM, Philippe Mathieu-Daudé wrote:
+> Some devices expose GPIO lines.
+> 
+> Add a GPIO qdev input to our LED device, so we can
+> connect a GPIO output using qdev_connect_gpio_out().
+> 
+> When used with GPIOs, the intensity can only be either
+> minium or maximum. This depends of the polarity of the
+> GPIO (which can be inverted).
+> Declare the GpioPolarity type to model the polarity.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/hw/misc/led.h  | 10 ++++++++++
+>  include/hw/qdev-core.h | 16 ++++++++++++++++
+>  hw/misc/led.c          | 17 ++++++++++++++++-
+>  3 files changed, 42 insertions(+), 1 deletion(-)
+git-submodule-update
 
