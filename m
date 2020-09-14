@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769AD268782
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:49:46 +0200 (CEST)
-Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1183726879B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:52:24 +0200 (CEST)
+Received: from localhost ([::1]:44056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkBF-0008KQ-FS
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41396)
+	id 1kHkDn-00051I-57
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9m-0006bp-El
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9l-0006bo-QK
  for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:48:14 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26042
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45431
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9j-0005Ds-M1
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:48:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9j-0005Dg-Dg
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:48:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600073290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1u9NWIU9e+h4x1Ho41s0GHWSR48hakGDdp22Egnawiw=;
- b=hufimOgpFv+jGqv3ntE1ihdoUV0mTCqtm81Ylrtm3URU0w49KRAZYeXuoYAxbtK1LU9QK+
- pB4rTj7HJ6xgrFuuGsLPId3xYauxqKcmu4PkwkmN6e/dkTWQiMpSRBZM5CTosVz3odmZuc
- kKQFKKlfcIgNX71eMXG4vps5WqlcfyE=
+ bh=a2IM1AK5Mp2iQqof7Oe9gQXsSUqKPrL+H4aa3OY81BM=;
+ b=eZWJgmKaWOFIru0Xm68IrT22Ezym4NcCNGvy7qWOqrOcP+mdhV45b6JBI4ibSU7PDudUcn
+ 55yHwEZXBlS7gqnQTzhrudGnGHE0t3yUEWPOM/mAt0TmKnPMYOlwgYE9id70whIXFpaD0u
+ 54UNjKgSk9g3tgNMXB5SJB5nuQQiSGQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-kiyrIyJtPCq0SUCrzEbJQQ-1; Mon, 14 Sep 2020 04:48:07 -0400
-X-MC-Unique: kiyrIyJtPCq0SUCrzEbJQQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-448-DEFfeH4_PKWOg9LvClhOGA-1; Mon, 14 Sep 2020 04:48:08 -0400
+X-MC-Unique: DEFfeH4_PKWOg9LvClhOGA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F223E5705D;
- Mon, 14 Sep 2020 08:48:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B00A81F005;
+ Mon, 14 Sep 2020 08:48:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 997CC6886B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A05C46FEE5;
  Mon, 14 Sep 2020 08:48:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 84078113275D; Mon, 14 Sep 2020 10:48:02 +0200 (CEST)
+ id 879CE11326AE; Mon, 14 Sep 2020 10:48:02 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 5/8] qapi: Implement deprecated-output=hide for QMP
- introspection
-Date: Mon, 14 Sep 2020 10:47:59 +0200
-Message-Id: <20200914084802.4185028-6-armbru@redhat.com>
+Subject: [PATCH v5 6/8] qapi: Implement deprecated-input=reject for QMP
+ commands
+Date: Mon, 14 Sep 2020 10:48:00 +0200
+Message-Id: <20200914084802.4185028-7-armbru@redhat.com>
 In-Reply-To: <20200914084802.4185028-1-armbru@redhat.com>
 References: <20200914084802.4185028-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -87,192 +87,136 @@ Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This policy suppresses deprecated bits in output, and thus permits
-"testing the future".  Implement it for QMP command query-qmp-schema:
-suppress information on deprecated commands, events and object type
-members, i.e. anything that has the special feature flag "deprecated".
+This policy rejects deprecated input, and thus permits "testing the
+future".  Implement it for QMP commands: make deprecated ones fail.
+Example: when QEMU is run with -compat deprecated-input=reject, then
+
+    {"execute": "query-cpus"}
+
+fails like this
+
+    {"error": {"class": "CommandNotFound", "desc": "Deprecated command query-cpus disabled by policy"}}
+
+When the deprecated command is removed, the error will change to
+
+    {"error": {"class": "CommandNotFound", "desc": "The command query-cpus has not been found"}}
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/introspect.json                 |   2 +-
- monitor/monitor-internal.h           |   3 -
- monitor/misc.c                       |   2 -
- monitor/qmp-cmds-control.c           | 100 +++++++++++++++++++++++----
- storage-daemon/qemu-storage-daemon.c |   2 -
- 5 files changed, 89 insertions(+), 20 deletions(-)
+ include/qapi/qmp/dispatch.h |  1 +
+ qapi/qmp-dispatch.c         | 13 +++++++++++++
+ tests/test-qmp-cmds.c       | 24 ++++++++++++++++++++++++
+ scripts/qapi/commands.py    | 10 +++++++---
+ 4 files changed, 45 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/introspect.json b/qapi/introspect.json
-index 944bb87a20..39bd303778 100644
---- a/qapi/introspect.json
-+++ b/qapi/introspect.json
-@@ -49,7 +49,7 @@
- ##
- { 'command': 'query-qmp-schema',
-   'returns': [ 'SchemaInfo' ],
--  'gen': false }                # just to simplify qmp_query_json()
-+  'allow-preconfig': true }
+diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+index 5a9cf82472..3307b57a96 100644
+--- a/include/qapi/qmp/dispatch.h
++++ b/include/qapi/qmp/dispatch.h
+@@ -24,6 +24,7 @@ typedef enum QmpCommandOptions
+     QCO_NO_SUCCESS_RESP       =  (1U << 0),
+     QCO_ALLOW_OOB             =  (1U << 1),
+     QCO_ALLOW_PRECONFIG       =  (1U << 2),
++    QCO_DEPRECATED            =  (1U << 3),
+ } QmpCommandOptions;
  
- ##
- # @SchemaMetaType:
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index b39e03b744..8833afaa65 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -180,7 +180,4 @@ void help_cmd(Monitor *mon, const char *name);
- void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
- int hmp_compare_cmd(const char *name, const char *list);
- 
--void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
--                                 Error **errp);
--
- #endif
-diff --git a/monitor/misc.c b/monitor/misc.c
-index e847b58a8c..3fd335e737 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -242,8 +242,6 @@ static void monitor_init_qmp_commands(void)
- 
-     qmp_init_marshal(&qmp_commands);
- 
--    qmp_register_command(&qmp_commands, "query-qmp-schema",
--                         qmp_query_qmp_schema, QCO_ALLOW_PRECONFIG);
-     qmp_register_command(&qmp_commands, "device_add", qmp_device_add,
-                          QCO_NO_OPTIONS);
-     qmp_register_command(&qmp_commands, "object-add", qmp_object_add,
-diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
-index 8f04cfa6e6..5b07c7e765 100644
---- a/monitor/qmp-cmds-control.c
-+++ b/monitor/qmp-cmds-control.c
-@@ -26,10 +26,14 @@
- 
- #include "monitor-internal.h"
- #include "qemu-version.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-introspect.h"
- #include "qapi/qapi-emit-events.h"
- #include "qapi/qapi-introspect.h"
-+#include "qapi/qapi-visit-introspect.h"
-+#include "qapi/qobject-input-visitor.h"
- 
- /*
-  * Accept QMP capabilities in @list for @mon.
-@@ -153,17 +157,89 @@ EventInfoList *qmp_query_events(Error **errp)
-     return ev_list;
+ typedef struct QmpCommand
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index f65b8cf000..634e9c0a7d 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -130,6 +130,19 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+                   "The command %s has not been found", command);
+         goto out;
+     }
++    if (cmd->options & QCO_DEPRECATED) {
++        switch (compat_policy.deprecated_input) {
++        case COMPAT_POLICY_INPUT_ACCEPT:
++            break;
++        case COMPAT_POLICY_INPUT_REJECT:
++            error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
++                      "Deprecated command %s disabled by policy",
++                      command);
++            goto out;
++        default:
++            abort();
++        }
++    }
+     if (!cmd->enabled) {
+         error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+                   "The command %s has been disabled for this instance",
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index bca89f8e88..033d5dae9d 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -277,6 +277,28 @@ static void test_dispatch_cmd_io(void)
+     qobject_unref(ret3);
  }
  
--/*
-- * Minor hack: generated marshalling suppressed for this command
-- * ('gen': false in the schema) so we can parse the JSON string
-- * directly into QObject instead of first parsing it with
-- * visit_type_SchemaInfoList() into a SchemaInfoList, then marshal it
-- * to QObject with generated output marshallers, every time.  Instead,
-- * we do it in test-qobject-input-visitor.c, just to make sure
-- * qapi-gen.py's output actually conforms to the schema.
-- */
--void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
--                                 Error **errp)
-+static void *split_off_generic_list(void *list,
-+                                    bool (*splitp)(void *elt),
-+                                    void **part)
++static void test_dispatch_cmd_deprecated(void)
++{
++    const char *cmd = "{ 'execute': 'test-command-features1' }";
++    QDict *ret;
++
++    memset(&compat_policy, 0, sizeof(compat_policy));
++
++    /* accept */
++    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    assert(ret && qdict_size(ret) == 0);
++    qobject_unref(ret);
++
++    compat_policy.has_deprecated_input = true;
++    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_ACCEPT;
++    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    assert(ret && qdict_size(ret) == 0);
++    qobject_unref(ret);
++
++    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_REJECT;
++    do_qmp_dispatch_error(false, ERROR_CLASS_COMMAND_NOT_FOUND, cmd);
++}
++
+ static void test_dispatch_cmd_ret_deprecated(void)
  {
--    *ret_data = qobject_from_qlit(&qmp_schema_qlit);
-+    GenericList *keep = NULL, **keep_tailp = &keep;
-+    GenericList *split = NULL, **split_tailp = &split;
-+    GenericList *tail;
-+
-+    for (tail = list; tail; tail = tail->next) {
-+        if (splitp(tail)) {
-+            *split_tailp = tail;
-+            split_tailp = &tail->next;
-+        } else {
-+            *keep_tailp = tail;
-+            keep_tailp = &tail->next;
-+        }
-+    }
-+
-+    *keep_tailp = *split_tailp = NULL;
-+    *part = split;
-+    return keep;
-+}
-+
-+static bool is_in(const char *s, strList *list)
-+{
-+    strList *tail;
-+
-+    for (tail = list; tail; tail = tail->next) {
-+        if (!strcmp(tail->value, s)) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static bool is_entity_deprecated(void *link)
-+{
-+    return is_in("deprecated", ((SchemaInfoList *)link)->value->features);
-+}
-+
-+static bool is_member_deprecated(void *link)
-+{
-+    return is_in("deprecated",
-+                 ((SchemaInfoObjectMemberList *)link)->value->features);
-+}
-+
-+static SchemaInfoList *zap_deprecated(SchemaInfoList *schema)
-+{
-+    void *to_zap;
-+    SchemaInfoList *tail;
-+    SchemaInfo *ent;
-+
-+    schema = split_off_generic_list(schema, is_entity_deprecated, &to_zap);
-+    qapi_free_SchemaInfoList(to_zap);
-+
-+    for (tail = schema; tail; tail = tail->next) {
-+        ent = tail->value;
-+        if (ent->meta_type == SCHEMA_META_TYPE_OBJECT) {
-+            ent->u.object.members
-+                = split_off_generic_list(ent->u.object.members,
-+                                         is_member_deprecated, &to_zap);
-+            qapi_free_SchemaInfoObjectMemberList(to_zap);
-+        }
-+    }
-+
-+    return schema;
-+}
-+
-+SchemaInfoList *qmp_query_qmp_schema(Error **errp)
-+{
-+    QObject *obj = qobject_from_qlit(&qmp_schema_qlit);
-+    Visitor *v = qobject_input_visitor_new(obj);
-+    SchemaInfoList *schema = NULL;
-+
-+    /* test_visitor_in_qmp_introspect() ensures this can't fail */
-+    visit_type_SchemaInfoList(v, NULL, &schema, &error_abort);
-+    g_assert(schema);
-+
-+    qobject_unref(obj);
-+    visit_free(v);
-+
-+    if (compat_policy.deprecated_output == COMPAT_POLICY_OUTPUT_HIDE) {
-+        return zap_deprecated(schema);
-+    }
-+    return schema;
- }
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 7e9b0e0d3f..9490099036 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -142,8 +142,6 @@ static QemuOptsList qemu_object_opts = {
- static void init_qmp_commands(void)
- {
-     qmp_init_marshal(&qmp_commands);
--    qmp_register_command(&qmp_commands, "query-qmp-schema",
--                         qmp_query_qmp_schema, QCO_ALLOW_PRECONFIG);
+     const char *cmd = "{ 'execute': 'test-features0' }";
+@@ -375,6 +397,8 @@ int main(int argc, char **argv)
+     g_test_add_func("/qmp/dispatch_cmd_io", test_dispatch_cmd_io);
+     g_test_add_func("/qmp/dispatch_cmd_success_response",
+                     test_dispatch_cmd_success_response);
++    g_test_add_func("/qmp/dispatch_cmd_deprecated",
++                    test_dispatch_cmd_deprecated);
+     g_test_add_func("/qmp/dispatch_cmd_ret_deprecated",
+                     test_dispatch_cmd_ret_deprecated);
+     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 14662515f3..5f4b16fed0 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -176,9 +176,13 @@ out:
+     return ret
  
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
+ 
+-def gen_register_command(name, success_response, allow_oob, allow_preconfig):
++def gen_register_command(name, features,
++                         success_response, allow_oob, allow_preconfig):
+     options = []
+ 
++    if 'deprecated' in [f.name for f in features]:
++        options += ['QCO_DEPRECATED']
++
+     if not success_response:
+         options += ['QCO_NO_SUCCESS_RESP']
+     if allow_oob:
+@@ -284,8 +288,8 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds);
+             self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
+             self._genh.add(gen_marshal_decl(name))
+             self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
+-            self._regy.add(gen_register_command(name, success_response,
+-                                                allow_oob, allow_preconfig))
++            self._regy.add(gen_register_command(
++                name, features, success_response, allow_oob, allow_preconfig))
+ 
+ 
+ def gen_commands(schema, output_dir, prefix):
 -- 
 2.26.2
 
