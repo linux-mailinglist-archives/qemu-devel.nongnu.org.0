@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BA4268F91
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:20:47 +0200 (CEST)
-Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C197E268FAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:24:01 +0200 (CEST)
+Received: from localhost ([::1]:43992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHqHd-000425-UG
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37348)
+	id 1kHqKm-0006Z6-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHq43-0008EB-Sc
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:06:43 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37268)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kHq4f-0000Zs-JX
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:07:21 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHq41-0008WM-Sc
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:06:43 -0400
-Received: by mail-ed1-x541.google.com with SMTP id n22so17981051edt.4
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:06:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kHq4d-0000Ct-Rw
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:07:21 -0400
+Received: by mail-wm1-x344.google.com with SMTP id b79so402118wmb.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b6r4YPfFZyyO8v+WWsmwfMpFRqlJKFEvcZRxM6kDBQo=;
- b=sEUf4fWUS+flkc7fOTWXRn5l7jqd+eeuxQZMFA1gqZl5IHOtW8OLmwH7bC3mBCkWC9
- Wri+9V29LISZ/NOoxM1tDoNMtnkd8Ci/ueR7zfjXjEhJUVrwldPH76Iq0zogTTeFWSJc
- a+phHDStpa59CDb48q3LV9zVSEFgzYInQC7hx2WTVsEpyUSeYWJqz49HDYEZkvq04cT/
- uUvM1Fp96rCY03PTKA7nJPyznLTrhaWdxogEAJPezRMkMopKEi+v7V1XoRULLD0rQEJo
- JvecWGIr0Sogfbw/FzClVy3h6zGEsziiIbZ0w9k08yclVfDmZaqYfpAol0XqQrLr3fUX
- crUw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pIFi3DUdOFHRulPhCVcNI2925WgOpymqf78dNvyw1VU=;
+ b=NrqItiii49Rwz10vAj8AyZ0Wp377UD+0rdDfeX13SX6s6TIjyML9zmW7aSUeYFJx+V
+ p2xWaAy9jgSd1meWEukf/u7JRT6xDzrRnXANYxXZDOUro92sYToeCIBQhONRX1juTUv7
+ QkPpbass2wHwohno2hJodtn6NH61dR8H9lnjuamofRpk5lB1aYgwXMYHeRLvEHwP+QmU
+ HXfPK5sr+a7VSQFvBnED2l7JkIRv8RwGoOHcMlbgkJtHy0Zmx59ZRNDR1fCzKd6801Z5
+ xfyk/zeHVtBDyWodoxRMSDMtMNJgGNKoXDIkdcZqmqWHMHnAWtwnp3rHxv/Z1BdHeoVQ
+ T2jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b6r4YPfFZyyO8v+WWsmwfMpFRqlJKFEvcZRxM6kDBQo=;
- b=XzDWkCipAHGZ2kZqVE37rl3JWZcWG2fqfbrySj4N5bEAhdlAiS7jVBp7gn7Oft9JeB
- EFPKIwXJ4qujExkD+zwWtxWV8ZszCiDMzMSFqb5PGqrO52cfovlxNF2POGkXSwpHXpgN
- efsxXJOJzGk1TvsFLhdEXgDi1GdYIFjgKx/fWH+DnLA1Gqs325N2HWRz01yLKJgNbf/O
- ow2z+e9V7gdKGbHEANHwZDAvU4/afHiQQPMvXKnUA2VER7mznWbq58vNlaUr/sFc8pya
- YyFbyom0yY9X0D9CXbaaqdUpCC0LW2zAJArVYpHm56va5jDkuBqIQErpAjpUozZrn5JM
- wIFA==
-X-Gm-Message-State: AOAM531KGJDX2vg/FBdsKjjbiwEQ0vco9kiw3tfsWZp4uLetDGDG37DQ
- 83t1Ns4Cz9EvDOtMhaskLdsbwHk3KCqmpAznC/1Voj5gRYQ55v4k
-X-Google-Smtp-Source: ABdhPJy3c5ZF7DuQxvVj/KklH9AO/GUSUhp0j6uDWB7JreMMMM7aQhmRhbHs0wA3+MceBXmzZ1trrF3vQwSePy2e3FQ=
-X-Received: by 2002:a50:8f45:: with SMTP id 63mr18403158edy.52.1600096000294; 
- Mon, 14 Sep 2020 08:06:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pIFi3DUdOFHRulPhCVcNI2925WgOpymqf78dNvyw1VU=;
+ b=H5Q68LtWQS0/TqhX077kGToaz/PRCV9CLFvfcZ0df2dkR0Zxad/9529JgqYxexDD7+
+ qqVHt4UM/M6DMDtVPaqrJ9R86BDqD+XC0lc+nnSviWet6PYQ/jOzW8hsdqH+OesqC8j0
+ tW0IBGPj4PEVqXh3TB+dtJcPf4e6hV+WEh2y8K55/J1nq7iQhSWxmBGh9avMS89CsFmH
+ 9pPGAv6FIPUjCvpb8CBpNJfSalQHsIoexRwUY9dzIMhc2cD+wzA/F0teciz5SGIF5mpd
+ msO0vr82uByU2yt1GnALQUo9jNqdFWzO0jqy9lHyQ/rZHBWydKCyKRnLjzLnek9jjomC
+ 8fDg==
+X-Gm-Message-State: AOAM532r2mivk5PDlPj5A/riGlsEDhygF25sr1nCXhNLtVNcpErr8jtJ
+ zQcKUoJrUkHuSiFzu5fQ/FDA6A==
+X-Google-Smtp-Source: ABdhPJwXEglZoZegQy2UB9OO6Q263Im3aUhvBOWjWAwV/36s3Ws/BlZ4rffZVEPBGvhuNhFtE39DFg==
+X-Received: by 2002:a7b:c749:: with SMTP id w9mr14556507wmk.29.1600096038520; 
+ Mon, 14 Sep 2020 08:07:18 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e18sm24755521wra.36.2020.09.14.08.07.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Sep 2020 08:07:17 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DF5AC1FF7E;
+ Mon, 14 Sep 2020 16:07:16 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 0/6] deprecation and linux-user tweaks (+test fix)
+Date: Mon, 14 Sep 2020 16:07:10 +0100
+Message-Id: <20200914150716.10501-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
- <CAFEAcA8gYXDJKMS3nUSW96hhwmC37=QX1EhVfWj7j0smKGvXgA@mail.gmail.com>
-In-Reply-To: <CAFEAcA8gYXDJKMS3nUSW96hhwmC37=QX1EhVfWj7j0smKGvXgA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Sep 2020 16:06:29 +0100
-Message-ID: <CAFEAcA-Y8GQXSU6F3-AWcW=5VcWOtT0w_Fi4SAbfT2M2zjxB1Q@mail.gmail.com>
-Subject: Re: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
-To: Vikram Garhwal <fnu.vikram@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,40 +86,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Sep 2020 at 14:16, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 13 Aug 2020 at 01:33, Vikram Garhwal <fnu.vikram@xilinx.com> wrote:
-> > Vikram Garhwal (4):
-> >   hw/net/can: Introduce Xilinx ZynqMP CAN controller
-> >   xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
-> >   tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
-> >   MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
->
-> Applied to target-arm.next, thanks. (I had to make some
-> minor fixups to convert the makefile changes to the new
-> meson build system.)
+Hi,
 
-I had to drop these patches because in the full merge build
-test configs they failed to link because nothing was pulling
-in the generic CONFIG_CAN_BUS files.
+This series contains the previously posted linux-user fix for dealing
+with weird mmap semantics as well as some tweaks to configure as
+suggested in a late review of my last PR. It includes tilegx in the
+modified configure logic for handling deprecated fixes. There is also
+a fix from Max for iotests although I suspect there will be a v2 of
+the patch soon.
 
-Could you rebase this, make the necessary changes to get it
-to work with meson[*], and also make whatever Kconfig changes
-are necessary so that the ZynqMP CAN controller device
-declares its dependency on the generic CONFIG_CAN_BUS code,
-please?
+Most need review:
+ - gitlab: create a build-deprecated target
+ - configure: include tilegx-linux-user in the auto-exclude logic
+ - configure: also skip deprecated targets with target-list-exclude
+ - configure: use add_to for tweaking deprecated_features
+ - linux-user: test, don't assert addr != test in pgb_reserved_va
 
-[*] you might want to look at the versions of the patches
-I just sent out in my v1 pullreq today, but basically
-instead of the Makefile.include changes you want some
-simple one-liner changes to meson.build files, and also
-tests/qtest/xlnx-can-test.c needs to #include "libqos/libqtest.h"
-rather than just "libqtest.h".
+Alex Bennée (5):
+  linux-user: test, don't assert addr != test in pgb_reserved_va
+  configure: use add_to for tweaking deprecated_features
+  configure: also skip deprecated targets with target-list-exclude
+  configure: include tilegx-linux-user in the auto-exclude logic
+  gitlab: create a build-deprecated target
 
-thanks
--- PMM
+Max Reitz (1):
+  iotests: Work around failing readlink -f
+
+ configure                | 15 +++++++++++----
+ linux-user/elfload.c     |  9 ++++-----
+ .gitlab-ci.yml           | 10 ++++++++++
+ .travis.yml              |  3 +--
+ tests/qemu-iotests/check |  4 ++++
+ 5 files changed, 30 insertions(+), 11 deletions(-)
+
+-- 
+2.20.1
+
 
