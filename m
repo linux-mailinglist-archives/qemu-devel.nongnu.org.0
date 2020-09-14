@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80435268D14
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:13:45 +0200 (CEST)
-Received: from localhost ([::1]:47372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8538F268CE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:07:59 +0200 (CEST)
+Received: from localhost ([::1]:53762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpEm-0004H8-Hf
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45718)
+	id 1kHp9C-0003jf-IS
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:07:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp85-0001zr-8h
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:49 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37004)
+ id 1kHp86-00020t-9Y
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:50 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:47055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp83-0007WZ-8d
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:48 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id a9so200029wmm.2
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:06:46 -0700 (PDT)
+ id 1kHp84-0007Wn-JJ
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:50 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id o5so18847866wrn.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=m58pknpN2eQ1zzjiR2a1sQi0/6/l0QeEv7UO1WaHIi8=;
- b=BUPWdWLj5lr4//snkkju6UGzqK510rONeVkRhpe2DGtPwqyhEU5GJ6A0+P6g4bHLc3
- 3URXJjXc+x+uCzwgVKQ6xU50ArBXWtHw5o9nRl/0AOGfZrM8SgFAYMWSgYDLAR+98X+j
- HCh5cQ8YcCNKZypc5dQ8aqcPC/zKHqns9iWCYVHsKL9VJm2bx0H+6nZikrUPUonduQWP
- NDuR4HrKSulVCkLx/0HqnlN8kSl9F9bXqv1Oty1675HMpXfpW3V9GQv1i6ammEna73xZ
- IcTuFR4Bfv1J8IuEq2BdxTuQQsMjALGrXd03h2UC0VEsNIFBYBKauUIxOu9rCOSOEmvm
- qgFg==
+ bh=aRJ9Ctg8nu6Xf2XlWQqq0q3Iaknb86w8CHVdR6KxCHE=;
+ b=dtpOork2t3bZhN3xMU+Qhef5vABHCpss+O8g6ALeGbd0AIkJBYL/V/G9RuSD+45y+K
+ Sz6y6fQCjYns6+uHgcdpnrpMdRRGg5H4gdDpHVzoYEuvn34E3ir2nnCtMTKRoNQ+qwP7
+ X+s51QCAln2irHfb0+yNUP/2zLOQrgQULHIaiGeZJUgIgTvTTa6cNIXH5K8YvPKem1b2
+ Q3ORHZ1ee9R6fx61H4n4/TV4sZtNXtg8l2nzJW61SRt7zR5mowx51azDkzg0OXSr0WV3
+ cks+fhjXLSUh8RlfYlYXksLmYvEbEmf8xwlQ16B2+KmLOt/9edM4+fmyH+/v1q5MRgVL
+ CGmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m58pknpN2eQ1zzjiR2a1sQi0/6/l0QeEv7UO1WaHIi8=;
- b=PU8yovmzD4ufZxbvXhgJ0psSEuEQKGnGrfBYlPqrsBfQl4sQI3sGTnKhMly9ggLjc2
- asax/RdRPLOks2KdFdOVGfeNShpOj9gWck1218M0gtGU8iXFGFb0vxcaEY5rP9ARHUz/
- EEVi1qM6aQuBTwrSOPBPsMQWDUKZKHF7VCXSIplSl89IP3cLrAuiE/Oy2zb00KT9AvqW
- ukZGyLbkycSJLweji8Bm/s3bdw6u8mnq5vM0EmsMdn9vhx6BvOkFa0oAM1K9qhb8jChV
- PvlfwL29DPgOzenEf3FgR4AQwbto2INZAFGKYNHeExf3E5a7FncFoKrUEtkjIiV50ql/
- 5Oug==
-X-Gm-Message-State: AOAM530FW+eqYgiSr2V+XKL7Vli34wTJJUv1/SDZsuw8rVKBpZDLb4Gi
- 7uKGjglEuzH+BPyLOdt3WHix59WqM0iTbqvl
-X-Google-Smtp-Source: ABdhPJydgzG3W2qROdYdxxOWcuWzc3/HHGXSGk9VdZ9n78ANM2hmi9zy8BNL0479kYSISS9BR8Zzcg==
-X-Received: by 2002:a1c:4054:: with SMTP id n81mr14850773wma.81.1600092405755; 
- Mon, 14 Sep 2020 07:06:45 -0700 (PDT)
+ bh=aRJ9Ctg8nu6Xf2XlWQqq0q3Iaknb86w8CHVdR6KxCHE=;
+ b=OsqbJpZ+clUIyp9FaDcWBNeZmi04j1JSp+sZkafTS38dgmu6xe3827xHOwWMCOkOLI
+ DqOgBu/qag1gsfM5jMZLuj6P8HfUQGeKwfN6dbKvzaPHPT04bWJD6v8iHekxbJu7heHg
+ rvm05cmBwcm+N+05ZfUfxIPO/VONjU90dtqz5pVrpTHezvLgODtOuaGYGfvWFpuZ97Vv
+ 2WorIl3609cIjg1A6ivkSVoeJLMPDmOH9Y6WWOoffH505R8lXpcubJkxGgQuphKUbgmJ
+ lBt64iZ1id0QrlD8sS4fMEc7bGiMTcBXULQ/uJWfElT0qrJDvhInlmnSiTPbMtQo3ecE
+ laug==
+X-Gm-Message-State: AOAM530L+QRHPipbj/E0weolEEzeT7qmWBN2P3MbjtoWXDY+zg7MoSwV
+ w8008NbkSt2RmH3V4pJgY1Omlp2MbJBmi+XX
+X-Google-Smtp-Source: ABdhPJwBfJV5h4ZcT0Vkly8BmgoKCItdP+ABDoRn35Tfi6+GGSwMjbZN5LjXW6oPCbWcAoGxYDlOJA==
+X-Received: by 2002:adf:ec4d:: with SMTP id w13mr16680493wrn.334.1600092406819; 
+ Mon, 14 Sep 2020 07:06:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.06.44
+ by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.06.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 07:06:44 -0700 (PDT)
+ Mon, 14 Sep 2020 07:06:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/36] hw/misc/a9scu: Simplify setting MemoryRegionOps::valid
+Subject: [PULL 03/36] hw/misc/a9scu: Simplify setting MemoryRegionOps::impl
  fields
-Date: Mon, 14 Sep 2020 15:06:07 +0100
-Message-Id: <20200914140641.21369-3-peter.maydell@linaro.org>
+Date: Mon, 14 Sep 2020 15:06:08 +0100
+Message-Id: <20200914140641.21369-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
 References: <20200914140641.21369-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,61 +92,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Per the datasheet (DDI0407 r2p0):
-
-  "All SCU registers are byte accessible" and are 32-bit aligned.
-
-Set MemoryRegionOps::valid min/max fields and simplify the write()
-handler.
+This model implementation is designed for 32-bit accesses.
+We can simplify setting the MemoryRegionOps::impl min/max
+fields to 32-bit (memory::access_with_adjusted_size() will
+take care of the 8/16-bit accesses).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200901144100.116742-3-f4bug@amsat.org
+Message-id: 20200901144100.116742-4-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/a9scu.c | 21 +++++----------------
- 1 file changed, 5 insertions(+), 16 deletions(-)
+ hw/misc/a9scu.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
 diff --git a/hw/misc/a9scu.c b/hw/misc/a9scu.c
-index 915f127761e..3f3dcc414fe 100644
+index 3f3dcc414fe..47f948341f7 100644
 --- a/hw/misc/a9scu.c
 +++ b/hw/misc/a9scu.c
-@@ -52,23 +52,8 @@ static void a9_scu_write(void *opaque, hwaddr offset,
+@@ -28,12 +28,6 @@ static uint64_t a9_scu_read(void *opaque, hwaddr offset,
+         return (((1 << s->num_cpu) - 1) << 4) | (s->num_cpu - 1);
+     case 0x08: /* CPU Power Status */
+         return s->status;
+-    case 0x09: /* CPU status.  */
+-        return s->status >> 8;
+-    case 0x0a: /* CPU status.  */
+-        return s->status >> 16;
+-    case 0x0b: /* CPU status.  */
+-        return s->status >> 24;
+     case 0x0c: /* Invalidate All Registers In Secure State */
+         return 0;
+     case 0x40: /* Filtering Start Address Register */
+@@ -52,8 +46,6 @@ static void a9_scu_write(void *opaque, hwaddr offset,
                           uint64_t value, unsigned size)
  {
      A9SCUState *s = (A9SCUState *)opaque;
--    uint32_t mask;
-+    uint32_t mask = MAKE_64BIT_MASK(0, size * 8);
-     uint32_t shift;
--    switch (size) {
--    case 1:
--        mask = 0xff;
--        break;
--    case 2:
--        mask = 0xffff;
--        break;
--    case 4:
--        mask = 0xffffffff;
--        break;
--    default:
--        fprintf(stderr, "Invalid size %u in write to a9 scu register %x\n",
--                size, (unsigned)offset);
--        return;
--    }
+-    uint32_t mask = MAKE_64BIT_MASK(0, size * 8);
+-    uint32_t shift;
  
      switch (offset) {
      case 0x00: /* Control */
-@@ -99,6 +84,10 @@ static void a9_scu_write(void *opaque, hwaddr offset,
+@@ -62,9 +54,7 @@ static void a9_scu_write(void *opaque, hwaddr offset,
+     case 0x4: /* Configuration: RO */
+         break;
+     case 0x08: case 0x09: case 0x0A: case 0x0B: /* Power Control */
+-        shift = (offset - 0x8) * 8;
+-        s->status &= ~(mask << shift);
+-        s->status |= ((value & mask) << shift);
++        s->status = value;
+         break;
+     case 0x0c: /* Invalidate All Registers In Secure State */
+         /* no-op as we do not implement caches */
+@@ -84,6 +74,10 @@ static void a9_scu_write(void *opaque, hwaddr offset,
  static const MemoryRegionOps a9_scu_ops = {
      .read = a9_scu_read,
      .write = a9_scu_write,
-+    .valid = {
-+        .min_access_size = 1,
++    .impl = {
++        .min_access_size = 4,
 +        .max_access_size = 4,
 +    },
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
+     .valid = {
+         .min_access_size = 1,
+         .max_access_size = 4,
 -- 
 2.20.1
 
