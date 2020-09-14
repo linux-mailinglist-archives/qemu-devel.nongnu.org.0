@@ -2,73 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FD7269366
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 19:31:57 +0200 (CEST)
-Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D062693B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 19:40:26 +0200 (CEST)
+Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHsKa-0005TT-IT
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 13:31:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
+	id 1kHsSk-000599-Md
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 13:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kHrBf-0007Gm-Dz; Mon, 14 Sep 2020 12:18:39 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:37701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kHrBb-0004cn-Uh; Mon, 14 Sep 2020 12:18:39 -0400
-Received: by mail-il1-x142.google.com with SMTP id q4so121652ils.4;
- Mon, 14 Sep 2020 09:18:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PQeAiaC8mluiiMfFGiBUhJP0TbcSw2y2dsOB8nows7E=;
- b=SaxpNpvB7cNNqwaxx2R2f1Rjfs2fMVGSRwFSZ37VgtEiSqobdYF/TbquYaaVQKWTXM
- GuwGns7uQKcBV++EdKmWdFWNAd4KveY2GXFMyZ5jN0E4/vQWicXHCBJ69axVB9czNY51
- L+uoMajbfau1jdDtyA60TzhusvXTyl8+rVZSWjqiYwxomeQqFAJ+0R5AXo8/nznh/AF2
- 1dyI+mIbV1RkzeZ1GVGhSkFJvCzOi0t/dXA0Gn5eR/tbw8FGLE7mokLRnc/VRNGwG0/q
- 9/R52QrqUiDSenhohpFUgDDG60Op+I7AEYRQOdcey8dfTmlEfVmB1bLZoIiF2TtUNtgj
- sphQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PQeAiaC8mluiiMfFGiBUhJP0TbcSw2y2dsOB8nows7E=;
- b=GB5YbH/C+fpXB48Cm0ltk2ooQGlvBH3RMQnmPmDegsMcguJCllhDANSyqmALkjY3jq
- CzQDI0D7eFKSw5Vljb2OO2j5Ex9wO68feODqGbYywMYdQFFmzxRfZi05szgqvnGOe8Wm
- b16A4oHahftU4cYM1UCzplKZz80PX3eoXceZvwfLK56vfpDpovG4KNsGo6uqSmBt2ekJ
- KsTgkioECzpQsE5Fvh4dpPJfBz9UnFsYs8ogkT6cKUv1dUuj4cvRhgdAaUFFLTjz4O+X
- U8j6BEAe+0Tf0XZQODDfOSorfiznUt1NTV4OBsYO4ilFS0LZ/bXhA2MYWXDOsKl7m5y8
- mzNA==
-X-Gm-Message-State: AOAM531MjEzBzXwAfL7XHF2g4ZoGoSsqYzHpRIVo02b/uwh6j9YqWcTK
- M+up+nEpTlOiJ4/REbPHkcov88WMKi8M6q5ZVf0=
-X-Google-Smtp-Source: ABdhPJzmvulZ90q3pUwKsc488yLiyFFkivzsTPWRUHHr30J86YdbgM+Z4p3zWcBqtYa/AL7vvhJV8Fgtgofa7Y2ri8o=
-X-Received: by 2002:a92:4a08:: with SMTP id m8mr1124586ilf.227.1600100313644; 
- Mon, 14 Sep 2020 09:18:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kHsQa-0004FZ-UW
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:38:09 -0400
+Received: from mail-eopbgr690047.outbound.protection.outlook.com
+ ([40.107.69.47]:53476 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kHsQW-000084-Rj
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:38:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MtKjBOQ+J3rknniricqxvEMCpwBSs8x+fGLC3NSNz+yy+jnudynAn8hFIVpywhX3r1UAnhaVFeWEAuFKGwRWgfaOhX8n7z7td6LDuFw6zoME8ZZ1rcRsB4Q/m3RDwyrrDHLTlkpDH3qczlc8lDxKZS7xU9hnJiVwHmqmiSidXEQgUdyY8j/htmYGR+2E0y+wYhLdh7XUCmCg8K9sxW3YnhUWM/1xnr/1EUv/rsjgnaRjExVA0qLEO3lulFHSyepqYFMlwpqHf4QH7KJODngF8FTNt433xORKTtyWI6gKZ+EeAxybsCQWNeOh8u8i0dz98KboNXB38+RH4UOL36Voiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B65XXp02TYHf3wB0slMdm+Rsq0WlGMeFscNq7x0fuRc=;
+ b=m0dWCzXgR4dyZEe8X31OmZ0W3k+GVlsSB306NkNui1hN24HNJ+HqKf4cl/zP3FSmq9tJpnqvRd+FvG+PyxwmU9/WYwlkRxOaMAjEzlI3I0l4ypjooL2PLgwpNT9Y0ip/Mcr/9tZTJITPHttbL5i/KtqhAnDSwdh5QQKlq+GatcLLKHA5IxytmFVw0FaP4bwMM6YbZK4jTrJnC0z7/LaWSvXqn6Dn7KqFa/eTk6mOSvrwfLpSju5muys0IizVFopqc6he/Q4lD3s2nE7Pq6Z1RoOKKTNB3n4UPSpDR9eoBZU2yzPiuDbV50mJCzIZrP3xoQzEQrFKxEmknBSCqCVYJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B65XXp02TYHf3wB0slMdm+Rsq0WlGMeFscNq7x0fuRc=;
+ b=BFT0p8Tj2sLnocprBKw/1N7jQUR8lQ0GJIgNC3u4c78OGVe+ECoWPWJNI+KyG+eh5AnAa0QBeYLJybnCTKIC2P5SVenAIQeOA4zxRPCwroDOjHmFcVoNDBFBFaXSy0+cu6TZ4pTVlNnocDUVzju3D1jsmveNAM8C/kODPw5sjyI=
+Received: from BYAPR02MB4823.namprd02.prod.outlook.com (2603:10b6:a03:4e::18)
+ by BY5PR02MB7043.namprd02.prod.outlook.com (2603:10b6:a03:23f::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Mon, 14 Sep
+ 2020 17:22:57 +0000
+Received: from BYAPR02MB4823.namprd02.prod.outlook.com
+ ([fe80::55f8:f25:475a:4bf4]) by BYAPR02MB4823.namprd02.prod.outlook.com
+ ([fe80::55f8:f25:475a:4bf4%7]) with mapi id 15.20.3326.030; Mon, 14 Sep 2020
+ 17:22:57 +0000
+From: Vikram Garhwal <fnuv@xilinx.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
+Thread-Topic: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
+Thread-Index: AQHWcQncmpoRUQzgOUGLpGmAPF6xzqloUHaAgAAetYCAABlBMA==
+Date: Mon, 14 Sep 2020 17:22:57 +0000
+Message-ID: <BYAPR02MB48233D8E6B36F394772C84ACBC230@BYAPR02MB4823.namprd02.prod.outlook.com>
+References: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
+ <CAFEAcA8gYXDJKMS3nUSW96hhwmC37=QX1EhVfWj7j0smKGvXgA@mail.gmail.com>
+ <CAFEAcA-Y8GQXSU6F3-AWcW=5VcWOtT0w_Fi4SAbfT2M2zjxB1Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA-Y8GQXSU6F3-AWcW=5VcWOtT0w_Fi4SAbfT2M2zjxB1Q@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.62.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c442fdaa-0009-4cd8-0c33-08d858d2d2d5
+x-ms-traffictypediagnostic: BY5PR02MB7043:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR02MB7043CDE1A9052F8788B1C6EFBC230@BY5PR02MB7043.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dak07uoeWE89UxhnpD5uPKgZY5VbYiJYPGqN5ykp/c4HsxlFuD8/UaQhNpAhPGTAp1S62FrhAHR3+zlE4ehcXcYk/uC0i7vmLkZ2EKxpOjnkaFxn4nYZ8zSe01nJLMu19aYwo6AYkeLl/lNgjfhkwsLkb8fedq/S6ycf1pzX1qveSxh7pImJh3vT6TCU+MG1ruMDtzsx5yQIxs9+Bg1TfIpN4TBqwn0BtKdx5C3kOlRQHJQoHtLrgvrzH1VyCDrdJsdjo13TcZYVCcjE5nZDSKA4bdrVr8OpLn2F59hi6wQqEDBPkQJL42SSDjNskDhEP8wNZR+TGAGlzRaLdQjmCQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4823.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(39860400002)(366004)(376002)(396003)(346002)(6506007)(54906003)(2906002)(83380400001)(186003)(8676002)(33656002)(64756008)(66556008)(8936002)(7696005)(5660300002)(76116006)(66946007)(66446008)(107886003)(66476007)(86362001)(55016002)(478600001)(52536014)(6916009)(316002)(4326008)(26005)(71200400001)(53546011)(9686003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: HCkyRdyvpAT4ADGVlym947z4atb38Ecw1oQV3wn1uCO5++Z5yreMQX9E5sCUZQdQge4QJBYQ0W0BtlpefGy77K8KP5YdY2pUO8vejISLyDnXv1VCS066G6/0Ezj0KD5nUNon8FjIqVeDWtLxa0WGlZfK3ZLRMMXDOAuZ5CsNuIfGO2/WCgVnhskFsZpxl2ss3UeTO4lL0gJ+0qwUtny2+NVIbgqqlgqHJ8QD+UoThn/JwQSNbwfleZge+yuFBrp9SGElJ6i9mucf4AkafrxEyvKk6KgxZOUo6jLzSe+AFsFCjGpxP22CXiiwJKa2JKxdmEjCSwlWyQsCuaCfposINo0xUht7XqbKbcX/76vDE7mczK+NBUCVyyZPXiFrhfKbMBMTwcbFswmLiNtqX/B88ELEt7vtjWNXRZcd4ACFZxTnGxae4WFqgV84tgrODPY4NeoM0LPt+Pxk21jAreb38ZLgXaPM7vDtq6hCNXpgUFdCQWcUi6AVrKQRIa7Xtu8ZElbZ5Hqo6gtym+LWeDxuhlaf2PWZlwENujUq6Ewh2KpPs7xv1Q726AEwB7Ou6pBl3snDULn2XkuBH9mNY8nzUWHfsfEzEboCKCh+ljM8cp3Br43i0n78YwCJ2kgmXEuiF+N9we4x2jV/1G6u73kn7A==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200901055822.2721209-1-natechancellor@gmail.com>
- <CAKmqyKNRMmJgmZSPK6wqqNQW41QLHwChPi+1cjqao_x1Q_iryQ@mail.gmail.com>
- <159916712670.15432.11504227918284494914@sif>
- <CAKmqyKMYKiM4Q-geEsNR3Us4vOn_u52omr6h2vcodbsr1hFW2g@mail.gmail.com>
- <159982720259.29065.11121265558750623606@sif>
-In-Reply-To: <159982720259.29065.11121265558750623606@sif>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 14 Sep 2020 09:07:26 -0700
-Message-ID: <CAKmqyKNvatCfS_gPoxLu-K+6anNjbfP4Ad=MA--3pQQ9h-mBRA@mail.gmail.com>
-Subject: Re: [PATCH] riscv: sifive_test: Allow 16-bit writes to memory region
-To: Michael Roth <mdroth@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4823.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c442fdaa-0009-4cd8-0c33-08d858d2d2d5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Sep 2020 17:22:57.5459 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RFJeLZeZUCq+57VQVrAGr6s0m3ZtR4f1235lcWIyismNI5DKzNSYRw6Uobpnaeey
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB7043
+Received-SPF: pass client-ip=40.107.69.47; envelope-from=fnuv@xilinx.com;
+ helo=NAM04-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 13:38:02
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,121 +111,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 11, 2020 at 5:26 AM Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
->
-> Quoting Alistair Francis (2020-09-10 13:10:43)
-> > On Thu, Sep 3, 2020 at 2:05 PM Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
-> > >
-> > > Quoting Alistair Francis (2020-09-01 18:59:29)
-> > > > On Mon, Aug 31, 2020 at 10:59 PM Nathan Chancellor
-> > > > <natechancellor@gmail.com> wrote:
-> > > > >
-> > > > > When shutting down the machine running a mainline Linux kernel, the
-> > > > > following error happens:
-> > > > >
-> > > > > $ build/riscv64-softmmu/qemu-system-riscv64 -bios default -M virt \
-> > > > >     -display none -initrd rootfs.cpio -kernel Image -m 512m \
-> > > > >     -nodefaults -serial mon:stdio
-> > > > > ...
-> > > > > Requesting system poweroff
-> > > > > [    4.999630] reboot: Power down
-> > > > > sbi_trap_error: hart0: trap handler failed (error -2)
-> > > > > sbi_trap_error: hart0: mcause=0x0000000000000007 mtval=0x0000000000100000
-> > > > > sbi_trap_error: hart0: mepc=0x000000008000d4cc mstatus=0x0000000000001822
-> > > > > sbi_trap_error: hart0: ra=0x000000008000999e sp=0x0000000080015c78
-> > > > > sbi_trap_error: hart0: gp=0xffffffe000e76610 tp=0xffffffe0081b89c0
-> > > > > sbi_trap_error: hart0: s0=0x0000000080015c88 s1=0x0000000000000040
-> > > > > sbi_trap_error: hart0: a0=0x0000000000000000 a1=0x0000000080004024
-> > > > > sbi_trap_error: hart0: a2=0x0000000080004024 a3=0x0000000080004024
-> > > > > sbi_trap_error: hart0: a4=0x0000000000100000 a5=0x0000000000005555
-> > > > > sbi_trap_error: hart0: a6=0x0000000000004024 a7=0x0000000080011158
-> > > > > sbi_trap_error: hart0: s2=0x0000000000000000 s3=0x0000000080016000
-> > > > > sbi_trap_error: hart0: s4=0x0000000000000000 s5=0x0000000000000000
-> > > > > sbi_trap_error: hart0: s6=0x0000000000000001 s7=0x0000000000000000
-> > > > > sbi_trap_error: hart0: s8=0x0000000000000000 s9=0x0000000000000000
-> > > > > sbi_trap_error: hart0: s10=0x0000000000000000 s11=0x0000000000000008
-> > > > > sbi_trap_error: hart0: t0=0x0000000000000000 t1=0x0000000000000000
-> > > > > sbi_trap_error: hart0: t2=0x0000000000000000 t3=0x0000000000000000
-> > > > > sbi_trap_error: hart0: t4=0x0000000000000000 t5=0x0000000000000000
-> > > > > sbi_trap_error: hart0: t6=0x0000000000000000
-> > > > >
-> > > > > The kernel does a 16-bit write when powering off the machine, which
-> > > > > was allowed before commit 5d971f9e67 ("memory: Revert "memory: accept
-> > > > > mismatching sizes in memory_region_access_valid""). Make min_access_size
-> > > > > match reality so that the machine can shut down properly now.
-> > > > >
-> > > > > Cc: qemu-stable@nongnu.org
-> > > > > Fixes: 88a07990fa ("SiFive RISC-V Test Finisher")
-> > > > > Fixes: 5d971f9e67 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"")
-> > > > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > >
-> > > > Thanks!
-> > > >
-> > > > Applied to riscv-to-apply.next
-> > >
-> > > FYI, I'm hoping to pull this patch into the upcoming 5.0.1 stable
-> > > release. The freeze is scheduled for 2020-09-20, I will apply this if it
-> > > hits master before then.
-> >
-> > I just sent a PR with this patch. Is this still on track to make it into 5.0.1?
->
-> Since it's not likely to invalidate any testing on my end outside of the
-> ones built into QEMU I can probably still slip it in if it hits master
-> by Monday, or maybe just grab it from your tree.
-
-This is in master now, I hope that's enough time to make it in.
-
-Let me know if you want me to do anything else.
-
-Alistair
-
->
-> >
-> > Alistair
-> >
-> > >
-> > > >
-> > > > Alistair
-> > > >
-> > > > > ---
-> > > > >
-> > > > > Please let me know if the tags are wrong or inappropriate, this is my
-> > > > > first QEMU patch.
-> > > > >
-> > > > >  hw/riscv/sifive_test.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-> > > > > index 0c78fb2c93..8c70dd69df 100644
-> > > > > --- a/hw/riscv/sifive_test.c
-> > > > > +++ b/hw/riscv/sifive_test.c
-> > > > > @@ -59,7 +59,7 @@ static const MemoryRegionOps sifive_test_ops = {
-> > > > >      .write = sifive_test_write,
-> > > > >      .endianness = DEVICE_NATIVE_ENDIAN,
-> > > > >      .valid = {
-> > > > > -        .min_access_size = 4,
-> > > > > +        .min_access_size = 2,
-> > > > >          .max_access_size = 4
-> > > > >      }
-> > > > >  };
-> > > > >
-> > > > > base-commit: 2f4c51c0f384d7888a04b4815861e6d5fd244d75
-> > > > > --
-> > > > > 2.28.0
-> > > > >
-> > > > >
-> > > >
+SGkgUGV0ZXIsDQpUaGFua3MgZm9yIHRoZSBoZWxwIGhlcmUuDQoNCkkgaGFkIGEgbG9vayBhdCB0
+aGUgdjEgcHVsbC4gSSB3aWxsIHJlYmFzZSB0aGUgcGF0Y2hlcyB3aXRoIGxhdGVzdCBjaGFuZ2Vz
+IGFuZCBzZW5kIG5leHQgdmVyc2lvbiB3aXRoIGNoYW5nZXMuDQoNClJlZ2FyZHMsDQpWaWtyYW0N
+Cg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxsIDxw
+ZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+IFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDE0LCAy
+MDIwIDg6MDYgQU0NCj4gVG86IFZpa3JhbSBHYXJod2FsIDxmbnV2QHhpbGlueC5jb20+DQo+IENj
+OiBRRU1VIERldmVsb3BlcnMgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz47IEZyYW5jaXNjbyBFZHVh
+cmRvDQo+IElnbGVzaWFzIDxmaWdsZXNpYUB4aWxpbnguY29tPg0KPiBTdWJqZWN0OiBSZTogW1BB
+VENIIHY5IDAvNF0gSW50cm9kdWNlIFhpbGlueCBaeW5xTVAgQ0FOIGNvbnRyb2xsZXINCj4gDQo+
+IE9uIE1vbiwgMTQgU2VwIDIwMjAgYXQgMTQ6MTYsIFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRl
+bGxAbGluYXJvLm9yZz4NCj4gd3JvdGU6DQo+ID4NCj4gPiBPbiBUaHUsIDEzIEF1ZyAyMDIwIGF0
+IDAxOjMzLCBWaWtyYW0gR2FyaHdhbCA8Zm51LnZpa3JhbUB4aWxpbnguY29tPg0KPiB3cm90ZToN
+Cj4gPiA+IFZpa3JhbSBHYXJod2FsICg0KToNCj4gPiA+ICAgaHcvbmV0L2NhbjogSW50cm9kdWNl
+IFhpbGlueCBaeW5xTVAgQ0FOIGNvbnRyb2xsZXINCj4gPiA+ICAgeGxueC16eW5xbXA6IENvbm5l
+Y3QgWGlsaW54IFp5bnFNUCBDQU4gY29udHJvbGxlcnMNCj4gPiA+ICAgdGVzdHMvcXRlc3Q6IElu
+dHJvZHVjZSB0ZXN0cyBmb3IgWGlsaW54IFp5bnFNUCBDQU4gY29udHJvbGxlcg0KPiA+ID4gICBN
+QUlOVEFJTkVSUzogQWRkIG1haW50YWluZXIgZW50cnkgZm9yIFhpbGlueCBaeW5xTVAgQ0FOIGNv
+bnRyb2xsZXINCj4gPg0KPiA+IEFwcGxpZWQgdG8gdGFyZ2V0LWFybS5uZXh0LCB0aGFua3MuIChJ
+IGhhZCB0byBtYWtlIHNvbWUgbWlub3IgZml4dXBzDQo+ID4gdG8gY29udmVydCB0aGUgbWFrZWZp
+bGUgY2hhbmdlcyB0byB0aGUgbmV3IG1lc29uIGJ1aWxkIHN5c3RlbS4pDQo+IA0KPiBJIGhhZCB0
+byBkcm9wIHRoZXNlIHBhdGNoZXMgYmVjYXVzZSBpbiB0aGUgZnVsbCBtZXJnZSBidWlsZCB0ZXN0
+IGNvbmZpZ3MgdGhleQ0KPiBmYWlsZWQgdG8gbGluayBiZWNhdXNlIG5vdGhpbmcgd2FzIHB1bGxp
+bmcgaW4gdGhlIGdlbmVyaWMgQ09ORklHX0NBTl9CVVMNCj4gZmlsZXMuDQo+IA0KPiBDb3VsZCB5
+b3UgcmViYXNlIHRoaXMsIG1ha2UgdGhlIG5lY2Vzc2FyeSBjaGFuZ2VzIHRvIGdldCBpdCB0byB3
+b3JrIHdpdGgNCj4gbWVzb25bKl0sIGFuZCBhbHNvIG1ha2Ugd2hhdGV2ZXIgS2NvbmZpZyBjaGFu
+Z2VzIGFyZSBuZWNlc3Nhcnkgc28gdGhhdA0KPiB0aGUgWnlucU1QIENBTiBjb250cm9sbGVyIGRl
+dmljZSBkZWNsYXJlcyBpdHMgZGVwZW5kZW5jeSBvbiB0aGUgZ2VuZXJpYw0KPiBDT05GSUdfQ0FO
+X0JVUyBjb2RlLCBwbGVhc2U/DQo+IA0KPiBbKl0geW91IG1pZ2h0IHdhbnQgdG8gbG9vayBhdCB0
+aGUgdmVyc2lvbnMgb2YgdGhlIHBhdGNoZXMgSSBqdXN0IHNlbnQgb3V0IGluDQo+IG15IHYxIHB1
+bGxyZXEgdG9kYXksIGJ1dCBiYXNpY2FsbHkgaW5zdGVhZCBvZiB0aGUgTWFrZWZpbGUuaW5jbHVk
+ZSBjaGFuZ2VzDQo+IHlvdSB3YW50IHNvbWUgc2ltcGxlIG9uZS1saW5lciBjaGFuZ2VzIHRvIG1l
+c29uLmJ1aWxkIGZpbGVzLCBhbmQgYWxzbw0KPiB0ZXN0cy9xdGVzdC94bG54LWNhbi10ZXN0LmMg
+bmVlZHMgdG8gI2luY2x1ZGUgImxpYnFvcy9saWJxdGVzdC5oIg0KPiByYXRoZXIgdGhhbiBqdXN0
+ICJsaWJxdGVzdC5oIi4NCj4gDQo+IHRoYW5rcw0KPiAtLSBQTU0NCg==
 
