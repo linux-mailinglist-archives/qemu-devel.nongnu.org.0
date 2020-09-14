@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D7D26997B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 01:08:41 +0200 (CEST)
-Received: from localhost ([::1]:49420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CF7269978
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 01:07:27 +0200 (CEST)
+Received: from localhost ([::1]:45382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHxaS-0000UA-9X
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 19:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
+	id 1kHxZG-0007H2-I0
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 19:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHxUO-00013G-9F
+ id 1kHxUO-00012j-3L
  for qemu-devel@nongnu.org; Mon, 14 Sep 2020 19:02:24 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:36346)
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:51277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHxUK-0006ap-Ql
+ id 1kHxUM-0006b3-72
  for qemu-devel@nongnu.org; Mon, 14 Sep 2020 19:02:23 -0400
-Received: by mail-pl1-x633.google.com with SMTP id k13so291536plk.3
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 16:02:20 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id a9so731746pjg.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 16:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Qtxl/BXbvXweTMsYpGrM9mtyoo8FEzJG3RdxXTc8HzE=;
- b=tyNzmMNJG690Ppb4evlI1Zw2lCXeqLRnrgL03rQOHUuhJ7bAEzghrhQw9Wcpap+QyF
- ITh8yuCzNXvBTmtbZ/xQBGzDIgXBPAO2/cuNaZQTA4YEtp/yvTmx0+dCjN1HBqK83b3X
- /pS8Kkpp1POwZFT2MrwUG2lDDoTqRfG2LTpoFtdVA7raFtieMWbDzouv+1jhkRiz0uFJ
- XewC4btjTnkuasAcmdfhdrwtkbqaguV0bWEW5iBe2h5p1tORQkTWuMUIrTcKk0HvCl6y
- KPZ4l2wTq0AG642aIUlgBwq0rQrbsx/Wu0xE1D5UPIB7JHe2RbIU7eOIny3iN+dUkJg/
- 056g==
+ bh=AcobOMV5CV8pSJwR9n+sDy8pDWv6IjgjNuunOfxWOco=;
+ b=E0AIHXOfc+KszyOAXsqWe4Yqsnce762fYysQsa0NINDAM2ugUuwiD2BoS3BWpOQGiJ
+ xh85DanQ2RpccU2mh9R8AOkyhT3Ii3B175EIhguDvRpUVKazN8yRhdRvd22glOzGh03T
+ L58Urw5EMA1Ae/Mme6xzArsNO4SLdWD8seqpVXHFi05VThB3VL6yk8wt61b5/VcAW48A
+ 0dusX2M77iU4MqZ6RH7ZSnwraFWRoQ+Ciz2pGqKJXdNx5CXTRJKYI8yCBZo39RaLarpe
+ QlUu6ose14s/Z23TWsAPvwEW5CtsbukruKOLix/DOX2s8pNMz4E5YFoIgbTT9EOStZ5C
+ iwLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Qtxl/BXbvXweTMsYpGrM9mtyoo8FEzJG3RdxXTc8HzE=;
- b=EJZ+D4bWGHxIDwbvAGG/VL/RbAPgr0rgXVPtGF9WfgltizR7AiexCYclIHLw/qGG2I
- bYqoAqJm0b/XLE0y/IQGGSXbaFyK4SnOji0kncbvze4DJo6OepUFTWogyontgsN/Ca95
- KN5jquJQ7JeK6z+2Yz799ZEk2JfstXmCZbXwwLfZ8UhhZzwJ+bnBfJlazy8uQ4MeqOC9
- IPulJMr1lojfT9SuGQ045KjSlqYm4BKFHTfqMfKpQ+JU8+xvCl0//S33+WdogfVCk74S
- 32aWzuV7JLzAOy2rv7WrX3QzBe9QQOxGJt6G936oqvCg9lIDPkxQfhSN8QWJ9VKW2PgB
- MRhQ==
-X-Gm-Message-State: AOAM53292Wfj2kefGpXcVv6PEYzsL6PgZMpUgvLRKEtrq/Bp/telgU8Z
- CLoe9x0j2qyTTxKPPCoXpboU2LoO6IDq+g==
-X-Google-Smtp-Source: ABdhPJwm6kmFPgWfbGYB4JRfdE89pqncRZZfnEKy1IfvojlVwYUyLJkM2R4huVRmHMfZ8Pz4adht4w==
-X-Received: by 2002:a17:90a:ee4f:: with SMTP id
- bu15mr1389940pjb.16.1600124539109; 
- Mon, 14 Sep 2020 16:02:19 -0700 (PDT)
+ bh=AcobOMV5CV8pSJwR9n+sDy8pDWv6IjgjNuunOfxWOco=;
+ b=GMBfuXYKDzu2mgwFBTaIk9iBRH6RpJyL4BPW4Sl2HdHZykqZK0prh0ruHJvqxWk3Vb
+ UVJED5cAZrl4MVVbmsyz1OJXCTkVYOjShQLerBrg4OnCsgck/lFjUx2UGiCfuV4BFyMK
+ TlGtEixBpG4RyoNxXWu3sJ7jEUslm3OWInI+H7vfiugkkJI5JEbN0x4lxA90I20SvRMB
+ Y6+etf0FvSDAyoBGsuexqHWMWWmUOfSYcMImMuIoD1KE4z1WZjt0BEyKKoHPAnqJX6ur
+ bwHwjo67cKF1c3uM73TO50eo5n02o/dinQtVNdFx5KiZYDEWegkeFGSk7rXHkvG0pow7
+ rl+A==
+X-Gm-Message-State: AOAM530KoMB3eIn0k/JHi/k2P07oBFCzFbwwm44uTOOFGBKi25KWqQwV
+ zB1xR7CHVWwqku0yYxfrK2Nd0++1cTyJsQ==
+X-Google-Smtp-Source: ABdhPJxFM0sBC086ye8+LV68B1Vc+bwrAIp98x0AHeOw7Ik5nyerC9ICImu21ViGSKPNZW3D/aSd0g==
+X-Received: by 2002:a17:902:d711:b029:d1:c6b5:ae5f with SMTP id
+ w17-20020a170902d711b02900d1c6b5ae5fmr7567556ply.38.1600124540498; 
+ Mon, 14 Sep 2020 16:02:20 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id l23sm9106076pgt.16.2020.09.14.16.02.18
+ by smtp.gmail.com with ESMTPSA id l23sm9106076pgt.16.2020.09.14.16.02.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 16:02:18 -0700 (PDT)
+ Mon, 14 Sep 2020 16:02:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/10] disas: Use qemu/bswap.h for bfd endian loads
-Date: Mon, 14 Sep 2020 16:02:05 -0700
-Message-Id: <20200914230210.2185860-6-richard.henderson@linaro.org>
+Subject: [PATCH v2 06/10] disas: Cleanup plugin_disas
+Date: Mon, 14 Sep 2020 16:02:06 -0700
+Message-Id: <20200914230210.2185860-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200914230210.2185860-1-richard.henderson@linaro.org>
 References: <20200914230210.2185860-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +71,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,129 +85,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luoyonggang@gmail.com, alex.bennee@linaro.org, thuth@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: luoyonggang@gmail.com, alex.bennee@linaro.org, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the routines we have already instead of open-coding.
+Do not retain a GString in thread-local storage.  Allocate a
+new one and free it on every invocation.  Do not g_strdup the
+result; return the buffer from the GString.  Do not use
+warn_report.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Using cs_disasm allocated memory via the &insn parameter, but
+that was never freed.  Use cs_disasm_iter so that we use the
+memory that we've already allocated, and so that we only try
+to disassemble one insn, as desired.  Do not allocate 1k to
+hold the bytes for a single instruction.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/disas/dis-asm.h | 32 ++++++++++++++++++++----
- disas.c                 | 55 -----------------------------------------
- 2 files changed, 27 insertions(+), 60 deletions(-)
+ disas.c | 55 +++++++++++++++++++------------------------------------
+ 1 file changed, 19 insertions(+), 36 deletions(-)
 
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index d2418c977e..8a216ac495 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -468,11 +468,33 @@ int print_insn_rx(bfd_vma, disassemble_info *);
- 
- /* from libbfd */
- 
--bfd_vma bfd_getl64 (const bfd_byte *addr);
--bfd_vma bfd_getl32 (const bfd_byte *addr);
--bfd_vma bfd_getb32 (const bfd_byte *addr);
--bfd_vma bfd_getl16 (const bfd_byte *addr);
--bfd_vma bfd_getb16 (const bfd_byte *addr);
-+#include "qemu/bswap.h"
-+
-+static inline bfd_vma bfd_getl64(const bfd_byte *addr)
-+{
-+    return ldq_le_p(addr);
-+}
-+
-+static inline bfd_vma bfd_getl32(const bfd_byte *addr)
-+{
-+    return (uint32_t)ldl_le_p(addr);
-+}
-+
-+static inline bfd_vma bfd_getl16(const bfd_byte *addr)
-+{
-+    return lduw_le_p(addr);
-+}
-+
-+static inline bfd_vma bfd_getb32(const bfd_byte *addr)
-+{
-+    return (uint32_t)ldl_be_p(addr);
-+}
-+
-+static inline bfd_vma bfd_getb16(const bfd_byte *addr)
-+{
-+    return lduw_be_p(addr);
-+}
-+
- typedef bool bfd_boolean;
- 
- #endif /* DISAS_DIS_ASM_H */
 diff --git a/disas.c b/disas.c
-index 7bc8e9a037..bf19b1b0bf 100644
+index bf19b1b0bf..d0ccd4b727 100644
 --- a/disas.c
 +++ b/disas.c
-@@ -78,61 +78,6 @@ static int symbol_at_address(bfd_vma addr, struct disassemble_info *info)
-     return 1;
+@@ -491,13 +491,12 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+     }
  }
  
--bfd_vma bfd_getl64 (const bfd_byte *addr)
--{
--  unsigned long long v;
+-static __thread GString plugin_disas_output;
 -
--  v = (unsigned long long) addr[0];
--  v |= (unsigned long long) addr[1] << 8;
--  v |= (unsigned long long) addr[2] << 16;
--  v |= (unsigned long long) addr[3] << 24;
--  v |= (unsigned long long) addr[4] << 32;
--  v |= (unsigned long long) addr[5] << 40;
--  v |= (unsigned long long) addr[6] << 48;
--  v |= (unsigned long long) addr[7] << 56;
--  return (bfd_vma) v;
--}
--
--bfd_vma bfd_getl32 (const bfd_byte *addr)
--{
--  unsigned long v;
--
--  v = (unsigned long) addr[0];
--  v |= (unsigned long) addr[1] << 8;
--  v |= (unsigned long) addr[2] << 16;
--  v |= (unsigned long) addr[3] << 24;
--  return (bfd_vma) v;
--}
--
--bfd_vma bfd_getb32 (const bfd_byte *addr)
--{
--  unsigned long v;
--
--  v = (unsigned long) addr[0] << 24;
--  v |= (unsigned long) addr[1] << 16;
--  v |= (unsigned long) addr[2] << 8;
--  v |= (unsigned long) addr[3];
--  return (bfd_vma) v;
--}
--
--bfd_vma bfd_getl16 (const bfd_byte *addr)
--{
--  unsigned long v;
--
--  v = (unsigned long) addr[0];
--  v |= (unsigned long) addr[1] << 8;
--  return (bfd_vma) v;
--}
--
--bfd_vma bfd_getb16 (const bfd_byte *addr)
--{
--  unsigned long v;
--
--  v = (unsigned long) addr[0] << 24;
--  v |= (unsigned long) addr[1] << 16;
--  return (bfd_vma) v;
--}
--
- static int print_insn_objdump(bfd_vma pc, disassemble_info *info,
-                               const char *prefix)
+ static int plugin_printf(FILE *stream, const char *fmt, ...)
  {
+-    va_list va;
+-    GString *s = &plugin_disas_output;
++    /* We abuse the FILE parameter to pass a GString. */
++    GString *s = (GString *)stream;
+     int initial_len = s->len;
++    va_list va;
+ 
+     va_start(va, fmt);
+     g_string_append_vprintf(s, fmt, va);
+@@ -517,28 +516,20 @@ static void plugin_print_address(bfd_vma addr, struct disassemble_info *info)
+ static
+ bool cap_disas_plugin(disassemble_info *info, uint64_t pc, size_t size)
+ {
+-    uint8_t cap_buf[1024];
++    uint8_t cap_buf[64];
++    const uint8_t *cbuf = cap_buf;
+     csh handle;
+-    cs_insn *insn;
+-    size_t csize = 0;
+-    int count;
+-    GString *s = &plugin_disas_output;
+ 
+     if (cap_disas_start(info, &handle) != CS_ERR_OK) {
+         return false;
+     }
+-    insn = cap_insn;
+ 
+-    size_t tsize = MIN(sizeof(cap_buf) - csize, size);
+-    const uint8_t *cbuf = cap_buf;
+-    target_read_memory(pc, cap_buf, tsize, info);
++    assert(size < sizeof(cap_buf));
++    target_read_memory(pc, cap_buf, size, info);
+ 
+-    count = cs_disasm(handle, cbuf, size, 0, 1, &insn);
+-
+-    if (count) {
+-        g_string_printf(s, "%s %s", insn->mnemonic, insn->op_str);
+-    } else {
+-        g_string_printf(s, "cs_disasm failed");
++    if (cs_disasm_iter(handle, &cbuf, &size, &pc, cap_insn)) {
++        GString *s = (GString *)info->stream;
++        g_string_printf(s, "%s %s", cap_insn->mnemonic, cap_insn->op_str);
+     }
+ 
+     cs_close(&handle);
+@@ -553,34 +544,26 @@ bool cap_disas_plugin(disassemble_info *info, uint64_t pc, size_t size)
+  */
+ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
+ {
+-    int count;
+     CPUDebug s;
+-    GString *ds = g_string_set_size(&plugin_disas_output, 0);
+-
+-    g_assert(ds == &plugin_disas_output);
++    GString *ds = g_string_new(NULL);
+ 
+     initialize_debug_target(&s, cpu);
+     s.info.fprintf_func = plugin_printf;
++    s.info.stream = (FILE *)ds;  /* abuse this slot */
+     s.info.buffer_vma = addr;
+     s.info.buffer_length = size;
+     s.info.print_address_func = plugin_print_address;
+ 
+     if (s.info.cap_arch >= 0 && cap_disas_plugin(&s.info, addr, size)) {
+-        return g_strdup(ds->str);
++        ; /* done */
++    } else if (s.info.print_insn) {
++        s.info.print_insn(addr, &s.info);
++    } else {
++        ; /* cannot disassemble -- return empty string */
+     }
+ 
+-    if (s.info.print_insn == NULL) {
+-        s.info.print_insn = print_insn_od_target;
+-    }
+-
+-    count = s.info.print_insn(addr, &s.info);
+-
+-    /* The decoder probably read more than it needed it's not critical */
+-    if (count < size) {
+-        warn_report("%s: %zu bytes left over", __func__, size - count);
+-    }
+-
+-    return g_strdup(ds->str);
++    /* Return the buffer, freeing the GString container.  */
++    return g_string_free(ds, false);
+ }
+ 
+ /* Disassemble this for me please... (debugging). */
 -- 
 2.25.1
 
