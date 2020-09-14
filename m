@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A46268919
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:17:55 +0200 (CEST)
-Received: from localhost ([::1]:56612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7C5268944
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:27:06 +0200 (CEST)
+Received: from localhost ([::1]:36184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHlYZ-0001cB-2E
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:17:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60568)
+	id 1kHlhR-0005ZX-AH
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kHlXq-0001Ab-S3
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:17:10 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35872)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHlg7-0004ml-BM
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:25:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kHlXp-0007h3-9O
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:17:10 -0400
-Received: by mail-wr1-x431.google.com with SMTP id z1so18071835wrt.3
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 03:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=kuNaYyzbN7QXKzEuw88cXjksdnL764Z4J4EXAD1g98g=;
- b=m/B+8XYIzg/HTluRRgF3LpDsFdtMJ0PNIV2WIuYOD+jNGBVkpupnv/pMgZm9cD4tpq
- 62I0eZSf8a7ADji3IWPty/Qwr7WSlyHRjSJuhX59Cbgwj/hbhgx2P3FBX7bmQ56w7QJ9
- uPiknAqVZDjcaaXYxwy0908BegJKJ6/2mvIx1tVTgQbqxASErMTIxjNeWM3+IppHY7wk
- f/LTPF/P2lQIgeomm9F+3LsPmq8jJ93xDG5FzcZDGQX+PKV7SmoAx3LwjkNn7IMR6sQa
- azGiFeMXE/pFN7hkaK8YnGrIM++nVIGYGf8kKXuB9RFmbZyWUvPgQ6PMqSFF+KWX6b5k
- PEjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kuNaYyzbN7QXKzEuw88cXjksdnL764Z4J4EXAD1g98g=;
- b=bRt5oECXJ0M6DeW+PGc/2shgpebjdCrGzWQafdjBah+kE8gyxzegr3c2y0zHUXPbnz
- knIkpAR/nppqsaHCRi7uv2GGzuGU9W+fqTrLl4gmU4vRJuv880JFppK+fp1uT93QB58q
- KmthIzePqjSN6V6K60QyFrKmKjD/iWs48yewTjcFj4tOwQQu/y3x9uf94z8syx+YGX17
- kiyzgnQ854h9XzLAtI7Sf8UtYsnY1Qo32eIXD5/LzkDFl4aEfq6EQZVmGX+p/utPHU0Z
- 4rhR20Y/PGCydyOz0JKbxnDuu07WAjX+VKFgCnPVxYKxFoYW4QSJcGdLv0JvttF0SpxP
- M6mw==
-X-Gm-Message-State: AOAM531b5mz6a2KSBuUaCRBKkCQycCh0huZof84lFtPhXmuITsoPVWab
- Pa04klaG50bpn4u/Apkc7/o=
-X-Google-Smtp-Source: ABdhPJzwIglKa9GM6KcLMwg+zVws9Vg/JHB67IWXo64f9Bi3UevFBC5HTqkwOoSOqJKcKqYoYp1dGA==
-X-Received: by 2002:a5d:66c1:: with SMTP id k1mr15146660wrw.34.1600078627297; 
- Mon, 14 Sep 2020 03:17:07 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id q192sm20467657wme.13.2020.09.14.03.17.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 03:17:06 -0700 (PDT)
-Date: Mon, 14 Sep 2020 11:17:05 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: About 'qemu-security' mailing list
-Message-ID: <20200914101705.GE579094@stefanha-x1.localdomain>
-References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
- <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
- <25dc926b-7bc0-930e-109a-1cb3c03565c7@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHlg4-0000bi-MY
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:25:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kHlg2-0001q7-U1
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 10:25:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E0CC62E80E9
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 10:25:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="G6nVm6DDWH/FONJq"
-Content-Disposition: inline
-In-Reply-To: <25dc926b-7bc0-930e-109a-1cb3c03565c7@amsat.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x431.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2020 10:18:42 -0000
+From: Laurent Vivier <1895053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier petunia2000
+X-Launchpad-Bug-Reporter: Petunia (petunia2000)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160007872229.13933.17461394583835698104.malone@gac.canonical.com>
+Subject: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to start
+ Journal Service.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 76018c22eb786831660e8df468e7beaed23dcd91
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 05:55:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,43 +73,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>
+Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+What is the result of the following command?
 
---G6nVm6DDWH/FONJq
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+for file in /proc/sys/fs/binfmt_misc/* ; do echo "$file"; cat $file;
+done
 
-On Mon, Sep 14, 2020 at 09:38:07AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> I don't think so, as I took care to encrypt a bug report and
-> received the reply unencrypted =3D) Not sure this is the default
-> although, as this was my unique experience following the security
-> process.
+-- =
 
-Hopefully a one-time mistake. Confidentiality is necessary for the
-disclosure of security bugs, otherwise users are put at risk.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895053
 
-Stefan
+Title:
+  Cannot nspawn raspbian 10 [FAILED] Failed to start Journal Service.
 
---G6nVm6DDWH/FONJq
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  Hi, I'm using nspawn and asked the question @systemd-devel. They redirect=
+ed me to you, guessing that nspawn calls a syscall or ioctl qemu isnt aware=
+ of and can't implement properly?
+  They were like: "Sorry, that's not my department." ^^
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9fQyAACgkQnKSrs4Gr
-c8iJHgf+JlOXn5sWuc7YMykVY3uuH26tj8//eSZlCxaY0DGkbsWhTPkVYg4lELZi
-l9pXOWhhDLhCxV6UHFc7Y0KuG2jEuwCRBIWTR0OUViaaheMcvZULvJUroBA/0mQN
-iXgFM/CGWuQiDDw09BQynhbK9du52tCkWcpz9SmjEQyZWnUSGtSlTVafGyyuDtnS
-hyqUeoFJe2IDOZRMIRVcwfZmt2mUCwzxnLhCRiv0jAF0YGzpv6gMIiJ0I3UzX6rf
-vcxNWCy4zwG6t89u2DMhmTb88LOgOiewPuC3VFS5ZrX5w8ZZshGR3ebtcQnjnfUZ
-MKXbnQE+VsGkUWCRwUsQMf6UQ5zZaw==
-=CFlV
------END PGP SIGNATURE-----
+  Maybe you can reproduce the issue or help me investigating whats wrong
+  or put the ball right back into their court? :D
 
---G6nVm6DDWH/FONJq--
+  Testscript:
+  wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -o r.zip
+  unzip r.zip
+  LOOP=3D$(losetup --show -Pf *raspios-buster-armhf-lite.img)
+  mount ${LOOP}p2 /mnt
+  mount ${LOOP}p1 /mnt/boot
+  systemd-nspawn --bind /usr/bin/qemu-arm-static --boot --directory=3D/mnt =
+-- systemd.log_level=3Ddebug
+
+  Output:
+  see attachment
+
+  System:
+  uname -a
+  Linux MArch 5.8.7-arch1-1 #1 SMP PREEMPT Sat, 05 Sep 2020 12:31:32 +0000
+  x86_64 GNU/Linux
+
+  qemu-arm-static --version
+  qemu-arm version 5.1.0
+
+  systemd-nspawn --version
+  systemd 246 (246.4-1-arch)
+  +PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP +LIBCRYPTSETUP
+  +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2=
+ -IDN
+  +PCRE2 default-hierarchy=3Dhybrid
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895053/+subscriptions
 
