@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3BC2687AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:57:09 +0200 (CEST)
-Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75ECF2687B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:58:49 +0200 (CEST)
+Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkIO-0005oX-EV
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:57:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
+	id 1kHkK0-0000YC-I3
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kHkE0-0005zE-3q
+ id 1kHkE0-0005zm-Av
  for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:52:36 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4692 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:32798 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kHkDw-0005kf-EP
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:52:35 -0400
+ id 1kHkDx-0005lD-E9
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:52:36 -0400
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 26B9C3C84E024BB45023;
- Mon, 14 Sep 2020 16:52:26 +0800 (CST)
+ by Forcepoint Email with ESMTP id 3ABC37E6DC6F85406A54;
+ Mon, 14 Sep 2020 16:52:31 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Mon, 14 Sep 2020
  16:52:20 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
  <berrange@redhat.com>
-Subject: [PATCH v8 07/12] migration/dirtyrate: Compare page hash results for
- recorded sampled page
-Date: Mon, 14 Sep 2020 17:03:00 +0800
-Message-ID: <1600074185-91624-8-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v8 08/12] migration/dirtyrate: skip sampling ramblock with
+ size below MIN_RAMBLOCK_SIZE
+Date: Mon, 14 Sep 2020 17:03:01 +0800
+Message-ID: <1600074185-91624-9-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1600074185-91624-1-git-send-email-zhengchuan@huawei.com>
 References: <1600074185-91624-1-git-send-email-zhengchuan@huawei.com>
@@ -39,8 +39,8 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 04:52:27
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
@@ -67,89 +67,86 @@ Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compare page hash results for recorded sampled page.
+In order to sample real RAM, skip ramblock with size below MIN_RAMBLOCK_SIZE
+which is set as 128M.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/dirtyrate.c | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ migration/dirtyrate.c | 21 +++++++++++++++++++++
+ migration/dirtyrate.h |  5 +++++
+ 2 files changed, 26 insertions(+)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index beb18cb..e836474 100644
+index e836474..e68af6f 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -179,6 +179,69 @@ out:
-     return ret;
+@@ -138,6 +138,18 @@ static void get_ramblock_dirty_info(RAMBlock *block,
+     strcpy(info->idstr, qemu_ram_get_idstr(block));
  }
  
-+static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
++static bool skip_sample_ramblock(RAMBlock *block)
 +{
-+    uint32_t crc;
-+    int i;
-+
-+    for (i = 0; i < info->sample_pages_count; i++) {
-+        crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
-+        if (crc != info->hash_result[i]) {
-+            info->sample_dirty_count++;
-+        }
++    /*
++     * Sample only blocks larger than MIN_RAMBLOCK_SIZE.
++     */
++    if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
++        return true;
 +    }
++
++    return false;
 +}
 +
-+static struct RamblockDirtyInfo *
-+find_page_matched(RAMBlock *block, int count,
-+                  struct RamblockDirtyInfo *infos)
-+{
-+    int i;
-+    struct RamblockDirtyInfo *matched;
-+
-+    for (i = 0; i < count; i++) {
-+        if (!strcmp(infos[i].idstr, qemu_ram_get_idstr(block))) {
-+            break;
-+        }
-+    }
-+
-+    if (i == count) {
-+        return NULL;
-+    }
-+
-+    if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
-+        infos[i].ramblock_pages !=
-+            (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-+        return NULL;
-+    }
-+
-+    matched = &infos[i];
-+
-+    return matched;
-+}
-+
-+static int compare_page_hash_info(struct RamblockDirtyInfo *info,
-+                                  int block_index)
-+{
-+    struct RamblockDirtyInfo *block_dinfo = NULL;
-+    RAMBlock *block = NULL;
-+
-+    RAMBLOCK_FOREACH_MIGRATABLE(block) {
-+        block_dinfo = find_page_matched(block, block_index + 1, info);
-+        if (block_dinfo == NULL) {
+ static bool record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
+                                       struct DirtyRateConfig config,
+                                       int *block_index)
+@@ -150,6 +162,9 @@ static bool record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
+     bool ret = true;
+ 
+     RAMBLOCK_FOREACH_MIGRATABLE(block) {
++        if (skip_sample_ramblock(block)) {
 +            continue;
 +        }
-+        calc_page_dirty_rate(block_dinfo);
-+        update_dirtyrate_stat(block_dinfo);
-+    }
+         total_index++;
+     }
+ 
+@@ -161,6 +176,9 @@ static bool record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
+     }
+ 
+     RAMBLOCK_FOREACH_MIGRATABLE(block) {
++        if (skip_sample_ramblock(block)) {
++            continue;
++        }
+         if (index >= total_index) {
+             break;
+         }
+@@ -227,6 +245,9 @@ static int compare_page_hash_info(struct RamblockDirtyInfo *info,
+     RAMBlock *block = NULL;
+ 
+     RAMBLOCK_FOREACH_MIGRATABLE(block) {
++        if (skip_sample_ramblock(block)) {
++            continue;
++        }
+         block_dinfo = find_page_matched(block, block_index + 1, info);
+         if (block_dinfo == NULL) {
+             continue;
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index a3ee305..faaf9da 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -24,6 +24,11 @@
+  */
+ #define RAMBLOCK_INFO_MAX_LEN                     256
+ 
++/*
++ * Minimum RAMBlock size to sample, in megabytes.
++ */
++#define MIN_RAMBLOCK_SIZE                         128
 +
-+    if (DirtyStat.total_sample_count == 0) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
- static void calculate_dirtyrate(struct DirtyRateConfig config)
- {
-     /* todo */
+ struct DirtyRateConfig {
+     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+     int64_t sample_period_seconds; /* time duration between two sampling */
 -- 
 1.8.3.1
 
