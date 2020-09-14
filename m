@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E13F269084
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:46:06 +0200 (CEST)
-Received: from localhost ([::1]:52820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64072690A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:52:48 +0200 (CEST)
+Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHqg9-0006Sh-2a
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:46:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
+	id 1kHqmd-0004YG-CM
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHqdM-0005Rq-FD
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:43:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHqdI-00062b-V8
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:43:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600098187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pJ/5ssdtLSBUnTb9YzrkxcGP83YO4HWb0uV6GCVeX8Y=;
- b=fjO5QZK9N1VFexPuvQSHbkk/HZlIcidGQIPIbFEmcByFosaw10/p9cH/1u+zKyNwYf8i/8
- 9WqjPd9cLw0JLMR5V5GKS2raoyisVOZRdiP//2WQK9G+QHD5eA+4WbrGTROb3Hji3U6HwQ
- XSFV3QKd7jdSr3WkUp2YMzLNJMKfB4Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-TLc8ZGX7MueRNyaY4e2EyQ-1; Mon, 14 Sep 2020 11:43:06 -0400
-X-MC-Unique: TLc8ZGX7MueRNyaY4e2EyQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5C4118BE161;
- Mon, 14 Sep 2020 15:43:03 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BE7050B44;
- Mon, 14 Sep 2020 15:43:01 +0000 (UTC)
-Subject: Re: [PATCH v3] iotests: Drop readlink -f
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200914145606.94620-1-mreitz@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <424302b6-c326-f0f8-9bec-8d5805e04f6e@redhat.com>
-Date: Mon, 14 Sep 2020 17:43:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHqke-0002xg-LH
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:50:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHqka-0007Gf-VO
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:50:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kHqkX-00026K-Rf
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:50:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C0D7A2E80EE
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:50:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200914145606.94620-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2020 15:44:34 -0000
+From: Daniel Berrange <1893691@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange dgilbert-h piotrjurkiewicz
+X-Launchpad-Bug-Reporter: Piotr Jurkiewicz (piotrjurkiewicz)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <159890390988.14589.1084059668441088626.malonedeb@gac.canonical.com>
+Message-Id: <160009827412.539.2162169911416376883.malone@chaenomeles.canonical.com>
+Subject: [Bug 1893691] Re: Chardev logfile is not written (regression between
+ 5.0 and 5.1)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 2a476ea10162e7411740399bc266d7a617742c30
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 05:55:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,45 +73,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Claudio Fontana <cfontana@suse.de>
+Reply-To: Bug 1893691 <1893691@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/2020 16.56, Max Reitz wrote:
-> On macOS, (out of the box) readlink does not have -f.  We do not really
-> need readlink here, though, it was just a replacement for realpath
-> (which is not available on our BSD test systems), which we needed to
-> make the $(dirname) into an absolute path.
-> 
-> Instead of using either, just use "cd; pwd" like is done for
-> $source_iotests.
-> 
-> Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
->        ("iotests: Allow running from different directory")
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Reported-by: Claudio Fontana <cfontana@suse.de>
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/check | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> index e14a1f354d..678b6e4910 100755
-> --- a/tests/qemu-iotests/check
-> +++ b/tests/qemu-iotests/check
-> @@ -44,7 +44,7 @@ then
->          _init_error "failed to obtain source tree name from check symlink"
->      fi
->      source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
-> -    build_iotests=$(readlink -f $(dirname "$0"))
-> +    build_iotests=$(cd "$(dirname "$0")"; pwd)
+https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg04809.html
 
-I assume the nested quotes are ok here? ... shell scripts always confuse
-me in that regard...
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
- Thomas
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1893691
+
+Title:
+  Chardev logfile is not written (regression between 5.0 and 5.1)
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  After update from version 5.0 to 5.1, logfile stopped being populated
+  with console output. The file is being created, but remains empty.
+
+  Relevant command line options:
+
+  -mon chardev=3Dchar0
+  -serial chardev:char0
+  -chardev socket,host=3D127.0.0.10,port=3D2323,server,nowait,telnet,mux=3D=
+on,id=3Dchar0,logfile=3D/home/jurkiew/.machiner/runs/2020-08-31T21:46:55-0/=
+internal/log
+
+  =
+
+  Full command line:
+
+  qemu-system-x86_64
+  -nodefaults
+  -no-user-config
+  -snapshot
+  -enable-kvm
+  -cpu
+  host
+  -nographic
+  -echr
+  17
+  -mon
+  chardev=3Dchar0
+  -serial
+  chardev:char0
+  -rtc
+  clock=3Dvm
+  -object
+  rng-random,filename=3D/dev/urandom,id=3Drng0
+  -device
+  virtio-rng-pci,rng=3Drng0,max-bytes=3D512,period=3D1000
+  -name
+  2020-08-31T21:46:55-0,debug-threads=3Don
+  -smp
+  sockets=3D1,cores=3D9,threads=3D2
+  -m
+  251G
+  -overcommit
+  cpu-pm=3Don
+  -pidfile
+  /home/jurkiew/.machiner/runs/2020-08-31T21:46:55-0/internal/pid
+  -net
+  nic,model=3Dvirtio
+  -net
+  user,hostfwd=3Dtcp:127.0.0.10:2222-:22,hostfwd=3Dtcp:127.0.0.10:8000-:800=
+0,hostfwd=3Dtcp:127.0.0.10:9000-:9000
+  -fsdev
+  local,id=3Dmachiner_internal_dir,security_model=3Dnone,path=3D/home/jurki=
+ew/.machiner/runs/2020-08-31T21:46:55-0/internal
+  -device
+  virtio-9p-pci,fsdev=3Dmachiner_internal_dir,mount_tag=3Dmachiner_internal=
+_dir
+  -fsdev
+  local,id=3Dmachiner_lower_dir,security_model=3Dnone,readonly,path=3D.
+  -device
+  virtio-9p-pci,fsdev=3Dmachiner_lower_dir,mount_tag=3Dmachiner_lower_dir
+  -fsdev
+  local,id=3Dmachiner_upper_dir,security_model=3Dmapped-xattr,fmode=3D0777,=
+dmode=3D0777,path=3D/home/jurkiew/.machiner/runs/2020-08-31T21:46:55-0
+  -device
+  virtio-9p-pci,fsdev=3Dmachiner_upper_dir,mount_tag=3Dmachiner_upper_dir
+  -device
+  virtio-scsi
+  -drive
+  if=3Dnone,file=3D/home/jurkiew/.machiner/images/famtar/image.qcow2,discar=
+d=3Don,id=3Dfamtar
+  -device
+  scsi-hd,drive=3Dfamtar
+  -chardev
+  socket,host=3D127.0.0.10,port=3D2323,server,nowait,telnet,mux=3Don,id=3Dc=
+har0,logfile=3D/home/jurkiew/.machiner/runs/2020-08-31T21:46:55-0/internal/=
+log
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1893691/+subscriptions
 
