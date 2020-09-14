@@ -2,63 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741862691C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:39:00 +0200 (CEST)
-Received: from localhost ([::1]:55952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524112691D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:41:21 +0200 (CEST)
+Received: from localhost ([::1]:33968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrVL-00088x-25
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:38:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
+	id 1kHrXc-0002Lg-Cc
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:41:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kHptX-0007Ka-M9
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:55:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31659)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHptu-0007ct-Ew
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:56:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kHptR-0005w2-A7
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:55:48 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHpts-00065R-RM
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:56:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600095342;
+ s=mimecast20190719; t=1600095372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VOkju+FiRSdrsm33DhLwx0UxHerzQmy8DNqldTJ5oco=;
- b=MErupESXVJYz1uOQARpiGFHVB6qwZC7cfn8w8lBnUlIptkc9snQ3FuGdHN0NHH/hbGC1g3
- vNsVV2Rd1uZWlKzNr28u0xtOaq+X1qvx0M/YS6vWmzFsbV1dGyzASW0wp182tI91jW/xax
- UcAZZmhTQYPG3Dac315PdGszL8+LJ6E=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HRR56tZ89YFcw6lWtw8qRwQp34wLz0vujyER+i4Xs4k=;
+ b=OpLeIXiUFlD9Q5UXNulEQfQesSc4z1A9Ex6AO/Eo2F94FBL4EF7fK4GmBYtiLgzfSKrXIu
+ ZNilvJgGFBTaxnI1j3U985elkBmkJsOHDl3pTQuKun2v1ftFfXXDMNsHZJcKDx4mraumhr
+ u37N2L64KV1TcYhvPTQD8O6E1gAW5+w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-EROHQCefPE6rQSdQldz70w-1; Mon, 14 Sep 2020 10:55:40 -0400
-X-MC-Unique: EROHQCefPE6rQSdQldz70w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-235-c6DJz_Y9MAa8LX3Zsw52VQ-1; Mon, 14 Sep 2020 10:56:09 -0400
+X-MC-Unique: c6DJz_Y9MAa8LX3Zsw52VQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1651913122;
- Mon, 14 Sep 2020 14:55:39 +0000 (UTC)
-Received: from gondolin (ovpn-112-214.ams2.redhat.com [10.36.112.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 433D35DAA6;
- Mon, 14 Sep 2020 14:55:28 +0000 (UTC)
-Date: Mon, 14 Sep 2020 16:55:25 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2] cphp: remove deprecated cpu-add command(s)
-Message-ID: <20200914165525.4503ee2e.cohuck@redhat.com>
-In-Reply-To: <20200914074614.973112-1-imammedo@redhat.com>
-References: <20200914074614.973112-1-imammedo@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CEEE18B9F01;
+ Mon, 14 Sep 2020 14:56:08 +0000 (UTC)
+Received: from localhost (ovpn-114-80.ams2.redhat.com [10.36.114.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A199610AF;
+ Mon, 14 Sep 2020 14:56:07 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3] iotests: Drop readlink -f
+Date: Mon, 14 Sep 2020 16:56:06 +0200
+Message-Id: <20200914145606.94620-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
@@ -66,7 +62,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,45 +75,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- libvir-list@redhat.com, armbru@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Sep 2020 03:46:14 -0400
-Igor Mammedov <imammedo@redhat.com> wrote:
+On macOS, (out of the box) readlink does not have -f.  We do not really
+need readlink here, though, it was just a replacement for realpath
+(which is not available on our BSD test systems), which we needed to
+make the $(dirname) into an absolute path.
 
-> theses were deprecated since 4.0, remove both HMP and QMP variants.
+Instead of using either, just use "cd; pwd" like is done for
+$source_iotests.
 
-s/theses/These/
+Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
+       ("iotests: Allow running from different directory")
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/check | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Users should use device_add command instead. To get list of
-> possible CPUs and options, use 'info hotpluggable-cpus' HMP
-> or query-hotpluggable-cpus QMP command.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  include/hw/boards.h         |   1 -
->  include/hw/i386/pc.h        |   1 -
->  include/monitor/hmp.h       |   1 -
->  docs/system/deprecated.rst  |  25 +++++----
->  hmp-commands.hx             |  15 ------
->  hw/core/machine-hmp-cmds.c  |  12 -----
->  hw/core/machine-qmp-cmds.c  |  12 -----
->  hw/i386/pc.c                |  27 ----------
->  hw/i386/pc_piix.c           |   1 -
->  hw/s390x/s390-virtio-ccw.c  |  12 -----
->  qapi/machine.json           |  24 ---------
->  tests/qtest/cpu-plug-test.c | 100 ++++--------------------------------
->  tests/qtest/test-hmp.c      |   1 -
->  13 files changed, 21 insertions(+), 211 deletions(-)
-
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index e14a1f354d..678b6e4910 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -44,7 +44,7 @@ then
+         _init_error "failed to obtain source tree name from check symlink"
+     fi
+     source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
+-    build_iotests=$(readlink -f $(dirname "$0"))
++    build_iotests=$(cd "$(dirname "$0")"; pwd)
+ else
+     # called from the source tree
+     source_iotests=$PWD
+-- 
+2.26.2
 
 
