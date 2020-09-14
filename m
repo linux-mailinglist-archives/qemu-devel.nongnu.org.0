@@ -2,41 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA59268704
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:17:36 +0200 (CEST)
-Received: from localhost ([::1]:44024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E1526872F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:26:23 +0200 (CEST)
+Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHjg8-0004rO-2f
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33282)
+	id 1kHjoc-0005YD-NY
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1kHjd6-0002bh-Me
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:14:28 -0400
-Received: from smtp.gentoo.org ([140.211.166.183]:51822)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kHjhv-0006oG-3C; Mon, 14 Sep 2020 04:19:27 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:37503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1kHjd4-0000Yo-EA
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:14:28 -0400
-From: Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>
-To: qemu-devel@nongnu.org, libc-alpha@sourceware.org
-Subject: riscv32 wait() problem, qemu or glibc?
-Date: Mon, 14 Sep 2020 11:14:16 +0300
-Message-ID: <9435182.tdPhlSkOF2@farino>
-Organization: Gentoo Linux
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kHjhs-0001EY-Gs; Mon, 14 Sep 2020 04:19:26 -0400
+Received: by mail-lj1-x242.google.com with SMTP id n25so17845878ljj.4;
+ Mon, 14 Sep 2020 01:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=2idPZSzmbFPEhVtb5XvxCEwyWC8kLOm9nmIVZu8BppU=;
+ b=DNhGfl6c9mZQ3IRJh0LA4d4A3zEbQ33bBF5ga/KQpZJs9JwfQsNBRHr4/ts80Oajsz
+ F7OwANMi7BEjyYmlM4KNCSxTnnNjQmjEv6EApuTrOqrCHO5pfUJIMnDpqeupxc5KQ3np
+ lFEmMXz4GKBAMtkftUGiIc1jXwOUl5nTjwBcdRJCRq8/si30lNMqK5689aaCupaPq8Yw
+ 4B669IoamO9qFGo0bFtyOY+pJJx8bfUYnr07CKqL6y64oO4jS3pr8cUjwNpp4hR14byL
+ t7FwG0LTNqx40rpi2oCINfbrT5dDMjW94gehHDwvp/lL7TQTwIAWG/8jzp9SNTN1Flhx
+ 9o4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=2idPZSzmbFPEhVtb5XvxCEwyWC8kLOm9nmIVZu8BppU=;
+ b=sOu5rWnX8KhlMwwkZu7T08AACVY3PqY3IWVIfulsZRWdfPMujmA4R0BLvj8t5CTAqs
+ pDUUiObZm+f2RXUxLa/Nxgh5w3VkVZEzV3aIcH/ghWvobECYDa2gnue+vxK43TMz+KiO
+ xjXWfOEBcT1Kv4rJ9DVQIe3zAlZu7bLsYtdGktGfOm+KtCI2lIv7V8Otg4gq+YFfj1E5
+ TkXIGeMRCBC3EDN4r7ke9W1o6tW/z+FpinD1mswOm1Su93zvBjouzxHFksrdz7F6SjXa
+ TCQaetTlUVha3iTmJutn3EguupcE61SeaZVpnuTtxjzSrcPduatL17iMSqGy5XJs6Uxj
+ 2IqQ==
+X-Gm-Message-State: AOAM530SDqH+hqL+xLa5irLgkb4fRWlSSDj5jzIJ/7/KQ6NQ7Jw1fUYH
+ JH5G958OUCK42eJFxfuaYNtC1d0anvhxz/HbYlQ=
+X-Google-Smtp-Source: ABdhPJwYJQkfywFGYRWebw10gYCyBW2qricwmTnJ4mdrtAD2Sr+t2uEgrk8xFRVrw07rmGrM0hYLFkvInWkbNjmGsp8=
+X-Received: by 2002:a2e:86d3:: with SMTP id n19mr5057501ljj.368.1600071562182; 
+ Mon, 14 Sep 2020 01:19:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart6224825.MDQidcC6GM";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=140.211.166.183;
- envelope-from=dilfridge@gentoo.org; helo=smtp.gentoo.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 04:14:24
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+References: <20200912224431.1428-1-luoyonggang@gmail.com>
+ <20200912224431.1428-14-luoyonggang@gmail.com>
+ <119be52f-fc8b-dd37-e3d6-04a13109c845@redhat.com>
+In-Reply-To: <119be52f-fc8b-dd37-e3d6-04a13109c845@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Mon, 14 Sep 2020 16:19:12 +0800
+Message-ID: <CAE2XoE-Qi1aZhq09QEswq-NFYRYWV+ZM4YZz=pGCynMd5Ova8Q@mail.gmail.com>
+Subject: Re: [PATCH v8 13/27] tests: Enable crypto tests under msys2/mingw
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001445cb05af41b180"
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,105 +79,380 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: luoyonggang@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Qemu-block <qemu-block@nongnu.org>,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Peter Lieven <pl@kamp.de>, "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nextPart6224825.MDQidcC6GM
+--0000000000001445cb05af41b180
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Hi,=20
+On Mon, Sep 14, 2020 at 3:23 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 13/09/2020 00.44, Yonggang Luo wrote:
+> > Fixes following tests on msys2/mingw
+> >       'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c',
+'pkix_asn1_tab.c',
+> >                                    tasn1, crypto],
+> >       'test-crypto-tlssession': ['crypto-tls-x509-helpers.c',
+'pkix_asn1_tab.c', 'crypto-tls-psk-helpers.c',
+> >                                  tasn1, crypto],
+> >       'test-io-channel-tls': ['io-channel-helpers.c',
+'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+> >                               tasn1, io, crypto]}
+> > These tests are failure with:
+> > ERROR test-crypto-tlscredsx509 - missing test plan
+> > ERROR test-crypto-tlssession - missing test plan
+> > ERROR test-io-channel-tls - missing test plan
+> >
+> > Because on win32 those test case are all disabled in the header
+> >
+> > Add qemu_socket_pair for cross platform support, convert file system
+> > handling functions to glib
+> > Add qemu_link function instead posix only link function.
+> > Use send ad recv from qemu that convert Windows Socks error
+> > to errno properly.
+> >
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > ---
+> [...]
+> > +static int __stream_socketpair(struct addrinfo* addr_info, int
+sock[2]){
+> > +    SOCKET listener, client, server;
+> > +    int opt =3D 1;
+> > +
+> > +    listener =3D server =3D client =3D INVALID_SOCKET;
+> > +    listener =3D socket(addr_info->ai_family, addr_info->ai_socktype,
+addr_info->ai_protocol);
+> > +    if (INVALID_SOCKET =3D=3D listener)
+> > +        goto fail;
+> > +
+> > +    setsockopt(listener, SOL_SOCKET, SO_REUSEADDR,(const char*)&opt,
+sizeof(opt));
+> > +
+> > +    if(SOCKET_ERROR =3D=3D bind(listener, addr_info->ai_addr,
+addr_info->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    if (SOCKET_ERROR =3D=3D getsockname(listener, addr_info->ai_addr,
+(int*)&addr_info->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    if(SOCKET_ERROR =3D=3D listen(listener, 5))
+> > +        goto fail;
+> > +
+> > +    client =3D socket(addr_info->ai_family, addr_info->ai_socktype,
+addr_info->ai_protocol);
+> > +
+> > +    if (INVALID_SOCKET =3D=3D client)
+> > +        goto fail;
+> > +
+> > +    if (SOCKET_ERROR =3D=3D
+connect(client,addr_info->ai_addr,addr_info->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    server =3D accept(listener, 0, 0);
+> > +
+> > +    if (INVALID_SOCKET =3D=3D server)
+> > +        goto fail;
+> > +
+> > +    closesocket(listener);
+> > +
+> > +    sock[0] =3D client;
+> > +    sock[1] =3D server;
+> > +
+> > +    return 0;
+> > +fail:
+> > +    if(INVALID_SOCKET!=3Dlistener)
+> > +        closesocket(listener);
+> > +    if (INVALID_SOCKET!=3Dclient)
+> > +        closesocket(client);
+> > +    return -1;
+> > +}
+> > +
+> > +static int __dgram_socketpair(struct addrinfo* addr_info, int sock[2])
+> > +{
+> > +    SOCKET client, server;
+> > +    struct addrinfo addr, *result =3D NULL;
+> > +    const char* address;
+> > +    int opt =3D 1;
+> > +
+> > +    server =3D client =3D INVALID_SOCKET;
+> > +
+> > +    server =3D socket(addr_info->ai_family, addr_info->ai_socktype,
+addr_info->ai_protocol);
+> > +    if (INVALID_SOCKET =3D=3D server)
+> > +        goto fail;
+> > +
+> > +    setsockopt(server, SOL_SOCKET,SO_REUSEADDR, (const char*)&opt,
+sizeof(opt));
+> > +
+> > +    if(SOCKET_ERROR =3D=3D bind(server, addr_info->ai_addr,
+addr_info->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    if (SOCKET_ERROR =3D=3D getsockname(server, addr_info->ai_addr,
+(int*)&addr_info->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    client =3D socket(addr_info->ai_family, addr_info->ai_socktype,
+addr_info->ai_protocol);
+> > +    if (INVALID_SOCKET =3D=3D client)
+> > +        goto fail;
+> > +
+> > +    memset(&addr,0,sizeof(addr));
+> > +    addr.ai_family =3D addr_info->ai_family;
+> > +    addr.ai_socktype =3D addr_info->ai_socktype;
+> > +    addr.ai_protocol =3D addr_info->ai_protocol;
+> > +
+> > +    if (AF_INET6=3D=3Daddr.ai_family)
+> > +        address =3D "0:0:0:0:0:0:0:1";
+> > +    else
+> > +        address =3D "127.0.0.1";
+> > +
+> > +    if (getaddrinfo(address, "0", &addr, &result))
+> > +        goto fail;
+> > +
+> > +    setsockopt(client,SOL_SOCKET,SO_REUSEADDR,(const char*)&opt,
+sizeof(opt));
+> > +    if(SOCKET_ERROR =3D=3D bind(client, result->ai_addr,
+result->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    if (SOCKET_ERROR =3D=3D getsockname(client, result->ai_addr,
+(int*)&result->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    if (SOCKET_ERROR =3D=3D connect(server, result->ai_addr,
+result->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    if (SOCKET_ERROR =3D=3D connect(client, addr_info->ai_addr,
+addr_info->ai_addrlen))
+> > +        goto fail;
+> > +
+> > +    freeaddrinfo(result);
+> > +    sock[0] =3D client;
+> > +    sock[1] =3D server;
+> > +    return 0;
+> > +
+> > +fail:
+> > +    if (INVALID_SOCKET!=3Dclient)
+> > +        closesocket(client);
+> > +    if (INVALID_SOCKET!=3Dserver)
+> > +        closesocket(server);
+> > +    if (result)
+> > +        freeaddrinfo(result);
+> > +    return -1;
+> > +}
+> > +
+> > +int qemu_socketpair(int family, int type, int protocol,int recv[2]){
+> > +    const char* address;
+> > +    struct addrinfo addr_info,*p_addrinfo;
+> > +    int result =3D -1;
+> > +
+> > +    if (family =3D=3D AF_UNIX)
+> > +    {
+> > +        family =3D AF_INET;
+> > +    }
+> > +
+> > +    memset(&addr_info, 0, sizeof(addr_info));
+> > +    addr_info.ai_family =3D family;
+> > +    addr_info.ai_socktype =3D type;
+> > +    addr_info.ai_protocol =3D protocol;
+> > +    if (AF_INET6=3D=3Dfamily)
+> > +        address =3D "0:0:0:0:0:0:0:1";
+> > +    else
+> > +        address =3D "127.0.0.1";
+> > +
+> > +    if (0 =3D=3D getaddrinfo(address, "0", &addr_info, &p_addrinfo)){
+> > +        if (SOCK_STREAM =3D=3D type)
+> > +            result =3D __stream_socketpair(p_addrinfo, recv);
+> > +        else if(SOCK_DGRAM =3D=3D type)
+> > +            result =3D __dgram_socketpair(p_addrinfo, recv);
+> > +        freeaddrinfo(p_addrinfo);
+> > +    }
+> > +    return result;
+> > +}
+>
+> Where do you've got this code from? It seems like this has been taken
+> from a 3rd party source? E.g.:
+>
+>  https://blog.csdn.net/wufuhuai/article/details/79761889
+>
+> What's the license of this new code? ... please clarify such details in
+The original code have no license information, neither copyleft nor
+copyright, what's your suggestion
+or rewrite it?
 
-first of all, sorry for crossposting, but I'm dealing with many moving and=
-=20
-experimental parts here...=20
-
-Situation: riscv32 (ilp32) qemu-user [1] chroot, Linux [2], glibc [3], gcc =
-[4]
-
-The following small program outputs "child exited with status 40", which is=
-=20
-rather unexpected (it should be 42). Any idea what is going on?
-
-(This is a simplified version of code in a configure test. The test has oth=
-er=20
-potential issues [5], but in any case it cant produce useful results on=20
-riscv32 right now.)
-
-TIA,=20
-Andreas
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/wait.h>
-
-main(c, v)
-     int c;
-     char **v;
-{
-  pid_t pid, p;
-  int s, i, n;
-
-  s =3D 0;
-  pid =3D fork();
-  if (pid =3D=3D 0)
-    exit (42);
-
-  /* wait for the process */
-  p =3D wait(&s);
-  if (p !=3D pid)
-    exit (255);
-
-  if (WIFEXITED(s))
-  {
-     int r=3DWEXITSTATUS(s);
-     printf("child exited with status %i\n",r);
-  }
-}
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> the commit description.
+>
+>  Thanks,
+>   Thomas
+>
 
 
-[1] qemu built from git master, Sep 12, 2020 16:30:37 EEST
-[2] host kernel is 5.8.8
-[3] glibc-2.32 with the rv32 patch series backported from master
-[4] (Gentoo 10.2.0-r1 p2)
-[5] https://lists.gnu.org/archive/html/bug-bash/2020-09/msg00033.html
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-=2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer=20
-(council, qa, toolchain, base-system, perl, libreoffice)
---nextPart6224825.MDQidcC6GM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+--0000000000001445cb05af41b180
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNATURE-----
+<div dir=3D"ltr"><br><br>On Mon, Sep 14, 2020 at 3:23 PM Thomas Huth &lt;<a=
+ href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br>&gt;<b=
+r>&gt; On 13/09/2020 00.44, Yonggang Luo wrote:<br>&gt; &gt; Fixes followin=
+g tests on msys2/mingw<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 &#39;test-crypto-t=
+lscredsx509&#39;: [&#39;crypto-tls-x509-helpers.c&#39;, &#39;pkix_asn1_tab.=
+c&#39;,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ta=
+sn1, crypto],<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 &#39;test-crypto-tlssession=
+&#39;: [&#39;crypto-tls-x509-helpers.c&#39;, &#39;pkix_asn1_tab.c&#39;, &#3=
+9;crypto-tls-psk-helpers.c&#39;,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0tasn1, crypto],<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 &#39;tes=
+t-io-channel-tls&#39;: [&#39;io-channel-helpers.c&#39;, &#39;crypto-tls-x50=
+9-helpers.c&#39;, &#39;pkix_asn1_tab.c&#39;,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 tasn1, io, crypto]}<br>&gt; &gt; These tests are failure with=
+:<br>&gt; &gt; ERROR test-crypto-tlscredsx509 - missing test plan<br>&gt; &=
+gt; ERROR test-crypto-tlssession - missing test plan<br>&gt; &gt; ERROR tes=
+t-io-channel-tls - missing test plan<br>&gt; &gt;<br>&gt; &gt; Because on w=
+in32 those test case are all disabled in the header<br>&gt; &gt;<br>&gt; &g=
+t; Add qemu_socket_pair for cross platform support, convert file system<br>=
+&gt; &gt; handling functions to glib<br>&gt; &gt; Add qemu_link function in=
+stead posix only link function.<br>&gt; &gt; Use send ad recv from qemu tha=
+t convert Windows Socks error<br>&gt; &gt; to errno properly.<br>&gt; &gt;<=
+br>&gt; &gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@=
+gmail.com">luoyonggang@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt; [...]<br>=
+&gt; &gt; +static int __stream_socketpair(struct addrinfo* addr_info, int s=
+ock[2]){<br>&gt; &gt; + =C2=A0 =C2=A0SOCKET listener, client, server;<br>&g=
+t; &gt; + =C2=A0 =C2=A0int opt =3D 1;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =
+=C2=A0listener =3D server =3D client =3D INVALID_SOCKET;<br>&gt; &gt; + =C2=
+=A0 =C2=A0listener =3D socket(addr_info-&gt;ai_family, addr_info-&gt;ai_soc=
+ktype, addr_info-&gt;ai_protocol);<br>&gt; &gt; + =C2=A0 =C2=A0if (INVALID_=
+SOCKET =3D=3D listener)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail=
+;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0setsockopt(listener, SOL_SOCKE=
+T, SO_REUSEADDR,(const char*)&amp;opt, sizeof(opt));<br>&gt; &gt; +<br>&gt;=
+ &gt; + =C2=A0 =C2=A0if(SOCKET_ERROR =3D=3D bind(listener, addr_info-&gt;ai=
+_addr, addr_info-&gt;ai_addrlen))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0goto fail;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0if (SOCKET_ERROR =
+=3D=3D getsockname(listener, addr_info-&gt;ai_addr, (int*)&amp;addr_info-&g=
+t;ai_addrlen))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt;=
+ &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0if(SOCKET_ERROR =3D=3D listen(listener,=
+ 5))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &gt; +<br=
+>&gt; &gt; + =C2=A0 =C2=A0client =3D socket(addr_info-&gt;ai_family, addr_i=
+nfo-&gt;ai_socktype, addr_info-&gt;ai_protocol);<br>&gt; &gt; +<br>&gt; &gt=
+; + =C2=A0 =C2=A0if (INVALID_SOCKET =3D=3D client)<br>&gt; &gt; + =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0i=
+f (SOCKET_ERROR =3D=3D connect(client,addr_info-&gt;ai_addr,addr_info-&gt;a=
+i_addrlen))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &g=
+t; +<br>&gt; &gt; + =C2=A0 =C2=A0server =3D accept(listener, 0, 0);<br>&gt;=
+ &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0if (INVALID_SOCKET =3D=3D server)<br>&g=
+t; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &gt; +<br>&gt; &gt;=
+ + =C2=A0 =C2=A0closesocket(listener);<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0=
+ =C2=A0sock[0] =3D client;<br>&gt; &gt; + =C2=A0 =C2=A0sock[1] =3D server;<=
+br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0return 0;<br>&gt; &gt; +fail:<br=
+>&gt; &gt; + =C2=A0 =C2=A0if(INVALID_SOCKET!=3Dlistener)<br>&gt; &gt; + =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0closesocket(listener);<br>&gt; &gt; + =C2=A0 =C2=A0=
+if (INVALID_SOCKET!=3Dclient)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0clo=
+sesocket(client);<br>&gt; &gt; + =C2=A0 =C2=A0return -1;<br>&gt; &gt; +}<br=
+>&gt; &gt; +<br>&gt; &gt; +static int __dgram_socketpair(struct addrinfo* a=
+ddr_info, int sock[2])<br>&gt; &gt; +{<br>&gt; &gt; + =C2=A0 =C2=A0SOCKET c=
+lient, server;<br>&gt; &gt; + =C2=A0 =C2=A0struct addrinfo addr, *result =
+=3D NULL;<br>&gt; &gt; + =C2=A0 =C2=A0const char* address;<br>&gt; &gt; + =
+=C2=A0 =C2=A0int opt =3D 1;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0serv=
+er =3D client =3D INVALID_SOCKET;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=
+=A0server =3D socket(addr_info-&gt;ai_family, addr_info-&gt;ai_socktype, ad=
+dr_info-&gt;ai_protocol); <br>&gt; &gt; + =C2=A0 =C2=A0if (INVALID_SOCKET =
+=3D=3D server)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt;=
+ &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0setsockopt(server, SOL_SOCKET,SO_REUSEA=
+DDR, (const char*)&amp;opt, sizeof(opt));<br>&gt; &gt; +<br>&gt; &gt; + =C2=
+=A0 =C2=A0if(SOCKET_ERROR =3D=3D bind(server, addr_info-&gt;ai_addr, addr_i=
+nfo-&gt;ai_addrlen))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<b=
+r>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0if (SOCKET_ERROR =3D=3D getsockna=
+me(server, addr_info-&gt;ai_addr, (int*)&amp;addr_info-&gt;ai_addrlen))<br>=
+&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &gt; +<br>&gt; &g=
+t; + =C2=A0 =C2=A0client =3D socket(addr_info-&gt;ai_family, addr_info-&gt;=
+ai_socktype, addr_info-&gt;ai_protocol);<br>&gt; &gt; + =C2=A0 =C2=A0if (IN=
+VALID_SOCKET =3D=3D client)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto =
+fail;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0memset(&amp;addr,0,sizeof(=
+addr));<br>&gt; &gt; + =C2=A0 =C2=A0addr.ai_family =3D addr_info-&gt;ai_fam=
+ily;<br>&gt; &gt; + =C2=A0 =C2=A0addr.ai_socktype =3D addr_info-&gt;ai_sock=
+type;<br>&gt; &gt; + =C2=A0 =C2=A0addr.ai_protocol =3D addr_info-&gt;ai_pro=
+tocol;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0if (AF_INET6=3D=3Daddr.ai=
+_family)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0address =3D &quot;0:0:0:=
+0:0:0:0:1&quot;;<br>&gt; &gt; + =C2=A0 =C2=A0else<br>&gt; &gt; + =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0address =3D &quot;127.0.0.1&quot;;<br>&gt; &gt; +<br>&gt; =
+&gt; + =C2=A0 =C2=A0if (getaddrinfo(address, &quot;0&quot;, &amp;addr, &amp=
+;result))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &gt;=
+ +<br>&gt; &gt; + =C2=A0 =C2=A0setsockopt(client,SOL_SOCKET,SO_REUSEADDR,(c=
+onst char*)&amp;opt, sizeof(opt));<br>&gt; &gt; + =C2=A0 =C2=A0if(SOCKET_ER=
+ROR =3D=3D bind(client, result-&gt;ai_addr, result-&gt;ai_addrlen))<br>&gt;=
+ &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &gt; +<br>&gt; &gt; +=
+ =C2=A0 =C2=A0if (SOCKET_ERROR =3D=3D getsockname(client, result-&gt;ai_add=
+r, (int*)&amp;result-&gt;ai_addrlen))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0goto fail;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0if (SOCKET_ERRO=
+R =3D=3D connect(server, result-&gt;ai_addr, result-&gt;ai_addrlen))<br>&gt=
+; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>&gt; &gt; +<br>&gt; &gt; =
++ =C2=A0 =C2=A0if (SOCKET_ERROR =3D=3D connect(client, addr_info-&gt;ai_add=
+r, addr_info-&gt;ai_addrlen))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0got=
+o fail;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0freeaddrinfo(result);<br=
+>&gt; &gt; + =C2=A0 =C2=A0sock[0] =3D client;<br>&gt; &gt; + =C2=A0 =C2=A0s=
+ock[1] =3D server;<br>&gt; &gt; + =C2=A0 =C2=A0return 0;<br>&gt; &gt; +<br>=
+&gt; &gt; +fail:<br>&gt; &gt; + =C2=A0 =C2=A0if (INVALID_SOCKET!=3Dclient)<=
+br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0closesocket(client);<br>&gt; &gt;=
+ + =C2=A0 =C2=A0if (INVALID_SOCKET!=3Dserver)<br>&gt; &gt; + =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0closesocket(server);<br>&gt; &gt; + =C2=A0 =C2=A0if (result)<b=
+r>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0freeaddrinfo(result);<br>&gt; &gt;=
+ + =C2=A0 =C2=A0return -1;<br>&gt; &gt; +}<br>&gt; &gt; +<br>&gt; &gt; +int=
+ qemu_socketpair(int family, int type, int protocol,int recv[2]){<br>&gt; &=
+gt; + =C2=A0 =C2=A0const char* address;<br>&gt; &gt; + =C2=A0 =C2=A0struct =
+addrinfo addr_info,*p_addrinfo;<br>&gt; &gt; + =C2=A0 =C2=A0int result =3D =
+-1;<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0if (family =3D=3D AF_UNIX)<b=
+r>&gt; &gt; + =C2=A0 =C2=A0{<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0fami=
+ly =3D AF_INET;<br>&gt; &gt; + =C2=A0 =C2=A0}<br>&gt; &gt; +<br>&gt; &gt; +=
+ =C2=A0 =C2=A0memset(&amp;addr_info, 0, sizeof(addr_info));<br>&gt; &gt; + =
+=C2=A0 =C2=A0addr_info.ai_family =3D family;<br>&gt; &gt; + =C2=A0 =C2=A0ad=
+dr_info.ai_socktype =3D type;<br>&gt; &gt; + =C2=A0 =C2=A0addr_info.ai_prot=
+ocol =3D protocol;<br>&gt; &gt; + =C2=A0 =C2=A0if (AF_INET6=3D=3Dfamily)<br=
+>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0address =3D &quot;0:0:0:0:0:0:0:1&q=
+uot;;<br>&gt; &gt; + =C2=A0 =C2=A0else<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0address =3D &quot;127.0.0.1&quot;;<br>&gt; &gt; +<br>&gt; &gt; + =C2=
+=A0 =C2=A0if (0 =3D=3D getaddrinfo(address, &quot;0&quot;, &amp;addr_info, =
+&amp;p_addrinfo)){<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (SOCK_STREA=
+M =3D=3D type)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0resu=
+lt =3D __stream_socketpair(p_addrinfo, recv);<br>&gt; &gt; + =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0else if(SOCK_DGRAM =3D=3D type)<br>&gt; &gt; + =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D __dgram_socketpair(p_addrinfo, recv);=
+<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0freeaddrinfo(p_addrinfo);<br>&gt=
+; &gt; + =C2=A0 =C2=A0}<br>&gt; &gt; + =C2=A0 =C2=A0return result;<br>&gt; =
+&gt; +}<br>&gt;<br>&gt; Where do you&#39;ve got this code from? It seems li=
+ke this has been taken<br>&gt; from a 3rd party source? E.g.:<br>&gt;<br>&g=
+t; =C2=A0<a href=3D"https://blog.csdn.net/wufuhuai/article/details/79761889=
+">https://blog.csdn.net/wufuhuai/article/details/79761889</a><br>&gt;<br>&g=
+t; What&#39;s the license of this new code? ... please clarify such details=
+ in<br>The original code have no license information, neither copyleft nor =
+copyright, what&#39;s your suggestion<div>or rewrite it?<br>=C2=A0<br>&gt;<=
+br>&gt; the commit description.<br>&gt;<br>&gt; =C2=A0Thanks,<br>&gt; =C2=
+=A0 Thomas<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=
+=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=
+=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
 
-iQKTBAABCgB9FiEE50NBr50KpJKM5MK59n+4O2olsAAFAl9fJlhfFIAAAAAALgAo
-aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEU3
-NDM0MUFGOUQwQUE0OTI4Q0U0QzJCOUY2N0ZCODNCNkEyNUIwMDAACgkQ9n+4O2ol
-sACXIQ//W7G1t3QWIbSKDsLQ2EQ8bF7J20tL/lBp9iLi6p+KDfdKXK37Tw7X9i9L
-EDbrduT7VHHss3HukZNxuTf6aXbD9YPq+FmZK9CqlCwcGQjelTS3W9oFO3ldHyZZ
-W4LH0hF+l7sqOoZsRhGlz5OvTvGtUCjz7R2dW7VHFGRNxmzOyLgDIaynMEEtksgl
-Qv2RyjaMVdhM9aQUCxpwckzWVOn1Vtzsbfeu9GwFTsXYfTvZKLKQBRZ15uxOc3Vy
-T2pzqOHgmJDBTzf8fFcHqs9z7iD/7LVhinoJpvDhIRg3msSbssp/X5p2nY3mhw6l
-Bgs2f1f7jC5WQRXaA7wOxDYcTiL3DD6+hmt1yvggEGIazuXSX8o4d5Jytjo+K5uw
-Ef05rhiRZDedu8oF/YkWsbwTjrC5cGvOWGfW5XC2gyfJ0vUlMRd2nB4u7mG+MBiN
-TIDALESbIAtsw/SLnkXWziY6abNfx7OBi0KZgkVnROm4tl7pUnI/V8I7R63JjVte
-S3dVBq+IrfStXSbSGhfQNnxVBO+UxtbYwiiYrPGVnWSFZORy/H3ZLosem7EJMBsu
-82lNf9Pq6pPVhCNnP/6WwInvM45xrh0py+nSLlRYN8lVPHajRwgW4owhj88edBcX
-e4m5p82gQR4+VypcDsj2OVatKZCzNSPB7WkYn1ZfFnOF0Qoz6EE=
-=U7kY
------END PGP SIGNATURE-----
-
---nextPart6224825.MDQidcC6GM--
-
-
-
+--0000000000001445cb05af41b180--
 
