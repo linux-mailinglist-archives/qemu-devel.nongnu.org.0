@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3560F2685B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:23:36 +0200 (CEST)
-Received: from localhost ([::1]:37314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939472685E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:30:24 +0200 (CEST)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHipr-00018D-9o
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:23:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49588)
+	id 1kHiwR-0008MZ-N8
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:30:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHikY-0008MU-6Z
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:18:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48941)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHil7-0001Ou-Ck
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:18:41 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59349
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHikV-00025N-FK
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:18:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHil5-0002B6-Di
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:18:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600067882;
+ s=mimecast20190719; t=1600067918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kwRsiAgwiuMJ8M0GDg76a+2Chg0wg2H4wvRAU+ZIZ68=;
- b=eYNfFSanknKMDOb8qzRIAeYk9F8XbOeH5wF9NNR0CutStyk5iwpWukR26OeOe+s5xQGV/w
- uXrgHM4sBceMy57joS1oq2+MSofykJ8gUN/kJjGOd/eF164slzeWO2Wjr2QuZrU/k+D9DR
- QaA20ggDNfuAqHgiXLFND3hdUNHcy24=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-adSDTHIbMCagWmdJPzaE1Q-1; Mon, 14 Sep 2020 03:17:58 -0400
-X-MC-Unique: adSDTHIbMCagWmdJPzaE1Q-1
-Received: by mail-wm1-f70.google.com with SMTP id x81so2132558wmg.8
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 00:17:58 -0700 (PDT)
+ bh=sV+NlrfPirEi8SZ5UJtI4I6RSRCs1z27ZLnxNRxfG2k=;
+ b=QItvuMl7uMtZLNXsMX3zmrHTyihIK7K6Y2yq7Ob965867t67l2TcPkVKJ8/RgHkWDRQLFP
+ g23RDDhjmPKdLJFb3WUrQmkqYr4Dhv82bDgclejn34YvNcO/J9aXJWPMSMW3FOsAR4c4np
+ ceWaRC+XuxJR9pBnQrVzFyioCGgGyYY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-P6xVU77XMXqQcOGc9w4PwA-1; Mon, 14 Sep 2020 03:18:35 -0400
+X-MC-Unique: P6xVU77XMXqQcOGc9w4PwA-1
+Received: by mail-wr1-f70.google.com with SMTP id n15so6493730wrv.23
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 00:18:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kwRsiAgwiuMJ8M0GDg76a+2Chg0wg2H4wvRAU+ZIZ68=;
- b=tC/jeBRcGdwxrFwgk4f4jcNzC+oMctnT48VR0aOWfD2eVMmjBQ+KODbn0CVRa0qW/s
- wxigbRzdnepEaC2QCVjC7GZhcZafws0wx/05K2FU42W/AhliETYUVHxcwmkaLva1H9Rk
- leLn2ChSgwIMLOBqsfvRMtu63hUcUVkRxfnES9zNpfv2O5Nc8af1w1SeCxIrznO+TIZU
- NGJVuXx11CN+uAYuA+nhe47BtekgcMbh0ZeyhxAc3fNvK5HA9a7MKlfGjRb7BF0iYSQd
- DZV1maDh/bQP0vR0pxtoIfNKg5UrvzNZ2jHsWhtwocFjAX6lf1w27Ynykq5bI6dFx3gF
- DMsw==
-X-Gm-Message-State: AOAM531l/ZGKD1RmBrIMY8A9b0fID79zHOzcBeiqNR9JJKqGmXzxVaE8
- tVJ+bliOA7hrQnr2nE5hKPeBKuXqy9vynbcpZfiS4Cg/a7Lty/O0n/7O11ganC4AQcwYg/W8rIT
- Prf7KPMwk8XAWd+g=
-X-Received: by 2002:adf:f382:: with SMTP id m2mr13652723wro.327.1600067876931; 
- Mon, 14 Sep 2020 00:17:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwhTMFfzClwTwYTcPjK/+GTMHaihx/N+J3Nqwsc8vdNxgcVz3EIllZpLuQrWA31ADoUv/x9Iw==
-X-Received: by 2002:adf:f382:: with SMTP id m2mr13652716wro.327.1600067876787; 
- Mon, 14 Sep 2020 00:17:56 -0700 (PDT)
+ bh=sV+NlrfPirEi8SZ5UJtI4I6RSRCs1z27ZLnxNRxfG2k=;
+ b=mfCaFhUQ7TfZQeMZRRhjHPftXuDW7senq2ooPcUbjtiGpockqnlBdRYqs4YylHlMYE
+ WIcRZdBqnR35MK35ZZn3+nuN9hXB5oeF8r7EpSNEO8BDdS2mzsv+KjM+IVYXPQKggaDf
+ 0zu2gTbINPgejLA0V0vK9584dzfWnrRYQZ1Sq2R95bwGFZ6tEX6s2WA2cFmMZh0vaQdh
+ Va67PRD+ocPo+kgnLSiZR5z8Zd7/rXqtyIe6DS+9cGJ9umZ2JwNnUVVlmRQL4biluxV0
+ WuWH94/9XuHAMgnXKnnSgPJv2xAq+Imwx02rt3p2fJxRb8+iHgMc6ZCXaaZ4sP2MrXt6
+ OSfw==
+X-Gm-Message-State: AOAM533a5j6pk32mYkLmavHyKHJbl9Pj/s/fd5D+Mwkncf78lpt/Dk79
+ 8NN+cp2KZZZjjxccLHZhjN846L76X5bwd6UmgJGHHse74NYyo6ftUP+nTFHRX3Lcienl/nnUtDD
+ pgplHOIPLLVyi/mk=
+X-Received: by 2002:a5d:610d:: with SMTP id v13mr13783982wrt.23.1600067914341; 
+ Mon, 14 Sep 2020 00:18:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx75Ulaehtv2eJWdGy22XO+Z6EsWwT5MXhRU+P4LW0uPEZjCIQH2FZaoHk+OPBcBIRF2FEq1Q==
+X-Received: by 2002:a5d:610d:: with SMTP id v13mr13783966wrt.23.1600067914193; 
+ Mon, 14 Sep 2020 00:18:34 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id l10sm18142419wru.59.2020.09.14.00.17.55
+ by smtp.gmail.com with ESMTPSA id t15sm13208295wrp.20.2020.09.14.00.18.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 00:17:56 -0700 (PDT)
+ Mon, 14 Sep 2020 00:18:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/10] roms/Makefile.edk2: enable new ARM/AARCH64 flags up to
- edk2-stable202008
-Date: Mon, 14 Sep 2020 09:17:17 +0200
-Message-Id: <20200914071720.1099898-8-philmd@redhat.com>
+Subject: [PULL 09/10] pc-bios: update the README file with edk2-stable202008
+ information
+Date: Mon, 14 Sep 2020 09:17:19 +0200
+Message-Id: <20200914071720.1099898-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200914071720.1099898-1-philmd@redhat.com>
 References: <20200914071720.1099898-1-philmd@redhat.com>
@@ -74,17 +75,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:33:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,55 +105,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laszlo Ersek <lersek@redhat.com>
 
-Edk2 commit ffe048a0807b ("ArmVirtPkg: handle NETWORK_TLS_ENABLE in
-ArmVirtQemu*", 2019-06-28), part of edk2-stable201908, allows us to
-include the UEFI HTTPS Boot feature in the ArmVirtQemu fw platform (ARM
-and AARCH64).
-
-Edk2 commit range 4c0f6e349d32..0980779a9ddc, part of edk2-stable202005,
-added TPM2 support to ArmVirtQemu; enable it as well. (Unlike with OVMF
-IA32 and X64, TPM-1.2 support is not included, hence the TPM2-specific
-flag names.)
+Refresh the "pc-bios/README" file with edk2 and OpenSSL release info,
+matching the edk2-stable202008 firmware images added in the previous
+patch.
 
 Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
 Ref: https://bugs.launchpad.net/qemu/+bug/1852196
 Signed-off-by: Laszlo Ersek <lersek@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200908072939.30178-8-lersek@redhat.com>
+Message-Id: <e967b4d5-bcc2-3846-0ad6-9e8f4d2f9115@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- roms/Makefile.edk2 | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ pc-bios/README | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-index 8cdf337fc1e..a8ed3255757 100644
---- a/roms/Makefile.edk2
-+++ b/roms/Makefile.edk2
-@@ -64,7 +64,10 @@ submodules:
- 		--arch=AARCH64 \
- 		--platform=ArmVirtPkg/ArmVirtQemu.dsc \
- 		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE
-+		-D NETWORK_HTTP_BOOT_ENABLE \
-+		-D NETWORK_TLS_ENABLE \
-+		-D TPM2_ENABLE \
-+		-D TPM2_CONFIG_ENABLE
- 	cp edk2/Build/ArmVirtQemu-AARCH64/DEBUG_$(call toolchain,aarch64)/FV/QEMU_EFI.fd \
- 		$@
- 	truncate --size=64M $@
-@@ -75,7 +78,10 @@ submodules:
- 		--arch=ARM \
- 		--platform=ArmVirtPkg/ArmVirtQemu.dsc \
- 		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE
-+		-D NETWORK_HTTP_BOOT_ENABLE \
-+		-D NETWORK_TLS_ENABLE \
-+		-D TPM2_ENABLE \
-+		-D TPM2_CONFIG_ENABLE
- 	cp edk2/Build/ArmVirtQemu-ARM/DEBUG_$(call toolchain,arm)/FV/QEMU_EFI.fd \
- 		$@
- 	truncate --size=64M $@
+diff --git a/pc-bios/README b/pc-bios/README
+index fa8b58b7972..2e49be607e0 100644
+--- a/pc-bios/README
++++ b/pc-bios/README
+@@ -52,8 +52,8 @@
+   variable store templates built from the TianoCore community's EFI Development
+   Kit II project
+   <https://github.com/tianocore/tianocore.github.io/wiki/EDK-II>. The images
+-  were built at git tag "edk2-stable201905". The firmware binaries bundle parts
+-  of the OpenSSL project, at git tag "OpenSSL_1_1_1b" (the OpenSSL tag is a
++  were built at git tag "edk2-stable202008". The firmware binaries bundle parts
++  of the OpenSSL project, at git tag "OpenSSL_1_1_1g" (the OpenSSL tag is a
+   function of the edk2 tag). Parts of the Berkeley SoftFloat library are
+   bundled as well, at Release 3e plus a subsequent typo fix (commit
+   b64af41c3276f97f0e181920400ee056b9c88037), as an OpenSSL dependency on 32-bit
 -- 
 2.26.2
 
