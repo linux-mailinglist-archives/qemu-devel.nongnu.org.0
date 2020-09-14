@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DD8268C96
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:53:29 +0200 (CEST)
-Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0D9268C8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:51:26 +0200 (CEST)
+Received: from localhost ([::1]:52116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHovA-00028S-H5
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34664)
+	id 1kHotC-00072J-2T
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kHolc-0004SW-Vm
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:43:37 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44159)
+ id 1kHolf-0004aC-QO
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:43:39 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:34507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kHolb-0003Dh-Bo
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:43:36 -0400
-Received: by mail-pf1-x442.google.com with SMTP id o20so12649666pfp.11
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:43:34 -0700 (PDT)
+ id 1kHole-0003Dt-2O
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:43:39 -0400
+Received: by mail-pf1-x432.google.com with SMTP id v196so12803331pfc.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=zoKhLvexSKKYei1gir7mK7K/SpLcA8kaJU8i6ucZAWw=;
- b=NKgh89W650cMzLxY0cCC/hzh9Led3M1MVzosGxjYMKCsqjlV/J1icAycchtwdvuu60
- hrhs7X+E19i9ZaxzAIBqtfcIrMnoUpxr1XQ0HKlwsV3xJYxN2gQeV6FX6TBNn8adchUN
- w+HqdC2G+h9dpJYoLH4gekqVb6oUlfsI3g5pzg/3KI+sY/KXaTtUT+ishcmopzRUMIZx
- +7umaITeT36VnGlym/H2l1HokX0bDZJyAHy1d4XK+7uxcETAHZN5ja8cd6X5ruu1tVnU
- NwrBlaaeO5qzz9jMc6puhhFk3DYTKkypxN4qdoka7dVZeyB6SYgbUziGakwLSCWw01w2
- hbXQ==
+ bh=JROvm5rr8+1Wo6J5ML/BSylPouNvBTyMPETS3dPRS0U=;
+ b=iO2NTlUwRzUBjKxIrIcrFbtpVDp0XQ0a1GoBBi8ezebXOEJYVnCFA5YE3yDHFpdqN0
+ UpWaBYutZ4W4KeHjlRUo8YXQlFpdCWW8EvFRG62gxkpBQmf5/514DLIH3AYrmBwTKN2t
+ Yz7jfi/B0b3JGjFqS/Y3jbHISVXncB3CmGQ1E5LcDjurXf13L116h9PLNMYAX0SWIQg3
+ huxoZAHVkCFMhas2w877YQjNDg5iqiQJXguTI0mAC1dlCGQzsYmeRo6kR8PXrhcOHc4q
+ OrcOAPKjL+uy+FdtvWCXzfGL9Dn/iYq+NmYnnQYKaUeBW1itpVT8EgRpKhrFZSNJb8u2
+ 3LXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=zoKhLvexSKKYei1gir7mK7K/SpLcA8kaJU8i6ucZAWw=;
- b=erL7TqW3X2XLTjugxZZn9USs7LuQTWdtBuYB8CwfumJvTFvAk6uPsdoDjg9ApIIyDm
- T3BOWJhA2dzDc7uNIVRT8HWpcA9gvNN+BHTG3AZXTvJeby1rW246XgthGivhUU6qSYz/
- Hm8iiwmBIQriKeO9Rs/3zyLIJ8UfzRNiRYGBbWjFcn+KDKLtj6m+u5VnreYcoqDKfm9t
- nMI20sKG+z3Yc1sZ1FKMU5kLuQ1GB9+6k0oYpzJa5gLnc6v3xIKi3RwTdpIHxC4mE+li
- WREpVacNYyesLo3lv/1HX8xjA8o0N4MYzbQ0R8mKh4Z/6ZL/2QM9ZIAauii2jjJct48s
- wG0w==
-X-Gm-Message-State: AOAM532TM79e9d8Dl3H2MxpY7RPVI+EI4zEUMeJBBBmD/mCUyKR3ZTc4
- jvcQ7bz2dYL7GE8CJYigsrGRFhgOnp+caw==
-X-Google-Smtp-Source: ABdhPJy9Ac3gg7uyHLthdUyrmFWrWgUy/wO2Dq1jvBS3jQjmFWFD7gIxlV+wrfQyB3NDy+Q5ZvacZA==
-X-Received: by 2002:a63:f53:: with SMTP id 19mr11024521pgp.26.1600091013884;
- Mon, 14 Sep 2020 06:43:33 -0700 (PDT)
+ bh=JROvm5rr8+1Wo6J5ML/BSylPouNvBTyMPETS3dPRS0U=;
+ b=NFZff72ez7sXpfKCl/T3CO/wUgzGYwRWQY1nH3z3cB45bnWruNZ1SVZHUYJoWmSrBl
+ UE3vt0HOdpyrcuCXyoSBayfHcGucPmVYg6iL6TZuObHKuAP/0w32IUsfSN9VDY55gc7O
+ G5h/2A8xE5xtKUxPjLbJEQSiQh5UjP6bA0iDJnaLKlaa01F8/LB91A1qAGk2WLWi48q+
+ 6euJbLqrJMumwyDocDLBeQj7uADXgyZ+XQcaDmD7Ooxrmee9PaH5jU7zyKUXXNhilgrz
+ eMRPojwaOuVevvyydcFKnlklV/IIN6K1+jBpevw4nU7yDjM/F9TQBb02WOVpeCHYQWVX
+ REVw==
+X-Gm-Message-State: AOAM533QaBTxmeHJAVCMHd71IAkHVfAHcP3betH+1iddMiqM7ZJPVzsT
+ D3zhT79VjU/O5pfeApqyo0v3Yg==
+X-Google-Smtp-Source: ABdhPJz3IDFU3LaNb/2kVDj8Xj91ZvFmbnrqBDRygh4Rh/LOCuRErfRq2Y/yjx+HnrSSKzRvQT3idQ==
+X-Received: by 2002:a62:4e49:: with SMTP id c70mr13275778pfb.100.1600091016777; 
+ Mon, 14 Sep 2020 06:43:36 -0700 (PDT)
 Received: from libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id c4sm7626378pjq.7.2020.09.14.06.43.31
+ by smtp.gmail.com with ESMTPSA id c4sm7626378pjq.7.2020.09.14.06.43.34
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Sep 2020 06:43:33 -0700 (PDT)
+ Mon, 14 Sep 2020 06:43:36 -0700 (PDT)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: armbru@redhat.com,
 	pbonzini@redhat.com,
 	mtosatti@redhat.com
-Subject: [PATCH 2/3] iqapi/run-state.json: introduce memory failure event
-Date: Mon, 14 Sep 2020 21:43:20 +0800
-Message-Id: <20200914134321.958079-3-pizhenwei@bytedance.com>
+Subject: [PATCH 3/3] target-i386: post memory failure event to uplayer
+Date: Mon, 14 Sep 2020 21:43:21 +0800
+Message-Id: <20200914134321.958079-4-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20200914134321.958079-1-pizhenwei@bytedance.com>
 References: <20200914134321.958079-1-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -87,69 +87,77 @@ Cc: qemu-devel@nongnu.org, pizhenwei@bytedance.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce 4 memory failure events for a guest. Then uplayer could
-know when/why/what happened to a guest during hitting a hardware
-memory failure.
+Post memory failure event to uplayer to handle hardware memory
+corrupted event. Rather than simple QEMU log, QEMU could report more
+effective message to uplayer. For example, guest crashes by MCE,
+selecting another host server is a better choice.
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- qapi/run-state.json | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ target/i386/helper.c | 5 +++++
+ target/i386/kvm.c    | 5 ++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 7cc9f96a5b..fdc39ce262 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -475,3 +475,49 @@
-            'psw-mask': 'uint64',
-            'psw-addr': 'uint64',
-            'reason': 'S390CrashReason' } }
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 0c7fd32491..f7b2dbeec8 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/qapi-events-run-state.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "qemu/qemu-print.h"
+@@ -897,6 +898,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+         }
+ 
+         if (cenv->mcg_status & MCG_STATUS_MCIP) {
++            qapi_event_send_memory_failure(
++                 MEMORY_FAILURE_ACTION_GUEST_TRIPLE_FAULT);
+             need_reset = true;
+             snprintf(msg, sizeof(msg), "CPU %d: Previous MCE still in progress,"
+                      " raising triple fault", cs->cpu_index);
+@@ -934,6 +937,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+     } else {
+         banks[1] |= MCI_STATUS_OVER;
+     }
 +
-+##
-+# @MEMORY_FAILURE:
-+#
-+# Emitted when a memory failure occurs on host side.
-+#
-+# @action: action that has been taken. action is defined as @MemoryFailureAction.
-+#
-+# Since: 5.2
-+#
-+# Example:
-+#
-+# <- { "event": "MEMORY_FAILURE",
-+#      "data": { "action": "guest-mce" } }
-+#
-+##
-+{ 'event': 'MEMORY_FAILURE',
-+  'data': { 'action': 'MemoryFailureAction'} }
-+
-+##
-+# @MemoryFailureAction:
-+#
-+# Host memory failure occurs, handled by QEMU.
-+#
-+# @hypervisor-ignore: action optional memory failure at QEMU process
-+#                     addressspace (none PC-RAM), QEMU could ignore this
-+#                     hardware memory failure.
-+#
-+# @hypervisor-stop: action required memory failure at QEMU process address
-+#                   space (none PC-RAM), QEMU has to stop itself.
-+#
-+# @guest-mce: action required memory failure at PC-RAM, and guest enables MCE
-+#             handling, QEMU injects MCE to guest.
-+#
-+# @guest-triple-fault: action required memory failure at PC-RAM, but guest does
-+#                      not enable MCE handling. QEMU raises triple fault and
-+#                      shutdown/reset. Also see detailed info in QEMU log.
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'enum': 'MemoryFailureAction',
-+  'data': [ 'hypervisor-ignore',
-+            'hypervisor-stop',
-+            'guest-mce',
-+            'guest-triple-fault' ] }
++    qapi_event_send_memory_failure(MEMORY_FAILURE_ACTION_GUEST_MCE);
+ }
+ 
+ void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 205b68bc0c..63a585cc64 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -14,6 +14,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-events-run-state.h"
+ #include <sys/ioctl.h>
+ #include <sys/utsname.h>
+ 
+@@ -577,6 +578,7 @@ static void kvm_mce_inject(X86CPU *cpu, hwaddr paddr, int code)
+ 
+ static void hardware_memory_error(void *host_addr)
+ {
++    qapi_event_send_memory_failure(MEMORY_FAILURE_ACTION_HYPERVISOR_STOP);
+     error_report("QEMU got Hardware memory error at addr %p", host_addr);
+     exit(1);
+ }
+@@ -631,7 +633,8 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
+         hardware_memory_error(addr);
+     }
+ 
+-    /* Hope we are lucky for AO MCE */
++    /* Hope we are lucky for AO MCE, just notify a event */
++    qapi_event_send_memory_failure(MEMORY_FAILURE_ACTION_HYPERVISOR_IGNORE);
+ }
+ 
+ static void kvm_reset_exception(CPUX86State *env)
 -- 
 2.11.0
 
