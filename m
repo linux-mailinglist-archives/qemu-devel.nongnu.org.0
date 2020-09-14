@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB0B268265
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 04:00:44 +0200 (CEST)
-Received: from localhost ([::1]:34948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84B2268267
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 04:01:58 +0200 (CEST)
+Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHdnO-0003gZ-Oe
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 22:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59288)
+	id 1kHdob-0006Ja-Ng
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 22:01:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kHdm3-00024L-Bx
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:19 -0400
-Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:37044)
+ id 1kHdm5-00029c-8l
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:21 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:36297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kHdm1-0008H4-Qp
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:19 -0400
-Received: by mail-oo1-xc32.google.com with SMTP id y25so3652205oog.4
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:59:17 -0700 (PDT)
+ id 1kHdm3-0008Hh-2j
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:20 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id 60so13496622otw.3
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5T0JpCmR/oQz9FLTWSv2VuE7e0horR/v6KF7kl9A6EA=;
- b=DwiPDFRSrqERqpwT8iR9bfkpMA7jw4uSoS6S6Y5Ehq7nNDXlUFKZNiU8YGHpuv9ruN
- kmxDC5vpNUaq3za9X9nYvDJkQWW0lfrVsUZ+fxrTgtW0IqmapdTeWoplVPsh3xoauX0H
- Lsq6Jyrj6EWSIrCRUhCwLBvDEUPoSsV57QhStBjH0RdkTyKCljLTKN8KNVAvoY0aIpGn
- 9irzgSTcje4WReKWef5tjrpkRhBshG/3JKhA2M3SNbYgM+ativ9ygYpt3RnqiLEuL2Id
- 05Vj/E74oYatijdNxyROajUBGIwhvYKKvljCcaEokov+uaGgebCWDBPDLL7IYVwkim2r
- xZNA==
+ bh=9RoMuOnlNagsssayOjT/cEjQxFzxPt4HphwvxS7xW0s=;
+ b=jdwFSN1fzDQne+euwSO3WzKrANuDZIvTnBMY+qhFV+axTTw2aoLQkGetUg8nzC0iP1
+ dd2vKb+tHJZBckv8poape3Xq9gzH80DBojd5OPoKFVlPSMDre2K2eiZbmjDYKIvxx7pw
+ quB1QbvZSU54DPUmDhncr0+sMSmjJnIK1PbfxNqHHRU0w2U6Lk0+Ev7hU5c1xTsGQp4s
+ gCAtrcq3vdfAyiRw8aoFFIGflc1IX27QkVyf+LdP/7zALtxAFfS3UFwmQtoqyug0aOdP
+ QRBuTDP2w/N9WCEKMX6ks7HY+LF64eso74MS62cKO8f1MivZTbDK4QZsA3uk4lqf/kqs
+ 93Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5T0JpCmR/oQz9FLTWSv2VuE7e0horR/v6KF7kl9A6EA=;
- b=Xp9JTwcXTLCXDqu6AgyVifcWTRuA2QyxiK/1tMWYWwxzsZzLtwnT7fr55Uj64d2F4N
- ZHCw1UhKHNc8AfpJcFkm2t4JH7pNS6VKL18PoNB9Q/vcSfl3gadM+7SZiNcJFDzGFfx4
- 8V6SIZ/27ajCM3Hz4nwz5S45mZ4pHyAvFYqte5z1aIeQY5zZtewHHhcG0HfaIyxje/qc
- T78CZ6I7h8SCKq9qkQyADNf/O6vdgVI50TBh8gLRTJI4+OM0BnojNKLLEdNY8UVezkh+
- dahFF6IqwOKtIa11AxVFbMad3E4xgGSHJpQoQdzL6BLMTy/X8wGlCBotfQq9fALUoyuE
- EZuw==
-X-Gm-Message-State: AOAM533OL2UBHrNVST5+tawryeWdzGWhlEpFomHurskrH6DzIJLRU6y7
- KB7ZammmXrx8rZqJJGnY8tJzDGVayVY=
-X-Google-Smtp-Source: ABdhPJywWLiMaiv2GLoImsnWzFRyVnVqxB5N/b3qpL7NrBntuBkSh8BbLL4XIqMsnT9NljkOQVaOhg==
-X-Received: by 2002:a4a:864b:: with SMTP id w11mr7285081ooh.67.1600048756520; 
- Sun, 13 Sep 2020 18:59:16 -0700 (PDT)
+ bh=9RoMuOnlNagsssayOjT/cEjQxFzxPt4HphwvxS7xW0s=;
+ b=YCB9JP9W0Qnd+6bu6pTnf6h8zRVSDLrNoPHrs4sz5Tuk+QcLaA0cmoBWz8Z5qrOPWU
+ 8c04IbOdcNgEqCSeBdhn/IcxJyw9f0L5FuFoDwSftGcg77GxqqTN/Yv/kzFS0JnQh1r/
+ wziSnJpiInTg1BguMT+5LJJhkr4ihQX+tO7mPE8s+RWmDyVTECybVumzd0f/IJhURHTj
+ KGVSRYEDw8YFNK/KJeFXN6t86AZPpAJtpeeWlMFf6MX8CesRULXRACfRWhHzV1qIWJcC
+ NKFXK1AI+fTKM5n1qaQ4G5tWRUTU3ZyBWmoxazhUfwvytvi3zORLdaKgVNjKcrwMWoj8
+ UUVA==
+X-Gm-Message-State: AOAM530X9tXxCE2HwJTrAkeZr8GlNIM7RxAbnKAkB3m0gX9s3RHgn+Ko
+ Xt+tAZ6bgcaJA9jljQGN+pBZ/NJLnXU=
+X-Google-Smtp-Source: ABdhPJwdf0rGfZefoEvBAHsnnuIwrKak0mNOqQxavdny69vFkzeVx5QWwoBrKdrW5YvbkUwaDnG93Q==
+X-Received: by 2002:a9d:74d8:: with SMTP id a24mr7660450otl.211.1600048757611; 
+ Sun, 13 Sep 2020 18:59:17 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id m12sm2369587otq.8.2020.09.13.18.59.15
+ by smtp.gmail.com with ESMTPSA id c26sm2371652otr.50.2020.09.13.18.59.16
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 13 Sep 2020 18:59:16 -0700 (PDT)
+ Sun, 13 Sep 2020 18:59:17 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] qga/commands-posix: Support fsinfo for non-PCI virtio
- devices, too
-Date: Sun, 13 Sep 2020 20:59:01 -0500
-Message-Id: <20200914015902.25769-4-mdroth@linux.vnet.ibm.com>
+Subject: [PULL 4/4] qga: add command guest-get-devices for reporting VirtIO
+ devices
+Date: Sun, 13 Sep 2020 20:59:02 -0500
+Message-Id: <20200914015902.25769-5-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200914015902.25769-1-mdroth@linux.vnet.ibm.com>
 References: <20200914015902.25769-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
- envelope-from=flukshun@gmail.com; helo=mail-oo1-xc32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,83 +88,366 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Tomáš Golembiovský <tgolembi@redhat.com>
 
-QEMU on s390x uses virtio via channel I/O instead of PCI by default.
-Add a function to detect and provide information for virtio-scsi and
-virtio-block devices here, too.
+Add command for reporting devices on Windows guest. The intent is not so
+much to report the devices but more importantly the driver (and its
+version) that is assigned to the device. This gives caller the
+information whether VirtIO drivers are installed and/or whether
+inadequate driver is used on a device (e.g. QXL device with base VGA
+driver).
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Example:
+[
+    {
+      "driver-date": "2019-08-12",
+      "driver-name": "Red Hat VirtIO SCSI controller",
+      "driver-version": "100.80.104.17300",
+      "address": {
+        "type": "pci",
+        "data": {
+          "device-id": 4162,
+          "vendor-id": 6900
+        }
+      }
+    },
+    ...
+]
+
+Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+*remove redundant glib autoptr declaration for GuestDeviceInfo
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/commands-posix.c | 42 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
+ qga/commands-posix.c |   9 ++
+ qga/commands-win32.c | 210 ++++++++++++++++++++++++++++++++++++++++++-
+ qga/qapi-schema.json |  51 +++++++++++
+ 3 files changed, 269 insertions(+), 1 deletion(-)
 
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index e8467ac567..744c2b5a5d 100644
+index 744c2b5a5d..af5a58a9fd 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -996,6 +996,39 @@ cleanup:
-     return ret;
- }
- 
-+/*
-+ * Store disk device info for non-PCI virtio devices (for example s390x
-+ * channel I/O devices). Returns true if information has been stored, or
-+ * false for failure.
-+ */
-+static bool build_guest_fsinfo_for_nonpci_virtio(char const *syspath,
-+                                                 GuestDiskAddress *disk,
-+                                                 Error **errp)
-+{
-+    unsigned int tgt[3];
-+    char *p;
-+
-+    if (!strstr(syspath, "/virtio") || !strstr(syspath, "/block")) {
-+        g_debug("Unsupported virtio device '%s'", syspath);
-+        return false;
-+    }
-+
-+    p = strstr(syspath, "/target");
-+    if (p && sscanf(p + 7, "%*u:%*u:%*u/%*u:%u:%u:%u",
-+                    &tgt[0], &tgt[1], &tgt[2]) == 3) {
-+        /* virtio-scsi: target*:0:<target>:<unit> */
-+        disk->bus_type = GUEST_DISK_BUS_TYPE_SCSI;
-+        disk->bus = tgt[0];
-+        disk->target = tgt[1];
-+        disk->unit = tgt[2];
-+    } else {
-+        /* virtio-blk: 1 disk per 1 device */
-+        disk->bus_type = GUEST_DISK_BUS_TYPE_VIRTIO;
-+    }
-+
-+    return true;
-+}
-+
- /* Store disk device info specified by @sysfs into @fs */
- static void build_guest_fsinfo_for_real_device(char const *syspath,
-                                                GuestFilesystemInfo *fs,
-@@ -1046,7 +1079,14 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-     udev_device_unref(udevice);
+@@ -2822,6 +2822,8 @@ GList *ga_command_blacklist_init(GList *blacklist)
+     blacklist = g_list_append(blacklist, g_strdup("guest-fstrim"));
  #endif
  
--    has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
-+    if (strstr(syspath, "/devices/pci")) {
-+        has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
-+    } else if (strstr(syspath, "/virtio")) {
-+        has_hwinf = build_guest_fsinfo_for_nonpci_virtio(syspath, disk, errp);
-+    } else {
-+        g_debug("Unsupported device type for '%s'", syspath);
-+        has_hwinf = false;
-+    }
++    blacklist = g_list_append(blacklist, g_strdup("guest-get-devices"));
++
+     return blacklist;
+ }
  
-     if (has_hwinf || disk->has_dev || disk->has_serial) {
-         list->next = fs->disk;
+@@ -3042,3 +3044,10 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+ 
+     return info;
+ }
++
++GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++
++    return NULL;
++}
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 15c9d7944b..48d8bbe649 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -21,10 +21,11 @@
+ #ifdef CONFIG_QGA_NTDDSCSI
+ #include <winioctl.h>
+ #include <ntddscsi.h>
++#endif
+ #include <setupapi.h>
+ #include <cfgmgr32.h>
+ #include <initguid.h>
+-#endif
++#include <devpropdef.h>
+ #include <lm.h>
+ #include <wtsapi32.h>
+ #include <wininet.h>
+@@ -39,6 +40,36 @@
+ #include "qemu/base64.h"
+ #include "commands-common.h"
+ 
++/*
++ * The following should be in devpkey.h, but it isn't. The key names were
++ * prefixed to avoid (future) name clashes. Once the definitions get into
++ * mingw the following lines can be removed.
++ */
++DEFINE_DEVPROPKEY(qga_DEVPKEY_NAME, 0xb725f130, 0x47ef, 0x101a, 0xa5,
++    0xf1, 0x02, 0x60, 0x8c, 0x9e, 0xeb, 0xac, 10);
++    /* DEVPROP_TYPE_STRING */
++DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_HardwareIds, 0xa45c254e, 0xdf1c,
++    0x4efd, 0x80, 0x20, 0x67, 0xd1, 0x46, 0xa8, 0x50, 0xe0, 3);
++    /* DEVPROP_TYPE_STRING_LIST */
++DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverDate, 0xa8b865dd, 0x2e3d,
++    0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 2);
++    /* DEVPROP_TYPE_FILETIME */
++DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverVersion, 0xa8b865dd, 0x2e3d,
++    0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 3);
++    /* DEVPROP_TYPE_STRING */
++/* The following shoud be in cfgmgr32.h, but it isn't */
++#ifndef CM_Get_DevNode_Property
++CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
++    DEVINST          dnDevInst,
++    CONST DEVPROPKEY * PropertyKey,
++    DEVPROPTYPE      * PropertyType,
++    PBYTE            PropertyBuffer,
++    PULONG           PropertyBufferSize,
++    ULONG            ulFlags
++);
++#define CM_Get_DevNode_Property CM_Get_DevNode_PropertyW
++#endif
++
+ #ifndef SHTDN_REASON_FLAG_PLANNED
+ #define SHTDN_REASON_FLAG_PLANNED 0x80000000
+ #endif
+@@ -2246,3 +2277,180 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+ 
+     return info;
+ }
++
++/*
++ * Safely get device property. Returned strings are using wide characters.
++ * Caller is responsible for freeing the buffer.
++ */
++static LPBYTE cm_get_property(DEVINST devInst, const DEVPROPKEY *propName,
++    PDEVPROPTYPE propType)
++{
++    CONFIGRET cr;
++    g_autofree LPBYTE buffer = NULL;
++    ULONG buffer_len = 0;
++
++    /* First query for needed space */
++    cr = CM_Get_DevNode_PropertyW(devInst, propName, propType,
++        buffer, &buffer_len, 0);
++    if (cr != CR_SUCCESS && cr != CR_BUFFER_SMALL) {
++
++        slog("failed to get property size, error=0x%lx", cr);
++        return NULL;
++    }
++    buffer = g_new0(BYTE, buffer_len + 1);
++    cr = CM_Get_DevNode_PropertyW(devInst, propName, propType,
++        buffer, &buffer_len, 0);
++    if (cr != CR_SUCCESS) {
++        slog("failed to get device property, error=0x%lx", cr);
++        return NULL;
++    }
++    return g_steal_pointer(&buffer);
++}
++
++static GStrv ga_get_hardware_ids(DEVINST devInstance)
++{
++    GArray *values = NULL;
++    DEVPROPTYPE cm_type;
++    LPWSTR id;
++    g_autofree LPWSTR property = (LPWSTR)cm_get_property(devInstance,
++        &qga_DEVPKEY_Device_HardwareIds, &cm_type);
++    if (property == NULL) {
++        slog("failed to get hardware IDs");
++        return NULL;
++    }
++    if (*property == '\0') {
++        /* empty list */
++        return NULL;
++    }
++    values = g_array_new(TRUE, TRUE, sizeof(gchar *));
++    for (id = property; '\0' != *id; id += lstrlenW(id) + 1) {
++        gchar *id8 = g_utf16_to_utf8(id, -1, NULL, NULL, NULL);
++        g_array_append_val(values, id8);
++    }
++    return (GStrv)g_array_free(values, FALSE);
++}
++
++/*
++ * https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-pci-devices
++ */
++#define DEVICE_PCI_RE "PCI\\\\VEN_(1AF4|1B36)&DEV_([0-9A-B]{4})(&|$)"
++
++GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
++{
++    GuestDeviceInfoList *head = NULL, *cur_item = NULL, *item = NULL;
++    HDEVINFO dev_info = INVALID_HANDLE_VALUE;
++    SP_DEVINFO_DATA dev_info_data;
++    int i, j;
++    GError *gerr = NULL;
++    g_autoptr(GRegex) device_pci_re = NULL;
++    DEVPROPTYPE cm_type;
++
++    device_pci_re = g_regex_new(DEVICE_PCI_RE,
++        G_REGEX_ANCHORED | G_REGEX_OPTIMIZE, 0,
++        &gerr);
++    g_assert(device_pci_re != NULL);
++
++    dev_info_data.cbSize = sizeof(SP_DEVINFO_DATA);
++    dev_info = SetupDiGetClassDevs(0, 0, 0, DIGCF_PRESENT | DIGCF_ALLCLASSES);
++    if (dev_info == INVALID_HANDLE_VALUE) {
++        error_setg(errp, "failed to get device tree");
++        return NULL;
++    }
++
++    slog("enumerating devices");
++    for (i = 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i++) {
++        bool skip = true;
++        SYSTEMTIME utc_date;
++        g_autofree LPWSTR name = NULL;
++        g_autofree LPFILETIME date = NULL;
++        g_autofree LPWSTR version = NULL;
++        g_auto(GStrv) hw_ids = NULL;
++        g_autoptr(GuestDeviceInfo) device = g_new0(GuestDeviceInfo, 1);
++        g_autofree char *vendor_id = NULL;
++        g_autofree char *device_id = NULL;
++
++        name = (LPWSTR)cm_get_property(dev_info_data.DevInst,
++            &qga_DEVPKEY_NAME, &cm_type);
++        if (name == NULL) {
++            slog("failed to get device description");
++            continue;
++        }
++        device->driver_name = g_utf16_to_utf8(name, -1, NULL, NULL, NULL);
++        if (device->driver_name == NULL) {
++            error_setg(errp, "conversion to utf8 failed (driver name)");
++            continue;
++        }
++        slog("querying device: %s", device->driver_name);
++        hw_ids = ga_get_hardware_ids(dev_info_data.DevInst);
++        if (hw_ids == NULL) {
++            continue;
++        }
++        for (j = 0; hw_ids[j] != NULL; j++) {
++            GMatchInfo *match_info;
++            GuestDeviceAddressPCI *address;
++            if (!g_regex_match(device_pci_re, hw_ids[j], 0, &match_info)) {
++                continue;
++            }
++            skip = false;
++
++            address = g_new0(GuestDeviceAddressPCI, 1);
++            vendor_id = g_match_info_fetch(match_info, 1);
++            device_id = g_match_info_fetch(match_info, 2);
++            address->vendor_id = g_ascii_strtoull(vendor_id, NULL, 16);
++            address->device_id = g_ascii_strtoull(device_id, NULL, 16);
++
++            device->address = g_new0(GuestDeviceAddress, 1);
++            device->has_address = true;
++            device->address->type = GUEST_DEVICE_ADDRESS_KIND_PCI;
++            device->address->u.pci.data = address;
++
++            g_match_info_free(match_info);
++            break;
++        }
++        if (skip) {
++            continue;
++        }
++
++        version = (LPWSTR)cm_get_property(dev_info_data.DevInst,
++            &qga_DEVPKEY_Device_DriverVersion, &cm_type);
++        if (version == NULL) {
++            slog("failed to get driver version");
++            continue;
++        }
++        device->driver_version = g_utf16_to_utf8(version, -1, NULL,
++            NULL, NULL);
++        if (device->driver_version == NULL) {
++            error_setg(errp, "conversion to utf8 failed (driver version)");
++            continue;
++        }
++        device->has_driver_version = true;
++
++        date = (LPFILETIME)cm_get_property(dev_info_data.DevInst,
++            &qga_DEVPKEY_Device_DriverDate, &cm_type);
++        if (date == NULL) {
++            slog("failed to get driver date");
++            continue;
++        }
++        FileTimeToSystemTime(date, &utc_date);
++        device->driver_date = g_strdup_printf("%04d-%02d-%02d",
++            utc_date.wYear, utc_date.wMonth, utc_date.wDay);
++        device->has_driver_date = true;
++
++        slog("driver: %s\ndriver version: %s,%s\n", device->driver_name,
++            device->driver_date, device->driver_version);
++        item = g_new0(GuestDeviceInfoList, 1);
++        item->value = g_steal_pointer(&device);
++        if (!cur_item) {
++            head = cur_item = item;
++        } else {
++            cur_item->next = item;
++            cur_item = item;
++        }
++        continue;
++    }
++
++    if (dev_info != INVALID_HANDLE_VALUE) {
++        SetupDiDestroyDeviceInfoList(dev_info);
++    }
++    return head;
++}
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index b1e9ed836d..d2ea7446db 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1253,3 +1253,54 @@
+ ##
+ { 'command': 'guest-get-osinfo',
+   'returns': 'GuestOSInfo' }
++
++##
++# @GuestDeviceAddressPCI:
++#
++# @vendor-id: vendor ID
++# @device-id: device ID
++#
++# Since: 5.2
++##
++{ 'struct': 'GuestDeviceAddressPCI',
++  'data': { 'vendor-id': 'uint16', 'device-id': 'uint16' } }
++
++##
++# @GuestDeviceAddress:
++#
++# Address of the device
++# - @pci: address of PCI device, since: 5.2
++#
++# Since: 5.2
++##
++{ 'union': 'GuestDeviceAddress',
++  'data': { 'pci': 'GuestDeviceAddressPCI' } }
++
++##
++# @GuestDeviceInfo:
++#
++# @driver-name: name of the associated driver
++# @driver-date: driver release date in format YYYY-MM-DD
++# @driver-version: driver version
++#
++# Since: 5.2
++##
++{ 'struct': 'GuestDeviceInfo',
++  'data': {
++      'driver-name': 'str',
++      '*driver-date': 'str',
++      '*driver-version': 'str',
++      '*address': 'GuestDeviceAddress'
++  } }
++
++##
++# @guest-get-devices:
++#
++# Retrieve information about device drivers in Windows guest
++#
++# Returns: @GuestDeviceInfo
++#
++# Since: 5.2
++##
++{ 'command': 'guest-get-devices',
++  'returns': ['GuestDeviceInfo'] }
 -- 
 2.17.1
 
