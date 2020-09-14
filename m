@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE1A26917B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:28:25 +0200 (CEST)
-Received: from localhost ([::1]:35516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DD7269103
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:03:04 +0200 (CEST)
+Received: from localhost ([::1]:57006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrL6-0007Qj-AT
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48704)
+	id 1kHqwZ-0004Qy-Cr
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kHqhU-00087D-T2
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:47:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24345)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqrW-0002Ut-3h
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:57:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kHqhT-0006jH-AZ
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:47:28 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqrT-0008Sr-PW
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:57:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600098446;
+ s=mimecast20190719; t=1600099066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uItXr708QI3jf9ZZTFLlzxBGtQOO6WfIXYpJjbfg6i8=;
- b=O+TBicWQLCpRXslx/dert3JEpADJ2x+Gt/pIufs1K6JNDkDnYb32/G7EUk8/7moVsVp3+q
- remO/jzTNFC1A1RlfnRnfJ0zywKWzIw77b3OKVbNpzlTPzR8sCH5zl+ivUprUjSZ38M32E
- mcxEqO3Yrl4YJjplZzhgDeVtsGy2nZk=
+ bh=ovTg2ccLhlJpIKCRLYMSAp4zlItYn0rQkX9LXngqg9I=;
+ b=D3JfD4Ui52HaJ/qhlflORENVigMjghpnIGIA9ExCoKHlBrlLLeGLp9Ml8HG6kL4lzlNA++
+ kYRJKxCeVGnZvOEI8oNSy5RZM1qY3HfrnvR+Z5DVo4YIutg/iO8x5qUHE9HpzrFgLPITSZ
+ dW1PNBALaefbBFYm9/CXVQTiZv9GBz0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-Hd678L7uPEOtPdVbpAWmxg-1; Mon, 14 Sep 2020 11:47:22 -0400
-X-MC-Unique: Hd678L7uPEOtPdVbpAWmxg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-457-QKL6EI4YP9CfZMQxCsYYdw-1; Mon, 14 Sep 2020 11:57:44 -0400
+X-MC-Unique: QKL6EI4YP9CfZMQxCsYYdw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE59E104D3F5;
- Mon, 14 Sep 2020 15:47:19 +0000 (UTC)
-Received: from localhost (ovpn-114-32.ams2.redhat.com [10.36.114.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 547A968D61;
- Mon, 14 Sep 2020 15:46:49 +0000 (UTC)
-Date: Mon, 14 Sep 2020 16:46:48 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v9 03/20] multi-process: setup PCI host bridge for remote
- device
-Message-ID: <20200914154648.GB629589@stefanha-x1.localdomain>
-References: <20200827181231.22778-1-elena.ufimtseva@oracle.com>
- <20200827181231.22778-4-elena.ufimtseva@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0C5B8B068D;
+ Mon, 14 Sep 2020 15:57:31 +0000 (UTC)
+Received: from [10.3.113.68] (ovpn-113-68.phx2.redhat.com [10.3.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E6FC60BE2;
+ Mon, 14 Sep 2020 15:57:31 +0000 (UTC)
+Subject: Re: [PATCH v5 7/8] qapi: Implement deprecated-input=reject for QMP
+ command arguments
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200914084802.4185028-1-armbru@redhat.com>
+ <20200914084802.4185028-8-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <a5014641-6c47-d37f-c7c9-c862bf4e8217@redhat.com>
+Date: Mon, 14 Sep 2020 10:57:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827181231.22778-4-elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200914084802.4185028-8-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TRYliJ5NKNqkz5bu"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,59 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, thanos.makatos@nutanix.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---TRYliJ5NKNqkz5bu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Aug 27, 2020 at 11:12:14AM -0700, elena.ufimtseva@oracle.com wrote:
-> From: Jagannathan Raman <jag.raman@oracle.com>
->=20
-> PCI host bridge is setup for the remote device process. It is
-> implemented using remote-pcihost object. It is an extension of the PCI
-> host bridge setup by QEMU.
-> Remote-pcihost configures a PCI bus which could be used by the remote
-> PCI device to latch on to.
->=20
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On 9/14/20 3:48 AM, Markus Armbruster wrote:
+> This policy rejects deprecated input, and thus permits "testing the
+> future".  Implement it for QMP command arguments: reject commands with
+> deprecated ones.  Example: when QEMU is run with -compat
+> deprecated-input=reject, then
+> 
+>      {"execute": "eject", "arguments": {"device": "cd"}}
+> 
+> fails like this
+> 
+>      {"error": {"class": "GenericError", "desc": "Deprecated parameter 'device' disabled by policy"}}
+> 
+> When the deprecated parameter is removed, the error will change to
+> 
+>      {"error": {"class": "GenericError", "desc": "Parameter 'device' is unexpected"}}
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  MAINTAINERS                  |  8 ++++
->  hw/pci-host/meson.build      |  1 +
->  hw/pci-host/remote.c         | 75 ++++++++++++++++++++++++++++++++++++
->  include/hw/pci-host/remote.h | 30 +++++++++++++++
->  4 files changed, 114 insertions(+)
->  create mode 100644 hw/pci-host/remote.c
->  create mode 100644 include/hw/pci-host/remote.h
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
---TRYliJ5NKNqkz5bu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9fkGgACgkQnKSrs4Gr
-c8iJLQf/Z0sMg3/0S0eHNxCvfU+a9sdgjksy2S8YgFYwNScDQLA3tcj0yzpBBIx3
-7ZwCR14efH/nfkxaHnSC3Y/rkE18GIYw06KA3RqjZ7bF1Rxn6ArhQWFY1xbi2Ugb
-33I/Ei/dWT32AXjsPdHSuAA/TehweR+yWMzN/D9ps7fpOnh3WoVkn5jPQsoLepWz
-2XZTyfsyAeHXF4d7Bcsh0jRdqqPtonuXP93MPnCIul5MfbO/wkVDNQ6YRH34cOk9
-Oiz5gazmWlJvdF0rYdKcM3GTFSU0P2tlUISRGqu5q6Glrk6t6Zfyz8gRLPz3edhQ
-yW7cOe9t0xtqGtooKeYx+xosEoDF0Q==
-=zDdA
------END PGP SIGNATURE-----
-
---TRYliJ5NKNqkz5bu--
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
