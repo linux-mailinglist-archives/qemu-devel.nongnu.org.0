@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516DC268BDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:12:13 +0200 (CEST)
-Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C0D268C06
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:17:45 +0200 (CEST)
+Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHoHE-000425-CZ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49454)
+	id 1kHoMa-0005zs-Ds
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:17:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHoGH-000379-VD
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:11:14 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35205)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHoLh-0005Oj-QO
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:16:49 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:44222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHoGF-0006T5-LO
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:11:13 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e16so18698735wrm.2
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHoLg-0007Rc-4j
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:16:49 -0400
+Received: by mail-ed1-x541.google.com with SMTP id b12so17523774edz.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6zzckjM2q9aRn0ZAS7sxi3wGfjTXPbZ05YYlvsh+wso=;
- b=dqo47gSteC0PgeKBU+OH5AMwr9lpsFOhbgZ9IIhuNzTPTclBHjN18QSPk6t6bf6vXT
- SSQpgF+0ueLZiVIvOAwmsWMQ41yTmAmZFm/t6aQZpdR/Gxc4y6an4v2F+gjw5u4VCX4s
- zov9MyvGCAQmEsD+ThHFDJkO7uFW6nnVylsN6i5bEBPco6Kb/fMSFpyYKOaqUJlGRdNx
- NfxhED82FClL4DhRPSPFCTBR+Yyp82JpPG2b1OZ/47eo3stM8qAUaFEwgutaME1gYWXV
- w1LXTJWUtsdquzygPEyGRQHlhYC+HXBDVvcbjm/ofQE/1/XUMbIU+GL6/QOi59m0jY7e
- MtaA==
+ :cc; bh=eZODd7CHTsqOjDvsLrCZkBD5wNp5PDRol4DS/R3i15A=;
+ b=pri0/Nm5gB/E+oQrAudSZV3NMCJBHkL6vTX3hsPIXtdyByosIrSjLBoE4Cs24hjy0b
+ YuKCiOXYMWwAdRgxGZFJ4Cjx88dRj9B0OT1rN61rUtUuJ894DuxRHiEnahxrniLAChNR
+ BA61u9E5nFPi4dFod7sW1ks15HDCKMvE7ZNSM+kJ2sgLpFuXvq68xIQe85LZ7czu9IPF
+ vR47lvzBfudhACo5k2Ctf6GO9NpOwFu/jc79IQ+yWMwx8KaO6Q6AxPjh6Tkc+ky8Bsom
+ EbSjm+OEn9nvCujLsDN6GNugK4wBt1nN/z4LqLXRB2wkRB4FuoRIGmDTewG+XWQDvOKM
+ 11mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6zzckjM2q9aRn0ZAS7sxi3wGfjTXPbZ05YYlvsh+wso=;
- b=UfETJJJN7OFs2SoISm4xF57JWjvTPp7Xe7nEkAPSkeD90dUiu+Lbt9eZSSlbxy3kyu
- 0NIwJidAoUPSFHYMxirfPSB6yQ33Ocb+zYph1MSDLmA4tnLu1w86S12XAVxJIQCij2OW
- RX41ywoPSx0MxFDpeoNu6QCtqWwb+7GGnSrrPDk5zfYSf/1sYEegHWVUxPKu7IGeiKSF
- 9mgxc11mk63OGupfz+H4rdo2nE5Htu6i4Rs1aB7zhIID/tjq93z1M+ycq14+Drk0XuJR
- N9g+Qge/91C8LWvgCigQMzNoZekJq2wiY45aOITVLYH7YrKPqAHdNQpB7XPNtYfWIwsP
- oFiQ==
-X-Gm-Message-State: AOAM530hlvvVc+WO0frTcNfeawcKsZNfFKIO/YDdS6pQmvM46UcCXGD5
- LG1kaFGcNiN4FclJuSDBECoOcSMkj5voXAbDDGzTPg==
-X-Google-Smtp-Source: ABdhPJxVVC+IO3MeqFc1yWrvmX5F2X8U7EwI3A/SYuljH+KqZAfFbRF6tvtRvMQcSwRYXMHcNMGRWl7GkJC1OR2lWJA=
-X-Received: by 2002:a5d:518b:: with SMTP id k11mr15556107wrv.369.1600089069919; 
- Mon, 14 Sep 2020 06:11:09 -0700 (PDT)
+ bh=eZODd7CHTsqOjDvsLrCZkBD5wNp5PDRol4DS/R3i15A=;
+ b=XG7u8LMXYEv2u8yvnjZehZHhJXS7IEasxrpEI9BS855UC58gWHHFJB916cup5sxCfR
+ xbV9QDE6UrF/aWrxbBsartF/MWPazEnwJC4V5KspdS8l/7WtgIGzNzlDaZ8s1GALV+gK
+ 1BeSdlvnegDJk4+9LXH26KUsBKB7gzbB/7kKRFErmGunJr+2XcYr3sL4Tr+1uwo63iZ1
+ FGEONxlge5mby1rv0IzFlqDDqJJpjRv/EPaiSluMOstcUWHVkui8WZrUISZdESBRHuXO
+ D0gKefpzlWC1r2+//AtOKHkOoc+5dxaFG1NhRTIVYs0W5nQWDY3Zs62bKUwBTzrHMDtd
+ h8tg==
+X-Gm-Message-State: AOAM5303SBCWQGZIFGVlYZ6PKU+LbqoXsRg8BEH8FGfqxD5p0qK3a6Wq
+ V/mbtnt0I4jXAs4gEEInNPYv+n9HI1LA8/rFSnOVOozdLccnWQ==
+X-Google-Smtp-Source: ABdhPJwK6mgqjtvr/x0D2wM1wZbzdJpfwaoyuzhLHy1JEsQvuo4AkQkBZ/CP+QnVzyPgXgqXTO+mBxCuynxYn/6ljPs=
+X-Received: by 2002:a05:6402:1495:: with SMTP id
+ e21mr16772074edv.146.1600089406231; 
+ Mon, 14 Sep 2020 06:16:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200911180755.28409-1-ani@anisinha.ca>
- <20200911180755.28409-9-ani@anisinha.ca>
- <20200914150550.23a91fa2@redhat.com>
-In-Reply-To: <20200914150550.23a91fa2@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 14 Sep 2020 18:40:58 +0530
-Message-ID: <CAARzgwyrSW4jjrPCc1SJkDZUV9C-e_96RNGytZ8VjpPzzrWfXg@mail.gmail.com>
-Subject: Re: [PATCH 9/9] piix4: don't reserve hw resources when hotplug is off
- globally
-To: Igor Mammedov <imammedo@redhat.com>
+References: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
+In-Reply-To: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Sep 2020 14:16:35 +0100
+Message-ID: <CAFEAcA8gYXDJKMS3nUSW96hhwmC37=QX1EhVfWj7j0smKGvXgA@mail.gmail.com>
+Subject: Re: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
+To: Vikram Garhwal <fnu.vikram@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::443;
- envelope-from=ani@anisinha.ca; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,99 +79,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
+Cc: francisco.iglesias@xilinx.com, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 14, 2020 at 6:36 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Fri, 11 Sep 2020 23:37:55 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
->
-> > When acpi hotplug is turned off for both root pci bus as well as for pci
-> > bridges, we should not generate the related amls for DSDT table or initialize
-> > related hw ports or reserve hw resources. This change makes sure all those
-> > operations are turned off in the case acpi pci hotplug is off globally.
->
-> it still leaves around pure PCI hotplug ACPI code:
->
->             Method (PCNT, 0, NotSerialized)
->             {
->             }
+On Thu, 13 Aug 2020 at 01:33, Vikram Garhwal <fnu.vikram@xilinx.com> wrote:
+> Vikram Garhwal (4):
+>   hw/net/can: Introduce Xilinx ZynqMP CAN controller
+>   xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
+>   tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
+>   MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
 
-How do you suggest we fix this?
+Applied to target-arm.next, thanks. (I had to make some
+minor fixups to convert the makefile changes to the new
+meson build system.)
 
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  hw/acpi/piix4.c      |  6 ++++--
-> >  hw/i386/acpi-build.c | 10 ++++++++--
-> >  2 files changed, 12 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > index e6163bb6ce..b70b1f98af 100644
-> > --- a/hw/acpi/piix4.c
-> > +++ b/hw/acpi/piix4.c
-> > @@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-> >                            "acpi-gpe0", GPE_LEN);
-> >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-> >
-> > -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > -                    s->use_acpi_hotplug_bridge);
-> > +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-> > +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > +                        s->use_acpi_hotplug_bridge);
-> > +    }
-> >
-> >      s->cpu_hotplug_legacy = true;
-> >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index e079b686f5..7e3cf3b57b 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
-> >      bool s3_disabled;
-> >      bool s4_disabled;
-> >      bool pcihp_bridge_en;
-> > +    bool pcihp_root_en;
-> >      uint8_t s4_val;
-> >      AcpiFadtData fadt;
-> >      uint16_t cpu_hp_io_base;
-> > @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-> >      pm->pcihp_bridge_en =
-> >          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
-> >                                   NULL);
-> > +    pm->pcihp_root_en =
-> > +        object_property_get_bool(obj, "acpi-root-pci-hotplug",
-> > +                                 NULL);
-> >  }
-> >
-> >  static void acpi_get_misc_info(AcpiMiscInfo *info)
-> > @@ -1504,7 +1508,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          build_hpet_aml(dsdt);
-> >          build_piix4_isa_bridge(dsdt);
-> >          build_isa_devices_aml(dsdt);
-> > -        build_piix4_pci_hotplug(dsdt);
-> > +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-> > +            build_piix4_pci_hotplug(dsdt);
-> > +        }
-> >          build_piix4_pci0_int(dsdt);
-> >      } else {
-> >          sb_scope = aml_scope("_SB");
-> > @@ -1698,7 +1704,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >      crs_range_set_free(&crs_range_set);
-> >
-> >      /* reserve PCIHP resources */
-> > -    if (pm->pcihp_io_len) {
-> > +    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
-> >          dev = aml_device("PHPR");
-> >          aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
-> >          aml_append(dev,
->
+-- PMM
 
