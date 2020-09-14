@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABFA268B25
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:39:12 +0200 (CEST)
-Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C9C268B1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:37:23 +0200 (CEST)
+Received: from localhost ([::1]:40224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHnlH-0003I8-1r
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
+	id 1kHnjW-0000HT-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnhi-0006UH-1G
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:32 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58706
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnho-0006Yg-GL
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46694
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnhf-0000fi-3G
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:29 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnhk-0000ik-6g
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:33 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-0G_H5re9Mayk2gPwSRBExw-1; Mon, 14 Sep 2020 08:35:21 -0400
-X-MC-Unique: 0G_H5re9Mayk2gPwSRBExw-1
+ us-mta-592-fbfapbYuNvq8zGJWV7KgPQ-1; Mon, 14 Sep 2020 08:35:25 -0400
+X-MC-Unique: fbfapbYuNvq8zGJWV7KgPQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 754F88030B9;
- Mon, 14 Sep 2020 12:35:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CD3D80F058;
+ Mon, 14 Sep 2020 12:35:23 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-112-218.ams2.redhat.com [10.36.112.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED5321002393;
- Mon, 14 Sep 2020 12:35:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C93821002393;
+ Mon, 14 Sep 2020 12:35:20 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/15] spapr: Simplify error handling in callers of
- ppc_set_compat()
-Date: Mon, 14 Sep 2020 14:34:54 +0200
-Message-Id: <20200914123505.612812-5-groug@kaod.org>
+Subject: [PATCH 05/15] spapr: Get rid of cas_check_pvr() error reporting
+Date: Mon, 14 Sep 2020 14:34:55 +0200
+Message-Id: <20200914123505.612812-6-groug@kaod.org>
 In-Reply-To: <20200914123505.612812-1-groug@kaod.org>
 References: <20200914123505.612812-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.31.81; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
+Received-SPF: softfail client-ip=205.139.110.120; envelope-from=groug@kaod.org;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -11
 X-Spam_score: -1.2
@@ -76,34 +75,94 @@ Cc: Greg Kurz <groug@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that ppc_set_compat() indicates success/failure with a return
-value, use it and reduce error propagation overhead.
+The cas_check_pvr() function has two purposes:
+- finding the "best" logical PVR, ie. the most recent one supported by
+  the guest for this CPU type
+- checking if the guest supports the real PVR of this CPU type, which
+  is just an optional extra information to workaround the lack of
+  support for "compat" mode in PR KVM
+
+This logic doesn't need error reporting, really. If we don't find a
+suitable logical PVR, we return the special value 0 which is definitely
+not a valid PVR. Let the caller decide on whether it should error out
+or not.
+
+This doesn't change the behavior.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/ppc/spapr_hcall.c | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index ea2c755310cd..c0a3f5f26d97 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3820,10 +3820,9 @@ static void spapr_core_plug(HotplugHandler *hotplug_=
-dev, DeviceState *dev,
-      */
-     if (hotplugged) {
-         for (i =3D 0; i < cc->nr_threads; i++) {
--            ppc_set_compat(core->threads[i], POWERPC_CPU(first_cpu)->compa=
-t_pvr,
--                           &local_err);
--            if (local_err) {
--                error_propagate(errp, local_err);
-+            if (ppc_set_compat(core->threads[i],
-+                               POWERPC_CPU(first_cpu)->compat_pvr,
-+                               errp) < 0) {
-                 return;
-             }
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index c2776b6a7de2..885ea60778ba 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1590,12 +1590,11 @@ static target_ulong h_signal_sys_reset(PowerPCCPU *=
+cpu,
+     }
+ }
+=20
+-static uint32_t cas_check_pvr(SpaprMachineState *spapr, PowerPCCPU *cpu,
+-                              target_ulong *addr, bool *raw_mode_supported=
+,
+-                              Error **errp)
++/* Returns either a logical PVR or zero if none was found */
++static uint32_t cas_check_pvr(PowerPCCPU *cpu, uint32_t max_compat,
++                              target_ulong *addr, bool *raw_mode_supported=
+)
+ {
+     bool explicit_match =3D false; /* Matched the CPU's real PVR */
+-    uint32_t max_compat =3D spapr->max_compat_pvr;
+     uint32_t best_compat =3D 0;
+     int i;
+=20
+@@ -1624,14 +1623,6 @@ static uint32_t cas_check_pvr(SpaprMachineState *spa=
+pr, PowerPCCPU *cpu,
          }
+     }
+=20
+-    if ((best_compat =3D=3D 0) && (!explicit_match || max_compat)) {
+-        /* We couldn't find a suitable compatibility mode, and either
+-         * the guest doesn't support "raw" mode for this CPU, or raw
+-         * mode is disabled because a maximum compat mode is set */
+-        error_setg(errp, "Couldn't negotiate a suitable PVR during CAS");
+-        return 0;
+-    }
+-
+     *raw_mode_supported =3D explicit_match;
+=20
+     /* Parsing finished */
+@@ -1680,6 +1671,7 @@ target_ulong do_client_architecture_support(PowerPCCP=
+U *cpu,
+     bool guest_xive;
+     CPUState *cs;
+     void *fdt;
++    uint32_t max_compat =3D spapr->max_compat_pvr;
+=20
+     /* CAS is supposed to be called early when only the boot vCPU is activ=
+e. */
+     CPU_FOREACH(cs) {
+@@ -1692,9 +1684,14 @@ target_ulong do_client_architecture_support(PowerPCC=
+PU *cpu,
+         }
+     }
+=20
+-    cas_pvr =3D cas_check_pvr(spapr, cpu, &vec, &raw_mode_supported, &loca=
+l_err);
+-    if (local_err) {
+-        error_report_err(local_err);
++    cas_pvr =3D cas_check_pvr(cpu, max_compat, &vec, &raw_mode_supported);
++    if (!cas_pvr && (!raw_mode_supported || max_compat)) {
++        /*
++         * We couldn't find a suitable compatibility mode, and either
++         * the guest doesn't support "raw" mode for this CPU, or "raw"
++         * mode is disabled because a maximum compat mode is set.
++         */
++        error_report("Couldn't negotiate a suitable PVR during CAS");
+         return H_HARDWARE;
+     }
+=20
 --=20
 2.26.2
 
