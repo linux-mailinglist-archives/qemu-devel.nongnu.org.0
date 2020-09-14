@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06FF268CF4
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:10:10 +0200 (CEST)
-Received: from localhost ([::1]:33790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A844268D21
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:15:59 +0200 (CEST)
+Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpBJ-00079Z-S0
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:10:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
+	id 1kHpGw-0006ox-9f
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:15:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp87-00021w-0E
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:51 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46343)
+ id 1kHp88-00023K-0J
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:52 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp85-0007X5-D4
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:50 -0400
-Received: by mail-wr1-x441.google.com with SMTP id o5so18847931wrn.13
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:06:49 -0700 (PDT)
+ id 1kHp86-0007XZ-DC
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:51 -0400
+Received: by mail-wm1-x334.google.com with SMTP id a9so200193wmm.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Wi7+xfZVzT7c72yScN2Btxd8V1LM/R+FBhFAJkMkKkY=;
- b=bfVwdxob97l/yBAtw3n6LmBYpl3VWP/KapbYiDtjuIga473j3dXqRvADr9yr+ZDLBm
- r+bYlnSATV7az8I6e+VvpgLc4cEZewDw1ir7uyBB2e9GtpUyPZJGDt41FP30UkkWjbJ+
- 6Lq7nqc931jRVrJ6ZUzOm4CAjgV9volbNpQR45EMDl3w+peRTW+X63qrkPhBKDNAZ2oD
- 47DUVsL+xKKMpKtw8esyUERLe+MhKpBg77i6skozg7CSfoXzw21+WAVJKl4co47sAe3S
- OQ8TY5mMjiMr8HaEBnzlTj7iPNZ0VHK4OqbO4PmF10MWtGtnAfUQ+1N+mydwKRn1+NL7
- JUOQ==
+ bh=sQjyHYblqUK5pKnBXUKXJ7oRaJ4PY+n7hD6rVfgknOM=;
+ b=ZQH6L5M4b3AzFRCsNeYgZMnBBfWwKLAoc2ZO5uwASkOZ10WHvT3+AFlXQkpG8dHz+X
+ Tqmviq9JNa3r7RHlzzow4EzAxhEZwDd7YDhjzvGwLxgZwD4jEO0YPNalfa+bkKaRrUt5
+ hi+w4zSR3jbwRFlU0ChiJiZalpK4IPsV6siKE2NB7csXZbPC7iu7cYckpSyeXx1K2kTb
+ JekLxS05uPzyYzro3/jF69e/0igSKMLAxmrvqUrkC+d61VPSRF0u1I8DrT0OphcNPb3a
+ 1znSNIfQBbnxCtcRfrqhzer6VmAnEND7J7KbcmhFOaogg5l//ykfzABU34LIbE7fsSGX
+ sQ0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Wi7+xfZVzT7c72yScN2Btxd8V1LM/R+FBhFAJkMkKkY=;
- b=lIOuo1OpGVPOZfxwyetmWGMgzVqry4kELQ/1t6nLJrgfSqcAcxNvvaFWLsKTGQCzD1
- /e38ZluZRU2kUKCz1cVJ+VrDQbEnOKU4sBFPnz6ajA5NvGdWm3o2JqI6PI/Vus2Yy33B
- OXB/rk+8KoMKJ/oQLDzgQ2a+JLHNx3+d0o4IzHVWNXHkYHNgiGh2wk7pSVgayQnpO709
- Lej74FuzGt5/vGBaFIoQRgxgMXyXB5qvSEFHH6iEB0AH1OJB5vpDEG2tURaDs24bWwXg
- OPusWWuQtAbag2QkVJ0+jCKqcci98aWHMoDedgTyp7UiIS2nY5QJsPOkUVfm8BTNIQbx
- wWsA==
-X-Gm-Message-State: AOAM532GZfvJZxgkNM7VBy8mAeKgKrPHynLzjhKRQANrDW/uQhUv1cEC
- ZKXtSriDWAWC5kd5FCAh+lkkRJU0dHdomANT
-X-Google-Smtp-Source: ABdhPJzl9QTlqiI+9BrUFniGeUIQI0iyonQtdDQhx88C6hS8zeoFKPo7S7HGgi4g5orz4PD1G6kPSg==
-X-Received: by 2002:a5d:654e:: with SMTP id z14mr15987242wrv.400.1600092407855; 
- Mon, 14 Sep 2020 07:06:47 -0700 (PDT)
+ bh=sQjyHYblqUK5pKnBXUKXJ7oRaJ4PY+n7hD6rVfgknOM=;
+ b=IlUbqa1yR1zXyf2EuiS3EiteQ5v3btJd6BvnlOHkitGRQGE+BZRIX/WgKJZ6Deeo2/
+ BYGXKU/ERfpgMtrDk2ahKmjJ7PWN6+eWexCJNj2NoMyS2QF34o8Lw9ucIAp0WqMEFEyl
+ tbmpWfotwIt1WYhXb54QIqKmNWuIug2hFcCApHvXOZn0u1flQVIDnSFBOAuobfjr+d8y
+ /AiIja/H0M0H7sDjCoghmSek2jfxpvlNXZTJKXYu/6vR2HLJjgdbTFszLjiJx+5lOg2j
+ HRerg5U55KsWTknIr9t85BhzEFAVmAa/edJRJZYAiwHj4wf9501sviFcc/xboAMNCAIM
+ +7HA==
+X-Gm-Message-State: AOAM533PHi7mgX0YE+dH8T/TU2li0aI3TQnJAf5TpSA2rF+7U6FWGdSQ
+ I5LLClkN9JlwhrxEhzEwyKypEIDr/K+4vRab
+X-Google-Smtp-Source: ABdhPJzhbRfz11fhIKjB0uG2vrN/OXptZEcV1+dFKJFEtXfSUrOMplHOZVgM+1UJ7yuaaCxpQR4vJQ==
+X-Received: by 2002:a7b:cf30:: with SMTP id m16mr15150060wmg.0.1600092408843; 
+ Mon, 14 Sep 2020 07:06:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.06.46
+ by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.06.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 07:06:47 -0700 (PDT)
+ Mon, 14 Sep 2020 07:06:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/36] hw/misc/a9scu: Report unimplemented accesses with
- qemu_log_mask(UNIMP)
-Date: Mon, 14 Sep 2020 15:06:09 +0100
-Message-Id: <20200914140641.21369-5-peter.maydell@linaro.org>
+Subject: [PULL 05/36] hw/timer/armv7m_systick: assert that board code set
+ system_clock_scale
+Date: Mon, 14 Sep 2020 15:06:10 +0100
+Message-Id: <20200914140641.21369-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
 References: <20200914140641.21369-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,49 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+It is the responsibility of board code for an armv7m system to set
+system_clock_scale appropriately for the CPU speed of the core.
+If it forgets to do this, then QEMU will hang if the guest tries
+to use the systick timer in the "tick at the CPU clock frequency" mode.
 
-Report unimplemented register accesses using qemu_log_mask(UNIMP).
+We forgot that in a couple of our boards (see commits ce4f70e81ed23c93f,
+e7e5a9595ab1136). Add an assertion in the systick reset method so
+we don't let any new boards in with the same bug.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200901144100.116742-5-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200825160847.18091-1-peter.maydell@linaro.org
 ---
- hw/misc/a9scu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/timer/armv7m_systick.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/misc/a9scu.c b/hw/misc/a9scu.c
-index 47f948341f7..a375ebc9878 100644
---- a/hw/misc/a9scu.c
-+++ b/hw/misc/a9scu.c
-@@ -13,6 +13,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
+diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
+index 74c58bcf245..a8cec7eb56b 100644
+--- a/hw/timer/armv7m_systick.c
++++ b/hw/timer/armv7m_systick.c
+@@ -202,6 +202,14 @@ static void systick_reset(DeviceState *dev)
+ {
+     SysTickState *s = SYSTICK(dev);
  
- #define A9_SCU_CPU_MAX  4
-@@ -38,6 +39,8 @@ static uint64_t a9_scu_read(void *opaque, hwaddr offset,
-     case 0x54: /* SCU Non-secure Access Control Register */
-         /* unimplemented, fall through */
-     default:
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx"\n",
-+                      __func__, offset);
-         return 0;
-     }
- }
-@@ -67,6 +70,9 @@ static void a9_scu_write(void *opaque, hwaddr offset,
-     case 0x54: /* SCU Non-secure Access Control Register */
-         /* unimplemented, fall through */
-     default:
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx
-+                                 " value 0x%"PRIx64"\n",
-+                      __func__, offset, value);
-         break;
-     }
- }
++    /*
++     * Forgetting to set system_clock_scale is always a board code
++     * bug. We can't check this earlier because for some boards
++     * (like stellaris) it is not yet configured at the point where
++     * the systick device is realized.
++     */
++    assert(system_clock_scale != 0);
++
+     s->control = 0;
+     s->reload = 0;
+     s->tick = 0;
 -- 
 2.20.1
 
