@@ -2,77 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DFC268D78
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:25:07 +0200 (CEST)
-Received: from localhost ([::1]:52306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB34268D70
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:23:49 +0200 (CEST)
+Received: from localhost ([::1]:46876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpPm-0001Rm-Ap
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:25:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46386)
+	id 1kHpOW-0007bo-U5
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8f-0003XF-EJ
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:25 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8d-0007fl-C6
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:25 -0400
-Received: by mail-wr1-x435.google.com with SMTP id z1so18906651wrt.3
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:07:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=daROO0Em6m1DZaN+OXwsmJwfKn2V8wIq3+CRqWTJIwE=;
- b=mfHt+E+r8Bo8VOUd1uRkIQMNI4hi5dhPzqYxU6Emuz1unsifdDE0Trkkur8KbZYGDb
- Egjg6eU3Tjl8WMfRKLBroUGrDlWQpz9dvgLR8dBWWUoAC305/tYd8Y/7I7W7rPE1+KDi
- 5iAWZqgTvL+d33dRTboCZrITB+yqMo+y8Ft3aD6xKb2iXHU8l1VubVmTUv6peHgTcHx9
- 7SZNbGKYY1+Br2HBGRB5TlmVvJsLBMeuRgx4NA0qXDKUaVwmsbzF/Eyp0wr4LQn9YlcY
- CuS2knqKQtopRrydVK3bNnHQNOijBYWS4+AEQMMy4TpGlw7JlMmxPrRugRELP53TR43Q
- PVpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=daROO0Em6m1DZaN+OXwsmJwfKn2V8wIq3+CRqWTJIwE=;
- b=fOKUVH4oNZzWxBsyszDsFSyQO0YF41bKdxEdyAurs0lSVe6NXYcMbmE/OtGpVy6DAa
- uzC2H/4OLl8kinOZzmOTtQ0ferjCuboEUDfD8BqQhDy2s0/yNjLTuo4o8x9HhNoi8bqf
- I3wJvkOlGfk4z0VzkV7Dmo7OL/TDvD3CNoUOAsTJJDJGsTHek7jZGn9pdDNbZbiYbpM3
- 4tCjN/STp4eMo12g1i5CBn+9AWR7f58mXMrJTaq0D9/WjWNcE8PqcNOe4vWY78dLsfe8
- J8zyqVSVugJ3RnvDbeQ06gP/aE4+7CdIna2/mEWCWoZyvoYAMRaePrhThXL6NPRR+cJ9
- xAbQ==
-X-Gm-Message-State: AOAM530D1I7n1VVv9mAVtEAgtEYX83cb5nJ4IBXhusnkVYr0heADuIIY
- jU6bmmCrFrU2FFmJnOJaECbiB8AQeGWehtvb
-X-Google-Smtp-Source: ABdhPJw5L43iAfsBQ2Y7Q5izom6hYNiXsFy9WKeAR301TBnBZm3NRQ5kQWZSlu+aB5VuEFWLbdpJ/Q==
-X-Received: by 2002:a5d:6406:: with SMTP id z6mr15536126wru.133.1600092441728; 
- Mon, 14 Sep 2020 07:07:21 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.07.20
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 07:07:21 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 34/36] xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
-Date: Mon, 14 Sep 2020 15:06:39 +0100
-Message-Id: <20200914140641.21369-35-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
-References: <20200914140641.21369-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHpAb-0007Ck-L6
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:09:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26894
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHpAZ-0007v6-32
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:09:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600092561;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=quyCeD7qWnZ43Xs6VZhdeFmKn+iZ64j/BC+LheNLHBg=;
+ b=bLrCjEXGyJ503/qdOqwCQYQ36NY3zNwX2xVdz+Zci4nVeJZSzfjFL2455G6bBafx9rz8Vi
+ pWORmUBQssyGySVYkcPj72CDEw3q7Wh3il+JLCwd0Hi2H8xh0skDz0ptp2pfsiPX757SXf
+ O9vSfl+Hn+95hnkFW5PLMtwsEjs6Fl0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-c84kKoNaPVGlPsA5zz0TBw-1; Mon, 14 Sep 2020 10:09:18 -0400
+X-MC-Unique: c84kKoNaPVGlPsA5zz0TBw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAB8764083;
+ Mon, 14 Sep 2020 14:09:17 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-80.ams2.redhat.com
+ [10.36.114.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3652B7A414;
+ Mon, 14 Sep 2020 14:09:16 +0000 (UTC)
+Subject: Re: [PATCH] iotests: Work around failing readlink -f
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200914113809.63640-1-mreitz@redhat.com>
+ <CAFEAcA-jN39TufevHy6sng-53NAzqfdm=4NEzGe1Yg+oFzfFQg@mail.gmail.com>
+ <450123b0-e56f-57c1-c42b-2618fcaefc77@redhat.com>
+ <CAFEAcA84st9vKnvB7FNiHosq5tN-csZefpdD_ArNXCbih_fYSA@mail.gmail.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <fb085dbc-87b0-8a15-d0d0-8e8f923f5e39@redhat.com>
+Date: Mon, 14 Sep 2020 16:09:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA84st9vKnvB7FNiHosq5tN-csZefpdD_ArNXCbih_fYSA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4eg2GWyRN3aLeAarbxATTfH27QaghmMkE"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,190 +109,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4eg2GWyRN3aLeAarbxATTfH27QaghmMkE
+Content-Type: multipart/mixed; boundary="dMVf0cQ5I8JBdQcR1ieWRSrQNFnQ1Yxqf"
 
-Connect CAN0 and CAN1 on the ZynqMP.
+--dMVf0cQ5I8JBdQcR1ieWRSrQNFnQ1Yxqf
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-Message-id: 1597278668-339715-3-git-send-email-fnu.vikram@xilinx.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/arm/xlnx-zynqmp.h |  8 ++++++++
- hw/arm/xlnx-zcu102.c         | 20 ++++++++++++++++++++
- hw/arm/xlnx-zynqmp.c         | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 62 insertions(+)
+On 14.09.20 14:51, Peter Maydell wrote:
+> On Mon, 14 Sep 2020 at 13:32, Max Reitz <mreitz@redhat.com> wrote:
+>>
+>> On 14.09.20 14:31, Peter Maydell wrote:
+>>> On Mon, 14 Sep 2020 at 12:39, Max Reitz <mreitz@redhat.com> wrote:
+>>>>
+>>>> On macOS, (out of the box) readlink does not have -f.  If the recent
+>>>> "readlink -f" call introduced by b1cbc33a397 fails, just fall back to
+>>>> the old behavior (which means you can run the iotests only from the
+>>>> build tree, but that worked fine for six years, so it should be fine
+>>>> still).
+>>>>
+>>>> Keep any potential error message on stderr.  If users want to run the
+>>>> iotests from outside the build tree, this may point them to what's wro=
+ng
+>>>> (with their system).
+>>>>
+>>>> Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
+>>>>        ("iotests: Allow running from different directory")
+>>>> Reported-by: Claudio Fontana <cfontana@suse.de>
+>>>> Reported-by: Thomas Huth <thuth@redhat.com>
+>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>> ---
+>>>> Hi Thomas,
+>>>>
+>>>> I thought this would be quicker than writing a witty response on wheth=
+er
+>>>> you or me should write this patch. O:)
+>>>> ---
+>>>>  tests/qemu-iotests/check | 4 ++++
+>>>>  1 file changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+>>>> index e14a1f354d..75675e1a18 100755
+>>>> --- a/tests/qemu-iotests/check
+>>>> +++ b/tests/qemu-iotests/check
+>>>> @@ -45,6 +45,10 @@ then
+>>>>      fi
+>>>>      source_iotests=3D$(cd "$source_iotests"; pwd) || _init_error "fai=
+led to enter source tree"
+>>>>      build_iotests=3D$(readlink -f $(dirname "$0"))
+>>>> +    if [ "$?" -ne 0 ]; then
+>>>> +        # Perhaps -f is unsupported, revert to pre-b1cbc33a397 behavi=
+or
+>>>> +        build_iotests=3D$PWD
+>>>> +    fi
+>>>>  else
+>>>
+>>> This still prints
+>>>   readlink: illegal option -- f
+>>>   usage: readlink [-n] [file ...]
+>>>
+>>> (you can see it in the build log that Thomas links to).
+>>>
+>>>    build_iotests=3D$(readlink -f $(dirname "$0") 2>/dev/null)
+>>>
+>>> should avoid that, I think.
+>>
+>> I mentioned in the commit message that I find this useful and desirable
+>> behavior.  Something isn=E2=80=99t working that perhaps users are expect=
+ing to
+>> work (because it will work on other systems), so I don=E2=80=99t think t=
+he error
+>> message should be suppressed.
+>=20
+> I disagree. Either iotests can handle readlink not having '-f',
+> in which case it should not let readlink spew junk to the log,
+> or it can't, in which case it should bail out.
 
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 4cc97b46109..ae914807be5 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -22,6 +22,7 @@
- #include "hw/intc/arm_gic.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/char/cadence_uart.h"
-+#include "hw/net/xlnx-zynqmp-can.h"
- #include "hw/ide/ahci.h"
- #include "hw/sd/sdhci.h"
- #include "hw/ssi/xilinx_spips.h"
-@@ -33,6 +34,7 @@
- #include "hw/cpu/cluster.h"
- #include "target/arm/cpu.h"
- #include "qom/object.h"
-+#include "net/can_emu.h"
- 
- #define TYPE_XLNX_ZYNQMP "xlnx,zynqmp"
- typedef struct XlnxZynqMPState XlnxZynqMPState;
-@@ -43,6 +45,8 @@ DECLARE_INSTANCE_CHECKER(XlnxZynqMPState, XLNX_ZYNQMP,
- #define XLNX_ZYNQMP_NUM_RPU_CPUS 2
- #define XLNX_ZYNQMP_NUM_GEMS 4
- #define XLNX_ZYNQMP_NUM_UARTS 2
-+#define XLNX_ZYNQMP_NUM_CAN 2
-+#define XLNX_ZYNQMP_CAN_REF_CLK (24 * 1000 * 1000)
- #define XLNX_ZYNQMP_NUM_SDHCI 2
- #define XLNX_ZYNQMP_NUM_SPIS 2
- #define XLNX_ZYNQMP_NUM_GDMA_CH 8
-@@ -94,6 +98,7 @@ struct XlnxZynqMPState {
- 
-     CadenceGEMState gem[XLNX_ZYNQMP_NUM_GEMS];
-     CadenceUARTState uart[XLNX_ZYNQMP_NUM_UARTS];
-+    XlnxZynqMPCANState can[XLNX_ZYNQMP_NUM_CAN];
-     SysbusAHCIState sata;
-     SDHCIState sdhci[XLNX_ZYNQMP_NUM_SDHCI];
-     XilinxSPIPS spi[XLNX_ZYNQMP_NUM_SPIS];
-@@ -114,6 +119,9 @@ struct XlnxZynqMPState {
-     bool virt;
-     /* Has the RPU subsystem?  */
-     bool has_rpu;
-+
-+    /* CAN bus. */
-+    CanBusState *canbus[XLNX_ZYNQMP_NUM_CAN];
- };
- 
- #endif
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index 19d5a4d4e0e..cb0fba7975f 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -25,6 +25,7 @@
- #include "sysemu/qtest.h"
- #include "sysemu/device_tree.h"
- #include "qom/object.h"
-+#include "net/can_emu.h"
- 
- struct XlnxZCU102 {
-     MachineState parent_obj;
-@@ -34,6 +35,8 @@ struct XlnxZCU102 {
-     bool secure;
-     bool virt;
- 
-+    CanBusState *canbus[XLNX_ZYNQMP_NUM_CAN];
-+
-     struct arm_boot_info binfo;
- };
- typedef struct XlnxZCU102 XlnxZCU102;
-@@ -127,6 +130,14 @@ static void xlnx_zcu102_init(MachineState *machine)
-     object_property_set_bool(OBJECT(&s->soc), "virtualization", s->virt,
-                              &error_fatal);
- 
-+    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-+        gchar *bus_name = g_strdup_printf("canbus%d", i);
-+
-+        object_property_set_link(OBJECT(&s->soc), bus_name,
-+                                 OBJECT(s->canbus[i]), &error_fatal);
-+        g_free(bus_name);
-+    }
-+
-     qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
- 
-     /* Create and plug in the SD cards */
-@@ -222,6 +233,15 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
-                                     "Set on/off to enable/disable emulating a "
-                                     "guest CPU which implements the ARM "
-                                     "Virtualization Extensions");
-+    object_property_add_link(obj, "xlnx-zcu102.canbus0", TYPE_CAN_BUS,
-+                             (Object **)&s->canbus[0],
-+                             object_property_allow_set_link,
-+                             0);
-+
-+    object_property_add_link(obj, "xlnx-zcu102.canbus1", TYPE_CAN_BUS,
-+                             (Object **)&s->canbus[1],
-+                             object_property_allow_set_link,
-+                             0);
- }
- 
- static void xlnx_zcu102_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 7885bb17745..881847255b4 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -81,6 +81,14 @@ static const int uart_intr[XLNX_ZYNQMP_NUM_UARTS] = {
-     21, 22,
- };
- 
-+static const uint64_t can_addr[XLNX_ZYNQMP_NUM_CAN] = {
-+    0xFF060000, 0xFF070000,
-+};
-+
-+static const int can_intr[XLNX_ZYNQMP_NUM_CAN] = {
-+    23, 24,
-+};
-+
- static const uint64_t sdhci_addr[XLNX_ZYNQMP_NUM_SDHCI] = {
-     0xFF160000, 0xFF170000,
- };
-@@ -243,6 +251,11 @@ static void xlnx_zynqmp_init(Object *obj)
-                                 TYPE_CADENCE_UART);
-     }
- 
-+    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-+        object_initialize_child(obj, "can[*]", &s->can[i],
-+                                TYPE_XLNX_ZYNQMP_CAN);
-+    }
-+
-     object_initialize_child(obj, "sata", &s->sata, TYPE_SYSBUS_AHCI);
- 
-     for (i = 0; i < XLNX_ZYNQMP_NUM_SDHCI; i++) {
-@@ -482,6 +495,23 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-                            gic_spi[uart_intr[i]]);
-     }
- 
-+    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-+        object_property_set_int(OBJECT(&s->can[i]), "ext_clk_freq",
-+                                XLNX_ZYNQMP_CAN_REF_CLK, &error_abort);
-+
-+        object_property_set_link(OBJECT(&s->can[i]), "canbus",
-+                                 OBJECT(s->canbus[i]), &error_fatal);
-+
-+        sysbus_realize(SYS_BUS_DEVICE(&s->can[i]), &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->can[i]), 0, can_addr[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->can[i]), 0,
-+                           gic_spi[can_intr[i]]);
-+    }
-+
-     object_property_set_int(OBJECT(&s->sata), "num-ports", SATA_NUM_PORTS,
-                             &error_abort);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->sata), errp)) {
-@@ -619,6 +649,10 @@ static Property xlnx_zynqmp_props[] = {
-     DEFINE_PROP_BOOL("has_rpu", XlnxZynqMPState, has_rpu, false),
-     DEFINE_PROP_LINK("ddr-ram", XlnxZynqMPState, ddr_ram, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
-+    DEFINE_PROP_LINK("canbus0", XlnxZynqMPState, canbus[0], TYPE_CAN_BUS,
-+                     CanBusState *),
-+    DEFINE_PROP_LINK("canbus1", XlnxZynqMPState, canbus[1], TYPE_CAN_BUS,
-+                     CanBusState *),
-     DEFINE_PROP_END_OF_LIST()
- };
- 
--- 
-2.20.1
+I find this a bit complicated, because we can=E2=80=99t exactly handle read=
+link
+without -f.  We can fall back to the old behavior on such systems, which
+I think is good enough and I assume you think, too.
+
+> If you want to tell the user something, you should catch the
+> failure and print something yourself, because then you can do
+> so with a message that will make sense to somebody trying to
+> run the test suite and point them in the direction of what
+> they can do to deal with the problem, eg something like
+>  "readlink version doesn't support '-f'. Assuming that iotests
+>   are being run from the build tree. If this isn't true then
+>   we will fail later on: you can either run from the build tree,
+>   or install a newer readlink."
+
+Doesn=E2=80=99t sound bad, it isn=E2=80=99t =E2=80=9Cbail out=E2=80=9D, tho=
+ugh, so I don=E2=80=99t fully
+understand how this relates to your paragraph above.  (Because it seems
+like you suggest printing this unconditionally.  I think it would be
+better to print it only if readlink -f failed, and then check finds $PWD
+isn=E2=80=99t $build_tree/tests/qemu-iotests.  But...)
+
+> Printing "readlink: illegal option" is just going to cause
+> people to assume QEMU's scripts are broken and send us bug
+> reports, so please don't do that.
+
+(That=E2=80=99s absolutely true.)
+
+...given everything, I think the best is then to indeed just suppress
+readlink=E2=80=99s error message.  If readlink doesn=E2=80=99t work, and bu=
+ild_iotests
+defaults to $PWD, and $PWD is not the build tree, then you=E2=80=99ll end u=
+p
+with the six-year-old error message =E2=80=9C(make sure the qemu-iotests ar=
+e run
+from tests/qemu-iotests in the build tree)=E2=80=9D.  Because doing so is
+probably easier anyway than trying to find a readlink that works.
+
+Max
+
+
+--dMVf0cQ5I8JBdQcR1ieWRSrQNFnQ1Yxqf--
+
+--4eg2GWyRN3aLeAarbxATTfH27QaghmMkE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9feYoACgkQ9AfbAGHV
+z0ArHAf8DMRXbZSmo+3F5yYmbgDLhACxjZRmTUHehQGQKInTktX7x5vZtCfdd3sl
+MViwZ0j/OTOlPlfOzdRHzkEvGr/6V/XFuMxyV10ZRp0nUySBAU8ZckZGtaIneshK
+q0N/9/da+0FMGpzyEBgpW34rCfuRnDhOI7HqLj3SJNdkbCai0lmUxTLedsfPKNrt
+Iq3O/7dhXPxJbsFXaFrsCAYJFFQkuN1/g0+wd51kzSXyS2DGQpzg3wNPi0wnixQ0
+QhWg6raLm68Rm2fTuRnhR47Rs8QY7rsK5xdbvpTgQ6AXu/Km54J71qtivFNPm48I
+me8jbrN6SJEZDyfej47M3D7FOWdB8w==
+=1EkD
+-----END PGP SIGNATURE-----
+
+--4eg2GWyRN3aLeAarbxATTfH27QaghmMkE--
 
 
