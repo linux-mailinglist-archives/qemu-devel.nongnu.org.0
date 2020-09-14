@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AB22691E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:43:07 +0200 (CEST)
-Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5333326920B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:48:13 +0200 (CEST)
+Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrZK-0004Nz-V3
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
+	id 1kHreG-00013F-8j
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqx3-0006pA-4E
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 12:03:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqwy-0001kb-ES
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 12:03:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600099407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ypTvtpeOJotX5D58KbIIiYckEbksuzmhdNvJT9ISg5E=;
- b=NPmryiPRuLCxG1KVJ6DGzP6fXCj2HuHD+pQgQ1Iy8sN3/QxPYdO5udDLi3auYI9p82orhL
- W1zqCB2OuVMpZXfUL/x1ZX6qhpX6LHgM8qGCYkiumsrpXXfX2wuTAzOwToeaQS7ph7yRDZ
- 7a+2pCXVWM2HmgKoZoIO0cOcAIuXSEM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-s9-WWLZoOX2auAsglumtoA-1; Mon, 14 Sep 2020 12:03:25 -0400
-X-MC-Unique: s9-WWLZoOX2auAsglumtoA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F6311005E5B;
- Mon, 14 Sep 2020 16:03:24 +0000 (UTC)
-Received: from [10.3.113.68] (ovpn-113-68.phx2.redhat.com [10.3.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAC6B1002D42;
- Mon, 14 Sep 2020 16:03:23 +0000 (UTC)
-Subject: Re: [PATCH v3] iotests: Drop readlink -f
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200914145606.94620-1-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <06b0ec10-34d0-05ab-7511-ac7878a6282a@redhat.com>
-Date: Mon, 14 Sep 2020 11:03:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1kHrGp-0004FU-VH
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 12:24:00 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1kHrGk-0005N7-6S
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 12:23:59 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d4so607830wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 09:23:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=60E7FLkfW+EfY2KQvAY2YZG6lQcVwUEJeY59viYPm9o=;
+ b=OmBD2viYznY8opvmbJN5AhEWkgYh6OvBCUkAIDCOHJ9nRNXyvJeeIpxRWIbnTezzdO
+ VwpBv8T+qpd00Dr6o4ekUdXmznDFiexI8889SIDs7tZSZ1CD4eztMHDRGJ8l6kutGL5r
+ PH1P/lrdsdOZpDiyul+fiI3vv+K8K4HslWl4k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=60E7FLkfW+EfY2KQvAY2YZG6lQcVwUEJeY59viYPm9o=;
+ b=q3NWMsZIN0HvDSDxuL8CV8bY1mQIUTZw04bEb1mKXDf4YUYn08VB8GUK3/7bTaNPfz
+ z+nGDwUuYFj9L/tHFFmEMRra4CYIG7FNsH0zG/cfSlWxHmHI7BXgyV5tyAjspYGuHY6X
+ bcNbJwSLgry49g4diaM5v1q2u6z5D1eH2FmnBrFCyUDgpmhS4sBWzQq1To4R8Jv0/8W/
+ lVoo1Ra2mOAbYm5np03Qgt/CZlDQYgQ82qgc6Ug+S0Y6kg1bY54m1SeivrDQS84PWW3l
+ yhN4DZS7FocEdiPsDMensb2FRtjILHdXBSdqf8W9ESJ00ghfXRY41ygpWOhHI95eUZ7K
+ 7vRw==
+X-Gm-Message-State: AOAM5304OWSW6zpvVHnUj0gky3JyrUzI8guTazeO4Qc9sy6EBmcYsxh2
+ 8ZNG6adXcTXujPok3imRlB1fnKOtQYQv1493LNnhHg==
+X-Google-Smtp-Source: ABdhPJwHhQhRYcVKaRibvUkTdaeTFswrDWvl4uKhbMZ10C/+jqF73+6gjtd+pe9ZPeN/4ubFSa7sKUgEpbUFEnZRaog=
+X-Received: by 2002:a1c:2dcc:: with SMTP id t195mr171796wmt.166.1600100631835; 
+ Mon, 14 Sep 2020 09:23:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200914145606.94620-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200911190508.1316487-1-dereksu@qnap.com>
+ <20200911190508.1316487-3-dereksu@qnap.com>
+ <817fd011098a4fc6a6790c17414a71a8@intel.com>
+ <0bf192578764481e8757c6595094eb28@intel.com>
+ <CAKEOLWUVzX4nudNBKJhqYqAxJFRq4BXPDiDynAEd_K-h5DDTpA@mail.gmail.com>
+ <60290833ad3243a48fd558ccc86c3640@intel.com>
+In-Reply-To: <60290833ad3243a48fd558ccc86c3640@intel.com>
+From: Derek Su <dereksu@qnap.com>
+Date: Tue, 15 Sep 2020 00:23:40 +0800
+Message-ID: <CAKEOLWWh7oLWTTK-nV63dG9KA1wZfYGaSU2uJR7mxSm9nnHjfQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] colo-compare: Record packet creation time by
+ QEMU_CLOCK_REALTIME
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Content-Type: multipart/alternative; boundary="000000000000c409f805af487593"
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=dereksu@qnap.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,48 +79,712 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: "C.H. Yang" <chyang@qnap.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "lizhijian@cn.fujitsu.com" <lizhijian@cn.fujitsu.com>,
+ CT Cheng <ctcheng@qnap.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/20 9:56 AM, Max Reitz wrote:
-> On macOS, (out of the box) readlink does not have -f.  We do not really
-> need readlink here, though, it was just a replacement for realpath
-> (which is not available on our BSD test systems), which we needed to
-> make the $(dirname) into an absolute path.
-> 
-> Instead of using either, just use "cd; pwd" like is done for
-> $source_iotests.
-> 
-> Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
->         ("iotests: Allow running from different directory")
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Reported-by: Claudio Fontana <cfontana@suse.de>
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   tests/qemu-iotests/check | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> index e14a1f354d..678b6e4910 100755
-> --- a/tests/qemu-iotests/check
-> +++ b/tests/qemu-iotests/check
-> @@ -44,7 +44,7 @@ then
->           _init_error "failed to obtain source tree name from check symlink"
->       fi
->       source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
-> -    build_iotests=$(readlink -f $(dirname "$0"))
-> +    build_iotests=$(cd "$(dirname "$0")"; pwd)
+--000000000000c409f805af487593
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If CDPATH is set, this can produce wrong results.  Do we care?  Probably 
-not, since (as you point out), $source_iotests has the same bug, and no 
-one has complained yet.
+Hello, Chen
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+My humble opinion is that the `creation_ms` and `now` fixed in my patch
+should be OK in colo-compare and performs well in my test if used
+QEMU_CLOCK_REALTIME. Though the vm state is changed in COLO scenario, the
+record and comparison of `creation_ms` and `now` are not affected by these
+vm changes.
 
+In net/colo.c and net/colo-compare.c functions using timer_mod(),
+using QEMU_CLOCK_HOST is dangerous if users change the host clock. The
+timer might not be fired on time as expected. The original time_mod using
+QEMU_CLOCK_VIRTUAL seems OK currently.
+Thanks.
+
+Regards,
+Derek
+
+
+Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2020=E5=B9=B49=E6=9C=8814=E6=
+=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:42=E5=AF=AB=E9=81=93=EF=BC=9A
+
+>
+>
+>
+>
+> *From:* Derek Su <dereksu@qnap.com>
+> *Sent:* Monday, September 14, 2020 9:00 AM
+> *To:* Zhang, Chen <chen.zhang@intel.com>
+> *Cc:* jasowang@redhat.com; lizhijian@cn.fujitsu.com; qemu-devel@nongnu.or=
+g
+> *Subject:* Re: [PATCH v1 2/2] colo-compare: Record packet creation time
+> by QEMU_CLOCK_REALTIME
+>
+>
+>
+>
+>
+>
+>
+> Zhang, Chen <chen.zhang@intel.com>=E6=96=BC 2020=E5=B9=B49=E6=9C=8814=E6=
+=97=A5 =E9=80=B1=E4=B8=80=EF=BC=8C=E4=B8=8A=E5=8D=884:06=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+>
+>
+>
+>
+> > -----Original Message-----
+>
+> > From: Zhang, Chen
+>
+> > Sent: Monday, September 14, 2020 4:02 AM
+>
+> > To: 'Derek Su' <dereksu@qnap.com>; qemu-devel@nongnu.org
+>
+> > Cc: lizhijian@cn.fujitsu.com; jasowang@redhat.com
+>
+> > Subject: RE: [PATCH v1 2/2] colo-compare: Record packet creation time b=
+y
+>
+> > QEMU_CLOCK_REALTIME
+>
+> >
+>
+> >
+>
+> >
+>
+> > > -----Original Message-----
+>
+> > > From: Derek Su <dereksu@qnap.com>
+>
+> > > Sent: Saturday, September 12, 2020 3:05 AM
+>
+> > > To: qemu-devel@nongnu.org
+>
+> > > Cc: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com;
+>
+> > > jasowang@redhat.com; Derek Su <dereksu@qnap.com>
+>
+> > > Subject: [PATCH v1 2/2] colo-compare: Record packet creation time by
+>
+> > > QEMU_CLOCK_REALTIME
+>
+> > >
+>
+> > > Record packet creation time by QEMU_CLOCK_REALTIME instead of
+>
+> > > QEMU_CLOCK_HOST. The time difference between `now` and packet
+>
+> > > `creation_ms` has the possibility of an unexpected negative value and
+>
+> > > results in wrong comparison after changing the host clock.
+>
+> > >
+>
+> >
+>
+> > Hi Derek,
+>
+> >
+>
+> > I think this issue caused by other code in this file use the
+>
+> > qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+>
+> > I will change all code to QEMU_CLOCK_HOST to fix it with the patch 1/2.
+>
+>
+>
+> If you feel OK, or you can send the new version.  :-)
+>
+>
+>
+> Hello, Chen
+>
+>
+>
+> Is the monotonically increasing clock better than host clock in the COLO
+> compare framework?
+>
+> The host clock is sometimes changed by the users manually or NTP
+> synchronization automatically, and the cases may lead to the relative tim=
+e
+> be disordered.
+>
+> For example, the `creation_time` of one packet is advanced to the `now` i=
+n
+> our tests.
+>
+>
+>
+> I incline to replace QEMU_CLOCK_REALTIME and QEMU_CLOCK_VIRTUAL with
+> the monotonically increasing clock QEMU_CLOCK_REALTIME in COLO compare
+> framework.
+>
+> How about your thoughts?
+>
+>
+>
+> Hi Derek,
+>
+>
+>
+> /**
+>
+> * QEMUClockType:
+>
+> *
+>
+> * The following clock types are available:
+>
+> *
+>
+> * @QEMU_CLOCK_REALTIME: Real time clock
+>
+> *
+>
+> * The real time clock should be used only for stuff which does not
+>
+> * change the virtual machine state, as it runs even if the virtual
+>
+> * machine is stopped.
+>
+> *
+>
+> * @QEMU_CLOCK_VIRTUAL: virtual clock
+>
+> *
+>
+> * The virtual clock only runs during the emulation. It stops
+>
+> * when the virtual machine is stopped.
+>
+> *
+>
+> * @QEMU_CLOCK_HOST: host clock
+>
+> *
+>
+> * The host clock should be used for device models that emulate accurate
+>
+> * real time sources. It will continue to run when the virtual machine
+>
+> * is suspended, and it will reflect system time changes the host may
+>
+> * undergo (e.g. due to NTP).
+>
+>
+>
+>
+>
+> When COLO running, it will change the virtual machine state.
+>
+> So I think use the QEMU_CLOCK_HOST is better.
+>
+>
+>
+> Thanks
+>
+> Zhang Chen
+>
+>
+>
+> If OK, I will send the new version again, thanks. :)
+>
+> Thank you.
+>
+>
+>
+> Regards,
+>
+> Derek
+>
+>
+>
+>
+>
+>
+> >
+>
+> > Thanks
+>
+> > Zhang Chen
+>
+> >
+>
+> > > Signed-off-by: Derek Su <dereksu@qnap.com>
+>
+> > > ---
+>
+> > >  net/colo-compare.c | 2 +-
+>
+> > >  net/colo.c         | 2 +-
+>
+> > >  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> > >
+>
+> > > diff --git a/net/colo-compare.c b/net/colo-compare.c index
+>
+> > > c4de86ef34..29d7f986e3 100644
+>
+> > > --- a/net/colo-compare.c
+>
+> > > +++ b/net/colo-compare.c
+>
+> > > @@ -621,7 +621,7 @@ static int colo_packet_compare_other(Packet *spkt=
+,
+>
+> > > Packet *ppkt)
+>
+> > >
+>
+> > >  static int colo_old_packet_check_one(Packet *pkt, void *user_data)  =
+{
+>
+> > > -    int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_HOST);
+>
+> > > +    int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+>
+> > >      uint32_t check_time =3D *(uint32_t *)user_data;
+>
+> > >
+>
+> > >      if ((now - pkt->creation_ms) > check_time) { diff --git
+>
+> > > a/net/colo.c b/net/colo.c index a6c66d829a..0441910169 100644
+>
+> > > --- a/net/colo.c
+>
+> > > +++ b/net/colo.c
+>
+> > > @@ -164,7 +164,7 @@ Packet *packet_new(const void *data, int size, in=
+t
+>
+> > > vnet_hdr_len)
+>
+> > >
+>
+> > >      pkt->data =3D g_memdup(data, size);
+>
+> > >      pkt->size =3D size;
+>
+> > > -    pkt->creation_ms =3D qemu_clock_get_ms(QEMU_CLOCK_HOST);
+>
+> > > +    pkt->creation_ms =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+>
+> > >      pkt->vnet_hdr_len =3D vnet_hdr_len;
+>
+> > >      pkt->tcp_seq =3D 0;
+>
+> > >      pkt->tcp_ack =3D 0;
+>
+> > > --
+>
+> > > 2.25.1
+>
+>
+>
+
+--000000000000c409f805af487593
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_sig=
+nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr=
+"><div dir=3D"ltr"><div><font face=3D"Arial, sans-serif" color=3D"#000000">=
+<span style=3D"font-size:13.3333px">Hello, Chen</span></font></div><div><fo=
+nt face=3D"Arial, sans-serif" color=3D"#000000"><span style=3D"font-size:13=
+.3333px"><br></span></font></div><div>My humble opinion is that the `creati=
+on_ms` and `now` fixed in my patch should be OK in colo-compare and perform=
+s well in my test if used QEMU_CLOCK_REALTIME. Though the vm state is chang=
+ed in COLO scenario, the record and comparison of `creation_ms` and `now` a=
+re not affected by these vm changes.</div><div><br></div><div>In net/colo.c=
+ and net/colo-compare.c functions using=C2=A0timer_mod(), using=C2=A0QEMU_C=
+LOCK_HOST is dangerous if users change the host clock. The timer might not =
+be fired on time as expected. The original time_mod using QEMU_CLOCK_VIRTUA=
+L seems OK currently.</div><div>Thanks.</div><div><br></div><div>Regards,</=
+div><div>Derek</div><div><br></div></div></div></div></div></div></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Zhang, Che=
+n &lt;<a href=3D"mailto:chen.zhang@intel.com">chen.zhang@intel.com</a>&gt; =
+=E6=96=BC 2020=E5=B9=B49=E6=9C=8814=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=
+=E5=8D=883:42=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US">
+<div class=3D"gmail-m_-7414737688351063730WordSection1">
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div style=3D"border-top:none;border-right:none;border-bottom:none;border-l=
+eft:1.5pt solid blue;padding:0in 0in 0in 4pt">
+<div>
+<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
+top:1pt solid rgb(225,225,225);padding:3pt 0in 0in">
+<p class=3D"MsoNormal"><b>From:</b> Derek Su &lt;<a href=3D"mailto:dereksu@=
+qnap.com" target=3D"_blank">dereksu@qnap.com</a>&gt; <br>
+<b>Sent:</b> Monday, September 14, 2020 9:00 AM<br>
+<b>To:</b> Zhang, Chen &lt;<a href=3D"mailto:chen.zhang@intel.com" target=
+=3D"_blank">chen.zhang@intel.com</a>&gt;<br>
+<b>Cc:</b> <a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">jasowan=
+g@redhat.com</a>; <a href=3D"mailto:lizhijian@cn.fujitsu.com" target=3D"_bl=
+ank">lizhijian@cn.fujitsu.com</a>; <a href=3D"mailto:qemu-devel@nongnu.org"=
+ target=3D"_blank">qemu-devel@nongnu.org</a><br>
+<b>Subject:</b> Re: [PATCH v1 2/2] colo-compare: Record packet creation tim=
+e by QEMU_CLOCK_REALTIME<u></u><u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Zhang, Chen &lt;<a href=3D"mailto:chen.zhang@intel.c=
+om" target=3D"_blank">chen.zhang@intel.com</a>&gt;<span lang=3D"ZH-CN" styl=
+e=3D"font-family:DengXian">=E6=96=BC</span> 2020<span lang=3D"ZH-CN" style=
+=3D"font-family:DengXian">=E5=B9=B4</span>9<span lang=3D"ZH-CN" style=3D"fo=
+nt-family:DengXian">=E6=9C=88</span>14<span lang=3D"ZH-CN" style=3D"font-fa=
+mily:DengXian">=E6=97=A5</span><span lang=3D"ZH-CN">
+</span><span lang=3D"ZH-CN" style=3D"font-family:DengXian">=E9=80=B1=E4=B8=
+=80=EF=BC=8C=E4=B8=8A=E5=8D=88</span>4:06<span lang=3D"ZH-CN" style=3D"font=
+-family:DengXian">=E5=AF=AB=E9=81=93=EF=BC=9A</span><u></u><u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0in 0in 0in 6pt;margin:5pt 0i=
+n 5pt 4.8pt">
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt"><br>
+<br>
+<br>
+<br>
+&gt; -----Original Message-----<br>
+<br>
+&gt; From: Zhang, Chen<br>
+<br>
+&gt; Sent: Monday, September 14, 2020 4:02 AM<br>
+<br>
+&gt; To: &#39;Derek Su&#39; &lt;<a href=3D"mailto:dereksu@qnap.com" target=
+=3D"_blank">dereksu@qnap.com</a>&gt;;
+<a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">qemu-devel@nongn=
+u.org</a><br>
+<br>
+&gt; Cc: <a href=3D"mailto:lizhijian@cn.fujitsu.com" target=3D"_blank">lizh=
+ijian@cn.fujitsu.com</a>;
+<a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">jasowang@redhat.co=
+m</a><br>
+<br>
+&gt; Subject: RE: [PATCH v1 2/2] colo-compare: Record packet creation time =
+by<br>
+<br>
+&gt; QEMU_CLOCK_REALTIME<br>
+<br>
+&gt; <br>
+<br>
+&gt; <br>
+<br>
+&gt; <br>
+<br>
+&gt; &gt; -----Original Message-----<br>
+<br>
+&gt; &gt; From: Derek Su &lt;<a href=3D"mailto:dereksu@qnap.com" target=3D"=
+_blank">dereksu@qnap.com</a>&gt;<br>
+<br>
+&gt; &gt; Sent: Saturday, September 12, 2020 3:05 AM<br>
+<br>
+&gt; &gt; To: <a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">qe=
+mu-devel@nongnu.org</a><br>
+<br>
+&gt; &gt; Cc: Zhang, Chen &lt;<a href=3D"mailto:chen.zhang@intel.com" targe=
+t=3D"_blank">chen.zhang@intel.com</a>&gt;;
+<a href=3D"mailto:lizhijian@cn.fujitsu.com" target=3D"_blank">lizhijian@cn.=
+fujitsu.com</a>;<br>
+<br>
+&gt; &gt; <a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">jasowang=
+@redhat.com</a>; Derek Su &lt;<a href=3D"mailto:dereksu@qnap.com" target=3D=
+"_blank">dereksu@qnap.com</a>&gt;<br>
+<br>
+&gt; &gt; Subject: [PATCH v1 2/2] colo-compare: Record packet creation time=
+ by<br>
+<br>
+&gt; &gt; QEMU_CLOCK_REALTIME<br>
+<br>
+&gt; &gt;<br>
+<br>
+&gt; &gt; Record packet creation time by QEMU_CLOCK_REALTIME instead of<br>
+<br>
+&gt; &gt; QEMU_CLOCK_HOST. The time difference between `now` and packet<br>
+<br>
+&gt; &gt; `creation_ms` has the possibility of an unexpected negative value=
+ and<br>
+<br>
+&gt; &gt; results in wrong comparison after changing the host clock.<br>
+<br>
+&gt; &gt;<br>
+<br>
+&gt; <br>
+<br>
+&gt; Hi Derek,<br>
+<br>
+&gt; <br>
+<br>
+&gt; I think this issue caused by other code in this file use the<br>
+<br>
+&gt; qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);<br>
+<br>
+&gt; I will change all code to QEMU_CLOCK_HOST to fix it with the patch 1/2=
+.<br>
+<br>
+<br>
+<br>
+If you feel OK, or you can send the new version.=C2=A0 :-)<u></u><u></u></p=
+>
+</blockquote>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Hello, Chen<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Is the monotonically increasing clock better than ho=
+st clock in the COLO compare framework?<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">The host clock is sometimes changed by the users man=
+ually or NTP synchronization automatically, and the cases may lead to the r=
+elative time be disordered.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">For example, the `creation_time` of one packet is ad=
+vanced to the `now` in our tests.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">I incline to replace QEMU_CLOCK_REALTIME and QEMU_CL=
+OCK_VIRTUAL with the=C2=A0monotonically increasing clock QEMU_CLOCK_REALTIM=
+E in COLO compare framework.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">How about your thoughts?<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)">Hi Derek,<u></=
+u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)"><u></u>=C2=A0<=
+u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">/**<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* QEMUClockType:<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">*<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* The following clock types are available:<u></u><u></u></sp=
+an></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">*<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* @QEMU_CLOCK_REALTIME: Real time clock<u></u><u></u></span>=
+</p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">*<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* The real time clock should be used only for stuff which do=
+es not<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* change the virtual machine state, as it runs even if the v=
+irtual<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* machine is stopped.<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">*<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* @QEMU_CLOCK_VIRTUAL: virtual clock<u></u><u></u></span></p=
+>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">*<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* The virtual clock only runs during the emulation. It stops=
+<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* when the virtual machine is stopped.<u></u><u></u></span><=
+/p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">*<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* @QEMU_CLOCK_HOST: host clock<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">*<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* The host clock should be used for device models that emula=
+te accurate<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* real time sources. It will continue to run when the virtua=
+l machine<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:5.25pt"><span style=3D"color:rg=
+b(68,114,196)">* is suspended, and it will reflect system time changes the =
+host may<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)">* undergo (e.g=
+. due to NTP).<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)"><u></u>=C2=A0<=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)"><u></u>=C2=A0<=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)">When COLO runn=
+ing, it will change the virtual machine state.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)">So I think use=
+ the QEMU_CLOCK_HOST is better.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)"><u></u>=C2=A0<=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)">Thanks<u></u><=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(68,114,196)">Zhang Chen<u><=
+/u><u></u></span></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">If OK, I will send the new version again, thanks. :)=
+<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Thank you.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Regards,<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Derek<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0in 0in 0in 6pt;margin:5pt 0i=
+n 5pt 4.8pt">
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</blockquote>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0in 0in 0in 6pt;margin:5pt 0i=
+n 5pt 4.8pt">
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt"><br>
+&gt; <br>
+<br>
+&gt; Thanks<br>
+<br>
+&gt; Zhang Chen<br>
+<br>
+&gt; <br>
+<br>
+&gt; &gt; Signed-off-by: Derek Su &lt;<a href=3D"mailto:dereksu@qnap.com" t=
+arget=3D"_blank">dereksu@qnap.com</a>&gt;<br>
+<br>
+&gt; &gt; ---<br>
+<br>
+&gt; &gt;=C2=A0 net/colo-compare.c | 2 +-<br>
+<br>
+&gt; &gt;=C2=A0 net/colo.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+<br>
+&gt; &gt;=C2=A0 2 files changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+&gt; &gt;<br>
+<br>
+&gt; &gt; diff --git a/net/colo-compare.c b/net/colo-compare.c index<br>
+<br>
+&gt; &gt; c4de86ef34..29d7f986e3 100644<br>
+<br>
+&gt; &gt; --- a/net/colo-compare.c<br>
+<br>
+&gt; &gt; +++ b/net/colo-compare.c<br>
+<br>
+&gt; &gt; @@ -621,7 +621,7 @@ static int colo_packet_compare_other(Packet *=
+spkt,<br>
+<br>
+&gt; &gt; Packet *ppkt)<br>
+<br>
+&gt; &gt;<br>
+<br>
+&gt; &gt;=C2=A0 static int colo_old_packet_check_one(Packet *pkt, void *use=
+r_data)=C2=A0 {<br>
+<br>
+&gt; &gt; -=C2=A0 =C2=A0 int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_HOST)=
+;<br>
+<br>
+&gt; &gt; +=C2=A0 =C2=A0 int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_REALT=
+IME);<br>
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 uint32_t check_time =3D *(uint32_t *)user_dat=
+a;<br>
+<br>
+&gt; &gt;<br>
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 if ((now - pkt-&gt;creation_ms) &gt; check_ti=
+me) { diff --git<br>
+<br>
+&gt; &gt; a/net/colo.c b/net/colo.c index a6c66d829a..0441910169 100644<br>
+<br>
+&gt; &gt; --- a/net/colo.c<br>
+<br>
+&gt; &gt; +++ b/net/colo.c<br>
+<br>
+&gt; &gt; @@ -164,7 +164,7 @@ Packet *packet_new(const void *data, int size=
+, int<br>
+<br>
+&gt; &gt; vnet_hdr_len)<br>
+<br>
+&gt; &gt;<br>
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 pkt-&gt;data =3D g_memdup(data, size);<br>
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 pkt-&gt;size =3D size;<br>
+<br>
+&gt; &gt; -=C2=A0 =C2=A0 pkt-&gt;creation_ms =3D qemu_clock_get_ms(QEMU_CLO=
+CK_HOST);<br>
+<br>
+&gt; &gt; +=C2=A0 =C2=A0 pkt-&gt;creation_ms =3D qemu_clock_get_ms(QEMU_CLO=
+CK_REALTIME);<br>
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 pkt-&gt;vnet_hdr_len =3D vnet_hdr_len;<br>
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 pkt-&gt;tcp_seq =3D 0;<br>
+<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 pkt-&gt;tcp_ack =3D 0;<br>
+<br>
+&gt; &gt; --<br>
+<br>
+&gt; &gt; 2.25.1<br>
+<br>
+<br>
+<u></u><u></u></p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div>
+
+--000000000000c409f805af487593--
 
