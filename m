@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56755268210
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 02:10:37 +0200 (CEST)
-Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE7B268202
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 02:04:41 +0200 (CEST)
+Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHc4q-00051M-EO
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 20:10:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43634)
+	id 1kHbz6-0006ab-Sp
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 20:04:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHbwh-0002rR-Jh
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 20:02:11 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43546)
+ id 1kHbwi-0002ua-QK
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 20:02:12 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:36341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHbwf-0004Cv-Jq
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 20:02:11 -0400
-Received: by mail-pg1-x543.google.com with SMTP id t14so10060415pgl.10
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 17:02:09 -0700 (PDT)
+ id 1kHbwg-0004D6-QD
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 20:02:12 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id b17so4429347pji.1
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 17:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FHMdFNxA5DgdfHwVaO5Ocox79qcbsSZjeiufIYJ4nxY=;
- b=ZfVnAuEZNFZuQPDiVwW+EdPFbdJntGLKtnjL4Pmw7INWhZy67p0KuaF6q61TALlmIB
- /jw1W32K042JP20cA0R5GagqbHh/NE5pbEpNdRfP7yi90VCqa7NGXvRWudcLuUozBY/l
- QGNxZY7G5XVOxOIlUpe0caDrVDT2YxqGOFZ1zlKykDBC4HhiY6wpoa+9bu5q7lNmwCaj
- ckOjUnifKTjV3f+y2vaIpLDs75IRc26Dl6FbKdD2zZ7bTxa+cWKct1nBXPdRq0iXZv/A
- 6472h1zZDUx04Ur4WiZwPbTLddbZpnv1vdNkE3xsFhmPyNjF8q+k6hZXHzXsMKHxjbUL
- 0CIw==
+ bh=NCHT5fgIvwDcF4K56DTDB0FLtjYLg/nKnYjeWLy1ICY=;
+ b=STBBIZyczgTwCopMTEJOA+ZySjUp1HsoIwsV4GRrmwl1O4A3bNEpjQcKLw4Jji+3nK
+ 19vjthoLnaXP7e5lTFjoIDKwTOUlzug3JGrHpfGAnVRmgicUPgRfoshanPiSkUzAfp7b
+ v6/AgKhJTVayVCLvxaIJqfbMt18/hLHWPMdYJSVvtVvHnYafjLkiu2+F1pzFN/mzPFZi
+ eP9XtzGpFjcxSoVEmbvWA5dYU6XZvxwfzAHWh7RCRwoD8tIsBk2EA3/bTvamuc210Y7t
+ zjThwDfWOpsPb/3MZv9Q2lVVNKzTghdAJmWbndZWRetTY2ph3Y7tU9++S4+S91GXgJqs
+ IOSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FHMdFNxA5DgdfHwVaO5Ocox79qcbsSZjeiufIYJ4nxY=;
- b=feEokkIZ+XS8g2h40LkuuKC61EWpDblh9lapi1fpOHOo2fRQsZlTZ68La013F8fz67
- LzZSC2W5D5Kf7jWyWiEJTTxbcWbS3GFyRMaKui7Uhe5NUGnkZsJ3drD4tDYDtTQgZBXP
- i3JP3uuvN7km8D7QMjWpjYZ4lJrrM6l5Q+byH083J1Ebv1Yre4qZ3RvD1vNOManKtrpR
- Bp2FYKP7cnBzkubV19W2i1kbcgXdYUb5q1/LnYLeCJxXEeFv3Jk6T//uC99KghKCdaV9
- MqNr0avyIXjuK+SZXPexNaq/AbzcGc8pVpDk/USLITtDF4BbP1BUt2wJ7PHVu3+E8NIE
- JvPg==
-X-Gm-Message-State: AOAM533LV/x4sJB3tpImI8I08VDzHg1AkpXW+kmKRxTux21pLPme9q3N
- PFuY2o6ofmYjut3V8wypJsPMQ0CKgCXeog==
-X-Google-Smtp-Source: ABdhPJz+7uo7MnBvnN7Om2YH7E+7o8KpLOK+urcSXOJOLEd9cYl2lyv4TFytPHEJXvyY2OQ2akZDBA==
-X-Received: by 2002:a17:902:8e86:b029:d1:9be4:b49d with SMTP id
- bg6-20020a1709028e86b02900d19be4b49dmr11920941plb.22.1600041727906; 
- Sun, 13 Sep 2020 17:02:07 -0700 (PDT)
+ bh=NCHT5fgIvwDcF4K56DTDB0FLtjYLg/nKnYjeWLy1ICY=;
+ b=RDJCdFuIAgZHehOxGrk18zUwfHL8TK8HfJp33Ywt3F33LV0oj89Fv++WpWCvHHm/Mz
+ 1VfcmPRaXkF0F2LIkM2MBf0KlhaPBvNFeWKZtO9GRMTKpgFoWM5npZHPAXk4zYoLhbfC
+ 0Eurlnx89J1B/YEVgpSbTz8+SFWS0zya6bjCWkoLDK/wDsxd6UzVV1RZsEt59ovOHVEe
+ FUuZVt+RznORXZkF0Ar+yEORf7xNK9DfyexJsJnn+0Oqj+r84694D2SOouJfKKVlOX55
+ AxO/vrQVR3ujZX1Low5CGPEZGriHWIx7Op/o1SPMXTmMCbk7ghPhxGkwsiZXqXDGPWfx
+ o+XA==
+X-Gm-Message-State: AOAM530bNG8IbKPIvlZfvsLuea1xMCn0hZAEPo5VYWMGA4zCeGI2FQkC
+ 56+E7HYc4n2Up+2saLZvw9ZQnPYwqhWOHw==
+X-Google-Smtp-Source: ABdhPJx990jZk5gxIZprKMEX7IUMmvbFIhns21m/AaoSwQoGwHVVGMm3XLt2EZkZOK2LB/vV/ZZxsA==
+X-Received: by 2002:a17:90b:a0a:: with SMTP id
+ gg10mr11565237pjb.20.1600041729085; 
+ Sun, 13 Sep 2020 17:02:09 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 31sm6538252pgs.59.2020.09.13.17.02.06
+ by smtp.gmail.com with ESMTPSA id 31sm6538252pgs.59.2020.09.13.17.02.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 17:02:07 -0700 (PDT)
+ Sun, 13 Sep 2020 17:02:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/11] disas/capstone: Add skipdata hook for s390x
-Date: Sun, 13 Sep 2020 17:01:52 -0700
-Message-Id: <20200914000153.1725632-11-richard.henderson@linaro.org>
+Subject: [PATCH 11/11] disas: Enable capstone disassembly for sparc
+Date: Sun, 13 Sep 2020 17:01:53 -0700
+Message-Id: <20200914000153.1725632-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200914000153.1725632-1-richard.henderson@linaro.org>
 References: <20200914000153.1725632-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,81 +89,71 @@ Cc: luoyonggang@gmail.com, alex.bennee@linaro.org, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is always possible to tell the length of an insn, even if the
-actual insn is unknown.  Skip the correct number of bytes, so that
-we stay in sync with the instruction stream.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- disas/capstone.c | 42 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
+ disas.c            |  2 ++
+ target/sparc/cpu.c |  4 ++++
+ meson.build        | 10 ++++++++++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/disas/capstone.c b/disas/capstone.c
-index b48f83958d..0a9ef9c892 100644
---- a/disas/capstone.c
-+++ b/disas/capstone.c
-@@ -16,6 +16,39 @@
-  */
- static __thread cs_insn *cap_insn;
+diff --git a/disas.c b/disas.c
+index 5e943181d8..b71d06d890 100644
+--- a/disas.c
++++ b/disas.c
+@@ -196,6 +196,8 @@ static void initialize_debug_host(CPUDebug *s)
+ #elif defined(__sparc__)
+     s->info.print_insn = print_insn_sparc;
+     s->info.mach = bfd_mach_sparc_v9b;
++    s->info.cap_arch = CS_ARCH_SPARC;
++    s->info.cap_mode = CS_MODE_V9;
+ #elif defined(__arm__)
+     /* TCG only generates code for arm mode.  */
+     s->info.print_insn = print_insn_arm;
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index cf21efd85f..e0b0a88d26 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -25,6 +25,8 @@
+ #include "exec/exec-all.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/visitor.h"
++#include "disas/capstone.h"
++
  
-+/*
-+ * The capstone library always skips 2 bytes for S390X.
-+ * This is less than ideal, since we can tell from the first two bits
-+ * the size of the insn and thus stay in sync with the insn stream.
-+ */
-+static size_t CAPSTONE_API
-+cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
-+                      size_t offset, void *user_data)
-+{
-+    size_t ilen;
-+
-+    /* See get_ilen() in target/s390x/internal.h.  */
-+    switch (code[offset] >> 6) {
-+    case 0:
-+        ilen = 2;
-+        break;
-+    case 1:
-+    case 2:
-+        ilen = 4;
-+        break;
-+    default:
-+        ilen = 6;
-+        break;
-+    }
-+
-+    return ilen;
-+}
-+
-+static const cs_opt_skipdata cap_skipdata_s390x = {
-+    .mnemonic = ".byte",
-+    .callback = cap_skipdata_s390x_cb
-+};
-+
- /*
-  * Initialize the Capstone library.
-  *
-@@ -42,13 +75,20 @@ static cs_err cap_disas_start(disassemble_info *info, csh *handle)
-     /* "Disassemble" unknown insns as ".byte W,X,Y,Z".  */
-     cs_option(*handle, CS_OPT_SKIPDATA, CS_OPT_ON);
+ //#define DEBUG_FEATURES
  
--    if (info->cap_arch == CS_ARCH_X86) {
-+    switch (info->cap_arch) {
-+    case CS_ARCH_SYSZ:
-+        cs_option(*handle, CS_OPT_SKIPDATA_SETUP,
-+                  (uintptr_t)&cap_skipdata_s390x);
-+        break;
-+
-+    case CS_ARCH_X86:
-         /*
-          * We don't care about errors (if for some reason the library
-          * is compiled without AT&T syntax); the user will just have
-          * to deal with the Intel syntax.
-          */
-         cs_option(*handle, CS_OPT_SYNTAX, CS_OPT_SYNTAX_ATT);
-+        break;
-     }
+@@ -100,8 +102,10 @@ static bool sparc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ static void cpu_sparc_disas_set_info(CPUState *cpu, disassemble_info *info)
+ {
+     info->print_insn = print_insn_sparc;
++    info->cap_arch = CS_ARCH_SPARC;
+ #ifdef TARGET_SPARC64
+     info->mach = bfd_mach_sparc_v9b;
++    info->cap_mode = CS_MODE_V9;
+ #endif
+ }
  
-     /* Allocate temp space for cs_disasm_iter.  */
+diff --git a/meson.build b/meson.build
+index 82cf4a9258..b1c54024ac 100644
+--- a/meson.build
++++ b/meson.build
+@@ -661,6 +661,16 @@ else
+     )
+   endif
+ 
++  if 'CONFIG_SPARC_DIS' in config_all_disas
++    capstone_data.set('CAPSTONE_HAS_SPARC', '1')
++    capstone_files += files(
++      'capstone/arch/Sparc/SparcDisassembler.c',
++      'capstone/arch/Sparc/SparcInstPrinter.c',
++      'capstone/arch/Sparc/SparcMapping.c',
++      'capstone/arch/Sparc/SparcModule.c'
++    )
++  endif
++
+   if 'CONFIG_S390_DIS' in config_all_disas
+     capstone_data.set('CAPSTONE_HAS_SYSZ', '1')
+     capstone_files += files(
 -- 
 2.25.1
 
