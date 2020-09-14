@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143A2268B17
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:37:15 +0200 (CEST)
-Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABFA268B25
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:39:12 +0200 (CEST)
+Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHnjO-0008LD-2a
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37460)
+	id 1kHnlH-0003I8-1r
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnhd-0006Td-HQ
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:27 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37102
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnhi-0006UH-1G
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:32 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58706
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnhb-0000e4-EL
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:24 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kHnhf-0000fi-3G
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:35:29 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-y5HoWhzkMp2QFQmRlg87dw-1; Mon, 14 Sep 2020 08:35:18 -0400
-X-MC-Unique: y5HoWhzkMp2QFQmRlg87dw-1
+ us-mta-511-0G_H5re9Mayk2gPwSRBExw-1; Mon, 14 Sep 2020 08:35:21 -0400
+X-MC-Unique: 0G_H5re9Mayk2gPwSRBExw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B37B18B9EDA;
- Mon, 14 Sep 2020 12:35:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 754F88030B9;
+ Mon, 14 Sep 2020 12:35:20 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-112-218.ams2.redhat.com [10.36.112.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCDDB10023A7;
- Mon, 14 Sep 2020 12:35:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED5321002393;
+ Mon, 14 Sep 2020 12:35:17 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/15] ppc: Fix return value in cpu_post_load() error path
-Date: Mon, 14 Sep 2020 14:34:53 +0200
-Message-Id: <20200914123505.612812-4-groug@kaod.org>
+Subject: [PATCH 04/15] spapr: Simplify error handling in callers of
+ ppc_set_compat()
+Date: Mon, 14 Sep 2020 14:34:54 +0200
+Message-Id: <20200914123505.612812-5-groug@kaod.org>
 In-Reply-To: <20200914123505.612812-1-groug@kaod.org>
 References: <20200914123505.612812-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -75,42 +76,34 @@ Cc: Greg Kurz <groug@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VMState handlers are supposed to return negative errno values on failure.
+Now that ppc_set_compat() indicates success/failure with a return
+value, use it and reduce error propagation overhead.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- target/ppc/machine.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/ppc/spapr.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index 109d0711628f..5e5837737679 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -347,18 +347,19 @@ static int cpu_post_load(void *opaque, int version_id=
-)
-     if (cpu->compat_pvr) {
-         uint32_t compat_pvr =3D cpu->compat_pvr;
-         Error *local_err =3D NULL;
-+        int ret;
-=20
-         cpu->compat_pvr =3D 0;
--        ppc_set_compat(cpu, compat_pvr, &local_err);
--        if (local_err) {
-+        ret =3D ppc_set_compat(cpu, compat_pvr, &local_err);
-+        if (ret < 0) {
-             error_report_err(local_err);
--            return -1;
-+            return ret;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index ea2c755310cd..c0a3f5f26d97 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3820,10 +3820,9 @@ static void spapr_core_plug(HotplugHandler *hotplug_=
+dev, DeviceState *dev,
+      */
+     if (hotplugged) {
+         for (i =3D 0; i < cc->nr_threads; i++) {
+-            ppc_set_compat(core->threads[i], POWERPC_CPU(first_cpu)->compa=
+t_pvr,
+-                           &local_err);
+-            if (local_err) {
+-                error_propagate(errp, local_err);
++            if (ppc_set_compat(core->threads[i],
++                               POWERPC_CPU(first_cpu)->compat_pvr,
++                               errp) < 0) {
+                 return;
+             }
          }
-     } else
- #endif
-     {
-         if (!pvr_match(cpu, env->spr[SPR_PVR])) {
--            return -1;
-+            return -EINVAL;
-         }
-     }
-=20
 --=20
 2.26.2
 
