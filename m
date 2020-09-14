@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C1E2686DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:09:57 +0200 (CEST)
-Received: from localhost ([::1]:34250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE21268703
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:17:35 +0200 (CEST)
+Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHjYh-0000My-T4
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60506)
+	id 1kHjg6-0003z2-KB
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1kHjXq-0007tk-2y
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:09:02 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50612
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1kHjXn-0008Hm-Ng
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:09:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600070938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w1QmtHPWuwYfkxdShXq79XWz0h8cydyKrUz7n5BN394=;
- b=WTnqLW0oTmH391jcuPYgi4ytmJvV/LKEeWZeEQrmEEsjuMLQl/bqo0C04PWndYmGx79nRg
- Xj+9q1wwtpkWFlTlrwbg8xzZs1MDuEi8huKg/IVaesd8ZBPpiATzIcM91Q9hVHluy8fj96
- D7jLMLRNR8h/N5ypl8a1MCaBkRXEEQk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-1oCaT9o6PZmSM2XIlErAEA-1; Mon, 14 Sep 2020 04:07:50 -0400
-X-MC-Unique: 1oCaT9o6PZmSM2XIlErAEA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31717802B70;
- Mon, 14 Sep 2020 08:07:49 +0000 (UTC)
-Received: from [10.40.193.180] (unknown [10.40.193.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B445F7B7B6;
- Mon, 14 Sep 2020 08:07:37 +0000 (UTC)
-Subject: Re: [PATCH v2] cphp: remove deprecated cpu-add command(s)
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200914074614.973112-1-imammedo@redhat.com>
-From: Michal Privoznik <mprivozn@redhat.com>
-Message-ID: <f8406b80-0243-49bf-a384-5c625d9a7974@redhat.com>
-Date: Mon, 14 Sep 2020 10:07:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kHja7-0001WA-90
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:11:23 -0400
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:46338)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kHja4-0000Fk-OP
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:11:23 -0400
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 08E89RMg042509;
+ Mon, 14 Sep 2020 10:09:27 +0200 (CEST)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 08E89QrA003036; Mon, 14 Sep 2020 10:09:26 +0200
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 08E89QLE003033;
+ Mon, 14 Sep 2020 10:09:26 +0200
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PATCH v3 0/7] CTU CAN FD core support
+Date: Mon, 14 Sep 2020 10:09:01 +0200
+Message-Id: <cover.1600069689.git.pisa@cmp.felk.cvut.cz>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200914074614.973112-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:33:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 08E89RMg042509
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached, score=-0.1, 
+ required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
+ SPF_HELO_NONE 0.00, SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1600675804.1066@jTEN4dzIg/i87ITDw/YapQ
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 04:11:16
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +66,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- libvir-list@redhat.com, cohuck@redhat.com, david@redhat.com,
- dgilbert@redhat.com, armbru@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Jiri Novak <jnovak@fel.cvut.cz>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Deniz Eren <deniz.eren@icloud.com>, Markus Armbruster <armbru@redhat.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Konrad Frederic <frederic.konrad@adacore.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, Ondrej Ille <ondrej.ille@gmail.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/20 9:46 AM, Igor Mammedov wrote:
-> theses were deprecated since 4.0, remove both HMP and QMP variants.
-> 
-> Users should use device_add command instead. To get list of
-> possible CPUs and options, use 'info hotpluggable-cpus' HMP
-> or query-hotpluggable-cpus QMP command.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   include/hw/boards.h         |   1 -
->   include/hw/i386/pc.h        |   1 -
->   include/monitor/hmp.h       |   1 -
->   docs/system/deprecated.rst  |  25 +++++----
->   hmp-commands.hx             |  15 ------
->   hw/core/machine-hmp-cmds.c  |  12 -----
->   hw/core/machine-qmp-cmds.c  |  12 -----
->   hw/i386/pc.c                |  27 ----------
->   hw/i386/pc_piix.c           |   1 -
->   hw/s390x/s390-virtio-ccw.c  |  12 -----
->   qapi/machine.json           |  24 ---------
->   tests/qtest/cpu-plug-test.c | 100 ++++--------------------------------
->   tests/qtest/test-hmp.c      |   1 -
->   13 files changed, 21 insertions(+), 211 deletions(-)
+CTU CAN FD is an open source soft core written in VHDL.
+It originated in 2015 as Ondrej Ille's project at the
+Department of Measurement of FEE at CTU.
 
-Thanks to Peter Libvirt uses device_add instead cpu_add whenever 
-possible. Hence this is okay from Libvirt's POV.
+Integration for Xilinx Zynq and Intel based SoCs is available
+as well as support for PCIe integration of the core.
 
-Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+The core sources
 
-Michal
+  https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core
+
+The controller model and QEMU CAN subsystem extension to CAN FD
+has been implemented in frame of bachelor theses of Jan Charvat.
+The development branch ctu-canfd in CTU local project repository
+
+  https://gitlab.fel.cvut.cz/canbus/qemu-canbus
+
+More CAN bus related project from Czech Technical University
+in Prague, Faculty of Electrical Engineering at
+
+  http://canbus.pages.fel.cvut.cz/
+
+Patches v3 updates:
+
+ - resend triggered by switch to DECLARE_INSTANCE_CHECKER
+   in mainline. I try to follow mainline as time allows.
+
+ - SJA1000, CTU CAN FD and SocketCAN support retested
+   with QEMU mainline from 9/12/20 10:17 PM
+
+ - Added Reviewed-by: Vikram Garhwal
+   to reviewed and tested patches which are used as common
+   CAN FD base at Xilinx
+
+ - Added Vikram Garhwal to MAINTAINERS file as the second person
+   who has interrest in QEMU CAN (FD) support and would
+   like to be notified about changes and help with reviews.
+
+ - excuse massive TO/CC list but I do not know who has and who
+   does not interrest in the series. If you sent me that
+   it is unwanted load for you to be patch series addressees,
+   I would remove you from my git send command arguments.
+
+Patches v2 updates:
+
+ - CTU CAN FD IP core emulation tested on x86 host
+   with big-endian MIPS MALTA target as well.
+   This helped t correct Linux driver to support
+   big-endian systems.
+
+ - CTU CAN FD IP core emulation updated to pass CAN frame
+   data correctly on big-endian host systems. Big-endian
+   host not tested, would required whole QEMU build
+   for MIPS MALTA or big-endian POWER and run it nested
+   emulation, because I have no access to Linux based big-endian
+   system capable for QEMU build.
+
+ - Makefile.objs changes applied to meson.build and Kconfig.
+
+ - The common CAN support update for CAN FD tested and reviewed
+   by Vikram Garhwal from Xilinx. They base their CAN FD
+   controllers emulation on our work.
+
+ - Vikram Garhwal agrees to help with common QEMU CAN bus
+   infrastructure reviews. I add him and myself into maintainers.
+
+ - Corrected SJA1000 dependencies in Kconfig after (probably)
+   automated switch to meson build from make build.
+
+Please, let me know if somebody from recipients list does
+no longer have interrest in QEMU CAN bus emulation
+and I would remove you from recipients list to not load
+you by uniteresting content in future.
+
+
+Jan Charvat (5):
+  net/can: Initial host SocketCan support for CAN FD.
+  hw/net/can: sja1000 ignore CAN FD frames
+  net/can: Add can_dlc2len and can_len2dlc for CAN FD.
+  hw/net/can/ctucafd: Add CTU CAN FD core register definitions.
+  hw/net/can: CTU CAN FD IP open hardware core emulation.
+
+Pavel Pisa (2):
+  hw/net/can: Documentation for CTU CAN FD IP open hardware core
+    emulation.
+  hw/net/can: Correct Kconfig dependencies after switch to meson build.
+
+ MAINTAINERS                   |   9 +
+ docs/can.txt                  | 113 +++-
+ hw/net/Kconfig                |  16 +-
+ hw/net/can/can_sja1000.c      |  31 +-
+ hw/net/can/ctu_can_fd_frame.h | 189 +++++++
+ hw/net/can/ctu_can_fd_regs.h  | 971 ++++++++++++++++++++++++++++++++++
+ hw/net/can/ctucan_core.c      | 696 ++++++++++++++++++++++++
+ hw/net/can/ctucan_core.h      | 127 +++++
+ hw/net/can/ctucan_pci.c       | 281 ++++++++++
+ hw/net/can/meson.build        |   2 +
+ include/net/can_emu.h         |  12 +-
+ net/can/can_core.c            |  36 ++
+ net/can/can_socketcan.c       |  47 +-
+ 13 files changed, 2506 insertions(+), 24 deletions(-)
+ create mode 100644 hw/net/can/ctu_can_fd_frame.h
+ create mode 100644 hw/net/can/ctu_can_fd_regs.h
+ create mode 100644 hw/net/can/ctucan_core.c
+ create mode 100644 hw/net/can/ctucan_core.h
+ create mode 100644 hw/net/can/ctucan_pci.c
+
+-- 
+2.20.1
 
 
