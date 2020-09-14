@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB68B268B8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:56:40 +0200 (CEST)
-Received: from localhost ([::1]:51640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFB3268BDD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:12:17 +0200 (CEST)
+Received: from localhost ([::1]:44832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHo2B-0002yG-VP
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
+	id 1kHoHI-0004AF-Et
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHo0s-0001iI-NW
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:55:18 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:43880)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHoFt-0002gT-NS
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:10:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHo0p-0003qB-KE
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:55:18 -0400
-Received: by mail-ej1-x643.google.com with SMTP id o8so23089512ejb.10
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DVaCRgx1fQKr14/rUIRwArlH3VkYirm2d8m195lA3Ns=;
- b=YnH2AaamclDWLtGSojwbFNsdtFCoD6NFtF0Bc0Uo56CUeG9ySEETO5JHXbQao8iFzB
- TxNsKsVvIsa/e93sa9s4u6bA8R72PstYfBlWApsaO/Jpitet6ERGysU+akae92hBlD8C
- PGPseXpFXRTMVzk9SNflqGi03UYozGfc7Q2E007Wnn8NsteSA1WQpv4iVnCH085S4NjE
- b34g2gwXtDr0SeYAVOg2Rqv07sBcF9kqxBYf84jZ1nB2jJL1W3NizZO+23oFcMxDIIzz
- mSeD8JfAVfqAWLM68ItGULbGyarve+MOQ3lYKkvnYprF5YtQqf7D8G1gxjYVaeUK7/yi
- Vn3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DVaCRgx1fQKr14/rUIRwArlH3VkYirm2d8m195lA3Ns=;
- b=Amz63tcLU++B6P5GsK7m4KEID5yoXkhgrCrxciGbmpWvId+5o9Dh7BWI6Mxx3sHBm3
- bcDHAtVzPQnFZRJ28e/KBIj69tPjGWdOhlP3g6XYab5+1aVevtyJ0GTTARIMepzPaKKv
- SniNhLuAmIfwiC+f5utoq9K58dvSxUETmr7aELei8QeIHVrYTEEBgW+DhoBegrqYaU10
- 8e01Iil1ctCyubIhwoqCps2cMEfaojhlJGZ0DoJ+BsGS+dcvZhpSuHArhaQdaYAjp5n4
- VGK2uK2hkTsrJ28o0hkq9UXMo2D6bR1vuQsgChFjMk535WsuDMYBVuq3KYukiFqR5UwL
- k3EA==
-X-Gm-Message-State: AOAM531FgyCE3ZKgvVs89MY+E9CLU82XwGBBESNV8IKPtfQIcwNeNtoS
- 3RmxLsdPnWESdLEqmIi01DONDIRhxjfHasNVo/FsrQ==
-X-Google-Smtp-Source: ABdhPJxMqTnGDIMByFQBnIsin7Yvmjgv1YBkiAL6USkCGgUriR5LNjabNeJIKkmD7q1MSF1fv2ide2ML5TQPceB7pY0=
-X-Received: by 2002:a17:906:71c9:: with SMTP id
- i9mr14284636ejk.250.1600088113855; 
- Mon, 14 Sep 2020 05:55:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHoFr-0006Qg-Gw
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:10:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kHoFp-0005eY-Fq
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:10:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 31CA92E80E9
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:10:45 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200911052101.2602693-1-hskinnemoen@google.com>
-In-Reply-To: <20200911052101.2602693-1-hskinnemoen@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Sep 2020 13:55:02 +0100
-Message-ID: <CAFEAcA-77U7p3RCQS5z7ZJf-CBNKqXrkwB+Kdz3ZCjPQgEge6Q@mail.gmail.com>
-Subject: Re: [PATCH v9 00/14] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC
- machines
-To: Havard Skinnemoen <hskinnemoen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2020 12:58:53 -0000
+From: Darren Blaber <1895219@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: keymaps vnc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dmbtech
+X-Launchpad-Bug-Reporter: Darren Blaber (dmbtech)
+X-Launchpad-Bug-Modifier: Darren Blaber (dmbtech)
+References: <159978635021.22139.4037516560250644869.malonedeb@wampee.canonical.com>
+Message-Id: <160008833415.1486.14662021427218588992.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1895219] Re: qemu git -vnc fails due to missing en-us keymap
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 19267048d90db2c021e681cd637f0680b7a19802
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 05:55:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,30 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1895219 <1895219@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Sep 2020 at 06:21, Havard Skinnemoen <hskinnemoen@google.com> wrote:
->
-> This should be fully reviewed now, but the Timer patch may deserve another
-> look, as I fixed a few bugs in it. Huge thanks to everyone who reviewed and/or
-> tested this patchset, it has clearly improved a lot since I started.
->
-> I also pushed this and the previous patchsets to my qemu fork on github.  The
-> branches are named npcm7xx-v[1-9].
->
->   https://github.com/hskinnemoen/qemu
->
-> This patch series models enough of the Nuvoton NPCM730 and NPCM750 SoCs to boot
-> an OpenBMC image built for quanta-gsj.
+** Branch linked: lp:envbot/0.0.1
 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895219
 
-Applied to target-arm.next, thanks.
+Title:
+  qemu git -vnc fails due to missing en-us keymap
 
--- PMM
+Status in QEMU:
+  New
+
+Bug description:
+  If trying to run qemu with -vnc :0, it will fail with:
+  ./qemu-system-x86_64 -vnc :2
+  qemu-system-x86_64: -vnc :2: could not read keymap file: 'en-us'
+
+  share/keymaps is missing en-us keymap and only has sl and sv,
+  confirmed previous stable versions had en-us.
+
+  Tried with multiple targets, on arm64 and amd64
+
+  Git commit hash: 9435a8b3dd35f1f926f1b9127e8a906217a5518a (head)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895219/+subscriptions
 
