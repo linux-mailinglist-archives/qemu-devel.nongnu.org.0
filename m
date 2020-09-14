@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF34269153
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:21:19 +0200 (CEST)
-Received: from localhost ([::1]:48484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA9326916A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:24:55 +0200 (CEST)
+Received: from localhost ([::1]:55664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrEE-0000Sk-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47760)
+	id 1kHrHi-0003mA-Bi
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqdv-0005jM-3d
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:43:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59722)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqfT-0006yq-6Z
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:45:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqdt-00064t-AF
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:43:46 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kHqfJ-0006EH-O4
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:45:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600098224;
+ s=mimecast20190719; t=1600098312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aGuK30Y0tLwAsPaAHiUd6VGMiIwoRbJMdLBs9EIPdCg=;
- b=MKRKpAn2XoWeZtkzWtei7ikB6h5YCie1YVZi9LbzKkhZJIssUJPDUb7s0VpXcM7Ved4GgS
- MGthnwU7qcbwyfKdzV/+GuBBDzdHEK+6pPovXapJ5+Ggiz5tzL1QAfTEsSoK5MhyirIMKf
- yBxVYzUxc+9DGeqod4E8iiX8lbjLBis=
+ bh=ZDzmnmBH1o2OFuiUXlT6mlIlYA0EeV+hgOEwr5F+zUs=;
+ b=LIObbIp4+64Bvi2Oj5HfqI8dYonTHN1LswT+jdtFCdbSHrK52HUkzwbON9P3Gtim2k48/w
+ 8pnkrIrZt6VC8uUdBR9eN+KllNxgPMyLtkpJoyPlWtSTH33/NioJfmecrro7KXTSO11rcf
+ RCOUxAPqOdd9m4wWxT4CEmMSiwwBmY8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-8Vxr7zmrMzi5aXk_2myV4Q-1; Mon, 14 Sep 2020 11:43:35 -0400
-X-MC-Unique: 8Vxr7zmrMzi5aXk_2myV4Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-495-4Z29ezOMNBqQCJFfL2OpTw-1; Mon, 14 Sep 2020 11:45:10 -0400
+X-MC-Unique: 4Z29ezOMNBqQCJFfL2OpTw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92BD380EF84;
- Mon, 14 Sep 2020 15:43:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A5B5801AC2;
+ Mon, 14 Sep 2020 15:45:09 +0000 (UTC)
 Received: from [10.3.113.68] (ovpn-113-68.phx2.redhat.com [10.3.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 405B21002D46;
- Mon, 14 Sep 2020 15:43:34 +0000 (UTC)
-Subject: Re: [PATCH v5 5/8] qapi: Implement deprecated-output=hide for QMP
- introspection
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0FFC7512A;
+ Mon, 14 Sep 2020 15:45:08 +0000 (UTC)
+Subject: Re: [PATCH v5 6/8] qapi: Implement deprecated-input=reject for QMP
+ commands
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200914084802.4185028-1-armbru@redhat.com>
- <20200914084802.4185028-6-armbru@redhat.com>
+ <20200914084802.4185028-7-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <8680f11b-e26d-0c64-57eb-0b0e5aae330e@redhat.com>
-Date: Mon, 14 Sep 2020 10:43:33 -0500
+Message-ID: <1ab70f7a-86ca-84eb-aec1-e0e41fe5513f@redhat.com>
+Date: Mon, 14 Sep 2020 10:45:08 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200914084802.4185028-6-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200914084802.4185028-7-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
@@ -89,55 +89,23 @@ Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/20 3:47 AM, Markus Armbruster wrote:
-> This policy suppresses deprecated bits in output, and thus permits
-> "testing the future".  Implement it for QMP command query-qmp-schema:
-> suppress information on deprecated commands, events and object type
-> members, i.e. anything that has the special feature flag "deprecated".
+On 9/14/20 3:48 AM, Markus Armbruster wrote:
+> This policy rejects deprecated input, and thus permits "testing the
+> future".  Implement it for QMP commands: make deprecated ones fail.
+> Example: when QEMU is run with -compat deprecated-input=reject, then
+> 
+>      {"execute": "query-cpus"}
+> 
+> fails like this
+> 
+>      {"error": {"class": "CommandNotFound", "desc": "Deprecated command query-cpus disabled by policy"}}
+> 
+> When the deprecated command is removed, the error will change to
+> 
+>      {"error": {"class": "CommandNotFound", "desc": "The command query-cpus has not been found"}}
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   qapi/introspect.json                 |   2 +-
->   monitor/monitor-internal.h           |   3 -
->   monitor/misc.c                       |   2 -
->   monitor/qmp-cmds-control.c           | 100 +++++++++++++++++++++++----
->   storage-daemon/qemu-storage-daemon.c |   2 -
->   5 files changed, 89 insertions(+), 20 deletions(-)
-> 
-> diff --git a/qapi/introspect.json b/qapi/introspect.json
-> index 944bb87a20..39bd303778 100644
-> --- a/qapi/introspect.json
-> +++ b/qapi/introspect.json
-> @@ -49,7 +49,7 @@
->   ##
->   { 'command': 'query-qmp-schema',
->     'returns': [ 'SchemaInfo' ],
-> -  'gen': false }                # just to simplify qmp_query_json()
-> +  'allow-preconfig': true }
-
-Interesting change. Dropping 'gen':false is explained below...
-
-> @@ -153,17 +157,89 @@ EventInfoList *qmp_query_events(Error **errp)
->       return ev_list;
->   }
->   
-> -/*
-> - * Minor hack: generated marshalling suppressed for this command
-> - * ('gen': false in the schema) so we can parse the JSON string
-> - * directly into QObject instead of first parsing it with
-> - * visit_type_SchemaInfoList() into a SchemaInfoList, then marshal it
-> - * to QObject with generated output marshallers, every time.  Instead,
-> - * we do it in test-qobject-input-visitor.c, just to make sure
-> - * qapi-gen.py's output actually conforms to the schema.
-> - */
-> -void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
-> -                                 Error **errp)
-> +static void *split_off_generic_list(void *list,
-> +                                    bool (*splitp)(void *elt),
-> +                                    void **part)
-
-...but adding 'allow-preconfig':true, while it makes sense, seems a bit 
-unrelated.  Worth a better commit message?
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
