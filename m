@@ -2,103 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8302691AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:34:02 +0200 (CEST)
-Received: from localhost ([::1]:45066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7862691F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:44:37 +0200 (CEST)
+Received: from localhost ([::1]:42024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrQX-0003X6-LH
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60396)
+	id 1kHram-0005rL-NI
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:44:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHppP-0004DJ-2U
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:51:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHppM-0005SK-Co
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:51:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600095091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F27cPUZ7o8f2RUCCVesGHvyAjwvv91I/08cTBiGZuHY=;
- b=APHMjNU/TMt2QtrZMGdYaTqPlIMSR9XV+ce7Xnz5/qnz8BhxbL4OT7RD5y0vBRtPuQZUAy
- HaJO9HzN2f+uyloipNRdfm3sBstxcC/cFutYdZyOAD95uUD/Pqy+LgXAGS/tvzoJaAmP7/
- 5MsT85hKxdpfDK94Qq1GnO/t2t0xGCo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-MPJaWW--PnqpOsARTD5AGw-1; Mon, 14 Sep 2020 10:51:27 -0400
-X-MC-Unique: MPJaWW--PnqpOsARTD5AGw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29F38913120;
- Mon, 14 Sep 2020 14:51:25 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-80.ams2.redhat.com
- [10.36.114.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 828241002D46;
- Mon, 14 Sep 2020 14:51:23 +0000 (UTC)
-Subject: Re: [PATCH v2] iotests: Work around failing readlink -f
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200914141730.90279-1-mreitz@redhat.com>
- <CAFEAcA9CruJdDK4JDgpod6oo6cN0cp9AxH=_n781NoxuqfMNuw@mail.gmail.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <85982576-284a-0de5-8e39-b96488c726e8@redhat.com>
-Date: Mon, 14 Sep 2020 16:51:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHpyT-0003la-2p
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:00:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHpyQ-00075Z-SC
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:00:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kHpyO-00043s-43
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:00:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0F2432E80E9
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:00:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9CruJdDK4JDgpod6oo6cN0cp9AxH=_n781NoxuqfMNuw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="JbQv3Zo9OSRscFf4FrrXsb7oHD8gwbRnx"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2020 14:53:57 -0000
+From: Harry Coin <1895399@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hcoin stefanha
+X-Launchpad-Bug-Reporter: Harry Coin (hcoin)
+X-Launchpad-Bug-Modifier: Harry Coin (hcoin)
+References: <159992963448.16886.7579356964954187024.malonedeb@soybean.canonical.com>
+ <20200914100806.GC579094@stefanha-x1.localdomain>
+Message-Id: <5d7c2982-4282-d521-82d7-196468b45fee@gmail.com>
+Subject: Re: [Bug 1895399] [NEW] Docfix: add missing virtiofsd cache default
+ 'auto'
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: c48e0796bf57da41577f8a7a4d833d161b0c9c71
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 05:55:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -107,112 +73,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Reply-To: Bug 1895399 <1895399@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JbQv3Zo9OSRscFf4FrrXsb7oHD8gwbRnx
-Content-Type: multipart/mixed; boundary="k026JQVEQDKZyymlu6xvb2FgrU0XVah8O"
-
---k026JQVEQDKZyymlu6xvb2FgrU0XVah8O
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 14.09.20 16:26, Peter Maydell wrote:
-> On Mon, 14 Sep 2020 at 15:17, Max Reitz <mreitz@redhat.com> wrote:
+On 9/14/20 5:08 AM, Stefan Hajnoczi wrote:
+> On Sat, Sep 12, 2020 at 04:53:54PM -0000, Harry Coin wrote:
+>> Public bug reported:
 >>
->> On macOS, (out of the box) readlink does not have -f.  If the recent
->> "readlink -f" call introduced by b1cbc33a397 fails, just fall back to
->> the old behavior (which means you can run the iotests only from the
->> build tree, but that worked fine for six years, so it should be fine
->> still).
+>> The usage command line for virtiofsd has:
 >>
->> Suppress all error messages, so in case using $PWD works out, we do not
->> cause the user to worry.  If it does not work, we will end up printing
->> the following error message anyway:
+>> void fuse_cmdline_help(void)
+>> {
+>>     printf("    -h   --help                print help\n"
+>> ...
+>>            "    -o cache=3D<mode>            cache mode. could be one of=
+ \"auto, "
+>>            "always, none\"\n"
+>>            "                               default: auto\n"
 >>
->>   check: failed to source common.env (make sure the qemu-iotests are run
->>   from tests/qemu-iotests in the build tree)
 >>
->> Following that hint (running check from $build_tree/tests/qemu-iotests)
->> will make it work, and is probably even easier than obtaining a readlink
->> that understands -f.
+>> But the default: auto info is missing from the man page.  I suggest this=
+ patch:
 >>
->> Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
->>        ("iotests: Allow running from different directory")
->> Reported-by: Claudio Fontana <cfontana@suse.de>
->> Reported-by: Thomas Huth <thuth@redhat.com>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->> v2: Suppress stderr (as requested and suggested by Peter)
->> ---
->>  tests/qemu-iotests/check | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
+>> --- docs/tools/virtiofsd.rst    2020-09-10 18:07:45.380430677 -0500
+>> +++ /tmp/virtiofsd.rst  2020-09-12 11:48:10.440815204 -0500
+>> @@ -106,6 +106,7 @@
+>>    forbids the FUSE client from caching to achieve best coherency at the=
+ cost of
+>>    performance.  ``auto`` acts similar to NFS with a 1 second metadata c=
+ache
+>>    timeout.  ``always`` sets a long cache lifetime at the expense of coh=
+erency.
+>> +  The default is ``auto``.
+>>  =
+
+>>  Examples
+>>  --------
 >>
->> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
->> index e14a1f354d..3c9ccc117b 100755
->> --- a/tests/qemu-iotests/check
->> +++ b/tests/qemu-iotests/check
->> @@ -44,7 +44,11 @@ then
->>          _init_error "failed to obtain source tree name from check symli=
-nk"
->>      fi
->>      source_iotests=3D$(cd "$source_iotests"; pwd) || _init_error "faile=
-d to enter source tree"
->> -    build_iotests=3D$(readlink -f $(dirname "$0"))
->> +    build_iotests=3D$(readlink -f $(dirname "$0") 2>/dev/null)
->=20
->=20
-> Having woken up and actually looked at the context for what
-> we're doing with readlink here, my usual rune for "give me
-> the absolute path that this script is in" is
->=20
-> thisdir=3D"$(cd "$(dirname "$0")"; pwd)"
->=20
-> which should be more portable than readlink. It doesn't
-> give quite the same behaviour if it's run via a path which
-> is a symlink to a directory, eg if bar/ is a symlink to
-> foo/ and you run a script as bar/thescript then you'll get
-> back /path/to/bar/ rather than /path/to/foo/, but do you
-> really need the path with all the symlinks followed
-> rather than just some valid absolute path to the build dir?
+> Thanks, that looks good.
+>
+> Please either submit a patch
+> (https://wiki.qemu.org/Contribute/SubmitAPatch) or reply with a line in
+> the following format so I can send a patch on your behalf:
+>
+>   Signed-off-by: Full Name <your@email.com>
+>
+> The "Signed-off-by:" tag indicates that you are contributing under the
+> Developer Certificate of Origin (https://developercertificate.org/) that
+> QEMU, Linux, and other open source projects use.
+>
+OK.=C2=A0 First time for everything:
 
-Interesting.  Sounds good.
+Signed-off-by: Harry G. Coin <hgcoin@gmail.com>
 
-The only reason we did use readlink here was because realpath wasn=E2=80=99=
-t
-available on the BSDs.  We don=E2=80=99t really need the symlink, we just n=
-eed
-the full absolute path to $(dirname $0).
+-- =
 
-Thanks!
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895399
 
-Max
+Title:
+  Docfix: add missing virtiofsd cache default 'auto'
 
+Status in QEMU:
+  New
 
---k026JQVEQDKZyymlu6xvb2FgrU0XVah8O--
+Bug description:
+  The usage command line for virtiofsd has:
 
---JbQv3Zo9OSRscFf4FrrXsb7oHD8gwbRnx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+  void fuse_cmdline_help(void)
+  {
+      printf("    -h   --help                print help\n"
+  ...
+             "    -o cache=3D<mode>            cache mode. could be one of =
+\"auto, "
+             "always, none\"\n"
+             "                               default: auto\n"
 
------BEGIN PGP SIGNATURE-----
+  =
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9fg2kACgkQ9AfbAGHV
-z0AQiAf/b41oSlKMKYP2nTW6/PfsBpe+A0jU0MnD04kjumfgjxWEJYut0cXFhXlj
-7dktX1AFJc19BU5v6EBpJxo5BfW36Ng678xnzWhjvjGmqkFbO7dpwxekSAu+rC9u
-z0gQcFTe7IL64QssuyNct00Djnm+S/PDr7L0gybedNeDMu3cWjjpn+qPi4kkzTS9
-NCGyOfst03WTG+4h8YHkJmZzxluI+b8BnFWPcUoPD4WX41q76+x1bVhT/5YVvP72
-CitgPxzaqVYbvpc6M98iNJIrMgNhDKq5NWovjQzOPuVVwd7sTZfMjDAW88BaszYm
-o/uVo5qw3ZWPXRm1PT/7qBiAn0lwqQ==
-=Ollw
------END PGP SIGNATURE-----
+  But the default: auto info is missing from the man page.  I suggest this =
+patch:
 
---JbQv3Zo9OSRscFf4FrrXsb7oHD8gwbRnx--
+  --- docs/tools/virtiofsd.rst    2020-09-10 18:07:45.380430677 -0500
+  +++ /tmp/virtiofsd.rst  2020-09-12 11:48:10.440815204 -0500
+  @@ -106,6 +106,7 @@
+     forbids the FUSE client from caching to achieve best coherency at the =
+cost of
+     performance.  ``auto`` acts similar to NFS with a 1 second metadata ca=
+che
+     timeout.  ``always`` sets a long cache lifetime at the expense of cohe=
+rency.
+  +  The default is ``auto``.
+   =
 
+   Examples
+   --------
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895399/+subscriptions
 
