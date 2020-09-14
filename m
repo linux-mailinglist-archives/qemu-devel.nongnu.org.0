@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01E3268AB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:16:59 +0200 (CEST)
-Received: from localhost ([::1]:55994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32CD268AC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:19:33 +0200 (CEST)
+Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHnPm-0007X8-FA
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33154)
+	id 1kHnSH-0001U3-1S
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHnNf-0006Fa-Bb
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:14:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33586)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHnNt-0006Tw-06
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:15:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHnNc-0006Em-IW
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:14:47 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHnNq-0006IH-8s
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:15:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600085683;
+ s=mimecast20190719; t=1600085697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=le3YRb0OidZKqF8PDmmqt6245hyfJJiQEALHO1mHiR4=;
- b=FbMx8OmFkebrgMRq8VKjUEtYDO81cQM250BGzwTZcHksp7geHb0qhPxLtLwGgKuISu87Ih
- 90iQrF1xjROZXL7cqVDgLcO7546vE9PsA6qwJvygJCfbs6tvM/KVIWO7R6pjPcJK9tqB0N
- kRziMPcPGgIAcFelhbSGyaaKn9QCNrc=
+ bh=y+7lYl77M8kwTgHhZ5Z427JWMpP/IUJRDR9GK2TzyeY=;
+ b=H8DXkYR09SfUMYClnVbL9SQvvTxwrhlTbJj3ToJsimInshFeX6zWO4oCz/qU5H5n6+GW76
+ peA6U53QLw1OuW7jbh2aQ0w2JC472YfIG1018gQMa99XXhb0hIBbxcddkGZrTFvwlXHOtf
+ fptPCG8nu+3hYmcD0qmRRgg1tvEz04g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-_hLXhUP8NhyqSDmAk34M7w-1; Mon, 14 Sep 2020 08:14:40 -0400
-X-MC-Unique: _hLXhUP8NhyqSDmAk34M7w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-107-ySg1aS3NPjS-UT22P0XqNw-1; Mon, 14 Sep 2020 08:14:55 -0400
+X-MC-Unique: ySg1aS3NPjS-UT22P0XqNw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C562F100855E;
- Mon, 14 Sep 2020 12:14:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08ADC18C89C2;
+ Mon, 14 Sep 2020 12:14:54 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-114-80.ams2.redhat.com
  [10.36.114.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75ACE5C3E0;
- Mon, 14 Sep 2020 12:14:38 +0000 (UTC)
-Subject: Re: [PATCH 2/2] qcow2: Convert qcow2_alloc_cluster_offset() into
- qcow2_alloc_host_offset()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E22E97EEB6;
+ Mon, 14 Sep 2020 12:14:52 +0000 (UTC)
+Subject: Re: [PATCH 1/2] qcow2: Make preallocate_co() resize the image to the
+ correct size
 To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
 References: <cover.1599833007.git.berto@igalia.com>
- <9bfef50ec9200d752413be4fc2aeb22a28378817.1599833007.git.berto@igalia.com>
+ <adeb8b059917b141d5f5b3bd2a016262d3052c79.1599833007.git.berto@igalia.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -70,20 +70,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1c70b5a7-222c-0fbb-e8c8-c8c0000252fb@redhat.com>
-Date: Mon, 14 Sep 2020 14:14:36 +0200
+Message-ID: <d9249870-9cab-9fd5-8920-9f531e960279@redhat.com>
+Date: Mon, 14 Sep 2020 14:14:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <9bfef50ec9200d752413be4fc2aeb22a28378817.1599833007.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <adeb8b059917b141d5f5b3bd2a016262d3052c79.1599833007.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="5iNVEKRGpjT3247T8j4ZHaC7sk8r0ec3V"
+ boundary="vdg1Y6LIFUgWjexE7Vf7TG7KgYlvqWldE"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
@@ -95,7 +95,7 @@ X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,64 +113,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5iNVEKRGpjT3247T8j4ZHaC7sk8r0ec3V
-Content-Type: multipart/mixed; boundary="7ehnx3cf9xQIYKbczhatxyIzHOeIoAi3S"
+--vdg1Y6LIFUgWjexE7Vf7TG7KgYlvqWldE
+Content-Type: multipart/mixed; boundary="cARwPf8wuEIdKvn6XG4SvSBtrBrCDo7qO"
 
---7ehnx3cf9xQIYKbczhatxyIzHOeIoAi3S
+--cARwPf8wuEIdKvn6XG4SvSBtrBrCDo7qO
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 11.09.20 16:09, Alberto Garcia wrote:
-> qcow2_alloc_cluster_offset() takes an (unaligned) guest offset and
-> returns the (aligned) offset of the corresponding cluster in the qcow2
-> image.
+> This function preallocates metadata structures and then extends the
+> image to its new size, but that new size calculation is wrong because
+> it doesn't take into account that the host_offset variable is always
+> cluster-aligned.
 >=20
-> In practice none of the callers need to know where the cluster starts
-> so this patch makes the function calculate and return the final host
-> offset directly. The function is also renamed accordingly.
+> This problem can be reproduced with preallocation=3Dmetadata when the
+> original size is not cluster-aligned but the new size is. In this case
+> the final image size will be shorter than expected.
 >=20
-> See 388e581615 for a similar change to qcow2_get_cluster_offset().
+>    qemu-img create -f qcow2 img.qcow2 31k
+>    qemu-img resize --preallocation=3Dmetadata img.qcow2 128k
 >=20
 > Signed-off-by: Alberto Garcia <berto@igalia.com>
 > ---
->  block/qcow2.h         |  6 +++---
->  block/qcow2-cluster.c | 14 ++++++++++----
->  block/qcow2.c         | 36 +++++++++++++-----------------------
->  3 files changed, 26 insertions(+), 30 deletions(-)
-
-First of all:
+>  block/qcow2.c              |  1 +
+>  tests/qemu-iotests/125     | 40 +++++++++++++++++++++-----------------
+>  tests/qemu-iotests/125.out | 28 ++++++++++++++++++++++++--
+>  3 files changed, 49 insertions(+), 20 deletions(-)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-However, I wonder what you think about =E2=80=9Ccluster_offset=E2=80=9D in
-qcow2_alloc_host_offset.  It isn=E2=80=99t a cluster offset anymore.  Can/s=
-hould
-we rename it?
 
-(Perhaps call the parameter host_offset_ptr, and then rename the local
-cluster_offset to host_offset?)
+--cARwPf8wuEIdKvn6XG4SvSBtrBrCDo7qO--
 
-
---7ehnx3cf9xQIYKbczhatxyIzHOeIoAi3S--
-
---5iNVEKRGpjT3247T8j4ZHaC7sk8r0ec3V
+--vdg1Y6LIFUgWjexE7Vf7TG7KgYlvqWldE
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9fXqwACgkQ9AfbAGHV
-z0CakQf/bQ+qap88XudLvMFxj0+ilITWJBUmWE9VQFdn8ZL4eKeLdrdgAjnaQdmF
-mgpPVc6E3WL0XNt2qu/FZV541WDQYpTFhTMuU2k/SgdicV/ryfyPPiA8Vntdi11g
-MZGuGCeZGDm0AQv1uJ3ncHC51YLRUWm3m7bEsuEqyekppJVHtwZHmVwP0w5QtUgH
-zDgfXHkYzK6Zt8fgn366PAApi0e4fVAbLdvWgH1VC1VwMI4O36oDvRInkMDnjOFu
-VnsLk+VuDB6726rkKmC/vPrB8LaBEanMeRaoMX+9hLF7Q1RZ6LoRMSvMnlnNs6Al
-m/l6SV3Uasj8LVLrkv8s4OeLAyPeGg==
-=UOsq
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9fXrsACgkQ9AfbAGHV
+z0BMoQgAsh8gg17c/OzlB+mW1F5sGTNVLUS7vALpkCkvevI4N8MBbYx0OVSQL2sT
+QeSZ/ROKIizmY0Ke25r677EkUzmBbU3b2ugvtlqm+xJHaVWXcTui5J+6hFQV6SQF
+/fezrXswgInnNuAcTCiQbRIsdGvtUpIsE9Kf9vb7dnKNWLMaeDWIouBSCSt2kGrd
+iLVM/DaaFKcC4W+NDfWhwOBIqt7SqTyd7FnezSdY0/pK9aQUgfirSF0ZuOFKFWGS
+NIZTR1UHBLlU+JivUp/xmg+bwnXC8g7lDULf327J+q2FDbW1uENC4O7Qq4eRu2kI
+AYOlH0Cd57m/2Lqc+9CJ+2dnGqGWYw==
+=lLlI
 -----END PGP SIGNATURE-----
 
---5iNVEKRGpjT3247T8j4ZHaC7sk8r0ec3V--
+--vdg1Y6LIFUgWjexE7Vf7TG7KgYlvqWldE--
 
 
