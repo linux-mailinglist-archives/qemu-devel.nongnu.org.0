@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DC8268E55
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:51:46 +0200 (CEST)
-Received: from localhost ([::1]:39782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCD8268F3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:11:25 +0200 (CEST)
+Received: from localhost ([::1]:48306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHppZ-0003xL-FI
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
+	id 1kHq8a-00046e-SD
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHpoS-0003KS-DG
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:50:36 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37922)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kHpxQ-0002ng-UZ
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:59:53 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHpoQ-0005LW-1m
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:50:36 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l9so346131wme.3
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kHpxP-0006hS-3x
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:59:52 -0400
+Received: by mail-ot1-x343.google.com with SMTP id c10so146377otm.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BFJVlSwkU9Jhg1YeFJp2YmxLghPWtLUVqgXJN5m/8ss=;
- b=ivF/VB8r/s6Wxx3Ln33v9ZmvLvM/rurRL/GoKC28em0ax46KP5MmdZ8JAisWcvJD1D
- Dlapy9/m18DwFTounMdi7ZyZ9774iUiehWCF+PGtObCuCtt6n5uJPRc4EllkYEH+sgmx
- PTPNDHWJ9DHyqLcHR6L4/Qn5P4UzF2BBHzV9EMIj6hYACC15UyVaEWi4tF8GsUSNJpZ9
- CBbaiFxJ9RGsChlAUQy0DhluGbHD5pR49qxxb+hOQMHGswfxJmVWNSdvxvdnZIBnR9A3
- 2Cv2CMJG6GXLib8bkxs2kHu05Zy57dHQLMg+7+jnE5POBSP6D8uAEFrb6qttqS48S+5b
- iAig==
+ :cc:content-transfer-encoding;
+ bh=+fxPjWhWw9rCiKslAPm/IPugGR3BNEcKE9dbW5kne50=;
+ b=ZTNA2YW4c8IahKPRe2Q9H5uiTZXs3qwlUt+W4IQHVLZ8jnnfiKcJe3MrzfnISl+i25
+ H0c8uS3SQpU3wYpQAj5eva3RJEzax1DsS0HLlHvudUVc2TS1kZ+s5GqHALdWFJaUBLoL
+ S+olI/GvZf42OWVL2/MZbwfqNr2giSrsT/NSM+UTCi6PsTd75uyW+nPoccFB7jcdPPQN
+ Vh8jq3fvja2vBZ9CJO/Qs1mXLsVtRo1wpTvOgoNvRtkgm/zhkBx8wfIU2m+lyWI/sTWm
+ 0wPSb+f0p24uXlcYYrjfvxQnM8bV3geOn8KcbEBfdKFyWP0sC8eclq9GU7mMMA0/PP9t
+ GUBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BFJVlSwkU9Jhg1YeFJp2YmxLghPWtLUVqgXJN5m/8ss=;
- b=OAAwNK/qvNQbnKH4YfitaUCIZMMlp6EdEdYbVeobecJPY7JE8y/2TjtkGZatkApkAI
- ckhwlKscG/HsJ1KP4j7OYrnHKg4PLldF0d5SgjBT9fw5ZjahzJjMSeW8DOPZ0gZMxFOK
- ocLiYEtAr0dVAqzN6TBFESl3/iO+s9r6+Ew26nD9yM5eTnrZWR6nM9iv7E243+EBGu26
- F3DPVg6BqXPV4GNwJu5AbRQYPtCQdSUJ2myKna/XQGfpQCdazlYgbXNhA1OFkTM4nlxH
- g7Yfdg9H/WNiKD6PfBofVQ6Mi/Vfv8gVL/sfmotNdA5+4tn/tR6YOR2ng6zPl7CHtVvE
- I+HA==
-X-Gm-Message-State: AOAM5319Ul5yXJO0vZyVfhjvPQNp0i4HBpicXCA9PJ8FZqWyGIAIGRFD
- bDEbv3MOJon2PTGpn4V7BogE8jWcGGCxGNZSS+PCPQ==
-X-Google-Smtp-Source: ABdhPJx3mjycABIvyGDe05ZZTi3Aa56calRYJn9j2lPun9VesqkH+qIp1dZvdnExyrTE0Iku3M5y0s0ldIPuleJRzcA=
-X-Received: by 2002:a1c:7405:: with SMTP id p5mr15456569wmc.35.1600095032377; 
- Mon, 14 Sep 2020 07:50:32 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+fxPjWhWw9rCiKslAPm/IPugGR3BNEcKE9dbW5kne50=;
+ b=oZBqKe9cmYnHdzyoeCyjD1eZBO+q+8hKTI+UPS0YIekYcZzZ6/+Wn3aLS+whojrU2f
+ uN3BPGDEwJIBI58D7sLHJS6r9A9MAkSnjNDodE2RN6PwXSWowfez3AUv8uIQy0zFrC5Z
+ s801ioCjVB92HmG0frgRGkSFckLpxU4hOHYloWmH4oJNtt4Q/4gkDQdXsZ5QT953+lbv
+ zY5vR4MMplkEgVmBTQQPhLqhYwM0hgUZVfcRVsk6xqMiGrYxXUqHyCG96EVVJuSHXQaT
+ DKRQ2iTc1EsHC7BvBQHlA9dbx+BHhvPa69sxscZhdgWtOkDahPJWfndT3V/KEQtovtSe
+ I6JQ==
+X-Gm-Message-State: AOAM5311dy66nfG99+t3yabP4EO216K0l+DqhcjDzskBBqPTw7b1JW8G
+ xoqb1kRRd9zHfMkOvqAhZ03K3Y8nxesBrDloBfw=
+X-Google-Smtp-Source: ABdhPJy8fr/NmMc3J6Y9NvhkVnQ4F+D2jXBXbhi0xBGez2azvuBGbo4ZalsG+JvRF4IlV7LM6OKElj/ATiQQis9dIY8=
+X-Received: by 2002:a05:6830:2302:: with SMTP id
+ u2mr9014988ote.181.1600095589566; 
+ Mon, 14 Sep 2020 07:59:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200911180755.28409-1-ani@anisinha.ca>
- <20200911180755.28409-9-ani@anisinha.ca>
- <20200914150550.23a91fa2@redhat.com>
- <CAARzgwyrSW4jjrPCc1SJkDZUV9C-e_96RNGytZ8VjpPzzrWfXg@mail.gmail.com>
- <CAARzgwx4T0MXtFTMe-b8DbAQCi7xq231kjOv8wRcRxwE5HPCyw@mail.gmail.com>
- <20200914160910.66785da8@redhat.com>
-In-Reply-To: <20200914160910.66785da8@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 14 Sep 2020 20:20:21 +0530
-Message-ID: <CAARzgwzSg7zCk_jaQ7iriC4_L+9oTykv0RhPdkTroP9pNtiMCg@mail.gmail.com>
-Subject: Re: [PATCH 9/9] piix4: don't reserve hw resources when hotplug is off
- globally
-To: Igor Mammedov <imammedo@redhat.com>
+References: <1600074185-91624-1-git-send-email-zhengchuan@huawei.com>
+ <1600074185-91624-7-git-send-email-zhengchuan@huawei.com>
+In-Reply-To: <1600074185-91624-7-git-send-email-zhengchuan@huawei.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Mon, 14 Sep 2020 22:59:13 +0800
+Message-ID: <CAKXe6SJN=qHd=aqwMgRX6OvaPdfrKYJa_n14c7xL7uQLSb=rzw@mail.gmail.com>
+Subject: Re: [PATCH v8 06/12] migration/dirtyrate: Record hash results for
+ each sampled page
+To: Chuan Zheng <zhengchuan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::343;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x343.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,166 +81,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, yuxiating@huawei.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, xiexiangyou@huawei.com,
+ Qemu Developers <qemu-devel@nongnu.org>, AlexChen <alex.chen@huawei.com>,
+ jinyan12@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 14, 2020 at 7:39 PM Igor Mammedov <imammedo@redhat.com> wrote:
+Chuan Zheng <zhengchuan@huawei.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8814=E6=
+=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=884:52=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Mon, 14 Sep 2020 18:58:19 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
+> Record hash results for each sampled page, crc32 is taken to calculate
+> hash results for each sampled length in TARGET_PAGE_SIZE.
 >
-> > On Mon, Sep 14, 2020 at 6:40 PM Ani Sinha <ani@anisinha.ca> wrote:
-> > >
-> > > On Mon, Sep 14, 2020 at 6:36 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> > > >
-> > > > On Fri, 11 Sep 2020 23:37:55 +0530
-> > > > Ani Sinha <ani@anisinha.ca> wrote:
-> > > >
-> > > > > When acpi hotplug is turned off for both root pci bus as well as for pci
-> > > > > bridges, we should not generate the related amls for DSDT table or initialize
-> > > > > related hw ports or reserve hw resources. This change makes sure all those
-> > > > > operations are turned off in the case acpi pci hotplug is off globally.
-> > > >
-> > > > it still leaves around pure PCI hotplug ACPI code:
-> > > >
-> > > >             Method (PCNT, 0, NotSerialized)
-> > > >             {
-> > > >             }
-> > >
-> > > How do you suggest we fix this?
-> >
-> > One way to fix this would be to do this:
-> >
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 7e3cf3b57b..2bd0c37143 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -483,7 +483,8 @@ static void build_append_pci_bus_devices(Aml
-> > *parent_scope, PCIBus *bus,
-> >              aml_append(method, aml_name("^S%.02X.PCNT", devfn));
-> >          }
-> >      }
-> > -    aml_append(parent_scope, method);
-> > +    if (bsel)
-> > +        aml_append(parent_scope, method);
-> >      qobject_unref(bsel);
-> >  }
-> >
-> > This means that if the hotplug on the root bus is disabled, we also
-> > disable PCNT. This will also need the unit test update as the unit
-> Does bridge hot-plug still work if we disable it only on root bus?
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+> ---
+>  migration/dirtyrate.c | 111 ++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 111 insertions(+)
+>
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index cf2d560..beb18cb 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -10,6 +10,7 @@
+>   * See the COPYING file in the top-level directory.
+>   */
+>
+> +#include <zlib.h>
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+>  #include "cpu.h"
+> @@ -68,6 +69,116 @@ static void update_dirtyrate(uint64_t msec)
+>      DirtyStat.dirty_rate =3D dirtyrate;
+>  }
+>
+> +/*
+> + * get hash result for the sampled memory with length of TARGET_PAGE_SIZ=
+E
+> + * in ramblock, which starts from ramblock base address.
+> + */
+> +static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
+> +                                      uint64_t vfn)
+> +{
+> +    uint32_t crc;
+> +
+> +    crc =3D crc32(0, (info->ramblock_addr +
+> +                vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
+> +
+> +    return crc;
+> +}
+> +
+> +static bool save_ramblock_hash(struct RamblockDirtyInfo *info)
+> +{
+> +    unsigned int sample_pages_count;
+> +    int i;
+> +    GRand *rand;
+> +
+> +    sample_pages_count =3D info->sample_pages_count;
+> +
+> +    /* ramblock size less than one page, return success to skip this ram=
+block */
+> +    if (unlikely(info->ramblock_pages =3D=3D 0 || sample_pages_count =3D=
+=3D 0)) {
+> +        return true;
+> +    }
+> +
+> +    info->hash_result =3D g_try_malloc0_n(sample_pages_count,
+> +                                        sizeof(uint32_t));
+> +    if (!info->hash_result) {
+> +        return false;
+> +    }
+> +
+> +    info->sample_page_vfn =3D g_try_malloc0_n(sample_pages_count,
+> +                                            sizeof(uint64_t));
+> +    if (!info->sample_page_vfn) {
+> +        g_free(info->hash_result);
+> +        return false;
+> +    }
+> +
+> +    rand  =3D g_rand_new();
+> +    for (i =3D 0; i < sample_pages_count; i++) {
+> +        info->sample_page_vfn[i] =3D g_rand_int_range(rand, 0,
+> +                                                    info->ramblock_pages=
+ - 1);
+> +        info->hash_result[i] =3D get_ramblock_vfn_hash(info,
+> +                                                     info->sample_page_v=
+fn[i]);
+> +    }
+> +    g_rand_free(rand);
+> +
+> +    return true;
+> +}
+> +
+> +static void get_ramblock_dirty_info(RAMBlock *block,
+> +                                    struct RamblockDirtyInfo *info,
+> +                                    struct DirtyRateConfig *config)
+> +{
+> +    uint64_t sample_pages_per_gigabytes =3D config->sample_pages_per_gig=
+abytes;
+> +
+> +    /* Right shift 30 bits to calc ramblock size in GB */
+> +    info->sample_pages_count =3D (qemu_ram_get_used_length(block) *
+> +                                sample_pages_per_gigabytes) >> 30;
+> +    /* Right shift TARGET_PAGE_BITS to calc page count */
+> +    info->ramblock_pages =3D qemu_ram_get_used_length(block) >>
+> +                           TARGET_PAGE_BITS;
+> +    info->ramblock_addr =3D qemu_ram_get_host_addr(block);
+> +    strcpy(info->idstr, qemu_ram_get_idstr(block));
+> +}
+> +
+> +static bool record_ramblock_hash_info(struct RamblockDirtyInfo **block_d=
+info,
+> +                                      struct DirtyRateConfig config,
+> +                                      int *block_index)
+> +{
+> +    struct RamblockDirtyInfo *info =3D NULL;
+> +    struct RamblockDirtyInfo *dinfo =3D NULL;
+> +    RAMBlock *block =3D NULL;
+> +    int total_index =3D 0;
 
-Just did a quick test. Windows seems to eject devices on the bridge
-even when the root bus hot plug is off.
+Maybe 'total_count' better?
 
->
-> > test
-> > will fail with :
-> >
-> > @@ -3113,24 +3113,20 @@
-> >                  Name (_ADR, 0x00010000)  // _ADR: Address
-> >                  Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
-> >                  {
-> >                      Return (Zero)
-> >                  }
-> >
-> >                  Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-> >                  {
-> >                      Return (Zero)
-> >                  }
-> >
-> >                  Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-> >                  {
-> >                      Return (Zero)
-> >                  }
-> >              }
-> > -
-> > -            Method (PCNT, 0, NotSerialized)
-> > -            {
-> > -            }
-> >          }
-> >      }
-> >  }
-> >
-> > Let's fix this as a separate patch.
->
-> I'd rather fix up this patch, so it would do what it claims.
->
-> > >
-> > > > >
-> > > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > > > > ---
-> > > > >  hw/acpi/piix4.c      |  6 ++++--
-> > > > >  hw/i386/acpi-build.c | 10 ++++++++--
-> > > > >  2 files changed, 12 insertions(+), 4 deletions(-)
-> > > > >
-> > > > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > > > > index e6163bb6ce..b70b1f98af 100644
-> > > > > --- a/hw/acpi/piix4.c
-> > > > > +++ b/hw/acpi/piix4.c
-> > > > > @@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-> > > > >                            "acpi-gpe0", GPE_LEN);
-> > > > >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-> > > > >
-> > > > > -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > > > > -                    s->use_acpi_hotplug_bridge);
-> > > > > +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-> > > > > +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > > > > +                        s->use_acpi_hotplug_bridge);
-> > > > > +    }
-> > > > >
-> > > > >      s->cpu_hotplug_legacy = true;
-> > > > >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > > > > index e079b686f5..7e3cf3b57b 100644
-> > > > > --- a/hw/i386/acpi-build.c
-> > > > > +++ b/hw/i386/acpi-build.c
-> > > > > @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
-> > > > >      bool s3_disabled;
-> > > > >      bool s4_disabled;
-> > > > >      bool pcihp_bridge_en;
-> > > > > +    bool pcihp_root_en;
-> > > > >      uint8_t s4_val;
-> > > > >      AcpiFadtData fadt;
-> > > > >      uint16_t cpu_hp_io_base;
-> > > > > @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-> > > > >      pm->pcihp_bridge_en =
-> > > > >          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
-> > > > >                                   NULL);
-> > > > > +    pm->pcihp_root_en =
-> > > > > +        object_property_get_bool(obj, "acpi-root-pci-hotplug",
-> > > > > +                                 NULL);
-> > > > >  }
-> > > > >
-> > > > >  static void acpi_get_misc_info(AcpiMiscInfo *info)
-> > > > > @@ -1504,7 +1508,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > > > >          build_hpet_aml(dsdt);
-> > > > >          build_piix4_isa_bridge(dsdt);
-> > > > >          build_isa_devices_aml(dsdt);
-> > > > > -        build_piix4_pci_hotplug(dsdt);
-> > > > > +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-> > > > > +            build_piix4_pci_hotplug(dsdt);
-> > > > > +        }
-> > > > >          build_piix4_pci0_int(dsdt);
-> > > > >      } else {
-> > > > >          sb_scope = aml_scope("_SB");
-> > > > > @@ -1698,7 +1704,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > > > >      crs_range_set_free(&crs_range_set);
-> > > > >
-> > > > >      /* reserve PCIHP resources */
-> > > > > -    if (pm->pcihp_io_len) {
-> > > > > +    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
-> > > > >          dev = aml_device("PHPR");
-> > > > >          aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
-> > > > >          aml_append(dev,
-> > > >
-> >
+> +    int index =3D 0;
+> +    bool ret =3D true;
+> +
+> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
+> +        total_index++;
+> +    }
+> +
+> +    dinfo =3D g_try_malloc0_n(total_index, sizeof(struct RamblockDirtyIn=
+fo));
+> +    if (dinfo =3D=3D NULL) {
+> +        total_index =3D 0;
+
+No need to set 'total_index'.
+In the end use the 'index'.
+
+> +        ret =3D false;
+> +        goto out;
+> +    }
+> +
+> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
+> +        if (index >=3D total_index) {
+> +            break;
+> +        }
+> +        info =3D &dinfo[index];
+> +        get_ramblock_dirty_info(block, info, &config);
+> +        if (!save_ramblock_hash(info)) {
+> +            ret =3D false;
+> +            goto out;
+> +        }
+> +        index++;
+> +    }
+> +
+> +out:
+> +    *block_index =3D total_index;
+
+Here 'total_index' should be 'index'?
+
+In general I think this two iteration version is more understandable
+that last one.
+
+Thanks,
+Li Qiang
+
+> +    *block_dinfo =3D dinfo;
+> +    return ret;
+> +}
+> +
+>  static void calculate_dirtyrate(struct DirtyRateConfig config)
+>  {
+>      /* todo */
+> --
+> 1.8.3.1
 >
 
