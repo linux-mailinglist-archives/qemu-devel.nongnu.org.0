@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F712690AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:53:18 +0200 (CEST)
-Received: from localhost ([::1]:40130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B9526900E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:34:38 +0200 (CEST)
+Received: from localhost ([::1]:33616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHqn7-0004uq-P0
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
+	id 1kHqV3-0006Jg-Gf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHq9k-0005xT-Cx
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:12:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23172)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHqD2-000159-Ab
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:16:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39397
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHq9i-0001Cr-60
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:12:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHqD0-0001nr-BO
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:16:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600096349;
+ s=mimecast20190719; t=1600096557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dd3GXnEjgoAnUmz/ncsCBQVJXy51bVIMrRUnXganD7A=;
- b=Y+OqfV+wTtw4CylWSwWQQf/fEWEXHnmuXUsbs5XltcbgQEZColvjL3607ZaGr/FRFJ49Sd
- IyLfxWKqDbFhrD86UXwaqCUs64W50Pv5on83P7O3jrle5qvy5MiSNcPgFUymEW5cOz3Be/
- gm0PILn3kSyli5Vyitp2pSs008RurtA=
+ bh=qKK9nTa02ZOIQBe5cGtPJtkprUzMiMuONLGWFOpS2pU=;
+ b=YcLwPOLGm+XGY1RwBg3cYJtxz0jJE9v+cXDJbz/XUQjYUK0Dr4AsLrCoBF7PUixv6FbVih
+ +OFQ6TwxWcv0Fn6f1NFdlSwvebNje8ox7Ey5aiJHDjIYKKpAYTKvOeguUBKVv/kLNfkNqU
+ Z/EmMz14GcrXt03g5Qfo5AnuqAGLkFg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330--jChKDb7MV-B_UA6cdsx5Q-1; Mon, 14 Sep 2020 11:11:54 -0400
-X-MC-Unique: -jChKDb7MV-B_UA6cdsx5Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-478-HKvmitNtOraFdjfL_mORWw-1; Mon, 14 Sep 2020 11:15:43 -0400
+X-MC-Unique: HKvmitNtOraFdjfL_mORWw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6730A873115;
- Mon, 14 Sep 2020 15:11:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FB7AADC00;
+ Mon, 14 Sep 2020 15:15:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D7F260DA0;
- Mon, 14 Sep 2020 15:11:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EBAED5C89C;
+ Mon, 14 Sep 2020 15:15:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A62D4113864A; Mon, 14 Sep 2020 17:11:48 +0200 (CEST)
+ id 735ED113864A; Mon, 14 Sep 2020 17:15:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 07/13] monitor: Make current monitor a per-coroutine
- property
+Subject: Re: [PATCH v7 08/13] qapi: Add a 'coroutine' flag for commands
 References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-8-kwolf@redhat.com>
-Date: Mon, 14 Sep 2020 17:11:48 +0200
-In-Reply-To: <20200909151149.490589-8-kwolf@redhat.com> (Kevin Wolf's message
- of "Wed, 9 Sep 2020 17:11:43 +0200")
-Message-ID: <874ko0o0jv.fsf@dusky.pond.sub.org>
+ <20200909151149.490589-9-kwolf@redhat.com>
+Date: Mon, 14 Sep 2020 17:15:34 +0200
+In-Reply-To: <20200909151149.490589-9-kwolf@redhat.com> (Kevin Wolf's message
+ of "Wed, 9 Sep 2020 17:11:44 +0200")
+Message-ID: <87r1r4mlt5.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,57 +92,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Kevin Wolf <kwolf@redhat.com> writes:
 
-> This way, a monitor command handler will still be able to access the
-> current monitor, but when it yields, all other code code will correctly
-> get NULL from monitor_cur().
+> This patch adds a new 'coroutine' flag to QMP command definitions that
+> tells the QMP dispatcher that the command handler is safe to be run in a
+> coroutine.
 >
-> This uses a hash table to map the coroutine pointer to the current
-> monitor of that coroutine.  Outside of coroutine context, we associate
-> the current monitor with the leader coroutine of the current thread.
-
-In qemu-system-FOO, the hash table can have only these entries:
-
-* (OOB) One mapping @mon_iothread's thread leader to a QMP monitor, while
-  executing a QMP command out-of-band.
-
-* (QMP-CO) One mapping @qmp_dispatcher_co (a coroutine in the main
-  thread) to a QMP monitor, while executing a QMP command in-band and in
-  coroutine context.
-
-* (QMP) One mapping the main thread's leader to a QMP monitor, while
-  executing a QMP command in-band and out of coroutine context, in a
-  bottom half.
-
-* (HMP) One mapping the main thread's leader to an HMP monitor, while
-  executing an HMP command out of coroutine context.
-
-* (HMP-CO) One mapping a transient coroutine in the main thread to an
-  HMP monitor, while executing an HMP command in coroutine context.
-
-In-band execution is one command after the other.
-
-Therefore, at most one monitor command can be executing in-band at any
-time.
-
-Therefore, the hash table has at most *two* entries: one (OOB), and one
-of the other four.
-
-Can you shoot any holes into my argument?
-
-I suspect there's a simpler solution struggling to get out.  But this
-solution works, so in it goes.  Should the simpler one succeed at
-getting out, it can go in on top.  If not, I'll probably add even more
-comments to remind myself of these facts.
-
-> Approaches to implement some form of coroutine local storage directly in
-> the coroutine core code have been considered and discarded because they
-> didn't end up being much more generic than the hash table and their
-> performance impact on coroutines not using coroutine local storage was
-> unclear. As the block layer uses a coroutine per I/O request, this is a
-> fast path and we have to be careful. It's safest to just stay out of
-> this path with code only used by the monitor.
+> The documentation of the new flag pretends that this flag is already
+> used as intended, which it isn't yet after this patch. We'll implement
+> this in another patch in this series.
 >
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  docs/devel/qapi-code-gen.txt            | 12 ++++++++++++
+>  include/qapi/qmp/dispatch.h             |  1 +
+>  tests/test-qmp-cmds.c                   |  4 ++++
+>  scripts/qapi/commands.py                | 10 +++++++---
+>  scripts/qapi/doc.py                     |  2 +-
+>  scripts/qapi/expr.py                    | 10 ++++++++--
+>  scripts/qapi/introspect.py              |  2 +-
+>  scripts/qapi/schema.py                  | 12 ++++++++----
+>  tests/qapi-schema/test-qapi.py          |  7 ++++---
+>  tests/qapi-schema/meson.build           |  1 +
+>  tests/qapi-schema/oob-coroutine.err     |  2 ++
+>  tests/qapi-schema/oob-coroutine.json    |  2 ++
+>  tests/qapi-schema/oob-coroutine.out     |  0
+>  tests/qapi-schema/qapi-schema-test.json |  1 +
+>  tests/qapi-schema/qapi-schema-test.out  |  2 ++
+>  15 files changed, 54 insertions(+), 14 deletions(-)
+>  create mode 100644 tests/qapi-schema/oob-coroutine.err
+>  create mode 100644 tests/qapi-schema/oob-coroutine.json
+>  create mode 100644 tests/qapi-schema/oob-coroutine.out
+>
+> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+> index f3e7ced212..36daa9b5f8 100644
+> --- a/docs/devel/qapi-code-gen.txt
+> +++ b/docs/devel/qapi-code-gen.txt
+> @@ -472,6 +472,7 @@ Syntax:
+>                  '*gen': false,
+>                  '*allow-oob': true,
+>                  '*allow-preconfig': true,
+> +                '*coroutine': true,
+>                  '*if': COND,
+>                  '*features': FEATURES }
+> =20
+> @@ -596,6 +597,17 @@ before the machine is built.  It defaults to false. =
+ For example:
+>  QMP is available before the machine is built only when QEMU was
+>  started with --preconfig.
+> =20
+> +Member 'coroutine' tells the QMP dispatcher whether the command handler
+> +is safe to be run in a coroutine.
+
+We need to document what exactly makes a command handler coroutine safe
+/ unsafe.  We discussed this at some length in review of PATCH v4 1/4:
+
+    Message-ID: <874kwnvgad.fsf@dusky.pond.sub.org>
+    https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg05015.html
+
+I'd be willing to accept a follow-up patch, if that's more convenient
+for you.
+
+>                                     It defaults to false.  If it is true,
+> +the command handler is called from coroutine context and may yield while
+
+Is it *always* called from coroutine context, or could it be called
+outside coroutine context, too?  I guess the former, thanks to PATCH 10,
+and as long as we diligently mark HMP commands that such call QMP
+handlers, like you do in PATCH 13.
+
+What's the worst than can happen when we neglect to mark such an HMP
+command?
+
+> +waiting for an external event (such as I/O completion) in order to avoid
+> +blocking the guest and other background operations.
+> +
+> +It is an error to specify both 'coroutine': true and 'allow-oob': true
+> +for a command.  We don't currently have a use case for both together and
+> +without a use case, it's not entirely clear what the semantics should
+> +be.
+> +
+>  The optional 'if' member specifies a conditional.  See "Configuring
+>  the schema" below for more on this.
+[...]
 
 
