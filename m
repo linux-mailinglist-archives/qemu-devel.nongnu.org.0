@@ -2,82 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286D426824F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 03:38:54 +0200 (CEST)
-Received: from localhost ([::1]:49998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A87D26825C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 03:50:13 +0200 (CEST)
+Received: from localhost ([::1]:57858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHdSG-0005DG-Ju
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 21:38:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56632)
+	id 1kHddE-0000em-93
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 21:50:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHdRQ-0004lx-5N
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:38:00 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40196)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHdRO-00068u-DY
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:37:59 -0400
-Received: by mail-pg1-x543.google.com with SMTP id j34so10216632pgi.7
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2o58aaIGAcyS67JcPeL6/TEd645Tqc1Ifaso9ImNOCg=;
- b=ijTFuBMJuy/UdLokdkA2k0Jj3exB6QSpde9lKfrbW0udyaZQr5VDLuJE4kMP+3XOTo
- cIv+QZCRx+2PcvL6iGAF+ppP5/RiCGoRZ+E0DFJ48fK7dvBm5UR3d0X8MA7TZGo8OaUn
- fFZzA40WDimEsB5ecr/7EDQcSTxghZ62yYNjuHYhxPlccX6TZCPAKRTlO54G21LIHvS7
- 4S1dQAGzqJ1pjkxxb+6XtQmw1gR85p9mAF4Etvj+NzsVF7U5uBWnBog0GTiwmtJiUZLv
- k9CxAzKxmFJqWElIEA5UPmSQrWiHNfNjwIipddU0Yk2sSLRxPT94ypCwgPMdGhI28X78
- YcaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2o58aaIGAcyS67JcPeL6/TEd645Tqc1Ifaso9ImNOCg=;
- b=ra7fy4mVFnyTX4izBEXwp/tAKMrcSLxiBr9XkvcE57a/GwAlICwxxJRJFZacX38QNx
- AXvWHKq6xgxsixOCLlEaqsllOBqApzNFw2jyz2Z/1sF578bJEDXEqq9Am8QUiLy0vzUL
- 2BVgterWsxfWfXsxCZdvBJkNDDMzcB61/eCLxfxAO/p+ldqU9BCAV6/jITGqmuWCVeca
- 1X+l00o3dNpLijZbh4N43KqbpP3laXcqkHfQWyv9sFJLHUzYaiwofwb740hhDaYpgXz1
- YSpG+L+R2jYrG+Q46h0Nbg561mG+pUhkiZxt0WhJsgqTqSFVlaYaPcakmkWyrYLx8KHf
- CPCA==
-X-Gm-Message-State: AOAM533H/T7ID1v8V0B5ySZQbFdXX8jc284VsWjf48VDt0jbrFua/hR1
- 9JqaHWAMidkYSaMn82Knd2V1Aw==
-X-Google-Smtp-Source: ABdhPJyC8bMM99gX9NoA6jd1ZL+41c2murQORdzNY38nckrVznKE9j+jmibvTBJ8WoxOUAmeXz6w+Q==
-X-Received: by 2002:a17:902:a509:b029:d0:cb2d:f26e with SMTP id
- s9-20020a170902a509b02900d0cb2df26emr11733956plq.7.1600047476518; 
- Sun, 13 Sep 2020 18:37:56 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id x3sm6975572pgg.54.2020.09.13.18.37.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Sep 2020 18:37:55 -0700 (PDT)
-Subject: Re: [PATCH 01/11] capstone: Convert Makefile bits to meson bits
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20200914000153.1725632-1-richard.henderson@linaro.org>
- <20200914000153.1725632-2-richard.henderson@linaro.org>
-Message-ID: <910ac127-6239-2239-b3f8-bc2d1fcf9f6d@linaro.org>
-Date: Sun, 13 Sep 2020 18:37:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <Mingli.Yu@windriver.com>)
+ id 1kHdcb-0000Ep-At
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:49:33 -0400
+Received: from mail5.windriver.com ([192.103.53.11]:43450 helo=mail5.wrs.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Mingli.Yu@windriver.com>)
+ id 1kHdcY-0007IV-Ik
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:49:32 -0400
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+ [147.11.189.40])
+ by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08E1n5B9027605
+ (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:49:16 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Sun, 13 Sep 2020 18:48:55 -0700
+From: <mingli.yu@windriver.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] lockable.h: always define unknown_lock_type
+Date: Mon, 14 Sep 2020 09:42:36 +0800
+Message-ID: <20200914014236.2355289-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200914000153.1725632-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: pass client-ip=192.103.53.11;
+ envelope-from=Mingli.Yu@windriver.com; helo=mail5.wrs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/13 21:49:26
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,48 +57,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, luoyonggang@gmail.com,
- alex.bennee@linaro.org, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/20 5:01 PM, Richard Henderson wrote:
->  case "$capstone" in
-> -  git | internal)
-> +  git)
->      if test "$capstone" = git; then
->        git_submodules="${git_submodules} capstone"
->      fi
+From: Mingli Yu <mingli.yu@windriver.com>
 
-The if here can be removed now.  Alternately...
+There comes below build failure when use gcc 10.1.0 and
+"-Og" passed to compiler.
+ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:25: undefined reference to `unknown_lock_type'
+ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o: in function `fsdev_co_throttle_request':
+ | /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: undefined reference to `unknown_lock_type'
+ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o:/mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: more undefined references to `unknown_lock_type' follow
+ | collect2: error: ld returned 1 exit status
 
-> -    mkdir -p capstone
-> -    if test "$mingw32" = "yes"; then
-> -      LIBCAPSTONE=capstone.lib
-> -    else
-> -      LIBCAPSTONE=libcapstone.a
-> -    fi
-> -    capstone_libs="-Lcapstone -lcapstone"
-> -    capstone_cflags="-I${source_path}/capstone/include"
->      ;;
->  
-> -  system)
-> -    capstone_libs="$($pkg_config --libs capstone)"
-> -    capstone_cflags="$($pkg_config --cflags capstone)"
-> +  internal | system | no)
->      ;;
->  
-> -  no)
-> -    ;;
->    *)
->      error_exit "Unknown state for capstone: $capstone"
->      ;;
+So always define unknown_lock_type to fix the above error.
 
-... stop trying to validate the set of states and instead remove the outer
-case, leaving only the inner if.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ include/qemu/lockable.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-Thoughts?
+diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
+index b620023141..e792ed9a69 100644
+--- a/include/qemu/lockable.h
++++ b/include/qemu/lockable.h
+@@ -25,17 +25,12 @@ struct QemuLockable {
+ };
+ 
+ /* This function gives an error if an invalid, non-NULL pointer type is passed
+- * to QEMU_MAKE_LOCKABLE.  For optimized builds, we can rely on dead-code elimination
+- * from the compiler, and give the errors already at link time.
++ * to QEMU_MAKE_LOCKABLE.
+  */
+-#if defined(__OPTIMIZE__) && !defined(__SANITIZE_ADDRESS__)
+-void unknown_lock_type(void *);
+-#else
+ static inline void unknown_lock_type(void *unused)
+ {
+     abort();
+ }
+-#endif
+ 
+ static inline __attribute__((__always_inline__)) QemuLockable *
+ qemu_make_lockable(void *x, QemuLockable *lockable)
+-- 
+2.26.2
 
-
-r~
 
