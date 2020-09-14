@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6332326912F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:13:21 +0200 (CEST)
-Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A22269149
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:19:07 +0200 (CEST)
+Received: from localhost ([::1]:43932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHr6W-0008Eu-DD
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
+	id 1kHrC6-0006yV-Eb
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHpZg-0001rs-Vx
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:35:21 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:45672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHpZf-00035t-5a
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:35:20 -0400
-Received: by mail-ed1-x544.google.com with SMTP id l17so17812920edq.12
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Y+cs9bt4xfJAtGPuMnNnQL0IUVSo3GVRsmbO1VjuISY=;
- b=Oy30gJyzE9MacJWqpcnIeVzw7huUDAo4BeYJJs/oQam+Xoli3S5J+n3SHjz2RPQtAH
- RrOL3uCDnfV3EJCyYkrylK/+SOn2G0zXNxrSPMnpPxD6urIc6osbaWBz3NdXLcmd8rCT
- I1ORjGFYkfqsVkqnu2veJTE8txAye8mWcR76k0xeyJGPnbtFv/udtAC1JFqVaOMFzQv2
- bVb+RuH9QlJJBSJxzIEEQFOsKwhLsRVn7HOW71dH1xkBPW1GLc66toXxDs/PC2s9EuPy
- gKqPMZC6j4N7sq9VVvd0LHT44cFQ7Cf7bpHJX/jmwTrvYK9FvXZjrTgiDtlUPZarCc5E
- eQLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Y+cs9bt4xfJAtGPuMnNnQL0IUVSo3GVRsmbO1VjuISY=;
- b=DIryJQQ0XiACembY3uMR25KDoDVvxwNZIyYD4WHFODgK4aZPz3yTA/j/KyAoWJlyM8
- dQmABxcCe20C/P2aiIaFcPehKVr8mIyHRIrNFYv9owOYzgqxsgPtZHFuj8Rzi20tceER
- bM9WkF0CVVIwuipwQhT3fF5aZ/0PQxd3b8qapYps4Y8j2HMUVHYSjDQb29oufdBk/HC8
- VPRsQAW31YPBqdih2o9Hv31/alhcda5ERK0RFrQYctcv+KoK8lE2jy7wcecUOL0ydnPO
- Df1Ox3NTyr3/ouoEWhJoIQyXs1Jhv3nNyZrtlsL1oknXhffQGO8uEX+/T7Q2YSw4fnxd
- IcpQ==
-X-Gm-Message-State: AOAM531uOypv4Mp3nm9yFD5+ttYCvLWW3Tiu6kR34euUY+M9yBDEMFjR
- oU6cwN4JtKA2VeV+KLyhZ+nJqFpC8P1HX4rFF8laIA==
-X-Google-Smtp-Source: ABdhPJwjgjApoqbZDJap7Run8v4lYS2WBK+bg8hFH//3sISTeGHeiWPbFFYNG5i+NkPx0s9vMU3wnsKKgWun6pzYQlY=
-X-Received: by 2002:a50:f28b:: with SMTP id f11mr17237452edm.44.1600094117306; 
- Mon, 14 Sep 2020 07:35:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kHpjY-0000UA-11
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:45:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25471
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kHpjT-0004T9-Uu
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:45:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600094726;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=9iSo/nBto7/ia7Ikp+4w6vHJ1rNN0VdrSVMuqKA8QqM=;
+ b=CkEgY7YFrmT6lFKgTXN64zQGmczxkHDbfaarNbzG0Gt6pMRufklPBT26Vmd0VI4BSwW7NH
+ Mr4U1995eF+jXbAMTtE5Bm5VsH8gMWNekbTKR/8Vvk+pDOanjtYTwVEtydp/z9gZvvk/c6
+ O4872eXiaaJ2FVry8Fh+B2HJLGReGDk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-11HKVveCMiicmntMBR2lrg-1; Mon, 14 Sep 2020 10:44:49 -0400
+X-MC-Unique: 11HKVveCMiicmntMBR2lrg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D91A9053D6;
+ Mon, 14 Sep 2020 14:43:11 +0000 (UTC)
+Received: from redhat.com (ovpn-114-99.ams2.redhat.com [10.36.114.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2048E81C51;
+ Mon, 14 Sep 2020 14:42:54 +0000 (UTC)
+Date: Mon, 14 Sep 2020 15:42:51 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Zhenyu Ye <yezhenyu2@huawei.com>
+Subject: Re: [PATCH v1 0/2] Add timeout mechanism to qmp actions
+Message-ID: <20200914144251.GO1252186@redhat.com>
+References: <20200810145246.1049-1-yezhenyu2@huawei.com>
+ <20200810153811.GF14538@linux.fritz.box>
+ <c6d75e49-3e36-6a76-fdc8-cdf09e7c3393@huawei.com>
 MIME-Version: 1.0
-References: <20200811104736.17140-1-stefanha@redhat.com>
- <20200914142146.GN1252186@redhat.com>
-In-Reply-To: <20200914142146.GN1252186@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Sep 2020 15:35:06 +0100
-Message-ID: <CAFEAcA-_DMaQrfVOBpEDcvQrKoXAPF4nUVkL9-T_KmvwDi1NGg@mail.gmail.com>
-Subject: Re: [PATCH] docs/system: clarify deprecation scheduled
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <c6d75e49-3e36-6a76-fdc8-cdf09e7c3393@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,41 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Libvirt <libvir-list@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, armbru@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Sep 2020 at 15:22, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
-> So we're changing
->
->   The feature will remain functional for 2 releases prior to actual remov=
-al.
->
-> to
->
->   The feature will remain functional for 1 more release after deprecation=
-.
->
-> How about
->
->   The feature will remain functional for the release in which it was
->   deprecated and one further release. After these two releases, the
->   feature is liable to be removed.
+On Tue, Aug 11, 2020 at 09:54:08PM +0800, Zhenyu Ye wrote:
+> Hi Kevin,
+> 
+> On 2020/8/10 23:38, Kevin Wolf wrote:
+> > Am 10.08.2020 um 16:52 hat Zhenyu Ye geschrieben:
+> >> Before doing qmp actions, we need to lock the qemu_global_mutex,
+> >> so the qmp actions should not take too long time.
+> >>
+> >> Unfortunately, some qmp actions need to acquire aio context and
+> >> this may take a long time.  The vm will soft lockup if this time
+> >> is too long.
+> > 
+> > Do you have a specific situation in mind where getting the lock of an
+> > AioContext can take a long time? I know that the main thread can
+> > block for considerable time, but QMP commands run in the main thread, so
+> > this patch doesn't change anything for this case. It would be effective
+> > if an iothread blocks, but shouldn't everything running in an iothread
+> > be asynchronous and therefore keep the AioContext lock only for a short
+> > time?
+> > 
+> 
+> Theoretically, everything running in an iothread is asynchronous. However,
+> some 'asynchronous' actions are not non-blocking entirely, such as
+> io_submit().  This will block while the iodepth is too big and I/O pressure
+> is too high.  If we do some qmp actions, such as 'info block', at this time,
+> may cause vm soft lockup.  This series can make these qmp actions safer.
+> 
+> I constructed the scene as follow:
+> 1. create a vm with 4 disks, using iothread.
+> 2. add press to the CPU on the host.  In my scene, the CPU usage exceeds 95%.
+> 3. add press to the 4 disks in the vm at the same time.  I used the fio and
+> some parameters are:
+> 
+> 	 fio -rw=randrw -bs=1M -size=1G -iodepth=512 -ioengine=libaio -numjobs=4
+> 
+> 4. do block query actions, for example, by virsh:
+> 
+> 	virsh qemu-monitor-command [vm name] --hmp info block
+> 
+> Then the vm will soft lockup, the calltrace is:
 
-I think the thing which tends to confuse me about the wording
-is that it's phrased in terms of "releases", ie point events,
-(which is OK for users) but the developers who are adding
-deprecation notices and then removing features probably think
-more in terms of "release cycles" (ie the periods of time between
-the point events), or at least I do, so I have to mentally convert
-"functional for two releases" into "so if I deprecate it in this
-cycle, then I have to leave the code present in the next cycle
-and then am OK to delete the code the cycle after that".
-But I don't have any good suggestions for wording, and your proposed
-text is definitely clearer I think.
+[snip]
 
--- PMM
+> This problem can be avoided after this series applied.
+
+At what cost though ?   With this timeout, QEMU is going to start
+reporting bogus failures for various QMP commands when running
+under high load, even if those commands would actually run
+successfully.  This will turn into an error report from libvirt
+which will in turn probably cause an error in the mgmt application
+using libvirt, and in turn could break the user's automation.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
