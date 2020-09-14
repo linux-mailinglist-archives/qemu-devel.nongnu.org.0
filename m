@@ -2,52 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9365F2687C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:00:13 +0200 (CEST)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F30D2687C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:01:51 +0200 (CEST)
+Received: from localhost ([::1]:56926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkLM-0002v6-MC
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:00:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42306)
+	id 1kHkMw-0004yR-B1
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:01:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kHkE2-00064a-9z
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:52:38 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:32886 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kHkDz-0005la-QL
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:52:38 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 4534A986C89A8ACC6714;
- Mon, 14 Sep 2020 16:52:31 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Mon, 14 Sep 2020
- 16:52:23 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
- <berrange@redhat.com>
-Subject: [PATCH v8 12/12] migration/dirtyrate: Add trace_calls to make it
- easier to debug
-Date: Mon, 14 Sep 2020 17:03:05 +0800
-Message-ID: <1600074185-91624-13-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1600074185-91624-1-git-send-email-zhengchuan@huawei.com>
-References: <1600074185-91624-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kHkGY-0003YW-LA
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:55:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35462
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kHkGW-0005xi-Kk
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:55:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600073711;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=jRB1h5J2Cri9ZN+hGh81po34aJSpZ0Dk1pqJQnkFBOk=;
+ b=aYRkE59517u6xrli5p0fT6+iyeSicyENHicC3S+AUAGva45IktfJH0eIDUBpDLdLqVE3Cm
+ wkYvmgnGpbtbemXyWHHsu+YSjobKJ98yIr1/Ypj8+fU7FsgVJHR2vTTyOvhEeB+S8ofgIe
+ +SXOid65EPxb+KydDWe9Xb6s3HzwpGY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-1oY67yqBOk6Mo8s3qi3N_w-1; Mon, 14 Sep 2020 04:55:03 -0400
+X-MC-Unique: 1oY67yqBOk6Mo8s3qi3N_w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC29B800470;
+ Mon, 14 Sep 2020 08:55:02 +0000 (UTC)
+Received: from redhat.com (ovpn-114-99.ams2.redhat.com [10.36.114.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A35405DEC2;
+ Mon, 14 Sep 2020 08:55:01 +0000 (UTC)
+Date: Mon, 14 Sep 2020 09:54:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: About 'qemu-security' mailing list
+Message-ID: <20200914085458.GA1252186@redhat.com>
+References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
+ <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 04:52:27
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+In-Reply-To: <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:36:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,101 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
- liq3ea@gmail.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, jinyan12@huawei.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add trace_calls to make it easier to debug
+On Fri, Sep 11, 2020 at 04:51:49PM +0100, Peter Maydell wrote:
+> On Fri, 11 Sep 2020 at 15:22, P J P <ppandit@redhat.com> wrote:
+> > Proposal: (to address above limitations)
+> > =========
+> >
+> > * We set up a new 'qemu-security' mailing list.
+> >
+> > * QEMU security issues are reported to this new list only.
+> >
+> > * Representatives from various communities subscribe to this list. (List maybe
+> >    moderated in the beginning.)
+> >
+> > * As QEMU issues come in, participants on the 'qemu-security' list shall
+> >    discuss and decide about how to triage them further.
+> 
+> Way way back, the idea of a qemu-security list was proposed, and
+> it was decided against because there wasn't a clear way that
+> people could send encrypted mail to the security team if it
+> was just a mailing list. So that's why we have the "handful
+> of individual contacts" approach. Is that still something people
+> care about ?
+> 
+> My question is, who decides who's on the qemu-security list?
+> Is this just "it's the same handful of contacts, but they
+> have a mailing list for convenience" ? It sounds like you
+> want it to be a larger grouping than that and maybe also
+> want to use it as a mechanism for informing downstream distros
+> etc about QEMU security issues, which is to say you're
+> proposing an overhaul and change to our security process,
+> not merely "we'd like to create a mailing list" ?
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
----
- migration/dirtyrate.c  | 9 +++++++++
- migration/trace-events | 8 ++++++++
- 2 files changed, 17 insertions(+)
+Yes, that is a reasonable description. 
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 917edef..f808037 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -22,6 +22,7 @@
- #include "qapi/qapi-commands-migration.h"
- #include "migration.h"
- #include "ram.h"
-+#include "trace.h"
- #include "dirtyrate.h"
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
-@@ -54,6 +55,7 @@ static bool is_sample_period_valid(int64_t sec)
- static int dirtyrate_set_state(int *state, int old_state, int new_state)
- {
-     assert(new_state < DIRTY_RATE_STATUS__MAX);
-+    trace_dirtyrate_set_state(DirtyRateStatus_str(new_state));
-     if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
-         return 0;
-     } else {
-@@ -76,6 +78,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
- 
-+    trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
-+
-     return info;
- }
- 
-@@ -123,6 +127,7 @@ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
-     crc = crc32(0, (info->ramblock_addr +
-                 vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
- 
-+    trace_get_ramblock_vfn_hash(info->idstr, vfn, crc);
-     return crc;
- }
- 
-@@ -201,6 +206,8 @@ static bool skip_sample_ramblock(RAMBlock *block)
-      * Sample only blocks larger than MIN_RAMBLOCK_SIZE.
-      */
-     if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
-+        trace_skip_sample_ramblock(block->idstr,
-+                                   qemu_ram_get_used_length(block));
-         return true;
-     }
- 
-@@ -262,6 +269,7 @@ static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
-     for (i = 0; i < info->sample_pages_count; i++) {
-         crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
-         if (crc != info->hash_result[i]) {
-+            trace_calc_page_dirty_rate(info->idstr, crc, info->hash_result[i]);
-             info->sample_dirty_count++;
-         }
-     }
-@@ -287,6 +295,7 @@ find_page_matched(RAMBlock *block, int count,
-     if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
-         infos[i].ramblock_pages !=
-             (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-+        trace_find_page_matched(block->idstr);
-         return NULL;
-     }
- 
-diff --git a/migration/trace-events b/migration/trace-events
-index 4ab0a50..8c2b58f 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -312,3 +312,11 @@ dirty_bitmap_load_bits_zeroes(void) ""
- dirty_bitmap_load_header(uint32_t flags) "flags 0x%x"
- dirty_bitmap_load_enter(void) ""
- dirty_bitmap_load_success(void) ""
-+
-+# dirtyrate.c
-+dirtyrate_set_state(const char *new_state) "new state %s"
-+query_dirty_rate_info(const char *new_state) "current state %s"
-+get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock name: %s, vfn: %"PRIu64 ", crc: %" PRIu32
-+calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
-+skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
-+find_page_matched(const char *idstr) "ramblock %s addr or size changed"
+Do we think the current QEMU security process is working well for the
+community as a whole in terms of our downstream consumers learning about
+security flaws in an appropriate timeframe and manner ?  
+
+Regards,
+Daniel
 -- 
-1.8.3.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
