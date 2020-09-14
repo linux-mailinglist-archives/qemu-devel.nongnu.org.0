@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6269F268ADF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:27:36 +0200 (CEST)
-Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CADB268AC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:22:17 +0200 (CEST)
+Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHna3-0008JI-GJ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
+	id 1kHnUu-0004FC-KT
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHnYM-000775-6O
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:25:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37550)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kHnPU-0008CI-N3
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:16:40 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHnYK-0007gO-5b
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:25:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kHnYI-0000mw-91
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 12:25:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 40FE92E8071
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 12:25:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kHnPT-0006dI-08
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:16:40 -0400
+Received: by mail-wr1-x443.google.com with SMTP id k15so18448927wrn.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=aZw1WxSuW0sHSx0EF1KxXnXje58Wqv+vyxNnd2FH2fI=;
+ b=WhBuS/6HfUFoqmD99R2S+1IEaS8Ux05pruHVDOei+01UrjrY9kma8DUED/qNCe+xRV
+ JaszOz3q29L/EQWPe5UHs8MGy7SsbnN3TLLQo3sSQ87apibaLicR5vclnM/Io8bcK41z
+ dWYjo4eHRLUwhPbYQJoMue1QSuZR1i6Keps46GPsqAFTPpIGLvFXoAKNDD7xE0aKAIZI
+ bCAc2kVch7Au6HoxRhkuy3QkwoDRFpY7p1GnSAXZR8iMr7xAVdfimCNgUl9IcIx/36CY
+ m8fYTsa948WTQvN+WQQJ/pSQvPO/wQHj0T6vEhQvbC4pBNQ96bjnhRnIIY87RQQALddX
+ rbqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=aZw1WxSuW0sHSx0EF1KxXnXje58Wqv+vyxNnd2FH2fI=;
+ b=rqphE2cZZQbcVi6B8ozbOJkbQ1Co3Sk9zPqmDjOrPnuD92Rs71rNYcEInUtoOT6dWY
+ 5YKZYa8zHI60XTn2O1TrLLXxzOzAmyGz1wjWoddol20PTdK+5f8Iu0LYovVRWGbC/0V0
+ 37kKXC6YzBQPadcmpB0w/aV+ba/nadFY05pGVBAlqpY+UoXBVgn4Di8+jHoVUGDko8wG
+ QMw/UWafPE6JNGPSltxE+9S39Zml2phoOilyfCF9unK2GvCRuAvYeU0aIqozd0Pwcp9b
+ Z+2odccJEjhD0fhB/mfkx7PI570omJT8d/UO7TQ67zBYCTsAv3uFzq+mYUIqGWaNHClX
+ 0egQ==
+X-Gm-Message-State: AOAM531jEC/H4XFFFYmaCGNvZxocRMio2A+KilZLBehDNExRaiLCyvki
+ ebymI3I8o5B1J4aDgMtr0p4rFw==
+X-Google-Smtp-Source: ABdhPJzSWJTDhLV5h4SIZuRNSkPHxdm6r9rG/hhEML7L2fnT011XDllvEfj5XWzw2OE2I7QSq7vDGg==
+X-Received: by 2002:a5d:6cb0:: with SMTP id a16mr15044578wra.88.1600085796694; 
+ Mon, 14 Sep 2020 05:16:36 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q192sm21013199wme.13.2020.09.14.05.16.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Sep 2020 05:16:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F25CC1FF7E;
+ Mon, 14 Sep 2020 13:16:34 +0100 (BST)
+References: <20200914113809.63640-1-mreitz@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH] iotests: Work around failing readlink -f
+In-reply-to: <20200914113809.63640-1-mreitz@redhat.com>
+Date: Mon, 14 Sep 2020 13:16:34 +0100
+Message-ID: <87h7s01rkt.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Sep 2020 12:16:26 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1852196@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=lersek@redhat.com; 
-X-Launchpad-Bug-Tags: feature-request
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek philmd
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <157355353271.7205.5763587027166419396.malonedeb@gac.canonical.com>
-Message-Id: <160008578614.17165.13721016950964155459.malone@soybean.canonical.com>
-Subject: [Bug 1852196] Re: update edk2 submodule & binaries to
- edk2-stable202008
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 94d29bdcba23b0989ba61c7a48f8dd45d404e6d9
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 05:55:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,60 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1852196 <1852196@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit a68694cd1f3.
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+Max Reitz <mreitz@redhat.com> writes:
 
--- =
+> On macOS, (out of the box) readlink does not have -f.  If the recent
+> "readlink -f" call introduced by b1cbc33a397 fails, just fall back to
+> the old behavior (which means you can run the iotests only from the
+> build tree, but that worked fine for six years, so it should be fine
+> still).
+>
+> Keep any potential error message on stderr.  If users want to run the
+> iotests from outside the build tree, this may point them to what's wrong
+> (with their system).
+>
+> Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
+>        ("iotests: Allow running from different directory")
+> Reported-by: Claudio Fontana <cfontana@suse.de>
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1852196
+Queued to testing/next, thanks.
 
-Title:
-  update edk2 submodule & binaries to edk2-stable202008
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  Consume the following upstream edk2 releases:
-
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable201908
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable202002
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable202005
-  https://github.com/tianocore/edk2/releases/tag/edk2-stable202008
-
-  Worth mentioning (in random order):
-
-  - various CVE fixes [*]
-  - OpenSSL-1.1.1g
-  - UEFI HTTPS Boot for ARM/AARCH64
-  - TPM2 for ARM/AARCH64
-  - VCPU hotplug with SMI
-  - support for Linux v5.7+ initrd and mixed mode loading
-  - Fusion-MPT SCSI driver in OVMF
-  - VMware PVSCSI driver in OVMF
-  - PXEv4 / PXEv6 boot possible to disable on the QEMU command line
-  - SEV-ES support
-
-  [*] the below list has been collected simply from the subject lines in
-  commit range edk2-stable201905..edk2-stable202008:
-
-    CVE-2019-11098 CVE-2019-14553 CVE-2019-14558 CVE-2019-14559
-    CVE-2019-14562 CVE-2019-14563 CVE-2019-14575 CVE-2019-14586
-    CVE-2019-14587
-
-  (Note that any given CVE from the above list may or may not affect the
-  firmware binaries packaged with upstream QEMU; consult the upstream
-  TianoCore bug tracker at <https://bugzilla.tianocore.org/> for details.)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1852196/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
