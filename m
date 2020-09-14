@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2022687C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:01:09 +0200 (CEST)
-Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1FE2687CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:02:32 +0200 (CEST)
+Received: from localhost ([::1]:59590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkMG-0004Mn-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:01:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
+	id 1kHkNb-00065Z-MK
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:02:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kHkHT-000557-2L
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:56:11 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59417
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kHkM5-0004ha-Br
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:00:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57792
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kHkHR-0006CH-AZ
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:56:10 -0400
+ id 1kHkM2-0006rZ-6c
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:00:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600073768;
+ s=mimecast20190719; t=1600074053;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rrlHrQI4bcdJqJSUMdBsx9TK27RkCQxoKEfbXuz8+8Q=;
- b=JvumUgGUD3iSP95vNcEHbUIQodNth+T1oIk9iz6BXa9NpRUaANGIAM5cQAYOEDsmg+tdAS
- bU+5G3svo5zZ1o7W50MFa2QDo6sFytDtPgwPHHJRYcSBscI3CaM0ZXLsiU2A+houDduNN5
- eITsEee7Bje6Ws3T2/34CvjDhubyX7I=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=rpjzEeE5wDw0AhGcrcrQPwmY9Dq+JsRrS9dkQacGeZo=;
+ b=Ged8XCqAT/hlbOU37l8tpMjUHN5DWidSeAOATtCxDwKqAg8u0sBS/je7WAvSmLBWsxNX4v
+ veFeylkeum2Lro7rIHTgVX5dOb0ieH5pKYbh8AyXVunceZHaL3N934AB49293oLpwecc8U
+ xyGYTp2WONzeZIk9uc36Cf344609H2E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-eLUmgQB2NkCjt_lWnCFOAA-1; Mon, 14 Sep 2020 04:56:04 -0400
-X-MC-Unique: eLUmgQB2NkCjt_lWnCFOAA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-295-2PeU-XJKPr2tlwi29Quqkg-1; Mon, 14 Sep 2020 05:00:51 -0400
+X-MC-Unique: 2PeU-XJKPr2tlwi29Quqkg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E194F101962D;
- Mon, 14 Sep 2020 08:56:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B805FAF20C;
+ Mon, 14 Sep 2020 09:00:49 +0000 (UTC)
 Received: from redhat.com (ovpn-114-99.ams2.redhat.com [10.36.114.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78B7B81C42;
- Mon, 14 Sep 2020 08:56:00 +0000 (UTC)
-Date: Mon, 14 Sep 2020 09:55:57 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA30660FC2;
+ Mon, 14 Sep 2020 09:00:46 +0000 (UTC)
+Date: Mon, 14 Sep 2020 10:00:43 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v3 6/6] migration/tls: add trace points for multifd-tls
-Message-ID: <20200914085557.GB1252186@redhat.com>
+Subject: Re: [PATCH v3 1/6] migration/tls: save hostname into MigrationState
+Message-ID: <20200914090043.GC1252186@redhat.com>
 References: <1599965256-72150-1-git-send-email-zhengchuan@huawei.com>
- <1599965256-72150-7-git-send-email-zhengchuan@huawei.com>
+ <1599965256-72150-2-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <1599965256-72150-7-git-send-email-zhengchuan@huawei.com>
+In-Reply-To: <1599965256-72150-2-git-send-email-zhengchuan@huawei.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:33:07
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:36:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -92,18 +89,79 @@ Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, yuxiating@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 13, 2020 at 10:47:36AM +0800, Chuan Zheng wrote:
-> add trace points for multifd-tls for debug.
+On Sun, Sep 13, 2020 at 10:47:31AM +0800, Chuan Zheng wrote:
+> hostname is need in multifd-tls, save hostname into MigrationState.
 > 
 > Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 > Signed-off-by: Yan Jin <jinyan12@huawei.com>
 > ---
->  migration/multifd.c    | 10 +++++++++-
->  migration/trace-events |  4 ++++
->  2 files changed, 13 insertions(+), 1 deletion(-)
+>  migration/channel.c   | 6 ++++++
+>  migration/migration.c | 1 +
+>  migration/migration.h | 5 +++++
+>  3 files changed, 12 insertions(+)
+> 
+> diff --git a/migration/channel.c b/migration/channel.c
+> index 20e4c8e..0e4104a 100644
+> --- a/migration/channel.c
+> +++ b/migration/channel.c
+> @@ -66,6 +66,11 @@ void migration_channel_connect(MigrationState *s,
+>      trace_migration_set_outgoing_channel(
+>          ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+>  
+> +    /* Save hostname into MigrationState for handshake */
+> +    if (hostname) {
+> +        s->hostname = g_strdup(hostname);
+> +    }
+> +
+>      if (!error) {
+>          if (s->parameters.tls_creds &&
+>              *s->parameters.tls_creds &&
+> @@ -90,5 +95,6 @@ void migration_channel_connect(MigrationState *s,
+>          }
+>      }
+>      migrate_fd_connect(s, error);
+> +    g_free(s->hostname);
+>      error_free(error);
+>  }
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+IIUC, this means hostname is free'd once the initial connection is
+established. Don't we have to wait until all the multifd connections
+exist too ?
 
+IOW, should we be doing this somewhere in a cleanup path. Perhaps
+migrate_fd_cancel() is the rigt place ?
+
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 58a5452..e20b778 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1883,6 +1883,7 @@ void migrate_init(MigrationState *s)
+>      s->migration_thread_running = false;
+>      error_free(s->error);
+>      s->error = NULL;
+> +    s->hostname = NULL;
+>  
+>      migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
+>  
+> diff --git a/migration/migration.h b/migration/migration.h
+> index bdc7450..bc96322 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -259,6 +259,11 @@ struct MigrationState
+>       * (which is in 4M chunk).
+>       */
+>      uint8_t clear_bitmap_shift;
+> +
+> +    /*
+> +     * This save hostname when out-going migration starts
+> +     */
+> +    char *hostname;
+>  };
+>  
+>  void migrate_set_state(int *state, int old_state, int new_state);
+> -- 
+> 1.8.3.1
+> 
 
 Regards,
 Daniel
