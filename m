@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCB3268CFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:10:49 +0200 (CEST)
-Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F77268D42
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:19:24 +0200 (CEST)
+Received: from localhost ([::1]:33948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpBw-0008C0-Mb
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
+	id 1kHpKF-00026M-W1
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8F-0002MO-Gj
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:59 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34835)
+ id 1kHp8H-0002R6-9N
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:01 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8D-0007Zc-Bl
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:06:59 -0400
-Received: by mail-wm1-x333.google.com with SMTP id y15so211689wmi.0
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:06:56 -0700 (PDT)
+ id 1kHp8E-0007Zm-QD
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:00 -0400
+Received: by mail-wr1-x431.google.com with SMTP id e16so18927953wrm.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:06:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2Pm0HMO2zXGIGpZaPm/owGvMJz02qx44BSYos4Dfokk=;
- b=t+NO/wXWg95yON2MqwdHg0QRP2HibN1G+cwm9+XGZnQbkFJH3Lyms6IUaBAKLpyGyF
- Otx5t7lU8LimIHpaooSVRHpDeQbEI5ePcRqBabXjWfOdT0O7RVXAN//5/txvGIkvWNVR
- nG9i87/MkaldM4FIw9fhkSne5z9784IgsifLbRGzLgFFmJPmomEZMGzzmLIbUazK3BT/
- pQUyAuvlXilswqNUqIlQVz2j1VTpvc2yOi5T4UfN4kWgJvIwOOXMrtGSflT3zqUxygkW
- gWkbdgfab8t6M/hKNXGLTGIYtVRRtiHraADk6p2MLkYvDcdg+iLgUaqaSt+u3EvjIWxZ
- VJQw==
+ bh=W46vdnAOZWxYuiCOcRluwg5RunZBfavA1+5v0cgkd8k=;
+ b=l9VS+KrDtbBFwVyTyKaomilMXVW5y3sqmTWHac3QZMlEcjrDGEeRfeA6r+HAZGOYs1
+ oa2g3DdbxOOmFz/+yvbF0pWlv1PWzN4uihKl8Renel65JXYD0aQwHMe4swVbhNb6zrGn
+ jnfqvO7tGlgZSgVI+3nbJEgRNj42lkwim++CL0nsptBRSXXDiRkOG1tkB6iqQz4P9IGK
+ PCaS4wOHu4pzQON95kXwPQEgl6ZlstDv9Y0t415182qOhrYaqQy0LJbLqtDkTYhtJZ3w
+ Oe4f0wZoybmoDov7G+SgfbB8LeMgEhU0ACyyYHtKVfEt8+fCgIFgAPi9HphIvTb5J4Ag
+ cVrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2Pm0HMO2zXGIGpZaPm/owGvMJz02qx44BSYos4Dfokk=;
- b=pUWsUJkuB3i0bjICc6Qu+qSOUxT7QZvVsfpJsdsEewgaRqoYjFNRy3WCijcca6fe7X
- crfIJffhGeuAm6WPtwpKYqJQuE8t+HETLH9Wf4rFOqDfnLONxa77HR1nPwim0rRbUQBb
- sBXPGC59tTBHuFtcxlcEY09fZGd9TAzLO9SrKHBZoU5nX613SFGmsrYyWrMX7bV1sJ/T
- UFC1bg+nrilg6mwqMTkIncBdsljhRujY7LlGg7i74jZG81ne9jMXiIDT0ZMWOBk9uL9Q
- edXJ9yUspJSQ4kWg3RHmQR3x3e/V5ljgbH1Z/XWgprnn2RQ6KfpirSErz0K01/pRS4Xx
- 6cWQ==
-X-Gm-Message-State: AOAM531E7w03WElsD6OJxH+Q+RqM/K06XWqwU0Fqb3vw/PwmIs0+2Au+
- BqBNfYs8K5Zcl9AlBYem/TDu+FpMfdTtF+GU
-X-Google-Smtp-Source: ABdhPJwuJx/ruZ1revnFG+IIRHwyn4qSpBXabThyyhbemPMUBL7sXgYNKVLy9hQJhKev0OvQhA3x8w==
-X-Received: by 2002:a7b:c241:: with SMTP id b1mr15154416wmj.98.1600092415593; 
- Mon, 14 Sep 2020 07:06:55 -0700 (PDT)
+ bh=W46vdnAOZWxYuiCOcRluwg5RunZBfavA1+5v0cgkd8k=;
+ b=CsCd1VaSr2/fs1vyncpAnNHAhjBRRbV7vgQ3U5vlcBOcC3L01Xx31DLEXTyQ0j5L6D
+ pbZfmEGYBT57mHudA0mo3nngs6lUMe46/9cPSrUAYI5XPvt6+GcPgcSnmvGHBChvVJM5
+ YHsf4vPvjXtWns1hprFX3NszdxN3o7DrtcDWPt0RKeVtrDrg2Lr/olYqxVa63Jv+zDFR
+ 6PBoFBRtTDxmHC7v7T133CfMmLoWlj05k9cS9lzdOk4N6d7SRIHX3P0j+/kLYRlq78t+
+ eEbnYPfQdtDQlmkimK6ILdwRKDel7T+qmd+tGf0hkbZVeGfkU2Rt+D/lMmPKKB/+gdnV
+ cGgA==
+X-Gm-Message-State: AOAM531rghfpHxRdOwboAhhveooC7w0uOf9FflQIsx4HssFbZk6hn9Of
+ RlutbANbuIKBAkDvH0dDD+d+jiIB48EnUTqv
+X-Google-Smtp-Source: ABdhPJwH8lBO62oS4DVRJXfyaoRsssMcmIpKDShmCIds5XT2qdWflBnldQDmsAW/tb69ae2dP0Y2BQ==
+X-Received: by 2002:adf:efc9:: with SMTP id i9mr16806263wrp.187.1600092417141; 
+ Mon, 14 Sep 2020 07:06:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.06.54
+ by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.06.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 07:06:54 -0700 (PDT)
+ Mon, 14 Sep 2020 07:06:56 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/36] target/arm: Remove no-longer-reachable 32-bit KVM code
-Date: Mon, 14 Sep 2020 15:06:16 +0100
-Message-Id: <20200914140641.21369-12-peter.maydell@linaro.org>
+Subject: [PULL 12/36] hw/arm/mps2: New board model mps2-an386
+Date: Mon, 14 Sep 2020 15:06:17 +0100
+Message-Id: <20200914140641.21369-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
 References: <20200914140641.21369-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,239 +89,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that 32-bit KVM host support is gone, KVM can never
-be enabled unless CONFIG_AARCH64 is true, and some code
-paths are no longer reachable and can be deleted.
+Implement a model of the MPS2 with the AN386 firmware. This is
+essentially identical to the AN385 firmware, but it has a
+Cortex-M4 rather than a Cortex-M3.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200904154156.31943-3-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200903202048.15370-2-peter.maydell@linaro.org
 ---
- target/arm/kvm-consts.h |   7 ---
- target/arm/kvm_arm.h    |   6 ---
- target/arm/cpu.c        | 101 +++++++++++++++++++---------------------
- target/arm/kvm.c        |   7 ---
- 4 files changed, 47 insertions(+), 74 deletions(-)
+ docs/system/arm/mps2.rst |  8 +++++---
+ hw/arm/mps2.c            | 34 +++++++++++++++++++++++++++++-----
+ 2 files changed, 34 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
-index aad28258a36..580f1c1fee0 100644
---- a/target/arm/kvm-consts.h
-+++ b/target/arm/kvm-consts.h
-@@ -136,16 +136,11 @@ MISMATCH_CHECK(QEMU_PSCI_RET_DISABLED, PSCI_RET_DISABLED);
-  */
- #define QEMU_KVM_ARM_TARGET_NONE UINT_MAX
+diff --git a/docs/system/arm/mps2.rst b/docs/system/arm/mps2.rst
+index 3a98cb59b0d..e680a4ceb71 100644
+--- a/docs/system/arm/mps2.rst
++++ b/docs/system/arm/mps2.rst
+@@ -1,5 +1,5 @@
+-Arm MPS2 boards (``mps2-an385``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``)
+-================================================================================
++Arm MPS2 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``)
++================================================================================================
  
--#ifdef TARGET_AARCH64
- MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_AEM_V8, KVM_ARM_TARGET_AEM_V8);
- MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_FOUNDATION_V8, KVM_ARM_TARGET_FOUNDATION_V8);
- MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_CORTEX_A57, KVM_ARM_TARGET_CORTEX_A57);
- MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_XGENE_POTENZA, KVM_ARM_TARGET_XGENE_POTENZA);
- MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_CORTEX_A53, KVM_ARM_TARGET_CORTEX_A53);
--#else
--MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_CORTEX_A15, KVM_ARM_TARGET_CORTEX_A15);
--MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_CORTEX_A7, KVM_ARM_TARGET_CORTEX_A7);
--#endif
+ These board models all use Arm M-profile CPUs.
  
- #define CP_REG_ARM64                   0x6000000000000000ULL
- #define CP_REG_ARM_COPROC_MASK         0x000000000FFF0000
-@@ -165,7 +160,6 @@ MISMATCH_CHECK(QEMU_KVM_ARM_TARGET_CORTEX_A7, KVM_ARM_TARGET_CORTEX_A7);
- /* No kernel define but it's useful to QEMU */
- #define CP_REG_ARM64_SYSREG_CP (CP_REG_ARM64_SYSREG >> CP_REG_ARM_COPROC_SHIFT)
+@@ -12,6 +12,8 @@ QEMU models the following FPGA images:
  
--#ifdef TARGET_AARCH64
- MISMATCH_CHECK(CP_REG_ARM64, KVM_REG_ARM64);
- MISMATCH_CHECK(CP_REG_ARM_COPROC_MASK, KVM_REG_ARM_COPROC_MASK);
- MISMATCH_CHECK(CP_REG_ARM_COPROC_SHIFT, KVM_REG_ARM_COPROC_SHIFT);
-@@ -180,7 +174,6 @@ MISMATCH_CHECK(CP_REG_ARM64_SYSREG_CRM_MASK, KVM_REG_ARM64_SYSREG_CRM_MASK);
- MISMATCH_CHECK(CP_REG_ARM64_SYSREG_CRM_SHIFT, KVM_REG_ARM64_SYSREG_CRM_SHIFT);
- MISMATCH_CHECK(CP_REG_ARM64_SYSREG_OP2_MASK, KVM_REG_ARM64_SYSREG_OP2_MASK);
- MISMATCH_CHECK(CP_REG_ARM64_SYSREG_OP2_SHIFT, KVM_REG_ARM64_SYSREG_OP2_SHIFT);
--#endif
+ ``mps2-an385``
+   Cortex-M3 as documented in ARM Application Note AN385
++``mps2-an386``
++  Cortex-M4 as documented in ARM Application Note AN386
+ ``mps2-an511``
+   Cortex-M3 'DesignStart' as documented in AN511
+ ``mps2-an505``
+@@ -21,7 +23,7 @@ QEMU models the following FPGA images:
  
- #undef MISMATCH_CHECK
+ Differences between QEMU and real hardware:
  
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index adb38514bf2..bc178eeb84c 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -406,13 +406,7 @@ static inline const char *gic_class_name(void)
- static inline const char *gicv3_class_name(void)
- {
-     if (kvm_irqchip_in_kernel()) {
--#ifdef TARGET_AARCH64
-         return "kvm-arm-gicv3";
--#else
--        error_report("KVM GICv3 acceleration is not supported on this "
--                     "platform");
--        exit(1);
--#endif
-     } else {
-         if (kvm_enabled()) {
-             error_report("Userspace GICv3 is not supported with KVM");
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 6b4e708c08f..7b5ea65fab9 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2098,72 +2098,69 @@ static void cortex_a15_initfn(Object *obj)
+-- AN385 remapping of low 16K of memory to either ZBT SSRAM1 or to
++- AN385/AN386 remapping of low 16K of memory to either ZBT SSRAM1 or to
+   block RAM is unimplemented (QEMU always maps this to ZBT SSRAM1, as
+   if zbt_boot_ctrl is always zero)
+ - QEMU provides a LAN9118 ethernet rather than LAN9220; the only guest
+diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+index 4ee5c38459e..d3ec73fbe78 100644
+--- a/hw/arm/mps2.c
++++ b/hw/arm/mps2.c
+@@ -15,6 +15,7 @@
+  * as seen by the guest depend significantly on the FPGA image.
+  * We model the following FPGA images:
+  *  "mps2-an385" -- Cortex-M3 as documented in ARM Application Note AN385
++ *  "mps2-an386" -- Cortex-M4 as documented in ARM Application Note AN386
+  *  "mps2-an511" -- Cortex-M3 'DesignStart' as documented in AN511
+  *
+  * Links to the TRM for the board itself and to the various Application
+@@ -48,6 +49,7 @@
+ 
+ typedef enum MPS2FPGAType {
+     FPGA_AN385,
++    FPGA_AN386,
+     FPGA_AN511,
+ } MPS2FPGAType;
+ 
+@@ -82,6 +84,7 @@ typedef struct MPS2MachineState MPS2MachineState;
+ 
+ #define TYPE_MPS2_MACHINE "mps2"
+ #define TYPE_MPS2_AN385_MACHINE MACHINE_TYPE_NAME("mps2-an385")
++#define TYPE_MPS2_AN386_MACHINE MACHINE_TYPE_NAME("mps2-an386")
+ #define TYPE_MPS2_AN511_MACHINE MACHINE_TYPE_NAME("mps2-an511")
+ 
+ DECLARE_OBJ_CHECKERS(MPS2MachineState, MPS2MachineClass,
+@@ -139,9 +142,9 @@ static void mps2_common_init(MachineState *machine)
+      * tradeoffs. For QEMU they're all just RAM, though. We arbitrarily
+      * call the 16MB our "system memory", as it's the largest lump.
+      *
+-     * Common to both boards:
+-     *  0x21000000..0x21ffffff : PSRAM (16MB)
+-     * AN385 only:
++     * AN385/AN386/AN511:
++     *  0x21000000 .. 0x21ffffff : PSRAM (16MB)
++     * AN385/AN386 only:
+      *  0x00000000 .. 0x003fffff : ZBT SSRAM1
+      *  0x00400000 .. 0x007fffff : mirror of ZBT SSRAM1
+      *  0x20000000 .. 0x203fffff : ZBT SSRAM 2&3
+@@ -156,7 +159,7 @@ static void mps2_common_init(MachineState *machine)
+      *  0x20000000 .. 0x2001ffff : SRAM
+      *  0x20400000 .. 0x207fffff : ZBT SSRAM 2&3
+      *
+-     * The AN385 has a feature where the lowest 16K can be mapped
++     * The AN385/AN386 has a feature where the lowest 16K can be mapped
+      * either to the bottom of the ZBT SSRAM1 or to the block RAM.
+      * This is of no use for QEMU so we don't implement it (as if
+      * zbt_boot_ctrl is always zero).
+@@ -165,6 +168,7 @@ static void mps2_common_init(MachineState *machine)
+ 
+     switch (mmc->fpga_type) {
+     case FPGA_AN385:
++    case FPGA_AN386:
+         make_ram(&mms->ssram1, "mps.ssram1", 0x0, 0x400000);
+         make_ram_alias(&mms->ssram1_m, "mps.ssram1_m", &mms->ssram1, 0x400000);
+         make_ram(&mms->ssram23, "mps.ssram23", 0x20000000, 0x400000);
+@@ -192,6 +196,7 @@ static void mps2_common_init(MachineState *machine)
+     armv7m = DEVICE(&mms->armv7m);
+     switch (mmc->fpga_type) {
+     case FPGA_AN385:
++    case FPGA_AN386:
+         qdev_prop_set_uint32(armv7m, "num-irq", 32);
+         break;
+     case FPGA_AN511:
+@@ -228,6 +233,7 @@ static void mps2_common_init(MachineState *machine)
+ 
+     switch (mmc->fpga_type) {
+     case FPGA_AN385:
++    case FPGA_AN386:
+     {
+         /* The overflow IRQs for UARTs 0, 1 and 2 are ORed together.
+          * Overflow for UARTs 4 and 5 doesn't trigger any interrupt.
+@@ -379,7 +385,7 @@ static void mps2_common_init(MachineState *machine)
+      */
+     lan9118_init(&nd_table[0], 0x40200000,
+                  qdev_get_gpio_in(armv7m,
+-                                  mmc->fpga_type == FPGA_AN385 ? 13 : 47));
++                                  mmc->fpga_type == FPGA_AN511 ? 47 : 13));
+ 
+     system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
+ 
+@@ -408,6 +414,17 @@ static void mps2_an385_class_init(ObjectClass *oc, void *data)
+     mmc->scc_id = 0x41043850;
  }
  
- #ifndef TARGET_AARCH64
--/* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
-- * otherwise, a CPU with as many features enabled as our emulation supports.
-+/*
-+ * -cpu max: a CPU with as many features enabled as our emulation supports.
-  * The version of '-cpu max' for qemu-system-aarch64 is defined in cpu64.c;
-- * this only needs to handle 32 bits.
-+ * this only needs to handle 32 bits, and need not care about KVM.
-  */
- static void arm_max_initfn(Object *obj)
++static void mps2_an386_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    MPS2MachineClass *mmc = MPS2_MACHINE_CLASS(oc);
++
++    mc->desc = "ARM MPS2 with AN386 FPGA image for Cortex-M4";
++    mmc->fpga_type = FPGA_AN386;
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
++    mmc->scc_id = 0x41043860;
++}
++
+ static void mps2_an511_class_init(ObjectClass *oc, void *data)
  {
-     ARMCPU *cpu = ARM_CPU(obj);
- 
--    if (kvm_enabled()) {
--        kvm_arm_set_cpu_features_from_host(cpu);
--    } else {
--        cortex_a15_initfn(obj);
-+    cortex_a15_initfn(obj);
- 
--        /* old-style VFP short-vector support */
--        cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
-+    /* old-style VFP short-vector support */
-+    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
- 
- #ifdef CONFIG_USER_ONLY
--        /* We don't set these in system emulation mode for the moment,
--         * since we don't correctly set (all of) the ID registers to
--         * advertise them.
--         */
--        set_feature(&cpu->env, ARM_FEATURE_V8);
--        {
--            uint32_t t;
-+    /*
-+     * We don't set these in system emulation mode for the moment,
-+     * since we don't correctly set (all of) the ID registers to
-+     * advertise them.
-+     */
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    {
-+        uint32_t t;
- 
--            t = cpu->isar.id_isar5;
--            t = FIELD_DP32(t, ID_ISAR5, AES, 2);
--            t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
--            t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
--            t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
--            t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
--            t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
--            cpu->isar.id_isar5 = t;
-+        t = cpu->isar.id_isar5;
-+        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
-+        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
-+        cpu->isar.id_isar5 = t;
- 
--            t = cpu->isar.id_isar6;
--            t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
--            t = FIELD_DP32(t, ID_ISAR6, DP, 1);
--            t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
--            t = FIELD_DP32(t, ID_ISAR6, SB, 1);
--            t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
--            cpu->isar.id_isar6 = t;
-+        t = cpu->isar.id_isar6;
-+        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-+        cpu->isar.id_isar6 = t;
- 
--            t = cpu->isar.mvfr1;
--            t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
--            t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
--            cpu->isar.mvfr1 = t;
-+        t = cpu->isar.mvfr1;
-+        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-+        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-+        cpu->isar.mvfr1 = t;
- 
--            t = cpu->isar.mvfr2;
--            t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
--            t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
--            cpu->isar.mvfr2 = t;
-+        t = cpu->isar.mvfr2;
-+        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-+        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-+        cpu->isar.mvfr2 = t;
- 
--            t = cpu->isar.id_mmfr3;
--            t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
--            cpu->isar.id_mmfr3 = t;
-+        t = cpu->isar.id_mmfr3;
-+        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+        cpu->isar.id_mmfr3 = t;
- 
--            t = cpu->isar.id_mmfr4;
--            t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
--            t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
--            t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
--            t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
--            cpu->isar.id_mmfr4 = t;
--        }
--#endif
-+        t = cpu->isar.id_mmfr4;
-+        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-+        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-+        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-+        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-+        cpu->isar.id_mmfr4 = t;
-     }
-+#endif
- }
- #endif
- 
-@@ -2267,11 +2264,7 @@ static void arm_host_initfn(Object *obj)
- 
- static const TypeInfo host_arm_cpu_type_info = {
-     .name = TYPE_ARM_HOST_CPU,
--#ifdef TARGET_AARCH64
-     .parent = TYPE_AARCH64_CPU,
--#else
--    .parent = TYPE_ARM_CPU,
--#endif
-     .instance_init = arm_host_initfn,
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -434,6 +451,12 @@ static const TypeInfo mps2_an385_info = {
+     .class_init = mps2_an385_class_init,
  };
  
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 8bb7318378b..2eae73315d6 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -918,22 +918,15 @@ int kvm_arch_process_async_events(CPUState *cs)
-     return 0;
- }
- 
--/* The #ifdef protections are until 32bit headers are imported and can
-- * be removed once both 32 and 64 bit reach feature parity.
-- */
- void kvm_arch_update_guest_debug(CPUState *cs, struct kvm_guest_debug *dbg)
++static const TypeInfo mps2_an386_info = {
++    .name = TYPE_MPS2_AN386_MACHINE,
++    .parent = TYPE_MPS2_MACHINE,
++    .class_init = mps2_an386_class_init,
++};
++
+ static const TypeInfo mps2_an511_info = {
+     .name = TYPE_MPS2_AN511_MACHINE,
+     .parent = TYPE_MPS2_MACHINE,
+@@ -444,6 +467,7 @@ static void mps2_machine_init(void)
  {
--#ifdef KVM_GUESTDBG_USE_SW_BP
-     if (kvm_sw_breakpoints_active(cs)) {
-         dbg->control |= KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_USE_SW_BP;
-     }
--#endif
--#ifdef KVM_GUESTDBG_USE_HW
-     if (kvm_arm_hw_debug_active(cs)) {
-         dbg->control |= KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_USE_HW;
-         kvm_arm_copy_hw_debug_data(&dbg->arch);
-     }
--#endif
+     type_register_static(&mps2_info);
+     type_register_static(&mps2_an385_info);
++    type_register_static(&mps2_an386_info);
+     type_register_static(&mps2_an511_info);
  }
  
- void kvm_arch_init_irq_routing(KVMState *s)
 -- 
 2.20.1
 
