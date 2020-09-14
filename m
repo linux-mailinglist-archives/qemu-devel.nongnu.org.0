@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20F12688D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:55:50 +0200 (CEST)
-Received: from localhost ([::1]:60006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A79C2688E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:58:49 +0200 (CEST)
+Received: from localhost ([::1]:36078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHlDB-0006p0-V8
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55982)
+	id 1kHlG4-0000TE-6f
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kHlCA-0005k5-KG
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:54:46 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33787
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kHlC8-0004yw-VP
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:54:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600077283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=P3vabHqsXD05jSG7EeCdSHtGO5y8zOPhOyWNZQqjQqA=;
- b=fE0fGBjaRhErwhdfW7rsNhtPlQyCX6+3P3UMN9SJVqVFSZWWnGlS41Msgup04x4iPEnhQu
- sbKz7rHBJRvewk8ky7i211H9Q0RZw49KGRfwau0hvSZC8t8+4mg/Az8PAiNRuauveOlfwR
- vMx+m9jR1v6mIc/Ux03mUnVOZCpHKRE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-BCvd9y7TN4W5lcmJaGx6Bw-1; Mon, 14 Sep 2020 05:54:41 -0400
-X-MC-Unique: BCvd9y7TN4W5lcmJaGx6Bw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D91A7107464A;
- Mon, 14 Sep 2020 09:54:40 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
- [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 833FD10023A5;
- Mon, 14 Sep 2020 09:54:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0E0D31FCF6; Mon, 14 Sep 2020 11:54:39 +0200 (CEST)
-Date: Mon, 14 Sep 2020 11:54:38 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 08/10] pc-bios: refresh edk2 build artifacts for
- edk2-stable202008
-Message-ID: <20200914095438.wkc2fou3ijrctmfl@sirius.home.kraxel.org>
-References: <20200908072939.30178-1-lersek@redhat.com>
- <20200908072939.30178-9-lersek@redhat.com>
- <b2037644-bf48-e86f-23e3-f2c68e7ddc1f@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kHlFG-0008Ry-Ef
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:57:58 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kHlFE-0005Mt-UJ
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:57:58 -0400
+Received: by mail-wm1-x343.google.com with SMTP id l9so10586975wme.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 02:57:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=+uUej+S9XoYDJf27Q8EYRfsQJ21GIwuHtO15A3c7igQ=;
+ b=u7JvBDiKc6sh9DoyvMU9lDO3lpTGFoHsd+h6GIEQfeUKXrIAJw85x41HML+Ie46Bpj
+ JfE+RVL0I0roajgrEZ0ydLrTPYfJaGN0mKkAPfFmQvg/tAHvWAyDyaJQk7Ehek/TBcSc
+ eZLSAwRAxvubRDF0/Rkll/L1Aufu5YcfacAXuEEc7s7bko246s9D3V/gORjLJoh8t6Ad
+ elufJQ898RyNzPTnYSXLjPg5/GRMbUECKQf8vB1lKRWVQEXqtmoC5f+JFxjybKmL6eis
+ 2t5swob9juWdco2xyQhYZcu3zFevSMV0PJjeIdHxuWTyaVX4yQ3n6OVJgQltvO8YEUeO
+ 8fGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+uUej+S9XoYDJf27Q8EYRfsQJ21GIwuHtO15A3c7igQ=;
+ b=Du58BMVy15dDdq6la6mmwaXphKe+YdyeFg/FeC4A3kZ7Jh43Rbra3NDVb/fdtG1Xdh
+ 5VofndiYBq3l1PzuQ4KQjShr/y03dMPoNZG4NnbB/4sYZ9NpkLFkr3T0L7/FTJcZG/JV
+ zLvZIpyKRjXmq0Dm/lsabzaje6bKXkadtQM+mH7vP4zBTzAgYNeARloSc9nBJSWdduIA
+ 4fSdSnAfzn1ftHcNHivXIvgfdXRSmDwUBVW1R8sP0q4HH9Bantx/71CPh9/1UV7jeCOi
+ +cwm8I9rIqWI3jK1Lm4xfipulQL++OKFS+ZFAJBKaZG2kv281ioLewpk2TwvtCuXr8y5
+ 6oBA==
+X-Gm-Message-State: AOAM533nJxgYxrE9k55S+82S/WSmwnztRPQbj4T4BGlmTxNBXntYc2ar
+ gIQGDAisAhhidwZRX5UPK4g=
+X-Google-Smtp-Source: ABdhPJx3hN1j80y3Dy8bwhAKKuYgFyvGkXSevNACqWNuaYwVvKVEmHeukncEs+N13ivVMpQkNfIZkw==
+X-Received: by 2002:a1c:6607:: with SMTP id a7mr13966701wmc.142.1600077475490; 
+ Mon, 14 Sep 2020 02:57:55 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id h2sm20399883wrp.69.2020.09.14.02.57.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Sep 2020 02:57:54 -0700 (PDT)
+Date: Mon, 14 Sep 2020 10:57:53 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 0/3] Automatically convert configure options to meson
+ build options
+Message-ID: <20200914095753.GB579094@stefanha-x1.localdomain>
+References: <20200913100534.22084-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b2037644-bf48-e86f-23e3-f2c68e7ddc1f@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/NkBOFFp2J2Af1nK"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200913100534.22084-1-pbonzini@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,31 +86,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>,
- "Daniel P . Berrange" <berrange@redhat.com>
+Cc: marcandre.lureau@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
 
-> The CI idea is to have reproducible builds if possible.
-> When the submodule is updated (or the QEMU scripts containing the
-> -D defines), it triggers the 'build-edk2' job which produce these
-> same binaries.
-> My original idea was to push the tag on GitLab that triggers the
-> job, then download the produced binaries, test them, then commit
-> them.
+--/NkBOFFp2J2Af1nK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Now with CI in place we maybe should step back and have a look at the
-big picture.
+On Sun, Sep 13, 2020 at 12:05:31PM +0200, Paolo Bonzini wrote:
+> - because we parse command-line options before meson is available,
+> the introspection output is stored in the source tree.  The output
+> is slightly modified using the "jq" tool in order to ensure that it's
+> stable and that modifications to meson_buildoptions.txt do not cause
+> horrible conflicts.  This is the main reason for the unattractive
+> diffstat (the number of JSON lines added is higher than the number
+> of configure lines removed, though of course the latter are code
+> that must be maintained manually and the former is not).
 
-Should we simply stop committing firmware binaries into git and provide
-them as CI artifacts instead?  Can we build all our firmware in CI,
-using the shared gitlab x86 runners and cross compilers?
+Does this add a build dependency on jq? Is it possible to use a Python
+script or even a command-line one-liner instead?
 
-take care,
-  Gerd
+--/NkBOFFp2J2Af1nK
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9fPqEACgkQnKSrs4Gr
+c8jDowf/bO//FhVy4ylu0OHAPuZwZ9J0Ec1Y4Va4eTku/tIW3+bBo1WJQoEWA/0H
+Oq3QOIejdXuWV757lXs78nS6zcYYzKZFgkpKJ0LJOvdsOVPD+WOlzMie1UHCd+TL
+oQdoLHR8bsCEewOeC6IbM+l04m2pJmMupuBArq8UcLfTgnfh0CBxKPzhilO1k0s3
+gDuhAfI+1+VqmvNxinbzircziEhvy98ZkOxJSPL9vZTqtlxJI2U48bmparSyY7Jg
+SWtQGsXPWA7/NogyS0w/XFeUNfX431hx7enGBw1Uxtmgm1L7hv7pYl5LZX+014Ve
+FF5DTAquGETEIAS65zm1Slzqos/19g==
+=5czt
+-----END PGP SIGNATURE-----
+
+--/NkBOFFp2J2Af1nK--
 
