@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0D9268C8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:51:26 +0200 (CEST)
-Received: from localhost ([::1]:52116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F4D268C81
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:49:00 +0200 (CEST)
+Received: from localhost ([::1]:41792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHotC-00072J-2T
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34678)
+	id 1kHoqp-0002jj-7Y
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kHolf-0004aC-QO
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:43:39 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:34507)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHomU-0006ia-0E
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:44:30 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:44183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kHole-0003Dt-2O
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:43:39 -0400
-Received: by mail-pf1-x432.google.com with SMTP id v196so12803331pfc.1
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:43:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=JROvm5rr8+1Wo6J5ML/BSylPouNvBTyMPETS3dPRS0U=;
- b=iO2NTlUwRzUBjKxIrIcrFbtpVDp0XQ0a1GoBBi8ezebXOEJYVnCFA5YE3yDHFpdqN0
- UpWaBYutZ4W4KeHjlRUo8YXQlFpdCWW8EvFRG62gxkpBQmf5/514DLIH3AYrmBwTKN2t
- Yz7jfi/B0b3JGjFqS/Y3jbHISVXncB3CmGQ1E5LcDjurXf13L116h9PLNMYAX0SWIQg3
- huxoZAHVkCFMhas2w877YQjNDg5iqiQJXguTI0mAC1dlCGQzsYmeRo6kR8PXrhcOHc4q
- OrcOAPKjL+uy+FdtvWCXzfGL9Dn/iYq+NmYnnQYKaUeBW1itpVT8EgRpKhrFZSNJb8u2
- 3LXA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHomS-0003MN-Gr
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:44:29 -0400
+Received: by mail-ej1-x642.google.com with SMTP id r7so23286928ejs.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9SiCAQeKUAzJKUQvyZCko1wEECMwt01LkprMPg7Sc4k=;
+ b=m2GeFylFmAc7t2sjuM3F3rOHTdaM9sTDeVFz4m59pVkoJ4IiGcEv8c/JzFgfOmeDig
+ D9JPpeWT1eDmHbl+BoLuqW/xgMMM5FQAtrTwERrBWY8FxEP3RCXZDsB/S9vItLDovtDu
+ h+OBL+XkbGgvL+yLKvQbjRgv2g6+TQc6aGlhnwtjfUX3yVsbcTX2stKU9nWgvRsbWk+7
+ xbi6DxExmdKIIhNsgnEgE4ATFEUQUgc8clWLYjWKPtjNfkOmNPakgPwRIjw+wqtzE0RG
+ R/mv+jtxIlrLB3KqX1eki+X3pv8UJLNAy6VclVgcRMWZ0t/zuICt3x22ISLx3lBivLei
+ gLLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=JROvm5rr8+1Wo6J5ML/BSylPouNvBTyMPETS3dPRS0U=;
- b=NFZff72ez7sXpfKCl/T3CO/wUgzGYwRWQY1nH3z3cB45bnWruNZ1SVZHUYJoWmSrBl
- UE3vt0HOdpyrcuCXyoSBayfHcGucPmVYg6iL6TZuObHKuAP/0w32IUsfSN9VDY55gc7O
- G5h/2A8xE5xtKUxPjLbJEQSiQh5UjP6bA0iDJnaLKlaa01F8/LB91A1qAGk2WLWi48q+
- 6euJbLqrJMumwyDocDLBeQj7uADXgyZ+XQcaDmD7Ooxrmee9PaH5jU7zyKUXXNhilgrz
- eMRPojwaOuVevvyydcFKnlklV/IIN6K1+jBpevw4nU7yDjM/F9TQBb02WOVpeCHYQWVX
- REVw==
-X-Gm-Message-State: AOAM533QaBTxmeHJAVCMHd71IAkHVfAHcP3betH+1iddMiqM7ZJPVzsT
- D3zhT79VjU/O5pfeApqyo0v3Yg==
-X-Google-Smtp-Source: ABdhPJz3IDFU3LaNb/2kVDj8Xj91ZvFmbnrqBDRygh4Rh/LOCuRErfRq2Y/yjx+HnrSSKzRvQT3idQ==
-X-Received: by 2002:a62:4e49:: with SMTP id c70mr13275778pfb.100.1600091016777; 
- Mon, 14 Sep 2020 06:43:36 -0700 (PDT)
-Received: from libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id c4sm7626378pjq.7.2020.09.14.06.43.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Sep 2020 06:43:36 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: armbru@redhat.com,
-	pbonzini@redhat.com,
-	mtosatti@redhat.com
-Subject: [PATCH 3/3] target-i386: post memory failure event to uplayer
-Date: Mon, 14 Sep 2020 21:43:21 +0800
-Message-Id: <20200914134321.958079-4-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200914134321.958079-1-pizhenwei@bytedance.com>
-References: <20200914134321.958079-1-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x432.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9SiCAQeKUAzJKUQvyZCko1wEECMwt01LkprMPg7Sc4k=;
+ b=B7TiZYMASUoTFPzq21duADMkd8vPmf7XOA9tFHRJFcWw6mVWLkrhcYmo6lSKmprDN6
+ vRASqJvg2ytCOGQkg3sRmBezDmCuKukY7yy5e0mKK3V472oB7iAelTbKQBjHF/L0VHIL
+ Y/X7wFt7ROm8XRXtX0Q+0FVsyPdwbdD+Sv+noWQvEuqWFEgHpuOwbDnUyhjnkthJW8C7
+ 6/NfNzxNyT9ID/vZIzlhB9f/KdEI8KmWwnrWAQJ+GoEye0lv9rTTkSXWkXlh0XwFw+5w
+ MeuuXaQubKPQ/ms6HbpoYMJcIOoZ89qJMPhqYBMI8omzYDlEfGYxOZI78kL7KsZHTOZ7
+ fXlA==
+X-Gm-Message-State: AOAM5314GGD2GaVO7kgkebhbRZhpAQZvnLwDWPaLqxkdfx7rwL0er7Ii
+ K03KMIHLBWxGHlJHVBA474hA9fi8kRdQFleeL78DlQ==
+X-Google-Smtp-Source: ABdhPJzvf5QnzZ2wOrVLTNrtuCKSCTsoA0V20T+8BYLZeOva69kWMQBG93/6ZDEsiAPiW1I04YG6EJKeDtw6FMdXnhA=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr14364265ejb.85.1600091067074; 
+ Mon, 14 Sep 2020 06:44:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200901162046.32670-1-peter.maydell@linaro.org>
+ <20200901162046.32670-2-peter.maydell@linaro.org> <87bli81nmc.fsf@linaro.org>
+In-Reply-To: <87bli81nmc.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Sep 2020 14:44:15 +0100
+Message-ID: <CAFEAcA9Y_hiLBW+Jy2Xg3rD6J6g02G0PwELmbH_9a0pHJ998cw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm.risu: Correct VLDR/VSTR U=0 patterns
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,82 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pizhenwei@bytedance.com
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Post memory failure event to uplayer to handle hardware memory
-corrupted event. Rather than simple QEMU log, QEMU could report more
-effective message to uplayer. For example, guest crashes by MCE,
-selecting another host server is a better choice.
+On Mon, 14 Sep 2020 at 14:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > Correct the VLDR and VSTR patterns, which claimed to be setting U=3D0
+> > but in fact left it identical to the U=3D1 pattern due to a
+> > cut-and-paste error.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > Somehow the pre-generated test binaries I have from Alex have
+> > U=3D0 insns in them -- I suspect this got fixed locally but never
+> > made it upstream ?
+>
+> Hmm my current set of aarch32 test patterns have U=3D1 throughout. So if
+> it did get fixed locally it also got lost.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- target/i386/helper.c | 5 +++++
- target/i386/kvm.c    | 5 ++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+I'm surprised you don't see test failures due to the memory
+constraint not matching up with the encoding...
 
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 0c7fd32491..f7b2dbeec8 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/qapi-events-run-state.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "qemu/qemu-print.h"
-@@ -897,6 +898,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-         }
- 
-         if (cenv->mcg_status & MCG_STATUS_MCIP) {
-+            qapi_event_send_memory_failure(
-+                 MEMORY_FAILURE_ACTION_GUEST_TRIPLE_FAULT);
-             need_reset = true;
-             snprintf(msg, sizeof(msg), "CPU %d: Previous MCE still in progress,"
-                      " raising triple fault", cs->cpu_index);
-@@ -934,6 +937,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-     } else {
-         banks[1] |= MCI_STATUS_OVER;
-     }
-+
-+    qapi_event_send_memory_failure(MEMORY_FAILURE_ACTION_GUEST_MCE);
- }
- 
- void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 205b68bc0c..63a585cc64 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -14,6 +14,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-events-run-state.h"
- #include <sys/ioctl.h>
- #include <sys/utsname.h>
- 
-@@ -577,6 +578,7 @@ static void kvm_mce_inject(X86CPU *cpu, hwaddr paddr, int code)
- 
- static void hardware_memory_error(void *host_addr)
- {
-+    qapi_event_send_memory_failure(MEMORY_FAILURE_ACTION_HYPERVISOR_STOP);
-     error_report("QEMU got Hardware memory error at addr %p", host_addr);
-     exit(1);
- }
-@@ -631,7 +633,8 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
-         hardware_memory_error(addr);
-     }
- 
--    /* Hope we are lucky for AO MCE */
-+    /* Hope we are lucky for AO MCE, just notify a event */
-+    qapi_event_send_memory_failure(MEMORY_FAILURE_ACTION_HYPERVISOR_IGNORE);
- }
- 
- static void kvm_reset_exception(CPUX86State *env)
--- 
-2.11.0
-
+-- PMM
 
