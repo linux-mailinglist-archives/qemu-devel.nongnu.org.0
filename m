@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA6B268794
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:51:20 +0200 (CEST)
-Received: from localhost ([::1]:39270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D2326879C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:52:30 +0200 (CEST)
+Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkCl-00034b-7A
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41370)
+	id 1kHkDt-0005Aj-5z
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9k-0006bN-SW
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:48:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41078
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9l-0006bn-Lp
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:48:14 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35694
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9i-0005DP-8c
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:48:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHk9h-0005DH-GV
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:48:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600073289;
+ s=mimecast20190719; t=1600073288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZVYGpXY6+gkZvGfPrHmNExooqUnhdkkdmUY/MaXIzPA=;
- b=dcoF7wRWFFCh7m9v09hL/EbxHFBcwyiUcHDizXrZ7K2A/10Ko8wKxt7wihZM/CnfKK+Gef
- XBUbXhRN3nhRky3F4hOfxzxlfpT0nQDOKh5KbiuBrZoMz33WgBi9zATSnWjGR8DEzmKYv+
- CRBZul4cXnWewa4+uFV2817xvxufko0=
+ bh=i8fVyV4Rsx+vMUWvr3Kw0vp2F5RwbCfcOISfLkQDy+k=;
+ b=E4/nsqrXuNN/YpNlQdLLOOgm9sDSk1qeVGkP16L7A+hoK9FlLQ3ra9TztJl80sHBjskNmz
+ HGZoXsGI495gCFv61mEZ7XUsE7x9SWb2MT4t5/8j2DN7RBfGAaak022Gl+RWkZ9vU6+irp
+ xRkgcCVFIPcB0YgEXA5wyUwwWl3jZK4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-56nd3RA0MYORTc6MJUxxDQ-1; Mon, 14 Sep 2020 04:48:07 -0400
-X-MC-Unique: 56nd3RA0MYORTc6MJUxxDQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-579-jrpbV60iOn-2oY3vbLk-Fg-1; Mon, 14 Sep 2020 04:48:05 -0400
+X-MC-Unique: jrpbV60iOn-2oY3vbLk-Fg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E57E801AE3;
- Mon, 14 Sep 2020 08:48:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A37318BA291;
+ Mon, 14 Sep 2020 08:48:04 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3AB75DE93;
- Mon, 14 Sep 2020 08:48:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A63E7E43C;
+ Mon, 14 Sep 2020 08:48:04 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 75F7F1138461; Mon, 14 Sep 2020 10:48:02 +0200 (CEST)
+ id 7974E1138468; Mon, 14 Sep 2020 10:48:02 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/8] qemu-options: New -compat to set policy for deprecated
- interfaces
-Date: Mon, 14 Sep 2020 10:47:55 +0200
-Message-Id: <20200914084802.4185028-2-armbru@redhat.com>
+Subject: [PATCH v5 2/8] qapi: Implement deprecated-output=hide for QMP command
+ results
+Date: Mon, 14 Sep 2020 10:47:56 +0200
+Message-Id: <20200914084802.4185028-3-armbru@redhat.com>
 In-Reply-To: <20200914084802.4185028-1-armbru@redhat.com>
 References: <20200914084802.4185028-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:36:47
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -87,237 +87,357 @@ Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Policy is separate for input and output.
+This policy suppresses deprecated bits in output, and thus permits
+"testing the future".  Implement it for QMP command results.  Example:
+when QEMU is run with -compat deprecated-output=hide, then
 
-Input policy can be "accept" (accept silently), or "reject" (reject
-the request with an error).
+    {"execute": "query-cpus-fast"}
 
-Output policy can be "accept" (pass on unchanged), or "hide" (filter
-out the deprecated parts).
+yields
 
-Default is "accept".  Policies other than "accept" are implemented
-later in this series.
+    {"return": [{"thread-id": 9805, "props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "qom-path": "/machine/unattached/device[0]", "cpu-index": 0, "target": "x86_64"}]}
 
-For now, -compat covers only syntactic aspects of QMP, i.e. stuff
-tagged with feature 'deprecated'.  We may want to extend it to cover
-semantic aspects, CLI, and experimental features.
+instead of
 
-The option is experimental.
+    {"return": [{"arch": "x86", "thread-id": 22436, "props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "qom-path": "/machine/unattached/device[0]", "cpu-index": 0, "target": "x86_64"}]}
+
+Note the suppression of deprecated member "arch".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/compat.json             | 51 ++++++++++++++++++++++++++++++++++++
- qapi/qapi-schema.json        |  1 +
- include/qapi/compat-policy.h | 20 ++++++++++++++
- qapi/qmp-dispatch.c          |  3 +++
- softmmu/vl.c                 | 17 ++++++++++++
- qapi/meson.build             |  1 +
- qemu-options.hx              | 20 ++++++++++++++
- 7 files changed, 113 insertions(+)
- create mode 100644 qapi/compat.json
- create mode 100644 include/qapi/compat-policy.h
+ include/qapi/qobject-output-visitor.h   |  9 ++++++
+ include/qapi/visitor-impl.h             |  3 ++
+ include/qapi/visitor.h                  |  9 ++++++
+ qapi/qapi-visit-core.c                  |  9 ++++++
+ qapi/qobject-output-visitor.c           | 19 +++++++++++
+ tests/test-qmp-cmds.c                   | 42 ++++++++++++++++++++++---
+ qapi/trace-events                       |  1 +
+ scripts/qapi/commands.py                |  2 +-
+ scripts/qapi/visit.py                   | 12 +++++++
+ tests/qapi-schema/qapi-schema-test.json | 17 +++++-----
+ tests/qapi-schema/qapi-schema-test.out  | 18 +++++------
+ 11 files changed, 118 insertions(+), 23 deletions(-)
 
-diff --git a/qapi/compat.json b/qapi/compat.json
-new file mode 100644
-index 0000000000..d2c02a21aa
---- /dev/null
-+++ b/qapi/compat.json
-@@ -0,0 +1,51 @@
-+# -*- Mode: Python -*-
-+
-+##
-+# = Compatibility policy
-+##
-+
-+##
-+# @CompatPolicyInput:
-+#
-+# Policy for handling "funny" input.
-+#
-+# @accept: Accept silently
-+# @reject: Reject with an error
-+#
-+# Since: 5.2
-+##
-+{ 'enum': 'CompatPolicyInput',
-+  'data': [ 'accept', 'reject' ] }
-+
-+##
-+# @CompatPolicyOutput:
-+#
-+# Policy for handling "funny" output.
-+#
-+# @accept: Pass on unchanged
-+# @hide: Filter out
-+#
-+# Since: 5.2
-+##
-+{ 'enum': 'CompatPolicyOutput',
-+  'data': [ 'accept', 'hide' ] }
-+
-+##
-+# @CompatPolicy:
-+#
-+# Policy for handling deprecated management interfaces.
-+#
-+# This is intended for testing users of the management interfaces.
-+#
-+# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
-+# with feature 'deprecated'.  We may want to extend it to cover
-+# semantic aspects, CLI, and experimental features.
-+#
-+# @deprecated-input: how to handle deprecated input (default 'accept')
-+# @deprecated-output: how to handle deprecated output (default 'accept')
-+#
-+# Since: 5.2
-+##
-+{ 'struct': 'CompatPolicy',
-+  'data': { '*deprecated-input': 'CompatPolicyInput',
-+            '*deprecated-output': 'CompatPolicyOutput' } }
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index f03ff91ceb..2550b16028 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -76,6 +76,7 @@
- { 'include': 'migration.json' }
- { 'include': 'transaction.json' }
- { 'include': 'trace.json' }
-+{ 'include': 'compat.json' }
- { 'include': 'control.json' }
- { 'include': 'introspect.json' }
- { 'include': 'qom.json' }
-diff --git a/include/qapi/compat-policy.h b/include/qapi/compat-policy.h
-new file mode 100644
-index 0000000000..b8c6638156
---- /dev/null
-+++ b/include/qapi/compat-policy.h
-@@ -0,0 +1,20 @@
+diff --git a/include/qapi/qobject-output-visitor.h b/include/qapi/qobject-output-visitor.h
+index 2b1726baf5..29f4ea6aad 100644
+--- a/include/qapi/qobject-output-visitor.h
++++ b/include/qapi/qobject-output-visitor.h
+@@ -53,4 +53,13 @@ typedef struct QObjectOutputVisitor QObjectOutputVisitor;
+  */
+ Visitor *qobject_output_visitor_new(QObject **result);
+ 
 +/*
-+ * Policy for handling "funny" management interfaces
++ * Create a QObject output visitor for @obj for use with QMP
 + *
-+ * Copyright (C) 2020 Red Hat, Inc.
-+ *
-+ * Authors:
-+ *  Markus Armbruster <armbru@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
++ * This is like qobject_output_visitor_new(), except it obeys the
++ * policy for handling deprecated management interfaces set with
++ * -compat.
 + */
++Visitor *qobject_output_visitor_new_qmp(QObject **result);
 +
-+#ifndef QAPI_COMPAT_POLICY_H
-+#define QAPI_COMPAT_POLICY_H
+ #endif
+diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
+index 7362c043be..2d853255a3 100644
+--- a/include/qapi/visitor-impl.h
++++ b/include/qapi/visitor-impl.h
+@@ -113,6 +113,9 @@ struct Visitor
+        The core takes care of the return type in the public interface. */
+     void (*optional)(Visitor *v, const char *name, bool *present);
+ 
++    /* Optional */
++    bool (*deprecated)(Visitor *v, const char *name);
 +
-+#include "qapi/qapi-types-compat.h"
+     /* Must be set */
+     VisitorType type;
+ 
+diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+index ebc19ede7f..4d23b59853 100644
+--- a/include/qapi/visitor.h
++++ b/include/qapi/visitor.h
+@@ -459,6 +459,15 @@ void visit_end_alternate(Visitor *v, void **obj);
+  */
+ bool visit_optional(Visitor *v, const char *name, bool *present);
+ 
++/*
++ * Should we visit deprecated member @name?
++ *
++ * @name must not be NULL.  This function is only useful between
++ * visit_start_struct() and visit_end_struct(), since only objects
++ * have deprecated members.
++ */
++bool visit_deprecated(Visitor *v, const char *name);
 +
-+extern CompatPolicy compat_policy;
+ /*
+  * Visit an enum value.
+  *
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index 7e5f40e7f0..d9726ecaa1 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -135,6 +135,15 @@ bool visit_optional(Visitor *v, const char *name, bool *present)
+     return *present;
+ }
+ 
++bool visit_deprecated(Visitor *v, const char *name)
++{
++    trace_visit_deprecated(v, name);
++    if (v->deprecated) {
++        return v->deprecated(v, name);
++    }
++    return true;
++}
 +
-+#endif
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 79347e0864..f65b8cf000 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -12,6 +12,7 @@
+ bool visit_is_input(Visitor *v)
+ {
+     return v->type == VISITOR_INPUT;
+diff --git a/qapi/qobject-output-visitor.c b/qapi/qobject-output-visitor.c
+index ba6f6ac8a7..5c4aa0f64d 100644
+--- a/qapi/qobject-output-visitor.c
++++ b/qapi/qobject-output-visitor.c
+@@ -13,6 +13,7 @@
   */
  
  #include "qemu/osdep.h"
 +#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qmp/dispatch.h"
- #include "qapi/qmp/qdict.h"
-@@ -19,6 +20,8 @@
- #include "sysemu/runstate.h"
- #include "qapi/qmp/qbool.h"
+ #include "qapi/qobject-output-visitor.h"
+ #include "qapi/visitor-impl.h"
+ #include "qemu/queue.h"
+@@ -31,6 +32,8 @@ typedef struct QStackEntry {
  
-+CompatPolicy compat_policy;
+ struct QObjectOutputVisitor {
+     Visitor visitor;
++    CompatPolicyOutput deprecated_policy;
 +
- static QDict *qmp_dispatch_check_obj(QDict *dict, bool allow_oob,
-                                      Error **errp)
- {
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 0cc86b0766..dbe9dc06f0 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -27,6 +27,7 @@
- #include "qemu/units.h"
- #include "hw/boards.h"
- #include "hw/qdev-properties.h"
+     QSLIST_HEAD(, QStackEntry) stack; /* Stack of unfinished containers */
+     QObject *root; /* Root of the output visit */
+     QObject **result; /* User's storage location for result */
+@@ -207,6 +210,13 @@ static bool qobject_output_type_null(Visitor *v, const char *name,
+     return true;
+ }
+ 
++static bool qobject_output_deprecated(Visitor *v, const char *name)
++{
++    QObjectOutputVisitor *qov = to_qov(v);
++
++    return qov->deprecated_policy != COMPAT_POLICY_OUTPUT_HIDE;
++}
++
+ /* Finish building, and return the root object.
+  * The root object is never null. The caller becomes the object's
+  * owner, and should use qobject_unref() when done with it.  */
+@@ -256,6 +266,7 @@ Visitor *qobject_output_visitor_new(QObject **result)
+     v->visitor.type_number = qobject_output_type_number;
+     v->visitor.type_any = qobject_output_type_any;
+     v->visitor.type_null = qobject_output_type_null;
++    v->visitor.deprecated = qobject_output_deprecated;
+     v->visitor.complete = qobject_output_complete;
+     v->visitor.free = qobject_output_free;
+ 
+@@ -264,3 +275,11 @@ Visitor *qobject_output_visitor_new(QObject **result)
+ 
+     return &v->visitor;
+ }
++
++Visitor *qobject_output_visitor_new_qmp(QObject **result)
++{
++    QObjectOutputVisitor *v = to_qov(qobject_output_visitor_new(result));
++
++    v->deprecated_policy = compat_policy.deprecated_output;
++    return &v->visitor;
++}
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index d12ff47e26..bca89f8e88 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -1,4 +1,5 @@
+ #include "qemu/osdep.h"
 +#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qemu-version.h"
- #include "qemu/cutils.h"
-@@ -106,6 +107,7 @@
- #include "sysemu/replay.h"
- #include "qapi/qapi-events-run-state.h"
- #include "qapi/qapi-visit-block-core.h"
-+#include "qapi/qapi-visit-compat.h"
- #include "qapi/qapi-visit-ui.h"
- #include "qapi/qapi-commands-block-core.h"
- #include "qapi/qapi-commands-run-state.h"
-@@ -3771,6 +3773,21 @@ void qemu_init(int argc, char **argv, char **envp)
-                     qemu_opt_get_bool(opts, "mem-lock", false);
-                 enable_cpu_pm = qemu_opt_get_bool(opts, "cpu-pm", false);
-                 break;
-+            case QEMU_OPTION_compat:
-+                {
-+                    CompatPolicy *opts;
-+                    Visitor *v;
-+
-+                    v = qobject_input_visitor_new_str(optarg, NULL,
-+                                                      &error_fatal);
-+
-+                    visit_type_CompatPolicy(v, NULL, &opts, &error_fatal);
-+                    QAPI_CLONE_MEMBERS(CompatPolicy, &compat_policy, opts);
-+
-+                    qapi_free_CompatPolicy(opts);
-+                    visit_free(v);
-+                    break;
-+                }
-             case QEMU_OPTION_msg:
-                 opts = qemu_opts_parse_noisily(qemu_find_opts("msg"), optarg,
-                                                false);
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 2b2872a41d..c72fcd9616 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -20,6 +20,7 @@ qapi_all_modules = [
-   'block',
-   'char',
-   'common',
-+  'compat',
-   'control',
-   'crypto',
-   'dump',
-diff --git a/qemu-options.hx b/qemu-options.hx
-index b0f020594e..bb0c6bb70e 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3391,6 +3391,26 @@ DEFHEADING()
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qjson.h"
+ #include "qapi/qmp/qnum.h"
+@@ -45,12 +46,17 @@ void qmp_user_def_cmd1(UserDefOne * ud1, Error **errp)
+ {
+ }
  
- DEFHEADING(Debug/Expert options:)
+-void qmp_test_features0(FeatureStruct0 *fs0, FeatureStruct1 *fs1,
+-                       FeatureStruct2 *fs2, FeatureStruct3 *fs3,
+-                       FeatureStruct4 *fs4, CondFeatureStruct1 *cfs1,
+-                       CondFeatureStruct2 *cfs2, CondFeatureStruct3 *cfs3,
+-                       Error **errp)
++FeatureStruct1 *qmp_test_features0(bool has_fs0, FeatureStruct0 *fs0,
++                                   bool has_fs1, FeatureStruct1 *fs1,
++                                   bool has_fs2, FeatureStruct2 *fs2,
++                                   bool has_fs3, FeatureStruct3 *fs3,
++                                   bool has_fs4, FeatureStruct4 *fs4,
++                                   bool has_cfs1, CondFeatureStruct1 *cfs1,
++                                   bool has_cfs2, CondFeatureStruct2 *cfs2,
++                                   bool has_cfs3, CondFeatureStruct3 *cfs3,
++                                   Error **errp)
+ {
++    return g_new0(FeatureStruct1, 1);
+ }
  
-+DEF("compat", HAS_ARG, QEMU_OPTION_compat,
-+    "-compat [deprecated-input=accept|reject][,deprecated-output=accept|hide]\n"
-+    "                Policy for handling deprecated management interfaces\n",
-+    QEMU_ARCH_ALL)
-+SRST
-+``-compat [deprecated-input=@var{input-policy}][,deprecated-output=@var{output-policy}]``
-+    Set policy for handling deprecated management interfaces (experimental):
+ void qmp_test_command_features1(Error **errp)
+@@ -271,6 +277,30 @@ static void test_dispatch_cmd_io(void)
+     qobject_unref(ret3);
+ }
+ 
++static void test_dispatch_cmd_ret_deprecated(void)
++{
++    const char *cmd = "{ 'execute': 'test-features0' }";
++    QDict *ret;
 +
-+    ``deprecated-input=accept`` (default)
-+        Accept deprecated commands and arguments
-+    ``deprecated-input=reject``
-+        Reject deprecated commands and arguments
-+    ``deprecated-output=accept`` (default)
-+        Emit deprecated command results and events
-+    ``deprecated-output=hide``
-+        Suppress deprecated command results and events
++    memset(&compat_policy, 0, sizeof(compat_policy));
 +
-+    Limitation: covers only syntactic aspects of QMP.
-+ERST
++    /* default accept */
++    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    assert(ret && qdict_size(ret) == 1);
++    qobject_unref(ret);
 +
- DEF("fw_cfg", HAS_ARG, QEMU_OPTION_fwcfg,
-     "-fw_cfg [name=]<name>,file=<file>\n"
-     "                add named fw_cfg entry with contents from file\n"
++    compat_policy.has_deprecated_output = true;
++    compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_ACCEPT;
++    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    assert(ret && qdict_size(ret) == 1);
++    qobject_unref(ret);
++
++    compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
++    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    assert(ret && qdict_size(ret) == 0);
++    qobject_unref(ret);
++}
++
+ /* test generated dealloc functions for generated types */
+ static void test_dealloc_types(void)
+ {
+@@ -345,6 +375,8 @@ int main(int argc, char **argv)
+     g_test_add_func("/qmp/dispatch_cmd_io", test_dispatch_cmd_io);
+     g_test_add_func("/qmp/dispatch_cmd_success_response",
+                     test_dispatch_cmd_success_response);
++    g_test_add_func("/qmp/dispatch_cmd_ret_deprecated",
++                    test_dispatch_cmd_ret_deprecated);
+     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
+     g_test_add_func("/qmp/dealloc_partial", test_dealloc_partial);
+ 
+diff --git a/qapi/trace-events b/qapi/trace-events
+index 5eb4afa110..eff1fbd199 100644
+--- a/qapi/trace-events
++++ b/qapi/trace-events
+@@ -17,6 +17,7 @@ visit_start_alternate(void *v, const char *name, void *obj, size_t size) "v=%p n
+ visit_end_alternate(void *v, void *obj) "v=%p obj=%p"
+ 
+ visit_optional(void *v, const char *name, bool *present) "v=%p name=%s present=%p"
++visit_deprecated(void *v, const char *name) "v=%p name=%s"
+ 
+ visit_type_enum(void *v, const char *name, int *obj) "v=%p name=%s obj=%p"
+ visit_type_int(void *v, const char *name, int64_t *obj) "v=%p name=%s obj=%p"
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 3cf9e1110b..14662515f3 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -69,7 +69,7 @@ static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out,
+ {
+     Visitor *v;
+ 
+-    v = qobject_output_visitor_new(ret_out);
++    v = qobject_output_visitor_new_qmp(ret_out);
+     if (visit_type_%(c_name)s(v, "unused", &ret_in, errp)) {
+         visit_complete(v, ret_out);
+     }
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index cdabc5fa28..110563e56f 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -53,6 +53,7 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+                      c_type=base.c_name())
+ 
+     for memb in members:
++        deprecated = 'deprecated' in [f.name for f in memb.features]
+         ret += gen_if(memb.ifcond)
+         if memb.optional:
+             ret += mcgen('''
+@@ -60,6 +61,12 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+ ''',
+                          name=memb.name, c_name=c_name(memb.name))
+             push_indent()
++        if deprecated:
++            ret += mcgen('''
++    if (visit_deprecated(v, "%(name)s")) {
++''',
++                         name=memb.name)
++            push_indent()
+         ret += mcgen('''
+     if (!visit_type_%(c_type)s(v, "%(name)s", &obj->%(c_name)s, errp)) {
+         return false;
+@@ -67,6 +74,11 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+ ''',
+                      c_type=memb.type.c_name(), name=memb.name,
+                      c_name=c_name(memb.name))
++        if deprecated:
++            pop_indent()
++            ret += mcgen('''
++    }
++''')
+         if memb.optional:
+             pop_indent()
+             ret += mcgen('''
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index 3a9f2cbb33..309e60566d 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -298,14 +298,15 @@
+   'features': [ 'feature1' ] }
+ 
+ { 'command': 'test-features0',
+-  'data': { 'fs0': 'FeatureStruct0',
+-            'fs1': 'FeatureStruct1',
+-            'fs2': 'FeatureStruct2',
+-            'fs3': 'FeatureStruct3',
+-            'fs4': 'FeatureStruct4',
+-            'cfs1': 'CondFeatureStruct1',
+-            'cfs2': 'CondFeatureStruct2',
+-            'cfs3': 'CondFeatureStruct3' },
++  'data': { '*fs0': 'FeatureStruct0',
++            '*fs1': 'FeatureStruct1',
++            '*fs2': 'FeatureStruct2',
++            '*fs3': 'FeatureStruct3',
++            '*fs4': 'FeatureStruct4',
++            '*cfs1': 'CondFeatureStruct1',
++            '*cfs2': 'CondFeatureStruct2',
++            '*cfs3': 'CondFeatureStruct3' },
++  'returns': 'FeatureStruct1',
+   'features': [] }
+ 
+ { 'command': 'test-command-features1',
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index 891b4101e0..cd53323abd 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -407,15 +407,15 @@ alternate FeatureAlternate1
+     case eins: FeatureStruct1
+     feature feature1
+ object q_obj_test-features0-arg
+-    member fs0: FeatureStruct0 optional=False
+-    member fs1: FeatureStruct1 optional=False
+-    member fs2: FeatureStruct2 optional=False
+-    member fs3: FeatureStruct3 optional=False
+-    member fs4: FeatureStruct4 optional=False
+-    member cfs1: CondFeatureStruct1 optional=False
+-    member cfs2: CondFeatureStruct2 optional=False
+-    member cfs3: CondFeatureStruct3 optional=False
+-command test-features0 q_obj_test-features0-arg -> None
++    member fs0: FeatureStruct0 optional=True
++    member fs1: FeatureStruct1 optional=True
++    member fs2: FeatureStruct2 optional=True
++    member fs3: FeatureStruct3 optional=True
++    member fs4: FeatureStruct4 optional=True
++    member cfs1: CondFeatureStruct1 optional=True
++    member cfs2: CondFeatureStruct2 optional=True
++    member cfs3: CondFeatureStruct3 optional=True
++command test-features0 q_obj_test-features0-arg -> FeatureStruct1
+     gen=True success_response=True boxed=False oob=False preconfig=False
+ command test-command-features1 None -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
 -- 
 2.26.2
 
