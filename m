@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A2B268AC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:20:31 +0200 (CEST)
-Received: from localhost ([::1]:35116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD73268ACA
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:23:18 +0200 (CEST)
+Received: from localhost ([::1]:41642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHnTC-0002KQ-Me
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:20:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34140)
+	id 1kHnVt-0005AG-8K
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHnRG-0001RK-HC
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:18:30 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:54458)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHnSs-0002it-R8
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:20:12 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:37551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHnRE-0006vB-Kp
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:18:30 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id mm21so5458518pjb.4
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:18:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHnSp-00070A-QV
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:20:10 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id kk9so5278412pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id;
  bh=yfXD2zBgmYZgPVxKBmr80THfM4wfEY9XMRnvrPT1WGI=;
- b=PFo8+vC7A6fUkcsSSLKWuBTPcQsuFBL7MWUdlw6+IgVL9x7m1ZvkfTrWS5NlM90U0g
- ywa+/raVx2gKk+xDCEQSf6gUc7+HaCaHwxx+3SrGjiYnKZ7tqjefGM3vMqRCCJgE1TZq
- QzsZfds9UXQRHrV+b28i7PfE5nETLUKyUuy3n27eMz6ANCZ9EdirMnM5ZyorKlKVUXl5
- wr+dXoPz0eW0ud5i0xTAXUtkImiaBbcnfum3uFqAvoScgkeZwTe6rwGLDvbEZPDC5vu6
- ME4znOJPxbIufe5zmi3wJ69kvPPPeTpHC1brCXe0X4iUgcy7dEbjQb5HIfxlogO67Wy5
- GGIA==
+ b=Xbf0N+f8x7KpO7nfaM6DWhWKa18qtYaVqH3yrcsBtESulUyIDTKvKO2LHxJKAEK65D
+ mcCS160W5dIL6sWN4HuIVKWCFk4gEcLCaxXKtQN2hVSilVi7vBxCD3/JdFZS2Grtt4FU
+ ABRBcmaZiSBMc58rIO4ShSzA7KkoIWxEy1kZSV0bKk48vh2TNWoqxofq5YayNE0Xr3Mq
+ vPcXGUgr1KPpZFbl/Pc0dX9ZwP5TYTAdBLMvnrXj+g81emP6kHjqWI5m+u+tDcSE2x9B
+ 9BTOjmemiY45FAli4QM7Uytr+RQ/46vXieLRBLHkqFCNFwoyCrM7a6BIhkoQHJ50jUqf
+ vk3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
  bh=yfXD2zBgmYZgPVxKBmr80THfM4wfEY9XMRnvrPT1WGI=;
- b=lJ+a3313o0N33uyxLTIMStg/PZP8aX8Zwu3EuuksDo3daIIWbjV8CkV+ULhdpNr7BS
- Juo5WhY5RyYLlgQSJa6ypgxPkBDcjA3zTHGU4Zii3q4xPfKvqGMFnTbzeHJ+EyAPVujD
- WWQSQIKWvSo+1YxxmEmyAJyb5fuhnvAK4o36q6d+HLcuxVNzld8fZrTQ3ut2fTbE5vPC
- ka/aP/Yqe07NdNi28lTnGzR14ESxTVHT/1E8un3qg0rH4VkeGGR/7gvQs9Bp57dM3tES
- nVC/QP9tz+bX9CwsfQqIh7aexRCUg7LYUjzZ62EUEmN1RTS9QYIPTL8Bnr0itLXqs0Ev
- efoQ==
-X-Gm-Message-State: AOAM530sdXRoYsvUThp2OP9KEUbeAgb3ar9yyf/H3G8e3j3Sz4qXGdiK
- RfXt0pSECBa0nIjlmVRlspQ9+ZyVfVoPAaHa
-X-Google-Smtp-Source: ABdhPJwfr7usPuSI7Bs7dE4gpsuXjvsLCeh9gv4wt83dLaOFxvsIH9g6uzGf5EQKXOcWdQS3ZgkOmw==
-X-Received: by 2002:a17:90a:ea0c:: with SMTP id
- w12mr13644301pjy.65.1600085906471; 
- Mon, 14 Sep 2020 05:18:26 -0700 (PDT)
+ b=TClgXf4U/RIMwonVSL6VcNzf+vwfHKCuBPZOkYO3ycWS0KmF8cn/Sk6Y2yqGSsIWzd
+ HUy3u+8U7V0/6PrgOfX69w96gtCfSKInPrEjAgeQrW3z9XpVbnWN3YHlr6oothbgCoUF
+ RN4ic+DSaHUibuxeIYiDE7mvuFWMCrF3xCMAG+T5eJKO8CUmWDEnT29n4kheExKjAiUU
+ L6uO8bPpyS5K66942hoNGVJcWXzLlygTzXVbbZ5ltD8T3fHNEA0m4NLthnq1RKRmY/vq
+ 9IEmq0U8lZi76otfUF2i9+PzANgO1UACOfRMKr6xr/0cgh7vA7HiYY9nu2Ouy1gu/vZT
+ 4/dg==
+X-Gm-Message-State: AOAM532DlPvcEWALE63JB1LKCmKZlcEikDIcjveQRz43FnCr+JGNdwS5
+ IjJgfqUlw33tI3pFlG23HCzD/6hl6XKww5MW
+X-Google-Smtp-Source: ABdhPJxPKKX1ARFPeQD21RycxT/ZmZtw4pwJz7B5HhTCq1uoYIeKh5xk3TJyT3FMPKMFPloEwXTCvg==
+X-Received: by 2002:a17:90a:1188:: with SMTP id
+ e8mr14053155pja.185.1600086005945; 
+ Mon, 14 Sep 2020 05:20:05 -0700 (PDT)
 Received: from localhost.localdomain ([203.212.240.177])
- by smtp.googlemail.com with ESMTPSA id
- y202sm10484241pfc.179.2020.09.14.05.18.22
+ by smtp.googlemail.com with ESMTPSA id h6sm10548128pfb.217.2020.09.14.05.20.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 05:18:25 -0700 (PDT)
+ Mon, 14 Sep 2020 05:20:05 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] tests/acpi: add a new unit test to test hotplug off/on
+Subject: [PATCH 2/9 v2] tests/acpi: add a new unit test to test hotplug off/on
  feature on the root pci bus
-Date: Mon, 14 Sep 2020 17:48:14 +0530
-Message-Id: <20200914121814.3988-1-ani@anisinha.ca>
+Date: Mon, 14 Sep 2020 17:49:57 +0530
+Message-Id: <20200914121957.4073-1-ani@anisinha.ca>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2607:f8b0:4864:20::1043;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1043.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
