@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9B3268C65
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:41:57 +0200 (CEST)
-Received: from localhost ([::1]:46286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1E3268C74
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:45:51 +0200 (CEST)
+Received: from localhost ([::1]:32770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHok0-0001FX-77
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32846)
+	id 1kHonm-0007Kq-30
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:45:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kHoih-0000AW-Jx; Mon, 14 Sep 2020 09:40:35 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36398)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kHokD-00023g-0z
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:42:10 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kHoif-0002f2-H8; Mon, 14 Sep 2020 09:40:35 -0400
-Received: by mail-wm1-x344.google.com with SMTP id z9so101579wmk.1;
- Mon, 14 Sep 2020 06:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=f+sii84dn2lYT7q7EOfMOzcU12Sas9pWjWkkVvVto9w=;
- b=fjlUf6Uc9YI7+hq85I92Yw7L9hITJoMFAC7bKAbkiqoKizLrVYb4syAwREnQj1vnI6
- t9CX9QDA81fJSzxH0NzAsge7Y/XEU/m6Chq/QRTkyRU5cxXjz2lNS1r56/sHbng/Y73n
- b+YVgKiv24xIo1ydapf1qeAd7srKO8qIa0KhnoUcbtpSnLWiwl1eJqmLJLvuUUHEhEMA
- pobai5EeIZg0Cj/ashWksXC1LtXaxn2DldZY4v3C7fLAO4lkCwePRlrhH1c07uv/Nwwu
- /fgJMZRpsqcmvJMAQoPfe/kDbLULK/84U59BydSGLvRnbcoEp2jZHgEf+FeA4KjEYTEN
- 0vWA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kHokA-0002zv-W6
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:42:08 -0400
+Received: by mail-wm1-x343.google.com with SMTP id s13so63980wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=fFPE8NKraAo5d+/O9jqRbl7tKs30QkI6NrwjIfYzypU=;
+ b=l6O22RfERHstPDVBJU58nrDKSdqbuuQA7Tl/4sqHleOvSKwzEdtfA4fOyqYrScA5oR
+ wUUbZ8881uHmQU0jvzCCopwpBSc9H5QFS/szF5Oqmd/6fk3jgOZEDJdBBqq8eXwey/Rf
+ Q66eLH0tomu5G4Rrj9uDXjbVlN2dQ4RK2B8vdUSCkIyDauysUd8U1rdrNRO4F7qNvPvh
+ GY7+wCUW3u3VH4MKUCCVmUA5DeNhaDgLZem+4rGrW3m7y7lV6JNC31jLxzOGK8mvZdBV
+ yQJRzqDJcX4uw47rE26QCu3j7vK6ZYl4fKH9aZWHmVU5IoQT85NjjRPyPk4KGyrRdpbZ
+ Ld3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=f+sii84dn2lYT7q7EOfMOzcU12Sas9pWjWkkVvVto9w=;
- b=IY+P0NKwsF7O68QVIIAVxOJWe60x74KdPEg2eLe5ZBccq64sfwa0RWAoZVlgjIm+ep
- shQAAbP4HfiJJrNWRWV+x4egA7TVN2Qy9exa2A9b7q1XO6SLwkIgygxnimLjEkZ83L+9
- NyPvH8rztXTJ3uf6vtBb0f1rsoQhbAdlGhbSi9+ry/yfaUHsT8dK1VO5fTCjHlxisFqa
- S5wfwXwVBFIbn4+piWBMWmm02JqmG65CQ5G6rexz0x8eyacW5FIFFFZCKPDW5WAZdG/D
- 1dyyQrX9K+HysW64PP2M/W0dEHD+LBoBXpjaswDZxeUsZTFI4mzN92zJsEuYnyEtxB+x
- GVXA==
-X-Gm-Message-State: AOAM531istzRelcus3fpJJlKgP6rOqn+IU+PbXeTtic61rgbYM/IR4jf
- Xo1qgOcIENF8XiEKLh0geKAkY5aYHqjHRQ==
-X-Google-Smtp-Source: ABdhPJw2hmozeyYjO9S9sLXeYOpTJbuokxl1qBqzPG5iML9nNyBBuDWORmYDjobi+bjmEITh16i5eQ==
-X-Received: by 2002:a1c:4381:: with SMTP id
- q123mr14624910wma.108.1600090831571; 
- Mon, 14 Sep 2020 06:40:31 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id v17sm21961218wrc.23.2020.09.14.06.40.30
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=fFPE8NKraAo5d+/O9jqRbl7tKs30QkI6NrwjIfYzypU=;
+ b=EqYO98jr9uenZ+Y568C1AusW9/izbBeAwBg0xReJEewfp3g/D8uoqlM+vNXKqH/Qhk
+ rWuD2XrUFhHOgZPob1lVToSjVDK5ASX5XvUgbH2P2aJavbMTXtFBay9VCRR0V6LS3h31
+ 6xqKrejxM1xkLdSiQEM42eTuOCQk+lzPOznVhkNJ26jJ56cleK8zgUdgV60QN4Sb15P1
+ EI4ufAoJWkwCchrzVoLEw17qTAjRgeoSXaBmOO0hFYZSrs+SxgEe6ycYpy488Ondv1/s
+ LFaT+JiG8EYQxz72TS26SwmjX7Dslbnb8lncvtbxTRRKRb1NT7WyZsrYcH808ZW6tLEB
+ NoRw==
+X-Gm-Message-State: AOAM533vB7WLKPTmP7qdyNL6tYJ83kGVPhOKCVq6X0iVDywOsMuWUPME
+ 6iFLV4NWLBHEWfJUEPdT0FyjHw==
+X-Google-Smtp-Source: ABdhPJwtSmoPpl0Vu0jANt7vTUe5/Ip19hRzieBy4QQwUfxyr3phw2Kopa0UCHli8oSpQDVO2jYP3g==
+X-Received: by 2002:a1c:f214:: with SMTP id s20mr14844985wmc.84.1600090925341; 
+ Mon, 14 Sep 2020 06:42:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q20sm18745523wmj.5.2020.09.14.06.42.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 06:40:30 -0700 (PDT)
-Date: Mon, 14 Sep 2020 14:40:28 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Dima Stepanov <dimastep@yandex-team.ru>
-Subject: Re: [PATCH v4 0/2] vhost-user reconnect issues during vhost
- initialization
-Message-ID: <20200914134028.GA628463@stefanha-x1.localdomain>
-References: <cover.1590396396.git.dimastep@yandex-team.ru>
+ Mon, 14 Sep 2020 06:42:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 82A491FF7E;
+ Mon, 14 Sep 2020 14:42:03 +0100 (BST)
+References: <20200901162046.32670-1-peter.maydell@linaro.org>
+ <20200901162046.32670-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/2] arm.risu: Correct VLDR/VSTR U=0 patterns
+In-reply-to: <20200901162046.32670-2-peter.maydell@linaro.org>
+Date: Mon, 14 Sep 2020 14:42:03 +0100
+Message-ID: <87bli81nmc.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
-Content-Disposition: inline
-In-Reply-To: <cover.1590396396.git.dimastep@yandex-team.ru>
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,79 +89,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Qing Wang <qinwang@redhat.com>, qemu-block@nongnu.org,
- mst@redhat.com, jasowang@redhat.com, Cong Li <coli@redhat.com>,
- dgilbert@redhat.com, qemu-devel@nongnu.org, raphael.norwitz@nutanix.com,
- fengli@smartx.com, yc-core@yandex-team.ru, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, mreitz@redhat.com
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---k+w/mQv8wyuph6w0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-On Thu, May 28, 2020 at 12:11:17PM +0300, Dima Stepanov wrote:
-> Before revising the vhost-user initialization code, we suggest adding
-> the sanity checks to be aware of the possible disconnect event and that
-> the vhost_dev structure can be in "uninitialized" state.
->=20
-> The vhost-user-blk daemon is updated with the additional
-> "--simulate-disconnect-stage=3DCASENUM" argument to simulate disconnect d=
-uring
-> VHOST device initialization. For instance:
->   1. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-discon=
-nect-stage=3D1
->      This command will simulate disconnect in the SET_VRING_CALL handler.
->      In this case the vhost device in QEMU is not set the started field to
->      true.
->   2. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-discon=
-nect-stage=3D2
->      This command will simulate disconnect in the SET_VRING_NUM handler.
->      In this case the started field is set to true.
-> These two cases test different QEMU parts. Also to trigger different code=
- paths
-> disconnect should be simulated in two ways:
->   - before any successful initialization
->   - make successful initialization once and try to simulate disconnects
-> Also we catch SIGABRT on the migration start if vhost-user daemon disconn=
-ected
-> during vhost-user set log commands communication.
->=20
-> Dima Stepanov (2):
->   char-socket: return -1 in case of disconnect during tcp_chr_write
->   vhost-user-blk: delay vhost_user_blk_disconnect
->=20
->  chardev/char-socket.c     |  7 ++++---
->  hw/block/vhost-user-blk.c | 38 +++++++++++++++++++++++++++++++++++++-
->  2 files changed, 41 insertions(+), 4 deletions(-)
+> Correct the VLDR and VSTR patterns, which claimed to be setting U=3D0
+> but in fact left it identical to the U=3D1 pattern due to a
+> cut-and-paste error.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Somehow the pre-generated test binaries I have from Alex have
+> U=3D0 insns in them -- I suspect this got fixed locally but never
+> made it upstream ?
 
-Hi Dima,
-The cover letter mentions ./vhost-user-blk --simulate-disconnect-stage=3DN
-to simulate unexpected disconnects but I don't see that option in
-contrib/vhost-user-blk/.
+Hmm my current set of aarch32 test patterns have U=3D1 throughout. So if
+it did get fixed locally it also got lost.
 
-Is there a test case?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Thanks,
-Stefan
-
---k+w/mQv8wyuph6w0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9fcswACgkQnKSrs4Gr
-c8guXQf9ERZnmkWgwwgG9SEwEKB7lH3drZaJ/d6LBr9gz88d+iX4661DHQYh/lhk
-1F7WK9Raa/iSSg5O53du6nVeO0oFz8d8N0rtAEIeukQLnUYNx++iNP3CICmxrmyk
-Uv+jgI1c0+A0i0hQZXGtQY/S4+akS1JVPK4xN4S97FQ/UJNBDzilOLR8Xgwvhen+
-ewGQ4EE9XbA/Wnm3HsYkNKXZWMaYZbDEoAlIv7QXlIYGlLOQqyDPcsVcz+ukp8QJ
-WbwXCU/hQt1EUZIxceVm7uNAvA8u3LXgp3xmBoV7HsEJTrkN3yu73eY4ALlyWv4/
-7QGryK8E2gUwsRae2UO7U9GfZ87d/w==
-=wCGC
------END PGP SIGNATURE-----
-
---k+w/mQv8wyuph6w0--
+--=20
+Alex Benn=C3=A9e
 
