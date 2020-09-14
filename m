@@ -2,73 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98524268793
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:51:14 +0200 (CEST)
-Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F472687A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:54:09 +0200 (CEST)
+Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkCf-0002rh-MC
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:51:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
+	id 1kHkFU-0008BX-GG
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHkAK-0007dR-8F; Mon, 14 Sep 2020 04:48:48 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:33703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHkAI-0005He-FW; Mon, 14 Sep 2020 04:48:47 -0400
-Received: by mail-lf1-x141.google.com with SMTP id x77so12547416lfa.0;
- Mon, 14 Sep 2020 01:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=9dk1cB9J9OAz5tHPdR37OGX9IkumYg5PLfAmqD+4Lhs=;
- b=uYWc3mF5BMeM2pHRQ31JE8odMmFLLG8q48dj/3F/FaXOxb3V+G8t3MrMmL4gkt0Fqm
- GcU+CQOBOpI7SZsQOLgrtr/p41BJFe6tC3a0m73StpSepONuCxnoTKJpGaXdn798d3Xi
- 9nW6cU6gu57SzgwGeSOqJa+PY2X+SqiUPlrnL3g0usXOv8JPAWVuFmsktnm3SU+bK17W
- u3RjTUuTTwOBjLZMECDJ7Nyh+brtqW9SBkCa7xtIhS/uRXb063csc/d1ijsgr8YwjYxk
- vYKzf/mJnbLO6EqPmQ7Eenugwuk1BCr8nkfwqDekdb03s7/C6D894HcJEOSMBneQ/BPd
- POQA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHkC9-0002qC-FH
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:50:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53346
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHkC7-0005Wq-EX
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:50:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600073438;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4Wo5Z2i/X/sxFOUNOUG3JHJiIJgz0itEIadPtk81WwA=;
+ b=RoJVDz6dNyQUrPKn7l09bWRRg0yH5VmFXbwCOfytkEi5w8SlwzVOWRjvS26OdXntgdNWSX
+ oswa1TESnHXdSuHV7qLb/0JgUb+shp9/t2+xVQ+9LAv2sJFakvBRrsx4jBk1wlcBwGyOr4
+ OMh+sk1VZdTuXrPUmNR+NRUaHkagOQM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-OIm3fxgTMSO3QQwWRAXJoA-1; Mon, 14 Sep 2020 04:50:35 -0400
+X-MC-Unique: OIm3fxgTMSO3QQwWRAXJoA-1
+Received: by mail-wr1-f72.google.com with SMTP id w7so6657090wrp.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 01:50:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=9dk1cB9J9OAz5tHPdR37OGX9IkumYg5PLfAmqD+4Lhs=;
- b=AFVhbsb+EZZvFzIALEL7ZiMj+HBlncgkkGMc8IGvGMQtmZ8+9SSoX2RsENOiGO1oip
- vGiRoLJYCYFGuaUu9CRVTA+IebvOgSY97hJM53BevKExit9wrIJapfjqZMx6TKsO+myC
- vfUpl/h09BvXfU8EEkqXROd5mACvNgMuiTvNEsZ4C8JiXZ/UscgIjjCHAjxXAqBMBt20
- VCJVQVAZSitORAMjCeUkzJ/4APOvnZsH6/FHtVwfQr+S3IfqirYPrWFcFGhBAEkrFfHy
- iEcdBToQ5cqqURiZp/Mh2sXseVSuJSTy39ssjAw2BHgDJ1EaVKHdChGXigmjYCnRUNsY
- YlzQ==
-X-Gm-Message-State: AOAM533B1Fp4tQ71BD+e4Sd1ZUl6nwAYcIZXHTbdrXkgtECkS29v3f9H
- pjy/QHnVXGkrlbwZ71pcCGsPGIluKeQE+lUO2zk=
-X-Google-Smtp-Source: ABdhPJxS0yMm97Uq+SAzZYPt/tJ27JK7ILueafww3iyz2g7sQI9RSOtov1hNRomw0giq1fa90YhxOEJdnKbaa0xDjSo=
-X-Received: by 2002:a19:383:: with SMTP id 125mr4289969lfd.356.1600073324170; 
- Mon, 14 Sep 2020 01:48:44 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=4Wo5Z2i/X/sxFOUNOUG3JHJiIJgz0itEIadPtk81WwA=;
+ b=dgF6jy9iAfh0ypf30gwIGHPGarNFUvpb/ip8+ZuypctSW9AkkklNCam+KvHqvOGT/Z
+ R50O3mL5GFX55GlbEWfS3TPniQdnOXy1vfTScjXqjU8hTT+JUEt8Ygu7DSsnQbJ7NRLf
+ qSWUse2pSTuMthVUi0OOEzS79fyijvwMT4j3D2xzcHhUeFTQ8E8xGHuk1wcmLf6o/thW
+ YLIa6y9m/14LRPxw0wNSA6lMhh3G5WZ9kDFlmUay4oeyqMCODS7QzslCSp98UH/NuRdP
+ kpviI9jIXDx4twxAOHlV+Aua9nt2n6f0XHy7HZJHIAbS+ucP3qgv7sGfh2WfAhVRfCpz
+ ndfA==
+X-Gm-Message-State: AOAM531Qy0qXl9hZnyvbeeTq1B8H99nNsSlgu9+lkfo6qjSokiDlkASD
+ jJPTTEUOYFPaehGafuOCi9JnrY6ihdstobmmld9tRJkJv7fmS48iAo0ZYR92F7L1GcLsHfMkx/c
+ 9wIRtQHoUF5+1IH0=
+X-Received: by 2002:adf:8187:: with SMTP id 7mr14885731wra.266.1600073433011; 
+ Mon, 14 Sep 2020 01:50:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkGbAjY05+jBiBRwWSzBHc4rhVY7y3Nc3iD+ssMbXbmZAmqGW6IbHvpX6P3OXPqsJiAJKiIQ==
+X-Received: by 2002:adf:8187:: with SMTP id 7mr14885693wra.266.1600073432697; 
+ Mon, 14 Sep 2020 01:50:32 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id k4sm19974545wrx.51.2020.09.14.01.50.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Sep 2020 01:50:32 -0700 (PDT)
+Subject: Re: [PATCH v8 16/27] cirrus: Building freebsd in a single short
+To: Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ qemu-devel@nongnu.org
 References: <20200912224431.1428-1-luoyonggang@gmail.com>
- <20200912224431.1428-28-luoyonggang@gmail.com>
- <34306ec4-bafb-20dc-f90f-ff320fa4b575@redhat.com>
- <CAE2XoE8Ly=bhkLPbnUm1eg91Re0rf-UkAy25f8LgPLJUaYyHNw@mail.gmail.com>
- <d7b83b76-ff7a-85cb-0676-559d5680f070@redhat.com>
-In-Reply-To: <d7b83b76-ff7a-85cb-0676-559d5680f070@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Mon, 14 Sep 2020 16:48:34 +0800
-Message-ID: <CAE2XoE9GdOZzp+kZB52RObK4tSUuF3tTKRx7b5iRyovUYj3mag@mail.gmail.com>
-Subject: Re: [PATCH v8 27/27] Revert "configure: add --ninja option"
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000001a118c05af421abf"
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <20200912224431.1428-17-luoyonggang@gmail.com>
+ <78c65c60-9598-97a2-0dc7-116c3c0f94a9@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <401c7ac1-6575-1d77-40ef-a4ee4178711b@redhat.com>
+Date: Mon, 14 Sep 2020 10:50:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <78c65c60-9598-97a2-0dc7-116c3c0f94a9@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,70 +125,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Qemu-block <qemu-block@nongnu.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Ed Maste <emaste@FreeBSD.org>, qemu-block@nongnu.org,
  Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, qemu-level <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
+ Peter Lieven <pl@kamp.de>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001a118c05af421abf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/14/20 9:27 AM, Thomas Huth wrote:
+> On 13/09/2020 00.44, Yonggang Luo wrote:
+>> This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
+>> ("cirrus.yml: Split FreeBSD job into two parts").
+>>
+>> freebsd 1 hour limit not hit anymore
+>>
+>> I think we going to a wrong direction, I think there is some tests a stall the test runner,
+>> please look at
+>> https://cirrus-ci.com/task/5110577531977728
+>> When its running properly, the consumed time are little, but when tests running too long,
+>> look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
+>>
+>> And look at
+>> https://cirrus-ci.com/task/6119341601062912
+>>
+>> If the tests running properly, the time consuming are little
+>> We should not hide the error by split them
+>>
+>> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>> Reviewed-by: Ed Maste <emaste@FreeBSD.org>
+>> ---
+>>  .cirrus.yml | 35 ++++++++---------------------------
+>>  1 file changed, 8 insertions(+), 27 deletions(-)
+> 
+> I tried this a couple of times now, and currently the problem seems to
+> be gone, indeed. I'd still prefer to understand first why we have seen
+> the slowdown a couple of weeks ago, but if people agree that we should
+> revert the patch now, that's ok for me now, too.
 
-On Mon, Sep 14, 2020 at 4:45 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 13/09/20 18:14, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> > I am hurry to revert --ninja option because when the meson are changed,
-the
-> > make -j10 can not automatically re configure, that would raise ninja ca=
-n
-> > not found error
->
-> My understanding is that with 0.55.2 you don't need --ninja at all (the
-> default search works), and also the previously configured build tree
-> should work.
->
-> What's the issue there?
->
-Oh, I mis-understood the --ninja option, so the ninja option doesn't have
-to be revert, but upgrade meson to 0.55.2 are necessary
->
-> Paolo
->
+Not sure if related (probably not as failure and not timeout),
+I hit this during the night:
 
+  TEST    iotest-qcow2: 030 [fail]
+QEMU          --
+"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-system-alpha"
+-nodefaults -display none -accel qtest
+QEMU_IMG      --
+"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-img"
+QEMU_IO       --
+"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-io"  --cache
+writeback --aio threads -f qcow2
+QEMU_NBD      --
+"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-nbd"
+IMGFMT        -- qcow2 (compat=1.1)
+IMGPROTO      -- file
+PLATFORM      -- FreeBSD/amd64 cirrus-task-6204750985166848 12.1-RELEASE
+TEST_DIR      -- /tmp/cirrus-ci-build/build/tests/qemu-iotests/scratch
+SOCK_DIR      -- /tmp/tmp.VuwmKXUW
+SOCKET_SCM_HELPER --
+--- /tmp/cirrus-ci-build/tests/qemu-iotests/030.out	2020-09-13
+21:08:32.261276000 +0000
++++ /tmp/cirrus-ci-build/build/tests/qemu-iotests/030.out.bad	2020-09-13
+21:30:59.736699000 +0000
+@@ -1,5 +1,17 @@
+-...........................
++.............F.............
++======================================================================
++FAIL: test_stream_parallel (__main__.TestParallelOps)
+ ----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "030", line 251, in test_stream_parallel
++    self.assert_qmp(result, 'return', {})
++  File "/tmp/cirrus-ci-build/tests/qemu-iotests/iotests.py", line 888,
+in assert_qmp
++    result = self.dictpath(d, path)
++  File "/tmp/cirrus-ci-build/tests/qemu-iotests/iotests.py", line 862,
+in dictpath
++    self.fail(f'failed path traversal for "{path}" in "{d}"')
++AssertionError: failed path traversal for "return" in "{'error':
+{'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not found"}}"
++
++----------------------------------------------------------------------
+Failures: 030
+Failed 1 of 74 iotests
+gmake[1]: *** [/tmp/cirrus-ci-build/tests/Makefile.include:144:
+check-block] Error 1
+gmake[1]: Leaving directory '/tmp/cirrus-ci-build/build'
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+https://cirrus-ci.com/task/6204750985166848
 
---0000000000001a118c05af421abf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On Mon, Sep 14, 2020 at 4:45 PM Paolo Bonzini &lt;=
-<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<b=
-r>&gt;<br>&gt; On 13/09/20 18:14, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo)=
- wrote:<br>&gt; &gt; I am hurry to revert --ninja option because when the m=
-eson are changed, the<br>&gt; &gt; make -j10 can not automatically re confi=
-gure, that would raise ninja can<br>&gt; &gt; not found error <br>&gt;<br>&=
-gt; My understanding is that with 0.55.2 you don&#39;t need --ninja at all =
-(the<br>&gt; default search works), and also the previously configured buil=
-d tree<br>&gt; should work.<br>&gt;<br>&gt; What&#39;s the issue there?<br>=
-&gt;<br>Oh, I mis-understood the --ninja option, so the ninja option doesn&=
-#39;t have to be revert, but upgrade meson to 0.55.2 are necessary<br>&gt;<=
-br>&gt; Paolo<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=
-=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div>
-
---0000000000001a118c05af421abf--
 
