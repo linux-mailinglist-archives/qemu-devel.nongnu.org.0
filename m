@@ -2,78 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B060E2689E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 13:22:55 +0200 (CEST)
-Received: from localhost ([::1]:60788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5585B2689E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 13:24:20 +0200 (CEST)
+Received: from localhost ([::1]:36264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHmZS-00081G-QV
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 07:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48202)
+	id 1kHmap-00016E-E9
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 07:24:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHmYV-00075b-Rj
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 07:21:55 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28860
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHmYU-0007zE-0I
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 07:21:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600082513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BKppdPpLR0fXvrtbCFWadjn7t/GYkYq6MsZUdlmgg3k=;
- b=f1YbT1ci0S3qLXa9emcWsBpFIFSdJ19+B5mh0LBcPhjmq0uWM4BKvDoF1bKstoEplFcjli
- wz0+osN2n6aTJ2xyF6wpILkltKx9ebtKxyqgkPulWjMV8MjwnxSNN21tl3fRsaFeoAG2fD
- qUWCRhWoPr2EOlEFzC3YXpWCIQ27UrE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-q02vYyfUNwWiAHjniq7rwA-1; Mon, 14 Sep 2020 07:21:51 -0400
-X-MC-Unique: q02vYyfUNwWiAHjniq7rwA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67AE61084D62;
- Mon, 14 Sep 2020 11:21:50 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 659A819C4F;
- Mon, 14 Sep 2020 11:21:49 +0000 (UTC)
-Subject: Re: [PATCH] tests/check-block: Do not run the iotests with old
- versions of bash
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20200912121412.10999-1-thuth@redhat.com>
- <8e1a8f08-5fd1-b53e-07a4-70170e4451e0@redhat.com>
- <532c3912-b18b-86bf-52a2-044aaacbbc81@redhat.com>
- <803bda1b-fc4a-3221-b130-f86c45f30826@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <f10cb6b2-6829-be20-0216-474fd6f9a0cd@redhat.com>
-Date: Mon, 14 Sep 2020 13:21:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kHmZN-000063-Lc
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 07:22:49 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4694 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kHmZJ-00085A-DJ
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 07:22:49 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 24D60BCE4E455BBCADAE;
+ Mon, 14 Sep 2020 19:22:39 +0800 (CST)
+Received: from [10.174.186.4] (10.174.186.4) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0;
+ Mon, 14 Sep 2020 19:22:31 +0800
+Subject: Re: [PATCH v3 1/6] migration/tls: save hostname into MigrationState
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <1599965256-72150-1-git-send-email-zhengchuan@huawei.com>
+ <1599965256-72150-2-git-send-email-zhengchuan@huawei.com>
+ <20200914090043.GC1252186@redhat.com>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <72c628fe-7c9b-4859-3264-811e4466d182@huawei.com>
+Date: Mon, 14 Sep 2020 19:22:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <803bda1b-fc4a-3221-b130-f86c45f30826@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200914090043.GC1252186@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.186.4]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 04:52:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,60 +64,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, yuxiating@huawei.com,
+ dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, jinyan12@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/2020 13.13, Max Reitz wrote:
-> On 14.09.20 12:50, Thomas Huth wrote:
->> On 14/09/2020 11.19, Max Reitz wrote:
->>> On 12.09.20 14:14, Thomas Huth wrote:
->>>> macOS is shipped with a very old version of the bash (3.2), which
->>>> is currently not suitable for running the iotests anymore. Add
->>>> a check to skip the iotests in this case - if someone still wants
->>>> to run the iotests on macOS, they can install a newer version from
->>>> homebrew, for example.
->>>>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>  tests/check-block.sh | 5 +++++
->>>>  1 file changed, 5 insertions(+)
->>>>
->>>> diff --git a/tests/check-block.sh b/tests/check-block.sh
->>>> index 8e29c868e5..bfe1630c1e 100755
->>>> --- a/tests/check-block.sh
->>>> +++ b/tests/check-block.sh
->>>> @@ -46,6 +46,11 @@ if ! command -v bash >/dev/null 2>&1 ; then
->>>>      exit 0
->>>>  fi
->>>>  
->>>> +if bash --version | grep 'GNU bash, version [123]' > /dev/null 2>&1 ; then
->>>
->>> grep -q instead of the redirections, perhaps?
->>>
->>> But more importantly, I think this needs a LANG=C prefix.  (If I expand
->>> the rejected major versions to [12345], it doesn’t skip without a
->>> prefix, because the string reads “GNU bash, Version 5...” here in
->>> LANG=de_DE.UTF-8.)
+
+
+On 2020/9/14 17:00, Daniel P. Berrangé wrote:
+> On Sun, Sep 13, 2020 at 10:47:31AM +0800, Chuan Zheng wrote:
+>> hostname is need in multifd-tls, save hostname into MigrationState.
 >>
->> Ouch, ok. But actually, I'm not quite sure anymore whether the patch is
->> really required. I ran into the "readlink -f" problem and thought that
->> it occurred due to the ancient version of bash on macOS, but as a I now
->> know, readlink is a separate program and not a bash built-in, so it's a
->> different issue... thus let's skip this patch here for now until we hit
->> a real issue with bash again.
+>> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+>> Signed-off-by: Yan Jin <jinyan12@huawei.com>
+>> ---
+>>  migration/channel.c   | 6 ++++++
+>>  migration/migration.c | 1 +
+>>  migration/migration.h | 5 +++++
+>>  3 files changed, 12 insertions(+)
+>>
+>> diff --git a/migration/channel.c b/migration/channel.c
+>> index 20e4c8e..0e4104a 100644
+>> --- a/migration/channel.c
+>> +++ b/migration/channel.c
+>> @@ -66,6 +66,11 @@ void migration_channel_connect(MigrationState *s,
+>>      trace_migration_set_outgoing_channel(
+>>          ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+>>  
+>> +    /* Save hostname into MigrationState for handshake */
+>> +    if (hostname) {
+>> +        s->hostname = g_strdup(hostname);
+>> +    }
+>> +
+>>      if (!error) {
+>>          if (s->parameters.tls_creds &&
+>>              *s->parameters.tls_creds &&
+>> @@ -90,5 +95,6 @@ void migration_channel_connect(MigrationState *s,
+>>          }
+>>      }
+>>      migrate_fd_connect(s, error);
+>> +    g_free(s->hostname);
+>>      error_free(error);
+>>  }
 > 
-> Yes, I had hoped this patch would fix that issue.  Or perhaps at least
-> hide it, because if you have a newer bash, chances are your readlink has
-> -f, too.
+> IIUC, this means hostname is free'd once the initial connection is
+> established. Don't we have to wait until all the multifd connections
+> exist too ?
 > 
-> So should we just effectively revert b1cbc33a397 if readlink -f didn’t
-> work, i.e. check "$?" and on failure use $PWD as it was before b1cbc33a397?
+> IOW, should we be doing this somewhere in a cleanup path. Perhaps
+> migrate_fd_cancel() is the rigt place ?
+> 
 
-Sounds like the best option that I currently can see, indeed. Want me to
-send a patch, or will you provide one?
+Well, Maybe another alternate way is define series functions to save/destroy tls_hostname in 'tls.c'
+other than add hostname into MigrationState.
+such as:
 
- Thomas
++static char *migration_tls_hostname = NULL;
++
++void migration_destroy_tls_hostname(void)
++{
++    if (migration_tls_hostname) {
++        g_free(migration_tls_hostname);
++        migration_tls_hostname = NULL;
++    }
++}
++
++static void migration_save_tls_hostname(const char *hostname)
++{
++     migration_destroy_tls_hostname();
++     migration_tls_hostname = g_strdup(hostname);
++}
++
++char *migration_get_tls_hostname(void)
++{
++     return migration_tls_hostname;
++}
 
+How do you think, is that better?
+
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 58a5452..e20b778 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -1883,6 +1883,7 @@ void migrate_init(MigrationState *s)
+>>      s->migration_thread_running = false;
+>>      error_free(s->error);
+>>      s->error = NULL;
+>> +    s->hostname = NULL;
+>>  
+>>      migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
+>>  
+>> diff --git a/migration/migration.h b/migration/migration.h
+>> index bdc7450..bc96322 100644
+>> --- a/migration/migration.h
+>> +++ b/migration/migration.h
+>> @@ -259,6 +259,11 @@ struct MigrationState
+>>       * (which is in 4M chunk).
+>>       */
+>>      uint8_t clear_bitmap_shift;
+>> +
+>> +    /*
+>> +     * This save hostname when out-going migration starts
+>> +     */
+>> +    char *hostname;
+>>  };
+>>  
+>>  void migrate_set_state(int *state, int old_state, int new_state);
+>> -- 
+>> 1.8.3.1
+>>
+> 
+> Regards,
+> Daniel
+> 
 
