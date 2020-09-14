@@ -2,78 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABEE268E28
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:47:00 +0200 (CEST)
-Received: from localhost ([::1]:33060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DA8268E73
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:54:52 +0200 (CEST)
+Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpkx-0000wY-Hv
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56514)
+	id 1kHpsZ-0005c1-Jn
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHpfg-0005xu-Bj
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:41:32 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:41521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHpfd-00040V-95
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:41:31 -0400
-Received: by mail-ej1-x641.google.com with SMTP id lo4so294219ejb.8
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:41:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4nwERILA7b9Xpydmv48s8OUFv2ib10tP646OF3d5TYU=;
- b=pJDbx9lMiK2wxN23UFzHqLRLFBAddBP0xsCdoXj/qNw05q2ecK1YYEL63CQeUyEHgJ
- rcZJdlq2uopwpJMAHG+rZ3xCKk9mKqJcvDIpccl9+0REm9reOjA4ua5RCvtpHDU7sDvn
- zC1pu4QcIrpahdEBgwKmvZYRqVaj/GbYQZOizWkP7WKgeE9263klLzDPSPvujsYQihCX
- s/XNSpivrQelxfqH9m+35vyucpKEUn9iyu3r8fg0aPQIbTnHfv4kVhSJk3c44sKjZJgg
- 2J0VanY+PNgB9I5W20/bjCrBqekbvkp4l5bvXMLnyS3DjGEPxtMLligyGshHZf2UaGtF
- h8+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4nwERILA7b9Xpydmv48s8OUFv2ib10tP646OF3d5TYU=;
- b=fEB3uH2xpJyw2nwIjaQFB8qu7AHbouzOkopI8WD4uYGbZesKBs0FhK7KGSz/eWRs/V
- IpeEznkyxUy936VU8ar+xrKGR2PsPnAXrd7P+jMGT27Hl6uW+wJQclZNiIVjTwwlD907
- iU3OZ28iveA2tJsOsP7bPc9DjPDqMEx/pBVl3ZkBFPRnOVqb/YbIJt2lesAyGDJcwpg6
- yg5c5paE9Kf+BIZFkLlM9tCcpjaNrrdc/qN4RhrCAneWry04jDsKyAKaz8Mqa6daFAUh
- cA4PdutgG1mgWswgLDp4EENbnWePTeCPIPv1Ni3gHsqHQ7mB3iWJ5PQn7ZvMRoNC33KS
- HgGA==
-X-Gm-Message-State: AOAM533yVS5ZTLUbFuxYS4R7IsvQXjAKh2YV9hvKW0vbaTtKkcAYKZiQ
- 3Xg2r6G3eCcLI9ZlHGf8IvLfcs8t86JXcJSTYtqi4w==
-X-Google-Smtp-Source: ABdhPJwd78IedPyB2UtJnaQBtcO72sLbnPj4Gteow/UY6lp/E6MlCCT5JItwsnnkSyQfxzAdcSbEE8JNWNqLuLtJ1tw=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr14656899ejk.407.1600094487603; 
- Mon, 14 Sep 2020 07:41:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kHpnt-0003BC-H8
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:50:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kHpnr-00056G-SG
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:50:01 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 86D93B454;
+ Mon, 14 Sep 2020 14:50:12 +0000 (UTC)
+Subject: Re: [RFC v3] checkpatch: detect missing changes to trace-events
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20200811081158.4893-1-cfontana@suse.de>
+ <20200914134442.GN579094@stefanha-x1.localdomain>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <cf51a4d1-f760-dd83-fde8-9e9121daae50@suse.de>
+Date: Mon, 14 Sep 2020 16:49:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200912224431.1428-1-luoyonggang@gmail.com>
- <20200912224431.1428-12-luoyonggang@gmail.com>
- <c6ed5abf-2c71-bded-7efc-33baa0b415af@redhat.com>
- <CAE2XoE-mFPm=chadNahHgCsa3tSjxRXMH3te29ODV=emWdLjYA@mail.gmail.com>
- <d6dd1c31-4bf0-3fd0-4c32-7216c8b3435c@redhat.com>
-In-Reply-To: <d6dd1c31-4bf0-3fd0-4c32-7216c8b3435c@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Sep 2020 15:41:16 +0100
-Message-ID: <CAFEAcA98VD2f3TQBDrfFv4swwu2Txhs2KXXKiHgFGsN7P_B3AQ@mail.gmail.com>
-Subject: Re: [PATCH v8 11/27] meson: Use -b to ignore CR vs. CR-LF issues on
- Windows
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200914134442.GN579094@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:18:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,66 +57,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Qemu-block <qemu-block@nongnu.org>,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, qemu-level <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 13 Sep 2020 at 19:51, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 9/13/20 6:01 PM, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> >
-> >
-> > On Sun, Sep 13, 2020 at 11:35 PM Philippe Mathieu-Daud=C3=A9
-> > <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
-> >
-> >     On 9/13/20 12:44 AM, Yonggang Luo wrote:
-> >     > On windows, a difference in line endings causes testsuite failure=
-s
-> >     > complaining that every single line in files such as
-> >     > 'tests/qapi-schemadoc-good.texi' is wrong.  Fix it by adding -b t=
-o
-> >     diff.
-> >
-> >     Isn't '--strip-trailing-cr' more adapted?
-> >
-> > er, I did that before.....
->
-> So, yes/no? We can not follow all patches, so better if you
-> add a note about your changes, either in the patch description
-> if you think it's worthwhile keeping that information in the
-> git history, else below the '---' separator, so that information
-> is stripped from the patch when applying.
->
-> Looking at the archive I see Thomas said this option is not
-> POSIX thus not portable.
->
-> What about adding this?
->
-> "Ideally we would use the '--strip-trailing-cr' option, but not
-> being POSIX is a portability problem (i.e. BSDs and Solaris
-> based OSes). Instead use the '-b' option which, although doing
-> slightly more, produce the expected result on Windows."
+On 9/14/20 3:44 PM, Stefan Hajnoczi wrote:
+> On Tue, Aug 11, 2020 at 10:11:58AM +0200, Claudio Fontana wrote:
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> ---
+>>  scripts/checkpatch.pl | 48 ++++++++++++++++++++++++++++++++++++------------
+>>  1 file changed, 36 insertions(+), 12 deletions(-)
+>>
+>> v2 -> v3 :
+>>
+>> * move the check for missing changes to MAINTAINERS and trace-events
+>>   later on, as otherwise the check for in_commit_log will not be done
+>>   on an up to date value, causing fromfile and realfile to not be set,
+>>   and matching unwanted strings inside the commit log.
+>>
+>> * Ensure that at least one file name is passed to grep.
+>>
+>>
+>> ----
+>>
+>> v1 -> v2 :
+>>
+>> * track the "from" file in addition to the "to" file,
+>>   and grep into both (if they exist), looking for trace.h, trace-root.h
+>>
+>>   If files are reachable and readable, emit a warning if there is no
+>>   update to trace-events.
+> 
+> This patch still has an RFC tag. Is it ready to be merged?
+> 
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> 
 
-The other important point to note here is that because
-texi output is mostly not case-sensitive, we are not
-losing important test coverage by not checking for exact
-whitespace matches between the known-good output and
-the generated output. If we were checking the doc-good.out
-text file, -b would be bad because there whitespace is
-important and is part of what we need to be checking.
+Hi Stefan, I think it's actually not, I would like to have more testing on it, checking all false positive/false negative cases.
+I found some issues with it, with false negatives, that I still do not understand.
 
-(Also the texi stuff is going to go away soon I hope :-))
+If anybody wants to rework this taking this as starting point, that's good, otherwise I will get back to it when I can..
 
-thanks
--- PMM
+I am not sure about the "move the check" part in v2 -> v3, and if anybody has more input and can help to understand this aspect, welcome to collaborate on this.
+
+Ciao,
+
+CLaudio
 
