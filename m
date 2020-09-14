@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669022685BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:24:31 +0200 (CEST)
-Received: from localhost ([::1]:36554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F022685D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:28:22 +0200 (CEST)
+Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHiqk-0000pM-BR
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:24:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49584)
+	id 1kHiuS-0004Db-Sn
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kHikX-0008Ki-JM; Mon, 14 Sep 2020 03:18:05 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:53706)
+ id 1kHikt-0000oH-AU; Mon, 14 Sep 2020 03:18:27 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:53774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kHikU-00025A-P3; Mon, 14 Sep 2020 03:18:05 -0400
+ id 1kHikr-00029f-7Y; Mon, 14 Sep 2020 03:18:26 -0400
 Received: from [172.17.10.10] (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPSA id A4AD721CC2;
- Mon, 14 Sep 2020 07:17:57 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 6378A21CBE;
+ Mon, 14 Sep 2020 07:18:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1600067878;
+ s=mail; t=1600067902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5muaI6LprhA3jkfe/RwrGHJHaEBuyEq2QYF3taxHigw=;
- b=lwESvzt27MsEr23g+sR45ifIuPEbRknkanvmkyW6ziRxVD/XA7/3N67HjUW8tYitZ4yJZ6
- YnWseqPHGNEINehsSd/Vvg6K/hTaokuAJhdpRWbUxRYnkDNBEj32mNLUNcSm6KkO5xaXkh
- GJkWraSRo86B5uMq6G3jNdF5WxpLiT0=
-Subject: Re: [PATCH v6 2/7] hw/misc/led: Allow connecting from GPIO output
+ bh=Tl8+9pox6Y0GrVZQtjT/RRM08CiZQzm/z7WLyiFM7QE=;
+ b=cAg3RQKxS+3savFp6Ufp2fUi+7DaHkPCkPfRqZaMGkMoZiKzPx6VlnXKzxhiN5LHardiZm
+ vNp+0bP5LmTAol7xkNiP+QaH3ucEZJjL8lLOz+aTrjoBzxsKYfeyKiLT6eWQCZUwuxvMM5
+ TLt/j656q6F/5A8t9rpxoQIJZsq+ie8=
+Subject: Re: [PATCH v6 5/7] hw/misc/mps2-fpgaio: Use the LED device
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200912134041.946260-1-f4bug@amsat.org>
- <20200912134041.946260-3-f4bug@amsat.org>
+ <20200912134041.946260-6-f4bug@amsat.org>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <f092c9df-db98-41fc-4ba2-34d6eafc095c@greensocs.com>
-Date: Mon, 14 Sep 2020 09:18:49 +0200
+Message-ID: <1cc1dc36-4f6c-7001-8af1-0009ce6c1596@greensocs.com>
+Date: Mon, 14 Sep 2020 09:19:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200912134041.946260-3-f4bug@amsat.org>
+In-Reply-To: <20200912134041.946260-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -70,170 +70,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/20 3:40 PM, Philippe Mathieu-Daudé wrote:
-> Some devices expose GPIO lines.
+> Per the 'ARM MPS2 and MPS2+ FPGA Prototyping Boards Technical
+> Reference Manual' (100112_0200_07_en):
 > 
-> Add a GPIO qdev input to our LED device, so we can
-> connect a GPIO output using qdev_connect_gpio_out().
+>    2.1  Overview of the MPS2 and MPS2+ hardware
 > 
-> When used with GPIOs, the intensity can only be either
-> minium or maximum. This depends of the polarity of the
-> GPIO (which can be inverted).
-> Declare the GpioPolarity type to model the polarity.
+>         The MPS2 and MPS2+ FPGA Prototyping Boards contain the
+>         following components and interfaces:
 > 
+>         * User switches and user LEDs:
+> 
+>           - Two green LEDs and two push buttons that connect to
+>             the FPGA.
+>           - Eight green LEDs and one 8-way dip switch that connect
+>             to the MCC.
+> 
+> Add the 2 LEDs connected to the FPGA.
+> 
+> This replaces the 'mps2_fpgaio_leds' trace events by the generic
+> 'led_set_intensity' event.
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->   include/hw/misc/led.h  | 10 ++++++++++
->   include/hw/qdev-core.h | 16 ++++++++++++++++
->   hw/misc/led.c          | 17 ++++++++++++++++-
->   3 files changed, 42 insertions(+), 1 deletion(-)
+>   include/hw/misc/mps2-fpgaio.h |  2 ++
+>   hw/misc/mps2-fpgaio.c         | 23 ++++++++++++++++++-----
+>   hw/misc/Kconfig               |  1 +
+>   hw/misc/trace-events          |  1 -
+>   4 files changed, 21 insertions(+), 6 deletions(-)
 > 
-> diff --git a/include/hw/misc/led.h b/include/hw/misc/led.h
-> index 286d37c75c1..aa359b87c20 100644
-> --- a/include/hw/misc/led.h
-> +++ b/include/hw/misc/led.h
-> @@ -9,6 +9,7 @@
->   #define HW_MISC_LED_H
+> diff --git a/include/hw/misc/mps2-fpgaio.h b/include/hw/misc/mps2-fpgaio.h
+> index 991f5b731e8..513e3be6f13 100644
+> --- a/include/hw/misc/mps2-fpgaio.h
+> +++ b/include/hw/misc/mps2-fpgaio.h
+> @@ -22,6 +22,7 @@
+>   #define MPS2_FPGAIO_H
 >   
+>   #include "hw/sysbus.h"
+> +#include "hw/misc/led.h"
 >   #include "qom/object.h"
-> +#include "hw/qdev-core.h"
 >   
->   #define TYPE_LED "led"
+>   #define TYPE_MPS2_FPGAIO "mps2-fpgaio"
+> @@ -35,6 +36,7 @@ struct MPS2FPGAIO {
 >   
-> @@ -37,10 +38,17 @@ struct LEDState {
->       /* Public */
+>       /*< public >*/
+>       MemoryRegion iomem;
+> +    LEDState *led[2];
 >   
->       uint8_t intensity_percent;
-> +    qemu_irq irq;
->   
->       /* Properties */
->       char *description;
->       char *color;
-> +    /*
-> +     * Determines whether a GPIO is using a positive (active-high)
-> +     * logic (when used with GPIO, the intensity at reset is related
-> +     * to the GPIO polarity).
-> +     */
-> +    bool gpio_active_high;
->   };
->   typedef struct LEDState LEDState;
->   DECLARE_INSTANCE_CHECKER(LEDState, LED, TYPE_LED)
-> @@ -72,6 +80,7 @@ void led_set_state(LEDState *s, bool is_emitting);
->   /**
->    * led_create_simple: Create and realize a LED device
->    * @parentobj: the parent object
-> + * @gpio_polarity: GPIO polarity
->    * @color: color of the LED
->    * @description: description of the LED (optional)
->    *
-> @@ -81,6 +90,7 @@ void led_set_state(LEDState *s, bool is_emitting);
->    * Returns: The newly allocated and instantiated LED object.
->    */
->   LEDState *led_create_simple(Object *parentobj,
-> +                            GpioPolarity gpio_polarity,
->                               LEDColor color,
->                               const char *description);
->   
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index e025ba9653f..ec1f1efc37b 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -423,6 +423,22 @@ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
->   void qdev_machine_creation_done(void);
->   bool qdev_machine_modified(void);
->   
-> +/**
-> + * GpioPolarity: Polarity of a GPIO line
-> + *
-> + * GPIO lines use either positive (active-high) logic,
-> + * or negative (active-low) logic.
-> + *
-> + * In active-high logic (%GPIO_POLARITY_ACTIVE_HIGH), a pin is
-> + * active when the voltage on the pin is high (relative to ground);
-> + * whereas in active-low logic (%GPIO_POLARITY_ACTIVE_LOW), a pin
-> + * is active when the voltage on the pin is low (or grounded).
-> + */
-> +typedef enum {
-> +    GPIO_POLARITY_ACTIVE_LOW,
-> +    GPIO_POLARITY_ACTIVE_HIGH
-> +} GpioPolarity;
-> +
->   /**
->    * qdev_get_gpio_in: Get one of a device's anonymous input GPIO lines
->    * @dev: Device whose GPIO we want
-> diff --git a/hw/misc/led.c b/hw/misc/led.c
-> index 1e2f49c5710..c5fa09a613a 100644
-> --- a/hw/misc/led.c
-> +++ b/hw/misc/led.c
-> @@ -10,6 +10,7 @@
+>       uint32_t led0;
+>       uint32_t prescale;
+> diff --git a/hw/misc/mps2-fpgaio.c b/hw/misc/mps2-fpgaio.c
+> index 2f3fbeef348..6af0e8f837a 100644
+> --- a/hw/misc/mps2-fpgaio.c
+> +++ b/hw/misc/mps2-fpgaio.c
+> @@ -24,6 +24,7 @@
 >   #include "migration/vmstate.h"
+>   #include "hw/registerfields.h"
+>   #include "hw/misc/mps2-fpgaio.h"
+> +#include "hw/misc/led.h"
 >   #include "hw/qdev-properties.h"
->   #include "hw/misc/led.h"
-> +#include "hw/irq.h"
->   #include "trace.h"
+>   #include "qemu/timer.h"
 >   
->   #define LED_INTENSITY_PERCENT_MAX   100
-> @@ -53,11 +54,19 @@ void led_set_state(LEDState *s, bool is_emitting)
->       led_set_intensity(s, is_emitting ? LED_INTENSITY_PERCENT_MAX : 0);
+> @@ -176,12 +177,9 @@ static void mps2_fpgaio_write(void *opaque, hwaddr offset, uint64_t value,
+>   
+>       switch (offset) {
+>       case A_LED0:
+> -        /* LED bits [1:0] control board LEDs. We don't currently have
+> -         * a mechanism for displaying this graphically, so use a trace event.
+> -         */
+> -        trace_mps2_fpgaio_leds(value & 0x02 ? '*' : '.',
+> -                               value & 0x01 ? '*' : '.');
+>           s->led0 = value & 0x3;
+> +        led_set_state(s->led[0], value & 0x01);
+> +        led_set_state(s->led[1], value & 0x02);
+>           break;
+>       case A_PRESCALE:
+>           resync_counter(s);
+> @@ -239,6 +237,10 @@ static void mps2_fpgaio_reset(DeviceState *dev)
+>       s->counter = 0;
+>       s->pscntr = 0;
+>       s->pscntr_sync_ticks = now;
+> +
+> +    for (size_t i = 0; i < ARRAY_SIZE(s->led); i++) {
+> +        device_cold_reset(DEVICE(s->led[i]));
+> +    }
 >   }
 >   
-> +static void led_set_state_gpio_handler(void *opaque, int line, int new_state)
+>   static void mps2_fpgaio_init(Object *obj)
+> @@ -251,6 +253,16 @@ static void mps2_fpgaio_init(Object *obj)
+>       sysbus_init_mmio(sbd, &s->iomem);
+>   }
+>   
+> +static void mps2_fpgaio_realize(DeviceState *dev, Error **errp)
 > +{
-> +    LEDState *s = LED(opaque);
+> +    MPS2FPGAIO *s = MPS2_FPGAIO(dev);
 > +
-> +    assert(line == 0);
-> +    led_set_state(s, !!new_state != s->gpio_active_high);
+> +    s->led[0] = led_create_simple(OBJECT(dev), GPIO_POLARITY_ACTIVE_HIGH,
+> +                                  LED_COLOR_GREEN, "USERLED0");
+> +    s->led[1] = led_create_simple(OBJECT(dev), GPIO_POLARITY_ACTIVE_HIGH,
+> +                                  LED_COLOR_GREEN, "USERLED1");
 > +}
 > +
->   static void led_reset(DeviceState *dev)
+>   static bool mps2_fpgaio_counters_needed(void *opaque)
 >   {
->       LEDState *s = LED(dev);
+>       /* Currently vmstate.c insists all subsections have a 'needed' function */
+> @@ -299,6 +311,7 @@ static void mps2_fpgaio_class_init(ObjectClass *klass, void *data)
+>       DeviceClass *dc = DEVICE_CLASS(klass);
 >   
-> -    led_set_state(s, false);
-> +    led_set_state(s, s->gpio_active_high);
+>       dc->vmsd = &mps2_fpgaio_vmstate;
+> +    dc->realize = mps2_fpgaio_realize;
+>       dc->reset = mps2_fpgaio_reset;
+>       device_class_set_props(dc, mps2_fpgaio_properties);
 >   }
+> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+> index 5c151fa3a83..0cecad45aad 100644
+> --- a/hw/misc/Kconfig
+> +++ b/hw/misc/Kconfig
+> @@ -93,6 +93,7 @@ config MIPS_ITU
 >   
->   static const VMStateDescription vmstate_led = {
-> @@ -84,11 +93,14 @@ static void led_realize(DeviceState *dev, Error **errp)
->       if (s->description == NULL) {
->           s->description = g_strdup("n/a");
->       }
-> +
-> +    qdev_init_gpio_in(DEVICE(s), led_set_state_gpio_handler, 1);
->   }
+>   config MPS2_FPGAIO
+>       bool
+> +    select LED
 >   
->   static Property led_properties[] = {
->       DEFINE_PROP_STRING("color", LEDState, color),
->       DEFINE_PROP_STRING("description", LEDState, description),
-> +    DEFINE_PROP_BOOL("gpio-active-high", LEDState, gpio_active_high, true),
->       DEFINE_PROP_END_OF_LIST(),
->   };
+>   config MPS2_SCC
+>       bool
+> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+> index 5f3f6121bc9..908272e8593 100644
+> --- a/hw/misc/trace-events
+> +++ b/hw/misc/trace-events
+> @@ -92,7 +92,6 @@ mps2_scc_cfg_read(unsigned function, unsigned device, uint32_t value) "MPS2 SCC
+>   mps2_fpgaio_read(uint64_t offset, uint64_t data, unsigned size) "MPS2 FPGAIO read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+>   mps2_fpgaio_write(uint64_t offset, uint64_t data, unsigned size) "MPS2 FPGAIO write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+>   mps2_fpgaio_reset(void) "MPS2 FPGAIO: reset"
+> -mps2_fpgaio_leds(char led1, char led0) "MPS2 FPGAIO LEDs: %c%c"
 >   
-> @@ -119,6 +131,7 @@ static void led_register_types(void)
->   type_init(led_register_types)
->   
->   LEDState *led_create_simple(Object *parentobj,
-> +                            GpioPolarity gpio_polarity,
->                               LEDColor color,
->                               const char *description)
->   {
-> @@ -126,6 +139,8 @@ LEDState *led_create_simple(Object *parentobj,
->       DeviceState *dev;
->   
->       dev = qdev_new(TYPE_LED);
-> +    qdev_prop_set_bit(dev, "gpio-active-high",
-> +                      gpio_polarity == GPIO_POLARITY_ACTIVE_HIGH);
->       qdev_prop_set_string(dev, "color", led_color_name[color]);
->       if (!description) {
->           static unsigned undescribed_led_id;
+>   # msf2-sysreg.c
+>   msf2_sysreg_write(uint64_t offset, uint32_t val, uint32_t prev) "msf2-sysreg write: addr 0x%08" PRIx64 " data 0x%" PRIx32 " prev 0x%" PRIx32
 > 
 
