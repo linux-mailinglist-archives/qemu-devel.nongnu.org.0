@@ -2,117 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F472687A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:54:09 +0200 (CEST)
-Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121492687B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:58:09 +0200 (CEST)
+Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkFU-0008BX-GG
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41894)
+	id 1kHkJM-0007kt-52
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHkC9-0002qC-FH
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:50:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53346
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHkC7-0005Wq-EX
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:50:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600073438;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4Wo5Z2i/X/sxFOUNOUG3JHJiIJgz0itEIadPtk81WwA=;
- b=RoJVDz6dNyQUrPKn7l09bWRRg0yH5VmFXbwCOfytkEi5w8SlwzVOWRjvS26OdXntgdNWSX
- oswa1TESnHXdSuHV7qLb/0JgUb+shp9/t2+xVQ+9LAv2sJFakvBRrsx4jBk1wlcBwGyOr4
- OMh+sk1VZdTuXrPUmNR+NRUaHkagOQM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-OIm3fxgTMSO3QQwWRAXJoA-1; Mon, 14 Sep 2020 04:50:35 -0400
-X-MC-Unique: OIm3fxgTMSO3QQwWRAXJoA-1
-Received: by mail-wr1-f72.google.com with SMTP id w7so6657090wrp.2
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 01:50:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=4Wo5Z2i/X/sxFOUNOUG3JHJiIJgz0itEIadPtk81WwA=;
- b=dgF6jy9iAfh0ypf30gwIGHPGarNFUvpb/ip8+ZuypctSW9AkkklNCam+KvHqvOGT/Z
- R50O3mL5GFX55GlbEWfS3TPniQdnOXy1vfTScjXqjU8hTT+JUEt8Ygu7DSsnQbJ7NRLf
- qSWUse2pSTuMthVUi0OOEzS79fyijvwMT4j3D2xzcHhUeFTQ8E8xGHuk1wcmLf6o/thW
- YLIa6y9m/14LRPxw0wNSA6lMhh3G5WZ9kDFlmUay4oeyqMCODS7QzslCSp98UH/NuRdP
- kpviI9jIXDx4twxAOHlV+Aua9nt2n6f0XHy7HZJHIAbS+ucP3qgv7sGfh2WfAhVRfCpz
- ndfA==
-X-Gm-Message-State: AOAM531Qy0qXl9hZnyvbeeTq1B8H99nNsSlgu9+lkfo6qjSokiDlkASD
- jJPTTEUOYFPaehGafuOCi9JnrY6ihdstobmmld9tRJkJv7fmS48iAo0ZYR92F7L1GcLsHfMkx/c
- 9wIRtQHoUF5+1IH0=
-X-Received: by 2002:adf:8187:: with SMTP id 7mr14885731wra.266.1600073433011; 
- Mon, 14 Sep 2020 01:50:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkGbAjY05+jBiBRwWSzBHc4rhVY7y3Nc3iD+ssMbXbmZAmqGW6IbHvpX6P3OXPqsJiAJKiIQ==
-X-Received: by 2002:adf:8187:: with SMTP id 7mr14885693wra.266.1600073432697; 
- Mon, 14 Sep 2020 01:50:32 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id k4sm19974545wrx.51.2020.09.14.01.50.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Sep 2020 01:50:32 -0700 (PDT)
-Subject: Re: [PATCH v8 16/27] cirrus: Building freebsd in a single short
-To: Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- qemu-devel@nongnu.org
-References: <20200912224431.1428-1-luoyonggang@gmail.com>
- <20200912224431.1428-17-luoyonggang@gmail.com>
- <78c65c60-9598-97a2-0dc7-116c3c0f94a9@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <401c7ac1-6575-1d77-40ef-a4ee4178711b@redhat.com>
-Date: Mon, 14 Sep 2020 10:50:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kHkDx-0005tp-DP
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:52:33 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4744 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kHkDv-0005kJ-3e
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:52:33 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 3BBB996BB098FB632AC1;
+ Mon, 14 Sep 2020 16:52:21 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Mon, 14 Sep 2020
+ 16:52:15 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>
+Subject: [PATCH v8 00/12] *** A Method for evaluating dirty page rate ***
+Date: Mon, 14 Sep 2020 17:02:53 +0800
+Message-ID: <1600074185-91624-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <78c65c60-9598-97a2-0dc7-116c3c0f94a9@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 04:52:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,99 +58,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Ed Maste <emaste@FreeBSD.org>, qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
+ liq3ea@gmail.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, jinyan12@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/20 9:27 AM, Thomas Huth wrote:
-> On 13/09/2020 00.44, Yonggang Luo wrote:
->> This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
->> ("cirrus.yml: Split FreeBSD job into two parts").
->>
->> freebsd 1 hour limit not hit anymore
->>
->> I think we going to a wrong direction, I think there is some tests a stall the test runner,
->> please look at
->> https://cirrus-ci.com/task/5110577531977728
->> When its running properly, the consumed time are little, but when tests running too long,
->> look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
->>
->> And look at
->> https://cirrus-ci.com/task/6119341601062912
->>
->> If the tests running properly, the time consuming are little
->> We should not hide the error by split them
->>
->> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
->> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->> Reviewed-by: Ed Maste <emaste@FreeBSD.org>
->> ---
->>  .cirrus.yml | 35 ++++++++---------------------------
->>  1 file changed, 8 insertions(+), 27 deletions(-)
-> 
-> I tried this a couple of times now, and currently the problem seems to
-> be gone, indeed. I'd still prefer to understand first why we have seen
-> the slowdown a couple of weeks ago, but if people agree that we should
-> revert the patch now, that's ok for me now, too.
+v7 -> v8:
+    add atomic_read for dirtyrate status
+    add error_report if set dirtyrate state failed
+    change returns of save_ramblock_hash and record_ramblock_hash_info to bool
+    alloc ramblock dirtyinfo array at one time
+    add review-by for patches
 
-Not sure if related (probably not as failure and not timeout),
-I hit this during the night:
+v6 -> v7:
+    fix minior comments and coding style by review
+    add review-by for patches
 
-  TEST    iotest-qcow2: 030 [fail]
-QEMU          --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-system-alpha"
--nodefaults -display none -accel qtest
-QEMU_IMG      --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-img"
-QEMU_IO       --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-io"  --cache
-writeback --aio threads -f qcow2
-QEMU_NBD      --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-nbd"
-IMGFMT        -- qcow2 (compat=1.1)
-IMGPROTO      -- file
-PLATFORM      -- FreeBSD/amd64 cirrus-task-6204750985166848 12.1-RELEASE
-TEST_DIR      -- /tmp/cirrus-ci-build/build/tests/qemu-iotests/scratch
-SOCK_DIR      -- /tmp/tmp.VuwmKXUW
-SOCKET_SCM_HELPER --
---- /tmp/cirrus-ci-build/tests/qemu-iotests/030.out	2020-09-13
-21:08:32.261276000 +0000
-+++ /tmp/cirrus-ci-build/build/tests/qemu-iotests/030.out.bad	2020-09-13
-21:30:59.736699000 +0000
-@@ -1,5 +1,17 @@
--...........................
-+.............F.............
-+======================================================================
-+FAIL: test_stream_parallel (__main__.TestParallelOps)
- ----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "030", line 251, in test_stream_parallel
-+    self.assert_qmp(result, 'return', {})
-+  File "/tmp/cirrus-ci-build/tests/qemu-iotests/iotests.py", line 888,
-in assert_qmp
-+    result = self.dictpath(d, path)
-+  File "/tmp/cirrus-ci-build/tests/qemu-iotests/iotests.py", line 862,
-in dictpath
-+    self.fail(f'failed path traversal for "{path}" in "{d}"')
-+AssertionError: failed path traversal for "return" in "{'error':
-{'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not found"}}"
-+
-+----------------------------------------------------------------------
-Failures: 030
-Failed 1 of 74 iotests
-gmake[1]: *** [/tmp/cirrus-ci-build/tests/Makefile.include:144:
-check-block] Error 1
-gmake[1]: Leaving directory '/tmp/cirrus-ci-build/build'
+v5 -> v6:
+    fix coding style according to review
+    use TARGET_PAGE_SIZE and TARGET_PAGE_BITS instead of self-defined macros
+    return start-time and calc-time by qmp command
 
-https://cirrus-ci.com/task/6204750985166848
+v4 -> v5:
+    fix git apply failed due to meson-build
+    add review-by for patches in v3
+
+v3 -> v4:
+    use crc32 to get hash result instead of md5
+    add DirtyRateStatus to denote calculation status
+    add some trace_calls to make it easier to debug
+    fix some comments accroding to review
+
+v2 -> v3:
+    fix size_t compile warning
+    fix codestyle checked by checkpatch.pl
+
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
+
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
+
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                           |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)               |
+-------------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1060MB/s |     456MB/s ~ 1142MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4114MB/s |     688MB/s ~ 4132MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
+
+The qmp command returns like this:
+{"return":{"status":"measured","dirty-rate":374,"start-time":3718293,"calc-time":1},"id":"libvirt-15"}
+
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
+
+Chuan Zheng (12):
+  migration/dirtyrate: setup up query-dirtyrate framwork
+  migration/dirtyrate: add DirtyRateStatus to denote calculation status
+  migration/dirtyrate: Add RamblockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement set_sample_page_period() and
+    is_sample_period_valid()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+  migration/dirtyrate: Add trace_calls to make it easier to debug
+
+ migration/dirtyrate.c  | 428 +++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h  |  70 ++++++++
+ migration/meson.build  |   2 +-
+ migration/ram.c        |  11 +-
+ migration/ram.h        |  10 ++
+ migration/trace-events |   8 +
+ qapi/migration.json    |  67 ++++++++
+ 7 files changed, 585 insertions(+), 11 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
+
+-- 
+1.8.3.1
 
 
