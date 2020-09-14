@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B30126996B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 01:04:16 +0200 (CEST)
-Received: from localhost ([::1]:34742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9FD26997D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 01:09:56 +0200 (CEST)
+Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHxWB-0002tX-AQ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 19:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
+	id 1kHxbf-0001lA-RF
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 19:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHxUS-0001Ew-Ua
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 19:02:28 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46440)
+ id 1kHxUT-0001Fs-BR
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 19:02:29 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHxUQ-0006cw-6R
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 19:02:28 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b124so760475pfg.13
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 16:02:25 -0700 (PDT)
+ id 1kHxUR-0006dA-K4
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 19:02:29 -0400
+Received: by mail-pg1-x544.google.com with SMTP id f2so946995pgd.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 16:02:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KuC/kv5eCu0e0HbeQ2KRbyXfJmTxRoX2ga8TfPiXbIY=;
- b=nOwaxnA9zzNKafeNrDowTb6Sm3VGUHGu5wm+ytHRLiIzGFGds6QGmNPiSNHaI1yg2L
- fnleHnxYiJDoQk3/b0XB+3YExklvm8i18gWIrzadkukuD/L2tbKtcM7+RwYD4h+ZRCtd
- kVvbfhVgnOBWH4l8PBtxeNCi4tnPmXcmQhD3zBSJmBLCSZiOvMz1Hje4ncfNy1o44vgU
- cbrgrw1qMJL2uYBcLPQNKSlgPZV+Lg2RDlfEbo9Abuxe4o5AWuz9vOdZDrKq8U3VF/Dv
- 7oOrL/2xFPbFYhTx3uykQxo4qqhnfLcKmPqWghFb96ie9sCYKzZvifOrY8MVckq8ie08
- qtiQ==
+ bh=hfLGTzL8Kx9EX3rC/1RV7M0Ql1gkiftzaDe5UPaelEg=;
+ b=Th4OCI3qADxjsSfJUw/86xhbPR6CQPEiJ8mwbAe+GZ1aT0NJAhOZhLIlRoOKlagqxB
+ EUgK7oiYCvSbhXUbGz+cFTNpC596n/F3PQmKuPuE8DcQzfXskd9tmnEFyAzyIdaI8b13
+ Bky66TQHA5pVM7Lk73wPBWfCaFW4tvJPLFivXivRr2xu66lxwMpAQdLQw9qaRTyEIC3G
+ i95BgHjWKcOP6aL9VJHka1PctpRkiKC1GgZPUnHdtJcu0ygeu8ES8tarQ/NRqqKUvnwo
+ UoAvNVMrnMAxWhzE9IKASohK3ucGOgjItWJNnLlY6Ns3hvtjzZLI13wOfZ/2ko5S30h8
+ kkkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KuC/kv5eCu0e0HbeQ2KRbyXfJmTxRoX2ga8TfPiXbIY=;
- b=hovRZBwI/et3ezM9s1BmHrTH8LR5wzKlFntadfP705eSTLQLbJ4bJTunv9kCO3OFkX
- 33TR5WLYVbb8GN8gG2D9Bttd9RnwEnja+m+vmWcloOmTt6VMS9C7dZ2jyn141WYDmFAf
- xqM/7S9NNkeIRO38Jfu4wtAalKxVROhMWvivguvlwkxWQffR5n4LRJlRHL7xCnrBlPK0
- hXA9gMCRDEbUYiIR/lSFnaHbioqXU8ZhGaAII1mUZsf0rmLxsuvuynmnvZFQpvbogVak
- 4EOzK2WfuqcqGvsJxmSRTlILbrkFgJ/0XUD7laZ4LTVedqDOk06dJyQscZUdlUCK7+ER
- t6AQ==
-X-Gm-Message-State: AOAM531u+jfcXSLKD8EfKI6w+eoM9C1pq6r+8tiBb/nkhYqXDQ5NOZMV
- IFkzHX5fiwNznMJ2av50JS27Kn830WHe9g==
-X-Google-Smtp-Source: ABdhPJxR+SyQPYDI+MKacRfaLxTQgkJUZzrk+czeKaxhK7wLMz8XzxxWbGUg3F96jSS+BSQRLn+qew==
-X-Received: by 2002:a63:753:: with SMTP id 80mr5881649pgh.347.1600124544378;
- Mon, 14 Sep 2020 16:02:24 -0700 (PDT)
+ bh=hfLGTzL8Kx9EX3rC/1RV7M0Ql1gkiftzaDe5UPaelEg=;
+ b=M5SQUfHPTrcGATKIenrF9BlgznOAtiAbzx9PKlTGoKA5x7/WLoXeoy18IzT4edNlPp
+ pDr8IV59bubB+rYZ0Q2D9yYDkAK3AcxhycxiNEn4pq9Cy9QOzCyrudHlJodIu+85i83w
+ LNUwoKC3A2e8TpQHaHv2/2DpqNfMyQ+HzMyZILeX3D4tFJpNrTX+jDY+vtVbfQ3SUnXz
+ XhTHHjcZ7csAsdFjFftHmB/H5GmU1xYOElDYwRUYwASduFfwa1cwEa7LcxIyO1pyD97+
+ BKTtzWtso5Xz9ErEOomOgWsiIbfF3xKV6/ajdBEBQu6LCTLFkg3a37sEdwVxa3oczhbg
+ Ixrg==
+X-Gm-Message-State: AOAM531MSNFGDDfSaRbxBdJfwejtxvclYDqJpZ8cIuFTG9j7hcnj0W11
+ 42gH1vziX1ZTL3yBGjFdZnm+sqa+Joz6rA==
+X-Google-Smtp-Source: ABdhPJx6I58i4Dq6iVKpmjI6Q014K3IPzjStur67UPXLGPv83UatELc+3zi6NrXm6lhzBS6COYjm7Q==
+X-Received: by 2002:a63:28c:: with SMTP id 134mr12388204pgc.385.1600124545945; 
+ Mon, 14 Sep 2020 16:02:25 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id l23sm9106076pgt.16.2020.09.14.16.02.23
+ by smtp.gmail.com with ESMTPSA id l23sm9106076pgt.16.2020.09.14.16.02.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 16:02:23 -0700 (PDT)
+ Mon, 14 Sep 2020 16:02:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/10] disas: Enable capstone disassembly for s390x
-Date: Mon, 14 Sep 2020 16:02:09 -0700
-Message-Id: <20200914230210.2185860-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/10] disas/capstone: Add skipdata hook for s390x
+Date: Mon, 14 Sep 2020 16:02:10 -0700
+Message-Id: <20200914230210.2185860-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200914230210.2185860-1-richard.henderson@linaro.org>
 References: <20200914230210.2185860-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,78 +85,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luoyonggang@gmail.com, alex.bennee@linaro.org, thuth@redhat.com
+Cc: luoyonggang@gmail.com, alex.bennee@linaro.org, thuth@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable s390x, aka SYSZ, in the git submodule build.
-Set the capstone parameters for both s390x host and guest.
+It is always possible to tell the length of an insn, even if the
+actual insn is unknown.  Skip the correct number of bytes, so that
+we stay in sync with the instruction stream.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- disas.c            |  3 +++
- target/s390x/cpu.c |  4 ++++
- meson.build        | 11 +++++++++++
- 3 files changed, 18 insertions(+)
+ disas/capstone.c | 42 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/disas.c b/disas.c
-index e27dea2c19..c4cd305190 100644
---- a/disas.c
-+++ b/disas.c
-@@ -201,6 +201,9 @@ static void initialize_debug_host(CPUDebug *s)
-     s->info.print_insn = print_insn_m68k;
- #elif defined(__s390__)
-     s->info.print_insn = print_insn_s390;
-+    s->info.cap_arch = CS_ARCH_SYSZ;
-+    s->info.cap_insn_unit = 2;
-+    s->info.cap_insn_split = 6;
- #elif defined(__hppa__)
-     s->info.print_insn = print_insn_hppa;
- #endif
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 749cd548f0..2a96692691 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -44,6 +44,7 @@
- #include "sysemu/tcg.h"
- #endif
- #include "fpu/softfloat-helpers.h"
-+#include "disas/capstone.h"
+diff --git a/disas/capstone.c b/disas/capstone.c
+index b48f83958d..0a9ef9c892 100644
+--- a/disas/capstone.c
++++ b/disas/capstone.c
+@@ -16,6 +16,39 @@
+  */
+ static __thread cs_insn *cap_insn;
  
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
-@@ -182,6 +183,9 @@ static void s390_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-     info->mach = bfd_mach_s390_64;
-     info->print_insn = print_insn_s390;
-+    info->cap_arch = CS_ARCH_SYSZ;
-+    info->cap_insn_unit = 2;
-+    info->cap_insn_split = 6;
- }
- 
- static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/meson.build b/meson.build
-index 2f3da5d8c6..448c87f645 100644
---- a/meson.build
-+++ b/meson.build
-@@ -674,6 +674,17 @@ if capstone_opt == 'internal'
-     )
-   endif
- 
-+  if 'CONFIG_S390_DIS' in config_all_disas
-+    capstone_data.set('CAPSTONE_HAS_SYSZ', '1')
-+    capstone_files += files(
-+      'capstone/arch/SystemZ/SystemZDisassembler.c',
-+      'capstone/arch/SystemZ/SystemZInstPrinter.c',
-+      'capstone/arch/SystemZ/SystemZMapping.c',
-+      'capstone/arch/SystemZ/SystemZModule.c',
-+      'capstone/arch/SystemZ/SystemZMCTargetDesc.c'
-+    )
-+  endif
++/*
++ * The capstone library always skips 2 bytes for S390X.
++ * This is less than ideal, since we can tell from the first two bits
++ * the size of the insn and thus stay in sync with the insn stream.
++ */
++static size_t CAPSTONE_API
++cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
++                      size_t offset, void *user_data)
++{
++    size_t ilen;
 +
-   if 'CONFIG_I386_DIS' in config_all_disas
-     capstone_data.set('CAPSTONE_HAS_X86', 1)
-     capstone_files += files(
++    /* See get_ilen() in target/s390x/internal.h.  */
++    switch (code[offset] >> 6) {
++    case 0:
++        ilen = 2;
++        break;
++    case 1:
++    case 2:
++        ilen = 4;
++        break;
++    default:
++        ilen = 6;
++        break;
++    }
++
++    return ilen;
++}
++
++static const cs_opt_skipdata cap_skipdata_s390x = {
++    .mnemonic = ".byte",
++    .callback = cap_skipdata_s390x_cb
++};
++
+ /*
+  * Initialize the Capstone library.
+  *
+@@ -42,13 +75,20 @@ static cs_err cap_disas_start(disassemble_info *info, csh *handle)
+     /* "Disassemble" unknown insns as ".byte W,X,Y,Z".  */
+     cs_option(*handle, CS_OPT_SKIPDATA, CS_OPT_ON);
+ 
+-    if (info->cap_arch == CS_ARCH_X86) {
++    switch (info->cap_arch) {
++    case CS_ARCH_SYSZ:
++        cs_option(*handle, CS_OPT_SKIPDATA_SETUP,
++                  (uintptr_t)&cap_skipdata_s390x);
++        break;
++
++    case CS_ARCH_X86:
+         /*
+          * We don't care about errors (if for some reason the library
+          * is compiled without AT&T syntax); the user will just have
+          * to deal with the Intel syntax.
+          */
+         cs_option(*handle, CS_OPT_SYNTAX, CS_OPT_SYNTAX_ATT);
++        break;
+     }
+ 
+     /* Allocate temp space for cs_disasm_iter.  */
 -- 
 2.25.1
 
