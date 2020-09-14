@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EA5268F64
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:15:44 +0200 (CEST)
-Received: from localhost ([::1]:56848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE7E268F45
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:12:54 +0200 (CEST)
+Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHqCk-00083f-Er
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:15:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37962)
+	id 1kHqA1-0004zD-9R
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kHq4x-0000jp-QG
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:07:39 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41723)
+ id 1kHq4r-0000iE-Te
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:07:34 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kHq4q-0000ES-T3
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:07:37 -0400
-Received: by mail-wr1-x442.google.com with SMTP id w5so8400wrp.8
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:07:28 -0700 (PDT)
+ id 1kHq4l-0000Dx-8y
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:07:33 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id e17so387131wme.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AxePx8oOqocKMREyg0WDjugaJREHStftt0HCq39PBRY=;
- b=YTjShj4RCRH/EkoLHM2yai1lrk60a7ywpKZumVpSiCBn6XLv206v2dPeG8XAdWW+tB
- fXB23ZZDzIXZoefZvUG9M0UWzljqXZkprvQJINhP2dKOOO6p8BRl5C83kV23b942CtV6
- swBlsfUw47DEYjljyD5ufnKRgCM3yMiz+hH9sXHdgHjXWyBMQu9mZLF0l1xK5bWIZi+b
- /P75HBHjjNEPeAQoBAhNklUg0yaaa5+j4to8g56G04X3WRbxyXb4PhQzjVHJsmC8LCWF
- QZRPlhl7yFuvfg/1bvRUfK3kknGpkkJHl08umMEc+I84EYQIMpjWHlUGJxpGp+dtX/dW
- pDVg==
+ bh=o+QIQisstLv7dEECXFjFLhux+SH+QFhePF29ylUvIXs=;
+ b=DsyRCmVmDZmupiVqhp4L8aRRxK62GCQ+y5tZV6je4u+tF1J0t6+pn7tOU8C/4tGdoi
+ fypmfx6ZCWWacWb4isb+NPmpBzRLyQ2/uXarGy/O78Ce3q2AbJdiyCsD1l0vVoNX4URN
+ EQcUhQZefREmAAV61Vwa61DShyh9mc9CRXdBughhPofeehyXuWfxhr2bAu09FoW5rOR+
+ zXzhI6uNc212p3VseXSEumsLKUjqdfJItQZkO6NoSXJ3JyjkB6TBxhnqjSikKoqy2AlQ
+ Hh2u5LTT20ngdmRmGKDks8UesO/yAErZbJDNG7wy69pJbLe/I9r/jBhTnZ79h3dSK1xV
+ Idzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AxePx8oOqocKMREyg0WDjugaJREHStftt0HCq39PBRY=;
- b=ZcIhnwuukpscTryeBzoIiiitFp8BboVcTW10c5VT5ccLrurVHtfEAZqJjKnRdPz4cf
- oODejeYMATTuD8g2ishnCH1u6Yid7eNOxPRBOVA0K525ahN50XpJraxbyY+mbw+bkr+F
- PuekH9YtsN3qi5rzNPjvyorVo9HnfUTv6g6F8J2K7NumgpU49ro4nOlLPGTp2bnnmyLD
- pUhHewmXrG/x+zzscO5RSbyYeZvnt0oqEB05/ALH3vC+UpJb/SneJf2PabtJ3/rEp7lC
- LFFkvbocTpTFhmEgJYWYl2SGtwNzwnyrPY702OPnZB8N+Ns/LA7XDgrVLMhN9oMUkWI5
- 4Smg==
-X-Gm-Message-State: AOAM532r9CgkUX7TGygT/rkoUvJ9iRWOUb4bdLcDVhrxpo/w4vEh83ps
- Gfq89yu/mhDwvnQqt2zxearZBZuWnZ17AQ==
-X-Google-Smtp-Source: ABdhPJwJN7ScZirFamp+WoxA23mZIXWEo01uQjBgJPbWRvVlLXhasv9qNWobOFZXuuubmaTK34aicw==
-X-Received: by 2002:adf:e407:: with SMTP id g7mr16263896wrm.349.1600096048068; 
- Mon, 14 Sep 2020 08:07:28 -0700 (PDT)
+ bh=o+QIQisstLv7dEECXFjFLhux+SH+QFhePF29ylUvIXs=;
+ b=DKCUQVBom8+OfTOSDNMeNcIcdAL6vWFrUQkEjXp4y8XeLYoxnhlXw0JyYlQ2zywcm2
+ BzdkQMYXLMpLxJxKYTjQucq+uqXa8VYj3qQCVykOOLOTyQ5kVTx6lEUbcdcwxZ2hDONj
+ ILp14l9GXMYIMiT3MOE/p0yhuDzIv0FA3xRyst6XUEAU33Mlf82hzr8swe/LEawWbS5P
+ KHfcdZeM18XZv8R7LXlJNEic3MMwtnTJbSNLBAgPRJFhSflzO6+9JHaWNo68JvPjZhFH
+ duj2Q7EtNuP0Y3gjqOsp1mC9LMlUKlsocRbGZETmDViAv2d51n0FnUSlPf8e2GPUgvxr
+ n3pg==
+X-Gm-Message-State: AOAM530efGflJcuptoJpqO0POl1nInnziRFwUtxaLj3Asz9ncnyaQ5zO
+ s4P58Qd1CfrsB2W2klHBm1aULw==
+X-Google-Smtp-Source: ABdhPJyHLLeEdTsCHqiE+JzKvearCGN5s+p7grshVV5O0nGd7D1QHnOUVJK/bAyNUaXKtIM8sFY11Q==
+X-Received: by 2002:a05:600c:230f:: with SMTP id
+ 15mr15542360wmo.186.1600096045829; 
+ Mon, 14 Sep 2020 08:07:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a127sm20206161wmh.34.2020.09.14.08.07.19
+ by smtp.gmail.com with ESMTPSA id 59sm21436525wro.82.2020.09.14.08.07.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Sep 2020 08:07:23 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 55A1F1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 6C5841FF92;
  Mon, 14 Sep 2020 16:07:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 5/6] gitlab: create a build-deprecated target
-Date: Mon, 14 Sep 2020 16:07:15 +0100
-Message-Id: <20200914150716.10501-6-alex.bennee@linaro.org>
+Subject: [PATCH  v1 6/6] iotests: Work around failing readlink -f
+Date: Mon, 14 Sep 2020 16:07:16 +0100
+Message-Id: <20200914150716.10501-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914150716.10501-1-alex.bennee@linaro.org>
 References: <20200914150716.10501-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,62 +89,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These targets might be deprecated but we should keep them building
-before the final axe comes down. Lets keep them all in one place and
-don't hold up the CI if they do fail. They are either poorly tested or
-already flaky anyway,
+From: Max Reitz <mreitz@redhat.com>
 
+On macOS, (out of the box) readlink does not have -f.  If the recent
+"readlink -f" call introduced by b1cbc33a397 fails, just fall back to
+the old behavior (which means you can run the iotests only from the
+build tree, but that worked fine for six years, so it should be fine
+still).
+
+Keep any potential error message on stderr.  If users want to run the
+iotests from outside the build tree, this may point them to what's wrong
+(with their system).
+
+Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
+       ("iotests: Allow running from different directory")
+Reported-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200914113809.63640-1-mreitz@redhat.com>
 ---
- .gitlab-ci.yml | 10 ++++++++++
- .travis.yml    |  3 +--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/check | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 72e8604579ee..f027b55aef15 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -254,6 +254,16 @@ build-clang:
-       ppc-softmmu s390x-softmmu arm-linux-user
-     MAKE_CHECK_ARGS: check
- 
-+# These targets are on the way out
-+build-deprecated:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: debian-all-test-cross
-+    CONFIGURE_ARGS: --disable-docs --disable-tools --disable-system
-+    MAKE_CHECK_ARGS: check-tcg
-+    TARGETS: ppc64abi32-linux-user tilegx-linux-user
-+  allow_failure: true
-+
- build-oss-fuzz:
-   <<: *native_build_job_definition
-   variables:
-diff --git a/.travis.yml b/.travis.yml
-index 65341634d02a..c75221dca3e7 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -344,10 +344,9 @@ jobs:
-     # Run check-tcg against linux-user (with plugins)
-     # we skip sparc64-linux-user until it has been fixed somewhat
-     # we skip cris-linux-user as it doesn't use the common run loop
--    # we skip ppc64abi32-linux-user as it seems to have a broken libc
-     - name: "GCC plugins check-tcg (user)"
-       env:
--        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user,ppc64abi32-linux-user"
-+        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user"
-         - TEST_BUILD_CMD="make build-tcg"
-         - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index e14a1f354dd9..75675e1a18f0 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -45,6 +45,10 @@ then
+     fi
+     source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
+     build_iotests=$(readlink -f $(dirname "$0"))
++    if [ "$?" -ne 0 ]; then
++        # Perhaps -f is unsupported, revert to pre-b1cbc33a397 behavior
++        build_iotests=$PWD
++    fi
+ else
+     # called from the source tree
+     source_iotests=$PWD
 -- 
 2.20.1
 
