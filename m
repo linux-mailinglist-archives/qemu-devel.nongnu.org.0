@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1FC268AE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:28:49 +0200 (CEST)
-Received: from localhost ([::1]:52218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F274268B06
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:33:44 +0200 (CEST)
+Received: from localhost ([::1]:59656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHnbE-0001SF-KK
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35568)
+	id 1kHnfy-0004nJ-Pf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHnZW-000071-BC
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:27:02 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48639
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHnZT-0007m5-4S
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:27:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600086418;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iucBFllIdbVQAaXJm9ty7DHJerNaXWF863wTtPe1a9Q=;
- b=VWZiVMYWe9jOpWRz+EEMuNcxEljlx8ejNKY9IHVzT1xAbdK6xBjl07lGy3pl9xVNMMLrQ0
- ikNoxjJeeKidkUYeE8lpVlPg+YmhI6cNk+/PN371BFbHjXgRw5pmzqXHjthGYUQghjgGEC
- ewZ3H6Lq3+y/8CJq345+yUpB2aGTPw8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-YJtmjeZPNRmq55hHQoa7kQ-1; Mon, 14 Sep 2020 08:26:55 -0400
-X-MC-Unique: YJtmjeZPNRmq55hHQoa7kQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76D3DE9020;
- Mon, 14 Sep 2020 12:26:49 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 684477E404;
- Mon, 14 Sep 2020 12:26:48 +0000 (UTC)
-Subject: Re: [PATCH] iotests: Work around failing readlink -f
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200914113809.63640-1-mreitz@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <abaa48c8-c947-4a50-6342-a094b7d0f532@redhat.com>
-Date: Mon, 14 Sep 2020 14:26:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHndw-00042a-JH
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:31:40 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:35450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHndr-0000BD-E1
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:31:36 -0400
+Received: by mail-ed1-x544.google.com with SMTP id i1so17418647edv.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:31:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uTjO00w5lmowq0jE0QoOxZDYI4Y5K99mjBn52injmVE=;
+ b=yHv4LPHZhKWH7hGpZplmgstWtqpGBgSVc5VhCPkaSwTz0myIQZYye6OXsNSYi437vr
+ BPdMTs5tY9CO+lQ1JsKYdyiyba1+no+7asCeOA6ER/AHvC2r3070IuMb0kgmSXDqGsF3
+ o69KjdXEUuaHS0BWTYjLSoxrEsckdpqtRDhDApNCdVlhQF31adDcRo08sfv/uUqCebJZ
+ BdNP0EK3SvgywgTz50F3g566XKkHLFRjsMdhe73Ojziu1csY7gRWgOmyOFCUgF259/Kh
+ 9bjcYz3y/xMw5r6BDzfd5b6qzN4ido9/knhR3R4FBPJmCWPXPzecZxkXsth+Lm+lbtDw
+ 7Lyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uTjO00w5lmowq0jE0QoOxZDYI4Y5K99mjBn52injmVE=;
+ b=ZPxVxNxivUbAcKsrKYYwUNPmAebgEnK/bdDk/A3zX9pG+Dwxn3OShaeGYQmNEm0BOe
+ h23CIx7IAYw86Yi9YYFCQnUgXIXrfHndslC0W0ZD5PT5H3sBD452ABNe9sfP9xvP4CTk
+ RfFHvl4QkmRuR5P0aZPj1wCLEU+mS9zXECTwb8tG6bdx/h9kod15QuLM2bkREtCL4NEE
+ sHtl6Co36FiibWatTttfmb6n9viWxnYO+spaKF9Laa0F/+Q5wIZwDrH4H/pVsNlVpY9g
+ KG+loUkotu9ak9X2ugH1dyG0hPK6nQRMxHHQ0o9QM7z+/Ndm8nSiwgAHgGREVpQUMVmi
+ RJjA==
+X-Gm-Message-State: AOAM530Oj9gHaupx9mc0MCZEObxQhLShshjdcOu05R2CSfHpYAo3d0Qp
+ zPPQHhz9nHXvQdVC+Owh2KWo8g+i07Drc5eP4cwYHA==
+X-Google-Smtp-Source: ABdhPJxBioiOEEhz1K3OB94EwRXsux3e7utvoXivr2Z2N/Rob2Jhw5FXocgDJSvQBkPC7jxEvMmPHaRFW6OU9l28UX4=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr17569402edm.100.1600086689267; 
+ Mon, 14 Sep 2020 05:31:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200914113809.63640-1-mreitz@redhat.com>
 In-Reply-To: <20200914113809.63640-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Sep 2020 13:31:18 +0100
+Message-ID: <CAFEAcA-jN39TufevHy6sng-53NAzqfdm=4NEzGe1Yg+oFzfFQg@mail.gmail.com>
+Subject: Re: [PATCH] iotests: Work around failing readlink -f
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,21 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/2020 13.38, Max Reitz wrote:
+On Mon, 14 Sep 2020 at 12:39, Max Reitz <mreitz@redhat.com> wrote:
+>
 > On macOS, (out of the box) readlink does not have -f.  If the recent
 > "readlink -f" call introduced by b1cbc33a397 fails, just fall back to
 > the old behavior (which means you can run the iotests only from the
 > build tree, but that worked fine for six years, so it should be fine
 > still).
-> 
+>
 > Keep any potential error message on stderr.  If users want to run the
 > iotests from outside the build tree, this may point them to what's wrong
 > (with their system).
-> 
+>
 > Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
 >        ("iotests: Allow running from different directory")
 > Reported-by: Claudio Fontana <cfontana@suse.de>
@@ -104,13 +103,13 @@ On 14/09/2020 13.38, Max Reitz wrote:
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
 > Hi Thomas,
-> 
+>
 > I thought this would be quicker than writing a witty response on whether
 > you or me should write this patch. O:)
 > ---
 >  tests/qemu-iotests/check | 4 ++++
 >  1 file changed, 4 insertions(+)
-> 
+>
 > diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
 > index e14a1f354d..75675e1a18 100755
 > --- a/tests/qemu-iotests/check
@@ -124,13 +123,17 @@ On 14/09/2020 13.38, Max Reitz wrote:
 > +        build_iotests=$PWD
 > +    fi
 >  else
->      # called from the source tree
->      source_iotests=$PWD
 
-Thanks, the macOS build seems to work again:
+This still prints
+  readlink: illegal option -- f
+  usage: readlink [-n] [file ...]
 
- https://cirrus-ci.com/task/5431828267925504?command=main#L7033
+(you can see it in the build log that Thomas links to).
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+   build_iotests=$(readlink -f $(dirname "$0") 2>/dev/null)
 
+should avoid that, I think.
+
+thanks
+-- PMM
 
