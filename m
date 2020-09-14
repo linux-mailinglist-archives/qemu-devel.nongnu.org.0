@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82057268B64
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:47:53 +0200 (CEST)
-Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5387D268B79
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:52:15 +0200 (CEST)
+Received: from localhost ([::1]:38876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHntg-0001fI-Ir
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1kHnxu-000643-Cw
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:52:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHnlX-0005Bu-8q
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:39:27 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHnlU-0001Ka-9w
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:39:26 -0400
-Received: by mail-wm1-x341.google.com with SMTP id x23so10473926wmi.3
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:39:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VMiUI0IdDL9Hi13m4LQNY0pABp3pYSdAmMrfMn5DiPs=;
- b=lAlpLYx4RsluakyT3uUNh4Ppgtq045aHJrL/jjk1WBFU6R5OtYRXQPHQHqPmTyBmYU
- tdZLbKQ4HVJvezkEJmgwrf/fkoEQsDtpcOSN2ObScnSOEpYaVMXoL7W8HCDARbE+IPv3
- AIRufHmJ3QsSEVKT+XWxEl7Z5Krqz/OhVn2MdGvMi8TQ0rQpbf4KgK/LyrA5o396Jdi4
- yDstopP/il5NodfcFXhsxHkEc6b/ClRD6qKfu6F5OGG8uC7k/HXUYRCttEgsWHS1ptne
- hGV+zELuxelsQm4srHarXPVculY7EKmJa9xtCUU+xL1RiY7/MyUjV/DwNTS9Rlfdn6BB
- QiIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VMiUI0IdDL9Hi13m4LQNY0pABp3pYSdAmMrfMn5DiPs=;
- b=M1cIEy7AK/MtglyLObpDH84faKXbvr9ugtaZsc+mtbqMKDe7sFUbYZScu03es8Je/j
- nmqOP6Iyn+TOb0hiNw4kArLxKToabP5CXgxr+GTmoZmPeVreF0GJoKMRld/i2ug1eajR
- Y4vz9bKmVnePq8oOETYuz5aX+66/nu6lFS4QUOVSFEvSOC+6rW0PJQy/WqfrQ+/XJy59
- adp0PkdK2Z8CYOXQy9pwXOcN6DrQZ0wEC9H28RvvByiXHGdaGNA0BSk4oV9f4f+2heWp
- U2+DyZvb9v6k9jQUi9eHL9b74Ni1/puEl7rxHGUerzaoUfsAJTIn69whYaJ/Vo1d4x3Z
- DSaw==
-X-Gm-Message-State: AOAM531PIsLRNp0stlozHP01OCSJgpR0s2L2F/zGifATsZQPtZln9COl
- 6NdGgkexb23+9cbHfgfb81Bdf1CMv9GNJffqyqlIuQ==
-X-Google-Smtp-Source: ABdhPJxTQgF596RyF5uZ/BYTXDeoF5T9UxNl/sbVthT5Tq/J5PJqw7MBMGC6s+7twUed3Xj3TQUpEfqGYN9IKpqApgY=
-X-Received: by 2002:a1c:e256:: with SMTP id z83mr15931518wmg.137.1600087162590; 
- Mon, 14 Sep 2020 05:39:22 -0700 (PDT)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kHnoZ-0002yJ-NL
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:42:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57491)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kHnoX-0001lo-QV
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:42:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600087352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KfyCQLLnFRXdmBXoFL+otCYx2qN6utK2TEy+TxldObg=;
+ b=fQ/Uw/6xe21K1fdgq+U5VCVXdXEQ5qrb64ZSCNJV9vcMjhy4oDyiCR82sC4ENX+JhkmrAY
+ tHNlpsMUdzafxgRtZT5Vl7Zkzv+yNbCXCLs6+MsWeUwGLkqJ132m/F+Nc/SBbx2P8/L9uE
+ 9df0FSWCE5ibTScslFVQi/50rxCSiUQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-47sA1uCONOGp8vAMyAJPxA-1; Mon, 14 Sep 2020 08:42:31 -0400
+X-MC-Unique: 47sA1uCONOGp8vAMyAJPxA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5FA11074642;
+ Mon, 14 Sep 2020 12:42:29 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E2D51A837;
+ Mon, 14 Sep 2020 12:42:22 +0000 (UTC)
+Date: Mon, 14 Sep 2020 14:42:20 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 7/9] tests/acpi: unit test for
+ 'acpi-pci-hotplug-with-bridge-support' bridge flag
+Message-ID: <20200914144220.2e27d40a@redhat.com>
+In-Reply-To: <20200911180755.28409-7-ani@anisinha.ca>
 References: <20200911180755.28409-1-ani@anisinha.ca>
- <20200911180755.28409-5-ani@anisinha.ca>
- <20200914143646.073027f1@redhat.com>
-In-Reply-To: <20200914143646.073027f1@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 14 Sep 2020 18:09:11 +0530
-Message-ID: <CAARzgwzbBTC7PFvE_P-K6qGbhqsbJwJiscTDCsYbJ6m=oyONXw@mail.gmail.com>
-Subject: Re: [PATCH 5/9] i440fx/acpi: do not add hotplug related amls for cold
- plugged bridges
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::341;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ <20200911180755.28409-7-ani@anisinha.ca>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,164 +82,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 14, 2020 at 6:07 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Fri, 11 Sep 2020 23:37:51 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
->
-> > Cold plugged bridges are not hot unpluggable, even when their hotplug
-> > property (acpi-pci-hotplug-with-bridge-support) is turned off. Please see
-> > the function acpi_pcihp_pc_no_hotplug() (thanks Julia). However, with
-> > the current implementaton, windows would try to hot-unplug a pci bridge when
-> > it's hotplug switch is off. This is regardless of whether there are devices
-> > attached to the bridge. This is because we add amls like _EJ0 etc for the
-> > pci slot where the bridge is cold plugged. We have a demo video here:
-> > https://youtu.be/pME2sjyQweo
-> >
-> > In this fix, we identify a cold plugged bridge and for cold plugged bridges,
-> > we do not add the appropriate amls and acpi methods that are used by the OS
-> > to identify a hot-pluggable/unpluggable pci device. After this change, Windows
-> > does not show an option to eject the PCI bridge. A demo video is here:
-> > https://youtu.be/kbgej5B9Hgs
-> >
-> > As a result of the patch, the following are the changes to the DSDT ACPI table:
-> >
-> > @@ -858,38 +858,33 @@
-> >                      Return (Zero)
-> >                  }
-> >
-> >                  Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-> >                  {
-> >                      Return (Zero)
-> >                  }
-> >
-> >                  Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-> >                  {
-> >                      Return (Zero)
-> >                  }
-> >              }
-> >
-> >              Device (S18)
-> >              {
-> > -                Name (_SUN, 0x03)  // _SUN: Slot User Number
-> >                  Name (_ADR, 0x00030000)  // _ADR: Address
-> > -                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-> > -                {
-> > -                    PCEJ (BSEL, _SUN)
-> > -                }
-> >              }
-> >
-> >              Device (S20)
-> >              {
-> >                  Name (_SUN, 0x04)  // _SUN: Slot User Number
-> >                  Name (_ADR, 0x00040000)  // _ADR: Address
-> >                  Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-> >                  {
-> >                      PCEJ (BSEL, _SUN)
-> >                  }
-> >              }
-> >
-> >              Device (S28)
-> >              {
-> >                  Name (_SUN, 0x05)  // _SUN: Slot User Number
-> >                  Name (_ADR, 0x00050000)  // _ADR: Address
-> > @@ -1148,37 +1143,32 @@
-> >                      PCEJ (BSEL, _SUN)
-> >                  }
-> >              }
-> >
-> >              Device (SF8)
-> >              {
-> >                  Name (_SUN, 0x1F)  // _SUN: Slot User Number
-> >                  Name (_ADR, 0x001F0000)  // _ADR: Address
-> >                  Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-> >                  {
-> >                      PCEJ (BSEL, _SUN)
-> >                  }
-> >              }
-> >
-> >              Method (DVNT, 2, NotSerialized)
-> >              {
-> > -                If ((Arg0 & 0x08))
-> > -                {
-> > -                    Notify (S18, Arg1)
-> > -                }
-> > -
-> >                  If ((Arg0 & 0x10))
-> >                  {
-> >                      Notify (S20, Arg1)
-> >                  }
-> >
-> >                  If ((Arg0 & 0x20))
-> >                  {
-> >                      Notify (S28, Arg1)
-> >                  }
-> >
-> >                  If ((Arg0 & 0x40))
-> >                  {
-> >                      Notify (S30, Arg1)
-> >                  }
-> >
-> >                  If ((Arg0 & 0x80))
-> >
-> > While at it, I have also updated a stale comment.
-> >
-> > This change is tested with a Windows 2012R2 guest image and Windows 2019 server
-> > guest image running on Ubuntu 18.04 host. This change is based off of upstream
-> > qemu master branch tag v5.1.0.
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
->
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+On Fri, 11 Sep 2020 23:37:53 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Reviewed-by: Julia Suvorova <jusual@redhat.com>
+> This change adds a new unit test for the global flag
+> 'acpi-pci-hotplug-with-bridge-support' which is available for cold plugged pci
+> bridges in i440fx. The flag can be used to turn off acpi based hotplug support
+> for all the slots of the pci bus.
+not true or not clear,
+should be 
+ "turn off acpi based hotplug support on all PCI bridges"
 
-From the previous thread.
+> Tested on the upstream qemu master branch.
+Doesn't belong to commit message
 
->
-> > ---
-> >  hw/i386/acpi-build.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 7a5a8b3521..e079b686f5 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >          int slot = PCI_SLOT(i);
-> >          bool hotplug_enabled_dev;
-> >          bool bridge_in_acpi;
-> > +        bool cold_plugged_bridge;
-> >
-> >          if (!pdev) {
-> >              if (bsel) { /* add hotplug slots for non present devices */
-> > @@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >          pc = PCI_DEVICE_GET_CLASS(pdev);
-> >          dc = DEVICE_GET_CLASS(pdev);
-> >
-> > -        /* When hotplug for bridges is enabled, bridges are
-> > -         * described in ACPI separately (see build_pci_bus_end).
-> > -         * In this case they aren't themselves hot-pluggable.
-> > +        /*
-> > +         * Cold plugged bridges aren't themselves hot-pluggable.
-> >           * Hotplugged bridges *are* hot-pluggable.
-> >           */
-> > -        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
-> > -            !DEVICE(pdev)->hotplugged;
-> > +        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
-> > +        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
-> >
-> > -        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
-> > +        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
-> >
-> >          if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
-> >              continue;
->
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  tests/qtest/bios-tables-test.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index d8c7d57557..7632cfe1be 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -754,6 +754,20 @@ static void test_acpi_piix4_root_hotplug(void)
+>      free_test_data(&data);
+>  }
+>  
+> +static void test_acpi_piix4_bridge_hotplug(void)
+> +{
+> +    test_data data;
+> +
+> +    memset(&data, 0, sizeof(data));
+> +    data.machine = MACHINE_PC;
+> +    data.variant = ".hpbridge";
+> +    data.required_struct_types = base_required_struct_types;
+> +    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
+> +    test_acpi_one("-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off "
+> +                  "-device pci-bridge,chassis_nr=1", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_tcg(void)
+>  {
+>      test_data data;
+> @@ -1159,6 +1173,7 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+>          qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
+>          qtest_add_func("acpi/piix4/hotplug", test_acpi_piix4_root_hotplug);
+> +        qtest_add_func("acpi/piix4/brhotplug", test_acpi_piix4_bridge_hotplug);
+>          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+>          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+>          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+
 
