@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4AE2688A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:39:10 +0200 (CEST)
-Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32D82688B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 11:43:02 +0200 (CEST)
+Received: from localhost ([::1]:40356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHkx3-0005Qo-Od
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
+	id 1kHl0o-0006fN-1O
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 05:43:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHkvD-0003Ul-6e
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:37:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50569
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHl07-0006GT-JU
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:42:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHkvB-0002vC-Et
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:37:14 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHl05-0003Pm-V8
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 05:42:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600076232;
+ s=mimecast20190719; t=1600076537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=e+LceTluk9JR3JdXIQD5mYK3KfB+wrhz6ZU0SgmnCrU=;
- b=jL6KB30IxIR1YNFgEjUfSatL3xnGp7bzev41lL16PEydBkGDQhcC6kVap2Vug4ob5Zziou
- x2JmAAVgBtVkK7T/9pqTM7MFu692GjRD0XfW0+df2EtBY4feJcpb2g9yScS+hd0ZU9GljD
- xLV/Nfhv55tn/S90UCQufwstjXjm5rc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-FiLi-LVVM_WW-15HJHjPRA-1; Mon, 14 Sep 2020 05:37:10 -0400
-X-MC-Unique: FiLi-LVVM_WW-15HJHjPRA-1
-Received: by mail-wr1-f69.google.com with SMTP id f18so6672593wrv.19
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 02:37:10 -0700 (PDT)
+ bh=4QJis2xZBwwCIfKNDni/j8VByZ7n+4PTPS79hgLuu1g=;
+ b=VshD3PULjoZ3uDFNr2ov14ko3xHntWc5E6knDkdUfZTE8rQKNepSOJRUZlzapQmZ+TIByY
+ KOiPbY3DnCrx8CrP20qvOgkUy/k7jGcy1OlYIXuujUsXltoyvTZJo+Ty/QjYQU6V01IwYg
+ 2o8iMNrCN/AQPd/mGl/Oncapol45trY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-ZRgEpv6nOo-D7PLLuEkV8g-1; Mon, 14 Sep 2020 05:42:15 -0400
+X-MC-Unique: ZRgEpv6nOo-D7PLLuEkV8g-1
+Received: by mail-wm1-f72.google.com with SMTP id q205so1379391wme.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 02:42:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=e+LceTluk9JR3JdXIQD5mYK3KfB+wrhz6ZU0SgmnCrU=;
- b=JSAq/COAYAUWz6fhN1KV7xRxtFPynWmuqfxRngywvYQgN3eYEzfYSSgehEOk2BLtPC
- NhFm5JKWIb27JvKDdsrPsVsSvJswA/8lJp2B0XcSpdLueSIoHLT+IvNYdkhjSij3ECVN
- Tj9pKjqDGHb2goB+EP0UdP3Sd/VUnoWZzNK5G6jNnr8MstQmccbiNzhRxSWTEmoxnUU6
- ZQtV6LBc4K2rO7nOtFDKuarEC0CeMYF2saWLCcNBCeZC7taDUXFyKSwDMMMy9vT78RVw
- H38b4QntP6QFGtCmczmcO42BtmtlniB8k22nE5z2+iIeNsSu1+cUADKkneHbWqDVGwVO
- Pu4w==
-X-Gm-Message-State: AOAM533rU39hFSD8OzGHE9QAlv/zAWsb0QHLMMc7wDtbLEZTid6UUDD/
- sAic3lBoSNIzD7xpOfSabpVkt659yh3XRDqTz9uknwdBToDo+2KqY0fOKENaeCVDbb1Zu+RgOYd
- NzQKNG6io0g02KXA=
-X-Received: by 2002:adf:f4c6:: with SMTP id h6mr14801626wrp.310.1600076229780; 
- Mon, 14 Sep 2020 02:37:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuICA+v3+pYlJ3G13o969Iihi4eN2ZUzLtMZTHQjC/e7b4qYfsWMA6G/TpCzKaSDEwD+Fgug==
-X-Received: by 2002:adf:f4c6:: with SMTP id h6mr14801606wrp.310.1600076229599; 
- Mon, 14 Sep 2020 02:37:09 -0700 (PDT)
+ bh=4QJis2xZBwwCIfKNDni/j8VByZ7n+4PTPS79hgLuu1g=;
+ b=fdKiaYvXaXI0pRdayfFvm0jiNZz45nUOAVRr80CiXDY8UugEcMSp/4cAYKzZoVkeYO
+ fGAILm50Y3aJfp8G4fzsVDxjWmv/JVE1e0Xb7O2RBXbCdWf+n2AfLdRYN/uESbNfVnud
+ GystXchoT7krHHPSspxT7B4qSEZMpucCmDPRxIZ3R+CUu1Fq+TXzNLspUMM+rY5JchFl
+ AenlvyE8EVNMdLrFnvB2KhQd++i++5sYw4lr4K7svybeW0pcpodWIIYo7n8dsx5sy4Zt
+ ZNOERini9N6/bU8FHZ3iJG3SxohJ5pg0rRbBRSxwlkXvjaBBQxUXeX0D4YzHyz8hxJqJ
+ VIEQ==
+X-Gm-Message-State: AOAM533Is8p1KFYZz5KL/1d1vDMSarrEkmokYxWKhKW0L219SuSEtnBo
+ E4r1u/Fm3ldMbydlSsDEVcCYCqeRsSclFebVvNgnAjJRZjOPoZ2bFh+By3Gp0gwi2NsbxeKRANh
+ FnoAqR5nuM8mLeTc=
+X-Received: by 2002:a1c:2781:: with SMTP id n123mr14153679wmn.27.1600076534382; 
+ Mon, 14 Sep 2020 02:42:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzzR6kdtokqRaKu3xDP6FcGDc8rZ9LWyo3C+5fMnTh0qY1PONv28e5U6svmgsCDFl1PiuEcDQ==
+X-Received: by 2002:a1c:2781:: with SMTP id n123mr14153662wmn.27.1600076534133; 
+ Mon, 14 Sep 2020 02:42:14 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id m2sm11004723wrq.25.2020.09.14.02.37.08
+ by smtp.gmail.com with ESMTPSA id a127sm18906321wmh.34.2020.09.14.02.42.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Sep 2020 02:37:09 -0700 (PDT)
-Subject: Re: [PATCH v5 1/8] qapi: Restrict LostTickPolicy enum to machine code
+ Mon, 14 Sep 2020 02:42:13 -0700 (PDT)
+Subject: Re: [PATCH v5 3/8] qapi: Restrict balloon-related commands to machine
+ code
 To: Markus Armbruster <armbru@redhat.com>
 References: <20200913195348.1064154-1-philmd@redhat.com>
- <20200913195348.1064154-2-philmd@redhat.com>
- <871rj4u3ct.fsf@dusky.pond.sub.org>
+ <20200913195348.1064154-4-philmd@redhat.com>
+ <87wo0wsopv.fsf@dusky.pond.sub.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,12 +88,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <d80894ba-9958-48e6-33cc-6356474fc2b7@redhat.com>
-Date: Mon, 14 Sep 2020 11:37:07 +0200
+Message-ID: <b9401e89-2598-74f7-5e92-885c522b7599@redhat.com>
+Date: Mon, 14 Sep 2020 11:42:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <871rj4u3ct.fsf@dusky.pond.sub.org>
+In-Reply-To: <87wo0wsopv.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -101,17 +101,18 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:36:47
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,28 +125,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Qemu-block <qemu-block@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Laurent + qemu-block@
++Laurent and David
 
-On 9/14/20 11:14 AM, Markus Armbruster wrote:
+On 9/14/20 11:16 AM, Markus Armbruster wrote:
 > Philippe Mathieu-Daudé <philmd@redhat.com> writes:
 > 
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Only qemu-system-FOO and qemu-storage-daemon provide QMP
+>> monitors, therefore such declarations and definitions are
+>> irrelevant for user-mode emulation.
+>>
+>> Restricting the balloon-related commands to machine.json
+>> allows pulling less declarations/definitions to user-mode.
 > 
-> Unlike the other patches that move code out of misc.json, this one
-> doesn't say "allows pulling less declarations/definitions to user-mode."
-> Intentional?
+> How this affects user mode is not obvious to (ignorant) me.  Can you
+> provide a clue?
 
-TBH I don't remember as this is 6months old.
+I guess this was discussed with David at some point.
 
-IIUC the "tick lost" feature is only meaningful when running
-virtualized with a RTC profile, so this is pointless for
-user-mode binaries and tools.
+Maybe the QMP commands are not exposed via HMP, making this
+code unreachable?
+
+Anyhow user-mode binaries don't use the memory ballooning feature,
+this is specific to system-mode emulation.
+
+Laurent/David, do you have some more trivial explanation?
+
+Thanks,
+
+Phil.
 
 
