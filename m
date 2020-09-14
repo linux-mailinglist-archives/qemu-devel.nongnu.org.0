@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65097268E01
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:41:23 +0200 (CEST)
-Received: from localhost ([::1]:51722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37549268DB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:31:19 +0200 (CEST)
+Received: from localhost ([::1]:39626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpfW-0005A2-G7
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:41:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50602)
+	id 1kHpVm-00085t-7P
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:31:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kHpJA-0001kW-Tc
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:18:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43525
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kHpJ6-0000kY-GK
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:18:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600093091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oETInUiFWpxHf215yFoCpZHKJLSv7N4yWD2WVpGTVKU=;
- b=ezRiYeMNtXU8BE58hfni8QsV+14RGhIYke7+933n7+NjfFiomKSYu4b1o4y1WosVEvOAub
- CiWx07FvA5Gh8qkiD8LGYsyAujIdi09uNINgwTmQjbX9lmmjfE6/Mb4ua5QWKsAQedGyDM
- aj6PQSCmqEc4SbBqmsdJZ1f/uu8lJ1A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-_KYfvAvuOtmWAJ03XzDVvg-1; Mon, 14 Sep 2020 10:18:08 -0400
-X-MC-Unique: _KYfvAvuOtmWAJ03XzDVvg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32C3F801AC2;
- Mon, 14 Sep 2020 14:18:07 +0000 (UTC)
-Received: from localhost (ovpn-114-32.ams2.redhat.com [10.36.114.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A51FD7B7B9;
- Mon, 14 Sep 2020 14:18:03 +0000 (UTC)
-Date: Mon, 14 Sep 2020 14:44:42 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v3] checkpatch: detect missing changes to trace-events
-Message-ID: <20200914134442.GN579094@stefanha-x1.localdomain>
-References: <20200811081158.4893-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHp8Z-0003Gq-I4
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:19 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kHp8X-0007dG-Ih
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:19 -0400
+Received: by mail-wr1-x434.google.com with SMTP id z1so18906150wrt.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=yZ2vEdJlPjbyI8ww8U5qoJzqvDc0/HAFhSNTRittaEw=;
+ b=iT4Oc585nLTP5yjyKnHF2qX5XOr076vBm5yx6xeJajd+OGP2DYKfvo+COC3N8fCorH
+ xtTuMBGlcohhTDpOqJliSxqsL761Vpq+fT8V4gq/Q/ykgB+eM1WDgF1SOs/FeaZoo30L
+ NzAJX9/oUKWWLf350FLz59/RC2Y44fNUEx0t/psSr20JhFMwylVAVLJ2CVPXJ9zYc9/H
+ B6XBuVYWc2XyMqEDxD5e+Cuixol9ko0bXWTpTXq+9/OuIwczkCGmRH2vXZj+oCuiz8m9
+ /M91LciLW91hoG6aZGx3wpARD67XC9DuHQCY1kcKy1aaxRsQRGTDupk7lbpvN/ZzSYat
+ epHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=yZ2vEdJlPjbyI8ww8U5qoJzqvDc0/HAFhSNTRittaEw=;
+ b=aTujUke7K8DAoHqoaDsL4GqUtk00LkfLiweAvrJdCyj68W3MHaKE7P3rE2rdx39jKq
+ 8j4fn16rl6KS330WQHhWKA8JGZxsZ8naTLygi+y3Vanh7PojGCzcfRPq0q2j4tSuvgUj
+ TyLb9EfvpUa0/IjWtGtbAyxanf3A6RRUYUCqA2olsuG+8Zd33q4k1hxTEr2Xgo1SevlC
+ Z6SDc9VExKuhnBMbHC3nCvNnb4BihVyoH1C6gGHvoXxMXN6DL8z1CIjfEm8G1S/KD+Kn
+ ykAepUGiPFn1e9VsyIIzCMqYhCE7VC83FQPeFRJ6d8N2ruP/ruPk3UuSs9B7dw3D+OeQ
+ SYpQ==
+X-Gm-Message-State: AOAM531/i+W7t8ordqrp3XzrlkQNuI3JEseODDDBblzqSBNOikekuza4
+ fzJuFjLO/nw6eauhxw7XSSM+KypG77vZ46UN
+X-Google-Smtp-Source: ABdhPJxgRyw8i6ktQA6bZJRLBpOlmYTs106Uj2JFF3+3Eu753DmjYm/XjQpb8lArmJ8jxy1Wfo60kQ==
+X-Received: by 2002:a5d:6404:: with SMTP id z4mr16900327wru.423.1600092435913; 
+ Mon, 14 Sep 2020 07:07:15 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.07.15
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Sep 2020 07:07:15 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 29/36] hw/arm: Wire up BMC boot flash for npcm750-evb and
+ quanta-gsj
+Date: Mon, 14 Sep 2020 15:06:34 +0100
+Message-Id: <20200914140641.21369-30-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
+References: <20200914140641.21369-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200811081158.4893-1-cfontana@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ztcJpsdPpsnnlAp8"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:33:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,65 +87,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ztcJpsdPpsnnlAp8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Havard Skinnemoen <hskinnemoen@google.com>
 
-On Tue, Aug 11, 2020 at 10:11:58AM +0200, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  scripts/checkpatch.pl | 48 ++++++++++++++++++++++++++++++++++++---------=
+This allows these NPCM7xx-based boards to boot from a flash image, e.g.
+one built with OpenBMC. For example like this:
+
+IMAGE=${OPENBMC}/build/tmp/deploy/images/gsj/image-bmc
+qemu-system-arm -machine quanta-gsj -nographic \
+	-drive file=${IMAGE},if=mtd,bus=0,unit=0,format=raw,snapshot=on
+
+Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200911052101.2602693-12-hskinnemoen@google.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
->  1 file changed, 36 insertions(+), 12 deletions(-)
->=20
-> v2 -> v3 :
->=20
-> * move the check for missing changes to MAINTAINERS and trace-events
->   later on, as otherwise the check for in_commit_log will not be done
->   on an up to date value, causing fromfile and realfile to not be set,
->   and matching unwanted strings inside the commit log.
->=20
-> * Ensure that at least one file name is passed to grep.
->=20
->=20
-> ----
->=20
-> v1 -> v2 :
->=20
-> * track the "from" file in addition to the "to" file,
->   and grep into both (if they exist), looking for trace.h, trace-root.h
->=20
->   If files are reachable and readable, emit a warning if there is no
->   update to trace-events.
+ hw/arm/npcm7xx_boards.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-This patch still has an RFC tag. Is it ready to be merged?
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---ztcJpsdPpsnnlAp8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9fc8oACgkQnKSrs4Gr
-c8jxzAgAxOFwyZPSvrhGQ5+i6Paxn/jSRZkgRRxKduQKOkRQuZ7NbLRqL5YBcmUq
-sB3hqxLXOIy7Q91xM02zSf02qXxVRckGBIrtxrcvCCj3eJXFlj/EIQI0ius62T3p
-3gH7H75LfBScJod1twGplSmMtpp/u+GarrqFKSj2909ETBtpzOjymNH2lA0J8Y3A
-gt2FgSbLf8d2GijeSCcM4ln1Qz3Js0VCFjYf9EcOr3ky7uubzDx/pLHfS3UNZZEs
-8qpJdXW6rLSK6e4DNjRRl6FoUhQmQGTGlhaxckdPvYNJpUKz7OOjfZddUlWuVmgm
-qMbEgRn7uNrbF4VoIocFx923kvBqhQ==
-=awgG
------END PGP SIGNATURE-----
-
---ztcJpsdPpsnnlAp8--
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index b4c772d6b52..79e2e2744ca 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -20,6 +20,7 @@
+ #include "hw/arm/npcm7xx.h"
+ #include "hw/core/cpu.h"
+ #include "hw/loader.h"
++#include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu-common.h"
+ #include "qemu/units.h"
+@@ -55,6 +56,22 @@ static void npcm7xx_load_bootrom(MachineState *machine, NPCM7xxState *soc)
+     }
+ }
+ 
++static void npcm7xx_connect_flash(NPCM7xxFIUState *fiu, int cs_no,
++                                  const char *flash_type, DriveInfo *dinfo)
++{
++    DeviceState *flash;
++    qemu_irq flash_cs;
++
++    flash = qdev_new(flash_type);
++    if (dinfo) {
++        qdev_prop_set_drive(flash, "drive", blk_by_legacy_dinfo(dinfo));
++    }
++    qdev_realize_and_unref(flash, BUS(fiu->spi), &error_fatal);
++
++    flash_cs = qdev_get_gpio_in_named(flash, SSI_GPIO_CS, 0);
++    qdev_connect_gpio_out_named(DEVICE(fiu), "cs", cs_no, flash_cs);
++}
++
+ static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
+ {
+     memory_region_add_subregion(get_system_memory(), NPCM7XX_DRAM_BA, dram);
+@@ -92,6 +109,7 @@ static void npcm750_evb_init(MachineState *machine)
+     qdev_realize(DEVICE(soc), NULL, &error_fatal);
+ 
+     npcm7xx_load_bootrom(machine, soc);
++    npcm7xx_connect_flash(&soc->fiu[0], 0, "w25q256", drive_get(IF_MTD, 0, 0));
+     npcm7xx_load_kernel(machine, soc);
+ }
+ 
+@@ -104,6 +122,8 @@ static void quanta_gsj_init(MachineState *machine)
+     qdev_realize(DEVICE(soc), NULL, &error_fatal);
+ 
+     npcm7xx_load_bootrom(machine, soc);
++    npcm7xx_connect_flash(&soc->fiu[0], 0, "mx25l25635e",
++                          drive_get(IF_MTD, 0, 0));
+     npcm7xx_load_kernel(machine, soc);
+ }
+ 
+-- 
+2.20.1
 
 
