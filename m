@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C249A2684D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 08:28:19 +0200 (CEST)
-Received: from localhost ([::1]:46150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F6D268538
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 08:58:42 +0200 (CEST)
+Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHhyM-00008Q-TJ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 02:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
+	id 1kHiRl-0007WI-By
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 02:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHhxR-00085B-Fr; Mon, 14 Sep 2020 02:27:21 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45515)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kHhxP-0004dW-Gl; Mon, 14 Sep 2020 02:27:21 -0400
-Received: by mail-lj1-x242.google.com with SMTP id c2so17562146ljj.12;
- Sun, 13 Sep 2020 23:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=M7dFwmsRh+FNZP7P1iJ6lahhJX9ebnRyFa52mZuB15A=;
- b=TtVg944oKwyjhi5iT9N/nhE605at7B8RtAC3TsFsOJR2E5ye9t2JAUqK+wJvohe+jb
- fMPiDfC7poG1udHslzWrlemg7fAkDaniXj8sLP30+jFKekNVmbs7g0jMRRX6riRVbfyc
- ahfTQ5KkUCGHNwwoIdZOnzposb045dzS3uzqx6UIF7rMrb0iZKclo8hRolcQoerIMx59
- v+jMlKqXonERzPg2z9DkQqR8gryPWXJfRJjSXDJTgSNieR0o4Qs4WXHGtBmNBImAtATq
- 07qnrPm+c01+AaoCFCZK+QUV+pVK8yVSUCfsf1z/FXbd8Fx060hiD63oCzdmrLAOjQ/X
- 7LrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=M7dFwmsRh+FNZP7P1iJ6lahhJX9ebnRyFa52mZuB15A=;
- b=LGmeLMmrKnNvR8bQmTym+tW6uIUFEferCXQ24f1TmBME3swIpeDlaP20ll1DYv6gtW
- V+xX3aKrmw7jHUhR94RMzkVoOfeeb0aFxOb3Aw2tLip40VIjXCrA9ToNbxgXYkwg37ZD
- xPe7LxVeix4zXMRwkRMabqat7pCSNL7SrkQBom7JOxTRQE72jXErLDbCfVKPKgzBkeeF
- N04FrboHzOHcZ76MAmau0MWSRrCxxFU4WgyYXTivO1AGOHeTnv6v0SiUIXqMmhVKTNTG
- rBKCHRxM4xz9vGDQenIlcsfOJ+ZZqnpnlPL8huDHAfIOyLLf8dSFw5sR5/Ta1b2744PX
- Qa0A==
-X-Gm-Message-State: AOAM531Mh6EDH49gwTiLE1vBkEUdpL5B9bPyNrflc/l2yVKNK3iB/a26
- b62Vv7/VtrSlHrUiCcmy6cLFfGUfywdUWBJJ4lc=
-X-Google-Smtp-Source: ABdhPJxmi3xDwXP6/+0Gbl35i4V4QodzOWmUwGZrgypUTmQ8b7YPRRyM2/ak/UYai1lLFFKlIBXMdcsUXRoziQ1rnfs=
-X-Received: by 2002:a2e:9dc7:: with SMTP id x7mr4930578ljj.447.1600064836986; 
- Sun, 13 Sep 2020 23:27:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kHiPr-0006r8-2h; Mon, 14 Sep 2020 02:56:44 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51021 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kHiPo-0007vh-Ha; Mon, 14 Sep 2020 02:56:42 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BqcbM3TsFz9sT6; Mon, 14 Sep 2020 16:56:31 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1600066591;
+ bh=9GWFY9QXUEhT7sG0e6nX0zqlqxk4pJ/7wpvmzuz7e0Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MWVWKVt12wJ/085W7H8Uj/UoUepOW4drR9+oyr2IlGO0xzx/F6XYd8qqGzXBEV+ps
+ ZGqiFdo9z8gZJiLzNlauJr2kIWLoc/ACuFMjTIvnZotphzoV9iFn/MgECEW/K4JGw1
+ 3eKHCcDXXVpTo7fbueAFBTU/zMOpyiuiafWA9I4E=
+Date: Mon, 14 Sep 2020 16:21:19 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [PATCH] spapr: Handle HPT allocation failure in nested guest
+Message-ID: <20200914062119.GB5306@yekko.fritz.box>
+References: <20200911043123.204162-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
-References: <20200912224431.1428-1-luoyonggang@gmail.com>
- <276a137d-d863-2465-1fe2-599e5772a1a8@redhat.com>
-In-Reply-To: <276a137d-d863-2465-1fe2-599e5772a1a8@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Mon, 14 Sep 2020 14:27:07 +0800
-Message-ID: <CAE2XoE8WrE1_e1VR1VSG7vWWX9nsbp2iRwZvOur1ouGrbC+Rqw@mail.gmail.com>
-Subject: Re: [PATCH v8 00/27] W32, W64 msys2/mingw patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000039ee8e05af402030"
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/NkBOFFp2J2Af1nK"
+Content-Disposition: inline
+In-Reply-To: <20200911043123.204162-1-farosas@linux.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:56:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,102 +59,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Qemu-block <qemu-block@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- qemu-level <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000039ee8e05af402030
-Content-Type: text/plain; charset="UTF-8"
+
+--/NkBOFFp2J2Af1nK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 14, 2020 at 2:10 PM Thomas Huth <thuth@redhat.com> wrote:
+On Fri, Sep 11, 2020 at 01:31:23AM -0300, Fabiano Rosas wrote:
+> The nested KVM code does not yet support HPT guests. Calling the
+> KVM_CAP_PPC_ALLOC_HTAB ioctl currently leads to KVM setting the guest
+> as HPT and erroneously executing code in L1 that should only run in
+> hypervisor mode, leading to an exception in the L1 vcpu thread when it
+> enters the nested guest.
+>=20
+> This can be reproduced with -machine max-cpu-compat=3Dpower8 in the L2
+> guest command line.
+>=20
+> The KVM code has since been modified to fail the ioctl when running in
+> a nested environment so QEMU needs to be able to handle that. This
+> patch provides an error message informing the user about the lack of
+> support for HPT in nested guests.
+>=20
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-> On 13/09/2020 00.44, Yonggang Luo wrote:
-> > It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses an=
-d
-> > disable partial test-char tests.
-> > And then fixes all unit tests failure on msys2/mingw
-> > This fixes the reviews suggested in the mailling list
-> > All cirrus CI are passed
->
->  Hi,
->
-> since you're very often sending new versions of your patch series, could
-> you please add a history to the cover letter to say what you changed in
-> each version? Otherwise, your work is very hard to follow.
-> I'd also suggest to really slow down the sending a little bit. Let your
-> patches mature in your tests first, then send out a new series only if
-> you feel that they are really ready. Nobody has the bandwith to review a
-> patch series with 27 patches each day...
->
-> Thanks, I am learning how to submit patches properly, in old days,  when =
-I
-am using pull request on github have no such problems. easy to follow up
+Applied to ppc-for-5.2.
 
->  Thanks,
->   Thomas
->
->
->
+> ---
+>  hw/ppc/spapr.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 9bce1892b5..ea2c755310 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1483,6 +1483,12 @@ void spapr_reallocate_hpt(SpaprMachineState *spapr=
+, int shift,
+>      spapr_free_hpt(spapr);
+> =20
+>      rc =3D kvmppc_reset_htab(shift);
+> +
+> +    if (rc =3D=3D -EOPNOTSUPP) {
+> +        error_setg(errp, "HPT not supported in nested guests");
+> +        return;
+> +    }
+> +
+>      if (rc < 0) {
+>          /* kernel-side HPT needed, but couldn't allocate one */
+>          error_setg_errno(errp, errno,
 
 --=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
---00000000000039ee8e05af402030
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--/NkBOFFp2J2Af1nK
+Content-Type: application/pgp-signature; name="signature.asc"
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 14, 2020 at 2:10 PM Thoma=
-s Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 13/09/202=
-0 00.44, Yonggang Luo wrote:<br>
-&gt; It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses a=
-nd<br>
-&gt; disable partial test-char tests.<br>
-&gt; And then fixes all unit tests failure on msys2/mingw<br>
-&gt; This fixes the reviews suggested in the mailling list<br>
-&gt; All cirrus CI are passed<br>
-<br>
-=C2=A0Hi,<br>
-<br>
-since you&#39;re very often sending new versions of your patch series, coul=
-d<br>
-you please add a history to the cover letter to say what you changed in<br>
-each version? Otherwise, your work is very hard to follow.<br>
-I&#39;d also suggest to really slow down the sending a little bit. Let your=
-<br>
-patches mature in your tests first, then send out a new series only if<br>
-you feel that they are really ready. Nobody has the bandwith to review a<br=
->
-patch series with 27 patches each day...<br>
-<br></blockquote><div>Thanks, I am learning how to submit patches properly,=
- in old days,=C2=A0 when I am using pull request on github have no such pro=
-blems. easy to follow up=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-=C2=A0Thanks,<br>
-=C2=A0 Thomas<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div></div>
+-----BEGIN PGP SIGNATURE-----
 
---00000000000039ee8e05af402030--
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9fC98ACgkQbDjKyiDZ
+s5IVchAAxaFZpuEkonxj1EkD4Zh8DAA1p22ZGeFIyY92nGUZVq8h+0dBjq2z+su3
+b2XsvBCcsDK5OoMJxryyJFPPxVn7qkYKF8gVHTefWBFnU37ZMiOiMcp5axJX4W/7
+Jg7wG/KUuvSMc7/gFd+W+Xg8oXCsfF6jzZwxpmT9Nk5ORzihgXMhLtK3cjlMPFp2
+k1EH1D5lTe8XF4SMZ4ZGfeiUgKZCjDqe+vRhTbZWEWGQuDrQrZpilckQUaV1slk5
+FmeLr+dCsnzOprE+ZBFKOQBZo14sYX0Hv5Sq7bks2MxMZwHo9co4FSALYj0qP3bd
+aDEqsuQkO+ixHNQpFQ/xAVK06jVhHncGB59lQtidu1JfX3WKMhuYqazlESJ8sd4A
+2BGrameNrmriQjjcvwJdCYDGgZ3AA9UUFRBOuKGLI7dVLL7ereAnqlJIoUG0jK+J
+9OVrgGazY72WEJEmihBLAB+ehbYckzeBJIRJjzAuI7Us1J7ho8f+TnSVlqewzJie
+jSiarMCtkv41gq8iOZk4OJeUlMbDH9t7t/G9leA4fRAlEYZouXl6n/Q2mpYcU8W6
+RNkVhzlg9+sLVnZXw9K0dWwUK1q/7L/MAyFlRVihHgfIlTE0c8FsWTmTgoxETOm0
+7mAKNNHwXMcssvnyu0rzhk1tCMjsdpd5AgDAnz2PfnvBoq3NsTU=
+=Mor0
+-----END PGP SIGNATURE-----
+
+--/NkBOFFp2J2Af1nK--
 
