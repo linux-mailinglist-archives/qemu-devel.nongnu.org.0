@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FE5268263
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A61268264
 	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 04:00:40 +0200 (CEST)
-Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHdnL-0003di-22
+	id 1kHdnL-0003ei-GJ
 	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 22:00:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kHdm1-000232-4D
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:17 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36293)
+ id 1kHdm2-00023G-GL
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:18 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:40954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kHdlz-0008EW-IY
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:16 -0400
-Received: by mail-ot1-x329.google.com with SMTP id 60so13496545otw.3
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:59:15 -0700 (PDT)
+ id 1kHdm0-0008G9-TH
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 21:59:18 -0400
+Received: by mail-oi1-x236.google.com with SMTP id t76so16176652oif.7
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 18:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=o4mSoG5q+aRN/4U3JPRKEBXuvYdbubdRIlCE9XVbaLk=;
- b=VA6Ud4SaMDV1lBkSxrzPmPWbrsbcDlwqZT3KDx+PF1IooRSJjQqiQBQEVT/VkZTmWn
- OlEXsoF+85PI1PWedWqV8rrp99Q3Ki4zvvulTblbbP/EvJtqmp0vTbznHbV186zwwQNO
- lRs+BzWJSG1w7LBRaY6K+i0l777YrF8Wq+YB6AXb9xAgVZgS8EBSCigXdcL0QVHm51Pb
- uo8Wbe6ETC4WyWhrM4C3gXUocpIplR5AmFmOIDWEXsntIL8kA87v/PSVB8h2E0ZkK8lE
- GuyIRRwgTzpze9HSXZF3Rd1KYukXuymOxdwaumSOkwBqYpoIrawk8ZZTzgdaHCUsSlaa
- okNg==
+ bh=qPIPNTwPz2JPOtlyZclHBQ77xy7GpRmo9vH1WLt6diQ=;
+ b=OoHgpdM2wGam0s5v6n1OQjNP1xmXCRHaj+Yj2PJkBNDFWaJUiOO5OkQlVX8/8HX8qK
+ rXXLAaMmUMtWb95nweoPKcn85zDh/lcjoqckwke5s1Czjnsy5jot4B1tOZDyptf+/VoZ
+ aOgWwbJq5bh2RLzjjc6xnm7hmgYtE3DJvpNU5UZ4ZFB/KAAb20Q9MXAcws31JOusSiAx
+ rbe/wy3v6z1V41rgJT9zqUXsd/g7y9pUKETCwzxIeDpS+CPg+Inc7vwSsKzcofC+XoJu
+ V5LyF2qcX4nGkj9wdT40hBhcTwa7VT9+JKWYbnHvuwYBAhyLH6/RT1maLHblQR4kBgzT
+ uXsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=o4mSoG5q+aRN/4U3JPRKEBXuvYdbubdRIlCE9XVbaLk=;
- b=tTv/4vQAI0YSdOuSnqc0EjPSxFSp6LzMYpLGicF8bNd54ke2QmHcRJi3keQqmLEo7q
- nblZ2C4yBrukIC4vUNrQtXUeknpgCoN7PaIGr1ebMN+AlPjIvHWv3mOaHCE4R5bj57Xs
- ZcS6vxIq8BYrJ07yLcXKkwbRDNVFhAkQgDd+9xmAQpgWnW0Wv9frDNUc0zUypdCSKMVF
- emxhsSwL1xN1vQx9/BGp3kObwZqIBKM1kllJRZe4etKP43VonAMRnHz4NmtqogeZ8D1K
- EtWMziF+DLQeToAgePAlHVFaUsfr5pNkOl4nc6rZN4M4JUxxNi9mOYz0KOwcVW8+yx+F
- yYYQ==
-X-Gm-Message-State: AOAM531w9u95q2Wp1ZRlYhgscgmlVBo6n1l5jxNPLaUC9Dmn8AfzKlTg
- ujqK/PbsppHZeiFTgH09SROAdMCdDUE=
-X-Google-Smtp-Source: ABdhPJymBiD6IqHFFXYXNpQLtjcofYEdrO/73Y/z3a1+1wxexnaAW2LMEjuhhhI6HWUitdvXPE14og==
-X-Received: by 2002:a9d:10d:: with SMTP id 13mr8364355otu.130.1600048753964;
- Sun, 13 Sep 2020 18:59:13 -0700 (PDT)
+ bh=qPIPNTwPz2JPOtlyZclHBQ77xy7GpRmo9vH1WLt6diQ=;
+ b=EckHNnxS17XYb/O9qf5uprfpEOIWQr09tQWwF9cWeokqIItfEp5nuF+VFl8L8ypMYj
+ MVpogSW2WIYD6MaqaOeCtbfVJlhVX/N3lHujx5cN0gavQxuDhLPLUgxmmUQdpJCaaJo4
+ lHU++Cl8050FjStVdtcaGRFPWE3ECGwperwooAyPYl34HYRQb65CnDyliEw4dQtPV8aM
+ qX92bwAdGWV8XQJUUDShad+1nYfqQeumETFr0p5zXVrwFkJ5M+qB0rj7AMw4X2hv81BO
+ XdKcsN4MBPBxymlcg5YMdQr3f0IacrG32wc14N5ks3kZuioCGDxHY+iVRItUtYk9uUID
+ qwZQ==
+X-Gm-Message-State: AOAM532xuX9Tjc/RHY8Sldz5b+OL+drTpxHHHk9xz6YgOhHVzwLtSuOI
+ xbbBVUnSyDkhcG7gC3y2TAjJP76kfjQ=
+X-Google-Smtp-Source: ABdhPJxspV9JUIYTXbdx5sMCbRnTzOlhVsF1cudcSubC0NSdsidui3FXAXRO6HB7LAczkG7LAU13nA==
+X-Received: by 2002:aca:1312:: with SMTP id e18mr7467435oii.19.1600048755235; 
+ Sun, 13 Sep 2020 18:59:15 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id b17sm2752717oog.25.2020.09.13.18.59.13
+ by smtp.gmail.com with ESMTPSA id i7sm2390668oto.62.2020.09.13.18.59.14
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 13 Sep 2020 18:59:13 -0700 (PDT)
+ Sun, 13 Sep 2020 18:59:14 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] qga/commands-posix: Rework
- build_guest_fsinfo_for_real_device() function
-Date: Sun, 13 Sep 2020 20:58:59 -0500
-Message-Id: <20200914015902.25769-2-mdroth@linux.vnet.ibm.com>
+Subject: [PULL 2/4] qga/commands-posix: Move the udev code from the pci to the
+ generic function
+Date: Sun, 13 Sep 2020 20:59:00 -0500
+Message-Id: <20200914015902.25769-3-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200914015902.25769-1-mdroth@linux.vnet.ibm.com>
 References: <20200914015902.25769-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x329.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x236.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -94,140 +94,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-We are going to support non-PCI devices soon. For this we need to split
-the generic GuestDiskAddress and GuestDiskAddressList memory allocation
-and list chaining into a separate function first.
+The libudev-related code is independent from the other pci-related code
+and can be re-used for non-pci devices (like ccw devices on s390x). Thus
+move this part to the generic function.
 
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1755075
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/commands-posix.c | 65 ++++++++++++++++++++++++++++----------------
- 1 file changed, 41 insertions(+), 24 deletions(-)
+ qga/commands-posix.c | 62 +++++++++++++++++++++++---------------------
+ 1 file changed, 33 insertions(+), 29 deletions(-)
 
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 1a62a3a70d..1a42ec8171 100644
+index 1a42ec8171..e8467ac567 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -861,28 +861,30 @@ static int build_hosts(char const *syspath, char const *host, bool ata,
-     return i;
- }
- 
--/* Store disk device info specified by @sysfs into @fs */
--static void build_guest_fsinfo_for_real_device(char const *syspath,
--                                               GuestFilesystemInfo *fs,
--                                               Error **errp)
-+/*
-+ * Store disk device info for devices on the PCI bus.
-+ * Returns true if information has been stored, or false for failure.
-+ */
-+static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-+                                           GuestDiskAddress *disk,
-+                                           Error **errp)
- {
-     unsigned int pci[4], host, hosts[8], tgt[3];
-     int i, nhosts = 0, pcilen;
--    GuestDiskAddress *disk;
--    GuestPCIAddress *pciaddr;
--    GuestDiskAddressList *list = NULL;
-+    GuestPCIAddress *pciaddr = disk->pci_controller;
+@@ -874,10 +874,6 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
+     GuestPCIAddress *pciaddr = disk->pci_controller;
      bool has_ata = false, has_host = false, has_tgt = false;
      char *p, *q, *driver = NULL;
- #ifdef CONFIG_LIBUDEV
-     struct udev *udev = NULL;
-     struct udev_device *udevice = NULL;
- #endif
-+    bool ret = false;
+-#ifdef CONFIG_LIBUDEV
+-    struct udev *udev = NULL;
+-    struct udev_device *udevice = NULL;
+-#endif
+     bool ret = false;
  
      p = strstr(syspath, "/devices/pci");
-     if (!p || sscanf(p + 12, "%*x:%*x/%x:%x:%x.%x%n",
-                      pci, pci + 1, pci + 2, pci + 3, &pcilen) < 4) {
-         g_debug("only pci device is supported: sysfs path '%s'", syspath);
--        return;
-+        return false;
-     }
- 
-     p += 12 + pcilen;
-@@ -903,7 +905,7 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         }
- 
-         g_debug("unsupported driver or sysfs path '%s'", syspath);
--        return;
-+        return false;
-     }
- 
-     p = strstr(syspath, "/target");
-@@ -929,18 +931,11 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         }
-     }
- 
--    pciaddr = g_malloc0(sizeof(*pciaddr));
-     pciaddr->domain = pci[0];
-     pciaddr->bus = pci[1];
+@@ -936,26 +932,6 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
      pciaddr->slot = pci[2];
      pciaddr->function = pci[3];
  
--    disk = g_malloc0(sizeof(*disk));
--    disk->pci_controller = pciaddr;
+-#ifdef CONFIG_LIBUDEV
+-    udev = udev_new();
+-    udevice = udev_device_new_from_syspath(udev, syspath);
+-    if (udev == NULL || udevice == NULL) {
+-        g_debug("failed to query udev");
+-    } else {
+-        const char *devnode, *serial;
+-        devnode = udev_device_get_devnode(udevice);
+-        if (devnode != NULL) {
+-            disk->dev = g_strdup(devnode);
+-            disk->has_dev = true;
+-        }
+-        serial = udev_device_get_property_value(udevice, "ID_SERIAL");
+-        if (serial != NULL && *serial != 0) {
+-            disk->serial = g_strdup(serial);
+-            disk->has_serial = true;
+-        }
+-    }
+-#endif
 -
--    list = g_malloc0(sizeof(*list));
--    list->value = disk;
--
- #ifdef CONFIG_LIBUDEV
-     udev = udev_new();
-     udevice = udev_device_new_from_syspath(udev, syspath);
-@@ -1018,21 +1013,43 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         goto cleanup;
-     }
- 
--    list->next = fs->disk;
--    fs->disk = list;
--    goto out;
-+    ret = true;
+     if (strcmp(driver, "ata_piix") == 0) {
+         /* a host per ide bus, target*:0:<unit>:0 */
+         if (!has_host || !has_tgt) {
+@@ -1017,10 +993,6 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
  
  cleanup:
--    if (list) {
--        qapi_free_GuestDiskAddressList(list);
--    }
--out:
      g_free(driver);
- #ifdef CONFIG_LIBUDEV
-     udev_unref(udev);
-     udev_device_unref(udevice);
- #endif
--    return;
-+    return ret;
-+}
-+
-+/* Store disk device info specified by @sysfs into @fs */
-+static void build_guest_fsinfo_for_real_device(char const *syspath,
-+                                               GuestFilesystemInfo *fs,
-+                                               Error **errp)
-+{
-+    GuestDiskAddress *disk;
-+    GuestPCIAddress *pciaddr;
-+    GuestDiskAddressList *list = NULL;
-+    bool has_hwinf;
-+
-+    pciaddr = g_new0(GuestPCIAddress, 1);
-+
-+    disk = g_new0(GuestDiskAddress, 1);
-+    disk->pci_controller = pciaddr;
-+
-+    list = g_new0(GuestDiskAddressList, 1);
-+    list->value = disk;
-+
-+    has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
-+
-+    if (has_hwinf) {
-+        list->next = fs->disk;
-+        fs->disk = list;
-+    } else {
-+        qapi_free_GuestDiskAddressList(list);
-+    }
+-#ifdef CONFIG_LIBUDEV
+-    udev_unref(udev);
+-    udev_device_unref(udevice);
+-#endif
+     return ret;
  }
  
- static void build_guest_fsinfo_for_device(char const *devpath,
+@@ -1033,18 +1005,50 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
+     GuestPCIAddress *pciaddr;
+     GuestDiskAddressList *list = NULL;
+     bool has_hwinf;
++#ifdef CONFIG_LIBUDEV
++    struct udev *udev = NULL;
++    struct udev_device *udevice = NULL;
++#endif
+ 
+     pciaddr = g_new0(GuestPCIAddress, 1);
++    pciaddr->domain = -1;                       /* -1 means field is invalid */
++    pciaddr->bus = -1;
++    pciaddr->slot = -1;
++    pciaddr->function = -1;
+ 
+     disk = g_new0(GuestDiskAddress, 1);
+     disk->pci_controller = pciaddr;
++    disk->bus_type = GUEST_DISK_BUS_TYPE_UNKNOWN;
+ 
+     list = g_new0(GuestDiskAddressList, 1);
+     list->value = disk;
+ 
++#ifdef CONFIG_LIBUDEV
++    udev = udev_new();
++    udevice = udev_device_new_from_syspath(udev, syspath);
++    if (udev == NULL || udevice == NULL) {
++        g_debug("failed to query udev");
++    } else {
++        const char *devnode, *serial;
++        devnode = udev_device_get_devnode(udevice);
++        if (devnode != NULL) {
++            disk->dev = g_strdup(devnode);
++            disk->has_dev = true;
++        }
++        serial = udev_device_get_property_value(udevice, "ID_SERIAL");
++        if (serial != NULL && *serial != 0) {
++            disk->serial = g_strdup(serial);
++            disk->has_serial = true;
++        }
++    }
++
++    udev_unref(udev);
++    udev_device_unref(udevice);
++#endif
++
+     has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
+ 
+-    if (has_hwinf) {
++    if (has_hwinf || disk->has_dev || disk->has_serial) {
+         list->next = fs->disk;
+         fs->disk = list;
+     } else {
 -- 
 2.17.1
 
