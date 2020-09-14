@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97722685DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:29:59 +0200 (CEST)
-Received: from localhost ([::1]:52308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2244E268634
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:38:28 +0200 (CEST)
+Received: from localhost ([::1]:59220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHiw2-0007Vc-RA
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51842)
+	id 1kHj4E-0002XN-UK
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHiuM-0005kL-06
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:28:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45472
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kHj3P-0001vZ-CA
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:37:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47705
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kHiuJ-0003Gq-49
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:28:13 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kHj3N-0004NH-DG
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:37:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600068490;
+ s=mimecast20190719; t=1600069051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FgMz1ZkE4YUuyjDKhAfFLq49UZlxj5WAFh2mKeksEUQ=;
- b=R++tfRvUuC+wEBRnia94QUBDeU5kwGleI6/egIpBmuXPqTMMs2gVuznPxLISgDMUm89VoL
- 3BTmkW6A7eIm+x2Hc7ZS4JuZwXtjwvMXQTGOq5YpXhIzxKoM3OO+uKE4L+G5n1i4UrqNWI
- EgJpgy1ypBIlNGVea5LvYFoY10YE6L4=
+ bh=uAKxmxcTcfDfRJ5phFHr202VyC9PLeR98RvrHSc+Ze4=;
+ b=M45VUHqB6w86VbNS+nN5TnnGbpISSHQE1VpOVGNdAtrLlUaT9KFNNlnPIDCKNo6qyoSYE3
+ S5LaOBM8hqLng0VTQskHd+Q5A/VBPIUIO2D9Rup1j43ZIF7xqi85TkgPl98/v5MdRwLM7T
+ /lxxHj7bFzhDuJtEdqdTT28NPUwPrd0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-9EerQGXwN9WQuFYbkYy9DA-1; Mon, 14 Sep 2020 03:28:06 -0400
-X-MC-Unique: 9EerQGXwN9WQuFYbkYy9DA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-454-HHJoRZcdMNi5L-UOu2tbNw-1; Mon, 14 Sep 2020 03:37:30 -0400
+X-MC-Unique: HHJoRZcdMNi5L-UOu2tbNw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C89C11008566;
- Mon, 14 Sep 2020 07:27:58 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B07A581F41;
- Mon, 14 Sep 2020 07:27:30 +0000 (UTC)
-Subject: Re: [PATCH v8 16/27] cirrus: Building freebsd in a single short
-To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
-References: <20200912224431.1428-1-luoyonggang@gmail.com>
- <20200912224431.1428-17-luoyonggang@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <78c65c60-9598-97a2-0dc7-116c3c0f94a9@redhat.com>
-Date: Mon, 14 Sep 2020 09:27:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2779B1074644;
+ Mon, 14 Sep 2020 07:37:29 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E70B77513A;
+ Mon, 14 Sep 2020 07:37:21 +0000 (UTC)
+Date: Mon, 14 Sep 2020 09:37:20 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com
+Subject: Re: [PATCH] smp: drop support for deprecated (invalid topologies)
+Message-ID: <20200914093720.6c3583c7@redhat.com>
+In-Reply-To: <20200911110407-mutt-send-email-mst@kernel.org>
+References: <20200911133202.938754-1-imammedo@redhat.com>
+ <20200911110407-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200912224431.1428-17-luoyonggang@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
 X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +82,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@FreeBSD.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: libvir-list@redhat.com, rth@twiddle.net, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/09/2020 00.44, Yonggang Luo wrote:
-> This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
-> ("cirrus.yml: Split FreeBSD job into two parts").
-> 
-> freebsd 1 hour limit not hit anymore
-> 
-> I think we going to a wrong direction, I think there is some tests a stall the test runner,
-> please look at
-> https://cirrus-ci.com/task/5110577531977728
-> When its running properly, the consumed time are little, but when tests running too long,
-> look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
-> 
-> And look at
-> https://cirrus-ci.com/task/6119341601062912
-> 
-> If the tests running properly, the time consuming are little
-> We should not hide the error by split them
-> 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reviewed-by: Ed Maste <emaste@FreeBSD.org>
-> ---
->  .cirrus.yml | 35 ++++++++---------------------------
->  1 file changed, 8 insertions(+), 27 deletions(-)
+On Fri, 11 Sep 2020 11:04:47 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-I tried this a couple of times now, and currently the problem seems to
-be gone, indeed. I'd still prefer to understand first why we have seen
-the slowdown a couple of weeks ago, but if people agree that we should
-revert the patch now, that's ok for me now, too.
+> On Fri, Sep 11, 2020 at 09:32:02AM -0400, Igor Mammedov wrote:
+> > it's was deprecated since 3.1
+> > 
+> > Support for invalid topologies is removed, the user must ensure
+> > that topologies described with -smp include all possible cpus,
+> > i.e. (sockets * cores * threads) == maxcpus or QEMU will
+> > exit with error.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
+> 
+> Acked-by: 
+> 
+> memory tree I guess?
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+It would be better for Paolo to take it since he has
+queued numa deprecations, due to context confilict in
+deprecated.rst.
+
+Paolo,
+can you queue this patch as well?
+
+> 
+> > ---
+> >  docs/system/deprecated.rst | 26 +++++++++++++-------------
+> >  hw/core/machine.c          | 16 ++++------------
+> >  hw/i386/pc.c               | 16 ++++------------
+> >  3 files changed, 21 insertions(+), 37 deletions(-)
+> > 
+> > diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> > index 122717cfee..d737728fab 100644
+> > --- a/docs/system/deprecated.rst
+> > +++ b/docs/system/deprecated.rst
+> > @@ -47,19 +47,6 @@ The 'file' driver for drives is no longer appropriate for character or host
+> >  devices and will only accept regular files (S_IFREG). The correct driver
+> >  for these file types is 'host_cdrom' or 'host_device' as appropriate.
+> >  
+> > -``-smp`` (invalid topologies) (since 3.1)
+> > -'''''''''''''''''''''''''''''''''''''''''
+> > -
+> > -CPU topology properties should describe whole machine topology including
+> > -possible CPUs.
+> > -
+> > -However, historically it was possible to start QEMU with an incorrect topology
+> > -where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+> > -which could lead to an incorrect topology enumeration by the guest.
+> > -Support for invalid topologies will be removed, the user must ensure
+> > -topologies described with -smp include all possible cpus, i.e.
+> > -*sockets* * *cores* * *threads* = *maxcpus*.
+> > -
+> >  ``-vnc acl`` (since 4.0.0)
+> >  ''''''''''''''''''''''''''
+> >  
+> > @@ -618,6 +605,19 @@ New machine versions (since 5.1) will not accept the option but it will still
+> >  work with old machine types. User can check the QAPI schema to see if the legacy
+> >  option is supported by looking at MachineInfo::numa-mem-supported property.
+> >  
+> > +``-smp`` (invalid topologies) (removed 5.2)
+> > +'''''''''''''''''''''''''''''''''''''''''''
+> > +
+> > +CPU topology properties should describe whole machine topology including
+> > +possible CPUs.
+> > +
+> > +However, historically it was possible to start QEMU with an incorrect topology
+> > +where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+> > +which could lead to an incorrect topology enumeration by the guest.
+> > +Support for invalid topologies is removed, the user must ensure
+> > +topologies described with -smp include all possible cpus, i.e.
+> > +*sockets* * *cores* * *threads* = *maxcpus*.
+> > +
+> >  Block devices
+> >  -------------
+> >  
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index ea26d61237..09aee4ea52 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -754,23 +754,15 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
+> >              exit(1);
+> >          }
+> >  
+> > -        if (sockets * cores * threads > ms->smp.max_cpus) {
+> > -            error_report("cpu topology: "
+> > -                         "sockets (%u) * cores (%u) * threads (%u) > "
+> > -                         "maxcpus (%u)",
+> > +        if (sockets * cores * threads != ms->smp.max_cpus) {
+> > +            error_report("Invalid CPU topology: "
+> > +                         "sockets (%u) * cores (%u) * threads (%u) "
+> > +                         "!= maxcpus (%u)",
+> >                           sockets, cores, threads,
+> >                           ms->smp.max_cpus);
+> >              exit(1);
+> >          }
+> >  
+> > -        if (sockets * cores * threads != ms->smp.max_cpus) {
+> > -            warn_report("Invalid CPU topology deprecated: "
+> > -                        "sockets (%u) * cores (%u) * threads (%u) "
+> > -                        "!= maxcpus (%u)",
+> > -                        sockets, cores, threads,
+> > -                        ms->smp.max_cpus);
+> > -        }
+> > -
+> >          ms->smp.cpus = cpus;
+> >          ms->smp.cores = cores;
+> >          ms->smp.threads = threads;
+> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> > index d071da787b..fbde6b04e6 100644
+> > --- a/hw/i386/pc.c
+> > +++ b/hw/i386/pc.c
+> > @@ -746,23 +746,15 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+> >              exit(1);
+> >          }
+> >  
+> > -        if (sockets * dies * cores * threads > ms->smp.max_cpus) {
+> > -            error_report("cpu topology: "
+> > -                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
+> > -                         "maxcpus (%u)",
+> > +        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
+> > +            error_report("Invalid CPU topology deprecated: "
+> > +                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+> > +                         "!= maxcpus (%u)",
+> >                           sockets, dies, cores, threads,
+> >                           ms->smp.max_cpus);
+> >              exit(1);
+> >          }
+> >  
+> > -        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
+> > -            warn_report("Invalid CPU topology deprecated: "
+> > -                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+> > -                        "!= maxcpus (%u)",
+> > -                        sockets, dies, cores, threads,
+> > -                        ms->smp.max_cpus);
+> > -        }
+> > -
+> >          ms->smp.cpus = cpus;
+> >          ms->smp.cores = cores;
+> >          ms->smp.threads = threads;
+> > -- 
+> > 2.27.0  
+> 
 
 
