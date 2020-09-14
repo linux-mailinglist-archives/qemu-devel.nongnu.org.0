@@ -2,82 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FB8269305
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 19:23:22 +0200 (CEST)
-Received: from localhost ([::1]:33888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050AD26932A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 19:28:12 +0200 (CEST)
+Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHsCH-0005tI-OV
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 13:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44886)
+	id 1kHsGw-00026B-OG
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 13:28:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1kHs8j-0003eb-U3
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:19:41 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22135
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1kHs8h-0005mw-RA
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:19:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600103974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5LMkSxWEM5Z2amTXMBLAvuvm2e95suH+S4/vGDDpVgo=;
- b=cWvc/KjJk6uFW7kNQFT1ef6fBNqEJIOdGlvnXKYTyKMWIjKGgB9kM/I26P766o6QianxsB
- OpMawsP17UBdCsD6H5RrbBw5lm19PdsCzFrInPnB86cGLnIwN0xmjcMKYlRh0bA3kpncKa
- lZ7JSO3aLbPg+V+QXzy2cYcAxdSUStA=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-3X5SYji9P3G6tWOARw84oQ-1; Mon, 14 Sep 2020 13:19:31 -0400
-X-MC-Unique: 3X5SYji9P3G6tWOARw84oQ-1
-Received: by mail-oo1-f72.google.com with SMTP id n19so156616oof.4
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 10:19:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5LMkSxWEM5Z2amTXMBLAvuvm2e95suH+S4/vGDDpVgo=;
- b=jT6QbImDG+VAbXmBrVK/7v/hgWaEw+NO916dc5CqO3qxdeFhpYikuMjZfsicIxsgP2
- WK3/Uxz454fI6d4RqAycT+wZR6bCDHT99JEBDO3FikKW7fno1eg0UeY4EtxfNFaIB9Kn
- RnrOEOX+Pxbi1adaDayqyI6iruGgAhlAr6jRsABDXBD5rrOwZlbp0kcuBsrlyvsdFj66
- gHB51EcFXyfvy3oud9n9bG5jHAHkFg8K7W5vngZqzaZWSeZumIqbDkDxkwSxftZKv/io
- Nl7HZ4fDBfYamNujdx4vgesbEAaXLeDRoBpZrfSPOZ3IDigFSw47Fv2uPzXSMqkconEF
- l3lQ==
-X-Gm-Message-State: AOAM533wKEFTcy8sJ70rYGv3X6rK0cyl0SK9md/PHgP4Ok3O1UkK/qy7
- Hg7ie+WhzAVZwTJ94iKAopBJMfNr53n+f5y4uCv0ACNV0DcyLg24wmPyToh/mpp2vsTUhqJDXHu
- ZCUmyh2msYcckosCyRtopoR6FDixiB0w=
-X-Received: by 2002:a9d:6b0c:: with SMTP id g12mr10338995otp.315.1600103970439; 
- Mon, 14 Sep 2020 10:19:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+SLOW1FPDYNg521s2w/ASWByIOH9S/FSaq0VpZD4cT6EzzbXaGQFa+5hvVlqPZYu9uk5Z2VjP03Q+nCIqt74=
-X-Received: by 2002:a9d:6b0c:: with SMTP id g12mr10338984otp.315.1600103970223; 
- Mon, 14 Sep 2020 10:19:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1kHsFK-00018s-0U
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:26:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1kHsFH-0006e7-S7
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:26:29 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08EHDkZY055545
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:26:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=XgTGAy0ji38HzA6abhtQOvMzWawsMMSTBvHzgHF55rA=;
+ b=ArzSBDleA8SMfJrqF1HMcFaazqdrUb7VTXcWNoekfQuFsuF8Yh/3ChpG8IqJfMEaN5YB
+ fLqUZ6LhAgEhr2/fYlJJ0hfVDlBaKbBDc30jJhl2sSyuIE+dTWpSqy6BWp0J7C8mDp7q
+ ugz9RSvzG3Ayb2nXGfoaQRvfZfxp99ZXwrfRreLmvRvF7QTfE1Xu6FZNmQTkadiQRTGh
+ HNWVFLK5ERfDtzrlU4xjAKgWeDfhFs0QtPbkJrD9tmsKA0kId9kc6v6gaxUl+nBENdAg
+ vd3hA2d6dnvtqDkyodqm9qRu6MFsJ6zt0YU+AecR54ch2BO+2HKLy2nD6lR6p2I1gLHv iw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33jcqsr8my-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:26:25 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08EHDw7O056208
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:26:25 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33jcqsr8mj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Sep 2020 13:26:25 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08EHMM97001268;
+ Mon, 14 Sep 2020 17:26:24 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 33gny8wthf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Sep 2020 17:26:24 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08EHQNam26673608
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Sep 2020 17:26:23 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BDC53124052;
+ Mon, 14 Sep 2020 17:26:23 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9DE96124053;
+ Mon, 14 Sep 2020 17:26:23 +0000 (GMT)
+Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 14 Sep 2020 17:26:23 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.vnet.ibm.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2] checkpatch: Detect '%#' or '%0#' in printf-style format
+ strings
+Date: Mon, 14 Sep 2020 17:26:23 +0000
+Message-Id: <20200914172623.72955-1-dovmurik@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200831140127.657134-1-nsoffer@redhat.com>
-In-Reply-To: <20200831140127.657134-1-nsoffer@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Mon, 14 Sep 2020 20:19:14 +0300
-Message-ID: <CAMRbyyvyjJW3bQR7FUhBnjTDv6ZecMyW4i6R9KR5JPPqxDc_1Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Replace posix_fallocate() with falloate()
-To: Nir Soffer <nirsof@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 00:11:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-14_06:2020-09-14,
+ 2020-09-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 mlxlogscore=976
+ spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009140138
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 13:26:26
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,34 +109,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Dov Murik <dovmurik@linux.vnet.ibm.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 31, 2020 at 5:01 PM Nir Soffer <nirsof@gmail.com> wrote:
->
-> Change preallocation=falloc to use fallocate() instead of
-> posix_fallocte(), improving performance when legacy filesystem that do
-> not support fallocate, and avoiding issues seen with OFD locks.
->
-> More work is needed to respect cache mode when using full preallocation
-> and maybe optimize buffer size.
->
-> Continuing the discussion at:
-> https://lists.nongnu.org/archive/html/qemu-block/2020-08/msg00947.html
->
-> Nir Soffer (2):
->   block: file-posix: Extract preallocate helpers
->   block: file-posix: Replace posix_fallocate with fallocate
->
->  block/file-posix.c                     | 202 ++++++++++++++-----------
->  docs/system/qemu-block-drivers.rst.inc |  11 +-
->  docs/tools/qemu-img.rst                |  11 +-
->  qapi/block-core.json                   |   4 +-
->  4 files changed, 127 insertions(+), 101 deletions(-)
+According to the coding style document, we should use literal '0x' prefix
+instead of printf's '#' flag (which appears as '%#' or '%0#' in the format
+string).  Add a checkpatch rule to enforce that.
 
-Ping
+Note that checkpatch already had a similar rule for trace-events files.
+
+Example usage:
+
+  $ scripts/checkpatch.pl --file chardev/baum.c
+  ...
+  ERROR: Don't use '#' flag of printf format ('%#') in format strings, use '0x' prefix instead
+  #366: FILE: chardev/baum.c:366:
+  +            DPRINTF("Broken packet %#2x, tossing\n", req); \
+  ...
+  ERROR: Don't use '#' flag of printf format ('%#') in format strings, use '0x' prefix instead
+  #472: FILE: chardev/baum.c:472:
+  +        DPRINTF("unrecognized request %0#2x\n", req);
+  ...
+
+Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+---
+
+Since v1:
+- consolidate format string checks to avoid code duplication
+
+---
+ scripts/checkpatch.pl | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bd3faa154c..f8dac953b2 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2880,14 +2880,20 @@ sub process {
+ 				$herecurr);
+ 		}
+ 
+-# check for %L{u,d,i} in strings
++# format strings checks
+ 		my $string;
+ 		while ($line =~ /(?:^|")([X\t]*)(?:"|$)/g) {
+ 			$string = substr($rawline, $-[1], $+[1] - $-[1]);
+ 			$string =~ s/%%/__/g;
++			# check for %L{u,d,i} in strings
+ 			if ($string =~ /(?<!%)%L[udi]/) {
+ 				ERROR("\%Ld/%Lu are not-standard C, use %lld/%llu\n" . $herecurr);
+-				last;
++			}
++			# check for %# or %0# in printf-style format strings
++			if ($string =~ /(?<!%)%0?#/) {
++				ERROR("Don't use '#' flag of printf format " .
++				      "('%#') in format strings, use '0x' " .
++				      "prefix instead\n" . $herecurr);
+ 			}
+ 		}
+ 
+-- 
+2.20.1
 
 
