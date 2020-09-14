@@ -2,103 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4286E268731
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:27:41 +0200 (CEST)
-Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315D8268783
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 10:49:50 +0200 (CEST)
+Received: from localhost ([::1]:60222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHjps-0006v9-Cg
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:27:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35578)
+	id 1kHkBJ-0008Vm-5u
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 04:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1kHjoG-0005Wr-7G; Mon, 14 Sep 2020 04:26:00 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:54088
- helo=v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1kHjoD-00027q-RD; Mon, 14 Sep 2020 04:25:59 -0400
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 58845DB25F3;
- Mon, 14 Sep 2020 10:25:55 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id 6Wp0Q_7sf3zZ; Mon, 14 Sep 2020 10:25:53 +0200 (CEST)
-Received: from mobile-147-236.wlan.uni-mannheim.de
- (mobile-147-236.wlan.uni-mannheim.de [134.155.147.236])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 2B91FDB25F0;
- Mon, 14 Sep 2020 10:25:52 +0200 (CEST)
-Subject: Re: [PATCH v8 24/27] ci: Enable msys2 ci in cirrus
-To: Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kHk7X-00067e-SZ
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:45:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41150)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kHk7W-00052W-74
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 04:45:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600073152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EzecsJg9Fh3dS8x+TkglzzQYkiZ0FE7OMxFGe/ALsZw=;
+ b=d5CBobAot4P6O7jsO3RG0ZXweZuiMCcJ70sh1iAEEH8UwkKBe9nSJpBVHQwiIP43HpWmhF
+ 1gzzXoFNM04Tj6NU+Y9hBwJxqE5XyU0Zw/LegIDhTHzCp5DiYzY1lZrT0tEP95hKZrUmyt
+ vQBpRf33UzSIHVgkBMDLZW3bd1yy+Gk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-56-AtSSKz9LMnK2iGvX0euiEQ-1; Mon, 14 Sep 2020 04:45:47 -0400
+X-MC-Unique: AtSSKz9LMnK2iGvX0euiEQ-1
+Received: by mail-ed1-f72.google.com with SMTP id d27so8940672edj.21
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 01:45:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EzecsJg9Fh3dS8x+TkglzzQYkiZ0FE7OMxFGe/ALsZw=;
+ b=ln14vz6kUjfHz6zOftb5zET6ReEhw0r3IbnfV4u2KYTxndJ7Qwbjji4Wocr5lsQ9D8
+ TGtmPRktn23gyyeW5YzXPQxp/2WvvSTtBMnaHrHhGiggojzNR74Pqd/TxY8SygH9E2Ix
+ xLIh5XidzoGLFSWI1M1bMxqGg22/VBgIKGzdGOCJdamiK3x8XY7B3s1fohIvWuHlok3v
+ 6qY0lCgnda6G1Yb3mS0qmss9Q2hiE9wrrdr2HLBnjVTx6+US+5wM6/Np6+Mupr7lGKfe
+ XEDUDgheWIT38s56Xkw18WPDjioBro1vVss+k85CVNwGAvkCEfOPmA/wFRydtVMmnx3k
+ CoNA==
+X-Gm-Message-State: AOAM532zzy4yRQBbNtPkKuDg07hFfvoR3OxCYsv3EsKWik02XlJLbjzp
+ /RdHQZoamL228k1JNwXmBPBKmv9rlrIziG53Gnz3ZdJCNZHwoPOVuD3+7rKrr66GXFoSns0DouM
+ fZQj+2ooXARcBUWQ=
+X-Received: by 2002:a17:906:6411:: with SMTP id
+ d17mr13335749ejm.93.1600073145952; 
+ Mon, 14 Sep 2020 01:45:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHz0kkyNkT95NHsn/ybR1vmhj/UDXS51tu2jGF0lArEdkdEMmwcVWD3HRAJ25aKKYAv4QfAQ==
+X-Received: by 2002:a17:906:6411:: with SMTP id
+ d17mr13335726ejm.93.1600073145687; 
+ Mon, 14 Sep 2020 01:45:45 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d245:909d:fc9e:f86b?
+ ([2001:b07:6468:f312:d245:909d:fc9e:f86b])
+ by smtp.gmail.com with ESMTPSA id l10sm8712699edr.12.2020.09.14.01.45.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Sep 2020 01:45:45 -0700 (PDT)
+Subject: Re: [PATCH v8 27/27] Revert "configure: add --ninja option"
+To: luoyonggang@gmail.com
 References: <20200912224431.1428-1-luoyonggang@gmail.com>
- <20200912224431.1428-25-luoyonggang@gmail.com>
- <c3529d95-6d0b-a8ca-23cb-21393435ba94@redhat.com>
-From: Stefan Weil <sw@weilnetz.de>
-Autocrypt: addr=sw@weilnetz.de; keydata=
- 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
-Message-ID: <64e7d8f2-93aa-3605-7376-d46383eedda4@weilnetz.de>
-Date: Mon, 14 Sep 2020 10:25:51 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+ <20200912224431.1428-28-luoyonggang@gmail.com>
+ <34306ec4-bafb-20dc-f90f-ff320fa4b575@redhat.com>
+ <CAE2XoE8Ly=bhkLPbnUm1eg91Re0rf-UkAy25f8LgPLJUaYyHNw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d7b83b76-ff7a-85cb-0676-559d5680f070@redhat.com>
+Date: Mon, 14 Sep 2020 10:45:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <c3529d95-6d0b-a8ca-23cb-21393435ba94@redhat.com>
+In-Reply-To: <CAE2XoE8Ly=bhkLPbnUm1eg91Re0rf-UkAy25f8LgPLJUaYyHNw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=v2201612906741603.powersrv.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:38:01
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,43 +107,27 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Qemu-block <qemu-block@nongnu.org>,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Peter Lieven <pl@kamp.de>, qemu-level <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.09.20 um 09:38 schrieb Thomas Huth:
+On 13/09/20 18:14, 罗勇刚(Yonggang Luo) wrote:
+> I am hurry to revert --ninja option because when the meson are changed, the
+> make -j10 can not automatically re configure, that would raise ninja can
+> not found error 
 
-> On 13/09/2020 00.44, Yonggang Luo wrote:
->> Install msys2 in a proper way refer to https://github.com/cirruslabs/c=
-irrus-ci-docs/issues/699
->> The https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2 need to b=
-e updated.
-> I don't think that a request to update the wiki should be part of the
-> commit message here.
-> Stefan, could you please have a look at the wiki to see whether it need=
-s
-> an update?
+My understanding is that with 0.55.2 you don't need --ninja at all (the
+default search works), and also the previously configured build tree
+should work.
 
+What's the issue there?
 
-https://wiki.qemu.org/Hosts/W32 needs several updates.
-
-I never use native builds with msys, so cannot say whether they work at a=
-ll.
-
-All I know is that cross builds with Mingw-w64 work, either on Linux (my =
-usual environment is Debian Bullseye) or on Cygwin (very slow). https://g=
-ithub.com/stweil/qemu/tree/master/.github/workflows contains my build scr=
-ipt and other required files.
-
-
-Stefan
-
+Paolo
 
 
