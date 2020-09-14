@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21390269207
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:47:43 +0200 (CEST)
-Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5706269250
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:59:22 +0200 (CEST)
+Received: from localhost ([::1]:52056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrdm-0000Zh-3R
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35890)
+	id 1kHrp3-0005Zw-JQ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHq0Z-0004av-1g
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:03:10 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44780)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHqCl-0000lL-BG
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:15:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHq0S-0007Rs-Un
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:03:06 -0400
-Received: by mail-wr1-x431.google.com with SMTP id s12so19097189wrw.11
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZtpT+xt6cTZNa7AtMysMjQ4Nuvw3w7evk1Aqw/sDTfg=;
- b=cgJsAnPdJc0904I3/SSV5vXDfExlj2W1d+siN4UkUoFFYhZXyi0bzbbTI25XxgFPgu
- e/jAQg2xQUfiC6IwYLMpvaoAsEob1EfWDgLf7X/y4pVGUYWfOB/bEWGOgV2Zik6jZfAy
- HEgnmnC3233pnRP0IiinTMIMXBpUBWTiO+seR6ZbSHykVcW0qRCqNDPR3WHO6k37+odH
- qqgMmvmJKpbdWY/nEv9aOd/iEq/enOJpHKMcZ8LTzV8xT73Atx0+9KosUzjrfCXhgLdk
- 8+QxiHwo9uiNs7aYsPAaSRBsrr1eJ2/aHCO0pe7zdx/gh3Jz3VFiSEbX6Nh+FyWpUHPy
- klrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZtpT+xt6cTZNa7AtMysMjQ4Nuvw3w7evk1Aqw/sDTfg=;
- b=MtroOdfPEiLNKIdYW+64lp9Pjeqy1zZxRR4CVzfvCg2BaY7Qa+4Oin8pAlYQh2DKM1
- u/8491L8xC0xgNNL+1xPVZJEy/us9YyEC+TFOzmVXwMHLEQChdh8u4/cte8kgMQXCVlA
- YvswS+D+3dLNFlf9QmhzDh+eC3UYCVd7NkPlp717aeEdms/hvOTC7W3O/46srU4xYZbS
- q9yv7zT4q5rY5PtdXThQ5u5cJIGeLSFYVhq5lV9HrEzsRyrYEnG3wr3j5pQU03lcmB8z
- U/n9xN3ZWAsn2jypUSz4pn47s5d8NJslRbGjiUw9xUt64sYVJIA6DPo6yPPKFuqp1m6h
- 3wIw==
-X-Gm-Message-State: AOAM533roTb6GDLKqWNcNmfw5pTDBYVq1SdhTAOL5PK8bBBV/TY3CogC
- LpWU5YdZ5jGrBfbxm7TiftOrqIRPPCaPCelv
-X-Google-Smtp-Source: ABdhPJwUJXuF3zUZpy5Ux6nVB4il6UGyNH7d5d+Z5GXz/kAEx4Qa31DnKsTlGm7KXvSn5791jr8U/Q==
-X-Received: by 2002:adf:fa52:: with SMTP id y18mr16631208wrr.264.1600095777358; 
- Mon, 14 Sep 2020 08:02:57 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v17sm22315615wrc.23.2020.09.14.08.02.56
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 08:02:56 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/32] target-arm queue
-Date: Mon, 14 Sep 2020 16:02:54 +0100
-Message-Id: <20200914150254.6489-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kHqCi-0001gc-DE
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:15:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kHqCg-0006a2-IY
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:15:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8ABE72E8058
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:15:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2020 15:07:11 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1895080@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user mmap
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
+X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
+Message-Id: <20200914150716.10501-2-alex.bennee@linaro.org>
+Subject: [Bug 1895080] [PATCH  v1 1/6] linux-user: test,
+ don't assert addr != test in pgb_reserved_va
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 9a678c60d355adc551d2b970283d09c746255187
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 05:55:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,159 +73,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some reason the xilinx can bus patches built in my local config
-but not in the merge-test ones; dropped those.
+On older kernels which don't implement MAP_FIXED_NOREPLACE the kernel
+may still fail to give us the address we asked for despite having
+already probed the map for a valid hole. Asserting isn't particularly
+useful to the user so let us move the check up and expand the
+error_report a little to give them a fighting chance of working around
+the problem.
 
--- PMM
+Ameliorates: ee94743034
+Cc: Bug 1895080 <1895080@bugs.launchpad.net>
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+---
+ linux-user/elfload.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-The following changes since commit a68694cd1f3e5448cca814ff39b871f9ebd71ed5:
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 4961e6119e24..f6022fd70493 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2331,14 +2331,13 @@ static void pgb_reserved_va(const char *image_name,=
+ abi_ulong guest_loaddr,
+     assert(guest_base !=3D 0);
+     test =3D g2h(0);
+     addr =3D mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
+-    if (addr =3D=3D MAP_FAILED) {
++    if (addr =3D=3D MAP_FAILED || addr !=3D test) {
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space (%s) for use as guest address space (check you=
+r "
+-                     "virtual memory ulimit setting or reserve less "
+-                     "using -R option)", reserved_va, strerror(errno));
++                     "space at %p (%s) for use as guest address space (che=
+ck your"
++                     "virtual memory ulimit setting, min_mmap_addr or rese=
+rve less "
++                     "using -R option)", reserved_va, test, strerror(errno=
+));
+         exit(EXIT_FAILURE);
+     }
+-    assert(addr =3D=3D test);
+ }
+ =
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200914' into staging (2020-09-14 12:18:58 +0100)
+ void probe_guest_base(const char *image_name, abi_ulong guest_loaddr,
+-- =
 
-are available in the Git repository at:
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200914-1
+-- =
 
-for you to fetch changes up to 4fe986dd4480308ecf07200cfbd3c3d494a0f639:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895080
 
-  tests/acceptance: console boot tests for quanta-gsj (2020-09-14 14:24:59 +0100)
+Title:
+  pgb_reserved_va: Assertion `addr =3D=3D test' failed
 
-----------------------------------------------------------------
- * hw/misc/a9scu: Do not allow invalid CPU count
- * hw/misc/a9scu: Minor cleanups
- * hw/timer/armv7m_systick: assert that board code set system_clock_scale
- * decodetree: Improve identifier matching
- * target/arm: Clean up neon fp insn size field decode
- * target/arm: Remove KVM support for 32-bit Arm hosts
- * hw/arm/mps2: New board models mps2-an386, mps2-an500
- * Deprecate Unicore32 port
- * Deprecate lm32 port
- * target/arm: Count PMU events when MDCR.SPME is set
- * hw/arm: versal-virt: Correct the tx/rx GEM clocks
- * New Nuvoton iBMC board models npcm750-evb, quanta-gsj
+Status in QEMU:
+  New
 
-----------------------------------------------------------------
-Aaron Lindsay (1):
-      target/arm: Count PMU events when MDCR.SPME is set
+Bug description:
+  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
+  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
+  user.
 
-Edgar E. Iglesias (1):
-      hw/arm: versal-virt: Correct the tx/rx GEM clocks
+  Firstly, compile fails:
+  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
+  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
+IZE=E2=80=99 undeclared here (not in a function)
+       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
 
-Havard Skinnemoen (14):
-      hw/misc: Add NPCM7xx System Global Control Registers device model
-      hw/misc: Add NPCM7xx Clock Controller device model
-      hw/timer: Add NPCM7xx Timer device model
-      hw/arm: Add NPCM730 and NPCM750 SoC models
-      hw/arm: Add two NPCM7xx-based machines
-      roms: Add virtual Boot ROM for NPCM7xx SoCs
-      hw/arm: Load -bios image as a boot ROM for npcm7xx
-      hw/nvram: NPCM7xx OTP device model
-      hw/mem: Stubbed out NPCM7xx Memory Controller model
-      hw/ssi: NPCM7xx Flash Interface Unit device model
-      hw/arm: Wire up BMC boot flash for npcm750-evb and quanta-gsj
-      hw/arm/npcm7xx: add board setup stub for CPU and UART clocks
-      docs/system: Add Nuvoton machine documentation
-      tests/acceptance: console boot tests for quanta-gsj
+  I have to add below include to linux-user/strace.c
+  diff --git a/linux-user/strace.c b/linux-user/strace.c
+  index 11fea14fba..22e51d4a8a 100644
+  --- a/linux-user/strace.c
+  +++ b/linux-user/strace.c
+  @@ -7,6 +7,7 @@
+   #include <sys/mount.h>
+   #include <arpa/inet.h>
+   #include <netinet/tcp.h>
+  +#include <linux/falloc.h>
+   #include <linux/if_packet.h>
+   #include <linux/netlink.h>
+   #include <sched.h>
 
-Peter Maydell (11):
-      hw/timer/armv7m_systick: assert that board code set system_clock_scale
-      target/arm: Convert Neon 3-same-fp size field to MO_* in decode
-      target/arm: Convert Neon VCVT fp size field to MO_* in decode
-      target/arm: Convert VCMLA, VCADD size field to MO_* in decode
-      target/arm: Remove KVM support for 32-bit Arm hosts
-      target/arm: Remove no-longer-reachable 32-bit KVM code
-      hw/arm/mps2: New board model mps2-an386
-      hw/arm/mps2: New board model mps2-an500
-      docs/system/arm/mps2.rst: Make board list consistent
-      Deprecate Unicore32 port
-      Deprecate lm32 port
+  Then trying qemu-riscv32 with a simple ELF, I get:
+  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
+failed.
 
-Philippe Mathieu-Daudé (4):
-      hw/misc/a9scu: Do not allow invalid CPU count
-      hw/misc/a9scu: Simplify setting MemoryRegionOps::valid fields
-      hw/misc/a9scu: Simplify setting MemoryRegionOps::impl fields
-      hw/misc/a9scu: Report unimplemented accesses with qemu_log_mask(UNIMP)
+  strace shows that:
+  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
+VE, -1, 0) =3D 0x10000
+  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
+git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
+' failed.
+  ) =3D 103
 
-Richard Henderson (1):
-      decodetree: Improve identifier matching
+  The source code is in the function pgb_reserved_va (linux-
+  user/elfload.c). I think mmap cannot guarantee that the returned
+  pointer (test) equals to the parameter of addr. So is this a bug to
+  assert (addr =3D=3D test)?
 
- docs/system/arm/mps2.rst               |  20 +-
- docs/system/arm/nuvoton.rst            |  92 +++++
- docs/system/deprecated.rst             |  32 +-
- docs/system/target-arm.rst             |   1 +
- configure                              |   2 +-
- default-configs/arm-softmmu.mak        |   1 +
- include/hw/arm/npcm7xx.h               | 112 +++++++
- include/hw/mem/npcm7xx_mc.h            |  36 ++
- include/hw/misc/npcm7xx_clk.h          |  48 +++
- include/hw/misc/npcm7xx_gcr.h          |  43 +++
- include/hw/nvram/npcm7xx_otp.h         |  79 +++++
- include/hw/ssi/npcm7xx_fiu.h           |  73 ++++
- include/hw/timer/npcm7xx_timer.h       |  78 +++++
- target/arm/kvm-consts.h                |   7 -
- target/arm/kvm_arm.h                   |   6 -
- target/arm/neon-dp.decode              |  18 +-
- target/arm/neon-shared.decode          |  18 +-
- tests/decode/succ_ident1.decode        |   7 +
- hw/arm/mps2.c                          |  97 +++++-
- hw/arm/npcm7xx.c                       | 532 +++++++++++++++++++++++++++++
- hw/arm/npcm7xx_boards.c                | 197 +++++++++++
- hw/arm/xlnx-versal-virt.c              |   2 +-
- hw/mem/npcm7xx_mc.c                    |  84 +++++
- hw/misc/a9scu.c                        |  59 ++--
- hw/misc/npcm7xx_clk.c                  | 266 +++++++++++++++
- hw/misc/npcm7xx_gcr.c                  | 269 +++++++++++++++
- hw/nvram/npcm7xx_otp.c                 | 440 ++++++++++++++++++++++++
- hw/ssi/npcm7xx_fiu.c                   | 572 +++++++++++++++++++++++++++++++
- hw/timer/armv7m_systick.c              |   8 +
- hw/timer/npcm7xx_timer.c               | 543 ++++++++++++++++++++++++++++++
- target/arm/cpu.c                       | 101 +++---
- target/arm/helper.c                    |   2 +-
- target/arm/kvm.c                       |   7 -
- target/arm/kvm32.c                     | 595 ---------------------------------
- .gitmodules                            |   3 +
- MAINTAINERS                            |  10 +
- hw/arm/Kconfig                         |   9 +
- hw/arm/meson.build                     |   1 +
- hw/mem/meson.build                     |   1 +
- hw/misc/meson.build                    |   4 +
- hw/misc/trace-events                   |   8 +
- hw/nvram/meson.build                   |   1 +
- hw/ssi/meson.build                     |   1 +
- hw/ssi/trace-events                    |  11 +
- hw/timer/meson.build                   |   1 +
- hw/timer/trace-events                  |   5 +
- pc-bios/README                         |   6 +
- pc-bios/meson.build                    |   1 +
- pc-bios/npcm7xx_bootrom.bin            | Bin 0 -> 768 bytes
- roms/Makefile                          |   7 +
- roms/vbootrom                          |   1 +
- scripts/decodetree.py                  |  46 ++-
- target/arm/meson.build                 |   5 +-
- target/arm/translate-neon.c.inc        |  42 ++-
- tests/acceptance/boot_linux_console.py |  83 +++++
- 55 files changed, 3910 insertions(+), 783 deletions(-)
- create mode 100644 docs/system/arm/nuvoton.rst
- create mode 100644 include/hw/arm/npcm7xx.h
- create mode 100644 include/hw/mem/npcm7xx_mc.h
- create mode 100644 include/hw/misc/npcm7xx_clk.h
- create mode 100644 include/hw/misc/npcm7xx_gcr.h
- create mode 100644 include/hw/nvram/npcm7xx_otp.h
- create mode 100644 include/hw/ssi/npcm7xx_fiu.h
- create mode 100644 include/hw/timer/npcm7xx_timer.h
- create mode 100644 tests/decode/succ_ident1.decode
- create mode 100644 hw/arm/npcm7xx.c
- create mode 100644 hw/arm/npcm7xx_boards.c
- create mode 100644 hw/mem/npcm7xx_mc.c
- create mode 100644 hw/misc/npcm7xx_clk.c
- create mode 100644 hw/misc/npcm7xx_gcr.c
- create mode 100644 hw/nvram/npcm7xx_otp.c
- create mode 100644 hw/ssi/npcm7xx_fiu.c
- create mode 100644 hw/timer/npcm7xx_timer.c
- delete mode 100644 target/arm/kvm32.c
- create mode 100644 pc-bios/npcm7xx_bootrom.bin
- create mode 160000 roms/vbootrom
+  Attached configure script and test ELF file.
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
 
