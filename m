@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8917268D5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:21:35 +0200 (CEST)
-Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93467268D18
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:14:40 +0200 (CEST)
+Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpMM-0004ni-N9
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:21:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46024)
+	id 1kHpFf-0005Uz-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8L-0002bk-1a
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:05 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51258)
+ id 1kHp8N-0002hB-3c
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:07 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8J-0007aZ-7W
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:04 -0400
-Received: by mail-wm1-x341.google.com with SMTP id w2so168837wmi.1
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:07:02 -0700 (PDT)
+ id 1kHp8L-0007b8-Ca
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:06 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a17so18900576wrn.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9K+3sRtUMkIl+nho0SY+n71f40GQMbihw4qEScJq0L8=;
- b=wQP9TydsxVICpi6h3bfsmh6pc5C53eBOcWvsLUHeGIp8bF6OwXUJx2Q+9Fb+Vu21AX
- ccDrAUYK/4BZ9AQhCwnIIJVePJw7IauaP2FuTpTA+o/OSIa8LkfnShZmBDcTI8YlCW34
- IG46kM1ku08vqKo6Tgp7DnC8UGSskredgEyKS1CzGtRaEPzfjVxNURU0iMLoZ0LFaYiQ
- iqexx/qRF/J/54YgYUuhtdh90zyNs+i3Q8BKj35VCQ0yU0iq944RENMNvPoLCE3ZqyVm
- egVIByerlUX8dnsipBT2Yb9TGpemRVfFomyaAPhF365y4vZsSfznPFNEfr2Xjz29kgav
- vMgg==
+ bh=D5qunu0CTAqDwxFmW0nXsux9porA4hJjQp+c3oiNwKw=;
+ b=rB1kjDZxLsvXma6ltfL7AYJ/zFtuigYFJK+yKOKfL/+vJRqrbmSuCbCJ+9+9aqnkTN
+ PkqHXVQhKvNlwYbJfYxI21N8XTprrSNAI/DTmlMX2PQ1Qex6IRYYYZTzlsaFfLqD/UFN
+ +bKWby4k92SmHKhPPmSyofNOR41uSem4JAUwZ5RGNpvhiuwu64vLnqL4is2tirBS2gzZ
+ H4rjfzvt9hmylie9y46P7ji73yav9TmQwCA5/E3LCFVD+ekv6IRS375ZJ6bFNE35hC5e
+ RHOpXZw5uojP5GObvyu8LElpHg9CT/+ZoLFoLBTfVNTB9pIv5aNpspPKrNn9RmXXBt03
+ LVhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9K+3sRtUMkIl+nho0SY+n71f40GQMbihw4qEScJq0L8=;
- b=Ov2FJAOgCaWDEWWsOI4T3ZmzBCQttB7YHJ2h5ai9QP/ls5Xi63qilJTjwhdKrq4FoR
- QrqissGhZQG6Gbr63IbK0ZOma7nKxR/mB8P1IVWWGEdNeASGMfSuo/wJZiWzR0ed43Rj
- MPqfvE6uHivbe5ePn4Ri6DNawwEXGqvlw27FyG6BECK7iiSErqUKqWZ4Ub8Uc08T43Po
- K81Wq9GHh2FFg+6EePGYzfDFs7THdVkdoiM0AxYz8NZhBfBaMzJSHsNlQ5PkE/pzz0p4
- /e4vKaMLdxXz/kHttt+T6o7yakwq7CnFp5pwoVUAxJRXTyePJfKSTA1mt28s4fKOjuoT
- YXSg==
-X-Gm-Message-State: AOAM530U7nMKoz69t5FsxoFfrpMeDcZYaPqKwW1LUGJRvqfGSddVvxgm
- DoyPKP7suRKHUvLiP35kZfuECOBOWqcUuZ60
-X-Google-Smtp-Source: ABdhPJzTEIOYfMFX96hCPkidkOPsLNU0k30and3YvzR/0VTWIB5p/f/0R75ysI+Bb0SjiiEkQTIN2w==
-X-Received: by 2002:a1c:7514:: with SMTP id o20mr14863279wmc.76.1600092421462; 
- Mon, 14 Sep 2020 07:07:01 -0700 (PDT)
+ bh=D5qunu0CTAqDwxFmW0nXsux9porA4hJjQp+c3oiNwKw=;
+ b=Tqf6CkKHyPctEzS2QCX+rP6KcH/F8BoLWbaabIiwU13NrXHJ352x929SFiwU4lmwhE
+ lzLhaurQeJHYImWy67u2F+5w/ZfvvjIJf8kyVCPDekn6XOMh1vcY40h4jr17RF1g8MFE
+ 72wwiQesBl85+eLITOwT7Q003ZFMzbxDjfd0RWZ+Neoa21Iq7gELAYIlL4gj/F61NY37
+ KSgjKerWToSh6pw+XnrYZQQPxsTKh88Yl9E2U00t+KTMe46bUkhsbXDkEzlhSudKNJqZ
+ 83vy2q7ZmMVP7egne/DEcKwSpzG+PFnGpIfd19uIFizXwEp1B7TwCHwiy101XgKuYEK1
+ FzkA==
+X-Gm-Message-State: AOAM53072VkhR7Y9SEMLlzHSgz/lN1kZJ7jMxGBlAkiT3VvqfLmQYQ5D
+ wmHhRllhbQaih6telY6mjB2tuzcGk03cn2On
+X-Google-Smtp-Source: ABdhPJwqISjxmuWt3eBvolgeHYOYkyeOwYJNrIZ1mig8lzdqLv+MGyvG1Z/qF2Ar2c1BcNUSrz8wvw==
+X-Received: by 2002:a5d:6cb1:: with SMTP id a17mr11833601wra.386.1600092423630; 
+ Mon, 14 Sep 2020 07:07:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.07.00
+ by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.07.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 07:07:00 -0700 (PDT)
+ Mon, 14 Sep 2020 07:07:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/36] Deprecate lm32 port
-Date: Mon, 14 Sep 2020 15:06:21 +0100
-Message-Id: <20200914140641.21369-17-peter.maydell@linaro.org>
+Subject: [PULL 18/36] hw/arm: versal-virt: Correct the tx/rx GEM clocks
+Date: Mon, 14 Sep 2020 15:06:23 +0100
+Message-Id: <20200914140641.21369-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
 References: <20200914140641.21369-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,46 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Deprecate our lm32 target support. Michael Walle (former lm32 maintainer)
-suggested that we do this in 2019:
- https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
-because the only public user of the architecture is the many-years-dead
-milkymist project. (The Linux port to lm32 was never merged upstream.)
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-In commit 4b4d96c776f552e (March 2020) we marked it as 'orphan' in
-the MAINTAINERS file, but didn't officially deprecate it. Mark it
-deprecated now, with the intention of removing it from QEMU in
-mid-2021 before the 6.1 release.
+Correct the GEMs tx/rx clocks to use the 125Mhz fixed-clock.
+This matches the setup with the fixed-link 100Mbit PHY.
+It also avoids the following warnings from the Linux kernel
+driver:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+eth0: unable to generate target frequency: 125000000 Hz
+
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Michael Walle <michael@walle.cc>
-Message-id: 20200827113259.25064-1-peter.maydell@linaro.org
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20200909174647.662864-2-edgar.iglesias@gmail.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/deprecated.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/arm/xlnx-versal-virt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 3f8a00e9095..0cb8b014244 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -408,6 +408,14 @@ The above, converted to the current supported format::
- linux-user mode CPUs
- --------------------
- 
-+``lm32`` CPUs (since 5.2.0)
-+'''''''''''''''''''''''''''
-+
-+The ``lm32`` guest CPU support is deprecated and will be removed in
-+a future version of QEMU. The only public user of this architecture
-+was the milkymist project, which has been dead for years; there was
-+never an upstream Linux port.
-+
- ``unicore32`` CPUs (since 5.2.0)
- ''''''''''''''''''''''''''''''''
- 
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 5a01e856fd9..1f9409eb32a 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -214,7 +214,7 @@ static void fdt_add_gem_nodes(VersalVirt *s)
+                               s->phandle.ethernet_phy[i]);
+         qemu_fdt_setprop_cells(s->fdt, name, "clocks",
+                                s->phandle.clk_25Mhz, s->phandle.clk_25Mhz,
+-                               s->phandle.clk_25Mhz, s->phandle.clk_25Mhz);
++                               s->phandle.clk_125Mhz, s->phandle.clk_125Mhz);
+         qemu_fdt_setprop(s->fdt, name, "clock-names",
+                          clocknames, sizeof(clocknames));
+         qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
 -- 
 2.20.1
 
