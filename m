@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779AE269158
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:22:36 +0200 (CEST)
-Received: from localhost ([::1]:51816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF24269107
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:05:02 +0200 (CEST)
+Received: from localhost ([::1]:33146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrFT-00021M-Hs
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:22:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58066)
+	id 1kHqyT-0006xF-2P
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:05:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kHpkR-0001I1-2i
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:46:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kHpkO-0004dr-Hp
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:46:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600094783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+FTjA4enfFJIR63GYEIsWV3awMt+Q34RFrVM4vhT7s4=;
- b=Ok8Cv/2B3jYVWeZN+pX2SxWUYtZ0FOou6Wr9lP4dnIA85XN3dBcVvgR8AxiII0T8H0VOkg
- eNT+JMOyVdBt9cbM6ZjsFBmaKguBWEH9n8AcPrGBMWKEHvCtrAvol7Mt404y0IDqXcCaWK
- SAdynDVAOnHaN+ct+/El6bpzzIuFjBs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-1thlOCTkP76oOonY2-lLjw-1; Mon, 14 Sep 2020 10:46:20 -0400
-X-MC-Unique: 1thlOCTkP76oOonY2-lLjw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A12778BF01D;
- Mon, 14 Sep 2020 14:44:57 +0000 (UTC)
-Received: from x1.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50F5D7BE49;
- Mon, 14 Sep 2020 14:44:50 +0000 (UTC)
-Date: Mon, 14 Sep 2020 08:44:49 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Zeng, Xin" <xin.zeng@intel.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200914084449.0182e8a9@x1.home>
-In-Reply-To: <DM6PR11MB3500BAC3B7056E348002A7FD88230@DM6PR11MB3500.namprd11.prod.outlook.com>
-References: <20200825163925.1c19b0f0.cohuck@redhat.com>
- <20200826064117.GA22243@joy-OptiPlex-7040>
- <20200828154741.30cfc1a3.cohuck@redhat.com>
- <8f5345be73ebf4f8f7f51d6cdc9c2a0d8e0aa45e.camel@redhat.com>
- <20200831044344.GB13784@joy-OptiPlex-7040>
- <20200908164130.2fe0d106.cohuck@redhat.com>
- <20200909021308.GA1277@joy-OptiPlex-7040>
- <20200910143822.2071eca4.cohuck@redhat.com>
- <7cebcb6c8d1a1452b43e8358ee6ee18a150a0238.camel@redhat.com>
- <20200910120244.71e7b630@w520.home>
- <20200911005559.GA3932@joy-OptiPlex-7040>
- <20200911105155.184e32a0@w520.home>
- <DM6PR11MB3500BAC3B7056E348002A7FD88230@DM6PR11MB3500.namprd11.prod.outlook.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHqIG-0005JK-5F
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:21:25 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43236)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kHqIC-0002T3-3r
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:21:23 -0400
+Received: by mail-wr1-x441.google.com with SMTP id k15so45723wrn.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NWgwRlZqHiSfYHZpK9sRZZDcosU60xrEmhP8DunwzOM=;
+ b=iILLtC15avrAch3nkSKoUxVbq6XEUDwJfikOorilDjN9eVnZQEAXLAhTJv+u3RVn8J
+ A1ZWsD/LaD/PIBxpWwV+MWSLAgjLZ6YrQZNnL6TohxuAJBx2qP/qZkFVLKlOTgCkl/PO
+ 81FzPs8XG+FP+VHgxHF+EpvoQGGL26sSITK7jMl1JK5SWrrSYL3kcmk9PdhGNOjTMXRD
+ +YGZv0QPlLjQ5VeTlkTRYuysOZRvBGDFegMEYkoFUwpBK8W2VhRgwXUtxe5pmx7mTkUD
+ xajsivkkf/GYYJc0MucHlTz+0tsXpPODjS66f0U6Ojz+FFt9rdWqC0c7p80R3F1JqvJq
+ GRKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NWgwRlZqHiSfYHZpK9sRZZDcosU60xrEmhP8DunwzOM=;
+ b=URS8chQNh/TKLarUgcNnc6fOIF+lhxImGChygiyRIBzIAB/rc0WKFER8YvKHiLEDIJ
+ B9ZIHnUIurqE3El4xDRbaRCnXe+1atA6sTqc2PsIas7Z7TCRHDAUOgGgaYV7xqlb6Dmq
+ BQykBWVDY567LwVpGtJCHi9s5MynghqJsztPaCLiqTCVmVMEce0SkhNL1CEPQUuWhkfA
+ Tyek9t76itgGEb0DrHCd4FkPP5nFonJo9c5A/yNxcgebCp8H8iK8FEKsVFQAO1+Sp8Xq
+ PFt/72KGmsk+cydPSwu1V7J+PZlCmGJRc1C7SU/HevepGG2MpNeLPCHuh1JgdFWesHT1
+ 4oTw==
+X-Gm-Message-State: AOAM533ZqR6+h9u4y3mG3Tnd2yKPWqw8Hj75hHfltdajUhL7VDKD9MsW
+ RV5Meff8hYgiGOi3kPxPeM1tSuyRcb5e+tPKflcjaw==
+X-Google-Smtp-Source: ABdhPJzDk+hs06m1U6f105Hp2ESoF2NRGL6nsXm/nDHj5p22b7YfdYKIch0khh1iugkv6+O2FujknAOPB7rpZm4MaAw=
+X-Received: by 2002:adf:e410:: with SMTP id g16mr7228714wrm.76.1600096878348; 
+ Mon, 14 Sep 2020 08:21:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200911180755.28409-1-ani@anisinha.ca>
+ <20200911180755.28409-9-ani@anisinha.ca>
+ <20200914150550.23a91fa2@redhat.com>
+ <CAARzgwyrSW4jjrPCc1SJkDZUV9C-e_96RNGytZ8VjpPzzrWfXg@mail.gmail.com>
+ <CAARzgwx4T0MXtFTMe-b8DbAQCi7xq231kjOv8wRcRxwE5HPCyw@mail.gmail.com>
+ <20200914160910.66785da8@redhat.com>
+ <CAARzgwzSg7zCk_jaQ7iriC4_L+9oTykv0RhPdkTroP9pNtiMCg@mail.gmail.com>
+In-Reply-To: <CAARzgwzSg7zCk_jaQ7iriC4_L+9oTykv0RhPdkTroP9pNtiMCg@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 14 Sep 2020 20:51:06 +0530
+Message-ID: <CAARzgwyr4tHFHO=8O0Mtuwzv5Q2Me+-HLdXa-qRDDP6jSc-0Gg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] piix4: don't reserve hw resources when hotplug is off
+ globally
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::441;
+ envelope-from=ani@anisinha.ca; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,237 +83,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "Wang,
- Xin-ran" <xin-ran.wang@intel.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "openstack-discuss@lists.openstack.org"
- <openstack-discuss@lists.openstack.org>, "Feng,
- Shaohe" <shaohe.feng@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>, "Zhao,
- Yan Y" <yan.y.zhao@intel.com>, Parav Pandit <parav@mellanox.com>, "Ding,
- Jian-feng" <jian-feng.ding@intel.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>, "Xu,
- Hejie" <hejie.xu@intel.com>, "bao.yumeng@zte.com.cn" <bao.yumeng@zte.com.cn>,
- Jiri Pirko <jiri@mellanox.com>, "eskultet@redhat.com" <eskultet@redhat.com>,
- Sean Mooney <smooney@redhat.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Daniel =?UTF-8?B?UC5CZXJyYW5nw6k=?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
- "devel@ovirt.org" <devel@ovirt.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Sep 2020 13:48:43 +0000
-"Zeng, Xin" <xin.zeng@intel.com> wrote:
-
-> On Saturday, September 12, 2020 12:52 AM
-> Alex Williamson <alex.williamson@redhat.com> wrote:
-> > To: Zhao, Yan Y <yan.y.zhao@intel.com>
-> > Cc: Sean Mooney <smooney@redhat.com>; Cornelia Huck
-> > <cohuck@redhat.com>; Daniel P.Berrang=C3=A9 <berrange@redhat.com>;
-> > kvm@vger.kernel.org; libvir-list@redhat.com; Jason Wang
-> > <jasowang@redhat.com>; qemu-devel@nongnu.org;
-> > kwankhede@nvidia.com; eauger@redhat.com; Wang, Xin-ran <xin- =20
-> > ran.wang@intel.com>; corbet@lwn.net; openstack- =20
-> > discuss@lists.openstack.org; Feng, Shaohe <shaohe.feng@intel.com>; Tian,
-> > Kevin <kevin.tian@intel.com>; Parav Pandit <parav@mellanox.com>; Ding,
-> > Jian-feng <jian-feng.ding@intel.com>; dgilbert@redhat.com;
-> > zhenyuw@linux.intel.com; Xu, Hejie <hejie.xu@intel.com>;
-> > bao.yumeng@zte.com.cn; intel-gvt-dev@lists.freedesktop.org;
-> > eskultet@redhat.com; Jiri Pirko <jiri@mellanox.com>; dinechin@redhat.co=
-m;
-> > devel@ovirt.org
-> > Subject: Re: device compatibility interface for live migration with ass=
-igned
-> > devices
-> >=20
-> > On Fri, 11 Sep 2020 08:56:00 +0800
-> > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> >  =20
-> > > On Thu, Sep 10, 2020 at 12:02:44PM -0600, Alex Williamson wrote: =20
-> > > > On Thu, 10 Sep 2020 13:50:11 +0100
-> > > > Sean Mooney <smooney@redhat.com> wrote:
-> > > > =20
-> > > > > On Thu, 2020-09-10 at 14:38 +0200, Cornelia Huck wrote: =20
-> > > > > > On Wed, 9 Sep 2020 10:13:09 +0800
-> > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > =20
-> > > > > > > > > still, I'd like to put it more explicitly to make ensure =
-it's not =20
-> > missed: =20
-> > > > > > > > > the reason we want to specify compatible_type as a trait =
-and =20
-> > check =20
-> > > > > > > > > whether target compatible_type is the superset of source
-> > > > > > > > > compatible_type is for the consideration of backward =20
-> > compatibility. =20
-> > > > > > > > > e.g.
-> > > > > > > > > an old generation device may have a mdev type xxx-v4-yyy,=
- =20
-> > while a newer =20
-> > > > > > > > > generation  device may be of mdev type xxx-v5-yyy.
-> > > > > > > > > with the compatible_type traits, the old generation devic=
-e is still
-> > > > > > > > > able to be regarded as compatible to newer generation dev=
-ice =20
-> > even their =20
-> > > > > > > > > mdev types are not equal. =20
-> > > > > > > >
-> > > > > > > > If you want to support migration from v4 to v5, can't the =
-=20
-> > (presumably =20
-> > > > > > > > newer) driver that supports v5 simply register the v4 type =
-as well, =20
-> > so =20
-> > > > > > > > that the mdev can be created as v4? (Just like QEMU version=
-ed =20
-> > machine =20
-> > > > > > > > types work.) =20
-> > > > > > >
-> > > > > > > yes, it should work in some conditions.
-> > > > > > > but it may not be that good in some cases when v5 and v4 in t=
-he =20
-> > name string =20
-> > > > > > > of mdev type identify hardware generation (e.g. v4 for gen8, =
-and v5 =20
-> > for =20
-> > > > > > > gen9)
-> > > > > > >
-> > > > > > > e.g.
-> > > > > > > (1). when src mdev type is v4 and target mdev type is v5 as
-> > > > > > > software does not support it initially, and v4 and v5 identif=
-y =20
-> > hardware =20
-> > > > > > > differences. =20
-> > > > > >
-> > > > > > My first hunch here is: Don't introduce types that may be compa=
-tible
-> > > > > > later. Either make them compatible, or make them distinct by de=
-sign,
-> > > > > > and possibly add a different, compatible type later.
-> > > > > > =20
-> > > > > > > then after software upgrade, v5 is now compatible to v4, shou=
-ld the
-> > > > > > > software now downgrade mdev type from v5 to v4?
-> > > > > > > not sure if moving hardware generation info into a separate =
-=20
-> > attribute =20
-> > > > > > > from mdev type name is better. e.g. remove v4, v5 in mdev typ=
-e, =20
-> > while use =20
-> > > > > > > compatible_pci_ids to identify compatibility. =20
-> > > > > >
-> > > > > > If the generations are compatible, don't mention it in the mdev=
- type.
-> > > > > > If they aren't, use distinct types, so that management software=
- =20
-> > doesn't =20
-> > > > > > have to guess. At least that would be my naive approach here. =
-=20
-> > > > > yep that is what i would prefer to see too. =20
-> > > > > > =20
-> > > > > > >
-> > > > > > > (2) name string of mdev type is composed by "driver_name + =20
-> > type_name". =20
-> > > > > > > in some devices, e.g. qat, different generations of devices a=
-re =20
-> > binding to =20
-> > > > > > > drivers of different names, e.g. "qat-v4", "qat-v5".
-> > > > > > > then though type_name is equal, mdev type is not equal. e.g.
-> > > > > > > "qat-v4-type1", "qat-v5-type1". =20
-> > > > > >
-> > > > > > I guess that shows a shortcoming of that "driver_name + type_na=
-me"
-> > > > > > approach? Or maybe I'm just confused. =20
-> > > > > yes i really dont like haveing the version in the mdev-type name
-> > > > > i would stongly perfger just qat-type-1 wehere qat is just there =
-as a way =20
-> > of namespacing. =20
-> > > > > although symmetric-cryto, asymmetric-cryto and compression woudl =
-=20
-> > be a better name then type-1, type-2, type-3 if =20
-> > > > > that is what they would end up mapping too. e.g. qat-compression =
-or =20
-> > qat-aes is a much better name then type-1 =20
-> > > > > higher layers of software are unlikely to parse the mdev names bu=
-t as a =20
-> > human looking at them its much eaiser to =20
-> > > > > understand if the names are meaningful. the qat prefix i think is=
- =20
-> > important however to make sure that your mdev-types =20
-> > > > > dont colide with other vendeors mdev types. so i woudl encurage a=
-ll =20
-> > vendors to prefix there mdev types with etiher the =20
-> > > > > device name or the vendor. =20
+On Mon, Sep 14, 2020 at 8:20 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> On Mon, Sep 14, 2020 at 7:39 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > On Mon, 14 Sep 2020 18:58:19 +0530
+> > Ani Sinha <ani@anisinha.ca> wrote:
+> >
+> > > On Mon, Sep 14, 2020 at 6:40 PM Ani Sinha <ani@anisinha.ca> wrote:
 > > > >
-> > > > +1 to all this, the mdev type is meant to indicate a software
-> > > > compatible interface, if different hardware versions can be software
-> > > > compatible, then don't make the job of finding a compatible device
-> > > > harder.  The full type is a combination of the vendor driver name p=
-lus
-> > > > the vendor provided type name specifically in order to provide a ty=
-pe
-> > > > namespace per vendor driver.  That's done at the mdev core level.
-> > > > Thanks, =20
+> > > > On Mon, Sep 14, 2020 at 6:36 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> > > > >
+> > > > > On Fri, 11 Sep 2020 23:37:55 +0530
+> > > > > Ani Sinha <ani@anisinha.ca> wrote:
+> > > > >
+> > > > > > When acpi hotplug is turned off for both root pci bus as well as for pci
+> > > > > > bridges, we should not generate the related amls for DSDT table or initialize
+> > > > > > related hw ports or reserve hw resources. This change makes sure all those
+> > > > > > operations are turned off in the case acpi pci hotplug is off globally.
+> > > > >
+> > > > > it still leaves around pure PCI hotplug ACPI code:
+> > > > >
+> > > > >             Method (PCNT, 0, NotSerialized)
+> > > > >             {
+> > > > >             }
+> > > >
+> > > > How do you suggest we fix this?
 > > >
-> > > hi Alex,
-> > > got it. so do you suggest that vendors use consistent driver name over
-> > > generations of devices?
-> > > for qat, they create different modules for each generation. This
-> > > practice is not good if they want to support migration between devices
-> > > of different generations, right?
+> > > One way to fix this would be to do this:
 > > >
-> > > and can I understand that we don't want support of migration between
-> > > different mdev types even in future ? =20
-> >=20
-> > You need to balance your requirements here.  If you're creating
-> > different drivers per generation, that suggests different device APIs,
-> > which is a legitimate use case for different mdev types.  However if
-> > you're expecting migration compatibility, that must be seamless to the
-> > guest, therefore the device API must be identical.  That suggests that
-> > migration between different types doesn't make much sense.  If a new
-> > generation device wants to expose a new mdev type with new features or
-> > device API, yet also support migration with an older mdev type, why
-> > wouldn't it simply expose both the old and the new type?   =20
->=20
-> I think all of these make sense, and I am assuming it's also reasonable a=
-nd=20
-> common that each generation of  device has a separate device driver modul=
-e.
-> On the other hand, please be aware that, the mdev type is consisted of the
-> driver name of the mdev's parent device and the name of a mdev type which
-> the device driver specifies.=20
-> If a new generation device driver wants to expose an old mdev type, it ha=
-s to
-> register  the same driver name as the old one so that the mdev type could=
-=20
-> be completely same. This doesn't make sense as a) driver name usually is
-> unique for a device driver module. b) If a system has both these two=20
-> generation devices, once one generation device driver is loaded, the othe=
-r=20
-> is not allowed to be loaded due to the same driver name. =20
-> So to allow a new generation device to simply expose the old mdev type for
-> compatibility like you proposed, is it possible to create the mdev type by
-> another approach, e.g. device driver creates its own namespace for the
-> mdev type instead of mdev's parent device driver name being used currentl=
-y?
+> > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > index 7e3cf3b57b..2bd0c37143 100644
+> > > --- a/hw/i386/acpi-build.c
+> > > +++ b/hw/i386/acpi-build.c
+> > > @@ -483,7 +483,8 @@ static void build_append_pci_bus_devices(Aml
+> > > *parent_scope, PCIBus *bus,
+> > >              aml_append(method, aml_name("^S%.02X.PCNT", devfn));
+> > >          }
+> > >      }
+> > > -    aml_append(parent_scope, method);
+> > > +    if (bsel)
+> > > +        aml_append(parent_scope, method);
+> > >      qobject_unref(bsel);
+> > >  }
+> > >
+> > > This means that if the hotplug on the root bus is disabled, we also
+> > > disable PCNT. This will also need the unit test update as the unit
+> > Does bridge hot-plug still work if we disable it only on root bus?
+>
+> Just did a quick test. Windows seems to eject devices on the bridge
+> even when the root bus hot plug is off.
 
-TBH, I don't think that it's reasonable or common that different
-drivers are used for each generation of hardware.  Drivers typically
-evolve to support new generations of hardware, often sharing
-significant code between generations.  When we deal with mdev
-migration, we have an opaque data stream managed by the driver, our
-default assumption is therefore that the driver plays a significant
-role in the composition of that data stream.  I'm not ruling out that
-we should support some form of compatibility between types, but in the
-described scenario it seems the development model of the vendor drivers
-is not conducive to the most obvious form of compatibility checking.
-Thanks,
+OK I am really confused! With the above change, the unit tests are
+failing because of differences in tests/data/acpi/q35/DSDT !! Why is
+q35 affected?
 
-Alex
-
+>
+> >
+> > > test
+> > > will fail with :
+> > >
+> > > @@ -3113,24 +3113,20 @@
+> > >                  Name (_ADR, 0x00010000)  // _ADR: Address
+> > >                  Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
+> > >                  {
+> > >                      Return (Zero)
+> > >                  }
+> > >
+> > >                  Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
+> > >                  {
+> > >                      Return (Zero)
+> > >                  }
+> > >
+> > >                  Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+> > >                  {
+> > >                      Return (Zero)
+> > >                  }
+> > >              }
+> > > -
+> > > -            Method (PCNT, 0, NotSerialized)
+> > > -            {
+> > > -            }
+> > >          }
+> > >      }
+> > >  }
+> > >
+> > > Let's fix this as a separate patch.
+> >
+> > I'd rather fix up this patch, so it would do what it claims.
+> >
+> > > >
+> > > > > >
+> > > > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > > > > ---
+> > > > > >  hw/acpi/piix4.c      |  6 ++++--
+> > > > > >  hw/i386/acpi-build.c | 10 ++++++++--
+> > > > > >  2 files changed, 12 insertions(+), 4 deletions(-)
+> > > > > >
+> > > > > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> > > > > > index e6163bb6ce..b70b1f98af 100644
+> > > > > > --- a/hw/acpi/piix4.c
+> > > > > > +++ b/hw/acpi/piix4.c
+> > > > > > @@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+> > > > > >                            "acpi-gpe0", GPE_LEN);
+> > > > > >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
+> > > > > >
+> > > > > > -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> > > > > > -                    s->use_acpi_hotplug_bridge);
+> > > > > > +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
+> > > > > > +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> > > > > > +                        s->use_acpi_hotplug_bridge);
+> > > > > > +    }
+> > > > > >
+> > > > > >      s->cpu_hotplug_legacy = true;
+> > > > > >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+> > > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > > > index e079b686f5..7e3cf3b57b 100644
+> > > > > > --- a/hw/i386/acpi-build.c
+> > > > > > +++ b/hw/i386/acpi-build.c
+> > > > > > @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
+> > > > > >      bool s3_disabled;
+> > > > > >      bool s4_disabled;
+> > > > > >      bool pcihp_bridge_en;
+> > > > > > +    bool pcihp_root_en;
+> > > > > >      uint8_t s4_val;
+> > > > > >      AcpiFadtData fadt;
+> > > > > >      uint16_t cpu_hp_io_base;
+> > > > > > @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+> > > > > >      pm->pcihp_bridge_en =
+> > > > > >          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
+> > > > > >                                   NULL);
+> > > > > > +    pm->pcihp_root_en =
+> > > > > > +        object_property_get_bool(obj, "acpi-root-pci-hotplug",
+> > > > > > +                                 NULL);
+> > > > > >  }
+> > > > > >
+> > > > > >  static void acpi_get_misc_info(AcpiMiscInfo *info)
+> > > > > > @@ -1504,7 +1508,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > > > > >          build_hpet_aml(dsdt);
+> > > > > >          build_piix4_isa_bridge(dsdt);
+> > > > > >          build_isa_devices_aml(dsdt);
+> > > > > > -        build_piix4_pci_hotplug(dsdt);
+> > > > > > +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+> > > > > > +            build_piix4_pci_hotplug(dsdt);
+> > > > > > +        }
+> > > > > >          build_piix4_pci0_int(dsdt);
+> > > > > >      } else {
+> > > > > >          sb_scope = aml_scope("_SB");
+> > > > > > @@ -1698,7 +1704,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > > > > >      crs_range_set_free(&crs_range_set);
+> > > > > >
+> > > > > >      /* reserve PCIHP resources */
+> > > > > > -    if (pm->pcihp_io_len) {
+> > > > > > +    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
+> > > > > >          dev = aml_device("PHPR");
+> > > > > >          aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
+> > > > > >          aml_append(dev,
+> > > > >
+> > >
+> >
 
