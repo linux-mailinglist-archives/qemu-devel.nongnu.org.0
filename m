@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE438268D0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:12:51 +0200 (CEST)
-Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8917268D5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:21:35 +0200 (CEST)
+Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpDu-0002zp-S5
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45960)
+	id 1kHpMM-0004ni-N9
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8I-0002Tq-9G
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:02 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43837)
+ id 1kHp8L-0002bk-1a
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:05 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8F-0007Zs-T3
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:01 -0400
-Received: by mail-wr1-x433.google.com with SMTP id k15so18883535wrn.10
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:06:59 -0700 (PDT)
+ id 1kHp8J-0007aZ-7W
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:04 -0400
+Received: by mail-wm1-x341.google.com with SMTP id w2so168837wmi.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:07:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=I+xRFj0Pua6FcY25kkQsuDQ6RxC4LRVSzB6Gjdo+C3o=;
- b=H0Bl+JAZ/G/h+AwRRXtbAnWBw4zSmPJ3s2Ar6yndeWlPet87eirjMgz7J/tG6cxEYr
- lxfHsKxLKlYXcf6mOaa/U44OjRxQC99GlxsRoB9f3CybYXirzvJIYubMpXCwVHL5TjDk
- gniTmeStsbuhO5Hf9/jDUVqLFHoak9kGDc12Y5KNHl55Qq9dRKu1VPEN3mKywGbJOXmY
- lZgwmnB9//bVM4jKE3iQUpf623JmNs8PAlZFAGB6J1CpnYVv41I77MLsmgV1NU3UUDEs
- vkynEXhIiBGKixNd99sQUe1Qt+sajn3aCabsVrTdry8zIcas4eBH8oE7IVwzxIxLpP48
- heXQ==
+ bh=9K+3sRtUMkIl+nho0SY+n71f40GQMbihw4qEScJq0L8=;
+ b=wQP9TydsxVICpi6h3bfsmh6pc5C53eBOcWvsLUHeGIp8bF6OwXUJx2Q+9Fb+Vu21AX
+ ccDrAUYK/4BZ9AQhCwnIIJVePJw7IauaP2FuTpTA+o/OSIa8LkfnShZmBDcTI8YlCW34
+ IG46kM1ku08vqKo6Tgp7DnC8UGSskredgEyKS1CzGtRaEPzfjVxNURU0iMLoZ0LFaYiQ
+ iqexx/qRF/J/54YgYUuhtdh90zyNs+i3Q8BKj35VCQ0yU0iq944RENMNvPoLCE3ZqyVm
+ egVIByerlUX8dnsipBT2Yb9TGpemRVfFomyaAPhF365y4vZsSfznPFNEfr2Xjz29kgav
+ vMgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I+xRFj0Pua6FcY25kkQsuDQ6RxC4LRVSzB6Gjdo+C3o=;
- b=XxkvsZTBY3slUrXWRkc1UMsLROZZsD2AH/gHmt29E2HAkU+XLoc9V1u91Egkh8FFLO
- iH4UKw85OUjbhfEP7D9PFGsvqIBUldBv1jve7NfFEZTvZ2no5wxE0qH5aRUx6dwC/UNK
- IP//rjI+tiNX++A7BjxytMpaA77KuGpueO4eWUrh0a0B2BlKVWLHxnRqYnjA59GiwouF
- aOC4FI6t9JqMKefyATrWUgulIqpN+FbepNd+5x6YshzEHkN9kaF1jCnr3oEPEL/T0Lhb
- ncsEMUE3+7MldJclOiFoTqd84cHq7PPY8hfRw3n/jJTxC3+h4TMqo2NVf2wt7KrAmI88
- wujw==
-X-Gm-Message-State: AOAM530tR8HJjD71VsbCH2pzTHSzrPyOWCxn1J+dJYJR0GIdCBJC66sq
- ENXDaM4d7Emq1tSuV/ufyRyOoeJUIRc4uaeE
-X-Google-Smtp-Source: ABdhPJyJ6aq7Go35s9xU3Px5W8KzbpkpG8Q46FhlABugXsetX35ZgjKi4Gpta+bZCJ7iWRLaQ6g2lg==
-X-Received: by 2002:a05:6000:1282:: with SMTP id
- f2mr17255662wrx.251.1600092418221; 
- Mon, 14 Sep 2020 07:06:58 -0700 (PDT)
+ bh=9K+3sRtUMkIl+nho0SY+n71f40GQMbihw4qEScJq0L8=;
+ b=Ov2FJAOgCaWDEWWsOI4T3ZmzBCQttB7YHJ2h5ai9QP/ls5Xi63qilJTjwhdKrq4FoR
+ QrqissGhZQG6Gbr63IbK0ZOma7nKxR/mB8P1IVWWGEdNeASGMfSuo/wJZiWzR0ed43Rj
+ MPqfvE6uHivbe5ePn4Ri6DNawwEXGqvlw27FyG6BECK7iiSErqUKqWZ4Ub8Uc08T43Po
+ K81Wq9GHh2FFg+6EePGYzfDFs7THdVkdoiM0AxYz8NZhBfBaMzJSHsNlQ5PkE/pzz0p4
+ /e4vKaMLdxXz/kHttt+T6o7yakwq7CnFp5pwoVUAxJRXTyePJfKSTA1mt28s4fKOjuoT
+ YXSg==
+X-Gm-Message-State: AOAM530U7nMKoz69t5FsxoFfrpMeDcZYaPqKwW1LUGJRvqfGSddVvxgm
+ DoyPKP7suRKHUvLiP35kZfuECOBOWqcUuZ60
+X-Google-Smtp-Source: ABdhPJzTEIOYfMFX96hCPkidkOPsLNU0k30and3YvzR/0VTWIB5p/f/0R75ysI+Bb0SjiiEkQTIN2w==
+X-Received: by 2002:a1c:7514:: with SMTP id o20mr14863279wmc.76.1600092421462; 
+ Mon, 14 Sep 2020 07:07:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.06.57
+ by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.07.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 07:06:57 -0700 (PDT)
+ Mon, 14 Sep 2020 07:07:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/36] hw/arm/mps2: New board model mps2-an500
-Date: Mon, 14 Sep 2020 15:06:18 +0100
-Message-Id: <20200914140641.21369-14-peter.maydell@linaro.org>
+Subject: [PULL 16/36] Deprecate lm32 port
+Date: Mon, 14 Sep 2020 15:06:21 +0100
+Message-Id: <20200914140641.21369-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
 References: <20200914140641.21369-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,230 +89,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement a model of the MPS2 with the AN500 firmware. This is
-similar to the AN385, with the following differences:
- * Cortex-M7 CPU
- * PSRAM is at 0x6000_0000
- * Ethernet is at 0xa000_0000
- * No zbt_boot_ctrl remapping of the low 16K
-   (but QEMU doesn't implement this anyway)
- * no "block RAM" at 0x01000000
+Deprecate our lm32 target support. Michael Walle (former lm32 maintainer)
+suggested that we do this in 2019:
+ https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
+because the only public user of the architecture is the many-years-dead
+milkymist project. (The Linux port to lm32 was never merged upstream.)
+
+In commit 4b4d96c776f552e (March 2020) we marked it as 'orphan' in
+the MAINTAINERS file, but didn't officially deprecate it. Mark it
+deprecated now, with the intention of removing it from QEMU in
+mid-2021 before the 6.1 release.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200903202048.15370-3-peter.maydell@linaro.org
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Michael Walle <michael@walle.cc>
+Message-id: 20200827113259.25064-1-peter.maydell@linaro.org
 ---
- docs/system/arm/mps2.rst |  6 ++--
- hw/arm/mps2.c            | 67 +++++++++++++++++++++++++++++++++-------
- 2 files changed, 60 insertions(+), 13 deletions(-)
+ docs/system/deprecated.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/docs/system/arm/mps2.rst b/docs/system/arm/mps2.rst
-index e680a4ceb71..7f2e9c8d52e 100644
---- a/docs/system/arm/mps2.rst
-+++ b/docs/system/arm/mps2.rst
-@@ -1,5 +1,5 @@
--Arm MPS2 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``)
--================================================================================================
-+Arm MPS2 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an500``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``)
-+================================================================================================================
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 3f8a00e9095..0cb8b014244 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -408,6 +408,14 @@ The above, converted to the current supported format::
+ linux-user mode CPUs
+ --------------------
  
- These board models all use Arm M-profile CPUs.
- 
-@@ -14,6 +14,8 @@ QEMU models the following FPGA images:
-   Cortex-M3 as documented in ARM Application Note AN385
- ``mps2-an386``
-   Cortex-M4 as documented in ARM Application Note AN386
-+``mps2-an500``
-+  Cortex-M7 as documented in ARM Application Note AN500
- ``mps2-an511``
-   Cortex-M3 'DesignStart' as documented in AN511
- ``mps2-an505``
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index d3ec73fbe78..5d471608503 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -16,6 +16,7 @@
-  * We model the following FPGA images:
-  *  "mps2-an385" -- Cortex-M3 as documented in ARM Application Note AN385
-  *  "mps2-an386" -- Cortex-M4 as documented in ARM Application Note AN386
-+ *  "mps2-an500" -- Cortex-M7 as documented in ARM Application Note AN500
-  *  "mps2-an511" -- Cortex-M3 'DesignStart' as documented in AN511
-  *
-  * Links to the TRM for the board itself and to the various Application
-@@ -50,6 +51,7 @@
- typedef enum MPS2FPGAType {
-     FPGA_AN385,
-     FPGA_AN386,
-+    FPGA_AN500,
-     FPGA_AN511,
- } MPS2FPGAType;
- 
-@@ -57,6 +59,9 @@ struct MPS2MachineClass {
-     MachineClass parent;
-     MPS2FPGAType fpga_type;
-     uint32_t scc_id;
-+    bool has_block_ram;
-+    hwaddr ethernet_base;
-+    hwaddr psram_base;
- };
- typedef struct MPS2MachineClass MPS2MachineClass;
- 
-@@ -85,6 +90,7 @@ typedef struct MPS2MachineState MPS2MachineState;
- #define TYPE_MPS2_MACHINE "mps2"
- #define TYPE_MPS2_AN385_MACHINE MACHINE_TYPE_NAME("mps2-an385")
- #define TYPE_MPS2_AN386_MACHINE MACHINE_TYPE_NAME("mps2-an386")
-+#define TYPE_MPS2_AN500_MACHINE MACHINE_TYPE_NAME("mps2-an500")
- #define TYPE_MPS2_AN511_MACHINE MACHINE_TYPE_NAME("mps2-an511")
- 
- DECLARE_OBJ_CHECKERS(MPS2MachineState, MPS2MachineClass,
-@@ -144,11 +150,12 @@ static void mps2_common_init(MachineState *machine)
-      *
-      * AN385/AN386/AN511:
-      *  0x21000000 .. 0x21ffffff : PSRAM (16MB)
--     * AN385/AN386 only:
-+     * AN385/AN386/AN500:
-      *  0x00000000 .. 0x003fffff : ZBT SSRAM1
-      *  0x00400000 .. 0x007fffff : mirror of ZBT SSRAM1
-      *  0x20000000 .. 0x203fffff : ZBT SSRAM 2&3
-      *  0x20400000 .. 0x207fffff : mirror of ZBT SSRAM 2&3
-+     * AN385/AN386 only:
-      *  0x01000000 .. 0x01003fff : block RAM (16K)
-      *  0x01004000 .. 0x01007fff : mirror of above
-      *  0x01008000 .. 0x0100bfff : mirror of above
-@@ -158,22 +165,17 @@ static void mps2_common_init(MachineState *machine)
-      *  0x00400000 .. 0x007fffff : ZBT SSRAM1
-      *  0x20000000 .. 0x2001ffff : SRAM
-      *  0x20400000 .. 0x207fffff : ZBT SSRAM 2&3
-+     * AN500 only:
-+     *  0x60000000 .. 0x60ffffff : PSRAM (16MB)
-      *
-      * The AN385/AN386 has a feature where the lowest 16K can be mapped
-      * either to the bottom of the ZBT SSRAM1 or to the block RAM.
-      * This is of no use for QEMU so we don't implement it (as if
-      * zbt_boot_ctrl is always zero).
-      */
--    memory_region_add_subregion(system_memory, 0x21000000, machine->ram);
-+    memory_region_add_subregion(system_memory, mmc->psram_base, machine->ram);
- 
--    switch (mmc->fpga_type) {
--    case FPGA_AN385:
--    case FPGA_AN386:
--        make_ram(&mms->ssram1, "mps.ssram1", 0x0, 0x400000);
--        make_ram_alias(&mms->ssram1_m, "mps.ssram1_m", &mms->ssram1, 0x400000);
--        make_ram(&mms->ssram23, "mps.ssram23", 0x20000000, 0x400000);
--        make_ram_alias(&mms->ssram23_m, "mps.ssram23_m",
--                       &mms->ssram23, 0x20400000);
-+    if (mmc->has_block_ram) {
-         make_ram(&mms->blockram, "mps.blockram", 0x01000000, 0x4000);
-         make_ram_alias(&mms->blockram_m1, "mps.blockram_m1",
-                        &mms->blockram, 0x01004000);
-@@ -181,6 +183,17 @@ static void mps2_common_init(MachineState *machine)
-                        &mms->blockram, 0x01008000);
-         make_ram_alias(&mms->blockram_m3, "mps.blockram_m3",
-                        &mms->blockram, 0x0100c000);
-+    }
++``lm32`` CPUs (since 5.2.0)
++'''''''''''''''''''''''''''
 +
-+    switch (mmc->fpga_type) {
-+    case FPGA_AN385:
-+    case FPGA_AN386:
-+    case FPGA_AN500:
-+        make_ram(&mms->ssram1, "mps.ssram1", 0x0, 0x400000);
-+        make_ram_alias(&mms->ssram1_m, "mps.ssram1_m", &mms->ssram1, 0x400000);
-+        make_ram(&mms->ssram23, "mps.ssram23", 0x20000000, 0x400000);
-+        make_ram_alias(&mms->ssram23_m, "mps.ssram23_m",
-+                       &mms->ssram23, 0x20400000);
-         break;
-     case FPGA_AN511:
-         make_ram(&mms->blockram, "mps.blockram", 0x0, 0x40000);
-@@ -197,6 +210,7 @@ static void mps2_common_init(MachineState *machine)
-     switch (mmc->fpga_type) {
-     case FPGA_AN385:
-     case FPGA_AN386:
-+    case FPGA_AN500:
-         qdev_prop_set_uint32(armv7m, "num-irq", 32);
-         break;
-     case FPGA_AN511:
-@@ -234,6 +248,7 @@ static void mps2_common_init(MachineState *machine)
-     switch (mmc->fpga_type) {
-     case FPGA_AN385:
-     case FPGA_AN386:
-+    case FPGA_AN500:
-     {
-         /* The overflow IRQs for UARTs 0, 1 and 2 are ORed together.
-          * Overflow for UARTs 4 and 5 doesn't trigger any interrupt.
-@@ -383,7 +398,7 @@ static void mps2_common_init(MachineState *machine)
-     /* In hardware this is a LAN9220; the LAN9118 is software compatible
-      * except that it doesn't support the checksum-offload feature.
-      */
--    lan9118_init(&nd_table[0], 0x40200000,
-+    lan9118_init(&nd_table[0], mmc->ethernet_base,
-                  qdev_get_gpio_in(armv7m,
-                                   mmc->fpga_type == FPGA_AN511 ? 47 : 13));
- 
-@@ -412,6 +427,9 @@ static void mps2_an385_class_init(ObjectClass *oc, void *data)
-     mmc->fpga_type = FPGA_AN385;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
-     mmc->scc_id = 0x41043850;
-+    mmc->psram_base = 0x21000000;
-+    mmc->ethernet_base = 0x40200000;
-+    mmc->has_block_ram = true;
- }
- 
- static void mps2_an386_class_init(ObjectClass *oc, void *data)
-@@ -423,6 +441,23 @@ static void mps2_an386_class_init(ObjectClass *oc, void *data)
-     mmc->fpga_type = FPGA_AN386;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
-     mmc->scc_id = 0x41043860;
-+    mmc->psram_base = 0x21000000;
-+    mmc->ethernet_base = 0x40200000;
-+    mmc->has_block_ram = true;
-+}
++The ``lm32`` guest CPU support is deprecated and will be removed in
++a future version of QEMU. The only public user of this architecture
++was the milkymist project, which has been dead for years; there was
++never an upstream Linux port.
 +
-+static void mps2_an500_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    MPS2MachineClass *mmc = MPS2_MACHINE_CLASS(oc);
-+
-+    mc->desc = "ARM MPS2 with AN500 FPGA image for Cortex-M7";
-+    mmc->fpga_type = FPGA_AN500;
-+    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m7");
-+    mmc->scc_id = 0x41045000;
-+    mmc->psram_base = 0x60000000;
-+    mmc->ethernet_base = 0xa0000000;
-+    mmc->has_block_ram = false;
- }
- 
- static void mps2_an511_class_init(ObjectClass *oc, void *data)
-@@ -434,6 +469,9 @@ static void mps2_an511_class_init(ObjectClass *oc, void *data)
-     mmc->fpga_type = FPGA_AN511;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
-     mmc->scc_id = 0x41045110;
-+    mmc->psram_base = 0x21000000;
-+    mmc->ethernet_base = 0x40200000;
-+    mmc->has_block_ram = false;
- }
- 
- static const TypeInfo mps2_info = {
-@@ -457,6 +495,12 @@ static const TypeInfo mps2_an386_info = {
-     .class_init = mps2_an386_class_init,
- };
- 
-+static const TypeInfo mps2_an500_info = {
-+    .name = TYPE_MPS2_AN500_MACHINE,
-+    .parent = TYPE_MPS2_MACHINE,
-+    .class_init = mps2_an500_class_init,
-+};
-+
- static const TypeInfo mps2_an511_info = {
-     .name = TYPE_MPS2_AN511_MACHINE,
-     .parent = TYPE_MPS2_MACHINE,
-@@ -468,6 +512,7 @@ static void mps2_machine_init(void)
-     type_register_static(&mps2_info);
-     type_register_static(&mps2_an385_info);
-     type_register_static(&mps2_an386_info);
-+    type_register_static(&mps2_an500_info);
-     type_register_static(&mps2_an511_info);
- }
+ ``unicore32`` CPUs (since 5.2.0)
+ ''''''''''''''''''''''''''''''''
  
 -- 
 2.20.1
