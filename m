@@ -2,101 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050AD26932A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 19:28:12 +0200 (CEST)
-Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FD7269366
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 19:31:57 +0200 (CEST)
+Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHsGw-00026B-OG
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 13:28:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46266)
+	id 1kHsKa-0005TT-IT
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 13:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1kHsFK-00018s-0U
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:26:30 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1kHsFH-0006e7-S7
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 13:26:29 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08EHDkZY055545
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:26:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=XgTGAy0ji38HzA6abhtQOvMzWawsMMSTBvHzgHF55rA=;
- b=ArzSBDleA8SMfJrqF1HMcFaazqdrUb7VTXcWNoekfQuFsuF8Yh/3ChpG8IqJfMEaN5YB
- fLqUZ6LhAgEhr2/fYlJJ0hfVDlBaKbBDc30jJhl2sSyuIE+dTWpSqy6BWp0J7C8mDp7q
- ugz9RSvzG3Ayb2nXGfoaQRvfZfxp99ZXwrfRreLmvRvF7QTfE1Xu6FZNmQTkadiQRTGh
- HNWVFLK5ERfDtzrlU4xjAKgWeDfhFs0QtPbkJrD9tmsKA0kId9kc6v6gaxUl+nBENdAg
- vd3hA2d6dnvtqDkyodqm9qRu6MFsJ6zt0YU+AecR54ch2BO+2HKLy2nD6lR6p2I1gLHv iw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33jcqsr8my-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:26:25 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08EHDw7O056208
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 13:26:25 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33jcqsr8mj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Sep 2020 13:26:25 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08EHMM97001268;
- Mon, 14 Sep 2020 17:26:24 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 33gny8wthf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Sep 2020 17:26:24 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08EHQNam26673608
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Sep 2020 17:26:23 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BDC53124052;
- Mon, 14 Sep 2020 17:26:23 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9DE96124053;
- Mon, 14 Sep 2020 17:26:23 +0000 (GMT)
-Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 14 Sep 2020 17:26:23 +0000 (GMT)
-From: Dov Murik <dovmurik@linux.vnet.ibm.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH v2] checkpatch: Detect '%#' or '%0#' in printf-style format
- strings
-Date: Mon, 14 Sep 2020 17:26:23 +0000
-Message-Id: <20200914172623.72955-1-dovmurik@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kHrBf-0007Gm-Dz; Mon, 14 Sep 2020 12:18:39 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:37701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kHrBb-0004cn-Uh; Mon, 14 Sep 2020 12:18:39 -0400
+Received: by mail-il1-x142.google.com with SMTP id q4so121652ils.4;
+ Mon, 14 Sep 2020 09:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PQeAiaC8mluiiMfFGiBUhJP0TbcSw2y2dsOB8nows7E=;
+ b=SaxpNpvB7cNNqwaxx2R2f1Rjfs2fMVGSRwFSZ37VgtEiSqobdYF/TbquYaaVQKWTXM
+ GuwGns7uQKcBV++EdKmWdFWNAd4KveY2GXFMyZ5jN0E4/vQWicXHCBJ69axVB9czNY51
+ L+uoMajbfau1jdDtyA60TzhusvXTyl8+rVZSWjqiYwxomeQqFAJ+0R5AXo8/nznh/AF2
+ 1dyI+mIbV1RkzeZ1GVGhSkFJvCzOi0t/dXA0Gn5eR/tbw8FGLE7mokLRnc/VRNGwG0/q
+ 9/R52QrqUiDSenhohpFUgDDG60Op+I7AEYRQOdcey8dfTmlEfVmB1bLZoIiF2TtUNtgj
+ sphQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PQeAiaC8mluiiMfFGiBUhJP0TbcSw2y2dsOB8nows7E=;
+ b=GB5YbH/C+fpXB48Cm0ltk2ooQGlvBH3RMQnmPmDegsMcguJCllhDANSyqmALkjY3jq
+ CzQDI0D7eFKSw5Vljb2OO2j5Ex9wO68feODqGbYywMYdQFFmzxRfZi05szgqvnGOe8Wm
+ b16A4oHahftU4cYM1UCzplKZz80PX3eoXceZvwfLK56vfpDpovG4KNsGo6uqSmBt2ekJ
+ KsTgkioECzpQsE5Fvh4dpPJfBz9UnFsYs8ogkT6cKUv1dUuj4cvRhgdAaUFFLTjz4O+X
+ U8j6BEAe+0Tf0XZQODDfOSorfiznUt1NTV4OBsYO4ilFS0LZ/bXhA2MYWXDOsKl7m5y8
+ mzNA==
+X-Gm-Message-State: AOAM531MjEzBzXwAfL7XHF2g4ZoGoSsqYzHpRIVo02b/uwh6j9YqWcTK
+ M+up+nEpTlOiJ4/REbPHkcov88WMKi8M6q5ZVf0=
+X-Google-Smtp-Source: ABdhPJzmvulZ90q3pUwKsc488yLiyFFkivzsTPWRUHHr30J86YdbgM+Z4p3zWcBqtYa/AL7vvhJV8Fgtgofa7Y2ri8o=
+X-Received: by 2002:a92:4a08:: with SMTP id m8mr1124586ilf.227.1600100313644; 
+ Mon, 14 Sep 2020 09:18:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-14_06:2020-09-14,
- 2020-09-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 mlxlogscore=976
- spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009140138
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 13:26:26
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200901055822.2721209-1-natechancellor@gmail.com>
+ <CAKmqyKNRMmJgmZSPK6wqqNQW41QLHwChPi+1cjqao_x1Q_iryQ@mail.gmail.com>
+ <159916712670.15432.11504227918284494914@sif>
+ <CAKmqyKMYKiM4Q-geEsNR3Us4vOn_u52omr6h2vcodbsr1hFW2g@mail.gmail.com>
+ <159982720259.29065.11121265558750623606@sif>
+In-Reply-To: <159982720259.29065.11121265558750623606@sif>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 14 Sep 2020 09:07:26 -0700
+Message-ID: <CAKmqyKNvatCfS_gPoxLu-K+6anNjbfP4Ad=MA--3pQQ9h-mBRA@mail.gmail.com>
+Subject: Re: [PATCH] riscv: sifive_test: Allow 16-bit writes to memory region
+To: Michael Roth <mdroth@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,68 +81,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Dov Murik <dovmurik@linux.vnet.ibm.com>, Markus Armbruster <armbru@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the coding style document, we should use literal '0x' prefix
-instead of printf's '#' flag (which appears as '%#' or '%0#' in the format
-string).  Add a checkpatch rule to enforce that.
+On Fri, Sep 11, 2020 at 5:26 AM Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
+>
+> Quoting Alistair Francis (2020-09-10 13:10:43)
+> > On Thu, Sep 3, 2020 at 2:05 PM Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
+> > >
+> > > Quoting Alistair Francis (2020-09-01 18:59:29)
+> > > > On Mon, Aug 31, 2020 at 10:59 PM Nathan Chancellor
+> > > > <natechancellor@gmail.com> wrote:
+> > > > >
+> > > > > When shutting down the machine running a mainline Linux kernel, the
+> > > > > following error happens:
+> > > > >
+> > > > > $ build/riscv64-softmmu/qemu-system-riscv64 -bios default -M virt \
+> > > > >     -display none -initrd rootfs.cpio -kernel Image -m 512m \
+> > > > >     -nodefaults -serial mon:stdio
+> > > > > ...
+> > > > > Requesting system poweroff
+> > > > > [    4.999630] reboot: Power down
+> > > > > sbi_trap_error: hart0: trap handler failed (error -2)
+> > > > > sbi_trap_error: hart0: mcause=0x0000000000000007 mtval=0x0000000000100000
+> > > > > sbi_trap_error: hart0: mepc=0x000000008000d4cc mstatus=0x0000000000001822
+> > > > > sbi_trap_error: hart0: ra=0x000000008000999e sp=0x0000000080015c78
+> > > > > sbi_trap_error: hart0: gp=0xffffffe000e76610 tp=0xffffffe0081b89c0
+> > > > > sbi_trap_error: hart0: s0=0x0000000080015c88 s1=0x0000000000000040
+> > > > > sbi_trap_error: hart0: a0=0x0000000000000000 a1=0x0000000080004024
+> > > > > sbi_trap_error: hart0: a2=0x0000000080004024 a3=0x0000000080004024
+> > > > > sbi_trap_error: hart0: a4=0x0000000000100000 a5=0x0000000000005555
+> > > > > sbi_trap_error: hart0: a6=0x0000000000004024 a7=0x0000000080011158
+> > > > > sbi_trap_error: hart0: s2=0x0000000000000000 s3=0x0000000080016000
+> > > > > sbi_trap_error: hart0: s4=0x0000000000000000 s5=0x0000000000000000
+> > > > > sbi_trap_error: hart0: s6=0x0000000000000001 s7=0x0000000000000000
+> > > > > sbi_trap_error: hart0: s8=0x0000000000000000 s9=0x0000000000000000
+> > > > > sbi_trap_error: hart0: s10=0x0000000000000000 s11=0x0000000000000008
+> > > > > sbi_trap_error: hart0: t0=0x0000000000000000 t1=0x0000000000000000
+> > > > > sbi_trap_error: hart0: t2=0x0000000000000000 t3=0x0000000000000000
+> > > > > sbi_trap_error: hart0: t4=0x0000000000000000 t5=0x0000000000000000
+> > > > > sbi_trap_error: hart0: t6=0x0000000000000000
+> > > > >
+> > > > > The kernel does a 16-bit write when powering off the machine, which
+> > > > > was allowed before commit 5d971f9e67 ("memory: Revert "memory: accept
+> > > > > mismatching sizes in memory_region_access_valid""). Make min_access_size
+> > > > > match reality so that the machine can shut down properly now.
+> > > > >
+> > > > > Cc: qemu-stable@nongnu.org
+> > > > > Fixes: 88a07990fa ("SiFive RISC-V Test Finisher")
+> > > > > Fixes: 5d971f9e67 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"")
+> > > > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> > > >
+> > > > Thanks!
+> > > >
+> > > > Applied to riscv-to-apply.next
+> > >
+> > > FYI, I'm hoping to pull this patch into the upcoming 5.0.1 stable
+> > > release. The freeze is scheduled for 2020-09-20, I will apply this if it
+> > > hits master before then.
+> >
+> > I just sent a PR with this patch. Is this still on track to make it into 5.0.1?
+>
+> Since it's not likely to invalidate any testing on my end outside of the
+> ones built into QEMU I can probably still slip it in if it hits master
+> by Monday, or maybe just grab it from your tree.
 
-Note that checkpatch already had a similar rule for trace-events files.
+This is in master now, I hope that's enough time to make it in.
 
-Example usage:
+Let me know if you want me to do anything else.
 
-  $ scripts/checkpatch.pl --file chardev/baum.c
-  ...
-  ERROR: Don't use '#' flag of printf format ('%#') in format strings, use '0x' prefix instead
-  #366: FILE: chardev/baum.c:366:
-  +            DPRINTF("Broken packet %#2x, tossing\n", req); \
-  ...
-  ERROR: Don't use '#' flag of printf format ('%#') in format strings, use '0x' prefix instead
-  #472: FILE: chardev/baum.c:472:
-  +        DPRINTF("unrecognized request %0#2x\n", req);
-  ...
+Alistair
 
-Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
----
-
-Since v1:
-- consolidate format string checks to avoid code duplication
-
----
- scripts/checkpatch.pl | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bd3faa154c..f8dac953b2 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2880,14 +2880,20 @@ sub process {
- 				$herecurr);
- 		}
- 
--# check for %L{u,d,i} in strings
-+# format strings checks
- 		my $string;
- 		while ($line =~ /(?:^|")([X\t]*)(?:"|$)/g) {
- 			$string = substr($rawline, $-[1], $+[1] - $-[1]);
- 			$string =~ s/%%/__/g;
-+			# check for %L{u,d,i} in strings
- 			if ($string =~ /(?<!%)%L[udi]/) {
- 				ERROR("\%Ld/%Lu are not-standard C, use %lld/%llu\n" . $herecurr);
--				last;
-+			}
-+			# check for %# or %0# in printf-style format strings
-+			if ($string =~ /(?<!%)%0?#/) {
-+				ERROR("Don't use '#' flag of printf format " .
-+				      "('%#') in format strings, use '0x' " .
-+				      "prefix instead\n" . $herecurr);
- 			}
- 		}
- 
--- 
-2.20.1
-
+>
+> >
+> > Alistair
+> >
+> > >
+> > > >
+> > > > Alistair
+> > > >
+> > > > > ---
+> > > > >
+> > > > > Please let me know if the tags are wrong or inappropriate, this is my
+> > > > > first QEMU patch.
+> > > > >
+> > > > >  hw/riscv/sifive_test.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
+> > > > > index 0c78fb2c93..8c70dd69df 100644
+> > > > > --- a/hw/riscv/sifive_test.c
+> > > > > +++ b/hw/riscv/sifive_test.c
+> > > > > @@ -59,7 +59,7 @@ static const MemoryRegionOps sifive_test_ops = {
+> > > > >      .write = sifive_test_write,
+> > > > >      .endianness = DEVICE_NATIVE_ENDIAN,
+> > > > >      .valid = {
+> > > > > -        .min_access_size = 4,
+> > > > > +        .min_access_size = 2,
+> > > > >          .max_access_size = 4
+> > > > >      }
+> > > > >  };
+> > > > >
+> > > > > base-commit: 2f4c51c0f384d7888a04b4815861e6d5fd244d75
+> > > > > --
+> > > > > 2.28.0
+> > > > >
+> > > > >
+> > > >
 
