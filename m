@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56B52681F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 02:03:02 +0200 (CEST)
-Received: from localhost ([::1]:59820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB3B268201
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 02:04:37 +0200 (CEST)
+Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHbxV-0003wZ-GW
-	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 20:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43496)
+	id 1kHbz2-0006RS-ND
+	for lists+qemu-devel@lfdr.de; Sun, 13 Sep 2020 20:04:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHbwV-0002UT-BJ
- for qemu-devel@nongnu.org; Sun, 13 Sep 2020 20:01:59 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35225)
+ id 1kHbwW-0002Ua-8i
+ for qemu-devel@nongnu.org; Sun, 13 Sep 2020 20:02:00 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kHbwT-0004BR-Gb
+ id 1kHbwU-0004BW-14
  for qemu-devel@nongnu.org; Sun, 13 Sep 2020 20:01:59 -0400
-Received: by mail-pf1-x434.google.com with SMTP id o68so11179403pfg.2
- for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 17:01:56 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d6so11043556pfn.9
+ for <qemu-devel@nongnu.org>; Sun, 13 Sep 2020 17:01:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=INOIZZ1UU6wjUvExIBY5xZEUID/bFlB32HgebiDeLvo=;
- b=RZUqFLexb/mvoAA1++MJGs1AUjxM/wRxFM/AbTSd3aRw3UitS7Wz1BYn3AnkCZVEnj
- FDuum2D71e0SKqKqBlb8NTZmAnrkeiheu9UO7SPdqZQb37ucVgOE6siCuwhhpYIYeC60
- xIgRRa2XnosMabb04VA4FGuNTIg5OiHaBjNoDhD/B56KnEf5jqX6Bh+Eo4Gyt7WRBp8e
- eE8VmSAALc2pNsLCifm2UxLTQnCDhjRZmxkGGWITXxRhy3a46yRU3qeUE35hiCqHasvI
- L9avhW4dAVETwPDdpt600M93VQnRrYXoLzcOc8DblQ7oouXhwAooGAjUON20Qsen+mP/
- B5oQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1udUAr8a7IXOV2H9rA8omIwMHcyQUC+GvcI+H0onXWA=;
+ b=tH9ekyKbKNqBu7NOdNeDYHc1kHfGZjX9Q4P+BttxtUy7ZI073n3WDF+AnHW3gpSyiI
+ T0KTeU697vw0Ig5J+9TDKOSUhVOiEw8xICE2gHJ4vHCmC+gbL5w1k3zkB1mA8FFh12sJ
+ KCuvbrffdclxn8MPs1fe3eCwR1ft80V+UOh1+UlTqMm/6E1FcedtMNAFUeGquFPnHyHs
+ zVjZhYgC8XjtWRAon7HCfgimsXiG2OHCCJpgspXYj3IZE4/wOUtiiyjNaqc99j9AOJk4
+ F52ZQ3iWMyAvKnKBQxhmsKGUzgr1VUZqosyl711uZfsHVUkygGW+0o9l4FEpSiAfn7Hb
+ 8LCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=INOIZZ1UU6wjUvExIBY5xZEUID/bFlB32HgebiDeLvo=;
- b=p1gymoVhfCixWy6H75hSQnAwCl5iVbLrSdZ9JInHCmbToGLb8P/FourOBFPAsZt/WF
- abSRL6WcJNUN1p5YtGexrDCCmbIyORQRM7Pn1vM6wI8GQ9zS06jgu2Hftc+wkG8Nfm7b
- 1HmNH+BQRUmXgrBnaBMDgs/2QchXUXCzJSCJ5NVfwhNssjTVU8U6s1g+53MoGDPj4PNU
- nOCdWaPPty8uZc+4tXw/z8W+tkxAJJw2PVai4nE7e+6jYyekfjHrYCBojkObPA59xQ+M
- YnWkTBBSD1rApRZ45FQpsWtXJuaGFHzxnLlZj8ogIbLTDHs8o81dSPZpVEO8megBc9it
- MroQ==
-X-Gm-Message-State: AOAM53116Xz24VTxDOx0xNVjzpauIOjn/h64arAZcCQWKglIbBo2AANj
- fw4frw5gdl87ATgkTKK02lI0sBF0xlKaEA==
-X-Google-Smtp-Source: ABdhPJxzp8Jq255Gh7TCBleCy3l7F8De1+0V73rp7fZfIHZbHVQLSoW1WR28gUBI9NmpTT443hUZiQ==
-X-Received: by 2002:a17:902:b586:b029:d1:bb0f:2644 with SMTP id
- a6-20020a170902b586b02900d1bb0f2644mr8292015pls.34.1600041715069; 
- Sun, 13 Sep 2020 17:01:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1udUAr8a7IXOV2H9rA8omIwMHcyQUC+GvcI+H0onXWA=;
+ b=WUn9Z6HYxB9t44+QAZqxn79xy0bMlhySegYV0+IxsQnhgcxN4PgRsq4MZ0o4EgJOiM
+ sYEfYznhzeKnmtqsRGxTCs/qF3cxCdntHdzXBvjmRys4qjwaMkWa52U+jwwB8f4kdf6j
+ 4ogJ8HYDosi+EMMf/1cUyGqPBl83HJS2QC5xf++pBnFT9PoWjm1yP+pz/yZT1ysgXX0c
+ uaqgvD9l90a+L8AToD814I12sNUu7N9kcXlidT6YDUwvBKhKu1Ki3blMCbnS/7QDj4fL
+ mEfEVPvDarwPV3Ayc/dDrZJWfuuTeSda6htto56qLwZfG/agG0pybenWjBCDSt5SoncJ
+ bH7g==
+X-Gm-Message-State: AOAM530OHNcc8tdXrmh+wb+QWsTyiEsh1clOoCaYl4syU7yTk2xiaY+o
+ VmOktKNI/tEb5HzyMwF3O8v90O5gFbFe4Q==
+X-Google-Smtp-Source: ABdhPJxwZNNflMubO9tL+ul472twpJwRlhJHLpU9uoUUxbux6A+eJ72GTvjuqkI9AVYEKzI/fXfqAA==
+X-Received: by 2002:a17:902:eb05:b029:d1:8c50:b1bc with SMTP id
+ l5-20020a170902eb05b02900d18c50b1bcmr11606416plb.35.1600041716306; 
+ Sun, 13 Sep 2020 17:01:56 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 31sm6538252pgs.59.2020.09.13.17.01.53
+ by smtp.gmail.com with ESMTPSA id 31sm6538252pgs.59.2020.09.13.17.01.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Sep 2020 17:01:54 -0700 (PDT)
+ Sun, 13 Sep 2020 17:01:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/11] capstone + disassembler patches
-Date: Sun, 13 Sep 2020 17:01:42 -0700
-Message-Id: <20200914000153.1725632-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/11] capstone: Convert Makefile bits to meson bits
+Date: Sun, 13 Sep 2020 17:01:43 -0700
+Message-Id: <20200914000153.1725632-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200914000153.1725632-1-richard.henderson@linaro.org>
+References: <20200914000153.1725632-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,65 +85,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luoyonggang@gmail.com, alex.bennee@linaro.org, thuth@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, luoyonggang@gmail.com,
+ alex.bennee@linaro.org, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The primary change here is the update for capstone to meson.
-This bypasses capstone's build system entirely.  There's more
-commentary on that subject with the first patch.
+There are better ways to do this, e.g. meson cmake subproject,
+but that requires cmake 3.7 and some of our CI environments
+only provide cmake 3.5.
 
-Plus a collection of other fixes and cleanups in the area.
+Nor can we add a meson.build file to capstone/, because the git
+submodule would then always report "untracked files".  Fixing that
+would require creating our own branch on the qemu git mirror, at
+which point we could just as easily create a native meson subproject.
 
-There are a couple of other targets that could use capstone:
+In leiu, build the library via the main meson.build.
 
-The current capstone branch has a fatal bug affecting RISC-V.
-I have submitted a fix upstream for that, and have the minimal
-patches required to enable it here.
+This improves the current state of affairs in that we will re-link
+the qemu executables against a changed libcapstone.a, which we wouldn't
+do before-hand.  In addition, the use of the confuration header file
+instead of command-line -DEFINES means that we will rebuild the
+capstone objects with changes to meson.build.
 
-There is capstone support for m68k, but it doesn't look like
-there's coldfire support.  So capstone is a subset of what we
-have in disas/m68k.c.  There's probably no point changing here.
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ configure         | 24 +++----------
+ Makefile          | 16 ---------
+ meson.build       | 89 ++++++++++++++++++++++++++++++++++++++++++++---
+ meson_options.txt |  3 ++
+ 4 files changed, 91 insertions(+), 41 deletions(-)
 
-There is capstone support for mips, which might be good enough
-to replace disas/mips.c.  It wouldn't replace disas/nanomips.c,
-and there's no support at all for the micromips isa.
-
-
-r~
-
-
-Richard Henderson (11):
-  capstone: Convert Makefile bits to meson bits
-  capstone: Update to upstream "next" branch
-  disas: Move host asm annotations to tb_gen_code
-  disas: Clean up CPUDebug initialization
-  disas: Use qemu/bswap.h for bfd endian loads
-  disas: Cleanup plugin_disas
-  disas: Configure capstone for aarch64 host without libvixl
-  disas: Split out capstone code to disas/capstone.c
-  disas: Enable capstone disassembly for s390x
-  disas/capstone: Add skipdata hook for s390x
-  disas: Enable capstone disassembly for sparc
-
- configure                 |  24 +-
- Makefile                  |  16 -
- include/disas/dis-asm.h   | 102 +++---
- include/disas/disas.h     |   2 +-
- include/exec/log.h        |   4 +-
- accel/tcg/translate-all.c |  24 +-
- disas.c                   | 702 +++++++++-----------------------------
- disas/capstone.c          | 326 ++++++++++++++++++
- target/s390x/cpu.c        |   4 +
- target/sparc/cpu.c        |   4 +
- tcg/tcg.c                 |   4 +-
- capstone                  |   2 +-
- disas/meson.build         |   1 +
- meson.build               | 112 +++++-
- meson_options.txt         |   3 +
- 15 files changed, 672 insertions(+), 658 deletions(-)
- create mode 100644 disas/capstone.c
-
+diff --git a/configure b/configure
+index 2b6a1196da..4fc5c15283 100755
+--- a/configure
++++ b/configure
+@@ -5146,27 +5146,15 @@ case "$capstone" in
+ esac
+ 
+ case "$capstone" in
+-  git | internal)
++  git)
+     if test "$capstone" = git; then
+       git_submodules="${git_submodules} capstone"
+     fi
+-    mkdir -p capstone
+-    if test "$mingw32" = "yes"; then
+-      LIBCAPSTONE=capstone.lib
+-    else
+-      LIBCAPSTONE=libcapstone.a
+-    fi
+-    capstone_libs="-Lcapstone -lcapstone"
+-    capstone_cflags="-I${source_path}/capstone/include"
+     ;;
+ 
+-  system)
+-    capstone_libs="$($pkg_config --libs capstone)"
+-    capstone_cflags="$($pkg_config --cflags capstone)"
++  internal | system | no)
+     ;;
+ 
+-  no)
+-    ;;
+   *)
+     error_exit "Unknown state for capstone: $capstone"
+     ;;
+@@ -7290,8 +7278,6 @@ if test "$ivshmem" = "yes" ; then
+ fi
+ if test "$capstone" != "no" ; then
+   echo "CONFIG_CAPSTONE=y" >> $config_host_mak
+-  echo "CAPSTONE_CFLAGS=$capstone_cflags" >> $config_host_mak
+-  echo "CAPSTONE_LIBS=$capstone_libs" >> $config_host_mak
+ fi
+ if test "$debug_mutex" = "yes" ; then
+   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
+@@ -7816,9 +7802,6 @@ done # for target in $targets
+ if [ "$fdt" = "git" ]; then
+   subdirs="$subdirs dtc"
+ fi
+-if [ "$capstone" = "git" -o "$capstone" = "internal" ]; then
+-  subdirs="$subdirs capstone"
+-fi
+ echo "SUBDIRS=$subdirs" >> $config_host_mak
+ if test -n "$LIBCAPSTONE"; then
+   echo "LIBCAPSTONE=$LIBCAPSTONE" >> $config_host_mak
+@@ -8005,7 +7988,8 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+ 	-Dsdl=$sdl -Dsdl_image=$sdl_image \
+ 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+-	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
++	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
++	-Dcapstone=$capstone \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
+diff --git a/Makefile b/Makefile
+index 57f72f56c6..0746aa83e3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -156,22 +156,6 @@ dtc/all: .git-submodule-status dtc/libfdt
+ dtc/%: .git-submodule-status
+ 	@mkdir -p $@
+ 
+-# Overriding CFLAGS causes us to lose defines added in the sub-makefile.
+-# Not overriding CFLAGS leads to mis-matches between compilation modes.
+-# Therefore we replicate some of the logic in the sub-makefile.
+-# Remove all the extra -Warning flags that QEMU uses that Capstone doesn't;
+-# no need to annoy QEMU developers with such things.
+-CAP_CFLAGS = $(patsubst -W%,,$(CFLAGS) $(QEMU_CFLAGS)) $(CAPSTONE_CFLAGS)
+-CAP_CFLAGS += -DCAPSTONE_USE_SYS_DYN_MEM
+-CAP_CFLAGS += -DCAPSTONE_HAS_ARM
+-CAP_CFLAGS += -DCAPSTONE_HAS_ARM64
+-CAP_CFLAGS += -DCAPSTONE_HAS_POWERPC
+-CAP_CFLAGS += -DCAPSTONE_HAS_X86
+-
+-.PHONY: capstone/all
+-capstone/all: .git-submodule-status
+-	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/capstone CAPSTONE_SHARED=no BUILDDIR="$(BUILD_DIR)/capstone" CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)" CFLAGS="$(CAP_CFLAGS)" $(SUBDIR_MAKEFLAGS) $(BUILD_DIR)/capstone/$(LIBCAPSTONE))
+-
+ .PHONY: slirp/all
+ slirp/all: .git-submodule-status
+ 	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp		\
+diff --git a/meson.build b/meson.build
+index 690723b470..4417de1e14 100644
+--- a/meson.build
++++ b/meson.build
+@@ -415,11 +415,6 @@ if 'CONFIG_USB_LIBUSB' in config_host
+   libusb = declare_dependency(compile_args: config_host['LIBUSB_CFLAGS'].split(),
+                               link_args: config_host['LIBUSB_LIBS'].split())
+ endif
+-capstone = not_found
+-if 'CONFIG_CAPSTONE' in config_host
+-  capstone = declare_dependency(compile_args: config_host['CAPSTONE_CFLAGS'].split(),
+-                                link_args: config_host['CAPSTONE_LIBS'].split())
+-endif
+ libpmem = not_found
+ if 'CONFIG_LIBPMEM' in config_host
+   libpmem = declare_dependency(compile_args: config_host['LIBPMEM_CFLAGS'].split(),
+@@ -616,6 +611,90 @@ config_all += {
+   'CONFIG_ALL': true,
+ }
+ 
++if get_option('capstone') == 'no'
++  capstone = not_found
++elif get_option('capstone') == 'system'
++  capstone = dependency('capstone', static: enable_static, required: true)
++else
++  capstone_data = configuration_data()
++  capstone_data.set('CAPSTONE_USE_SYS_DYN_MEM', '1')
++
++  capstone_files = files(
++    'capstone/cs.c',
++    'capstone/MCInst.c',
++    'capstone/MCInstrDesc.c',
++    'capstone/MCRegisterInfo.c',
++    'capstone/SStream.c',
++    'capstone/utils.c'
++  )
++
++  if 'CONFIG_ARM_DIS' in config_all_disas
++    capstone_data.set('CAPSTONE_HAS_ARM', '1')
++    capstone_files += files(
++      'capstone/arch/ARM/ARMDisassembler.c',
++      'capstone/arch/ARM/ARMInstPrinter.c',
++      'capstone/arch/ARM/ARMMapping.c',
++      'capstone/arch/ARM/ARMModule.c'
++    )
++  endif
++
++  # FIXME: This config entry currently depends on a c++ compiler.
++  # Which is needed for building libvixl, but not for capstone.
++  if 'CONFIG_ARM_A64_DIS' in config_all_disas
++    capstone_data.set('CAPSTONE_HAS_ARM64', '1')
++    capstone_files += files(
++      'capstone/arch/AArch64/AArch64BaseInfo.c',
++      'capstone/arch/AArch64/AArch64Disassembler.c',
++      'capstone/arch/AArch64/AArch64InstPrinter.c',
++      'capstone/arch/AArch64/AArch64Mapping.c',
++      'capstone/arch/AArch64/AArch64Module.c'
++    )
++  endif
++
++  if 'CONFIG_PPC_DIS' in config_all_disas
++    capstone_data.set('CAPSTONE_HAS_POWERPC', '1')
++    capstone_files += files(
++      'capstone/arch/PowerPC/PPCDisassembler.c',
++      'capstone/arch/PowerPC/PPCInstPrinter.c',
++      'capstone/arch/PowerPC/PPCMapping.c',
++      'capstone/arch/PowerPC/PPCModule.c'
++    )
++  endif
++
++  if 'CONFIG_I386_DIS' in config_all_disas
++    capstone_data.set('CAPSTONE_HAS_X86', 1)
++    capstone_files += files(
++      'capstone/arch/X86/X86Disassembler.c',
++      'capstone/arch/X86/X86DisassemblerDecoder.c',
++      'capstone/arch/X86/X86ATTInstPrinter.c',
++      'capstone/arch/X86/X86IntelInstPrinter.c',
++      'capstone/arch/X86/X86Mapping.c',
++      'capstone/arch/X86/X86Module.c'
++    )
++  endif
++
++  configure_file(output: 'capstone-defs.h',
++                 configuration: capstone_data)
++
++  capstone_cargs = [
++    # FIXME: There does not seem to be a way to completely replace the c_args
++    # that come from add_project_arguments() -- we can only add to them.
++    # So: disable all warnings with a big hammer.
++    '-Wno-error', '-w',
++    # Include all configuration defines via a header file, which will wind up
++    # as a dependency on the object file, and thus changes here will result
++    # in a rebuild.
++    '-include', 'capstone-defs.h'
++  ]
++
++  libcapstone = static_library('capstone',
++                               sources: capstone_files,
++                               c_args: capstone_cargs,
++                               include_directories: 'capstone/include')
++  capstone = declare_dependency(link_with: libcapstone,
++                                include_directories: 'capstone/include')
++endif
++
+ # Generators
+ 
+ hxtool = find_program('scripts/hxtool')
+diff --git a/meson_options.txt b/meson_options.txt
+index 543cf70043..99ecd44aca 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -22,3 +22,6 @@ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('xkbcommon', type : 'feature', value : 'auto',
+        description: 'xkbcommon support')
++
++option('capstone', type: 'string', value: 'no',
++       description: 'capstone support')
 -- 
 2.25.1
 
