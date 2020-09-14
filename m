@@ -2,118 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC40268FF8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:31:16 +0200 (CEST)
-Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F712690AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:53:18 +0200 (CEST)
+Received: from localhost ([::1]:40130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHqRm-0002zM-PO
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:31:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38948)
+	id 1kHqn7-0004uq-P0
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHq7e-0003fD-7F
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:10:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50146)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHq9k-0005xT-Cx
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:12:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHq7c-0000kp-8t
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:10:25 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHq9i-0001Cr-60
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:12:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600096223;
+ s=mimecast20190719; t=1600096349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=f6kQWIbAStQqMS5tqkWJYoj30kfLL6D+iVGO59jvutw=;
- b=Glyoa8UjbxK4aAH983zZ9P2Q1QSG5B757n8YA6ya/4htaqGSHoHFmQcAUqEt7tdvmYeCIx
- op9S89zspVefMEwK1sSCaY+FZPkQAj9JtC0kNhRQEn6hL7M99zXpyb+NJaHZ3sbn1sOWgn
- oywwIC3Jzsp1D/IBeQQ8R74qV2eYYgo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-mPwo8tq0P2yHfYV-9Y96rQ-1; Mon, 14 Sep 2020 11:10:15 -0400
-X-MC-Unique: mPwo8tq0P2yHfYV-9Y96rQ-1
-Received: by mail-wr1-f69.google.com with SMTP id 33so6999186wrk.12
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 08:10:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=f6kQWIbAStQqMS5tqkWJYoj30kfLL6D+iVGO59jvutw=;
- b=r4ZgSwRccXDHxlga6JLGHDbXdmPZzvnaFUFpaWgfBEmQFjlDI+Uc2KvWEs015d8GSS
- 8PPIIepLXBe5EjlAqRuosvnIV2fY3VFwJmowuDvmPzNm0itPfJsrVSqJBqaGHuOeaBoi
- qf/WMpSvMwc1+7H2/pOiueewFjm5xrIHrgwNwUa2ldf3JvNKXYLz4L/pK3/i07FaOA6P
- 28kL1Afa41bRii/rzuK0iyR6Y9AaHOkj+63VOwxqJdyFCRiohkF+0KdV2ZIJNpgEImHV
- zMJyl5jd+bXnmdtNEyiFF+Mx+X8/QDQpqwgD1TnaSYtf1TJTbUiVYlvfeLLPedUeRC49
- RdnQ==
-X-Gm-Message-State: AOAM531qJWk5HNppqUr8e5k/M0wazALjb0Tot98o+k4kZXWwnfBLFDHa
- 11nrr/uNUbVyty3W0bPbosqSMPb/4m+wJMB7FWqa+c82NOz1U4LagIGIXBf9b9uZb7wB5aw+IWO
- hJTfxesFHp4OO0jY=
-X-Received: by 2002:a1c:2ed0:: with SMTP id
- u199mr15000683wmu.125.1600096213187; 
- Mon, 14 Sep 2020 08:10:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDKAXQuwMNkhPLKzPvDmfAKBkFnu/krn71dYyLm263nvrXtdXAAGgyGX6/hmDEEDJBf5M3Sg==
-X-Received: by 2002:a1c:2ed0:: with SMTP id
- u199mr15000665wmu.125.1600096212960; 
- Mon, 14 Sep 2020 08:10:12 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id y5sm20766103wrh.6.2020.09.14.08.10.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Sep 2020 08:10:12 -0700 (PDT)
-Subject: Re: [PATCH v2] qom: simplify object_find_property /
- object_class_find_property
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200914135617.1493072-1-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <ec7a1ce1-d273-2b31-ee37-732a12384bca@redhat.com>
-Date: Mon, 14 Sep 2020 17:10:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ in-reply-to:in-reply-to:references:references;
+ bh=dd3GXnEjgoAnUmz/ncsCBQVJXy51bVIMrRUnXganD7A=;
+ b=Y+OqfV+wTtw4CylWSwWQQf/fEWEXHnmuXUsbs5XltcbgQEZColvjL3607ZaGr/FRFJ49Sd
+ IyLfxWKqDbFhrD86UXwaqCUs64W50Pv5on83P7O3jrle5qvy5MiSNcPgFUymEW5cOz3Be/
+ gm0PILn3kSyli5Vyitp2pSs008RurtA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330--jChKDb7MV-B_UA6cdsx5Q-1; Mon, 14 Sep 2020 11:11:54 -0400
+X-MC-Unique: -jChKDb7MV-B_UA6cdsx5Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6730A873115;
+ Mon, 14 Sep 2020 15:11:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D7F260DA0;
+ Mon, 14 Sep 2020 15:11:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A62D4113864A; Mon, 14 Sep 2020 17:11:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v7 07/13] monitor: Make current monitor a per-coroutine
+ property
+References: <20200909151149.490589-1-kwolf@redhat.com>
+ <20200909151149.490589-8-kwolf@redhat.com>
+Date: Mon, 14 Sep 2020 17:11:48 +0200
+In-Reply-To: <20200909151149.490589-8-kwolf@redhat.com> (Kevin Wolf's message
+ of "Wed, 9 Sep 2020 17:11:43 +0200")
+Message-ID: <874ko0o0jv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200914135617.1493072-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,59 +83,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: stefanha@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/20 3:56 PM, Daniel P. Berrangé wrote:
-> When debugging QEMU it is often useful to put a breakpoint on the
-> error_setg_internal method impl.
-> 
-> Unfortunately the object_property_add / object_class_property_add
-> methods call object_property_find / object_class_property_find methods
-> to check if a property exists already before adding the new property.
-> 
-> As a result there are a huge number of calls to error_setg_internal
-> on startup of most QEMU commands, making it very painful to set a
-> breakpoint on this method.
-> 
-> Most callers of object_find_property and object_class_find_property,
-> however, pass in a NULL for the Error parameter. This simplifies the
-> methods to remove the Error parameter entirely, and then adds some
-> new wrapper methods that are able to raise an Error when needed.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
-> 
-> v1: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg03621.html
-> 
->  hw/arm/armv7m.c                  | 10 +++---
->  hw/arm/exynos4210.c              |  2 +-
->  hw/arm/highbank.c                |  2 +-
->  hw/arm/integratorcp.c            |  2 +-
->  hw/arm/realview.c                |  2 +-
->  hw/arm/sbsa-ref.c                |  2 +-
->  hw/arm/versatilepb.c             |  2 +-
->  hw/arm/vexpress.c                |  4 +--
->  hw/arm/virt.c                    | 10 +++---
->  hw/arm/xilinx_zynq.c             |  2 +-
->  hw/core/qdev-properties-system.c |  2 +-
->  hw/core/sysbus.c                 |  2 +-
->  hw/cpu/a15mpcore.c               |  4 +--
->  hw/cpu/a9mpcore.c                |  2 +-
->  hw/misc/iotkit-sysctl.c          |  2 +-
->  hw/pci/pci.c                     |  2 +-
->  hw/scsi/scsi-bus.c               |  4 +--
->  include/qom/object.h             | 48 ++++++++++++++++++++++---
->  qom/object.c                     | 60 +++++++++++++++++++-------------
->  target/arm/monitor.c             |  2 +-
->  target/i386/cpu.c                |  2 +-
->  target/ppc/translate_init.c.inc  |  2 +-
->  22 files changed, 109 insertions(+), 61 deletions(-)
+Kevin Wolf <kwolf@redhat.com> writes:
 
-If possible, please use scripts/git.orderfile ;)
+> This way, a monitor command handler will still be able to access the
+> current monitor, but when it yields, all other code code will correctly
+> get NULL from monitor_cur().
+>
+> This uses a hash table to map the coroutine pointer to the current
+> monitor of that coroutine.  Outside of coroutine context, we associate
+> the current monitor with the leader coroutine of the current thread.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+In qemu-system-FOO, the hash table can have only these entries:
+
+* (OOB) One mapping @mon_iothread's thread leader to a QMP monitor, while
+  executing a QMP command out-of-band.
+
+* (QMP-CO) One mapping @qmp_dispatcher_co (a coroutine in the main
+  thread) to a QMP monitor, while executing a QMP command in-band and in
+  coroutine context.
+
+* (QMP) One mapping the main thread's leader to a QMP monitor, while
+  executing a QMP command in-band and out of coroutine context, in a
+  bottom half.
+
+* (HMP) One mapping the main thread's leader to an HMP monitor, while
+  executing an HMP command out of coroutine context.
+
+* (HMP-CO) One mapping a transient coroutine in the main thread to an
+  HMP monitor, while executing an HMP command in coroutine context.
+
+In-band execution is one command after the other.
+
+Therefore, at most one monitor command can be executing in-band at any
+time.
+
+Therefore, the hash table has at most *two* entries: one (OOB), and one
+of the other four.
+
+Can you shoot any holes into my argument?
+
+I suspect there's a simpler solution struggling to get out.  But this
+solution works, so in it goes.  Should the simpler one succeed at
+getting out, it can go in on top.  If not, I'll probably add even more
+comments to remind myself of these facts.
+
+> Approaches to implement some form of coroutine local storage directly in
+> the coroutine core code have been considered and discarded because they
+> didn't end up being much more generic than the hash table and their
+> performance impact on coroutines not using coroutine local storage was
+> unclear. As the block layer uses a coroutine per I/O request, this is a
+> fast path and we have to be careful. It's safest to just stay out of
+> this path with code only used by the monitor.
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
 
