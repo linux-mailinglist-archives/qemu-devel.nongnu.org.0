@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAACC268B7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:53:35 +0200 (CEST)
-Received: from localhost ([::1]:44170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2774D268B6D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:50:20 +0200 (CEST)
+Received: from localhost ([::1]:34324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHnzC-0008Ez-Pk
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
+	id 1kHnw2-00043l-UD
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:50:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1kHnpr-0005eX-65
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:43:56 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:42133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1kHnpo-0001u9-0I
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:43:54 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id q13so23005407ejo.9
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X8HTmlSEB7mAUp42RsUe3PwWp1bbT/3zNHcbnsauupQ=;
- b=dFUeyglelLwnZ3Axb2URiNMAIcjzcJ7Ad/P2ROCpnx3n3g80YWF6zm7sEJ7dFuL4Il
- TEarMCPwyLhT3MZ/UKzokRhWEU33KsbXYcsn73H0Eug1liiwJ4d9pJmpREu18Ivfprk4
- iM89qiVYBllAP8m7veK84tDCK7lfRVyq3hThDPlLvJqlaO8145Ey/Y9RJ5Wfo9t3s//P
- sV++vHDrwms5JcMjocXkQzU68h7rNv+up6jnseQKKygH+GYXNSkBKDREBYZ4rqIyTW7L
- sDmwovYI3DRTWD4NdfhWsuK4xmlq46g+x1iiSQdL5bYTkKkFHhRTm2MmSqCs6ZYRIIo2
- YAQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X8HTmlSEB7mAUp42RsUe3PwWp1bbT/3zNHcbnsauupQ=;
- b=Jdgxi7Ubv0BCYMsdCQ/8dxDWcumfMZPaSs/4JuAmghXeK4WjQq7BEDHt5qVjMrCqVE
- 0xL9oqHHz681gkcYJNJLe1YI0ZeyaC04nYP4GP2UstMbVGaadqBHjlLwBUKGK2bU5R1s
- qxC2qpZXvO+0pDnto4lGKt/FRt332WwJBapPnqy4t1YQJs53K2gC/9DcE7e6d4uHbmRf
- jho1D+tQ5TKA3rn+f/4hHGMAug9Bd7FrP8jTkyMOZaoSbapug3UsrLiSjQWb5fRB49eM
- wFZP1f9D/qe3hPnFtGldxlAcj3dzJnqF3vOfolWToWWMXXyhlacKhhDixnteeb+yYChv
- LMGw==
-X-Gm-Message-State: AOAM531xJ3P0YOXJ2JvmTG9uTaGLYg168vx5pnMs+QAdNnP43ftVM/bf
- 8OCHthRCmebgAaAc6S/8zi2l70fu+30uYUJeKNQ=
-X-Google-Smtp-Source: ABdhPJxupDrExKhkHs5uTDh4cxF5VmtVwucs3k+VYFFlVfkXJDRlgwCSMLs3scWmePrVbxVAlRxMokBSD1jUgcvnFp4=
-X-Received: by 2002:a17:906:fa8a:: with SMTP id
- lt10mr14254418ejb.307.1600087430003; 
- Mon, 14 Sep 2020 05:43:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kHnqA-0006I7-Pd
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:44:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55242
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kHnq7-0001xy-UM
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:44:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600087450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1FWWkSPTdCb4nyY6+TsXaD4Q2TdDdXSuvxPPEtkGiiA=;
+ b=RDWVatiyc0kUQ1AHFAtdBvpH5Lj+z3Y6RfrqvJebfK3EQ6hEWVb4vYaHslue3HqGAiUQKD
+ zESjXz35LhBVo5Mh3MJbvex0rrLYhEAsC6jRRkYqlkIthN+yr/VGH9pWSH2poUotoznqRa
+ zPs3aVAemNmVtI8kNs9/IEwQ4Mf3k80=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-tGBGFnoVObW1BYapEVc9aQ-1; Mon, 14 Sep 2020 08:44:08 -0400
+X-MC-Unique: tGBGFnoVObW1BYapEVc9aQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16753427C4;
+ Mon, 14 Sep 2020 12:44:07 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B50D7A1FC;
+ Mon, 14 Sep 2020 12:44:00 +0000 (UTC)
+Date: Mon, 14 Sep 2020 14:43:59 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 8/9] tests/acpi: add newly added acpi DSDT table blob
+ for pci bridge hotplug flag
+Message-ID: <20200914144359.19cfa397@redhat.com>
+In-Reply-To: <20200911180755.28409-8-ani@anisinha.ca>
+References: <20200911180755.28409-1-ani@anisinha.ca>
+ <20200911180755.28409-8-ani@anisinha.ca>
 MIME-Version: 1.0
-References: <5f5e9831.1c69fb81.bdbec.98b8@mx.google.com>
- <ea64c109-6bd9-c0f1-964c-46be5c6ba020@amsat.org>
- <CALTWKrW-U261HNc8mSxmu1uYKqrZxZM4+661ZK_m-W_Ky8eiFQ@mail.gmail.com>
-In-Reply-To: <CALTWKrW-U261HNc8mSxmu1uYKqrZxZM4+661ZK_m-W_Ky8eiFQ@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 14 Sep 2020 14:43:39 +0200
-Message-ID: <CAL1e-=hivWj2zvE9hXPdyfVFyBCYn5np0Y8wuFQHg9s0qtQsMg@mail.gmail.com>
-Subject: Re: [REPORT] Nightly Performance Tests - Sunday, September 13, 2020
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000e000f005af456260"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x62f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:36:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,337 +83,670 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Thomas Huth <huth@tuxfamily.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: jusual@redhat.com, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e000f005af456260
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 11 Sep 2020 23:37:54 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-On Mon, Sep 14, 2020 at 12:52 PM Ahmed Karaman <ahmedkhaledkaraman@gmail.co=
-m>
-wrote:
+> This patch adds a binary blob corresponding to the DSDT acpi table. It is used
+> to unit test the flag 'acpi-pci-hotplug-with-bridge-support' used with pci
+> bridges.
+> 
+> This change also clears the file tests/qtest/bios-tables-test-allowed-diff.h
+> so that future changes which affect the table can be caught.
+> 
+> The following is the diff between files tests/data/acpi/pc/DSDT.bridge and
+> tests/data/acpi/pc/DSDT.hpbridge after disassembly :
 
-> On Mon, Sep 14, 2020 at 8:46 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org>
-> wrote:
-> >
-> > Hi Ahmed,
-> >
-> > On 9/14/20 12:07 AM, Ahmed Karaman wrote:
-> > > Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
-> > > Host Memory      : 15.49 GB
-> > >
-> > > Start Time (UTC) : 2020-09-13 21:35:01
-> > > End Time (UTC)   : 2020-09-13 22:07:44
-> > > Execution Time   : 0:32:42.230467
-> > >
-> > > Status           : SUCCESS
-> > >
-> > > Note:
-> > > Changes denoted by '-----' are less than 0.01%.
-> > >
-> > > --------------------------------------------------------
-> > >             SUMMARY REPORT - COMMIT f00f57f3
-> > > --------------------------------------------------------
-> >
-> > (Maybe this was already commented earlier but I missed it).
-> >
-> > What change had a so significant impact on the m68k target?
-> > At a glance I only see mostly changes in softfloat:
-> >
-> > $ git log --oneline v5.1.0..f00f57f3 tcg target/m68k fpu
-> > fe4b0b5bfa9 tcg: Implement 256-bit dup for tcg_gen_gvec_dup_mem
-> > 6a17646176e tcg: Eliminate one store for in-place 128-bit dup_mem
-> > e7e8f33fb60 tcg: Fix tcg gen for vectorized absolute value
-> > 5ebf5f4be66 softfloat: Define misc operations for bfloat16
-> > 34f0c0a98a5 softfloat: Define convert operations for bfloat16
-> > 8282310d853 softfloat: Define operations for bfloat16
-> > 0d93d8ec632 softfloat: Add fp16 and uint8/int8 conversion functions
-> > fbcc38e4cb1 softfloat: add xtensa specialization for pickNaNMulAdd
-> > 913602e3ffe softfloat: pass float_status pointer to pickNaN
-> > cc43c692511 softfloat: make NO_SIGNALING_NANS runtime property
-> > 73ebe95e8e5 target/ppc: add vmulld to INDEX_op_mul_vec case
-> >
-> > > --------------------------------------------------------
-> > > --------------------------------------------------------
-> > > Test Program: matmult_double
-> > > --------------------------------------------------------
-> > > Target              Instructions      Latest      v5.1.0
-> > > ----------  --------------------  ----------  ----------
-> > > aarch64            1 412 412 599       -----     +0.311%
-> > > alpha              3 233 957 639       -----     +7.472%
-> > > arm                8 545 302 995       -----      +1.09%
-> > > hppa               3 483 527 330       -----     +4.466%
-> > > m68k               3 919 110 506       -----    +18.433%
-> > > mips               2 344 641 840       -----     +4.085%
-> > > mipsel             3 329 912 425       -----     +5.177%
-> > > mips64             2 359 024 910       -----     +4.075%
-> > > mips64el           3 343 650 686       -----     +5.166%
-> > > ppc                3 209 505 701       -----     +3.248%
-> > > ppc64              3 287 495 266       -----     +3.173%
-> > > ppc64le            3 287 135 580       -----     +3.171%
-> > > riscv64            1 221 617 903       -----     +0.278%
-> > > s390x              2 874 160 417       -----     +5.826%
-> > > sh4                3 544 094 841       -----      +6.42%
-> > > sparc64            3 426 094 848       -----     +7.138%
-> > > x86_64             1 249 076 697       -----     +0.335%
-> > > --------------------------------------------------------
-> > ...
-> > > --------------------------------------------------------
-> > > Test Program: qsort_double
-> > > --------------------------------------------------------
-> > > Target              Instructions      Latest      v5.1.0
-> > > ----------  --------------------  ----------  ----------
-> > > aarch64            2 709 839 947       -----     +2.423%
-> > > alpha              1 969 432 086       -----     +3.679%
-> > > arm                8 323 168 267       -----     +2.589%
-> > > hppa               3 188 316 726       -----       +2.9%
-> > > m68k               4 953 947 225       -----    +15.153%
-> > > mips               2 123 789 120       -----     +3.049%
-> > > mipsel             2 124 235 492       -----     +3.049%
-> > > mips64             1 999 025 951       -----     +3.404%
-> > > mips64el           1 996 433 190       -----     +3.409%
-> > > ppc                2 819 299 843       -----     +5.436%
-> > > ppc64              2 768 177 037       -----     +5.512%
-> > > ppc64le            2 724 766 044       -----     +5.602%
-> > > riscv64            1 638 324 190       -----     +4.021%
-> > > s390x              2 519 117 806       -----     +3.364%
-> > > sh4                2 595 696 102       -----       +3.0%
-> > > sparc64            3 988 892 763       -----     +2.744%
-> > > x86_64             2 033 624 062       -----     +3.242%
-> > > --------------------------------------------------------
->
-> Hi Mr. Philippe,
-> The performance degradation from v5.1.0 of all targets, and especially
-> m68k, was introduced between the two nightly tests below:
->
-> [REPORT] Nightly Performance Tests - Thursday, August 20, 2020:
-> https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg04923.html
->
-> [REPORT] Nightly Performance Tests - Saturday, August 22, 2020
-> https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg05537.html
->
-> It looks like the new build system is the culprit.
->
-> The "bisect.py" script introduced during the "TCG Continuous
-> Benchmarking" GSoC project can be very handy in these cases. I wrote
-> about the tool and how to use it in the report below:
->
-> https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Finding-Commits-A=
-ffecting-QEMU-Performance/
->
->
-Hi, Ahmed.
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-I think the bisect.py script will work only if both "start" and "end"
-commits are before build system change, or if both of them are after build
-system change.
+> 
+> @@ -1,30 +1,30 @@
+>  /*
+>   * Intel ACPI Component Architecture
+>   * AML/ASL+ Disassembler version 20180105 (64-bit version)
+>   * Copyright (c) 2000 - 2018 Intel Corporation
+>   *
+>   * Disassembling to symbolic ASL+ operators
+>   *
+> - * Disassembly of tests/data/acpi/pc/DSDT.bridge, Fri Sep 11 23:21:34 2020
+> + * Disassembly of /tmp/aml-7UURQ0, Fri Sep 11 23:21:34 2020
+>   *
+>   * Original Table Header:
+>   *     Signature        "DSDT"
+> - *     Length           0x00001A89 (6793)
+> + *     Length           0x0000131F (4895)
+>   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> - *     Checksum         0x09
+> + *     Checksum         0xF9
+>   *     OEM ID           "BOCHS "
+>   *     OEM Table ID     "BXPCDSDT"
+>   *     OEM Revision     0x00000001 (1)
+>   *     Compiler ID      "BXPC"
+>   *     Compiler Version 0x00000001 (1)
+>   */
+>  DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
+>  {
+>      Scope (\)
+>      {
+>          OperationRegion (DBG, SystemIO, 0x0402, One)
+>          Field (DBG, ByteAcc, NoLock, Preserve)
+>          {
+>              DBGB,   8
+>          }
+> 
+> @@ -859,522 +859,32 @@
+>                  }
+> 
+>                  Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
+>                  {
+>                      Return (Zero)
+>                  }
+> 
+>                  Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+>                  {
+>                      Return (Zero)
+>                  }
+>              }
+> 
+>              Device (S18)
+>              {
+>                  Name (_ADR, 0x00030000)  // _ADR: Address
+> -                Name (BSEL, One)
+> -                Device (S00)
+> -                {
+> -                    Name (_SUN, Zero)  // _SUN: Slot User Number
+> -                    Name (_ADR, Zero)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S08)
+> -                {
+> -                    Name (_SUN, One)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00010000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S10)
+> -                {
+> -                    Name (_SUN, 0x02)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00020000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S18)
+> -                {
+> -                    Name (_SUN, 0x03)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00030000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S20)
+> -                {
+> -                    Name (_SUN, 0x04)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00040000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S28)
+> -                {
+> -                    Name (_SUN, 0x05)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00050000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S30)
+> -                {
+> -                    Name (_SUN, 0x06)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00060000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S38)
+> -                {
+> -                    Name (_SUN, 0x07)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00070000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S40)
+> -                {
+> -                    Name (_SUN, 0x08)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00080000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S48)
+> -                {
+> -                    Name (_SUN, 0x09)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00090000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S50)
+> -                {
+> -                    Name (_SUN, 0x0A)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x000A0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S58)
+> -                {
+> -                    Name (_SUN, 0x0B)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x000B0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S60)
+> -                {
+> -                    Name (_SUN, 0x0C)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x000C0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S68)
+> -                {
+> -                    Name (_SUN, 0x0D)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x000D0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S70)
+> -                {
+> -                    Name (_SUN, 0x0E)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x000E0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S78)
+> -                {
+> -                    Name (_SUN, 0x0F)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x000F0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S80)
+> -                {
+> -                    Name (_SUN, 0x10)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00100000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S88)
+> -                {
+> -                    Name (_SUN, 0x11)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00110000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S90)
+> -                {
+> -                    Name (_SUN, 0x12)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00120000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (S98)
+> -                {
+> -                    Name (_SUN, 0x13)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00130000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SA0)
+> -                {
+> -                    Name (_SUN, 0x14)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00140000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SA8)
+> -                {
+> -                    Name (_SUN, 0x15)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00150000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SB0)
+> -                {
+> -                    Name (_SUN, 0x16)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00160000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SB8)
+> -                {
+> -                    Name (_SUN, 0x17)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00170000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SC0)
+> -                {
+> -                    Name (_SUN, 0x18)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00180000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SC8)
+> -                {
+> -                    Name (_SUN, 0x19)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x00190000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SD0)
+> -                {
+> -                    Name (_SUN, 0x1A)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x001A0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SD8)
+> -                {
+> -                    Name (_SUN, 0x1B)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x001B0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SE0)
+> -                {
+> -                    Name (_SUN, 0x1C)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x001C0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SE8)
+> -                {
+> -                    Name (_SUN, 0x1D)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x001D0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SF0)
+> -                {
+> -                    Name (_SUN, 0x1E)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x001E0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Device (SF8)
+> -                {
+> -                    Name (_SUN, 0x1F)  // _SUN: Slot User Number
+> -                    Name (_ADR, 0x001F0000)  // _ADR: Address
+> -                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+> -                    {
+> -                        PCEJ (BSEL, _SUN)
+> -                    }
+> -                }
+> -
+> -                Method (DVNT, 2, NotSerialized)
+> -                {
+> -                    If ((Arg0 & One))
+> -                    {
+> -                        Notify (S00, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x02))
+> -                    {
+> -                        Notify (S08, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x04))
+> -                    {
+> -                        Notify (S10, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x08))
+> -                    {
+> -                        Notify (S18, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x10))
+> -                    {
+> -                        Notify (S20, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x20))
+> -                    {
+> -                        Notify (S28, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x40))
+> -                    {
+> -                        Notify (S30, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x80))
+> -                    {
+> -                        Notify (S38, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x0100))
+> -                    {
+> -                        Notify (S40, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x0200))
+> -                    {
+> -                        Notify (S48, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x0400))
+> -                    {
+> -                        Notify (S50, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x0800))
+> -                    {
+> -                        Notify (S58, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x1000))
+> -                    {
+> -                        Notify (S60, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x2000))
+> -                    {
+> -                        Notify (S68, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x4000))
+> -                    {
+> -                        Notify (S70, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x8000))
+> -                    {
+> -                        Notify (S78, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00010000))
+> -                    {
+> -                        Notify (S80, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00020000))
+> -                    {
+> -                        Notify (S88, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00040000))
+> -                    {
+> -                        Notify (S90, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00080000))
+> -                    {
+> -                        Notify (S98, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00100000))
+> -                    {
+> -                        Notify (SA0, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00200000))
+> -                    {
+> -                        Notify (SA8, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00400000))
+> -                    {
+> -                        Notify (SB0, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x00800000))
+> -                    {
+> -                        Notify (SB8, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x01000000))
+> -                    {
+> -                        Notify (SC0, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x02000000))
+> -                    {
+> -                        Notify (SC8, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x04000000))
+> -                    {
+> -                        Notify (SD0, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x08000000))
+> -                    {
+> -                        Notify (SD8, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x10000000))
+> -                    {
+> -                        Notify (SE0, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x20000000))
+> -                    {
+> -                        Notify (SE8, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x40000000))
+> -                    {
+> -                        Notify (SF0, Arg1)
+> -                    }
+> -
+> -                    If ((Arg0 & 0x80000000))
+> -                    {
+> -                        Notify (SF8, Arg1)
+> -                    }
+> -                }
+> -
+> -                Method (PCNT, 0, NotSerialized)
+> -                {
+> -                    BNUM = One
+> -                    DVNT (PCIU, One)
+> -                    DVNT (PCID, 0x03)
+> -                }
+>              }
+> 
+>              Device (S20)
+>              {
+>                  Name (_SUN, 0x04)  // _SUN: Slot User Number
+>                  Name (_ADR, 0x00040000)  // _ADR: Address
+>                  Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+>                  {
+>                      PCEJ (BSEL, _SUN)
+>                  }
+>              }
+> 
+>              Device (S28)
+>              {
+>                  Name (_SUN, 0x05)  // _SUN: Slot User Number
+>                  Name (_ADR, 0x00050000)  // _ADR: Address
+> @@ -1779,22 +1289,21 @@
+>                  If ((Arg0 & 0x40000000))
+>                  {
+>                      Notify (SF0, Arg1)
+>                  }
+> 
+>                  If ((Arg0 & 0x80000000))
+>                  {
+>                      Notify (SF8, Arg1)
+>                  }
+>              }
+> 
+>              Method (PCNT, 0, NotSerialized)
+>              {
+>                  BNUM = Zero
+>                  DVNT (PCIU, One)
+>                  DVNT (PCID, 0x03)
+> -                ^S18.PCNT ()
+>              }
+>          }
+>      }
+>  }
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  tests/data/acpi/pc/DSDT.hpbridge            | Bin 0 -> 4895 bytes
+>  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+>  2 files changed, 1 deletion(-)
+>  create mode 100644 tests/data/acpi/pc/DSDT.hpbridge
+> 
+> diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..b0751398541bdf88ce405be9742aeba0b375dbc3
+> GIT binary patch
+> literal 4895
+> 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  
+> S66ohVtr{L;J8bx3aOwYF+mJl~
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index 96a9237355..dfb8523c8b 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,2 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/pc/DSDT.hpbridge",
 
-In other words, the script is unlikely to work if "start" is before, and
-"end" is after build system change.
-
-This means that, most probably, one should resort to manual analysis of
-origins of performance degradation on Aug 22nd.
-
-One area that definitely might be the culprit is the difference in CFLAGS
-before and after.
-
-Yours,
-Aleksandar
-
-
-> Best regards,
-> Ahmed Karaman
->
->
-
---000000000000e000f005af456260
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 14, 2020 at 12:52 PM Ahme=
-d Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@gmail.com">ahmedkhaledka=
-raman@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">On Mon, Sep 14, 2020 at 8:46 AM Philippe Mathieu-Daud=C3=A9 =
-&lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a=
->&gt; wrote:<br>
-&gt;<br>
-&gt; Hi Ahmed,<br>
-&gt;<br>
-&gt; On 9/14/20 12:07 AM, Ahmed Karaman wrote:<br>
-&gt; &gt; Host CPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: Intel(R) Core(TM) i7-=
-8750H CPU @ 2.20GHz<br>
-&gt; &gt; Host Memory=C2=A0 =C2=A0 =C2=A0 : 15.49 GB<br>
-&gt; &gt;<br>
-&gt; &gt; Start Time (UTC) : 2020-09-13 21:35:01<br>
-&gt; &gt; End Time (UTC)=C2=A0 =C2=A0: 2020-09-13 22:07:44<br>
-&gt; &gt; Execution Time=C2=A0 =C2=A0: 0:32:42.230467<br>
-&gt; &gt;<br>
-&gt; &gt; Status=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: SUCCESS<br>
-&gt; &gt;<br>
-&gt; &gt; Note:<br>
-&gt; &gt; Changes denoted by &#39;-----&#39; are less than 0.01%.<br>
-&gt; &gt;<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SUMMARY REPORT - C=
-OMMIT f00f57f3<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt;<br>
-&gt; (Maybe this was already commented earlier but I missed it).<br>
-&gt;<br>
-&gt; What change had a so significant impact on the m68k target?<br>
-&gt; At a glance I only see mostly changes in softfloat:<br>
-&gt;<br>
-&gt; $ git log --oneline v5.1.0..f00f57f3 tcg target/m68k fpu<br>
-&gt; fe4b0b5bfa9 tcg: Implement 256-bit dup for tcg_gen_gvec_dup_mem<br>
-&gt; 6a17646176e tcg: Eliminate one store for in-place 128-bit dup_mem<br>
-&gt; e7e8f33fb60 tcg: Fix tcg gen for vectorized absolute value<br>
-&gt; 5ebf5f4be66 softfloat: Define misc operations for bfloat16<br>
-&gt; 34f0c0a98a5 softfloat: Define convert operations for bfloat16<br>
-&gt; 8282310d853 softfloat: Define operations for bfloat16<br>
-&gt; 0d93d8ec632 softfloat: Add fp16 and uint8/int8 conversion functions<br=
->
-&gt; fbcc38e4cb1 softfloat: add xtensa specialization for pickNaNMulAdd<br>
-&gt; 913602e3ffe softfloat: pass float_status pointer to pickNaN<br>
-&gt; cc43c692511 softfloat: make NO_SIGNALING_NANS runtime property<br>
-&gt; 73ebe95e8e5 target/ppc: add vmulld to INDEX_op_mul_vec case<br>
-&gt;<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt; &gt; Test Program: matmult_double<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt; &gt; Target=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Instructio=
-ns=C2=A0 =C2=A0 =C2=A0 Latest=C2=A0 =C2=A0 =C2=A0 v5.1.0<br>
-&gt; &gt; ----------=C2=A0 --------------------=C2=A0 ----------=C2=A0 ----=
-------<br>
-&gt; &gt; aarch64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1 412 412 599=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+0.311%<br>
-&gt; &gt; alpha=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3 233 957 6=
-39=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+7.472%<br>
-&gt; &gt; arm=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 8 545 =
-302 995=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0 +1.09%<br>
-&gt; &gt; hppa=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A03 483 =
-527 330=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+4.466%<br>
-&gt; &gt; m68k=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A03 919 =
-110 506=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 +18.433%<br>
-&gt; &gt; mips=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02 344 =
-641 840=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+4.085%<br>
-&gt; &gt; mipsel=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A03 329 912 4=
-25=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+5.177%<br>
-&gt; &gt; mips64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02 359 024 9=
-10=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+4.075%<br>
-&gt; &gt; mips64el=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A03 343 650 686=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+5.166%<br>
-&gt; &gt; ppc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3 209 =
-505 701=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.248%<br>
-&gt; &gt; ppc64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3 287 495 2=
-66=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.173%<br>
-&gt; &gt; ppc64le=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3 287 135 580=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.171%<br>
-&gt; &gt; riscv64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1 221 617 903=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+0.278%<br>
-&gt; &gt; s390x=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 874 160 4=
-17=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+5.826%<br>
-&gt; &gt; sh4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3 544 =
-094 841=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0 +6.42%<br>
-&gt; &gt; sparc64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3 426 094 848=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+7.138%<br>
-&gt; &gt; x86_64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01 249 076 6=
-97=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+0.335%<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt; ...<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt; &gt; Test Program: qsort_double<br>
-&gt; &gt; --------------------------------------------------------<br>
-&gt; &gt; Target=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Instructio=
-ns=C2=A0 =C2=A0 =C2=A0 Latest=C2=A0 =C2=A0 =C2=A0 v5.1.0<br>
-&gt; &gt; ----------=C2=A0 --------------------=C2=A0 ----------=C2=A0 ----=
-------<br>
-&gt; &gt; aarch64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 709 839 947=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+2.423%<br>
-&gt; &gt; alpha=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1 969 432 0=
-86=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.679%<br>
-&gt; &gt; arm=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 8 323 =
-168 267=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+2.589%<br>
-&gt; &gt; hppa=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A03 188 =
-316 726=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0 =C2=A0+2.9%<br>
-&gt; &gt; m68k=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A04 953 =
-947 225=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 +15.153%<br>
-&gt; &gt; mips=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02 123 =
-789 120=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.049%<br>
-&gt; &gt; mipsel=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02 124 235 4=
-92=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.049%<br>
-&gt; &gt; mips64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01 999 025 9=
-51=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.404%<br>
-&gt; &gt; mips64el=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01 996 433 190=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.409%<br>
-&gt; &gt; ppc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 819 =
-299 843=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+5.436%<br>
-&gt; &gt; ppc64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 768 177 0=
-37=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+5.512%<br>
-&gt; &gt; ppc64le=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 724 766 044=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+5.602%<br>
-&gt; &gt; riscv64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1 638 324 190=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+4.021%<br>
-&gt; &gt; s390x=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 519 117 8=
-06=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.364%<br>
-&gt; &gt; sh4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2 595 =
-696 102=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0 =C2=A0+3.0%<br>
-&gt; &gt; sparc64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3 988 892 763=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+2.744%<br>
-&gt; &gt; x86_64=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02 033 624 0=
-62=C2=A0 =C2=A0 =C2=A0 =C2=A0-----=C2=A0 =C2=A0 =C2=A0+3.242%<br>
-&gt; &gt; --------------------------------------------------------<br>
-<br>
-Hi Mr. Philippe,<br>
-The performance degradation from v5.1.0 of all targets, and especially<br>
-m68k, was introduced between the two nightly tests below:<br>
-<br>
-[REPORT] Nightly Performance Tests - Thursday, August 20, 2020:<br>
-<a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg0492=
-3.html" rel=3D"noreferrer" target=3D"_blank">https://lists.nongnu.org/archi=
-ve/html/qemu-devel/2020-08/msg04923.html</a><br>
-<br>
-[REPORT] Nightly Performance Tests - Saturday, August 22, 2020<br>
-<a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg0553=
-7.html" rel=3D"noreferrer" target=3D"_blank">https://lists.nongnu.org/archi=
-ve/html/qemu-devel/2020-08/msg05537.html</a><br>
-<br>
-It looks like the new build system is the culprit.<br>
-<br>
-The &quot;bisect.py&quot; script introduced during the &quot;TCG Continuous=
-<br>
-Benchmarking&quot; GSoC project can be very handy in these cases. I wrote<b=
-r>
-about the tool and how to use it in the report below:<br>
-<a href=3D"https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Finding-=
-Commits-Affecting-QEMU-Performance/" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Finding-Commits-Affe=
-cting-QEMU-Performance/</a><br>
-<br></blockquote><div><br></div><div>Hi, Ahmed.<br></div><div><br></div><di=
-v>I think the bisect.py script will work only if both &quot;start&quot; and=
- &quot;end&quot; commits are before build system change, or if both of them=
- are after build system change.</div><div><br></div><div>In other words, th=
-e script is unlikely to work if &quot;start&quot; is before, and &quot;end&=
-quot; is after build system change.</div><div><br></div><div>This means tha=
-t, most probably, one should resort to manual analysis of origins of perfor=
-mance degradation on Aug 22nd.</div><div><br></div><div>One area that defin=
-itely might be the culprit is the difference in CFLAGS before and after.<br=
-></div><div><br></div><div>Yours,</div><div>Aleksandar<br></div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-Best regards,<br>
-Ahmed Karaman<br>
-<br>
-</blockquote></div></div>
-
---000000000000e000f005af456260--
 
