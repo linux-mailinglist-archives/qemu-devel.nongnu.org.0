@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F4D268C81
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:49:00 +0200 (CEST)
-Received: from localhost ([::1]:41792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3191C268C9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 15:54:32 +0200 (CEST)
+Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHoqp-0002jj-7Y
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
+	id 1kHowB-0003Y1-61
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 09:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHomU-0006ia-0E
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:44:30 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:44183)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHomS-0003MN-Gr
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:44:29 -0400
-Received: by mail-ej1-x642.google.com with SMTP id r7so23286928ejs.11
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 06:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9SiCAQeKUAzJKUQvyZCko1wEECMwt01LkprMPg7Sc4k=;
- b=m2GeFylFmAc7t2sjuM3F3rOHTdaM9sTDeVFz4m59pVkoJ4IiGcEv8c/JzFgfOmeDig
- D9JPpeWT1eDmHbl+BoLuqW/xgMMM5FQAtrTwERrBWY8FxEP3RCXZDsB/S9vItLDovtDu
- h+OBL+XkbGgvL+yLKvQbjRgv2g6+TQc6aGlhnwtjfUX3yVsbcTX2stKU9nWgvRsbWk+7
- xbi6DxExmdKIIhNsgnEgE4ATFEUQUgc8clWLYjWKPtjNfkOmNPakgPwRIjw+wqtzE0RG
- R/mv+jtxIlrLB3KqX1eki+X3pv8UJLNAy6VclVgcRMWZ0t/zuICt3x22ISLx3lBivLei
- gLLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9SiCAQeKUAzJKUQvyZCko1wEECMwt01LkprMPg7Sc4k=;
- b=B7TiZYMASUoTFPzq21duADMkd8vPmf7XOA9tFHRJFcWw6mVWLkrhcYmo6lSKmprDN6
- vRASqJvg2ytCOGQkg3sRmBezDmCuKukY7yy5e0mKK3V472oB7iAelTbKQBjHF/L0VHIL
- Y/X7wFt7ROm8XRXtX0Q+0FVsyPdwbdD+Sv+noWQvEuqWFEgHpuOwbDnUyhjnkthJW8C7
- 6/NfNzxNyT9ID/vZIzlhB9f/KdEI8KmWwnrWAQJ+GoEye0lv9rTTkSXWkXlh0XwFw+5w
- MeuuXaQubKPQ/ms6HbpoYMJcIOoZ89qJMPhqYBMI8omzYDlEfGYxOZI78kL7KsZHTOZ7
- fXlA==
-X-Gm-Message-State: AOAM5314GGD2GaVO7kgkebhbRZhpAQZvnLwDWPaLqxkdfx7rwL0er7Ii
- K03KMIHLBWxGHlJHVBA474hA9fi8kRdQFleeL78DlQ==
-X-Google-Smtp-Source: ABdhPJzvf5QnzZ2wOrVLTNrtuCKSCTsoA0V20T+8BYLZeOva69kWMQBG93/6ZDEsiAPiW1I04YG6EJKeDtw6FMdXnhA=
-X-Received: by 2002:a17:906:24d6:: with SMTP id
- f22mr14364265ejb.85.1600091067074; 
- Mon, 14 Sep 2020 06:44:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kHoof-0000r2-AH
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:46:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24148
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kHood-0003nE-8z
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 09:46:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600091202;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dliDE+MGtKy5tXgOVg5ZWc8KWlP13/g1Rw/txiTcbrc=;
+ b=J+z6/zqnWvPvN3uTyYKNaI7V7/mwsgYmnEyzdZS9Xbt20MoQcNdBTP3MOhFm1nYV50K8/3
+ XlG4KHreXR/hxoKoShAlnoIzBHuc00piClGDgeU9lBZUFaC/Lsvrtac5fgzKpbR4LjVoaU
+ YOklwMuJOfkgF1AacZDq8VNQn99im8I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-RhtBI-vhOASo5qsanEwTsw-1; Mon, 14 Sep 2020 09:46:38 -0400
+X-MC-Unique: RhtBI-vhOASo5qsanEwTsw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6673A801AC2;
+ Mon, 14 Sep 2020 13:46:37 +0000 (UTC)
+Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 346925E1DF;
+ Mon, 14 Sep 2020 13:46:37 +0000 (UTC)
+Date: Mon, 14 Sep 2020 09:46:36 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: Moving to C11? (was Re: Redefinition of typedefs (C11 feature))
+Message-ID: <20200914134636.GZ1618070@habkost.net>
+References: <20200911184919.GV1618070@habkost.net>
+ <CAFEAcA-dnKVyUQ3_ZifdDvrpCbKB1zciuu224BbB1WRV0npxzw@mail.gmail.com>
+ <20200911200649.GW1618070@habkost.net>
+ <e2e2a955-693d-1372-f2e2-c58b7f88d0d7@redhat.com>
+ <20200913025151.GX1618070@habkost.net>
+ <329a1ae1-7b74-4045-3305-0577fcbb447a@redhat.com>
 MIME-Version: 1.0
-References: <20200901162046.32670-1-peter.maydell@linaro.org>
- <20200901162046.32670-2-peter.maydell@linaro.org> <87bli81nmc.fsf@linaro.org>
-In-Reply-To: <87bli81nmc.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Sep 2020 14:44:15 +0100
-Message-ID: <CAFEAcA9Y_hiLBW+Jy2Xg3rD6J6g02G0PwELmbH_9a0pHJ998cw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm.risu: Correct VLDR/VSTR U=0 patterns
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <329a1ae1-7b74-4045-3305-0577fcbb447a@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,33 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Sep 2020 at 14:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > Correct the VLDR and VSTR patterns, which claimed to be setting U=3D0
-> > but in fact left it identical to the U=3D1 pattern due to a
-> > cut-and-paste error.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > Somehow the pre-generated test binaries I have from Alex have
-> > U=3D0 insns in them -- I suspect this got fixed locally but never
-> > made it upstream ?
->
-> Hmm my current set of aarch32 test patterns have U=3D1 throughout. So if
-> it did get fixed locally it also got lost.
+On Mon, Sep 14, 2020 at 07:39:09AM +0200, Thomas Huth wrote:
+> On 13/09/2020 04.51, Eduardo Habkost wrote:
+> > On Sat, Sep 12, 2020 at 08:45:19AM +0200, Thomas Huth wrote:
+> >> On 11/09/2020 22.06, Eduardo Habkost wrote:
+> >>> On Fri, Sep 11, 2020 at 08:06:10PM +0100, Peter Maydell wrote:
+> >>>> On Fri, 11 Sep 2020 at 19:49, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >>>>>
+> >>>>> I'm wondering: do our supported build host platforms all include
+> >>>>> compilers that are new enough to let us redefine typedefs?
+> >>>>>
+> >>>>> The ability to redefine typedefs is a C11 feature which would be
+> >>>>> very useful for simplifying our QOM boilerplate code.  The
+> >>>>> feature is supported by GCC since 2011 (v4.6.0)[1], and by clang
+> >>>>> since 2012 (v3.1)[2].
+> >>>>
+> >>>> In configure we mandate either GCC v4.8 or better, or
+> >>>> clang v3.4 or better, or XCode Clang v5.1 or better
+> >>>> (Apple uses a different version numbering setup to upstream).
+> >>>> So you should probably double-check that that xcode clang has
+> >>>> what you want, but it looks like we're good to go otherwise.
+> >>>
+> >>> Can anybody confirm if the following is accurate?
+> >>>
+> >>> https://gist.github.com/yamaya/2924292#file-xcode-clang-vers-L67
+> >>> # Xcode 5.1 (5B130a)
+> >>> Apple LLVM version 5.1 (clang-503.0.38) (based on LLVM 3.4svn)
+> >>> Target: x86_64-apple-darwin13.1.0
+> >>> Thread model: posix
+> >>>
+> >>> If we know we have GCC 4.8+ or clang 3.4+, can we move to C11 and
+> >>> start using -std=gnu11?
+> >>
+> >> You don't have to switch to gnu11, redefintions of typedefs are already
+> >> fine in gnu99, they are a gnu extension there to the c99 standard.
+> >>
+> >> See also:
+> >> https://git.qemu.org/?p=qemu.git;a=commitdiff;h=7be41675f7cb16b
+> >>
+> >> https://www.mail-archive.com/qemu-devel@nongnu.org/msg585581.html
+> > 
+> > They still trigger a warning with gnu99 on clang:
+> > 
+> > $ clang --version
+> > clang version 10.0.0 (Fedora 10.0.0-2.fc32)
+> > Target: x86_64-unknown-linux-gnu
+> > Thread model: posix
+> > InstalledDir: /usr/bin
+> > $ cat test.c
+> > typedef struct A A;
+> > typedef struct A A;
+> > $ clang -std=gnu11 -c test.c
+> > $ clang -std=gnu99 -c test.c
+> > test.c:2:18: warning: redefinition of typedef 'A' is a C11 feature [-Wtypedef-redefinition]
+> > typedef struct A A;
+> 
+> Ah, right, I forgot about that ... so for clang, we silence that warning
+> via CFLAGS in the configure script. See commit e6e90feedb706b1.
 
-I'm surprised you don't see test failures due to the memory
-constraint not matching up with the encoding...
+Nice, I hadn't seen that.  This means we don't need C11 for
+supporting redefinition of typedefs.
 
--- PMM
+Now, do we have other reasons for not moving to C11?  It would be
+nice to make QEMU_GENERIC unnecessary and just use _Generic, for
+example.
+
+-- 
+Eduardo
+
 
