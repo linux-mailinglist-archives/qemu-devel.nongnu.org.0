@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D75268DCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:34:21 +0200 (CEST)
-Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27ECC268E98
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 16:57:45 +0200 (CEST)
+Received: from localhost ([::1]:50334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHpYi-0000xA-Dd
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46410)
+	id 1kHpvL-0008Vj-T2
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 10:57:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8h-0003cy-Ey
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:27 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHp8f-0007gG-Rf
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:07:27 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id z4so18925667wrr.4
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=l4WF1cLevfcGcFBwjaUwq0TP82SnPQoQFK5fdQ/QPMo=;
- b=ixhKOUinXtsPGXl1W6VEkAGxl6Hj2tD4uVXLHNyX7H4HW/d+/SH46hjL+xC9Ow36LU
- ayOsHKIs0z3SwfStHgJ8tpcLsx+s+fOJJ4WOGzwDs/6ZjPPO2iHtn5iFnvkUynj3oDA9
- dZ2UnQCTnWfJpva85ib5oyPLeKkOvr6nIhO4hSK7Fhcxk+6FCCkPJ+JpO2JcV6ToIkEE
- JUkguI5IsmJCQc4lcVHfJTnMXqygslJMC0cIxr4tfAB6nRNvOnVabetcA6CSOk69Z3m6
- GEPKPgNT8pzXE+YFU2ZDRq8CZRxSLF14liZeuKFPk5vnZ3Qsw6n1nSLwAP32quAJ1a/E
- Aggg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=l4WF1cLevfcGcFBwjaUwq0TP82SnPQoQFK5fdQ/QPMo=;
- b=SRI4dnKOF3WH2Na9OPeiS1WZJIRu4LBNGGLenPZHeE1vnS+v4/YD7r4cEcRNOPBFKR
- l+uTNo2Dk8snOf4ZHQhdQkmeqqJzMivqgjHRv3lNGjn8DjjZm/lV2L1tw9qGxL6acE1E
- v2x63CAGOuOX9q32GCFCEy+kwOahvmDp4L7qMRTwerpUut0rgHGuXa1HIW6H11TqDnzp
- d+eRhJU5IaVMu+KTjNOlSmFlSQwuoLPQnnFKPVibKqYal4ITeeGgSXA2cWQeUKfYB2Fk
- 3CMhgFIyxwgGUEmSTLK8B97RIm+7CyCMv3iIth5cKl+eCruEoICKw2lK1Xqg049h+/3P
- e3tA==
-X-Gm-Message-State: AOAM532v3dJN6AhklYPo6/QPTu74YXgy9p29TPxldrH02yf+29q8zXMe
- yhHuHxOjV+mwMcwR9KN2g+JusViL0gX/MdqX
-X-Google-Smtp-Source: ABdhPJxDdDPLz6pnN2EdPnJZtOCGGKx5D2CqVKczAGyudOXMv7cDKrcwn/2erW/AKZLLkjwZZ7AcmA==
-X-Received: by 2002:adf:9027:: with SMTP id h36mr15906849wrh.259.1600092444382; 
- Mon, 14 Sep 2020 07:07:24 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x16sm20834041wrq.62.2020.09.14.07.07.23
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 07:07:23 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 36/36] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN
- controller
-Date: Mon, 14 Sep 2020 15:06:41 +0100
-Message-Id: <20200914140641.21369-37-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200914140641.21369-1-peter.maydell@linaro.org>
-References: <20200914140641.21369-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHpIf-0001Ly-JH
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:17:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kHpIa-0000g9-Ov
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 10:17:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600093056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4Yz2+4lgscFhsSEKiS2xAGmCnnfaFbIDg4fUsEFnn4U=;
+ b=I/ehzXsLeFzNiJ5PQ18PE77Kh/3nCyCbia9+hco7jNb66jwicWMbyGDtekmIQDS2ul139q
+ NvA918DikF9aoQtb3+jUkoAaujsXphgr11baOS3eygirfffkJ3vFrCijvSb2uE/vjnkYah
+ AJLN0BOFrdkHY81vAijmWJ9SoGYxoOc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-bfmyb0zvOSegK55A2wcm4Q-1; Mon, 14 Sep 2020 10:17:33 -0400
+X-MC-Unique: bfmyb0zvOSegK55A2wcm4Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D62E8030A0;
+ Mon, 14 Sep 2020 14:17:32 +0000 (UTC)
+Received: from localhost (ovpn-114-80.ams2.redhat.com [10.36.114.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2883B2C31E;
+ Mon, 14 Sep 2020 14:17:31 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2] iotests: Work around failing readlink -f
+Date: Mon, 14 Sep 2020 16:17:30 +0200
+Message-Id: <20200914141730.90279-1-mreitz@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:10:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HEXHASH_WORD=1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,40 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
+On macOS, (out of the box) readlink does not have -f.  If the recent
+"readlink -f" call introduced by b1cbc33a397 fails, just fall back to
+the old behavior (which means you can run the iotests only from the
+build tree, but that worked fine for six years, so it should be fine
+still).
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-Message-id: 1597278668-339715-5-git-send-email-fnu.vikram@xilinx.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Suppress all error messages, so in case using $PWD works out, we do not
+cause the user to worry.  If it does not work, we will end up printing
+the following error message anyway:
+
+  check: failed to source common.env (make sure the qemu-iotests are run
+  from tests/qemu-iotests in the build tree)
+
+Following that hint (running check from $build_tree/tests/qemu-iotests)
+will make it work, and is probably even easier than obtaining a readlink
+that understands -f.
+
+Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
+       ("iotests: Allow running from different directory")
+Reported-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+v2: Suppress stderr (as requested and suggested by Peter)
+---
+ tests/qemu-iotests/check | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3d17cad19aa..3ed61d9354d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1557,6 +1557,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
-+
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index e14a1f354d..3c9ccc117b 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -44,7 +44,11 @@ then
+         _init_error "failed to obtain source tree name from check symlink"
+     fi
+     source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
+-    build_iotests=$(readlink -f $(dirname "$0"))
++    build_iotests=$(readlink -f $(dirname "$0") 2>/dev/null)
++    if [ "$?" -ne 0 ]; then
++        # Perhaps -f is unsupported, revert to pre-b1cbc33a397 behavior
++        build_iotests=$PWD
++    fi
+ else
+     # called from the source tree
+     source_iotests=$PWD
 -- 
-2.20.1
+2.26.2
 
 
