@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89ECA26989C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 00:11:28 +0200 (CEST)
-Received: from localhost ([::1]:37864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7622698A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 00:13:18 +0200 (CEST)
+Received: from localhost ([::1]:42968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHwh5-0003GO-Hc
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 18:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53474)
+	id 1kHwis-0005Pn-0b
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 18:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>)
- id 1kHwfC-00020w-AW; Mon, 14 Sep 2020 18:09:30 -0400
-Received: from mail-dm6nam10on2075.outbound.protection.outlook.com
- ([40.107.93.75]:40096 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kHwfB-0001zm-Jt
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 18:09:29 -0400
+Received: from mail-mw2nam10on2065.outbound.protection.outlook.com
+ ([40.107.94.65]:27429 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>)
- id 1kHwf8-0000b3-20; Mon, 14 Sep 2020 18:09:30 -0400
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kHwf7-0000ZX-Ov
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 18:09:29 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JR3yU5F8Pe9vThgMzwoZYOBz1PfPhPyNszhu+CIZgwNcwvpJkLCPnd7as9I9Enh1wuR3DXZe9zqMyGJq5+8bVyYSQokSZ+qoqt6m4RrzOzHRX3JT93v59RKF0u1ORHmhA651CxFjg7XcLgBK49HwQiCwqrqokacRQV9ArJcjD+TcCF17LMsFaslBtaBmIz/+b/q9zmDSgwXeqYo2AJr77YqrxwQ21VpQRtXRlGe6Wb/+zrUYC+GcvTqZrWEiRtOxF6vbY++bByqvgK/Lw4uJIJXGCEu8saF+Dymp3+GvXZaoGoB+t2u5lojmjBQf+Py+9HK3QfK7D4v1TMs+r3j1xw==
+ b=TlZRVFsKEiZcDqRAcqsuaHH6u/5UND+YoffdXQ0ykiR70KAQg8S5wtFU1u3SLJne/WoyKvCTvFfphYJNfpz1upb1hurOVQcD7H0PvmgukcXMQMtrk0Q4CcxJPWJLUsI4u/u4ceKfYcVNKeSbm3XqYqoqiFbW3AxQOQNA+PGncNG20BONw0LJGEgDXHLpwf3oDw6MQv2FqzQEApEU/KVw0sRtG89FEJb7IUilKwXS/KMRdRNXM+gQ4kS027Q0zfwhNCNG30l/eVjMZIj/nhavYV3h2QYYuWtXwoRg/OAegy5HjRo2e2jQYdgMxnUkxdMag/FvPPv8cNo4lNoZ6nZqJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R5o2BH4H16hNvgbWdLBjKXwDZeYei+QOB7tl1xYlzy4=;
- b=Mwd8qeIvU4ao1SfF+aGlEVD6jcTJKGMsYTtmu+8Why/ag7CEMIel4GI5+4pYzJXeguXrgJMXgkbIluTCrVZFgj3heqWMTdCCBlOhkmmx9Y+dYSX10jJ3lCQsmGRfCvx+9TPg6kZ8t5HCXdOYdiihR4K94NOUmPR5x8G1iN1XhArEu7fgnGIZxpblyt0ef6VpXlPalXY3kgI3FIFYZZG2sB3Dadp9VCgP0CyQOwmrWFH8OtiLMjBR8Hkn2U/Pu1gkwxMrIZKY2i9uCFBQU7RkPJ7SlUtrZPCPaogUMdeEWn7BO6/UgBzE8YDIFdum7VV+vS01V/cNbwSEx1pa8JRtag==
+ bh=CyhHu+eGkVZJ0tiUHoEQRBGhHlzKcFKvvXgH63fXQzo=;
+ b=H//8isE4SP5Sk6JCH65Piit/d/AZsNdt7IvJVaCStVsuYfiZlk6LIqPV/bHmwAxlARolYiw3zLygEedXS1/ReD6TVFpj2IXDGouD0EPfSHT/pc3mHy9GwQzkKRqGk4qXEfs8xP/fYDlJz31RT2Ygdu1xT/HD1WGSIIQX3VhwIOZwHbSfEMvT6sQtj7j/S3UGzEuCXQvTBT09cRkLnVYvul63IbmmHdEpzPkl175l0btGyFWpt6HrXH5w4fcB8atYiLw1uXfHxbtQcqGGtLgxFKzsumjnIr63iKQ4bw0TIskCaWlNqKUediD1gHax7sYdSHochI8MzA+RW5xIvzp08Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ 149.199.60.83) smtp.rcpttodomain=redhat.com smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
  not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R5o2BH4H16hNvgbWdLBjKXwDZeYei+QOB7tl1xYlzy4=;
- b=XXqX8K91xtNhJznXx84CKjRsGGVVzJ53G5o1CWJZUfPV8UESpGdNmnvDk/UccDPWppioth62JatIKVhkJVmRLRdsgNdhoP0J0fxEOKFkAG3W1CvHP67q7a6oRpnOGCmgPi5xwebDVG8CiyzvppCRyNznWbMV1SrPpteCrtlA1bs=
-Received: from CY4PR02CA0019.namprd02.prod.outlook.com (2603:10b6:903:18::29)
- by SN6PR02MB5390.namprd02.prod.outlook.com (2603:10b6:805:ea::31)
+ bh=CyhHu+eGkVZJ0tiUHoEQRBGhHlzKcFKvvXgH63fXQzo=;
+ b=rzmbqUtOPn1oiA65s0dcTbiGQ1r8NIALf5ekwd11EkPdjE4765ONueyo76om9s8XqVnVfBsmVQBxEzyaVBqIUX6zNcojNE72Yry/vRj6Pk8hzNlDT0+20OqvVR/Up2Wclu0XeAwYTmN1F5/Y2TUdj05oXGeNy++Iv6y/i5sDkxU=
+Received: from MN2PR02CA0029.namprd02.prod.outlook.com (2603:10b6:208:fc::42)
+ by CH2PR02MB6663.namprd02.prod.outlook.com (2603:10b6:610:7e::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Mon, 14 Sep
  2020 22:09:17 +0000
-Received: from CY1NAM02FT016.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:18:cafe::e9) by CY4PR02CA0019.outlook.office365.com
- (2603:10b6:903:18::29) with Microsoft SMTP Server (version=TLS1_2,
+Received: from BL2NAM02FT031.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:fc:cafe::6d) by MN2PR02CA0029.outlook.office365.com
+ (2603:10b6:208:fc::42) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
  Transport; Mon, 14 Sep 2020 22:09:17 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ smtp.mailfrom=xilinx.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=bestguesspass action=none
  header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT016.mail.protection.outlook.com (10.152.75.164) with Microsoft SMTP
+ BL2NAM02FT031.mail.protection.outlook.com (10.152.77.173) with Microsoft SMTP
  Server id 15.20.3370.16 via Frontend Transport; Mon, 14 Sep 2020 22:09:17
  +0000
-Received: from [149.199.38.66] (port=48267 helo=smtp.xilinx.com)
+Received: from [149.199.38.66] (port=48269 helo=smtp.xilinx.com)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
  (envelope-from <fnu.vikram@xilinx.com>)
- id 1kHweu-0003rb-6N; Mon, 14 Sep 2020 15:09:12 -0700
+ id 1kHweu-0003rf-7s; Mon, 14 Sep 2020 15:09:12 -0700
 Received: from [127.0.0.1] (helo=localhost)
  by smtp.xilinx.com with smtp (Exim 4.63)
  (envelope-from <fnu.vikram@xilinx.com>)
- id 1kHwey-0006ms-VH; Mon, 14 Sep 2020 15:09:17 -0700
-Received: from xsj-pvapsmtp01 (xsj-smtp1.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08EM979H016761; 
- Mon, 14 Sep 2020 15:09:07 -0700
+ id 1kHwez-0006ms-0V; Mon, 14 Sep 2020 15:09:17 -0700
+Received: from xsj-pvapsmtp01 (xsj-smtp.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08EM98uQ012052; 
+ Mon, 14 Sep 2020 15:09:08 -0700
 Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <fnu.vikram@xilinx.com>)
- id 1kHwep-0006b8-4c; Mon, 14 Sep 2020 15:09:07 -0700
+ id 1kHweq-0006b8-MS; Mon, 14 Sep 2020 15:09:08 -0700
 From: Vikram Garhwal <fnu.vikram@xilinx.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 2/4] xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
-Date: Mon, 14 Sep 2020 15:08:42 -0700
-Message-Id: <1600121324-31337-3-git-send-email-fnu.vikram@xilinx.com>
+Subject: [PATCH v10 3/4] tests/qtest: Introduce tests for Xilinx ZynqMP CAN
+ controller
+Date: Mon, 14 Sep 2020 15:08:43 -0700
+Message-Id: <1600121324-31337-4-git-send-email-fnu.vikram@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600121324-31337-1-git-send-email-fnu.vikram@xilinx.com>
 References: <1600121324-31337-1-git-send-email-fnu.vikram@xilinx.com>
@@ -86,31 +87,31 @@ X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a0310f8f-f962-4d9d-bcbc-08d858fad2a7
-X-MS-TrafficTypeDiagnostic: SN6PR02MB5390:
-X-Microsoft-Antispam-PRVS: <SN6PR02MB53906D4A3A441A969BBDB2D2BC230@SN6PR02MB5390.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: bf9f7380-d469-4568-fc9b-08d858fad2c2
+X-MS-TrafficTypeDiagnostic: CH2PR02MB6663:
+X-Microsoft-Antispam-PRVS: <CH2PR02MB6663CE1BDAF42ABD775B7548BC230@CH2PR02MB6663.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:114;
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4VWOAt5lu1j6LGMRegsRRPvDlYJ/WYCzhwm405fy64nG9YUYpKSk3t7qIwEbJyt78BE9KRo+zeoSy8VrFmH6blbm3r8HYDUWLcfZgagRuVNL9aDyWpNOfbHZOVVTZ5xyqI+rgF1eCQKqn19/hmQsLFJu3XGIxauIph7is3Xg5RnRzrk0zLYTuQATc518tRU4kGmqtydaWNCF3BYsxzaZLPU2M0pAF44thCmxouOnPB3QB0kc1tv/zFN2P95ZIovLg2ppqeZ/zBizbsl+OeGW3silLZcgnhHSfIu2MZA7IAQnssyNeWkDVJfSTAeM4WoAacUtamHp4yjRBTWAFiF3PZld9m4yV/lt97oysWW/97L190LsZQ2j8rsjJ2kEoxq6DUKszuVL01vkU4DEy8ut0Q==
+X-Microsoft-Antispam-Message-Info: 3NNm4qp+zGARa7kxwTzBEoyvlaeYiANZzXn4Pc5SD0AYAklVMv/r7+RScPPelfOZNUie1wd0MJXYOZvooV0+2X6GMraQak8S8qQhCe8ot2mSC6EvOIKn/KT8Zze3LoacB+HbQR3QgpPxklN8Ij4I//OJN0C7p8Q/AEzIr9JhHsQnzVbz/FuL2/cS2PtCJSpqL/NqBrDyoL4z5Qi2bfBPo8ppegFjyv4Ph4muFnLWKX17YYmhKgM0/0ZFUdWMfvxlQznVUfS1NY3nx9duCw/v08mYbP039wKEFGFC/9jyJ2CoFPj68tiBB6rSxBCuGJCojoSVNmqgXbZ8bj+WeZmCW1S+2FxAZJkojMw6n5W1J9UJLdI6ufekVOVLN5b5oolnFkgVdajGZkwc+cRoKzrTNw==
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(396003)(376002)(39860400002)(136003)(346002)(46966005)(2616005)(8936002)(4326008)(316002)(6666004)(478600001)(54906003)(70586007)(82310400003)(70206006)(6916009)(356005)(36756003)(9786002)(47076004)(186003)(8676002)(26005)(81166007)(336012)(7696005)(82740400003)(5660300002)(426003)(2906002);
+ SFS:(376002)(39860400002)(346002)(136003)(396003)(46966005)(6916009)(9786002)(82310400003)(47076004)(316002)(186003)(6666004)(8676002)(82740400003)(336012)(36756003)(2906002)(26005)(70586007)(70206006)(7696005)(8936002)(4326008)(356005)(5660300002)(478600001)(83380400001)(81166007)(426003)(54906003)(30864003)(2616005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 22:09:17.2141 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0310f8f-f962-4d9d-bcbc-08d858fad2a7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 22:09:17.3917 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf9f7380-d469-4568-fc9b-08d858fad2c2
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT016.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT031.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5390
-Received-SPF: pass client-ip=40.107.93.75; envelope-from=fnuv@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 18:09:24
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6663
+Received-SPF: pass client-ip=40.107.94.65; envelope-from=fnuv@xilinx.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 18:09:21
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -130,189 +131,401 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Alistair Francis <alistair@alistair23.me>, francisco.iglesias@xilinx.com,
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, peter.maydell@linaro.org,
+ Thomas Huth <thuth@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ francisco.iglesias@xilinx.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connect CAN0 and CAN1 on the ZynqMP.
+The QTests perform five tests on the Xilinx ZynqMP CAN controller:
+    Tests the CAN controller in loopback, sleep and snoop mode.
+    Tests filtering of incoming CAN messages.
 
 Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
 ---
- hw/arm/xlnx-zcu102.c         | 20 ++++++++++++++++++++
- hw/arm/xlnx-zynqmp.c         | 34 ++++++++++++++++++++++++++++++++++
- include/hw/arm/xlnx-zynqmp.h |  8 ++++++++
- 3 files changed, 62 insertions(+)
+ tests/qtest/meson.build     |   1 +
+ tests/qtest/xlnx-can-test.c | 359 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 360 insertions(+)
+ create mode 100644 tests/qtest/xlnx-can-test.c
 
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index 19d5a4d..cb0fba7 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -25,6 +25,7 @@
- #include "sysemu/qtest.h"
- #include "sysemu/device_tree.h"
- #include "qom/object.h"
-+#include "net/can_emu.h"
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 874b5be..945f86c 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -148,6 +148,7 @@ qtests_aarch64 = \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+   ['numa-test',
+    'boot-serial-test',
++   'xlnx-can-test',
+    'migration-test']
  
- struct XlnxZCU102 {
-     MachineState parent_obj;
-@@ -34,6 +35,8 @@ struct XlnxZCU102 {
-     bool secure;
-     bool virt;
- 
-+    CanBusState *canbus[XLNX_ZYNQMP_NUM_CAN];
+ qtests_s390x = \
+diff --git a/tests/qtest/xlnx-can-test.c b/tests/qtest/xlnx-can-test.c
+new file mode 100644
+index 0000000..d04189f
+--- /dev/null
++++ b/tests/qtest/xlnx-can-test.c
+@@ -0,0 +1,359 @@
++/*
++ * QTests for the Xilinx ZynqMP CAN controller.
++ *
++ * Copyright (c) 2020 Xilinx Inc.
++ *
++ * Written-by: Vikram Garhwal<fnu.vikram@xilinx.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
-     struct arm_boot_info binfo;
- };
- typedef struct XlnxZCU102 XlnxZCU102;
-@@ -127,6 +130,14 @@ static void xlnx_zcu102_init(MachineState *machine)
-     object_property_set_bool(OBJECT(&s->soc), "virtualization", s->virt,
-                              &error_fatal);
- 
-+    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-+        gchar *bus_name = g_strdup_printf("canbus%d", i);
++#include "qemu/osdep.h"
++#include "libqos/libqtest.h"
 +
-+        object_property_set_link(OBJECT(&s->soc), bus_name,
-+                                 OBJECT(s->canbus[i]), &error_fatal);
-+        g_free(bus_name);
-+    }
++/* Base address. */
++#define CAN0_BASE_ADDR          0xFF060000
++#define CAN1_BASE_ADDR          0xFF070000
 +
-     qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
- 
-     /* Create and plug in the SD cards */
-@@ -222,6 +233,15 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
-                                     "Set on/off to enable/disable emulating a "
-                                     "guest CPU which implements the ARM "
-                                     "Virtualization Extensions");
-+    object_property_add_link(obj, "xlnx-zcu102.canbus0", TYPE_CAN_BUS,
-+                             (Object **)&s->canbus[0],
-+                             object_property_allow_set_link,
-+                             0);
++/* Register addresses. */
++#define R_SRR_OFFSET            0x00
++#define R_MSR_OFFSET            0x04
++#define R_SR_OFFSET             0x18
++#define R_ISR_OFFSET            0x1C
++#define R_ICR_OFFSET            0x24
++#define R_TXID_OFFSET           0x30
++#define R_TXDLC_OFFSET          0x34
++#define R_TXDATA1_OFFSET        0x38
++#define R_TXDATA2_OFFSET        0x3C
++#define R_RXID_OFFSET           0x50
++#define R_RXDLC_OFFSET          0x54
++#define R_RXDATA1_OFFSET        0x58
++#define R_RXDATA2_OFFSET        0x5C
++#define R_AFR                   0x60
++#define R_AFMR1                 0x64
++#define R_AFIR1                 0x68
++#define R_AFMR2                 0x6C
++#define R_AFIR2                 0x70
++#define R_AFMR3                 0x74
++#define R_AFIR3                 0x78
++#define R_AFMR4                 0x7C
++#define R_AFIR4                 0x80
 +
-+    object_property_add_link(obj, "xlnx-zcu102.canbus1", TYPE_CAN_BUS,
-+                             (Object **)&s->canbus[1],
-+                             object_property_allow_set_link,
-+                             0);
- }
- 
- static void xlnx_zcu102_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 7885bb1..8818472 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -81,6 +81,14 @@ static const int uart_intr[XLNX_ZYNQMP_NUM_UARTS] = {
-     21, 22,
- };
- 
-+static const uint64_t can_addr[XLNX_ZYNQMP_NUM_CAN] = {
-+    0xFF060000, 0xFF070000,
-+};
++/* CAN modes. */
++#define CONFIG_MODE             0x00
++#define NORMAL_MODE             0x00
++#define LOOPBACK_MODE           0x02
++#define SNOOP_MODE              0x04
++#define SLEEP_MODE              0x01
++#define ENABLE_CAN              (1 << 1)
++#define STATUS_NORMAL_MODE      (1 << 3)
++#define STATUS_LOOPBACK_MODE    (1 << 1)
++#define STATUS_SNOOP_MODE       (1 << 12)
++#define STATUS_SLEEP_MODE       (1 << 2)
++#define ISR_TXOK                (1 << 1)
++#define ISR_RXOK                (1 << 4)
 +
-+static const int can_intr[XLNX_ZYNQMP_NUM_CAN] = {
-+    23, 24,
-+};
++static void match_rx_tx_data(uint32_t *buf_tx, uint32_t *buf_rx,
++                             uint8_t can_timestamp)
++{
++    uint16_t size = 0;
++    uint8_t len = 4;
 +
- static const uint64_t sdhci_addr[XLNX_ZYNQMP_NUM_SDHCI] = {
-     0xFF160000, 0xFF170000,
- };
-@@ -243,6 +251,11 @@ static void xlnx_zynqmp_init(Object *obj)
-                                 TYPE_CADENCE_UART);
-     }
- 
-+    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-+        object_initialize_child(obj, "can[*]", &s->can[i],
-+                                TYPE_XLNX_ZYNQMP_CAN);
-+    }
-+
-     object_initialize_child(obj, "sata", &s->sata, TYPE_SYSBUS_AHCI);
- 
-     for (i = 0; i < XLNX_ZYNQMP_NUM_SDHCI; i++) {
-@@ -482,6 +495,23 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-                            gic_spi[uart_intr[i]]);
-     }
- 
-+    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-+        object_property_set_int(OBJECT(&s->can[i]), "ext_clk_freq",
-+                                XLNX_ZYNQMP_CAN_REF_CLK, &error_abort);
-+
-+        object_property_set_link(OBJECT(&s->can[i]), "canbus",
-+                                 OBJECT(s->canbus[i]), &error_fatal);
-+
-+        sysbus_realize(SYS_BUS_DEVICE(&s->can[i]), &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
++    while (size < len) {
++        if (R_RXID_OFFSET + 4 * size == R_RXDLC_OFFSET)  {
++            g_assert_cmpint(buf_rx[size], ==, buf_tx[size] + can_timestamp);
++        } else {
++            g_assert_cmpint(buf_rx[size], ==, buf_tx[size]);
 +        }
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->can[i]), 0, can_addr[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->can[i]), 0,
-+                           gic_spi[can_intr[i]]);
++
++        size++;
 +    }
++}
 +
-     object_property_set_int(OBJECT(&s->sata), "num-ports", SATA_NUM_PORTS,
-                             &error_abort);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->sata), errp)) {
-@@ -619,6 +649,10 @@ static Property xlnx_zynqmp_props[] = {
-     DEFINE_PROP_BOOL("has_rpu", XlnxZynqMPState, has_rpu, false),
-     DEFINE_PROP_LINK("ddr-ram", XlnxZynqMPState, ddr_ram, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
-+    DEFINE_PROP_LINK("canbus0", XlnxZynqMPState, canbus[0], TYPE_CAN_BUS,
-+                     CanBusState *),
-+    DEFINE_PROP_LINK("canbus1", XlnxZynqMPState, canbus[1], TYPE_CAN_BUS,
-+                     CanBusState *),
-     DEFINE_PROP_END_OF_LIST()
- };
- 
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 4cc97b4..ae91480 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -22,6 +22,7 @@
- #include "hw/intc/arm_gic.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/char/cadence_uart.h"
-+#include "hw/net/xlnx-zynqmp-can.h"
- #include "hw/ide/ahci.h"
- #include "hw/sd/sdhci.h"
- #include "hw/ssi/xilinx_spips.h"
-@@ -33,6 +34,7 @@
- #include "hw/cpu/cluster.h"
- #include "target/arm/cpu.h"
- #include "qom/object.h"
-+#include "net/can_emu.h"
- 
- #define TYPE_XLNX_ZYNQMP "xlnx,zynqmp"
- typedef struct XlnxZynqMPState XlnxZynqMPState;
-@@ -43,6 +45,8 @@ DECLARE_INSTANCE_CHECKER(XlnxZynqMPState, XLNX_ZYNQMP,
- #define XLNX_ZYNQMP_NUM_RPU_CPUS 2
- #define XLNX_ZYNQMP_NUM_GEMS 4
- #define XLNX_ZYNQMP_NUM_UARTS 2
-+#define XLNX_ZYNQMP_NUM_CAN 2
-+#define XLNX_ZYNQMP_CAN_REF_CLK (24 * 1000 * 1000)
- #define XLNX_ZYNQMP_NUM_SDHCI 2
- #define XLNX_ZYNQMP_NUM_SPIS 2
- #define XLNX_ZYNQMP_NUM_GDMA_CH 8
-@@ -94,6 +98,7 @@ struct XlnxZynqMPState {
- 
-     CadenceGEMState gem[XLNX_ZYNQMP_NUM_GEMS];
-     CadenceUARTState uart[XLNX_ZYNQMP_NUM_UARTS];
-+    XlnxZynqMPCANState can[XLNX_ZYNQMP_NUM_CAN];
-     SysbusAHCIState sata;
-     SDHCIState sdhci[XLNX_ZYNQMP_NUM_SDHCI];
-     XilinxSPIPS spi[XLNX_ZYNQMP_NUM_SPIS];
-@@ -114,6 +119,9 @@ struct XlnxZynqMPState {
-     bool virt;
-     /* Has the RPU subsystem?  */
-     bool has_rpu;
++static void read_data(QTestState *qts, uint64_t can_base_addr, uint32_t *buf_rx)
++{
++    uint32_t int_status;
 +
-+    /* CAN bus. */
-+    CanBusState *canbus[XLNX_ZYNQMP_NUM_CAN];
- };
- 
- #endif
++    /* Read the interrupt on CAN rx. */
++    int_status = qtest_readl(qts, can_base_addr + R_ISR_OFFSET) & ISR_RXOK;
++
++    g_assert_cmpint(int_status, ==, ISR_RXOK);
++
++    /* Read the RX register data for CAN. */
++    buf_rx[0] = qtest_readl(qts, can_base_addr + R_RXID_OFFSET);
++    buf_rx[1] = qtest_readl(qts, can_base_addr + R_RXDLC_OFFSET);
++    buf_rx[2] = qtest_readl(qts, can_base_addr + R_RXDATA1_OFFSET);
++    buf_rx[3] = qtest_readl(qts, can_base_addr + R_RXDATA2_OFFSET);
++
++    /* Clear the RX interrupt. */
++    qtest_writel(qts, CAN1_BASE_ADDR + R_ICR_OFFSET, ISR_RXOK);
++}
++
++static void send_data(QTestState *qts, uint64_t can_base_addr, uint32_t *buf_tx)
++{
++    uint32_t int_status;
++
++    /* Write the TX register data for CAN. */
++    qtest_writel(qts, can_base_addr + R_TXID_OFFSET, buf_tx[0]);
++    qtest_writel(qts, can_base_addr + R_TXDLC_OFFSET, buf_tx[1]);
++    qtest_writel(qts, can_base_addr + R_TXDATA1_OFFSET, buf_tx[2]);
++    qtest_writel(qts, can_base_addr + R_TXDATA2_OFFSET, buf_tx[3]);
++
++    /* Read the interrupt on CAN for tx. */
++    int_status = qtest_readl(qts, can_base_addr + R_ISR_OFFSET) & ISR_TXOK;
++
++    g_assert_cmpint(int_status, ==, ISR_TXOK);
++
++    /* Clear the interrupt for tx. */
++    qtest_writel(qts, CAN0_BASE_ADDR + R_ICR_OFFSET, ISR_TXOK);
++}
++
++/*
++ * This test will be transferring data from CAN0 and CAN1 through canbus. CAN0
++ * initiate the data transfer to can-bus, CAN1 receives the data. Test compares
++ * the data sent from CAN0 with received on CAN1.
++ */
++static void test_can_bus(void)
++{
++    uint32_t buf_tx[4] = { 0xFF, 0x80000000, 0x12345678, 0x87654321 };
++    uint32_t buf_rx[4] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++    uint8_t can_timestamp = 1;
++
++    QTestState *qts = qtest_init("-machine xlnx-zcu102"
++                " -object can-bus,id=canbus0"
++                " -machine xlnx-zcu102.canbus0=canbus0"
++                " -machine xlnx-zcu102.canbus1=canbus0"
++                );
++
++    /* Configure the CAN0 and CAN1. */
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
++
++    /* Check here if CAN0 and CAN1 are in normal mode. */
++    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    send_data(qts, CAN0_BASE_ADDR, buf_tx);
++
++    read_data(qts, CAN1_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
++
++    qtest_quit(qts);
++}
++
++/*
++ * This test is performing loopback mode on CAN0 and CAN1. Data sent from TX of
++ * each CAN0 and CAN1 are compared with RX register data for respective CAN.
++ */
++static void test_can_loopback(void)
++{
++    uint32_t buf_tx[4] = { 0xFF, 0x80000000, 0x12345678, 0x87654321 };
++    uint32_t buf_rx[4] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++
++    QTestState *qts = qtest_init("-machine xlnx-zcu102"
++                " -object can-bus,id=canbus0"
++                " -machine xlnx-zcu102.canbus0=canbus0"
++                " -machine xlnx-zcu102.canbus1=canbus0"
++                );
++
++    /* Configure the CAN0 in loopback mode. */
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, LOOPBACK_MODE);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++
++    /* Check here if CAN0 is set in loopback mode. */
++    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
++
++    g_assert_cmpint(status, ==, STATUS_LOOPBACK_MODE);
++
++    send_data(qts, CAN0_BASE_ADDR, buf_tx);
++    read_data(qts, CAN0_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, 0);
++
++    /* Configure the CAN1 in loopback mode. */
++    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, LOOPBACK_MODE);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++
++    /* Check here if CAN1 is set in loopback mode. */
++    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
++
++    g_assert_cmpint(status, ==, STATUS_LOOPBACK_MODE);
++
++    send_data(qts, CAN1_BASE_ADDR, buf_tx);
++    read_data(qts, CAN1_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, 0);
++
++    qtest_quit(qts);
++}
++
++/*
++ * Enable filters for CAN1. This will filter incoming messages with ID. In this
++ * test message will pass through filter 2.
++ */
++static void test_can_filter(void)
++{
++    uint32_t buf_tx[4] = { 0x14, 0x80000000, 0x12345678, 0x87654321 };
++    uint32_t buf_rx[4] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++    uint8_t can_timestamp = 1;
++
++    QTestState *qts = qtest_init("-machine xlnx-zcu102"
++                " -object can-bus,id=canbus0"
++                " -machine xlnx-zcu102.canbus0=canbus0"
++                " -machine xlnx-zcu102.canbus1=canbus0"
++                );
++
++    /* Configure the CAN0 and CAN1. */
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
++
++    /* Check here if CAN0 and CAN1 are in normal mode. */
++    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    /* Set filter for CAN1 for incoming messages. */
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFR, 0x0);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR1, 0xF7);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR1, 0x121F);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR2, 0x5431);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR2, 0x14);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR3, 0x1234);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR3, 0x5431);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR4, 0xFFF);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR4, 0x1234);
++
++    qtest_writel(qts, CAN1_BASE_ADDR + R_AFR, 0xF);
++
++    send_data(qts, CAN0_BASE_ADDR, buf_tx);
++
++    read_data(qts, CAN1_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
++
++    qtest_quit(qts);
++}
++
++/* Testing sleep mode on CAN0 while CAN1 is in normal mode. */
++static void test_can_sleepmode(void)
++{
++    uint32_t buf_tx[4] = { 0x14, 0x80000000, 0x12345678, 0x87654321 };
++    uint32_t buf_rx[4] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++    uint8_t can_timestamp = 1;
++
++    QTestState *qts = qtest_init("-machine xlnx-zcu102"
++                " -object can-bus,id=canbus0"
++                " -machine xlnx-zcu102.canbus0=canbus0"
++                " -machine xlnx-zcu102.canbus1=canbus0"
++                );
++
++    /* Configure the CAN0. */
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, SLEEP_MODE);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++
++    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
++
++    /* Check here if CAN0 is in SLEEP mode and CAN1 in normal mode. */
++    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_SLEEP_MODE);
++
++    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    send_data(qts, CAN1_BASE_ADDR, buf_tx);
++
++    /*
++     * Once CAN1 sends data on can-bus. CAN0 should exit sleep mode.
++     * Check the CAN0 status now. It should exit the sleep mode and receive the
++     * incoming data.
++     */
++    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    read_data(qts, CAN0_BASE_ADDR, buf_rx);
++
++    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
++
++    qtest_quit(qts);
++}
++
++/* Testing Snoop mode on CAN0 while CAN1 is in normal mode. */
++static void test_can_snoopmode(void)
++{
++    uint32_t buf_tx[4] = { 0x14, 0x80000000, 0x12345678, 0x87654321 };
++    uint32_t buf_rx[4] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++    uint8_t can_timestamp = 1;
++
++    QTestState *qts = qtest_init("-machine xlnx-zcu102"
++                " -object can-bus,id=canbus0"
++                " -machine xlnx-zcu102.canbus0=canbus0"
++                " -machine xlnx-zcu102.canbus1=canbus0"
++                );
++
++    /* Configure the CAN0. */
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, SNOOP_MODE);
++    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++
++    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
++    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
++
++    /* Check here if CAN0 is in SNOOP mode and CAN1 in normal mode. */
++    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_SNOOP_MODE);
++
++    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    send_data(qts, CAN1_BASE_ADDR, buf_tx);
++
++    read_data(qts, CAN0_BASE_ADDR, buf_rx);
++
++    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("/net/can/can_bus", test_can_bus);
++    qtest_add_func("/net/can/can_loopback", test_can_loopback);
++    qtest_add_func("/net/can/can_filter", test_can_filter);
++    qtest_add_func("/net/can/can_test_snoopmode", test_can_snoopmode);
++    qtest_add_func("/net/can/can_test_sleepmode", test_can_sleepmode);
++
++    return g_test_run();
++}
 -- 
 2.7.4
 
