@@ -2,78 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1FC269239
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 18:56:14 +0200 (CEST)
-Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35699269258
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 19:00:07 +0200 (CEST)
+Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHrm0-0001Pm-VG
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 12:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38508)
+	id 1kHrpm-0005xJ-98
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 13:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kHrjE-0007uk-4o
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 12:53:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kHrjB-000215-1O
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 12:53:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600102395;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/ov8Bhu4ae4fqCDkReThPcan1ZJxToMQhzKzMYWj7uE=;
- b=f5+tFJUqNrpIbO/RT7CJa3j8lEggzEyyEcfy3J26kZyLSFeKufYUGTNyjxItNtqNkUzVGn
- hPWNkTnimLpJZ2huT8jtnvZn1ckJp/gLbXLwbkwPNYiX/6QYPxJrkVnktxF75HFwNXKYvf
- gzFnXJf6vsvT6LauM00cgLAxpJIK1U4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-8H6XKEWDPJi8GVUSYM2wZg-1; Mon, 14 Sep 2020 12:53:08 -0400
-X-MC-Unique: 8H6XKEWDPJi8GVUSYM2wZg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF634802B7C;
- Mon, 14 Sep 2020 16:53:07 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.224])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 936D327BC5;
- Mon, 14 Sep 2020 16:53:07 +0000 (UTC)
-Date: Mon, 14 Sep 2020 12:53:06 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: Moving to C11? (was Re: Redefinition of typedefs (C11 feature))
-Message-ID: <20200914165306.GA8079@habkost.net>
-References: <20200911184919.GV1618070@habkost.net>
- <CAFEAcA-dnKVyUQ3_ZifdDvrpCbKB1zciuu224BbB1WRV0npxzw@mail.gmail.com>
- <20200911200649.GW1618070@habkost.net>
- <e2e2a955-693d-1372-f2e2-c58b7f88d0d7@redhat.com>
- <20200913025151.GX1618070@habkost.net>
- <329a1ae1-7b74-4045-3305-0577fcbb447a@redhat.com>
- <20200914134636.GZ1618070@habkost.net>
- <dfa5fff5-af96-d207-2d0c-66b5f265efa7@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kHroA-00053i-0p; Mon, 14 Sep 2020 12:58:26 -0400
+Received: from mail-vi1eur05on2118.outbound.protection.outlook.com
+ ([40.107.21.118]:19649 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kHro6-0002cl-GL; Mon, 14 Sep 2020 12:58:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TXlDd3fUIVDxPzXRAaxUm+BDYIQ2AVSzXRdZWBanIVM9Srml9wakPFgPUAoQztLldC2OTLWUgNfL/bPTR21L+LePAbhAspM/6LmCpDEeU604MbQ4smGVbV++PABoJIA46cCygQolbk7jag9kU/LxywKC6Xq4WkYaLBF3iq5ONN23ulLz++oa3nOSlPsFsAeGymCgv7ntRcqCtSxyrFi3vznILnXN9OSF7egpbifobtUhyZ6Y/DZsR3tKhTdbGedFg7SIa9pRMBqyC8vH6E4Fdbmvdruw/NHa1E7tTkGPNyfVmu81Bpn23tulE3bsilGALh4hK1z6VDfXP7Rr03neQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JFn8tv02pTirQPtG2mY8StRpHViGSYxEGhymdnBmjq8=;
+ b=UwhQTM2kuHtBFYS90xcMilWuM3+suSCn+8y03Eqs7fFB6wvsss260slMlS0eADKd9S7n0YzfjMF8ybwXWJ+XdKlL1NalhSMKrOw8PUwwX7gumG1Wrwf82q2ODEWlTXrjxQZzVqbZrC/A7SwmZpiSW/DpljND6fKh0771rHGV/hWMz/2Z7iY2Oj/ARiQRFSmtpcdua9o4yjHYmfE0HRkcCV3Unt6IbKx2khoDwff7w394TSohtQr1GGU2R7GnQcG93xKxI54KEYA2pYfz1KvCw2cI+vhzkXkP5R/BhVypmWbUYV3bNmdxOHif2t0ysvLr05baqlymhTR+U2w+TYoMRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JFn8tv02pTirQPtG2mY8StRpHViGSYxEGhymdnBmjq8=;
+ b=qQm1Oq1Lo3xUIRo9M46JK+Gx64cayjX2D00dHdBuHhSmtl5wfqgWZKxQNk+JI0QnKyqFrrpkJ9DVfAa6KXwgz3HlrfHN5U+Xagc5xdVvOkrgbeBaixDQLgUikws7JDrD+BYuZU4AX7N86WyzdN9Nez7C/lCjFrN33EZbdOfMQb8=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2612.eurprd08.prod.outlook.com (2603:10a6:203:99::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Mon, 14 Sep
+ 2020 16:58:17 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Mon, 14 Sep 2020
+ 16:58:17 +0000
+Subject: Re: [PATCH v5 0/5] fix & merge block_status_above and
+ is_allocated_above
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, fam@euphon.net,
+ mreitz@redhat.com, kwolf@redhat.com, eblake@redhat.com, den@openvz.org
+References: <20200610120426.12826-1-vsementsov@virtuozzo.com>
+ <20200914130643.GI579094@stefanha-x1.localdomain>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <ff809605-edae-adce-63be-aa9942033f50@virtuozzo.com>
+Date: Mon, 14 Sep 2020 19:58:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+In-Reply-To: <20200914130643.GI579094@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR0101CA0043.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <dfa5fff5-af96-d207-2d0c-66b5f265efa7@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.75) by
+ AM4PR0101CA0043.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Mon, 14 Sep 2020 16:58:16 +0000
+X-Originating-IP: [185.215.60.75]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c9c9c26e-e1e0-4f66-0fc0-08d858cf604c
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2612:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB26127F4295ACD6DA1BF67E73C1230@AM5PR0802MB2612.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tVb1jbJnDznEcPgUKNrLTICqwy57W58L6URXNX/IHeavjGumB82uBzAGOoXU5xu1VmHWQpY8BqrVYH0PRN2K6bhLCIxGEyO74WqkMvAPRDjHUu1WNKbjqbRpR/zAEovfThD/4yXKaJtDCW1hyRdNGMfqedqhPo4t6ULZCYaQj+FxI2a+mMMqVu8Yfpx4f9nv+McrxtUG09s8DJUGLkNMl4E9jol1YN3YDJSRJNnS2T8iUL3IuLlTEhTjzAj45b+hiQBdRbWiFG22k2PwtCJWf4oXvPWDg9CONy095O6z9+VwSFJ+b6aYJku7MBgkvbwI41ghG2A542wapzCfaURjsn6Rzvtj1W2bXJtdlGBMLOlTJeczbeBgrhS9QBdJ1TCE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(39840400004)(346002)(396003)(366004)(2616005)(4744005)(6486002)(5660300002)(66946007)(66556008)(66476007)(26005)(16526019)(6916009)(31686004)(86362001)(2906002)(186003)(478600001)(956004)(31696002)(52116002)(316002)(16576012)(36756003)(107886003)(8936002)(4326008)(8676002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: BQYv3G5acgGmFUfM1MhvUykORcbz5MGk63RbE89dqm/GwjB2qgM2Csys2LZkW4A9+O6DE3IYQEdZGj1+I8Qga0ZXgjpF8VI5+t/ox0Kd3uXIG86VyHNHLdovTC+42CDYdOwPRbCddDNzDvjek6IZpHJ8GGrcSqYJjM/6KAfhUbpH5gI/ZkX/uYOxO6OXihbQI7+0Vi8JKnmvr/IQnMvscirGtIsbPJQrhK/enGlADbWHGmKr6KZsjg9WVCSL+LdC6MH89LAiQeBOxNpjmEtG7AARvOr2teaM3ifNJKjOi2xbADGPerZK1/HMyEM2HVeB5Si9wN5AEH/I+UQHb87jZk/tEeKTKBIDZEIcG42bWlVJv9spYYxSU8j5CsSqbbY/HYLbySU9qkRa6/dZsLylNKYUVHtBTl3l13Bs+nMHf34f6VpIq0o0EoIbJkTsgubFWLH68I2J8gweh9lA0Z1409E53rAfuazY7w08tNBLP4hXraCzSyX+3eLHWIb98kMvkAoHU+fWiruddEDM9XcWkHK/ZD4k308omZPYAwGQyTJz6AeQqguAUCQIPCCtQK2EU+Y40ZylBcob+jv6FvikXgMcRIeP/x7kwcUWYAO1wbW4JSwbJ06AW9etrGxzqEbzCMnGhrkbg9IPCWu1SiS/SA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9c9c26e-e1e0-4f66-0fc0-08d858cf604c
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 16:58:17.1620 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZulibIuwQ2E8fvvDQP/BJzc06WdVnJcJTOIiqAbiiHpYigsL1b2+KF9AhZHvWMrYSV4K06Srxi8tB6yoYgOccQ+k/BsJD8zvztKbnydYD3M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2612
+Received-SPF: pass client-ip=40.107.21.118;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 12:58:18
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,91 +120,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 14, 2020 at 05:36:30PM +0200, Thomas Huth wrote:
-> On 14/09/2020 15.46, Eduardo Habkost wrote:
-> > On Mon, Sep 14, 2020 at 07:39:09AM +0200, Thomas Huth wrote:
-> >> On 13/09/2020 04.51, Eduardo Habkost wrote:
-> >>> On Sat, Sep 12, 2020 at 08:45:19AM +0200, Thomas Huth wrote:
-> >>>> On 11/09/2020 22.06, Eduardo Habkost wrote:
-> >>>>> On Fri, Sep 11, 2020 at 08:06:10PM +0100, Peter Maydell wrote:
-> >>>>>> On Fri, 11 Sep 2020 at 19:49, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >>>>>>>
-> >>>>>>> I'm wondering: do our supported build host platforms all include
-> >>>>>>> compilers that are new enough to let us redefine typedefs?
-> >>>>>>>
-> >>>>>>> The ability to redefine typedefs is a C11 feature which would be
-> >>>>>>> very useful for simplifying our QOM boilerplate code.  The
-> >>>>>>> feature is supported by GCC since 2011 (v4.6.0)[1], and by clang
-> >>>>>>> since 2012 (v3.1)[2].
-> >>>>>>
-> >>>>>> In configure we mandate either GCC v4.8 or better, or
-> >>>>>> clang v3.4 or better, or XCode Clang v5.1 or better
-> >>>>>> (Apple uses a different version numbering setup to upstream).
-> >>>>>> So you should probably double-check that that xcode clang has
-> >>>>>> what you want, but it looks like we're good to go otherwise.
-> >>>>>
-> >>>>> Can anybody confirm if the following is accurate?
-> >>>>>
-> >>>>> https://gist.github.com/yamaya/2924292#file-xcode-clang-vers-L67
-> >>>>> # Xcode 5.1 (5B130a)
-> >>>>> Apple LLVM version 5.1 (clang-503.0.38) (based on LLVM 3.4svn)
-> >>>>> Target: x86_64-apple-darwin13.1.0
-> >>>>> Thread model: posix
-> >>>>>
-> >>>>> If we know we have GCC 4.8+ or clang 3.4+, can we move to C11 and
-> >>>>> start using -std=gnu11?
-> >>>>
-> >>>> You don't have to switch to gnu11, redefintions of typedefs are already
-> >>>> fine in gnu99, they are a gnu extension there to the c99 standard.
-> >>>>
-> >>>> See also:
-> >>>> https://git.qemu.org/?p=qemu.git;a=commitdiff;h=7be41675f7cb16b
-> >>>>
-> >>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg585581.html
-> >>>
-> >>> They still trigger a warning with gnu99 on clang:
-> >>>
-> >>> $ clang --version
-> >>> clang version 10.0.0 (Fedora 10.0.0-2.fc32)
-> >>> Target: x86_64-unknown-linux-gnu
-> >>> Thread model: posix
-> >>> InstalledDir: /usr/bin
-> >>> $ cat test.c
-> >>> typedef struct A A;
-> >>> typedef struct A A;
-> >>> $ clang -std=gnu11 -c test.c
-> >>> $ clang -std=gnu99 -c test.c
-> >>> test.c:2:18: warning: redefinition of typedef 'A' is a C11 feature [-Wtypedef-redefinition]
-> >>> typedef struct A A;
-> >>
-> >> Ah, right, I forgot about that ... so for clang, we silence that warning
-> >> via CFLAGS in the configure script. See commit e6e90feedb706b1.
-> > 
-> > Nice, I hadn't seen that.  This means we don't need C11 for
-> > supporting redefinition of typedefs.
-> > 
-> > Now, do we have other reasons for not moving to C11?  It would be
-> > nice to make QEMU_GENERIC unnecessary and just use _Generic, for
-> > example.
+14.09.2020 16:06, Stefan Hajnoczi wrote:
+> On Wed, Jun 10, 2020 at 03:04:21PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> v5: rebase on coroutine-wrappers series, 02 changed correspondingly
+>>
+>> Based on series "[PATCH v7 0/7] coroutines: generate wrapper code", or
+>> in other words:
+>> Based-on: <20200610100336.23451-1-vsementsov@virtuozzo.com>
 > 
-> See https://www.mail-archive.com/qemu-devel@nongnu.org/msg585581.html
-> ... c11 is still "experimental" in GCC 4.8, so I think we likely have to
-> wait 'till summer next year - then we do not have to support
-> RHEL7/CentOS7 anymore according our support policy, and thus we can bump
-> the minimum required compiler versions.
+> Hi Vladimir,
+> Please rebase this series and the coroutine wrapper series onto
+> qemu.git/master so the meson build system change is resolved.
+> 
 
-Thanks Thomas and Daniel for the pointers.  Staying with gnu99
-for a little longer sounds reasonable, now that we typedef
-redefinitions are allowed.
+Will do this week.
 
 -- 
-Eduardo
-
+Best regards,
+Vladimir
 
