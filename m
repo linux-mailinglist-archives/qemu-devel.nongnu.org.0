@@ -2,123 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5972698AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 00:13:41 +0200 (CEST)
-Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F362698E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 00:33:06 +0200 (CEST)
+Received: from localhost ([::1]:33282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHwjE-0006AV-PV
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 18:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
+	id 1kHx21-000621-6M
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 18:33:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kHwfD-00023R-K8
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 18:09:31 -0400
-Received: from mail-bn7nam10on2041.outbound.protection.outlook.com
- ([40.107.92.41]:30816 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kHwym-0003cu-Iq; Mon, 14 Sep 2020 18:29:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57784
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kHwfB-0000bG-Kp
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 18:09:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zy95rqLUDeBJGKC+3Hio239+uBtkz82ipA+ddA/YWArpo31KbST/LWvm5q4m9kN63Rei3Mf6nkKcy6iCRasiFgx3HEFgmAXJLYjUN9n1A6BjAiZ+R8a00VhNCPF6ND7QiHmzRIHUjtrX2d8VDcL3+lsHylcjjdOnPSH3Z2AIG0mBhYissPlMDMC5LiKTr2jlutrB1dNmwRREpKOPY89OOXmIS8GGehwCRhZR8UQ+G69OCuTqpFZ8V0k4b7yGQUk4DTD1Yo/IfAHOdu3U+8waVEQ/+P0MZ1Uhlp6YNFP+mufO6bkKi7LhAP06ywwvihf1+eLL1C0ib7TxV6WZwozK0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p4PNk8X1Y6UouQFxlXBjBuJd7p/B5lfjCLCLCsGHQYM=;
- b=QeYRqwJIBS3iS24TeBXRiJ4UgqdeavOi/RsZ5mQjxcq5jLs/bXH0USpevrUlp0aGSUC7M+wNQbclP6HG41w59nAoQnXYxi6Pd+BScVFAEqzZ7H6ovxViDvxsElmpdMWghfJIhKsUSYxaMm39F3j2to0wYmXb5jm1RtmmQSAUdczTXu/yaFuPKNQPGZA9c1tFJRdm3sFr+50wwraGsOSV+DemLH5Ky6eWiBjQ8skk6Z6wwXvUHdc5FzBA2R0mSOWtHG1x+YmMd2bvMmyrN7tEx014Tf+CLMLw6qCNyD0xy1FOyXQOhJq0SJkxBgTUAMyTbWU5i31EKHfmPJAB+WwWSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p4PNk8X1Y6UouQFxlXBjBuJd7p/B5lfjCLCLCsGHQYM=;
- b=qWhA/yZnP1Z5DXMVEH/1dmEHQM1vSk1yPc0i2xSyMvbjyHEatorQ3/pBSjZebesSrvzEpl+rUQZ9HtTDhciwKw+IDJtv4d6L+afB3i/yfZjbrjyAj3EjqP0cPg8QC9u/ro6G9UI6vNhX9eiW/hXXkCBZua/vaD5NPjouKNo/uqg=
-Received: from CY4PR18CA0025.namprd18.prod.outlook.com (2603:10b6:903:9a::11)
- by DM5PR0201MB3478.namprd02.prod.outlook.com (2603:10b6:4:76::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Mon, 14 Sep
- 2020 22:09:28 +0000
-Received: from CY1NAM02FT008.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:9a:cafe::b2) by CY4PR18CA0025.outlook.office365.com
- (2603:10b6:903:9a::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
- Transport; Mon, 14 Sep 2020 22:09:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT008.mail.protection.outlook.com (10.152.75.59) with Microsoft SMTP
- Server id 15.20.3370.16 via Frontend Transport; Mon, 14 Sep 2020 22:09:27
- +0000
-Received: from [149.199.38.66] (port=48402 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kHwf4-0003rr-VJ; Mon, 14 Sep 2020 15:09:22 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by smtp.xilinx.com with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kHwf9-0006oW-9x; Mon, 14 Sep 2020 15:09:27 -0700
-Received: from xsj-pvapsmtp01 (smtp.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08EM9IcT016843; 
- Mon, 14 Sep 2020 15:09:18 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kHwez-0006b8-UB; Mon, 14 Sep 2020 15:09:17 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 4/4] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP
- CAN controller
-Date: Mon, 14 Sep 2020 15:08:44 -0700
-Message-Id: <1600121324-31337-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1600121324-31337-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1600121324-31337-1-git-send-email-fnu.vikram@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 8af008e2-c20b-4dae-f647-08d858fad90e
-X-MS-TrafficTypeDiagnostic: DM5PR0201MB3478:
-X-Microsoft-Antispam-PRVS: <DM5PR0201MB34784456C5218DAC126D68ECBC230@DM5PR0201MB3478.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:331;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Of7ZErmDB2e3zdOyzf7MkA1a3GSBbLRCgmcADzvRQx9eYkZvj6onoLSUe3irVQUlaPWprZddemiroBoS6lbYYUFixN5D7r6ZCIbN9rWJ5tsqPicY5MWSLGXPdnhWLkWsOaHsYysfx5A22buVC91ARuJAU146MPROAD5WqfzNPLyIgt+QOJovYdIYt2WTQi7vunxDtOp2T4XGbHPIC8b7goJBTberR/wtMOpNRKyLGIe17IqTfGmQi9HJoJSXnxPtNjK6ijFoOPBGfn3gSq0PHNAYTlSsXTvWy9Sl22IWazvRU8y2IMQziN55UPgJGOSiyxg7fsHdZ6b0+KKntvaZyCkOREjzKjuFOccs67UqAV/Gkii95F9a6RPJkpR6v6htY6hL+FGsjCKk5+F8Ew8kSw==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(346002)(39860400002)(376002)(136003)(396003)(46966005)(5660300002)(356005)(82310400003)(478600001)(4744005)(6916009)(82740400003)(81166007)(8936002)(8676002)(47076004)(9786002)(70206006)(6666004)(7696005)(186003)(426003)(26005)(2906002)(336012)(36756003)(316002)(70586007)(107886003)(4326008)(2616005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 22:09:27.9599 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8af008e2-c20b-4dae-f647-08d858fad90e
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT008.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0201MB3478
-Received-SPF: pass client-ip=40.107.92.41; envelope-from=fnuv@xilinx.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 18:09:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kHwyi-0002rS-Qv; Mon, 14 Sep 2020 18:29:44 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08EM2DjO033141; Mon, 14 Sep 2020 18:29:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject : date : message-id; s=pp1;
+ bh=cGZJ/0iytUlMfqDpbCgfHroWZdrcz/O3xfiX9pmXLSg=;
+ b=XLEWOVqYybAE8Wy6cGIsvk0k3wHzKlZZu187C15W5SI9bdh0MXVuG797Xq6oVKMrmm1V
+ xfdURWfPxespRZpppKBZe2nuvAa/Fw3yJh7XFFOr6LMI+jY2nbaFpqx4pS4xP+0GsmXs
+ SdvGIa2YAhfPOacpme0zhTDfQTczF5OrdXtSuLlEfiDVZYr8Md/KvzPSd3EWWJptl4d/
+ kb3OStdaJWZBmr6tLvVnfcVVfv4BotZsq6I/OTUl6RFvDgGPD6Qb1+GeB0Q+nML5G9vK
+ nxIR14Gffz6Y2VCe262dLVGc63nwPzh2lV7bJ99ry0ik1bpceDyXDd3oiYZb/pPBg3GQ gQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33jgp1h1cx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Sep 2020 18:29:38 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08EM2TPK034842;
+ Mon, 14 Sep 2020 18:29:37 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33jgp1h1ct-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Sep 2020 18:29:37 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08EMQSS6016085;
+ Mon, 14 Sep 2020 22:29:37 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04dal.us.ibm.com with ESMTP id 33gny8yse6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Sep 2020 22:29:37 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08EMTZxI66453806
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Sep 2020 22:29:35 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72CF1BE04F;
+ Mon, 14 Sep 2020 22:29:35 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5372ABE051;
+ Mon, 14 Sep 2020 22:29:34 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.163.85.51])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 14 Sep 2020 22:29:34 +0000 (GMT)
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: alex.williamson@redhat.com, cohuck@redhat.com
+Subject: [PATCH v2 0/3] s390x/pci: Accomodate vfio DMA limiting
+Date: Mon, 14 Sep 2020 18:29:27 -0400
+Message-Id: <1600122570-12941-1-git-send-email-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-14_09:2020-09-14,
+ 2020-09-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ phishscore=0 adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ mlxlogscore=999 suspectscore=0 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009140166
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 18:29:38
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -131,38 +103,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>,
- peter.maydell@linaro.org
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ schnelle@linux.ibm.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Kernel commit 492855939bdb added a limit to the number of outstanding DMA
+requests for a type1 vfio container.  However, lazy unmapping in s390 can 
+in fact cause quite a large number of outstanding DMA requests to build up
+prior to being purged, potentially the entire guest DMA space.  This
+results in unexpected 'VFIO_MAP_DMA failed: No space left on device'
+conditions seen in QEMU.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3d17cad..3ed61d9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1557,6 +1557,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
-+
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
+This patchset adds support to qemu to retrieve the number of allowable DMA
+requests via the VFIO_IOMMU_GET_INFO ioctl.  The patches are separated into
+vfio hits which add support for reading in VFIO_IOMMU_GET_INFO capability
+chains and getting the per-container dma_avail value, and s390 hits to 
+track DMA usage on a per-container basis.
+
+Associated kernel patch:
+https://marc.info/?l=kvm&m=160012235303068&w=2
+
+Changes from v2:
+- Renamed references of dma_limit to dma_avail based on kernel change as
+  the ioctl now reports the amount currently available vs the supposed
+  limit.
+- Because the ioctl now provides a 'living value' vs the limit, it doesn't
+  seem appropriate to put it in the VFIOConatiner structure without
+  doing the dma_avail tracking there.  So patch 1 shrinks to vfio helper
+  routines to find the capability and leaves vfio_connect_container alone. 
+- Subsequently, in patch 2 s390-pci issues its own VFIO_IOMMU_GET_INFO to
+  read the dma_avail value and use it.
+
+Matthew Rosato (3):
+  vfio: Find DMA available capability
+  s390x/pci: Honor DMA limits set by vfio
+  vfio: Create shared routine for scanning info capabilities
+
+ hw/s390x/s390-pci-bus.c       | 99 ++++++++++++++++++++++++++++++++++++++++---
+ hw/s390x/s390-pci-bus.h       |  9 ++++
+ hw/s390x/s390-pci-inst.c      | 29 ++++++++++---
+ hw/s390x/s390-pci-inst.h      |  3 ++
+ hw/vfio/common.c              | 50 ++++++++++++++++++----
+ include/hw/vfio/vfio-common.h |  2 +
+ 6 files changed, 173 insertions(+), 19 deletions(-)
+
 -- 
-2.7.4
+1.8.3.1
 
 
