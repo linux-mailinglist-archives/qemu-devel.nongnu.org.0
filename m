@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579EA2690F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:59:42 +0200 (CEST)
-Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4207269001
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 17:33:13 +0200 (CEST)
+Received: from localhost ([::1]:58352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHqtH-0002Nh-Ff
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1kHqTg-0004l6-Ow
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 11:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHqCk-0000kg-TL
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:15:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kHqCi-0001ga-Af
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:15:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kHqCf-0006Vt-JS
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:15:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 924D12E80DB
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 15:15:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kHq7p-0003pL-Q1
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:10:37 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37551
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kHq7l-0000m4-Su
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 11:10:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600096226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qLYQJ5/fbDGOusyFbqZOXwKk9gdItY1EpICAY0lqkHk=;
+ b=hOB1hr9XkVLuW+zJlS6L8fdZWLlfW7w5p4mOlbz1wIRk+AMz+9RE/yUVwTOO9LcsF2GBzw
+ FhKX8PwzjlLb4dCWXS+6ppsWHE7oAjVggSDTvGlDyfXklaY5DT7RBlH+g7BvPB3+JFL8kO
+ 7glngF95t6TxZ+8i74phzYwfM3OKFTU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-lRFiPXXYOhuer2tiAE3ttQ-1; Mon, 14 Sep 2020 11:09:53 -0400
+X-MC-Unique: lRFiPXXYOhuer2tiAE3ttQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0960B80F054;
+ Mon, 14 Sep 2020 15:09:52 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-38.ams2.redhat.com
+ [10.36.114.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42C2660BE2;
+ Mon, 14 Sep 2020 15:09:50 +0000 (UTC)
+Subject: Re: [PULL 00/10] EDK2 firmware: Adopt the edk2-stable202008 release
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200914071720.1099898-1-philmd@redhat.com>
+ <CAFEAcA8VLMgFeJOyhEmiabVeEFQ_C=0x9Bs+hq03Q5+QJzYO7w@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <d859937d-9629-0c4c-651f-a1d2e83902e6@redhat.com>
+Date: Mon, 14 Sep 2020 17:09:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Sep 2020 15:09:34 -0000
-From: Alexander Bulekov <1895219@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: keymaps vnc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr dmbtech
-X-Launchpad-Bug-Reporter: Darren Blaber (dmbtech)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <159978635021.22139.4037516560250644869.malonedeb@wampee.canonical.com>
- <160009007915.15025.5721686079641285935.launchpad@gac.canonical.com>
-Message-Id: <20200914150934.ratvtegtv2aghr74@mozz.bu.edu>
-Subject: Re: [Bug 1895219] Re: qemu git -vnc fails due to missing en-us keymap
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: ca9d6a35a9144a8f98cb2f8cc17ddfc45771943b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 05:55:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8VLMgFeJOyhEmiabVeEFQ_C=0x9Bs+hq03Q5+QJzYO7w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:33:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,76 +83,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895219 <1895219@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I can also reproduce this issue. +CC Gerd Hoffmann
+On 09/14/20 14:09, Peter Maydell wrote:
+> On Mon, 14 Sep 2020 at 08:19, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>
+>> The following changes since commit 3d9f371b01067d9cec4d592920013012119397c8:
+>>
+>>   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-fixes-100920-1' into staging (2020-09-12 22:54:32 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/philmd/qemu.git tags/edk2-next-20200914
+>>
+>> for you to fetch changes up to 8fa3b7029f3c9f901cd6bb01004114c003432d9b:
+>>
+>>   tests: acpi: update "virt/SSDT.memhp" for edk2-stable202008 (2020-09-13 23:03:15 +0200)
+>>
+>> ----------------------------------------------------------------
+>> EDK2 firmware: Adopt the edk2-stable202008 release
+>>
+>> Note from Laszlo Ersek [1] while addressing LP#1852196 [2]:
+>>
+>> Consume the following upstream edk2 releases:
+>>
+>>   https://github.com/tianocore/edk2/releases/tag/edk2-stable201908
+>>   https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
+>>   https://github.com/tianocore/edk2/releases/tag/edk2-stable202002
+>>   https://github.com/tianocore/edk2/releases/tag/edk2-stable202005
+>>   https://github.com/tianocore/edk2/releases/tag/edk2-stable202008
+>>
+>> Worth mentioning (in random order):
+>>
+>> - various CVE fixes (see [2] and shortlog)
+>> - OpenSSL-1.1.1g
+>> - UEFI HTTPS Boot for ARM/AARCH64
+>> - TPM2 for ARM/AARCH64
+>> - VCPU hotplug with SMI
+>> - support for Linux v5.7+ initrd and mixed mode loading
+>> - Fusion-MPT SCSI driver in OVMF
+>> - VMware PVSCSI driver in OVMF
+>> - PXEv4 / PXEv6 boot possible to disable on the QEMU command line
+>> - SEV-ES support
+>>
+>> The IA32 and X64 binaries are now smaller -- the reason is that Laszlo
+>> built them with DevToolSet 9 (gcc-9) on RHEL7, and so this is the first
+>> time they've undergone LTO (with the GCC5 edk2 toolchain settings).
+>>
+>> CI jobs results:
+>>   https://gitlab.com/philmd/qemu/-/pipelines/189394120
+>>   https://travis-ci.org/github/philmd/qemu/builds/726842542
+>>   https://app.shippable.com/github/philmd/qemu/runs/866/summary/console
+>>
+>> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg738173.html
+>> [2] https://bugs.launchpad.net/qemu/+bug/1852196
+> 
+> 
+> Applied, thanks.
+> 
+> Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+> for any user-visible changes.
 
+Thank you Phil and Peter, I've added a short note to
+<https://wiki.qemu.org/ChangeLog/5.2#Miscellaneous>.
 
-On 200914 1327, Darren Blaber wrote:
-> ** Branch unlinked: lp:envbot/0.0.1
-> =
+Laszlo
 
-> -- =
-
-> You received this bug notification because you are a member of qemu-
-> devel-ml, which is subscribed to QEMU.
-> https://bugs.launchpad.net/bugs/1895219
-> =
-
-> Title:
->   qemu git -vnc fails due to missing en-us keymap
-> =
-
-> Status in QEMU:
->   New
-> =
-
-> Bug description:
->   If trying to run qemu with -vnc :0, it will fail with:
->   ./qemu-system-x86_64 -vnc :2
->   qemu-system-x86_64: -vnc :2: could not read keymap file: 'en-us'
-> =
-
->   share/keymaps is missing en-us keymap and only has sl and sv,
->   confirmed previous stable versions had en-us.
-> =
-
->   Tried with multiple targets, on arm64 and amd64
-> =
-
->   Git commit hash: 9435a8b3dd35f1f926f1b9127e8a906217a5518a (head)
-> =
-
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1895219/+subscriptions
->
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895219
-
-Title:
-  qemu git -vnc fails due to missing en-us keymap
-
-Status in QEMU:
-  New
-
-Bug description:
-  If trying to run qemu with -vnc :0, it will fail with:
-  ./qemu-system-x86_64 -vnc :2
-  qemu-system-x86_64: -vnc :2: could not read keymap file: 'en-us'
-
-  share/keymaps is missing en-us keymap and only has sl and sv,
-  confirmed previous stable versions had en-us.
-
-  Tried with multiple targets, on arm64 and amd64
-
-  Git commit hash: 9435a8b3dd35f1f926f1b9127e8a906217a5518a (head)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895219/+subscriptions
 
