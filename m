@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508E02685C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:25:12 +0200 (CEST)
-Received: from localhost ([::1]:39714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2730F2685B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 09:22:45 +0200 (CEST)
+Received: from localhost ([::1]:33540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHirP-00027k-8o
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49678)
+	id 1kHip2-00081K-6l
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 03:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kHil4-0001G1-5a; Mon, 14 Sep 2020 03:18:38 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:53830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kHil1-0002Ab-SZ; Mon, 14 Sep 2020 03:18:37 -0400
-Received: from [172.17.10.10] (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 4972621CBE;
- Mon, 14 Sep 2020 07:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1600067913;
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHimY-0004JT-24
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:20:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22303
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kHimV-0002I4-1k
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 03:20:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600068006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A89+Y/YS0F2NELAwIXVDjCWosVtbGtEz99wSRvRoBRc=;
- b=ywzi0+8yIjlJh1bJ0wnywgKZJL/8RcnWSo3IJd42U+IuxanNqnh22jUIiGpu6DYWLCry60
- pLQl9K4DZISHAarPp7fpYF0yqGBTjfmp2J0OSbw6YMhI9H76McAHYw+3sIlE+hQciseB/c
- 0BF4wfNJA18SM0qF+OYHDGXKFBhzWgA=
-Subject: Re: [PATCH v6 6/7] hw/misc/mps2-scc: Use the LED device
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200912134041.946260-1-f4bug@amsat.org>
- <20200912134041.946260-7-f4bug@amsat.org>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <83f6f8d3-f03b-e818-2647-1ca469919b81@greensocs.com>
-Date: Mon, 14 Sep 2020 09:19:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=x4sn5oseDgw7B3Rd8G5MywchzL7bQboy8dnich6G/0M=;
+ b=LD0XYTqM7Koy93bGIvHZNgrBuFlTCcNsjaJ4C6e+4UOnCnjwkOQfrlsTklDwoe1K6BxoUH
+ kvaelUHctD7BUDGLKcGp96qZsTu8Dm2WIxN/kHLTVHjsW2nrG+Zczb7PT/tK8otZx8ymSQ
+ jRr0H4SuxtGiQ+PbaiCZxoJA72hitBA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-cnTvTJT8PA29XXtRxYOmww-1; Mon, 14 Sep 2020 03:20:04 -0400
+X-MC-Unique: cnTvTJT8PA29XXtRxYOmww-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E29A5800683
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 07:20:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7689A60CD1;
+ Mon, 14 Sep 2020 07:20:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EBD56113865F; Mon, 14 Sep 2020 09:20:01 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] tests/qtest/qmp-cmd-test: Use inclusive language
+References: <20200912074922.26103-1-thuth@redhat.com>
+ <81133ec5-e147-f71c-addd-9e71977ee35a@redhat.com>
+Date: Mon, 14 Sep 2020 09:20:01 +0200
+In-Reply-To: <81133ec5-e147-f71c-addd-9e71977ee35a@redhat.com> (Paolo
+ Bonzini's message of "Sat, 12 Sep 2020 10:36:46 +0200")
+Message-ID: <87mu1s4yfy.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200912134041.946260-7-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 03:17:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.695,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,156 +83,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/12/20 3:40 PM, Philippe Mathieu-Daudé wrote:
-> Per the 'ARM MPS2 and MPS2+ FPGA Prototyping Boards Technical
-> Reference Manual' (100112_0200_07_en):
-> 
->    2.1  Overview of the MPS2 and MPS2+ hardware
-> 
->         The MPS2 and MPS2+ FPGA Prototyping Boards contain the
->         following components and interfaces:
-> 
->         * User switches and user LEDs:
-> 
->           - Two green LEDs and two push buttons that connect to
->             the FPGA.
->           - Eight green LEDs and one 8-way dip switch that connect
->             to the MCC.
-> 
-> Add the 8 LEDs connected to the MCC.
-> 
-> This replaces the 'mps2_scc_leds' trace events by the generic
-> 'led_set_intensity' event.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+> On 12/09/20 09:49, Thomas Huth wrote:
+>> We simply want to ignore certain queries here, so let's rather
+>> use the term 'ignore' to express this intention.
+>> 
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  tests/qtest/qmp-cmd-test.c | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+>> index 3109a9fe96..18069a82fa 100644
+>> --- a/tests/qtest/qmp-cmd-test.c
+>> +++ b/tests/qtest/qmp-cmd-test.c
+>> @@ -82,9 +82,9 @@ static void test_query(const void *data)
+>>      qtest_quit(qts);
+>>  }
+>>  
+>> -static bool query_is_blacklisted(const char *cmd)
+>> +static bool ignore_query(const char *cmd)
 
-> ---
->   include/hw/misc/mps2-scc.h |  2 ++
->   hw/misc/mps2-scc.c         | 27 ++++++++++++++++-----------
->   hw/misc/Kconfig            |  1 +
->   hw/misc/trace-events       |  1 -
->   4 files changed, 19 insertions(+), 12 deletions(-)
-> 
-> diff --git a/include/hw/misc/mps2-scc.h b/include/hw/misc/mps2-scc.h
-> index 445e268b1fd..0009479ae83 100644
-> --- a/include/hw/misc/mps2-scc.h
-> +++ b/include/hw/misc/mps2-scc.h
-> @@ -13,6 +13,7 @@
->   #define MPS2_SCC_H
->   
->   #include "hw/sysbus.h"
-> +#include "hw/misc/led.h"
->   #include "qom/object.h"
->   
->   #define TYPE_MPS2_SCC "mps2-scc"
-> @@ -28,6 +29,7 @@ struct MPS2SCC {
->   
->       /*< public >*/
->       MemoryRegion iomem;
-> +    LEDState *led[8];
->   
->       uint32_t cfg0;
->       uint32_t cfg1;
-> diff --git a/hw/misc/mps2-scc.c b/hw/misc/mps2-scc.c
-> index 9d0909e7b35..ce1dfe93562 100644
-> --- a/hw/misc/mps2-scc.c
-> +++ b/hw/misc/mps2-scc.c
-> @@ -20,11 +20,13 @@
->   #include "qemu/osdep.h"
->   #include "qemu/log.h"
->   #include "qemu/module.h"
-> +#include "qemu/bitops.h"
->   #include "trace.h"
->   #include "hw/sysbus.h"
->   #include "migration/vmstate.h"
->   #include "hw/registerfields.h"
->   #include "hw/misc/mps2-scc.h"
-> +#include "hw/misc/led.h"
->   #include "hw/qdev-properties.h"
->   
->   REG32(CFG0, 0)
-> @@ -152,18 +154,10 @@ static void mps2_scc_write(void *opaque, hwaddr offset, uint64_t value,
->           s->cfg0 = value;
->           break;
->       case A_CFG1:
-> -        /* CFG1 bits [7:0] control the board LEDs. We don't currently have
-> -         * a mechanism for displaying this graphically, so use a trace event.
-> -         */
-> -        trace_mps2_scc_leds(value & 0x80 ? '*' : '.',
-> -                            value & 0x40 ? '*' : '.',
-> -                            value & 0x20 ? '*' : '.',
-> -                            value & 0x10 ? '*' : '.',
-> -                            value & 0x08 ? '*' : '.',
-> -                            value & 0x04 ? '*' : '.',
-> -                            value & 0x02 ? '*' : '.',
-> -                            value & 0x01 ? '*' : '.');
->           s->cfg1 = value;
-> +        for (size_t i = 0; i < ARRAY_SIZE(s->led); i++) {
-> +            led_set_state(s->led[i], extract32(value, i, 1));
-> +        }
->           break;
->       case A_CFGDATA_OUT:
->           s->cfgdata_out = value;
-> @@ -236,6 +230,9 @@ static void mps2_scc_reset(DeviceState *dev)
->       for (i = 0; i < NUM_OSCCLK; i++) {
->           s->oscclk[i] = s->oscclk_reset[i];
->       }
-> +    for (i = 0; i < ARRAY_SIZE(s->led); i++) {
-> +        device_cold_reset(DEVICE(s->led[i]));
-> +    }
->   }
->   
->   static void mps2_scc_init(Object *obj)
-> @@ -249,6 +246,14 @@ static void mps2_scc_init(Object *obj)
->   
->   static void mps2_scc_realize(DeviceState *dev, Error **errp)
->   {
-> +    MPS2SCC *s = MPS2_SCC(dev);
-> +
-> +    for (size_t i = 0; i < ARRAY_SIZE(s->led); i++) {
-> +        char *name = g_strdup_printf("SCC LED%zu", i);
-> +        s->led[i] = led_create_simple(OBJECT(dev), GPIO_POLARITY_ACTIVE_HIGH,
-> +                                      LED_COLOR_GREEN, name);
-> +        g_free(name);
-> +    }
->   }
->   
->   static const VMStateDescription mps2_scc_vmstate = {
-> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-> index 0cecad45aad..7557a3e7b46 100644
-> --- a/hw/misc/Kconfig
-> +++ b/hw/misc/Kconfig
-> @@ -97,6 +97,7 @@ config MPS2_FPGAIO
->   
->   config MPS2_SCC
->       bool
-> +    select LED
->   
->   config TZ_MPC
->       bool
-> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> index 908272e8593..97f511aa58c 100644
-> --- a/hw/misc/trace-events
-> +++ b/hw/misc/trace-events
-> @@ -84,7 +84,6 @@ aspeed_scu_write(uint64_t offset, unsigned size, uint32_t data) "To 0x%" PRIx64
->   mps2_scc_read(uint64_t offset, uint64_t data, unsigned size) "MPS2 SCC read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
->   mps2_scc_write(uint64_t offset, uint64_t data, unsigned size) "MPS2 SCC write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
->   mps2_scc_reset(void) "MPS2 SCC: reset"
-> -mps2_scc_leds(char led7, char led6, char led5, char led4, char led3, char led2, char led1, char led0) "MPS2 SCC LEDs: %c%c%c%c%c%c%c%c"
->   mps2_scc_cfg_write(unsigned function, unsigned device, uint32_t value) "MPS2 SCC config write: function %d device %d data 0x%" PRIx32
->   mps2_scc_cfg_read(unsigned function, unsigned device, uint32_t value) "MPS2 SCC config read: function %d device %d data 0x%" PRIx32
->   
-> 
+Okay, although I'd prefer query_is_ignored(), to signal "this is a
+predicate", whereas ignore_query() suggests the function ignores
+queries.
+
+>>  {
+>> -    const char *blacklist[] = {
+>> +    const char *ignorelist[] = {
+>
+> Just "ignored", it's obviously a list.
+
+Yes, that's better.
+
+"blacklist" contains "list" not because "list" is important, but because
+it's an actual word that makes the variable's purpose immediately
+obvious.  "ignored" is an acceptable replacement, and is less clumsy
+than "ignorelist".
+
+>
+> Paolo
+>
+>>          /* Not actually queries: */
+>>          "add-fd",
+>>          /* Success depends on target arch: */
+>> @@ -101,8 +101,8 @@ static bool query_is_blacklisted(const char *cmd)
+>>      };
+>>      int i;
+>>  
+>> -    for (i = 0; blacklist[i]; i++) {
+>> -        if (!strcmp(cmd, blacklist[i])) {
+>> +    for (i = 0; ignorelist[i]; i++) {
+>> +        if (!strcmp(cmd, ignorelist[i])) {
+>>              return true;
+>>          }
+>>      }
+>> @@ -179,7 +179,7 @@ static void add_query_tests(QmpSchema *schema)
+>>              continue;
+>>          }
+>>  
+>> -        if (query_is_blacklisted(si->name)) {
+>> +        if (ignore_query(si->name)) {
+>>              continue;
+>>          }
+>>  
+>> 
+
 
