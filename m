@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597ED268999
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:50:49 +0200 (CEST)
-Received: from localhost ([::1]:37166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113902689A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:53:17 +0200 (CEST)
+Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHm4O-0001uF-C5
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39626)
+	id 1kHm6m-0005VU-3g
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:53:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kHm3G-0001Sv-VJ
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:49:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kHm3F-0003TI-3W
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:49:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600080576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b5FK+hVTr6/aVGaV8DW0NXAjnDRgSGqaaJzDcp6g74c=;
- b=W8wxNaZePx1IALvG9qIn3aHjuLDwa7NDAMINBeWQayEbxJUolW38JZgFrtyxQeWerc4/Jr
- suTodEoNp1J7m9icZLQMfWc0hz8fZKZl/ZluBYZG+Fi8/LmPZ10m046gc/zhgrHotL0EHL
- KCeXFjK8QXucKKbMsOR9IP+BAqliFIQ=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-feZS3VvRNkGtz7mCZmKvag-1; Mon, 14 Sep 2020 06:49:34 -0400
-X-MC-Unique: feZS3VvRNkGtz7mCZmKvag-1
-Received: by mail-ej1-f72.google.com with SMTP id b23so7928536ejv.2
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 03:49:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kHm4Q-0002Y3-Dm
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:50:50 -0400
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:42904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kHm4N-0003cX-OR
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:50:50 -0400
+Received: by mail-lj1-x234.google.com with SMTP id k25so18156694ljg.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 03:50:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FI5Sz2MXJvpKasOtCWzBM3wi8uYnUx4jdHymkn5UcTU=;
+ b=H+Q+mDl7333NDx5QLRcQuz8KWVo+pbWChCtMbQInkO3xab2nJSr4NwCnrBzA56G4R0
+ 4gxzIcenl2kViPlL5iWX8nqvUwljO+9AjxlCL1aMT5iM5AIWJciWLv7KdOP1sPlUZM5A
+ TqSBq7PcbamWAhesigL8cZSpbjvrS90538wNfUFLl4bg2XIfSqF8JgcIiMu8mfITR21Q
+ 1oUefO/BQmKDmL4sUijnUNKwr1pAk9WqxTxfe0dNM0ijFTBEj4JKFWWzyPtU2URpnuyX
+ AaRbQ0T+g/vxKGbxBuiw8oJJzr0k8lKuq0qKoxVOs14HsHFsy+35foXsjO+Sqb/QRRm+
+ uB+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b5FK+hVTr6/aVGaV8DW0NXAjnDRgSGqaaJzDcp6g74c=;
- b=HMujZ28REJ2mSUns4v8CAEA7FvXsOq8BsLuzjd6RLQrZtKJHsRpV9auYEeVJUrwczO
- absGPaQUEQ2OcVpYGFBNkHd+rgQfy/iCFB5V9cdUw/LneKvVLrLXvkNoFuvVZWHg6ien
- Eqn29CYyhuCYGibUVPNByaYe5tOL7SEffFHGekN+mzjgD2xYM3q5jWu+gHe5APRR+142
- Q9vpYHn3FrjJb6SQKaqRyDeWSU3WtzWoVm3cSZo9Zx9G8f4DljZDKD9OZRIS+NMyWn9m
- yvR3+yH325nbH8uxBX1NEOKfdCKPFC4y4DpW4iv7gAONX4XBpUTzlTKzzirwHd1QWOBk
- +fhQ==
-X-Gm-Message-State: AOAM5305JyMUSFaqp6u/nAi2/aPHWuGIK0kEaGNfo/U/ww5sz8QHB2mx
- d0Tgtl8tltDtKayYjNrqFKAFQIq5nIuQe82F4sZcILDVuxRGTaBmy/jHpQIK2/c++xZQYNFWRpH
- GSfoKK99xln0U1Hs=
-X-Received: by 2002:a17:906:3e08:: with SMTP id
- k8mr13726849eji.480.1600080573483; 
- Mon, 14 Sep 2020 03:49:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzXkVwZfOiGikxcGFiJhz3U3ZufrPcmrgChFR/APdXBXZfDvgt2ZvFPkVnL3imsuJW/m6IbOg==
-X-Received: by 2002:a17:906:3e08:: with SMTP id
- k8mr13726830eji.480.1600080573263; 
- Mon, 14 Sep 2020 03:49:33 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:6047:f58e:7d32:2e02?
- ([2001:b07:6468:f312:6047:f58e:7d32:2e02])
- by smtp.gmail.com with ESMTPSA id w11sm9048608edx.81.2020.09.14.03.49.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Sep 2020 03:49:32 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/3] Automatically convert configure options to meson
- build options
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200913100534.22084-1-pbonzini@redhat.com>
- <20200914091244.GE1252186@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <70880397-cd17-ac4b-3f88-6c56e2b71e36@redhat.com>
-Date: Mon, 14 Sep 2020 12:49:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FI5Sz2MXJvpKasOtCWzBM3wi8uYnUx4jdHymkn5UcTU=;
+ b=LJ7ULAkiw44jteko5wpjsjiUWm3okHonXY0LLW7HM2YB5vFofKRn1gn/50e6keXW4O
+ n5meL0ioeL5PMTCH2fPM/1WvLCJdcmZlTOsOYQipj9J4GKrk5oTbq9rsktFRP2N8Qace
+ HrtsEd0AiLGmMYKnM8/SBW/bGpptqPmc8fcFYjN7biKAXdImYF/50kwGNFTbtZMRq1ph
+ 6NoHyU9GyaeRCbeFaF7cMIT/Fyystodgu9tbiNiicXbZQe2gt0QafpZRs42lc62rnhIe
+ 1xRjFGvZbxKmxgDjfoAuCsfrUOmBpvB1CtX5SYWT2WEEAqTKQRIWXT+jHcN2RAy3hleT
+ SloA==
+X-Gm-Message-State: AOAM5334BbFcxyckX9gL2au7yM1qB2F7kCuRxjsHzp1dm2evDjyxMI8H
+ n7xWKwdEBVvBougjAlaYbpe83n8uUJWuR/JEEXQ=
+X-Google-Smtp-Source: ABdhPJyT3gsWx+FTBdrPMvxClKioTuMYGDMtpcvhw5XuE6CFZ9AFlsTFGRrngLES27BiHNNoJCFCVwJ7dCFwCBykmB8=
+X-Received: by 2002:a2e:9042:: with SMTP id n2mr4577348ljg.112.1600080645176; 
+ Mon, 14 Sep 2020 03:50:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200914091244.GE1252186@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <5f5e9831.1c69fb81.bdbec.98b8@mx.google.com>
+ <ea64c109-6bd9-c0f1-964c-46be5c6ba020@amsat.org>
+In-Reply-To: <ea64c109-6bd9-c0f1-964c-46be5c6ba020@amsat.org>
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Date: Mon, 14 Sep 2020 12:50:08 +0200
+Message-ID: <CALTWKrW-U261HNc8mSxmu1uYKqrZxZM4+661ZK_m-W_Ky8eiFQ@mail.gmail.com>
+Subject: Re: [REPORT] Nightly Performance Tests - Sunday, September 13, 2020
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-lj1-x234.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,81 +81,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
+Cc: Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/20 11:12, Daniel P. Berrangé wrote:
-> IMHO we should stay as far away from Perl as possible, and I say this as
-> someone who enjoys writing Perl scripts !  Perl is a significant barrier
-> to entry for potential contributors, because it just doesn't have the
-> wide knowledge base that it did in the past. You can expect most people
-> to have some familiarity with Python, or be able to pick it up fairly
-> easily in a way that just isn't possible in Perl.
-> 
-> As for shell, we have a never ending stream of bugs due to the wide
-> range of different shell impls which make portable coding very hard.
-> 
-> In general I think our overall goal should be to focus on getting down to
-> use of a single scripting language in QEMU, and that language clearly has
-> to be python3. We shouldn't introduce any new usage of Perl or Shell
-> in QEMU IMHO. Even if we think the usage will only be short term temporary
-> workaround, short term hacks in QEMU have a habit of living for years longer
-> than we expect.
+On Mon, Sep 14, 2020 at 8:46 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Hi Ahmed,
+>
+> On 9/14/20 12:07 AM, Ahmed Karaman wrote:
+> > Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+> > Host Memory      : 15.49 GB
+> >
+> > Start Time (UTC) : 2020-09-13 21:35:01
+> > End Time (UTC)   : 2020-09-13 22:07:44
+> > Execution Time   : 0:32:42.230467
+> >
+> > Status           : SUCCESS
+> >
+> > Note:
+> > Changes denoted by '-----' are less than 0.01%.
+> >
+> > --------------------------------------------------------
+> >             SUMMARY REPORT - COMMIT f00f57f3
+> > --------------------------------------------------------
+>
+> (Maybe this was already commented earlier but I missed it).
+>
+> What change had a so significant impact on the m68k target?
+> At a glance I only see mostly changes in softfloat:
+>
+> $ git log --oneline v5.1.0..f00f57f3 tcg target/m68k fpu
+> fe4b0b5bfa9 tcg: Implement 256-bit dup for tcg_gen_gvec_dup_mem
+> 6a17646176e tcg: Eliminate one store for in-place 128-bit dup_mem
+> e7e8f33fb60 tcg: Fix tcg gen for vectorized absolute value
+> 5ebf5f4be66 softfloat: Define misc operations for bfloat16
+> 34f0c0a98a5 softfloat: Define convert operations for bfloat16
+> 8282310d853 softfloat: Define operations for bfloat16
+> 0d93d8ec632 softfloat: Add fp16 and uint8/int8 conversion functions
+> fbcc38e4cb1 softfloat: add xtensa specialization for pickNaNMulAdd
+> 913602e3ffe softfloat: pass float_status pointer to pickNaN
+> cc43c692511 softfloat: make NO_SIGNALING_NANS runtime property
+> 73ebe95e8e5 target/ppc: add vmulld to INDEX_op_mul_vec case
+>
+> > --------------------------------------------------------
+> > --------------------------------------------------------
+> > Test Program: matmult_double
+> > --------------------------------------------------------
+> > Target              Instructions      Latest      v5.1.0
+> > ----------  --------------------  ----------  ----------
+> > aarch64            1 412 412 599       -----     +0.311%
+> > alpha              3 233 957 639       -----     +7.472%
+> > arm                8 545 302 995       -----      +1.09%
+> > hppa               3 483 527 330       -----     +4.466%
+> > m68k               3 919 110 506       -----    +18.433%
+> > mips               2 344 641 840       -----     +4.085%
+> > mipsel             3 329 912 425       -----     +5.177%
+> > mips64             2 359 024 910       -----     +4.075%
+> > mips64el           3 343 650 686       -----     +5.166%
+> > ppc                3 209 505 701       -----     +3.248%
+> > ppc64              3 287 495 266       -----     +3.173%
+> > ppc64le            3 287 135 580       -----     +3.171%
+> > riscv64            1 221 617 903       -----     +0.278%
+> > s390x              2 874 160 417       -----     +5.826%
+> > sh4                3 544 094 841       -----      +6.42%
+> > sparc64            3 426 094 848       -----     +7.138%
+> > x86_64             1 249 076 697       -----     +0.335%
+> > --------------------------------------------------------
+> ...
+> > --------------------------------------------------------
+> > Test Program: qsort_double
+> > --------------------------------------------------------
+> > Target              Instructions      Latest      v5.1.0
+> > ----------  --------------------  ----------  ----------
+> > aarch64            2 709 839 947       -----     +2.423%
+> > alpha              1 969 432 086       -----     +3.679%
+> > arm                8 323 168 267       -----     +2.589%
+> > hppa               3 188 316 726       -----       +2.9%
+> > m68k               4 953 947 225       -----    +15.153%
+> > mips               2 123 789 120       -----     +3.049%
+> > mipsel             2 124 235 492       -----     +3.049%
+> > mips64             1 999 025 951       -----     +3.404%
+> > mips64el           1 996 433 190       -----     +3.409%
+> > ppc                2 819 299 843       -----     +5.436%
+> > ppc64              2 768 177 037       -----     +5.512%
+> > ppc64le            2 724 766 044       -----     +5.602%
+> > riscv64            1 638 324 190       -----     +4.021%
+> > s390x              2 519 117 806       -----     +3.364%
+> > sh4                2 595 696 102       -----       +3.0%
+> > sparc64            3 988 892 763       -----     +2.744%
+> > x86_64             2 033 624 062       -----     +3.242%
+> > --------------------------------------------------------
 
-I totally agree.  This would not be a short term workaround, I expect it
-to stay for years; I don't expect the transition of the configure script
-to Meson to be very short.
+Hi Mr. Philippe,
+The performance degradation from v5.1.0 of all targets, and especially
+m68k, was introduced between the two nightly tests below:
 
-This can be both a pro and a con.  On one hand it means this is "more
-magic" that is here to stay.  On the other hand it makes transition
-patches smaller and easier to review.
+[REPORT] Nightly Performance Tests - Thursday, August 20, 2020:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg04923.html
 
-I agree that in principle all scripting should be Python.  On the other
-hand Perl is quite suitable for "configure tasks that are too
-complicated for shell" and are not going to be rewritten in Meson down
-the road.  And I say that as someone who has written exactly 3 serious
-Perl programs in his life, two of which are part of QEMU. :)
+[REPORT] Nightly Performance Tests - Saturday, August 22, 2020
+https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg05537.html
 
-In this case shell scripting could also be a plausible alternative; I
-didn't try only because I first tried the obvious choice of Python.
+It looks like the new build system is the culprit.
 
-Or we can just decide that an incomplete help below a "please use
---python" error is good enough.
+The "bisect.py" script introduced during the "TCG Continuous
+Benchmarking" GSoC project can be very handy in these cases. I wrote
+about the tool and how to use it in the report below:
+https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Finding-Commits-Aff=
+ecting-QEMU-Performance/
 
->> Opinions are welcome on whether this is worthwhile and how to solve
->> the above doubts.
-> 
-> IIUC, the motivation of this series is just to remove some duplication
-> of defaults / args, nothing more than that ?
-
-Yes, though it's quite some duplication: right now an option needs
-
-- a default in configure
-
-- command line parsing in configure
-
-- a Meson -D argument in configure
-
-- an help message in configure
-
-- a declaration (including default and help) in meson_options.txt
-
-so this patch reduces an option from 8-9 lines to 2.
-
-There are a couple secondary goals too.  First, making sure all the
-policy is in meson_options.txt and not configure; this avoids surprises
-when/if we can start invoking meson directly.  Second, removing
-variables completely from the configure script gives a better idea of
-interdependencies between the configure tests.
-
-Thanks,
-
-Paolo
-
-> I'd say we should focus effort on just converting more of configure
-> to meson, as quickly as practical, and not try to add much more magic
-> that's only relevant for the transition time.
-
+Best regards,
+Ahmed Karaman
 
