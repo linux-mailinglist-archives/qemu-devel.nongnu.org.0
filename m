@@ -2,95 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A0D26899C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:52:00 +0200 (CEST)
-Received: from localhost ([::1]:40776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A162689A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 12:54:12 +0200 (CEST)
+Received: from localhost ([::1]:48888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHm5X-0003TA-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
+	id 1kHm7f-0006n0-KC
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 06:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kHm4D-0002D3-DV
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:50:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38527
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHm6d-0005lV-Ry
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:53:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kHm4B-0003bp-5i
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:50:37 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kHm6b-00043R-VW
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 06:53:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600080633;
+ s=mimecast20190719; t=1600080785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=39Pv2bPBFx2WlMIEN6zwUX9JOT8pfEqlhhVu26vBS0g=;
- b=iytBwyJlHxnIkcpZkWlYadzFxwBHdXP4XzbiitbjEzEdP7evxGUucOiUvF1zwxrZCSfczE
- 5p5g3w9QadXwwq9aPpTNrF2tAYcgakB7cNaebRxpmE9IoF+J1EMsIe3ZgeNnaDRMuJUA3P
- GIIc2qMv6A0IfkeLix1Hi6Igv/H75BE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-5fl1RIgSNne5fYBNxu2hmw-1; Mon, 14 Sep 2020 06:50:28 -0400
-X-MC-Unique: 5fl1RIgSNne5fYBNxu2hmw-1
-Received: by mail-ed1-f71.google.com with SMTP id f16so9087312edm.10
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 03:50:28 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2CZNSI3F+NLY37OZHZ6G0S1NMPMavrd2JAop5LfGlxg=;
+ b=b+J4K+3uUetS+10OhA8cS/E0cdkjjekLjHLFEAn9aJlhOr0Vy8xhz3TP34e5KuUqR8SWq4
+ o9PrN6h+gq+6voG6VfUbZlqwn35xx+Jta3D4OsG24/fTwb8NkBrTeLe0nngEbVPEKAUFH0
+ aUJa7Bn6ewt+bc2o40/rr9s6pRt+1rQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-KvRgYejiMzWnrf6AjqnXkQ-1; Mon, 14 Sep 2020 06:53:03 -0400
+X-MC-Unique: KvRgYejiMzWnrf6AjqnXkQ-1
+Received: by mail-wm1-f72.google.com with SMTP id a7so2337793wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 03:53:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=39Pv2bPBFx2WlMIEN6zwUX9JOT8pfEqlhhVu26vBS0g=;
- b=fgPrICxqEY//V1FJKAf5/8NG687oY/crpr1atn5ruJ/s1hXDFVkJRsD8W47g8FU+V8
- RLODOb07K5kmlzqzQ2gumD5FpPhBTwM/1Z6JLXxQHoTQs7oWfoDSvdZZUw4FaMhZNA+i
- Wm6KLyi84gdnM219EvO6a1nf0zNFSPk1qAO0HLv8AXKzF0VjCgyrDowkYo1ADuvrRqwU
- NjbKLV25GKpP6s+QrRMMagB6UxvLlVDitXm/V2PTALxeVbd/LrUb3HXw8hr1+WuJxs6U
- 4CDSDLqYUIJIirRXA7CCAt2mO22MnPvHf4gGFi9XymwhiNhCZmErX9+KLy8EAa97N2Ye
- AgsQ==
-X-Gm-Message-State: AOAM5328gWhXRRT9p3aZ5qW/ZVeR3Jk4zzrdaoYvhMyf+t28Jikduajy
- qQ6+2QjAU4Cr3L9cgZJm3t2xNhyt2Hkp2bCH5GGbCXI//X6/vtxHpJkU9lO3GDkF7X8KJkyyMvl
- zcFJidUkwCOJ4Jo0=
-X-Received: by 2002:a17:906:ca4f:: with SMTP id
- jx15mr13833159ejb.454.1600080627304; 
- Mon, 14 Sep 2020 03:50:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYjKxzPCR36K3IdTVfyruRHrvG8PRJc96VL4lq3CWMCur+8QVwDbA5N2lnTxSsNvknbEoUiw==
-X-Received: by 2002:a17:906:ca4f:: with SMTP id
- jx15mr13833152ejb.454.1600080627147; 
- Mon, 14 Sep 2020 03:50:27 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:6047:f58e:7d32:2e02?
- ([2001:b07:6468:f312:6047:f58e:7d32:2e02])
- by smtp.gmail.com with ESMTPSA id z18sm7478140ejb.92.2020.09.14.03.50.26
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=2CZNSI3F+NLY37OZHZ6G0S1NMPMavrd2JAop5LfGlxg=;
+ b=MYMGZ0JcH1DFnBWIAGlQVqpJ6d55N91T1xdFbJR+aOBl7xBzkyG9D3Lj4QqkrWA9mp
+ KgM6PhjzBI3+luiMMShlzlsWFJkfVgXfzOCWkvJdpkDwtagejsmHGsUJAfkTtIIHe3pT
+ qk4hPQG8AwxDLxXS6Eco/KrGEAPzoB8DWtQk1eTvW4F+TFhkMytj1Wp4jaZusKvpTb9f
+ EIfqbGfwpSjPTTEBVnajbutkKeVsIDhumExKVSh9DcqbBKa2sSAcAMyIXnxghMizl5Vh
+ byI6Dutdxz9O8ukd7jPi9WKMq8cgri0xgCgaTKBz0D3lt3fgfiqUX7ClSykeCMe/P0DS
+ 2dlg==
+X-Gm-Message-State: AOAM531zXp2ExQ9ahnLxlWUySs7h+ewnhl1ccExadxZdRMVG8/2Aoo7X
+ X7D4E/7ZXqx/CK6ZMjpY5VLNHU09+jdDt83wGmDN+9Hd/KGKx/YJzg9nsCxM0vpauF3JqYXT8Vo
+ C2DV2fz7ICIaunDc=
+X-Received: by 2002:a7b:ce96:: with SMTP id q22mr13650361wmj.132.1600080782368; 
+ Mon, 14 Sep 2020 03:53:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/iqkQsLnAtuS11dd8nnRSKZdvssXO0oNe0EOjPf0L7Xw9z+mG4TPSZC2jHu2aBAWpuxRoLw==
+X-Received: by 2002:a7b:ce96:: with SMTP id q22mr13650338wmj.132.1600080782110; 
+ Mon, 14 Sep 2020 03:53:02 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id 97sm20439342wrm.15.2020.09.14.03.53.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Sep 2020 03:50:26 -0700 (PDT)
-Subject: Re: [PATCH 0/3] configure: add missing CONFIG_FOO variables
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20200914095231.621068-1-stefanha@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8cda7b10-1eba-ccfe-1cae-c023fba87553@redhat.com>
-Date: Mon, 14 Sep 2020 12:50:23 +0200
+ Mon, 14 Sep 2020 03:53:01 -0700 (PDT)
+Subject: Re: [PATCH 08/10] pc-bios: refresh edk2 build artifacts for
+ edk2-stable202008
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20200908072939.30178-1-lersek@redhat.com>
+ <20200908072939.30178-9-lersek@redhat.com>
+ <b2037644-bf48-e86f-23e3-f2c68e7ddc1f@redhat.com>
+ <20200914095438.wkc2fou3ijrctmfl@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <a1ec5724-bebd-3fe7-a1a2-db8065266feb@redhat.com>
+Date: Mon, 14 Sep 2020 12:53:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200914095231.621068-1-stefanha@redhat.com>
+In-Reply-To: <20200914095438.wkc2fou3ijrctmfl@sirius.home.kraxel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 01:39:17
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 02:55:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,31 +126,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu devel list <qemu-devel@nongnu.org>, Bruce Rogers <brogers@suse.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/20 11:52, Stefan Hajnoczi wrote:
-> The meson.build feature summary checks the presence of CONFIG_FOO variables.
-> Several of these variables are never emitted by ./configure so the feature
-> summary always shows these features as disabled.
-> 
-> Stefan Hajnoczi (3):
->   configure: add missing CONFIG_TCMALLOC
->   configure: add missing CONFIG_JEMALLOC
->   configure: rename QEMU_GA_MSI_ENABLED to CONFIG_QGA_MSI
-> 
->  configure   | 10 +++++++++-
->  Makefile    |  2 +-
->  meson.build |  2 +-
->  3 files changed, 11 insertions(+), 3 deletions(-)
-> 
++Michael & Bruce
 
-Thanks!
+On 9/14/20 11:54 AM, Gerd Hoffmann wrote:
+>   Hi,
+> 
+>> The CI idea is to have reproducible builds if possible.
+>> When the submodule is updated (or the QEMU scripts containing the
+>> -D defines), it triggers the 'build-edk2' job which produce these
+>> same binaries.
+>> My original idea was to push the tag on GitLab that triggers the
+>> job, then download the produced binaries, test them, then commit
+>> them.
+> 
+> Now with CI in place we maybe should step back and have a look at the
+> big picture.
+> 
+> Should we simply stop committing firmware binaries into git and provide
+> them as CI artifacts instead?
 
-For 1 and 2 I think it's simpler to move the whole test to Meson.  I
-already have a patch for that, though I was going to send it next week.
+What I'm not sure about is how to keep the built artifacts forever.
+Usually git-forge based projects keep release builds forever.
+In our case we are interested in updating them during the development
+window, to be well tested on release.
 
-Paolo
+Also we need to modify the source tarball generator script to fetch
+the artifacts and include them, isn't it?
+
+>  Can we build all our firmware in CI,
+> using the shared gitlab x86 runners and cross compilers?
+
+I'm pretty sure. In case something is missing, adding it shouldn't
+be a problem anyway.
+
+Regards,
+
+Phil.
 
 
