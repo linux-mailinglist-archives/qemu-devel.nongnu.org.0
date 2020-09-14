@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D44B268B7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:52:42 +0200 (CEST)
-Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB68B268B8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Sep 2020 14:56:40 +0200 (CEST)
+Received: from localhost ([::1]:51640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kHnyL-0006cx-6a
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
+	id 1kHo2B-0002yG-VP
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 08:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHnx1-0005Kt-Oh
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:51:19 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:46426)
+ id 1kHo0s-0001iI-NW
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:55:18 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:43880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kHnwz-0003Tc-L1
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:51:19 -0400
-Received: by mail-ed1-x541.google.com with SMTP id a12so17414811eds.13
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:51:13 -0700 (PDT)
+ id 1kHo0p-0003qB-KE
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 08:55:18 -0400
+Received: by mail-ej1-x643.google.com with SMTP id o8so23089512ejb.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 05:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4/gEGUyO9Ec/vAWrv/RN0xJHB6eayMADlLAE4Pl3nsM=;
- b=uH9RYjKHiaFqtZl5dVw7E2trJF0rLK9AKIDicKGxYpQ+zsHRISBzTEdbsdHbeGUNvG
- IDmB/gJDGsrXBm9vC7lAa11fZlTYb4JCx1JkKc61b7rhwqXilAF/qyo86w6enzrKtDh5
- wwuHrJqikYrtqnMewnFsvzRGX22cDGDkobJaJX3O+v/K2acOax8la4YGBSuEPorGhc5Y
- 9EzXESg94Zd2t3Pe3Q2aIiJD5DDgLfmkwa2v5aKDGeIxkcunJHkdLrcgKfr7llpsZHXz
- HXsr5OYzTPfqkZBWQbTVOhmMdgDLzanDJv/jy+5MJDmG8O+q48INsZ5vMc+Vto6i9ScQ
- mwmw==
+ :cc; bh=DVaCRgx1fQKr14/rUIRwArlH3VkYirm2d8m195lA3Ns=;
+ b=YnH2AaamclDWLtGSojwbFNsdtFCoD6NFtF0Bc0Uo56CUeG9ySEETO5JHXbQao8iFzB
+ TxNsKsVvIsa/e93sa9s4u6bA8R72PstYfBlWApsaO/Jpitet6ERGysU+akae92hBlD8C
+ PGPseXpFXRTMVzk9SNflqGi03UYozGfc7Q2E007Wnn8NsteSA1WQpv4iVnCH085S4NjE
+ b34g2gwXtDr0SeYAVOg2Rqv07sBcF9kqxBYf84jZ1nB2jJL1W3NizZO+23oFcMxDIIzz
+ mSeD8JfAVfqAWLM68ItGULbGyarve+MOQ3lYKkvnYprF5YtQqf7D8G1gxjYVaeUK7/yi
+ Vn3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4/gEGUyO9Ec/vAWrv/RN0xJHB6eayMADlLAE4Pl3nsM=;
- b=VoDCY/7anvcqERiYBXdRSJiQ1Oz5/jfyDMAE+F63ARkM7g4KrJm0ES7fsfnK91KMbb
- T4MVLgeEPxnirtFCNpn3SWTaW6869EJnX7KDdzmmswyOv3Gl/FB+MSSTUFm5htgRlfI+
- 9j6R6zyETQxX4Si+kHN4Xq/Kkke3tjrhZ/PZhyMqhkUn/pMXoZGsdFmV3OIfFtNDCdxW
- gM0fRyhDyOF4CUfjx2SHv/rGLXjKPHrpr4A3fIAA2klySpBY4yMaWzRMOoCfq/NtZM6f
- bsC2EAh3GabCzeSEM5ecTpVdDrStnTSDCOtdad8KEDAb4Py2G5LyS4rBfk0A6PbBW20M
- dh9Q==
-X-Gm-Message-State: AOAM533JBQvcT/i2PwnNL1dFcCIwbXMZG39JP0lANLPe8IJ0pOofHfP7
- pIlt4fKKd/UUx0oUfzRW3NPIsGOrxcsLHSkUelNZFw==
-X-Google-Smtp-Source: ABdhPJwAN8I/PYY1Z2MmGKN75/rJymP2krPOtZFuXGTGc3YiUhfSusUuRFkJ4hHoSDjinoPgQeSTa0jb0QtX9CXp4KI=
-X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr16603855edw.251.1600087872452; 
- Mon, 14 Sep 2020 05:51:12 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=DVaCRgx1fQKr14/rUIRwArlH3VkYirm2d8m195lA3Ns=;
+ b=Amz63tcLU++B6P5GsK7m4KEID5yoXkhgrCrxciGbmpWvId+5o9Dh7BWI6Mxx3sHBm3
+ bcDHAtVzPQnFZRJ28e/KBIj69tPjGWdOhlP3g6XYab5+1aVevtyJ0GTTARIMepzPaKKv
+ SniNhLuAmIfwiC+f5utoq9K58dvSxUETmr7aELei8QeIHVrYTEEBgW+DhoBegrqYaU10
+ 8e01Iil1ctCyubIhwoqCps2cMEfaojhlJGZ0DoJ+BsGS+dcvZhpSuHArhaQdaYAjp5n4
+ VGK2uK2hkTsrJ28o0hkq9UXMo2D6bR1vuQsgChFjMk535WsuDMYBVuq3KYukiFqR5UwL
+ k3EA==
+X-Gm-Message-State: AOAM531FgyCE3ZKgvVs89MY+E9CLU82XwGBBESNV8IKPtfQIcwNeNtoS
+ 3RmxLsdPnWESdLEqmIi01DONDIRhxjfHasNVo/FsrQ==
+X-Google-Smtp-Source: ABdhPJxMqTnGDIMByFQBnIsin7Yvmjgv1YBkiAL6USkCGgUriR5LNjabNeJIKkmD7q1MSF1fv2ide2ML5TQPceB7pY0=
+X-Received: by 2002:a17:906:71c9:: with SMTP id
+ i9mr14284636ejk.250.1600088113855; 
+ Mon, 14 Sep 2020 05:55:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200914113809.63640-1-mreitz@redhat.com>
- <CAFEAcA-jN39TufevHy6sng-53NAzqfdm=4NEzGe1Yg+oFzfFQg@mail.gmail.com>
- <450123b0-e56f-57c1-c42b-2618fcaefc77@redhat.com>
-In-Reply-To: <450123b0-e56f-57c1-c42b-2618fcaefc77@redhat.com>
+References: <20200911052101.2602693-1-hskinnemoen@google.com>
+In-Reply-To: <20200911052101.2602693-1-hskinnemoen@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Sep 2020 13:51:01 +0100
-Message-ID: <CAFEAcA84st9vKnvB7FNiHosq5tN-csZefpdD_ArNXCbih_fYSA@mail.gmail.com>
-Subject: Re: [PATCH] iotests: Work around failing readlink -f
-To: Max Reitz <mreitz@redhat.com>
+Date: Mon, 14 Sep 2020 13:55:02 +0100
+Message-ID: <CAFEAcA-77U7p3RCQS5z7ZJf-CBNKqXrkwB+Kdz3ZCjPQgEge6Q@mail.gmail.com>
+Subject: Re: [PATCH v9 00/14] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC
+ machines
+To: Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -69,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,96 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Sep 2020 at 13:32, Max Reitz <mreitz@redhat.com> wrote:
+On Fri, 11 Sep 2020 at 06:21, Havard Skinnemoen <hskinnemoen@google.com> wrote:
 >
-> On 14.09.20 14:31, Peter Maydell wrote:
-> > On Mon, 14 Sep 2020 at 12:39, Max Reitz <mreitz@redhat.com> wrote:
-> >>
-> >> On macOS, (out of the box) readlink does not have -f.  If the recent
-> >> "readlink -f" call introduced by b1cbc33a397 fails, just fall back to
-> >> the old behavior (which means you can run the iotests only from the
-> >> build tree, but that worked fine for six years, so it should be fine
-> >> still).
-> >>
-> >> Keep any potential error message on stderr.  If users want to run the
-> >> iotests from outside the build tree, this may point them to what's wro=
-ng
-> >> (with their system).
-> >>
-> >> Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
-> >>        ("iotests: Allow running from different directory")
-> >> Reported-by: Claudio Fontana <cfontana@suse.de>
-> >> Reported-by: Thomas Huth <thuth@redhat.com>
-> >> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> >> ---
-> >> Hi Thomas,
-> >>
-> >> I thought this would be quicker than writing a witty response on wheth=
-er
-> >> you or me should write this patch. O:)
-> >> ---
-> >>  tests/qemu-iotests/check | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> >> index e14a1f354d..75675e1a18 100755
-> >> --- a/tests/qemu-iotests/check
-> >> +++ b/tests/qemu-iotests/check
-> >> @@ -45,6 +45,10 @@ then
-> >>      fi
-> >>      source_iotests=3D$(cd "$source_iotests"; pwd) || _init_error "fai=
-led to enter source tree"
-> >>      build_iotests=3D$(readlink -f $(dirname "$0"))
-> >> +    if [ "$?" -ne 0 ]; then
-> >> +        # Perhaps -f is unsupported, revert to pre-b1cbc33a397 behavi=
-or
-> >> +        build_iotests=3D$PWD
-> >> +    fi
-> >>  else
-> >
-> > This still prints
-> >   readlink: illegal option -- f
-> >   usage: readlink [-n] [file ...]
-> >
-> > (you can see it in the build log that Thomas links to).
-> >
-> >    build_iotests=3D$(readlink -f $(dirname "$0") 2>/dev/null)
-> >
-> > should avoid that, I think.
+> This should be fully reviewed now, but the Timer patch may deserve another
+> look, as I fixed a few bugs in it. Huge thanks to everyone who reviewed and/or
+> tested this patchset, it has clearly improved a lot since I started.
 >
-> I mentioned in the commit message that I find this useful and desirable
-> behavior.  Something isn=E2=80=99t working that perhaps users are expecti=
-ng to
-> work (because it will work on other systems), so I don=E2=80=99t think th=
-e error
-> message should be suppressed.
+> I also pushed this and the previous patchsets to my qemu fork on github.  The
+> branches are named npcm7xx-v[1-9].
+>
+>   https://github.com/hskinnemoen/qemu
+>
+> This patch series models enough of the Nuvoton NPCM730 and NPCM750 SoCs to boot
+> an OpenBMC image built for quanta-gsj.
 
-I disagree. Either iotests can handle readlink not having '-f',
-in which case it should not let readlink spew junk to the log,
-or it can't, in which case it should bail out.
 
-If you want to tell the user something, you should catch the
-failure and print something yourself, because then you can do
-so with a message that will make sense to somebody trying to
-run the test suite and point them in the direction of what
-they can do to deal with the problem, eg something like
- "readlink version doesn't support '-f'. Assuming that iotests
-  are being run from the build tree. If this isn't true then
-  we will fail later on: you can either run from the build tree,
-  or install a newer readlink."
-(fix up the details to suit, or throw away entirely in favour
-of some other text if you like).
 
-Printing "readlink: illegal option" is just going to cause
-people to assume QEMU's scripts are broken and send us bug
-reports, so please don't do that.
+Applied to target-arm.next, thanks.
 
-thanks
 -- PMM
 
