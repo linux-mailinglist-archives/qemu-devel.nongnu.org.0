@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FDA26A5A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:55:51 +0200 (CEST)
-Received: from localhost ([::1]:49372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFA926A5B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:59:21 +0200 (CEST)
+Received: from localhost ([::1]:33206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAUw-00014n-CB
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48678)
+	id 1kIAYK-0006GX-U0
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9s3-0002d0-1b; Tue, 15 Sep 2020 08:15:39 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40497)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9s0-0008Uk-Tn; Tue, 15 Sep 2020 08:15:38 -0400
-Received: by mail-pf1-x442.google.com with SMTP id x123so1821722pfc.7;
- Tue, 15 Sep 2020 05:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EwczR+sEF9hc4J2M80DE+JfDO1uP/AS3SpW7brF/43Q=;
- b=OEerEEPugLVy45XIZUZ6IA+XSo4X3Z7lWZ3CojKyEne2JjeARsTj3G4BVAv0+NeFKz
- 1xICFDj4OUVRiFtBEnsEx3P9SiU7W0GCSbmaQBhMxNGTGwjnV/G7EmwQo8GlfdaQEOFg
- eNbaYeH4Dxmsya3fs7NEwsVkaQaKpTpVZyZSoYKqBoKJDUEIcoz4EEcaEjp7WPPriHhd
- m7m2xJII+8N2yDCYJqEmHNbHIQ4QIKmlNNifk+ZbI/Q9RBzJ7CQQR/l4Yxznrh9UVwJ7
- d+G2cuaqDB5NvXed9gS/2w7Ptnl/bxC9rEuAoFZ0B+xi1q0ESh54P4ITTzM+zhKnj4Yv
- l9jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EwczR+sEF9hc4J2M80DE+JfDO1uP/AS3SpW7brF/43Q=;
- b=khU8Y2SvJIONdorSfMEI6aotCjZULdRJm0KKA8DrnX7/mazWddAnSUKqSiWqq/s4v1
- HbFPk+/SOalmM+mK75Q4n7vt4pLMEnLJnPP55HPyKxFS66+zvLTbGjAupwntc5oDq3Hb
- bCz84eq/TM/+8r+I94tpy77haL5SLIOC20dA+eZtPiTYdy2kwl0xHZ0tESM66YNM+LL1
- tUuVqhfk4AjQ9dy4O64JRXV/MzuAm8/lSRxLp4B8CPnUCk1rb8ISVai9MmCMc1Q62A9Q
- W70JmCdsdXQzDLqmJ0vO2WjjU1gs67ImmWyUd2noZr2iG80zT4h33qjHITEdp1pHCHnC
- PJ+w==
-X-Gm-Message-State: AOAM531yj2bF42b19HjFdtiBX15QnLuydCA7v5VvC80orMS9eW2xb2nI
- BOS/s6RS870rSE/TCmhRBbaHRVmckLGNSOtGoGc=
-X-Google-Smtp-Source: ABdhPJy+qru9aD+hjdGyjnaodv1UI9xYzSt4j4XDlKcpH2FgjnVTnV9JqceXizlFt0h6XGi5fLRzzA==
-X-Received: by 2002:a63:485c:: with SMTP id x28mr14717568pgk.289.1600172133348; 
- Tue, 15 Sep 2020 05:15:33 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.15.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:15:32 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9 26/26] block: enable libnfs on msys2/mingw in cirrus.yml
-Date: Tue, 15 Sep 2020 20:13:18 +0800
-Message-Id: <20200915121318.247-27-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
-References: <20200915121318.247-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kIAMZ-00006x-N6
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:47:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kIAMW-0003xt-LU
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:47:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600174024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ddvOW0Bgfqp0UQJ2cPte165OtK5S5MyeErAXwve5cw=;
+ b=IRrBR9+Ug2dnmB4rLp/nl475jSuC10OQUv0muPu0/g8dtBdi6PQfDln4yPMNfFAV6KtF6S
+ uYvfOAOYg1QGmGiZguWKkqwuNH5tR9LFl7vuvmyB///Oh/52pMqNh42AZN/TnNco0ZY4zG
+ dXicPRcLtH3XkM0pycI8fk/lEZY/utI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-EjEUUuK_MIqJq8TEjNqeVQ-1; Tue, 15 Sep 2020 08:47:00 -0400
+X-MC-Unique: EjEUUuK_MIqJq8TEjNqeVQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B01F80EF9D;
+ Tue, 15 Sep 2020 12:46:59 +0000 (UTC)
+Received: from kaapi (ovpn-116-229.sin2.redhat.com [10.67.116.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B496F5C1CF;
+ Tue, 15 Sep 2020 12:46:54 +0000 (UTC)
+Date: Tue, 15 Sep 2020 18:16:52 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] pci: check bus pointer before dereference
+In-Reply-To: <20200827114917.1851111-1-ppandit@redhat.com>
+Message-ID: <nycvar.YSQ.7.78.906.2009151816180.10832@xnncv>
+References: <20200827114917.1851111-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,39 +79,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: Ruhr-University <bugs-syssec@rub.de>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the begging libnfs are not enabled because of compiling error,
-now it's fixed so enable it
++-- On Thu, 27 Aug 2020, P J P wrote --+
+| While mapping IRQ level in pci_change_irq_level() routine,
+| it does not check if pci_get_bus() returned a valid pointer.
+| It may lead to a NULL pointer dereference issue. Add check to
+| avoid it.
+| 
+|  -> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Flsi_nullptr1
+|     ==1183858==Hint: address points to the zero page.
+|     #0 pci_change_irq_level hw/pci/pci.c:259
+|     #1 pci_irq_handler hw/pci/pci.c:1445
+|     #2 pci_set_irq hw/pci/pci.c:1463
+|     #3 lsi_set_irq hw/scsi/lsi53c895a.c:488
+|     #4 lsi_update_irq hw/scsi/lsi53c895a.c:523
+|     #5 lsi_script_scsi_interrupt hw/scsi/lsi53c895a.c:554
+|     #6 lsi_execute_script hw/scsi/lsi53c895a.c:1149
+|     #7 lsi_reg_writeb hw/scsi/lsi53c895a.c:1984
+|     #8 lsi_io_write hw/scsi/lsi53c895a.c:2146
+|     ...
+| 
+| Reported-by: Ruhr-University <bugs-syssec@rub.de>
+| Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+| ---
+|  hw/pci/pci.c | 3 +++
+|  1 file changed, 3 insertions(+)
+| 
+| diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+| index de0fae10ab..df5a2c3294 100644
+| --- a/hw/pci/pci.c
+| +++ b/hw/pci/pci.c
+| @@ -253,6 +253,9 @@ static void pci_change_irq_level(PCIDevice *pci_dev, int irq_num, int change)
+|      PCIBus *bus;
+|      for (;;) {
+|          bus = pci_get_bus(pci_dev);
+| +        if (!bus) {
+| +            return;
+| +        }
+|          irq_num = bus->map_irq(pci_dev, irq_num);
+|          if (bus->set_irq)
+|              break;
+| 
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- .cirrus.yml | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 176ccba76c..9566ec0439 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -93,6 +93,7 @@ windows_msys2_task:
-         mingw-w64-x86_64-libusb
-         mingw-w64-x86_64-usbredir
-         mingw-w64-x86_64-libtasn1
-+        mingw-w64-x86_64-libnfs
-         mingw-w64-x86_64-nettle
-         mingw-w64-x86_64-cyrus-sasl
-         mingw-w64-x86_64-curl
--- 
-2.28.0.windows.1
+Ping...!
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
 
