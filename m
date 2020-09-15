@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4916926AA8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:27:49 +0200 (CEST)
-Received: from localhost ([::1]:39702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D4526AA82
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:25:32 +0200 (CEST)
+Received: from localhost ([::1]:59798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEk8-00084M-Bl
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44336)
+	id 1kIEhv-0004Ys-AY
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:25:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEWz-00006l-10; Tue, 15 Sep 2020 13:14:13 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34796)
+ id 1kIEWy-00005r-Ni; Tue, 15 Sep 2020 13:14:12 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:54851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEVn-0002cd-P3; Tue, 15 Sep 2020 13:13:01 -0400
-Received: by mail-pg1-x541.google.com with SMTP id u13so2348176pgh.1;
- Tue, 15 Sep 2020 10:12:59 -0700 (PDT)
+ id 1kIEVs-0002ds-8X; Tue, 15 Sep 2020 13:13:05 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id mm21so120335pjb.4;
+ Tue, 15 Sep 2020 10:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
- b=cROZn4/oi49vjEhlnRxM95pNUPwuqepwFHuiC9EtiCx9y9E5gnsunnNNlntOYilikZ
- GxEnaUhpnSSOCMysR0vXXzbnA7WzWJcXM3yiC/spb6DbPUUXLI6ouVNHprVETGq/fIza
- tIaPAPPo5gHmYRTcvKjvAq1Ir4K6OSVpc06TI6BZpzMZWGtL021A6IzUauq0N+7+1zoJ
- Jh92NPW0+Eh7LkQpUeN01B5rTcFFdgooF6ItN6eb2Xm9Yq8iYrEViwrCMjmzO/RDngCU
- PBWUKx+zsw4dMT1OAp6oDWbKvM9vTrFHDDFGWPLkmYzEXqMfzGUqQUIJkXonPQN5qPh1
- 0J9g==
+ bh=qBiHjFc2XldMuU70Rv/GASQm/Q1CmoJMQE32Qhbbw0w=;
+ b=G3dahdMrf+0GzWlydxSeEkeCOaunQMvv43R4CaClGWWWnDAlRl1VvpjZPKpLUqpbOI
+ 82D4vZW2XnFFsefrDag2irgO4YHio3ZkyDNw+xM59wMHJzQWdGjPzn38xEy5xRlbtvp/
+ 3ECaSDlZTLzbFugx45Ywp1cxlTpBHF0OplzEULQxAvddeyPRAdWEVGjRwgMUntZSp+4G
+ ewcRf1m1YTe2oJmNXFbFmk1/8lvLWmGjbmBbPXt3sbykUGBt5WQO/lqlXRPzIRe7pHgO
+ A+XGGpP+JF2W7gh1LuVZz5QzgIe5Sxp5Xwd0KU9XdeUb0iqN1qQ+qc08ug+FmyrxHCEp
+ XE5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
- b=P1DGD+Zq3FVuLvUI6449xWxjuniqo0NlFcdu6w2BJIp109WaHJ+BLdoVe65WYMejI4
- F3OR7QFBy9dzMIowBv+YS12zuoCMhjdszVY/1YSGVIN0o9ASO1SBoZdlkup3voH7w2e7
- d/QhM8Rvk80n7LzuDWy65VkCgQF9yRmQ5G/T7Q2iToSD0oVu3sfSseZqXkW3Ll6byLyC
- cin5388ijFXSKU/29OJgDfopBIJKdh3NjZdsyCrAL3eJ3HEiLyXYCRLQ9w4mWDxRvi+W
- g9ob/7athrJ66PuQJug0vp2JOezbyrJfpk1beK/O4CUrj9evdB9waNXvaaJDmrUXjPSF
- 6A6A==
-X-Gm-Message-State: AOAM531cKC0GhzL+gjc04cRh6Lna57/1LE8MUPO2KJsm55RbLCHe2tZo
- 54m9oG8CsLX//PitfTFzmKmBiISE/KImQWHMwWM=
-X-Google-Smtp-Source: ABdhPJwG4/B6u5o1WAZOmTjlfcksfK1wxOjZm8RU+lgWL5H5I39XN+Z9LoI9ThPS/C8Cxj0LpGl10Q==
-X-Received: by 2002:a05:6a00:f:b029:13e:d13d:a089 with SMTP id
- h15-20020a056a00000fb029013ed13da089mr18280557pfk.32.1600189977644; 
- Tue, 15 Sep 2020 10:12:57 -0700 (PDT)
+ bh=qBiHjFc2XldMuU70Rv/GASQm/Q1CmoJMQE32Qhbbw0w=;
+ b=oDxWaEhhav5+CHp2/moOHiL0zFy7g4f0sEnE2v3CN4Fdj1F6KsQSZF0tvPO3qmP2sP
+ YQ8nu8hGQtfzd2XnexyWddw2Jj/LW8j6UNHoDO+29ehkH+4BuqdqjfR/1j2uHXvhBEpW
+ 0g6cOyt9aQ7s06/nNf1FgKXKpQ2fktGkECOKd8AzE2es0T7Ku/aLK84JzWLSJzZ3QnoI
+ bnGtDTKGQls6QkvTC6QMdayxYoMq8WVrQrX+Vlc0775UjfWDTMx+V466P1weykwU4S5H
+ 1TYiUTYUuQWd1E1FSBJUotFvIpbeHDTJJrxJkLP4LSUbkGyM+pYx184f1Aro6ZgMZwWT
+ be7g==
+X-Gm-Message-State: AOAM532EBeatP69ilJ55vSORxvIVT1krYFXKV524ou3JRMIZg+FMn9kw
+ Ql3+peF2I9+GwromQ9vakGbPk9SmB6NpfyPO8cM=
+X-Google-Smtp-Source: ABdhPJwKO+6/SHLvKXMBm1hrZTsQiyZNKN9/Rbnq8Htbw6eafdn8xiC1WzMiQlKDiGlBRwLCokMubA==
+X-Received: by 2002:a17:902:710d:b029:d1:e5e7:be20 with SMTP id
+ a13-20020a170902710db02900d1e5e7be20mr2670438pll.83.1600189982051; 
+ Tue, 15 Sep 2020 10:13:02 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.12.53
+ by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.12.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 10:12:56 -0700 (PDT)
+ Tue, 15 Sep 2020 10:13:01 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 01/26] rcu: Implement drain_call_rcu
-Date: Wed, 16 Sep 2020 01:12:09 +0800
-Message-Id: <20200915171234.236-2-luoyonggang@gmail.com>
+Subject: [PATCH v10 02/26] ci: fixes msys2 build by upgrading capstone to 4.0.2
+Date: Wed, 16 Sep 2020 01:12:10 +0800
+Message-Id: <20200915171234.236-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915171234.236-1-luoyonggang@gmail.com>
 References: <20200915171234.236-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,109 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Peter Lieven <pl@kamp.de>
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+The currently random version capstone have the following compiling issue:
+  CC      /c/work/xemu/qemu/build/slirp/src/arp_table.o
+make[1]: *** No rule to make target “/c/work/xemu/qemu/build/capstone/capstone.lib”。 Stop.
 
-This will allow is to preserve the semantics of hmp_device_del,
-that the device is deleted immediatly which was changed by previos
-patch that delayed this to RCU callback
+Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1 are the tagged version 4.0.2
+when upgrading to this version, the folder structure of include are changed to
+qemu\capstone\include
+│  platform.h
+│
+├─capstone
+│      arm.h
+│      arm64.h
+│      capstone.h
+│      evm.h
+│      m680x.h
+│      m68k.h
+│      mips.h
+│      platform.h
+│      ppc.h
+│      sparc.h
+│      systemz.h
+│      tms320c64x.h
+│      x86.h
+│      xcore.h
+│
+└─windowsce
+        intrin.h
+        stdint.h
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+in capstone. so we need add extra include path -I${source_path}/capstone/include/capstone
+for directly #include <capstone.h>, and the exist include path should preserve, because
+in capstone code there something like #include "capstone/capstone.h"
+
+If only using
+    capstone_cflags="-I${source_path}/capstone/include/capstone"
+Then will cause the following compiling error:
+
+  CC      cs.o
+cs.c:17:10: fatal error: 'capstone/capstone.h' file not found
+#include <capstone/capstone.h>
+         ^~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- include/qemu/rcu.h |  1 +
- util/rcu.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ capstone  | 2 +-
+ configure | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 570aa603eb..0e375ebe13 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -133,6 +133,7 @@ struct rcu_head {
- };
+diff --git a/capstone b/capstone
+index 22ead3e0bf..1d23053284 160000
+--- a/capstone
++++ b/capstone
+@@ -1 +1 @@
+-Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
++Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1
+diff --git a/configure b/configure
+index ce27eafb0a..f59080703e 100755
+--- a/configure
++++ b/configure
+@@ -5157,7 +5157,7 @@ case "$capstone" in
+       LIBCAPSTONE=libcapstone.a
+     fi
+     capstone_libs="-Lcapstone -lcapstone"
+-    capstone_cflags="-I${source_path}/capstone/include"
++    capstone_cflags="-I${source_path}/capstone/include -I${source_path}/capstone/include/capstone"
+     ;;
  
- extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
-+extern void drain_call_rcu(void);
- 
- /* The operands of the minus operator must have the same type,
-  * which must be the one that we specify in the cast.
-diff --git a/util/rcu.c b/util/rcu.c
-index 60a37f72c3..c4fefa9333 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -293,6 +293,61 @@ void call_rcu1(struct rcu_head *node, void (*func)(struct rcu_head *node))
-     qemu_event_set(&rcu_call_ready_event);
- }
- 
-+
-+struct rcu_drain {
-+    struct rcu_head rcu;
-+    QemuEvent drain_complete_event;
-+};
-+
-+static void drain_rcu_callback(struct rcu_head *node)
-+{
-+    struct rcu_drain *event = (struct rcu_drain *)node;
-+    qemu_event_set(&event->drain_complete_event);
-+}
-+
-+/*
-+ * This function ensures that all pending RCU callbacks
-+ * on the current thread are done executing
-+
-+ * drops big qemu lock during the wait to allow RCU thread
-+ * to process the callbacks
-+ *
-+ */
-+
-+void drain_call_rcu(void)
-+{
-+    struct rcu_drain rcu_drain;
-+    bool locked = qemu_mutex_iothread_locked();
-+
-+    memset(&rcu_drain, 0, sizeof(struct rcu_drain));
-+    qemu_event_init(&rcu_drain.drain_complete_event, false);
-+
-+    if (locked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+
-+    /*
-+     * RCU callbacks are invoked in the same order as in which they
-+     * are registered, thus we can be sure that when 'drain_rcu_callback'
-+     * is called, all RCU callbacks that were registered on this thread
-+     * prior to calling this function are completed.
-+     *
-+     * Note that since we have only one global queue of the RCU callbacks,
-+     * we also end up waiting for most of RCU callbacks that were registered
-+     * on the other threads, but this is a side effect that shoudn't be
-+     * assumed.
-+     */
-+
-+    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
-+    qemu_event_wait(&rcu_drain.drain_complete_event);
-+
-+    if (locked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+
-+}
-+
- void rcu_register_thread(void)
- {
-     assert(rcu_reader.ctr == 0);
+   system)
 -- 
 2.28.0.windows.1
 
