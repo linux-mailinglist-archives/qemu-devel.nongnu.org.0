@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B5A26AAD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:39:17 +0200 (CEST)
-Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F7526AB2C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:53:56 +0200 (CEST)
+Received: from localhost ([::1]:45482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEvE-0000Dc-1a
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45122)
+	id 1kIF9P-0003Xt-Kk
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kIEaI-0003aH-6B
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:17:38 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46539)
+ id 1kIEay-0003gz-9V
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:18:21 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kIEaB-0003Om-It
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:17:33 -0400
-Received: by mail-pg1-x544.google.com with SMTP id 34so2291848pgo.13
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 10:17:28 -0700 (PDT)
+ id 1kIEan-0003PX-Ta
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:18:18 -0400
+Received: by mail-pg1-x542.google.com with SMTP id d13so2327226pgl.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 10:17:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=euBs6b9S/mzcDox8EZ4szpaxfhb7xnkYj3Q7/mNSLhk=;
- b=nA5u4ONZ9rMHwdsp9U4ayrnpi3bw6ZrArmtvIVyvBj/9c4rqu760PTnZtHZWgIxyqp
- YT+7cnLd95QkOHNkTr4suEbX59RuYV5a9wV30Td6RStgSmxGcQOiqRPmKQQu8bc/93JG
- TdVtxchcNqCHXQKlNRKAktypVgPlWag2CLLg7NSlw7MLoOKztPcfUY+8Y0Y/Gy1T4hra
- wr2Fcikc6GX6Z9ALrKpeyIOIYNvL0C3cJYxIFDoEqyFQO4vYn/10Mm4+69hb2EzRNCPR
- iqNW+QOOzJCbyoZsAJv+/NLS7I7iEkTfdaoXFKWw5lkzYonYu7pDweV4PnZo2ekKhYdB
- KtFQ==
+ bh=JX2NGJKopv2F4Aesb0bcn5gY4SFKb7vQm4oePneJCaE=;
+ b=qOhgJcpr1ItCO8Yb4bCsmSj6cowEa7hBhQOhp9B8iwpepbO6XI1KqIYLLKbbFtYs7D
+ BviXuIDpoyBlvsDYZOVAfsZCmeQbVCXV++B53jAbRBjEG+lVFpulxgb0dZ+vH0PPxnvR
+ kAbypmoZSWVkoAH8PMkb9eE3EEtYMQYYIRNIzsYEezOPW382VBlfNDl41/a9X3kXJ7lj
+ fNVkDtsIAC9N7eWSmf0Qh2AgUqhyYC+b2AraFfRhO0CormzbQNHoqGT2mPBcjXAscJv2
+ 7892k/Gf9xl4648VvVZcD3kvbbfhSRLt0qp2ZATFdHSDAGFh0JL5xg0x1FKwRm1NcshA
+ Y44w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=euBs6b9S/mzcDox8EZ4szpaxfhb7xnkYj3Q7/mNSLhk=;
- b=r+V5L6F4Vr0lj2A02Lps/IL1K8e/tww9KbMbWgxmekMDuOt2tnxggXJAe0XqPEyhi2
- SVtddeMO2rAfBVW/e0wXLqnDSOBzBvQeHoLhFN+RbirYBxxqrhzS8Ao81nAA95SbmHii
- FESpIYSsQ64jvfmCYTqiS+mRBGRkmgtx42Opmv31JGNoBtObIINh4J35e1JETibGyIBM
- n8w6sdT20AN5oIDV9FFHnZD+1WEd9kytMGRMOpDKb4Ux4TgoI/AnrrhMrdT4dJ3YyPhO
- eXZgJvhEzEeQYZ97nDmTpjZ2kGgp/q7gig4hJC2g5tH4wmxEiXzfcuLaWmXsTknX++C3
- 6urA==
-X-Gm-Message-State: AOAM533+pgf5qbKpJk+2rs7slG9ti2kWUjbMDHn8j7wkVAvFCYdedefh
- T0EKN9WueDUT75gB3z52rgrrNh/nDOboJw==
-X-Google-Smtp-Source: ABdhPJw4jr4xzKbgm9njrpFEtMZ52Ec1AHsH9wspwZSwmOlM+YtNim/Tkm7tMwv7ijzWlz5dzO2NcQ==
-X-Received: by 2002:aa7:8437:0:b029:13e:d13d:a103 with SMTP id
- q23-20020aa784370000b029013ed13da103mr19167881pfn.31.1600190247223; 
- Tue, 15 Sep 2020 10:17:27 -0700 (PDT)
+ bh=JX2NGJKopv2F4Aesb0bcn5gY4SFKb7vQm4oePneJCaE=;
+ b=F/ggi3DYU3GWaMmPF9uAKOIEdcuICOOtczascK8zxy69R1YHMvaE3GLhwzUum/UfIz
+ FyvHvHkIvb3xeiKHptjVE2OQvoZusdEhk/i9ckje8zZi5y62fuC9sQ80HJUb1AxXz1B6
+ bHumk/3nOibxJ5zG3q5Ro0vV7OMN45/rNUqATau3TOegKRabGBDZBZn5gXjjUi/c0sYd
+ TZ7MjCFudretQA+kVOOtWfh+oNmracYI3Uy0Kpa7PFFoknwc4xCHTgL8XCCbGvV4aUPR
+ 9I4ut8VmP511E/UiDr7M2N9yelcYRUavY6aQ9ev6z7vvJ6q/TGgcMD1VM5W09FSxR2o+
+ pC+Q==
+X-Gm-Message-State: AOAM5311mOBpEiRCLA1rE88SVg+NYEHBp8llEw5dmIaDQNejERYkkStu
+ M67O4rhuhDWcQ7gEC7uVhToy0Nhha6fPRA==
+X-Google-Smtp-Source: ABdhPJwFGkxdk0n8/uVT4nYPOsu8wG5yA6E0zil0g27CYUdGPMFLKV0ACWZJ2CuI3Ls9Z5J9UW+CmQ==
+X-Received: by 2002:a63:521c:: with SMTP id g28mr8485629pgb.43.1600190276889; 
+ Tue, 15 Sep 2020 10:17:56 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id l5sm11923150pga.43.2020.09.15.10.17.26
+ by smtp.gmail.com with ESMTPSA id t24sm12222503pgo.51.2020.09.15.10.17.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 10:17:26 -0700 (PDT)
-Subject: Re: [PATCH v2 5/8] configure: clean-up the target-list-exclude logic
+ Tue, 15 Sep 2020 10:17:56 -0700 (PDT)
+Subject: Re: [PATCH v2 6/8] configure: include tilegx-linux-user in the
+ deprecation logic
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200915134317.11110-1-alex.bennee@linaro.org>
- <20200915134317.11110-6-alex.bennee@linaro.org>
+ <20200915134317.11110-7-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d7619eb2-d879-2e8e-ad80-21807de3eecc@linaro.org>
-Date: Tue, 15 Sep 2020 10:17:24 -0700
+Message-ID: <8656547d-0159-0a1c-41ce-615e1abc9e5f@linaro.org>
+Date: Tue, 15 Sep 2020 10:17:54 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200915134317.11110-6-alex.bennee@linaro.org>
+In-Reply-To: <20200915134317.11110-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,7 +78,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,12 +95,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/15/20 6:43 AM, Alex Bennée wrote:
-> Rather than sed and loop just do a grep.
+> The target is already marked as deprecated in the documentation.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  configure | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
