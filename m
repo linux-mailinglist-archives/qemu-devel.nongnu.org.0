@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A09D26A684
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:48:53 +0200 (CEST)
-Received: from localhost ([::1]:58114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA1926A693
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:51:44 +0200 (CEST)
+Received: from localhost ([::1]:38152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIBKG-0006y1-7F
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45282)
+	id 1kIBN1-0001z3-8b
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIBEy-0000YI-8E
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:24 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34926)
+ id 1kIBEz-0000aD-Cj
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:25 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIBEw-00047A-HT
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:23 -0400
-Received: by mail-wr1-x444.google.com with SMTP id e16so3422207wrm.2
+ id 1kIBEw-00047C-I1
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:25 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d4so3417737wmd.5
  for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:43:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lYY3EJUKyqIcqNqVTB5o4eci52O5NxI+Yh0+mjHclVs=;
- b=CHXRpHZBGI2aUYeW3CrK3p27xvUvEjQ5NLRVZTkP6P2B22IXmUS6EFEt79JwipYgyV
- A/naXgjVH7Clc+c1u9XXHzRrCxYvqSk/jrf2O9yM/jiK75HAUqdlgB/34xl1yVP3rdRy
- p4VpbPqy8RDDHJGHTPN92n/CD89fEccIknkCyNIMcSmSe8Q+u88s7caDFzwEyutP44yW
- y0FZOdhaLfJp6REW8va7RJk5oJdCKIzF9Pvgs4c46AfXkf/QwUvCWCT5p9zqAyk3cIqP
- QaxrDDiDvJuC8PirW9DXmBm661UU6Dr71mce9/Lfyvdur3NsZmDQGKnQ/UFa20ICMY4b
- IA3g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WnEEcW5T8TnW3Xg2cKGofSTt8rnGAByMYZea8oHCeVE=;
+ b=lcPT8Nt8NDBiWax1mtggMu8WdBMIa5exaHhnN9E1LM4n6RThzzvWH0zY/SpsE8doIK
+ TPk3C5YAvBu39S+nxRzC+hFOY/eGKBgKEgvqzXqOfQNJRaqwmseW1DS+72gPnaZzumG/
+ Fb1lmHfbYb0kcY1PLES+TWeh8hEXDrBSezYSf8qJ2HkGMUksy++CGX3xRJmVTD0QcGxF
+ LSNMiL460xOCrfYLk45fOrVe2ImcsxypaRxHezFJVT0bmhTiRJ1atHmMf9mbBCwmBnMw
+ D1jnpaIUNgXtpKHXAttJrql1JRqt8ebo2UPZBOOevFdsWsG1zC4qwc6aIsLoXgsLEdl+
+ yZaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lYY3EJUKyqIcqNqVTB5o4eci52O5NxI+Yh0+mjHclVs=;
- b=Wn3f8uGVzmxi8Y5L8+2+oSY9quodjobJgv7iW1pkZoTFxsCIQa2JPMakc/KOMFdOjz
- DAJISxsy0ISsfhNbD1sNkiDSUgySA95xVitG8fN68wBIXahTWSwySPSfzy9HrbdYN36d
- 3eMVSUfM9nitbB8yTzBKKKhL8RMaqz48ogghotXkrkW5SHEKGSSrRoUoH7+VT/v4uUo8
- 6rCOBYo8mx8+yTnHzLfjEEYB4N+OmlQNKQtaII5GXuDH79i1sP4YHf/ULjzKQsEiIW1z
- oWPD7WmnAjHKilJJQ8KjyUCa5s3eU9WsPBerKr1eW9G7HshLn50S0flDKyT4ZFPkPXeR
- 4ncA==
-X-Gm-Message-State: AOAM533J4/QYDsnF23Eatq/1xDUWzRvmACi5znZB0uxTlXqnZiOWA6Km
- Dkizyj5sD8WyUOhEpXxLgh/dHQ==
-X-Google-Smtp-Source: ABdhPJzxKaazaD6h4rXH/ZCEJLcnZnejo1nxoWxxsM07w1DQptsbM9/c8+WT2nNKALa2W98BXJB7mg==
-X-Received: by 2002:a5d:4d8a:: with SMTP id b10mr21319644wru.82.1600177398943; 
- Tue, 15 Sep 2020 06:43:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=WnEEcW5T8TnW3Xg2cKGofSTt8rnGAByMYZea8oHCeVE=;
+ b=sP9VYIEm2lBw1xr3Q9UqDyrG4EtJN2JhNhDyRLjGejaMuKF6aEMQ5gCQBgfjElAY9/
+ 0IhcLRn9bJUInSw/yEwkvvazQQTNW0fhOVXxa03kkT1mDJkqFNtIq9xOXckKWA9EaRei
+ Am+JTj+iznwzhRgB5VUQE4KkM7o66AtMFmRIpC8O9n+5qj8EqtPsfiiIDGRM7zAOQToR
+ SqsimkdTBU1muspCqeL8Q1TjPmyhR/t6Sf97v2UEuBSdyoBnahuLu2WlSz3PeBL3mPfL
+ 3huIM9OL83f1KlsEsv5YEmAI8VWBOVcdZqBmcf4MsAmgFZu60U40S61JJVhLhsGtxpup
+ sppg==
+X-Gm-Message-State: AOAM530NbileDAMFdpWuBKSVZIrdzKKIDEfL1A2Z6dLnDGpNae8SYweL
+ GYdNuAstY1Io2TEKIc+Sgoe3lQ==
+X-Google-Smtp-Source: ABdhPJxomF8lITxXQi/khxQxpuir52lK02fWHKRgWfYrFLmkYPsx/ouvQqMVLQb8r+nigqeuLffvxw==
+X-Received: by 2002:a1c:e919:: with SMTP id q25mr4736638wmc.123.1600177399761; 
+ Tue, 15 Sep 2020 06:43:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a83sm25100723wmh.48.2020.09.15.06.43.17
+ by smtp.gmail.com with ESMTPSA id f1sm26280408wrx.75.2020.09.15.06.43.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Sep 2020 06:43:17 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 28C6D1FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 406501FF87;
  Tue, 15 Sep 2020 14:43:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 0/8] configure deprecation, linux-user and iotest fixes
-Date: Tue, 15 Sep 2020 14:43:09 +0100
-Message-Id: <20200915134317.11110-1-alex.bennee@linaro.org>
+Subject: [PATCH  v2 1/8] linux-user: test,
+ don't assert addr != test in pgb_reserved_va
+Date: Tue, 15 Sep 2020 14:43:10 +0100
+Message-Id: <20200915134317.11110-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200915134317.11110-1-alex.bennee@linaro.org>
+References: <20200915134317.11110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,46 +89,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Bug 1895080 <1895080@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On older kernels which don't implement MAP_FIXED_NOREPLACE the kernel
+may still fail to give us the address we asked for despite having
+already probed the map for a valid hole. Asserting isn't particularly
+useful to the user so let us move the check up and expand the
+error_report a little to give them a fighting chance of working around
+the problem.
 
-This series contains the previously posted linux-user fix for dealing
-with weird mmap semantics as well as some tweaks to configure. Since
-last version I've included Max's latest iotest update as well as
-re-factored the configure logic. I've also added a patch for to
-deprecate lm32 and unicore32 from configure.
+Ameliorates: ee94743034
+Cc: Bug 1895080 <1895080@bugs.launchpad.net>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ linux-user/elfload.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Most need review:
- - configure: add [lm32|unicore32]-softmmu to deprecation logic
- - configure: include tilegx-linux-user in the deprecation logic
- - configure: clean-up the target-list-exclude logic
- - configure: also skip deprecated targets with target-list-exclude
- - configure: move deprecated feature processing to supported_target
- - linux-user: test, don't assert addr != test in pgb_reserved_va
-
-Alex Bennée (7):
-  linux-user: test, don't assert addr != test in pgb_reserved_va
-  configure: move deprecated feature processing to supported_target
-  configure: also skip deprecated targets with target-list-exclude
-  configure: clean-up the target-list-exclude logic
-  configure: include tilegx-linux-user in the deprecation logic
-  gitlab: create a build-deprecated target
-  configure: add [lm32|unicore32]-softmmu to deprecation logic
-
-Max Reitz (1):
-  iotests: Drop readlink -f
-
- configure                | 33 ++++++++++++++++++---------------
- linux-user/elfload.c     |  9 ++++-----
- .gitlab-ci.yml           | 15 +++++++++++++--
- .shippable.yml           |  2 +-
- .travis.yml              |  3 +--
- tests/qemu-iotests/check |  2 +-
- 6 files changed, 38 insertions(+), 26 deletions(-)
-
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 4961e6119e24..f6022fd70493 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2331,14 +2331,13 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+     assert(guest_base != 0);
+     test = g2h(0);
+     addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
+-    if (addr == MAP_FAILED) {
++    if (addr == MAP_FAILED || addr != test) {
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space (%s) for use as guest address space (check your "
+-                     "virtual memory ulimit setting or reserve less "
+-                     "using -R option)", reserved_va, strerror(errno));
++                     "space at %p (%s) for use as guest address space (check your"
++                     "virtual memory ulimit setting, min_mmap_addr or reserve less "
++                     "using -R option)", reserved_va, test, strerror(errno));
+         exit(EXIT_FAILURE);
+     }
+-    assert(addr == test);
+ }
+ 
+ void probe_guest_base(const char *image_name, abi_ulong guest_loaddr,
 -- 
 2.20.1
 
