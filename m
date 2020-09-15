@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF0E26A394
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:48:52 +0200 (CEST)
-Received: from localhost ([::1]:41134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF4F26A39E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:51:12 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8W3-0002PW-Me
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52350)
+	id 1kI8YJ-0005fW-GM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Tw-0000Dp-LV
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47810
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Tz-0000Km-SD
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24212
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Tu-0004W6-RC
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:40 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Tw-0004WW-Nb
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166797;
+ s=mimecast20190719; t=1600166799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VJ3fvYcZfAhMpKefh6bvQo2IkLj6yxPmWEKt+9Z9uQU=;
- b=Zzoi4wrd26Mh6yLPg1tGMI4V1RSPAHaX52TF5llieX1R/zepYorpZxDhW4HAQJJyZbSn5Q
- VT8/gzbqTJClF5uUtjG7jNMYIA2nx9tu9mKDTcjkPgf02AnB/4+ZbJZvtyy5SwI1zhzHFp
- D2sV3KXA2euhdgzgy2vKFZ9HouJg/Wo=
+ bh=jJPpvV6IltYiPr20vjj9EGkrUcbzVVF1bqmrz/6gk+c=;
+ b=WJd+r8e6vr64Hraa/m5W8OR0mS28yoGRRqGoW+V1kkDpK28eFPxU/gadOA8RObvFbF6AYg
+ uXzjt4P7baqoQTgvDOvKHP8gkTsqwwmmUAd0EPSpXQRmfEp/6BOo8UDwbVpijndNycSw1I
+ io3v8xOXMsfBw1fC2nkESlitDCCBbsE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-thpCz1B4PxiwOLhpk9lUUg-1; Tue, 15 Sep 2020 06:46:35 -0400
-X-MC-Unique: thpCz1B4PxiwOLhpk9lUUg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-174-eY1XsI4mOOyxmnMdevQvwg-1; Tue, 15 Sep 2020 06:46:37 -0400
+X-MC-Unique: eY1XsI4mOOyxmnMdevQvwg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4014A1084D62;
- Tue, 15 Sep 2020 10:46:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64BEF801F9B;
+ Tue, 15 Sep 2020 10:46:36 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9D5C5FC2A;
- Tue, 15 Sep 2020 10:46:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 063F15DC08;
+ Tue, 15 Sep 2020 10:46:35 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/22] qemu-iotests: Fix FilePaths docstring
-Date: Tue, 15 Sep 2020 12:46:07 +0200
-Message-Id: <20200915104627.699552-3-mreitz@redhat.com>
+Subject: [PULL 03/22] qemu-iotests: Support varargs syntax in FilePaths
+Date: Tue, 15 Sep 2020 12:46:08 +0200
+Message-Id: <20200915104627.699552-4-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
@@ -86,53 +86,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nir Soffer <nirsof@gmail.com>
 
-When this class was extracted from FilePath, the docstring was not
-updated for generating multiple files, and the example usage was
-referencing unrelated file.
+Accept variable number of names instead of a sequence:
 
-While fixing the docstring, add example for creating sockets, which
-should use iotests.sock_dir instead of the default base_dir.
+    with FilePaths("a", "b", "c") as (a, b, c):
 
-Fixes: de263986b5dc
+The disadvantage is that base_dir must be used as kwarg:
+
+    with FilePaths("a", "b", base_dir=soc_dir) as (sock1, sock2):
+
+But this is more clear and calling optional argument as positional
+arguments is bad idea anyway.
+
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-Message-Id: <20200828232152.205833-3-nsoffer@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200828232152.205833-4-nsoffer@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/194        |  4 ++--
+ tests/qemu-iotests/257        | 10 ++++------
+ tests/qemu-iotests/iotests.py |  8 ++++----
+ 3 files changed, 10 insertions(+), 12 deletions(-)
 
+diff --git a/tests/qemu-iotests/194 b/tests/qemu-iotests/194
+index da7c4265ec..08389f474e 100755
+--- a/tests/qemu-iotests/194
++++ b/tests/qemu-iotests/194
+@@ -26,8 +26,8 @@ iotests.script_initialize(supported_fmts=['qcow2', 'qed', 'raw'],
+ 
+ with iotests.FilePath('source.img') as source_img_path, \
+      iotests.FilePath('dest.img') as dest_img_path, \
+-     iotests.FilePaths(['migration.sock', 'nbd.sock'], iotests.sock_dir) as \
+-         [migration_sock_path, nbd_sock_path], \
++     iotests.FilePaths('migration.sock', 'nbd.sock', base_dir=iotests.sock_dir) \
++        as (migration_sock_path, nbd_sock_path), \
+      iotests.VM('source') as source_vm, \
+      iotests.VM('dest') as dest_vm:
+ 
+diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+index e1e6077219..a9aa65bbe3 100755
+--- a/tests/qemu-iotests/257
++++ b/tests/qemu-iotests/257
+@@ -275,10 +275,9 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+                         an incomplete backup. Testing limitations prevent
+                         testing competing writes.
+     """
+-    with iotests.FilePaths(['img', 'bsync1', 'bsync2',
+-                            'fbackup0', 'fbackup1', 'fbackup2']) as \
+-                            (img_path, bsync1, bsync2,
+-                             fbackup0, fbackup1, fbackup2), \
++    with iotests.FilePaths(
++            'img', 'bsync1', 'bsync2', 'fbackup0', 'fbackup1', 'fbackup2') as \
++            (img_path, bsync1, bsync2, fbackup0, fbackup1, fbackup2), \
+          iotests.VM() as vm:
+ 
+         mode = "Mode {:s}; Bitmap Sync {:s}".format(msync_mode, bsync_mode)
+@@ -441,8 +440,7 @@ def test_backup_api():
+     """
+     Test malformed and prohibited invocations of the backup API.
+     """
+-    with iotests.FilePaths(['img', 'bsync1']) as \
+-         (img_path, backup_path), \
++    with iotests.FilePaths('img', 'bsync1') as (img_path, backup_path), \
+          iotests.VM() as vm:
+ 
+         log("\n=== API failure tests ===\n")
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 36814daf84..bbe63a6da0 100644
+index bbe63a6da0..635ec99431 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -450,14 +450,21 @@ def file_pattern(name):
+@@ -455,7 +455,7 @@ class FilePaths:
  
- class FilePaths:
+     Example usage:
+ 
+-        with FilePaths(['a.img', 'b.img']) as (img_a, img_b):
++        with FilePaths('a.img', 'b.img') as (img_a, img_b):
+             # Use img_a and img_b here...
+ 
+         # a.img and b.img are automatically removed here.
+@@ -463,10 +463,10 @@ class FilePaths:
+     By default images are created in iotests.test_dir. To create sockets use
+     iotests.sock_dir:
+ 
+-       with FilePaths(['a.sock'], base_dir=iotests.sock_dir) as (sock,):
++       with FilePaths('a.sock', base_dir=iotests.sock_dir) as (sock,):
+ 
      """
--    FilePaths is an auto-generated filename that cleans itself up.
-+    Context manager generating multiple file names. The generated files are
-+    removed when exiting the context.
- 
--    Use this context manager to generate filenames and ensure that the file
--    gets deleted::
-+    Example usage:
-+
-+        with FilePaths(['a.img', 'b.img']) as (img_a, img_b):
-+            # Use img_a and img_b here...
-+
-+        # a.img and b.img are automatically removed here.
-+
-+    By default images are created in iotests.test_dir. To create sockets use
-+    iotests.sock_dir:
-+
-+       with FilePaths(['a.sock'], base_dir=iotests.sock_dir) as (sock,):
- 
--        with FilePaths(['test.img']) as img_path:
--            qemu_img('create', img_path, '1G')
--        # migration_sock_path is automatically deleted
-     """
-     def __init__(self, names, base_dir=test_dir):
+-    def __init__(self, names, base_dir=test_dir):
++    def __init__(self, *names, base_dir=test_dir):
          self.paths = []
+         for name in names:
+             self.paths.append(os.path.join(base_dir, file_pattern(name)))
+@@ -487,7 +487,7 @@ class FilePath(FilePaths):
+     FilePath is a specialization of FilePaths that takes a single filename.
+     """
+     def __init__(self, name, base_dir=test_dir):
+-        super(FilePath, self).__init__([name], base_dir)
++        super(FilePath, self).__init__(name, base_dir=base_dir)
+ 
+     def __enter__(self):
+         return self.paths[0]
 -- 
 2.26.2
 
