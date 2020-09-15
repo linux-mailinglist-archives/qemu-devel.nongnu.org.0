@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B778326A56B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:44:10 +0200 (CEST)
-Received: from localhost ([::1]:46760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404B326A55A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:39:21 +0200 (CEST)
+Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAJd-0004xf-Qh
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
+	id 1kIAEy-0006ty-BZ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qv-0000zU-No; Tue, 15 Sep 2020 08:14:29 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44209)
+ id 1kI9qx-00011n-Oq; Tue, 15 Sep 2020 08:14:31 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:37364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qs-0008DD-Ev; Tue, 15 Sep 2020 08:14:29 -0400
-Received: by mail-pf1-x429.google.com with SMTP id o20so1800659pfp.11;
- Tue, 15 Sep 2020 05:14:24 -0700 (PDT)
+ id 1kI9qv-0008Ep-N3; Tue, 15 Sep 2020 08:14:31 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id kk9so1624064pjb.2;
+ Tue, 15 Sep 2020 05:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/tGNcDT+soty377wKryHTaQKgDiEnZiZY12oC2sg7jk=;
- b=Ublds1wZL7FnLdSB0HV8YmB+djhFL+5FNY5UWiZGG7Id6B8IRr7VmO9te+cDnXR7ML
- MtVfEWrRoW2aAr9kQDVxbVNBvFq0WZ1O3Ex3SVbmvzzJf2GVy/BfjCx/rS3QwHAQOKVE
- sGH64MXVhnk+F1EkyfQLqVEoLqN40oj0yjdu+vUC+q91FQCcCCk3V+6b0yz2xGHVt+P+
- S+ZLclwHVXejV2c+SlE/ZwYrGpGujbaIVly6/JSLPrfWkH82eD2ZVaEL0EdYNPNApsJz
- zNPDlcb4lzmZVZH0GqgiVNLN0kn+2G3BRgOInKjT2MWccKjYMs8/JpXMcrRZz7BnFDiq
- Zq2w==
+ bh=oGHfde2/p7Unz0ZWASemFfUTS9Iu9gtXZvUHoGMG0N8=;
+ b=VoBtXm1iXA2cWPMVJjiuvbaRmJfadoHiieVIKykWquoVeayOo3GLcPawOKzS8A5ani
+ Lf/5b4Rk1sVWPjbHLoAUXrXMmRIk2oCVSjpxXqCcFtxCkHjBPTqLRPDyvOpH0x+l3OOG
+ XEtRECeKQiEH0yqshV9KIhWj0IrRkVjzQw1kLOIpJ+0B0dywuXjGznQnMQjeOANlmaCR
+ WGAoOFbYfjF0/lnYGoYCcwJhmVcxJnjmBEWJjruypMQ2SpkEq1WP+xBsMKn58oWGbw3Y
+ g2KHap6m2rHqcQ991nDNVZDGIXW//aEXDRY1k+8MZ8KjtQitUcg/rrOYYdQHM74dN37s
+ zjyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/tGNcDT+soty377wKryHTaQKgDiEnZiZY12oC2sg7jk=;
- b=MVoMrFSuHRCvOTozAQXfQ/MTrne0YdICqRwDQ7GJS+gxtah2LkT51/s4STUgs4we6C
- 9j1eph5EvMDcyHsSsIKHF82n2bL3zy7AwhpuKGjXmIkfoV76qlX2O45sOT0yHFaraS0W
- ui381ccd0Ex4+W+fuf+I9/HFBr3PSTgRi/nCdLHFRzZGC4ubywk5/AzN70i/EMH7ysz5
- sFMTlJaUGtY+iCEPPBJ4ZEkAQVfEcPf0n19x3C4cZTrquX+aL8c7kqeHY1djeDYOh4Fk
- 4f/LSf6wSAjeOdTHcsM23+/MWe9kxnzrew2QSGBZ2vBJa+Q68Fy09FTewxaqbcbCmkBF
- LsGA==
-X-Gm-Message-State: AOAM5315oXG2B2QkyhOrFJI3IMAFGas8MhpgNwHB9uYMTrSTGc7P1Js1
- 9TdPdfOQSO+dSeYhLd/i+m8b1iPanI93tkyUs+w=
-X-Google-Smtp-Source: ABdhPJyIR68ALKdgN/MzGwe3TRAKxwg2b36GkFje7CpkacDYwOJLOCBnh98ByxA5qe2t7+eP95bZ3w==
-X-Received: by 2002:a62:1557:0:b029:13e:d13d:a060 with SMTP id
- 84-20020a6215570000b029013ed13da060mr17699900pfv.38.1600172063327; 
- Tue, 15 Sep 2020 05:14:23 -0700 (PDT)
+ bh=oGHfde2/p7Unz0ZWASemFfUTS9Iu9gtXZvUHoGMG0N8=;
+ b=m1wMJ5S//YU3yx/MotzN0btr8RGrXMw+7zYXGPK3B77KElSF4A8MZPHsh/TQn8c2k1
+ WDOQWmpIEvaH6ofacTq/Lyi/aqrrVcRJ7jV0kAYxjK/oakQOlM098iXHx4QwKLZfDQql
+ qOULdjSpo02Ouz7YN/Eiin6s6yfe3UemVlL55bleklAaDpW37CmZho/JDcyvSFkBdIlZ
+ AlEy6czMEG3MsyBb4tTW1e74lG7VrEW/e6im4mjeiZNdjnkpsxqiuB+wHnehugMJ3z+U
+ AQO0H0KHXAXO/yPEOiFvkIi0FqOFJxqcArsXjWH4ijYyBQBTUk8YpCbwZbpuxff23KNx
+ dV0g==
+X-Gm-Message-State: AOAM533JvLSVpwzhWhHNjiQZga1XS5XghpJrda6/5Yi1y9lLYPIAWYiy
+ dGY5uYhaqe/W/zrNhcrh2evvixHzlykEVVEMbj0=
+X-Google-Smtp-Source: ABdhPJxf67dWEUzcJ29bQNXsHeYqVbM44nvPNU97E1rJTq6ySQStXsTGRcdjrXbbqjHKxK2vaHF6cA==
+X-Received: by 2002:a17:902:c1cb:b029:d0:cb2d:f271 with SMTP id
+ c11-20020a170902c1cbb02900d0cb2df271mr19226911plc.10.1600172067565; 
+ Tue, 15 Sep 2020 05:14:27 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.14.17
+ k28sm13683061pfh.196.2020.09.15.05.14.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:14:22 -0700 (PDT)
+ Tue, 15 Sep 2020 05:14:26 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 10/26] meson: Use -b to ignore CR vs. CR-LF issues on
- Windows
-Date: Tue, 15 Sep 2020 20:13:02 +0800
-Message-Id: <20200915121318.247-11-luoyonggang@gmail.com>
+Subject: [PATCH v9 11/26] gcrypt: test_tls_psk_init should write binary file
+ instead text file.
+Date: Tue, 15 Sep 2020 20:13:03 +0800
+Message-Id: <20200915121318.247-12-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
 References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,43 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ideally we would use the '--strip-trailing-cr' option, but not
-being POSIX is a portability problem (i.e. BSDs and Solaris
-based OSes). Instead use the '-b' option which, although doing
-slightly more, produce the expected result on Windows."
+On windows, if open file with "w", it's will automatically convert
+"\n" to "\r\n" when writing to file.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qapi-schema/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/crypto-tls-psk-helpers.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index c87d141417..f1449298b0 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -220,6 +220,6 @@ qapi_doc = custom_target('QAPI doc',
+diff --git a/tests/crypto-tls-psk-helpers.c b/tests/crypto-tls-psk-helpers.c
+index a8395477c3..4f3bd446ad 100644
+--- a/tests/crypto-tls-psk-helpers.c
++++ b/tests/crypto-tls-psk-helpers.c
+@@ -26,13 +26,15 @@
+ #include "crypto-tls-psk-helpers.h"
+ #include "qemu/sockets.h"
  
- # "full_path()" needed here to work around
- # https://github.com/mesonbuild/meson/issues/7585
--test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
-+test('QAPI doc', diff, args: ['-b', '-u', files('doc-good.texi'), qapi_doc[0].full_path()],
-      depends: qapi_doc,
-      suite: ['qapi-schema', 'qapi-doc'])
++#include <glib/gstdio.h>
++
+ #ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+ 
+ void test_tls_psk_init(const char *pskfile)
+ {
+     FILE *fp;
+ 
+-    fp = fopen(pskfile, "w");
++    fp = fopen(pskfile, "wb");
+     if (fp == NULL) {
+         g_critical("Failed to create pskfile %s", pskfile);
+         abort();
 -- 
 2.28.0.windows.1
 
