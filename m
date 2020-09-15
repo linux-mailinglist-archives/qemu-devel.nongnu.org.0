@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FD026A695
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:52:02 +0200 (CEST)
-Received: from localhost ([::1]:39880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9128326A69C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:54:53 +0200 (CEST)
+Received: from localhost ([::1]:52448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIBNJ-0002hE-JG
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
+	id 1kIBQ4-0007lF-MS
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:54:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIBF9-000105-Hd
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:37 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIBF7-0004AX-MV
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:35 -0400
-Received: by mail-wr1-x433.google.com with SMTP id c18so3358796wrm.9
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=n0V6Bu8RWGghOYmLv1OjdGkvV4oOdhPqZhEkxs4b9EU=;
- b=H2vnkxql5IsiZj2wrONjTlDcHa3iE/kWpls8iS4+KaWlFBuSPYMSGv9l2GoxAvCMZG
- dkGjgUR5D7KTsXgrLs1FQO7HufB2RdZIwsRW+chgt14ZGHeAaIXppi51sC+4QPV8Ok5z
- gVYpkOC4WNVoiK49kllgqxbT7t5f+/Pv0sX2sHfHeyhQldqqp1saD6t4uUjOMqogh7xQ
- 5FTA5ibpy6da8crARTZB5BZ27vGn/wVq+ftL2T3Z+5QuXHIppvehpQpu00RquC28Ol/2
- e5T1FJu1ULmO6CyAFoMzTFO4ubWLiVwQtsxkjsFLTG2m+Z88dmDt1JLZx7ZM9fLsI+nQ
- mwfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=n0V6Bu8RWGghOYmLv1OjdGkvV4oOdhPqZhEkxs4b9EU=;
- b=bzs5GuOawusD2DWxY/U7eFWr0AWktp6c8liQsyUQC/A26dNVBLhScyYboFIuurazFW
- k3RBPwm5CNF4luSxTxT7b2WMBphwhxQ7+Gdw4/lPCNcXruGQldZCU9qzA9CJAURvM7yS
- IDWzjE7s1P8js/FmSLljIj/G0HhoMVvZ0HybdOew9o8EnMuIWrJJgKdbMg8wa60RsblN
- Im7XV8hBHkKUq1K4z70x2FqTEjNsMq/MAy1WIe5BlJiL1jb9O/5Z1Xv0OpJoki863x4T
- DkV8fBJvm2v6WlJ9zwPw2PICNZoltR4LGBr3qjmRZvDY6/S3k80/vC9rgl0gaRWXymHk
- f0bg==
-X-Gm-Message-State: AOAM5332aJAqQmETyefTEnY1LFgHAkJA+2JeXLAEEsSza9q7yX9NCx5q
- lsbZjBNlM5Qa/CxO+69rlIZpNA==
-X-Google-Smtp-Source: ABdhPJzW2Cd0n4aK73jPd61sj0jzRKoSP5x0JkdTAmEYLZtg1N0+BdU7HaWtRn2SqDiajI1HJkFblw==
-X-Received: by 2002:a5d:5404:: with SMTP id g4mr20660743wrv.134.1600177412260; 
- Tue, 15 Sep 2020 06:43:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y1sm24111628wma.36.2020.09.15.06.43.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 06:43:24 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DB8F01FF96;
- Tue, 15 Sep 2020 14:43:17 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] configure: add [lm32|unicore32]-softmmu to deprecation
- logic
-Date: Tue, 15 Sep 2020 14:43:17 +0100
-Message-Id: <20200915134317.11110-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200915134317.11110-1-alex.bennee@linaro.org>
-References: <20200915134317.11110-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kIBFI-00013W-IF; Tue, 15 Sep 2020 09:43:44 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:57011)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kIBFA-00049Q-Lb; Tue, 15 Sep 2020 09:43:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.194])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BFD925B58A83;
+ Tue, 15 Sep 2020 15:43:25 +0200 (CEST)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 15 Sep
+ 2020 15:43:25 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0058a268540-1e75-40b8-8857-37d50f1cd61a,
+ DB33878D1665C97D8818E18A24225F630DB8C599) smtp.auth=groug@kaod.org
+Date: Tue, 15 Sep 2020 15:43:24 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH 14/15] spapr: Simplify error handling in
+ spapr_memory_plug()
+Message-ID: <20200915154324.14d849f7@bahia.lan>
+In-Reply-To: <20200915140423.7bb9dfdb@bahia.lan>
+References: <20200914123505.612812-1-groug@kaod.org>
+ <20200914123505.612812-15-groug@kaod.org>
+ <11f0dcb7-7923-0164-df69-4911b3293663@virtuozzo.com>
+ <20200915134340.0cc3f9eb@bahia.lan>
+ <91774a03-3c70-4eab-8e02-137c6c151cb5@virtuozzo.com>
+ <20200915140423.7bb9dfdb@bahia.lan>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 50ba8122-4014-403d-b9d1-8daae26418da
+X-Ovh-Tracer-Id: 14194501602939148582
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtddtgdefjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehvshgvmhgvnhhtshhovhesvhhirhhtuhhoiiiiohdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 09:43:26
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,86 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Vladimir
+ Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we are at it move the few places where they are into the
-deprecation build bucket.
+On Tue, 15 Sep 2020 14:04:23 +0200
+Greg Kurz <groug@kaod.org> wrote:
+> 
+> I don't expect much people except David or maybe Markus to look
+> at these patches actually. And anyway, it's up to David to merge
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- configure      | 2 +-
- .gitlab-ci.yml | 9 +++++----
- .shippable.yml | 2 +-
- 3 files changed, 7 insertions(+), 6 deletions(-)
+My bad, I didn't think about Philippe... :P
 
-diff --git a/configure b/configure
-index dfd7f18dcb24..756447900855 100755
---- a/configure
-+++ b/configure
-@@ -280,7 +280,7 @@ supported_whpx_target() {
-     return 1
- }
- 
--deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user
-+deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
- deprecated_features=""
- 
- supported_target() {
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index f027b55aef15..a18e18b57e54 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -134,7 +134,7 @@ build-system-fedora:
-   variables:
-     IMAGE: fedora
-     CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
--    TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
-+    TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
-       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
-     MAKE_CHECK_ARGS: check-build
-   artifacts:
-@@ -166,7 +166,7 @@ build-system-centos:
-   variables:
-     IMAGE: centos8
-     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
--    TARGETS: ppc64-softmmu lm32-softmmu or1k-softmmu s390x-softmmu
-+    TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
-       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
-     MAKE_CHECK_ARGS: check-build
-   artifacts:
-@@ -259,9 +259,10 @@ build-deprecated:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: debian-all-test-cross
--    CONFIGURE_ARGS: --disable-docs --disable-tools --disable-system
-+    CONFIGURE_ARGS: --disable-docs --disable-tools
-     MAKE_CHECK_ARGS: check-tcg
--    TARGETS: ppc64abi32-linux-user tilegx-linux-user
-+    TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
-+      unicore32-softmmu
-   allow_failure: true
- 
- build-oss-fuzz:
-diff --git a/.shippable.yml b/.shippable.yml
-index 89d8be4291b0..0b4fd6df1d81 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -8,7 +8,7 @@ env:
-     - IMAGE=debian-amd64
-       TARGET_LIST=x86_64-softmmu,x86_64-linux-user
-     - IMAGE=debian-win32-cross
--      TARGET_LIST=arm-softmmu,i386-softmmu,lm32-softmmu
-+      TARGET_LIST=arm-softmmu,i386-softmmu
-     - IMAGE=debian-win64-cross
-       TARGET_LIST=aarch64-softmmu,sparc64-softmmu,x86_64-softmmu
-     - IMAGE=debian-armel-cross
--- 
-2.20.1
+Thanks for the review, Philippe !
+
+Cheers,
+
+--
+Greg
+
+> them. But, yes, I agree patch 14 and 15 should go to the next
+> round.
+> 
+> Thanks for the review !
+> 
+> Cheers,
+> 
+> --
+> Greg
+> 
 
 
