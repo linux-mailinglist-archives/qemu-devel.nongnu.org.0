@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6EB26A544
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:34:43 +0200 (CEST)
-Received: from localhost ([::1]:42614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EF626A558
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:39:09 +0200 (CEST)
+Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAAT-0008K2-Uo
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48026)
+	id 1kIAEm-0006Sj-9p
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qS-0000b3-NU; Tue, 15 Sep 2020 08:14:02 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:56016)
+ id 1kI9qb-0000hH-2O; Tue, 15 Sep 2020 08:14:09 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:37175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qQ-0008AD-Nm; Tue, 15 Sep 2020 08:14:00 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id q4so1668671pjh.5;
- Tue, 15 Sep 2020 05:13:56 -0700 (PDT)
+ id 1kI9qY-0008BP-8G; Tue, 15 Sep 2020 08:14:08 -0400
+Received: by mail-pf1-x436.google.com with SMTP id w7so1837632pfi.4;
+ Tue, 15 Sep 2020 05:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lgYFFisioEl97r43OtBikET9wKvUFSMqnEjDRJxGeJs=;
- b=DSqmYuszXxPS5LG1pe5A6JX7lTPMlpa49EH+xIihxSHnBnCnO/82Tdz68pWEXIChL5
- kfQXWCLA5x5V2HAQ5cxq/VsHPhuUyfPMkBOUnZsNuAWiQLC1K/hV0b4dkN10QWRydjVo
- OBQjPTKrsEOGxrhZVawDjUV4v5YqoA+NIDQ+LD+n9EKZFXRXmizskXtDeIJ2aKI+USnT
- O4r32pFBJdBQYhsnXYfGiuhHcQOishSUr3bdAtW7lS7nagN/WbuPdtQ8fH/Csii1Za6+
- a8tgyVHIp0+peCgvnatbamPN0L1M3wDddR8p0y868PO3N7n06TajY8Af0rl9Er+NXC1H
- R0Pw==
+ bh=27ajP4GoRfKO+nbwUgNlBqHfhHBZSCkZ9ODFQ91KtVY=;
+ b=GUe2lBpstfxB3kYLuX7Wd6/cy1HN+HDs9AQtXVMtA7JUG6GM2Ot2H7N8z2nYXfHlxL
+ 08TMIqdH0HBRm+1aW2noJ/dpSN0b3bc8FStLKEh7IaqXzRg8e6vUxlvQIlxobKvq19nE
+ 79np6VzkMVF3L/1vx6qsvnoG7yDy+vtV4CzAHOrNCEvumtLgyhagptnyqyJ1wCgTYIrE
+ M09TeGjlPh5MOSwQkn9/6NSSckURiKbMI0NXlcclXW0gZ6CVXEUajIfEay+I8YnSUNlY
+ X/VyzxC0+XWljSobnjevawFjk3EIjZQBjPS0mPYXD4YdmpqZFaAPF5Ni3910TN0vpj3q
+ HJDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lgYFFisioEl97r43OtBikET9wKvUFSMqnEjDRJxGeJs=;
- b=hjnsG8TIaPtOxmA+B01RsldySZe+fqld+Glc95YguXg3k1/2IK7/L/VTyfzaoE8kkt
- rb9PRZTQBkm++QPFwVN+GVQV4XrRtZLNsCJvUS3BN7JnKvqR1Ot1jti+JTv+M83DMJBK
- jxPV4tv39QOQmnAb07vcpSimVowfipXBqYrtR2FzixSVSNWWUUA9G9uLbOxgoJ51tyzV
- FXvsrZJz80qYa++uQ3/yDuXABuYMiNV4PK3zWPFwvTPJS9Ucj/mNyf0c9P6DZIy9mLOx
- Aea2c1dUl8OCAbU166LNcsP00lneR7jcm1UUOPBjoFzN1tQO3W8nLrWavdzTAMzKgr06
- KT8A==
-X-Gm-Message-State: AOAM533wSdx3Qd2jDPiz8JqGnfSewOMvh9ho3ekCWGPXUp2oxpRBcoZZ
- qD5JsWCWMiBNDOUf1X59L6Fij5PxYMCMq/GlxBI=
-X-Google-Smtp-Source: ABdhPJzeoF8zMjcgl4UnoLgbJmK4WTcNahNp9a+LhUuY3heEySjnNWGPaVmKTVKvFT9YWLst7UnQ0w==
-X-Received: by 2002:a17:90b:1245:: with SMTP id
- gx5mr3696887pjb.193.1600172035259; 
- Tue, 15 Sep 2020 05:13:55 -0700 (PDT)
+ bh=27ajP4GoRfKO+nbwUgNlBqHfhHBZSCkZ9ODFQ91KtVY=;
+ b=WRqINx4jwrlsbGRiEMnpGXT9WQUL+qPEYoY1y44gQwBkhQeIksgoT1vH+97V/6y4Nb
+ hiImPv/VnFvf86Z0XPAxXe7NulN/i12C4OnLkrZkcTq5x5A8+K+w/MH2+gOl2Ns4GBgE
+ U6s2ICGZTSK/Nqf1Es2MMSzc/VIHIdBXcuTvsmZbGjs/P7Jf4IC8vtHd95cPsGIdtN6U
+ 5OEY2b/MEfj5Y0YiFnFleb18I+wVFT1uyoZgY549zP5VfH02Otj+sMEr9Pvc60wmvUXE
+ TvmfYWOFN0rDARjUzoDD70RXXr6uw2dqfl8FVvendTax8N55Ifz/AABcsqBsREQch8As
+ mOkA==
+X-Gm-Message-State: AOAM531s+gZF7XXRqPKr/nfhaQW4apv4/9x017BNgU4hssMtJtOPcthz
+ Fndkm6ySrTvMXCQ2OV2bGyMzbyuiVvh4vfUNdiM=
+X-Google-Smtp-Source: ABdhPJyp5ZHhYYbx9Isymvvx64yDk8hWtwos7sDORYs/JSs4diauC3d/hmzXj0nWh3gsfwT05tEklw==
+X-Received: by 2002:a63:4d5:: with SMTP id 204mr14831317pge.0.1600172043892;
+ Tue, 15 Sep 2020 05:14:03 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.13.51
+ k28sm13683061pfh.196.2020.09.15.05.13.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:13:54 -0700 (PDT)
+ Tue, 15 Sep 2020 05:14:03 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 04/26] win32: Simplify gmtime_r detection direct base on
- _POSIX_THREAD_SAFE_FUNCTIONS.
-Date: Tue, 15 Sep 2020 20:12:56 +0800
-Message-Id: <20200915121318.247-5-luoyonggang@gmail.com>
+Subject: [PATCH v9 06/26] tests: disable /char/stdio/* tests in test-char.c on
+ win32
+Date: Tue, 15 Sep 2020 20:12:58 +0800
+Message-Id: <20200915121318.247-7-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
 References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1044.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,136 +96,81 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First, this reduce the size of configure, configure are tending to removal in future,
-and this didn't introduce any new feature or remove any exist feature.
-Second, the current localtime_r detection are conflict with ncursesw detection in
-mingw, when ncursesw detected, it will provide the following compile flags
-pkg-config --cflags ncursesw
--D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC:/CI-Tools/msys64/mingw64/include/ncursesw
-And the compile flag _POSIX_C_SOURCE will always cause _POSIX_THREAD_SAFE_FUNCTIONS to
-be defined, in new version of mingw, that's will cause localtime_r to be defined.
-But the configure script didn't provide _POSIX_C_SOURCE macro, and that's will result
-localtime_r not detected because localtime_r are defined in forceinline manner.
-
-And finally cause conflict between QEMU defined localtime_r
-struct tm *localtime_r(const time_t *timep, struct tm *result);
-with mingw defined localtime_r
-
-```
-#if defined(_POSIX_C_SOURCE) && !defined(_POSIX_THREAD_SAFE_FUNCTIONS)
-#define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
-#endif
-
-#ifdef _POSIX_THREAD_SAFE_FUNCTIONS
-__forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
-  return localtime_s(_Tm, _Time) ? NULL : _Tm;
-}
-__forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
-  return gmtime_s(_Tm, _Time) ? NULL : _Tm;
-}
-__forceinline char *__CRTDECL ctime_r(const time_t *_Time, char *_Str) {
-  return ctime_s(_Str, 0x7fffffff, _Time) ? NULL : _Str;
-}
-__forceinline char *__CRTDECL asctime_r(const struct tm *_Tm, char * _Str) {
-  return asctime_s(_Str, 0x7fffffff, _Tm) ? NULL : _Str;
-}
-#endif
-```
-
-So I suggest remove this configure script, and restrict msys2/mingw version to easy to maintain.
-And use _POSIX_THREAD_SAFE_FUNCTIONS to guard the localtime_r and counterpart functions
+These tests are blocking test-char to be finished.
+Disable them by using variable is_win32, so we doesn't
+need macro to open it. and easy recover those function
+latter.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- configure                 | 34 ----------------------------------
- include/sysemu/os-win32.h |  4 ++--
- util/oslib-win32.c        |  2 +-
- 3 files changed, 3 insertions(+), 37 deletions(-)
+ tests/test-char.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/configure b/configure
-index dc4b7a2e55..bac48b5b49 100755
---- a/configure
-+++ b/configure
-@@ -2496,37 +2496,6 @@ if test "$vhost_net" = ""; then
-   test "$vhost_kernel" = "yes" && vhost_net=yes
- fi
- 
--##########################################
--# MinGW / Mingw-w64 localtime_r/gmtime_r check
--
--if test "$mingw32" = "yes"; then
--    # Some versions of MinGW / Mingw-w64 lack localtime_r
--    # and gmtime_r entirely.
--    #
--    # Some versions of Mingw-w64 define a macro for
--    # localtime_r/gmtime_r.
--    #
--    # Some versions of Mingw-w64 will define functions
--    # for localtime_r/gmtime_r, but only if you have
--    # _POSIX_THREAD_SAFE_FUNCTIONS defined. For fun
--    # though, unistd.h and pthread.h both define
--    # that for you.
--    #
--    # So this #undef localtime_r and #include <unistd.h>
--    # are not in fact redundant.
--cat > $TMPC << EOF
--#include <unistd.h>
--#include <time.h>
--#undef localtime_r
--int main(void) { localtime_r(NULL, NULL); return 0; }
--EOF
--    if compile_prog "" "" ; then
--        localtime_r="yes"
--    else
--        localtime_r="no"
--    fi
--fi
--
- ##########################################
- # pkg-config probe
- 
-@@ -7088,9 +7057,6 @@ if [ "$bsd" = "yes" ] ; then
-   echo "CONFIG_BSD=y" >> $config_host_mak
- fi
- 
--if test "$localtime_r" = "yes" ; then
--  echo "CONFIG_LOCALTIME_R=y" >> $config_host_mak
--fi
- if test "$qom_cast_debug" = "yes" ; then
-   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
- fi
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index d8978e28c0..3ac8a53bac 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -48,12 +48,12 @@
- #define siglongjmp(env, val) longjmp(env, val)
- 
- /* Missing POSIX functions. Don't use MinGW-w64 macros. */
--#ifndef CONFIG_LOCALTIME_R
-+#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
- #undef gmtime_r
- struct tm *gmtime_r(const time_t *timep, struct tm *result);
- #undef localtime_r
- struct tm *localtime_r(const time_t *timep, struct tm *result);
--#endif /* CONFIG_LOCALTIME_R */
-+#endif
- 
- static inline void os_setup_signal_handling(void) {}
- static inline void os_daemonize(void) {}
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index c654dafd93..f2fa9a3549 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -106,7 +106,7 @@ void qemu_anon_ram_free(void *ptr, size_t size)
+diff --git a/tests/test-char.c b/tests/test-char.c
+index d35cc839bc..184ddceab8 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -77,7 +77,6 @@ static void fe_event(void *opaque, QEMUChrEvent event)
      }
  }
  
--#ifndef CONFIG_LOCALTIME_R
-+#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
- /* FIXME: add proper locking */
- struct tm *gmtime_r(const time_t *timep, struct tm *result)
+-#ifdef _WIN32
+ static void char_console_test_subprocess(void)
  {
+     QemuOpts *opts;
+@@ -102,7 +101,7 @@ static void char_console_test(void)
+     g_test_trap_assert_passed();
+     g_test_trap_assert_stdout("CONSOLE");
+ }
+-#endif
++
+ static void char_stdio_test_subprocess(void)
+ {
+     Chardev *chr;
+@@ -1448,7 +1447,11 @@ static SocketAddress unixaddr = {
+ 
+ int main(int argc, char **argv)
+ {
+-    bool has_ipv4, has_ipv6;
++    bool has_ipv4, has_ipv6, is_win32 = false;
++
++#ifdef _WIN32
++    is_win32 = true;
++#endif
+ 
+     qemu_init_main_loop(&error_abort);
+     socket_init();
+@@ -1467,12 +1470,15 @@ int main(int argc, char **argv)
+     g_test_add_func("/char/invalid", char_invalid_test);
+     g_test_add_func("/char/ringbuf", char_ringbuf_test);
+     g_test_add_func("/char/mux", char_mux_test);
+-#ifdef _WIN32
+-    g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
+-    g_test_add_func("/char/console", char_console_test);
+-#endif
+-    g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
+-    g_test_add_func("/char/stdio", char_stdio_test);
++    if (0) {
++        g_test_add_func("/char/console/subprocess", char_console_test_subprocess);
++        g_test_add_func("/char/console", char_console_test);
++    }
++
++    if (!is_win32) {
++        g_test_add_func("/char/stdio/subprocess", char_stdio_test_subprocess);
++        g_test_add_func("/char/stdio", char_stdio_test);
++    }
+ #ifndef _WIN32
+     g_test_add_func("/char/pipe", char_pipe_test);
+ #endif
+@@ -1534,7 +1540,7 @@ int main(int argc, char **argv)
+     g_test_add_data_func("/char/socket/client/dupid-reconnect/" # name, \
+                          &client8 ##name, char_socket_client_dupid_test)
+ 
+-    if (has_ipv4) {
++    if (has_ipv4 && !is_win32) {
+         SOCKET_SERVER_TEST(tcp, &tcpaddr);
+         SOCKET_CLIENT_TEST(tcp, &tcpaddr);
+         g_test_add_data_func("/char/socket/server/two-clients/tcp", &tcpaddr,
 -- 
 2.28.0.windows.1
 
