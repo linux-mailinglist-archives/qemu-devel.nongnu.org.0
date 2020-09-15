@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDF826A5E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:08:16 +0200 (CEST)
-Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AF626A648
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:27:01 +0200 (CEST)
+Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAgx-0000SM-Q4
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33530)
+	id 1kIAz6-0001iZ-Ss
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAeQ-0005o2-Nx
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:05:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48346
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAgv-0001Ik-JG
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:08:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAeN-0006dN-D1
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:05:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAgt-00077P-Mc
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:08:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600175133;
+ s=mimecast20190719; t=1600175290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jJ1xyN4keYInOg2sWfLyRdzaCY5NaqJsDlWhV2leTMY=;
- b=RS79hvgM5TNMJ7NAKTj/Mvhr9tdDq5oD/Zro2N6MLqU4F+TmT4TwZ0l2ETkmtdm4cQveCq
- Ie/LbppCPhv7vQ3BVJkJWuBG4QCMi5j/sTk84snoiMu1A9rWWNV8rVe5TgR/aipwJuBjna
- rnO3aiJfjnb3F+q8MmND85D50mzowPo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-LXU9dOcnN5KUUqsLIob-Og-1; Tue, 15 Sep 2020 09:05:31 -0400
-X-MC-Unique: LXU9dOcnN5KUUqsLIob-Og-1
-Received: by mail-wm1-f69.google.com with SMTP id t10so1140438wmi.9
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:05:30 -0700 (PDT)
+ bh=yj7EmIbxSk6p1g7B3itKJgg0gGD43x6CQYeydY1wTqs=;
+ b=h98onnRC+KClflAqjuc7rgfcP32M/TSosOmNdVs09aDY4k+Kcwo9uzXZnLMWIkc32yS1eL
+ ZJKlMnC2ko05zkTY0FXEcEmGFkWegoSBXRCFTgX66tMi34iYy+bZ7YpuD1ExXO0XFQ+cSN
+ 4KaaOXp5yZC+mhrNI7byTUSvuKYxKQs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-0NNs0E--O2SpMA6XPilQ8w-1; Tue, 15 Sep 2020 09:08:08 -0400
+X-MC-Unique: 0NNs0E--O2SpMA6XPilQ8w-1
+Received: by mail-wr1-f69.google.com with SMTP id 33so1224300wre.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:08:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=GvjSXPLIBKBrXTOZAxgSIgnatKc4TQVNsSgC7MYdHNE=;
- b=HPG6TyInsE0joXc46FjpcKt4C4+ZlRR5gxRMCtoEBLaFumJ2RqP/3wP/C7oKt+i97q
- fS0R545tSZA+lQ/4i4asqA/eJdzi/5dhlmVy61k/dvKMJkFKJmcJzbjCnYfG27K1XLx+
- Pdk2mqc6IhQ4rvIFtPIc98NjVled99vuFhwdW8dWpfUYnCUJwbwUEnNBG0BpyUzYCWVv
- Ugre//MtaaR66rqfYi+PQiInvnrJzw9X6E6bLhzs2htQqXHHtvXAUHjnl2iLNep9xeWv
- dFEAABMyKGvwhAmcK7y/f9QoAR/l97YtsVMB9HoINGeDT/WaLt0r+/hTRbrw2CcKtH+x
- DjpQ==
-X-Gm-Message-State: AOAM530uT5G9JMCJE3i0Oee6f3qlNBFF9xuUr4XYp9NBxGdNGiDv4tWD
- 5uNVYXQbz1pYC5y7iSIPnQC7aFsXUlTS5XSbwY4byuhayuXZem1zFIwG61wYJDuv5tQHcm2VoOH
- BCd85QF8uEicAC7Q=
-X-Received: by 2002:a5d:660f:: with SMTP id n15mr22934150wru.103.1600175129968; 
- Tue, 15 Sep 2020 06:05:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwe0h6kp4opm7rIw4+xMvvZNPXFCdJrRAddc4SMxZcF3NU5Ho3LHATYsq+uezZRDmzZOxjzAw==
-X-Received: by 2002:a5d:660f:: with SMTP id n15mr22934121wru.103.1600175129728; 
- Tue, 15 Sep 2020 06:05:29 -0700 (PDT)
+ bh=QxoKYNqVXwKEEHeHDXrISj2oRcVzI5wxcTA6woAAeJg=;
+ b=PxzaZ0GGpoYvkDirrwLxy6j2eVarBd0OSHus0L8yxQE58PYcoTQ65CoTjDyhyfOQMV
+ LqB4jhWQ092DfyZQdZ0ONuFil7qpm5SThvv5RnYrJ1exf1k9JxMI0uIA+aCbREbFsoxj
+ FJBTzcS8x7dp4CH6ydEJG86U615kHV3kwMdFvjqZj6XFNc9jIjXfOJgqWivcIN+NEisg
+ OORRn+i3H6Dy4fYM40OwvDcH2Pn12pITwecMgu0PJ4xlBV+xJmC7ORyNbGvp5V1qURSs
+ uiMFixG3ApQaJc3QM2J+C4xsOA69qnLLVQHOU9ScXYH34O9ZhyFFspPHZKfN29Dr/7ca
+ 6eUw==
+X-Gm-Message-State: AOAM532CYhiGjqzjIWtQx9yvcGzsp0U4RtYRPTIWPACe4+kgfbPcOOJR
+ txH4LAPtPGCfvfwN6pUbnv5p8+aetSeyDcKPNPHxWzpV1sm0/szmsCe006wCrnMfBw5UYFXD5CV
+ 2Mfph1AYRPf64q+I=
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr16811476wro.146.1600175287485; 
+ Tue, 15 Sep 2020 06:08:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPTkL/TyOed+90XVzjuISPML4eetFldP4dCg8N7K5/cVHH86fNyKclimw/sWarwH8IptlUBg==
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr16811458wro.146.1600175287340; 
+ Tue, 15 Sep 2020 06:08:07 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id 92sm28667676wra.19.2020.09.15.06.05.28
+ by smtp.gmail.com with ESMTPSA id u66sm25133567wmg.44.2020.09.15.06.08.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 06:05:28 -0700 (PDT)
-Subject: Re: [PATCH 08/15] spapr: Add a return value to spapr_drc_attach()
+ Tue, 15 Sep 2020 06:08:06 -0700 (PDT)
+Subject: Re: [PATCH 10/15] spapr: Add a return value to spapr_set_vcpu_id()
 To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 References: <20200914123505.612812-1-groug@kaod.org>
- <20200914123505.612812-9-groug@kaod.org>
+ <20200914123505.612812-11-groug@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,30 +86,31 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <5257be49-badd-7586-f118-59474e09a95e@redhat.com>
-Date: Tue, 15 Sep 2020 15:05:27 +0200
+Message-ID: <740605ab-5310-d2fe-eb20-138b8def0b48@redhat.com>
+Date: Tue, 15 Sep 2020 15:08:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200914123505.612812-9-groug@kaod.org>
+In-Reply-To: <20200914123505.612812-11-groug@kaod.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 05:35:09
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -129,20 +129,32 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/20 2:34 PM, Greg Kurz wrote:
+On 9/14/20 2:35 PM, Greg Kurz wrote:
 > As recommended in "qapi/error.h", return true on success and false on
 > failure. This allows to reduce error propagation overhead in the callers.
 > 
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
->  include/hw/ppc/spapr_drc.h |  2 +-
->  hw/ppc/spapr.c             | 15 +++------------
->  hw/ppc/spapr_drc.c         |  5 +++--
->  hw/ppc/spapr_nvdimm.c      |  5 +----
->  hw/ppc/spapr_pci.c         |  5 +----
->  5 files changed, 9 insertions(+), 23 deletions(-)
+>  include/hw/ppc/spapr.h  | 2 +-
+>  hw/ppc/spapr.c          | 5 +++--
+>  hw/ppc/spapr_cpu_core.c | 5 +----
+>  3 files changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index c8cd63bc0667..11682f00e8cc 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -909,7 +909,7 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg);
+>  #define HTAB_SIZE(spapr)        (1ULL << ((spapr)->htab_shift))
+>  
+>  int spapr_get_vcpu_id(PowerPCCPU *cpu);
+> -void spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp);
+> +bool spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp);
 
-Good cleanup.
+If you have to respin, please add some doc, at least this would
+be an improvement:
+
+/* Returns: %true on success, %false on error. */
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
