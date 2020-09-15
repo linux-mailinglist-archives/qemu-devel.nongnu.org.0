@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF1126A52E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:30:16 +0200 (CEST)
-Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC2226A54D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:36:22 +0200 (CEST)
+Received: from localhost ([::1]:48546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIA6B-0002Uv-MV
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
+	id 1kIAC5-0002Pi-SH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:36:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rL-0001RN-6C; Tue, 15 Sep 2020 08:14:56 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rJ-0008IB-3Y; Tue, 15 Sep 2020 08:14:54 -0400
-Received: by mail-pg1-x544.google.com with SMTP id d13so1886689pgl.6;
- Tue, 15 Sep 2020 05:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
- b=biHIMGS6AUChj1Czn1FRvISeqJYf+hTbjKLcP7bQwdTE91OE39FghWrXxri1McM1iT
- G6gNK/mrR8H152hRT20/i9PZMxiOAHtjf2bDVLyL0Al820R6qcdywELu0WUkw8PByOBU
- JGNtNhiK5PikY1eTYr4YiM9KABuBWSHa3ycHTGcPvN2hD4HBrSFwJZ7iU72eM0X3C5QV
- 264FDVLua3f1pVIEOVYtdGBnSIAP32uCmymwOqrEdSJbuu/+IW53lbSplMsZM7EwrQW+
- F1nCYpyaAiA8eSr/TtA/4Mw+deJF+bIPsY0FQPTcbPpFwQCvfdFwkQJDd3OVbf0Zr1qG
- Gx9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
- b=RBUmvaaY6d/NIHunNAEZZ2wihXWnz4JV1Yk5MRLCb+JDAELGvjg12LvyawV2bBF5WD
- ebfYC5S75SDbGvU2m005qntNyUPqPmD6VgrfUBNHgE/QcMUiQ5knbt5tVS5Pvl1gmyZq
- esWWiIOIIh34Av4fjcsSIIAUbobuo2Nx2G9WGOQQTQKKkGmBZIsIZlC81ShJ1OPqEOLb
- NLF6S/ZhVabj0T5XJ7vtBS+kzfJSp4AnUJlB6GRZsYYtJipFaLIEOavqYCRCEP++s0Ag
- 54PT+t6HssO/60VRHSZqnqUNsLKWb/Ow9XEzp4SihOaX3QFa3BCw+zu7R48nlINCbmA8
- BjNg==
-X-Gm-Message-State: AOAM533PgQQwRzClNyLZuoM0+XCXGf+LDHPEjh1o5ZIg+I8eJeC2laq9
- UgZY+xoail1ConKyVTZHeNQiYnsU3ZXldlG9LYU=
-X-Google-Smtp-Source: ABdhPJxaC4MoxRFEbFJq/mTw7qXEKnuuqctg0eNoPhLbUsH5kmWRsCcdgZ8W3KeJimUnBkFe0tjL0w==
-X-Received: by 2002:aa7:99c7:0:b029:13e:d13d:a056 with SMTP id
- v7-20020aa799c70000b029013ed13da056mr17610322pfi.28.1600172090242; 
- Tue, 15 Sep 2020 05:14:50 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.14.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:14:49 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nt-0005KG-0x
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:11:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nb-0007pd-U5
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:11:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600171861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lbM5HC7vDFtpclGRH/mtYPvRkxQ5baIQ5dW5dKDWBGo=;
+ b=C7hEcTLbFWxh4OLkNnYjsA/QNHHbViizkyxGRaOk/H/q2QBLlhGcAFTFaTM/Ver0hIP8oJ
+ QTBJ9qlHuUZ5ax5XwFZDHK0Tn2fEojSIKKm/s6u+LRhCZDF68/WnmlBW8AYs6XpFo+653N
+ xghFtoTIVKYop4UkjwZp/5LEInPk2Mo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-KvvHHLl5N5ykSXpYiMLgiA-1; Tue, 15 Sep 2020 08:09:21 -0400
+X-MC-Unique: KvvHHLl5N5ykSXpYiMLgiA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D15941091065;
+ Tue, 15 Sep 2020 12:09:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
+ [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65A1A75141;
+ Tue, 15 Sep 2020 12:09:10 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9FE6540572; Tue, 15 Sep 2020 14:09:09 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 16/26] tests: Convert g_free to g_autofree macro in
- test-logging.c
-Date: Tue, 15 Sep 2020 20:13:08 +0800
-Message-Id: <20200915121318.247-17-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
-References: <20200915121318.247-1-luoyonggang@gmail.com>
+Subject: [PATCH v8 04/21] acpi: ged: add control regs
+Date: Tue, 15 Sep 2020 14:08:52 +0200
+Message-Id: <20200915120909.20838-5-kraxel@redhat.com>
+In-Reply-To: <20200915120909.20838-1-kraxel@redhat.com>
+References: <20200915120909.20838-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,50 +81,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_autofree are prefer than g_free when possible.
+Add control regs (sleep, reset) for hw-reduced acpi.
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/test-logging.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/hw/acpi/generic_event_device.h | 12 +++++++
+ hw/acpi/generic_event_device.c         | 44 ++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
 
-diff --git a/tests/test-logging.c b/tests/test-logging.c
-index 8a1161de1d..783fe09a27 100644
---- a/tests/test-logging.c
-+++ b/tests/test-logging.c
-@@ -196,7 +196,7 @@ static void rmdir_full(gchar const *root)
+diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+index 1be05a3c0f8c..38aec526f944 100644
+--- a/include/hw/acpi/generic_event_device.h
++++ b/include/hw/acpi/generic_event_device.h
+@@ -74,6 +74,17 @@ DECLARE_INSTANCE_CHECKER(AcpiGedState, ACPI_GED,
+ #define ACPI_GED_EVT_SEL_OFFSET    0x0
+ #define ACPI_GED_EVT_SEL_LEN       0x4
  
- int main(int argc, char **argv)
++#define ACPI_GED_REG_SLEEP_CTL     0x00
++#define ACPI_GED_REG_SLEEP_STS     0x01
++#define ACPI_GED_REG_RESET         0x02
++#define ACPI_GED_REG_COUNT         0x03
++
++/* ACPI_GED_REG_RESET value for reset*/
++#define ACPI_GED_RESET_VALUE       0x42
++
++/* ACPI_GED_REG_SLEEP_CTL.SLP_TYP value for S5 (aka poweroff) */
++#define ACPI_GED_SLP_TYP_S5        0x05
++
+ #define GED_DEVICE      "GED"
+ #define AML_GED_EVT_REG "EREG"
+ #define AML_GED_EVT_SEL "ESEL"
+@@ -89,6 +100,7 @@ DECLARE_INSTANCE_CHECKER(AcpiGedState, ACPI_GED,
+ 
+ typedef struct GEDState {
+     MemoryRegion evt;
++    MemoryRegion regs;
+     uint32_t     sel;
+ } GEDState;
+ 
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index b8abdefa1c77..491df80a5cc7 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -20,6 +20,7 @@
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qemu/error-report.h"
++#include "sysemu/runstate.h"
+ 
+ static const uint32_t ged_supported_events[] = {
+     ACPI_GED_MEM_HOTPLUG_EVT,
+@@ -176,6 +177,45 @@ static const MemoryRegionOps ged_evt_ops = {
+     },
+ };
+ 
++static uint64_t ged_regs_read(void *opaque, hwaddr addr, unsigned size)
++{
++    return 0;
++}
++
++static void ged_regs_write(void *opaque, hwaddr addr, uint64_t data,
++                           unsigned int size)
++{
++    bool slp_en;
++    int slp_typ;
++
++    switch (addr) {
++    case ACPI_GED_REG_SLEEP_CTL:
++        slp_typ = (data >> 2) & 0x07;
++        slp_en  = (data >> 5) & 0x01;
++        if (slp_en && slp_typ == 5) {
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        }
++        return;
++    case ACPI_GED_REG_SLEEP_STS:
++        return;
++    case ACPI_GED_REG_RESET:
++        if (data == ACPI_GED_RESET_VALUE) {
++            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        }
++        return;
++    }
++}
++
++static const MemoryRegionOps ged_regs_ops = {
++    .read = ged_regs_read,
++    .write = ged_regs_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
+ static void acpi_ged_device_plug_cb(HotplugHandler *hotplug_dev,
+                                     DeviceState *dev, Error **errp)
  {
--    gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
-+    g_autofree gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
-     int rc;
- 
-     g_test_init(&argc, &argv, NULL);
-@@ -212,6 +212,5 @@ int main(int argc, char **argv)
-     rc = g_test_run();
- 
-     rmdir_full(tmp_path);
--    g_free(tmp_path);
-     return rc;
+@@ -332,6 +372,10 @@ static void acpi_ged_initfn(Object *obj)
+      sysbus_init_mmio(sbd, &s->container_memhp);
+      acpi_memory_hotplug_init(&s->container_memhp, OBJECT(dev),
+                               &s->memhp_state, 0);
++
++    memory_region_init_io(&ged_st->regs, obj, &ged_regs_ops, ged_st,
++                          TYPE_ACPI_GED "-regs", ACPI_GED_REG_COUNT);
++    sysbus_init_mmio(sbd, &ged_st->regs);
  }
+ 
+ static void acpi_ged_class_init(ObjectClass *class, void *data)
 -- 
-2.28.0.windows.1
+2.27.0
 
 
