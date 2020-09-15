@@ -2,85 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B30F26A601
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:12:28 +0200 (CEST)
-Received: from localhost ([::1]:43026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD6626A5EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:08:56 +0200 (CEST)
+Received: from localhost ([::1]:60046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAl1-0006TF-AQ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
+	id 1kIAhb-0001iL-7H
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kIAXf-00065i-VT
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:58:39 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kIAXe-0005ay-8o
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:58:39 -0400
-Received: by mail-wr1-x441.google.com with SMTP id e16so3247866wrm.2
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 05:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aL8sdTkn90UqpWmmOm3xpASNajpCEK3JYVRWPXbX83o=;
- b=da8MeSXAjrY3D7cnRUVmsrSuVU4jF263L1sKeJRuRQv1ctBmdw4n6Lrjv7VSN8MiX3
- UQEWhnHF9Pfah6PZlVKL/+du+48r50OXgW78FA0gTMiHpcXN0D4SFnKHY2KGoiOgy3g8
- 57RIv6osrQYEXSZRX2TwpbctRHT4Rw4WsCerUt2qpXo15AAt05C3W8stR7hf2oNh1aBz
- keR4IQBBIgi3INza015eUyQQSYJrMFQq/o3QxEI6nMyhd+c+ygaHUFwHBi8eWai29Iri
- +EZuMwC2wWfGs/ky332fdd7sbgR5n70r+9XTgWS1LnNBiJgwt0Ptk+cr3CPO/qEIePwO
- CPwg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAYZ-0007bo-4y
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:59:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAYX-0005l2-62
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:59:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600174771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BoJ2vZLbaBi/4g9Bz8JmvzjMrJSpEDWty6fHl3H9PYM=;
+ b=YBCeBj3tqrOgu+vaL2liYc9YwXSoi5hyskDHpOge51qkPMn7egE3ORwj1QHN/XUgSLeM/8
+ FN4idy9057x3BPMYRBjO7xxaaQh5FGkkHhTafqglXaiWDrLdC/tLDAkh0IKmpbF39uu5xN
+ VicsSjGr1UkHNLe/dkEmC5OASPr7L44=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-3WRs_SPIOnysx0xLuL03-g-1; Tue, 15 Sep 2020 08:59:29 -0400
+X-MC-Unique: 3WRs_SPIOnysx0xLuL03-g-1
+Received: by mail-wr1-f72.google.com with SMTP id 33so1213298wre.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 05:59:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aL8sdTkn90UqpWmmOm3xpASNajpCEK3JYVRWPXbX83o=;
- b=W3dmeh6+G/FGioVowcaJ5KmCYhmMqPtBiQ0pea5k1v6D7dc6ptfdmSp7f+X6b+BGDM
- jLhgm9ZeJMyRJVWZ436ejMxI6cw0thMatrnssgg0WlVO86O0A0KHLHRY//oDXnDijYVD
- 1qfbC6bLCmjE/StEVkCoKKlvnqwSUrqca8PyKbDPLQwpbbJuyoQDBFRDO/V6+tX+vJO4
- TWfrEQGvvqFs5jwJirFix/gouhOO/Opx0tcMFsml7VLiA775XaAIoBvDeoPDKQYgmCZo
- WeiXrSfUmUmTzh+JP1/Lx3pmzkL1xmCXzNo8q//Zrdq+L7CM/kHAUSVqJQFWV16bNvvL
- /cww==
-X-Gm-Message-State: AOAM533ZPzPk6cA2zjNYBMNwjgmGIg/c34EWethNcuXX5K7tomMpIUnF
- 2UV726bkbJHzUgser/sxHvXQVLgrKlk=
-X-Google-Smtp-Source: ABdhPJy/VGnP9GrGsYxw9Nkc095kdSx4iaLAurmMnUUc8m2kLAlTbrJlKfH78UQCzZ2Ixn+MZlLEDg==
-X-Received: by 2002:a5d:4e0b:: with SMTP id p11mr20499409wrt.13.1600174715908; 
- Tue, 15 Sep 2020 05:58:35 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=BoJ2vZLbaBi/4g9Bz8JmvzjMrJSpEDWty6fHl3H9PYM=;
+ b=MIySmO0BoS0F0BNBCEFZIEhdyB3dcl0o/7+QMws913NXW2n1JUfQV98XoZYyhq+REJ
+ 1x+oQH6szu+7/ffrFxbQtCLKyEmeRyJc65xHnPK/2YHiRefdMCAVvBynYfIw5yJM0KMm
+ rKEXOqtha1VEYLQ+PrYCgcp14xg2qE7cHRVM4tOANsRqyYe1g83F8cTpM8Vpeq1cJqwQ
+ f90iX/gOyJkzC93+bacCrevgKhHOM/wQfSuILnsmTcjR2opfX4lhYzV/rKAT0V4t0REF
+ YEorH+HEy5RGkkIwW1W3LcTDJ6evR4aOn2t4osyCCm3V0JAcQQ+iiABUDq36FtzvmHke
+ 9rmQ==
+X-Gm-Message-State: AOAM532vuArJyUM1k/MhN48bnb3CQkfi6yOrN51Owq1A7xoZp6vziMIa
+ fgi+Dv8OQ2O5pajku6OfzvoHXuHM06UBlZ7GiBTyQeCeq+Mdb5aJogDQDyIoJFyE5WMpiBTq/sl
+ mmn//xEdV75SWLjM=
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr16764835wro.146.1600174767943; 
+ Tue, 15 Sep 2020 05:59:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwU677Q7MrvV+/5UiC6+++6KrCzp7glMqzbao9q1HBBMsBLSw63Iu8/UCnIcP18IYs1Ft+EZg==
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr16764822wro.146.1600174767717; 
+ Tue, 15 Sep 2020 05:59:27 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id z9sm26158568wmg.46.2020.09.15.05.58.35
+ by smtp.gmail.com with ESMTPSA id x10sm25440625wmi.37.2020.09.15.05.59.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 05:58:35 -0700 (PDT)
-Subject: Re: [PATCH v1 4/6] configure: include tilegx-linux-user in the
- auto-exclude logic
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200914150716.10501-1-alex.bennee@linaro.org>
- <20200914150716.10501-5-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <26a12957-26a3-09d0-e619-8a187658dba5@amsat.org>
-Date: Tue, 15 Sep 2020 14:58:34 +0200
+ Tue, 15 Sep 2020 05:59:27 -0700 (PDT)
+Subject: Re: [PATCH v2] tests/qtest/qmp-cmd-test: Use inclusive language
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200914163755.42618-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <efd2e88b-c5dd-8b50-ecd7-88ad64b4c5a0@redhat.com>
+Date: Tue, 15 Sep 2020 14:59:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200914150716.10501-5-alex.bennee@linaro.org>
+In-Reply-To: <20200914163755.42618-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:23:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,40 +122,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/20 5:07 PM, Alex Bennée wrote:
-> The target is already marked as deprecated in the documentation.
+On 9/14/20 6:37 PM, Thomas Huth wrote:
+> We simply want to ignore certain queries here, so let's rather
+> use the term 'ignore' to express this intention.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  configure | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  v2: Changed naming according to suggestions
 > 
-> diff --git a/configure b/configure
-> index 50052378e417..d998723cccc3 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1725,7 +1725,7 @@ fi
->  # If the user doesn't explicitly specify a deprecated target we will
->  # skip it.
->  if test -z "$target_list"; then
-> -    deprecated_targets_list=ppc64abi32-linux-user
-> +    deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user
->      if test -z "$target_list_exclude"; then
->          target_list_exclude="$deprecated_targets_list"
->      else
-> @@ -7719,6 +7719,7 @@ case "$target_name" in
->      gdb_xml_files="s390x-core64.xml s390-acr.xml s390-fpr.xml s390-vx.xml s390-cr.xml s390-virt.xml s390-gs.xml"
->    ;;
->    tilegx)
-> +    add_to deprecated_features tilegx
->    ;;
->    tricore)
->    ;;
-> 
+>  tests/qtest/qmp-cmd-test.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
