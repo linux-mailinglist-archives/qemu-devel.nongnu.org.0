@@ -2,96 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CE226AEEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 22:53:43 +0200 (CEST)
-Received: from localhost ([::1]:33468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27AFC26AEFD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 22:56:55 +0200 (CEST)
+Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIHxN-000404-P4
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 16:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38114)
+	id 1kII0T-0007TT-W2
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 16:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kIHsl-0001JI-Va; Tue, 15 Sep 2020 16:48:56 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:51021)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kIHsk-0005wx-6i; Tue, 15 Sep 2020 16:48:55 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 604435803CF;
- Tue, 15 Sep 2020 16:48:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Tue, 15 Sep 2020 16:48:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=w3K7ZpDE328VF7rO7sRSvqFXSJu
- xyQoubQ8Yde+b2ek=; b=qDoHThbQjngcZPm/20MhSYP6qTnDe8dQ22L8TuxNlzZ
- ugDRQ/mx654v2cnxPKJTcpoQGrhTU+t9F1tGOofqmwfULzg7ELiaNz3zgVsPyJM3
- k5CjvLvNm4yHlY1rthkGbyGSf4z/HhfSgnJZ4jyuJ4zO8oSbmsuoigTUoKGA9UJK
- zCYsfowtP+kY0eizBaEIGPuPMKAssovtDORvffuUAOF9XvApriaxvZXtSBeiAhh6
- bFiRUBV0dsAL1cNmQQDqQBHp74KlVVnGfZZe4gKpZ64Z/eqn0ejS+FxAKRvcqdS4
- BejQz+owRv/rVMO47FCtWFnBGlbLpr1TYZK31eUSGyQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=w3K7Zp
- DE328VF7rO7sRSvqFXSJuxyQoubQ8Yde+b2ek=; b=FgnFKQ/Wzrj+wvSVFSWjON
- 6cfcBvKLEHfADuZzE2jg40riMkfhVff3My6+iEDdOK8vOF3nUOwJDvXDnABt2Qnp
- oCUNjoZYC2juHu4SfRUaQpx39n1OBX2m3W2BkGIfRWsdq6YwKeiAu5BMBN2mCjxJ
- 1MG2BpAoQx3cBOtD7DeQLDAZOoCtuTpGsyWq4ADtI+rNSCLGpmxVeQQMlbezY4qo
- MH0ke4KIwmzLtyZDJzB6F2DBmISYBvzSjHPqYqjC07WHL+vu9alLI/KjW6a/zh7I
- mYdGPA6CA16AWKakMAlASgEAe55Ruz9uP0SaxZQR9xp2tGAS+I5aHdyVssjNGESw
- ==
-X-ME-Sender: <xms:tChhX6cLwcqnuKGlLDHw5-iK5HGHCVtTkJfJp_vUMRglM9HJgXoZQA>
- <xme:tChhX0MclJw8Das7gMAvZHTUWvzarWFFWVAwOKBE_5hbPX-30Pc8b7nC-M4Jwa2JU
- SdC9eAJ4fWhQOethyY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtddtgdduvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:tChhX7iSmNuIvs1bRq8iRf7T5s4opvUncdQ17St-JAq_tMsDAxM2Cw>
- <xmx:tChhX380S6oB5OrRseXIAfUZI-x289Bpx4fPRWtaoc-KTib_GMJeAw>
- <xmx:tChhX2s4h9ZuY6uTbcCwV3jEOWFpqrGQk2Fuqn2F_Q02SkDYthAnew>
- <xmx:tChhX3m7qMcu9BBUuGYOISVmQeKXAJmaKm9uMiusrZ_AMejP1OE3jTEPeO0>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1A562328005A;
- Tue, 15 Sep 2020 16:48:51 -0400 (EDT)
-Date: Tue, 15 Sep 2020 22:48:49 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-Subject: Re: [PATCH v3 01/15] hw/block/nvme: Define 64 bit cqe.result
-Message-ID: <20200915204849.GC14485@apples.localdomain>
-References: <20200913221436.22844-1-dmitry.fomichev@wdc.com>
- <20200913221436.22844-2-dmitry.fomichev@wdc.com>
- <20200915073720.GB499689@apples.localdomain>
- <MN2PR04MB5951ED0FD5633E8144459A28E1200@MN2PR04MB5951.namprd04.prod.outlook.com>
- <20200915195546.GA14485@apples.localdomain>
- <MN2PR04MB5951E0BA1D9E217C37B82ED3E1200@MN2PR04MB5951.namprd04.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIHzI-0006gk-CR
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 16:55:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48388)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIHzG-0006uQ-0u
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 16:55:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kIHzD-0005lX-Tp
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 20:55:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B993D2E8078
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 20:55:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
-Content-Disposition: inline
-In-Reply-To: <MN2PR04MB5951E0BA1D9E217C37B82ED3E1200@MN2PR04MB5951.namprd04.prod.outlook.com>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
- helo=new1-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 16:46:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Sep 2020 20:49:10 -0000
+From: Petunia <1892604@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: brendandg pauldzim petunia2000 pmaydell
+X-Launchpad-Bug-Reporter: Brendan Dolan-Gavitt (brendandg)
+X-Launchpad-Bug-Modifier: Petunia (petunia2000)
+References: <159814309088.988.14645850566795174578.malonedeb@wampee.canonical.com>
+Message-Id: <160020295056.22223.3672640036013262934.malone@wampee.canonical.com>
+Subject: [Bug 1892604] Re: qemu-system-arm: ../hw/usb/hcd-dwc2.c:666:
+ dwc2_glbreg_read: Assertion `addr <= GINTSTS2' failed.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 0861e1e2ef5a4eb66b9b5f0359d8f629be2d7254
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 09:50:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,107 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Niklas Cassel <Niklas.Cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <Matias.Bjorling@wdc.com>
+Reply-To: Bug 1892604 <1892604@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Nope:
 
---69pVuxX8awAiJ7fD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel
+kernel7.img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200
+dwc_otg.lpm_enable=3D0 root=3D/dev/mmcblk0p2 dwc_otg.fiq_fsm_enable=3D0" -sd
+2016-05-27-raspbian-jessie.img -smp 4 -serial stdio -display none
 
-On Sep 15 20:44, Dmitry Fomichev wrote:
-> > -----Original Message-----
-> > From: Klaus Jensen <its@irrelevant.dk>
-> > Sent: Tuesday, September 15, 2020 3:56 PM
-> > To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-> > Cc: Fam Zheng <fam@euphon.net>; Kevin Wolf <kwolf@redhat.com>;
-> > Damien Le Moal <Damien.LeMoal@wdc.com>; qemu-block@nongnu.org;
-> > Niklas Cassel <Niklas.Cassel@wdc.com>; Klaus Jensen
-> > <k.jensen@samsung.com>; qemu-devel@nongnu.org; Alistair Francis
-> > <Alistair.Francis@wdc.com>; Keith Busch <kbusch@kernel.org>; Philippe
-> > Mathieu-Daud=C3=A9 <philmd@redhat.com>; Matias Bjorling
-> > <Matias.Bjorling@wdc.com>
-> > Subject: Re: [PATCH v3 01/15] hw/block/nvme: Define 64 bit cqe.result
-> >=20
-> > On Sep 15 18:56, Dmitry Fomichev wrote:
-> > > > -----Original Message-----
-> > > > From: Klaus Jensen <its@irrelevant.dk>
-> > > > Sent: Tuesday, September 15, 2020 3:37 AM
-> > > > To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-> > > > Cc: Keith Busch <kbusch@kernel.org>; Klaus Jensen
-> > > > <k.jensen@samsung.com>; Kevin Wolf <kwolf@redhat.com>; Philippe
-> > > > Mathieu-Daud=C3=A9 <philmd@redhat.com>; Maxim Levitsky
-> > > > <mlevitsk@redhat.com>; Fam Zheng <fam@euphon.net>; Niklas Cassel
-> > > > <Niklas.Cassel@wdc.com>; Damien Le Moal
-> > <Damien.LeMoal@wdc.com>;
-> > > > qemu-block@nongnu.org; qemu-devel@nongnu.org; Alistair Francis
-> > > > <Alistair.Francis@wdc.com>; Matias Bjorling <Matias.Bjorling@wdc.co=
-m>
-> > > > Subject: Re: [PATCH v3 01/15] hw/block/nvme: Define 64 bit cqe.resu=
-lt
-> > > >
-> > > > On Sep 14 07:14, Dmitry Fomichev wrote:
-> > > > > From: Ajay Joshi <ajay.joshi@wdc.com>
-> > > > >
-> > > > > A new write command, Zone Append, is added as a part of Zoned
-> > > > > Namespace Command Set. Upon successful completion of this
-> > command,
-> > > > > the controller returns the start LBA of the performed write opera=
-tion
-> > > > > in cqe.result field. Therefore, the maximum size of this variable
-> > > > > needs to be changed from 32 to 64 bit, consuming the reserved 32 =
-bit
-> > > > > field that follows the result in CQE struct. Since the existing
-> > > > > commands are expected to return a 32 bit LE value, two separate
-> > > > > variables, result32 and result64, are now kept in a union.
-> > > > >
-> > > > > Signed-off-by: Ajay Joshi <ajay.joshi@wdc.com>
-> > > > > Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> > > > > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> > > >
-> > > > I know that I R-b'ed this, but can this be moved to the namespace t=
-ypes
-> > > > patch, since that is the TP that changes this.
-> > >
-> > > You probably meant the ZNS patch since result64 is first used there to
-> > return
-> > > ZA starting data LBA. Sure, I can move this stuff to that patch.
-> > >
-> >=20
-> > No, I actually did mean the NST patch since TP 4056 is the TP that
-> > "unreserves" dw1 in the CQE.
->=20
-> It is not necessary to change it in NST patch since result64 field is not=
- used
-> in that patch. But if you insist, I can move it to NST patch :)
+raspberrypi login: qemu-system-arm: /build/qemu/src/qemu-5.1.0/hw/usb/hcd-d=
+wc2.c:666: dwc2_glbreg_read: Assertion `addr <=3D GINTSTS2' failed.
+[1]    65608 abort (core dumped)  qemu-system-arm -M raspi2 -m 1G -dtb bcm2=
+709-rpi-2-b.dtb -kernel kernel7.img
 
-You are right of course, but since it is a change to the "spec" related
-data structures that go into include/block/nvme.h, I think it belongs in
-"hw/block/nvme: Introduce the Namespace Types definitions".
+-- =
 
---69pVuxX8awAiJ7fD
-Content-Type: application/pgp-signature; name="signature.asc"
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892604
 
------BEGIN PGP SIGNATURE-----
+Title:
+  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
+  `addr <=3D GINTSTS2' failed.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9hKK0ACgkQTeGvMW1P
-Deljwgf/cvxpE622fjcz41x3Axb+OXcB9ac/azepfYlVKhzrctwCcERGPhsrZYuN
-PWIbyZQUzs7KZJot2oUEBYgu//4undJ5JweupIvlMQa6CbSKEAnY9lKAsKOkGIWL
-xAU3iZqZINi+4n3bs8GuPMPHw1um0fGD/0LirYujWbjxVzT39WdLNRwy4pDUKSRd
-rBxG4CEbqp+RBUJtP3NG0ke0m5ZdkWqKeRn5f/9eHH7gyGgmLDI6PwS9kBjvn+RW
-NKiXJApA1HY6QdoVEn9QMCmFKazmDu4FQV3RE3P+6yjM8oiOWDZ8UGxEQlgTH8Mv
-Beqr+8ApS01WFeUs+YjYvuYIjFzq/Q==
-=LYaG
------END PGP SIGNATURE-----
+Status in QEMU:
+  New
 
---69pVuxX8awAiJ7fD--
+Bug description:
+  When trying to run the 2016-05-27 Raspbian image on the emulated
+  raspi2 platform, the system boots but shortly after the login prompt
+  QEMU (master; commit ID ca489cd037e4d50dc6c40570a167504ad7e5a521) dies
+  with:
+
+  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
+  `addr <=3D GINTSTS2' failed.
+
+  Steps to reproduce:
+
+  1. Get the image: wget
+  http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-31/2016=
+-05-27
+  -raspbian-jessie.zip
+
+  2. Extract the kernel image and DTB:
+
+  sudo losetup -f --show -P 2016-05-27-raspbian-jessie.img
+  sudo mkdir /mnt/rpi
+  sudo mount /dev/loop11p1 /mnt/rpi/
+  cp /mnt/rpi/kernel7.img .                                                =
+                                                                           =
+                                                                           =
+                                                                   =
+
+  cp /mnt/rpi/bcm2709-rpi-2-b.dtb .                                        =
+                                                                           =
+                                                                           =
+                                                                   =
+
+  sudo umount /mnt/rpi =
+
+  sudo losetup -d /dev/loop11 =
+
+
+  3. Run QEMU:
+  qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.=
+img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.l=
+pm_enable=3D0 root=3D/dev/mmcblk0p2" -sd 2016-05-27-raspbian-jessie.img -sm=
+p 4 -serial stdio -display none
+
+  A few seconds after the login prompt is displayed, QEMU will exit with
+  the assertion failure.
+
+  I also tried changing all of the asserts to if statements that (for
+  MMIO reads) returned 0 and (for writes) just returned, but this
+  resulted in a non-responsive system.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892604/+subscriptions
 
