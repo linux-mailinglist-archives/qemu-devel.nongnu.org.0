@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D4526AA82
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:25:32 +0200 (CEST)
-Received: from localhost ([::1]:59798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328FC26AA8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:27:49 +0200 (CEST)
+Received: from localhost ([::1]:39662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEhv-0004Ys-AY
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:25:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44330)
+	id 1kIEk8-00083V-7D
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:27:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEWy-00005r-Ni; Tue, 15 Sep 2020 13:14:12 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:54851)
+ id 1kIEWy-00006l-It; Tue, 15 Sep 2020 13:14:12 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:37605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEVs-0002ds-8X; Tue, 15 Sep 2020 13:13:05 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id mm21so120335pjb.4;
- Tue, 15 Sep 2020 10:13:03 -0700 (PDT)
+ id 1kIEVw-0002eI-Hu; Tue, 15 Sep 2020 13:13:14 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id kk9so122300pjb.2;
+ Tue, 15 Sep 2020 10:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qBiHjFc2XldMuU70Rv/GASQm/Q1CmoJMQE32Qhbbw0w=;
- b=G3dahdMrf+0GzWlydxSeEkeCOaunQMvv43R4CaClGWWWnDAlRl1VvpjZPKpLUqpbOI
- 82D4vZW2XnFFsefrDag2irgO4YHio3ZkyDNw+xM59wMHJzQWdGjPzn38xEy5xRlbtvp/
- 3ECaSDlZTLzbFugx45Ywp1cxlTpBHF0OplzEULQxAvddeyPRAdWEVGjRwgMUntZSp+4G
- ewcRf1m1YTe2oJmNXFbFmk1/8lvLWmGjbmBbPXt3sbykUGBt5WQO/lqlXRPzIRe7pHgO
- A+XGGpP+JF2W7gh1LuVZz5QzgIe5Sxp5Xwd0KU9XdeUb0iqN1qQ+qc08ug+FmyrxHCEp
- XE5g==
+ bh=7fnZxHJTw3qRgRORiSXEFhRbwParpG4yt1WADaHZ43Y=;
+ b=RTwqm+Cc1GH7F30m1hWPRwglHlh3b+6htpAfeErQUz945GRRYTd+VTH6sA6j4tOs04
+ CiXcYNtVEoqszmoPdcUDjrp5oKZ3CqAld2PSeuiAWqK9AeB/Ag32OLY6Oxui2HeW3CTZ
+ ByLFXK1N1O8C1eaUp+9QLPvpgci8tEP6/2K7mWqfLBbW/dSgPjgPgrG6u4lf5Xwy3nK9
+ MRWEssgncNX3F+DsROZqDHSIT8aqL0VtWwQJ21zFMRmoPga0MHhbM1d6PGo+VLL7C3e6
+ LcDTiQK/gf4IKtndpneyt9fe8blYZ4cSFrnxnSGUDtoj+zYRJA0UcP3HzMQWeqUlXOJl
+ M8fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qBiHjFc2XldMuU70Rv/GASQm/Q1CmoJMQE32Qhbbw0w=;
- b=oDxWaEhhav5+CHp2/moOHiL0zFy7g4f0sEnE2v3CN4Fdj1F6KsQSZF0tvPO3qmP2sP
- YQ8nu8hGQtfzd2XnexyWddw2Jj/LW8j6UNHoDO+29ehkH+4BuqdqjfR/1j2uHXvhBEpW
- 0g6cOyt9aQ7s06/nNf1FgKXKpQ2fktGkECOKd8AzE2es0T7Ku/aLK84JzWLSJzZ3QnoI
- bnGtDTKGQls6QkvTC6QMdayxYoMq8WVrQrX+Vlc0775UjfWDTMx+V466P1weykwU4S5H
- 1TYiUTYUuQWd1E1FSBJUotFvIpbeHDTJJrxJkLP4LSUbkGyM+pYx184f1Aro6ZgMZwWT
- be7g==
-X-Gm-Message-State: AOAM532EBeatP69ilJ55vSORxvIVT1krYFXKV524ou3JRMIZg+FMn9kw
- Ql3+peF2I9+GwromQ9vakGbPk9SmB6NpfyPO8cM=
-X-Google-Smtp-Source: ABdhPJwKO+6/SHLvKXMBm1hrZTsQiyZNKN9/Rbnq8Htbw6eafdn8xiC1WzMiQlKDiGlBRwLCokMubA==
-X-Received: by 2002:a17:902:710d:b029:d1:e5e7:be20 with SMTP id
- a13-20020a170902710db02900d1e5e7be20mr2670438pll.83.1600189982051; 
- Tue, 15 Sep 2020 10:13:02 -0700 (PDT)
+ bh=7fnZxHJTw3qRgRORiSXEFhRbwParpG4yt1WADaHZ43Y=;
+ b=AhPt1tuqGkZLioGg/VMXUis1kzK3KUFrHJiy7P0RPR00you38djxTaJ6ArgmqrnlpL
+ BNumwGgmXwkuauHelMCGAYN0MX2p/tyiQi+CuSSypKYiWqGtf3f0X+MeP/1bYjMKxsej
+ oOlQtYeFnjV72EZVTCnNQRB0dL9dAxmpSRwrgfp1eOTf4fTAbX/7YZS+s8NemK90FA94
+ ZP2/xVRsYoe/7EBGajRqtJm6WeDeoFcsyt2cPrIbjpCvFKJOTWYQo7O7OGPz/b968MXK
+ umJ2gtphxbwywjbrfxTzKwZ28IITfy8WfvHDkPaie1igLw6z+p3RkTeyQHYZ+bjs0lTK
+ 1CpA==
+X-Gm-Message-State: AOAM533TGGfY8iwreQNGmaEVkr48Occdft0FvMxjfKXw683KlnyvKa9q
+ D8W5nhQkwMju22hyPuezHwuWao2Suedac6BTDs0=
+X-Google-Smtp-Source: ABdhPJwLh/c+2Mp53QjsHWfLYidVjQIhmftRIT5BFVpeH7XNS5XftMB+6vr/rFAMSI7/aU5eoT6DxA==
+X-Received: by 2002:a17:90a:cf07:: with SMTP id
+ h7mr342593pju.142.1600189986297; 
+ Tue, 15 Sep 2020 10:13:06 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.12.58
+ by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.13.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 10:13:01 -0700 (PDT)
+ Tue, 15 Sep 2020 10:13:05 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 02/26] ci: fixes msys2 build by upgrading capstone to 4.0.2
-Date: Wed, 16 Sep 2020 01:12:10 +0800
-Message-Id: <20200915171234.236-3-luoyonggang@gmail.com>
+Subject: [PATCH v10 03/26] configure: Fixes ncursesw detection under
+ msys2/mingw and enable curses
+Date: Wed, 16 Sep 2020 01:12:11 +0800
+Message-Id: <20200915171234.236-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915171234.236-1-luoyonggang@gmail.com>
 References: <20200915171234.236-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,75 +95,154 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The currently random version capstone have the following compiling issue:
-  CC      /c/work/xemu/qemu/build/slirp/src/arp_table.o
-make[1]: *** No rule to make target “/c/work/xemu/qemu/build/capstone/capstone.lib”。 Stop.
+The mingw pkg-config are showing following absolute path and contains : as the separator,
+so we must not use : as path separator. and we know the command line parameter are not likely
+contains newline, we could use newline as path command line parameter separator
 
-Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1 are the tagged version 4.0.2
-when upgrading to this version, the folder structure of include are changed to
-qemu\capstone\include
-│  platform.h
-│
-├─capstone
-│      arm.h
-│      arm64.h
-│      capstone.h
-│      evm.h
-│      m680x.h
-│      m68k.h
-│      mips.h
-│      platform.h
-│      ppc.h
-│      sparc.h
-│      systemz.h
-│      tms320c64x.h
-│      x86.h
-│      xcore.h
-│
-└─windowsce
-        intrin.h
-        stdint.h
+-D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC:/CI-Tools/msys64/mingw64/include/ncursesw:-I/usr/include/ncursesw:
+-DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+-DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lncursesw
+-DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lcursesw
+-DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+-DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lncursesw
+-DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lcursesw
+-DNCURSES_WIDECHAR -I/usr/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+-DNCURSES_WIDECHAR -I/usr/include/ncursesw -lncursesw
+-DNCURSES_WIDECHAR -I/usr/include/ncursesw -lcursesw
 
-in capstone. so we need add extra include path -I${source_path}/capstone/include/capstone
-for directly #include <capstone.h>, and the exist include path should preserve, because
-in capstone code there something like #include "capstone/capstone.h"
+Refer to https://unix.stackexchange.com/a/103011/218958
 
-If only using
-    capstone_cflags="-I${source_path}/capstone/include/capstone"
-Then will cause the following compiling error:
+If your file names are guaranteed not to contain newlines, you can use newlines as the separator. W
+hen you expand the variable, first turn off globbing with set -f and set the list of field splitting characters
+IFS to contain only a newline.
 
-  CC      cs.o
-cs.c:17:10: fatal error: 'capstone/capstone.h' file not found
-#include <capstone/capstone.h>
-         ^~~~~~~~~~~~~~~~~~~~~
-1 error generated.
+msys2/mingw lacks the POSIX-required langinfo.h.
+
+gcc test.c -DNCURSES_WIDECHAR -I/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+test.c:4:10: fatal error: langinfo.h: No such file or directory
+    4 | #include <langinfo.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+So we using g_get_codeset instead of nl_langinfo(CODESET)
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- capstone  | 2 +-
- configure | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ configure   | 25 +++++++++++++++----------
+ ui/curses.c | 10 +++++-----
+ 2 files changed, 20 insertions(+), 15 deletions(-)
 
-diff --git a/capstone b/capstone
-index 22ead3e0bf..1d23053284 160000
---- a/capstone
-+++ b/capstone
-@@ -1 +1 @@
--Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
-+Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1
 diff --git a/configure b/configure
-index ce27eafb0a..f59080703e 100755
+index f59080703e..dc4b7a2e55 100755
 --- a/configure
 +++ b/configure
-@@ -5157,7 +5157,7 @@ case "$capstone" in
-       LIBCAPSTONE=libcapstone.a
-     fi
-     capstone_libs="-Lcapstone -lcapstone"
--    capstone_cflags="-I${source_path}/capstone/include"
-+    capstone_cflags="-I${source_path}/capstone/include -I${source_path}/capstone/include/capstone"
-     ;;
+@@ -3654,35 +3654,40 @@ if test "$iconv" = "no" ; then
+ fi
+ if test "$curses" != "no" ; then
+   if test "$mingw32" = "yes" ; then
+-    curses_inc_list="$($pkg_config --cflags ncurses 2>/dev/null):"
+-    curses_lib_list="$($pkg_config --libs ncurses 2>/dev/null):-lpdcurses"
++    curses_inc_list="$($pkg_config --cflags ncurses 2>/dev/null)
++      $($pkg_config --cflags ncursesw 2>/dev/null)"
++    curses_lib_list="$($pkg_config --libs ncurses 2>/dev/null)
++      $($pkg_config --libs ncursesw 2>/dev/null)
++      -lpdcurses"
+   else
+-    curses_inc_list="$($pkg_config --cflags ncursesw 2>/dev/null):-I/usr/include/ncursesw:"
+-    curses_lib_list="$($pkg_config --libs ncursesw 2>/dev/null):-lncursesw:-lcursesw"
++    curses_inc_list="$($pkg_config --cflags ncursesw 2>/dev/null)
++      -I/usr/include/ncursesw:"
++    curses_lib_list="$($pkg_config --libs ncursesw 2>/dev/null)
++      -lncursesw
++      -lcursesw"
+   fi
+   curses_found=no
+   cat > $TMPC << EOF
+ #include <locale.h>
+ #include <curses.h>
+ #include <wchar.h>
+-#include <langinfo.h>
+ int main(void) {
+-  const char *codeset;
+   wchar_t wch = L'w';
+   setlocale(LC_ALL, "");
+   resize_term(0, 0);
+   addwstr(L"wide chars\n");
+   addnwstr(&wch, 1);
+   add_wch(WACS_DEGREE);
+-  codeset = nl_langinfo(CODESET);
+-  return codeset != 0;
++  return 0;
+ }
+ EOF
+-  IFS=:
++  IFS='
++'                           # turn off variable value expansion except for splitting at newlines
+   for curses_inc in $curses_inc_list; do
+     # Make sure we get the wide character prototypes
+     curses_inc="-DNCURSES_WIDECHAR $curses_inc"
+-    IFS=:
++    IFS='
++'                           # turn off variable value expansion except for splitting at newlines
+     for curses_lib in $curses_lib_list; do
+       unset IFS
+       if compile_prog "$curses_inc" "$curses_lib" ; then
+diff --git a/ui/curses.c b/ui/curses.c
+index a59b23a9cf..12bc682cf9 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -30,7 +30,6 @@
+ #endif
+ #include <locale.h>
+ #include <wchar.h>
+-#include <langinfo.h>
+ #include <iconv.h>
  
-   system)
+ #include "qapi/error.h"
+@@ -526,6 +525,7 @@ static void font_setup(void)
+     iconv_t nativecharset_to_ucs2;
+     iconv_t font_conv;
+     int i;
++    g_autofree gchar *local_codeset = g_get_codeset();
+ 
+     /*
+      * Control characters are normally non-printable, but VGA does have
+@@ -566,14 +566,14 @@ static void font_setup(void)
+       0x25bc
+     };
+ 
+-    ucs2_to_nativecharset = iconv_open(nl_langinfo(CODESET), "UCS-2");
++    ucs2_to_nativecharset = iconv_open(local_codeset, "UCS-2");
+     if (ucs2_to_nativecharset == (iconv_t) -1) {
+         fprintf(stderr, "Could not convert font glyphs from UCS-2: '%s'\n",
+                         strerror(errno));
+         exit(1);
+     }
+ 
+-    nativecharset_to_ucs2 = iconv_open("UCS-2", nl_langinfo(CODESET));
++    nativecharset_to_ucs2 = iconv_open("UCS-2", local_codeset);
+     if (nativecharset_to_ucs2 == (iconv_t) -1) {
+         iconv_close(ucs2_to_nativecharset);
+         fprintf(stderr, "Could not convert font glyphs to UCS-2: '%s'\n",
+@@ -581,7 +581,7 @@ static void font_setup(void)
+         exit(1);
+     }
+ 
+-    font_conv = iconv_open(nl_langinfo(CODESET), font_charset);
++    font_conv = iconv_open(local_codeset, font_charset);
+     if (font_conv == (iconv_t) -1) {
+         iconv_close(ucs2_to_nativecharset);
+         iconv_close(nativecharset_to_ucs2);
+@@ -602,7 +602,7 @@ static void font_setup(void)
+     /* DEL */
+     convert_ucs(0x7F, 0x2302, ucs2_to_nativecharset);
+ 
+-    if (strcmp(nl_langinfo(CODESET), "UTF-8")) {
++    if (strcmp(local_codeset, "UTF-8")) {
+         /* Non-Unicode capable, use termcap equivalents for those available */
+         for (i = 0; i <= 0xFF; i++) {
+             wchar_t wch[CCHARW_MAX];
 -- 
 2.28.0.windows.1
 
