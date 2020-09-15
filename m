@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DC126A631
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:21:42 +0200 (CEST)
-Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A8C26A652
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:33:21 +0200 (CEST)
+Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAtx-0002bo-V6
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:21:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37322)
+	id 1kIB5E-0007YG-Gd
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:33:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kIAo8-00033Q-Da
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:15:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50107)
+ (Exim 4.90_1) (envelope-from <otubo@redhat.com>) id 1kI8jB-0005MM-Qh
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 07:02:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44135
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kIAo6-0000DM-Fh
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:15:40 -0400
+ (Exim 4.90_1) (envelope-from <otubo@redhat.com>) id 1kI8j8-0006eO-GG
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 07:02:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600175734;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1600167741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QK/j9/I3kFG+QopV0qxQXXelw1pmtP6vECyuPlHHIsg=;
- b=ZylIsl73L2+0W27ORolB9xQrDnMXloJb2rbe5SPTulh2CwXsnRbBHDG+UfqrCsxQ/694eE
- SG4ZCE105gdNOjczBOLDWHIq0j9DHvvq3PMaTZ7QwjVBy0CJ4t6myRmTsrHhCxfozX2moU
- 3sUKzRwEtZI7i9gWUn2vhiDx59TFWWA=
+ bh=Jja0yAzXrMO1VzbeS7S7TWsqOyTmFI/DHOMiN1efKZ8=;
+ b=T8PXZ7BejGO4E4XH6qz1TKfl3vcS/3YFN6IiFcFkC5UJvQiK7H2zLQ1Ls71GHOQpKSnvJB
+ GYO6z741kKE9v7snHfIqgKjHCsnGdk6jDnaxcMpP89TAHRF3JwsKv4hDLat5S4YBk99ioA
+ DHZBD/fBGsoT2E6gb1xRxcj0imEvaxk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-R4wP3rQzOm6xwoDIEmk8ZQ-1; Tue, 15 Sep 2020 09:15:29 -0400
-X-MC-Unique: R4wP3rQzOm6xwoDIEmk8ZQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-562-h0n_UnTrNYSWE8-hDKUYdA-1; Tue, 15 Sep 2020 07:02:17 -0400
+X-MC-Unique: h0n_UnTrNYSWE8-hDKUYdA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71E0064099;
- Tue, 15 Sep 2020 13:15:26 +0000 (UTC)
-Received: from redhat.com (ovpn-113-234.ams2.redhat.com [10.36.113.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3D335DC17;
- Tue, 15 Sep 2020 13:15:19 +0000 (UTC)
-Date: Tue, 15 Sep 2020 14:15:17 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v9 19/26] tests: Fixes test-io-channel-file by mask only
- owner file state mask bits
-Message-ID: <20200915131517.GI1502912@redhat.com>
-References: <20200915121318.247-1-luoyonggang@gmail.com>
- <20200915121318.247-20-luoyonggang@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BE2E64086;
+ Tue, 15 Sep 2020 11:02:16 +0000 (UTC)
+Received: from genji.redhat.com (ovpn-115-97.ams2.redhat.com [10.36.115.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59C0C60E1C;
+ Tue, 15 Sep 2020 11:02:15 +0000 (UTC)
+From: Eduardo Otubo <otubo@redhat.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 1/1] seccomp: fix killing of whole process instead of thread
+Date: Tue, 15 Sep 2020 13:01:55 +0200
+Message-Id: <20200915110155.15362-2-otubo@redhat.com>
+In-Reply-To: <20200915110155.15362-1-otubo@redhat.com>
+References: <20200915110155.15362-1-otubo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915121318.247-20-luoyonggang@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.003
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=otubo@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:23:19
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=otubo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 15 Sep 2020 09:15:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,38 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 15, 2020 at 08:13:11PM +0800, Yonggang Luo wrote:
-> This is the error on msys2/mingw
-> Running test test-io-channel-file
-> **
-> ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
-> ERROR test-io-channel-file - Bail out! ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
-> 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> ---
->  tests/test-io-channel-file.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Back in 2018 we introduced support for killing the whole QEMU process
+instead of just one thread, when a seccomp rule is violated:
 
+  commit bda08a5764d470f101fa38635d30b41179a313e1
+  Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+  Date:   Wed Aug 22 19:02:48 2018 +0200
 
-Regards,
-Daniel
+    seccomp: prefer SCMP_ACT_KILL_PROCESS if available
+
+Fast forward a year and we introduced a patch to avoid killing the
+process for resource control syscalls tickled by Mesa.
+
+  commit 9a1565a03b79d80b236bc7cc2dbce52a2ef3a1b8
+  Author: Daniel P. Berrangé <berrange@redhat.com>
+  Date:   Wed Mar 13 09:49:03 2019 +0000
+
+    seccomp: don't kill process for resource control syscalls
+
+Unfortunately a logic bug effectively reverted the first commit
+mentioned so that we go back to only killing the thread, not the whole
+process.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Acked-by: Eduardo Otubo <otubo@redhat.com>
+---
+ qemu-seccomp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/qemu-seccomp.c b/qemu-seccomp.c
+index e0a1829b3d..8325ecb766 100644
+--- a/qemu-seccomp.c
++++ b/qemu-seccomp.c
+@@ -136,8 +136,9 @@ static uint32_t qemu_seccomp_get_action(int set)
+ 
+             if (qemu_seccomp(SECCOMP_GET_ACTION_AVAIL, 0, &action) == 0) {
+                 kill_process = 1;
++            } else {
++                kill_process = 0;
+             }
+-            kill_process = 0;
+         }
+         if (kill_process == 1) {
+             return SCMP_ACT_KILL_PROCESS;
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.18.1
 
 
