@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A1A26A4F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:20:03 +0200 (CEST)
-Received: from localhost ([::1]:53730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1980A26A4BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:12:43 +0200 (CEST)
+Received: from localhost ([::1]:35170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI9wI-0005eX-2V
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
+	id 1kI9pB-00060w-S7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nH-0004pI-7T
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:10:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23103
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9mG-0003ux-BF
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:09:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nB-0007go-71
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:10:41 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9mD-0007S2-Nl
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:09:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600171834;
+ s=mimecast20190719; t=1600171774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f0j/2GpDmP1B6JzBQEJ4sMlLnicgwb2jxZZq7qWpABA=;
- b=U1TKiD+mlqedbZ0wqHGZY9e5qFwdgxHz8BHpbq97HKdhNpbt4v/OlLof3oMdi6/2yPQBC5
- wkQiCqAdsNZmScoiXjFkIzqjIE6QOyYu0TFJjTvjusQMWFrNKaeSvC/oD5I/vcEGYihnYw
- wZJYTSuxfR1Ah04RzQ6ZMd5JtEjjo88=
+ bh=+RoT3UHwL3C3aiK+dtyg81KyFCt1RZ6yhy/ND3g2/ps=;
+ b=NUVz5kBbCRSPxRKAPpC9Lmoy8xWTSaGoU168QbnaK6e079SifBt9wYbkwkQMKEf4uZ9fxE
+ LzM/oFrmdFPJsXMkyovurLPE3X41r+Jd4hluDQZiJfqPuhxx+CTKJp6Fdj6WViryr5Sgz5
+ CUEk2ki3yRGNsOtlunrNmi5B3GOP5LY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-XpK5ZRWPOmuQPMOQPwAFGA-1; Tue, 15 Sep 2020 08:09:26 -0400
-X-MC-Unique: XpK5ZRWPOmuQPMOQPwAFGA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-253-P6HYTBTkPheSm9LcE4SqbQ-1; Tue, 15 Sep 2020 08:09:32 -0400
+X-MC-Unique: P6HYTBTkPheSm9LcE4SqbQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3AB564089;
- Tue, 15 Sep 2020 12:09:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ACD918BA280;
+ Tue, 15 Sep 2020 12:09:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D5D15DE4A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9F6B1002393;
  Tue, 15 Sep 2020 12:09:24 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5C3F140BFE; Tue, 15 Sep 2020 14:09:10 +0200 (CEST)
+ id 656F040C06; Tue, 15 Sep 2020 14:09:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 19/21] tests/acpi: add microvm test
-Date: Tue, 15 Sep 2020 14:09:07 +0200
-Message-Id: <20200915120909.20838-20-kraxel@redhat.com>
+Subject: [PATCH v8 20/21] tests/acpi: update expected data files for microvm
+Date: Tue, 15 Sep 2020 14:09:08 +0200
+Message-Id: <20200915120909.20838-21-kraxel@redhat.com>
 In-Reply-To: <20200915120909.20838-1-kraxel@redhat.com>
 References: <20200915120909.20838-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,45 +91,59 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
----
- tests/qtest/bios-tables-test.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Also clear tests/qtest/bios-tables-test-allowed-diff.h
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 1779af1cc889..a9c8d478aee3 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1044,6 +1044,20 @@ static void test_acpi_virt_tcg_memhp(void)
- 
- }
- 
-+static void test_acpi_microvm_tcg(void)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = "microvm";
-+    data.required_struct_types = NULL; /* no smbios */
-+    data.required_struct_types_len = 0;
-+    data.blkdev = "virtio-blk-device";
-+    test_acpi_one(" -machine microvm,acpi=on,rtc=off",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
- static void test_acpi_virt_tcg_numamem(void)
- {
-     test_data data = {
-@@ -1161,6 +1175,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-+        qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
+ tests/data/acpi/microvm/APIC                | Bin 0 -> 70 bytes
+ tests/data/acpi/microvm/DSDT                | Bin 0 -> 365 bytes
+ tests/data/acpi/microvm/FACP                | Bin 0 -> 268 bytes
+ 4 files changed, 3 deletions(-)
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 97c3fa621b7f..dfb8523c8bf4 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,4 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/microvm/APIC",
+-"tests/data/acpi/microvm/DSDT",
+-"tests/data/acpi/microvm/FACP",
+diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7472c7e830b6c7139720e93dd544d4441556661d 100644
+GIT binary patch
+literal 70
+zcmZ<^@N{-#U|?Xp?&R<65v<@85#a0y6k`O6f!H9Lf#JbFFwFr}2jnsGfW!{`1CcCj
+H|A7Jk<Z=uF
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..b43f427a222a933d3f34aceab6224a2c6115c365 100644
+GIT binary patch
+literal 365
+zcmX9(%SyvQ6upy2n@pNIKA<QF#Sf5arMONe(=?DaG1G?-VTyaft+=UO6kPiQ{RBV7
+z&*`dor`gOs_nbMLa}$-!-w1&98W&=s`tfrq66BBqgUw{=rB<=7xA)_f7<+n>CE=5t
+zE;#2y@U)soH1M>j)Okp0N|?)B()oaTI~2uqaQfeg{#@eeMV8=e3}=mj(J&<k`(T52
+z$G~{<Rw@(SghZmuI3GM<2s%R)5Sg4V4Zd4o6Cc~5X(KC{LI+@fq)z=6m{mw6^ZwPX
+zmdm;SZkF|){d}&e1=QM=t170OdV6g^6IRYjF1Tp2ut@AIEB@GM`K&7N+EF9YHntEE
+jUShi3(B94m0^Q#uSOD0Iklv{mV=rh>BYn|!sEgD;a<EMS
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..0ba5795d622349e1521138e4123544637b4ab9af 100644
+GIT binary patch
+literal 268
+zcmZ>BbPnKQWME*ebMklg2v%^42yk`-iUEZfKx`0ARlp*^z`()4z{IrRAIMxMsv1tD
+QVL<yCp!S2@!U$yp0N^VO0RR91
+
+literal 0
+HcmV?d00001
+
 -- 
 2.27.0
 
