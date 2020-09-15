@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69C126A98B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:18:51 +0200 (CEST)
-Received: from localhost ([::1]:35788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF8C26A98F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:19:44 +0200 (CEST)
+Received: from localhost ([::1]:37876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIDfO-0005Cx-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58832)
+	id 1kIDgF-00065d-Gq
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDdX-0004C8-MF
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:16:55 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33159)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDeW-00053D-Ax
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:17:56 -0400
+Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:38165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDdQ-0003AE-Va
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:16:55 -0400
-Received: by mail-ot1-x341.google.com with SMTP id m12so3814510otr.0
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:16:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDeT-0003LE-Ac
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:17:56 -0400
+Received: by mail-oo1-xc42.google.com with SMTP id r10so902897oor.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=nHLnh84dAOxATum+plR8Pd3g2ntM1Dq6fM0bKJLLgv8=;
- b=o6SiPNy9jm9ecT7GwYtEp/l7RVwvcHZVsCh+/qFAOX7X/aaZr85tJpMEPwFEa624Mx
- s8DiwpM7MJEqS0IkkzMX1fswcW4J+0eMtsSNd31iTuBYSWIC7PzJ8+pZWYUohXI0tCGX
- Wgi+y0EAHGDvUhhNCJfRA/XePkDSiIwRym1JjfNDC0EnQ3oVRpwuogYivpQwPQNGQTbV
- H1RmxZoGAnQ8mt50Z0+7lYdPSLZOY0Qaqbz8l2d2qmvjVznLDTKFcfpBo6UjWlJzxQ/0
- g4PjRvSUzutaoSR52FqcRWiV8XlxLfPcOKGVsX8rgmOYA58XHDZXNro+LZkkjtPdzOnk
- kisw==
+ bh=3MTXJ7SzJXvGE3kYUOjtvav1mjYpr/RAXHlYl2K/e7o=;
+ b=LkXTpU81evh/HbYZ+RrtXyK8+ywAVXSjQqLwci4KYAWP64j1j9EqMAMIrGG9oT0GHz
+ 7amp5twEs0rCwfyeZYynM8oPGNmBrdglfful12IwyaRc89X8GAUb5o6cXd2KUi+Gkpjp
+ R4+4yy97mCZExAPmlgIFsQa9v+tbEZuWAzfDZSVk59ZOYMrOroFumlF+3eXGSI7+cGTV
+ qYkU9zKIB0ISBxblAuC6bE85zJ+LUIuqOzu2vgVKesxW854ZXG9lJZSd00v5Df/nDaEt
+ CN0m617zG7K7PYVSZS2eQZ8Ot473mh6qHFU7N6dZ6XAf2eTP0pKtniDL0r20XaelVWfN
+ 6JDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=nHLnh84dAOxATum+plR8Pd3g2ntM1Dq6fM0bKJLLgv8=;
- b=bJYAxIuVaTWzTC7fgLHM8nQUIyOglw5OmKX64T/+psG7tBowL3ZpEfTWTgG670BRH9
- RbR8bMhgME1a5zsHsU44z+fV/44FDNDalRGi7MORnXsKaWa+onGdH+nCfemybfX8DIji
- u/P2p+2EuXIfoSiSnDL2reoYMFoRNEWbe8NB/lxCFlxqqM9u01TYWey39nbdB8pKvZTr
- zR4ltT3QG+w2pKaB2HWFKMu86v4lOm3zPHInBxtwXtNnQuMcSQuRpzG3epoeLDA5aGcY
- e4EdPOLj6cavpgws+6B8nsKzg+I5IUwmeaHzbDYDbBoiQnpN+/1ZTE5PuwgNOudK0Uuo
- gCvA==
-X-Gm-Message-State: AOAM53122TYiRfIU4DYPIUysTDTrmyLzVSbixwStTeqW696uqTwghAia
- r0G3deVEgYKudrnmSUWGWmV4/SqkZ3cAmIlyPh8=
-X-Google-Smtp-Source: ABdhPJx+LVwsamKAm8Ow2DHR6dXoCa6FvTPSKMNJe+Ki9HUx/pwAChuBJs+rbMM2/EzeHJfYiP2TEvdxNCoozHWf3tI=
-X-Received: by 2002:a05:6830:610:: with SMTP id
- w16mr12553285oti.353.1600186607606; 
- Tue, 15 Sep 2020 09:16:47 -0700 (PDT)
+ bh=3MTXJ7SzJXvGE3kYUOjtvav1mjYpr/RAXHlYl2K/e7o=;
+ b=uT+WGuxNkzbhHryGqTyJo4eVr3btcCyl749trjlcNGSbnCv0c9kyNmFotWIBv9Tpvk
+ a7PPuia345HQQpjgOw0+66w/qPskQR+CBeChgoNJ1w3C7s0bw2hqlmzgJy/Ra8WJEteu
+ Dd4+WXlBgLmGcMUzFB8oJiaJNe3C9dlpt7RSrKhgqIxEZSv0yXCkB5UeusYJSaR6N/mN
+ 6V66D7/zr/2URf1JyKf2DpniZkWdCVCPtvaKX5gcvJppGcBNL1pUjVtA0ZeDPNIvwxRa
+ ieYIQ3MmZmoESnilupFcticTrNwSuvP/ETmnn+VyUsoWCsEP/7EHgs7D59wk81sgRq6D
+ 8LUw==
+X-Gm-Message-State: AOAM533mMnHgev9AAupb+V4AXkE5RfcjiAP4qGTrnQmmpIEKO3lfyNY8
+ 0FFwSTlFeae95E87SyXlxP1gSCOBkRr6c9XIihg=
+X-Google-Smtp-Source: ABdhPJzgPA0dadybaQBWU50F7YRAZKUphu6IK96ziCE4NsGJqEaDjy29yB0Hpm01GUrZHVaZZrNRlCzA1RgFIbReRoo=
+X-Received: by 2002:a4a:5d84:: with SMTP id w126mr12983271ooa.1.1600186672129; 
+ Tue, 15 Sep 2020 09:17:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <1600137887-58739-1-git-send-email-zhengchuan@huawei.com>
- <1600137887-58739-2-git-send-email-zhengchuan@huawei.com>
-In-Reply-To: <1600137887-58739-2-git-send-email-zhengchuan@huawei.com>
+ <1600137887-58739-3-git-send-email-zhengchuan@huawei.com>
+In-Reply-To: <1600137887-58739-3-git-send-email-zhengchuan@huawei.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 16 Sep 2020 00:16:10 +0800
-Message-ID: <CAKXe6S+KRT-A-6v+jY2+Ryd2f4sA=kDJ_dra4sehELkbir1xYg@mail.gmail.com>
-Subject: Re: [PATCH v9 01/12] migration/dirtyrate: setup up query-dirtyrate
- framwork
+Date: Wed, 16 Sep 2020 00:17:15 +0800
+Message-ID: <CAKXe6S+XpZuRXk0pR-QoMMevxqtJiHP9EcoxHM-JwHso0pv7tA@mail.gmail.com>
+Subject: Re: [PATCH v9 02/12] migration/dirtyrate: add DirtyRateStatus to
+ denote calculation status
 To: Chuan Zheng <zhengchuan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,120 +92,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Chuan Zheng <zhengchuan@huawei.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8815=E6=
 =97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=8810:34=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Add get_dirtyrate_thread() functions to setup query-dirtyrate
-> framework.
+> add DirtyRateStatus to denote calculating status.
 >
 > Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
->  migration/dirtyrate.c | 38 ++++++++++++++++++++++++++++++++++++++
->  migration/dirtyrate.h | 29 +++++++++++++++++++++++++++++
->  migration/meson.build |  2 +-
->  3 files changed, 68 insertions(+), 1 deletion(-)
->  create mode 100644 migration/dirtyrate.c
->  create mode 100644 migration/dirtyrate.h
+>  migration/dirtyrate.c | 26 ++++++++++++++++++++++++++
+>  qapi/migration.json   | 17 +++++++++++++++++
+>  2 files changed, 43 insertions(+)
 >
 > diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> new file mode 100644
-> index 0000000..bf7fd24
-> --- /dev/null
+> index bf7fd24..7bea8ff 100644
+> --- a/migration/dirtyrate.c
 > +++ b/migration/dirtyrate.c
-> @@ -0,0 +1,38 @@
-> +/*
-> + * Dirtyrate implement code
-> + *
-> + * Copyright (c) 2020 HUAWEI TECHNOLOGIES CO.,LTD.
-> + *
-> + * Authors:
-> + *  Chuan Zheng <zhengchuan@huawei.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "cpu.h"
-> +#include "qemu/config-file.h"
-> +#include "exec/memory.h"
-> +#include "exec/ramblock.h"
-> +#include "exec/target_page.h"
-> +#include "qemu/rcu_queue.h"
-> +#include "qapi/qapi-commands-migration.h"
-> +#include "migration.h"
-> +#include "dirtyrate.h"
-> +
-> +static void calculate_dirtyrate(struct DirtyRateConfig config)
-> +{
-> +    /* todo */
-> +    return;
-> +}
-> +
-> +void *get_dirtyrate_thread(void *arg)
-> +{
-> +    struct DirtyRateConfig config =3D *(struct DirtyRateConfig *)arg;
-> +
-> +    calculate_dirtyrate(config);
-> +
-> +    return NULL;
-> +}
-> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> new file mode 100644
-> index 0000000..5be9714
-> --- /dev/null
-> +++ b/migration/dirtyrate.h
-> @@ -0,0 +1,29 @@
-> +/*
-> + *  Dirtyrate common functions
-> + *
-> + *  Copyright (c) 2020 HUAWEI TECHNOLOGIES CO., LTD.
-> + *
-> + *  Authors:
-> + *  Chuan Zheng <zhengchuan@huawei.com>
-> + *
-> + *  This work is licensed under the terms of the GNU GPL, version 2 or l=
-ater.
-> + *  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef QEMU_MIGRATION_DIRTYRATE_H
-> +#define QEMU_MIGRATION_DIRTYRATE_H
-> +
-> +/*
-> + * Sample 512 pages per GB as default.
-> + * TODO: Make it configurable.
-> + */
-> +#define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
-> +
-> +struct DirtyRateConfig {
-> +    uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
-> +    int64_t sample_period_seconds; /* time duration between two sampling=
- */
-> +};
-> +
-> +void *get_dirtyrate_thread(void *arg);
-> +#endif
-> +
-> diff --git a/migration/meson.build b/migration/meson.build
-> index ac8ff14..b5b71c8 100644
-> --- a/migration/meson.build
-> +++ b/migration/meson.build
-> @@ -37,4 +37,4 @@ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: fi=
-les('rdma.c'))
->  softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('bloc=
-k.c'))
->  softmmu_ss.add(when: 'CONFIG_ZSTD', if_true: [files('multifd-zstd.c'), z=
-std])
+> @@ -22,6 +22,19 @@
+>  #include "migration.h"
+>  #include "dirtyrate.h"
 >
-> -specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('ram.c'))
-> +specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c', 'r=
-am.c'))
+> +static int CalculatingState =3D DIRTY_RATE_STATUS_UNSTARTED;
+> +
+> +static int dirtyrate_set_state(int *state, int old_state, int new_state)
+> +{
+> +    assert(new_state < DIRTY_RATE_STATUS__MAX);
+> +    if (atomic_cmpxchg(state, old_state, new_state) =3D=3D old_state) {
+> +        return 0;
+> +    } else {
+> +        return -1;
+> +    }
+> +}
+> +
+> +
+>  static void calculate_dirtyrate(struct DirtyRateConfig config)
+>  {
+>      /* todo */
+> @@ -31,8 +44,21 @@ static void calculate_dirtyrate(struct DirtyRateConfig=
+ config)
+>  void *get_dirtyrate_thread(void *arg)
+>  {
+>      struct DirtyRateConfig config =3D *(struct DirtyRateConfig *)arg;
+> +    int ret;
+> +
+> +    ret =3D dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNS=
+TARTED,
+> +                              DIRTY_RATE_STATUS_MEASURING);
+> +    if (ret =3D=3D -1) {
+> +        error_report("change dirtyrate state failed.");
+> +        return NULL;
+> +    }
+>
+>      calculate_dirtyrate(config);
+>
+> +    ret =3D dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEA=
+SURING,
+> +                              DIRTY_RATE_STATUS_MEASURED);
+> +    if (ret =3D=3D -1) {
+> +        error_report("change dirtyrate state failed.");
+> +    }
+>      return NULL;
+>  }
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 5f6b061..061ff25 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1720,3 +1720,20 @@
+>  ##
+>  { 'event': 'UNPLUG_PRIMARY',
+>    'data': { 'device-id': 'str' } }
+> +
+> +##
+> +# @DirtyRateStatus:
+> +#
+> +# An enumeration of dirtyrate status.
+> +#
+> +# @unstarted: the dirtyrate thread has not been started.
+> +#
+> +# @measuring: the dirtyrate thread is measuring.
+> +#
+> +# @measured: the dirtyrate thread has measured and results are available=
+.
+> +#
+> +# Since: 5.2
+> +#
+> +##
+> +{ 'enum': 'DirtyRateStatus',
+> +  'data': [ 'unstarted', 'measuring', 'measured'] }
 > --
 > 1.8.3.1
 >
