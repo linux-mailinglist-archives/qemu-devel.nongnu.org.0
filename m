@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416C426A3D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 13:06:00 +0200 (CEST)
-Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AC926A3C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 13:01:49 +0200 (CEST)
+Received: from localhost ([::1]:56956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8mc-00089X-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 07:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
+	id 1kI8ib-0003vK-0l
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 07:01:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UO-0000tA-O0
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:08 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23919
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UX-0000xc-5u
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51563
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UM-0004dB-VL
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:08 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UU-0004e5-JK
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166826;
+ s=mimecast20190719; t=1600166832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rSgvq6swWaOeoMm7noo48t3BlK9H+HlOXThylQ/P9wg=;
- b=SS637634MTSgrxtT/07G2mNuM6vjZTMKmQZEW7aEJXtncdq8vl3YxmeoLzz0cKpm8beViL
- BpVtkDzNkEVkDMnEoc+Tct3pe+gza3Lz7IN6XNIitZ13FRcNEiIOV1PrfqOrK8TBXpbu/C
- 9OBP1NaLI5ZB+TZ8msm6YTSQCxEraBI=
+ bh=O+wlTowVCJpAvfNu8KtauowcUK2/YnTK25EvbZZlnOk=;
+ b=AXsbUDNzquW/HI9xr2VYhwPquUlWv+hZhDH9t4lDNZu//exxxurLP34rKSW+lnc5zlwjYI
+ 8VG1aSZbWSe3wQixSoOuHWQ87OQY0PPDMwnTmkB2k760Itq7cblM54mGgLVdafdQR2PPoc
+ NEwgoNbbplxWonYMp593DwT4ecj4SNQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-k3N2VNm1NEyosckPjGS5BA-1; Tue, 15 Sep 2020 06:47:04 -0400
-X-MC-Unique: k3N2VNm1NEyosckPjGS5BA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-192-Ij26yJLrORm4umYw58rhHg-1; Tue, 15 Sep 2020 06:47:10 -0400
+X-MC-Unique: Ij26yJLrORm4umYw58rhHg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F0AB801AC2;
- Tue, 15 Sep 2020 10:47:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C79FD1005E67;
+ Tue, 15 Sep 2020 10:47:09 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADF0610021AA;
- Tue, 15 Sep 2020 10:47:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68F8B7EB7C;
+ Tue, 15 Sep 2020 10:47:09 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 15/22] qcow2: Handle QCowL2Meta on error in preallocate_co()
-Date: Tue, 15 Sep 2020 12:46:20 +0200
-Message-Id: <20200915104627.699552-16-mreitz@redhat.com>
+Subject: [PULL 18/22] block/rbd: remove runtime_opts
+Date: Tue, 15 Sep 2020 12:46:23 +0200
+Message-Id: <20200915104627.699552-19-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -84,113 +84,70 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: John Snow <jsnow@redhat.com>
 
-If qcow2_alloc_cluster_offset() or qcow2_alloc_cluster_link_l2() fail
-then this function simply returns the error code, potentially leaking
-the QCowL2Meta structure and leaving stale items in s->cluster_allocs.
+This saw its last use in 4bfb274165ba.
 
-A second problem is that this function calls qcow2_free_any_clusters()
-on failure but passing a host cluster offset instead of an L2 entry.
-Luckily for normal uncompressed clusters a raw offset also works like
-a valid L2 entry so it works just the same, but we should be using
-qcow2_free_clusters() instead.
-
-This patch fixes both problems by using qcow2_handle_l2meta().
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <cd3a6b9abd43f9c0b60be413d760f0cacc67eb66.1599573989.git.berto@igalia.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20200806211345.2925343-2-jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 40 +++++++++++++++++-----------------------
- 1 file changed, 17 insertions(+), 23 deletions(-)
+ block/rbd.c | 42 ------------------------------------------
+ 1 file changed, 42 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 3e8114dcf8..d241fb734c 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2101,7 +2101,6 @@ static coroutine_fn int qcow2_handle_l2meta(BlockDriverState *bs,
-         QCowL2Meta *next;
- 
-         if (link_l2) {
--            assert(!l2meta->prealloc);
-             ret = qcow2_alloc_cluster_link_l2(bs, l2meta);
-             if (ret) {
-                 goto out;
-@@ -3123,7 +3122,7 @@ static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
-     int64_t file_length;
-     unsigned int cur_bytes;
-     int ret;
--    QCowL2Meta *meta;
-+    QCowL2Meta *meta = NULL, *m;
- 
-     assert(offset <= new_length);
-     bytes = new_length - offset;
-@@ -3134,27 +3133,17 @@ static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
-                                          &host_offset, &meta);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "Allocating clusters failed");
--            return ret;
-+            goto out;
-         }
- 
--        while (meta) {
--            QCowL2Meta *next = meta->next;
--            meta->prealloc = true;
--
--            ret = qcow2_alloc_cluster_link_l2(bs, meta);
--            if (ret < 0) {
--                error_setg_errno(errp, -ret, "Mapping clusters failed");
--                qcow2_free_any_clusters(bs, meta->alloc_offset,
--                                        meta->nb_clusters, QCOW2_DISCARD_NEVER);
--                return ret;
--            }
--
--            /* There are no dependent requests, but we need to remove our
--             * request from the list of in-flight requests */
--            QLIST_REMOVE(meta, next_in_flight);
-+        for (m = meta; m != NULL; m = m->next) {
-+            m->prealloc = true;
-+        }
- 
--            g_free(meta);
--            meta = next;
-+        ret = qcow2_handle_l2meta(bs, &meta, true);
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Mapping clusters failed");
-+            goto out;
-         }
- 
-         /* TODO Preallocate data if requested */
-@@ -3171,7 +3160,8 @@ static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
-     file_length = bdrv_getlength(s->data_file->bs);
-     if (file_length < 0) {
-         error_setg_errno(errp, -file_length, "Could not get file size");
--        return file_length;
-+        ret = file_length;
-+        goto out;
+diff --git a/block/rbd.c b/block/rbd.c
+index 688074c64b..171c67e3a0 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -341,48 +341,6 @@ static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
      }
- 
-     if (host_offset + cur_bytes > file_length) {
-@@ -3181,11 +3171,15 @@ static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
-         ret = bdrv_co_truncate(s->data_file, host_offset + cur_bytes, false,
-                                mode, 0, errp);
-         if (ret < 0) {
--            return ret;
-+            goto out;
-         }
-     }
- 
--    return 0;
-+    ret = 0;
-+
-+out:
-+    qcow2_handle_l2meta(bs, &meta, false);
-+    return ret;
  }
  
- /* qcow2_refcount_metadata_size:
+-static QemuOptsList runtime_opts = {
+-    .name = "rbd",
+-    .head = QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
+-    .desc = {
+-        {
+-            .name = "pool",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Rados pool name",
+-        },
+-        {
+-            .name = "namespace",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Rados namespace name in the pool",
+-        },
+-        {
+-            .name = "image",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Image name in the pool",
+-        },
+-        {
+-            .name = "conf",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Rados config file location",
+-        },
+-        {
+-            .name = "snapshot",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Ceph snapshot name",
+-        },
+-        {
+-            /* maps to 'id' in rados_create() */
+-            .name = "user",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Rados id name",
+-        },
+-        /*
+-         * server.* extracted manually, see qemu_rbd_mon_host()
+-         */
+-        { /* end of list */ }
+-    },
+-};
+-
+ /* FIXME Deprecate and remove keypairs or make it available in QMP. */
+ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+                               const char *keypairs, const char *password_secret,
 -- 
 2.26.2
 
