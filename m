@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A71C26A5A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:54:45 +0200 (CEST)
-Received: from localhost ([::1]:46740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0288526A5AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:57:16 +0200 (CEST)
+Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIATs-0008Rh-Fn
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:54:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55852)
+	id 1kIAWI-0002pQ-QC
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:57:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIANq-0001QV-79
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:48:30 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIANo-00045a-7y
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:48:29 -0400
-Received: by mail-ej1-x642.google.com with SMTP id e23so4880389eja.3
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 05:48:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VKfWIAJMCrqN13rMR9SQ7Jx0m6rOpjBjAXOPQ7M9HEg=;
- b=T+Yi41MSdfUBVHPbp7HFhmtKfCEhMfHdu1rfvEUGfoRklzGeKjf73UVQxrdhIRbzLk
- WcV1i4ewJ2x3g0qCk8576MbsTdPPQcx02puYaUbrUhX4sciq7zycPfBsdA7FJJ2zSWCw
- oikVUDIJ32UwoMoCm57a8/fzwY6NpXmdbVvYvkGBSCTooMDCo/zm8s5QMoc7VJZHXB5y
- BsZJLRdwW1ZNkDOcfhsZ88i2YE1pH9DsWDqPHSGgi8tG1ie/26L449GkO8nRVsX1pDdl
- o8oj5nl8mh+RJuVRUkJLM1Y2JfrhXm6MKHvh4uvmpJXfIU4/uneSbxTBTJBi4Byff8Es
- YRmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VKfWIAJMCrqN13rMR9SQ7Jx0m6rOpjBjAXOPQ7M9HEg=;
- b=D9Ghr7hRujVt4BaekzTcLstTq2WGAFacoPf6NqMM1wuXAWfJ/rRmXm1IArh+sw+2yQ
- eXf/PxwmMSevJa1xxGLqdmbMZS76ifkg/8sayf3X7hWUYGggmrGDq5ajwpfGdmqIBkli
- N8I52WAKndkLzPYAmVOOehLKZwCUk+sW45d5R1Nax6fjszJABuliucDiTj766UR6C445
- niICV9fx4So80AYM78JJyqBhTtUy+K9ka+3SCqJLn8timzuLJhomubt1BuHttZQ3eyfO
- KMFEXsoaVK2A+ASzNR2C0UuQZ54j3jb0Q30C2PMH3DVEH4G09oocnS+fys7cM5Y8Fai3
- zhMQ==
-X-Gm-Message-State: AOAM530zT204YVdLcJzEBvVxjctcDT+vkUZcinVcAD3catY8vgWLWxzi
- 2gRv5U+EgWMSfnNApAs2liddAMz9Q8pbG9KW79TPRg==
-X-Google-Smtp-Source: ABdhPJw4EM87P/Z63yVhZRnRmo4UFR4EmiWpGPOlo/ECkrvEXl3gl7m/POYGRnWvTsm6UAj+QDVnVqzXDCQGvnJOUpY=
-X-Received: by 2002:a17:907:20d9:: with SMTP id
- qq25mr19003898ejb.382.1600174104979; 
- Tue, 15 Sep 2020 05:48:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kIAOd-0002Mo-S6
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:49:19 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49619
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kIAOb-0004AN-1G
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:49:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600174155;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VeXx2nJQ4Ga3mDgI9s03Wr81CPQ6dhV9LHsoS9Un3CQ=;
+ b=JY5rOR7IoxTzOD7LS5qVHUw4SgB2D3Q+y8HOeCtd6JEvY2sWuCmBWe63b5rxONrX/eIfKi
+ GwM17CpnncM3Jf32goLdJqJeSpXNu6YBVHraLkDEI4UsnJX9c29ck5xjzOHuqR2/3by/x7
+ 2Ss2c+ZWDVcK5We0Fk9WtLbzgp9eqYo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-FEzQWvNwNzuCc86F_wn-XQ-1; Tue, 15 Sep 2020 08:49:11 -0400
+X-MC-Unique: FEzQWvNwNzuCc86F_wn-XQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0EAB64156;
+ Tue, 15 Sep 2020 12:49:09 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CF62100164C;
+ Tue, 15 Sep 2020 12:49:01 +0000 (UTC)
+Date: Tue, 15 Sep 2020 14:48:59 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 9/9] piix4: don't reserve hw resources when hotplug is
+ off globally
+Message-ID: <20200915144859.4f929784@redhat.com>
+In-Reply-To: <CAARzgwzF4nwb8=ZQq5mhmDPQdgaen4Dy+_gXQVkW+Gw-_feMgw@mail.gmail.com>
+References: <20200911180755.28409-1-ani@anisinha.ca>
+ <20200911180755.28409-9-ani@anisinha.ca>
+ <20200914150550.23a91fa2@redhat.com>
+ <CAARzgwyrSW4jjrPCc1SJkDZUV9C-e_96RNGytZ8VjpPzzrWfXg@mail.gmail.com>
+ <CAARzgwx4T0MXtFTMe-b8DbAQCi7xq231kjOv8wRcRxwE5HPCyw@mail.gmail.com>
+ <20200914160910.66785da8@redhat.com>
+ <CAARzgwzSg7zCk_jaQ7iriC4_L+9oTykv0RhPdkTroP9pNtiMCg@mail.gmail.com>
+ <20200915135141.585c767d@redhat.com>
+ <CAARzgwzF4nwb8=ZQq5mhmDPQdgaen4Dy+_gXQVkW+Gw-_feMgw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200915110155.15362-1-otubo@redhat.com>
-In-Reply-To: <20200915110155.15362-1-otubo@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Sep 2020 13:48:13 +0100
-Message-ID: <CAFEAcA8J+8hMSQE36wYc6QMdtdMg-_ZSYbNKca1UQ9u2epWCQg@mail.gmail.com>
-Subject: Re: [PULL 0/1] seccomp branch queue
-To: Eduardo Otubo <otubo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 05:35:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,46 +90,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Sep 2020 at 12:02, Eduardo Otubo <otubo@redhat.com> wrote:
->
-> The following changes since commit 2d2c73d0e3d504a61f868e46e6abd5643f3809=
-1b:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
-00914-1' into staging (2020-09-14 16:03:08 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/otubo/qemu.git tags/pull-seccomp-20200915
->
-> for you to fetch changes up to e474e3aacf4276eb0781d11c45e2fab996f9dc56:
->
->   seccomp: fix killing of whole process instead of thread (2020-09-15 12:=
-56:26 +0200)
->
-> ----------------------------------------------------------------
-> pull-seccomp-20200915
->
-> ----------------------------------------------------------------
-> Daniel P. Berrang=C3=A9 (1):
->       seccomp: fix killing of whole process instead of thread
->
->  qemu-seccomp.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, 15 Sep 2020 17:40:25 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Strictly speaking patches you send in a pullreq should have your
-signed-off-by, but I figured in this case the acked-by was
-close enough and it's only one patch.
+> On Tue, Sep 15, 2020 at 5:21 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > On Mon, 14 Sep 2020 20:20:21 +0530
+> > Ani Sinha <ani@anisinha.ca> wrote:
+> >  
+> > > On Mon, Sep 14, 2020 at 7:39 PM Igor Mammedov <imammedo@redhat.com> wrote:  
+> > > >
+> > > > On Mon, 14 Sep 2020 18:58:19 +0530
+> > > > Ani Sinha <ani@anisinha.ca> wrote:
+> > > >  
+> > > > > On Mon, Sep 14, 2020 at 6:40 PM Ani Sinha <ani@anisinha.ca> wrote:  
+> > > > > >
+> > > > > > On Mon, Sep 14, 2020 at 6:36 PM Igor Mammedov <imammedo@redhat.com> wrote:  
+> > > > > > >
+> > > > > > > On Fri, 11 Sep 2020 23:37:55 +0530
+> > > > > > > Ani Sinha <ani@anisinha.ca> wrote:
+> > > > > > >  
+> > > > > > > > When acpi hotplug is turned off for both root pci bus as well as for pci
+> > > > > > > > bridges, we should not generate the related amls for DSDT table or initialize
+> > > > > > > > related hw ports or reserve hw resources. This change makes sure all those
+> > > > > > > > operations are turned off in the case acpi pci hotplug is off globally.  
+> > > > > > >
+> > > > > > > it still leaves around pure PCI hotplug ACPI code:
+> > > > > > >
+> > > > > > >             Method (PCNT, 0, NotSerialized)
+> > > > > > >             {
+> > > > > > >             }  
+> > > > > >
+> > > > > > How do you suggest we fix this?  
+> > > > >
+> > > > > One way to fix this would be to do this:
+> > > > >
+> > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > > index 7e3cf3b57b..2bd0c37143 100644
+> > > > > --- a/hw/i386/acpi-build.c
+> > > > > +++ b/hw/i386/acpi-build.c
+> > > > > @@ -483,7 +483,8 @@ static void build_append_pci_bus_devices(Aml
+> > > > > *parent_scope, PCIBus *bus,
+> > > > >              aml_append(method, aml_name("^S%.02X.PCNT", devfn));
+> > > > >          }
+> > > > >      }
+> > > > > -    aml_append(parent_scope, method);
+> > > > > +    if (bsel)
+> > > > > +        aml_append(parent_scope, method);  
+> >
+> > and this also introduces mem leak
+> >
+> >  
+> > > > >      qobject_unref(bsel);
+> > > > >  }
+> > > > >
+> > > > > This means that if the hotplug on the root bus is disabled, we also
+> > > > > disable PCNT. This will also need the unit test update as the unit  
+> > > > Does bridge hot-plug still work if we disable it only on root bus?  
+> > >
+> > > Just did a quick test. Windows seems to eject devices on the bridge
+> > > even when the root bus hot plug is off.  
+> >
+> > well I'm not sure it works using ACPI hotplug,
+> >
+> > with
+> > -global PIIX4_PM.acpi-root-pci-hotplug=off
+> > -global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=on
+> >
+> > DSDT ins't what I'd expect when bridge hp is on:
+> >
+> >     Scope (\_SB)
+> >     {
+> >         Scope (PCI0)
+> >         {
+> >             Device (S00)
+> >             {
+> >                 Name (_ADR, Zero)  // _ADR: Address
+> >             }
+> >
+> >             Device (S08)  
+> 
+> I think you should look for AMLs for Device (S18) because the bridge
+> goes into slot 3.
 
+as you see, there weren't any here. so maybe something else gone wrong
+in earlier patches
 
-Applied, thanks.
+> 
+> >             {
+> >                 Name (_ADR, 0x00010000)  // _ADR: Address
+> >                 Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
+> >                 {
+> >                     Return (Zero)
+> >                 }
+> >
+> >                 Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
+> >                 {
+> >                     Return (Zero)
+> >                 }
+> >
+> >                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+> >                 {
+> >                     Return (Zero)
+> >                 }
+> >             }
+> >         }
+> >     }
+> >
+> >  
+> > >  
+> > > >  
+> > > > > test
+> > > > > will fail with :
+> > > > >
+> > > > > @@ -3113,24 +3113,20 @@
+> > > > >                  Name (_ADR, 0x00010000)  // _ADR: Address
+> > > > >                  Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
+> > > > >                  {
+> > > > >                      Return (Zero)
+> > > > >                  }
+> > > > >
+> > > > >                  Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
+> > > > >                  {
+> > > > >                      Return (Zero)
+> > > > >                  }
+> > > > >
+> > > > >                  Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+> > > > >                  {
+> > > > >                      Return (Zero)
+> > > > >                  }
+> > > > >              }
+> > > > > -
+> > > > > -            Method (PCNT, 0, NotSerialized)
+> > > > > -            {
+> > > > > -            }
+> > > > >          }
+> > > > >      }
+> > > > >  }
+> > > > >
+> > > > > Let's fix this as a separate patch.  
+> > > >
+> > > > I'd rather fix up this patch, so it would do what it claims.
+> > > >  
+> > > > > >  
+> > > > > > > >
+> > > > > > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > > > > > > ---
+> > > > > > > >  hw/acpi/piix4.c      |  6 ++++--
+> > > > > > > >  hw/i386/acpi-build.c | 10 ++++++++--
+> > > > > > > >  2 files changed, 12 insertions(+), 4 deletions(-)
+> > > > > > > >
+> > > > > > > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> > > > > > > > index e6163bb6ce..b70b1f98af 100644
+> > > > > > > > --- a/hw/acpi/piix4.c
+> > > > > > > > +++ b/hw/acpi/piix4.c
+> > > > > > > > @@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+> > > > > > > >                            "acpi-gpe0", GPE_LEN);
+> > > > > > > >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
+> > > > > > > >
+> > > > > > > > -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> > > > > > > > -                    s->use_acpi_hotplug_bridge);
+> > > > > > > > +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
+> > > > > > > > +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> > > > > > > > +                        s->use_acpi_hotplug_bridge);
+> > > > > > > > +    }
+> > > > > > > >
+> > > > > > > >      s->cpu_hotplug_legacy = true;
+> > > > > > > >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+> > > > > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > > > > > index e079b686f5..7e3cf3b57b 100644
+> > > > > > > > --- a/hw/i386/acpi-build.c
+> > > > > > > > +++ b/hw/i386/acpi-build.c
+> > > > > > > > @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
+> > > > > > > >      bool s3_disabled;
+> > > > > > > >      bool s4_disabled;
+> > > > > > > >      bool pcihp_bridge_en;
+> > > > > > > > +    bool pcihp_root_en;
+> > > > > > > >      uint8_t s4_val;
+> > > > > > > >      AcpiFadtData fadt;
+> > > > > > > >      uint16_t cpu_hp_io_base;
+> > > > > > > > @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+> > > > > > > >      pm->pcihp_bridge_en =
+> > > > > > > >          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
+> > > > > > > >                                   NULL);
+> > > > > > > > +    pm->pcihp_root_en =
+> > > > > > > > +        object_property_get_bool(obj, "acpi-root-pci-hotplug",
+> > > > > > > > +                                 NULL);
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > >  static void acpi_get_misc_info(AcpiMiscInfo *info)
+> > > > > > > > @@ -1504,7 +1508,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > > > > > > >          build_hpet_aml(dsdt);
+> > > > > > > >          build_piix4_isa_bridge(dsdt);
+> > > > > > > >          build_isa_devices_aml(dsdt);
+> > > > > > > > -        build_piix4_pci_hotplug(dsdt);
+> > > > > > > > +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+> > > > > > > > +            build_piix4_pci_hotplug(dsdt);
+> > > > > > > > +        }
+> > > > > > > >          build_piix4_pci0_int(dsdt);
+> > > > > > > >      } else {
+> > > > > > > >          sb_scope = aml_scope("_SB");
+> > > > > > > > @@ -1698,7 +1704,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > > > > > > >      crs_range_set_free(&crs_range_set);
+> > > > > > > >
+> > > > > > > >      /* reserve PCIHP resources */
+> > > > > > > > -    if (pm->pcihp_io_len) {
+> > > > > > > > +    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
+> > > > > > > >          dev = aml_device("PHPR");
+> > > > > > > >          aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
+> > > > > > > >          aml_append(dev,  
+> > > > > > >  
+> > > > >  
+> > > >  
+> > >  
+> >  
+> 
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
