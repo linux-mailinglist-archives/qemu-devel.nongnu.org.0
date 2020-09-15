@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB6726A3AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:54:06 +0200 (CEST)
-Received: from localhost ([::1]:60672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3B726A3B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:56:39 +0200 (CEST)
+Received: from localhost ([::1]:40436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8b6-00023z-Nh
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52600)
+	id 1kI8da-0005YH-8N
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UG-0000Yp-6k
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UG-0000Z6-E3
  for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32930)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UC-0004Yh-2j
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:59 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UE-0004a6-BI
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166814;
+ s=mimecast20190719; t=1600166817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W4TlSJjMROfvhgotRhNIJHzLDa6dGxPD7XOQl1qmuGs=;
- b=h1R1tiW2rffjnBtOnLv1EGX/VatBEZvghnJl3nJhz802eHUxMk/biV1Kot5QPRAt6FiRRG
- fyq9c4V7/QuaPO8492hqe0BIL++37re0k+6n0NMNoV07Qii1hi+JlVIpjiRpUiSBkYMMtg
- Ethd+9B5VG1Po+CioNgvVwRbAWxVg5I=
+ bh=qzOm2DmuuR/9Ie19niGExs/IYglc8i+tCED3cG83MII=;
+ b=g1XM8lMAXqSjCK863l1wKEjOWacqFvKZ2uy/rtHFpVJRbdtYZGATaYbDPGYaIDY5btjLFZ
+ moIpleYjQ3IZ6+tmHISpF77OQj/sHtjqsiMp0YXf5VpWJofKx4GwReufIODY6HVaYgAbtd
+ suUHx12mlmgEW5IUgeNjRPRVqu4QAW4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-KbDM-RJfPYSLehqqwpTzbw-1; Tue, 15 Sep 2020 06:46:51 -0400
-X-MC-Unique: KbDM-RJfPYSLehqqwpTzbw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-398-cWEZkKQUM2Cx1fclbO2U5Q-1; Tue, 15 Sep 2020 06:46:55 -0400
+X-MC-Unique: cWEZkKQUM2Cx1fclbO2U5Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00BF81084D62;
- Tue, 15 Sep 2020 10:46:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E9521084D64;
+ Tue, 15 Sep 2020 10:46:54 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AD0E2C31E;
- Tue, 15 Sep 2020 10:46:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0215619C4F;
+ Tue, 15 Sep 2020 10:46:53 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/22] qcow2: Fix removal of list members from
- BDRVQcow2State.cluster_allocs
-Date: Tue, 15 Sep 2020 12:46:14 +0200
-Message-Id: <20200915104627.699552-10-mreitz@redhat.com>
+Subject: [PULL 11/22] qcow2: Rewrite the documentation of
+ qcow2_alloc_cluster_offset()
+Date: Tue, 15 Sep 2020 12:46:16 +0200
+Message-Id: <20200915104627.699552-12-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -86,173 +86,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-When a write request needs to allocate new clusters (or change the L2
-bitmap of existing ones) a QCowL2Meta structure is created so the L2
-metadata can be later updated and any copy-on-write can be performed
-if necessary.
-
-A write request can span a region consisting of an arbitrary
-combination of previously unallocated and allocated clusters, and if
-the unallocated ones can be put contiguous to the existing ones then
-QEMU will do so in order to minimize the number of write operations.
-
-In practice this means that a write request has not just one but a
-number of QCowL2Meta structures. All of them are added to the
-cluster_allocs list that is stored in BDRVQcow2State and is used to
-detect overlapping requests. After the write request finishes all its
-associated QCowL2Meta are removed from that list. calculate_l2_meta()
-takes care of creating and putting those structures in the list, and
-qcow2_handle_l2meta() takes care of removing them.
-
-The problem is that the error path in handle_alloc() also tries to
-remove an item in that list, a remnant from the time when this was
-handled there (that code would not even be correct anymore because
-it only removes one struct and not all the ones from the same write
-request).
-
-This can trigger a double removal of the same item from the list,
-causing a crash. This is not easy to reproduce in practice because
-it requires that do_alloc_cluster_offset() fails after a successful
-previous allocation during the same write request, but it can be
-reproduced with the included test case.
+The current text corresponds to an earlier, simpler version of this
+function and it does not explain how it works now.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <3440a1c4d53c4fe48312b478c96accb338cbef7c.1599150873.git.berto@igalia.com>
+Message-Id: <bb5bd06f07c5a05b0818611de0d06ec5b66c8df3.1599150873.git.berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c      |  3 --
- tests/qemu-iotests/305     | 74 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/305.out | 16 +++++++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 91 insertions(+), 3 deletions(-)
- create mode 100755 tests/qemu-iotests/305
- create mode 100644 tests/qemu-iotests/305.out
+ block/qcow2-cluster.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 4530e5e471..f65ccc5840 100644
+index f65ccc5840..ce1260e746 100644
 --- a/block/qcow2-cluster.c
 +++ b/block/qcow2-cluster.c
-@@ -1710,9 +1710,6 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
- 
- out:
-     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
--    if (ret < 0 && *m && (*m)->nb_clusters > 0) {
--        QLIST_REMOVE(*m, next_in_flight);
--    }
-     return ret;
+@@ -1714,18 +1714,22 @@ out:
  }
  
-diff --git a/tests/qemu-iotests/305 b/tests/qemu-iotests/305
-new file mode 100755
-index 0000000000..768818af4a
---- /dev/null
-+++ b/tests/qemu-iotests/305
-@@ -0,0 +1,74 @@
-+#!/usr/bin/env bash
-+#
-+# Test the handling of errors in write requests with multiple allocations
-+#
-+# Copyright (C) 2020 Igalia, S.L.
-+# Author: Alberto Garcia <berto@igalia.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=berto@igalia.com
-+
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1    # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_unsupported_imgopts cluster_size refcount_bits extended_l2 compat=0.10 data_file
-+
-+echo '### Create the image'
-+_make_test_img -o refcount_bits=64,cluster_size=1k 1M
-+
-+# The reference counts of the clusters for the first 123k of this
-+# write request are stored in the first refcount block. The last
-+# cluster (guest offset 123k) is referenced in the second refcount
-+# block.
-+echo '### Fill the first refcount block and one data cluster from the second'
-+$QEMU_IO -c 'write 0 124k' "$TEST_IMG" | _filter_qemu_io
-+
-+echo '### Discard two of the last data clusters, leave one in the middle'
-+$QEMU_IO -c 'discard 121k 1k' "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c 'discard 123k 1k' "$TEST_IMG" | _filter_qemu_io
-+
-+echo '### Corrupt the offset of the second refcount block'
-+refcount_table_offset=$(peek_file_be "$TEST_IMG" 48 8)
-+poke_file "$TEST_IMG" $(($refcount_table_offset+14)) "\x06"
-+
-+# This tries to allocate the two clusters discarded earlier (guest
-+# offsets 121k and 123k). Their reference counts are in the first and
-+# second refcount blocks respectively, but only the first one can be
-+# allocated correctly because the second entry of the refcount table
-+# is corrupted.
-+echo '### Try to allocate the discarded clusters again'
-+$QEMU_IO -c 'write 121k 3k' "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/305.out b/tests/qemu-iotests/305.out
-new file mode 100644
-index 0000000000..538019e726
---- /dev/null
-+++ b/tests/qemu-iotests/305.out
-@@ -0,0 +1,16 @@
-+QA output created by 305
-+### Create the image
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+### Fill the first refcount block and one data cluster from the second
-+wrote 126976/126976 bytes at offset 0
-+124 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+### Discard two of the last data clusters, leave one in the middle
-+discard 1024/1024 bytes at offset 123904
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+discard 1024/1024 bytes at offset 125952
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+### Corrupt the offset of the second refcount block
-+### Try to allocate the discarded clusters again
-+qcow2: Marking image as corrupt: Refblock offset 0x20600 unaligned (reftable index: 0x1); further corruption events will be suppressed
-+write failed: Input/output error
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 5cad015231..ff59cfd2d4 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -313,3 +313,4 @@
- 302 quick
- 303 rw quick
- 304 rw quick
-+305 rw quick
+ /*
+- * alloc_cluster_offset
++ * For a given area on the virtual disk defined by @offset and @bytes,
++ * find the corresponding area on the qcow2 image, allocating new
++ * clusters (or subclusters) if necessary. The result can span a
++ * combination of allocated and previously unallocated clusters.
+  *
+- * For a given offset on the virtual disk, find the cluster offset in qcow2
+- * file. If the offset is not found, allocate a new cluster.
++ * On return, @host_offset is set to the beginning of the requested
++ * area. This area is guaranteed to be contiguous on the qcow2 file
++ * but it can be smaller than initially requested. In this case @bytes
++ * is updated with the actual size.
+  *
+- * If the cluster was already allocated, m->nb_clusters is set to 0 and
+- * other fields in m are meaningless.
+- *
+- * If the cluster is newly allocated, m->nb_clusters is set to the number of
+- * contiguous clusters that have been allocated. In this case, the other
+- * fields of m are valid and contain information about the first allocated
+- * cluster.
++ * If any clusters or subclusters were allocated then @m contains a
++ * list with the information of all the affected regions. Note that
++ * this can happen regardless of whether this function succeeds or
++ * not. The caller is responsible for updating the L2 metadata of the
++ * allocated clusters (on success) or freeing them (on failure), and
++ * for clearing the contents of @m afterwards in both cases.
+  *
+  * If the request conflicts with another write request in flight, the coroutine
+  * is queued and will be reentered when the dependency has completed.
 -- 
 2.26.2
 
