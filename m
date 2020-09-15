@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D7126B30D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:59:41 +0200 (CEST)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC56F26B362
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 01:02:28 +0200 (CEST)
+Received: from localhost ([::1]:52976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIJvI-0003MZ-9W
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59632)
+	id 1kIJxz-00073v-M8
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 19:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdn-0007e3-HH
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:36 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39982
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdf-0007Mx-VO
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdk-0002iY-Cp
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:35 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdd-0002hC-Qf
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600209691;
+ s=mimecast20190719; t=1600209684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MSd8kx5ETUkpHpfpPM+dGA5JPQT4rsFzyDTt6W/zLvw=;
- b=PbieldSSACxccDyK+qJjUP6HFgMkPQeYhiZS2XI+qeyr1RhWr0qAhn7J/1CZPeA1+aHVo/
- GYytudQpd951E1KF5DgaTo78/J0ufqtDvTnIZqh7ZwQHaj1jHMzWcg0yqVoXsL9gUs1u/b
- Q2e0S9cpBlbeJpJPqq/5s64yS+6Nj9I=
+ bh=uahw5VxJvg7Mg8Xm/z24kEFUIYO2j5wRgaa8KzHDdqg=;
+ b=Wh5nrD0+eQ3/SWTc6XRAVHfXdHzOjugsnaG+ISaTWWXM5nJOZAAlvp8gpkOOZMX/xg+TNW
+ EyMHeZvVRufr8yAh/dcVcfKDwIdClDvklgp+EST4VllxsPe06i9wKKF+Cu2bapr9TfudGU
+ ouXhiianHFG0aDXaWmUbBds52s53qG8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-19v9y0UzMASYDg6Y-9T6HQ-1; Tue, 15 Sep 2020 18:41:29 -0400
-X-MC-Unique: 19v9y0UzMASYDg6Y-9T6HQ-1
+ us-mta-174-MV7n_buzOn-IWI2rVs1pJQ-1; Tue, 15 Sep 2020 18:41:23 -0400
+X-MC-Unique: MV7n_buzOn-IWI2rVs1pJQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 884798030A1;
- Tue, 15 Sep 2020 22:41:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5815918C8C20;
+ Tue, 15 Sep 2020 22:41:07 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B2FE60BE5;
- Tue, 15 Sep 2020 22:41:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4518A76E16;
+ Tue, 15 Sep 2020 22:41:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 37/37] qapi/visit.py: add notational type hints
-Date: Tue, 15 Sep 2020 18:40:27 -0400
-Message-Id: <20200915224027.2529813-38-jsnow@redhat.com>
+Subject: [PATCH 20/37] qapi/commands.py: add notational type hints
+Date: Tue, 15 Sep 2020 18:40:10 -0400
+Message-Id: <20200915224027.2529813-21-jsnow@redhat.com>
 In-Reply-To: <20200915224027.2529813-1-jsnow@redhat.com>
 References: <20200915224027.2529813-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +56,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 18:40:36
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 18:01:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,202 +87,177 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/mypy.ini |  5 ---
- scripts/qapi/visit.py | 72 +++++++++++++++++++++++++++++++++----------
- 2 files changed, 55 insertions(+), 22 deletions(-)
+ scripts/qapi/commands.py | 72 ++++++++++++++++++++++++++++++----------
+ 1 file changed, 54 insertions(+), 18 deletions(-)
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 3babc380a8..5ab3433c5f 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -28,8 +28,3 @@ check_untyped_defs = False
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
--
--[mypy-qapi.visit]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index ce71659a03..035521476f 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -13,6 +13,8 @@
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index b215e58357..3c950da10a 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -13,15 +13,32 @@
  See the COPYING file in the top-level directory.
  """
  
-+from typing import List, Optional
++from typing import Dict, Optional, List, Set
 +
  from .common import (
-     c_enum_const,
      c_name,
-@@ -22,10 +24,19 @@
-     INDENT,
+     mcgen,
  )
- from .gen import QAPISchemaModularCVisitor, ifcontext
--from .schema import QAPISchemaObjectType
++from .gen import (
++    QAPIGenC,
++    QAPIGenCCode,
++    QAPISchemaModularCVisitor,
++    ifcontext,
++)
+ from .params import build_params
+-from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
 +from .schema import (
 +    QAPISchema,
-+    QAPISchemaEnumMember,
 +    QAPISchemaFeature,
 +    QAPISchemaObjectType,
-+    QAPISchemaObjectTypeMember,
-+    QAPISchemaVariants,
 +    QAPISchemaType,
 +)
 +from .source import QAPISourceInfo
  
  
--def gen_visit_decl(name, scalar=False):
-+def gen_visit_decl(name: str, scalar: bool = False) -> str:
-     c_type = c_name(name) + ' *'
-     if not scalar:
-         c_type += '*'
-@@ -36,7 +47,7 @@ def gen_visit_decl(name, scalar=False):
-                  c_name=c_name(name), c_type=c_type)
- 
- 
--def gen_visit_members_decl(name):
-+def gen_visit_members_decl(name: str) -> str:
+-def gen_command_decl(name, arg_type, boxed, ret_type):
++def gen_command_decl(name: str,
++                     arg_type: Optional[QAPISchemaObjectType],
++                     boxed: bool,
++                     ret_type: Optional[QAPISchemaType]) -> str:
      return mcgen('''
+ %(c_type)s qmp_%(c_name)s(%(params)s);
+ ''',
+@@ -30,7 +47,10 @@ def gen_command_decl(name, arg_type, boxed, ret_type):
+                  params=build_params(arg_type, boxed, 'Error **errp'))
  
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp);
-@@ -44,7 +55,10 @@ def gen_visit_members_decl(name):
-                  c_name=c_name(name))
  
+-def gen_call(name, arg_type, boxed, ret_type):
++def gen_call(name: str,
++             arg_type: Optional[QAPISchemaObjectType],
++             boxed: bool,
++             ret_type: Optional[QAPISchemaType]) -> str:
+     ret = ''
  
--def gen_visit_object_members(name, base, members, variants):
-+def gen_visit_object_members(name: str,
-+                             base: Optional[QAPISchemaObjectType],
-+                             members: List[QAPISchemaObjectTypeMember],
-+                             variants: Optional[QAPISchemaVariants]) -> str:
-     ret = mcgen('''
- 
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
-@@ -122,7 +136,7 @@ def gen_visit_object_members(name, base, members, variants):
+     argstr = ''
+@@ -66,7 +86,7 @@ def gen_call(name, arg_type, boxed, ret_type):
      return ret
  
  
--def gen_visit_list(name, element_type):
-+def gen_visit_list(name: str, element_type: QAPISchemaType) -> str:
+-def gen_marshal_output(ret_type):
++def gen_marshal_output(ret_type: QAPISchemaType) -> str:
      return mcgen('''
  
- bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj,
-@@ -156,7 +170,7 @@ def gen_visit_list(name, element_type):
-                  c_name=c_name(name), c_elt_type=element_type.c_name())
+ static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out,
+@@ -87,19 +107,22 @@ def gen_marshal_output(ret_type):
+                  c_type=ret_type.c_type(), c_name=ret_type.c_name())
  
  
--def gen_visit_enum(name):
-+def gen_visit_enum(name: str) -> str:
+-def build_marshal_proto(name):
++def build_marshal_proto(name: str) -> str:
+     return ('void qmp_marshal_%s(QDict *args, QObject **ret, Error **errp)'
+             % c_name(name))
+ 
+ 
+-def gen_marshal_decl(name):
++def gen_marshal_decl(name: str) -> str:
      return mcgen('''
+ %(proto)s;
+ ''',
+                  proto=build_marshal_proto(name))
  
- bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj,
-@@ -171,7 +185,7 @@ def gen_visit_enum(name):
-                  c_name=c_name(name))
  
+-def gen_marshal(name, arg_type, boxed, ret_type):
++def gen_marshal(name: str,
++                arg_type: Optional[QAPISchemaObjectType],
++                boxed: bool,
++                ret_type: Optional[QAPISchemaType]) -> str:
+     have_args = boxed or (arg_type and not arg_type.is_empty())
  
--def gen_visit_alternate(name, variants):
-+def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
      ret = mcgen('''
- 
- bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj,
-@@ -247,7 +261,7 @@ def gen_visit_alternate(name, variants):
+@@ -181,7 +204,10 @@ def gen_marshal(name, arg_type, boxed, ret_type):
      return ret
  
  
--def gen_visit_object(name):
-+def gen_visit_object(name: str) -> str:
-     return mcgen('''
+-def gen_register_command(name, success_response, allow_oob, allow_preconfig):
++def gen_register_command(name: str,
++                         success_response: bool,
++                         allow_oob: bool,
++                         allow_preconfig: bool) -> str:
+     options = []
  
- bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj,
-@@ -282,12 +296,12 @@ def gen_visit_object(name):
+     if not success_response:
+@@ -203,7 +229,7 @@ def gen_register_command(name, success_response, allow_oob, allow_preconfig):
+     return ret
  
- class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
  
+-def gen_registry(registry, prefix):
++def gen_registry(registry: str, prefix: str) -> str:
+     ret = mcgen('''
+ 
+ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds)
+@@ -220,15 +246,14 @@ def gen_registry(registry, prefix):
+ 
+ 
+ class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
+-
 -    def __init__(self, prefix):
 +    def __init__(self, prefix: str):
          super().__init__(
-             prefix, 'qapi-visit', ' * Schema-defined QAPI visitors',
-             ' * Built-in QAPI visitors', __doc__)
- 
--    def _begin_system_module(self, name):
-+    def _begin_system_module(self, name: None) -> None:
-         self._genc.preamble_add(mcgen('''
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-@@ -299,7 +313,7 @@ def _begin_system_module(self, name):
- 
- '''))
+             prefix, 'qapi-commands',
+             ' * Schema-defined QAPI/QMP commands', None, __doc__)
+         self._regy = QAPIGenCCode(None)
+-        self._visited_ret_types = {}
++        self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
  
 -    def _begin_user_module(self, name):
 +    def _begin_user_module(self, name: str) -> None:
+         self._visited_ret_types[self._genc] = set()
+         commands = self._module_basename('qapi-commands', name)
          types = self._module_basename('qapi-types', name)
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.preamble_add(mcgen('''
-@@ -316,18 +330,34 @@ def _begin_user_module(self, name):
+@@ -252,7 +277,7 @@ def _begin_user_module(self, name):
  ''',
-                                       types=types))
+                              types=types))
  
--    def visit_enum_type(self, name, info, ifcond, features, members, prefix):
-+    def visit_enum_type(self,
-+                        name: str,
-+                        info: QAPISourceInfo,
-+                        ifcond: List[str],
-+                        features: List[QAPISchemaFeature],
-+                        members: List[QAPISchemaEnumMember],
-+                        prefix: Optional[str]) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name, scalar=True))
-             self._genc.add(gen_visit_enum(name))
+-    def visit_end(self):
++    def visit_end(self) -> None:
+         self._add_system_module('init', ' * QAPI Commands initialization')
+         self._genh.add(mcgen('''
+ #include "qapi/qmp/dispatch.h"
+@@ -268,9 +293,18 @@ def visit_end(self):
+                                       prefix=self._prefix))
+         self._genc.add(gen_registry(self._regy.get_content(), self._prefix))
  
--    def visit_array_type(self, name, info, ifcond, element_type):
-+    def visit_array_type(self,
-+                         name: str,
-+                         info: Optional[QAPISourceInfo],
-+                         ifcond: List[str],
-+                         element_type: QAPISchemaType) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_list(name, element_type))
- 
--    def visit_object_type(self, name, info, ifcond, features,
--                          base, members, variants):
-+    def visit_object_type(self,
-+                          name: str,
-+                          info: Optional[QAPISourceInfo],
-+                          ifcond: List[str],
-+                          features: List[QAPISchemaFeature],
-+                          base: Optional[QAPISchemaObjectType],
-+                          members: List[QAPISchemaObjectTypeMember],
-+                          variants: Optional[QAPISchemaVariants]) -> None:
-         # Nothing to do for the special empty builtin
-         if name == 'q_empty':
+-    def visit_command(self, name, info, ifcond, features,
+-                      arg_type, ret_type, gen, success_response, boxed,
+-                      allow_oob, allow_preconfig):
++    def visit_command(self,
++                      name: str,
++                      info: QAPISourceInfo,
++                      ifcond: List[str],
++                      features: List[QAPISchemaFeature],
++                      arg_type: Optional[QAPISchemaObjectType],
++                      ret_type: Optional[QAPISchemaType],
++                      gen: bool,
++                      success_response: bool,
++                      boxed: bool,
++                      allow_oob: bool,
++                      allow_preconfig: bool) -> None:
+         if not gen:
              return
-@@ -342,13 +372,21 @@ def visit_object_type(self, name, info, ifcond, features,
-                 self._genh.add(gen_visit_decl(name))
-                 self._genc.add(gen_visit_object(name))
- 
--    def visit_alternate_type(self, name, info, ifcond, features, variants):
-+    def visit_alternate_type(self,
-+                             name: str,
-+                             info: QAPISourceInfo,
-+                             ifcond: List[str],
-+                             features: List[QAPISchemaFeature],
-+                             variants: QAPISchemaVariants) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_alternate(name, variants))
+         # FIXME: If T is a user-defined type, the user is responsible
+@@ -291,7 +325,9 @@ def visit_command(self, name, info, ifcond, features,
+                                                 allow_oob, allow_preconfig))
  
  
--def gen_visit(schema, output_dir, prefix, opt_builtins):
-+def gen_visit(schema: QAPISchema,
-+              output_dir: str,
-+              prefix: str,
-+              opt_builtins: bool) -> None:
-     vis = QAPISchemaGenVisitVisitor(prefix)
+-def gen_commands(schema, output_dir, prefix):
++def gen_commands(schema: QAPISchema,
++                 output_dir: str,
++                 prefix: str) -> None:
+     vis = QAPISchemaGenCommandVisitor(prefix)
      schema.visit(vis)
-     vis.write(output_dir, opt_builtins)
+     vis.write(output_dir)
 -- 
 2.26.2
 
