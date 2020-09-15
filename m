@@ -2,107 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0CD26A68E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:51:02 +0200 (CEST)
-Received: from localhost ([::1]:36048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA3626A6A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:56:58 +0200 (CEST)
+Received: from localhost ([::1]:57014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIBML-00012W-GU
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45494)
+	id 1kIBS5-0001GB-KH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIBFL-00016F-0Z; Tue, 15 Sep 2020 09:43:47 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8982
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIBFI-0004As-Jr; Tue, 15 Sep 2020 09:43:46 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08FDWK0o134981; Tue, 15 Sep 2020 09:43:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=H7obk8BSKYBoaGCSJgeiKdRunw0D91xsXsXZkeRMM88=;
- b=ZKndPyqQS6QX+fgAFaCnn5/uvkY+5Oyf0eT2KRzQNCX5JTcudbMcX03aalJBC/Jr/YgY
- NRVGGmgbFxaF3hoxEiQj5TQ+VnxPwnhHT/TpTQ+qn4uox6W0yZNvq3/Rfj1F3dnUA6K0
- tC2NxMPLfEMWHEXH2KEeH61EdAgJ0ulpiwyH6q2dnEqlmKqYK4+Nrpc/iYdXdLH/mXo6
- miGvkFiyA3IqL6Ro8KNCr+Y3i0FrJX06dCZ7fwZYMvBKvshzO+U/kkIcIatVN/VnKLFo
- b5QsaikO0sB08HepYT6IfHpMbsMOG34z6JredAJ0RebG9Wr01POLJSLokkZWrM2yhDhU Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33jwuya1qv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Sep 2020 09:43:42 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08FDX9HU138275;
- Tue, 15 Sep 2020 09:43:41 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33jwuya1q9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Sep 2020 09:43:41 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08FDgjrb003409;
- Tue, 15 Sep 2020 13:43:40 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma03dal.us.ibm.com with ESMTP id 33gny9dnmv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Sep 2020 13:43:40 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08FDhXhG37618076
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Sep 2020 13:43:33 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 38304136051;
- Tue, 15 Sep 2020 13:43:39 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3234A136053;
- Tue, 15 Sep 2020 13:43:38 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.85.51])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 15 Sep 2020 13:43:38 +0000 (GMT)
-Subject: Re: [PATCH v2 3/3] vfio: Create shared routine for scanning info
- capabilities
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- alex.williamson@redhat.com, cohuck@redhat.com
-References: <1600122570-12941-1-git-send-email-mjrosato@linux.ibm.com>
- <1600122570-12941-4-git-send-email-mjrosato@linux.ibm.com>
- <942e216a-f431-9eb2-c20b-e3733615601e@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <e5835446-0aaa-70dd-ee50-9411451fa21f@linux.ibm.com>
-Date: Tue, 15 Sep 2020 09:43:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIBJi-0007In-3v
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:48:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43956
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIBJg-0004lL-2o
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:48:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600177694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=q4ksXQfvYxS9wcQa/AI17Qd2JE9qQL6Ok8F22bPqlVk=;
+ b=FejtfQtEnezUgDeWOtiwIuSUmQjAxPS+43Ui6Sv0d2Pbw4ZZGiZiMesrXAvQBP+2vFjuPR
+ 6kNU7udgt5VkOmhbqmkzE+pQa+gfmi8iKAfQTdLdRncLGK2pOSuyxOzXBnxYzQGNRmhsnz
+ jgbDKV5TPSuAhfQLC1yVtlGHmBHCBB4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-9Bq3zm_EMEGlTRSPB9jjwA-1; Tue, 15 Sep 2020 09:48:12 -0400
+X-MC-Unique: 9Bq3zm_EMEGlTRSPB9jjwA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E947107465E;
+ Tue, 15 Sep 2020 13:48:11 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09E3119C4F;
+ Tue, 15 Sep 2020 13:47:26 +0000 (UTC)
+Date: Tue, 15 Sep 2020 15:44:12 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: pbonzini@redhat.com
+Subject: couple meson issues
+Message-ID: <20200915134412.5jmvbs7eqcv5sugc@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <942e216a-f431-9eb2-c20b-e3733615601e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-15_08:2020-09-15,
- 2020-09-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- adultscore=0 mlxscore=0 malwarescore=0 phishscore=0 spamscore=0
- clxscore=1015 suspectscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009150109
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 09:43:42
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,94 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, schnelle@linux.ibm.com,
- david@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, rth@twiddle.net
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/15/20 2:16 AM, Philippe Mathieu-Daudé wrote:
-> On 9/15/20 12:29 AM, Matthew Rosato wrote:
->> Rather than duplicating the same loop in multiple locations,
->> create a static function to do the work.
-> 
-> Why not do that first in your series?
-> 
+Hi Paolo,
 
-Fair question.  I did originally do this collapsing first, but I wasn't 
-sure if Alex would want it so I split it out and tacked it on the end so 
-it could be dropped if desired.
+I noticed that 'make check-qtest-aarch64' no longer runs the
+arm-cpu-feature test. I simply did
 
-I'd be just fine re-arranging and putting this patch first.
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 874b5be62be2..db169a53b530 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -146,7 +146,8 @@ qtests_aarch64 = \
+   (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+-  ['numa-test',
++  ['arm-cpu-features',
++   'numa-test',
+    'boot-serial-test',
+    'migration-test']
+ 
 
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> ---
->>   hw/vfio/common.c | 33 +++++++++++++++------------------
->>   1 file changed, 15 insertions(+), 18 deletions(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 7f4a338..bfbbfe4 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -825,17 +825,12 @@ static void vfio_listener_release(VFIOContainer *container)
->>       }
->>   }
->>   
->> -struct vfio_info_cap_header *
->> -vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
->> +static struct vfio_info_cap_header *
->> +vfio_get_cap(void *ptr, uint32_t cap_offset, uint16_t id)
->>   {
->>       struct vfio_info_cap_header *hdr;
->> -    void *ptr = info;
->> -
->> -    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
->> -        return NULL;
->> -    }
->>   
->> -    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
->> +    for (hdr = ptr + cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
->>           if (hdr->id == id) {
->>               return hdr;
->>           }
->> @@ -844,23 +839,25 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
->>       return NULL;
->>   }
->>   
->> +
->> +struct vfio_info_cap_header *
->> +vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
->> +{
->> +    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
->> +        return NULL;
->> +    }
->> +
->> +    return vfio_get_cap((void *)info, info->cap_offset, id);
->> +}
->> +
->>   static struct vfio_info_cap_header *
->>   vfio_get_iommu_type1_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
->>   {
->> -    struct vfio_info_cap_header *hdr;
->> -    void *ptr = info;
->> -
->>       if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
->>           return NULL;
->>       }
->>   
->> -    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
->> -        if (hdr->id == id) {
->> -            return hdr;
->> -        }
->> -    }
->> -
->> -    return NULL;
->> +    return vfio_get_cap((void *)info, info->cap_offset, id);
->>   }
->>   
->>   bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
->>
-> 
+to get it to run, but don't know if it should be done that way. Were you
+planning to inherit tests for aarch64 from arm or something instead?
+
+Also, I was surprised to not see something like "KVM supported" when I did
+configure on an AArch64 machine with KVM.
+
+Thanks,
+drew
 
 
