@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2A926A3A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:52:00 +0200 (CEST)
-Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F64426A3AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:54:12 +0200 (CEST)
+Received: from localhost ([::1]:33044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8Z5-0006kj-HE
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52786)
+	id 1kI8bD-0002JO-55
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UV-0000xU-EH
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44204
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Uc-00012J-2q
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34612
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UR-0004ds-TX
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:13 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Ua-0004f0-Cf
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166831;
+ s=mimecast20190719; t=1600166839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vAFzHXXrT8JF/Dks55b4/EORu1meOABDFzPrNBEoQpA=;
- b=T5loG0xT9zRNkheYTfU5gFwTm1Zr6x7xQidU5dfuBj5jFaYdkot76ljU2uCsMl6iP+ng2i
- m6/cWduNSATw64C1x2Vmr2MCtR3o94RfMchLL8/dAbfVNjosQ7sX9kMMhNSAyTnGaS1OVt
- BT5ZCS7rQQtvNEfVfBj3keLpCMLFWhA=
+ bh=Q1d7aSDUJFfCbXjMlR1mUnXgVGpiraArPRPgnZfoQOs=;
+ b=M/hudjAvTO+kIr5xpCI1U2VJzC+ECF9v8M3tCYnjjVQVGEGQYIDCWne06K4ls+3b0NOn1H
+ xOuawIdJazhvGbwSkj9moW3uitconyTYlW6x39VDzAiBNkiFW9OiEaqVrXGHTJoIQP7WT3
+ 7MYAu24868QSYAqSEF0hfiG48F1L0Oc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-7NIwaUBmOmWBbhADiQWO4Q-1; Tue, 15 Sep 2020 06:47:08 -0400
-X-MC-Unique: 7NIwaUBmOmWBbhADiQWO4Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-176-Oa0EyMkQMDOyn8s19hz2tg-1; Tue, 15 Sep 2020 06:47:13 -0400
+X-MC-Unique: Oa0EyMkQMDOyn8s19hz2tg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9898F802B72;
- Tue, 15 Sep 2020 10:47:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F042F801AC2;
+ Tue, 15 Sep 2020 10:47:11 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B18D5DC08;
- Tue, 15 Sep 2020 10:47:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 923D02C31E;
+ Tue, 15 Sep 2020 10:47:11 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 17/22] qcow2: Return the original error code in
- qcow2_co_pwrite_zeroes()
-Date: Tue, 15 Sep 2020 12:46:22 +0200
-Message-Id: <20200915104627.699552-18-mreitz@redhat.com>
+Subject: [PULL 19/22] block/qcow: remove runtime opts
+Date: Tue, 15 Sep 2020 12:46:24 +0200
+Message-Id: <20200915104627.699552-20-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
@@ -67,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,42 +84,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: John Snow <jsnow@redhat.com>
 
-This function checks the current status of a (sub)cluster in order to
-see if an unaligned 'write zeroes' request can be done efficiently by
-simply updating the L2 metadata and without having to write actual
-zeroes to disk.
+Introduced by d85f4222b468,
+These were seemingly never used at all.
 
-If the situation does not allow using the fast path then the function
-returns -ENOTSUP and the caller falls back to writing zeroes.
-
-If can happen however that the aforementioned check returns an actual
-error code so in this case we should pass it to the caller.
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <20200909123739.719-1-berto@igalia.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20200806211345.2925343-3-jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/qcow.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index d241fb734c..77c43ce178 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3907,7 +3907,7 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
-              type != QCOW2_SUBCLUSTER_ZERO_PLAIN &&
-              type != QCOW2_SUBCLUSTER_ZERO_ALLOC)) {
-             qemu_co_mutex_unlock(&s->lock);
--            return -ENOTSUP;
-+            return ret < 0 ? ret : -ENOTSUP;
-         }
-     } else {
-         qemu_co_mutex_lock(&s->lock);
+diff --git a/block/qcow.c b/block/qcow.c
+index e514a86fe5..f8919a44d1 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -105,15 +105,6 @@ static int qcow_probe(const uint8_t *buf, int buf_size, const char *filename)
+         return 0;
+ }
+ 
+-static QemuOptsList qcow_runtime_opts = {
+-    .name = "qcow",
+-    .head = QTAILQ_HEAD_INITIALIZER(qcow_runtime_opts.head),
+-    .desc = {
+-        BLOCK_CRYPTO_OPT_DEF_QCOW_KEY_SECRET("encrypt."),
+-        { /* end of list */ }
+-    },
+-};
+-
+ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
+                      Error **errp)
+ {
 -- 
 2.26.2
 
