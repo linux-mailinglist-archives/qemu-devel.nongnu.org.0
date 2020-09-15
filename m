@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE51826A3D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 13:08:59 +0200 (CEST)
-Received: from localhost ([::1]:47172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF2726A3D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 13:05:57 +0200 (CEST)
+Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8pW-0003ak-Tl
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 07:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52938)
+	id 1kI8ma-00087m-Ht
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 07:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Ug-00019j-DX
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:26 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40625
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kI8W9-0003ns-69
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:48:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Ue-0004fz-MZ
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:26 -0400
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kI8W7-0004qI-Cs
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:48:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166843;
+ s=mimecast20190719; t=1600166934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xZoa4RowV/fB16RrOuni5OhsgOZy07E6WT0/T3ii30M=;
- b=MFlVlUc1gD7+6qQeweQ+jkSaifce0tpxf226ATswznRkUFD+5f0uf9Fg0B42A87pj/zGgX
- Bfh13Kusw0HcHVyAoabgB/pol4tbRAoxqvQ1fFoALjrcgEUUNO5tAOJlwOOEOxfG32oB+K
- 0BzJoNIL+sOw7Y8IRbV4gkYufojyiF4=
+ bh=3H9erQR8dgW35In8uN6bN1E9Jj9iq2UQgolUErEXlTY=;
+ b=K3cixnAbxvWn8QGhAzNBDSdSb5MUgDDc87utyID/m1IrUW5FzX4kTQ5OxaYI+FgxPHSn/k
+ 9r8zzZDHFZBy9jffP148vc/nAwR25Wm5rc4MH578eABlWJr2HvK2hmw1pZ1ZdKT24flHTh
+ E7KvVyAdkGk2xVqW7x5PAdA8NNVP30A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-EfyzLUtGOaOAn2cZSieiUA-1; Tue, 15 Sep 2020 06:47:19 -0400
-X-MC-Unique: EfyzLUtGOaOAn2cZSieiUA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-440-aN_St2WqMQONL_QfMu4Ddg-1; Tue, 15 Sep 2020 06:48:52 -0400
+X-MC-Unique: aN_St2WqMQONL_QfMu4Ddg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFF0A1005E64;
- Tue, 15 Sep 2020 10:47:18 +0000 (UTC)
-Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 514D05FC2A;
- Tue, 15 Sep 2020 10:47:18 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 22/22] block/rbd: add 'namespace' to
- qemu_rbd_strong_runtime_opts[]
-Date: Tue, 15 Sep 2020 12:46:27 +0200
-Message-Id: <20200915104627.699552-23-mreitz@redhat.com>
-In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
-References: <20200915104627.699552-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C93B464087;
+ Tue, 15 Sep 2020 10:48:51 +0000 (UTC)
+Received: from kaapi (ovpn-116-229.sin2.redhat.com [10.67.116.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E532C19C4F;
+ Tue, 15 Sep 2020 10:48:49 +0000 (UTC)
+Date: Tue, 15 Sep 2020 16:18:47 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: About 'qemu-security' mailing list
+In-Reply-To: <20200914101517.GD579094@stefanha-x1.localdomain>
+Message-ID: <nycvar.YSQ.7.78.906.2009151536090.10832@xnncv>
+References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
+ <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
+ <20200914101517.GD579094@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:23:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,44 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org,
+ =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+  Hello,
 
-Commit 19ae9ae014 ("block/rbd: Add support for ceph namespaces")
-introduced namespace support for RBD, but we forgot to add the
-new 'namespace' options to qemu_rbd_strong_runtime_opts[].
++-- On Fri, 11 Sep 2020, Peter Maydell wrote --+
+| Way way back, the idea of a qemu-security list was proposed, and it was 
+| decided against because there wasn't a clear way that people could send 
+| encrypted mail to the security team if it was just a mailing list. So that's 
+| why we have the "handful of individual contacts" approach. Is that still 
+| something people care about ?
 
-The 'namespace' is used to identify the image, so it is a strong
-option since it can changes the data of a BDS.
+* So far issue reports have mostly been unencrypted.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1821528
-Fixes: 19ae9ae014 ("block/rbd: Add support for ceph namespaces")
-Cc: Florian Florensa <fflorensa@online.net>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200914190553.74871-1-sgarzare@redhat.com>
-Reviewed-by: Jason Dillaman <dillaman@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/rbd.c | 1 +
- 1 file changed, 1 insertion(+)
+* All issue reports may not need encryption.
 
-diff --git a/block/rbd.c b/block/rbd.c
-index 171c67e3a0..9bd2bce716 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -1247,6 +1247,7 @@ static QemuOptsList qemu_rbd_create_opts = {
- 
- static const char *const qemu_rbd_strong_runtime_opts[] = {
-     "pool",
-+    "namespace",
-     "image",
-     "conf",
-     "snapshot",
--- 
-2.26.2
+* If someone still wants to send an encrypted report, few contacts with their 
+  GPG keys could be made available, as is available now.
+
+
++-- On Mon, 14 Sep 2020, Stefan Hajnoczi wrote --+
+| On Fri, Sep 11, 2020 at 04:51:49PM +0100, Peter Maydell wrote:
+| > want it to be a larger grouping than that and maybe also want to use it as 
+| > a mechanism for informing downstream distros etc about QEMU security 
+| > issues, which is to say you're proposing an overhaul and change to our 
+| > security process, not merely "we'd like to create a mailing list" ?
+| 
+| Yes, please discuss the reasons for wanting a mailing list:
+| 
+| Is the goal to involve more people in triaging CVEs in a timely manner?
+
+  This will be welcome for fix patches.
+
+| Is the goal to include new people who have recently asked to participate?
+
+  We've not received such request yet.
+
+| Is the goal to use an easier workflow than manually sending encrypted
+| email to a handful of people?
+
+* Current proposal is more for enabling communities and downstream distros to 
+  know about the issues as and when they are reported. Ie. heads-up mechanism.
+
+  Just to note, we've not received any request for such notifications.
+
+* If maintainers are on this list, that could help with the triage and fix 
+  patches.
+
+
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
 
