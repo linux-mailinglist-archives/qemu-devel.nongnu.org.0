@@ -2,97 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A2726AA71
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:23:31 +0200 (CEST)
-Received: from localhost ([::1]:51150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4916926AA8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:27:49 +0200 (CEST)
+Received: from localhost ([::1]:39702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEfy-0000xg-No
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:23:30 -0400
+	id 1kIEk8-00084M-Bl
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:27:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:44336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIEX2-00006l-Ps
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:14:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIEJE-00014e-HV
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:00:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600189199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ru/mL5Hd1MR8pJ+e7pAyN4rPmOhdtElEqExnXYflAts=;
- b=KTQ4w2VlGwq/yWdIyL+xxdEZIm3JUkPr76lhckKTRaH63cU4nR3UL/8P5EhTNCezdoUS0z
- fSNudQZjPB7NGH7E6/oGw0qPfIOhOVAbpCU0tvfR0pw8I8fQ9TPMoDFEgatJwgPSzygOY0
- pPdwchlmk+aCvqdD23eX7L3jvQu7oGc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-LIZnsE2cMSqHTMbOjGHaLA-1; Tue, 15 Sep 2020 12:59:57 -0400
-X-MC-Unique: LIZnsE2cMSqHTMbOjGHaLA-1
-Received: by mail-wm1-f71.google.com with SMTP id w3so57521wmg.4
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:59:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kIEWz-00006l-10; Tue, 15 Sep 2020 13:14:13 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kIEVn-0002cd-P3; Tue, 15 Sep 2020 13:13:01 -0400
+Received: by mail-pg1-x541.google.com with SMTP id u13so2348176pgh.1;
+ Tue, 15 Sep 2020 10:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
+ b=cROZn4/oi49vjEhlnRxM95pNUPwuqepwFHuiC9EtiCx9y9E5gnsunnNNlntOYilikZ
+ GxEnaUhpnSSOCMysR0vXXzbnA7WzWJcXM3yiC/spb6DbPUUXLI6ouVNHprVETGq/fIza
+ tIaPAPPo5gHmYRTcvKjvAq1Ir4K6OSVpc06TI6BZpzMZWGtL021A6IzUauq0N+7+1zoJ
+ Jh92NPW0+Eh7LkQpUeN01B5rTcFFdgooF6ItN6eb2Xm9Yq8iYrEViwrCMjmzO/RDngCU
+ PBWUKx+zsw4dMT1OAp6oDWbKvM9vTrFHDDFGWPLkmYzEXqMfzGUqQUIJkXonPQN5qPh1
+ 0J9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ru/mL5Hd1MR8pJ+e7pAyN4rPmOhdtElEqExnXYflAts=;
- b=bKAnsqE3JxznCC0g1MdPgJTRNMljnnc4vxAKQLfrOgPTgBqiduJZX14sIkud4EaoE8
- LIUpNJN1Zw6VMmIIUQ4Erutifg0uudXFb4XWFnACthFcSGDfELtHMLEo7usW451dwTGS
- BPmKPG8qJTTimeaV6whgA/9kJn/iDHih0K2OyP6oCoYCYfHEvRpR2ntplMd2Wh0wV0gn
- ksKUovDA0x7bNK9V7oBec0pBOWHlUdPPh8x87SKJOPY0FIuM5q3hOeorwM30NxSBGEv1
- KieNoZ6Km0kw4CnmFuMXdIux/JM0WPGOukwr/B/RPR/L1dN59GuqShcVbJ1vP3VtqfLl
- tD9A==
-X-Gm-Message-State: AOAM533DZzrLrZDkJkEF03W2n+yQHMKoSu2nuRNkSr1lVCGeJE2m9YN/
- jOKBJQNhynuGZlSBNxT+Us7HnsTlF2J+x1dnV23J7rn1dD/D2YvVE3MkODlHy65sxlTrLChFigK
- BmI3khxeGfg9YDoI=
-X-Received: by 2002:a1c:e256:: with SMTP id z83mr316345wmg.137.1600189196222; 
- Tue, 15 Sep 2020 09:59:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnQPFRF9EWcVYSfCbh0xMJO51d/20MGnTe3x+fcsxpuHSg6+Pc5qPVE+f8FWVvPAFTVJTPqA==
-X-Received: by 2002:a1c:e256:: with SMTP id z83mr316330wmg.137.1600189196024; 
- Tue, 15 Sep 2020 09:59:56 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:eac8:587f:8ca7:e1e8?
- ([2001:b07:6468:f312:eac8:587f:8ca7:e1e8])
- by smtp.gmail.com with ESMTPSA id n17sm29282827wrw.0.2020.09.15.09.59.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 09:59:55 -0700 (PDT)
-Subject: Re: [PATCH v2 01/10] capstone: Convert Makefile bits to meson bits
-To: luoyonggang@gmail.com, Richard Henderson <richard.henderson@linaro.org>
-References: <20200914230210.2185860-1-richard.henderson@linaro.org>
- <20200914230210.2185860-2-richard.henderson@linaro.org>
- <eced490f-0250-3516-5d75-c6c3ff6e97be@linaro.org>
- <CABgObfbWzf7DLgx23+yMqYqnMUaiJ=0WKaW4zvzkA4u5T9fQXQ@mail.gmail.com>
- <4813770a-34a4-72ce-17f7-7ea451a7af99@linaro.org>
- <CAE2XoE_he2L85WgAg5NBWKLT+FFy6RJDULsL-QWBH0jbhxZTpw@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <2444b9f2-3668-8ca8-2e9e-3215d55b1472@redhat.com>
-Date: Tue, 15 Sep 2020 18:59:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
+ b=P1DGD+Zq3FVuLvUI6449xWxjuniqo0NlFcdu6w2BJIp109WaHJ+BLdoVe65WYMejI4
+ F3OR7QFBy9dzMIowBv+YS12zuoCMhjdszVY/1YSGVIN0o9ASO1SBoZdlkup3voH7w2e7
+ d/QhM8Rvk80n7LzuDWy65VkCgQF9yRmQ5G/T7Q2iToSD0oVu3sfSseZqXkW3Ll6byLyC
+ cin5388ijFXSKU/29OJgDfopBIJKdh3NjZdsyCrAL3eJ3HEiLyXYCRLQ9w4mWDxRvi+W
+ g9ob/7athrJ66PuQJug0vp2JOezbyrJfpk1beK/O4CUrj9evdB9waNXvaaJDmrUXjPSF
+ 6A6A==
+X-Gm-Message-State: AOAM531cKC0GhzL+gjc04cRh6Lna57/1LE8MUPO2KJsm55RbLCHe2tZo
+ 54m9oG8CsLX//PitfTFzmKmBiISE/KImQWHMwWM=
+X-Google-Smtp-Source: ABdhPJwG4/B6u5o1WAZOmTjlfcksfK1wxOjZm8RU+lgWL5H5I39XN+Z9LoI9ThPS/C8Cxj0LpGl10Q==
+X-Received: by 2002:a05:6a00:f:b029:13e:d13d:a089 with SMTP id
+ h15-20020a056a00000fb029013ed13da089mr18280557pfk.32.1600189977644; 
+ Tue, 15 Sep 2020 10:12:57 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.12.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Sep 2020 10:12:56 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v10 01/26] rcu: Implement drain_call_rcu
+Date: Wed, 16 Sep 2020 01:12:09 +0800
+Message-Id: <20200915171234.236-2-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+In-Reply-To: <20200915171234.236-1-luoyonggang@gmail.com>
+References: <20200915171234.236-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE_he2L85WgAg5NBWKLT+FFy6RJDULsL-QWBH0jbhxZTpw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 11:54:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,26 +83,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/09/20 18:12, 罗勇刚(Yonggang Luo) wrote:
-> 
-> I suggest remove the capstone=system option cause the system library
-> may not satisfy the requirements of qemu and create in-consistence
-> expereince when bug or error happens about capstone. We either have
-> git submodule capstone or nothing at all
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Linux distributions generally do not want to have bundled libraries, so
-the fallback to the system library is the default.  We single out
-capstone, libfdt and slirp because they are slightly less common
-dependencies and are missing on some distros; however, in general we
-strive to _only_ use system libraries and not package any of QEMU's
-dependencies.
+This will allow is to preserve the semantics of hmp_device_del,
+that the device is deleted immediatly which was changed by previos
+patch that delayed this to RCU callback
 
-Paolo
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/qemu/rcu.h |  1 +
+ util/rcu.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index 570aa603eb..0e375ebe13 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -133,6 +133,7 @@ struct rcu_head {
+ };
+ 
+ extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
++extern void drain_call_rcu(void);
+ 
+ /* The operands of the minus operator must have the same type,
+  * which must be the one that we specify in the cast.
+diff --git a/util/rcu.c b/util/rcu.c
+index 60a37f72c3..c4fefa9333 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -293,6 +293,61 @@ void call_rcu1(struct rcu_head *node, void (*func)(struct rcu_head *node))
+     qemu_event_set(&rcu_call_ready_event);
+ }
+ 
++
++struct rcu_drain {
++    struct rcu_head rcu;
++    QemuEvent drain_complete_event;
++};
++
++static void drain_rcu_callback(struct rcu_head *node)
++{
++    struct rcu_drain *event = (struct rcu_drain *)node;
++    qemu_event_set(&event->drain_complete_event);
++}
++
++/*
++ * This function ensures that all pending RCU callbacks
++ * on the current thread are done executing
++
++ * drops big qemu lock during the wait to allow RCU thread
++ * to process the callbacks
++ *
++ */
++
++void drain_call_rcu(void)
++{
++    struct rcu_drain rcu_drain;
++    bool locked = qemu_mutex_iothread_locked();
++
++    memset(&rcu_drain, 0, sizeof(struct rcu_drain));
++    qemu_event_init(&rcu_drain.drain_complete_event, false);
++
++    if (locked) {
++        qemu_mutex_unlock_iothread();
++    }
++
++
++    /*
++     * RCU callbacks are invoked in the same order as in which they
++     * are registered, thus we can be sure that when 'drain_rcu_callback'
++     * is called, all RCU callbacks that were registered on this thread
++     * prior to calling this function are completed.
++     *
++     * Note that since we have only one global queue of the RCU callbacks,
++     * we also end up waiting for most of RCU callbacks that were registered
++     * on the other threads, but this is a side effect that shoudn't be
++     * assumed.
++     */
++
++    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
++    qemu_event_wait(&rcu_drain.drain_complete_event);
++
++    if (locked) {
++        qemu_mutex_lock_iothread();
++    }
++
++}
++
+ void rcu_register_thread(void)
+ {
+     assert(rcu_reader.ctr == 0);
+-- 
+2.28.0.windows.1
 
 
