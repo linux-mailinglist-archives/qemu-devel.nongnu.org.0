@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE66426A4D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:15:46 +0200 (CEST)
-Received: from localhost ([::1]:44274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F10626A506
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:23:15 +0200 (CEST)
+Received: from localhost ([::1]:33580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI9s9-0001TL-Q4
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46478)
+	id 1kI9zO-0000fr-16
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:23:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nD-0004no-Tb
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:10:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38908)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nM-0004rT-8g
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:10:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nB-0007gG-3S
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:10:39 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kI9nI-0007iW-KF
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:10:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600171831;
+ s=mimecast20190719; t=1600171843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1v/PAt3CshJX/VrDKv2rrFSFurASfaywl/Okvrdx+NQ=;
- b=Vmy76l+XquC0ETlELTvd/NlTIDCmxrQiALkhtJ0qSqwhTAV+4FM6FdqRrPbzAo2nF59BTm
- 650Fr9Ozqkgn84+hOSCU9DAPqT8fyAKVWVkMw2Cxord+86WBtuU+KdLAbv8ITfVHrbl0In
- P4V/Oy7Wm1w7AMQ2Gt0CFECYXLxVmkM=
+ bh=CjMaQq5b7d6xZab6r1I8iIsLu0kAb+RnTVO4UWJ1lpA=;
+ b=BLh9UdSqlc/PW3+kZdXmoFiJS9mQ7LHQ35kVxT+MlQBqw/hpuEnU3jGzyujfUTjpEjn1yp
+ uAijXJyNqJ2Xti37UCo2X8/V4VyvzL+EhrJwX+4TwhcVk3JvUc352bfbMIFc3lW6lDq1Tx
+ JTt8s/4O1uR6rDc5dKjuLRj8Hd7cQ30=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-V9BPZ5hfNo6jDbGDMAyNYw-1; Tue, 15 Sep 2020 08:09:25 -0400
-X-MC-Unique: V9BPZ5hfNo6jDbGDMAyNYw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-313-_npvyFLdPbKjl14jxEqXnQ-1; Tue, 15 Sep 2020 08:09:33 -0400
+X-MC-Unique: _npvyFLdPbKjl14jxEqXnQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76AA064087;
- Tue, 15 Sep 2020 12:09:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 545C31009440;
+ Tue, 15 Sep 2020 12:09:32 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AA1C75138;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA09A51574;
  Tue, 15 Sep 2020 12:09:24 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4A18640BFC; Tue, 15 Sep 2020 14:09:10 +0200 (CEST)
+ id 533A340BFD; Tue, 15 Sep 2020 14:09:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 17/21] tests/acpi: allow microvm test data updates.
-Date: Tue, 15 Sep 2020 14:09:05 +0200
-Message-Id: <20200915120909.20838-18-kraxel@redhat.com>
+Subject: [PATCH v8 18/21] tests/acpi: allow override blkdev
+Date: Tue, 15 Sep 2020 14:09:06 +0200
+Message-Id: <20200915120909.20838-19-kraxel@redhat.com>
 In-Reply-To: <20200915120909.20838-1-kraxel@redhat.com>
 References: <20200915120909.20838-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.0
@@ -91,37 +91,40 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also add empty test data files.
+microvm needs virtio-blk instead of ide.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- tests/data/acpi/microvm/APIC                | 0
- tests/data/acpi/microvm/DSDT                | 0
- tests/data/acpi/microvm/FACP                | 0
- 4 files changed, 3 insertions(+)
- create mode 100644 tests/data/acpi/microvm/APIC
- create mode 100644 tests/data/acpi/microvm/DSDT
- create mode 100644 tests/data/acpi/microvm/FACP
+ tests/qtest/bios-tables-test.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf4..97c3fa621b7f 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/microvm/APIC",
-+"tests/data/acpi/microvm/DSDT",
-+"tests/data/acpi/microvm/FACP",
-diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
-new file mode 100644
-index 000000000000..e69de29bb2d1
-diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
-new file mode 100644
-index 000000000000..e69de29bb2d1
-diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
-new file mode 100644
-index 000000000000..e69de29bb2d1
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 504b810af583..1779af1cc889 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -72,6 +72,7 @@ typedef struct {
+     const char *variant;
+     const char *uefi_fl1;
+     const char *uefi_fl2;
++    const char *blkdev;
+     const char *cd;
+     const uint64_t ram_start;
+     const uint64_t scan_len;
+@@ -666,9 +667,10 @@ static void test_acpi_one(const char *params, test_data *data)
+         args = g_strdup_printf("-machine %s,kernel-irqchip=off %s -accel tcg "
+             "-net none -display none %s "
+             "-drive id=hd0,if=none,file=%s,format=raw "
+-            "-device ide-hd,drive=hd0 ",
++            "-device %s,drive=hd0 ",
+              data->machine, data->tcg_only ? "" : "-accel kvm",
+-             params ? params : "", disk);
++             params ? params : "", disk,
++             data->blkdev ?: "ide-hd");
+     }
+ 
+     data->qts = qtest_init(args);
 -- 
 2.27.0
 
