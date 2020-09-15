@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF20926A503
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:22:45 +0200 (CEST)
-Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DF026A50F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:24:49 +0200 (CEST)
+Received: from localhost ([::1]:39102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI9yu-00083g-Oc
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:22:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47886)
+	id 1kIA0u-0002zF-8d
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qA-0000Qg-Fk; Tue, 15 Sep 2020 08:13:42 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:39308)
+ id 1kI9qE-0000TF-BT; Tue, 15 Sep 2020 08:13:47 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9q8-00088W-DO; Tue, 15 Sep 2020 08:13:42 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id x18so1240354pll.6;
- Tue, 15 Sep 2020 05:13:39 -0700 (PDT)
+ id 1kI9qC-00088x-EN; Tue, 15 Sep 2020 08:13:46 -0400
+Received: by mail-pl1-x644.google.com with SMTP id y6so1238554plt.9;
+ Tue, 15 Sep 2020 05:13:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WkGXuI97nU8bI2sZbeibQm7nhrF3DBevmzRpIwEb6PI=;
- b=FJu6g39dnOPI8Hqbiu7rG/pOl6W2+v/ItXfhkkd6IgchDFuWtEZxoNe16XCHZgcGuB
- QLZZOocnZf5admTtVSC/Y80DaN8q+gWRVEQSUr444tbtLGYYFi8BgTN7clb54xF3gXmi
- rhWAA+tA1Rqtfx3vZ57oZpM3gPHLeT/zfJtQFpQ4O45xztWF2uRCamaAt6z2mKGPlsbq
- ozrmzePCSdUEblVup+ToHSmlaIpyZxXfEoywdbhe3D7mysIqsF+RprfbT4U3Bu3ZOzEL
- kmj/e4UV4UirdYeCE+CXQ9lTE+yDyKvHXElMA9aXgnARwtefMNSCTDnsH4PA84Dcv3oN
- spcg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
+ b=GJ1StaBr/nZdQchwU/7KeA7/NzcOt0HN5hJLx1Kbbhh6vaoV2oM7Make5Pwx5Wqh0s
+ cJXJgAwi6Cv4Y1PArVIl+BxCaLGtVpZFnmEOjdQQY1JPXNrnLqVZKMUhM9n/oMTpIl27
+ 0mVvzpzst0iJqZmhGiZiC+naauOy4A04VQkbbmwuyzuRU+fABqkHaGWyj6lipSwJYmVP
+ EqAdRLRFY1dFwcKx/3jR9ws18Tj9nzcfI0+BsSeQUrvzpKEZqcK+gXpDZlYfYeAayUmW
+ s5cnOGKbKjQ6enQdCIwqOOkvBe7DTxSg91nrZdSNilW1SyUAdnCPKbWFnbjwasocuKvO
+ 6BMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WkGXuI97nU8bI2sZbeibQm7nhrF3DBevmzRpIwEb6PI=;
- b=d6tI7tkPo9RYvWHcRbc8d6YkorXlGBA3sVZAdzRKebBM4LC6LNLUhyD/4RQQKLbOeo
- 2hcsSIp9qUFvwqGZYQG4lhbEAYjgUqME1q3wPYahzDX0lDevTy7UVcwb+OHT+UsmtA2w
- 8SMwAvYzIRw6/Uv8gwofA83zDknyQ0saSkkosv5IKSg0lT29FqkRWQzW5RXiKi383yCV
- fSDDOXlQl+J4hifcKJO2ZxjdQEPq8EAyDMtWjcyFmcYqI0uk9yuqmyPbaF2pzGk6kzX3
- pHZxyaG4eKhOP6ka2oHgu3qklkxTPCgomwkcXkPSOwnMwBBuxILyIftdW6LRt02zA0d8
- uG2w==
-X-Gm-Message-State: AOAM532OQxvNsHpiLfx39+hqIjJzIUN1bf7vkYuFkJ8wJGig8GqWWmH0
- fxffS5nNRAH1rY1+VCGE92mm/9pPwyJAGbIGOg0=
-X-Google-Smtp-Source: ABdhPJzicWS55SYuACIidgVSbR7ZstFbKad5g06VU+6CP80YQlBXUcKrL/1E/87oGOlvzJOy5uyyRA==
-X-Received: by 2002:a17:902:b216:b029:d1:e5e7:be05 with SMTP id
- t22-20020a170902b216b02900d1e5e7be05mr1444661plr.56.1600172017698; 
- Tue, 15 Sep 2020 05:13:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hrJEqDkxFKpoRhRzMOgEeJejUGbXqPW0+cFjCJrQlA0=;
+ b=PGfV9PqsHKA7ytDzgAnTMelhNyIcB29ICzj9SkY6n62gM6aSS4oXkx3/MUemc8viUB
+ lyXwJFGRbbsfEjKDP/LGR9I4HS4RZ7UMvXbdKR21KhkHXj0FP9aF61SOSaVTMtW8lEBF
+ daVfVdu4geWiI33STIV8c3pQred2MkcjQkgHjAx0xRqT0GEyGiFNpFu7WN87Im77Tt5J
+ S4tJnIaSVj0TEJSX9MLKCRnEHCa40n9WbzW/Rup0gchL1KTH4r3pABB33iALLvlzKaTj
+ nXeBl00PX6XduZ3IeYQnuKugYNAcR9gnGsi+maCKlWC+NgkvkbhdNUN+dBaUyl5JPZMs
+ IoTQ==
+X-Gm-Message-State: AOAM5320Tsc37LgNeCJD0qt3JvlehM+pD+1R6KJASHdOZUzp5txGSDCj
+ lJbkTj8LQVP/kFBIFYx9zfbojuMGMi77WJIe2Ek=
+X-Google-Smtp-Source: ABdhPJwmjqGvN4a+j3C220iTzyKPgVJJria+iIneKlGbcg1aJmnxM3IeYRl2ySuay3yttnhKKhZUrg==
+X-Received: by 2002:a17:902:d714:b029:d0:cbe1:e7a2 with SMTP id
+ w20-20020a170902d714b02900d0cbe1e7a2mr18447239ply.19.1600172022299; 
+ Tue, 15 Sep 2020 05:13:42 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.13.33
+ k28sm13683061pfh.196.2020.09.15.05.13.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:13:36 -0700 (PDT)
+ Tue, 15 Sep 2020 05:13:41 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 00/26] W32, W64 msys2/mingw patches
-Date: Tue, 15 Sep 2020 20:12:52 +0800
-Message-Id: <20200915121318.247-1-luoyonggang@gmail.com>
+Subject: [PATCH v9 01/26] rcu: Implement drain_call_rcu
+Date: Tue, 15 Sep 2020 20:12:53 +0800
+Message-Id: <20200915121318.247-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
+In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
+References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x62f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,133 +84,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>,
  Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
  Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-V8-V9=0D
-=0D
-* ci: Enable msys2 ci in cirrus=0D
-  do not install libnfs, libcapstone and jemalloc=0D
-  ident lines properly=0D
-  Do not install libnfs when the add the msys2 ci,=0D
-=0D
-* Revert "configure: add --ninja option"=0D
-  Skip this revision=0D
-=0D
-* block: Fixes nfs compiling error on msys2/mingw=0D
-  Use typedef long long blkcnt_t; for libnfs on msys2/mingw=0D
-  for futher implemenation, still disable nfs_get_allocated_file_size=0D
-  on win32 as it not working yet, but preserve the possibility implemenatio=
-n=0D
-  it in futher=0D
-=0D
-* gcrypt: test_tls_psk_init should write binary file instead text file.=0D
-  only fixes the file open mode parameter=0D
-=0D
-* osdep: file locking functions are not available on Win32:=0D
-  Reword with "Do not declare the following locking functions on Win32:"=0D
-=0D
-* meson: Use -b to ignore CR vs. CR-LF issues on Windows=0D
-  Reword of commit message=0D
-=0D
-* tests: Enable crypto tests under msys2/mingw=0D
-  Reimplement qemu_socketpair in a simpler way. without thirdparty code=0D
-=0D
-* block: enable libnfs on msys2/mingw in cirrus.yml=0D
-  New commit=0D
-=0D
-* tests: disable /char/stdio/* tests in test-char.c on win32=0D
-  Needs review=0D
-=0D
-* tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence wi=
-th=3D=0D
- aio-posix.c=0D
-  Needs review=0D
-=0D
-* rcu: fixes test-logging.c by call drain_call_rcu before rmdir_full=0D
-  Needs review=0D
-=0D
-It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and=0D
-disable partial test-char tests.=0D
-And then fixes all unit tests failure on msys2/mingw=0D
-This fixes the reviews suggested in the mailling list=0D
-All cirrus CI are passed=0D
-=0D
-Maxim Levitsky (1):=0D
-  rcu: Implement drain_call_rcu=0D
-=0D
-Yonggang Luo (25):=0D
-  ci: fixes msys2 build by upgrading capstone to 4.0.2=0D
-  configure: Fixes ncursesw detection under msys2/mingw and enable=0D
-    curses=0D
-  win32: Simplify gmtime_r detection direct base on=0D
-    _POSIX_THREAD_SAFE_FUNCTIONS.=0D
-  curses: Fixes curses compiling errors.=0D
-  tests: disable /char/stdio/* tests in test-char.c on win32=0D
-  tests: Fixes test-replication.c on msys2/mingw.=0D
-  tests: test-replication disable /replication/secondary/* on=0D
-    msys2/mingw.=0D
-  osdep: file locking functions are not available on Win32=0D
-  meson: Use -b to ignore CR vs. CR-LF issues on Windows=0D
-  gcrypt: test_tls_psk_init should write binary file instead text file.=0D
-  tests: Enable crypto tests under msys2/mingw=0D
-  meson: remove empty else and duplicated gio deps=0D
-  vmstate: Fixes test-vmstate.c on msys2/mingw=0D
-  cirrus: Building freebsd in a single short=0D
-  tests: Convert g_free to g_autofree macro in test-logging.c=0D
-  tests: Fixes test-io-channel-socket.c tests under msys2/mingw=0D
-  tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence=0D
-    with aio-posix.c=0D
-  tests: Fixes test-io-channel-file by mask only owner file state mask=0D
-    bits=0D
-  tests: fix test-util-sockets.c=0D
-  tests: Fixes test-qdev-global-props.c=0D
-  rcu: fixes test-logging.c by call drain_call_rcu before rmdir_full=0D
-  meson: upgrade meson for execute custom ninjatool under msys2 properly=0D
-  ci: Enable msys2 ci in cirrus=0D
-  block: Fixes nfs compiling error on msys2/mingw=0D
-  block: enable libnfs on msys2/mingw in cirrus.yml=0D
-=0D
- .cirrus.yml                      |  97 ++++++++++++++++++++--------=0D
- block/nfs.c                      |  37 +++++++++--=0D
- capstone                         |   2 +-=0D
- configure                        |  61 +++++-------------=0D
- include/qemu/osdep.h             |   2 +-=0D
- include/qemu/rcu.h               |   1 +=0D
- include/sysemu/os-win32.h        |   4 +-=0D
- meson                            |   2 +-=0D
- meson.build                      |   6 --=0D
- tests/crypto-tls-psk-helpers.c   |   6 +-=0D
- tests/crypto-tls-x509-helpers.c  | 106 ++++++++++++++++++++++++++++++-=0D
- tests/crypto-tls-x509-helpers.h  |   9 ++-=0D
- tests/qapi-schema/meson.build    |   2 +-=0D
- tests/test-char.c                |  26 +++++---=0D
- tests/test-crypto-tlscredsx509.c |  47 +++++++-------=0D
- tests/test-crypto-tlssession.c   |  68 +++++++++++---------=0D
- tests/test-io-channel-file.c     |  10 ++-=0D
- tests/test-io-channel-socket.c   |   2 +=0D
- tests/test-io-channel-tls.c      |  51 ++++++++-------=0D
- tests/test-logging.c             |   5 +-=0D
- tests/test-qdev-global-props.c   |   6 +-=0D
- tests/test-replication.c         |  22 +++++--=0D
- tests/test-util-sockets.c        |   6 +-=0D
- tests/test-vmstate.c             |   3 +-=0D
- ui/curses.c                      |  14 ++--=0D
- util/aio-win32.c                 |  11 +++-=0D
- util/oslib-win32.c               |   2 +-=0D
- util/rcu.c                       |  55 ++++++++++++++++=0D
- 28 files changed, 460 insertions(+), 203 deletions(-)=0D
-=0D
---=3D20=0D
-2.28.0.windows.1=0D
-=0D
+From: Maxim Levitsky <mlevitsk@redhat.com>
+
+This will allow is to preserve the semantics of hmp_device_del,
+that the device is deleted immediatly which was changed by previos
+patch that delayed this to RCU callback
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/qemu/rcu.h |  1 +
+ util/rcu.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index 570aa603eb..0e375ebe13 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -133,6 +133,7 @@ struct rcu_head {
+ };
+ 
+ extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
++extern void drain_call_rcu(void);
+ 
+ /* The operands of the minus operator must have the same type,
+  * which must be the one that we specify in the cast.
+diff --git a/util/rcu.c b/util/rcu.c
+index 60a37f72c3..c4fefa9333 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -293,6 +293,61 @@ void call_rcu1(struct rcu_head *node, void (*func)(struct rcu_head *node))
+     qemu_event_set(&rcu_call_ready_event);
+ }
+ 
++
++struct rcu_drain {
++    struct rcu_head rcu;
++    QemuEvent drain_complete_event;
++};
++
++static void drain_rcu_callback(struct rcu_head *node)
++{
++    struct rcu_drain *event = (struct rcu_drain *)node;
++    qemu_event_set(&event->drain_complete_event);
++}
++
++/*
++ * This function ensures that all pending RCU callbacks
++ * on the current thread are done executing
++
++ * drops big qemu lock during the wait to allow RCU thread
++ * to process the callbacks
++ *
++ */
++
++void drain_call_rcu(void)
++{
++    struct rcu_drain rcu_drain;
++    bool locked = qemu_mutex_iothread_locked();
++
++    memset(&rcu_drain, 0, sizeof(struct rcu_drain));
++    qemu_event_init(&rcu_drain.drain_complete_event, false);
++
++    if (locked) {
++        qemu_mutex_unlock_iothread();
++    }
++
++
++    /*
++     * RCU callbacks are invoked in the same order as in which they
++     * are registered, thus we can be sure that when 'drain_rcu_callback'
++     * is called, all RCU callbacks that were registered on this thread
++     * prior to calling this function are completed.
++     *
++     * Note that since we have only one global queue of the RCU callbacks,
++     * we also end up waiting for most of RCU callbacks that were registered
++     * on the other threads, but this is a side effect that shoudn't be
++     * assumed.
++     */
++
++    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
++    qemu_event_wait(&rcu_drain.drain_complete_event);
++
++    if (locked) {
++        qemu_mutex_lock_iothread();
++    }
++
++}
++
+ void rcu_register_thread(void)
+ {
+     assert(rcu_reader.ctr == 0);
+-- 
+2.28.0.windows.1
+
 
