@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB88126A3C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 13:00:50 +0200 (CEST)
-Received: from localhost ([::1]:55246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D7D26A3C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 13:03:17 +0200 (CEST)
+Received: from localhost ([::1]:60528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8hd-0003FC-Tw
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 07:00:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
+	id 1kI8k0-0005dV-NK
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 07:03:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UF-0000XN-K5
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38365)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UI-0000dk-ES
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UE-0004Zy-54
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:59 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UG-0004bN-Jy
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166817;
+ s=mimecast20190719; t=1600166819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v7xfZqXP8N2Iw5FMG+YtAL5uE/6BoA1G9Am5lWixxdU=;
- b=NAcJ78Sp2tYqgNCyvufZKssEyGbJNXpzjUHJGzcHv9gtAFhR8tNJHspkHVTjVu2ll+ioM9
- EUh6/spzWJj/ZIE3CzcyM83ss8jNfTglDhsXMIITmJDdd3TtnjBrYiOEwSy2j61QUQckgR
- Yqv4UYwv3i1UmMRAGyMM216tZp2q5KI=
+ bh=oI+aOJWW59NHhphSZwR0nlNLS5F1Pya2WLuaZoiZpG8=;
+ b=gpwFI4mnubq412Xo2K3wjWkTc9Eb0v5lxZfQFyN3dY6bxm5vmLnIfsUsmoHKn1FRt+TVwX
+ QWgeZB7KSDMjQCdvGjh4FciAeGEKrTfGKKXWH/cf5Dw2lrqVRW2rx4kOGsUKg+lECwPWZm
+ KZzBZ9ltHsx9mHUuwAbYoxOXedLYq6w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-JDNvuE19MSmxr-JV4LNxRA-1; Tue, 15 Sep 2020 06:46:53 -0400
-X-MC-Unique: JDNvuE19MSmxr-JV4LNxRA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-89--2lLytUaM3mWrM5-YV_R4Q-1; Tue, 15 Sep 2020 06:46:57 -0400
+X-MC-Unique: -2lLytUaM3mWrM5-YV_R4Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BE0A801ADF;
- Tue, 15 Sep 2020 10:46:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87B40802B70;
+ Tue, 15 Sep 2020 10:46:56 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D032B19C4F;
- Tue, 15 Sep 2020 10:46:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C1945DC08;
+ Tue, 15 Sep 2020 10:46:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 10/22] qcow2: Don't check nb_clusters when removing l2meta from
- the list
-Date: Tue, 15 Sep 2020 12:46:15 +0200
-Message-Id: <20200915104627.699552-11-mreitz@redhat.com>
+Subject: [PULL 12/22] qemu-img: Explicit number replaced by a constant
+Date: Tue, 15 Sep 2020 12:46:17 +0200
+Message-Id: <20200915104627.699552-13-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -66,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,38 +83,46 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Yi Li <yili@winhong.com>
 
-In the past, when a new cluster was allocated the l2meta structure was
-a variable in the stack so it was necessary to have a way to tell
-whether it had been initialized and contained valid data or not. The
-nb_clusters field was used for this purpose. Since commit f50f88b9fe
-this is no longer the case, l2meta (nowadays a pointer to a list) is
-only allocated when needed and nb_clusters is guaranteed to be > 0 so
-this check is unnecessary.
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <ab0b67c29c7ba26e598db35f12aa5ab5982539c1.1599150873.git.berto@igalia.com>
+Signed-off-by: Yi Li <yili@winhong.com>
+Message-Id: <20200819013607.32280-1-yili@winhong.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ qemu-img.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index ef9a45e82f..3e8114dcf8 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2111,9 +2111,7 @@ static coroutine_fn int qcow2_handle_l2meta(BlockDriverState *bs,
+diff --git a/qemu-img.c b/qemu-img.c
+index 37365d06fa..1d8c5cd778 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1201,10 +1201,10 @@ static int is_allocated_sectors(const uint8_t *buf, int n, int *pnum,
+         *pnum = 0;
+         return 0;
+     }
+-    is_zero = buffer_is_zero(buf, 512);
++    is_zero = buffer_is_zero(buf, BDRV_SECTOR_SIZE);
+     for(i = 1; i < n; i++) {
+-        buf += 512;
+-        if (is_zero != buffer_is_zero(buf, 512)) {
++        buf += BDRV_SECTOR_SIZE;
++        if (is_zero != buffer_is_zero(buf, BDRV_SECTOR_SIZE)) {
+             break;
+         }
+     }
+@@ -2513,8 +2513,8 @@ static int img_convert(int argc, char **argv)
+             }
          }
  
-         /* Take the request off the list of running requests */
--        if (l2meta->nb_clusters != 0) {
--            QLIST_REMOVE(l2meta, next_in_flight);
--        }
-+        QLIST_REMOVE(l2meta, next_in_flight);
- 
-         qemu_co_queue_restart_all(&l2meta->dependent_requests);
- 
+-        qemu_opt_set_number(opts, BLOCK_OPT_SIZE, s.total_sectors * 512,
+-                            &error_abort);
++        qemu_opt_set_number(opts, BLOCK_OPT_SIZE,
++                            s.total_sectors * BDRV_SECTOR_SIZE, &error_abort);
+         ret = add_old_style_options(out_fmt, opts, out_baseimg, NULL);
+         if (ret < 0) {
+             goto out;
 -- 
 2.26.2
 
