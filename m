@@ -2,64 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AD4269C33
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 04:57:51 +0200 (CEST)
-Received: from localhost ([::1]:40464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFA6269C2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 04:56:32 +0200 (CEST)
+Received: from localhost ([::1]:36130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI1AE-0005ur-Ud
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 22:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44814)
+	id 1kI18x-00045l-5b
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 22:56:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1kI18g-0004Hp-Qg
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:56:15 -0400
-Received: from mga07.intel.com ([134.134.136.100]:23493)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kI15l-0007rh-Ad
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:53:13 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4696 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1kI18d-0004d1-Sa
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:56:14 -0400
-IronPort-SDR: 7ha6fUb6s3r9uT6aAFT3/gdAKUS+xAOJ842gPjYeuBx5JMWw2a4RTiPtP0799Ycy7SLM2R9aYv
- WdVniF7KQKig==
-X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="223374985"
-X-IronPort-AV: E=Sophos;i="5.76,428,1592895600"; d="scan'208";a="223374985"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2020 19:56:09 -0700
-IronPort-SDR: G2u5tGjOsSPwrtWqKRWsQhgYR7DzZ7rDoF0Yi7iBegXItWYyX084w4pmutZF1Zm6K2N0jqLKYk
- eyq0pXU5FUyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,428,1592895600"; d="scan'208";a="335500312"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga008.jf.intel.com with ESMTP; 14 Sep 2020 19:56:07 -0700
-Message-ID: <e37ad7f662256431512f2b1e0bfed7d2b0853a3e.camel@linux.intel.com>
-Subject: Re: [PATCH v2 1/2] Introduce (x86) CPU model deprecation API
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Date: Tue, 15 Sep 2020 10:56:06 +0800
-In-Reply-To: <20200914133849.GY1618070@habkost.net>
-References: <1591843676-102054-1-git-send-email-robert.hu@linux.intel.com>
- <20200909181506.GM1618070@habkost.net>
- <e3a289f5db0064dd363cb3481d152e20df14b35d.camel@linux.intel.com>
- <20200911140013.GS1618070@habkost.net>
- <b3d7de0e900c199e28702584a90a08987862e655.camel@linux.intel.com>
- <20200914133849.GY1618070@habkost.net>
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kI15j-0003WO-GF
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:53:13 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 22BF5302237117BBCB81;
+ Tue, 15 Sep 2020 10:53:04 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Tue, 15 Sep 2020
+ 10:52:56 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>
+Subject: [PATCH v4 0/6] *** Add Multifd support for TLS migration ***
+Date: Tue, 15 Sep 2020 11:03:56 +0800
+Message-ID: <1600139042-104593-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-8.el7) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=robert.hu@linux.intel.com; helo=mga07.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 22:56:09
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 22:53:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,126 +59,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Li, Xiaoyao" <xiaoyao.li@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>, "Hu, Robert" <robert.hu@intel.com>,
- "Qiang, Chenyi" <chenyi.qiang@intel.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
+ jinyan12@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-09-14 at 13:38 +0000, Eduardo Habkost wrote:
-> On Mon, Sep 14, 2020 at 06:50:09PM +0800, Robert Hoo wrote:
-> > On Fri, 2020-09-11 at 10:00 -0400, Eduardo Habkost wrote:
-> > > On Fri, Sep 11, 2020 at 02:22:51PM +0800, Robert Hoo wrote:
-> > > > On Wed, 2020-09-09 at 14:15 -0400, Eduardo Habkost wrote:
-> 
-> [...]
-> > > > > > +static void x86_cpu_deprecation_check(ObjectClass *oc)
-> > > > > > +{
-> > > > > > +    X86CPUClass *xcc = X86_CPU_CLASS(oc);
-> > > > > > +    X86CPUVersion effective_version;
-> > > > > > +    const X86CPUVersionDefinition *vdef;
-> > > > > > +
-> > > > > > +    if (xcc->model == NULL) {
-> > > > > > +        return;
-> > > > > > +    }
-> > > > > > +
-> > > > > > +    if (xcc->model->version == CPU_VERSION_LEGACY) {
-> > > > > > +        /* Treat legacy version as v1 */
-> > > > > > +        effective_version = 1;
-> > > > > > +    } else {
-> > > > > > +        effective_version =
-> > > > > > x86_cpu_model_resolve_version(xcc-
-> > > > > > > model);
-> > > > > > 
-> > > > > > +    }
-> > > > > > +
-> > > > > > +    vdef = xcc->model->cpudef->versions;
-> > > > > > +
-> > > > > > +    if (vdef == NULL) {
-> > > > > > +        return;
-> > > > > > +    } else {
-> > > > > > +        if (vdef[effective_version - 1].deprecated) {
-> > > > > > +            warn_report("Effective CPU model '%s' -- %s",
-> > > > > > +                    x86_cpu_versioned_model_name(xcc-
-> > > > > > >model-
-> > > > > > > cpudef,\
-> > > > > > 
-> > > > > > +                                                effective_
-> > > > > > vers
-> > > > > > ion)
-> > > > > > ,
-> > > > > > +                    vdef[effective_version - 1].note);
-> > > > > > +        }
-> > > > > > +    }
-> > > > > 
-> > > > > Why do we need this extra logic?  Isn't it simpler to just
-> > > > > add a
-> > > > > bool CPUClass::deprecated field, and set:
-> > > > > 
-> > > > >    cpu->deprecated = model->deprecated;
-> > > > > 
-> > > > > inside x86_cpu_cpudef_class_init()?
-> > > > > 
-> > > > 
-> > > > All these are to fulfill the target you expected earlier:
-> > > > 
-> > > > "We need a proper CPU model deprecation API.  Deprecation info
-> > > > should appear on query-cpu-definitions and should trigger a
-> > > > warning when using the CPU model."
-> > > > 
-> > > > So I think each deprecated model shall have its own deprecation
-> > > > message, e.g. by which version it's going to be deprecation,
-> > > > etc.
-> > > 
-> > > There's nothing x86-specific about having deprecated CPU models,
-> > > so I don't understand the reason for the x86-specific hook.
-> > > 
-> > > If the .note field is the reason you added the arch-specific
-> > > hook, you can just add a CPUClass::deprecation_note field and
-> > > make the feature generic.
-> > > 
-> > 
-> > I tend to agree with you on this generalization requirement.
-> > 
-> > But then I find it still has some tricky thing, perhaps that's why
-> > I
-> > defined this x86 target specific hook:
-> > 
-> > 1) The versioned CPU model is x86 specific (at least at present)
-> 
-> I don't see why this would be an obstacle.  You just need to set
-> CPUClass::deprecated and/or CPUClass::deprecation_note in the
-> x86-specific class_init code.
-> 
-> > 
-> > 2) Each x86 cpudef CPU model has 1 unversioned cpu_model_type then
-> > its
-> > versioned cpu_model_types. Refer to code in
-> > x86_register_cpudef_types(). The unversioned model won't be marked
-> > deprecated as it is unkown when registered. In
-> > machine_run_board_init(), the cpu_model being checked is the
-> > unversioned one, if I set -cpu to its general unversioned model.
-> > In short, the unversioned cpudef CPU model would escape the
-> > deprecation
-> > check.
-> 
-> Why is that a problem?  If, for example, Model-v1 is deprecated
-> and Model-v2 is not deprecated, we must never tell the user that
-> "-cpu Model" is deprecated.  
+v3 -> v4:
+    still use MigrationState field and save hostname in migration_tls_channel_connect
+    remove MigrationState from MultiFDSendParams
+ 
+v2 -> v3:
+    rebase patches on master
 
-Yes, that's why I cannot mark the unversioned one deprecated or not in
-its init.
+v1 -> v2:
+    fix memoryleak of MigrationState hostname
+    add tls_hostname into MultiFDSendParams for handshake use
+    fix function alignment
+    squash Patch005 and Patch006
+    add ioc into trace-events
 
-> Even if some machine types resolve
-> "-cpu Model" to Model-v1.
-> 
-That's what I concerned. Say, if I named "-cpu Icelake-Client" and it's
-resolved to Icelake-CPU-v1 (deprecated), shouldn't we warn user?
-> --
-> Eduardo
-> 
+TLS migration could easily reach bottleneck of cpu because of encryption
+and decryption in migration thread.
+In our test, the tls migration could only reach 300MB/s under bandwidth
+of 500MB/s.
+
+Inspired by multifd, we add multifd support for tls migration to make fully
+use of given net bandwidth at the cost of multi-cpus and could reduce
+at most of 100% migration time with 4U16G test vm.
+
+Evaluate migration time of migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 4;
+- the total memory is 16Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 100);
+- migration flag is 73755 (8219 + 65536 (TLS)) vs 204827 (8219 + 65536 (TLS) + 131072(Multifd))
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |         TLS           |      MultiFD + TLS (2 channel)    |
+--------------------------------------------------------t---------------------------
+| mempress 1024 120    |       25.035s         |           15.067s                 |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 1024 200    |       48.798s         |           25.334s                 |
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Chuan Zheng (6):
+  migration/tls: save hostname into MigrationState
+  migration/tls: extract migration_tls_client_create for common-use
+  migration/tls: add tls_hostname into MultiFDSendParams
+  migration/tls: extract cleanup function for common-use
+  migration/tls: add support for multifd tls-handshake
+  migration/tls: add trace points for multifd-tls
+
+ migration/channel.c    |   1 +
+ migration/migration.c  |   1 +
+ migration/migration.h  |   5 ++
+ migration/multifd.c    | 124 +++++++++++++++++++++++++++++++++++++++++++------
+ migration/multifd.h    |   2 +
+ migration/tls.c        |  28 +++++++----
+ migration/tls.h        |   6 +++
+ migration/trace-events |   4 ++
+ 8 files changed, 149 insertions(+), 22 deletions(-)
+
+-- 
+1.8.3.1
 
 
