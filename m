@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E648F26A584
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:48:36 +0200 (CEST)
-Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A5226A53D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:33:24 +0200 (CEST)
+Received: from localhost ([::1]:37118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIANv-0000b2-V9
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48358)
+	id 1kIA9D-00060q-L3
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:33:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rF-0001Pg-RP; Tue, 15 Sep 2020 08:14:52 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36804)
+ id 1kI9rO-0001Sl-BD; Tue, 15 Sep 2020 08:14:58 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:52972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rD-0008H2-K0; Tue, 15 Sep 2020 08:14:49 -0400
-Received: by mail-pf1-x443.google.com with SMTP id d9so1835143pfd.3;
- Tue, 15 Sep 2020 05:14:46 -0700 (PDT)
+ id 1kI9rM-0008JL-M9; Tue, 15 Sep 2020 08:14:58 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id o16so1678388pjr.2;
+ Tue, 15 Sep 2020 05:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xS967nwniiPoKExhe31AY1Igl1jhGzMmH4nTv98GjJU=;
- b=LWGL2jH0BhQweSb6xxy55FJjQVE3jDYJNfQFFor3yCUYooR7DdVxjqQH43pUSSohZk
- TKRiE3Y50Mblh5SRGjKGE4pWYmwJ7K+Do7XZhsqR+TURXAljFDNVOuxXdRUK5m1Kx/ux
- 9lVP5DBAcylwmDyw9hMqHszk3aCXdKAVKEpERVA9yZen9YgFSJGztk4mMnaslEt9UiZM
- ppkA/4E52s0kjWU8axONwhzqzPY44CAMGGa7MB2Ei6Fndv3ec6W9weTAiGo0el3qam8A
- UdtjLT8z2lZhbTgnL1SckJpR3/aJ7C/4yLi32c8HeaYu281b0qofbvcperNbR0F16IUu
- Iq/w==
+ bh=ks2bOk3jYOHrXnI/Shz64S+t7ePZagOpQ3Ju/TypT6Y=;
+ b=M6gXfErnngeeKfFhqv+Vgr0UqpYON1RVKk6pPLvTxMyiNu0d5gXcwRDkLcZ/YVoF4w
+ XzEw0VFbEMVfptJ5HLql9O9VlxiI5PR0DSNfoxU7jq0Ll/wbOIyvfkoOyXfKc+yovwIl
+ rO2ZkXDGrZk6sOSeVMEv6+biNrBalW0EnDwVUFZuN3CgHoUMmfNeYFCh7lVAfIiwmDDf
+ +nzfKyyZnVwTsIF+vuo3vlHYs+mIOVfN4V8jpwOCSNPBuJG06dVKDrb/e4JymgOc1475
+ FDpJawkj3VIV28wET96wguSrm2BVBIJlH4g4xMihHanOkvTjsmsrD8WGWOA4fNSBolC8
+ vtXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xS967nwniiPoKExhe31AY1Igl1jhGzMmH4nTv98GjJU=;
- b=TEikNU7MZbUgtr1t2enW2vMRtB2sBvOl/thmYzi3g0g9icbI0wh43OwvcnqARptLIJ
- ytMyPGLFWrBM9IQlZ7pDzippyVJJzL3mMTnTRwkUcPhSWePj6dpZzxXAXHM9GjjQ8IE2
- BQ0aCFHymSjAr7R4kXqWRfjfOSPz5zVIbc6ne2lqZ+xrjwAWuAYsdxBZuMwYAfNcEUj/
- Wqz2V5UsxGljvQz4BMiA+tSzSmuI0jdMC3Fhsu+xuXZ39ywQdPyIrV+2zVR0JqSelAJg
- kk0UXJUhIAA73MPlyuB2uIBLKSmkaGQO9OdkUg7F8R8GXy+mzRpG/YTFv2hYTPnGCh2E
- 3eOw==
-X-Gm-Message-State: AOAM533qYukHcZ/97/Oyz5ziUtAFL0L5h4+JdDRJB5zq4ZtOa76cgb33
- ZZQW71tXboBhQDkwHQLdLiXvyPBYdEcUTqNOtpI=
-X-Google-Smtp-Source: ABdhPJwJGmwIT40KYnBDQSmL9gdh68crtqnv2UfXC/ET6mmmH80HrfikHaIWOQrOrMG4h8jXSOknDQ==
-X-Received: by 2002:a05:6a00:22d2:b029:142:2501:3966 with SMTP id
- f18-20020a056a0022d2b029014225013966mr1635057pfj.43.1600172085532; 
- Tue, 15 Sep 2020 05:14:45 -0700 (PDT)
+ bh=ks2bOk3jYOHrXnI/Shz64S+t7ePZagOpQ3Ju/TypT6Y=;
+ b=LNqMNFKXnAD1zKJ97ubSL4dXstxhBnQC8KMYCDkBlo1+QBsILzEpgUkqXDVCJXIAAZ
+ GIzpVqd1iukiIR6Sic6onEhJZFZy3uhvgE0/qEe98dJP1dEIdKK4hTQmY85i37avecH/
+ pbqTQ871ntiW8nZo6SvBK5+6HcdCMimiO84ywj1ZbXJJxXM1F/iARKXI9g/uyTRNbj7d
+ 7jNRtSUdrNGs3zHddHU6DiLPW4KMcdB3SuQxMFxAvtZ/wNaPyVSEod7/GHYZTeoDXOzR
+ PYLDRkJDD9hB0Z79SupqZW2pQyMEp1dvlcJOBWAH1xoN+lVkNN9xXFbCPufhOUtpU9oa
+ a4xw==
+X-Gm-Message-State: AOAM530Ey0xcuNW3h5n8puZYrYqJmTtGabw9Hp2u/nAMd97uWZ1lZqJZ
+ x464NzXwzWzON3yrol1DeY2x5P89jY4G3ABdT2A=
+X-Google-Smtp-Source: ABdhPJwSlyNgD9I3zY8yY0qa0o7rPRisuPynZNgZvdKZ5zYH9SXLM8+VTZprLTCqcerRG79GyK+V+Q==
+X-Received: by 2002:a17:902:74c1:b029:d1:e598:401b with SMTP id
+ f1-20020a17090274c1b02900d1e598401bmr1557161plt.85.1600172094637; 
+ Tue, 15 Sep 2020 05:14:54 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.14.41
+ k28sm13683061pfh.196.2020.09.15.05.14.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:14:44 -0700 (PDT)
+ Tue, 15 Sep 2020 05:14:53 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 15/26] cirrus: Building freebsd in a single short
-Date: Tue, 15 Sep 2020 20:13:07 +0800
-Message-Id: <20200915121318.247-16-luoyonggang@gmail.com>
+Subject: [PATCH v9 17/26] tests: Fixes test-io-channel-socket.c tests under
+ msys2/mingw
+Date: Tue, 15 Sep 2020 20:13:09 +0800
+Message-Id: <20200915121318.247-18-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
 References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,7 +88,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ed Maste <emaste@FreeBSD.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
  qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
  Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
@@ -98,81 +99,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
-("cirrus.yml: Split FreeBSD job into two parts").
+Currently test-io-channel-socket doesn't init with
+qemu_init_main_loop
+and that's cause the qemu_aio_context not inited,
+and the following is the stack when null pointer accessed:
 
-freebsd 1 hour limit not hit anymore
-
-I think we going to a wrong direction, I think there is some tests a stall the test runner,
-please look at
-https://cirrus-ci.com/task/5110577531977728
-When its running properly, the consumed time are little, but when tests running too long,
-look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
-
-And look at
-https://cirrus-ci.com/task/6119341601062912
-
-If the tests running properly, the time consuming are little
-We should not hide the error by split them
+qemu_fd_register (c:\work\xemu\qemu\util\main-loop.c:336)
+qemu_try_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:224)
+qemu_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:230)
+socket_can_bind_connect (c:\work\xemu\qemu\tests\socket-helpers.c:93)
+socket_check_protocol_support (c:\work\xemu\qemu\tests\socket-helpers.c:141)
+main (c:\work\xemu\qemu\tests\test-io-channel-socket.c:568)
+__tmainCRTStartup (@__tmainCRTStartup:142)
+mainCRTStartup (@1400014f6..140001539:3)
+BaseThreadInitThunk (@BaseThreadInitThunk:9)
+RtlUserThreadStart (@RtlUserThreadStart:12)
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Ed Maste <emaste@FreeBSD.org>
 ---
- .cirrus.yml | 35 ++++++++---------------------------
- 1 file changed, 8 insertions(+), 27 deletions(-)
+ tests/test-io-channel-socket.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 3dd9fcff7f..690c6882e8 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -1,38 +1,19 @@
- env:
-   CIRRUS_CLONE_DEPTH: 1
+diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
+index d43083a766..743577d744 100644
+--- a/tests/test-io-channel-socket.c
++++ b/tests/test-io-channel-socket.c
+@@ -25,6 +25,7 @@
+ #include "socket-helpers.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#include "qemu/main-loop.h"
  
--freebsd_1st_task:
-+freebsd_12_task:
-   freebsd_instance:
-     image_family: freebsd-12-1
--    cpu: 4
--    memory: 4G
--  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
--    bash curl cyrus-sasl git glib gmake gnutls gsed
--    nettle perl5 pixman pkgconf png usbredir
-+    cpu: 8
-+    memory: 8G
-+  install_script:
-+    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
-+    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed 
-+          nettle perl5 pixman pkgconf png usbredir
-   script:
-     - mkdir build
-     - cd build
--    - ../configure --disable-user --target-list-exclude='alpha-softmmu
--        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
--        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
--        --enable-werror || { cat config.log; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake -j$(sysctl -n hw.ncpu) check
--
--freebsd_2nd_task:
--  freebsd_instance:
--    image_family: freebsd-12-1
--    cpu: 4
--    memory: 4G
--  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
--    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
--    nettle perl5 pixman pkgconf png SDL2 usbredir
--  script:
--    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
--        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
--        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
--        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
--        || { cat config.log; exit 1; }
-+    - ../configure --enable-werror || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake -j$(sysctl -n hw.ncpu) check
  
+ static void test_io_channel_set_socket_bufs(QIOChannel *src,
+@@ -556,6 +557,7 @@ int main(int argc, char **argv)
+     bool has_ipv4, has_ipv6;
+ 
+     module_call_init(MODULE_INIT_QOM);
++    qemu_init_main_loop(&error_abort);
+     socket_init();
+ 
+     g_test_init(&argc, &argv, NULL);
 -- 
 2.28.0.windows.1
 
