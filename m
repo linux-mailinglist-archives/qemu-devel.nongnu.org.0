@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC8A26A5E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:07:43 +0200 (CEST)
-Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1B726A5EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:09:13 +0200 (CEST)
+Received: from localhost ([::1]:60564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAgQ-0007XZ-UD
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57930)
+	id 1kIAhr-0001vM-Ab
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:09:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIAUP-0001YP-EH
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:55:17 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54754
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIAUL-0004yl-JS
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:55:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600174511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XenKRFXMCMemmYBxy6DJC7TEKcFssMfYO5ijTrmNJog=;
- b=LlexGVik8i7OgAMJycjUf88CsQON2R1sRSG9VKRlAfvAgUBq7z1+Y+NuiALt0ehl3xoB51
- 6sVjWVoK6YoasBHnQWmkiEgEmUW+4+8r23yOMyEsOUHrQavsLm0KaoQRw8PvwI0xTS25G8
- 0gWN1guy/+uzIpFrH0iC7S03TRkagzk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-Lo4ZbOusNe23YtSRZUQmLw-1; Tue, 15 Sep 2020 08:55:07 -0400
-X-MC-Unique: Lo4ZbOusNe23YtSRZUQmLw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A479D425CD;
- Tue, 15 Sep 2020 12:55:05 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-174.ams2.redhat.com [10.36.112.174])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C4CD5DC17;
- Tue, 15 Sep 2020 12:54:56 +0000 (UTC)
-Subject: Re: [PATCH v2 2/3] s390x/pci: Honor DMA limits set by vfio
-To: Matthew Rosato <mjrosato@linux.ibm.com>, alex.williamson@redhat.com,
- cohuck@redhat.com
-References: <1600122570-12941-1-git-send-email-mjrosato@linux.ibm.com>
- <1600122570-12941-3-git-send-email-mjrosato@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <6d835b47-5935-8eb7-f0f7-d81f0cec4028@redhat.com>
-Date: Tue, 15 Sep 2020 14:54:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIAVL-0002hg-6a
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:56:15 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIAVG-0005Gs-2r
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:56:14 -0400
+Received: by mail-wm1-x344.google.com with SMTP id s13so3258771wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 05:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tPi5X6ZaflWW893hRbxAkR4y4K2Q9jtc4BeLXm3WP+k=;
+ b=am/NWs+hOa08XwGN5wCD87BSfGSpXjFZhDNxGA5okTydz/SMy/Rubk5bn55DgRaWf2
+ qCt1biQsGmlPFPwSLTEfan9jUwR9NHXGPlMBAS5FjdvNwiq0j74g25LQjD6njv8p5pBr
+ EJ675KheVOS3ZDKsss7FolrgShK3Bzd05+tsF8YTqSIvjnCbMyMg7WYK4n5BQJ8WBkmF
+ S4qM8gFBhkR97d2tqpMI3XZ6trK6BjbNZbc+3F9IGPQSQO2QA36FNdPWuk8gzaPUW/7D
+ AKtwPdwOgX7TihmeEYc5t39rbctl+nNZxomeHBkm2VeOOD39til1ib697eLbGz6O2mbb
+ Lgiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tPi5X6ZaflWW893hRbxAkR4y4K2Q9jtc4BeLXm3WP+k=;
+ b=Dac6eE6VM9rx/vNSZ+20pmlYBExjjpUpskWnBtVSAVOOq1yrufH1S050Y1ZbDweANR
+ WgOexCacJb1xFRocwxcJW2a/YeibKvGataIjP8Si0atMyc/WGD2wmBQ13snE7U5aatFz
+ eSSc3JacmHEI+lGmz/zdokwQbNsoVhjWR053CoVwrSCxfM3ADpWTQ7o2ZR6tNcPiVyse
+ lgielZNQkcrGBNrjQ3ULu3U3FkRTEWejL78V/Li5mjq3aLTN3fV0LoB3Dzt8+2957KpF
+ kZ4rqDafh5DY9OkMmyuik/7ANp+3E2zoLvDqt+SvHbBg2IFtSdXQrxQ5BYTsrjxhABca
+ CGFA==
+X-Gm-Message-State: AOAM5305SfuGNtVH4ASQSEYRCnt4JYOIblXz2kL5X/AYvdF0rPs9PZlr
+ 23cDSXprYgIcIaTOTGXlSS+esKYR72URaIWnwnh94A==
+X-Google-Smtp-Source: ABdhPJz4AP68gj+Ztfgky+z7erHJol8QapvYcSWBb05SnSXjTPU0XYJH569WfxPsH7hAdp/L0QVa7zJvN2mSgrczSyY=
+X-Received: by 2002:a1c:ba0b:: with SMTP id k11mr4610667wmf.20.1600174567009; 
+ Tue, 15 Sep 2020 05:56:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1600122570-12941-3-git-send-email-mjrosato@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200911180755.28409-1-ani@anisinha.ca>
+ <20200911180755.28409-9-ani@anisinha.ca>
+ <20200914150550.23a91fa2@redhat.com>
+ <CAARzgwyrSW4jjrPCc1SJkDZUV9C-e_96RNGytZ8VjpPzzrWfXg@mail.gmail.com>
+ <CAARzgwx4T0MXtFTMe-b8DbAQCi7xq231kjOv8wRcRxwE5HPCyw@mail.gmail.com>
+ <20200914160910.66785da8@redhat.com>
+ <CAARzgwzSg7zCk_jaQ7iriC4_L+9oTykv0RhPdkTroP9pNtiMCg@mail.gmail.com>
+ <20200915135141.585c767d@redhat.com>
+ <CAARzgwzF4nwb8=ZQq5mhmDPQdgaen4Dy+_gXQVkW+Gw-_feMgw@mail.gmail.com>
+ <20200915144859.4f929784@redhat.com>
+In-Reply-To: <20200915144859.4f929784@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 15 Sep 2020 18:25:55 +0530
+Message-ID: <CAARzgwyi2K_VS-dw2aoqy0tVy_VmGH+fM33BKB0q3-spCGgf+Q@mail.gmail.com>
+Subject: Re: [PATCH 9/9] piix4: don't reserve hw resources when hotplug is off
+ globally
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::344;
+ envelope-from=ani@anisinha.ca; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,196 +86,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, schnelle@linux.ibm.com, david@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, rth@twiddle.net
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/09/2020 00.29, Matthew Rosato wrote:
-> When an s390 guest is using lazy unmapping, it can result in a very
-> large number of oustanding DMA requests, far beyond the default
-> limit configured for vfio.  Let's track DMA usage similar to vfio
-> in the host, and trigger the guest to flush their DMA mappings
-> before vfio runs out.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->  hw/s390x/s390-pci-bus.c  | 99 +++++++++++++++++++++++++++++++++++++++++++++---
->  hw/s390x/s390-pci-bus.h  |  9 +++++
->  hw/s390x/s390-pci-inst.c | 29 +++++++++++---
->  hw/s390x/s390-pci-inst.h |  3 ++
->  4 files changed, 129 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-> index 92146a2..23474cd 100644
-> --- a/hw/s390x/s390-pci-bus.c
-> +++ b/hw/s390x/s390-pci-bus.c
-> @@ -11,6 +11,8 @@
->   * directory.
->   */
->  
-> +#include <sys/ioctl.h>
-> +
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
->  #include "qapi/visitor.h"
-> @@ -24,6 +26,9 @@
->  #include "qemu/error-report.h"
->  #include "qemu/module.h"
->  
-> +#include "hw/vfio/pci.h"
-> +#include "hw/vfio/vfio-common.h"
-> +
->  #ifndef DEBUG_S390PCI_BUS
->  #define DEBUG_S390PCI_BUS  0
->  #endif
-> @@ -737,6 +742,82 @@ static void s390_pci_iommu_free(S390pciState *s, PCIBus *bus, int32_t devfn)
->      object_unref(OBJECT(iommu));
->  }
->  
-> +static bool s390_sync_dma_avail(int fd, unsigned int *avail)
-> +{
-> +    struct vfio_iommu_type1_info *info;
+On Tue, Sep 15, 2020 at 6:19 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Tue, 15 Sep 2020 17:40:25 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > On Tue, Sep 15, 2020 at 5:21 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> > >
+> > > On Mon, 14 Sep 2020 20:20:21 +0530
+> > > Ani Sinha <ani@anisinha.ca> wrote:
+> > >
+> > > > On Mon, Sep 14, 2020 at 7:39 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> > > > >
+> > > > > On Mon, 14 Sep 2020 18:58:19 +0530
+> > > > > Ani Sinha <ani@anisinha.ca> wrote:
+> > > > >
+> > > > > > On Mon, Sep 14, 2020 at 6:40 PM Ani Sinha <ani@anisinha.ca> wrote:
+> > > > > > >
+> > > > > > > On Mon, Sep 14, 2020 at 6:36 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> > > > > > > >
+> > > > > > > > On Fri, 11 Sep 2020 23:37:55 +0530
+> > > > > > > > Ani Sinha <ani@anisinha.ca> wrote:
+> > > > > > > >
+> > > > > > > > > When acpi hotplug is turned off for both root pci bus as well as for pci
+> > > > > > > > > bridges, we should not generate the related amls for DSDT table or initialize
+> > > > > > > > > related hw ports or reserve hw resources. This change makes sure all those
+> > > > > > > > > operations are turned off in the case acpi pci hotplug is off globally.
+> > > > > > > >
+> > > > > > > > it still leaves around pure PCI hotplug ACPI code:
+> > > > > > > >
+> > > > > > > >             Method (PCNT, 0, NotSerialized)
+> > > > > > > >             {
+> > > > > > > >             }
+> > > > > > >
+> > > > > > > How do you suggest we fix this?
+> > > > > >
+> > > > > > One way to fix this would be to do this:
+> > > > > >
+> > > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > > > index 7e3cf3b57b..2bd0c37143 100644
+> > > > > > --- a/hw/i386/acpi-build.c
+> > > > > > +++ b/hw/i386/acpi-build.c
+> > > > > > @@ -483,7 +483,8 @@ static void build_append_pci_bus_devices(Aml
+> > > > > > *parent_scope, PCIBus *bus,
+> > > > > >              aml_append(method, aml_name("^S%.02X.PCNT", devfn));
+> > > > > >          }
+> > > > > >      }
+> > > > > > -    aml_append(parent_scope, method);
+> > > > > > +    if (bsel)
+> > > > > > +        aml_append(parent_scope, method);
+> > >
+> > > and this also introduces mem leak
+> > >
+> > >
+> > > > > >      qobject_unref(bsel);
+> > > > > >  }
+> > > > > >
+> > > > > > This means that if the hotplug on the root bus is disabled, we also
+> > > > > > disable PCNT. This will also need the unit test update as the unit
+> > > > > Does bridge hot-plug still work if we disable it only on root bus?
+> > > >
+> > > > Just did a quick test. Windows seems to eject devices on the bridge
+> > > > even when the root bus hot plug is off.
+> > >
+> > > well I'm not sure it works using ACPI hotplug,
+> > >
+> > > with
+> > > -global PIIX4_PM.acpi-root-pci-hotplug=off
+> > > -global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=on
+> > >
+> > > DSDT ins't what I'd expect when bridge hp is on:
+> > >
+> > >     Scope (\_SB)
+> > >     {
+> > >         Scope (PCI0)
+> > >         {
+> > >             Device (S00)
+> > >             {
+> > >                 Name (_ADR, Zero)  // _ADR: Address
+> > >             }
+> > >
+> > >             Device (S08)
+> >
+> > I think you should look for AMLs for Device (S18) because the bridge
+> > goes into slot 3.
+>
+> as you see, there weren't any here. so maybe something else gone wrong
+> in earlier patches
 
-You could use g_autofree to get rid of the g_free() at the end.
+Can you send the full command line you are passing? You need to attach
+a bridge, then the function will recurse into it.
 
-> +    uint32_t argsz;
-> +    bool rval = false;
-> +    int ret;
-> +
-> +    if (avail == NULL) {
-> +        return false;
-> +    }
-
-Since this is a "static" local function, and calling it with avail ==
-NULL does not make too much sense, I think I'd rather turn this into an
-assert() instead.
-
-> +    argsz = sizeof(struct vfio_iommu_type1_info);
-> +    info = g_malloc0(argsz);
-> +    info->argsz = argsz;
-> +    /*
-> +     * If the specified argsz is not large enough to contain all
-> +     * capabilities it will be updated upon return.  In this case
-> +     * use the updated value to get the entire capability chain.
-> +     */
-> +    ret = ioctl(fd, VFIO_IOMMU_GET_INFO, info);
-> +    if (argsz != info->argsz) {
-> +        argsz = info->argsz;
-> +        info = g_realloc(info, argsz);
-> +        info->argsz = argsz;
-> +        ret = ioctl(fd, VFIO_IOMMU_GET_INFO, info);
-> +    }
-> +
-> +    if (ret) {
-> +        goto out;
-> +    }
-> +
-> +    /* If the capability exists, update with the current value */
-> +    rval = vfio_get_info_dma_avail(info, avail);
-> +
-> +out:
-> +    g_free(info);
-> +    return rval;
-> +}
-> +
-> +static S390PCIDMACount *s390_start_dma_count(S390pciState *s, VFIODevice *vdev)
-> +{
-> +    int id = vdev->group->container->fd;
-> +    S390PCIDMACount *cnt;
-> +    uint32_t avail;
-> +
-> +    if (!s390_sync_dma_avail(id, &avail)) {
-> +        return NULL;
-> +    }
-> +
-> +    QTAILQ_FOREACH(cnt, &s->zpci_dma_limit, link) {
-> +        if (cnt->id  == id) {
-> +            cnt->users++;
-> +            return cnt;
-> +        }
-> +    }
-> +
-> +    cnt = g_new0(S390PCIDMACount, 1);
-> +    cnt->id = id;
-> +    cnt->users = 1;
-> +    cnt->avail = avail;
-> +    QTAILQ_INSERT_TAIL(&s->zpci_dma_limit, cnt, link);
-> +    return cnt;
-> +}
-> +
-> +static void s390_end_dma_count(S390pciState *s, S390PCIDMACount *cnt)
-> +{
-> +    if (cnt == NULL) {
-> +        return;
-> +    }
-
-Either use assert() or drop this completely (since you're checking it at
-the caller site already).
-
-> +    cnt->users--;
-> +    if (cnt->users == 0) {
-> +        QTAILQ_REMOVE(&s->zpci_dma_limit, cnt, link);
-> +    }
-> +}
-> +
->  static void s390_pcihost_realize(DeviceState *dev, Error **errp)
->  {
->      PCIBus *b;
-> @@ -764,6 +845,7 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
->      s->bus_no = 0;
->      QTAILQ_INIT(&s->pending_sei);
->      QTAILQ_INIT(&s->zpci_devs);
-> +    QTAILQ_INIT(&s->zpci_dma_limit);
->  
->      css_register_io_adapters(CSS_IO_ADAPTER_PCI, true, false,
->                               S390_ADAPTER_SUPPRESSIBLE, errp);
-> @@ -902,6 +984,7 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
->  {
->      S390pciState *s = S390_PCI_HOST_BRIDGE(hotplug_dev);
->      PCIDevice *pdev = NULL;
-> +    VFIOPCIDevice *vpdev = NULL;
->      S390PCIBusDevice *pbdev = NULL;
->  
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
-> @@ -941,17 +1024,20 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
->              }
->          }
->  
-> +        pbdev->pdev = pdev;
-> +        pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
-> +        pbdev->iommu->pbdev = pbdev;
-> +        pbdev->state = ZPCI_FS_DISABLED;
-> +
->          if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
->              pbdev->fh |= FH_SHM_VFIO;
-> +            vpdev = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
-> +            pbdev->iommu->dma_limit = s390_start_dma_count(s,
-> +                                                           &vpdev->vbasedev);
->          } else {
->              pbdev->fh |= FH_SHM_EMUL;
->          }
->  
-> -        pbdev->pdev = pdev;
-> -        pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
-> -        pbdev->iommu->pbdev = pbdev;
-> -        pbdev->state = ZPCI_FS_DISABLED;
-> -
->          if (s390_pci_msix_init(pbdev)) {
->              error_setg(errp, "MSI-X support is mandatory "
->                         "in the S390 architecture");
-> @@ -1004,6 +1090,9 @@ static void s390_pcihost_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
->          pbdev->fid = 0;
->          QTAILQ_REMOVE(&s->zpci_devs, pbdev, link);
->          g_hash_table_remove(s->zpci_table, &pbdev->idx);
-> +        if (pbdev->iommu->dma_limit) {
-> +            s390_end_dma_count(s, pbdev->iommu->dma_limit);
-> +        }
->          qdev_unrealize(dev);
->      }
->  }
-
- Thomas
-
+>
+> >
+> > >             {
+> > >                 Name (_ADR, 0x00010000)  // _ADR: Address
+> > >                 Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
+> > >                 {
+> > >                     Return (Zero)
+> > >                 }
+> > >
+> > >                 Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
+> > >                 {
+> > >                     Return (Zero)
+> > >                 }
+> > >
+> > >                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+> > >                 {
+> > >                     Return (Zero)
+> > >                 }
+> > >             }
+> > >         }
+> > >     }
+> > >
+> > >
+> > > >
+> > > > >
+> > > > > > test
+> > > > > > will fail with :
+> > > > > >
+> > > > > > @@ -3113,24 +3113,20 @@
+> > > > > >                  Name (_ADR, 0x00010000)  // _ADR: Address
+> > > > > >                  Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
+> > > > > >                  {
+> > > > > >                      Return (Zero)
+> > > > > >                  }
+> > > > > >
+> > > > > >                  Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
+> > > > > >                  {
+> > > > > >                      Return (Zero)
+> > > > > >                  }
+> > > > > >
+> > > > > >                  Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+> > > > > >                  {
+> > > > > >                      Return (Zero)
+> > > > > >                  }
+> > > > > >              }
+> > > > > > -
+> > > > > > -            Method (PCNT, 0, NotSerialized)
+> > > > > > -            {
+> > > > > > -            }
+> > > > > >          }
+> > > > > >      }
+> > > > > >  }
+> > > > > >
+> > > > > > Let's fix this as a separate patch.
+> > > > >
+> > > > > I'd rather fix up this patch, so it would do what it claims.
+> > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > > > > > > > ---
+> > > > > > > > >  hw/acpi/piix4.c      |  6 ++++--
+> > > > > > > > >  hw/i386/acpi-build.c | 10 ++++++++--
+> > > > > > > > >  2 files changed, 12 insertions(+), 4 deletions(-)
+> > > > > > > > >
+> > > > > > > > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> > > > > > > > > index e6163bb6ce..b70b1f98af 100644
+> > > > > > > > > --- a/hw/acpi/piix4.c
+> > > > > > > > > +++ b/hw/acpi/piix4.c
+> > > > > > > > > @@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+> > > > > > > > >                            "acpi-gpe0", GPE_LEN);
+> > > > > > > > >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
+> > > > > > > > >
+> > > > > > > > > -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> > > > > > > > > -                    s->use_acpi_hotplug_bridge);
+> > > > > > > > > +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
+> > > > > > > > > +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> > > > > > > > > +                        s->use_acpi_hotplug_bridge);
+> > > > > > > > > +    }
+> > > > > > > > >
+> > > > > > > > >      s->cpu_hotplug_legacy = true;
+> > > > > > > > >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+> > > > > > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > > > > > > index e079b686f5..7e3cf3b57b 100644
+> > > > > > > > > --- a/hw/i386/acpi-build.c
+> > > > > > > > > +++ b/hw/i386/acpi-build.c
+> > > > > > > > > @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
+> > > > > > > > >      bool s3_disabled;
+> > > > > > > > >      bool s4_disabled;
+> > > > > > > > >      bool pcihp_bridge_en;
+> > > > > > > > > +    bool pcihp_root_en;
+> > > > > > > > >      uint8_t s4_val;
+> > > > > > > > >      AcpiFadtData fadt;
+> > > > > > > > >      uint16_t cpu_hp_io_base;
+> > > > > > > > > @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+> > > > > > > > >      pm->pcihp_bridge_en =
+> > > > > > > > >          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
+> > > > > > > > >                                   NULL);
+> > > > > > > > > +    pm->pcihp_root_en =
+> > > > > > > > > +        object_property_get_bool(obj, "acpi-root-pci-hotplug",
+> > > > > > > > > +                                 NULL);
+> > > > > > > > >  }
+> > > > > > > > >
+> > > > > > > > >  static void acpi_get_misc_info(AcpiMiscInfo *info)
+> > > > > > > > > @@ -1504,7 +1508,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > > > > > > > >          build_hpet_aml(dsdt);
+> > > > > > > > >          build_piix4_isa_bridge(dsdt);
+> > > > > > > > >          build_isa_devices_aml(dsdt);
+> > > > > > > > > -        build_piix4_pci_hotplug(dsdt);
+> > > > > > > > > +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+> > > > > > > > > +            build_piix4_pci_hotplug(dsdt);
+> > > > > > > > > +        }
+> > > > > > > > >          build_piix4_pci0_int(dsdt);
+> > > > > > > > >      } else {
+> > > > > > > > >          sb_scope = aml_scope("_SB");
+> > > > > > > > > @@ -1698,7 +1704,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > > > > > > > >      crs_range_set_free(&crs_range_set);
+> > > > > > > > >
+> > > > > > > > >      /* reserve PCIHP resources */
+> > > > > > > > > -    if (pm->pcihp_io_len) {
+> > > > > > > > > +    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
+> > > > > > > > >          dev = aml_device("PHPR");
+> > > > > > > > >          aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
+> > > > > > > > >          aml_append(dev,
+> > > > > > > >
+> > > > > >
+> > > > >
+> > > >
+> > >
+> >
+>
 
