@@ -2,108 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29F526AA18
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:51:43 +0200 (CEST)
-Received: from localhost ([::1]:45168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911FD26AA1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:55:15 +0200 (CEST)
+Received: from localhost ([::1]:52790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEBC-0000uB-VN
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
+	id 1kIEEc-00045a-F7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:55:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kIE4U-0000LS-VT; Tue, 15 Sep 2020 12:44:47 -0400
-Received: from mail-eopbgr00099.outbound.protection.outlook.com
- ([40.107.0.99]:58470 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kIE4T-0007hn-2v; Tue, 15 Sep 2020 12:44:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H1brkcUFG2JLKglFrOWPHos0R+V8T0KGmIgeG+vqM4Ok5Jsa1L1YK7Kx/3CLcFraboumVR1/YUcU6PSbjjjCG9WA37rhWxC1wy5ZFsLWZm4tMOQfLu18/F61QOdw5bSKeqmfuqsh6hchoM0GgmmqiLKFxjn+STq55aAMZY2+zGyYqD6/yuksSLPXvMMtp77FVxKdzfcVOacuFyjCUuroJ5S2/Bw5Nev6hde0FSlGX8ey+CP5dE9MlgJgPA7p/EUK01ZxP0bM+DtUShVTQVOT0C6hN0EheZUeJ/+THIVKhyREd/aQcA6HY8vu8IUgL/SA08niLSw5TAQrmPX3iU4JAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OSnVLhzq5WN5xeH2xNaNt7J24Fm2sh2hE7kfHigSJVA=;
- b=PgAOj17+MDZ/W8bXX4vcmTDlKRzJR2RtHRJAdxvDzEUBpw4v6VAToIQmDfv/xzXUgTLCRaK7L3iAE22smZG3gPCp1Qug79rjdH6eEo99jnh0PZGbaV0ZY18wM6Zst/xpQ5w8pWqqpv08zMbFBmCC6VQ4imybDo5YPP14Xa9E9TAnSAU92a5fg4RDakgUjcfgDkQNkFtWpqlZRnsYbnJtSe0dzaGNTNNhPi7XI07w7iRRpI711JI43u8G605l3AcEDI1u/ppp97SXFC43Y6RMZA/PpmDmAbE5o6nQ+N+oVQb8pZd7sKwu9VypiIQJQdpB19uxsM5wUnH77Is/t+5XQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OSnVLhzq5WN5xeH2xNaNt7J24Fm2sh2hE7kfHigSJVA=;
- b=I1+cFFpaZ0V3S0s0DGcBhaHh+Y0teSr+BjJ9OYl7NlxQv5ErFWVY9X0oMxoGZAqf0wcpUfrzGctkMMIs5ekzpEd35vEQDBwk3p/2wXkiXto/us8fB5S9NiptXPVFTqWVO0EaPLdzYNrjd19hpe/pHR6YTX/nyqg/tijdnDHhESM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1652.eurprd08.prod.outlook.com (2603:10a6:203:3c::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Tue, 15 Sep
- 2020 16:44:30 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Tue, 15 Sep 2020
- 16:44:30 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
- fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com,
- vsementsov@virtuozzo.com, den@openvz.org, eblake@redhat.com
-Subject: [PATCH v8 7/7] block/io: refactor save/load vmstate
-Date: Tue, 15 Sep 2020 19:44:11 +0300
-Message-Id: <20200915164411.20590-8-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200915164411.20590-1-vsementsov@virtuozzo.com>
-References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR07CA0025.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::38) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kIE7j-0004cw-DX
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:48:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35927)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kIE7g-0008BP-El
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:48:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600188483;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lgItECeWvYTLmu2m7VBqMl/s+QqqN6gyY30+B6iwNZo=;
+ b=bFONzF8HJNTVYOKusPWe60hqtlBsto8E43LcTB6bf7cTqTO8Es6bH92wdIMTdAU+qq+1tK
+ 2x5szFN52iGB5lwl+3VO4GCJ5p61q6d5G8NeeoeXlytlDT890zsWJi6z0mVK40XcMVuUJy
+ 2H0p29i0s7Mt74ZkW44TzRNi+15qwws=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487--MAK_58TOMelOKgPcagrpQ-1; Tue, 15 Sep 2020 12:47:59 -0400
+X-MC-Unique: -MAK_58TOMelOKgPcagrpQ-1
+Received: by mail-wr1-f72.google.com with SMTP id v12so1448966wrm.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:47:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lgItECeWvYTLmu2m7VBqMl/s+QqqN6gyY30+B6iwNZo=;
+ b=pOmk+T8YLHujJRQ/hiKpVr3v/TO12DMLzcXVeRx4rOdzH6TraR+UTsEq98Njoazh63
+ TpdtduVvEucIUuRMSbcpTJ3e6GrL8FIHc/eR8NW4Jtc4KYhxhttituTTsKM480S50edH
+ e4lfo5pNY9TESvITlHae8G1LOSL37qx0j+cjn2SWIDaJeHkPKCpLYorRH97uEa944H5U
+ SvkVqvWI+xoe6tBdqK8l8F7CVz3A3ZwaXPgcXkJAW3TAyVRLTFDVYV48C1bmDWKZOEWQ
+ fljen8WMonZqCzCbyUXFLaemP9JLM6aKBg+kJhQBRn/A8PintWxQXreByx2LGyAAC64X
+ kqSA==
+X-Gm-Message-State: AOAM532J5AveS8vqmuoweqIXgbStj+MTTni+C17zRnbKuF6RNxQfjwjW
+ 50lIavd6pyoV9l48l03hnYfv9/HCmAqlL/5paCA68h8F8K93qxEEqzSuGvF7G237ZCKEo90S/CT
+ wv6BIa2JbFjlT2Dk=
+X-Received: by 2002:a5d:40c4:: with SMTP id b4mr19325022wrq.151.1600188477677; 
+ Tue, 15 Sep 2020 09:47:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdo8GI8YstFgBIS3IZYLwYcdlpZRihPE6fTqu5OTA20VBH9ZlSrfK16u1IdDVZYbccv5ztbw==
+X-Received: by 2002:a5d:40c4:: with SMTP id b4mr19325007wrq.151.1600188477451; 
+ Tue, 15 Sep 2020 09:47:57 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:eac8:587f:8ca7:e1e8?
+ ([2001:b07:6468:f312:eac8:587f:8ca7:e1e8])
+ by smtp.gmail.com with ESMTPSA id v17sm27639581wrr.60.2020.09.15.09.47.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Sep 2020 09:47:56 -0700 (PDT)
+Subject: Re: couple meson issues
+To: Andrew Jones <drjones@redhat.com>
+References: <20200915134412.5jmvbs7eqcv5sugc@kamzik.brq.redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <472c32dd-b6b2-2c71-9366-f92c3af5eba4@redhat.com>
+Date: Tue, 15 Sep 2020 18:47:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.75) by
- AM0PR07CA0025.eurprd07.prod.outlook.com (2603:10a6:208:ac::38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.5 via Frontend Transport; Tue, 15 Sep 2020 16:44:29 +0000
-X-Mailer: git-send-email 2.21.3
-X-Originating-IP: [185.215.60.75]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 08bfc6d1-271e-49da-77d8-08d859969dba
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1652:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB165201A74049396ECE9A4CB7C1200@AM5PR0801MB1652.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:153;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ECLOZ5IOthkpuErqzL/g/K+srYCm490p7iOBF87O0denR31IMypD3TvYcxWon5OpOhzEdS8PcZ+/GwiBhijDN4RmNSR7IYZrYEtuKl/EeT6rv/26zqjWpqvi9O8/AhySTOL+jwgBl9OPthoLAcRFXA9H9Nf4WRlWMZGufwtpsMnd8NzF0/mlbzCuGQ4SunlHQ4k+NVOziyrWPtoTYYtSvTpkUb8rm25MGOutAya15JhycEPQZ/91D3rc5y+2Hix7GsxcbUDuCDxf0FWS8dwNR/TVJ+pcRrw37nRK7gL7vkyUBd6stGchLo2aGCf6IG/v3jAqP+XPfOvA0orV+kSzwymdpKc6NMpEdgxtzbEciGaxI0LlAloByMBUhwEJlusn
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(366004)(396003)(136003)(39840400004)(6916009)(6512007)(2906002)(83380400001)(36756003)(478600001)(1076003)(6486002)(86362001)(2616005)(956004)(8676002)(316002)(186003)(16526019)(5660300002)(66946007)(6666004)(52116002)(66476007)(8936002)(26005)(66556008)(6506007)(4326008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: WGsrgVZETWIxV0Xk1i//7fnONp7lQJwHmtPS0NAjyVDKQmDOx7Tlv6DlqJP4EamWx0cdsKr766vu+YB6qSF2AvGrKtBqZEpqzLn4WshU8xfvDXu75xLRqnqH/zHu5UOBYcUTVAc/yjA65QiaXQXBZmA3FDLuPVwXFak0ZHasNDmBR0sAgiQiV+WGsXfRpP7XAyNFLRizhWEMuFeph+FyPegzNk3/XOjWsvVimDkr/fqKUJmOLodVI6sPImXbhARMMfv6c14lmBtTYGhYry5CwBjKg1dzgYo6RBMxLy6VJrL+loSoHMNOvo/CvD+0XwKQenp6AoVUxLZ6Fry0TpjJr0UaPdQkQEkjFrlgafGt1KVGRzHLlzs0fJe9WEkX8YkUi2zemtJFMQJtDLxqv1Rh3lSjjpCfUkdyu+KWKi46+Zgp9XgRZ5riIxOy4M6PT7eEE6vlz9D0wjpdPgi3zH2VsDUzD98r5AguCaXkhm+VNHwNLRCR12KnR+TZ+g4G6fsgyiewoy7A5/YD4NzrriwZAzf4AHYdUhhOtukIF32C62zm+e2fJmZuLzY3NxAuPRcwoog95miV/3lngg0+KwxDhGMicoONtMoGOhMxTj9wizAtTpi9PgDhKMR3m2GL7eGDoa/f6MCHcIkDDE5pyETHIA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08bfc6d1-271e-49da-77d8-08d859969dba
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2020 16:44:30.2161 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aMROoGa5OJFLlH7Yk/gpjJHSIquUGeVUq9CzubilXsONGtcK4gseoxbOivIWk3KpLZjc3OyJW4qcAD1vvel/GWv5FkckOTWuX9b1PdeCxdw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1652
-Received-SPF: pass client-ip=40.107.0.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 12:44:37
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200915134412.5jmvbs7eqcv5sugc@kamzik.brq.redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,163 +101,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like for read/write in a previous commit, drop extra indirection layer,
-generate directly bdrv_readv_vmstate() and bdrv_writev_vmstate().
+On 15/09/20 15:44, Andrew Jones wrote:
+> Hi Paolo,
+> 
+> I noticed that 'make check-qtest-aarch64' no longer runs the
+> arm-cpu-feature test. I simply did
+> 
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 874b5be62be2..db169a53b530 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -146,7 +146,8 @@ qtests_aarch64 = \
+>    (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+>    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+>    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+> -  ['numa-test',
+> +  ['arm-cpu-features',
+> +   'numa-test',
+>     'boot-serial-test',
+>     'migration-test']
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- block/coroutines.h    | 10 +++----
- include/block/block.h |  6 ++--
- block/io.c            | 67 ++++++++++++++++++++++---------------------
- 3 files changed, 42 insertions(+), 41 deletions(-)
+Yes, either that or "qtests_aarch64 = qtests_arm + <whatever is there now>".
 
-diff --git a/block/coroutines.h b/block/coroutines.h
-index 6c63a819c9..f69179f5ef 100644
---- a/block/coroutines.h
-+++ b/block/coroutines.h
-@@ -57,11 +57,9 @@ bdrv_common_block_status_above(BlockDriverState *bs,
-                                int64_t *map,
-                                BlockDriverState **file);
- 
--int coroutine_fn
--bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
--                   bool is_read);
--int generated_co_wrapper
--bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
--                bool is_read);
-+int coroutine_fn bdrv_co_readv_vmstate(BlockDriverState *bs,
-+                                       QEMUIOVector *qiov, int64_t pos);
-+int coroutine_fn bdrv_co_writev_vmstate(BlockDriverState *bs,
-+                                        QEMUIOVector *qiov, int64_t pos);
- 
- #endif /* BLOCK_COROUTINES_INT_H */
-diff --git a/include/block/block.h b/include/block/block.h
-index b8b4c177de..6cd789724b 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -572,8 +572,10 @@ int path_has_protocol(const char *path);
- int path_is_absolute(const char *path);
- char *path_combine(const char *base_path, const char *filename);
- 
--int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
--int bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
-+int generated_co_wrapper
-+bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
-+int generated_co_wrapper
-+bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
-                       int64_t pos, int size);
- 
-diff --git a/block/io.c b/block/io.c
-index 68d7d9cf80..84f82bc069 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2491,66 +2491,67 @@ int bdrv_is_allocated_above(BlockDriverState *top,
- }
- 
- int coroutine_fn
--bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
--                   bool is_read)
-+bdrv_co_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
- {
-     BlockDriver *drv = bs->drv;
-     int ret = -ENOTSUP;
- 
-+    if (!drv) {
-+        return -ENOMEDIUM;
-+    }
-+
-     bdrv_inc_in_flight(bs);
- 
--    if (!drv) {
--        ret = -ENOMEDIUM;
--    } else if (drv->bdrv_load_vmstate) {
--        if (is_read) {
--            ret = drv->bdrv_load_vmstate(bs, qiov, pos);
--        } else {
--            ret = drv->bdrv_save_vmstate(bs, qiov, pos);
--        }
-+    if (drv->bdrv_load_vmstate) {
-+        ret = drv->bdrv_load_vmstate(bs, qiov, pos);
-     } else if (bs->file) {
--        ret = bdrv_co_rw_vmstate(bs->file->bs, qiov, pos, is_read);
-+        ret = bdrv_co_readv_vmstate(bs->file->bs, qiov, pos);
-     }
- 
-     bdrv_dec_in_flight(bs);
-+
-     return ret;
- }
- 
--int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
--                      int64_t pos, int size)
-+int coroutine_fn
-+bdrv_co_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
- {
--    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, size);
--    int ret;
-+    BlockDriver *drv = bs->drv;
-+    int ret = -ENOTSUP;
- 
--    ret = bdrv_writev_vmstate(bs, &qiov, pos);
--    if (ret < 0) {
--        return ret;
-+    if (!drv) {
-+        return -ENOMEDIUM;
-     }
- 
--    return size;
--}
-+    bdrv_inc_in_flight(bs);
- 
--int bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
--{
--    return bdrv_rw_vmstate(bs, qiov, pos, false);
-+    if (drv->bdrv_load_vmstate) {
-+        ret = drv->bdrv_save_vmstate(bs, qiov, pos);
-+    } else if (bs->file) {
-+        ret = bdrv_co_writev_vmstate(bs->file->bs, qiov, pos);
-+    }
-+
-+    bdrv_dec_in_flight(bs);
-+
-+    return ret;
- }
- 
--int bdrv_load_vmstate(BlockDriverState *bs, uint8_t *buf,
-+int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
-                       int64_t pos, int size)
- {
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, size);
--    int ret;
--
--    ret = bdrv_readv_vmstate(bs, &qiov, pos);
--    if (ret < 0) {
--        return ret;
--    }
-+    int ret = bdrv_writev_vmstate(bs, &qiov, pos);
- 
--    return size;
-+    return ret < 0 ? ret : size;
- }
- 
--int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
-+int bdrv_load_vmstate(BlockDriverState *bs, uint8_t *buf,
-+                      int64_t pos, int size)
- {
--    return bdrv_rw_vmstate(bs, qiov, pos, true);
-+    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, size);
-+    int ret = bdrv_readv_vmstate(bs, &qiov, pos);
-+
-+    return ret < 0 ? ret : size;
- }
- 
- /**************************************************************/
--- 
-2.21.3
+> to get it to run, but don't know if it should be done that way. Were you
+> planning to inherit tests for aarch64 from arm or something instead?
+> 
+> Also, I was surprised to not see something like "KVM supported" when I did
+> configure on an AArch64 machine with KVM.
+
+That's a "TODO":
+
+# TODO: add back KVM/HAX/HVF/WHPX/TCG
+#summary_info += {'KVM support':       have_kvm}
+#summary_info += {'HAX support':       have_hax}
+#summary_info += {'HVF support':       have_hvf}
+#summary_info += {'WHPX support':      have_whpx}
+#summary_info += {'TCG support':       have_tcg}
+
+which I had honestly completely forgotten about.
+
+Accelerator support is per-target so it must be computed in the "foreach
+target : target_dirs" loop around line 550 of meson.build.  But I might
+even have the patch already, since it was meant to be temporary and
+fixed as soon as that loop was added to meson in the very first series.
+
+Paolo
 
 
