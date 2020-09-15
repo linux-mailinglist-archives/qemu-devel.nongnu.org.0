@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F30526A608
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:13:46 +0200 (CEST)
-Received: from localhost ([::1]:47284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3775326A61D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:19:29 +0200 (CEST)
+Received: from localhost ([::1]:37808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAmH-0008D9-4u
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34882)
+	id 1kIAro-0007eR-6v
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIAi4-00035Y-Kq
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:09:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40310)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIAi0-0002wG-Ad
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:09:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57207
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIAi2-0007OD-Da
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:09:24 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIAhy-0007Mo-Ms
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:09:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600175361;
+ s=mimecast20190719; t=1600175357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GftzsHIGRA08qEsKPoS3fkRLZ9gSmoUwvHhmxi13WCU=;
- b=IujzSek7i+dIqv7FeVwiKS6QH5ldIX0/Qq9UxKPVt+SYZNQiXTZFJD6A71ikh0cKI3vA9p
- PEXk/ACfu/3d8u5fHPMUGrVJ39z3eUeY8N7xJSQTsOrJNx9U7dhzeZpgG/SX240cqcpuwn
- Pfu81CfQSelZPLd7P2D40oSZCiJlHPE=
+ bh=MJ6cj5QA5ODIi0rC7i5lW5HXOOKNLCLKG52C4W7aUqo=;
+ b=BhUOOkfBt+44R3r7zbX3qsRmfCutHZR7CHAJ2nNgu+R5FwdipVXhj2/gYM0ID7olgOUszG
+ DLToZ38iK49fAkWmaVucqnvsCBkvRVMbg+KUmAt1QDms2oilTrXCL+jW15vyyMw8/o7g9R
+ Pdi12LD58WgtBxL+Xv5FwjzKcicIGhE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-MTHC3wMbOK62cxV1B7lShg-1; Tue, 15 Sep 2020 09:09:19 -0400
-X-MC-Unique: MTHC3wMbOK62cxV1B7lShg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-250-0VXTbLGFM9GDAmwVC9Iqkg-1; Tue, 15 Sep 2020 09:09:16 -0400
+X-MC-Unique: 0VXTbLGFM9GDAmwVC9Iqkg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3B5580F040
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 13:09:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51EB1190A3E4
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 13:09:15 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A43675138;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5358F60BE2;
  Tue, 15 Sep 2020 13:09:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7F32A40839; Tue, 15 Sep 2020 15:09:08 +0200 (CEST)
+ id 87FCF4083F; Tue, 15 Sep 2020 15:09:08 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/6] meson: fix module config
-Date: Tue, 15 Sep 2020 15:09:04 +0200
-Message-Id: <20200915130908.12808-3-kraxel@redhat.com>
+Subject: [PULL 3/6] meson: remove duplicate qxl sources
+Date: Tue, 15 Sep 2020 15:09:05 +0200
+Message-Id: <20200915130908.12808-4-kraxel@redhat.com>
 In-Reply-To: <20200915130908.12808-1-kraxel@redhat.com>
 References: <20200915130908.12808-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:23:19
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,30 +88,27 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use all config symbols not only the host ones.
-Needed to make sure device configs like CONFIG_QXL
-are used for modules too.
+We should add sources to the softmmu_ss or module_ss but not both.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200914134224.29769-3-kraxel@redhat.com
+Message-id: 20200914134224.29769-4-kraxel@redhat.com
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/meson.build | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 690723b47089..bba766b4bc66 100644
---- a/meson.build
-+++ b/meson.build
-@@ -913,7 +913,7 @@ softmmu_mods = []
- foreach d, list : modules
-   foreach m, module_ss : list
-     if enable_modules and targetos != 'windows'
--      module_ss = module_ss.apply(config_host, strict: false)
-+      module_ss = module_ss.apply(config_all, strict: false)
-       sl = static_library(d + '-' + m, [genh, module_ss.sources()],
-                           dependencies: [modulecommon, module_ss.dependencies()], pic: true)
-       if d == 'block'
+diff --git a/hw/display/meson.build b/hw/display/meson.build
+index 2cc73fc2b927..2f07d427ddc8 100644
+--- a/hw/display/meson.build
++++ b/hw/display/meson.build
+@@ -46,8 +46,6 @@ if config_all_devices.has_key('CONFIG_QXL')
+   hw_display_modules += {'qxl': qxl_ss}
+ endif
+ 
+-softmmu_ss.add(when: 'CONFIG_QXL', if_true: files('qxl.c', 'qxl-logger.c', 'qxl-render.c'))
+-
+ softmmu_ss.add(when: 'CONFIG_DPCD', if_true: files('dpcd.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx_dp.c'))
+ 
 -- 
 2.27.0
 
