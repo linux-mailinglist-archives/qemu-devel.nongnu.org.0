@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C47426C2B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:28:32 +0200 (CEST)
-Received: from localhost ([::1]:57372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B68A26C2C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:34:10 +0200 (CEST)
+Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWY3-0003zL-MH
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36700)
+	id 1kIWdV-0002cI-Bh
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIWWa-0002PC-Fn
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:27:00 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIWWY-00059h-V6
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:27:00 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id c18so6687692wrm.9
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HQrz0i+rDWZq2bY4Msh6O9mfJzIupW4z7nc0usXBlMM=;
- b=k/KNwq6qqJ8eqhK+/NIYt3rCfffaYaZsoBQcUVoyGor6pRyE+vWSbxLLeoPA3djjrO
- DIGXZzI0gFt9Q42v5faJ0crU2W5yBTezOLpE3EvJuWivH8on/y1lzJn0B1UfP99hY6E7
- FVsz7/Rec88/LcVn9FS4MgbU7+nOGFvt/IEmIiLmvZBlGimDnoYLOgZ1TiIvreUYIF9R
- wANHNI1J31JoYUXLhy+1Y12Y7+dvf+T9Tg61P1nBUcbLi8Cn/NRbm0fwVnspLCLzIzPq
- OS9jOYIus2EPaSIn/CI/8pKasxZear2LOk+ztK7RMpINR7oad3GShicOWlsRserWqv4y
- L4lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HQrz0i+rDWZq2bY4Msh6O9mfJzIupW4z7nc0usXBlMM=;
- b=gXs0bt1SdrsMAxlFRs5p4vnsDRHUsiazB0NzhnwD4zw7MHbCEURHTPwVhsTmNRVe2R
- rkOcMAghk/76aX+JiTYeJut7drMPA8C2qTkHa4AqqHA1WwAQfBpdEvR8/SvNt9pPRyW4
- AyOoCAzK1u4BuqDmbctA8Nh2UrOb687z9eVzsJNRaqr/dGenXY+gYr/s6TXT/cwx5LNU
- lzxTOeZNWALxL9jMsd55PJxYkgRt/8JdGcTlw3Q0iWQ3VeePl8J1nfPf9GEu8Piah+UI
- bcRvdZ0nCr+kgfmSqaU7giJycvoOnnm/t94OUeliVoQ2Bkw9aB6lCa2XUwZXds1iLd6b
- 2e8g==
-X-Gm-Message-State: AOAM531O1f7hpHN/HEH/xI7YNVlKg+r4LfSoSJvrUdGtlbB+0l96CxYE
- ExVxv1T1tXr/mY+IIoStb60pxw==
-X-Google-Smtp-Source: ABdhPJwmtk5ykACihv/eRJRJHCyvtE/uKWs8i+JwBbrYs4l1pZuT2kPrWrNEi6QDbYx4dwHR42DD7Q==
-X-Received: by 2002:adf:f14f:: with SMTP id y15mr25638980wro.69.1600259217489; 
- Wed, 16 Sep 2020 05:26:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d18sm32903071wrm.10.2020.09.16.05.26.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 05:26:53 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E3CA31FF91;
- Wed, 16 Sep 2020 13:26:48 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 5/8] configure: clean-up the target-list-exclude logic
-Date: Wed, 16 Sep 2020 13:26:45 +0100
-Message-Id: <20200916122648.17468-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200916122648.17468-1-alex.bennee@linaro.org>
-References: <20200916122648.17468-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kIWOX-0002kC-5c
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:18:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kIWOU-00040Q-Aq
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:18:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600258717;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sGVWoFRRNIJjaEFjSCQuZV4/kPlzBlxwBNKlkQWqWq4=;
+ b=auLFRneYCiLqdyqN2QaMa6qsnTB9RM0kLMRRD17ML5f8C466fas/k/axnaaTfzySHqx/Et
+ zIe3ktXpsqkH+9H7SumWnzWr0SMM4TpF6gPQnc3VWTn1XFvjm0UiViLB2yQQHYt697koGN
+ PSVCNBxJd8xSYgmi4L/BYsAMeptSkcE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-6wdkQkF6OJWFdGKMYnbfHQ-1; Wed, 16 Sep 2020 08:18:30 -0400
+X-MC-Unique: 6wdkQkF6OJWFdGKMYnbfHQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2385E1084C81;
+ Wed, 16 Sep 2020 12:18:29 +0000 (UTC)
+Received: from [10.3.113.91] (ovpn-113-91.phx2.redhat.com [10.3.113.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 733681002388;
+ Wed, 16 Sep 2020 12:18:28 +0000 (UTC)
+Subject: Re: [PATCH v2] qemu-img: Support bitmap --merge into backing image
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20200914191009.644842-1-eblake@redhat.com>
+ <f4d640aa-6aec-7dbc-69ae-5a2a6921447d@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <07832208-dcc8-8e33-c7e7-05f9c891fec3@redhat.com>
+Date: Tue, 15 Sep 2020 08:31:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <f4d640aa-6aec-7dbc-69ae-5a2a6921447d@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIMWL_WL_HIGH=-2.999, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,41 +84,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, eshenitz@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than sed and loop just do a grep.
+On 9/15/20 3:57 AM, Max Reitz wrote:
+> On 14.09.20 21:10, Eric Blake wrote:
+>> If you have the chain 'base.qcow2 <- top.qcow2' and want to merge a
+>> bitmap from top into base, qemu-img was failing with:
+>>
+>> qemu-img: Could not open 'top.qcow2': Could not open backing file: Failed to get shared "write" lock
+>> Is another process using the image [base.qcow2]?
+>>
+>> The easiest fix is to not open the entire backing chain of either
+>> image (source or destination); after all, the point of 'qemu-img
+>> bitmap' is solely to manipulate bitmaps directly within a single qcow2
+>> image, and this is made more precise if we don't pay attention to
+>> other images in the chain that may happen to have a bitmap by the same
+>> name.
+>>
+>> However, note that during normal usage, it is a feature that qemu will
+>> allow a bitmap from a backing image to be exposed by an overlay BDS;
+>> doing so makes it easier to perform incremental backup, where we have:
+>>
+>> Base <- Active <- temporrary
+> 
+> *temporary
+> 
+> (Also it’s a bit strange that “Base” and “Active” are capitalized, but
+> “temporary” isn’t)
+> 
+>>            \--block job ->/
+>>
+>> with temporary being fed by a block-copy 'sync' job; when exposing
+> 
+> s/block-copy 'sync'/backup 'sync=none'/?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200915134317.11110-6-alex.bennee@linaro.org>
+Will fix both.
 
-diff --git a/configure b/configure
-index f5fe48d6dd7b..58be974065c8 100755
---- a/configure
-+++ b/configure
-@@ -1739,17 +1739,9 @@ if test -z "$target_list"; then
-     fi
- fi
- 
--exclude_list=$(echo "$target_list_exclude" | sed -e 's/,/ /g')
- for config in $mak_wilds; do
-     target="$(basename "$config" .mak)"
--    exclude="no"
--    for excl in $exclude_list; do
--        if test "$excl" = "$target"; then
--            exclude="yes"
--            break;
--        fi
--    done
--    if test "$exclude" = "no"; then
-+    if echo "$target_list_exclude" | grep -vq "$target"; then
-         default_target_list="${default_target_list} $target"
-     fi
- done
+> 
+>> temporary over NBD, referring to a bitmap that lives only in Active is
+>> less effort than having to copy a bitmap into temporary [1].  So the
+>> testsuite additions in this patch check both where bitmaps get
+>> allocated (the qemu-img info output), and, when NOT using 'qemu-img
+>> bitmap', that bitmaps are indeed visible through a backing chain.
+> 
+> Well.  It is useful over NBD but I would doubt that it isn’t useful in
+> general.  For example, the QMP commands that refer to bitmaps always do
+> so through a node-name + bitmap-name combination, and they require that
+> the given bitmap is exactly on the given node.
+> 
+> So I think this is a very much a case-by-case question.  (And in
+> practice, NBD seems to be the outlier, not qemu-img bitmap.)
+> 
+
+I'm happy to reword slightly to give that caveat.
+
+>> [1] Full disclosure: prior to the recent commit 374eedd1c4 and
+>> friends, we were NOT able to see bitmaps through filters, which meant
+>> that we actually did not have nice clean semantics for uniformly being
+>> able to pick up bitmaps from anywhere in the backing chain (seen as a
+>> change in behavior between qemu 4.1 and 4.2 at commit 00e30f05de, when
+>> block-copy swapped from a one-off to a filter).  Which means libvirt
+>> was already coded to copy bitmaps around for the sake of older qemu,
+>> even though modern qemu no longer needs it.  Oh well.
+>>
+>> Fixes: http://bugzilla.redhat.com/1877209
+>> Reported-by: Eyal Shenitzky <eshenitz@redhat.com>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
+>>
+>> In v2:
+>> - also use BDRV_O_NO_BACKING on source [Max]
+>> - improved commit message [Max]
+>>
+>>   qemu-img.c                 | 11 ++++++--
+>>   tests/qemu-iotests/291     | 12 ++++++++
+>>   tests/qemu-iotests/291.out | 56 ++++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 76 insertions(+), 3 deletions(-)
+> 
+> The code looks good to me, but I wonder whether in the commit message it
+> should be noted that we don’t want to let bitmaps from deeper nodes
+> shine through by default everywhere, but just in specific cases where
+> that’s useful (i.e. only NBD so far AFAIA).
+
+So is this a Reviewed-by?  I'm happy to queue it through my bitmaps 
+tree, if so.
+
+
 -- 
-2.20.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
