@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF6F26B24D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:45:08 +0200 (CEST)
-Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A997426B273
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:47:51 +0200 (CEST)
+Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIJhD-0002zp-MX
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59260)
+	id 1kIJjp-0006uC-88
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:47:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdL-0006iH-Pr
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53078
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdE-0002ck-6C
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdK-0006hS-W0
  for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52646
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdE-0002cP-5v
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600209659;
+ s=mimecast20190719; t=1600209657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lHVjiYIhCkWZfXxIpMKrKBC9TmoiCUk3ue91mlAbbaU=;
- b=GHwtqBngZGvFHF2Wc8bPE7xqnl+Tx0f6sRTYkDANUHXq747PsbU9Yaomg/+fJf1iYSSwJj
- +3Og9KeiSH2vWvXvtUcjW4SD8seoLhTCiwxao/6vVY5dVq+SE5Pm2GxcdfmfW7XFSLnXTs
- 7UUFZlF3fUQw1wdP+hnl4AFfH0E7Mc4=
+ bh=aRdnMxUZCvKhJFEyktCZRDxLPoMbsyt4W46aFVj7qDo=;
+ b=A/C6/ylKPhXLWwmtP1XlRdcTVl42Fv2bR63jThZfjshtLW/HuRg82Si1WqNgv9VPUiaC+/
+ Grj6sPdoKmWzD873Xnpl8GbWeTscX2kzLYu8+yX+2a8pdjjbn5tdeRQAwANd+/lf3tNCIL
+ Qi1AI0vgpTlUZfvGV9hryP4F8hnazQg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-7gylv0gjNwa4Qj59-JM-8g-1; Tue, 15 Sep 2020 18:40:55 -0400
-X-MC-Unique: 7gylv0gjNwa4Qj59-JM-8g-1
+ us-mta-307-vpfynQVbMNCWonMnEZYyCw-1; Tue, 15 Sep 2020 18:40:55 -0400
+X-MC-Unique: vpfynQVbMNCWonMnEZYyCw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDADF89153D;
- Tue, 15 Sep 2020 22:40:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 875FE884E45;
+ Tue, 15 Sep 2020 22:40:50 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C15FF81C43;
- Tue, 15 Sep 2020 22:40:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2388B81C4E;
+ Tue, 15 Sep 2020 22:40:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 07/37] qapi: add pylintrc
-Date: Tue, 15 Sep 2020 18:39:57 -0400
-Message-Id: <20200915224027.2529813-8-jsnow@redhat.com>
+Subject: [PATCH 08/37] qapi/common.py: Remove python compatibility workaround
+Date: Tue, 15 Sep 2020 18:39:58 -0400
+Message-Id: <20200915224027.2529813-9-jsnow@redhat.com>
 In-Reply-To: <20200915224027.2529813-1-jsnow@redhat.com>
 References: <20200915224027.2529813-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 18:40:36
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 18:40:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -86,109 +86,27 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a skeleton pylintrc file. Right now, it ignores quite a few things.
-Files will be removed from the known-bad list throughout this and
-following series as they are repaired.
-
-Note: Normally, pylintrc would go in the folder above the module, but as
-that folder is shared by many things, it is going inside the module
-folder now.
-
-Due to some bugs in different versions of pylint (2.5.x), pylint does
-not correctly recognize when it is being run from "inside" a module, and
-must be run *outside* of the module.
-
-Therefore, to run it, you must:
-
- > cd :/qemu/scripts
- > pylint qapi/ --rcfile=qapi/pylintrc
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/pylintrc | 74 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 scripts/qapi/pylintrc
+ scripts/qapi/common.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-new file mode 100644
-index 0000000000..c2bbb8e8e1
---- /dev/null
-+++ b/scripts/qapi/pylintrc
-@@ -0,0 +1,74 @@
-+[MASTER]
-+
-+# Add files or directories matching the regex patterns to the blacklist. The
-+# regex matches against base names, not paths.
-+ignore-patterns=common.py,
-+                doc.py,
-+                error.py,
-+                expr.py,
-+                gen.py,
-+                parser.py,
-+                schema.py,
-+                source.py,
-+                types.py,
-+                visit.py,
-+
-+
-+[MESSAGES CONTROL]
-+
-+# Disable the message, report, category or checker with the given id(s). You
-+# can either give multiple identifiers separated by comma (,) or put this
-+# option multiple times (only on the command line, not in the configuration
-+# file where it should appear only once). You can also use "--disable=all" to
-+# disable everything first and then reenable specific checks. For example, if
-+# you want to run only the similarities checker, you can use "--disable=all
-+# --enable=similarities". If you want to run only the classes checker, but have
-+# no Warning level messages displayed, use "--disable=all --enable=classes
-+# --disable=W".
-+disable=fixme,
-+        missing-docstring,
-+        too-many-arguments,
-+        too-many-branches,
-+        too-many-statements,
-+        too-many-instance-attributes,
-+
-+[REPORTS]
-+
-+[REFACTORING]
-+
-+[MISCELLANEOUS]
-+
-+[LOGGING]
-+
-+[BASIC]
-+
-+# Good variable names which should always be accepted, separated by a comma.
-+good-names=i,
-+           j,
-+           k,
-+           ex,
-+           Run,
-+           _
-+
-+[VARIABLES]
-+
-+[STRING]
-+
-+[SPELLING]
-+
-+[FORMAT]
-+
-+[SIMILARITIES]
-+
-+# Ignore imports when computing similarities.
-+ignore-imports=yes
-+
-+[TYPECHECK]
-+
-+[CLASSES]
-+
-+[IMPORTS]
-+
-+[DESIGN]
-+
-+[EXCEPTIONS]
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index ba35abea47..4fb265a8bf 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -119,10 +119,7 @@ def cgen(code, **kwds):
+     raw = code % kwds
+     if indent_level:
+         indent = genindent(indent_level)
+-        # re.subn() lacks flags support before Python 2.7, use re.compile()
+-        raw = re.subn(re.compile(r'^(?!(#|$))', re.MULTILINE),
+-                      indent, raw)
+-        raw = raw[0]
++        raw, _ = re.subn(r'^(?!(#|$))', indent, raw, flags=re.MULTILINE)
+     return re.sub(re.escape(eatspace) + r' *', '', raw)
+ 
+ 
 -- 
 2.26.2
 
