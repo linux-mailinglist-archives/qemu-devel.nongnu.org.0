@@ -2,72 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B498A26AD5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 21:20:09 +0200 (CEST)
-Received: from localhost ([::1]:46582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FFA26ADF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 21:47:13 +0200 (CEST)
+Received: from localhost ([::1]:45944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIGUq-0006Un-Nw
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 15:20:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
+	id 1kIGv2-00034C-AV
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 15:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIGSC-0004M1-8C; Tue, 15 Sep 2020 15:17:24 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:46818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIGS8-0002Rr-0J; Tue, 15 Sep 2020 15:17:23 -0400
-Received: by mail-lf1-x143.google.com with SMTP id b22so4258107lfs.13;
- Tue, 15 Sep 2020 12:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=gAQCC2THZ4BDSX7taD02VqYincq+fZsD23hrk3Iq2wU=;
- b=K0/q2YBCKdO16eP4S2kGd6BGZEwRPRgoQ+gEcYZx2xroZuwwqCcUbSBHNNajvN9i9A
- Hd2d8LBHt1unzbwGGzibObJqr4AP/Zjr1JCPqb9xydizNJLPVgb54pj6PbsQKctfgS+0
- 5f5qs6LzIWqM91tDYWZII9a+5eCA36hIMU1JP5efKDIfa3CdZzodirrVgTA3MYvkHxt6
- Jhd9s4PdeD6VpJvmijyGfts5aOjb/JnZTQPOod4rm03cbRNe0FuC8EsjjYurVR30JvJk
- VbbeZeKqhyElRil2x/NNxko3lOUtMzW5w7JkDY/fcIokZGCBNwUMUNX4l0pJiOggeTzZ
- z0mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=gAQCC2THZ4BDSX7taD02VqYincq+fZsD23hrk3Iq2wU=;
- b=lrIBCNpcs2bLdGv6TSikeGY+oDdKjfUahrq+XQ3QyH+1pvyMvqf43wsxwgQIvOnmId
- 4kqS07wLMBL+aa1yH+f18FpkUG232BOX5mY3Z/OD1MXf33q3VObWZ5CEtbsdhwKt1fqt
- sYXo2+8pZRmb9kDqr4xSTus1QZFDxblNujLmvW47n4mTk8eKpk909xVJAr7xEFRBuTuD
- CUjqoY/adu8dH1eJPNqgZVdMJtw837RFZulcrmfUmHUZThhm8wlxB1lttHQfxBiTpNQB
- GfOD0YrPqD9jvBV4ga+90/AbRnk/nWBxvXgu42Y4SFFsij0Xr/oq71v23BlZK6jMAKdK
- QBeA==
-X-Gm-Message-State: AOAM532dj3r1Y/D1zFgrfYeMgyAZSKlQZeeWBHecUdW1KSylq1k00cAO
- gI3rc2CAmCbYXmPPHBHKn4WXqsCvMKTQ6tTNGcQ=
-X-Google-Smtp-Source: ABdhPJwRC4fpqWvkiWcS03WUFZqzr/CbbdSFt7MhRIoCNzIs9vPUBUAfZT2buZJNSe1cG/bqgFucHQxw3qkLNbXpjhI=
-X-Received: by 2002:a19:9141:: with SMTP id y1mr5931227lfj.554.1600197437771; 
- Tue, 15 Sep 2020 12:17:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kIGsj-0001FC-Pl; Tue, 15 Sep 2020 15:44:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1kIGsh-0005oc-I5; Tue, 15 Sep 2020 15:44:49 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08FJWEgx027840; Tue, 15 Sep 2020 15:44:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=zhcQ4iaraoBZf2MXLUhMGu/hPVouEwqLv4ABPlZy6no=;
+ b=oMADz0XlhyuYZqsjtpJeAsqVYSKctc9aYwEJfPRE4ew4VohwXno0P9tkdiHde/8iB0Xa
+ qnpaobhGxv0SD9f/JtgnzbRvZVtFBgYDrgE6Mq++QxVglMDfOtyu0ghetwa4NpID55Wx
+ QfS27isYf7JZ7b2EfOFef5yY2jiFx2dL8bOlfWDUB40rJVsUodFSHAPENaKe9BXFQ6C4
+ 3og0NwpR769en3uR5OuttVVhI6AX/UR/lMU5qpsPLMF49QoinI6FtoFr4ux229icPfoJ
+ 0zFpXW2L75WI7cmhEu6mtAG7Uhs8PzAgFvtT/hLQu+MeOm46hQKO1u64Lg+VPXIgwkq8 Lw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33k3uxra9t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Sep 2020 15:44:45 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08FJiPOo076856;
+ Tue, 15 Sep 2020 15:44:45 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33k3uxra9a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Sep 2020 15:44:44 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08FJVRha028588;
+ Tue, 15 Sep 2020 19:44:43 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03wdc.us.ibm.com with ESMTP id 33gny8stnv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Sep 2020 19:44:43 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08FJigSi42467598
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 15 Sep 2020 19:44:42 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 88C6A6A04D;
+ Tue, 15 Sep 2020 19:44:42 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8133A6A04F;
+ Tue, 15 Sep 2020 19:44:41 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.85.140.9])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 15 Sep 2020 19:44:41 +0000 (GMT)
+From: Collin Walling <walling@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v6 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
+Date: Tue, 15 Sep 2020 15:44:08 -0400
+Message-Id: <20200915194416.107460-1-walling@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200915163343.1100-1-luoyonggang@gmail.com>
- <06c76888-b2c1-866f-f6f5-78ee9a2bac0c@redhat.com>
- <CAE2XoE8OmSSnzzUivS0jNQu=QEe8c_gPasfksoihdYhO6f4CYg@mail.gmail.com>
- <ba164474-7cb0-1f8f-ef01-2529954a1df9@amsat.org>
-In-Reply-To: <ba164474-7cb0-1f8f-ef01-2529954a1df9@amsat.org>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 16 Sep 2020 03:17:04 +0800
-Message-ID: <CAE2XoE_N=XWeg1y74=ohb_p5qiH+rewDtwSGfSwkhHJpA2V06A@mail.gmail.com>
-Subject: Re: [PATCH] guest agent: Fixes for windows guest agent building on
- msys2/mingw
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000d954f505af5eff65"
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-15_13:2020-09-15,
+ 2020-09-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ clxscore=1015 suspectscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ bulkscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009150149
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 15:14:56
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,434 +107,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
+ cohuck@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com, mst@redhat.com,
+ pbonzini@redhat.com, sumanthk@linux.ibm.com, mihajlov@linux.ibm.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d954f505af5eff65
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changelog:
 
-On Wed, Sep 16, 2020 at 1:55 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
->
-> On 9/15/20 7:41 PM, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> > On Wed, Sep 16, 2020 at 12:41 AM Philippe Mathieu-Daud=C3=A9
-> > <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
-> >>
-> >> On 9/15/20 6:33 PM, Yonggang Luo wrote:
-> >> > error message:
-> >> > "cc" "-Iqga/qemu-ga.exe.p" "-Iqga" "-I../qga" "-I." "-Iqapi"
-> > "-Itrace" "-Iui" "-Iui/shader" "-IC:/CI-Tools/msys64/mingw64/include"
-> > "-IC:/CI-Tools/msys64/mingw64/include/glib-2.0"
-> > "-IC:/CI-Tools/msys64/mingw64/lib/glib-2.0/include"
-> > "-fdiagnostics-color=3Dauto" "-pipe" "-Wall" "-Winvalid-pch" "-Werror"
-> > "-std=3Dgnu99" "-g" "-m64" "-mcx16" "-D_GNU_SOURCE"
-> > "-D_FILE_OFFSET_BITS=3D64" "-D_LARGEFILE_SOURCE" "-Wstrict-prototypes"
-> > "-Wredundant-decls" "-Wundef" "-Wwrite-strings" "-Wmissing-prototypes"
-> > "-fno-strict-aliasing" "-fno-common" "-fwrapv" "-Wold-style-declaration=
-"
-> > "-Wold-style-definition" "-Wtype-limits" "-Wformat-security"
-> > "-Wformat-y2k" "-Winit-self" "-Wignored-qualifiers" "-Wempty-body"
-> > "-Wnested-externs" "-Wendif-labels" "-Wexpansion-to-defined"
-> > "-Wno-missing-include-dirs" "-Wno-shift-negative-value" "-Wno-psabi"
-> > "-fstack-protector-strong" "-iquote" "/c/work/xemu/qemu/tcg/i386"
-> > "-iquote" "." "-iquote" "/c/work/xemu/qemu" "-iquote"
-> > "/c/work/xemu/qemu/accel/tcg" "-iquote" "/c/work/xemu/qemu/include"
-> > "-iquote" "/c/work/xemu/qemu/disas/libvixl" "-pthread" "-mms-bitfields"
-> > -MD -MQ qga/qemu-ga.exe.p/commands-win32.c.obj -MF
-> > "qga/qemu-ga.exe.p/commands-win32.c.obj.d" -o
-> > qga/qemu-ga.exe.p/commands-win32.c.obj "-c" ../qga/commands-win32.c -MP
-> >> > ../qga/commands-win32.c:62:24: error: redundant redeclaration of
-> > 'CM_Get_DevNode_PropertyW' [-Werror=3Dredundant-decls]
-> >> >    62 | CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
-> >> >       |                        ^~~~~~~~~~~~~~~~~~~~~~~~
-> >> > In file included from ../qga/commands-win32.c:26:
-> >> >
-> > C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/cfgmgr32.h:840:26=
-:
-> > note: previous declaration of 'CM_Get_DevNode_PropertyW' was here
-> >> >   840 |   CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(DEVINST
-> > dnDevInst, const DEVPROPKEY *PropertyKey, DEVPROPTYPE *PropertyType,
-> > PBYTE PropertyBuffer, PULONG PropertyBufferSize, ULONG ulFlags);
-> >> >       |                          ^~~~~~~~~~~~~~~~~~~~~~~~
-> >> > cc1.exe: all warnings being treated as errors
-> >> > make: [Makefile.ninja:5143=EF=BC=9Aqga/qemu-ga.exe.p/commands-win32.=
-c.obj]
-> > =E9=94=99=E8=AF=AF 1 (=E5=B7=B2=E5=BF=BD=E7=95=A5=EF=BC=89
-> >> >
-> >> > This error comes from qemu configure didn't add predefined macro
-> > -DUNICODE -D_UNICODE in QEMU_CFLAGS,
-> >> > and these too macro are standard config for win32 if using windows
-> > wide api.
-> >> >
-> >> > in cfgmgr32.h
-> >> >   CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(DEVINST dnDevInst,
-> > const DEVPROPKEY *PropertyKey, DEVPROPTYPE *PropertyType, PBYTE
-> > PropertyBuffer, PULONG PropertyBufferSize, ULONG ulFlags);
-> >> > #ifdef UNICODE
-> >> > #define CM_Get_DevNode_Property CM_Get_DevNode_PropertyW
-> >> > #endif
-> >> >
-> >> > macro CM_Get_DevNode_Property defined only when UNICODE are defined.
-> >> > and in win32, UNICODE and _UNICODE should be defined at the same tim=
-e
-> >> >
-> >> > #endif
-> >> >
-> >> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com
-> > <mailto:luoyonggang@gmail.com>>
-> >> > ---
-> >> >  configure | 1 +
-> >> >  1 file changed, 1 insertion(+)
-> >> >
-> >> > diff --git a/configure b/configure
-> >> > index 9f141891ea..f5d661af4a 100755
-> >> > --- a/configure
-> >> > +++ b/configure
-> >> > @@ -812,6 +812,7 @@ MINGW32*)
-> >> >    mingw32=3D"yes"
-> >> >    hax=3D"yes"
-> >> >    whpx=3D""
-> >> > +  QEMU_CFLAGS=3D"-DUNICODE -D_UNICODE $QEMU_CFLAGS"
-> >>
-> >> What about declaring them in include/qemu/osdep.h
-> >> instead?
-> > That's a good idea.
-> > But more compiling error warns me that the windows version of qemu are
-> > not in a good situation.
->
-> :)
->
-> > On Win32, all API should call the wide version so that support for
-> > Unicode properly.
-> > But obviously the currently qemu didn't do that
-> >
-> > ```
-> [...]
-> > ../util/qemu-sockets.c: In function 'socket_sockaddr_to_address_inet':
-> > C:/work/xemu/qemu/include/qapi/error.h:319:25: error: format '%s'
-> > expects argument of type 'char *', but argument 6 has type 'WCHAR *'
-> > {aka 'short unsigned int *'} [-Werror=3Dformat=3D]
-> >   319 |                         (fmt), ## __VA_ARGS__)
-> >       |                         ^~~~~
-> > ../util/qemu-sockets.c:1235:9: note: in expansion of macro 'error_setg'
-> >  1235 |         error_setg(errp, "Cannot format numeric socket address:
-%s",
-> >       |         ^~~~~~~~~~
-> > In file included from ../io/dns-resolver.c:26:
-> > ../io/dns-resolver.c: In function 'qio_dns_resolver_lookup_sync_inet':
-> > C:/work/xemu/qemu/include/qapi/error.h:319:25: error: format '%s'
-> > expects argument of type 'char *', but argument 8 has type 'WCHAR *'
-> > {aka 'short unsigned int *'} [-Werror=3Dformat=3D]
-> >   319 |                         (fmt), ## __VA_ARGS__)
-> >       |                         ^~~~~
-> > ../io/dns-resolver.c:93:9: note: in expansion of macro 'error_setg'
-> >    93 |         error_setg(errp, "address resolution failed for %s:%s:
-%s",
-> >       |         ^~~~~~~~~~
-> > cc1.exe: all warnings being treated as errors
-> > make: [Makefile.ninja:756=EF=BC=9Aio/libio.fa.p/dns-resolver.c.obj] =E9=
-=94=99=E8=AF=AF 1 (=E5=B7=B2
-> > =E5=BF=BD=E7=95=A5=EF=BC=89
-> > cc1.exe: all warnings being treated as errors
-> > make: [Makefile.ninja:697=EF=BC=9Alibqemuutil.a.p/util_qemu-sockets.c.o=
-bj] =E9=94=99=E8=AF=AF
-> > 1 (=E5=B7=B2=E5=BF=BD=E7=95=A5=EF=BC=89
-> > Linking static target io/libio.fa
-> > C:\CI-Tools\msys64\mingw64\bin\ar.exe: io/libio.fa.p/dns-resolver.c.obj=
-:
-> > No such file or directory
-> > make: [Makefile.ninja:764=EF=BC=9Aio/libio.fa] =E9=94=99=E8=AF=AF 1 (=
-=E5=B7=B2=E5=BF=BD=E7=95=A5=EF=BC=89
-> > ../net/tap-win32.c: In function 'is_tap_win32_dev':
-> > ../net/tap-win32.c:62:21: error: passing argument 2 of 'RegOpenKeyExW'
-> > from incompatible pointer type [-Werror=3Dincompatible-pointer-types]
-> >    62 | #define ADAPTER_KEY
-> >
-"SYSTEM\\CurrentControlSet\\Control\\Class\\{4D36E972-E325-11CE-BFC1-08002B=
-E10318}"
-> >       |
-> >
-^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-> >       |                     |
-> >       |                     const char *
-> > ../net/tap-win32.c:62:21: note: in definition of macro 'ADAPTER_KEY'
-> >    62 | #define ADAPTER_KEY
-> >
-"SYSTEM\\CurrentControlSet\\Control\\Class\\{4D36E972-E325-11CE-BFC1-08002B=
-E10318}"
-> >       |
-> >
-^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-> > In file included from
-> > C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/windows.h:76,
-> >                  from
-> > C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/winsock2.h:23,
-> >                  from C:/work/xemu/qemu/include/sysemu/os-win32.h:29,
-> >                  from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-> >                  from ../net/tap-win32.c:29:
-> > C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/winreg.h:195:57:
-> > note: expected 'LPCWSTR' {aka 'const short unsigned int *'} but argumen=
-t
-> > is of type 'const char *'
-> >   195 |   WINADVAPI LONG WINAPI RegOpenKeyExW(HKEY hKey,LPCWSTR
-> > lpSubKey,DWORD ulOptions,REGSAM samDesired,PHKEY phkResult);
-> >       |                                                 ~~~~~~~~^~~~~~~=
-~
-> > ../net/tap-win32.c:229:13: error: passing argument 3 of 'RegEnumKeyExW'
-> > from incompatible pointer type [-Werror=3Dincompatible-pointer-types]
-> >   229 |             enum_name,
-> >       |             ^~~~~~~~~
-> >       |             |
-> >       |             char *
-> > In file included from
-> > C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/windows.h:76,
-> >                  from
-> > C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/winsock2.h:23,
-> >                  from C:/work/xemu/qemu/include/sysemu/os-win32.h:29,
-> >                  from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-> >                  from ../net/tap-win32.c:29:
-> > C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/winreg.h:184:70:
-> > note: expected 'LPWSTR' {aka 'short unsigned int *'} but argument is of
-> > type 'char *'
-> >   184 |   WINADVAPI LONG WINAPI RegEnumKeyExW(HKEY hKey,DWORD
-> > dwIndex,LPWSTR lpName,LPDWORD lpcchName,LPDWORD lpReserved,LPWSTR
-> > lpClass,LPDWORD lpcchClass,PFILETIME lpftLastWriteTime);
-> >       |
-> > ~~~~~~~^~~~~~
-> > ../net/tap-win32.c:247:13: error: passing argument 2 of 'RegOpenKeyExW'
-> > from incompatible pointer type [-Werror=3Dincompatible-pointer-types]
-> >   247 |             unit_string,
-> >       |             ^~~~~~~~~~~
-> >       |             |
-> >       |             char *
->
-> I'm not sure fixing all these warnings would produce a
-> maintainable code base. I'd rather disable these 2 warning
-> classes on Windows.
-I agree with that, seems QEMU currently are calling ANSI api all the time,
-better not change that,
- so globally define -DUNICODE -D_UNICODE is not a option
+    v6
+
+    • sccb_verify_boundary function:
+        • s/len/sccb_len
+        • removed the endian check/conversion of the sccb_len from within 
+          this function (caller is now responsible)
+
+    • proper endian conversion when using header length to malloc
+
+    • use g_autofree for work_sccb
+
+    • added r-b's and acks (thanks!)
+
+    • added a feature-check fence within the diag_318_handler to ensure
+        the handler does not complete without proper feature support
+        • will throw a program exception if handler is invoked but
+          feature is not enabled
+
+    
+
+    v5 (comment below pertains to version 5)
+
+    Janosch, Thomas, Conny: I've removed your r-b's from patch #3 since I
+    added some g_mallocs in place and I'd like to make sure things are
+    done properly there (explained in changelog, but let me know if further
+    explanation is necessary).
+
+    Janosch, please let me know if the changes to #3 are safe under PV.
+
+    Thanks.
+
+    • removed sccb_verify_length function
+        - will simply use the length check code that was in place before
+
+    • introduced a macro for calculating required SCCB length
+        - takes a struct and max # of cpus as args
+
+    • work_sccb size is now dynamically allocated based on the length
+      provided by the guest kernel, instead of always using a static
+      4K size
+        - as such, the SCCB will have to be read twice:
+            - first time to retrieve the header
+            - second time with proper size after space for work_sccb 
+              is allocated
 
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
 
---000000000000d954f505af5eff65
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+    v4
+    
+    • added r-b's and ack's (thanks, everyone!)
 
-<div dir=3D"ltr"><br><br>On Wed, Sep 16, 2020 at 1:55 AM Philippe Mathieu-D=
-aud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wr=
-ote:<br>&gt;<br>&gt; On 9/15/20 7:41 PM, =E7=BD=97=E5=8B=87=E5=88=9A(Yongga=
-ng Luo) wrote:<br>&gt; &gt; On Wed, Sep 16, 2020 at 12:41 AM Philippe Mathi=
-eu-Daud=C3=A9<br>&gt; &gt; &lt;<a href=3D"mailto:philmd@redhat.com">philmd@=
-redhat.com</a> &lt;mailto:<a href=3D"mailto:philmd@redhat.com">philmd@redha=
-t.com</a>&gt;&gt; wrote:<br>&gt; &gt;&gt;<br>&gt; &gt;&gt; On 9/15/20 6:33 =
-PM, Yonggang Luo wrote:<br>&gt; &gt;&gt; &gt; error message:<br>&gt; &gt;&g=
-t; &gt; &quot;cc&quot; &quot;-Iqga/qemu-ga.exe.p&quot; &quot;-Iqga&quot; &q=
-uot;-I../qga&quot; &quot;-I.&quot; &quot;-Iqapi&quot;<br>&gt; &gt; &quot;-I=
-trace&quot; &quot;-Iui&quot; &quot;-Iui/shader&quot; &quot;-IC:/CI-Tools/ms=
-ys64/mingw64/include&quot;<br>&gt; &gt; &quot;-IC:/CI-Tools/msys64/mingw64/=
-include/glib-2.0&quot;<br>&gt; &gt; &quot;-IC:/CI-Tools/msys64/mingw64/lib/=
-glib-2.0/include&quot;<br>&gt; &gt; &quot;-fdiagnostics-color=3Dauto&quot; =
-&quot;-pipe&quot; &quot;-Wall&quot; &quot;-Winvalid-pch&quot; &quot;-Werror=
-&quot;<br>&gt; &gt; &quot;-std=3Dgnu99&quot; &quot;-g&quot; &quot;-m64&quot=
-; &quot;-mcx16&quot; &quot;-D_GNU_SOURCE&quot;<br>&gt; &gt; &quot;-D_FILE_O=
-FFSET_BITS=3D64&quot; &quot;-D_LARGEFILE_SOURCE&quot; &quot;-Wstrict-protot=
-ypes&quot;<br>&gt; &gt; &quot;-Wredundant-decls&quot; &quot;-Wundef&quot; &=
-quot;-Wwrite-strings&quot; &quot;-Wmissing-prototypes&quot;<br>&gt; &gt; &q=
-uot;-fno-strict-aliasing&quot; &quot;-fno-common&quot; &quot;-fwrapv&quot; =
-&quot;-Wold-style-declaration&quot;<br>&gt; &gt; &quot;-Wold-style-definiti=
-on&quot; &quot;-Wtype-limits&quot; &quot;-Wformat-security&quot;<br>&gt; &g=
-t; &quot;-Wformat-y2k&quot; &quot;-Winit-self&quot; &quot;-Wignored-qualifi=
-ers&quot; &quot;-Wempty-body&quot;<br>&gt; &gt; &quot;-Wnested-externs&quot=
-; &quot;-Wendif-labels&quot; &quot;-Wexpansion-to-defined&quot;<br>&gt; &gt=
-; &quot;-Wno-missing-include-dirs&quot; &quot;-Wno-shift-negative-value&quo=
-t; &quot;-Wno-psabi&quot;<br>&gt; &gt; &quot;-fstack-protector-strong&quot;=
- &quot;-iquote&quot; &quot;/c/work/xemu/qemu/tcg/i386&quot;<br>&gt; &gt; &q=
-uot;-iquote&quot; &quot;.&quot; &quot;-iquote&quot; &quot;/c/work/xemu/qemu=
-&quot; &quot;-iquote&quot;<br>&gt; &gt; &quot;/c/work/xemu/qemu/accel/tcg&q=
-uot; &quot;-iquote&quot; &quot;/c/work/xemu/qemu/include&quot;<br>&gt; &gt;=
- &quot;-iquote&quot; &quot;/c/work/xemu/qemu/disas/libvixl&quot; &quot;-pth=
-read&quot; &quot;-mms-bitfields&quot;<br>&gt; &gt; -MD -MQ qga/qemu-ga.exe.=
-p/commands-win32.c.obj -MF<br>&gt; &gt; &quot;qga/qemu-ga.exe.p/commands-wi=
-n32.c.obj.d&quot; -o<br>&gt; &gt; qga/qemu-ga.exe.p/commands-win32.c.obj &q=
-uot;-c&quot; ../qga/commands-win32.c -MP<br>&gt; &gt;&gt; &gt; ../qga/comma=
-nds-win32.c:62:24: error: redundant redeclaration of<br>&gt; &gt; &#39;CM_G=
-et_DevNode_PropertyW&#39; [-Werror=3Dredundant-decls]<br>&gt; &gt;&gt; &gt;=
- =C2=A0 =C2=A062 | CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(<br>&gt;=
- &gt;&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~~~~~~~~~~~~~<br=
->&gt; &gt;&gt; &gt; In file included from ../qga/commands-win32.c:26:<br>&g=
-t; &gt;&gt; &gt;<br>&gt; &gt; C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32=
-/include/cfgmgr32.h:840:26:<br>&gt; &gt; note: previous declaration of &#39=
-;CM_Get_DevNode_PropertyW&#39; was here<br>&gt; &gt;&gt; &gt; =C2=A0 840 | =
-=C2=A0 CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(DEVINST<br>&gt; &gt;=
- dnDevInst, const DEVPROPKEY *PropertyKey, DEVPROPTYPE *PropertyType,<br>&g=
-t; &gt; PBYTE PropertyBuffer, PULONG PropertyBufferSize, ULONG ulFlags);<br=
->&gt; &gt;&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~~~~~=
-~~~~~~~~<br>&gt; &gt;&gt; &gt; cc1.exe: all warnings being treated as error=
-s<br>&gt; &gt;&gt; &gt; make: [Makefile.ninja:5143=EF=BC=9Aqga/qemu-ga.exe.=
-p/commands-win32.c.obj]<br>&gt; &gt; =E9=94=99=E8=AF=AF 1 (=E5=B7=B2=E5=BF=
-=BD=E7=95=A5=EF=BC=89<br>&gt; &gt;&gt; &gt;<br>&gt; &gt;&gt; &gt; This erro=
-r comes from qemu configure didn&#39;t add predefined macro<br>&gt; &gt; -D=
-UNICODE -D_UNICODE in QEMU_CFLAGS,<br>&gt; &gt;&gt; &gt; and these too macr=
-o are standard config for win32 if using windows<br>&gt; &gt; wide api.<br>=
-&gt; &gt;&gt; &gt;<br>&gt; &gt;&gt; &gt; in cfgmgr32.h<br>&gt; &gt;&gt; &gt=
-; =C2=A0 CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(DEVINST dnDevInst,=
-<br>&gt; &gt; const DEVPROPKEY *PropertyKey, DEVPROPTYPE *PropertyType, PBY=
-TE<br>&gt; &gt; PropertyBuffer, PULONG PropertyBufferSize, ULONG ulFlags);<=
-br>&gt; &gt;&gt; &gt; #ifdef UNICODE<br>&gt; &gt;&gt; &gt; #define CM_Get_D=
-evNode_Property CM_Get_DevNode_PropertyW<br>&gt; &gt;&gt; &gt; #endif<br>&g=
-t; &gt;&gt; &gt;<br>&gt; &gt;&gt; &gt; macro CM_Get_DevNode_Property define=
-d only when UNICODE are defined.<br>&gt; &gt;&gt; &gt; and in win32, UNICOD=
-E and _UNICODE should be defined at the same time<br>&gt; &gt;&gt; &gt;<br>=
-&gt; &gt;&gt; &gt; #endif<br>&gt; &gt;&gt; &gt;<br>&gt; &gt;&gt; &gt; Signe=
-d-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyong=
-gang@gmail.com</a><br>&gt; &gt; &lt;mailto:<a href=3D"mailto:luoyonggang@gm=
-ail.com">luoyonggang@gmail.com</a>&gt;&gt;<br>&gt; &gt;&gt; &gt; ---<br>&gt=
-; &gt;&gt; &gt; =C2=A0configure | 1 +<br>&gt; &gt;&gt; &gt; =C2=A01 file ch=
-anged, 1 insertion(+)<br>&gt; &gt;&gt; &gt;<br>&gt; &gt;&gt; &gt; diff --gi=
-t a/configure b/configure<br>&gt; &gt;&gt; &gt; index 9f141891ea..f5d661af4=
-a 100755<br>&gt; &gt;&gt; &gt; --- a/configure<br>&gt; &gt;&gt; &gt; +++ b/=
-configure<br>&gt; &gt;&gt; &gt; @@ -812,6 +812,7 @@ MINGW32*)<br>&gt; &gt;&=
-gt; &gt; =C2=A0 =C2=A0mingw32=3D&quot;yes&quot;<br>&gt; &gt;&gt; &gt; =C2=
-=A0 =C2=A0hax=3D&quot;yes&quot;<br>&gt; &gt;&gt; &gt; =C2=A0 =C2=A0whpx=3D&=
-quot;&quot;<br>&gt; &gt;&gt; &gt; + =C2=A0QEMU_CFLAGS=3D&quot;-DUNICODE -D_=
-UNICODE $QEMU_CFLAGS&quot;<br>&gt; &gt;&gt;<br>&gt; &gt;&gt; What about dec=
-laring them in include/qemu/osdep.h<br>&gt; &gt;&gt; instead?<br>&gt; &gt; =
-That&#39;s a good idea.<br>&gt; &gt; But more compiling error warns me that=
- the windows version of qemu are<br>&gt; &gt; not in a good situation.<br>&=
-gt;<br>&gt; :)<br>&gt;<br>&gt; &gt; On Win32, all API should call the wide =
-version so that support for<br>&gt; &gt; Unicode properly.<br>&gt; &gt; But=
- obviously the currently qemu didn&#39;t do that<br>&gt; &gt;<br>&gt; &gt; =
-```<br>&gt; [...]<br>&gt; &gt; ../util/qemu-sockets.c: In function &#39;soc=
-ket_sockaddr_to_address_inet&#39;:<br>&gt; &gt; C:/work/xemu/qemu/include/q=
-api/error.h:319:25: error: format &#39;%s&#39;<br>&gt; &gt; expects argumen=
-t of type &#39;char *&#39;, but argument 6 has type &#39;WCHAR *&#39;<br>&g=
-t; &gt; {aka &#39;short unsigned int *&#39;} [-Werror=3Dformat=3D]<br>&gt; =
-&gt; =C2=A0 319 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (fmt), ## __VA_ARGS__)<br>&gt; &gt; =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 ^~~~~<br>&gt; &gt; ../util/qemu-sockets.c:1235:9: not=
-e: in expansion of macro &#39;error_setg&#39;<br>&gt; &gt; =C2=A01235 | =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Cannot format numeric socke=
-t address: %s&quot;,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 ^~~~~~~~~~<br>&gt; &gt; In file included from ../io/dns-resolver=
-.c:26:<br>&gt; &gt; ../io/dns-resolver.c: In function &#39;qio_dns_resolver=
-_lookup_sync_inet&#39;:<br>&gt; &gt; C:/work/xemu/qemu/include/qapi/error.h=
-:319:25: error: format &#39;%s&#39;<br>&gt; &gt; expects argument of type &=
-#39;char *&#39;, but argument 8 has type &#39;WCHAR *&#39;<br>&gt; &gt; {ak=
-a &#39;short unsigned int *&#39;} [-Werror=3Dformat=3D]<br>&gt; &gt; =C2=A0=
- 319 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 (fmt), ## __VA_ARGS__)<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =
-| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 ^~~~~<br>&gt; &gt; ../io/dns-resolver.c:93:9: note: in expansion=
- of macro &#39;error_setg&#39;<br>&gt; &gt; =C2=A0 =C2=A093 | =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 error_setg(errp, &quot;address resolution failed for %s:%s: =
-%s&quot;,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^=
-~~~~~~~~~<br>&gt; &gt; cc1.exe: all warnings being treated as errors<br>&gt=
-; &gt; make: [Makefile.ninja:756=EF=BC=9Aio/libio.fa.p/dns-resolver.c.obj] =
-=E9=94=99=E8=AF=AF 1 (=E5=B7=B2<br>&gt; &gt; =E5=BF=BD=E7=95=A5=EF=BC=89<br=
->&gt; &gt; cc1.exe: all warnings being treated as errors<br>&gt; &gt; make:=
- [Makefile.ninja:697=EF=BC=9Alibqemuutil.a.p/util_qemu-sockets.c.obj] =E9=
-=94=99=E8=AF=AF<br>&gt; &gt; 1 (=E5=B7=B2=E5=BF=BD=E7=95=A5=EF=BC=89<br>&gt=
-; &gt; Linking static target io/libio.fa<br>&gt; &gt; C:\CI-Tools\msys64\mi=
-ngw64\bin\ar.exe: io/libio.fa.p/dns-resolver.c.obj:<br>&gt; &gt; No such fi=
-le or directory<br>&gt; &gt; make: [Makefile.ninja:764=EF=BC=9Aio/libio.fa]=
- =E9=94=99=E8=AF=AF 1 (=E5=B7=B2=E5=BF=BD=E7=95=A5=EF=BC=89<br>&gt; &gt; ..=
-/net/tap-win32.c: In function &#39;is_tap_win32_dev&#39;:<br>&gt; &gt; ../n=
-et/tap-win32.c:62:21: error: passing argument 2 of &#39;RegOpenKeyExW&#39;<=
-br>&gt; &gt; from incompatible pointer type [-Werror=3Dincompatible-pointer=
--types]<br>&gt; &gt; =C2=A0 =C2=A062 | #define ADAPTER_KEY<br>&gt; &gt; &qu=
-ot;SYSTEM\\CurrentControlSet\\Control\\Class\\{4D36E972-E325-11CE-BFC1-0800=
-2BE10318}&quot;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>&gt; &gt; ^~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>&=
-gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *=
-<br>&gt; &gt; ../net/tap-win32.c:62:21: note: in definition of macro &#39;A=
-DAPTER_KEY&#39;<br>&gt; &gt; =C2=A0 =C2=A062 | #define ADAPTER_KEY<br>&gt; =
-&gt; &quot;SYSTEM\\CurrentControlSet\\Control\\Class\\{4D36E972-E325-11CE-B=
-FC1-08002BE10318}&quot;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>&gt; &gt; ^~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~<br>&gt; &gt; In file included from<br>&gt; &gt; C:/CI-Tools/msys64/mingw=
-64/x86_64-w64-mingw32/include/windows.h:76,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from<br>&gt; &gt; C:/CI-Tools/=
-msys64/mingw64/x86_64-w64-mingw32/include/winsock2.h:23,<br>&gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from C:/work/xem=
-u/qemu/include/sysemu/os-win32.h:29,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from C:/work/xemu/qemu/include/qemu/o=
-sdep.h:119,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0from ../net/tap-win32.c:29:<br>&gt; &gt; C:/CI-Tools/msys64/mi=
-ngw64/x86_64-w64-mingw32/include/winreg.h:195:57:<br>&gt; &gt; note: expect=
-ed &#39;LPCWSTR&#39; {aka &#39;const short unsigned int *&#39;} but argumen=
-t<br>&gt; &gt; is of type &#39;const char *&#39;<br>&gt; &gt; =C2=A0 195 | =
-=C2=A0 WINADVAPI LONG WINAPI RegOpenKeyExW(HKEY hKey,LPCWSTR<br>&gt; &gt; l=
-pSubKey,DWORD ulOptions,REGSAM samDesired,PHKEY phkResult);<br>&gt; &gt; =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ~~~~~~~~^~~~~~~~<br>&gt; &gt; ../=
-net/tap-win32.c:229:13: error: passing argument 3 of &#39;RegEnumKeyExW&#39=
-;<br>&gt; &gt; from incompatible pointer type [-Werror=3Dincompatible-point=
-er-types]<br>&gt; &gt; =C2=A0 229 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 enum_name,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ^~~~~~~~~<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char *<br>&gt; &gt; In file included=
- from<br>&gt; &gt; C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/wi=
-ndows.h:76,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0from<br>&gt; &gt; C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw3=
-2/include/winsock2.h:23,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0from C:/work/xemu/qemu/include/sysemu/os-win32.h=
-:29,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0from C:/work/xemu/qemu/include/qemu/osdep.h:119,<br>&gt; &gt; =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ../net/tap-win3=
-2.c:29:<br>&gt; &gt; C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/=
-winreg.h:184:70:<br>&gt; &gt; note: expected &#39;LPWSTR&#39; {aka &#39;sho=
-rt unsigned int *&#39;} but argument is of<br>&gt; &gt; type &#39;char *&#3=
-9;<br>&gt; &gt; =C2=A0 184 | =C2=A0 WINADVAPI LONG WINAPI RegEnumKeyExW(HKE=
-Y hKey,DWORD<br>&gt; &gt; dwIndex,LPWSTR lpName,LPDWORD lpcchName,LPDWORD l=
-pReserved,LPWSTR<br>&gt; &gt; lpClass,LPDWORD lpcchClass,PFILETIME lpftLast=
-WriteTime);<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>&gt; &gt; ~~~~~~~^~~~~~<br>&gt=
-; &gt; ../net/tap-win32.c:247:13: error: passing argument 2 of &#39;RegOpen=
-KeyExW&#39;<br>&gt; &gt; from incompatible pointer type [-Werror=3Dincompat=
-ible-pointer-types]<br>&gt; &gt; =C2=A0 247 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 unit_string,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |<br>&gt; &gt; =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char *<br>&gt;<br>&g=
-t; I&#39;m not sure fixing all these warnings would produce a<br>&gt; maint=
-ainable code base. I&#39;d rather disable these 2 warning<br>&gt; classes o=
-n Windows.<br>I agree with that, seems QEMU currently are calling ANSI api =
-all the time, better not change that,<div>=C2=A0so globally define
+    • renamed boundary and length function
 
--DUNICODE -D_UNICODE is not a option<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A=
-<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
+    • updated header sync to reflect a change discussed in the respective
+        KVM patches
 
---000000000000d954f505af5eff65--
+    • s/data_len/offset_cpu
+
+    • added /* fallthrough */ comment in boundary check
+
+
+
+    v3
+
+    • Device IOCTLs removed
+        - diag 318 info is now communicated via sync_regs
+
+    • Reset code removed
+        - this is now handled in KVM
+        - diag318_info is stored within the CPU reset portion of the
+            S390CPUState
+
+    • Various cleanups for ELS preliminary patches
+
+
+
+    v2
+
+    • QEMU now handles the instruction call
+        - as such, the "enable diag 318" IOCTL has been removed
+
+    • patch #1 now changes the read scp/cpu info functions to
+      retrieve the machine state once
+        - as such, I have not added any ack's or r-bs since this
+          patch differs from the previous version
+
+    • patch #3 introduces a new "get_read_scp_info_data_len"
+      function in order clean-up the variable data length assignment
+      in patch #7
+        - a comment above this function should help clarify what's
+          going on to make things a bit easier to read
+
+    • other misc clean ups and fixes
+        - s/diag318/diag_318 in order to keep the naming scheme
+          consistent with Linux and other diag-related code
+        - s/byte_134/fac134 to align naming scheme with Linux
+
+-----------------------------------------------------------------------
+
+This patch series introduces two features for an s390 KVM quest:
+    - Extended-Length SCCB (els) for the Read SCP/CPU Info SCLP 
+        commands
+    - DIAGNOSE 0x318 (diag_318) enabling / migration handling
+
+The diag 318 feature depends on els and KVM support.
+
+The els feature is handled entirely with QEMU, and does not require 
+KVM support.
+
+Both features are made available starting with the zEC12-full model.
+
+These patches are introduced together for two main reasons:
+    - els allows diag 318 to exist while retaining the original 248 
+        VCPU max
+    - diag 318 is presented to show how els is useful
+
+Full els support is dependant on the Linux kernel, which must react
+to the SCLP response code and set an appropriate-length SCCB. 
+
+A user should take care when tuning the CPU model for a VM.
+If a user defines a VM with els support and specifies 248 CPUs, but
+the guest Linux kernel cannot react to the SCLP response code, then
+the guest will crash immediately upon kernel startup.
+
+Collin L. Walling (8):
+  s390/sclp: get machine once during read scp/cpu info
+  s390/sclp: rework sclp boundary checks
+  s390/sclp: read sccb from mem based on provided length
+  s390/sclp: check sccb len before filling in data
+  s390/sclp: use cpu offset to locate cpu entries
+  s390/sclp: add extended-length sccb support for kvm guest
+  s390/kvm: header sync for diag318
+  s390: guest support for diagnose 0x318
+
+ hw/s390x/event-facility.c           |   2 +-
+ hw/s390x/sclp.c                     | 142 ++++++++++++++++++++--------
+ include/hw/s390x/sclp.h             |  11 ++-
+ linux-headers/asm-s390/kvm.h        |   7 +-
+ linux-headers/linux/kvm.h           |   1 +
+ target/s390x/cpu.h                  |   2 +
+ target/s390x/cpu_features.h         |   1 +
+ target/s390x/cpu_features_def.h.inc |   4 +
+ target/s390x/cpu_models.c           |   1 +
+ target/s390x/gen-features.c         |   2 +
+ target/s390x/kvm.c                  |  47 +++++++++
+ target/s390x/machine.c              |  17 ++++
+ 12 files changed, 194 insertions(+), 43 deletions(-)
+
+-- 
+2.26.2
+
 
