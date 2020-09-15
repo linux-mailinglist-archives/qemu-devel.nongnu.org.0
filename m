@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D6526A393
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:48:49 +0200 (CEST)
-Received: from localhost ([::1]:40744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF0E26A394
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:48:52 +0200 (CEST)
+Received: from localhost ([::1]:41134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8W0-0002Fu-1M
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:48:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
+	id 1kI8W3-0002PW-Me
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Tv-0000D2-O3
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54119)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Tw-0000Dp-LV
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47810
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Ts-0004Vw-Om
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:39 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8Tu-0004W6-RC
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166795;
+ s=mimecast20190719; t=1600166797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oaRxhj6MXirGImGi5k6IZssbDH2xBZ33GUTf4AD4d4Y=;
- b=fjeToBWiOdRdpWADc9KvwZPKF1vOWIv2qnMxtwxRbQKdJ9vFCLPZBaYs4XWlsK42sQMQvt
- mbPv3pkB3JcnUsC62kl4GPzBvchbxJyzidVb6eDgHMBKdqePPs9yH61TmdLV8LtqKRzgJB
- yHio03GVykxl4mumEhKfnCh3qUlAD9Y=
+ bh=VJ3fvYcZfAhMpKefh6bvQo2IkLj6yxPmWEKt+9Z9uQU=;
+ b=Zzoi4wrd26Mh6yLPg1tGMI4V1RSPAHaX52TF5llieX1R/zepYorpZxDhW4HAQJJyZbSn5Q
+ VT8/gzbqTJClF5uUtjG7jNMYIA2nx9tu9mKDTcjkPgf02AnB/4+ZbJZvtyy5SwI1zhzHFp
+ D2sV3KXA2euhdgzgy2vKFZ9HouJg/Wo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-I9K3KyGGN8eYk58XqRUWEw-1; Tue, 15 Sep 2020 06:46:33 -0400
-X-MC-Unique: I9K3KyGGN8eYk58XqRUWEw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-528-thpCz1B4PxiwOLhpk9lUUg-1; Tue, 15 Sep 2020 06:46:35 -0400
+X-MC-Unique: thpCz1B4PxiwOLhpk9lUUg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F844801FCC;
- Tue, 15 Sep 2020 10:46:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4014A1084D62;
+ Tue, 15 Sep 2020 10:46:34 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F8091002393;
- Tue, 15 Sep 2020 10:46:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9D5C5FC2A;
+ Tue, 15 Sep 2020 10:46:33 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/22] qemu-iotests: Fix FilePaths cleanup
-Date: Tue, 15 Sep 2020 12:46:06 +0200
-Message-Id: <20200915104627.699552-2-mreitz@redhat.com>
+Subject: [PULL 02/22] qemu-iotests: Fix FilePaths docstring
+Date: Tue, 15 Sep 2020 12:46:07 +0200
+Message-Id: <20200915104627.699552-3-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:23:19
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,39 +86,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nir Soffer <nirsof@gmail.com>
 
-If os.remove() fails to remove one of the paths, for example if the file
-was removed by the test, the cleanup loop would exit silently, without
-removing the rest of the files.
+When this class was extracted from FilePath, the docstring was not
+updated for generating multiple files, and the example usage was
+referencing unrelated file.
+
+While fixing the docstring, add example for creating sockets, which
+should use iotests.sock_dir instead of the default base_dir.
 
 Fixes: de263986b5dc
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200828232152.205833-2-nsoffer@redhat.com>
+Message-Id: <20200828232152.205833-3-nsoffer@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/iotests.py | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 64ccaf9061..36814daf84 100644
+index 36814daf84..bbe63a6da0 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -468,11 +468,11 @@ class FilePaths:
-         return self.paths
+@@ -450,14 +450,21 @@ def file_pattern(name):
  
-     def __exit__(self, exc_type, exc_val, exc_tb):
--        try:
--            for path in self.paths:
-+        for path in self.paths:
-+            try:
-                 os.remove(path)
--        except OSError:
--            pass
-+            except OSError:
-+                pass
-         return False
+ class FilePaths:
+     """
+-    FilePaths is an auto-generated filename that cleans itself up.
++    Context manager generating multiple file names. The generated files are
++    removed when exiting the context.
  
- class FilePath(FilePaths):
+-    Use this context manager to generate filenames and ensure that the file
+-    gets deleted::
++    Example usage:
++
++        with FilePaths(['a.img', 'b.img']) as (img_a, img_b):
++            # Use img_a and img_b here...
++
++        # a.img and b.img are automatically removed here.
++
++    By default images are created in iotests.test_dir. To create sockets use
++    iotests.sock_dir:
++
++       with FilePaths(['a.sock'], base_dir=iotests.sock_dir) as (sock,):
+ 
+-        with FilePaths(['test.img']) as img_path:
+-            qemu_img('create', img_path, '1G')
+-        # migration_sock_path is automatically deleted
+     """
+     def __init__(self, names, base_dir=test_dir):
+         self.paths = []
 -- 
 2.26.2
 
