@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3B726A3B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:56:39 +0200 (CEST)
-Received: from localhost ([::1]:40436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5841D26A3BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:58:47 +0200 (CEST)
+Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8da-0005YH-8N
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
+	id 1kI8fe-0000l5-75
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UG-0000Z6-E3
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48326)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UL-0000nS-My
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UE-0004a6-BI
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:00 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UI-0004cH-Ke
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166817;
+ s=mimecast20190719; t=1600166821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qzOm2DmuuR/9Ie19niGExs/IYglc8i+tCED3cG83MII=;
- b=g1XM8lMAXqSjCK863l1wKEjOWacqFvKZ2uy/rtHFpVJRbdtYZGATaYbDPGYaIDY5btjLFZ
- moIpleYjQ3IZ6+tmHISpF77OQj/sHtjqsiMp0YXf5VpWJofKx4GwReufIODY6HVaYgAbtd
- suUHx12mlmgEW5IUgeNjRPRVqu4QAW4=
+ bh=MBds4CXxGE46H6Itn3fmDY2ijfb8SIWiB0usBs4CUhE=;
+ b=Aai7d3FtzmUSN4MWMZjFRJnQcUZO8BJaGIKo9FjwcfSsyvSa9fm0wq966cWReps32xjP/2
+ QY50A0uFnjc3FRILI2KSipBeHLDGbfRIgkaSlJ0PG7RjX20CNIN3W05E/60f3sTR/BY2DM
+ uB1JE00jjwhDSfaPWA+BTteTik7dUYE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-cWEZkKQUM2Cx1fclbO2U5Q-1; Tue, 15 Sep 2020 06:46:55 -0400
-X-MC-Unique: cWEZkKQUM2Cx1fclbO2U5Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-18-NbXYX8woNGmUD7-8WhxZkw-1; Tue, 15 Sep 2020 06:46:59 -0400
+X-MC-Unique: NbXYX8woNGmUD7-8WhxZkw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E9521084D64;
- Tue, 15 Sep 2020 10:46:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1AF264089;
+ Tue, 15 Sep 2020 10:46:58 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0215619C4F;
- Tue, 15 Sep 2020 10:46:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5136A7B7B7;
+ Tue, 15 Sep 2020 10:46:58 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 11/22] qcow2: Rewrite the documentation of
- qcow2_alloc_cluster_offset()
-Date: Tue, 15 Sep 2020 12:46:16 +0200
-Message-Id: <20200915104627.699552-12-mreitz@redhat.com>
+Subject: [PULL 13/22] iotests: Skip test_stream_parallel in test 030 when
+ doing "make check"
+Date: Tue, 15 Sep 2020 12:46:18 +0200
+Message-Id: <20200915104627.699552-14-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -84,55 +84,55 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Thomas Huth <thuth@redhat.com>
 
-The current text corresponds to an earlier, simpler version of this
-function and it does not explain how it works now.
+The test_stream_parallel test still occasionally fails in the CI.
+Thus let's disable it during "make check" for now so that it does
+not cause trouble during merge tests. We can enable it again once
+the problem has been resolved.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <bb5bd06f07c5a05b0818611de0d06ec5b66c8df3.1599150873.git.berto@igalia.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200907113824.134788-1-thuth@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ tests/check-block.sh   | 3 +++
+ tests/qemu-iotests/030 | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index f65ccc5840..ce1260e746 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1714,18 +1714,22 @@ out:
- }
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index 8e29c868e5..a5a69060e1 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -55,6 +55,9 @@ fi
  
- /*
-- * alloc_cluster_offset
-+ * For a given area on the virtual disk defined by @offset and @bytes,
-+ * find the corresponding area on the qcow2 image, allocating new
-+ * clusters (or subclusters) if necessary. The result can span a
-+ * combination of allocated and previously unallocated clusters.
-  *
-- * For a given offset on the virtual disk, find the cluster offset in qcow2
-- * file. If the offset is not found, allocate a new cluster.
-+ * On return, @host_offset is set to the beginning of the requested
-+ * area. This area is guaranteed to be contiguous on the qcow2 file
-+ * but it can be smaller than initially requested. In this case @bytes
-+ * is updated with the actual size.
-  *
-- * If the cluster was already allocated, m->nb_clusters is set to 0 and
-- * other fields in m are meaningless.
-- *
-- * If the cluster is newly allocated, m->nb_clusters is set to the number of
-- * contiguous clusters that have been allocated. In this case, the other
-- * fields of m are valid and contain information about the first allocated
-- * cluster.
-+ * If any clusters or subclusters were allocated then @m contains a
-+ * list with the information of all the affected regions. Note that
-+ * this can happen regardless of whether this function succeeds or
-+ * not. The caller is responsible for updating the L2 metadata of the
-+ * allocated clusters (on success) or freeing them (on failure), and
-+ * for clearing the contents of @m afterwards in both cases.
-  *
-  * If the request conflicts with another write request in flight, the coroutine
-  * is queued and will be reentered when the dependency has completed.
+ cd tests/qemu-iotests
+ 
++# QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
++export QEMU_CHECK_BLOCK_AUTO=1
++
+ ret=0
+ for fmt in $format_list ; do
+     ./check -makecheck -$fmt $group || ret=1
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index 31c028306b..dcb4b5d6a6 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -21,6 +21,7 @@
+ import time
+ import os
+ import iotests
++import unittest
+ from iotests import qemu_img, qemu_io
+ 
+ backing_img = os.path.join(iotests.test_dir, 'backing.img')
+@@ -228,6 +229,7 @@ class TestParallelOps(iotests.QMPTestCase):
+ 
+     # Test that it's possible to run several block-stream operations
+     # in parallel in the same snapshot chain
++    @unittest.skipIf(os.environ.get('QEMU_CHECK_BLOCK_AUTO'), 'disabled in CI')
+     def test_stream_parallel(self):
+         self.assert_no_active_block_jobs()
+ 
 -- 
 2.26.2
 
