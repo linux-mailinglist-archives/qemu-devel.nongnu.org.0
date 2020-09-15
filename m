@@ -2,118 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB5326AB01
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:46:34 +0200 (CEST)
-Received: from localhost ([::1]:44974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D49126AB55
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:59:56 +0200 (CEST)
+Received: from localhost ([::1]:38926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIF2H-00007E-GM
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47686)
+	id 1kIFFD-0003xs-6Y
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIEmS-0005Ho-Oq
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:30:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIEmQ-0004k2-Ii
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:30:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600191009;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1LcT5BzyLP6uosH2WFbN7+xsz8nuKLNH3xU2MY3Wp2s=;
- b=T4ZzfeTE0zZlbu5QsoiGbjthykh9Ot1l9quEKOL6+IwGmXq/rs3vo5m6JljQNufjkgvqit
- eT9gJ2hk4qZ3EESSLhk4UDC2EoN+FOdSEEpGFJqkerAQTMBuFSsJe57I0oi9PVX+FamUQU
- DDQZNikcGu8AYfnsclOn7gQ40GULEyc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-6MOqvpGmNAmVEMWv5M_Pyg-1; Tue, 15 Sep 2020 13:30:04 -0400
-X-MC-Unique: 6MOqvpGmNAmVEMWv5M_Pyg-1
-Received: by mail-wm1-f70.google.com with SMTP id a7so82515wmc.2
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 10:30:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=1LcT5BzyLP6uosH2WFbN7+xsz8nuKLNH3xU2MY3Wp2s=;
- b=KpP7pfvWyweuRibxGQykCzVsot0igUxmYryBe8gbNEgF/StPGJdK6hO1KbpGZW9ii6
- m65lflU6HRCh5cvgSFLrcp5WeMG6hsAZxqCWYQiZAd6BtuMCxmelGtYaAxZeKJ/Vn83P
- qO46SlU8q+wAeCA2R25x9OVzFc4P/KHjenqwOAXYXETGRJmZJHxH/NQNzn7jFRgdtFoa
- EePRLrr3EAh6rKDLAUh1M7/h2Ovjk9HkZPoQvvFuXCUVGrsVKSirtUoRsQreg1PfU5Jc
- BCN1IlhVEQTPaV5TN9JiDO0DJDMd44wz3GFPYkDMhpIIWyu6yj2liqbyPUUDzLTDSZJC
- 3U0A==
-X-Gm-Message-State: AOAM532WeoSMUINae+9k04Kg8ojHG65uxGDg3pd0LbC35Dij6+V0E9Dg
- lSkfl+4ZUC3n1Xfl65eFpL9/rZTOcOgU4iX/s92Jv7AeTAuiKuU03VGIpsynay17yJHfIAqJERt
- LqION4eFkp/9zDUc=
-X-Received: by 2002:adf:f04c:: with SMTP id t12mr23012340wro.121.1600191002708; 
- Tue, 15 Sep 2020 10:30:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoJ5xgRu3cVHCiepHLa3BxF6jAEf4vvcQInO1g83a7v0bI/tOgNb9cdI5kINEzqoInAxvocA==
-X-Received: by 2002:adf:f04c:: with SMTP id t12mr23012322wro.121.1600191002502; 
- Tue, 15 Sep 2020 10:30:02 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id m185sm482793wmf.5.2020.09.15.10.30.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 10:30:02 -0700 (PDT)
-Subject: Re: [PATCH 0/3] pci: Let PCI DMA API functions propagate a MemTxResult
-To: qemu-devel@nongnu.org
-References: <20200904162620.657726-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <00303be5-8ddb-be84-0d15-3ea537f275e2@redhat.com>
-Date: Tue, 15 Sep 2020 19:30:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIEwm-0003g7-EQ
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:40:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIEwk-0006K5-7Q
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:40:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kIEwi-00030U-MP
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:40:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 881E62E8078
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:40:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200904162620.657726-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 11:54:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Sep 2020 17:31:33 -0000
+From: Petunia <1892604@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: brendandg pauldzim petunia2000 pmaydell
+X-Launchpad-Bug-Reporter: Brendan Dolan-Gavitt (brendandg)
+X-Launchpad-Bug-Modifier: Petunia (petunia2000)
+References: <159814309088.988.14645850566795174578.malonedeb@wampee.canonical.com>
+Message-Id: <160019109399.14656.12349049077154065698.malone@gac.canonical.com>
+Subject: [Bug 1892604] Re: qemu-system-arm: ../hw/usb/hcd-dwc2.c:666:
+ dwc2_glbreg_read: Assertion `addr <= GINTSTS2' failed.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: cfbc7108c78a54a06c58cf84f4ad793e3e11570a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 09:50:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -122,36 +72,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1892604 <1892604@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/4/20 6:26 PM, Philippe Mathieu-Daudé wrote:
-> The DMA API propagates MemTxResult:
-> - MEMTX_OK,
-> - MEMTX_device_ERROR,
-> - MEMTX_DECODE_ERROR.
-> 
-> Let the PCI DMA API propagate them, as they are
-> clearer than an undocumented 'int'.
-> 
-> Based-on: <20200904154439.643272-1-philmd@redhat.com>
-> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02048.html
-> 
-> Philippe Mathieu-Daudé (3):
->   pci: Let pci_dma_rw() propagate MemTxResult
->   pci: Let pci_dma_read() propagate MemTxResult
->   pci: Let pci_dma_write() propagate MemTxResult
-> 
->  include/hw/pci/pci.h | 50 ++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 44 insertions(+), 6 deletions(-)
-> 
+for me the output is:
+% qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.=
+img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.l=
+pm_enable=3D0 root=3D/dev/mmcblk0p2" -sd 2016-05-27-raspbian-jessie.img -sm=
+p 4 -serial stdio -display none
 
-This series is fully review.
+WARNING: Image format was not specified for '2016-05-27-raspbian-jessie.img=
+' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, wr=
+ite operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu-system-arm: Invalid SD card size: 3.74 GiB
+SD card size has to be a power of 2, e.g. 4 GiB.
+You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
+(note that this will lose data if you make the image smaller than it curren=
+tly is).
 
-Paolo, if you take the DMA series on which this one
-is based, could you take this too?
+-- =
 
-Thanks :)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892604
 
+Title:
+  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
+  `addr <=3D GINTSTS2' failed.
+
+Status in QEMU:
+  New
+
+Bug description:
+  When trying to run the 2016-05-27 Raspbian image on the emulated
+  raspi2 platform, the system boots but shortly after the login prompt
+  QEMU (master; commit ID ca489cd037e4d50dc6c40570a167504ad7e5a521) dies
+  with:
+
+  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
+  `addr <=3D GINTSTS2' failed.
+
+  Steps to reproduce:
+
+  1. Get the image: wget
+  http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-31/2016=
+-05-27
+  -raspbian-jessie.zip
+
+  2. Extract the kernel image and DTB:
+
+  sudo losetup -f --show -P 2016-05-27-raspbian-jessie.img
+  sudo mkdir /mnt/rpi
+  sudo mount /dev/loop11p1 /mnt/rpi/
+  cp /mnt/rpi/kernel7.img .                                                =
+                                                                           =
+                                                                           =
+                                                                   =
+
+  cp /mnt/rpi/bcm2709-rpi-2-b.dtb .                                        =
+                                                                           =
+                                                                           =
+                                                                   =
+
+  sudo umount /mnt/rpi =
+
+  sudo losetup -d /dev/loop11 =
+
+
+  3. Run QEMU:
+  qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.=
+img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.l=
+pm_enable=3D0 root=3D/dev/mmcblk0p2" -sd 2016-05-27-raspbian-jessie.img -sm=
+p 4 -serial stdio -display none
+
+  A few seconds after the login prompt is displayed, QEMU will exit with
+  the assertion failure.
+
+  I also tried changing all of the asserts to if statements that (for
+  MMIO reads) returned 0 and (for writes) just returned, but this
+  resulted in a non-responsive system.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892604/+subscriptions
 
