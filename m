@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EFF26A680
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:48:15 +0200 (CEST)
-Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B7326A685
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:49:28 +0200 (CEST)
+Received: from localhost ([::1]:59764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIBJe-0005y2-5E
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:48:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45396)
+	id 1kIBKp-0007eB-T1
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIBF3-0000jc-HD
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:29 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43004)
+ id 1kIBF6-0000t5-Rh
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:32 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIBF1-00049W-U1
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:29 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c18so3358457wrm.9
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:43:27 -0700 (PDT)
+ id 1kIBF5-0004A8-5P
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:43:32 -0400
+Received: by mail-wm1-x341.google.com with SMTP id l15so50862wmh.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1w2U7KaJCafVLgHn4TQ85aM2P9TmM9vieHJlmx2rStk=;
- b=uCHDYoqcv9VDEyUxtKAUsDENvkZ56wtz/sqML043IXgoQ/uSfZfErKoBZ/NaQW1t61
- h3Gf7AVB5yEqLfwEbWhtqn6+Q1DslCgThuDriHhJs1CbzlC+uBRaS8e/kMtvRujbp021
- p96bFajHMA88jj0sMoufsgT9Os5SyrXkc0NPPRAoWC6swNDbDnnzdRO1ze3aDdYLbp+c
- qglzZKdDV7ysjnG1PsQucTmgZe888Vu3MAJa8r7+BW4lH+jR1C3FgEmeR3BFOG5QVc0h
- x7QuFUC3fGWVUKAwmt37cdIRcqYOHUh99bUGMi/nKSKb6UmOtj0S5cBuAtq41q4CGqPR
- QRwQ==
+ bh=RIQ55TyLOp5zbXj8SHskFG2Y72E7vX075sBNHlYczZY=;
+ b=iYt1K7yqkTMoQz9QUHbiUm0U/TXHf3FU9EPs+eJr6kl8Reeh7Y5bSBnhkosw/XbvHd
+ EPZxkj4jfMxrAzda7AQx0Q36C6G5q6soh4p/mv5DxvmTSYMQJ9KheUbjlBHihDVAJR4i
+ 4N2+J/QQHMwFyvtw6WUUozo2EZ8xlXlA7fou2uBp80lzIaVZSd+xK6DWyEC71zepzcKj
+ gw5mPfzAhbrvRtUENVEclQvRE3q8r/DGzOCEaoUkmCVy21a+B98BAwCk2A8x/DBlVEhE
+ R7F34JVa5wAXkZej/BXURcHmvIHVmjFPhrsOeKEwqk+eXzpYlj78Utk+rr9+D9OiSkrJ
+ vMlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1w2U7KaJCafVLgHn4TQ85aM2P9TmM9vieHJlmx2rStk=;
- b=B2TNXPB5Yqqq2gGVgT6X8QQGAcLaKJu4S+KQeIHgz/TaTL7UZpX+vn6Hg16oe4D2UB
- VkyT/RNZ6LFsJzXsFdc8bOUPgVPX04FDLXTFBwa+xJFRmOTUPHuVYZrUb2ges9X1XPqD
- ZVfunB+541VVHSoUr5SMgJLbFPkIox9fwHoBphtDYmqBHKjOBODBrgcNInjn4Ar7kCCh
- FcsfWbotGQ69pMD0DBOud5hlZbpIBjAkCGP5f72M9mSsLKkatbXuRnW0m1Yfa/A/mLdr
- 6KJ1oyCunAopZ1iTYVejKIObrWog0WrjfkZqeUlXgWsGJhPLHN+zk0u0Xg3NiG0XDYFB
- B9Bg==
-X-Gm-Message-State: AOAM5330fMG4FKwNDrn+BgpgK9v9iZjsagd4a/p5DCKTT3HbLwAwFQ+I
- 0xS+2gTVVSqBMnSRSOiD2HyXMg==
-X-Google-Smtp-Source: ABdhPJzaNob2zXJnnOoIfTY/o/NwQ6vijnk9HCq0eNPJU2Xurcq4EiOKba+xiF07icLfwmADLDnc9A==
-X-Received: by 2002:adf:edd2:: with SMTP id v18mr21133735wro.242.1600177406597; 
- Tue, 15 Sep 2020 06:43:26 -0700 (PDT)
+ bh=RIQ55TyLOp5zbXj8SHskFG2Y72E7vX075sBNHlYczZY=;
+ b=fkHUm9/tnre1kC0BV2Bl6bq7pB+rq5WAYEgzND74v/hQsVS2vCKUG4YUQWFIRQIgIt
+ asgXjXFpFnGKnKIPk10xSuAaXx6pev6FVq9vCPnlnXIu9U/o7uDN2NmXPduKlt94vTvz
+ aWrY8X95tEV2i5XudwVAPCY2xeQw2V6auGlEROxm8K09+oVcfuzFLwp1UubY4bJQvZe0
+ y/MuoGke2/GdsQq7A0wYs2cuK6zHAPsWlkd8hkQ9oXrQJ8Vde5bRvNeYvrpkitD5WNp2
+ JWk1D1ndbvbDCxzGcyPt/15+VIkZeDX2ILUVFsYBGdsH8tZHfpxX9+hABblBNX+Ad+ld
+ CTZQ==
+X-Gm-Message-State: AOAM532SfcaE7++YqRL/DnEseJa/NUPMQb6M1ln6CHfA00+r2kO1T3L8
+ io8BBZYoGq4zMSzjrBwTgXFVqA==
+X-Google-Smtp-Source: ABdhPJzfOlP9ygGXhSRGnlNE/8cy07WN774qVw0uH0oSIwMFHx704zJaQugEZipgk4G79lOX/EQMMQ==
+X-Received: by 2002:a1c:f402:: with SMTP id z2mr4660852wma.87.1600177409722;
+ Tue, 15 Sep 2020 06:43:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d13sm26596319wrp.44.2020.09.15.06.43.19
+ by smtp.gmail.com with ESMTPSA id h184sm25747972wmh.41.2020.09.15.06.43.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 06:43:22 -0700 (PDT)
+ Tue, 15 Sep 2020 06:43:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA0CC1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id C145B1FF93;
  Tue, 15 Sep 2020 14:43:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/8] configure: include tilegx-linux-user in the
- deprecation logic
-Date: Tue, 15 Sep 2020 14:43:15 +0100
-Message-Id: <20200915134317.11110-7-alex.bennee@linaro.org>
+Subject: [PATCH  v2 7/8] gitlab: create a build-deprecated target
+Date: Tue, 15 Sep 2020 14:43:16 +0100
+Message-Id: <20200915134317.11110-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200915134317.11110-1-alex.bennee@linaro.org>
 References: <20200915134317.11110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,30 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The target is already marked as deprecated in the documentation.
+These targets might be deprecated but we should keep them building
+before the final axe comes down. Lets keep them all in one place and
+don't hold up the CI if they do fail. They are either poorly tested or
+already flaky anyway.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.yml | 10 ++++++++++
+ .travis.yml    |  3 +--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 58be974065c8..dfd7f18dcb24 100755
---- a/configure
-+++ b/configure
-@@ -280,7 +280,7 @@ supported_whpx_target() {
-     return 1
- }
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 72e8604579ee..f027b55aef15 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -254,6 +254,16 @@ build-clang:
+       ppc-softmmu s390x-softmmu arm-linux-user
+     MAKE_CHECK_ARGS: check
  
--deprecated_targets_list=ppc64abi32-linux-user
-+deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user
- deprecated_features=""
- 
- supported_target() {
++# These targets are on the way out
++build-deprecated:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-all-test-cross
++    CONFIGURE_ARGS: --disable-docs --disable-tools --disable-system
++    MAKE_CHECK_ARGS: check-tcg
++    TARGETS: ppc64abi32-linux-user tilegx-linux-user
++  allow_failure: true
++
+ build-oss-fuzz:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/.travis.yml b/.travis.yml
+index 65341634d02a..c75221dca3e7 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -344,10 +344,9 @@ jobs:
+     # Run check-tcg against linux-user (with plugins)
+     # we skip sparc64-linux-user until it has been fixed somewhat
+     # we skip cris-linux-user as it doesn't use the common run loop
+-    # we skip ppc64abi32-linux-user as it seems to have a broken libc
+     - name: "GCC plugins check-tcg (user)"
+       env:
+-        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user,ppc64abi32-linux-user"
++        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user"
+         - TEST_BUILD_CMD="make build-tcg"
+         - TEST_CMD="make check-tcg"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
 -- 
 2.20.1
 
