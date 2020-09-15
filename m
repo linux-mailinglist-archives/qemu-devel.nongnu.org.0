@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1781B26A3A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:53:19 +0200 (CEST)
-Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9DA26A398
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:49:21 +0200 (CEST)
+Received: from localhost ([::1]:43204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8aM-0000qp-4p
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:53:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
+	id 1kI8WW-0003Eb-5N
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UN-0000rO-94
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:07 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54755
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UR-0000vr-9P
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28278
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UL-0004ck-0u
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:06 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UP-0004da-GW
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166824;
+ s=mimecast20190719; t=1600166828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HQvHNhVhnCk7Lx3ZLs/jlIsfMx16dmhaV5cJAS4ylNw=;
- b=MNYND29QqbM17ybdki8CkkYs/i/RIQY5t5pQ9I0QAnI6XRsYG1RlBaU6FOR/C22+stBxkF
- vJL5Hv3ARZVBsdL6EZrJTbdyjDEVGwfble0iZnWghsHRXiwZgem6UY6wMHwTH807NYs4fW
- 2IJ4vXl/j8DzYlskBvJn3SJBRvP63VM=
+ bh=r7bomLHOqMKUeU1AC9hPJC8dPd2D9Dctugd/c7FolZg=;
+ b=MioPubEKTGE8WyWUgN3XqF6rd9qdVr2ET7YheDtykgFjlzG8AB2nOjtRnl62PnN3xRpdK6
+ 3G3vRMWK8boje7sjsM4N8cs2TmUY3CXWbvFxW9MElFnyJBxma3wkbo24IbNwYd119FmyE3
+ /9Db8TxtoVXJv5ufh/2iQHvzj9WGwU4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-DFUVZkRpNmGP84x8iMZy9A-1; Tue, 15 Sep 2020 06:47:02 -0400
-X-MC-Unique: DFUVZkRpNmGP84x8iMZy9A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-293-1bSZL-GsPBK2xlnuVADHRw-1; Tue, 15 Sep 2020 06:47:06 -0400
+X-MC-Unique: 1bSZL-GsPBK2xlnuVADHRw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA0381084D62;
- Tue, 15 Sep 2020 10:47:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 682B01005E65;
+ Tue, 15 Sep 2020 10:47:05 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CD2160BE2;
- Tue, 15 Sep 2020 10:47:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E24D275143;
+ Tue, 15 Sep 2020 10:47:04 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 14/22] block/vhdx: Support vhdx image only with 512 bytes
- logical sector size
-Date: Tue, 15 Sep 2020 12:46:19 +0200
-Message-Id: <20200915104627.699552-15-mreitz@redhat.com>
+Subject: [PULL 16/22] qcow2: Make qcow2_free_any_clusters() free only one
+ cluster
+Date: Tue, 15 Sep 2020 12:46:21 +0200
+Message-Id: <20200915104627.699552-17-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 05:35:09
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:29:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
@@ -67,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,45 +85,106 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Swapnil Ingle <swapnil.ingle@nutanix.com>
+From: Alberto Garcia <berto@igalia.com>
 
-block/vhdx uses qemu block layer where sector size is always 512 bytes.
-This may have issues  with 4K logical sector sized vhdx image.
+This function takes an L2 entry and a number of clusters to free.
+Although in principle it can free any type of cluster (using the L2
+entry to determine its type) in practice the API is broken because
+compressed clusters have a variable size and there is no way to free
+more than one without having the L2 entry of each one of them.
 
-For e.g qemu-img convert on such images fails with following assert:
+The good news all callers are passing nb_clusters=1 so we can simply
+get rid of that parameter.
 
-$qemu-img convert -f vhdx -O raw 4KTest1.vhdx test.raw
-qemu-img: util/iov.c:388: qiov_slice: Assertion `offset + len <=
-qiov->size' failed.
-Aborted
-
-This patch adds an check to return ENOTSUP for vhdx images which
-have logical sector size other than 512 bytes.
-
-Signed-off-by: Swapnil Ingle <swapnil.ingle@nutanix.com>
-Message-Id: <1596794594-44531-1-git-send-email-swapnil.ingle@nutanix.com>
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Message-Id: <77cea0f4616f921d37e971b3c5b18a2faa24b173.1599573989.git.berto@igalia.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/vhdx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ block/qcow2.h          | 4 ++--
+ block/qcow2-cluster.c  | 6 +++---
+ block/qcow2-refcount.c | 8 ++++----
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/block/vhdx.c b/block/vhdx.c
-index 791eb90263..356ec4c455 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -816,9 +816,9 @@ static int vhdx_parse_metadata(BlockDriverState *bs, BDRVVHDXState *s)
-         goto exit;
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 83cfa0c391..b73a4cf1f8 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -861,8 +861,8 @@ int64_t qcow2_alloc_bytes(BlockDriverState *bs, int size);
+ void qcow2_free_clusters(BlockDriverState *bs,
+                           int64_t offset, int64_t size,
+                           enum qcow2_discard_type type);
+-void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
+-                             int nb_clusters, enum qcow2_discard_type type);
++void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
++                            enum qcow2_discard_type type);
+ 
+ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
+     int64_t l1_table_offset, int l1_size, int addend);
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index ce1260e746..1a67b2d928 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1096,7 +1096,7 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
+      */
+     if (!m->keep_old_clusters && j != 0) {
+         for (i = 0; i < j; i++) {
+-            qcow2_free_any_clusters(bs, old_cluster[i], 1, QCOW2_DISCARD_NEVER);
++            qcow2_free_any_cluster(bs, old_cluster[i], QCOW2_DISCARD_NEVER);
+         }
      }
  
--    /* only 2 supported sector sizes */
--    if (s->logical_sector_size != 512 && s->logical_sector_size != 4096) {
--        ret = -EINVAL;
-+    /* Currently we only support 512 */
-+    if (s->logical_sector_size != 512) {
-+        ret = -ENOTSUP;
-         goto exit;
+@@ -1913,7 +1913,7 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+             set_l2_bitmap(s, l2_slice, l2_index + i, new_l2_bitmap);
+         }
+         /* Then decrease the refcount */
+-        qcow2_free_any_clusters(bs, old_l2_entry, 1, type);
++        qcow2_free_any_cluster(bs, old_l2_entry, type);
      }
  
+     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
+@@ -2005,7 +2005,7 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+ 
+         qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+         if (unmap) {
+-            qcow2_free_any_clusters(bs, old_l2_entry, 1, QCOW2_DISCARD_REQUEST);
++            qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
+         }
+         set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
+         if (has_subclusters(s)) {
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 51e9778ed8..8e649b008e 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -1157,8 +1157,8 @@ void qcow2_free_clusters(BlockDriverState *bs,
+  * Free a cluster using its L2 entry (handles clusters of all types, e.g.
+  * normal cluster, compressed cluster, etc.)
+  */
+-void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
+-                             int nb_clusters, enum qcow2_discard_type type)
++void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
++                            enum qcow2_discard_type type)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     QCow2ClusterType ctype = qcow2_get_cluster_type(bs, l2_entry);
+@@ -1169,7 +1169,7 @@ void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
+              ctype == QCOW2_CLUSTER_ZERO_ALLOC))
+         {
+             bdrv_pdiscard(s->data_file, l2_entry & L2E_OFFSET_MASK,
+-                          nb_clusters << s->cluster_bits);
++                          s->cluster_size);
+         }
+         return;
+     }
+@@ -1192,7 +1192,7 @@ void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
+                                     l2_entry & L2E_OFFSET_MASK);
+         } else {
+             qcow2_free_clusters(bs, l2_entry & L2E_OFFSET_MASK,
+-                                nb_clusters << s->cluster_bits, type);
++                                s->cluster_size, type);
+         }
+         break;
+     case QCOW2_CLUSTER_ZERO_PLAIN:
 -- 
 2.26.2
 
