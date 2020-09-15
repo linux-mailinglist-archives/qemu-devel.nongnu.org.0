@@ -2,74 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E06B26AA0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:44:15 +0200 (CEST)
-Received: from localhost ([::1]:50768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC0826AA07
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:42:39 +0200 (CEST)
+Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIE3y-000827-H2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37228)
+	id 1kIE2Q-0006WS-7H
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:42:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kIDzf-0005Oq-PG
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:39:47 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42233)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kIDzd-00076B-CB
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:39:47 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c18so4019277wrm.9
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=VAVwptGPTZh8EsjK9BtVG0lVM8GWJY52hf6+eD9P9lg=;
- b=pqmcqWU32DwvPQ6x2Wun6WZ3vhocGPnTlc4PTZ4CNaEApQpIEoTlimQc/Sm6cBBo2X
- xWiL6nWz8w75Gcl0YuX/9SHpfCqmgYEuBjwTlxU5MbbYR6EqyUzXAOzt4R1LwvP9QrQU
- EhZmHB3+BcpgXLrIDKo59GogloUjGVNWc3ZFGbFAhFeyLF6mu0VlTN6bCRBAwVjvSzII
- /mpFyeHW2gRJEA/PsKE+elzLwm1RibZhP0cc4gVYt7oYBVGAboK71KQj0JvgVKa04/Qu
- UNceS30TDhMPBNTVbYIGlFoBrtWTDiaE1VFTIbXaq2jw5iKAHh7oyXL8xR9XqEfzC5Rz
- LqDw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIE1F-0005nc-QH
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:41:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32831
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIE1D-0007RV-C0
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600188082;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aRVFwpIIX+feLpOndU3aAC4Yw1VDqv29SgSDhywjXuY=;
+ b=hCb50Jz4i2qTS20WW+jTu6Odc8GEcqOet7g1plVUA0Z3K3NavwaejFr+VQK9krwxd2fl1Z
+ bjbW47bDkClXU8oFdMUhE0dHn9AoIlXObmUKFF6MUHqfuZpg3tvVsXR+y6wy7XS4VWEsSJ
+ 5JnVZhodXz60Jags+5EL+NXL/Xs4OLo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-FRItQSyiP4G_lNsHZZeUzQ-1; Tue, 15 Sep 2020 12:41:20 -0400
+X-MC-Unique: FRItQSyiP4G_lNsHZZeUzQ-1
+Received: by mail-wr1-f69.google.com with SMTP id x15so1431399wrm.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:41:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=VAVwptGPTZh8EsjK9BtVG0lVM8GWJY52hf6+eD9P9lg=;
- b=ganKM3M7ybBaSiY1nNLJoplTA8amAvAw3XzDmI5QHU4+/bIES5t0f/WLZLcAhStjSv
- eknldCyP+GFh4jSIm+3d0QIDMTvKkq9jcp3spcMR7Rsdsy0oYahoTjGhha2xIzgEi0oU
- Ei/Jy9CnXoqTHEZhS3eQ4IqNzvm8MsksvZuRrVw4hrdXMZ2ff83kugkinAMHQ3ChfEVm
- OAkt5DxmfSpU91hx0kEMJyc4kFLi0FIZZvpBztolQ/gOruhFuXsRz7nnPZ7oV6A6EZE2
- 3q3d0Z0rPn+g7/iwp7DDwuUSJcpw0xjj4JU8NLg749l1OPuhLldo4yeZ5DzwVNh8kJoc
- XoGQ==
-X-Gm-Message-State: AOAM531LP3oK4WiSng+/f75OmD+I7vC4XppJoN0sJiKyT53XUG2HCp1j
- pvFbIBfs1pml2V6nMh6+HqBK+EICkG1+pfomP98=
-X-Google-Smtp-Source: ABdhPJzuwfOsJzB76SzMSIFXtFkKSn4/kVXgHiGgjY30NVH54esNO+0jICzINnS/Y9TOrk9WmCR3KWWJ+ibW/+JGfYE=
-X-Received: by 2002:a5d:4c4c:: with SMTP id n12mr9103398wrt.162.1600187983245; 
- Tue, 15 Sep 2020 09:39:43 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=POvtAE37SnADrvNNjqhqmmHLdfOtHXlnUEDPfCXo8yk=;
+ b=PGQBkeMP/By3UcLB2nhqNO2h9qk3ScXYEqffxQ9ZKeSWQPTSMaIsfgLd6dVsblJbRm
+ TSBV3APpPBw4knOme+lB465ePlBr6qo7hLbHJofiDiReJv5lKXfpaHeLtn7ih/m8lIDX
+ U8mHnu3VLL80N/sjqDXC5/+NX8mz+QIP3aP+W9TZ/BSZn7U6UXEs4/vjniIyap/JG+H+
+ PBUbEUNPEotnZM0Wd5mdb6jEQPTe+WGmWk/Z2myEoIckpzcAz4vbPE4rAdpA/lI2M1NA
+ Pw6sgje7ZxMLrPGgTIGHr59mkHe2Eau4ADwGomtskddfJwvg9wuZ/zstfWpIeJKKAIzN
+ lSoQ==
+X-Gm-Message-State: AOAM532q6IbgzFQV2ITcW46slwIAl67i7+3cT92dF7iW+ExlBtH4E75N
+ hAWs+Qh1ojCQiID0VCURJLgA/Rwbx68AMRDBNTmn8+etai7AEriqhpSGAhqA29CsLVCV1tdpY4A
+ UgYtMHgge+G5AEKg=
+X-Received: by 2002:a5d:494b:: with SMTP id r11mr22249930wrs.227.1600188079231; 
+ Tue, 15 Sep 2020 09:41:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhJNR0vcDmq4j9IeZkabzwOK8qrJ91msQv0W2K9cbJUdK23vKg/OVMN/maHgSHAQduaFcuKQ==
+X-Received: by 2002:a5d:494b:: with SMTP id r11mr22249907wrs.227.1600188078978; 
+ Tue, 15 Sep 2020 09:41:18 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id v17sm27611733wrr.60.2020.09.15.09.41.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Sep 2020 09:41:18 -0700 (PDT)
+Subject: Re: [PATCH] guest agent: Fixes for windows guest agent building on
+ msys2/mingw
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+References: <20200915163343.1100-1-luoyonggang@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <06c76888-b2c1-866f-f6f5-78ee9a2bac0c@redhat.com>
+Date: Tue, 15 Sep 2020 18:41:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Received: by 2002:a1c:7504:0:0:0:0:0 with HTTP; Tue, 15 Sep 2020 09:39:42
- -0700 (PDT)
-In-Reply-To: <87zh6848e2.fsf@linaro.org>
-References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
- <20200828104102.4490-8-ahmedkhaledkaraman@gmail.com>
- <87zh6848e2.fsf@linaro.org>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Tue, 15 Sep 2020 18:39:42 +0200
-Message-ID: <CAHiYmc4_NkSxHJQSYDATPM5MnatO_PD3-MSGsLrQ2+HywsgAfw@mail.gmail.com>
-Subject: Re: [PATCH 7/9] tests/performance: Add nightly tests
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000050c23e05af5ccc59"
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200915163343.1100-1-luoyonggang@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 11:09:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,411 +123,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ldoktor@redhat.com" <ldoktor@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>, "crosa@redhat.com" <crosa@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000050c23e05af5ccc59
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+T24gOS8xNS8yMCA2OjMzIFBNLCBZb25nZ2FuZyBMdW8gd3JvdGU6DQo+IGVycm9yIG1lc3NhZ2U6
+DQo+ICJjYyIgIi1JcWdhL3FlbXUtZ2EuZXhlLnAiICItSXFnYSIgIi1JLi4vcWdhIiAiLUkuIiAi
+LUlxYXBpIiAiLUl0cmFjZSIgIi1JdWkiICItSXVpL3NoYWRlciIgIi1JQzovQ0ktVG9vbHMvbXN5
+czY0L21pbmd3NjQvaW5jbHVkZSIgIi1JQzovQ0ktVG9vbHMvbXN5czY0L21pbmd3NjQvaW5jbHVk
+ZS9nbGliLTIuMCIgIi1JQzovQ0ktVG9vbHMvbXN5czY0L21pbmd3NjQvbGliL2dsaWItMi4wL2lu
+Y2x1ZGUiICItZmRpYWdub3N0aWNzLWNvbG9yPWF1dG8iICItcGlwZSIgIi1XYWxsIiAiLVdpbnZh
+bGlkLXBjaCIgIi1XZXJyb3IiICItc3RkPWdudTk5IiAiLWciICItbTY0IiAiLW1jeDE2IiAiLURf
+R05VX1NPVVJDRSIgIi1EX0ZJTEVfT0ZGU0VUX0JJVFM9NjQiICItRF9MQVJHRUZJTEVfU09VUkNF
+IiAiLVdzdHJpY3QtcHJvdG90eXBlcyIgIi1XcmVkdW5kYW50LWRlY2xzIiAiLVd1bmRlZiIgIi1X
+d3JpdGUtc3RyaW5ncyIgIi1XbWlzc2luZy1wcm90b3R5cGVzIiAiLWZuby1zdHJpY3QtYWxpYXNp
+bmciICItZm5vLWNvbW1vbiIgIi1md3JhcHYiICItV29sZC1zdHlsZS1kZWNsYXJhdGlvbiIgIi1X
+b2xkLXN0eWxlLWRlZmluaXRpb24iICItV3R5cGUtbGltaXRzIiAiLVdmb3JtYXQtc2VjdXJpdHki
+ICItV2Zvcm1hdC15MmsiICItV2luaXQtc2VsZiIgIi1XaWdub3JlZC1xdWFsaWZpZXJzIiAiLVdl
+bXB0eS1ib2R5IiAiLVduZXN0ZWQtZXh0ZXJucyIgIi1XZW5kaWYtbGFiZWxzIiAiLVdleHBhbnNp
+b24tdG8tZGVmaW5lZCIgIi1Xbm8tbWlzc2luZy1pbmNsdWRlLWRpcnMiICItV25vLXNoaWZ0LW5l
+Z2F0aXZlLXZhbHVlIiAiLVduby1wc2FiaSIgIi1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyIgIi1p
+cXVvdGUiICIvYy93b3JrL3hlbXUvcWVtdS90Y2cvaTM4NiIgIi1pcXVvdGUiICIuIiAiLWlxdW90
+ZSIgIi9jL3dvcmsveGVtdS9xZW11IiAiLWlxdW90ZSIgIi9jL3dvcmsveGVtdS9xZW11L2FjY2Vs
+L3RjZyIgIi1pcXVvdGUiICIvYy93b3JrL3hlbXUvcWVtdS9pbmNsdWRlIiAiLWlxdW90ZSIgIi9j
+L3dvcmsveGVtdS9xZW11L2Rpc2FzL2xpYnZpeGwiICItcHRocmVhZCIgIi1tbXMtYml0ZmllbGRz
+IiAtTUQgLU1RIHFnYS9xZW11LWdhLmV4ZS5wL2NvbW1hbmRzLXdpbjMyLmMub2JqIC1NRiAicWdh
+L3FlbXUtZ2EuZXhlLnAvY29tbWFuZHMtd2luMzIuYy5vYmouZCIgLW8gcWdhL3FlbXUtZ2EuZXhl
+LnAvY29tbWFuZHMtd2luMzIuYy5vYmogIi1jIiAuLi9xZ2EvY29tbWFuZHMtd2luMzIuYyAtTVAN
+Cj4gLi4vcWdhL2NvbW1hbmRzLXdpbjMyLmM6NjI6MjQ6IGVycm9yOiByZWR1bmRhbnQgcmVkZWNs
+YXJhdGlvbiBvZiAnQ01fR2V0X0Rldk5vZGVfUHJvcGVydHlXJyBbLVdlcnJvcj1yZWR1bmRhbnQt
+ZGVjbHNdDQo+ICAgIDYyIHwgQ01BUEkgQ09ORklHUkVUIFdJTkFQSSBDTV9HZXRfRGV2Tm9kZV9Q
+cm9wZXJ0eVcoDQo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn4NCj4gSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4uL3FnYS9jb21tYW5kcy13aW4z
+Mi5jOjI2Og0KPiBDOi9DSS1Ub29scy9tc3lzNjQvbWluZ3c2NC94ODZfNjQtdzY0LW1pbmd3MzIv
+aW5jbHVkZS9jZmdtZ3IzMi5oOjg0MDoyNjogbm90ZTogcHJldmlvdXMgZGVjbGFyYXRpb24gb2Yg
+J0NNX0dldF9EZXZOb2RlX1Byb3BlcnR5Vycgd2FzIGhlcmUNCj4gICA4NDAgfCAgIENNQVBJIENP
+TkZJR1JFVCBXSU5BUEkgQ01fR2V0X0Rldk5vZGVfUHJvcGVydHlXKERFVklOU1QgZG5EZXZJbnN0
+LCBjb25zdCBERVZQUk9QS0VZICpQcm9wZXJ0eUtleSwgREVWUFJPUFRZUEUgKlByb3BlcnR5VHlw
+ZSwgUEJZVEUgUHJvcGVydHlCdWZmZXIsIFBVTE9ORyBQcm9wZXJ0eUJ1ZmZlclNpemUsIFVMT05H
+IHVsRmxhZ3MpOw0KPiAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn4NCj4gY2MxLmV4ZTogYWxsIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMg
+ZXJyb3JzDQo+IG1ha2U6IFtNYWtlZmlsZS5uaW5qYTo1MTQz77yacWdhL3FlbXUtZ2EuZXhlLnAv
+Y29tbWFuZHMtd2luMzIuYy5vYmpdIOmUmeivryAxICjlt7Llv73nlaXvvIkNCj4gDQo+IFRoaXMg
+ZXJyb3IgY29tZXMgZnJvbSBxZW11IGNvbmZpZ3VyZSBkaWRuJ3QgYWRkIHByZWRlZmluZWQgbWFj
+cm8gLURVTklDT0RFIC1EX1VOSUNPREUgaW4gUUVNVV9DRkxBR1MsDQo+IGFuZCB0aGVzZSB0b28g
+bWFjcm8gYXJlIHN0YW5kYXJkIGNvbmZpZyBmb3Igd2luMzIgaWYgdXNpbmcgd2luZG93cyB3aWRl
+IGFwaS4NCj4gDQo+IGluIGNmZ21ncjMyLmgNCj4gICBDTUFQSSBDT05GSUdSRVQgV0lOQVBJIENN
+X0dldF9EZXZOb2RlX1Byb3BlcnR5VyhERVZJTlNUIGRuRGV2SW5zdCwgY29uc3QgREVWUFJPUEtF
+WSAqUHJvcGVydHlLZXksIERFVlBST1BUWVBFICpQcm9wZXJ0eVR5cGUsIFBCWVRFIFByb3BlcnR5
+QnVmZmVyLCBQVUxPTkcgUHJvcGVydHlCdWZmZXJTaXplLCBVTE9ORyB1bEZsYWdzKTsNCj4gI2lm
+ZGVmIFVOSUNPREUNCj4gI2RlZmluZSBDTV9HZXRfRGV2Tm9kZV9Qcm9wZXJ0eSBDTV9HZXRfRGV2
+Tm9kZV9Qcm9wZXJ0eVcNCj4gI2VuZGlmDQo+IA0KPiBtYWNybyBDTV9HZXRfRGV2Tm9kZV9Qcm9w
+ZXJ0eSBkZWZpbmVkIG9ubHkgd2hlbiBVTklDT0RFIGFyZSBkZWZpbmVkLg0KPiBhbmQgaW4gd2lu
+MzIsIFVOSUNPREUgYW5kIF9VTklDT0RFIHNob3VsZCBiZSBkZWZpbmVkIGF0IHRoZSBzYW1lIHRp
+bWUNCj4gDQo+ICNlbmRpZg0KPiANCj4gU2lnbmVkLW9mZi1ieTogWW9uZ2dhbmcgTHVvIDxsdW95
+b25nZ2FuZ0BnbWFpbC5jb20+DQo+IC0tLQ0KPiAgY29uZmlndXJlIHwgMSArDQo+ICAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4gDQo+IGRpZmYgLS1naXQgYS9jb25maWd1cmUgYi9j
+b25maWd1cmUNCj4gaW5kZXggOWYxNDE4OTFlYS4uZjVkNjYxYWY0YSAxMDA3NTUNCj4gLS0tIGEv
+Y29uZmlndXJlDQo+ICsrKyBiL2NvbmZpZ3VyZQ0KPiBAQCAtODEyLDYgKzgxMiw3IEBAIE1JTkdX
+MzIqKQ0KPiAgICBtaW5ndzMyPSJ5ZXMiDQo+ICAgIGhheD0ieWVzIg0KPiAgICB3aHB4PSIiDQo+
+ICsgIFFFTVVfQ0ZMQUdTPSItRFVOSUNPREUgLURfVU5JQ09ERSAkUUVNVV9DRkxBR1MiDQoNCldo
+YXQgYWJvdXQgZGVjbGFyaW5nIHRoZW0gaW4gaW5jbHVkZS9xZW11L29zZGVwLmgNCmluc3RlYWQ/
+DQoNCi0tID44IC0tDQpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9xZW11L29zZGVwLmggYi9pbmNsdWRl
+L3FlbXUvb3NkZXAuaA0KaW5kZXggNDEyOTYyZDkxYTIuLmNkNWNlZGMwYjIxIDEwMDY0NA0KLS0t
+IGEvaW5jbHVkZS9xZW11L29zZGVwLmgNCisrKyBiL2luY2x1ZGUvcWVtdS9vc2RlcC5oDQpAQCAt
+NzQsNiArNzQsMTIgQEAgZXh0ZXJuIGludCBkYWVtb24oaW50LCBpbnQpOw0KIC8qIGVuYWJsZSBD
+OTkvUE9TSVggZm9ybWF0IHN0cmluZ3MgKG5lZWRzIG1pbmd3MzItcnVudGltZSAzLjE1IG9yIGxh
+dGVyKSAqLw0KICNpZmRlZiBfX01JTkdXMzJfXw0KICNkZWZpbmUgX19VU0VfTUlOR1dfQU5TSV9T
+VERJTyAxDQorI2lmbmRlZiBVTklDT0RFDQorI2RlZmluZSBVTklDT0RFDQorI2VuZGlmDQorI2lm
+bmRlZiBfVU5JQ09ERQ0KKyNkZWZpbmUgX1VOSUNPREUNCisjZW5kaWYNCiAjZW5kaWYNCg0KICNp
+bmNsdWRlIDxzdGRhcmcuaD4NCi0tLQ0KDQo+ICAgIHZob3N0X3VzZXI9Im5vIg0KPiAgICBhdWRp
+b19wb3NzaWJsZV9kcml2ZXJzPSJkc291bmQgc2RsIg0KPiAgICBpZiBjaGVja19pbmNsdWRlIGRz
+b3VuZC5oOyB0aGVuDQo+IA0KDQo=
 
-On Wednesday, September 2, 2020, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-
->
-> Ahmed Karaman <ahmedkhaledkaraman@gmail.com> writes:
->
-> > A nightly performance testing system to monitor any change in QEMU
-> > performance across seventeen different targets.
-> >
-> > The system includes eight different benchmarks to provide a variety
-> > of testing workloads.
-> >
-> > dijkstra_double:
-> > Find the shortest path between the source node and all other nodes
-> > using Dijkstra=E2=80=99s algorithm. The graph contains n nodes where al=
-l nxn
-> > distances are double values. The value of n can be specified using
-> > the -n flag. The default value is 2000.
-> >
-> > dijkstra_int32:
-> > Find the shortest path between the source node and all other nodes
-> > using Dijkstra=E2=80=99s algorithm. The graph contains n nodes where al=
-l nxn
-> > distances are int32 values. The value of n can be specified using
-> > the -n flag. The default value is 2000.
-> >
-> > matmult_double:
-> > Standard matrix multiplication of an n*n matrix of randomly generated
-> > double numbers from 0 to 100. The value of n is passed as an argument
-> > with the -n flag. The default value is 200.
-> >
-> > matmult_int32:
-> > Standard matrix multiplication of an n*n matrix of randomly generated
-> > integer numbers from 0 to 100. The value of n is passed as an
-> > argument with the -n flag. The default value is 200.
-> >
-> > qsort_double:
-> > Quick sort of an array of n randomly generated double numbers from 0
-> > to 1000. The value of n is passed as an argument with the -n flag.
-> > The default value is 300000.
-> >
-> > qsort_int32:
-> > Quick sort of an array of n randomly generated integer numbers from 0
-> > to 50000000. The value of n is passed as an argument with the -n
-> > flag.The default value is 300000.
-> >
-> > qsort_string:
-> > Quick sort of an array of 10000 randomly generated strings of size 8
-> > (including null terminating character). The sort process is repeated
-> > n number of times. The value of n is passed as an argument with the
-> > -n flag. The default value is 20.
-> >
-> > search_string:
-> > Search for the occurrence of a small string in a much larger random
-> > string (=E2=80=9Cneedle in a hay=E2=80=9D). The search process is repea=
-ted n number
-> > of times and each time, a different large random string (=E2=80=9Chay=
-=E2=80=9D) is
-> > generated. The value of n can be specified using the -n flag. The
-> > default value is 20.
-> >
-> > Syntax:
-> >     nightly_tests_core.py [-h] [-r REF]
-> >     Optional arguments:
-> >         -h, --help            Show this help message and exit
-> >         -r REF, --reference REF
-> >                         Reference QEMU version - Default is v5.1.0
-> >     Example of usage:
-> >         nightly_tests_core.py -r v5.1.0 2>log.txt
-> >
-> > The following report includes detailed setup and execution details
-> > of the system:
-> > https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/
-> QEMU-Nightly-Performance-Tests/
-> >
-> > Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-> > ---
-> >  tests/performance/nightly-tests/README.md     | 243 +++++
-> >  .../source/dijkstra_double/dijkstra_double.c  | 194 ++++
-> >  .../source/dijkstra_int32/dijkstra_int32.c    | 192 ++++
-> >  .../source/matmult_double/matmult_double.c    | 123 +++
-> >  .../source/matmult_int32/matmult_int32.c      | 121 +++
-> >  .../source/qsort_double/qsort_double.c        | 104 ++
-> >  .../source/qsort_int32/qsort_int32.c          | 103 ++
-> >  .../source/qsort_string/qsort_string.c        | 122 +++
-> >  .../source/search_string/search_string.c      | 110 +++
-> >  .../scripts/nightly_tests_core.py             | 920 ++++++++++++++++++
-> >  .../scripts/run_nightly_tests.py              | 135 +++
-> >  .../nightly-tests/scripts/send_email.py       |  56 ++
-> >  12 files changed, 2423 insertions(+)
-> >  create mode 100644 tests/performance/nightly-tests/README.md
-> >  create mode 100644 tests/performance/nightly-tests/benchmarks/source/
-> dijkstra_double/dijkstra_double.c
-> >  create mode 100644 tests/performance/nightly-tests/benchmarks/source/
-> dijkstra_int32/dijkstra_int32.c
-> >  create mode 100644 tests/performance/nightly-tests/benchmarks/source/
-> matmult_double/matmult_double.c
-> >  create mode 100644 tests/performance/nightly-tests/benchmarks/source/
-> matmult_int32/matmult_int32.c
-> >  create mode 100644 tests/performance/nightly-
-> tests/benchmarks/source/qsort_double/qsort_double.c
-> >  create mode 100644 tests/performance/nightly-
-> tests/benchmarks/source/qsort_int32/qsort_int32.c
-> >  create mode 100644 tests/performance/nightly-
-> tests/benchmarks/source/qsort_string/qsort_string.c
-> >  create mode 100644
-> > tests/performance/nightly-tests/benchmarks/source/
-> search_string/search_string.c
->
-> Perhaps we could compress these paths down to:
->
->   tests/tcg/benchmarks/foo.c
->   tests/tcg/benchmarks/bar.c
->
-> and then we can also ensure they are built using the existing TCG tests
-> cross compile framework.
->
->
-Hi,
-
-May I just bring some alternative views on this topic of
-benchmarks/multiple cross-compiling/nightly tests?
-
-Having a known source code of any benchmark (and also license-compatible
-with QEMU) is, for sure, a good thing. However, for actual test execution,
-source code is not relevant, but the executables built for a diverse set of
-targets. Expectation that a test bed should be able to build let's say 17
-version for each benchmark is a tall order - and, in fact, unnecessary
-self-imposed limitation.
-
-My suggestion is that 17x8 executables needed for nightly tests in its
-current form should be prebuilt - and kept permanently in a separate
-repository (just not to burden QEMU repository). They are anyway built only
-once, there is no need to update them at all.
-
-This will allow nightly test execution on any system that can execute qemu,
-without any prerequisite for cross-compiling.
-
-Their source code could and should be integrated into QEMU tree, at the
-place of choice, but the test beds should not be subject to any burden of
-cross-compiling, simply because there is no need for that.
-
-Yours,
-Aleksandar
-
-
-
-
-> >  create mode 100755 tests/performance/nightly-
-> tests/scripts/nightly_tests_core.py
-> >  create mode 100755 tests/performance/nightly-tests/scripts/run_nightly=
-_
-> tests.py
-> >  create mode 100644 tests/performance/nightly-
-> tests/scripts/send_email.py
-> >
-> > diff --git a/tests/performance/nightly-tests/README.md
-> b/tests/performance/nightly-tests/README.md
-> > new file mode 100644
-> > index 0000000000..6db3b351b3
-> > --- /dev/null
-> > +++ b/tests/performance/nightly-tests/README.md
-> > @@ -0,0 +1,243 @@
-> > +### QEMU Nightly Tests
-> > +
-> > +**Required settings:**
-> > +
-> > +Update the `GMAIL_USER` object in `send_email.py` with your credential=
-s.
-> > +
-> > +For more details on how the system works, please check the [eighth
-> > report](https://ahmedkrmn.github.io/TCG-Continuous-
-> Benchmarking/QEMU-Nightly-Performance-Tests/)
-> > of the "TCG Continuos Benchmarking" series.
->
-> As external URLs are potentially unstable I think we want to distil the
-> details into a rst do in docs/devel/
->
-> <snip>
->
-> --
-> Alex Benn=C3=A9e
->
-
---00000000000050c23e05af5ccc59
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Wednesday, September 2, 2020, Alex Benn=C3=A9e &lt;<a href=3D"ma=
-ilto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><br>
-Ahmed Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@gmail.com">ahmedkhal=
-edkaraman@gmail.com</a>&gt; writes:<br>
-<br>
-&gt; A nightly performance testing system to monitor any change in QEMU<br>
-&gt; performance across seventeen different targets.<br>
-&gt;<br>
-&gt; The system includes eight different benchmarks to provide a variety<br=
->
-&gt; of testing workloads.<br>
-&gt;<br>
-&gt; dijkstra_double:<br>
-&gt; Find the shortest path between the source node and all other nodes<br>
-&gt; using Dijkstra=E2=80=99s algorithm. The graph contains n nodes where a=
-ll nxn<br>
-&gt; distances are double values. The value of n can be specified using<br>
-&gt; the -n flag. The default value is 2000.<br>
-&gt;<br>
-&gt; dijkstra_int32:<br>
-&gt; Find the shortest path between the source node and all other nodes<br>
-&gt; using Dijkstra=E2=80=99s algorithm. The graph contains n nodes where a=
-ll nxn<br>
-&gt; distances are int32 values. The value of n can be specified using<br>
-&gt; the -n flag. The default value is 2000.<br>
-&gt;<br>
-&gt; matmult_double:<br>
-&gt; Standard matrix multiplication of an n*n matrix of randomly generated<=
-br>
-&gt; double numbers from 0 to 100. The value of n is passed as an argument<=
-br>
-&gt; with the -n flag. The default value is 200.<br>
-&gt;<br>
-&gt; matmult_int32:<br>
-&gt; Standard matrix multiplication of an n*n matrix of randomly generated<=
-br>
-&gt; integer numbers from 0 to 100. The value of n is passed as an<br>
-&gt; argument with the -n flag. The default value is 200.<br>
-&gt;<br>
-&gt; qsort_double:<br>
-&gt; Quick sort of an array of n randomly generated double numbers from 0<b=
-r>
-&gt; to 1000. The value of n is passed as an argument with the -n flag.<br>
-&gt; The default value is 300000.<br>
-&gt;<br>
-&gt; qsort_int32:<br>
-&gt; Quick sort of an array of n randomly generated integer numbers from 0<=
-br>
-&gt; to 50000000. The value of n is passed as an argument with the -n<br>
-&gt; flag.The default value is 300000.<br>
-&gt;<br>
-&gt; qsort_string:<br>
-&gt; Quick sort of an array of 10000 randomly generated strings of size 8<b=
-r>
-&gt; (including null terminating character). The sort process is repeated<b=
-r>
-&gt; n number of times. The value of n is passed as an argument with the<br=
->
-&gt; -n flag. The default value is 20.<br>
-&gt;<br>
-&gt; search_string:<br>
-&gt; Search for the occurrence of a small string in a much larger random<br=
->
-&gt; string (=E2=80=9Cneedle in a hay=E2=80=9D). The search process is repe=
-ated n number<br>
-&gt; of times and each time, a different large random string (=E2=80=9Chay=
-=E2=80=9D) is<br>
-&gt; generated. The value of n can be specified using the -n flag. The<br>
-&gt; default value is 20.<br>
-&gt;<br>
-&gt; Syntax:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0nightly_tests_core.py [-h] [-r REF]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Optional arguments:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-h, --help=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 Show this help message and exit<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-r REF, --reference REF<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0Reference QEMU version - Default is v5.1.0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Example of usage:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nightly_tests_core.py -r v5.1.0 2&gt;=
-log.txt<br>
-&gt;<br>
-&gt; The following report includes detailed setup and execution details<br>
-&gt; of the system:<br>
-&gt; <a href=3D"https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/QEM=
-U-Nightly-Performance-Tests/" target=3D"_blank">https://ahmedkrmn.github.io=
-/<wbr>TCG-Continuous-Benchmarking/<wbr>QEMU-Nightly-Performance-<wbr>Tests/=
-</a><br>
-&gt;<br>
-&gt; Signed-off-by: Ahmed Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@=
-gmail.com">ahmedkhaledkaraman@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 tests/performance/nightly-<wbr>tests/README.md=C2=A0 =C2=A0 =C2=
-=A0| 243 +++++<br>
-&gt;=C2=A0 .../source/dijkstra_double/<wbr>dijkstra_double.c=C2=A0 | 194 ++=
-++<br>
-&gt;=C2=A0 .../source/dijkstra_int32/<wbr>dijkstra_int32.c=C2=A0 =C2=A0 | 1=
-92 ++++<br>
-&gt;=C2=A0 .../source/matmult_double/<wbr>matmult_double.c=C2=A0 =C2=A0 | 1=
-23 +++<br>
-&gt;=C2=A0 .../source/matmult_int32/<wbr>matmult_int32.c=C2=A0 =C2=A0 =C2=
-=A0 | 121 +++<br>
-&gt;=C2=A0 .../source/qsort_double/qsort_<wbr>double.c=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 104 ++<br>
-&gt;=C2=A0 .../source/qsort_int32/qsort_<wbr>int32.c=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 103 ++<br>
-&gt;=C2=A0 .../source/qsort_string/qsort_<wbr>string.c=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 122 +++<br>
-&gt;=C2=A0 .../source/search_string/<wbr>search_string.c=C2=A0 =C2=A0 =C2=
-=A0 | 110 +++<br>
-&gt;=C2=A0 .../scripts/nightly_tests_<wbr>core.py=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 920 ++++++++++++++++++<br>
-&gt;=C2=A0 .../scripts/run_nightly_tests.<wbr>py=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 | 135 +++<br>
-&gt;=C2=A0 .../nightly-tests/scripts/<wbr>send_email.py=C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 56 ++<br>
-&gt;=C2=A0 12 files changed, 2423 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/README.m=
-d<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/benchmar=
-ks/source/<wbr>dijkstra_double/dijkstra_<wbr>double.c<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/benchmar=
-ks/source/<wbr>dijkstra_int32/dijkstra_int32.<wbr>c<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/benchmar=
-ks/source/<wbr>matmult_double/matmult_double.<wbr>c<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/benchmar=
-ks/source/<wbr>matmult_int32/matmult_int32.c<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/benchmar=
-ks/source/qsort_<wbr>double/qsort_double.c<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/benchmar=
-ks/source/qsort_<wbr>int32/qsort_int32.c<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/benchmar=
-ks/source/qsort_<wbr>string/qsort_string.c<br>
-&gt;=C2=A0 create mode 100644<br>
-&gt; tests/performance/nightly-<wbr>tests/benchmarks/source/<wbr>search_str=
-ing/search_string.c<br>
-<br>
-Perhaps we could compress these paths down to:<br>
-<br>
-=C2=A0 tests/tcg/benchmarks/foo.c<br>
-=C2=A0 tests/tcg/benchmarks/bar.c<br>
-<br>
-and then we can also ensure they are built using the existing TCG tests<br>
-cross compile framework.<br>
-<br></blockquote><div><br></div><div>Hi,</div><div><br></div><div>May I jus=
-t bring some alternative views on this topic of benchmarks/multiple cross-c=
-ompiling/nightly tests?</div><div><br></div><div>Having a known source code=
- of any benchmark (and also license-compatible with QEMU) is, for sure, a g=
-ood thing. However, for actual test execution, source code is not relevant,=
- but the executables built for a diverse set of targets. Expectation that a=
- test bed should be able to build let&#39;s say 17 version for each benchma=
-rk is a tall order - and, in fact, unnecessary self-imposed limitation.</di=
-v><div><br></div><div>My suggestion is that 17x8 executables needed for nig=
-htly tests in its current form should be prebuilt - and kept permanently in=
- a separate repository (just not to burden QEMU repository). They are anywa=
-y built only once, there is no need to update them at all.</div><div><br></=
-div><div>This will allow nightly test execution on any system that can exec=
-ute qemu, without any prerequisite for cross-compiling.</div><div><br></div=
-><div>Their source code could and should be integrated into QEMU tree, at t=
-he place of choice, but the test beds should not be subject to any burden o=
-f cross-compiling, simply because there is no need for that.</div><div><br>=
-</div><div>Yours,</div><div>Aleksandar</div><div><br></div><div><br></div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">
-&gt;=C2=A0 create mode 100755 tests/performance/nightly-<wbr>tests/scripts/=
-nightly_tests_<wbr>core.py<br>
-&gt;=C2=A0 create mode 100755 tests/performance/nightly-<wbr>tests/scripts/=
-run_nightly_<wbr>tests.py<br>
-&gt;=C2=A0 create mode 100644 tests/performance/nightly-<wbr>tests/scripts/=
-send_email.py<br>
-&gt;<br>
-&gt; diff --git a/tests/performance/nightly-<wbr>tests/README.md b/tests/pe=
-rformance/nightly-<wbr>tests/README.md<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..6db3b351b3<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/tests/performance/nightly-<wbr>tests/README.md<br>
-&gt; @@ -0,0 +1,243 @@<br>
-&gt; +### QEMU Nightly Tests<br>
-&gt; +<br>
-&gt; +**Required settings:**<br>
-&gt; +<br>
-&gt; +Update the `GMAIL_USER` object in `send_email.py` with your credentia=
-ls.<br>
-&gt; +<br>
-&gt; +For more details on how the system works, please check the [eighth<br=
->
-&gt; report](<a href=3D"https://ahmedkrmn.github.io/TCG-Continuous-Benchmar=
-king/QEMU-Nightly-Performance-Tests/" target=3D"_blank">https://ahmedkrmn.<=
-wbr>github.io/TCG-Continuous-<wbr>Benchmarking/QEMU-Nightly-<wbr>Performanc=
-e-Tests/</a>)<br>
-&gt; of the &quot;TCG Continuos Benchmarking&quot; series.<br>
-<br>
-As external URLs are potentially unstable I think we want to distil the<br>
-details into a rst do in docs/devel/<br>
-<br>
-&lt;snip&gt;<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-</blockquote>
-
---00000000000050c23e05af5ccc59--
 
