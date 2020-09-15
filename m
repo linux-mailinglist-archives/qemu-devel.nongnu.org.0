@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F9D26A9E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:35:08 +0200 (CEST)
-Received: from localhost ([::1]:34560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F128B26A9DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:34:15 +0200 (CEST)
+Received: from localhost ([::1]:59158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIDv9-0000ua-FH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1kIDuI-0007k0-H7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDrJ-0005JH-LP
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:31:09 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:32778)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDsV-0006H3-FD
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:32:25 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDrA-0005ZV-SV
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:31:04 -0400
-Received: by mail-oi1-x242.google.com with SMTP id m7so4601784oie.0
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:30:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDsT-0005nv-8S
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:32:23 -0400
+Received: by mail-oi1-x242.google.com with SMTP id w16so4595268oia.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=AXZV9z/1yeneNtKIQ2lkVfpMNFgiuD6CZmtFFG4ZcKQ=;
- b=lp9O2IVd+kP990tC7aNtMC6oj/835L8Uc+MEg7uygGN1wbBJz16vaQKuGNqxOt9AaC
- AyPPaxjWC38+8Rm6nKhJPhp1P5/b4pDW51PIj5pvSdKQvqOwxdwPBRQ4cymAz6l3hQUc
- VKDAe84EfMsXB61Vwqxfaqd2Isk7i0WzuvyhG9c++eKM8fwqRnLkrtr4Wd3HrtkNXAK9
- rYO69seRBIZX4mS+L/KY6jVzsiXVaQEMoCZO8LD3+JVbkVDGfL9zuoSZkUoR/D0Ls/A8
- O3/lRTM4AwUdnf6+qvd7yUdEnHAMFt2fDOJzvmewTcjrK/h3L3UFZmElHD1Ky1TG+KpF
- jgpg==
+ bh=t7rLNPuehrKEXXXTNCUjiTRZvemGF9Q43u8COIYZuXA=;
+ b=VeE0sy57idSAvum7XKzYLZgBQTJX3vT2DNIEku2IlvhLKiAnSd+CfyqTbzFPcPf+wV
+ YhTme/AookloL+hbrsv6fevSPe1YluMI4N6xLM1d4d4e10nAHSGhIGFsJocJO3C1uqA8
+ rTeG2RWFqFuk5m7/FtVVDcQEKMUE2yaturBmALvpJpwepY8ovNiwS03Lnk16DaJKE5O9
+ 6xp7U6z24HRgrvopwm+mPwBNi0an32hBuhDADTE6jZJg5rueN98otLu3gqzICpDXpkLg
+ RjPw9W/d6Illnv5zToyoGxFUcqPuXL5miP2nZi/bjbdtldhTLWqPL6LX3SaMgdzuzRp1
+ kx+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=AXZV9z/1yeneNtKIQ2lkVfpMNFgiuD6CZmtFFG4ZcKQ=;
- b=DEE0BkUUgmThk9EHkONOzVNUQmCi3ypLMfAtVRaXQqp1Y1QVfbSPXJaEOZ+3eQMqws
- k0dTN69Xe+wjHCKHnnnnM0n3YKaRlwKIu2rcN8GTZXQo6wVv8+/yeWtD58PtU4Et7Wuw
- yXLRrZ/ziZZbX9MfGDGuke+O7/a/fSbJ5gz0PavOasM7f4qq3zIKTUJI82ObbhvcXXjD
- +fgDIQBCfeo8GkOhCSyJs2vU/hChGt1VPYpXnMg+o4EKUHRgMaCozTZ6k5E7ibkEv63T
- /FVP9fqEGSxG0axq1u3KVWmT7mPx+XjNYUFsk9/gR7Ix3GVs7k92AnrRC7UeYjyLIJJ1
- yPUg==
-X-Gm-Message-State: AOAM532qOBuQEK0qdChIL9tnNZo6eGhRkW9ST7YAVa4HhkuaDRRFNaVe
- QlbPWx2sm9IbVWsqWCHTTpqM6IzsAcWzEqoYD38=
-X-Google-Smtp-Source: ABdhPJzYdA9I+keXEctfPzYtroeezXq2cxR2Mt4nx14fgXPha9hvAV/W90Ozfc+QDX3K2FU5NaquZh4CASuRye0J1Q0=
-X-Received: by 2002:aca:904:: with SMTP id 4mr153414oij.97.1600187457214; Tue,
- 15 Sep 2020 09:30:57 -0700 (PDT)
+ bh=t7rLNPuehrKEXXXTNCUjiTRZvemGF9Q43u8COIYZuXA=;
+ b=CbPl+9zpfZZy/k04ajvFz3quZESvcje0/LtxtGAxT2svDOHimHQAwc4JCdAnpkIH+O
+ OBTAcDd25f8gVYcOTPnv2OhSCEn1eUZgsOa+RwEnD7ygg0DeGfiLyHPwFmsWVPCT1y7N
+ ju4f9L2seZ1CWnt3ncsoJd04eruUqjmas5ENj74Bpn2XMw/UPffzNzK9v71tBiaMXxlU
+ HN+U5F/51DbjGmKdo0gBQzlAwRuIR2YrNyouifYvItqVbpXjLJSMGuCABf7VC4H2+5yM
+ n531Xh7neVWg/Snh4IJBMguIcsPNco0+AsrErn5VNEE8jRg6+1+XyDHY0SUiKelOCgzw
+ xVHg==
+X-Gm-Message-State: AOAM530dbBJCC9MjbFhUkoDCMTyG+hGe4fMH2Yaxrb5gM91mMtGYaQ8t
+ 5SbL8yX/rh8OxY9uCS5LVPCRDFdanvb5ranwkVs=
+X-Google-Smtp-Source: ABdhPJz2WocPF0QkoiSPydD5fhGutyiMML6/9JTyhN1zTznF9wPhsMu7muopgO6Zre8l/jEgLZo+480h/U/Trx3OgGc=
+X-Received: by 2002:aca:e155:: with SMTP id y82mr205556oig.56.1600187539195;
+ Tue, 15 Sep 2020 09:32:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <1600137887-58739-1-git-send-email-zhengchuan@huawei.com>
- <1600137887-58739-8-git-send-email-zhengchuan@huawei.com>
-In-Reply-To: <1600137887-58739-8-git-send-email-zhengchuan@huawei.com>
+ <1600137887-58739-9-git-send-email-zhengchuan@huawei.com>
+In-Reply-To: <1600137887-58739-9-git-send-email-zhengchuan@huawei.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 16 Sep 2020 00:30:21 +0800
-Message-ID: <CAKXe6SLR1X+O-GCJYXtBZ4Vz17o4gSK3WUYaCc6hD0h0OfbCwg@mail.gmail.com>
-Subject: Re: [PATCH v9 07/12] migration/dirtyrate: Compare page hash results
- for recorded sampled page
+Date: Wed, 16 Sep 2020 00:31:43 +0800
+Message-ID: <CAKXe6S+8J+PuaEHKfrVC-g=gb0+AFrVmM9_qLcZDusQJZ8pr3w@mail.gmail.com>
+Subject: Re: [PATCH v9 08/12] migration/dirtyrate: skip sampling ramblock with
+ size below MIN_RAMBLOCK_SIZE
 To: Chuan Zheng <zhengchuan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -92,93 +92,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Chuan Zheng <zhengchuan@huawei.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8815=E6=
 =97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=8810:34=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Compare page hash results for recorded sampled page.
+> In order to sample real RAM, skip ramblock with size below MIN_RAMBLOCK_S=
+IZE
+> which is set as 128M.
 >
 > Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 > ---
->  migration/dirtyrate.c | 63 +++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 63 insertions(+)
+>  migration/dirtyrate.c | 21 +++++++++++++++++++++
+>  migration/dirtyrate.h |  5 +++++
+>  2 files changed, 26 insertions(+)
 >
 > diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 5e6eedf..2d48eb8 100644
+> index 2d48eb8..903f728 100644
 > --- a/migration/dirtyrate.c
 > +++ b/migration/dirtyrate.c
-> @@ -177,6 +177,69 @@ out:
->      return ret;
+> @@ -138,6 +138,18 @@ static void get_ramblock_dirty_info(RAMBlock *block,
+>      strcpy(info->idstr, qemu_ram_get_idstr(block));
 >  }
 >
-> +static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
+> +static bool skip_sample_ramblock(RAMBlock *block)
 > +{
-> +    uint32_t crc;
-> +    int i;
-> +
-> +    for (i =3D 0; i < info->sample_pages_count; i++) {
-> +        crc =3D get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
-> +        if (crc !=3D info->hash_result[i]) {
-> +            info->sample_dirty_count++;
-> +        }
+> +    /*
+> +     * Sample only blocks larger than MIN_RAMBLOCK_SIZE.
+> +     */
+> +    if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
+> +        return true;
 > +    }
+> +
+> +    return false;
 > +}
 > +
-> +static struct RamblockDirtyInfo *
-> +find_page_matched(RAMBlock *block, int count,
-> +                  struct RamblockDirtyInfo *infos)
-> +{
-> +    int i;
-> +    struct RamblockDirtyInfo *matched;
-> +
-> +    for (i =3D 0; i <=3D count; i++) {
-
-'i < count'?
-
-> +        if (!strcmp(infos[i].idstr, qemu_ram_get_idstr(block))) {
-> +            break;
-> +        }
-> +    }
-> +
-> +    if (i =3D=3D count) {
-> +        return NULL;
-> +    }
-> +
-> +    if (infos[i].ramblock_addr !=3D qemu_ram_get_host_addr(block) ||
-> +        infos[i].ramblock_pages !=3D
-> +            (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-> +        return NULL;
-> +    }
-> +
-> +    matched =3D &infos[i];
-> +
-> +    return matched;
-> +}
-> +
-> +static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
-> +                                  int block_count)
-> +{
-> +    struct RamblockDirtyInfo *block_dinfo =3D NULL;
-> +    RAMBlock *block =3D NULL;
-> +
-> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
-> +        block_dinfo =3D find_page_matched(block, block_count, info);
-> +        if (block_dinfo =3D=3D NULL) {
+>  static bool record_ramblock_hash_info(struct RamblockDirtyInfo **block_d=
+info,
+>                                        struct DirtyRateConfig config,
+>                                        int *block_count)
+> @@ -150,6 +162,9 @@ static bool record_ramblock_hash_info(struct Ramblock=
+DirtyInfo **block_dinfo,
+>      bool ret =3D false;
+>
+>      RAMBLOCK_FOREACH_MIGRATABLE(block) {
+> +        if (skip_sample_ramblock(block)) {
 > +            continue;
 > +        }
-> +        calc_page_dirty_rate(block_dinfo);
-> +        update_dirtyrate_stat(block_dinfo);
-> +    }
+>          total_count++;
+>      }
+>
+> @@ -159,6 +174,9 @@ static bool record_ramblock_hash_info(struct Ramblock=
+DirtyInfo **block_dinfo,
+>      }
+>
+>      RAMBLOCK_FOREACH_MIGRATABLE(block) {
+> +        if (skip_sample_ramblock(block)) {
+> +            continue;
+> +        }
+>          if (index >=3D total_count) {
+>              break;
+>          }
+> @@ -225,6 +243,9 @@ static bool compare_page_hash_info(struct RamblockDir=
+tyInfo *info,
+>      RAMBlock *block =3D NULL;
+>
+>      RAMBLOCK_FOREACH_MIGRATABLE(block) {
+> +        if (skip_sample_ramblock(block)) {
+> +            continue;
+> +        }
+>          block_dinfo =3D find_page_matched(block, block_count, info);
+>          if (block_dinfo =3D=3D NULL) {
+>              continue;
+> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+> index a3ee305..faaf9da 100644
+> --- a/migration/dirtyrate.h
+> +++ b/migration/dirtyrate.h
+> @@ -24,6 +24,11 @@
+>   */
+>  #define RAMBLOCK_INFO_MAX_LEN                     256
+>
+> +/*
+> + * Minimum RAMBlock size to sample, in megabytes.
+> + */
+> +#define MIN_RAMBLOCK_SIZE                         128
 > +
-> +    if (DirtyStat.total_sample_count =3D=3D 0) {
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  static void calculate_dirtyrate(struct DirtyRateConfig config)
->  {
->      /* todo */
+>  struct DirtyRateConfig {
+>      uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+>      int64_t sample_period_seconds; /* time duration between two sampling=
+ */
 > --
 > 1.8.3.1
 >
