@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7D126A547
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:35:21 +0200 (CEST)
-Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47DAB26A58F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:50:52 +0200 (CEST)
+Received: from localhost ([::1]:34704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAB6-0000uM-Rb
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:35:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48440)
+	id 1kIAQ7-0003M8-99
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:50:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rY-0001lD-8a; Tue, 15 Sep 2020 08:15:08 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:41758)
+ id 1kI9rb-0001tP-Qi; Tue, 15 Sep 2020 08:15:11 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rV-0008L6-9g; Tue, 15 Sep 2020 08:15:07 -0400
-Received: by mail-pf1-x441.google.com with SMTP id z19so1810642pfn.8;
- Tue, 15 Sep 2020 05:15:04 -0700 (PDT)
+ id 1kI9rZ-0008LR-JM; Tue, 15 Sep 2020 08:15:11 -0400
+Received: by mail-pg1-x541.google.com with SMTP id y1so1880489pgk.8;
+ Tue, 15 Sep 2020 05:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=raGFyZs6MR9nEefX4kmRsgZPLq8a4zwcDe8/ve9JX8Y=;
- b=jotwSAVCO7QCer34R2d8YwkPUZNp0uU6b594L7lhhvvII3ieMBMS2Y+ROEAgAM6/4j
- 5m62ikOoprdB2JD1WDAt5wdOrmw8t1IrznnlXH878vzXMtMk8O2rD0RH3E6IMoE9lIJD
- mVDZNbJQnjHq65hirPRahzokThVLRgum4K96wSHlGfB/s0o+AoEhnYXTrnTjl5bKdtI0
- fvDghLpWXgrELkFB6QVVm7lI78ufT/eoEqz6MNLtGvGBWyi007vxmq1sj7+fTwhS7PhW
- cF0rE9giAMK9+sbyRJaC5gOMlX9n9iikqFRBo6CciRYNjhx/3hQTRTdEZX+FiKj1Sq8t
- iyKQ==
+ bh=BErOzaIvgNGZoOo8yO9vO+FZKR44ZCkaFrgaQmO82bU=;
+ b=QQJe1JlCqlwTYES5U3ztYVuTFygN0q3ELhe7/4SyL4Gjhd/venDnNAqrCTEwsriNsN
+ 5jgDIJ8yjgQRq5XYfM2vUzut3BuBqb6AFCtpOnTpL1rs8wVAxK2OQilNejW0G8quG5zG
+ Z4I6YE5folluvVCCmD20gMt22mvyoyul8n6c/1P8y7HZDcjuosRpTAU7Ka5tXiaFWOT2
+ RKRQ84QiyEDITAz15ogVt6+qrG5lQUMM6Tv00GXVA3R4PyEZyH+3BD4T6umEjimBmWsB
+ tcS/2/or+j87Mtsv1Xc8qEo5ZWMYccBAJkYURbx9+KepO/0NZQXaT6c3Qyg4hLHrtiXc
+ 5f5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=raGFyZs6MR9nEefX4kmRsgZPLq8a4zwcDe8/ve9JX8Y=;
- b=KUgHLQbQNcSTcgYmwVWHQVbcio9qVnwMaJoI8+1cTcj0XWENJ2WQMrCp2qIsKPH9rO
- 5TEYQo9Rf8KFnwXplLKJUceTbNk3la7zQIELBL+Efe/uLQ3TrBUW8oBc6NQ5+Z4p1D+m
- Ig0hZTpX6lq/Lig8KxANLrV5+jAE15gcfRQILFVTete7zggKliXrHxYpKng3Q8c3x2W6
- k8KwFtX7TxVT3cosHWu5AiFceqfjAF/fS+n/SoRcqaghkVSvZwjAEdfAwRrkj5A+08hN
- 6vdAg0R3y1Lv1wPhg7MAkVI28G/BlDDJNd6QDdEP1K6it6qv8B+L2E75bxvxj5UKrzMT
- TKoA==
-X-Gm-Message-State: AOAM532q9CHDwew5iyT3VKM1Mn8aNFB56gF0TC2o35z/PKd4vlS1ksip
- 4msxCcElQDZud1zU9kwR98MBOpJJV6knQPXzO1w=
-X-Google-Smtp-Source: ABdhPJyduO21GmjIrmdXNMu7zQnfW0lKAXbIwbo0BOdqY2z1Oiwo1EfWKWPq/9oLcKrZUOPulLNUlw==
-X-Received: by 2002:a63:580c:: with SMTP id m12mr13400026pgb.99.1600172103063; 
- Tue, 15 Sep 2020 05:15:03 -0700 (PDT)
+ bh=BErOzaIvgNGZoOo8yO9vO+FZKR44ZCkaFrgaQmO82bU=;
+ b=SrqOrNKRPsDQqkM92j9+9K7RNsH3ctmuuGa+2ENb6QgN9rHk4XNUf/NGOptkUkNUue
+ 9oae0WZHy7rc17KaW7O3rq0249af97h0U8kGGevF8yum8dMO6li6R8h0yNp4Dmj1KmgY
+ tBt8tKndwnb6BIpNPUz/ZuhMo45HBgOzzKM8FbsBvhI/I7IxmdgDJZkQ3KPW0b0kAJcB
+ 1pSk9sMov0y/uzZCCHrF9ha18JW7fWHv8LIBvhGbTruUAYiFgpWcdyxSHqURJVrT3DJD
+ Boi1Zjethm9nf1OGE4rwngAtUXfuV6PBqYX8OjQqb1oy9NGNQvK8qfxDuv17UhXKENNx
+ QYng==
+X-Gm-Message-State: AOAM531sfunPI4OPyXtLPlKpjYmBBowm4HvV/XK1J24C+0+8MwV9vSZ7
+ sXlT3R6P9rmiqtwg1yhdfIQ66PjcsbZNAEdVjJA=
+X-Google-Smtp-Source: ABdhPJxeZuhLBPz4WQtc9uumKcnVAgveodmD0fwT0Hj5kgERHz2uCnQXnHGjnpE56xG6H95O36FPig==
+X-Received: by 2002:aa7:869a:0:b029:142:2501:34d1 with SMTP id
+ d26-20020aa7869a0000b0290142250134d1mr1665456pfo.42.1600172107393; 
+ Tue, 15 Sep 2020 05:15:07 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.14.59
+ k28sm13683061pfh.196.2020.09.15.05.15.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:15:02 -0700 (PDT)
+ Tue, 15 Sep 2020 05:15:06 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 19/26] tests: Fixes test-io-channel-file by mask only owner
- file state mask bits
-Date: Tue, 15 Sep 2020 20:13:11 +0800
-Message-Id: <20200915121318.247-20-luoyonggang@gmail.com>
+Subject: [PATCH v9 20/26] tests: fix test-util-sockets.c
+Date: Tue, 15 Sep 2020 20:13:12 +0800
+Message-Id: <20200915121318.247-21-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
 References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,57 +85,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
- Peter Lieven <pl@kamp.de>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the error on msys2/mingw
-Running test test-io-channel-file
+Fixes following errors:
+Running test test-util-sockets
+ERROR test-util-sockets - missing test plan
+
+# Start of name tests
 **
-ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
-ERROR test-io-channel-file - Bail out! ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
+ERROR:../tests/test-util-sockets.c:93:test_socket_fd_pass_name_good: assertion failed (fd != -1): (-1 != -1)
+Bail out! ERROR:../tests/test-util-sockets.c:93:test_socket_fd_pass_name_good: assertion failed (fd != -1): (-1 != -1)
+
+First should call to qemu_init_main_loop before socket_init,
+then on win32 doesn't support for SOCKET_ADDRESS_TYPE_FD socket type
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/test-io-channel-file.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ tests/test-util-sockets.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/tests/test-io-channel-file.c b/tests/test-io-channel-file.c
-index bac2b07562..1b0e8d7c1b 100644
---- a/tests/test-io-channel-file.c
-+++ b/tests/test-io-channel-file.c
-@@ -28,6 +28,12 @@
- #define TEST_FILE "tests/test-io-channel-file.txt"
- #define TEST_MASK 0600
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index af9f5c0c70..1bbb16d9b1 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -75,7 +75,7 @@ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap) { abort(); }
+ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp) {}
+ void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp) {}
  
-+#ifdef _WIN32
-+#define TEST_MASK_EXPECT 0700
-+#else
-+#define TEST_MASK_EXPECT 0777
-+#endif
-+
- static void test_io_channel_file_helper(int flags)
+-
++#ifndef _WIN32
+ static void test_socket_fd_pass_name_good(void)
  {
-     QIOChannel *src, *dst;
-@@ -56,7 +62,9 @@ static void test_io_channel_file_helper(int flags)
-     umask(mask);
-     ret = stat(TEST_FILE, &st);
-     g_assert_cmpint(ret, >, -1);
--    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & 0777);
-+    /* On Windows the stat() function in the C library checks only
-+     the FAT-style READONLY attribute and does not look at the ACL at all. */
-+    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & TEST_MASK_EXPECT);
+     SocketAddress addr;
+@@ -227,6 +227,7 @@ static void test_socket_fd_pass_num_nocli(void)
  
-     unlink(TEST_FILE);
-     object_unref(OBJECT(src));
+     g_free(addr.u.fd.str);
+ }
++#endif
+ 
+ #ifdef __linux__
+ static gchar *abstract_sock_name;
+@@ -321,6 +322,7 @@ int main(int argc, char **argv)
+ {
+     bool has_ipv4, has_ipv6;
+ 
++    qemu_init_main_loop(&error_abort);
+     socket_init();
+ 
+     g_test_init(&argc, &argv, NULL);
+@@ -340,6 +342,7 @@ int main(int argc, char **argv)
+                         test_fd_is_socket_bad);
+         g_test_add_func("/util/socket/is-socket/good",
+                         test_fd_is_socket_good);
++#ifndef _WIN32
+         g_test_add_func("/socket/fd-pass/name/good",
+                         test_socket_fd_pass_name_good);
+         g_test_add_func("/socket/fd-pass/name/bad",
+@@ -352,6 +355,7 @@ int main(int argc, char **argv)
+                         test_socket_fd_pass_num_bad);
+         g_test_add_func("/socket/fd-pass/num/nocli",
+                         test_socket_fd_pass_num_nocli);
++#endif
+     }
+ 
+ #ifdef __linux__
 -- 
 2.28.0.windows.1
 
