@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD4026AE05
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 21:49:03 +0200 (CEST)
-Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA18326ADF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 21:47:17 +0200 (CEST)
+Received: from localhost ([::1]:46164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIGwn-0006Ef-Qf
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 15:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50368)
+	id 1kIGv6-0003A0-NF
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 15:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1kIGsl-0001Fn-D5; Tue, 15 Sep 2020 15:44:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61162)
+ id 1kIGsm-0001Hb-VH; Tue, 15 Sep 2020 15:44:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1kIGsj-0005ou-EV; Tue, 15 Sep 2020 15:44:51 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ id 1kIGsk-0005p6-Lf; Tue, 15 Sep 2020 15:44:52 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08FJVafl142065; Tue, 15 Sep 2020 15:44:48 -0400
+ 08FJWEY7027897; Tue, 15 Sep 2020 15:44:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=GjoN8FgIWRpk0J4IZCRWlWfyH2pWCliMSRrA/s4kvkc=;
- b=DJBTFD0zNGU1gZ+sxFdDZV1FmLruL2lLTy+oqxCSZk6mj1qJff4yn835h6hwNshjYuDR
- 3v8xQ6cQUJvRmjlxmcX8t8/6AbrvO5IcoztwQLrauOJY77YNL4EZdMy9kb031dEAAvb7
- KJZpXVFno2RlogzBBKRojn1vVfFx2Q1nXkPNpJMhbtd2gJYxsTZg0sa0AmrIJsvxkfsZ
- vj0aK23u1rAztpqdLw12hGulPr/YcYNMc1ckS6nLj9IhYTJtUB/bfTDM+RCDb6+IgJUb
- /MrLfWiFSCTHSxJFbDEdpUaqTe8ELPj8S0tUxCbuqfB3Hdbbq0kJAO85FzX3iXYwmzcT lw== 
+ bh=9NHCM+J+9upYvWZQhUODbaJU21RMfT99EnQfGpWgy7c=;
+ b=V7ubfznN4JGqtOye8IHsqzTiGdKVdBbLLjy8p9WSNcZVN+zGodyt9vJbnZAwO6frMHBV
+ aVRrHkuNVfxRyF4WRXYBT8AQ04nVEya1/+DSbP2T/S+vQEcBhYgSgFuc2RQ5jts1NIfS
+ Rd3rHPGIT1kR+DvD2p+vmAOWwz17+W7/l17H/YqlTsV1DjI+HUsoilXJkkFFCwnbluE1
+ yp3oOOsd1y/z8/kVl1RaRRlkFkSZ2m/ygcpLoPXuySBHb/3jqRaHw8j7gf5EhpjvkcIh
+ m9NZKvkpL/3fZsj5IGVBjUqKPP+QdOKYHEcc+dN4IWjzu3bV54FQwzQRMoXLMivq+xM7 tA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33k2q8t6uu-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33k3uxrab0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Sep 2020 15:44:47 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08FJVcdk142220;
- Tue, 15 Sep 2020 15:44:47 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33k2q8t6ug-1
+ Tue, 15 Sep 2020 15:44:49 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08FJWRuW028935;
+ Tue, 15 Sep 2020 15:44:48 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33k3uxraag-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Sep 2020 15:44:47 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08FJWKTU014419;
- Tue, 15 Sep 2020 19:44:46 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02wdc.us.ibm.com with ESMTP id 33gny91urm-1
+ Tue, 15 Sep 2020 15:44:48 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08FJVhFm015362;
+ Tue, 15 Sep 2020 19:44:47 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma05wdc.us.ibm.com with ESMTP id 33gny91tck-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Sep 2020 19:44:46 +0000
+ Tue, 15 Sep 2020 19:44:47 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08FJidLv20316436
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08FJikAo52756844
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Sep 2020 19:44:39 GMT
+ Tue, 15 Sep 2020 19:44:46 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CEB1A6A051;
+ by IMSVA (Postfix) with ESMTP id 0634E6A04F;
+ Tue, 15 Sep 2020 19:44:46 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F05EF6A047;
  Tue, 15 Sep 2020 19:44:44 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CDBA96A047;
- Tue, 15 Sep 2020 19:44:43 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.140.9])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 15 Sep 2020 19:44:43 +0000 (GMT)
+ Tue, 15 Sep 2020 19:44:44 +0000 (GMT)
 From: Collin Walling <walling@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v6 2/8] s390/sclp: rework sclp boundary checks
-Date: Tue, 15 Sep 2020 15:44:10 -0400
-Message-Id: <20200915194416.107460-3-walling@linux.ibm.com>
+Subject: [PATCH v6 3/8] s390/sclp: read sccb from mem based on provided length
+Date: Tue, 15 Sep 2020 15:44:11 -0400
+Message-Id: <20200915194416.107460-4-walling@linux.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200915194416.107460-1-walling@linux.ibm.com>
 References: <20200915194416.107460-1-walling@linux.ibm.com>
@@ -77,14 +77,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-15_12:2020-09-15,
+ definitions=2020-09-15_13:2020-09-15,
  2020-09-15 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015 spamscore=0
- bulkscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009150149
+ impostorscore=0 phishscore=0
+ clxscore=1015 suspectscore=0 spamscore=0 mlxlogscore=733 malwarescore=0
+ bulkscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009150149
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 15:14:56
@@ -115,60 +115,150 @@ Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rework the SCLP boundary check to account for different SCLP commands
-(eventually) allowing different boundary sizes.
+The header contained within the SCCB passed to the SCLP service call
+contains the actual length of the SCCB. Instead of allocating a static
+4K size for the work sccb, let's allow for a variable size determined
+by the value in the header. The proper checks are already in place to
+ensure the SCCB length is sufficent to store a full response and that
+the length does not cross any explicitly-set boundaries.
 
 Signed-off-by: Collin Walling <walling@linux.ibm.com>
-Acked-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/sclp.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ hw/s390x/event-facility.c |  2 +-
+ hw/s390x/sclp.c           | 55 ++++++++++++++++++++++-----------------
+ include/hw/s390x/sclp.h   |  2 +-
+ 3 files changed, 33 insertions(+), 26 deletions(-)
 
+diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+index 645b4080c5..ed92ce510d 100644
+--- a/hw/s390x/event-facility.c
++++ b/hw/s390x/event-facility.c
+@@ -213,7 +213,7 @@ static uint16_t handle_sccb_read_events(SCLPEventFacility *ef, SCCB *sccb,
+ 
+     event_buf = &red->ebh;
+     event_buf->length = 0;
+-    slen = sizeof(sccb->data);
++    slen = sccb_data_len(sccb);
+ 
+     rc = SCLP_RC_NO_EVENT_BUFFERS_STORED;
+ 
 diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 28b973de8f..a37cfbf534 100644
+index a37cfbf534..4ae6fb400b 100644
 --- a/hw/s390x/sclp.c
 +++ b/hw/s390x/sclp.c
-@@ -49,6 +49,18 @@ static inline bool sclp_command_code_valid(uint32_t code)
-     return false;
- }
- 
-+static bool sccb_verify_boundary(uint64_t sccb_addr, uint16_t sccb_len)
-+{
-+    uint64_t sccb_max_addr = sccb_addr + sccb_len - 1;
-+    uint64_t sccb_boundary = (sccb_addr & PAGE_MASK) + PAGE_SIZE;
-+
-+    if (sccb_max_addr < sccb_boundary) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- static void prepare_cpu_entries(MachineState *ms, CPUEntry *entry, int *count)
+@@ -231,25 +231,29 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
  {
-     uint8_t features[SCCB_CPU_FEATURE_LEN] = { 0 };
-@@ -229,6 +241,11 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+     SCLPDevice *sclp = get_sclp_device();
+     SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
+-    SCCB work_sccb;
+-    hwaddr sccb_len = sizeof(SCCB);
++    SCCBHeader header;
++    g_autofree SCCB *work_sccb = NULL;
+ 
+-    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
++    s390_cpu_pv_mem_read(env_archcpu(env), 0, &header, sizeof(SCCBHeader));
++
++    work_sccb = g_malloc0(be16_to_cpu(header.length));
++    s390_cpu_pv_mem_read(env_archcpu(env), 0, work_sccb,
++                         be16_to_cpu(header.length));
+ 
+     if (!sclp_command_code_valid(code)) {
+-        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
++        work_sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
          goto out_write;
      }
  
-+    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb.h.length))) {
-+        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
-+        goto out_write;
+-    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb.h.length))) {
+-        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
++    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb->h.length))) {
++        work_sccb->h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
+         goto out_write;
+     }
+ 
+-    sclp_c->execute(sclp, &work_sccb, code);
++    sclp_c->execute(sclp, work_sccb, code);
+ out_write:
+-    s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
+-                          be16_to_cpu(work_sccb.h.length));
++    s390_cpu_pv_mem_write(env_archcpu(env), 0, work_sccb,
++                          be16_to_cpu(work_sccb->h.length));
+     sclp_c->service_interrupt(sclp, SCLP_PV_DUMMY_ADDR);
+     return 0;
+ }
+@@ -258,9 +262,8 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+ {
+     SCLPDevice *sclp = get_sclp_device();
+     SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
+-    SCCB work_sccb;
+-
+-    hwaddr sccb_len = sizeof(SCCB);
++    SCCBHeader header;
++    g_autofree SCCB *work_sccb = NULL;
+ 
+     /* first some basic checks on program checks */
+     if (env->psw.mask & PSW_MASK_PSTATE) {
+@@ -274,32 +277,36 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+         return -PGM_SPECIFICATION;
+     }
+ 
++    /* the header contains the actual length of the sccb */
++    cpu_physical_memory_read(sccb, &header, sizeof(SCCBHeader));
++
++    /* Valid sccb sizes */
++    if (be16_to_cpu(header.length) < sizeof(SCCBHeader)) {
++        return -PGM_SPECIFICATION;
 +    }
 +
-     sclp_c->execute(sclp, &work_sccb, code);
- out_write:
-     s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
-@@ -274,7 +291,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+     /*
+      * we want to work on a private copy of the sccb, to prevent guests
+      * from playing dirty tricks by modifying the memory content after
+      * the host has checked the values
+      */
+-    cpu_physical_memory_read(sccb, &work_sccb, sccb_len);
+-
+-    /* Valid sccb sizes */
+-    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
+-        return -PGM_SPECIFICATION;
+-    }
++    work_sccb = g_malloc0(be16_to_cpu(header.length));
++    cpu_physical_memory_read(sccb, work_sccb, be16_to_cpu(header.length));
+ 
+     if (!sclp_command_code_valid(code)) {
+-        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
++        work_sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
          goto out_write;
      }
  
--    if ((sccb + be16_to_cpu(work_sccb.h.length)) > ((sccb & PAGE_MASK) + PAGE_SIZE)) {
-+    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb.h.length))) {
-         work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
+-    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb.h.length))) {
+-        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
++    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb->h.length))) {
++        work_sccb->h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
          goto out_write;
      }
+ 
+-    sclp_c->execute(sclp, &work_sccb, code);
++    sclp_c->execute(sclp, work_sccb, code);
+ out_write:
+-    cpu_physical_memory_write(sccb, &work_sccb,
+-                              be16_to_cpu(work_sccb.h.length));
++    cpu_physical_memory_write(sccb, work_sccb,
++                              be16_to_cpu(work_sccb->h.length));
+ 
+     sclp_c->service_interrupt(sclp, sccb);
+ 
+diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
+index a87ed2a0ab..98c4727984 100644
+--- a/include/hw/s390x/sclp.h
++++ b/include/hw/s390x/sclp.h
+@@ -177,7 +177,7 @@ typedef struct IoaCfgSccb {
+ 
+ typedef struct SCCB {
+     SCCBHeader h;
+-    char data[SCCB_DATA_LEN];
++    char data[];
+  } QEMU_PACKED SCCB;
+ 
+ #define TYPE_SCLP "sclp"
 -- 
 2.26.2
 
