@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BAA26AADD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:40:27 +0200 (CEST)
-Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE6D26AAC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:33:46 +0200 (CEST)
+Received: from localhost ([::1]:59790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEwL-0001z7-AZ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:40:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44364)
+	id 1kIEpt-0008Qs-Um
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEX0-0000CD-JI
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:14:14 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:35211)
+ id 1kIEWz-0008Og-2q; Tue, 15 Sep 2020 13:14:13 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:36946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEQV-00029N-24
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:07:32 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id a15so3514494ljk.2
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 10:07:30 -0700 (PDT)
+ id 1kIEVj-0002cK-QC; Tue, 15 Sep 2020 13:12:57 -0400
+Received: by mail-pg1-x541.google.com with SMTP id z17so2332586pgc.4;
+ Tue, 15 Sep 2020 10:12:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=YZHg3+1xVHc8t3r2YlvFbE/q98tePh778/s41ccjXjw=;
- b=oLZ9f6PZPEbAOO/tXVASKUYUiMS4DtfreY30oh5f6rJLK3HTa1UkgpqQROz8UQ/KFz
- eCjjCLcWgQk6iUBHmJaGPYZwcKSBW/af5XIMETBiCogCxcPATNj/+pa38EhmQA+ADpk8
- WEanL8QT9IaBCDgOLpiAKilJsrMIaqLeOc3MXNcVHeWq7L0dR6DEiTm8lfbvmre60Jod
- 23k+q5FJs0goRNE/uZ593P/vpCSG1TnXf12hPwRBznGB+cKW/ehicND3B8fu5Ux8jzmO
- fvbEpASfJHIEFXTkOEX2c/J3IkQgAJ3b8X0yV5qQ2fcXhCJwbk2H1A0aV3iPJk2LKWe8
- muLA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uq19f9xUw48l5aXNxxsd8+DiZHX2ja2v+vKEiZxAu2E=;
+ b=e7B8uy0dw+crxqUF38VkbKKY9MA1ud690/+tOccJTABxcq6dmNOLjiDhod8nAT4IJ+
+ JXsRX7ePWaQJFe5qAg00nCdEvFQqTscHhSDDJ4werhFjhAmXTZfbnllXHL2vB/AfsjKr
+ Xxr4XZ1zAJx3jMekBumjRZG+OzX5qc+eArJL/wfvtwtuw2J3J2zhZPScidi+2QRwKoBB
+ DdGGgvCG1WTHmGdUERWDlFHgCI1+dSlIIlOdIeDLFHxMi3lWKlL7f2LVumJIIILPiVx9
+ IHK2v4PGwEwGuVqGrDd0FrFtSEanPmuV3nvUbmYVPVLYieSl0Jd+FRcZTsGlMcICpX/6
+ 6HyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=YZHg3+1xVHc8t3r2YlvFbE/q98tePh778/s41ccjXjw=;
- b=p/wojtBY05Q5bns0Dlr5h65i1fMQUEo7ZlQtfCjFnu/qRjZBmAQGR+RTP+SK8j5AGV
- v5SEMS3FOfQtXNMIGfFvu77JbK96SLh6QZyYirWbsnZRa1GqqCExZvT42PLmDPzSwokd
- FfXur8E0lq6GYtOwUq7qzB7ZZhMyfmu+2eytjSMfdj5bEw7ZsLVvrWewlRZJK7IAaxzo
- 9J23+kNlNYZMvUUoDu0RI9m8FEdknKt0+Hu5n5OIkui+Gyp5Vrk4tF9ifkKQYf8zr+pZ
- ttdbe0T7FvTe+KEmmWouIjmBBy68ANvDMUjvswr8R7YCKxfDstLLTtAavDIYE7KVDnHJ
- WYgw==
-X-Gm-Message-State: AOAM531+oXGf9J/r7yF88y+sFhRc6LIpq53PcgXG9O9LlvEN213D0kp1
- k87VCMhrfVyTkZqnfnLWx7EMMVraxkGZmlp36Jw=
-X-Google-Smtp-Source: ABdhPJxvusoV1yZm9Yhn8QDqBrM/UC0SHnfaJOGvzwXJwVNq7qKsOXF3lvCSegZo0aI87zdmxX8j+vo20n/0S+SN+94=
-X-Received: by 2002:a05:651c:151:: with SMTP id
- c17mr7594425ljd.467.1600189649275; 
- Tue, 15 Sep 2020 10:07:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uq19f9xUw48l5aXNxxsd8+DiZHX2ja2v+vKEiZxAu2E=;
+ b=Xh/2spXJktU/mfGnn6qx0vK8ZI5H3NPDiyQAYUAj8D6pZzE1zGKgTnmXNR1YGD/3wX
+ MmVItF+umI+cBCBNf7CDQgPx+xwnOjhE8TEMVX9aL8O+Hhrha5h6f2K78MJsRENB5GL0
+ XtQF+lOlup6xv7j+mTzY9Tb+5JVsKNkUhA+c7TMUNZobq/zxEkqdDJ0/yIVqMky0ByxP
+ y/nfxzAAMKAA+a8q7Pgjmh6haMbB8o1NMMz5l/4u7NcWT8KSStkL6i4Fu1IzgDn/kiBI
+ vt+rjcGyJRJ4NC1qZTPHBlyeOqaO0jy3uBpHwOK7DNCCMEYnuQmS69o6Nvv1G7a3880t
+ dyvg==
+X-Gm-Message-State: AOAM532KryW7aopx9uTzt7A/iXQs19ZsCEq1id+l3m/xJevB9wLi5pZu
+ fQPRD3qtgSwhMTxi7Xu50h+pQAvuhjM5uVg2p98=
+X-Google-Smtp-Source: ABdhPJx9H5cSUYhwOKMTdt1zNwd08euPKS2Fsvbr9Fm9cPPguJN6XVUgZQckLkfkA4vo7xUWvDKmOQ==
+X-Received: by 2002:a65:6412:: with SMTP id a18mr15737240pgv.215.1600189973055; 
+ Tue, 15 Sep 2020 10:12:53 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.12.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Sep 2020 10:12:52 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v10 00/26] W32, W64 msys2/mingw patches
+Date: Wed, 16 Sep 2020 01:12:08 +0800
+Message-Id: <20200915171234.236-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-References: <20200914230210.2185860-1-richard.henderson@linaro.org>
- <20200914230210.2185860-2-richard.henderson@linaro.org>
- <eced490f-0250-3516-5d75-c6c3ff6e97be@linaro.org>
- <CABgObfbWzf7DLgx23+yMqYqnMUaiJ=0WKaW4zvzkA4u5T9fQXQ@mail.gmail.com>
- <4813770a-34a4-72ce-17f7-7ea451a7af99@linaro.org>
- <CAE2XoE_he2L85WgAg5NBWKLT+FFy6RJDULsL-QWBH0jbhxZTpw@mail.gmail.com>
- <2444b9f2-3668-8ca8-2e9e-3215d55b1472@redhat.com>
-In-Reply-To: <2444b9f2-3668-8ca8-2e9e-3215d55b1472@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 16 Sep 2020 01:07:16 +0800
-Message-ID: <CAE2XoE_9K7UwdOYTxPggGhA4x17qRAMGC7x0y5Lgc_2ta=m2sw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] capstone: Convert Makefile bits to meson bits
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000009e51c005af5d2f4b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x22e.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +67,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,98 +81,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Xie Changlong <xiechanglong.d@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009e51c005af5d2f4b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 16, 2020 at 1:00 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> On 15/09/20 18:12, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> >
-> > I suggest remove the capstone=3Dsystem option cause the system library
-> > may not satisfy the requirements of qemu and create in-consistence
-> > expereince when bug or error happens about capstone. We either have
-> > git submodule capstone or nothing at all
->
-> Linux distributions generally do not want to have bundled libraries, so
->
-Yes, bundled libraries is a bad idea, but static linked library is another
-case, that won't affect
-the Linux distributions.
-
-> the fallback to the system library is the default.  We single out
-> capstone, libfdt and slirp because they are slightly less common
->
-Ineed, I would like suggest these three libraries always to be static
-linked or not use it at all.
-
-> dependencies and are missing on some distros; however, in general we
-> strive to _only_ use system libraries and not package any of QEMU's
-> dependencies.
->
-> Paolo
->
->
-
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---0000000000009e51c005af5d2f4b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 16, 2020 at 1:00 AM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 1=
-5/09/20 18:12, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:<br>
-&gt; <br>
-&gt; I suggest remove the capstone=3Dsystem option cause the system library=
-<br>
-&gt; may not satisfy the requirements of qemu and create in-consistence<br>
-&gt; expereince when bug or error happens about capstone. We either have<br=
->
-&gt; git submodule capstone or nothing at all<br>
-<br>
-Linux distributions generally do not want to have bundled libraries, so<br>=
-</blockquote><div>Yes, bundled=20
-
-libraries is a bad idea, but static linked library is another case, that wo=
-n&#39;t affect</div><div>the=20
-
-Linux distributions.=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-the fallback to the system library is the default.=C2=A0 We single out<br>
-capstone, libfdt and slirp because they are slightly less common<br></block=
-quote><div>Ineed, I would like suggest these three libraries always to be s=
-tatic linked or not use it at all.</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-dependencies and are missing on some distros; however, in general we<br>
-strive to _only_ use system libraries and not package any of QEMU&#39;s<br>
-dependencies.<br>
-<br>
-Paolo<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div></div>
-
---0000000000009e51c005af5d2f4b--
+V9-V10=0D
+* gcrypt: test_tls_psk_init should write binary file instead text file.=0D
+  Split #include <glib/gstdio.h> out, that line not belong this patch=0D
+=0D
+* tests: Enable crypto tests under msys2/mingw=0D
+  move qemu_socketpair into oslib-win32.c and rename to socketpair=0D
+  move qemu_link into osdep.c=0D
+  Fixes code style warning=0D
+=0D
+* tests: Fixes test-io-channel-file by mask only owner file state mask bits=
+=0D
+  Update comment place=0D
+=0D
+* ci: Enable msys2 ci in cirrus=0D
+  Fixes misleading error message=0D
+=0D
+Fixes all checkpatch error messages=0D
+=0D
+V8-V9=0D
+=0D
+* ci: Enable msys2 ci in cirrus=0D
+  do not install libnfs, libcapstone and jemalloc=0D
+  ident lines properly=0D
+  Do not install libnfs when the add the msys2 ci,=0D
+=0D
+* Revert "configure: add --ninja option"=0D
+  Skip this revision=0D
+=0D
+* block: Fixes nfs compiling error on msys2/mingw=0D
+  Use typedef long long blkcnt_t; for libnfs on msys2/mingw=0D
+  for futher implemenation, still disable nfs_get_allocated_file_size=0D
+  on win32 as it not working yet, but preserve the possibility implemenatio=
+n=0D
+  it in futher=0D
+=0D
+* gcrypt: test_tls_psk_init should write binary file instead text file.=0D
+  only fixes the file open mode parameter=0D
+=0D
+* osdep: file locking functions are not available on Win32:=0D
+  Reword with "Do not declare the following locking functions on Win32:"=0D
+=0D
+* meson: Use -b to ignore CR vs. CR-LF issues on Windows=0D
+  Reword of commit message=0D
+=0D
+* tests: Enable crypto tests under msys2/mingw=0D
+  Reimplement qemu_socketpair in a simpler way. without thirdparty code=0D
+=0D
+* block: enable libnfs on msys2/mingw in cirrus.yml=0D
+  New commit=0D
+=0D
+* tests: disable /char/stdio/* tests in test-char.c on win32=0D
+  Needs review=0D
+=0D
+* tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence wi=
+th=3D=0D
+ aio-posix.c=0D
+  Needs review=0D
+=0D
+* rcu: fixes test-logging.c by call drain_call_rcu before rmdir_full=0D
+  Needs review=0D
+=0D
+It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and=0D
+disable partial test-char tests.=0D
+And then fixes all unit tests failure on msys2/mingw=0D
+This fixes the reviews suggested in the mailling list=0D
+All cirrus CI are passed=0D
+=0D
+Maxim Levitsky (1):=0D
+  rcu: Implement drain_call_rcu=0D
+=0D
+Yonggang Luo (25):=0D
+  ci: fixes msys2 build by upgrading capstone to 4.0.2=0D
+  configure: Fixes ncursesw detection under msys2/mingw and enable=0D
+    curses=0D
+  win32: Simplify gmtime_r detection direct base on=0D
+    _POSIX_THREAD_SAFE_FUNCTIONS.=0D
+  curses: Fixes curses compiling errors.=0D
+  tests: disable /char/stdio/* tests in test-char.c on win32=0D
+  tests: Fixes test-replication.c on msys2/mingw.=0D
+  tests: test-replication disable /replication/secondary/* on=0D
+    msys2/mingw.=0D
+  osdep: file locking functions are not available on Win32=0D
+  meson: Use -b to ignore CR vs. CR-LF issues on Windows=0D
+  gcrypt: test_tls_psk_init should write binary file instead text file.=0D
+  tests: Enable crypto tests under msys2/mingw=0D
+  meson: remove empty else and duplicated gio deps=0D
+  vmstate: Fixes test-vmstate.c on msys2/mingw=0D
+  cirrus: Building freebsd in a single short=0D
+  tests: Convert g_free to g_autofree macro in test-logging.c=0D
+  tests: Fixes test-io-channel-socket.c tests under msys2/mingw=0D
+  tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence=0D
+    with aio-posix.c=0D
+  tests: Fixes test-io-channel-file by mask only owner file state mask=0D
+    bits=0D
+  tests: fix test-util-sockets.c=0D
+  tests: Fixes test-qdev-global-props.c=0D
+  rcu: fixes test-logging.c by call drain_call_rcu before rmdir_full=0D
+  meson: upgrade meson for execute custom ninjatool under msys2 properly=0D
+  ci: Enable msys2 ci in cirrus=0D
+  block: Fixes nfs compiling error on msys2/mingw=0D
+  block: enable libnfs on msys2/mingw in cirrus.yml=0D
+=0D
+ .cirrus.yml                      | 97 +++++++++++++++++++++++---------=0D
+ block/nfs.c                      | 37 +++++++++---=0D
+ capstone                         |  2 +-=0D
+ configure                        | 61 ++++++--------------=0D
+ include/qemu/osdep.h             |  3 +-=0D
+ include/qemu/rcu.h               |  1 +=0D
+ include/sysemu/os-win32.h        |  9 ++-=0D
+ meson                            |  2 +-=0D
+ meson.build                      |  6 --=0D
+ tests/crypto-tls-psk-helpers.c   |  6 +-=0D
+ tests/crypto-tls-x509-helpers.c  |  6 +-=0D
+ tests/crypto-tls-x509-helpers.h  |  5 +-=0D
+ tests/qapi-schema/meson.build    |  2 +-=0D
+ tests/test-char.c                | 27 +++++----=0D
+ tests/test-crypto-tlscredsx509.c | 47 ++++++++--------=0D
+ tests/test-crypto-tlssession.c   | 64 ++++++++++++---------=0D
+ tests/test-io-channel-file.c     | 12 +++-=0D
+ tests/test-io-channel-socket.c   |  2 +=0D
+ tests/test-io-channel-tls.c      | 49 +++++++++-------=0D
+ tests/test-logging.c             |  6 +-=0D
+ tests/test-qdev-global-props.c   |  9 ++-=0D
+ tests/test-replication.c         | 22 ++++++--=0D
+ tests/test-util-sockets.c        |  6 +-=0D
+ tests/test-vmstate.c             |  3 +-=0D
+ ui/curses.c                      | 14 ++---=0D
+ util/aio-win32.c                 | 12 +++-=0D
+ util/osdep.c                     | 16 ++++++=0D
+ util/oslib-win32.c               | 78 ++++++++++++++++++++++++-=0D
+ util/rcu.c                       | 55 ++++++++++++++++++=0D
+ 29 files changed, 459 insertions(+), 200 deletions(-)=0D
+=0D
+--=3D20=0D
+2.28.0.windows.1=0D
+=0D
 
