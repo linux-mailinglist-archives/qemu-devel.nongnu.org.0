@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D9B269C7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 05:22:24 +0200 (CEST)
-Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F53E269C5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 05:14:47 +0200 (CEST)
+Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI1Xz-0005lJ-0X
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 23:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48232)
+	id 1kI1Qc-0003mG-5e
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 23:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kI1OG-0000a2-16
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 23:12:20 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:35582)
+ id 1kI1OH-0000eV-Fl
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 23:12:21 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1kI1OD-0001kg-Va
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 23:12:19 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id jw11so1011155pjb.0
- for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 20:12:17 -0700 (PDT)
+ id 1kI1OF-0001l5-Mb
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 23:12:21 -0400
+Received: by mail-pl1-x641.google.com with SMTP id bg9so596574plb.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 20:12:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IjQ8g3LVUwEAgUjJBblk9Y/d1f1AL0wZ+pGopoHSfcE=;
- b=I0C/8ayV1IjvUs+Fnv4IIKt5QWMTeMrvtp422fKJvVrTSv132J81oXoq9LDk80s9M/
- JYpqDZ++pJY3GjYF1+3FTZayBauAARIysxHDBKVtIta8j5HipuvjitWX/Vo2H8o5otZw
- V5LW/LfNCURIXWZRLfsW1rblckc0CRiITPRXwOtblVQETcxtyqZ55fU+gH2YK5A1Jctq
- zaGRi5zxxdtIfexEOckuKE2Np+zsYAF40kVQCRxJH6JTTGJQO8pyKszZQTYjAqzwYeBp
- z3+sFjbbRSzG+//nSr0uPg7rYeF5eVsFigNr116nqt4baE4tN8wV+M4wkj26N4Zr7HIP
- p9BQ==
+ bh=ttZlTeQRiqAfohcWiL5/T40b1TJUWiG1lTmcd0fZw3M=;
+ b=IS2O6XuEJSiZJDGUq0SNt7l9x3joh9zRRBNSWAAlorBsl+/baV/rLWBCV8hzOETjKW
+ 6T9hSwktaRZXtoFESrfWRAqqiw/ZC4RqZzuBEhva8mZR26Giik8FqAQuHUw8zZO6cqLu
+ UEMpbHazR94QtzFhXCaDmjSFJBJLSOyT+9k7EZqEFWQ35lYcK/TQXtpTbXjE5AnskadY
+ hTfiS1dompDH67PeT1mJvSGyfrY+kL8hmR8m7bd6nlkQuAZeo2KeG8Bo8k6YLqeOrhSc
+ gIsN5NELvw9RRM/zDgs7ph8FCp3i1zQHAJRMedmL1MVxIio7JJCYjYvY8JhciecTP8kQ
+ ywgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IjQ8g3LVUwEAgUjJBblk9Y/d1f1AL0wZ+pGopoHSfcE=;
- b=TqS81ROk6NHIIb+z18sNZiCAOUOOon23El9jkWS7wq3RY8K/y6xZ7VbTZt6JPHOsN8
- YRgQc7Lbomic+Qmg2K9ZtJcEmlePJ+slAsDdTnMWXG6ewqAy2AAuWtNAnyf3mwefoLT+
- Fop1wCttlwwWE/8niW/HT8GAXafgZIufW6AaNIA+ITpdFOlJBXgGFfjoh0y5rdqTYvpE
- BvopllS3PQqbjB8ZPp7KtU2kAPmZnulMkPHeI9VeY9kqOawUAR/kfJ+X9mdX6YTHtwYZ
- 8yAjUcztk/QTpE1MvxGMo0dLbkjHuojoLQaD56db/OTJPihCdD/E3jXc9ZZqHvjV3avW
- uAoQ==
-X-Gm-Message-State: AOAM533U0z1MzLO3s6dOz4Qd2ZiIhR8q5zIvO9gqOmUAAKQCfjIH+O+6
- Q0AOnZV92kNkyYQopq178NLy
-X-Google-Smtp-Source: ABdhPJwjQ8IIZRQRdqDbobgRi5ZwkbNnZwDdOmP4lWuYFWSonq/1urszSR+2ogO17bbV4BeoKU+2YA==
-X-Received: by 2002:a17:902:bd8d:b029:d1:cbfc:6137 with SMTP id
- q13-20020a170902bd8db02900d1cbfc6137mr6159093pls.23.1600139536711; 
- Mon, 14 Sep 2020 20:12:16 -0700 (PDT)
+ bh=ttZlTeQRiqAfohcWiL5/T40b1TJUWiG1lTmcd0fZw3M=;
+ b=OV2iaT/GPuwiZv6vtdkigSqsxKPULA4StfVqRd4GrS0D8LObuD2NhQpEAl/ez4o+dk
+ JyaaOibTbnb++mmJkTXfJuQlTKzJnfATvvS+9jbVVHfrRjf708pKPHBLuRXyLlFKKhEl
+ eItXV2VxgS61i16Dr+n+l7N3pfiPICdhGn5Ed6pwbhNjVS66jowy9PsjwtmQemWIcYR4
+ Jj06aawGbn1a9gDAGJDMAIGG5cC/iObG+yrk+x8tA6G9316obmRHnCtY2miGXXkd+wHx
+ OZLQxFhU1/g2XBtv8018/MVFuZEUESWOhhnpR6HSrz4koACAWArxSUAJNpm22tmRDQ5z
+ FGDQ==
+X-Gm-Message-State: AOAM5313RnVXauCWmOyFCLP5AiVijVPCg9e8lb7AB4pfw/JKcnXQUPwJ
+ kmQ5MvAom0yiU2wh/mFMn668
+X-Google-Smtp-Source: ABdhPJy0JO5zBKRti76UC/J0h3yeDUA9lFPulm1VFKxD+Oq4Zrb9Az7xNZZbxPKrWkoVuIABRO0TBA==
+X-Received: by 2002:a17:902:b193:: with SMTP id
+ s19mr17147865plr.125.1600139538439; 
+ Mon, 14 Sep 2020 20:12:18 -0700 (PDT)
 Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id g23sm11551776pfh.133.2020.09.14.20.12.15
+ by smtp.gmail.com with ESMTPSA id g23sm11551776pfh.133.2020.09.14.20.12.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 20:12:16 -0700 (PDT)
+ Mon, 14 Sep 2020 20:12:17 -0700 (PDT)
 From: Haibo Xu <haibo.xu@linaro.org>
 To: drjones@redhat.com,
 	richard.henderson@linaro.org
-Subject: [PATCH v3 10/12] target/arm/cpu: spe: Enable spe to work with host cpu
-Date: Tue, 15 Sep 2020 03:11:46 +0000
-Message-Id: <b9c848142d25ce4556fe14fc60a4bc73dd1683d2.1600135462.git.haibo.xu@linaro.org>
+Subject: [PATCH v3 11/12] target/arm/kvm: spe: Enable userspace irqchip
+ support.
+Date: Tue, 15 Sep 2020 03:11:47 +0000
+Message-Id: <6e6ef8d1ea15180514a6f1540933aca4d59939a8.1600135462.git.haibo.xu@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1600135462.git.haibo.xu@linaro.org>
 References: <cover.1600135462.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=haibo.xu@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=haibo.xu@linaro.org; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,129 +92,46 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Turn on the spe cpu property by default if host cpu
-support it, i.e. we can now do '-cpu max|host' to add
-the vSPE, and '-cpu max|host,spe=off' to remove it.
+Since the current kernel patches haven't enabled the
+userspace irqchip support, this patch is not verified yet!
 
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
 ---
- target/arm/cpu.c   |  1 +
- target/arm/cpu.h   |  2 ++
- target/arm/cpu64.c | 10 +++++++---
- target/arm/kvm64.c | 12 ++++++++++++
- 4 files changed, 22 insertions(+), 3 deletions(-)
+ hw/arm/virt.c    | 2 +-
+ target/arm/kvm.c | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 786cc6134c..05a4b7d208 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2271,6 +2271,7 @@ static void arm_host_initfn(Object *obj)
-     kvm_arm_set_cpu_features_from_host(cpu);
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-+        aarch64_add_spe_properties(obj);
-     }
-     arm_cpu_post_init(obj);
- }
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 395a1e5df8..5a3ea876c8 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1040,6 +1040,7 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
- void aarch64_sve_change_el(CPUARMState *env, int old_el,
-                            int new_el, bool el0_a64);
- void aarch64_add_sve_properties(Object *obj);
-+void aarch64_add_spe_properties(Object *obj);
- 
- /*
-  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-@@ -1071,6 +1072,7 @@ static inline void aarch64_sve_change_el(CPUARMState *env, int o,
-                                          int n, bool a)
- { }
- static inline void aarch64_add_sve_properties(Object *obj) { }
-+static inline void aarch64_add_spe_properties(Object *obj) { }
- #endif
- 
- #if !defined(CONFIG_TCG)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 4997c4a3c0..04daeb901d 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -621,6 +621,12 @@ static void arm_spe_set(Object *obj, bool value, Error **errp)
-     ARM_CPU(obj)->has_spe = value ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
- }
- 
-+void aarch64_add_spe_properties(Object *obj)
-+{
-+    ARM_CPU(obj)->has_spe = ON_OFF_AUTO_AUTO;
-+    object_property_add_bool(obj, "spe", arm_spe_get, arm_spe_set);
-+}
-+
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
-  * otherwise, a CPU with as many features enabled as our emulation supports.
-  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
-@@ -632,6 +638,7 @@ static void aarch64_max_initfn(Object *obj)
- 
-     if (kvm_enabled()) {
-         kvm_arm_set_cpu_features_from_host(cpu);
-+        aarch64_add_spe_properties(obj);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ee0831922b..bdb1ce925c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1715,8 +1715,8 @@ static void virt_cpu_post_init(VirtMachineState *vms)
+                 assert(ARM_CPU(cpu)->has_spe == ON_OFF_AUTO_ON);
+                 if (kvm_irqchip_in_kernel()) {
+                     kvm_arm_spe_set_irq(cpu, PPI(VIRTUAL_SPE_IRQ));
+-                    kvm_arm_spe_init(cpu);
+                 }
++                kvm_arm_spe_init(cpu);
+             }
+         }
      } else {
-         uint64_t t;
-         uint32_t u;
-@@ -770,9 +777,6 @@ static void aarch64_max_initfn(Object *obj)
-     aarch64_add_sve_properties(obj);
-     object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
-                         cpu_max_set_sve_max_vq, NULL, NULL);
--
--    cpu->has_spe = ON_OFF_AUTO_AUTO;
--    object_property_add_bool(obj, "spe", arm_spe_get, arm_spe_set);
- }
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index 58f991e890..7950ff1d83 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -820,6 +820,11 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+             switched_level &= ~KVM_ARM_DEV_PMU;
+         }
  
- static const ARMCPUInfo aarch64_cpus[] = {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 5a2032fc9e..20269efeff 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -515,6 +515,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-      */
-     int fdarray[3];
-     bool sve_supported;
-+    bool spe_supported;
-     uint64_t features = 0;
-     uint64_t t;
-     int err;
-@@ -655,6 +656,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-     }
- 
-     sve_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SVE) > 0;
-+    spe_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION,
-+                                      KVM_CAP_ARM_SPE_V1) > 0;
- 
-     kvm_arm_destroy_scratch_host_vcpu(fdarray);
- 
-@@ -668,6 +671,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-         t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-         ahcf->isar.id_aa64pfr0 = t;
-     }
-+    if (spe_supported) {
-+        t = ahcf->isar.id_aa64dfr0;
-+        t = FIELD_DP64(t, ID_AA64DFR0, PMSVER, 1);
-+        ahcf->isar.id_aa64dfr0 = t;
-+    }
- 
-     /*
-      * We can assume any KVM supporting CPU is at least a v8
-@@ -830,6 +838,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         assert(kvm_arm_sve_supported());
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SVE;
-     }
-+    if (cpu_isar_feature(aa64_spe, cpu)) {
-+        assert(kvm_arm_spe_supported());
-+        cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SPE_V1;
-+    }
- 
-     /* Do KVM_ARM_VCPU_INIT ioctl */
-     ret = kvm_arm_vcpu_init(cs);
++        if (switched_level & KVM_ARM_DEV_SPE) {
++            qemu_set_irq(cpu->spe_interrupt,
++                         !!(run->s.regs.device_irq_level & KVM_ARM_DEV_SPE));
++            switched_level &= ~KVM_ARM_DEV_SPE;
++        }
+         if (switched_level) {
+             qemu_log_mask(LOG_UNIMP, "%s: unhandled in-kernel device IRQ %x\n",
+                           __func__, switched_level);
 -- 
 2.17.1
 
