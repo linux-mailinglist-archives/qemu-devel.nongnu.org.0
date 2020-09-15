@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DAB26A58F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:50:52 +0200 (CEST)
-Received: from localhost ([::1]:34704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2084626A59A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:53:28 +0200 (CEST)
+Received: from localhost ([::1]:41998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAQ7-0003M8-99
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48472)
+	id 1kIASd-0006TC-7U
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rb-0001tP-Qi; Tue, 15 Sep 2020 08:15:11 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41256)
+ id 1kI9rf-00023d-Ul; Tue, 15 Sep 2020 08:15:15 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9rZ-0008LR-JM; Tue, 15 Sep 2020 08:15:11 -0400
-Received: by mail-pg1-x541.google.com with SMTP id y1so1880489pgk.8;
- Tue, 15 Sep 2020 05:15:08 -0700 (PDT)
+ id 1kI9re-0008M3-20; Tue, 15 Sep 2020 08:15:15 -0400
+Received: by mail-pl1-x641.google.com with SMTP id x18so1242300pll.6;
+ Tue, 15 Sep 2020 05:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BErOzaIvgNGZoOo8yO9vO+FZKR44ZCkaFrgaQmO82bU=;
- b=QQJe1JlCqlwTYES5U3ztYVuTFygN0q3ELhe7/4SyL4Gjhd/venDnNAqrCTEwsriNsN
- 5jgDIJ8yjgQRq5XYfM2vUzut3BuBqb6AFCtpOnTpL1rs8wVAxK2OQilNejW0G8quG5zG
- Z4I6YE5folluvVCCmD20gMt22mvyoyul8n6c/1P8y7HZDcjuosRpTAU7Ka5tXiaFWOT2
- RKRQ84QiyEDITAz15ogVt6+qrG5lQUMM6Tv00GXVA3R4PyEZyH+3BD4T6umEjimBmWsB
- tcS/2/or+j87Mtsv1Xc8qEo5ZWMYccBAJkYURbx9+KepO/0NZQXaT6c3Qyg4hLHrtiXc
- 5f5Q==
+ bh=ajxFadu+yHNyg0D+X68nZFkcXE3tK/jib0sFS+8nB4w=;
+ b=G7CuxFXCpOVB4PxoOUxDiLu6ip1jXjbq/yoDF3ecQzhTwo6Ah5wh8QX+Bje5Gj8QR2
+ nvizbCmtxPEcDvsW8LOkyNqQwnj95h2Ym7r8XTl83ZsuURr3HmR8pkRcp7ccIRuSJC+L
+ 4u//mAgXPe2jY18zr1SzEGd0aY5L1H+YFWjP21ZaarT3RAl9NUGNResw6+IsB6MLUV6T
+ sxePT3Ie3jMgbth0Lis6yn1qkZb008yBBDLjR6xNRtHPU2gt6o1JpJnLH9su4HeB5dXz
+ BHSm1jYpw/wnjvErXFDtzL2AGtIT21uqVpoq2CG1TIHBxpP2OOyKtz1y7pHU1OCVumy0
+ 0eNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BErOzaIvgNGZoOo8yO9vO+FZKR44ZCkaFrgaQmO82bU=;
- b=SrqOrNKRPsDQqkM92j9+9K7RNsH3ctmuuGa+2ENb6QgN9rHk4XNUf/NGOptkUkNUue
- 9oae0WZHy7rc17KaW7O3rq0249af97h0U8kGGevF8yum8dMO6li6R8h0yNp4Dmj1KmgY
- tBt8tKndwnb6BIpNPUz/ZuhMo45HBgOzzKM8FbsBvhI/I7IxmdgDJZkQ3KPW0b0kAJcB
- 1pSk9sMov0y/uzZCCHrF9ha18JW7fWHv8LIBvhGbTruUAYiFgpWcdyxSHqURJVrT3DJD
- Boi1Zjethm9nf1OGE4rwngAtUXfuV6PBqYX8OjQqb1oy9NGNQvK8qfxDuv17UhXKENNx
- QYng==
-X-Gm-Message-State: AOAM531sfunPI4OPyXtLPlKpjYmBBowm4HvV/XK1J24C+0+8MwV9vSZ7
- sXlT3R6P9rmiqtwg1yhdfIQ66PjcsbZNAEdVjJA=
-X-Google-Smtp-Source: ABdhPJxeZuhLBPz4WQtc9uumKcnVAgveodmD0fwT0Hj5kgERHz2uCnQXnHGjnpE56xG6H95O36FPig==
-X-Received: by 2002:aa7:869a:0:b029:142:2501:34d1 with SMTP id
- d26-20020aa7869a0000b0290142250134d1mr1665456pfo.42.1600172107393; 
- Tue, 15 Sep 2020 05:15:07 -0700 (PDT)
+ bh=ajxFadu+yHNyg0D+X68nZFkcXE3tK/jib0sFS+8nB4w=;
+ b=hzCOCOx3UzcwlH/mMvV5ZhlXEExVKvciK+MmZ5dVpYo0+SThEqlY+LlWnhb0ZxD/2a
+ XeDjb6YcJAlkb2dU1DDHxKiN8nFN2a2Zq4gV2dfDynRmFNLWV42+i1vbvuKylUkbIttf
+ i/sbpjW6s4j6AEvAzN014xEE261qPdhHogrcgTNxtjZRm196s3f18Gc36v6L9x/o1Z0p
+ 7VJXS6CfEgokXNZZoy7ZJrDbT1K/t9+SqNKAqT1xBOOkNNJxRrfyt+zPvtB+z5nwC9+S
+ zK/cT9uIbYwBhUq55PO8Pdis92fvadnc6P8o1KKC+v5W/wIZ35EFl258mfhbRma0ZC5Q
+ mRqw==
+X-Gm-Message-State: AOAM530iNVzpZ3tvqJyUHSIxgMk/G3JGWsZHUQR6FuJ+aljao55urhzb
+ KiXP2X2CuPtRxdDMbKBBun3a8Xoab2p8FjfDZ9Q=
+X-Google-Smtp-Source: ABdhPJw98Lc3tzKeo+lgHNoH/mfvhrIsBq5BYSDWYwDbZL1WPZlRW2AY+2irudECSKY5NYNPPsrvbQ==
+X-Received: by 2002:a17:902:a512:b029:d0:92cc:a1f6 with SMTP id
+ s18-20020a170902a512b02900d092cca1f6mr19579057plq.9.1600172111966; 
+ Tue, 15 Sep 2020 05:15:11 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.15.03
+ k28sm13683061pfh.196.2020.09.15.05.15.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:15:06 -0700 (PDT)
+ Tue, 15 Sep 2020 05:15:11 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 20/26] tests: fix test-util-sockets.c
-Date: Tue, 15 Sep 2020 20:13:12 +0800
-Message-Id: <20200915121318.247-21-luoyonggang@gmail.com>
+Subject: [PATCH v9 21/26] tests: Fixes test-qdev-global-props.c
+Date: Tue, 15 Sep 2020 20:13:13 +0800
+Message-Id: <20200915121318.247-22-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
 References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,69 +98,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes following errors:
-Running test test-util-sockets
-ERROR test-util-sockets - missing test plan
-
-# Start of name tests
-**
-ERROR:../tests/test-util-sockets.c:93:test_socket_fd_pass_name_good: assertion failed (fd != -1): (-1 != -1)
-Bail out! ERROR:../tests/test-util-sockets.c:93:test_socket_fd_pass_name_good: assertion failed (fd != -1): (-1 != -1)
-
-First should call to qemu_init_main_loop before socket_init,
-then on win32 doesn't support for SOCKET_ADDRESS_TYPE_FD socket type
+On win32 the line ending are \r\n, so we skip the \n in function test_dynamic_globalprop
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/test-util-sockets.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ tests/test-qdev-global-props.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-index af9f5c0c70..1bbb16d9b1 100644
---- a/tests/test-util-sockets.c
-+++ b/tests/test-util-sockets.c
-@@ -75,7 +75,7 @@ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap) { abort(); }
- void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp) {}
- void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp) {}
- 
--
-+#ifndef _WIN32
- static void test_socket_fd_pass_name_good(void)
- {
-     SocketAddress addr;
-@@ -227,6 +227,7 @@ static void test_socket_fd_pass_num_nocli(void)
- 
-     g_free(addr.u.fd.str);
+diff --git a/tests/test-qdev-global-props.c b/tests/test-qdev-global-props.c
+index 8a3c14d92c..be6bcfc46b 100644
+--- a/tests/test-qdev-global-props.c
++++ b/tests/test-qdev-global-props.c
+@@ -251,10 +251,10 @@ static void test_dynamic_globalprop(void)
+     g_test_trap_assert_passed();
+     g_test_trap_assert_stderr_unmatched("*prop1*");
+     g_test_trap_assert_stderr_unmatched("*prop2*");
+-    g_test_trap_assert_stderr("*warning: global dynamic-prop-type-bad.prop3 has invalid class name\n*");
++    g_test_trap_assert_stderr("*warning: global dynamic-prop-type-bad.prop3 has invalid class name*");
+     g_test_trap_assert_stderr_unmatched("*prop4*");
+-    g_test_trap_assert_stderr("*warning: global nohotplug-type.prop5=105 not used\n*");
+-    g_test_trap_assert_stderr("*warning: global nondevice-type.prop6 has invalid class name\n*");
++    g_test_trap_assert_stderr("*warning: global nohotplug-type.prop5=105 not used*");
++    g_test_trap_assert_stderr("*warning: global nondevice-type.prop6 has invalid class name*");
+     g_test_trap_assert_stdout("");
  }
-+#endif
  
- #ifdef __linux__
- static gchar *abstract_sock_name;
-@@ -321,6 +322,7 @@ int main(int argc, char **argv)
- {
-     bool has_ipv4, has_ipv6;
- 
-+    qemu_init_main_loop(&error_abort);
-     socket_init();
- 
-     g_test_init(&argc, &argv, NULL);
-@@ -340,6 +342,7 @@ int main(int argc, char **argv)
-                         test_fd_is_socket_bad);
-         g_test_add_func("/util/socket/is-socket/good",
-                         test_fd_is_socket_good);
-+#ifndef _WIN32
-         g_test_add_func("/socket/fd-pass/name/good",
-                         test_socket_fd_pass_name_good);
-         g_test_add_func("/socket/fd-pass/name/bad",
-@@ -352,6 +355,7 @@ int main(int argc, char **argv)
-                         test_socket_fd_pass_num_bad);
-         g_test_add_func("/socket/fd-pass/num/nocli",
-                         test_socket_fd_pass_num_nocli);
-+#endif
-     }
- 
- #ifdef __linux__
 -- 
 2.28.0.windows.1
 
