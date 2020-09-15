@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEF226A5D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:03:49 +0200 (CEST)
-Received: from localhost ([::1]:41374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E92D26A613
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:15:28 +0200 (CEST)
+Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAce-0001WQ-Mf
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59830)
+	id 1kIAnv-0001gd-4Q
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:15:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kIAZL-0008Gy-FP
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42466
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIAZN-0008JV-Ky
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:25 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52610
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kIAZH-0005xa-8i
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIAZL-0005yr-3g
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600174818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MiqWmfo9obq9THM9dx2n99YXGugXv0XtHCg9e9fzYKE=;
- b=P2GgTnIs0+ybRxHttZXIl2MOdgyg08RVfpVaqxzwkVPR9p52uO63KahWP4/nIENU5EjIi0
- x+aMzvCFU+zR7Sw94fAOasrUvlai1SlWWsC836+54Cj3UPJaazvyenJcdFeShKWgR0DDYh
- pOmSq1zhAhAcbMXvuBv5+FDZG7wNMvE=
+ s=mimecast20190719; t=1600174821;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Kr25UJD/dw4wntuUz0tkyiG70er4SHYBGD7E0ZONqkI=;
+ b=ScH5+Reyg4+0RDBaftSPpjJBSnXL3R1RtPEQ+NnD/8WpTW90j7lNVV06qjPnNLfDCb64Ye
+ Y8L2xYCMiZgeNXJSXaDFM/vqUwO8xuGuhbhcrNPK8TjOCqaqMWcKQ7OzSb82tga94uMeBQ
+ AbIbvXoA277HYJlJCMOY/f2jPrz/t6c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-uJvMcD26M3iDB1frWVQctg-1; Tue, 15 Sep 2020 09:00:13 -0400
-X-MC-Unique: uJvMcD26M3iDB1frWVQctg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-558-oOfcpGRvNuaJaa5BBlAvTg-1; Tue, 15 Sep 2020 09:00:15 -0400
+X-MC-Unique: oOfcpGRvNuaJaa5BBlAvTg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D9A2ADC11;
- Tue, 15 Sep 2020 13:00:12 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-114-120.ams2.redhat.com
- [10.36.114.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D0047EB97;
- Tue, 15 Sep 2020 13:00:01 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio: skip legacy support check on machine types less than
- 5.1
-Date: Tue, 15 Sep 2020 15:00:00 +0200
-Message-Id: <20200915130000.78334-1-sgarzare@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A1B6801AE4;
+ Tue, 15 Sep 2020 13:00:13 +0000 (UTC)
+Received: from redhat.com (ovpn-113-234.ams2.redhat.com [10.36.113.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6383C1002D42;
+ Tue, 15 Sep 2020 13:00:04 +0000 (UTC)
+Date: Tue, 15 Sep 2020 14:00:01 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Yonggang Luo <luoyonggang@gmail.com>
+Subject: Re: [PATCH v9 04/26] win32: Simplify gmtime_r detection direct base
+ on _POSIX_THREAD_SAFE_FUNCTIONS.
+Message-ID: <20200915130001.GG1502912@redhat.com>
+References: <20200915121318.247-1-luoyonggang@gmail.com>
+ <20200915121318.247-5-luoyonggang@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200915121318.247-5-luoyonggang@gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:29:39
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -80,103 +83,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cornelia.huck@de.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 9b3a35ec82 ("virtio: verify that legacy support is not accidentally
-on") added a check that returns an error if legacy support is on, but the
-device is not legacy.
+On Tue, Sep 15, 2020 at 08:12:56PM +0800, Yonggang Luo wrote:
+> First, this reduce the size of configure, configure are tending to removal in future,
+> and this didn't introduce any new feature or remove any exist feature.
+> Second, the current localtime_r detection are conflict with ncursesw detection in
+> mingw, when ncursesw detected, it will provide the following compile flags
+> pkg-config --cflags ncursesw
+> -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC:/CI-Tools/msys64/mingw64/include/ncursesw
+> And the compile flag _POSIX_C_SOURCE will always cause _POSIX_THREAD_SAFE_FUNCTIONS to
+> be defined, in new version of mingw, that's will cause localtime_r to be defined.
+> But the configure script didn't provide _POSIX_C_SOURCE macro, and that's will result
+> localtime_r not detected because localtime_r are defined in forceinline manner.
 
-Unfortunately some devices were wrongly declared legacy even if they
-were not (e.g vhost-vsock).
+ncursesw is just one of the three curses impls we can select for
+building against, so it doesn't feel right to make an assumption
+that _POSIX_C_SOURCE is always defined.
 
-To avoid migration issues, we disable this error for machine types < 5.1,
-but we print a warning.
+> 
+> And finally cause conflict between QEMU defined localtime_r
+> struct tm *localtime_r(const time_t *timep, struct tm *result);
+> with mingw defined localtime_r
+> 
+> ```
+> #if defined(_POSIX_C_SOURCE) && !defined(_POSIX_THREAD_SAFE_FUNCTIONS)
+> #define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
+> #endif
+> 
+> #ifdef _POSIX_THREAD_SAFE_FUNCTIONS
+> __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
+>   return localtime_s(_Tm, _Time) ? NULL : _Tm;
+> }
+> __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
+>   return gmtime_s(_Tm, _Time) ? NULL : _Tm;
+> }
+> __forceinline char *__CRTDECL ctime_r(const time_t *_Time, char *_Str) {
+>   return ctime_s(_Str, 0x7fffffff, _Time) ? NULL : _Str;
+> }
+> __forceinline char *__CRTDECL asctime_r(const struct tm *_Tm, char * _Str) {
+>   return asctime_s(_Str, 0x7fffffff, _Tm) ? NULL : _Str;
+> }
+> #endif
+> ```
+> 
+> So I suggest remove this configure script, and restrict msys2/mingw version to easy to maintain.
+> And use _POSIX_THREAD_SAFE_FUNCTIONS to guard the localtime_r and counterpart functions
+> 
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+>  configure                 | 34 ----------------------------------
+>  include/sysemu/os-win32.h |  4 ++--
+>  util/oslib-win32.c        |  2 +-
+>  3 files changed, 3 insertions(+), 37 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index dc4b7a2e55..bac48b5b49 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2496,37 +2496,6 @@ if test "$vhost_net" = ""; then
+>    test "$vhost_kernel" = "yes" && vhost_net=yes
+>  fi
+>  
+> -##########################################
+> -# MinGW / Mingw-w64 localtime_r/gmtime_r check
+> -
+> -if test "$mingw32" = "yes"; then
+> -    # Some versions of MinGW / Mingw-w64 lack localtime_r
+> -    # and gmtime_r entirely.
+> -    #
+> -    # Some versions of Mingw-w64 define a macro for
+> -    # localtime_r/gmtime_r.
+> -    #
+> -    # Some versions of Mingw-w64 will define functions
+> -    # for localtime_r/gmtime_r, but only if you have
+> -    # _POSIX_THREAD_SAFE_FUNCTIONS defined. For fun
+> -    # though, unistd.h and pthread.h both define
+> -    # that for you.
+> -    #
+> -    # So this #undef localtime_r and #include <unistd.h>
+> -    # are not in fact redundant.
+> -cat > $TMPC << EOF
+> -#include <unistd.h>
+> -#include <time.h>
+> -#undef localtime_r
+> -int main(void) { localtime_r(NULL, NULL); return 0; }
+> -EOF
+> -    if compile_prog "" "" ; then
+> -        localtime_r="yes"
+> -    else
+> -        localtime_r="no"
+> -    fi
+> -fi
+> -
+>  ##########################################
+>  # pkg-config probe
+>  
+> @@ -7088,9 +7057,6 @@ if [ "$bsd" = "yes" ] ; then
+>    echo "CONFIG_BSD=y" >> $config_host_mak
+>  fi
+>  
+> -if test "$localtime_r" = "yes" ; then
+> -  echo "CONFIG_LOCALTIME_R=y" >> $config_host_mak
+> -fi
+>  if test "$qom_cast_debug" = "yes" ; then
+>    echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
+>  fi
+> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+> index d8978e28c0..3ac8a53bac 100644
+> --- a/include/sysemu/os-win32.h
+> +++ b/include/sysemu/os-win32.h
+> @@ -48,12 +48,12 @@
+>  #define siglongjmp(env, val) longjmp(env, val)
+>  
+>  /* Missing POSIX functions. Don't use MinGW-w64 macros. */
+> -#ifndef CONFIG_LOCALTIME_R
+> +#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
+>  #undef gmtime_r
+>  struct tm *gmtime_r(const time_t *timep, struct tm *result);
+>  #undef localtime_r
+>  struct tm *localtime_r(const time_t *timep, struct tm *result);
+> -#endif /* CONFIG_LOCALTIME_R */
+> +#endif
+>  
+>  static inline void os_setup_signal_handling(void) {}
+>  static inline void os_daemonize(void) {}
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index c654dafd93..f2fa9a3549 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -106,7 +106,7 @@ void qemu_anon_ram_free(void *ptr, size_t size)
+>      }
+>  }
+>  
+> -#ifndef CONFIG_LOCALTIME_R
+> +#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
+>  /* FIXME: add proper locking */
+>  struct tm *gmtime_r(const time_t *timep, struct tm *result)
+>  {
+> -- 
+> 2.28.0.windows.1
+> 
+> 
 
-Cc: qemu-stable@nongnu.org
-Fixes: 9b3a35ec82 ("virtio: verify that legacy support is not accidentally on")
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Suggested-by: Cornelia Huck <cornelia.huck@de.ibm.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- include/hw/virtio/virtio.h |  1 +
- hw/core/machine.c          |  1 +
- hw/virtio/virtio.c         | 18 ++++++++++++++++--
- 3 files changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 807280451b..ed7cee348b 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -103,6 +103,7 @@ struct VirtIODevice
-     bool use_started;
-     bool started;
-     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
-+    bool disable_legacy_check;
-     VMChangeStateEntry *vmstate;
-     char *bus_name;
-     uint8_t device_endian;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index ea26d61237..b686eab798 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -44,6 +44,7 @@ GlobalProperty hw_compat_5_0[] = {
-     { "vmport", "x-signal-unsupported-cmd", "off" },
-     { "vmport", "x-report-vmx-type", "off" },
-     { "vmport", "x-cmds-v2", "off" },
-+    { "virtio-device", "x-disable-legacy-check", "true" },
- };
- const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
- 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index e983025217..30ccc43b8c 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3287,6 +3287,8 @@ void virtio_init(VirtIODevice *vdev, const char *name,
-  */
- bool virtio_legacy_allowed(VirtIODevice *vdev)
- {
-+    bool ret = false;
-+
-     switch (vdev->device_id) {
-     case VIRTIO_ID_NET:
-     case VIRTIO_ID_BLOCK:
-@@ -3298,10 +3300,20 @@ bool virtio_legacy_allowed(VirtIODevice *vdev)
-     case VIRTIO_ID_9P:
-     case VIRTIO_ID_RPROC_SERIAL:
-     case VIRTIO_ID_CAIF:
-+        ret = true;
-+    }
-+
-+    /*
-+     * For backward compatibility, we allow legacy mode with old machine types
-+     * to get the migration working.
-+     */
-+    if (!ret && vdev->disable_legacy_check) {
-+        warn_report("device is modern-only, but for backward compatibility "
-+                    "legacy is allowed");
-         return true;
--    default:
--        return false;
-     }
-+
-+    return ret;
- }
- 
- hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n)
-@@ -3713,6 +3725,8 @@ static Property virtio_properties[] = {
-     DEFINE_VIRTIO_COMMON_FEATURES(VirtIODevice, host_features),
-     DEFINE_PROP_BOOL("use-started", VirtIODevice, use_started, true),
-     DEFINE_PROP_BOOL("use-disabled-flag", VirtIODevice, use_disabled_flag, true),
-+    DEFINE_PROP_BOOL("x-disable-legacy-check", VirtIODevice,
-+                     disable_legacy_check, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+Regards,
+Daniel
 -- 
-2.26.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
