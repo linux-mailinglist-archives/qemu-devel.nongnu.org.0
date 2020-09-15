@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DC826B26B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:47:27 +0200 (CEST)
-Received: from localhost ([::1]:39416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684DB26B29A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:50:49 +0200 (CEST)
+Received: from localhost ([::1]:47664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIJjR-0006Ux-PD
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
+	id 1kIJmi-0001TV-Fe
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdW-0006zI-2o
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27046)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdZ-00076l-82
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdT-0002fU-TB
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:17 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdW-0002ff-2h
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600209675;
+ s=mimecast20190719; t=1600209677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k8F3PRPOv5qdJJMtR8tcJX1mXWdNflxU9VYtL7zeGu8=;
- b=ee2wBD38GaNtJlQ2tQKvPhRAyur5/6YMVn0doRrcPT/wuIOCgRxRGsPZWBq2zC0TLEhsug
- CuhXXZBcr3qsk7WmM6GS14eemCtRTnf7ChhUNSFjb1odjedDIPrFhmHEwyWjobEkvp7XV2
- l3mE/Vp2uCLXThoxkgBe6+AAVlY2A4Q=
+ bh=25L+LP3sg7a08ioNc1kdJFCC3fyjobquHZgeT+XNhAE=;
+ b=eUzQBu2NmASl3LkY9leQhQ3F02Yz+RnkE0hOBUhz0sXibSQsYoY2v0Le5HRZXxLR89OvXl
+ tCX4FAuFDZywoEt7mFY98a9kU480lGs57stPKcFDJeJniTRdxP9w/7tWuIY1OWa9YWBiCl
+ EfiQraMOzbXSvyzFqCXTKcHtwC2/tts=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-Na1KkeLxPI2PxfN8PSk5Kg-1; Tue, 15 Sep 2020 18:41:13 -0400
-X-MC-Unique: Na1KkeLxPI2PxfN8PSk5Kg-1
+ us-mta-286-9aKqX1YgM4aq0jXXWYGKpQ-1; Tue, 15 Sep 2020 18:41:14 -0400
+X-MC-Unique: 9aKqX1YgM4aq0jXXWYGKpQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 801AF100A44D;
- Tue, 15 Sep 2020 22:40:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12311427F2;
+ Tue, 15 Sep 2020 22:41:01 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29ED4838B7;
- Tue, 15 Sep 2020 22:40:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C75257EEB4;
+ Tue, 15 Sep 2020 22:40:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 14/37] qapi/common.py: Move comments into docstrings
-Date: Tue, 15 Sep 2020 18:40:04 -0400
-Message-Id: <20200915224027.2529813-15-jsnow@redhat.com>
+Subject: [PATCH 15/37] qapi/common.py: split build_params into new file
+Date: Tue, 15 Sep 2020 18:40:05 -0400
+Message-Id: <20200915224027.2529813-16-jsnow@redhat.com>
 In-Reply-To: <20200915224027.2529813-1-jsnow@redhat.com>
 References: <20200915224027.2529813-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -85,96 +85,129 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As docstrings, they'll show up in documentation and IDE help.
+Including it in common.py creates a circular import dependency, because
+schema relies on common.py. To type build_params properly, it needs to
+be moved outside of the chain.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/common.py | 50 ++++++++++++++++++++++++++++++------------
- 1 file changed, 36 insertions(+), 14 deletions(-)
+ scripts/qapi/commands.py |  2 +-
+ scripts/qapi/common.py   | 23 -----------------------
+ scripts/qapi/events.py   |  2 +-
+ scripts/qapi/params.py   | 40 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 42 insertions(+), 25 deletions(-)
+ create mode 100644 scripts/qapi/params.py
 
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 2e4b4de0fa..0c0fe854fe 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -14,10 +14,10 @@
+ """
+ 
+ from .common import (
+-    build_params,
+     c_name,
+     mcgen,
+ )
++from .params import build_params
+ from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
+ 
+ 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index af01348b35..38d380f0a9 100644
+index 38d380f0a9..0b1af694e6 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -20,10 +20,18 @@
- c_name_trans = str.maketrans('.-', '__')
+@@ -209,26 +209,3 @@ def gen_endif(ifcond: Sequence[str]) -> str:
+ #endif /* %(cond)s */
+ ''', cond=ifc)
+     return ret
+-
+-
+-def build_params(arg_type,
+-                 boxed: bool,
+-                 extra: Optional[str] = None) -> str:
+-    ret = ''
+-    sep = ''
+-    if boxed:
+-        assert arg_type
+-        ret += '%s arg' % arg_type.c_param_type()
+-        sep = ', '
+-    elif arg_type:
+-        assert not arg_type.variants
+-        for memb in arg_type.members:
+-            ret += sep
+-            sep = ', '
+-            if memb.optional:
+-                ret += 'bool has_%s, ' % c_name(memb.name)
+-            ret += '%s %s' % (memb.type.c_param_type(),
+-                              c_name(memb.name))
+-    if extra:
+-        ret += sep + extra
+-    return ret if ret else 'void'
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index 6b3afa14d7..75eda72534 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -13,11 +13,11 @@
+ """
  
- 
--# ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
--# ENUM_NAME -> ENUM_NAME, ENUM_NAME1 -> ENUM_NAME1, ENUM_Name2 -> ENUM_NAME2
--# ENUM24_Name -> ENUM24_NAME
- def camel_to_upper(value: str) -> str:
-+    """
-+    Converts CamelCase to CAMEL_CASE.
+ from .common import (
+-    build_params,
+     c_enum_const,
+     c_name,
+     mcgen,
+ )
++from .params import build_params
+ from .gen import QAPISchemaModularCVisitor, ifcontext
+ from .schema import QAPISchemaEnumMember
+ from .types import gen_enum, gen_enum_lookup
+diff --git a/scripts/qapi/params.py b/scripts/qapi/params.py
+new file mode 100644
+index 0000000000..4d4b02f60d
+--- /dev/null
++++ b/scripts/qapi/params.py
+@@ -0,0 +1,40 @@
++#
++# QAPI helper library
++#
++# Copyright IBM, Corp. 2011
++# Copyright (c) 2013-2018 Red Hat Inc.
++#
++# Authors:
++#  Anthony Liguori <aliguori@us.ibm.com>
++#  Markus Armbruster <armbru@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2.
++# See the COPYING file in the top-level directory.
 +
-+    Examples:
-+      ENUMName -> ENUM_NAME
-+      EnumName1 -> ENUM_NAME1
-+      ENUM_NAME -> ENUM_NAME
-+      ENUM_NAME1 -> ENUM_NAME1
-+      ENUM_Name2 -> ENUM_NAME2
-+      ENUM24_Name -> ENUM24_NAME
-+    """
-     c_fun_str = c_name(value, False)
-     if value.isupper():
-         return c_fun_str
-@@ -45,21 +53,33 @@ def camel_to_upper(value: str) -> str:
- def c_enum_const(type_name: str,
-                  const_name: str,
-                  prefix: Optional[str] = None) -> str:
-+    """
-+    Generate a C enumeration constant name.
++from typing import Optional
 +
-+    :param type_name: The name of the enumeration.
-+    :param const_name: The name of this constant.
-+    :param prefix: Optional, prefix that overrides the type_name.
-+    """
-     if prefix is not None:
-         type_name = prefix
-     return camel_to_upper(type_name) + '_' + c_name(const_name, False).upper()
- 
- 
--# Map @name to a valid C identifier.
--# If @protect, avoid returning certain ticklish identifiers (like
--# C keywords) by prepending 'q_'.
--#
--# Used for converting 'name' from a 'name':'type' qapi definition
--# into a generated struct member, as well as converting type names
--# into substrings of a generated C function name.
--# '__a.b_c' -> '__a_b_c', 'x-foo' -> 'x_foo'
--# protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
- def c_name(name: str, protect: bool = True) -> str:
-+    """
-+    Map `name` to a valid C identifier.
++from .common import c_name
++from .schema import QAPISchemaObjectType
 +
-+    Used for converting 'name' from a 'name':'type' qapi definition
-+    into a generated struct member, as well as converting type names
-+    into substrings of a generated C function name.
 +
-+    '__a.b_c' -> '__a_b_c', 'x-foo' -> 'x_foo'
-+    protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
-+
-+    :param name: The name to map.
-+    :param protect: If true, avoid returning certain ticklish identifiers
-+                    (like C keywords) by prepending 'q_'.
-+    """
-     # ANSI X3J11/88-090, 3.1.1
-     c89_words = set(['auto', 'break', 'case', 'char', 'const', 'continue',
-                      'default', 'do', 'double', 'else', 'enum', 'extern',
-@@ -135,9 +155,11 @@ def pop(self, amount: int = 4) -> int:
- INDENT = Indent(0)
- 
- 
--# Generate @code with @kwds interpolated.
--# Obey INDENT level, and strip EATSPACE.
- def cgen(code: str, **kwds: Union[str, int]) -> str:
-+    """
-+    Generate `code` with `kwds` interpolated.
-+    Obey `INDENT`, and strip `EATSPACE`.
-+    """
-     raw = code % kwds
-     if INDENT:
-         raw, _ = re.subn(r'^(?!(#|$))', str(INDENT), raw, flags=re.MULTILINE)
++def build_params(arg_type: Optional[QAPISchemaObjectType],
++                 boxed: bool,
++                 extra: Optional[str] = None) -> str:
++    ret = ''
++    sep = ''
++    if boxed:
++        assert arg_type
++        ret += '%s arg' % arg_type.c_param_type()
++        sep = ', '
++    elif arg_type:
++        assert not arg_type.variants
++        for memb in arg_type.members:
++            ret += sep
++            sep = ', '
++            if memb.optional:
++                ret += 'bool has_%s, ' % c_name(memb.name)
++            ret += '%s %s' % (memb.type.c_param_type(),
++                              c_name(memb.name))
++    if extra:
++        ret += sep + extra
++    return ret if ret else 'void'
 -- 
 2.26.2
 
