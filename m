@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EA926A552
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:37:12 +0200 (CEST)
-Received: from localhost ([::1]:50962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B778326A56B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:44:10 +0200 (CEST)
+Received: from localhost ([::1]:46760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIACt-0003Ta-Jx
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48248)
+	id 1kIAJd-0004xf-Qh
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:44:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qq-0000xI-NK; Tue, 15 Sep 2020 08:14:26 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:37085)
+ id 1kI9qv-0000zU-No; Tue, 15 Sep 2020 08:14:29 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qn-0008Ce-3W; Tue, 15 Sep 2020 08:14:24 -0400
-Received: by mail-pl1-x644.google.com with SMTP id u9so1237967plk.4;
- Tue, 15 Sep 2020 05:14:20 -0700 (PDT)
+ id 1kI9qs-0008DD-Ev; Tue, 15 Sep 2020 08:14:29 -0400
+Received: by mail-pf1-x429.google.com with SMTP id o20so1800659pfp.11;
+ Tue, 15 Sep 2020 05:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=08QvrHPKEN4GbCfMFC4QXPv5o40Q0NOGDJhtin5ahIA=;
- b=nglpp7Vbz1cImKfKJYdVyhKLTHX7VsUhuaJ2L1iNOr2eM6wwcUffLpLeYvSTeE1qa4
- m/bgsnCYj2c6ccaPnBiq6eZ2S1CrapAoGLuDz3q9Q1negU/X76+i1ZSqAWtbj9nN1tOk
- FkLE+ok8hErOm+8RFmMwNJga2I19+CRUakj6jlOzDircx9r8K/WBQ5Ikc8K35U9YcS+h
- HP7SnSczdtp5Lt9vahuNXGF9hvuNLHRd4RWzUO5PKoxdzGw96pGR1k9kam4mmsOhs15P
- gNeCBJteFSQj7EI8ZS/NtCDWItbRACx5lBsRzoekdnlmdHBKdjsf0erJzCUOj/04/CM8
- MKZQ==
+ bh=/tGNcDT+soty377wKryHTaQKgDiEnZiZY12oC2sg7jk=;
+ b=Ublds1wZL7FnLdSB0HV8YmB+djhFL+5FNY5UWiZGG7Id6B8IRr7VmO9te+cDnXR7ML
+ MtVfEWrRoW2aAr9kQDVxbVNBvFq0WZ1O3Ex3SVbmvzzJf2GVy/BfjCx/rS3QwHAQOKVE
+ sGH64MXVhnk+F1EkyfQLqVEoLqN40oj0yjdu+vUC+q91FQCcCCk3V+6b0yz2xGHVt+P+
+ S+ZLclwHVXejV2c+SlE/ZwYrGpGujbaIVly6/JSLPrfWkH82eD2ZVaEL0EdYNPNApsJz
+ zNPDlcb4lzmZVZH0GqgiVNLN0kn+2G3BRgOInKjT2MWccKjYMs8/JpXMcrRZz7BnFDiq
+ Zq2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=08QvrHPKEN4GbCfMFC4QXPv5o40Q0NOGDJhtin5ahIA=;
- b=r1zluS8qOCyaJ/bxkc3ZcKDVG3yxFetQBluXJgOvu8c+5JGI+y0UySbPootkT8oIZP
- JRZSoPKwJy7wxNYDcS5A/G5H8zqNcIj66PNcEu3NU6b8uV6LQaTAcU6t9CeFL6EkIlEe
- sz8C7hj4GYiMcMsquyTI8UVCrcHv4V86wF71VebmoGSIJThOa3XtnjZkdis9shJxs6KK
- p2mUPVvxdebp2QeY8gaL/GL7TY8/q6nw2VvRm10XrdZhLuibaP9C8uyau/oRv+RIh0No
- r0+xPqywH2B14oBMi14UdGvVJdedBudr5NT8Rv+X0Ur6sn9OojCuPyCvkiwvk+H4ZPEW
- oafQ==
-X-Gm-Message-State: AOAM532HuP8Fs8FwMlhSJN5YMczU9Zu7u+DDF8iFhtDhoDQFtC9iyhzp
- rxEsaUK9ijU9uGSHfVbMQ47Xrw3mzlzaecvIl4I=
-X-Google-Smtp-Source: ABdhPJyWbrNn7g0s7T6NMINRHiBCQttHFQUCu5CFhAusmZBgyRdfLE6SZ5O9IOBpLbUGuQKHuTdK7g==
-X-Received: by 2002:a17:902:522:b029:d1:9bc8:15df with SMTP id
- 31-20020a1709020522b02900d19bc815dfmr19540125plf.25.1600172057481; 
- Tue, 15 Sep 2020 05:14:17 -0700 (PDT)
+ bh=/tGNcDT+soty377wKryHTaQKgDiEnZiZY12oC2sg7jk=;
+ b=MVoMrFSuHRCvOTozAQXfQ/MTrne0YdICqRwDQ7GJS+gxtah2LkT51/s4STUgs4we6C
+ 9j1eph5EvMDcyHsSsIKHF82n2bL3zy7AwhpuKGjXmIkfoV76qlX2O45sOT0yHFaraS0W
+ ui381ccd0Ex4+W+fuf+I9/HFBr3PSTgRi/nCdLHFRzZGC4ubywk5/AzN70i/EMH7ysz5
+ sFMTlJaUGtY+iCEPPBJ4ZEkAQVfEcPf0n19x3C4cZTrquX+aL8c7kqeHY1djeDYOh4Fk
+ 4f/LSf6wSAjeOdTHcsM23+/MWe9kxnzrew2QSGBZ2vBJa+Q68Fy09FTewxaqbcbCmkBF
+ LsGA==
+X-Gm-Message-State: AOAM5315oXG2B2QkyhOrFJI3IMAFGas8MhpgNwHB9uYMTrSTGc7P1Js1
+ 9TdPdfOQSO+dSeYhLd/i+m8b1iPanI93tkyUs+w=
+X-Google-Smtp-Source: ABdhPJyIR68ALKdgN/MzGwe3TRAKxwg2b36GkFje7CpkacDYwOJLOCBnh98ByxA5qe2t7+eP95bZ3w==
+X-Received: by 2002:a62:1557:0:b029:13e:d13d:a060 with SMTP id
+ 84-20020a6215570000b029013ed13da060mr17699900pfv.38.1600172063327; 
+ Tue, 15 Sep 2020 05:14:23 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.14.13
+ k28sm13683061pfh.196.2020.09.15.05.14.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:14:16 -0700 (PDT)
+ Tue, 15 Sep 2020 05:14:22 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 09/26] osdep: file locking functions are not available on
- Win32
-Date: Tue, 15 Sep 2020 20:13:01 +0800
-Message-Id: <20200915121318.247-10-luoyonggang@gmail.com>
+Subject: [PATCH v9 10/26] meson: Use -b to ignore CR vs. CR-LF issues on
+ Windows
+Date: Tue, 15 Sep 2020 20:13:02 +0800
+Message-Id: <20200915121318.247-11-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
 References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -99,35 +99,30 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not declare the following locking functions on Win32:
-int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
-int qemu_unlock_fd(int fd, int64_t start, int64_t len);
-int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
-bool qemu_has_ofd_lock(void);
+Ideally we would use the '--strip-trailing-cr' option, but not
+being POSIX is a portability problem (i.e. BSDs and Solaris
+based OSes). Instead use the '-b' option which, although doing
+slightly more, produce the expected result on Windows."
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/qemu/osdep.h | 2 +-
+ tests/qapi-schema/meson.build | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 412962d91a..e80fddd1e8 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -502,11 +502,11 @@ int qemu_close(int fd);
- int qemu_unlink(const char *name);
- #ifndef _WIN32
- int qemu_dup(int fd);
--#endif
- int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
- int qemu_unlock_fd(int fd, int64_t start, int64_t len);
- int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
- bool qemu_has_ofd_lock(void);
-+#endif
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index c87d141417..f1449298b0 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -220,6 +220,6 @@ qapi_doc = custom_target('QAPI doc',
  
- #if defined(__HAIKU__) && defined(__i386__)
- #define FMT_pid "%ld"
+ # "full_path()" needed here to work around
+ # https://github.com/mesonbuild/meson/issues/7585
+-test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
++test('QAPI doc', diff, args: ['-b', '-u', files('doc-good.texi'), qapi_doc[0].full_path()],
+      depends: qapi_doc,
+      suite: ['qapi-schema', 'qapi-doc'])
 -- 
 2.28.0.windows.1
 
