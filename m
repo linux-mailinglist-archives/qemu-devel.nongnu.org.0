@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A26D26AACD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:36:35 +0200 (CEST)
-Received: from localhost ([::1]:43182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663BE26AB0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:47:22 +0200 (CEST)
+Received: from localhost ([::1]:47326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEsc-0004kg-7e
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44504)
+	id 1kIF33-0001CH-DV
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:47:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEXO-0000f1-Ml; Tue, 15 Sep 2020 13:14:38 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:37620)
+ id 1kIEXP-0000i5-Ip; Tue, 15 Sep 2020 13:14:39 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIEXL-0002pS-MD; Tue, 15 Sep 2020 13:14:38 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id kk9so124289pjb.2;
- Tue, 15 Sep 2020 10:14:32 -0700 (PDT)
+ id 1kIEXN-0002pq-Vs; Tue, 15 Sep 2020 13:14:39 -0400
+Received: by mail-pf1-x444.google.com with SMTP id b124so2289197pfg.13;
+ Tue, 15 Sep 2020 10:14:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EBhZ0tPMEzEbVc2ih32FHbQeoM4d+XPCBYcJq9Mkgzw=;
- b=trTDeXCRqAK71fBTmFO/K9BLMGThkKDvB1Z2UZgixDgb27SwnUNzqfD6qpe11kP2+R
- zF1tUOoLCIqAft0nMRrSZAOdhFEYdl1rBtrTNzTh26n+dcz4ONV2ygqDrfu5dc93/Z47
- bIZq2HpNgvh+K6iSqS4PYscvrnmjG8w6zbuFO4oMhP1cCHGiflTgMFYw8CmCO3vyPMZf
- 8WGKnGaGUpPszNrcSUuQTEm4EwwRWQ5oXcDGYHb/UiIgM/U8D9Gcm4RV5ymlCQMZ0E8s
- 9plJBl0RmHu5sGMOXDMnWkLhh/lwhWwNLIli8kCCFl4P8eeEBNaiFH22quhGSe6GlNGR
- 8bpw==
+ bh=+2fNL50dgeI28TebAqSoSX6cTtGwDHyqvFUmnw67Jgc=;
+ b=U1v73fkydNQnHcMcbp3JTeTZOjhtisqCvxkSJCSyxxK5JRkpBavtwsXuxDS+wViYsI
+ KDgDVMTdlPe/CKP82/QurVWtCetpuhs81V3kIptAmioF66RwzWiGuXFRd5/gDR+oCZEs
+ jllWPl5quHm42JyxWGUqphLfZ480SnGiGBMfGFCcji4DEmpSsE29LtsIKKFh27btsD2s
+ 4/mq/6Lx2fbsDXjhDsDs7EWEdusQh4BaXnQYqsymhLGo7fw6GIxLems/UtpIPeR2bsn4
+ Rd3bs0JlFllPBRas8PVXS8STfkzDqV3YOrzEzcMODTLHEBTv6wJPoMUT4iyWB5c9NhKD
+ C2CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EBhZ0tPMEzEbVc2ih32FHbQeoM4d+XPCBYcJq9Mkgzw=;
- b=AeHLz4xZEDHFNfQQfWgMVDB6MFTdDq1koE7O6r3K+ZBobObIUwpBa7sVzDypYEzEJQ
- vVBUNvQYAGsWfyywxnUTSEda+y3J/s1JIhdjzpNazM80qRL/BGeitmR75+ei0vGizdyl
- +MZwKE2p9goB+xvCvxie7cvZnGm5IYSIk0smRp/ZNTszszxzpHCHNn4ztjDBBaQMXvcU
- pxWENwZc7By3sQmNfUKWKhw+RLE6FsDUejE0oqzPvU8FHqe8D7sWLmqa9XH+doAsEIt5
- E6qLxGDVk5Auqo1WmKSi37z7qiqoMFgF0UHEldgnHoOy/AjM0mrQ/5aDWuXcmROQ2tbX
- +GVQ==
-X-Gm-Message-State: AOAM532w0PDrm+zPM/gemXNoTU4fiZTmDQQXgSDTyqfO5NFlEBNIBnPF
- bTQN2CJCkXYWNpNKvvZARj9QuFUCMZhk74Fbyec=
-X-Google-Smtp-Source: ABdhPJwBg2Q6Q34oj/JelEKd6Cm+W7qeXLJKXsGTdMxWEtu+fzD71g2mUoeR94RtymDpUhQnrM1GXg==
-X-Received: by 2002:a17:90b:3105:: with SMTP id
- gc5mr315565pjb.225.1600190071522; 
- Tue, 15 Sep 2020 10:14:31 -0700 (PDT)
+ bh=+2fNL50dgeI28TebAqSoSX6cTtGwDHyqvFUmnw67Jgc=;
+ b=gU6NO1rbHMogy4I3/YjgC8rr5ds7Y2UP5uNTEqqB/VsNqp3oHTN0N55qjIzTDi2UKm
+ oDMftNDim5hjlJR81yIBVSTOWKz18cVuu8BBA8SEyUAB0qsd+dnqInRt+71PFoHPvA7t
+ x4UuxS65ZeMPZ/a+QiBIKguXbV1ShW2/yXQLSg+TWZ8pc7OBRKBX+SPiy73tLxQmxxHJ
+ M56Nc22CsrD5XS3vEHPNVJviqMPzTOpVTBi48cbeXfK/l3UkMt2ToOuoXVFMIp6nwhgu
+ sobzn8cfJ4NiUwCJMI/OFWdgzwJjDWxIihZ1a17R9HgXJJAmQR818T3q9539jYeiuGHE
+ sjJA==
+X-Gm-Message-State: AOAM530vZ6FfzXXen2uPtEO98SkPFKLh6X6oN7zLuPOeG821JOhSVYJQ
+ XfLFe/Zuim4OR/6xCutvRpdPdRIHDH9a7MgXnlk=
+X-Google-Smtp-Source: ABdhPJx6CrxI2ejTyVJxO9kSWHtWoBx8L/1qCVZ306sN5g2xbSmH66vo1s9Bsy/VX1bgejQmLKJnRg==
+X-Received: by 2002:a05:6a00:1703:b029:142:2f13:f1c5 with SMTP id
+ h3-20020a056a001703b02901422f13f1c5mr978323pfc.29.1600190075790; 
+ Tue, 15 Sep 2020 10:14:35 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.14.27
+ by smtp.googlemail.com with ESMTPSA id j14sm124046pjz.21.2020.09.15.10.14.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 10:14:30 -0700 (PDT)
+ Tue, 15 Sep 2020 10:14:34 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 22/26] rcu: fixes test-logging.c by call drain_call_rcu
- before rmdir_full
-Date: Wed, 16 Sep 2020 01:12:30 +0800
-Message-Id: <20200915171234.236-23-luoyonggang@gmail.com>
+Subject: [PATCH v10 23/26] meson: upgrade meson for execute custom ninjatool
+ under msys2 properly
+Date: Wed, 16 Sep 2020 01:12:31 +0800
+Message-Id: <20200915171234.236-24-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915171234.236-1-luoyonggang@gmail.com>
 References: <20200915171234.236-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1044.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,27 +95,26 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-drain_call_rcu is necessary on win32, because under win32, if you
-don't close the file before remove it, the remove would be fail.
+* Bump versions to 0.55.2 for release
+
+* Tag Info:
+object 008d13038f95e7c7d8ad553f14e408da5b94c360
+type commit
+tag 0.55.2
+tagger Jussi Pakkanen <jpakkane@gmail.com> 2020/9/11 1:24:47
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/test-logging.c | 2 ++
- 1 file changed, 2 insertions(+)
+ meson | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/test-logging.c b/tests/test-logging.c
-index cec18b31b4..a7e36dbfe8 100644
---- a/tests/test-logging.c
-+++ b/tests/test-logging.c
-@@ -211,6 +211,8 @@ int main(int argc, char **argv)
-                          tmp_path, test_logfile_lock);
- 
-     rc = g_test_run();
-+    qemu_log_close();
-+    drain_call_rcu();
- 
-     rmdir_full(tmp_path);
-     return rc;
+diff --git a/meson b/meson
+index 68ed748f84..008d13038f 160000
+--- a/meson
++++ b/meson
+@@ -1 +1 @@
+-Subproject commit 68ed748f84f14c2d4e62dcbd123816e5898eb04c
++Subproject commit 008d13038f95e7c7d8ad553f14e408da5b94c360
 -- 
 2.28.0.windows.1
 
