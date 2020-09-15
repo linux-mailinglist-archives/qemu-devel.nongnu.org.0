@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07AE26A782
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 16:48:56 +0200 (CEST)
-Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD5D26A780
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 16:48:33 +0200 (CEST)
+Received: from localhost ([::1]:50496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kICGO-0002Bo-1g
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 10:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33080)
+	id 1kICG0-0001l9-Ci
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 10:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kICBS-0005JI-60
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 10:43:50 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:44783)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kICBV-0005Ru-C7
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 10:43:53 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:41907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kICBP-0003vu-SI
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 10:43:49 -0400
-Received: by mail-pf1-x443.google.com with SMTP id o20so2039865pfp.11
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 07:43:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kICBT-0003wI-9s
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 10:43:53 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id m15so1455340pls.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 07:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Gel2ySMpTt4f7XUoVi2e2wkLqL2QzwXiN3Z4/PyZJos=;
- b=svY+LoN+NgmP79laG7g2YnwdsRTLumZ5hgdbJouYB8VXiYbX2tZ7c8ZaQaXsrBMaqD
- MN56hEBveAlcnKw3eymGrUJnDRUsPDjPildXuvHpkLeaSteTPtL5Rnjj0E1QoZzWWI/q
- dpaqeBBi9xSVgQ9ahXW9/TctXUASZangIKz2E9WBovvRUuhn7k2q3QtwmPjjkxLpg9u0
- Lkc7u12dr5m1Ctm7eP6Tf1AB5jApASNnuadbqDNDIPDDFaxYu5X8GrtOyByVDcpaG1gQ
- WaEou4Nruu/rE9X8phWSCxFifTG/wObJz9ys2+QH+UIv0W1EjekBV/rDT6N25xYI+AU8
- gCTQ==
+ bh=Q9e5WoPP1IxGkMk/UfsIYmbQR1ZYEM3M7sDwaoDUZm8=;
+ b=kXM0I/bNbbVYAjwGqu0lxtjyIREDGjmF0QTcNX8FGKlqNlbPbbw5laVe29gwbIDMNM
+ +cwHXZWsoPcXcr02Y4wlGfbCNV9RjdQIyWyl4u4F5sdPFEHrHnQshb4nNKIUkgzBIEez
+ P6PzCyAkTjlhdWd4/nR2YGtwGsxyDqaxGmh8CwI5RAHDKi+wG0SUl/F1N7hfv+fWTKyQ
+ wqcij1trV5BNps0Pt/p8AM7C6TjtNDNMn6DTkuhW+rwYcD5yr/iX58QfIJVRxRv2sXRX
+ 9fvHBAnlQef9oJKknItUnzjt2iML5gNsso9ZCgJmKNcNf+Sc5L0Wh5H/MDRop9I3xi25
+ /ysA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Gel2ySMpTt4f7XUoVi2e2wkLqL2QzwXiN3Z4/PyZJos=;
- b=U192uOyHM2whilCP/8yOlh3K4dFR7m1bFDwbj+DnS3HTkVxSSBcnUdOL0Q3O+gjgfA
- 1mzeI0d22uxkbyNxjLyfQNYC5EuN2E9UtB39UXnH63RIPJuZZiEknKzIIX/C6HS4/D6r
- 55kbziaLkGrNdvoqAUQGuHltWj8bQXbXv2wfDW7ZLLy87q35gUIKGRoE1vWPpMB6V1ss
- 4i5eVayoiSlitSiq+QZ79ut8DdY7iph5ln4yg0nNPR7LVyFZuAfSUhwE5MaLNJoJDGrh
- 37LpZ1Cp5k9bm8iVQ3tHIt3m0Mpv+TVF3+ok0+A69Y/vAFm1sxm13o5nxbMiMtIG8ikp
- fh6A==
-X-Gm-Message-State: AOAM530G0ZkipEwhv3wUGohNkUufMOnTH+y6Db2fFBY/Tr38KAqoTor8
- QM2QInkklgNwU4hBI84ufu67G7HHrFDp6gd+
-X-Google-Smtp-Source: ABdhPJw608B5WHtzjjOkLLbf+C8171Kzqj06PJk2uPkI9ZRl6VLSNu6AH1cxyLBeY3OcUMw+gMx9/w==
-X-Received: by 2002:a05:6a00:1481:b029:142:2501:35d7 with SMTP id
- v1-20020a056a001481b0290142250135d7mr2227272pfu.55.1600181024841; 
- Tue, 15 Sep 2020 07:43:44 -0700 (PDT)
+ bh=Q9e5WoPP1IxGkMk/UfsIYmbQR1ZYEM3M7sDwaoDUZm8=;
+ b=IN+38NkCt4+5YI5DM3vhKJ7bA0nBZIwaRJ09biQse/qP8UoNiYfsR7wxKJ5+fSH5fO
+ YBaTAJXMeMHkQ0RjqJENv8JeH4QzE/kIHCQ4aNiKNwM8QmbALmdQC1UnhgZ/IVNAHCyX
+ EvIVItj5OVGrkLDR1t8UUP/24fSOm025MSVRqrFzoWb1sRqA6u5F3lWa0JseHW0Ob+LY
+ 5A+wD7BTWeQmnNt7zagYCUfBXuSePQXEQm1W/WJMRJqaQmiuNsyfAA5u29b+58tXG6oE
+ MUQaCoDV7rz6b5E02OennnTS6k3VButlQwlpHg9hEVJhhBa5yzBsqbOwg+IBsQx51h9f
+ BTHw==
+X-Gm-Message-State: AOAM5320JeBxyqo8pGUVeeIcwFQ9FsA3ZCcpBWZN7NvB7/4ZslZpl7Nn
+ Efgq33T/e2gTbwL41/l/M8yfhFFdB3sIHWNo
+X-Google-Smtp-Source: ABdhPJwTCdBuCG43qnXsV3ifrn+w1cqvrsuCpqGuOLs+5ewHi9nPgOWTIW4LtJLRxZfWsZ8G6hkKFw==
+X-Received: by 2002:a17:90a:f686:: with SMTP id
+ cl6mr4259672pjb.43.1600181029447; 
+ Tue, 15 Sep 2020 07:43:49 -0700 (PDT)
 Received: from localhost.localdomain ([115.96.128.178])
- by smtp.googlemail.com with ESMTPSA id r2sm11520693pga.94.2020.09.15.07.43.40
+ by smtp.googlemail.com with ESMTPSA id r2sm11520693pga.94.2020.09.15.07.43.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 07:43:44 -0700 (PDT)
+ Tue, 15 Sep 2020 07:43:48 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/9] Fix a gap where acpi_pcihp_find_hotplug_bus() returns
- a non-hotpluggable bus
-Date: Tue, 15 Sep 2020 20:13:08 +0530
-Message-Id: <20200915144314.4997-5-ani@anisinha.ca>
+Subject: [PATCH v2 5/9] i440fx/acpi: do not add hotplug related amls for cold
+ plugged bridges
+Date: Tue, 15 Sep 2020 20:13:09 +0530
+Message-Id: <20200915144314.4997-6-ani@anisinha.ca>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200915144314.4997-1-ani@anisinha.ca>
 References: <20200915144314.4997-1-ani@anisinha.ca>
-Received-SPF: none client-ip=2607:f8b0:4864:20::443;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x443.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -91,58 +91,145 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When ACPI hotplug for the root bus is disabled, the bsel property for that
-bus is not set. Please see the following commit:
+Cold plugged bridges are not hot unpluggable, even when their hotplug
+property (acpi-pci-hotplug-with-bridge-support) is turned off. Please see
+the function acpi_pcihp_pc_no_hotplug() (thanks Julia). However, with
+the current implementaton, windows would try to hot-unplug a pci bridge when
+it's hotplug switch is off. This is regardless of whether there are devices
+attached to the bridge. This is because we add amls like _EJ0 etc for the
+pci slot where the bridge is cold plugged. We have a demo video here:
+https://youtu.be/pME2sjyQweo
 
-3d7e78aa7777f ("Introduce a new flag for i440fx to disable PCI hotplug on the root bus").
+In this fix, we identify a cold plugged bridge and for cold plugged bridges,
+we do not add the appropriate amls and acpi methods that are used by the OS
+to identify a hot-pluggable/unpluggable pci device. After this change, Windows
+does not show an option to eject the PCI bridge. A demo video is here:
+https://youtu.be/kbgej5B9Hgs
 
-As a result, when acpi_pcihp_find_hotplug_bus() is called
-with bsel set to 0, it may return the root bus. This can cause devices attached to
-the root bus to get hot-unplugged if the user issues the following set of commmands:
+As a result of the patch, the following are the changes to the DSDT ACPI table:
 
-outl 0xae10 0
-outl 0xae08 your_slot
+@@ -858,38 +858,33 @@
+                     Return (Zero)
+                 }
 
-Thanks to Julia for pointing this out here:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg734548.html
+                 Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
+                 {
+                     Return (Zero)
+                 }
 
-In this patch, we fix the issue in this function by checking if the bus which is
-returned by the function is actually hotpluggable. If not, we simply return NULL.
-This avoids the scenario where we were returning a non-hotpluggable bus.
+                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
+                 {
+                     Return (Zero)
+                 }
+             }
 
-This patch is based off of tag v5.10
+             Device (S18)
+             {
+-                Name (_SUN, 0x03)  // _SUN: Slot User Number
+                 Name (_ADR, 0x00030000)  // _ADR: Address
+-                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+-                {
+-                    PCEJ (BSEL, _SUN)
+-                }
+             }
+
+             Device (S20)
+             {
+                 Name (_SUN, 0x04)  // _SUN: Slot User Number
+                 Name (_ADR, 0x00040000)  // _ADR: Address
+                 Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+                 {
+                     PCEJ (BSEL, _SUN)
+                 }
+             }
+
+             Device (S28)
+             {
+                 Name (_SUN, 0x05)  // _SUN: Slot User Number
+                 Name (_ADR, 0x00050000)  // _ADR: Address
+@@ -1148,37 +1143,32 @@
+                     PCEJ (BSEL, _SUN)
+                 }
+             }
+
+             Device (SF8)
+             {
+                 Name (_SUN, 0x1F)  // _SUN: Slot User Number
+                 Name (_ADR, 0x001F0000)  // _ADR: Address
+                 Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+                 {
+                     PCEJ (BSEL, _SUN)
+                 }
+             }
+
+             Method (DVNT, 2, NotSerialized)
+             {
+-                If ((Arg0 & 0x08))
+-                {
+-                    Notify (S18, Arg1)
+-                }
+-
+                 If ((Arg0 & 0x10))
+                 {
+                     Notify (S20, Arg1)
+                 }
+
+                 If ((Arg0 & 0x20))
+                 {
+                     Notify (S28, Arg1)
+                 }
+
+                 If ((Arg0 & 0x40))
+                 {
+                     Notify (S30, Arg1)
+                 }
+
+                 If ((Arg0 & 0x80))
+
+While at it, I have also updated a stale comment.
+
+This change is tested with a Windows 2012R2 guest image and Windows 2019 server
+guest image running on Ubuntu 18.04 host. This change is based off of upstream
+qemu master branch tag v5.1.0.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/acpi/pcihp.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/i386/acpi-build.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 39b1f74442..32ae8b2c0a 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -147,6 +147,21 @@ static PCIBus *acpi_pcihp_find_hotplug_bus(AcpiPciHpState *s, int bsel)
-     if (!bsel && !find.bus) {
-         find.bus = s->root;
-     }
-+
-+    /*
-+     * Check if find.bus is actually hotpluggable. If bsel is set to
-+     * NULL for example on the root bus in order to make it
-+     * non-hotpluggable, find.bus will match the root bus when bsel
-+     * is 0. See acpi_pcihp_test_hotplug_bus() above. Since the
-+     * bus is not hotpluggable however, we should not select the bus.
-+     * Instead, we should set find.bus to NULL in that case. In the check
-+     * below, we generalize this case for all buses, not just the root bus.
-+     * The callers of this function check for a null return value and
-+     * handle them appropriately.
-+     */
-+    if (find.bus && !qbus_is_hotpluggable(BUS(find.bus))) {
-+        find.bus = NULL;
-+    }
-     return find.bus;
- }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 7a5a8b3521..e079b686f5 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         int slot = PCI_SLOT(i);
+         bool hotplug_enabled_dev;
+         bool bridge_in_acpi;
++        bool cold_plugged_bridge;
  
+         if (!pdev) {
+             if (bsel) { /* add hotplug slots for non present devices */
+@@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         pc = PCI_DEVICE_GET_CLASS(pdev);
+         dc = DEVICE_GET_CLASS(pdev);
+ 
+-        /* When hotplug for bridges is enabled, bridges are
+-         * described in ACPI separately (see build_pci_bus_end).
+-         * In this case they aren't themselves hot-pluggable.
++        /*
++         * Cold plugged bridges aren't themselves hot-pluggable.
+          * Hotplugged bridges *are* hot-pluggable.
+          */
+-        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
+-            !DEVICE(pdev)->hotplugged;
++        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
++        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
+ 
+-        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
++        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
+ 
+         if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
+             continue;
 -- 
 2.17.1
 
