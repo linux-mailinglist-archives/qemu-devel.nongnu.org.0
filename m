@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE0626AA17
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:51:31 +0200 (CEST)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9771326AA0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:47:27 +0200 (CEST)
+Received: from localhost ([::1]:56332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEB0-0000U4-Mi
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38306)
+	id 1kIE74-00028l-MO
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kIE4F-0000BH-3k; Tue, 15 Sep 2020 12:44:31 -0400
+ id 1kIE4I-0000Cc-Up; Tue, 15 Sep 2020 12:44:34 -0400
 Received: from mail-eopbgr70092.outbound.protection.outlook.com
  ([40.107.7.92]:52206 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kIE4B-0007gp-NN; Tue, 15 Sep 2020 12:44:30 -0400
+ id 1kIE4G-0007gp-Rx; Tue, 15 Sep 2020 12:44:34 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YZqYC9mwrrtw18FdLTwH53Rj2Zg9qzPh8Taif4dhtWweR/rx7czJF3jBwpVpjEVRKA2qJ+gTKs6PvPJdaczeT7kg6pcluKyXgmXeDf/BBZj6rS9CsSxqmPMNlMtejV0RhM2IiDKpKFiWNpOuQmNmJH7NzhWWBVkYHCeU10WUhA+HqP8jm8ZH2Pt+0TsrA9ZJH9IaaHlFwCVQavUfZ1IZrpziBARimdMhrVLVdbCG9zw4axf0ncmZxMknjKyd7Q6M3SOzsDA2r7w8X2fPXjrBiOHNTmAFufZ+fL7SQzqtWUULrFtrYcgRBLYfehTP+SWIN+Oj0tBJkPmvqi/4nzTxBQ==
+ b=S3Y+U+RslvonHKxPWrc5gMlaNdAr51pf8/cMvVjPVgdSCKmDWB3vI+H0mRoCbc26c84epiIRdqeySB7JY6VM+9nKDa3Tgy99uYb/yZP+/bW5yfQ3ijW7R2woCoi/VMPr9KN6h4QwyfCIeFoUQHe5bLUXdlGc69nd9j8SYc2DamGbzticRzlBHX5dj7SFgRdCCKk0xo/y+ikAOpaNwLnY6aK1j7ZkKoLv4QQ+2qETJzdhXg12lRU3vBjvCFiKRUrviphZFvdVKktTVImzO93U7bLrXt1U/3DvvoH4uURBHOtB2FDHvIO/Pj8AXQQJ9U0Jjy1VpLxBbBkTaEiCDBE6ZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ys8fFbttnwyIjCF4dw/YrF9RVnjboJGLOOtAi3r3Zp0=;
- b=c51GYL1mElZ0TmXh/tJrmlJyqk+y6NbpoA3Kxde991m+G9TiTiUPH1CuKFW0t0bAmv5A91t0SoZQnPLI1GDMvSmEmVy8p0h3k+76UnWusYwKRoEbABOmk9pWNOmKD9u5fCPk0U1tRUyMhJ5vIAxdUSU9Bx4uiVHteXwixiadHJDjGorzlZmaucIVdr5G26oJUpI+jEstpCF5JnT6XAGdolgkKFM+lTDAp7ZvBYKSISUFqp//YaeNhJy08Nhv3XtwRrjJjV3OUc53kqBtjkUD0J0Nb/2IB5PbxuLRQoF/YJFJMU+bF/gUF2tS9DZud4ZhmaLJvje1xGEQCq84rptsBw==
+ bh=GTWy7sTjuGz74Kif+Hn35/zOvFhq4MPHkYxT2852UhQ=;
+ b=RPvtXqqdPY7phiXW6QQoZxj3EAiBscD7YeGTkN8LaVE5Xn9QEgSS7pG4OxQpsk1m6OPXB+A/B+rJjyZBKWgCKm5HG9gE2M8O+6+BzJ2DFFbT7bRqy0HmLTmy4BI9KyD9EzcyAJz1P2TbEdZP+taov1jijfP4W5dxFM004Tng6/WNZAgD1ois4YhWGdsvNITNMXwIGltB+7Yg3se99hJ5GxXBKkUHrMXUnWii90GFBuPBm82xpLgmOO6bnylt0bEfiaOV5AnasnArYEkaAgYVqHyDQak1HdyniEykD8RsTe/g9u4U+OLFYuUcq1KgTP5MCan48o1R9IUd7g6KHMMdhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ys8fFbttnwyIjCF4dw/YrF9RVnjboJGLOOtAi3r3Zp0=;
- b=dsJvoxX6hx9vyaocGfV4CfBCgEXQal2IEf0tOj5rXSBou4qG21KsvIa/7yboiZscDUy6kl3T+Ph3KxIO9aSM5vt87eJTgt4AqrRK7PX5RGsiGwiXfypFuax/R6QMaKNVEM7Ras0/4p11Vqa26t0hJP3baLmjq1IATAL/7odPw5c=
+ bh=GTWy7sTjuGz74Kif+Hn35/zOvFhq4MPHkYxT2852UhQ=;
+ b=l49PZVE/hMugfaZA24BwG0nzNM90hzS3+iuQ8yTKo1PezG7K8F6ueWeK91+8mfRIfgUHX8pDixI29Jnea1wTLuDCCJADivao5z00r/MA1Rx8nvHIa2esezJJT2c4RjM8mnkhcIgGcMOIG6wqLY8yDCy+ckgQZ2ve+KyLQAgUGbo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM5PR0801MB1652.eurprd08.prod.outlook.com (2603:10a6:203:3c::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Tue, 15 Sep
- 2020 16:44:23 +0000
+ 2020 16:44:24 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Tue, 15 Sep 2020
- 16:44:23 +0000
+ 16:44:24 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
  fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org, eblake@redhat.com
-Subject: [PATCH v8 0/7] coroutines: generate wrapper code
-Date: Tue, 15 Sep 2020 19:44:04 +0300
-Message-Id: <20200915164411.20590-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 1/7] block: return error-code from bdrv_invalidate_cache
+Date: Tue, 15 Sep 2020 19:44:05 +0300
+Message-Id: <20200915164411.20590-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200915164411.20590-1-vsementsov@virtuozzo.com>
+References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM0PR07CA0025.eurprd07.prod.outlook.com
@@ -63,32 +65,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.75) by
  AM0PR07CA0025.eurprd07.prod.outlook.com (2603:10a6:208:ac::38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.5 via Frontend Transport; Tue, 15 Sep 2020 16:44:22 +0000
+ 15.20.3391.5 via Frontend Transport; Tue, 15 Sep 2020 16:44:23 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.75]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d5405a8f-bf31-408b-5ba0-08d859969979
+X-MS-Office365-Filtering-Correlation-Id: 60365c0e-2964-4c94-573b-08d859969a12
 X-MS-TrafficTypeDiagnostic: AM5PR0801MB1652:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB16522C15B1B287CB2BF1FF52C1200@AM5PR0801MB1652.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB16520582A9001F48CC099FACC1200@AM5PR0801MB1652.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:489;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aNq/LDBNpywrEGtEY+A8NcifafJLAyifHtO+9TFxR2fQ3DMwQJz0rCTf0y9BUSP3JuoV/Gm+EJwiJ6XAb1hno5bXbEqxK6Peic4uLd31eyzS9A9NiDUW10ceE3TmD9+v2mvErV52XyFebmZLjyHfI9aWHujnxdOuHEgD+aZW6eC3m6vPlKUQWHzZZI6kGHOiWh5JmDZp4XcIBqyu9Msw8ocVvrW+cyLP5Fuu8K85QMdVXSA+LbBKM/Vw0gwHW+r/hJkwyttrDjCy/Vpm/SPnTKlMTBZnIyC4vFD6Kpz8tG50P6ozuAHRk6t/zd0iCusRgA6tc5nX0lR13S+Gha8qOcXoXuaTJRYFLAFHULOk2pRs9EcISLGHq1r+R0bhM09n
+X-Microsoft-Antispam-Message-Info: RH74FFdGqI87n1evAShi273OpPS6GZ9MCBHsthKPcChWFAXNXclSlB5knfT9X9QZzJiioRZLlY+81dTDwh4kZjLpgxkh/mDbKUOtAKtdrL8IcI/XhboccEsNsqCAkUadhtPAAsnwFr5jdrIosSD67IyxOEJ+iwOimwRy3AxkQtQ7mipUlFgbVdDTQMRPFjnYK9I2oroZTfj5ad64VdyyaC30z/jImaIgxbij8QM4vmy6aInE9GplZxvvNyN2vcNhwjG8dPvRYRBAzBm58AgEohAuBTcIbfLlANpa6zYmSYWXvRUXD0XsMmQHcEHjiXDA1ICmrLZdd6HLtoPGXStguNKGaBklMqN0ZgGXhREf0wZnq9refxNJmRqdma/ZYr6S
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(346002)(366004)(396003)(136003)(39840400004)(6916009)(6512007)(2906002)(83380400001)(36756003)(478600001)(1076003)(6486002)(86362001)(2616005)(956004)(8676002)(316002)(186003)(16526019)(5660300002)(66946007)(6666004)(52116002)(66476007)(8936002)(26005)(66556008)(6506007)(4326008);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: TxNPqCDN9/xVwa+SJz1j1I+xs8M8ceTuTpWOEk8RrrcPceNMWcFjHkPFryTkxv3PopS0xyMwpOT/5AW2in5q+KArob+ZYQ2EuBHE/f8cbDxVbLvv8wFefoZuFnnL0tFt5srFQPP7vXPRHmq2fo5HtZoIAS7CaEY0hqHDYqwV+RPCCx9+WKfcZlrb7hBpXfPP/HM0TU6ylGB0rn2YcOaVU6h5kpg3WtpnnXPkNjlO8ymUKAzotUbdJahMre7uNFXqqE053UVNMRjVsmkxXKBletSHjiSQogYH7CglXov9e7svFgdm6sd244yvHTcEwlN5fLfKAvpqxlr/1MaslWBS59ckxbhZMWPJ2+A7d/vH5FdUVh41Rg3mxoLNGOrLZV/JLq5dYORIIOnRWiSfidVwFTJQH2pf7ouwrvkb1XBVehJMOwRkCQPi/x7e/t52CbWbu/YEEKRVlFBshgT9/jUyZAAJHDAgZWlqMDagRMgHxXiu0nt6JxX+tbWT1tWv1TnrQTCuoyoABbfGb6KiduExYzLf1Ba0xDff5/TZFdTTb/Jrfbm78ndJjO4beTfVVPmtewyhhMaTuIvLcwqSPWfQZfw2cUy4BXioV5pAGVX3eD/EB98YxNbm7G3Wpwa6enuOtTa+9T4kDAL8L3x0S2LWlw==
+X-MS-Exchange-AntiSpam-MessageData: dpTSTwGwtd3ywRfmnFDdZiML0z39Y9jUaRSv7+tCVVP5f7fEqlsofSismwn2gGgkpd1At84YkpkVY3nWgVA3Pc7lJ3K+3jPLNRDjyd79vTf9nygMOhBkkNAy3C5SIa4xp2+sbBRPlY4zWyWk3XZMrmHqsY8wZOZhRQwoeo53xH9X6k2INavhWzy2aM7dr0RXTR1p/th62qtZPjRaxHzcpX5L2w4APVKp93BXe+wypfRz9+8LO3XzVNetKulgBu3eagtGbc5O7py2Vry5qxg2muZWbMi8IkvuqMAH8BzyLeV7NzDd6+mE851SRt+JP9k1lPgTkhjJ0GME2hhTaXtg0+8X85EjSeiByl5PeukBf6xvWG3I14JIfmvzHqgk+OktFaNmejSZQu6LxqpmGWHsMNjpJzbTKnnt04FIHgg6lngwe37foYWw+uY76on7TV+z0vXGGF8ZXBDS1ZbNzQT5D2rN6uA85izbbcqYKeOnGqu+KtZIUKp+xrqjCLomGgnqFMdNH2nJs5VdWish2a5YQkJ5WrnymhugJ+6r+nThJDrgO0i6RgzpGWsvbHCRXMMe2aMMSbx34IDZhcnUtueKnFagOgtIQpSlElrnODyPKaiwRRPTboNxzHxoyoWRnxbXjwYml+l4CKXFT81ULppIyA==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5405a8f-bf31-408b-5ba0-08d859969979
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60365c0e-2964-4c94-573b-08d859969a12
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2020 16:44:22.9720 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2020 16:44:24.1050 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KOAIAsRmyCw9ym8bkqNw6YbcOeSFgFAn2sSg2/mxoCWNGKPl6P7BVb1eolftKHVyGLE3zIw7caQEcsGT+QN01C66qd0rU3H4RFydj37aQyM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: o/a9T/qs61pD7xx0R4IbxxVgDD30V2vfz/DR9ozk3ZOpust3GJccwS6QVoFnThgAiISLoq3tSzQL9CYT2lBF7RK5JEBzcjlG1I8x61PnVCY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1652
 Received-SPF: pass client-ip=40.107.7.92;
  envelope-from=vsementsov@virtuozzo.com;
@@ -117,45 +119,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+This is the only coroutine wrapper from block.c and block/io.c which
+doesn't return a value, so let's convert it to the common behavior, to
+simplify moving to generated coroutine wrappers in a further commit.
 
-The aim of the series is to reduce code-duplication and writing
-parameters structure-packing by hand around coroutine function wrappers.
+Also, bdrv_invalidate_cache is a void function, returning error only
+through **errp parameter, which is considered to be bad practice, as
+it forces callers to define and propagate local_err variable, so
+conversion is good anyway.
 
-Benefits:
- - no code duplication
- - less indirection
+This patch leaves the conversion of .bdrv_co_invalidate_cache() driver
+callbacks and bdrv_invalidate_cache_all() for another day.
 
-v8:
-04: - rebase on meson build
-        - script interface is changed to satisfy meson custom_target
-    - rename script s/coroutine-wrapper.py/block-coroutine-wrapper.py/
-    - add docs/devel/block-coroutine-wrapper.rst
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ include/block/block.h |  2 +-
+ block.c               | 32 ++++++++++++++++++--------------
+ 2 files changed, 19 insertions(+), 15 deletions(-)
 
-Vladimir Sementsov-Ogievskiy (7):
-  block: return error-code from bdrv_invalidate_cache
-  block/io: refactor coroutine wrappers
-  block: declare some coroutine functions in block/coroutines.h
-  scripts: add block-coroutine-wrapper.py
-  block: generate coroutine-wrapper code
-  block: drop bdrv_prwv
-  block/io: refactor save/load vmstate
-
- docs/devel/block-coroutine-wrapper.rst |  54 ++++
- block/block-gen.h                      |  49 ++++
- block/coroutines.h                     |  65 +++++
- include/block/block.h                  |  34 ++-
- block.c                                |  97 ++-----
- block/io.c                             | 336 ++++---------------------
- tests/test-bdrv-drain.c                |   2 +-
- block/meson.build                      |   8 +
- scripts/block-coroutine-wrapper.py     | 187 ++++++++++++++
- 9 files changed, 451 insertions(+), 381 deletions(-)
- create mode 100644 docs/devel/block-coroutine-wrapper.rst
- create mode 100644 block/block-gen.h
- create mode 100644 block/coroutines.h
- create mode 100755 scripts/block-coroutine-wrapper.py
-
+diff --git a/include/block/block.h b/include/block/block.h
+index 6e36154061..8aef849a75 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -460,7 +460,7 @@ void bdrv_aio_cancel_async(BlockAIOCB *acb);
+ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+ 
+ /* Invalidate any cached metadata used by image formats */
+-void bdrv_invalidate_cache(BlockDriverState *bs, Error **errp);
++int bdrv_invalidate_cache(BlockDriverState *bs, Error **errp);
+ void bdrv_invalidate_cache_all(Error **errp);
+ int bdrv_inactivate_all(void);
+ 
+diff --git a/block.c b/block.c
+index 2ba76b2c36..ccfe1d851b 100644
+--- a/block.c
++++ b/block.c
+@@ -5649,8 +5649,8 @@ void bdrv_init_with_whitelist(void)
+     bdrv_init();
+ }
+ 
+-static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
+-                                                  Error **errp)
++static int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
++                                                 Error **errp)
+ {
+     BdrvChild *child, *parent;
+     uint64_t perm, shared_perm;
+@@ -5659,14 +5659,14 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
+     BdrvDirtyBitmap *bm;
+ 
+     if (!bs->drv)  {
+-        return;
++        return -ENOMEDIUM;
+     }
+ 
+     QLIST_FOREACH(child, &bs->children, next) {
+         bdrv_co_invalidate_cache(child->bs, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+-            return;
++            return -EINVAL;
+         }
+     }
+ 
+@@ -5689,7 +5689,7 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
+         ret = bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL, errp);
+         if (ret < 0) {
+             bs->open_flags |= BDRV_O_INACTIVE;
+-            return;
++            return ret;
+         }
+         bdrv_set_perm(bs, perm, shared_perm);
+ 
+@@ -5698,7 +5698,7 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
+             if (local_err) {
+                 bs->open_flags |= BDRV_O_INACTIVE;
+                 error_propagate(errp, local_err);
+-                return;
++                return -EINVAL;
+             }
+         }
+ 
+@@ -5710,7 +5710,7 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
+         if (ret < 0) {
+             bs->open_flags |= BDRV_O_INACTIVE;
+             error_setg_errno(errp, -ret, "Could not refresh total sector count");
+-            return;
++            return ret;
+         }
+     }
+ 
+@@ -5720,27 +5720,30 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
+             if (local_err) {
+                 bs->open_flags |= BDRV_O_INACTIVE;
+                 error_propagate(errp, local_err);
+-                return;
++                return -EINVAL;
+             }
+         }
+     }
++
++    return 0;
+ }
+ 
+ typedef struct InvalidateCacheCo {
+     BlockDriverState *bs;
+     Error **errp;
+     bool done;
++    int ret;
+ } InvalidateCacheCo;
+ 
+ static void coroutine_fn bdrv_invalidate_cache_co_entry(void *opaque)
+ {
+     InvalidateCacheCo *ico = opaque;
+-    bdrv_co_invalidate_cache(ico->bs, ico->errp);
++    ico->ret = bdrv_co_invalidate_cache(ico->bs, ico->errp);
+     ico->done = true;
+     aio_wait_kick();
+ }
+ 
+-void bdrv_invalidate_cache(BlockDriverState *bs, Error **errp)
++int bdrv_invalidate_cache(BlockDriverState *bs, Error **errp)
+ {
+     Coroutine *co;
+     InvalidateCacheCo ico = {
+@@ -5757,22 +5760,23 @@ void bdrv_invalidate_cache(BlockDriverState *bs, Error **errp)
+         bdrv_coroutine_enter(bs, co);
+         BDRV_POLL_WHILE(bs, !ico.done);
+     }
++
++    return ico.ret;
+ }
+ 
+ void bdrv_invalidate_cache_all(Error **errp)
+ {
+     BlockDriverState *bs;
+-    Error *local_err = NULL;
+     BdrvNextIterator it;
+ 
+     for (bs = bdrv_first(&it); bs; bs = bdrv_next(&it)) {
+         AioContext *aio_context = bdrv_get_aio_context(bs);
++        int ret;
+ 
+         aio_context_acquire(aio_context);
+-        bdrv_invalidate_cache(bs, &local_err);
++        ret = bdrv_invalidate_cache(bs, errp);
+         aio_context_release(aio_context);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        if (ret < 0) {
+             bdrv_next_cleanup(&it);
+             return;
+         }
 -- 
 2.21.3
 
