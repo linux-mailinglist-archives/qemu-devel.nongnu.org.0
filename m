@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D054269C28
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 04:54:44 +0200 (CEST)
-Received: from localhost ([::1]:57246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23417269C58
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 05:13:31 +0200 (CEST)
+Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI17D-000185-DI
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 22:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44348)
+	id 1kI1PN-0001tm-LN
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 23:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kI15m-0007ui-SJ
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:53:14 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:55552 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kI15l-0003Y0-0a
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:53:14 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 39CC6B1EA352625E235A;
- Tue, 15 Sep 2020 10:53:09 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Tue, 15 Sep 2020
- 10:53:00 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
- <berrange@redhat.com>
-Subject: [PATCH v4 6/6] migration/tls: add trace points for multifd-tls
-Date: Tue, 15 Sep 2020 11:04:02 +0800
-Message-ID: <1600139042-104593-7-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1600139042-104593-1-git-send-email-zhengchuan@huawei.com>
-References: <1600139042-104593-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1kI1O4-0000Dc-SS
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 23:12:08 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1kI1O1-0001ec-9x
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 23:12:08 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id o20so1089437pfp.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Sep 2020 20:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c/EzHGppV6gl8rO8Vhy6nIp4rvkUxVOnTcgtSMu43es=;
+ b=bEtmmovl3hTJh0CqzLmiUHX7ywamblJDobmYYRuAtUFfPDBTH7qQiX5m6OqFuZdF0Z
+ esHQmFt95HYAwAK1tE/YZFLWj1sB9CeJZykFAeRYGhvouH9sdOLUhJ/OOuvD8y001wWP
+ cykDvroHTVCe57eeb8DSXCEU91/cKzYgqCDVTdUCpodlNSLwlrJqKIzlOo3TjrnkFLXi
+ Oe+utEYFBu/87QXj4R+4AdfQU70y0b2InMPemBWpxZ5Di8y5jvtZH8sImVk2QG4bcCue
+ /zp23U9Z3yzKJup2si/X+7joALoGHDuL4jRiJLDhywGhADoABaavK2RGHBm78voQJ3nj
+ dTaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c/EzHGppV6gl8rO8Vhy6nIp4rvkUxVOnTcgtSMu43es=;
+ b=nZhtTO2dAnP0p++zbyXOJS5Qb9eJbsg7me60ZZ3KIl/QdMW6hPnsePawmKXWzxVjIU
+ /n5+SEVaRR2D/oyL1+IzYIOSd3P7ApXtKpmyATtkPh99YCAMu5nN5a0LCzE5g752iyBP
+ g+8hMOnln4eGmuKcNV3b6Q5O7rhxFcLW3aNDaOgBHV2av9tuXBm/2ZWkDNpZTj5E281d
+ OWtYQJr1rs//xrbS9ju1Xda4y55G8PnEpAV4g3fFaT0wCZTRNqFPRkRBCfJzG1D5NMbd
+ uDEgGwmpIeis9fAn9I6cS7EPLAXcKBOKMML3d6FwfbWBWIaIb8wgcxfVbZgIo6VSQpUr
+ 38Yw==
+X-Gm-Message-State: AOAM531GMUyc5bwhpZzm5LUNAOUKhyUvQtq8Ms+yrH+d3f/MnVTYA75W
+ SrVMtSiwvfWW/ibozYu0sgKz
+X-Google-Smtp-Source: ABdhPJx6beHyptaYMKzOlTpMMW0BrRMZdev6amwTklDFhgNmg3Nr9AWBeIG4sFCkPxter8yY0Gs3sg==
+X-Received: by 2002:a63:fe49:: with SMTP id x9mr12976163pgj.446.1600139523347; 
+ Mon, 14 Sep 2020 20:12:03 -0700 (PDT)
+Received: from localhost.localdomain ([147.75.106.138])
+ by smtp.gmail.com with ESMTPSA id g23sm11551776pfh.133.2020.09.14.20.12.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Sep 2020 20:12:02 -0700 (PDT)
+From: Haibo Xu <haibo.xu@linaro.org>
+To: drjones@redhat.com,
+	richard.henderson@linaro.org
+Subject: [PATCH v3 00/12] target/arm: Add vSPE support to KVM guest
+Date: Tue, 15 Sep 2020 03:11:36 +0000
+Message-Id: <cover.1600135462.git.haibo.xu@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 21:28:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=haibo.xu@linaro.org; helo=mail-pf1-x42a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,73 +83,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
- jinyan12@huawei.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
+ qemu-devel@nongnu.org, Haibo Xu <haibo.xu@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add trace points for multifd-tls for debug.
+v3:
+  - Moved the patch 11 kernel header change to patch 01
+  - Removed doc for vSPE
+  - Moved the assignment of has_spe into aarch64_add_spe_properties
+  - Only enable spe properties in KVM mode
+  - Only trigger the kvm_arm_spe_init with in-kernel irqchip support
+    to avoid breaking bisection
+  - Set the PMSVER bit in ID register if spe was enabled by usespace
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Signed-off-by: Yan Jin <jinyan12@huawei.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- migration/multifd.c    | 10 +++++++++-
- migration/trace-events |  4 ++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+Again, many thanks to Andrew, Richard, Philippe and Auger for their comments. 
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 3325c66..6f36e8c 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -731,7 +731,11 @@ static void multifd_tls_outgoing_handshake(QIOTask *task,
-     QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-     Error *err = NULL;
- 
--    qio_task_propagate_error(task, &err);
-+    if (qio_task_propagate_error(task, &err)) {
-+        trace_multifd_tls_outgoing_handshake_error(ioc, error_get_pretty(err));
-+    } else {
-+        trace_multifd_tls_outgoing_handshake_complete(ioc);
-+    }
-     multifd_channel_connect(p, ioc, err);
- }
- 
-@@ -748,6 +752,7 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
-         return;
-     }
- 
-+    trace_multifd_tls_outgoing_handshake_start(ioc, tioc, hostname);
-     qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
-     qio_channel_tls_handshake(tioc,
-                               multifd_tls_outgoing_handshake,
-@@ -763,6 +768,9 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
- {
-     MigrationState *s = migrate_get_current();
- 
-+    trace_multifd_set_outgoing_channel(
-+        ioc, object_get_typename(OBJECT(ioc)), p->tls_hostname, error);
-+
-     if (!error) {
-         if (s->parameters.tls_creds &&
-             *s->parameters.tls_creds &&
-diff --git a/migration/trace-events b/migration/trace-events
-index 7ba2fa6..6b5a053 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -129,6 +129,10 @@ multifd_send_sync_main_wait(uint8_t id) "channel %d"
- multifd_send_terminate_threads(bool error) "error %d"
- multifd_send_thread_end(uint8_t id, uint64_t packets, uint64_t pages) "channel %d packets %" PRIu64 " pages %"  PRIu64
- multifd_send_thread_start(uint8_t id) "%d"
-+multifd_tls_outgoing_handshake_start(void *ioc, void *tioc, const char *hostname) "ioc=%p tioc=%p hostname=%s"
-+multifd_tls_outgoing_handshake_error(void *ioc, const char *err) "ioc=%p err=%s"
-+multifd_tls_outgoing_handshake_complete(void *ioc) "ioc=%p"
-+multifd_set_outgoing_channel(void *ioc, const char *ioctype, const char *hostname, void *err)  "ioc=%p ioctype=%s hostname=%s err=%p"
- 
- # migration.c
- await_return_path_close_on_source_close(void) ""
+This series add support for SPE(Statistical Profiling Extension)[1]
+in KVM guest. It's based on Andrew Murray's kernel KVM patches V2[2],
+and has been tested to ensure that guest can use SPE with valid data.
+E.g.
+
+In host:
+$ ./qemu-system-aarch64 \
+        -cpu host -M virt,accel=kvm,gic-version=3 -nographic -m 2048M \
+        -kernel ./Image-new \
+        -initrd /boot/initrd.img-5.6.0-rc2+ \
+        -append "root=/dev/vda rw console=ttyAMA0" -nodefaults -serial stdio\
+        -drive if=none,file=./xenial.rootfs.ext4,id=hd0,format=raw \
+        -device virtio-blk-device,drive=hd0  \
+
+In guest:
+$ perf record -e arm_spe/ts_enable=1,pa_enable=1,pct_enable=1/ \
+        dd if=/dev/zero of=/dev/null count=1000
+$ perf report --dump-raw-trace > spe_buf.txt
+
+The spe_buf.txt should contain similar data as below:
+
+. ... ARM SPE data: size 135944 bytes
+.  00000000:  b0 f4 d3 29 10 00 80 ff a0                      PC 0xff80001029d3f4 el1 ns=1
+.  00000009:  99 0b 00                                        LAT 11 ISSUE
+.  0000000c:  98 0d 00                                        LAT 13 TOT 
+.  0000000f:  52 16 00                                        EV RETIRED L1D-ACCESS TLB-ACCESS
+.  00000012:  49 00                                           LD  
+.  00000014:  b2 d0 40 d8 70 00 00 ff 00                      VA 0xff000070d840d0
+.  0000001d:  9a 01 00                                        LAT 1 XLAT
+.  00000020:  00 00 00                                        PAD 
+.  00000023:  71 a5 1f b3 20 14 00 00 00                      TS 86447955877
+.  0000002c:  b0 7c f9 29 10 00 80 ff a0                      PC 0xff80001029f97c el1 ns=1
+.  00000035:  99 02 00                                        LAT 2 ISSUE
+.  00000038:  98 03 00                                        LAT 3 TOT 
+.  0000003b:  52 02 00                                        EV RETIRED
+.  0000003e:  48 00                                           INSN-OTHER
+.  00000040:  00 00 00                                        PAD
+.  00000043:  71 ef 1f b3 20 14 00 00 00                      TS 86447955951
+.  0000004c:  b0 f0 e9 29 10 00 80 ff a0                      PC 0xff80001029e9f0 el1 ns=1
+.  00000055:  99 02 00                                        LAT 2 ISSUE
+.  00000058:  98 03 00                                        LAT 3 TOT
+.  0000005b:  52 02 00                                        EV RETIRED
+
+If you want to disable the vSPE support, you can use the 'spe=off' cpu
+property:
+
+./qemu-system-aarch64 \
+        -cpu host,spe=off -M virt,accel=kvm,gic-version=3 -nographic -m 2048M \
+        -kernel ./Image-new \
+        -initrd /boot/initrd.img-5.6.0-rc2+ \
+        -append "root=/dev/vda rw console=ttyAMA0" -nodefaults -serial stdio\
+        -drive if=none,file=./xenial.rootfs.ext4,id=hd0,format=raw \
+        -device virtio-blk-device,drive=hd0  \
+
+Note:
+(1) Since the kernel patches are still under review, some of the macros
+    in the header files may be changed after merging. We may need to
+    update them accordingly. To be specific, if you want to have a try
+    on this patch series, you needs to replace on the kernel 5.5-rc2 based
+    series, and do minor changes:
+
+    -#define KVM_CAP_ARM_SPE_V1 179
+    +#define KVM_CAP_ARM_SPE_V1 184
+
+(2) These patches only add vSPE support in KVM mode, for TCG mode, I'm
+    not sure whether we need to support it.
+(3) Just followed the 'sve' property, we only allow this feature to be
+    removed from CPUs which enable it by default when the host cpu support it.
+
+[1]https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/
+   posts/statistical-profiling-extension-for-armv8-a
+[2]https://www.spinics.net/lists/arm-kernel/msg776228.html
+[3]https://www.mail-archive.com/qemu-devel@nongnu.org/msg727588.html
+
+Haibo Xu (12):
+  update Linux headers with new vSPE macros
+  target/arm/kvm: spe: Add helper to detect SPE when using KVM
+  target/arm/cpu: spe: Add an option to turn on/off vSPE support
+  target/arm: spe: Only enable SPE from 5.2 compat machines.
+  target/arm/kvm: spe: Unify device attr operation helper
+  target/arm/kvm: spe: Add device init and set_irq operations
+  hw/arm/virt: Move post cpu realize check into its own function
+  hw/arm/virt: Move kvm pmu setup to virt_cpu_post_init
+  hw/arm/virt: spe: Add vSPE device and corresponding interrupt support
+  target/arm/cpu: spe: Enable spe to work with host cpu
+  target/arm/kvm: spe: Enable userspace irqchip support.
+  target/arm: spe: Add corresponding test.
+
+ hw/arm/virt-acpi-build.c       |   3 +
+ hw/arm/virt.c                  | 116 ++++++++++++++++++++++++---------
+ include/hw/acpi/acpi-defs.h    |   3 +
+ include/hw/arm/virt.h          |   2 +
+ linux-headers/asm-arm64/kvm.h  |   4 ++
+ linux-headers/linux/kvm.h      |   2 +
+ target/arm/cpu.c               |   9 +++
+ target/arm/cpu.h               |  17 +++++
+ target/arm/cpu64.c             |  56 ++++++++++++++++
+ target/arm/kvm.c               |  10 +++
+ target/arm/kvm64.c             |  56 ++++++++++++++--
+ target/arm/kvm_arm.h           |  18 +++++
+ target/arm/monitor.c           |   2 +-
+ tests/qtest/arm-cpu-features.c |   9 +++
+ 14 files changed, 271 insertions(+), 36 deletions(-)
+
 -- 
-1.8.3.1
+2.17.1
 
 
