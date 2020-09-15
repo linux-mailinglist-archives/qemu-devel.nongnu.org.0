@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC02A26B36E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 01:02:55 +0200 (CEST)
-Received: from localhost ([::1]:55280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE5B26B366
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 01:02:34 +0200 (CEST)
+Received: from localhost ([::1]:53386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIJyQ-00080Z-K9
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 19:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
+	id 1kIJy5-0007E4-TU
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 19:02:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdi-0007Tq-UB
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39726)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdk-0007Wm-83
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdg-0002hr-Ty
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdi-0002i8-7A
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600209688;
+ s=mimecast20190719; t=1600209689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ne2OMY+TjgRRXnt1DWz8QZdZ/J1PTnT4T+PHJ7K7p6c=;
- b=OgMMLzuSWHKUgNimvHldWNfg2SbOJli3nj+p1wxHCWdwGlpIk2hpA72LAa+VhR8eLv1DjN
- tWV8E2SLrF4wkNjvoFzSyudhUuq8AhwvBIHNgv3pgijYp9esSZb5Mz5x4mEXBD7DaATVzG
- I54TXbBMwYgGww2XY6poDqjpRHt+Fd0=
+ bh=ZqSJckFwaigPqII7TYtgwKO5VF0wvwDzqsNfM47vfmM=;
+ b=gWh48C/2/z/+d1BiRV1F+57C4iN+QnWX3igJE2XNWSgIz7fHp77p/6aRHHXOkZRwgKZHdF
+ xBtYKTmQbVJLLEvaZE53W7dHtBy5MlHRWgl4XysP8lMotMYjGStqpgXQesId7sGBFTJHIS
+ 9fZOpk7YqhH3z3GwcqI72JjUxucLLE4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-I0LNncnfPWuySEgMkXpH0A-1; Tue, 15 Sep 2020 18:41:24 -0400
-X-MC-Unique: I0LNncnfPWuySEgMkXpH0A-1
+ us-mta-101-23JKPyhvNx2sP6y7bMV-5w-1; Tue, 15 Sep 2020 18:41:26 -0400
+X-MC-Unique: 23JKPyhvNx2sP6y7bMV-5w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7F2210BBEC3;
- Tue, 15 Sep 2020 22:41:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0720107B79B;
+ Tue, 15 Sep 2020 22:41:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1F6160BE5;
- Tue, 15 Sep 2020 22:41:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E384660BE5;
+ Tue, 15 Sep 2020 22:41:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 27/37] qapi/gen.py: Remove unused parameter
-Date: Tue, 15 Sep 2020 18:40:17 -0400
-Message-Id: <20200915224027.2529813-28-jsnow@redhat.com>
+Subject: [PATCH 30/37] qapi/introspect.py: Add a typed 'extra' structure
+Date: Tue, 15 Sep 2020 18:40:20 -0400
+Message-Id: <20200915224027.2529813-31-jsnow@redhat.com>
 In-Reply-To: <20200915224027.2529813-1-jsnow@redhat.com>
 References: <20200915224027.2529813-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -85,35 +85,81 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-module_basename doesn't use the 'what' argument, so remove it.
+Typing arbitrarily shaped dicts with mypy is difficult prior to Python
+3.8; using explicit structures is nicer.
+
+Since we always define an Extra type now, the return type of _make_tree
+simplifies and always returns the tuple.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/gen.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/introspect.py | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index c87c84e7c9..e873901672 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -234,7 +234,7 @@ def _is_user_module(name: Optional[str]) -> bool:
-     def _is_builtin_module(name: Optional[str]) -> bool:
-         return not name
+diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+index b036fcf9ce..41ca8afc67 100644
+--- a/scripts/qapi/introspect.py
++++ b/scripts/qapi/introspect.py
+@@ -10,6 +10,8 @@
+ See the COPYING file in the top-level directory.
+ """
  
--    def _module_dirname(self, what: str, name: Optional[str]) -> str:
-+    def _module_dirname(self, name: Optional[str]) -> str:
-         if self._is_user_module(name):
-             return os.path.dirname(name)
-         return ''
-@@ -252,7 +252,7 @@ def _module_basename(self, what: str, name: Optional[str]) -> str:
-         return ret
++from typing import (NamedTuple, Optional, Sequence)
++
+ from .common import (
+     c_name,
+     gen_endif,
+@@ -21,16 +23,21 @@
+                      QAPISchemaType)
  
-     def _module_filename(self, what: str, name: Optional[str]) -> str:
--        return os.path.join(self._module_dirname(what, name),
-+        return os.path.join(self._module_dirname(name),
-                             self._module_basename(what, name))
  
-     def _add_module(self, name: Optional[str], blurb: str) -> None:
+-def _make_tree(obj, ifcond, features, extra=None):
+-    if extra is None:
+-        extra = {}
+-    if ifcond:
+-        extra['if'] = ifcond
++class Extra(NamedTuple):
++    """
++    Extra contains data that isn't intended for output by introspection.
++    """
++    comment: Optional[str] = None
++    ifcond: Sequence[str] = tuple()
++
++
++def _make_tree(obj, ifcond, features,
++               extra: Optional[Extra] = None):
++    comment = extra.comment if extra else None
++    extra = Extra(comment, ifcond)
+     if features:
+-        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
+-    if extra:
+-        return (obj, extra)
+-    return obj
++        obj['features'] = [(f.name, Extra(None, f.ifcond)) for f in features]
++    return (obj, extra)
+ 
+ 
+ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
+@@ -40,8 +47,8 @@ def indent(level):
+ 
+     if isinstance(obj, tuple):
+         ifobj, extra = obj
+-        ifcond = extra.get('if')
+-        comment = extra.get('comment')
++        ifcond = extra.ifcond
++        comment = extra.comment
+         ret = ''
+         if comment:
+             ret += indent(level) + '/* %s */\n' % comment
+@@ -168,7 +175,7 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
+             if not self._unmask:
+                 # Output a comment to make it easy to map masked names
+                 # back to the source when reading the generated output.
+-                extra = {'comment': '"%s" = %s' % (self._name(name), name)}
++                extra = Extra(comment=f'"{self._name(name)}" = {name}')
+             name = self._name(name)
+         obj['name'] = name
+         obj['meta-type'] = mtype
 -- 
 2.26.2
 
