@@ -2,69 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D26426AA90
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:27:54 +0200 (CEST)
-Received: from localhost ([::1]:39996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A2726AA71
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:23:31 +0200 (CEST)
+Received: from localhost ([::1]:51150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEkD-0008C0-AL
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
+	id 1kIEfy-0000xg-No
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIEX2-0000BW-2x
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kIEX2-00006l-Ps
  for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:14:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIEKE-0001NK-BE
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:01:06 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kIEKB-0006SU-Dk
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:00:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1F06C2E8082
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:00:59 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kIEJE-00014e-HV
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:00:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600189199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ru/mL5Hd1MR8pJ+e7pAyN4rPmOhdtElEqExnXYflAts=;
+ b=KTQ4w2VlGwq/yWdIyL+xxdEZIm3JUkPr76lhckKTRaH63cU4nR3UL/8P5EhTNCezdoUS0z
+ fSNudQZjPB7NGH7E6/oGw0qPfIOhOVAbpCU0tvfR0pw8I8fQ9TPMoDFEgatJwgPSzygOY0
+ pPdwchlmk+aCvqdD23eX7L3jvQu7oGc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-LIZnsE2cMSqHTMbOjGHaLA-1; Tue, 15 Sep 2020 12:59:57 -0400
+X-MC-Unique: LIZnsE2cMSqHTMbOjGHaLA-1
+Received: by mail-wm1-f71.google.com with SMTP id w3so57521wmg.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:59:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ru/mL5Hd1MR8pJ+e7pAyN4rPmOhdtElEqExnXYflAts=;
+ b=bKAnsqE3JxznCC0g1MdPgJTRNMljnnc4vxAKQLfrOgPTgBqiduJZX14sIkud4EaoE8
+ LIUpNJN1Zw6VMmIIUQ4Erutifg0uudXFb4XWFnACthFcSGDfELtHMLEo7usW451dwTGS
+ BPmKPG8qJTTimeaV6whgA/9kJn/iDHih0K2OyP6oCoYCYfHEvRpR2ntplMd2Wh0wV0gn
+ ksKUovDA0x7bNK9V7oBec0pBOWHlUdPPh8x87SKJOPY0FIuM5q3hOeorwM30NxSBGEv1
+ KieNoZ6Km0kw4CnmFuMXdIux/JM0WPGOukwr/B/RPR/L1dN59GuqShcVbJ1vP3VtqfLl
+ tD9A==
+X-Gm-Message-State: AOAM533DZzrLrZDkJkEF03W2n+yQHMKoSu2nuRNkSr1lVCGeJE2m9YN/
+ jOKBJQNhynuGZlSBNxT+Us7HnsTlF2J+x1dnV23J7rn1dD/D2YvVE3MkODlHy65sxlTrLChFigK
+ BmI3khxeGfg9YDoI=
+X-Received: by 2002:a1c:e256:: with SMTP id z83mr316345wmg.137.1600189196222; 
+ Tue, 15 Sep 2020 09:59:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnQPFRF9EWcVYSfCbh0xMJO51d/20MGnTe3x+fcsxpuHSg6+Pc5qPVE+f8FWVvPAFTVJTPqA==
+X-Received: by 2002:a1c:e256:: with SMTP id z83mr316330wmg.137.1600189196024; 
+ Tue, 15 Sep 2020 09:59:56 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:eac8:587f:8ca7:e1e8?
+ ([2001:b07:6468:f312:eac8:587f:8ca7:e1e8])
+ by smtp.gmail.com with ESMTPSA id n17sm29282827wrw.0.2020.09.15.09.59.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Sep 2020 09:59:55 -0700 (PDT)
+Subject: Re: [PATCH v2 01/10] capstone: Convert Makefile bits to meson bits
+To: luoyonggang@gmail.com, Richard Henderson <richard.henderson@linaro.org>
+References: <20200914230210.2185860-1-richard.henderson@linaro.org>
+ <20200914230210.2185860-2-richard.henderson@linaro.org>
+ <eced490f-0250-3516-5d75-c6c3ff6e97be@linaro.org>
+ <CABgObfbWzf7DLgx23+yMqYqnMUaiJ=0WKaW4zvzkA4u5T9fQXQ@mail.gmail.com>
+ <4813770a-34a4-72ce-17f7-7ea451a7af99@linaro.org>
+ <CAE2XoE_he2L85WgAg5NBWKLT+FFy6RJDULsL-QWBH0jbhxZTpw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2444b9f2-3668-8ca8-2e9e-3215d55b1472@redhat.com>
+Date: Tue, 15 Sep 2020 18:59:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Sep 2020 16:50:08 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1895703@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: buildsys tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <160018860889.17103.9156462398304890013.malonedeb@soybean.canonical.com>
-Subject: [Bug 1895703] [NEW] performance degradation in tcg since Meson switch
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 2343c86e8878db7786e3b520f1f35dae45cebba0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 09:50:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAE2XoE_he2L85WgAg5NBWKLT+FFy6RJDULsL-QWBH0jbhxZTpw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 11:54:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,68 +106,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895703 <1895703@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 15/09/20 18:12, 罗勇刚(Yonggang Luo) wrote:
+> 
+> I suggest remove the capstone=system option cause the system library
+> may not satisfy the requirements of qemu and create in-consistence
+> expereince when bug or error happens about capstone. We either have
+> git submodule capstone or nothing at all
 
-The buildsys conversion to Meson (1d806cef0e3..7fd51e68c34)
-introduced a degradation in performance in some TCG targets:
+Linux distributions generally do not want to have bundled libraries, so
+the fallback to the system library is the default.  We single out
+capstone, libfdt and slirp because they are slightly less common
+dependencies and are missing on some distros; however, in general we
+strive to _only_ use system libraries and not package any of QEMU's
+dependencies.
 
---------------------------------------------------------
-Test Program: matmult_double
---------------------------------------------------------
-Target              Instructions     Previous    Latest
-                                     1d806cef   7fd51e68
-----------  --------------------  ----------  ----------
-alpha              3 233 957 639       -----     +7.472%
-m68k               3 919 110 506       -----    +18.433%
---------------------------------------------------------
+Paolo
 
-Original report from Ahmed Karaman with further testing done
-by Aleksandar Markovic:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg740279.html
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: buildsys tcg
-
-** Tags added: buildsys tcg
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895703
-
-Title:
-  performance degradation in tcg since Meson switch
-
-Status in QEMU:
-  New
-
-Bug description:
-  The buildsys conversion to Meson (1d806cef0e3..7fd51e68c34)
-  introduced a degradation in performance in some TCG targets:
-
-  --------------------------------------------------------
-  Test Program: matmult_double
-  --------------------------------------------------------
-  Target              Instructions     Previous    Latest
-                                       1d806cef   7fd51e68
-  ----------  --------------------  ----------  ----------
-  alpha              3 233 957 639       -----     +7.472%
-  m68k               3 919 110 506       -----    +18.433%
-  --------------------------------------------------------
-
-  Original report from Ahmed Karaman with further testing done
-  by Aleksandar Markovic:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg740279.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895703/+subscriptions
 
