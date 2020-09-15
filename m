@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05ED626B227
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:42:51 +0200 (CEST)
-Received: from localhost ([::1]:51076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A3826B250
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:45:13 +0200 (CEST)
+Received: from localhost ([::1]:59662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIJf0-00087E-2M
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59062)
+	id 1kIJhH-0003Bm-W5
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJcw-0006F8-Al
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:40:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39558)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJd5-0006N9-Hu
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:40:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJcu-0002Vj-0k
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:40:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJd3-0002Xw-JR
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:40:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600209634;
+ s=mimecast20190719; t=1600209648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mZWXq7GO5mx558feE0Kb1/8jgJE3wrTyvSY41kIzuWY=;
- b=Z3FNkb3aCOSn//V/w5/KOK8WbI6ff2yFJrCZqpqypgTpv6lRQhE3BTtMPuw8og6h0L5XkO
- e4g6f2zPklUlAsAbcLc14N2K/gJs0kiO8EDfZ+vYKF9doHJSDxpflR3KiPIni8ilTZ7zfJ
- vXyTY0hhb6wF9wTi4Ec6F7lRT+qxA2Y=
+ bh=637LJ33Schjo+rVEoXhJzcj6gHuGoz/oUV2e76R0FyM=;
+ b=EoT+NBBKztcG5EH1IwcaHs7PnqjMJhvIzZXZsMBKuH2qayiY4PhiOEUTKMCGiSm9xvIQi4
+ dIsyONqY2xXittaYK1OFQb1llAlLYJ1b/dt/rspYgS5PlhWGVyWYCw8hX0jB5+D+bKPPu5
+ +UcG1RuTqVIPDtG775dBeSfqD7C1KuQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-SHta24QrMUuihamPPzCRvA-1; Tue, 15 Sep 2020 18:40:33 -0400
-X-MC-Unique: SHta24QrMUuihamPPzCRvA-1
+ us-mta-57-smTw4yi4NJOAlBsZcbdyvQ-1; Tue, 15 Sep 2020 18:40:44 -0400
+X-MC-Unique: smTw4yi4NJOAlBsZcbdyvQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0172C64090;
- Tue, 15 Sep 2020 22:40:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF6678712F6;
+ Tue, 15 Sep 2020 22:40:42 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C2DF81C54;
- Tue, 15 Sep 2020 22:40:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D33C81C43;
+ Tue, 15 Sep 2020 22:40:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 02/37] [DO-NOT-MERGE] qapi: add debugging tools
-Date: Tue, 15 Sep 2020 18:39:52 -0400
-Message-Id: <20200915224027.2529813-3-jsnow@redhat.com>
+Subject: [PATCH 03/37] qapi-gen: Separate arg-parsing from generation
+Date: Tue, 15 Sep 2020 18:39:53 -0400
+Message-Id: <20200915224027.2529813-4-jsnow@redhat.com>
 In-Reply-To: <20200915224027.2529813-1-jsnow@redhat.com>
 References: <20200915224027.2529813-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 18:01:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -85,99 +85,140 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds some really childishly simple debugging tools. Maybe they're
-interesting for someone else, too?
+This is a minor re-work of the entrypoint script. It isolates a
+generate() method from the actual command-line mechanism.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/debug.py | 78 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
- create mode 100644 scripts/qapi/debug.py
+ scripts/qapi-gen.py | 87 ++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 63 insertions(+), 24 deletions(-)
 
-diff --git a/scripts/qapi/debug.py b/scripts/qapi/debug.py
-new file mode 100644
-index 0000000000..bacf5ee180
---- /dev/null
-+++ b/scripts/qapi/debug.py
-@@ -0,0 +1,78 @@
+diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+index 4b03f7d53b..59becba3e1 100644
+--- a/scripts/qapi-gen.py
++++ b/scripts/qapi-gen.py
+@@ -1,9 +1,13 @@
+ #!/usr/bin/env python3
+-# QAPI generator
+-#
++
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
+ 
 +"""
-+Small debugging facilities for mypy static analysis work.
-+(C) 2020 John Snow, for Red Hat, Inc.
++QAPI Generator
++
++This script is the main entry point for generating C code from the QAPI schema.
 +"""
+ 
+ import argparse
+ import re
+@@ -11,21 +15,65 @@
+ 
+ from qapi.commands import gen_commands
+ from qapi.doc import gen_doc
++from qapi.error import QAPIError
+ from qapi.events import gen_events
+ from qapi.introspect import gen_introspect
+-from qapi.schema import QAPIError, QAPISchema
++from qapi.schema import QAPISchema
+ from qapi.types import gen_types
+ from qapi.visit import gen_visit
+ 
+ 
+-def main(argv):
++DEFAULT_OUTPUT_DIR = ''
++DEFAULT_PREFIX = ''
 +
-+import inspect
-+import json
-+from typing import Dict, List, Any
-+from types import FrameType
 +
-+
-+OBSERVED_TYPES: Dict[str, List[str]] = {}
-+
-+
-+# You have no idea how long it took to find this return type...
-+def caller_frame() -> FrameType:
++def generate(schema_file: str,
++             output_dir: str,
++             prefix: str,
++             unmask: bool = False,
++             builtins: bool = False) -> None:
 +    """
-+    Returns the stack frame of the caller's caller.
-+    e.g. foo() -> caller() -> caller_frame() return's foo's stack frame.
++    generate uses a given schema to produce C code in the target directory.
++
++    :param schema_file: The primary QAPI schema file.
++    :param output_dir: The output directory to store generated code.
++    :param prefix: Optional C-code prefix for symbol names.
++    :param unmask: Expose non-ABI names through introspection?
++    :param builtins: Generate code for built-in types?
++
++    :raise QAPIError: On failures.
 +    """
-+    stack = inspect.stack()
-+    caller = stack[2].frame
-+    if caller is None:
-+        msg = "Python interpreter does not support stack frame inspection"
-+        raise RuntimeError(msg)
-+    return caller
++    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
++    if match and match.end() != len(prefix):
++        msg = "funny character '{:s}' in prefix '{:s}'".format(
++            prefix[match.end()], prefix)
++        raise QAPIError('', None, msg)
++
++    schema = QAPISchema(schema_file)
++    gen_types(schema, output_dir, prefix, builtins)
++    gen_visit(schema, output_dir, prefix, builtins)
++    gen_commands(schema, output_dir, prefix)
++    gen_events(schema, output_dir, prefix)
++    gen_introspect(schema, output_dir, prefix, unmask)
++    gen_doc(schema, output_dir, prefix)
 +
 +
-+def _add_type_record(name: str, typestr: str) -> None:
-+    seen = OBSERVED_TYPES.setdefault(name, [])
-+    if typestr not in seen:
-+        seen.append(typestr)
-+
-+
-+def record_type(name: str, value: Any, dict_names: bool = False) -> None:
++def main() -> int:
 +    """
-+    Record the type of a variable.
++    gapi-gen shell script entrypoint.
++    Expects arguments via sys.argv, see --help for details.
 +
-+    :param name: The name of the variable
-+    :param value: The value of the variable
++    :return: int, 0 on success, 1 on failure.
 +    """
-+    _add_type_record(name, str(type(value)))
-+
-+    try:
-+        for key, subvalue in value.items():
-+            subname = f"{name}.{key}" if dict_names else f"{name}.[dict_value]"
-+            _add_type_record(subname, str(type(subvalue)))
-+        return
-+    except AttributeError:
-+        # (Wasn't a dict or anything resembling one.)
-+        pass
-+
-+    # str is iterable, but not in the way we want!
-+    if isinstance(value, str):
-+        return
-+
-+    try:
-+        for elem in value:
-+            _add_type_record(f"{name}.[list_elem]", str(type(elem)))
-+    except TypeError:
-+        # (Wasn't a list or anything else iterable.)
-+        pass
-+
-+
-+def show_types() -> None:
-+    """
-+    Print all of the currently known variable types to stdout.
-+    """
-+    print(json.dumps(OBSERVED_TYPES, indent=2))
-+
-+
-+def record_locals(show: bool = False, dict_names: bool = False) -> None:
-+    caller = caller_frame()
-+    name = caller.f_code.co_name
-+    for key, value in caller.f_locals.items():
-+        record_type(f"{name}.{key}", value, dict_names=dict_names)
-+    if show:
-+        show_types()
+     parser = argparse.ArgumentParser(
+         description='Generate code from a QAPI schema')
+     parser.add_argument('-b', '--builtins', action='store_true',
+                         help="generate code for built-in types")
+-    parser.add_argument('-o', '--output-dir', action='store', default='',
++    parser.add_argument('-o', '--output-dir', action='store',
++                        default=DEFAULT_OUTPUT_DIR,
+                         help="write output to directory OUTPUT_DIR")
+-    parser.add_argument('-p', '--prefix', action='store', default='',
++    parser.add_argument('-p', '--prefix', action='store',
++                        default=DEFAULT_PREFIX,
+                         help="prefix for symbols")
+     parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
+                         dest='unmask',
+@@ -33,26 +81,17 @@ def main(argv):
+     parser.add_argument('schema', action='store')
+     args = parser.parse_args()
+ 
+-    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', args.prefix)
+-    if match.end() != len(args.prefix):
+-        print("%s: 'funny character '%s' in argument of --prefix"
+-              % (sys.argv[0], args.prefix[match.end()]),
+-              file=sys.stderr)
+-        sys.exit(1)
+-
+     try:
+-        schema = QAPISchema(args.schema)
++        generate(args.schema,
++                 output_dir=args.output_dir,
++                 prefix=args.prefix,
++                 unmask=args.unmask,
++                 builtins=args.builtins)
+     except QAPIError as err:
+-        print(err, file=sys.stderr)
+-        exit(1)
+-
+-    gen_types(schema, args.output_dir, args.prefix, args.builtins)
+-    gen_visit(schema, args.output_dir, args.prefix, args.builtins)
+-    gen_commands(schema, args.output_dir, args.prefix)
+-    gen_events(schema, args.output_dir, args.prefix)
+-    gen_introspect(schema, args.output_dir, args.prefix, args.unmask)
+-    gen_doc(schema, args.output_dir, args.prefix)
++        print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
++        return 1
++    return 0
+ 
+ 
+ if __name__ == '__main__':
+-    main(sys.argv)
++    sys.exit(main())
 -- 
 2.26.2
 
