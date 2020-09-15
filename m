@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19DE26A51B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:27:48 +0200 (CEST)
-Received: from localhost ([::1]:47978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF1126A52E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:30:16 +0200 (CEST)
+Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIA3n-0006sv-QA
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48124)
+	id 1kIA6B-0002Uv-MV
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:30:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qa-0000eb-3P; Tue, 15 Sep 2020 08:14:08 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41750)
+ id 1kI9rL-0001RN-6C; Tue, 15 Sep 2020 08:14:56 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kI9qT-0008As-UX; Tue, 15 Sep 2020 08:14:07 -0400
-Received: by mail-pf1-x444.google.com with SMTP id z19so1808920pfn.8;
- Tue, 15 Sep 2020 05:14:01 -0700 (PDT)
+ id 1kI9rJ-0008IB-3Y; Tue, 15 Sep 2020 08:14:54 -0400
+Received: by mail-pg1-x544.google.com with SMTP id d13so1886689pgl.6;
+ Tue, 15 Sep 2020 05:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fONA64XSdMINk4Pb3HJvl02BkTmqUfaoSQk6W/tx2aE=;
- b=jKybfE1zI6d5pOXCnoptelswEFg9Q5NF1fHohETbbhb93vmuXRaCXzf/kRf1IKvm6+
- Sj/bxo8VcYK9d1BrJMYf9LYG3S9o467Pf2rwLNWvcKgABcs+WT4bqOg9PMWhIplwrXIz
- e+UazDFtbp1POsEGzmKcBEEqOmBaxl65JKLai9W6jnUpWZX+39k/4i6tNGG3oufcfX8N
- H0fVliMM/nB+z28+Az/vylvXtgpNFaPJaUvNwiDuceMr6auAySYd6bZDC38aXWptBly7
- iIpqntLv0mkfpP1JMYg8wSYfQUG3MkUdreXRc4wQAJy7DAHzQR78YP0Ewox+K9NLM2m6
- QDAQ==
+ bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
+ b=biHIMGS6AUChj1Czn1FRvISeqJYf+hTbjKLcP7bQwdTE91OE39FghWrXxri1McM1iT
+ G6gNK/mrR8H152hRT20/i9PZMxiOAHtjf2bDVLyL0Al820R6qcdywELu0WUkw8PByOBU
+ JGNtNhiK5PikY1eTYr4YiM9KABuBWSHa3ycHTGcPvN2hD4HBrSFwJZ7iU72eM0X3C5QV
+ 264FDVLua3f1pVIEOVYtdGBnSIAP32uCmymwOqrEdSJbuu/+IW53lbSplMsZM7EwrQW+
+ F1nCYpyaAiA8eSr/TtA/4Mw+deJF+bIPsY0FQPTcbPpFwQCvfdFwkQJDd3OVbf0Zr1qG
+ Gx9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fONA64XSdMINk4Pb3HJvl02BkTmqUfaoSQk6W/tx2aE=;
- b=tIJHEUYkWSOn29LE5F4hvCOejHzykJICy7hKbpzb4GsAl9C+qI868rO3JUKXBCd1ks
- Vm1z/tvmXf6akMIsGtDSb6udRLWpSZJsZ3ab8S2piBU0V+gNkr0A9WFUInHtkCveYma3
- L62zGUEI0Q9Jd492vKvD/W+UVmP35FrrlO7ggZHk+l7vnmMjKwHWOOOX9PscJu48bFLI
- J07qrJVAHGJoRVibNadPfcDgBcDciISTFXzyU36DGPJJcZIEoFq/jSbVIe+oZWOeWO3e
- tl6Uclw39pZwMYLhNswlxJVIIilOUN7WcG1RkMVCcFYhrVKhpt9szlYQaiZAWwL5wMSu
- Etsw==
-X-Gm-Message-State: AOAM533q2iR1CYT/IsfKEUuDytd2rZI4Y4ZeNm1RKXPqoB4xMJImTqJL
- JUPJL+0C8c3ckLkWEqZJi54dS8jRid46xhiuszE=
-X-Google-Smtp-Source: ABdhPJzdzT8iRWgMQKzs4bB23T80Qz2ezB5i1OtrNNoyDM7v6I/09rK2+HxMa0JMwAKcimsPgsy1yg==
-X-Received: by 2002:a63:34d:: with SMTP id 74mr15263390pgd.364.1600172039676; 
- Tue, 15 Sep 2020 05:13:59 -0700 (PDT)
+ bh=8LMHSaPzW0hzgrIuj2ua/jt2cvPDmkrSyzCQ3oAKLyw=;
+ b=RBUmvaaY6d/NIHunNAEZZ2wihXWnz4JV1Yk5MRLCb+JDAELGvjg12LvyawV2bBF5WD
+ ebfYC5S75SDbGvU2m005qntNyUPqPmD6VgrfUBNHgE/QcMUiQ5knbt5tVS5Pvl1gmyZq
+ esWWiIOIIh34Av4fjcsSIIAUbobuo2Nx2G9WGOQQTQKKkGmBZIsIZlC81ShJ1OPqEOLb
+ NLF6S/ZhVabj0T5XJ7vtBS+kzfJSp4AnUJlB6GRZsYYtJipFaLIEOavqYCRCEP++s0Ag
+ 54PT+t6HssO/60VRHSZqnqUNsLKWb/Ow9XEzp4SihOaX3QFa3BCw+zu7R48nlINCbmA8
+ BjNg==
+X-Gm-Message-State: AOAM533PgQQwRzClNyLZuoM0+XCXGf+LDHPEjh1o5ZIg+I8eJeC2laq9
+ UgZY+xoail1ConKyVTZHeNQiYnsU3ZXldlG9LYU=
+X-Google-Smtp-Source: ABdhPJxaC4MoxRFEbFJq/mTw7qXEKnuuqctg0eNoPhLbUsH5kmWRsCcdgZ8W3KeJimUnBkFe0tjL0w==
+X-Received: by 2002:aa7:99c7:0:b029:13e:d13d:a056 with SMTP id
+ v7-20020aa799c70000b029013ed13da056mr17610322pfi.28.1600172090242; 
+ Tue, 15 Sep 2020 05:14:50 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
  by smtp.googlemail.com with ESMTPSA id
- k28sm13683061pfh.196.2020.09.15.05.13.55
+ k28sm13683061pfh.196.2020.09.15.05.14.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 05:13:58 -0700 (PDT)
+ Tue, 15 Sep 2020 05:14:49 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 05/26] curses: Fixes curses compiling errors.
-Date: Tue, 15 Sep 2020 20:12:57 +0800
-Message-Id: <20200915121318.247-6-luoyonggang@gmail.com>
+Subject: [PATCH v9 16/26] tests: Convert g_free to g_autofree macro in
+ test-logging.c
+Date: Tue, 15 Sep 2020 20:13:08 +0800
+Message-Id: <20200915121318.247-17-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200915121318.247-1-luoyonggang@gmail.com>
 References: <20200915121318.247-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,57 +95,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
  Yonggang Luo <luoyonggang@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the compiling error:
-../ui/curses.c: In function 'curses_refresh':
-../ui/curses.c:256:5: error: 'next_maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
-      |     ^~~~~~~~~~
-../ui/curses.c:302:32: note: 'next_maybe_keycode' was declared here
-  302 |             enum maybe_keycode next_maybe_keycode;
-      |                                ^~~~~~~~~~~~~~~~~~
-../ui/curses.c:256:5: error: 'maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
-      |     ^~~~~~~~~~
-../ui/curses.c:265:24: note: 'maybe_keycode' was declared here
-  265 |     enum maybe_keycode maybe_keycode;
-      |                        ^~~~~~~~~~~~~
-cc1.exe: all warnings being treated as errors
-
-gcc version 10.2.0 (Rev1, Built by MSYS2 project)
+g_autofree are prefer than g_free when possible.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- ui/curses.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/test-logging.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/ui/curses.c b/ui/curses.c
-index 12bc682cf9..e4f9588c3e 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -262,7 +262,7 @@ static int curses2foo(const int _curses2foo[], const int _curseskey2foo[],
- static void curses_refresh(DisplayChangeListener *dcl)
+diff --git a/tests/test-logging.c b/tests/test-logging.c
+index 8a1161de1d..783fe09a27 100644
+--- a/tests/test-logging.c
++++ b/tests/test-logging.c
+@@ -196,7 +196,7 @@ static void rmdir_full(gchar const *root)
+ 
+ int main(int argc, char **argv)
  {
-     int chr, keysym, keycode, keycode_alt;
--    enum maybe_keycode maybe_keycode;
-+    enum maybe_keycode maybe_keycode = CURSES_KEYCODE;
+-    gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
++    g_autofree gchar *tmp_path = g_dir_make_tmp("qemu-test-logging.XXXXXX", NULL);
+     int rc;
  
-     curses_winch_check();
+     g_test_init(&argc, &argv, NULL);
+@@ -212,6 +212,5 @@ int main(int argc, char **argv)
+     rc = g_test_run();
  
-@@ -299,7 +299,7 @@ static void curses_refresh(DisplayChangeListener *dcl)
- 
-         /* alt or esc key */
-         if (keycode == 1) {
--            enum maybe_keycode next_maybe_keycode;
-+            enum maybe_keycode next_maybe_keycode = CURSES_KEYCODE;
-             int nextchr = console_getch(&next_maybe_keycode);
- 
-             if (nextchr != -1) {
+     rmdir_full(tmp_path);
+-    g_free(tmp_path);
+     return rc;
+ }
 -- 
 2.28.0.windows.1
 
