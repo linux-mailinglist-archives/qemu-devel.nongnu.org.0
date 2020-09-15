@@ -2,74 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E92D26A613
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:15:28 +0200 (CEST)
-Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D165126A5F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:11:13 +0200 (CEST)
+Received: from localhost ([::1]:38650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAnv-0001gd-4Q
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:15:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59850)
+	id 1kIAjo-0004a0-Sz
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kIAZN-0008JV-Ky
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:25 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52610
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAZc-0008Os-At
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kIAZL-0005yr-3g
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAZW-00061a-KX
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:00:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600174821;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Kr25UJD/dw4wntuUz0tkyiG70er4SHYBGD7E0ZONqkI=;
- b=ScH5+Reyg4+0RDBaftSPpjJBSnXL3R1RtPEQ+NnD/8WpTW90j7lNVV06qjPnNLfDCb64Ye
- Y8L2xYCMiZgeNXJSXaDFM/vqUwO8xuGuhbhcrNPK8TjOCqaqMWcKQ7OzSb82tga94uMeBQ
- AbIbvXoA277HYJlJCMOY/f2jPrz/t6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-oOfcpGRvNuaJaa5BBlAvTg-1; Tue, 15 Sep 2020 09:00:15 -0400
-X-MC-Unique: oOfcpGRvNuaJaa5BBlAvTg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A1B6801AE4;
- Tue, 15 Sep 2020 13:00:13 +0000 (UTC)
-Received: from redhat.com (ovpn-113-234.ams2.redhat.com [10.36.113.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6383C1002D42;
- Tue, 15 Sep 2020 13:00:04 +0000 (UTC)
-Date: Tue, 15 Sep 2020 14:00:01 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v9 04/26] win32: Simplify gmtime_r detection direct base
- on _POSIX_THREAD_SAFE_FUNCTIONS.
-Message-ID: <20200915130001.GG1502912@redhat.com>
-References: <20200915121318.247-1-luoyonggang@gmail.com>
- <20200915121318.247-5-luoyonggang@gmail.com>
+ s=mimecast20190719; t=1600174833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vyz0Dbw9CdIupElFd14ooa0aM+NZlFHlw1tKjiA6B/o=;
+ b=Uyl0cXyvTpqm2L7RR7rlm7Ow1d2Qa5m1VzStqwAUceALvn4ObPocPheZlrFJ1MVJOmPnTW
+ Ztvq8PmRQ8MLi+gHObDsGlbk2V7H1fTfSsaMvfqaEQbJIh32WgQmo2YFXvoP8Y3iqaC/8l
+ 9ZJNinWJvB3/wA7Fp1uiOu8/Q97/rpQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-XxD58K9PMUm3roq8xaOciA-1; Tue, 15 Sep 2020 09:00:31 -0400
+X-MC-Unique: XxD58K9PMUm3roq8xaOciA-1
+Received: by mail-wr1-f72.google.com with SMTP id l17so1187345wrw.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:00:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=8AVan5PDvZKDU3bCC5VX33AGWvxHJyzmLgoXNMExNjQ=;
+ b=clqob+4pjbfRYuC3LeAzN2K5c0Uo0yPuZG/Le4k2lIzpp3dh2ZL2KKNsi/b9aJPdVE
+ j3iqSG+WIbgbMBGT1It9O4STHqhHV64ZczEvS47ML+3NIjOZ8tuML2w++tkjptx7S2BB
+ 6daDaQsbmj9BHq8RwDYR9mIoTC+sDr51BpFcYqU2Xz+XvXh+oQPueaIPY38p8ojkor97
+ 82VtbaUbWJsvBxOCmi5CNrjA+sSKJ4wqhv87o0g5vqNOx+5LPkwzHQcjKXpbsQtme/De
+ giddjN70nJNbGe3KXpNDa+leSnMVmDM0ME3iB9YwsLk2uVCEsRT1aiIsHnfZIzfNhVp7
+ F7UQ==
+X-Gm-Message-State: AOAM5338F6N3DVP4U5mOFKtiNO7YwCIO4Lv14R982WeiDJb7Gf8V7BNe
+ sHNgHNNrOnzWVlDsuGgzzXDE+xlPuEnwcZNIasOCPtGmBLw25O3eJw5JMRCAdnUawcG8xFjcMqy
+ 64/56b3OrcqMVUaY=
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr4495029wmc.98.1600174830316; 
+ Tue, 15 Sep 2020 06:00:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhbavamAJiu75jpX7eTin+k1NMwgQW3oX5k3WUAmEpT600jjjabH2isgMrIA6jQp9AjGcD5w==
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr4495017wmc.98.1600174830174; 
+ Tue, 15 Sep 2020 06:00:30 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id l10sm25008972wmh.27.2020.09.15.06.00.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Sep 2020 06:00:29 -0700 (PDT)
+Subject: Re: [PATCH 01/15] spapr: Fix error leak in spapr_realize_vcpu()
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <20200914123505.612812-1-groug@kaod.org>
+ <20200914123505.612812-2-groug@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <94938889-c49f-89a6-60c6-41f3f19e181e@redhat.com>
+Date: Tue, 15 Sep 2020 15:00:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200915121318.247-5-luoyonggang@gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200914123505.612812-2-groug@kaod.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,164 +123,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 15, 2020 at 08:12:56PM +0800, Yonggang Luo wrote:
-> First, this reduce the size of configure, configure are tending to removal in future,
-> and this didn't introduce any new feature or remove any exist feature.
-> Second, the current localtime_r detection are conflict with ncursesw detection in
-> mingw, when ncursesw detected, it will provide the following compile flags
-> pkg-config --cflags ncursesw
-> -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC:/CI-Tools/msys64/mingw64/include/ncursesw
-> And the compile flag _POSIX_C_SOURCE will always cause _POSIX_THREAD_SAFE_FUNCTIONS to
-> be defined, in new version of mingw, that's will cause localtime_r to be defined.
-> But the configure script didn't provide _POSIX_C_SOURCE macro, and that's will result
-> localtime_r not detected because localtime_r are defined in forceinline manner.
-
-ncursesw is just one of the three curses impls we can select for
-building against, so it doesn't feel right to make an assumption
-that _POSIX_C_SOURCE is always defined.
-
+On 9/14/20 2:34 PM, Greg Kurz wrote:
+> If spapr_irq_cpu_intc_create() fails, local_err isn't propagated and
+> thus leaked.
 > 
-> And finally cause conflict between QEMU defined localtime_r
-> struct tm *localtime_r(const time_t *timep, struct tm *result);
-> with mingw defined localtime_r
-> 
-> ```
-> #if defined(_POSIX_C_SOURCE) && !defined(_POSIX_THREAD_SAFE_FUNCTIONS)
-> #define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
-> #endif
-> 
-> #ifdef _POSIX_THREAD_SAFE_FUNCTIONS
-> __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
->   return localtime_s(_Tm, _Time) ? NULL : _Tm;
-> }
-> __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
->   return gmtime_s(_Tm, _Time) ? NULL : _Tm;
-> }
-> __forceinline char *__CRTDECL ctime_r(const time_t *_Time, char *_Str) {
->   return ctime_s(_Str, 0x7fffffff, _Time) ? NULL : _Str;
-> }
-> __forceinline char *__CRTDECL asctime_r(const struct tm *_Tm, char * _Str) {
->   return asctime_s(_Str, 0x7fffffff, _Tm) ? NULL : _Str;
-> }
-> #endif
-> ```
-> 
-> So I suggest remove this configure script, and restrict msys2/mingw version to easy to maintain.
-> And use _POSIX_THREAD_SAFE_FUNCTIONS to guard the localtime_r and counterpart functions
-> 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> Fixes: 992861fb1e4c ("error: Eliminate error_propagate() manually")
+> Cc: armbru@redhat.com
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
->  configure                 | 34 ----------------------------------
->  include/sysemu/os-win32.h |  4 ++--
->  util/oslib-win32.c        |  2 +-
->  3 files changed, 3 insertions(+), 37 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index dc4b7a2e55..bac48b5b49 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2496,37 +2496,6 @@ if test "$vhost_net" = ""; then
->    test "$vhost_kernel" = "yes" && vhost_net=yes
->  fi
->  
-> -##########################################
-> -# MinGW / Mingw-w64 localtime_r/gmtime_r check
-> -
-> -if test "$mingw32" = "yes"; then
-> -    # Some versions of MinGW / Mingw-w64 lack localtime_r
-> -    # and gmtime_r entirely.
-> -    #
-> -    # Some versions of Mingw-w64 define a macro for
-> -    # localtime_r/gmtime_r.
-> -    #
-> -    # Some versions of Mingw-w64 will define functions
-> -    # for localtime_r/gmtime_r, but only if you have
-> -    # _POSIX_THREAD_SAFE_FUNCTIONS defined. For fun
-> -    # though, unistd.h and pthread.h both define
-> -    # that for you.
-> -    #
-> -    # So this #undef localtime_r and #include <unistd.h>
-> -    # are not in fact redundant.
-> -cat > $TMPC << EOF
-> -#include <unistd.h>
-> -#include <time.h>
-> -#undef localtime_r
-> -int main(void) { localtime_r(NULL, NULL); return 0; }
-> -EOF
-> -    if compile_prog "" "" ; then
-> -        localtime_r="yes"
-> -    else
-> -        localtime_r="no"
-> -    fi
-> -fi
-> -
->  ##########################################
->  # pkg-config probe
->  
-> @@ -7088,9 +7057,6 @@ if [ "$bsd" = "yes" ] ; then
->    echo "CONFIG_BSD=y" >> $config_host_mak
->  fi
->  
-> -if test "$localtime_r" = "yes" ; then
-> -  echo "CONFIG_LOCALTIME_R=y" >> $config_host_mak
-> -fi
->  if test "$qom_cast_debug" = "yes" ; then
->    echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
->  fi
-> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-> index d8978e28c0..3ac8a53bac 100644
-> --- a/include/sysemu/os-win32.h
-> +++ b/include/sysemu/os-win32.h
-> @@ -48,12 +48,12 @@
->  #define siglongjmp(env, val) longjmp(env, val)
->  
->  /* Missing POSIX functions. Don't use MinGW-w64 macros. */
-> -#ifndef CONFIG_LOCALTIME_R
-> +#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
->  #undef gmtime_r
->  struct tm *gmtime_r(const time_t *timep, struct tm *result);
->  #undef localtime_r
->  struct tm *localtime_r(const time_t *timep, struct tm *result);
-> -#endif /* CONFIG_LOCALTIME_R */
-> +#endif
->  
->  static inline void os_setup_signal_handling(void) {}
->  static inline void os_daemonize(void) {}
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index c654dafd93..f2fa9a3549 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -106,7 +106,7 @@ void qemu_anon_ram_free(void *ptr, size_t size)
->      }
->  }
->  
-> -#ifndef CONFIG_LOCALTIME_R
-> +#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
->  /* FIXME: add proper locking */
->  struct tm *gmtime_r(const time_t *timep, struct tm *result)
->  {
-> -- 
-> 2.28.0.windows.1
-> 
-> 
+>  hw/ppc/spapr_cpu_core.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
