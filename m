@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C45926AB51
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:59:25 +0200 (CEST)
-Received: from localhost ([::1]:36704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7F126AB6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 20:03:57 +0200 (CEST)
+Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIFEh-00033j-VA
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53830)
+	id 1kIFJ6-0007NF-O2
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 14:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kIFA6-000684-NU
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:54:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54453
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kIFA3-0008L7-BV
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:54:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600192472;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Rp1gXm/X6qihaf2u+bNhKyeZBEYYmEcPj2iLPkJ6CIg=;
- b=Sacv/hOtzgmmO/9goF0iaTcHnZ7l3BwZymJZ+V62ZiL2n/uV0phauz6StDeRjrlI3VGp+s
- lJBWnj1DO4FLMb2DfM7RHcTLA41NsVPTxNiFoieO34vrT7CMdBIIXRV7i3dPr01vR0UKco
- tSPbIdFd8a/PY0c/KT6HAx/mtZfIxmo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-qO79X6XIOwuRVTY6jk6jMA-1; Tue, 15 Sep 2020 13:54:20 -0400
-X-MC-Unique: qO79X6XIOwuRVTY6jk6jMA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 856031007464;
- Tue, 15 Sep 2020 17:54:19 +0000 (UTC)
-Received: from redhat.com (ovpn-113-234.ams2.redhat.com [10.36.113.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EAC3D19D6C;
- Tue, 15 Sep 2020 17:54:01 +0000 (UTC)
-Date: Tue, 15 Sep 2020 18:53:59 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH V1 22/32] char: qio_channel_socket_accept reuse fd
-Message-ID: <20200915175359.GM1502912@redhat.com>
-References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-23-git-send-email-steven.sistare@oracle.com>
- <20200915173334.GD2922@work-vm>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kIF2V-0001aU-CO
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:46:48 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:35623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kIF2P-0007Ev-VA
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:46:47 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id jw11so172716pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 10:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CgkxfpFluTt5zP00GcUYEwa3CAXm7Xk+FBHChzy0F2A=;
+ b=zpmEWgCirF8KjwwQDSKJfwZgkuT2iVXS1NlOvSRVb5Cx9hsFkzLmlLp2iJ0viknk8z
+ vL19KqKveWhVkIzu78X5ZuF0Mt0a+oHW8KltVIw8UH0OE3BD+n5rG2n8IfiaSLfWRJiE
+ LwvP7fjuTmsyMZcILNY9cfQ57pf/yIMovVtq4k5+7BOIkW0CX+ydSEXlYRB6MZ7PE7Ok
+ eDXa+gTqE5yRCUgC1pPoK5u9l4VVO+6D1rqYdz7QMUKMGpZjr4aex5v2q+1ae83LsiNJ
+ kV9Md5alKRKPcJXdZI2BXjXEtSGBM5giVGXj0QlYy7gCP9n2nrXjZMs0oj/0Mq67zBAo
+ q44Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CgkxfpFluTt5zP00GcUYEwa3CAXm7Xk+FBHChzy0F2A=;
+ b=HyXxg6rcpJMMUY3CU8uWx35Gwg0HuOq/ZqHQJOLPY6MYsSrWcBxpOBw32u46DMz0sk
+ a1ExFBKUTSQ37ot3OV9zIUV7SyESdcrv+qbiJrTBSp+J/u7aTCSbq2ASSIxvygJq1TKq
+ PV+/dXQ7utQtEkppKAAr1VTr/GRYo/LfZE7RvHtCRnoL9QwVPVJEfkDpWW9n8PQfEowr
+ A0IVtPk/hT+HPgA5gfNJQjc+mEYXhVNEcD4w6hTzBaf05WkuWKcCxDPc4W86LMLVl/If
+ 868lLTkjyKxS/t9WAVmuabblmaH3zMayASpSDYIm+bQsoyVzD5DSnYy1QbkqghejzbNg
+ 7LYA==
+X-Gm-Message-State: AOAM5311mKxRwKBqE1XVcWH4S5ZkZjdzW85YxlXsNvc0u5uBGkuVfJZk
+ OYGQfEbmK+OvJyy4Ep9iyc02OIGvw4Sh5g==
+X-Google-Smtp-Source: ABdhPJyll2fcIIC5yI7+NxgqoA40WIZITpzxLKEIM79bPHRfk1jspxv1JfACnk5r/pEfQ2rq1Py4hw==
+X-Received: by 2002:a17:902:6bc1:b029:d0:cbe1:e76e with SMTP id
+ m1-20020a1709026bc1b02900d0cbe1e76emr20802506plt.21.1600191997994; 
+ Tue, 15 Sep 2020 10:46:37 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id cf7sm147896pjb.52.2020.09.15.10.46.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Sep 2020 10:46:37 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/5] qom: Allow objects to be allocated with increased
+ alignment
+Date: Tue, 15 Sep 2020 10:46:31 -0700
+Message-Id: <20200915174635.2333553-2-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200915174635.2333553-1-richard.henderson@linaro.org>
+References: <20200915174635.2333553-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200915173334.GD2922@work-vm>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,204 +87,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Steve Sistare <steven.sistare@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 15, 2020 at 06:33:34PM +0100, Dr. David Alan Gilbert wrote:
-> * Steve Sistare (steven.sistare@oracle.com) wrote:
-> > From: Mark Kanda <mark.kanda@oracle.com>
-> > 
-> > Add an fd argument to qio_channel_socket_accept.  If not -1, the channel
-> > uses that fd instead of accepting a new socket connection.  All callers
-> > pass -1 in this patch, so no functional change.
-> 
-> Doesn't some of this just come from the fact you're insisting on reusing
-> the command line?   We should be able to open a chardev on an fd
-> shouldn't we?
+It turns out that some hosts have a default malloc alignment less
+than that required for vectors.
 
-Even ignoring that question, this patch looks pointless to me. The callers
-have to be modified to pass in the FD to use instead of accepting a new
-connection. Given that, you migt as well just modify the callers to use
-the FD immediately if valid and never call qio_channel_socket_accept at all.
+We assume that, with compiler annotation on CPUArchState, that we
+can properly align the vector portion of the guest state.  Fix the
+alignment of the allocation by using qemu_memalloc when required.
 
-ie
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+---
+ include/qom/object.h |  4 ++++
+ qom/object.c         | 16 +++++++++++++---
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
-   if (reuse_fd)
-      fd = reuse_fd;
-   else
-      fd = qio_channel_socket_accept(ioc...)
-
-> 
-> Dave
-> 
-> > Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
-> > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> > ---
-> >  include/io/channel-socket.h    |  3 ++-
-> >  io/channel-socket.c            | 12 +++++++++---
-> >  io/net-listener.c              |  4 ++--
-> >  scsi/qemu-pr-helper.c          |  2 +-
-> >  tests/qtest/tpm-emu.c          |  2 +-
-> >  tests/test-char.c              |  2 +-
-> >  tests/test-io-channel-socket.c |  4 ++--
-> >  7 files changed, 18 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-> > index 777ff59..0ffc560 100644
-> > --- a/include/io/channel-socket.h
-> > +++ b/include/io/channel-socket.h
-> > @@ -248,6 +248,7 @@ qio_channel_socket_get_remote_address(QIOChannelSocket *ioc,
-> >  /**
-> >   * qio_channel_socket_accept:
-> >   * @ioc: the socket channel object
-> > + * @reuse_fd: fd to reuse; -1 otherwise
-> >   * @errp: pointer to a NULL-initialized error object
-> >   *
-> >   * If the socket represents a server, then this accepts
-> > @@ -258,7 +259,7 @@ qio_channel_socket_get_remote_address(QIOChannelSocket *ioc,
-> >   */
-> >  QIOChannelSocket *
-> >  qio_channel_socket_accept(QIOChannelSocket *ioc,
-> > -                          Error **errp);
-> > +                          int reuse_fd, Error **errp);
-> >  
-> >  
-> >  #endif /* QIO_CHANNEL_SOCKET_H */
-> > diff --git a/io/channel-socket.c b/io/channel-socket.c
-> > index e1b4667..dde12bf 100644
-> > --- a/io/channel-socket.c
-> > +++ b/io/channel-socket.c
-> > @@ -352,7 +352,7 @@ void qio_channel_socket_dgram_async(QIOChannelSocket *ioc,
-> >  
-> >  QIOChannelSocket *
-> >  qio_channel_socket_accept(QIOChannelSocket *ioc,
-> > -                          Error **errp)
-> > +                          int reuse_fd, Error **errp)
-> >  {
-> >      QIOChannelSocket *cioc;
-> >  
-> > @@ -362,8 +362,14 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
-> >  
-> >   retry:
-> >      trace_qio_channel_socket_accept(ioc);
-> > -    cioc->fd = qemu_accept(ioc->fd, (struct sockaddr *)&cioc->remoteAddr,
-> > -                           &cioc->remoteAddrLen);
-> > +
-> > +    if (reuse_fd != -1) {
-> > +        cioc->fd = reuse_fd;
-> > +    } else {
-> > +        cioc->fd = qemu_accept(ioc->fd, (struct sockaddr *)&cioc->remoteAddr,
-> > +                               &cioc->remoteAddrLen);
-> > +    }
-> > +
-> >      if (cioc->fd < 0) {
-> >          if (errno == EINTR) {
-> >              goto retry;
-> > diff --git a/io/net-listener.c b/io/net-listener.c
-> > index 5d8a226..bbdea1e 100644
-> > --- a/io/net-listener.c
-> > +++ b/io/net-listener.c
-> > @@ -45,7 +45,7 @@ static gboolean qio_net_listener_channel_func(QIOChannel *ioc,
-> >      QIOChannelSocket *sioc;
-> >  
-> >      sioc = qio_channel_socket_accept(QIO_CHANNEL_SOCKET(ioc),
-> > -                                     NULL);
-> > +                                     -1, NULL);
-> >      if (!sioc) {
-> >          return TRUE;
-> >      }
-> > @@ -194,7 +194,7 @@ static gboolean qio_net_listener_wait_client_func(QIOChannel *ioc,
-> >      QIOChannelSocket *sioc;
-> >  
-> >      sioc = qio_channel_socket_accept(QIO_CHANNEL_SOCKET(ioc),
-> > -                                     NULL);
-> > +                                     -1, NULL);
-> >      if (!sioc) {
-> >          return TRUE;
-> >      }
-> > diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-> > index 57ad830..0e6d683 100644
-> > --- a/scsi/qemu-pr-helper.c
-> > +++ b/scsi/qemu-pr-helper.c
-> > @@ -800,7 +800,7 @@ static gboolean accept_client(QIOChannel *ioc, GIOCondition cond, gpointer opaqu
-> >      PRHelperClient *prh;
-> >  
-> >      cioc = qio_channel_socket_accept(QIO_CHANNEL_SOCKET(ioc),
-> > -                                     NULL);
-> > +                                     -1, NULL);
-> >      if (!cioc) {
-> >          return TRUE;
-> >      }
-> > diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
-> > index 2e8eb7b..19e5dab 100644
-> > --- a/tests/qtest/tpm-emu.c
-> > +++ b/tests/qtest/tpm-emu.c
-> > @@ -83,7 +83,7 @@ void *tpm_emu_ctrl_thread(void *data)
-> >      g_cond_signal(&s->data_cond);
-> >  
-> >      qio_channel_wait(QIO_CHANNEL(lioc), G_IO_IN);
-> > -    ioc = QIO_CHANNEL(qio_channel_socket_accept(lioc, &error_abort));
-> > +    ioc = QIO_CHANNEL(qio_channel_socket_accept(lioc, -1, &error_abort));
-> >      g_assert(ioc);
-> >  
-> >      {
-> > diff --git a/tests/test-char.c b/tests/test-char.c
-> > index 614bdac..1bb6ae0 100644
-> > --- a/tests/test-char.c
-> > +++ b/tests/test-char.c
-> > @@ -884,7 +884,7 @@ char_socket_client_server_thread(gpointer data)
-> >      QIOChannelSocket *cioc;
-> >  
-> >  retry:
-> > -    cioc = qio_channel_socket_accept(ioc, &error_abort);
-> > +    cioc = qio_channel_socket_accept(ioc, -1, &error_abort);
-> >      g_assert_nonnull(cioc);
-> >  
-> >      if (char_socket_ping_pong(QIO_CHANNEL(cioc), NULL) != 0) {
-> > diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
-> > index d43083a..0d410cf 100644
-> > --- a/tests/test-io-channel-socket.c
-> > +++ b/tests/test-io-channel-socket.c
-> > @@ -75,7 +75,7 @@ static void test_io_channel_setup_sync(SocketAddress *listen_addr,
-> >      qio_channel_set_delay(*src, false);
-> >  
-> >      qio_channel_wait(QIO_CHANNEL(lioc), G_IO_IN);
-> > -    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, &error_abort));
-> > +    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, -1, &error_abort));
-> >      g_assert(*dst);
-> >  
-> >      test_io_channel_set_socket_bufs(*src, *dst);
-> > @@ -143,7 +143,7 @@ static void test_io_channel_setup_async(SocketAddress *listen_addr,
-> >      g_assert(!data.err);
-> >  
-> >      qio_channel_wait(QIO_CHANNEL(lioc), G_IO_IN);
-> > -    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, &error_abort));
-> > +    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, -1, &error_abort));
-> >      g_assert(*dst);
-> >  
-> >      qio_channel_set_delay(*src, false);
-> > -- 
-> > 1.8.3.1
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
-Regards,
-Daniel
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 056f67ab3b..d52d0781a3 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -770,6 +770,9 @@ struct Object
+  * @instance_size: The size of the object (derivative of #Object).  If
+  *   @instance_size is 0, then the size of the object will be the size of the
+  *   parent object.
++ * @instance_align: The required alignment of the object.  If @instance_align
++ *   is 0, then normal malloc alignment is sufficient; if non-zero, then we
++ *   must use qemu_memalign for allocation.
+  * @instance_init: This function is called to initialize an object.  The parent
+  *   class will have already been initialized so the type is only responsible
+  *   for initializing its own members.
+@@ -807,6 +810,7 @@ struct TypeInfo
+     const char *parent;
+ 
+     size_t instance_size;
++    size_t instance_align;
+     void (*instance_init)(Object *obj);
+     void (*instance_post_init)(Object *obj);
+     void (*instance_finalize)(Object *obj);
+diff --git a/qom/object.c b/qom/object.c
+index 387efb25eb..2e53cb44a6 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -50,6 +50,7 @@ struct TypeImpl
+     size_t class_size;
+ 
+     size_t instance_size;
++    size_t instance_align;
+ 
+     void (*class_init)(ObjectClass *klass, void *data);
+     void (*class_base_init)(ObjectClass *klass, void *data);
+@@ -114,6 +115,7 @@ static TypeImpl *type_new(const TypeInfo *info)
+ 
+     ti->class_size = info->class_size;
+     ti->instance_size = info->instance_size;
++    ti->instance_align = info->instance_align;
+ 
+     ti->class_init = info->class_init;
+     ti->class_base_init = info->class_base_init;
+@@ -691,13 +693,21 @@ static void object_finalize(void *data)
+ static Object *object_new_with_type(Type type)
+ {
+     Object *obj;
++    size_t size, align;
+ 
+     g_assert(type != NULL);
+     type_initialize(type);
+ 
+-    obj = g_malloc(type->instance_size);
+-    object_initialize_with_type(obj, type->instance_size, type);
+-    obj->free = g_free;
++    size = type->instance_size;
++    align = type->instance_align;
++    if (align) {
++        obj = qemu_memalign(align, size);
++    } else {
++        obj = g_malloc(size);
++    }
++
++    object_initialize_with_type(obj, size, type);
++    obj->free = (align ? qemu_vfree : g_free);
+ 
+     return obj;
+ }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.25.1
 
 
