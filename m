@@ -2,109 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE2726A3B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:56:01 +0200 (CEST)
-Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4270126A3BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:58:00 +0200 (CEST)
+Received: from localhost ([::1]:45736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8cy-0004uc-Vq
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53252)
+	id 1kI8et-0007oK-A3
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kI8X8-0005D6-87; Tue, 15 Sep 2020 06:49:58 -0400
-Received: from mail-eopbgr10139.outbound.protection.outlook.com
- ([40.107.1.139]:61509 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kI8X1-0004uF-Ng; Tue, 15 Sep 2020 06:49:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ndq+5ODr7DuNrMyOaLyBJy1uwP/R0nQ3YQF5UFDiATuW5E08gFsabFIZ0CyYjLhXjLR7RiU2aYbh5TQFhoz1BMQCL1YabPtC1kTKn0SfMBntxezvbFw+ujpBFrmMnj8TiCOYzCTfZbLlhefR2rnFPnDEisYevMEvPBW/+KFGwB6K43TUMC9rcdqvTGlvdEyvZVTUJlbG+rZB6m+JCqlGqACJuFHThwHiiA6mr7qtubDDh1bruIvDobG86V1vEsUT5K43F2HMUgorUxaIPt+X3oUP1mqY2oVVvIiWY6MQ0tVh2YN5T8KP547vHZXBG5MYiG0uVYVJNaBs2RfRjJHpRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ynBohAISRB6n/F7k8omEo3PbNn9G3knn9nr52N8FvTg=;
- b=ft/JD20UViOS89b2Ol8oqo0yaoQA44GAvBrBDi6wbnDpyTHXk9KXuZfDZLS0OpsS/Iz8k8Nm/33qYz0aSeLJS6wbFwewvOmSySca/whSznASbVK5Yhf1cfzkM4gT1vlvwYgrVWtRnBFWJhxYFm+wE50zEHEBBBYk5u+QgczieMRSWTW/7mLtbeyaVdFeZvVLnYnTmhX4m33x7qS8otNjvelksl0z1HUnRszjieKZK+YSmN8AqXTNrcMQAusKOf5lPWqGQc+cLtIP4ciIsgQQCcB2iEpad0HYhNbn7cTbkuoVjaSYpSiOeiyBY/chFSpWhggckiMB5wkkPtyHrzFpzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ynBohAISRB6n/F7k8omEo3PbNn9G3knn9nr52N8FvTg=;
- b=JyjKw7Uq+GqtyRAgUCS55lQEPxU3EzYnWUKedrczd0GsLzVW4EcPe2+lFVCwusdl6Xk8WffVXcVNjaC4P4HqoSWJToZPvKjyNo+sdJMvx9C+OBebccgkkLdHz8+kgie30LWLBjJW0uJr7R9TK1oaC+tqPWgxNixtwVrGCTLdNPk=
-Authentication-Results: gibson.dropbear.id.au; dkim=none (message not signed)
- header.d=none; gibson.dropbear.id.au;
- dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1969.eurprd08.prod.outlook.com (2603:10a6:203:4c::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Tue, 15 Sep
- 2020 10:49:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Tue, 15 Sep 2020
- 10:49:48 +0000
-Subject: Re: [PATCH 12/15] spapr: Add a return value to spapr_nvdimm_validate()
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20200914123505.612812-1-groug@kaod.org>
- <20200914123505.612812-13-groug@kaod.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <6b4ea6d4-a9d7-04ff-fa99-cf2adf58e041@virtuozzo.com>
-Date: Tue, 15 Sep 2020 13:49:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-In-Reply-To: <20200914123505.612812-13-groug@kaod.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR04CA0065.eurprd04.prod.outlook.com
- (2603:10a6:208:1::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kI8cM-0005Q1-UI
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:55:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47268
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kI8cI-0005Yy-Vz
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:55:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600167318;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Nky6iiKiOmHmLCeC01KJ5tFZvJ9TZwL4JrQgzmKbUCc=;
+ b=ULO6/kmzAR4Xr7IdoaagNQ9xSv/YgCQ/rN7ZvZsCgj1i8nHBEAi1UCZg10dk2r6/bL3h2b
+ VCltRrDqfcgBnN2g6CESzEw6zaSR9NIt/6ME22aYRGiAzR9aeINSyPPDxQUJUVn69awOhU
+ CCpOsBy68L9u8miTQcqGFKLw+p1ABec=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-250-SRuRonewOWWcmydq1Y3_sw-1; Tue, 15 Sep 2020 06:55:12 -0400
+X-MC-Unique: SRuRonewOWWcmydq1Y3_sw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99DE9AD682
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 10:55:11 +0000 (UTC)
+Received: from redhat.com (ovpn-113-234.ams2.redhat.com [10.36.113.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E72EE1002393;
+ Tue, 15 Sep 2020 10:55:03 +0000 (UTC)
+Date: Tue, 15 Sep 2020 11:55:01 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [qemu-web PATCH] Add virtio-blk and virtio-scsi configuration post
+Message-ID: <20200915105501.GE1502912@redhat.com>
+References: <20200915103406.684817-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.75) by
- AM0PR04CA0065.eurprd04.prod.outlook.com (2603:10a6:208:1::42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3370.16 via Frontend Transport; Tue, 15 Sep 2020 10:49:47 +0000
-X-Originating-IP: [185.215.60.75]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e490cc42-7c71-4f3b-7a8a-08d8596510b6
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1969:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1969024D50A6F8D2AFCA72CFC1200@AM5PR0801MB1969.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jNB0HQG+Cbt5IRcTNwzSbRd0/Bi52sURvVUzSFc37NPLcwHKyGWNBBjVWTTMr0hQedZ111W9B/FyF+Hye/olKveO2dYuQSFbPSl3JKLQb0EO/fah9c/PYwUF0NovGEH//keEwehSaaADbiAylQF18uLydig/MO42i9PvvfrGnWDDLNpSoThaqG0GhmC1Muu85+n0qsXPHeRHKuv5fOyLd9a8Gnz900huMLEPsV4UkQ5GzMFyESlPm2/GUOuAF10tGJ15uH/JdaIvCwMouiNxjfYb0Ou+6TlK+t3IJB1eQwQps4TfDpNBIFCTB026r7Y1IJVHmlb0pk7kF0TrbZZZhi/adjPrQwhaAFXB0mvmX0twvShXFk7PkpizTSPEDIXZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39840400004)(396003)(346002)(366004)(136003)(4744005)(54906003)(5660300002)(83380400001)(16526019)(8676002)(478600001)(86362001)(31696002)(2616005)(8936002)(956004)(31686004)(6486002)(16576012)(26005)(2906002)(4326008)(52116002)(316002)(36756003)(186003)(66476007)(66946007)(66556008)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: zLElo0434/HgMNT6WmqnEST4hWpOuE46JMWvWsY3zi94GOAki5JHyu4e+urmlbGTi7cwAF9EFTCa8wszMaUgMGRXdOIuYTiW6mk3tG11VJArGu1373EpnV23y5vK5rdViH5qGpL2+XGi0+hwLVpOHp6HOhBgrsMHQmB5t/AzRiTIsmoVWkao0hMWpqCBYmWRCQcSfFZaDPTixTamY4FxysxWXKIxZck7pQgj4QUK0y03j01jFrVlQESdv3ENXg3P/RARaGheuCRBQBKzpIeOTznFWJydCEq9im0YID4ioqlO46YmTIaW5pFDQfYqlk1kxK8+NB7zdttZ6iGYgYn4vVjYyLS79Ur2WuaJ7xH9DtwLk2HJC/mMQJINiW/KjwKWCNJ6QCVkaldqgdmrTWEu0evT2qXOMXwSieNSWwNoV29FCyV5bZ9pSSYj2DzL7uiqw1auz+sXkZQ6uigHxt/TuldTxwfccN7Kv8wB1c4bFyT17M/8MSXKtVxZkw8wHdnP0/WjX/gLKd6Uzj4tElvzpEepIowRFyAXx10WdcSqxijj8af+pK4lvTV5RDy9WK9tl+SAPIVCqidfPzCIMm3JD+UHwo6+L59oq4bgQY0PU5/av3UNit0d4HYNZGAofWn4CsOXjGvzX574nrPyzPrlPA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e490cc42-7c71-4f3b-7a8a-08d8596510b6
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2020 10:49:48.1352 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6BiePdWjM8ML08cOJX1/CFXeE91nrm42+aKNdcxqSOHFFq3eSegApAoYniNcHzjltbGw9ORuVXHf14a6R4VxDM5Wm7EcsiCaqbywvkoiJ4Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1969
-Received-SPF: pass client-ip=40.107.1.139;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 06:49:49
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20200915103406.684817-1-stefanha@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:11:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,18 +81,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14.09.2020 15:35, Greg Kurz wrote:
-> As recommended in "qapi/error.h", return true on success and false on
-> failure. This allows to reduce error propagation overhead in the callers.
+On Tue, Sep 15, 2020 at 11:34:06AM +0100, Stefan Hajnoczi wrote:
+> The second post in the storage series covers virtio-blk and virtio-scsi.
+> It compares the two and offers recommendations that users and tools
+> using QEMU can use as a starting point. Graphs are included comparing
+> the performance of various options.
 > 
-> Signed-off-by: Greg Kurz<groug@kaod.org>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  ...020-09-15-virtio-blk-scsi-configuration.md | 112 ++++++++++++++++++
+>  screenshots/2020-09-15-scsi-devices.svg       |   1 +
+>  screenshots/2020-09-15-virtio-blk-vs-scsi.svg |   1 +
+>  3 files changed, 114 insertions(+)
+>  create mode 100644 _posts/2020-09-15-virtio-blk-scsi-configuration.md
+>  create mode 100644 screenshots/2020-09-15-scsi-devices.svg
+>  create mode 100644 screenshots/2020-09-15-virtio-blk-vs-scsi.svg
+> 
+> diff --git a/_posts/2020-09-15-virtio-blk-scsi-configuration.md b/_posts/2020-09-15-virtio-blk-scsi-configuration.md
+> new file mode 100644
+> index 0000000..0ba9c87
+> --- /dev/null
+> +++ b/_posts/2020-09-15-virtio-blk-scsi-configuration.md
+> @@ -0,0 +1,112 @@
+> +---
+> +layout: post
+> +title:  "Configuring virtio-blk and virtio-scsi Devices"
+> +date:   2020-09-15 07:00:00 +0000
+> +author: Stefan Hajnoczi and Sergio Lopez
+> +categories: [storage]
+> +---
+> +The [previous article](https://www.qemu.org/2020/09/14/qemu-storage-overview/)
+> +in this series introduced QEMU storage concepts. Now we move on to look at the
+> +two most popular emulated storage controllers for virtualization: virtio-blk
+> +and virtio-scsi.
+> +
+> +This post provides recommendations for configuring virtio-blk and virtio-scsi
+> +and how to choose between the two devices. The recommendations provide good
+> +performance in a wide range of use cases and are suitable as default settings
+> +in tools that use QEMU.
+> +
+> +## Virtio storage devices
+> +### Key points
+> +* Prefer virtio storage devices over other emulated storage controllers.
+> +* Use the latest virtio drivers.
+> +
+> +Virtio devices are recommended over other emulated storage controllers as they
+> +are generally the most performant and fully-featured storage controllers in
+> +QEMU.
+> +
+> +Unlike emulations of hardware storage controllers, virtio-blk and virtio-scsi
+> +are specifically designed and optimized for virtualization. The details of how
+> +they work are published for driver and device implementors in the [VIRTIO
+> +specification](https://docs.oasis-open.org/virtio/virtio/v1.1/virtio-v1.1.html).
+> +
+> +Virtio drivers are available for both Linux and Windows virtual machines.
+> +Installing the latest version is recommended for the latest bug fixes and
+> +performance enhancements.
+> +
+> +If virtio drivers are not available, the AHCI (SATA) device is widely supported
+> +by modern operating systems and can be used as a fallback.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+AHCI is only available on q35, so this talk about fallback probably needs
+to be worded in a more generic fashion refering to the integrated storage
+controller of the machine type.
 
+> +
+> +## Comparing virtio-blk and virtio-scsi
+> +### Key points
+> +* Prefer virtio-scsi for attaching more than 28 disks or for full SCSI support.
+> +* Prefer virtio-blk in performance-critical use cases.
+> +* With virtio-scsi, use scsi-block for SCSI passthrough and otherwise use scsi-hd.
+
+> +Two virtio storage controllers are available: virtio-blk and virtio-scsi.
+> +
+> +### virtio-blk
+> +The virtio-blk device presents a block device to the virtual machine. Each
+> +virtio-blk device appears as a disk inside the guest. virtio-blk was available
+> +before virtio-scsi and is the most widely deployed virtio storage controller.
+> +
+> +The virtio-blk device offers high performance thanks to a thin software stack
+> +and is therefore a good choice when performance is a priority.
+> +
+> +Disks exposed by virtio-blk are typically read-write but can also be read-only.
+> +They can be used to present read-only ISO images to the guest.
+
+This comment about iSO images feels potentially misleading. You can expose
+a volume with any filesystem type to a guest using virtio-blk, but merely
+exposing an ISO image is not going to reliably make guest software do the
+right thing. Something expecting a CDROM will usaully want a device that
+actually looks like a CDROM (ie removable media at very least), not merely
+a HDD with ISO formatted content.
+
+I think cloud-init is probably only software example I know where exposing
+ISO as HDD is ok-ish.
+
+If anyone wants to expose CDROM to guest, AFAIK, the recommendation has
+always been to either use virtio-scsi, or a machine type's built-in
+storage controller (IDE, AHCI, or SCSI), never virtio-blk.
+
+> +Applications that send SCSI commands are better served by the virtio-scsi
+> +device, which has full SCSI support. SCSI passthrough was removed from the
+> +Linux virtio-blk driver in v5.6 in favor of using virtio-scsi.
+> +
+> +Virtual machines that require access to more than 28 disks can run out of PCI
+> +bus slots on i440fx-based machine types since each disk requires its own
+> +virtio-blk PCI adapter slot. It is possible to add more virtio-blk devices by
+> +extending the virtual machine's PCI busses, but it is simpler to use a single
+> +virtio-scsi PCI adapter instead.
+
+You can use mutli-function for virtio-bk, at cost of loosing hotplug, so
+saying virtio-blk requires a slot is a little too strict.
+
+The 28 disk image can only be reached if not using other devices, so if
+many NICs are present it'll be hit before 28.  Maybe talk in slightly
+more general terms, such as
+
+ "Virtual machines that require access to many disks can hit limits
+  based on availability of PCI slots, which are under contention 
+  with other devices exposed to the guest such as NICs. For example
+  a typical i440fx machine type default config allows for about 28
+  disks. It is possible to use multi-function devices to pack multiple
+  virtio-blk devies into a single PCI slot at the cost of loosing 
+  hotplug, or add additional PCI busses. Generally though it is 
+  simpler to use a  single virtio-scsi PCI adapter instead.
+
+> +
+> +### virtio-scsi
+> +The virtio-scsi device presents a SCSI Host Bus Adapter to the virtual machine.
+> +SCSI offers a richer command set than virtio-blk and supports more use cases.
+> +
+> +Each device supports up to 16,383 LUNs (disks) per target and up to 255
+> +targets. This allows a single virtio-scsi device to handle all disks in a
+> +virtual machine.
+
+Perhaps add
+
+  "Emulated LUNs can be exposed as HDDs or CD-ROMs".
+
+Also while a single virtio-scsi device is sufficient if just considering
+max disks, I would think can be desirable to have multiple virtio-scsi 
+devices if you want to tune placement of iothreads. For example, if guest 
+has multiple NUMA nodes and you want to expose disks as having affinity to
+nodes.
+
+> +
+> +SCSI allows access to CD-ROM drives, tapes, and other devices besides disk
+> +drives. Physical SCSI devices can be passed through into the virtual machine.
+
+
+> +
+> +Clustering software that uses SCSI Persistent Reservations is supported by virtio-scsi, but not by virtio-blk.
+> +
+> +Performance of virtio-scsi may be lower than virtio-blk due to a thicker software stack, but in many use cases, this is not a significant factor. The following graph compares 4KB random read performance at various queue depths:
+> +
+> +![Comparing virtio-blk and virtio-scsi performance](/screenshots/2020-09-15-virtio-blk-vs-scsi.svg)
+> +
+> +### virtio-scsi configuration
+> +The following SCSI devices are available with virtio-scsi:
+> +
+> +|Device|SCSI Passthrough|Performance|
+> +|------|----------------|-----------|
+> +|scsi-hd|No|Highest|
+> +|scsi-block|Yes|Lower|
+> +|scsi-generic|Yes|Lowest|
+> +
+> +The scsi-hd device is suitable for disk image files and host block devices
+> +when SCSI passthrough is not required.
+> +
+> +The scsi-block device offers SCSI passthrough and is preferred over
+> +scsi-generic due to higher performance.
+> +
+> +The following graph compares the sequential I/O performance of these devices
+> +using virtio-scsi with an iothread:
+> +
+> +![Comparing scsi-hd, scsi-block, and scsi-generic performance](/screenshots/2020-09-15-scsi-devices.svg)
+> +
+> +## Conclusion
+> +The virtio-blk and virtio-scsi offer a choice between a single block device and
+> +a full-fledged SCSI Host Bus Adapter. Virtualized guests typically use one or
+> +both of them depending on functional and performance requirements. This post
+> +compared the two and offered recommendations on how to choose between them.
+> +
+> +The next post in this series will discuss the iothreads feature that both
+> +virtio-blk and virtio-scsi support for increased performance.
+
+Regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
