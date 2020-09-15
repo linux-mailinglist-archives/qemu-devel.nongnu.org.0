@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BD8269BD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 04:16:32 +0200 (CEST)
-Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCF1269BE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 04:35:17 +0200 (CEST)
+Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI0WF-0008Jn-Cw
-	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 22:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35522)
+	id 1kI0oN-0003zn-Ty
+	for lists+qemu-devel@lfdr.de; Mon, 14 Sep 2020 22:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kI0VQ-0007sV-Uq
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:15:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55242)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kI0VO-0003M3-0a
- for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:15:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kI0VL-0003Nk-9h
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 02:15:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 462D22E802E
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 02:15:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kI0nL-0002Ls-Mn
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:34:11 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:48902 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kI0nJ-0005sx-Ic
+ for qemu-devel@nongnu.org; Mon, 14 Sep 2020 22:34:11 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 3415B5BF4C49C1BC50A5;
+ Tue, 15 Sep 2020 10:34:02 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Tue, 15 Sep 2020
+ 10:33:54 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>
+Subject: [PATCH v9 00/12] *** A Method for evaluating dirty page rate ***
+Date: Tue, 15 Sep 2020 10:44:35 +0800
+Message-ID: <1600137887-58739-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Sep 2020 02:09:44 -0000
-From: Hansni Bu <1895080@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user mmap
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
-X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
-X-Launchpad-Bug-Modifier: Hansni Bu (hansni)
-References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
-Message-Id: <160013578471.14061.14999066686076627794.malone@gac.canonical.com>
-Subject: [Bug 1895080] Re: pgb_reserved_va: Assertion `addr == test' failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 5f479dd76f1b1b9b578cb5febb65d707651e4b64
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 16:10:45
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/14 22:34:04
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,72 +58,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
+Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, yuxiating@huawei.com,
+ liq3ea@gmail.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, jinyan12@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-chroot works as you expected.
-And the patch makes sense.
-Thanks.
+v8 -> v9:
+    fix wrong index return of record_ramblock_hash_info
+    optimize variable name according to review
+    reset dirty_rate as -1
+    change returns of compare_page_hash_info to bool
+ 
+v7 -> v8:
+    add atomic_read for dirtyrate status
+    add error_report if set dirtyrate state failed
+    change returns of save_ramblock_hash and record_ramblock_hash_info to bool
+    alloc ramblock dirtyinfo array at one time
+    add review-by for patches
 
--- =
+v6 -> v7:
+    fix minior comments and coding style by review
+    add review-by for patches
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895080
+v5 -> v6:
+    fix coding style according to review
+    use TARGET_PAGE_SIZE and TARGET_PAGE_BITS instead of self-defined macros
+    return start-time and calc-time by qmp command
 
-Title:
-  pgb_reserved_va: Assertion `addr =3D=3D test' failed
+v4 -> v5:
+    fix git apply failed due to meson-build
+    add review-by for patches in v3
 
-Status in QEMU:
-  New
+v3 -> v4:
+    use crc32 to get hash result instead of md5
+    add DirtyRateStatus to denote calculation status
+    add some trace_calls to make it easier to debug
+    fix some comments accroding to review
 
-Bug description:
-  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
-  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
-  user.
+v2 -> v3:
+    fix size_t compile warning
+    fix codestyle checked by checkpatch.pl
 
-  Firstly, compile fails:
-  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
-  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
-IZE=E2=80=99 undeclared here (not in a function)
-       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
 
-  I have to add below include to linux-user/strace.c
-  diff --git a/linux-user/strace.c b/linux-user/strace.c
-  index 11fea14fba..22e51d4a8a 100644
-  --- a/linux-user/strace.c
-  +++ b/linux-user/strace.c
-  @@ -7,6 +7,7 @@
-   #include <sys/mount.h>
-   #include <arpa/inet.h>
-   #include <netinet/tcp.h>
-  +#include <linux/falloc.h>
-   #include <linux/if_packet.h>
-   #include <linux/netlink.h>
-   #include <sched.h>
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
 
-  Then trying qemu-riscv32 with a simple ELF, I get:
-  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
-failed.
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
 
-  strace shows that:
-  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
-VE, -1, 0) =3D 0x10000
-  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
-git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
-' failed.
-  ) =3D 103
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                           |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)               |
+-------------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1060MB/s |     456MB/s ~ 1142MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4114MB/s |     688MB/s ~ 4132MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  The source code is in the function pgb_reserved_va (linux-
-  user/elfload.c). I think mmap cannot guarantee that the returned
-  pointer (test) equals to the parameter of addr. So is this a bug to
-  assert (addr =3D=3D test)?
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
 
-  Attached configure script and test ELF file.
+The qmp command returns like this:
+{"return":{"status":"measured","dirty-rate":374,"start-time":3718293,"calc-time":1},"id":"libvirt-15"}
 
-  Thanks.
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
+Chuan Zheng (12):
+  migration/dirtyrate: setup up query-dirtyrate framwork
+  migration/dirtyrate: add DirtyRateStatus to denote calculation status
+  migration/dirtyrate: Add RamblockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement set_sample_page_period() and
+    is_sample_period_valid()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+  migration/dirtyrate: Add trace_calls to make it easier to debug
+
+ migration/dirtyrate.c  | 426 +++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h  |  70 ++++++++
+ migration/meson.build  |   2 +-
+ migration/ram.c        |  11 +-
+ migration/ram.h        |  10 ++
+ migration/trace-events |   8 +
+ qapi/migration.json    |  67 ++++++++
+ 7 files changed, 583 insertions(+), 11 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
+
+-- 
+1.8.3.1
+
 
