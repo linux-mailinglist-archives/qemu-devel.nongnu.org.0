@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1E426A9F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:39:18 +0200 (CEST)
-Received: from localhost ([::1]:43278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC7026AA08
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 18:42:49 +0200 (CEST)
+Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIDzB-0004eT-M2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36796)
+	id 1kIE2a-0006p9-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDyA-0004AT-72
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:38:14 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36057)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDyz-000527-Qh
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:39:05 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:42836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDy8-0006tH-Le
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:38:13 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 60so3864375otw.3
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:38:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIDyw-000707-Sh
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:39:05 -0400
+Received: by mail-oi1-x244.google.com with SMTP id x14so4559834oic.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=trtCF4Dqi283hADrgQODZdJ7KN+OAZpm5JvtOG5IqsQ=;
- b=LTf5RrsQ9Pb+TtWykTd+9LtMknP8X51fTnQHLbdei9R5GEAcEJKDUW/gVBmn5rGogp
- 6oMsnhH1tRXrsIDmDmvX7rRxaj0e89K2QWntwJqSHooQWnrqD2DUVe8a6bA35ezENt2W
- BnyPArSRphn+VcjGQ+liZgT1IX+Ph9DhkPa3OG8mOSaY63dpphrnaKA/ahTh/4bCRH9+
- QI8Ewb2gErejQebLS/NV5gQyCrdy3RVqUxhHe34A62w4pcIYjjsYBz0sLtLLPj5RE4xf
- ycnl99WcwKp4fSdnJ0lm/NZUrl46ZG0JyDulEQT/1I02P11yZBLEjkyktE44LWi5sHUA
- ioUw==
+ bh=7fR/xUrmHNmVq3wFsBDcdAcVPQ5tgeB92AIGmyTdl00=;
+ b=ne4m0Pxyn7sD1xZYLwUxiAiFG4KoNom9eaMAyJgmLkd65MwQ7+ASv+HdcWQ4s0biYZ
+ fMLO5lVFQmD9Ozmb4zmHnQw4X9DbdrTQllQTpZK/t/vhItJRTFAuQ2afwyUktAYROwIM
+ /3c3PItV2BX9Ee1n/Wn57MZXQFMTj82AcGEte/0przZxqDhT6Pc8QQQx3ZyZE7V7wujR
+ HS3hbboqBaMMPW1f5XvMBsY+Mwn6RfT2Lgika3oFEyVG0eWYbh654ciazqZxx65PYzgF
+ 0U/zNJK80kX49EN8HpLg5DiOyFW/3UW3ZwwmsXkdO3aYzltGgg2ui0HL5wl9NpAvJjfV
+ EHZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=trtCF4Dqi283hADrgQODZdJ7KN+OAZpm5JvtOG5IqsQ=;
- b=B2DgvB7tMY4pIlY/uDziWJX2jM23nXap7D+IEe6Qy0CiytquLqeLt2TgM56IOgcTS7
- nwrwYSix16tfENUsfuOxehwdebcMh9TAZxtGP2dbN7yokMcciPWsw9uTNtkowSCEdiAx
- fK/eKlxZ+OSWIQB4R9+aHqbJDgEfNn2lLPxhSOK49Vf+pXIcukHguNa0p/ZYpMYRqLJ4
- Kg8vMMKZQGmiBLCAru/6ekLMCy8DVbT0f3jBdIVzP6xR+mWCykl1JGAb+K9mQzfKHOu8
- xCM+TYYALSnsR5XrIfDfc81/1hQ3MB0lOM5zKTSE2n4/c38wyF/vGsX5fTVvneptu/TX
- SwQQ==
-X-Gm-Message-State: AOAM532zJZynTw6yX0a2tkvJvKs7/ltS4vjbuzrhs7QlWP0OHelKibrW
- 9GXXa5jA94SP6ZA+iLMan1usHl8XvcY6BPKo2zg=
-X-Google-Smtp-Source: ABdhPJyaiW7AOC1Bip/co3wX3OgUe0yzkuKy8ep+U//m3Ogq6CtyXkyZ/jNumQTWYdppfW++1TsDyuFopcD9yZdi3vE=
-X-Received: by 2002:a9d:5e11:: with SMTP id d17mr13092758oti.333.1600187891467; 
- Tue, 15 Sep 2020 09:38:11 -0700 (PDT)
+ bh=7fR/xUrmHNmVq3wFsBDcdAcVPQ5tgeB92AIGmyTdl00=;
+ b=Od3k7oiD4LgzLFEHX0AD+vCYKmijc7DG3WOnFIrVqp8/ut3iBcbMltetEIfZxpweeS
+ dnReHpuhHRf18ejr4a4VgX40eWOObUQ6u+HhvMzULXESaG1tKE8iKYNF2MqOu5HU99d2
+ RNJXZtoH7E8462EONc5biQHq6P3zw4LHTbs3vbNgVi7QD0RhiyWMF13mULSloT2swCRh
+ Oxgtcf4A5s5hF/yXJrvfrNfQNhLBGSjzV9SSBVkhRRX0oBA1vb7R23rZtp0Pr3j67j4A
+ RGveiuhpANAM7nIL9kKoxkMw4sEIZd+ndhREuC70JjhXBDwBKr02apHh+R51G+qnkRy/
+ ZssQ==
+X-Gm-Message-State: AOAM531CtHNe9wlRJNuXjNBw846x2wnf7mCezf9FsKvW5B+GJOSFIJm7
+ BJLKB939Jyr1c0QiGgl8G7H5vnBneYzwbO5EAJQ=
+X-Google-Smtp-Source: ABdhPJz1k4sV/MMvcKWTKvMPySkoZXx2baaP4g4VbTRoCUa3dnfHIkytx/GYFWICBKcKIQ+/JNaO67m9PwDKq5CPbRM=
+X-Received: by 2002:aca:904:: with SMTP id 4mr180861oij.97.1600187941808; Tue,
+ 15 Sep 2020 09:39:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <1600137887-58739-1-git-send-email-zhengchuan@huawei.com>
- <1600137887-58739-10-git-send-email-zhengchuan@huawei.com>
-In-Reply-To: <1600137887-58739-10-git-send-email-zhengchuan@huawei.com>
+ <1600137887-58739-11-git-send-email-zhengchuan@huawei.com>
+In-Reply-To: <1600137887-58739-11-git-send-email-zhengchuan@huawei.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 16 Sep 2020 00:37:35 +0800
-Message-ID: <CAKXe6SLctnUgyp0qoHF_-KqqqUG5vkovRK6W1Jt_L-W8=1wA9g@mail.gmail.com>
-Subject: Re: [PATCH v9 09/12] migration/dirtyrate: Implement
- set_sample_page_period() and is_sample_period_valid()
+Date: Wed, 16 Sep 2020 00:38:25 +0800
+Message-ID: <CAKXe6SLzR5yDUK7QcP4BmRy06E9vLtgtswkHMFqwQiueQw=oUg@mail.gmail.com>
+Subject: Re: [PATCH v9 10/12] migration/dirtyrate: Implement
+ calculate_dirtyrate() function
 To: Chuan Zheng <zhengchuan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,76 +92,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Chuan Zheng <zhengchuan@huawei.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8815=E6=
 =97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=8810:34=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Implement is_sample_period_valid() to check if the sample period is vaild=
- and
-> do set_sample_page_period() to sleep specific time between sample actions=
-.
+> Implement calculate_dirtyrate() function.
 >
 > Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
->  migration/dirtyrate.c | 24 ++++++++++++++++++++++++
->  migration/dirtyrate.h |  6 ++++++
->  2 files changed, 30 insertions(+)
+>  migration/dirtyrate.c | 45 +++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 43 insertions(+), 2 deletions(-)
 >
 > diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 903f728..bcff10e 100644
+> index bcff10e..af02647 100644
 > --- a/migration/dirtyrate.c
 > +++ b/migration/dirtyrate.c
-> @@ -27,6 +27,30 @@
->  static int CalculatingState =3D DIRTY_RATE_STATUS_UNSTARTED;
->  static struct DirtyRateStat DirtyStat;
+> @@ -162,6 +162,21 @@ static void get_ramblock_dirty_info(RAMBlock *block,
+>      strcpy(info->idstr, qemu_ram_get_idstr(block));
+>  }
 >
-> +static int64_t set_sample_page_period(int64_t msec, int64_t initial_time=
-)
+> +static void free_ramblock_dirty_info(struct RamblockDirtyInfo *infos, in=
+t count)
 > +{
-> +    int64_t current_time;
+> +    int i;
 > +
-> +    current_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    if ((current_time - initial_time) >=3D msec) {
-> +        msec =3D current_time - initial_time;
-> +    } else {
-> +        g_usleep((msec + initial_time - current_time) * 1000);
+> +    if (!infos) {
+> +        return;
 > +    }
 > +
-> +    return msec;
-> +}
-> +
-> +static bool is_sample_period_valid(int64_t sec)
-> +{
-> +    if (sec < MIN_FETCH_DIRTYRATE_TIME_SEC ||
-> +        sec > MAX_FETCH_DIRTYRATE_TIME_SEC) {
-> +        return false;
+> +    for (i =3D 0; i < count; i++) {
+> +        g_free(infos[i].sample_page_vfn);
+> +        g_free(infos[i].hash_result);
 > +    }
-> +
-> +    return true;
+> +    g_free(infos);
 > +}
 > +
->  static int dirtyrate_set_state(int *state, int old_state, int new_state)
+>  static bool skip_sample_ramblock(RAMBlock *block)
 >  {
->      assert(new_state < DIRTY_RATE_STATUS__MAX);
-> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> index faaf9da..8f9bc80 100644
-> --- a/migration/dirtyrate.h
-> +++ b/migration/dirtyrate.h
-> @@ -29,6 +29,12 @@
->   */
->  #define MIN_RAMBLOCK_SIZE                         128
+>      /*
+> @@ -287,8 +302,34 @@ static bool compare_page_hash_info(struct RamblockDi=
+rtyInfo *info,
 >
-> +/*
-> + * Take 1s as minimum time for calculation duration
-> + */
-> +#define MIN_FETCH_DIRTYRATE_TIME_SEC              1
-> +#define MAX_FETCH_DIRTYRATE_TIME_SEC              60
+>  static void calculate_dirtyrate(struct DirtyRateConfig config)
+>  {
+> -    /* todo */
+> -    return;
+> +    struct RamblockDirtyInfo *block_dinfo =3D NULL;
+> +    int block_count =3D 0;
+> +    int64_t msec =3D 0;
+> +    int64_t initial_time;
 > +
->  struct DirtyRateConfig {
->      uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
->      int64_t sample_period_seconds; /* time duration between two sampling=
- */
+> +    rcu_register_thread();
+> +    reset_dirtyrate_stat();
+> +    rcu_read_lock();
+> +    initial_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> +    if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) =
+{
+> +        goto out;
+> +    }
+> +    rcu_read_unlock();
+> +
+> +    msec =3D config.sample_period_seconds * 1000;
+> +    msec =3D set_sample_page_period(msec, initial_time);
+> +
+> +    rcu_read_lock();
+> +    if (!compare_page_hash_info(block_dinfo, block_count)) {
+> +        goto out;
+> +    }
+> +
+> +    update_dirtyrate(msec);
+> +
+> +out:
+> +    rcu_read_unlock();
+> +    free_ramblock_dirty_info(block_dinfo, block_count);
+> +    rcu_unregister_thread();
+>  }
+>
+>  void *get_dirtyrate_thread(void *arg)
 > --
 > 1.8.3.1
 >
