@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1785726A69B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:54:03 +0200 (CEST)
-Received: from localhost ([::1]:48518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA1926A69D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:55:10 +0200 (CEST)
+Received: from localhost ([::1]:53124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIBPG-0006AN-4H
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47762)
+	id 1kIBQM-00081o-18
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:55:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIBNv-0004ub-Ad
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:52:39 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kIBNs-0005HW-2r
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 09:52:38 -0400
-Received: by mail-ot1-x342.google.com with SMTP id n61so3252062ota.10
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 06:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=S6LjKrcFym85h8ACEi+snDD16PzbpIn0I6u3BFhY9nI=;
- b=YxcobuwOitfXolIhL5yGMIutoqaUBBYqLl7qksQpQisJYSspecIxaS0Ar+Ba95z5jL
- U3KUzPptE7EkaqoSOe9ZGEu3TtHhwejU0xfFUz2+HC/F53N+a3GLtZvKh17c3vL/UYIH
- K+wjezMRXUThlJFzUiKuFAlXk2XzcoYIjojgYMZK6BNGWY38RvApBtocHq6RLBd2Kzwy
- pTX7VW0OVhVQP9BwyHyWSskZzlad5z7rBl9PtvgXvLRDdbbKP+QKhhmy9iM8r7an9UMG
- 0nHsrLdDKRDi7rKAbQeshFnYFavxUCZSStDx2AIrhmZAlV5zJ/cZmb1v5kRj0quHuls6
- mKgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=S6LjKrcFym85h8ACEi+snDD16PzbpIn0I6u3BFhY9nI=;
- b=a/s2fotWTM/Ar0YxMvCBsMug6CC97XHOrvvySU5ApVOu0I4hVnZQgePJgnjos5dYtM
- Ifgi+ldvunrY2hwm32c2wJcx4R01EKmJyMI87CH5CrDIyD7+LgsxRvs+FpZTfQDThiXI
- UEVfgyWdARd2BOGZI7JLDLlOwyFu7wOenZiPTZlCutb1LwwfyDxmGFaMsHZ5FkCG7d3j
- MHGSfXR5SWDOYZA+oNUzadecRJVgq5DwmGge3j9TLoEMLv8GBf9H7hP7zQhonEzffR1I
- qsWpHkfA17Wgo/ceJPb2L/eYjoVEtphyh6RG+YtWzlKvn5zFZ0mpnt7CWbvYgIrEoV6j
- guzQ==
-X-Gm-Message-State: AOAM532RX2TJMvPWMV9I9YwB6J6nzBQf8O72kPzkv1egIFjpwpzWfuhu
- hLjojjjAi82Diu0cT2xBWGFW+8hHy0t5rL1tvOI=
-X-Google-Smtp-Source: ABdhPJwcIRSH78jvzTtt8xt+gR0LfxCDdaQuzC0LyO12Wx6/2lYLMCZoQ71M+hwgARCOvPZOZr0iPrsifeICCBTNJic=
-X-Received: by 2002:a9d:5e11:: with SMTP id d17mr12545388oti.333.1600177954738; 
- Tue, 15 Sep 2020 06:52:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kIBPF-0006tb-Os; Tue, 15 Sep 2020 09:54:01 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:49277)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kIBPC-0005Pq-O6; Tue, 15 Sep 2020 09:54:01 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.237])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 7AA1761DE664;
+ Tue, 15 Sep 2020 15:53:54 +0200 (CEST)
+Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 15 Sep
+ 2020 15:53:53 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006bf17b7e8-ff22-4bdd-b155-82a1f65ef268,
+ DB33878D1665C97D8818E18A24225F630DB8C599) smtp.auth=groug@kaod.org
+Date: Tue, 15 Sep 2020 15:53:52 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH 10/15] spapr: Add a return value to spapr_set_vcpu_id()
+Message-ID: <20200915155352.605b0e47@bahia.lan>
+In-Reply-To: <740605ab-5310-d2fe-eb20-138b8def0b48@redhat.com>
+References: <20200914123505.612812-1-groug@kaod.org>
+ <20200914123505.612812-11-groug@kaod.org>
+ <740605ab-5310-d2fe-eb20-138b8def0b48@redhat.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200827114917.1851111-1-ppandit@redhat.com>
-In-Reply-To: <20200827114917.1851111-1-ppandit@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Tue, 15 Sep 2020 21:51:58 +0800
-Message-ID: <CAKXe6SJNio2cy05ecr_DyB0Z6WjxHN_X8ZiOU5By0jwdRq12fg@mail.gmail.com>
-Subject: Re: [PATCH] pci: check bus pointer before dereference
-To: P J P <ppandit@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 4c863d59-5e4b-4bd1-9559-066ebbea1b7e
+X-Ovh-Tracer-Id: 14371549365046122790
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtddtgdeflecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 07:43:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,77 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- Ruhr-University <bugs-syssec@rub.de>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-P J P <ppandit@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8827=E6=97=A5=E5=
-=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=887:52=E5=86=99=E9=81=93=EF=BC=9A
->
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> While mapping IRQ level in pci_change_irq_level() routine,
-> it does not check if pci_get_bus() returned a valid pointer.
-> It may lead to a NULL pointer dereference issue. Add check to
-> avoid it.
->
->  -> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=3D%2Flsi_nul=
-lptr1
->     =3D=3D1183858=3D=3DHint: address points to the zero page.
->     #0 pci_change_irq_level hw/pci/pci.c:259
->     #1 pci_irq_handler hw/pci/pci.c:1445
->     #2 pci_set_irq hw/pci/pci.c:1463
->     #3 lsi_set_irq hw/scsi/lsi53c895a.c:488
->     #4 lsi_update_irq hw/scsi/lsi53c895a.c:523
->     #5 lsi_script_scsi_interrupt hw/scsi/lsi53c895a.c:554
->     #6 lsi_execute_script hw/scsi/lsi53c895a.c:1149
->     #7 lsi_reg_writeb hw/scsi/lsi53c895a.c:1984
->     #8 lsi_io_write hw/scsi/lsi53c895a.c:2146
->     ...
->
-> Reported-by: Ruhr-University <bugs-syssec@rub.de>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  hw/pci/pci.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index de0fae10ab..df5a2c3294 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -253,6 +253,9 @@ static void pci_change_irq_level(PCIDevice *pci_dev, =
-int irq_num, int change)
->      PCIBus *bus;
->      for (;;) {
->          bus =3D pci_get_bus(pci_dev);
-> +        if (!bus) {
+On Tue, 15 Sep 2020 15:08:05 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Hi Prasad,
+> On 9/14/20 2:35 PM, Greg Kurz wrote:
+> > As recommended in "qapi/error.h", return true on success and false on
+> > failure. This allows to reduce error propagation overhead in the caller=
+s.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  include/hw/ppc/spapr.h  | 2 +-
+> >  hw/ppc/spapr.c          | 5 +++--
+> >  hw/ppc/spapr_cpu_core.c | 5 +----
+> >  3 files changed, 5 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > index c8cd63bc0667..11682f00e8cc 100644
+> > --- a/include/hw/ppc/spapr.h
+> > +++ b/include/hw/ppc/spapr.h
+> > @@ -909,7 +909,7 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, run=
+_on_cpu_data arg);
+> >  #define HTAB_SIZE(spapr)        (1ULL << ((spapr)->htab_shift))
+> > =20
+> >  int spapr_get_vcpu_id(PowerPCCPU *cpu);
+> > -void spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp);
+> > +bool spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp);
+>=20
+> If you have to respin, please add some doc, at least this would
+> be an improvement:
+>=20
+> /* Returns: %true on success, %false on error. */
+>=20
 
-I think in normal this 'bus' will be not NULL.
-I have look at the link in the commit msg.
-I find it is another DMA to MMIO issue which we have discussed a lot
-but didn't come up with an
-satisfying solution.
+Yeah, most, not to say all, APIs in the spapr code don't have
+doc in the header files... which uselessly forces everyone to
+check what the function actually does. Not sure how to best
+address that though.
 
-Maybe we can try to the DMA to MMIO issue direction.
-CC: Peter, Jason and Alex
+Adding headers everywhere (ie. lot of churn) ? Only in selected places
+where it isn't obvious ? Also for functions that return integers or
+pointers ?
 
-Thanks,
-Li Qiang
+I'll cowardly let David decide ;-)
 
+> Reviewed-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+>=20
 
-> +            return;
-> +        }
->          irq_num =3D bus->map_irq(pci_dev, irq_num);
->          if (bus->set_irq)
->              break;
-> --
-> 2.26.2
->
->
 
