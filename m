@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D83826B26F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:47:38 +0200 (CEST)
-Received: from localhost ([::1]:39686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9141D26B252
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 00:45:22 +0200 (CEST)
+Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIJjc-0006bR-Cs
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
+	id 1kIJhP-0003RB-1U
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 18:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdC-0006Zh-7D
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:40:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57779)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdG-0006cg-Bk
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24532
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdA-0002ag-5a
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:40:57 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIJdE-0002cS-3f
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 18:41:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600209655;
+ s=mimecast20190719; t=1600209657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2CGutam314veshLM3LV7R/XJUvm4PgxBvYBceBQuyHM=;
- b=fLWr+OQEICQjhOklF8kqmfibNY7+qitaq1uVTNWMjdR04OnqNfwh5qJ2wb9FOU/zoMEdOG
- ZQqHQGh7cozvtspUju7ZRze5fezXTFC8V81zhNvBY2laUHR/RBKtueyK1ZORkCMHayWbxP
- 0WjN5A/ryzS4rNzFie2xLSw+4x2Sldg=
+ bh=sV7DeP8u+LoeKvhOOaEL4L2bfZhEJsCamxKagVcd3e4=;
+ b=Swayl9bM7Ih7vdyxWtvBMm3eq/Q2BhjAt9t/tOkaud4oyerUUGH+PmN30/R7gciHtGbJgh
+ hYxouHa6SfnlPGp+XK2aDcN5HLA8afbc4Nc7lQBWX0x8O2aQGPsX+r/oEqJJq1auHa3xoF
+ hNF9Cy+UX6KBsjx0mR2GzpM6jMol228=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-S0YOFtolO6yoCsc-sxjpRg-1; Tue, 15 Sep 2020 18:40:53 -0400
-X-MC-Unique: S0YOFtolO6yoCsc-sxjpRg-1
+ us-mta-235-zMokrybSP1mCeGy44QhRrA-1; Tue, 15 Sep 2020 18:40:55 -0400
+X-MC-Unique: zMokrybSP1mCeGy44QhRrA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F2571902ED1;
- Tue, 15 Sep 2020 22:40:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96A49191E2A6;
+ Tue, 15 Sep 2020 22:40:47 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92B2A81C43;
- Tue, 15 Sep 2020 22:40:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A95A581C43;
+ Tue, 15 Sep 2020 22:40:46 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 05/37] qapi: Remove wildcard includes
-Date: Tue, 15 Sep 2020 18:39:55 -0400
-Message-Id: <20200915224027.2529813-6-jsnow@redhat.com>
+Subject: [PATCH 06/37] qapi: delint using flake8
+Date: Tue, 15 Sep 2020 18:39:56 -0400
+Message-Id: <20200915224027.2529813-7-jsnow@redhat.com>
 In-Reply-To: <20200915224027.2529813-1-jsnow@redhat.com>
 References: <20200915224027.2529813-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +57,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 18:40:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,140 +86,128 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wildcard includes become hard to manage when refactoring and dealing
-with circular dependencies with strictly typed mypy.
-
-Remove them and include things explicitly by name instead.
+Petty style guide fixes and line length enforcement.  Not a big win, not
+a big loss, but flake8 passes 100% on the qapi module, which gives us an
+easy baseline to enforce hereafter.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/commands.py   |  6 +++++-
- scripts/qapi/events.py     |  7 ++++++-
- scripts/qapi/gen.py        | 12 +++++++++---
- scripts/qapi/introspect.py |  7 ++++++-
- scripts/qapi/types.py      |  8 +++++++-
- scripts/qapi/visit.py      | 10 +++++++++-
- 6 files changed, 42 insertions(+), 8 deletions(-)
+ scripts/qapi/.flake8     |  2 ++
+ scripts/qapi/commands.py |  3 ++-
+ scripts/qapi/schema.py   |  8 +++++---
+ scripts/qapi/visit.py    | 15 ++++++++++-----
+ 4 files changed, 19 insertions(+), 9 deletions(-)
+ create mode 100644 scripts/qapi/.flake8
 
+diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
+new file mode 100644
+index 0000000000..45d8146f3f
+--- /dev/null
++++ b/scripts/qapi/.flake8
+@@ -0,0 +1,2 @@
++[flake8]
++extend-ignore = E722  # Pylint handles this, but smarter.
+\ No newline at end of file
 diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index ce5926146a..e1df0e341f 100644
+index e1df0e341f..2e4b4de0fa 100644
 --- a/scripts/qapi/commands.py
 +++ b/scripts/qapi/commands.py
-@@ -13,7 +13,11 @@
- See the COPYING file in the top-level directory.
- """
+@@ -69,7 +69,8 @@ def gen_call(name, arg_type, boxed, ret_type):
+ def gen_marshal_output(ret_type):
+     return mcgen('''
  
--from .common import *
-+from .common import (
-+    build_params,
-+    c_name,
-+    mcgen,
-+)
- from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
+-static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
++static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out,
++                                          Error **errp)
+ {
+     Visitor *v;
  
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index a835ee6fde..b77e0e56b2 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -536,7 +536,7 @@ def set_defined_in(self, name):
+             v.set_defined_in(name)
  
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 0467272438..6b3afa14d7 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -12,7 +12,12 @@
- See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    build_params,
-+    c_enum_const,
-+    c_name,
-+    mcgen,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaEnumMember
- from .types import gen_enum, gen_enum_lookup
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 8df19a0df0..11472ba043 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -11,13 +11,19 @@
- # This work is licensed under the terms of the GNU GPL, version 2.
- # See the COPYING file in the top-level directory.
- 
--
-+from contextlib import contextmanager
- import errno
- import os
- import re
--from contextlib import contextmanager
- 
--from .common import *
-+from .common import (
-+    c_fname,
-+    gen_endif,
-+    gen_if,
-+    guardend,
-+    guardstart,
-+    mcgen,
-+)
- from .schema import QAPISchemaVisitor
- 
- 
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 2a34cd1e8e..b036fcf9ce 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -10,7 +10,12 @@
- See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+)
- from .gen import QAPISchemaMonolithicCVisitor
- from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
-                      QAPISchemaType)
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index ca9a5aacb3..53b47f9e58 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -13,7 +13,13 @@
- # See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_enum_const,
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaEnumMember, QAPISchemaObjectType
- 
+     def check(self, schema, seen):
+-        if not self.tag_member: # flat union
++        if not self.tag_member:  # flat union
+             self.tag_member = seen.get(c_name(self._tag_name))
+             base = "'base'"
+             # Pointing to the base type when not implicit would be
+@@ -821,7 +821,7 @@ def __init__(self, fname):
+         self._entity_dict = {}
+         self._module_dict = OrderedDict()
+         self._schema_dir = os.path.dirname(fname)
+-        self._make_module(None) # built-ins
++        self._make_module(None)  # built-ins
+         self._make_module(fname)
+         self._predefining = True
+         self._def_predefineds()
+@@ -965,7 +965,9 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
+             # But it's not tight: the disjunction need not imply it.  We
+             # may end up compiling useless wrapper types.
+             # TODO kill simple unions or implement the disjunction
+-            assert (ifcond or []) == typ._ifcond # pylint: disable=protected-access
++
++            # pylint: disable=protected-access
++            assert (ifcond or []) == typ._ifcond
+         else:
+             self._def_entity(QAPISchemaObjectType(
+                 name, info, None, ifcond, None, None, members, None))
 diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 7850f6e848..ea277e7704 100644
+index ea277e7704..31bf46e7f7 100644
 --- a/scripts/qapi/visit.py
 +++ b/scripts/qapi/visit.py
-@@ -13,7 +13,15 @@
- See the COPYING file in the top-level directory.
- """
+@@ -31,7 +31,8 @@ def gen_visit_decl(name, scalar=False):
+     if not scalar:
+         c_type += '*'
+     return mcgen('''
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_type)sobj, Error **errp);
++bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_type)sobj,
++                           Error **errp);
+ ''',
+                  c_name=c_name(name), c_type=c_type)
  
--from .common import *
-+from .common import (
-+    c_enum_const,
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+    pop_indent,
-+    push_indent,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaObjectType
+@@ -125,7 +126,8 @@ def gen_visit_object_members(name, base, members, variants):
+ def gen_visit_list(name, element_type):
+     return mcgen('''
+ 
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
++bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj,
++                           Error **errp)
+ {
+     bool ok = false;
+     %(c_name)s *tail;
+@@ -158,7 +160,8 @@ def gen_visit_list(name, element_type):
+ def gen_visit_enum(name):
+     return mcgen('''
+ 
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj, Error **errp)
++bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj,
++                           Error **errp)
+ {
+     int value = *obj;
+     bool ok = visit_type_enum(v, name, &value, &%(c_name)s_lookup, errp);
+@@ -172,7 +175,8 @@ def gen_visit_enum(name):
+ def gen_visit_alternate(name, variants):
+     ret = mcgen('''
+ 
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
++bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj,
++                           Error **errp)
+ {
+     bool ok = false;
+ 
+@@ -247,7 +251,8 @@ def gen_visit_alternate(name, variants):
+ def gen_visit_object(name, base, members, variants):
+     return mcgen('''
+ 
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
++bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj,
++                           Error **errp)
+ {
+     bool ok = false;
  
 -- 
 2.26.2
