@@ -2,119 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7063126A5B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 14:59:05 +0200 (CEST)
-Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CA026A61B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 15:19:10 +0200 (CEST)
+Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIAY4-0005gA-FI
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 08:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56666)
+	id 1kIArV-0006pv-Co
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 09:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAPy-0004FO-Fw
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:50:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47213
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <otubo@redhat.com>) id 1kI885-0005oT-BT
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:24:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIAPv-0004Pj-OL
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 08:50:42 -0400
+ (Exim 4.90_1) (envelope-from <otubo@redhat.com>) id 1kI883-0001aE-3d
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:24:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600174237;
+ s=mimecast20190719; t=1600165441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=B7ClyBqplSCQ5Ng/VKG370wPST8TNTL3QKFAlebyLdk=;
- b=S/giRKGSS7HnUFCUYBKmtqcrc7EuyCjmBQXi7Ei8+l/iX/loRR8zyEdWtyDhUtzfZ7ROhR
- dT7aUwOK/nI2+xWa2ddoxwAQ9pVhnICLElotyoxlVcBO6EuDot9Fln1PLJ0lvWZ1Zb/1Ds
- cntCG1Nu4PUPY68qMuESkudcdzLAgBI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-6tSCMgLzN9KROiRMocHdzA-1; Tue, 15 Sep 2020 08:50:35 -0400
-X-MC-Unique: 6tSCMgLzN9KROiRMocHdzA-1
-Received: by mail-wm1-f72.google.com with SMTP id t10so1123542wmi.9
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 05:50:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=B7ClyBqplSCQ5Ng/VKG370wPST8TNTL3QKFAlebyLdk=;
- b=OT2mdbDHhmzONxNkNmiEswk8CcetkPrFmD0vyYqbO/CJ+LcYF4zC2cViFPR3xop8ob
- R5zg5OOkCca3mxEnQsnuvtN3irCScST/wGFehI4zOGyX5vzKrVc5c+Dri2a72G8d/Czf
- +5xHwLZXVQagIqtrIpvHQSaNoa1qURyONDB7NUQUySz/umB7qfvc+r9UCOfQcZGsNHEp
- QXiT6HCYZJrP9YlUw/MdwlaU9IutV3/33jc0OxjZ6EAODnSxHF+x2wtIV6PMsDWAs5V6
- m+KPLEqwSH9O8ZN/RRnVh+LnMcfIzGtZzBzZDvOBE8kMEb6J9F3897wPcr+fd7yKSWX6
- hJiw==
-X-Gm-Message-State: AOAM533SNBTu5WU59fSd6O/arvxeMgJCbE83oH0AmmYlshud9nKC+Wov
- GuGDu7ggjKCwdJlgXj7zKmSndmHhQ2pt5omB6QxNf92OJICrjG2Fi2HN3e8SwmrnhHGuW3vKw7r
- 26cE6Eo6DD1mDd+4=
-X-Received: by 2002:a05:600c:210c:: with SMTP id
- u12mr4914808wml.185.1600174234690; 
- Tue, 15 Sep 2020 05:50:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHe2THeyGJIdpBvZdoxIqo1sxqCOcjv9h+Qra+MBI5+wjQ65dPZUp4kkSdjYZOB4ljPykEJw==
-X-Received: by 2002:a05:600c:210c:: with SMTP id
- u12mr4914780wml.185.1600174234413; 
- Tue, 15 Sep 2020 05:50:34 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id g143sm24537875wme.0.2020.09.15.05.50.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 05:50:33 -0700 (PDT)
-Subject: Re: [PATCH] qga/commands-win32: Fix problem with redundant protype
- declaration
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20200915114757.55635-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <c173b806-918d-3899-a58d-c082353823e9@redhat.com>
-Date: Tue, 15 Sep 2020 14:50:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ in-reply-to:in-reply-to:references:references;
+ bh=MX6DwO1+cYy4O9yFD3IlyhXSTvyMOZBQ3OdN/82XOYQ=;
+ b=LznmQVXr6ffkxBmF1+jEMrTl/CZjeZi0ZBjGR3wDIUOkCem2WIEG50wEKPzZdOHdumsPAI
+ 2+CxJ3pUkPoyMQexW7qfSnj1aC1t7XoHPAbdCSn4JKTQC8yM9ZtXFxOWpDoLQDv8HpWETl
+ k/qT6OjDkeEaTJxFPSgRmkw+7nlPBVg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-KKJBPq5DOYW3JRCBIW4fcw-1; Tue, 15 Sep 2020 06:22:38 -0400
+X-MC-Unique: KKJBPq5DOYW3JRCBIW4fcw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B39F18B9F49
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 10:22:37 +0000 (UTC)
+Received: from genji (ovpn-115-97.ams2.redhat.com [10.36.115.97])
+ by smtp.corp.redhat.com (Postfix) with SMTP id 7188A75144;
+ Tue, 15 Sep 2020 10:22:36 +0000 (UTC)
+Date: Tue, 15 Sep 2020 12:22:35 +0200
+From: Eduardo Otubo <otubo@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH] seccomp: fix killing of whole process instead of thread
+Message-ID: <20200915102235.GB5070@genji>
+References: <20200911141832.1238636-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915114757.55635-1-thuth@redhat.com>
+In-Reply-To: <20200911141832.1238636-1-berrange@redhat.com>
+User-Agent: Mutt/1.8.3+47 (5f034395e53d) (2017-05-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=otubo@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:29:39
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="V0207lvV8h4k8FAm"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=otubo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 15 Sep 2020 09:15:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -126,80 +80,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Marc-André
+--V0207lvV8h4k8FAm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/15/20 1:47 PM, Thomas Huth wrote:
-> When compiling QEMU with MSYS2 on Windows, there is currently the
-> following error:
-> 
-> ../qga/commands-win32.c:62:24: error: redundant redeclaration of
->  'CM_Get_DevNode_PropertyW' [-Werror=redundant-decls]
->    62 | CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
->       |                        ^~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from ../qga/commands-win32.c:26:
-> C:/tools/msys64/mingw64/x86_64-w64-mingw32/include/cfgmgr32.h:840:26: note:
->  previous declaration of 'CM_Get_DevNode_PropertyW' was here
->   840 |   CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(DEVINST dnDevInst,
->    const DEVPROPKEY *PropertyKey, DEVPROPTYPE *PropertyType, PBYTE PropertyBuffer,
->    PULONG PropertyBufferSize, ULONG ulFlags);
-> 
-> Seems like this protype is sometimes available in the cfgmgr32.h
-> header, and sometimes not.
-
-This prototype is declared Since Windows Vista, but per
-commit 4ac80866476 ("qga: drop < Vista compatibility")
-it should be always true... So I'm confused.
-
-Maybe we should build with:
-
-  QEMU_BUILD_BUG_ON(_WIN32_WINNT < 0x0600); /* Vista */
-
-Commit 56cdca1d7a6 ("build-sys: build with Vista API by default")
-defines it if missing... Maybe that's where this problem comes
-from? (On too old includes we force them as Vista).
-
-> Let's silence the compiler warning here
-> to let the build pass with -Werror, too.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 11/09/2020 - 15:18:32, Daniel P. Berrange wrote:
+> Back in 2018 we introduced support for killing the whole QEMU process
+> instead of just one thread, when a seccomp rule is violated:
+>=20
+>   commit bda08a5764d470f101fa38635d30b41179a313e1
+>   Author: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>   Date:   Wed Aug 22 19:02:48 2018 +0200
+>=20
+>     seccomp: prefer SCMP_ACT_KILL_PROCESS if available
+>=20
+> Fast forward a year and we introduced a patch to avoid killing the
+> process for resource control syscalls tickled by Mesa.
+>=20
+>   commit 9a1565a03b79d80b236bc7cc2dbce52a2ef3a1b8
+>   Author: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>   Date:   Wed Mar 13 09:49:03 2019 +0000
+>=20
+>     seccomp: don't kill process for resource control syscalls
+>=20
+> Unfortunately a logic bug effectively reverted the first commit
+> mentioned so that we go back to only killing the thread, not the whole
+> process.
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  I can take this through my "testing" tree together with some other
->  MSYS2 patches if there are no objections.
-> 
->  qga/commands-win32.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index 48d8bbe649..0c3c05484f 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -57,8 +57,10 @@ DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverDate, 0xa8b865dd, 0x2e3d,
->  DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverVersion, 0xa8b865dd, 0x2e3d,
->      0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 3);
->      /* DEVPROP_TYPE_STRING */
-> -/* The following shoud be in cfgmgr32.h, but it isn't */
-> +/* The CM_Get_DevNode_PropertyW prototype is only sometimes in cfgmgr32.h */
->  #ifndef CM_Get_DevNode_Property
-> +#pragma GCC diagnostic push
-> +#pragma GCC diagnostic ignored "-Wredundant-decls"
->  CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
->      DEVINST          dnDevInst,
->      CONST DEVPROPKEY * PropertyKey,
-> @@ -68,6 +70,7 @@ CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
->      ULONG            ulFlags
->  );
->  #define CM_Get_DevNode_Property CM_Get_DevNode_PropertyW
-> +#pragma GCC diagnostic pop
->  #endif
->  
->  #ifndef SHTDN_REASON_FLAG_PLANNED
-> 
-	
+>  qemu-seccomp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/qemu-seccomp.c b/qemu-seccomp.c
+> index e0a1829b3d..8325ecb766 100644
+> --- a/qemu-seccomp.c
+> +++ b/qemu-seccomp.c
+> @@ -136,8 +136,9 @@ static uint32_t qemu_seccomp_get_action(int set)
+> =20
+>              if (qemu_seccomp(SECCOMP_GET_ACTION_AVAIL, 0, &action) =3D=
+=3D 0) {
+>                  kill_process =3D 1;
+> +            } else {
+> +                kill_process =3D 0;
+>              }
+> -            kill_process =3D 0;
+>          }
+>          if (kill_process =3D=3D 1) {
+>              return SCMP_ACT_KILL_PROCESS;
+> --=20
+> 2.26.2
+>=20
+
+Acked-by: Eduardo Otubo <otubo@redhat.com>
+
+--V0207lvV8h4k8FAm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE1n4bUJN0hrQHI9ur3zLnwPD/+aIFAl9glesACgkQ3zLnwPD/
++aK+vQf/XaMsYgdXC447cvcWhp1FWDm0rORkkQBy1SFKkzwO4jShFHsDqqXHiKhw
+xlm7PO3v6V9whPQOq+JJtUszZe2TiVAshoNICVAc9c31nGzJF2dwpzoJc7f2jFM9
+1mDLeBp5jgLaR7bQ5P+R27KEH/l1/ia9JeFhhpXmHiExjMYo3NpY0TbcB4pBhy70
+foqSpW+CHPI2NEuRohI9SoTBv0Rmyvg9joiurAzd9kk6+tSOo/RWmUO9S7FKvzmD
+fFeE1mc87g98e4r/0gstitUKkC747gUcOz/s3fHfFMwBCIsrjJAAiCi585oeGXUu
+L1MVVDRt+4bqE/YTts7Vm8qDRP5/FA==
+=+VYp
+-----END PGP SIGNATURE-----
+
+--V0207lvV8h4k8FAm--
 
 
