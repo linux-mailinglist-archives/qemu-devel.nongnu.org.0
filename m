@@ -2,101 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09C526AA2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:00:25 +0200 (CEST)
-Received: from localhost ([::1]:56100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D26426AA90
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:27:54 +0200 (CEST)
+Received: from localhost ([::1]:39996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIEIy-00060T-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 12:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41042)
+	id 1kIEkD-0008C0-AL
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIEHm-0005OT-SJ
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:58:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27404
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIEHk-0000zD-Ny
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 12:58:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600189106;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1PsjdetKq0hwwm1fGYkthknhoskaTzOH0B5Xupxyaaw=;
- b=hwGucUdq19LoG4RWrDJ2Ik2xyjz69wU4jch6naR3MlWFyEHk/BeUpEbk2uKSuzc2W0fu3l
- +ecfAxdZC7fmy9MBNgwVDqNc2XxsJpt+ILJr/ISoDR9ZXWjLPrioJMUmvDztG/6Cm6rBQV
- crxL2dW7JPq/CsCU452S3AUBVXKniOE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-P6w4V3lSMSuoMgyiwLFPyw-1; Tue, 15 Sep 2020 12:58:22 -0400
-X-MC-Unique: P6w4V3lSMSuoMgyiwLFPyw-1
-Received: by mail-wr1-f69.google.com with SMTP id a12so1453821wrg.13
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 09:58:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1PsjdetKq0hwwm1fGYkthknhoskaTzOH0B5Xupxyaaw=;
- b=M8B7B8JKqLXrLMfOkjcyVzO0lnlZ6XsjLFxxXCz2MdEr5qX53hwbO4BkCkh6Lc/XKh
- PwHK4A62UpslttMA16tT3XF5o6JVcnIX5Sv8yuW2Dodz//OLQaM+AD8WtTTQiQ43OUX/
- BOc8aWsUrryTEz9WrAbffaaBDF9ZhW6luSj7b1vNL3FMHoBRl+u5MuOaRBX+H+gZkCPz
- KqPRXnKa3Ln48TH/OnMm8jqvqGsvi2RsN2gzBOYB36Bk1HSmLhRonOHjeo6ekbFvTp7W
- vRaaa7YoyYeF1sRVZYIbC+mn3lMA5y0nvFRF4GiKb9TnuvrTLPWF8nlJ+RunCh86FeGu
- oygw==
-X-Gm-Message-State: AOAM530JGIn0Wb2cQoz8rKtl4Ba7ALUCBuI6H4LdS87edyH1na8QCEaf
- fYXzit2oz8vapl6M2ZxlZ8hAfg51pf/M+nwP2omdR9fd4WqTmEme0ePmbTM+xuil5haEYpSwPVP
- W5aCVRMfxnIn3Ntk=
-X-Received: by 2002:a5d:4d48:: with SMTP id a8mr22048640wru.318.1600189100522; 
- Tue, 15 Sep 2020 09:58:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwtNBTnOUdVClwZX9G2nxSi3WN+C1rHq+tGTDEmOoEANIteLfINOA1YuXG+iTPdIvxy47ceQQ==
-X-Received: by 2002:a5d:4d48:: with SMTP id a8mr22048625wru.318.1600189100310; 
- Tue, 15 Sep 2020 09:58:20 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:eac8:587f:8ca7:e1e8?
- ([2001:b07:6468:f312:eac8:587f:8ca7:e1e8])
- by smtp.gmail.com with ESMTPSA id q8sm27833915wrx.79.2020.09.15.09.58.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Sep 2020 09:58:19 -0700 (PDT)
-Subject: Re: [PATCH v2 01/10] capstone: Convert Makefile bits to meson bits
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20200914230210.2185860-1-richard.henderson@linaro.org>
- <20200914230210.2185860-2-richard.henderson@linaro.org>
- <eced490f-0250-3516-5d75-c6c3ff6e97be@linaro.org>
- <CABgObfbWzf7DLgx23+yMqYqnMUaiJ=0WKaW4zvzkA4u5T9fQXQ@mail.gmail.com>
- <4813770a-34a4-72ce-17f7-7ea451a7af99@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <74eed6fb-3b83-9338-949a-4f3ce3098315@redhat.com>
-Date: Tue, 15 Sep 2020 18:58:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIEX2-0000BW-2x
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:14:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIEKE-0001NK-BE
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:01:06 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kIEKB-0006SU-Dk
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:00:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F06C2E8082
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:00:59 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <4813770a-34a4-72ce-17f7-7ea451a7af99@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 03:21:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Sep 2020 16:50:08 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1895703@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: buildsys tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <160018860889.17103.9156462398304890013.malonedeb@soybean.canonical.com>
+Subject: [Bug 1895703] [NEW] performance degradation in tcg since Meson switch
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 2343c86e8878db7786e3b520f1f35dae45cebba0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 09:50:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -105,55 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, luoyonggang@gmail.com,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1895703 <1895703@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/09/20 16:27, Richard Henderson wrote:
-> On 9/14/20 11:27 PM, Paolo Bonzini wrote:
->> Looks good. Can you just add a "# Submodules" heading above the test?
->>
->> I would also like to remove the "yes" value (that is, the default fails if the
->> internal copy is not there) but it can be done later for all submodules.
-> 
-> Unless you simply plan to rename {no, yes} to {disabled, enabled}, as for the
-> Feature objects, why?
-> 
-> That seems to be the only sensible value for --enable-foo, without the =system
-> or =git specifiers.  We *should* fail if no system library nor internal copy is
-> present.
+Public bug reported:
 
-Yes, that was a bit concise.  I would like "auto" to take the meaning
-that "yes" currently as.  Right now we have
+The buildsys conversion to Meson (1d806cef0e3..7fd51e68c34)
+introduced a degradation in performance in some TCG targets:
 
-no -> Easy :)
-system -> System capstone if found, fail otherwise
-internal/git -> Compile capstone if found, fail otherwise
-auto -> System capstone, then internal, then disable
-yes -> System capstone, then internal, then fail
+--------------------------------------------------------
+Test Program: matmult_double
+--------------------------------------------------------
+Target              Instructions     Previous    Latest
+                                     1d806cef   7fd51e68
+----------  --------------------  ----------  ----------
+alpha              3 233 957 639       -----     +7.472%
+m68k               3 919 110 506       -----    +18.433%
+--------------------------------------------------------
 
-I'm not sure of the usefulness of disabling a dependency because we
-don't have it checked out, since we have the machinery to do the
-checkout automatically.  So that would become:
+Original report from Ahmed Karaman with further testing done
+by Aleksandar Markovic:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg740279.html
 
-no -> Easy :)
-system -> System capstone if found, fail otherwise
-internal/git -> Compile capstone if found, fail otherwise
-auto -> System capstone, then internal, then fail
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-The disadvantage is that it would be different from other "auto"
-symbols, which never fail.  But then those other "auto" symbols do not
-have a built-in fallback, so the question is whether the combination of
 
-1) building from a fresh git checkout
-2) --disable-git-update
-3) not having a system capstone/libfdt/slirp
-4) not having --disable-{capstone,libfdt,slirp} on the command line
+** Tags: buildsys tcg
 
-is more likely to be intentional or operator error.
+** Tags added: buildsys tcg
 
-Paolo
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895703
+
+Title:
+  performance degradation in tcg since Meson switch
+
+Status in QEMU:
+  New
+
+Bug description:
+  The buildsys conversion to Meson (1d806cef0e3..7fd51e68c34)
+  introduced a degradation in performance in some TCG targets:
+
+  --------------------------------------------------------
+  Test Program: matmult_double
+  --------------------------------------------------------
+  Target              Instructions     Previous    Latest
+                                       1d806cef   7fd51e68
+  ----------  --------------------  ----------  ----------
+  alpha              3 233 957 639       -----     +7.472%
+  m68k               3 919 110 506       -----    +18.433%
+  --------------------------------------------------------
+
+  Original report from Ahmed Karaman with further testing done
+  by Aleksandar Markovic:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg740279.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895703/+subscriptions
 
