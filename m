@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5841D26A3BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:58:47 +0200 (CEST)
-Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1781B26A3A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:53:19 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8fe-0000l5-75
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52674)
+	id 1kI8aM-0000qp-4p
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UL-0000nS-My
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51204)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UN-0000rO-94
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54755
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UI-0004cH-Ke
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:05 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UL-0004ck-0u
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:47:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166821;
+ s=mimecast20190719; t=1600166824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MBds4CXxGE46H6Itn3fmDY2ijfb8SIWiB0usBs4CUhE=;
- b=Aai7d3FtzmUSN4MWMZjFRJnQcUZO8BJaGIKo9FjwcfSsyvSa9fm0wq966cWReps32xjP/2
- QY50A0uFnjc3FRILI2KSipBeHLDGbfRIgkaSlJ0PG7RjX20CNIN3W05E/60f3sTR/BY2DM
- uB1JE00jjwhDSfaPWA+BTteTik7dUYE=
+ bh=HQvHNhVhnCk7Lx3ZLs/jlIsfMx16dmhaV5cJAS4ylNw=;
+ b=MNYND29QqbM17ybdki8CkkYs/i/RIQY5t5pQ9I0QAnI6XRsYG1RlBaU6FOR/C22+stBxkF
+ vJL5Hv3ARZVBsdL6EZrJTbdyjDEVGwfble0iZnWghsHRXiwZgem6UY6wMHwTH807NYs4fW
+ 2IJ4vXl/j8DzYlskBvJn3SJBRvP63VM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-NbXYX8woNGmUD7-8WhxZkw-1; Tue, 15 Sep 2020 06:46:59 -0400
-X-MC-Unique: NbXYX8woNGmUD7-8WhxZkw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-307-DFUVZkRpNmGP84x8iMZy9A-1; Tue, 15 Sep 2020 06:47:02 -0400
+X-MC-Unique: DFUVZkRpNmGP84x8iMZy9A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1AF264089;
- Tue, 15 Sep 2020 10:46:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA0381084D62;
+ Tue, 15 Sep 2020 10:47:00 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5136A7B7B7;
- Tue, 15 Sep 2020 10:46:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CD2160BE2;
+ Tue, 15 Sep 2020 10:47:00 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/22] iotests: Skip test_stream_parallel in test 030 when
- doing "make check"
-Date: Tue, 15 Sep 2020 12:46:18 +0200
-Message-Id: <20200915104627.699552-14-mreitz@redhat.com>
+Subject: [PULL 14/22] block/vhdx: Support vhdx image only with 512 bytes
+ logical sector size
+Date: Tue, 15 Sep 2020 12:46:19 +0200
+Message-Id: <20200915104627.699552-15-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:23:19
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 05:35:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,54 +85,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Swapnil Ingle <swapnil.ingle@nutanix.com>
 
-The test_stream_parallel test still occasionally fails in the CI.
-Thus let's disable it during "make check" for now so that it does
-not cause trouble during merge tests. We can enable it again once
-the problem has been resolved.
+block/vhdx uses qemu block layer where sector size is always 512 bytes.
+This may have issues  with 4K logical sector sized vhdx image.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200907113824.134788-1-thuth@redhat.com>
+For e.g qemu-img convert on such images fails with following assert:
+
+$qemu-img convert -f vhdx -O raw 4KTest1.vhdx test.raw
+qemu-img: util/iov.c:388: qiov_slice: Assertion `offset + len <=
+qiov->size' failed.
+Aborted
+
+This patch adds an check to return ENOTSUP for vhdx images which
+have logical sector size other than 512 bytes.
+
+Signed-off-by: Swapnil Ingle <swapnil.ingle@nutanix.com>
+Message-Id: <1596794594-44531-1-git-send-email-swapnil.ingle@nutanix.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/check-block.sh   | 3 +++
- tests/qemu-iotests/030 | 2 ++
- 2 files changed, 5 insertions(+)
+ block/vhdx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index 8e29c868e5..a5a69060e1 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -55,6 +55,9 @@ fi
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 791eb90263..356ec4c455 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -816,9 +816,9 @@ static int vhdx_parse_metadata(BlockDriverState *bs, BDRVVHDXState *s)
+         goto exit;
+     }
  
- cd tests/qemu-iotests
- 
-+# QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
-+export QEMU_CHECK_BLOCK_AUTO=1
-+
- ret=0
- for fmt in $format_list ; do
-     ./check -makecheck -$fmt $group || ret=1
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 31c028306b..dcb4b5d6a6 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -21,6 +21,7 @@
- import time
- import os
- import iotests
-+import unittest
- from iotests import qemu_img, qemu_io
- 
- backing_img = os.path.join(iotests.test_dir, 'backing.img')
-@@ -228,6 +229,7 @@ class TestParallelOps(iotests.QMPTestCase):
- 
-     # Test that it's possible to run several block-stream operations
-     # in parallel in the same snapshot chain
-+    @unittest.skipIf(os.environ.get('QEMU_CHECK_BLOCK_AUTO'), 'disabled in CI')
-     def test_stream_parallel(self):
-         self.assert_no_active_block_jobs()
+-    /* only 2 supported sector sizes */
+-    if (s->logical_sector_size != 512 && s->logical_sector_size != 4096) {
+-        ret = -EINVAL;
++    /* Currently we only support 512 */
++    if (s->logical_sector_size != 512) {
++        ret = -ENOTSUP;
+         goto exit;
+     }
  
 -- 
 2.26.2
