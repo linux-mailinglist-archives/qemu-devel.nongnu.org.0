@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFAF26A3B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:56:06 +0200 (CEST)
-Received: from localhost ([::1]:39346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF3F26A3A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 12:51:14 +0200 (CEST)
+Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kI8d3-00052Q-0R
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:56:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52532)
+	id 1kI8YL-0005ju-9W
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 06:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UD-0000UK-FI
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20914
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8UE-0000WU-GL
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8U9-0004YK-7R
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:57 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kI8U9-0004Y6-QW
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 06:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600166811;
+ s=mimecast20190719; t=1600166810;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uP30DnVeODMLdNm9vUyTjR1z7jdsH9mOP9byIYWIgbY=;
- b=hMQD/FgyrT7yUMrdNdY0ye6/y+0UyH2J0GB3jC4uphtJcjlV++zDV+yiR2FlNVwY18Z2vA
- UqTMriTBmIk28QPc3IIaOG+Nlr4GeSLbgeHB6bYOW8LGQB8k4sEQWgJCgaQWbtbu7MsMQ1
- 2m3o1icBiO5sNDvmyVgIHiFwGtncUKY=
+ bh=eNGMP0NumDmnPL1tkTdKMGI4YuPdVPiFI8BlpV+dcbg=;
+ b=eVC7LKxmEHkJH+wPa4+o9ZPgfY5ypzwzW6NBdg2Fki9dXQGs5r4gN0wDcZut2aPgzTJ3Ir
+ T/M7OWyCmFVrRXwayqcRNI/cAPk5J5W0qKFriodoq6DeCiChBhakUn0DIDUYf12T+ZMFkd
+ NgaQEI5PSR5404PZtYhkM1gK0ss/sAA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-NX41xAwaP7SAoHmCzt_gVw-1; Tue, 15 Sep 2020 06:46:44 -0400
-X-MC-Unique: NX41xAwaP7SAoHmCzt_gVw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-337-FCI-NTJ4MkqRaRpKSp7OCw-1; Tue, 15 Sep 2020 06:46:46 -0400
+X-MC-Unique: FCI-NTJ4MkqRaRpKSp7OCw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E798D64087;
- Tue, 15 Sep 2020 10:46:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A04F1084D64;
+ Tue, 15 Sep 2020 10:46:45 +0000 (UTC)
 Received: from localhost (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A5345DC1E;
- Tue, 15 Sep 2020 10:46:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF45319C4F;
+ Tue, 15 Sep 2020 10:46:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/22] block/quorum.c: stable children names
-Date: Tue, 15 Sep 2020 12:46:11 +0200
-Message-Id: <20200915104627.699552-7-mreitz@redhat.com>
+Subject: [PULL 07/22] qemu-img: avoid unaligned read requests during convert
+Date: Tue, 15 Sep 2020 12:46:12 +0200
+Message-Id: <20200915104627.699552-8-mreitz@redhat.com>
 In-Reply-To: <20200915104627.699552-1-mreitz@redhat.com>
 References: <20200915104627.699552-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:29:39
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 02:10:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.792,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,88 +83,110 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+From: Peter Lieven <pl@kamp.de>
 
-If we remove the child with the highest index from the quorum,
-decrement s->next_child_index. This way we get stable children
-names as long as we only remove the last child.
+in case of large continous areas that share the same allocation status
+it happens that the value of s->sector_next_status is unaligned to the
+cluster size or even request alignment of the source. Avoid this by
+stripping down the s->sector_next_status position to cluster boundaries.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Fixes: https://bugs.launchpad.net/bugs/1881231
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <5d5f930424c1c770754041aa8ad6421dc4e2b58e.1596536719.git.lukasstraub2@web.de>
+Signed-off-by: Peter Lieven <pl@kamp.de>
+Message-Id: <20200901125129.6398-1-pl@kamp.de>
+[mreitz: Disable vhdx for 251]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/quorum.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ qemu-img.c             | 22 ++++++++++++++++++++++
+ tests/qemu-iotests/251 |  7 +++++--
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
-diff --git a/block/quorum.c b/block/quorum.c
-index 6df9449fc2..e846a7e892 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -29,6 +29,8 @@
+diff --git a/qemu-img.c b/qemu-img.c
+index d0b1c97562..37365d06fa 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1666,6 +1666,7 @@ enum ImgConvertBlockStatus {
+ typedef struct ImgConvertState {
+     BlockBackend **src;
+     int64_t *src_sectors;
++    int *src_alignment;
+     int src_num;
+     int64_t total_sectors;
+     int64_t allocated_sectors;
+@@ -1732,6 +1733,7 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
+     if (s->sector_next_status <= sector_num) {
+         uint64_t offset = (sector_num - src_cur_offset) * BDRV_SECTOR_SIZE;
+         int64_t count;
++        int tail;
+         BlockDriverState *src_bs = blk_bs(s->src[src_cur]);
+         BlockDriverState *base;
  
- #define HASH_LENGTH 32
+@@ -1772,6 +1774,16 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
  
-+#define INDEXSTR_LEN 32
+         n = DIV_ROUND_UP(count, BDRV_SECTOR_SIZE);
+ 
++        /*
++         * Avoid that s->sector_next_status becomes unaligned to the source
++         * request alignment and/or cluster size to avoid unnecessary read
++         * cycles.
++         */
++        tail = (sector_num - src_cur_offset + n) % s->src_alignment[src_cur];
++        if (n > tail) {
++            n -= tail;
++        }
 +
- #define QUORUM_OPT_VOTE_THRESHOLD "vote-threshold"
- #define QUORUM_OPT_BLKVERIFY      "blkverify"
- #define QUORUM_OPT_REWRITE        "rewrite-corrupted"
-@@ -970,9 +972,9 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-     opened = g_new0(bool, s->num_children);
+         if (ret & BDRV_BLOCK_ZERO) {
+             s->status = post_backing_zero ? BLK_BACKING_FILE : BLK_ZERO;
+         } else if (ret & BDRV_BLOCK_DATA) {
+@@ -2410,8 +2422,10 @@ static int img_convert(int argc, char **argv)
  
-     for (i = 0; i < s->num_children; i++) {
--        char indexstr[32];
--        ret = snprintf(indexstr, 32, "children.%d", i);
--        assert(ret < 32);
-+        char indexstr[INDEXSTR_LEN];
-+        ret = snprintf(indexstr, INDEXSTR_LEN, "children.%d", i);
-+        assert(ret < INDEXSTR_LEN);
+     s.src = g_new0(BlockBackend *, s.src_num);
+     s.src_sectors = g_new(int64_t, s.src_num);
++    s.src_alignment = g_new(int, s.src_num);
  
-         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
-                                          &child_of_bds, BDRV_CHILD_DATA, false,
-@@ -1024,7 +1026,7 @@ static void quorum_add_child(BlockDriverState *bs, BlockDriverState *child_bs,
- {
-     BDRVQuorumState *s = bs->opaque;
-     BdrvChild *child;
--    char indexstr[32];
-+    char indexstr[INDEXSTR_LEN];
-     int ret;
- 
-     if (s->is_blkverify) {
-@@ -1039,8 +1041,8 @@ static void quorum_add_child(BlockDriverState *bs, BlockDriverState *child_bs,
-         return;
+     for (bs_i = 0; bs_i < s.src_num; bs_i++) {
++        BlockDriverState *src_bs;
+         s.src[bs_i] = img_open(image_opts, argv[optind + bs_i],
+                                fmt, src_flags, src_writethrough, s.quiet,
+                                force_share);
+@@ -2426,6 +2440,13 @@ static int img_convert(int argc, char **argv)
+             ret = -1;
+             goto out;
+         }
++        src_bs = blk_bs(s.src[bs_i]);
++        s.src_alignment[bs_i] = DIV_ROUND_UP(src_bs->bl.request_alignment,
++                                             BDRV_SECTOR_SIZE);
++        if (!bdrv_get_info(src_bs, &bdi)) {
++            s.src_alignment[bs_i] = MAX(s.src_alignment[bs_i],
++                                        bdi.cluster_size / BDRV_SECTOR_SIZE);
++        }
+         s.total_sectors += s.src_sectors[bs_i];
      }
  
--    ret = snprintf(indexstr, 32, "children.%u", s->next_child_index);
--    if (ret < 0 || ret >= 32) {
-+    ret = snprintf(indexstr, INDEXSTR_LEN, "children.%u", s->next_child_index);
-+    if (ret < 0 || ret >= INDEXSTR_LEN) {
-         error_setg(errp, "cannot generate child name");
-         return;
+@@ -2708,6 +2729,7 @@ out:
+         g_free(s.src);
      }
-@@ -1068,6 +1070,7 @@ static void quorum_del_child(BlockDriverState *bs, BdrvChild *child,
-                              Error **errp)
- {
-     BDRVQuorumState *s = bs->opaque;
-+    char indexstr[INDEXSTR_LEN];
-     int i;
+     g_free(s.src_sectors);
++    g_free(s.src_alignment);
+ fail_getopt:
+     g_free(options);
  
-     for (i = 0; i < s->num_children; i++) {
-@@ -1089,6 +1092,11 @@ static void quorum_del_child(BlockDriverState *bs, BdrvChild *child,
-     /* We know now that num_children > threshold, so blkverify must be false */
-     assert(!s->is_blkverify);
+diff --git a/tests/qemu-iotests/251 b/tests/qemu-iotests/251
+index 7918ba3559..294773bdc1 100755
+--- a/tests/qemu-iotests/251
++++ b/tests/qemu-iotests/251
+@@ -46,8 +46,11 @@ if [ "$IMGOPTSSYNTAX" = "true" ]; then
+     # We use json:{} filenames here, so we cannot work with additional options.
+     _unsupported_fmt $IMGFMT
+ else
+-    # With VDI, the output is ordered differently.  Just disable it.
+-    _unsupported_fmt vdi
++    # - With VDI, the output is ordered differently.  Just disable it.
++    # - VHDX has large clusters; because qemu-img convert tries to
++    #   align the requests to the cluster size, the output is ordered
++    #   differently, so disable it, too.
++    _unsupported_fmt vdi vhdx
+ fi
  
-+    snprintf(indexstr, INDEXSTR_LEN, "children.%u", s->next_child_index - 1);
-+    if (!strncmp(child->name, indexstr, INDEXSTR_LEN)) {
-+        s->next_child_index--;
-+    }
-+
-     bdrv_drained_begin(bs);
  
-     /* We can safely remove this child now */
 -- 
 2.26.2
 
