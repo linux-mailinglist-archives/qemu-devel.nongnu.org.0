@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D49126AB55
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:59:56 +0200 (CEST)
-Received: from localhost ([::1]:38926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2B626AB1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Sep 2020 19:49:50 +0200 (CEST)
+Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIFFD-0003xs-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50744)
+	id 1kIF5R-0005WI-2f
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 13:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIEwm-0003g7-EQ
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:40:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48884)
+ id 1kIEwi-0003WF-EG
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:40:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIEwk-0006K5-7Q
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:40:52 -0400
+ id 1kIEwf-0006Gp-Iz
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 13:40:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kIEwi-00030U-MP
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:40:48 +0000
+ id 1kIEwd-0002wQ-Cp
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:40:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 881E62E8078
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:40:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 476362E8076
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:40:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Sep 2020 17:31:33 -0000
-From: Petunia <1892604@bugs.launchpad.net>
+Date: Tue, 15 Sep 2020 17:32:14 -0000
+From: Petunia <1895053@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brendandg pauldzim petunia2000 pmaydell
-X-Launchpad-Bug-Reporter: Brendan Dolan-Gavitt (brendandg)
+X-Launchpad-Bug-Commenters: laurent-vivier pauldzim petunia2000
+X-Launchpad-Bug-Reporter: Petunia (petunia2000)
 X-Launchpad-Bug-Modifier: Petunia (petunia2000)
-References: <159814309088.988.14645850566795174578.malonedeb@wampee.canonical.com>
-Message-Id: <160019109399.14656.12349049077154065698.malone@gac.canonical.com>
-Subject: [Bug 1892604] Re: qemu-system-arm: ../hw/usb/hcd-dwc2.c:666:
- dwc2_glbreg_read: Assertion `addr <= GINTSTS2' failed.
+References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160019113484.17815.6690365456339664669.malone@soybean.canonical.com>
+Subject: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to start
+ Journal Service.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: cfbc7108c78a54a06c58cf84f4ad793e3e11570a
+X-Launchpad-Hash: 362d46c4bf751953dd513cb2d27ec0536deccb3e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/15 09:50:55
@@ -72,89 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1892604 <1892604@bugs.launchpad.net>
+Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-for me the output is:
-% qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.=
-img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.l=
-pm_enable=3D0 root=3D/dev/mmcblk0p2" -sd 2016-05-27-raspbian-jessie.img -sm=
-p 4 -serial stdio -display none
-
-WARNING: Image format was not specified for '2016-05-27-raspbian-jessie.img=
-' and probing guessed raw.
-         Automatically detecting the format is dangerous for raw images, wr=
-ite operations on block 0 will be restricted.
-         Specify the 'raw' format explicitly to remove the restrictions.
-qemu-system-arm: Invalid SD card size: 3.74 GiB
-SD card size has to be a power of 2, e.g. 4 GiB.
-You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
-(note that this will lose data if you make the image smaller than it curren=
-tly is).
+tldr: i dont have the same issue as described in your bug
+see my post there:
+https://bugs.launchpad.net/qemu/+bug/1892604/comments/6
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1892604
+https://bugs.launchpad.net/bugs/1895053
 
 Title:
-  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
-  `addr <=3D GINTSTS2' failed.
+  Cannot nspawn raspbian 10 [FAILED] Failed to start Journal Service.
 
 Status in QEMU:
   New
 
 Bug description:
-  When trying to run the 2016-05-27 Raspbian image on the emulated
-  raspi2 platform, the system boots but shortly after the login prompt
-  QEMU (master; commit ID ca489cd037e4d50dc6c40570a167504ad7e5a521) dies
-  with:
+  Hi, I'm using nspawn and asked the question @systemd-devel. They redirect=
+ed me to you, guessing that nspawn calls a syscall or ioctl qemu isnt aware=
+ of and can't implement properly?
+  They were like: "Sorry, that's not my department." ^^
 
-  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
-  `addr <=3D GINTSTS2' failed.
+  Maybe you can reproduce the issue or help me investigating whats wrong
+  or put the ball right back into their court? :D
 
-  Steps to reproduce:
+  Testscript:
+  wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -o r.zip
+  unzip r.zip
+  LOOP=3D$(losetup --show -Pf *raspios-buster-armhf-lite.img)
+  mount ${LOOP}p2 /mnt
+  mount ${LOOP}p1 /mnt/boot
+  systemd-nspawn --bind /usr/bin/qemu-arm-static --boot --directory=3D/mnt =
+-- systemd.log_level=3Ddebug
 
-  1. Get the image: wget
-  http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-31/2016=
--05-27
-  -raspbian-jessie.zip
+  Output:
+  see attachment
 
-  2. Extract the kernel image and DTB:
+  System:
+  uname -a
+  Linux MArch 5.8.7-arch1-1 #1 SMP PREEMPT Sat, 05 Sep 2020 12:31:32 +0000
+  x86_64 GNU/Linux
 
-  sudo losetup -f --show -P 2016-05-27-raspbian-jessie.img
-  sudo mkdir /mnt/rpi
-  sudo mount /dev/loop11p1 /mnt/rpi/
-  cp /mnt/rpi/kernel7.img .                                                =
-                                                                           =
-                                                                           =
-                                                                   =
+  qemu-arm-static --version
+  qemu-arm version 5.1.0
 
-  cp /mnt/rpi/bcm2709-rpi-2-b.dtb .                                        =
-                                                                           =
-                                                                           =
-                                                                   =
-
-  sudo umount /mnt/rpi =
-
-  sudo losetup -d /dev/loop11 =
-
-
-  3. Run QEMU:
-  qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.=
-img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.l=
-pm_enable=3D0 root=3D/dev/mmcblk0p2" -sd 2016-05-27-raspbian-jessie.img -sm=
-p 4 -serial stdio -display none
-
-  A few seconds after the login prompt is displayed, QEMU will exit with
-  the assertion failure.
-
-  I also tried changing all of the asserts to if statements that (for
-  MMIO reads) returned 0 and (for writes) just returned, but this
-  resulted in a non-responsive system.
+  systemd-nspawn --version
+  systemd 246 (246.4-1-arch)
+  +PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP +LIBCRYPTSETUP
+  +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2=
+ -IDN
+  +PCRE2 default-hierarchy=3Dhybrid
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1892604/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895053/+subscriptions
 
