@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A6726C56F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:57:50 +0200 (CEST)
-Received: from localhost ([::1]:50110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1068C26C575
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:59:04 +0200 (CEST)
+Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIakf-0006no-Oh
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
+	id 1kIalr-0007jl-2M
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kIahy-0003sS-33
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:55:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37152
- helo=us-smtp-1.mimecast.com)
+ id 1kIaj5-0005gu-6m
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:56:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kIahv-0005A7-Pf
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:55:01 -0400
+ id 1kIaj3-0005Pg-09
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:56:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600275298;
+ s=mimecast20190719; t=1600275368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hU94UgIS7Y1inKRFiuVDTpvF27PzAWrRwxDLgo89gq8=;
- b=coy38HcSoc5HdSLm/pWWtwSKBex8fAhiz5iBll0DHrlecYV+xNhY9uFE5+P4Yb5ntxGvCr
- SVZa3XEK24JYfReKJK764IUZEGIZcT6raI7+WM7S8gm5PuJnJvpcA0bbZMTgItHh7+xSZ3
- Q4G1Gowh/uzNq8iiTSqFTqZh+bXkvnM=
+ bh=C+O6WLASC27ERNsIXT1jU1ru1oZfhUqiSL3JzMSroZI=;
+ b=cT6yQnEj/RAg/47SBtUuE/SLPYTvBrvq3TFN/wPzrwYnYXXmEuIW+SHC8scrf5IfeUeVwO
+ wlm3haz6IpTvCcbRIl4Sh2nhOXFwsIvr1FG40+FEf68wHmuD1zJWysjWjNk12Cvx01HJVd
+ NIA/l3P39dyLvMCb0dpmQAJBPRnEyx8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-nUD7uqK1OT6PFXe1K9qd8g-1; Wed, 16 Sep 2020 12:54:50 -0400
-X-MC-Unique: nUD7uqK1OT6PFXe1K9qd8g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-583-5WSoirIrOASikSlKR9D4KA-1; Wed, 16 Sep 2020 12:55:50 -0400
+X-MC-Unique: 5WSoirIrOASikSlKR9D4KA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B20D81F03B
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:54:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9318F1882FB3
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:55:49 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.195.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA6015DA71;
- Wed, 16 Sep 2020 16:54:27 +0000 (UTC)
-Message-ID: <7569a17e836616459154a60e9a601edbc8003d3f.camel@redhat.com>
-Subject: [RFC DOCUMENT 09/12] kubevirt-and-kvm: Add Isolation page
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F2FA619D61;
+ Wed, 16 Sep 2020 16:55:47 +0000 (UTC)
+Message-ID: <e795a9ff0e52695368b5dc2cf1e326c8c45ccada.camel@redhat.com>
+Subject: [RFC DOCUMENT 10/12] kubevirt-and-kvm: Add Upgrades page
 From: Andrea Bolognani <abologna@redhat.com>
 To: libvir-list@redhat.com, qemu-devel@nongnu.org
-Date: Wed, 16 Sep 2020 18:54:25 +0200
+Date: Wed, 16 Sep 2020 18:55:45 +0200
 In-Reply-To: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
 References: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
 User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.004
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=abologna@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 11:53:15
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,139 +85,112 @@ Cc: vromanso@redhat.com, rmohr@redhat.com, crobinso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Isolation.md
+https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Upgrades.md
 
-# Isolation
+# Upgrades
 
-How is the QEMU process isolated from the host and from other VMs?
+The KubeVirt installation and upgrade process are entirely controlled
+by an [operator][], which is a common pattern in the Kubernetes
+world. The operator is a piece of software running in the cluster and
+managing the lifecycle of other components, in this case KubeVirt.
 
-## Traditional virtualization
+## The operator
 
-cgroups
+What it does:
 
-* managed by libvirt
+* Manages the whole KubeVirt installation
+* Keeps the cluster actively in sync with the desired state
+* Upgrades KubeVirt with zero downtime
 
-SELinux
+## Installation
 
-* libvirt is privileged and QEMU is protected by SELinux policies set
-  by libvirt (SVirt)
-* QEMU runs with SELinux type `svirt_t`
+Install the operator:
 
-## KubeVirt
+```bash
+$ LATEST=$(curl -L https://storage.googleapis.com/kubevirt-prow/devel/nightly/release/kubevirt/kubevirt/latest)
+$ kubectl apply -f https://storage.googleapis.com/kubevirt-prow/devel/nightly/release/kubevirt/kubevirt/$(LATEST)/kubevirt-operator.yaml
+$ kubectl get pods -n kubevirt
+NAME                                      READY   STATUS    RESTARTS   AGE
+virt-operator-58cf9d6648-c7qph            1/1     Running   0          69s
+virt-operator-58cf9d6648-pvzw2            1/1     Running   0          69s
+```
 
-cgroups
+Trigger the installation of KubeVirt:
 
-* Managed by kubelet
-  * No involvement from libvirt
-* Memory limits
-  * When using hard limits, the entire VM can be killed by Kubernetes
-  * Memory consumption estimates are based on heuristics
+```bash
+$ LATEST=$(curl -L https://storage.googleapis.com/kubevirt-prow/devel/nightly/release/kubevirt/kubevirt/latest)
+$ kubectl apply -f https://storage.googleapis.com/kubevirt-prow/devel/nightly/release/kubevirt/kubevirt/${LATEST}/kubevirt-cr.yaml
+$ kubectl get pods -n kubevirt
+NAME                                      READY   STATUS    RESTARTS   AGE
+virt-api-8bdd88557-fllhr                  1/1     Running   0          59s
+virt-controller-55ccb8cdcb-5rtp6          1/1     Running   0          43s
+virt-controller-55ccb8cdcb-v8kr9          1/1     Running   0          43s
+virt-handler-67pns                        1/1     Running   0          43s
+```
 
-SELinux
+The process happens in two steps because the operator relies on the
+KubeVirt [custom resource][] for information on the desired
+installation, and will not do anything until that resource exists in
+the cluster.
 
-* KubeVirt is not using SVirt and there are no plans to do so
-* At the moment, the custom [KubeVirt SELinux policy][] is used to
-  ensure libvirt has sufficient privilege to perform its own setup
-  steps
-  * The standard SELinux type used by containers is `container_t`
-  * KubeVirt would like to eventually use the same for VMs as well
+## Upgrade
 
-Capabilities
+The upgrading process is similar:
 
-* The default set of capabilities is fairly conservative
-  * Privileged operation should happen outside of the pod: in
-    KubeVirt's case, a good candidate is `virt-handler`, the
-    privileged components that runs at the node level
-* Additional capabilities can be requested for a pod
-  * However, this is frowned upon and considered a liability from the
-    security point of view
-  * The cluster admin may even set a security policy that prevent
-    pods from using certain capabilities
-    * In such a scenario, KubeVirt workloads may be entirely unable
-      to run
+* Install the latest operator
+* Reference the new version in the KubeVirt CustomResource to trigger
+  the actual upgrade
 
-## Specific examples
+```bash
+$ kubectl.sh get kubevirt -n kubevirt kubevirt -o yaml
+apiVersion: kubevirt.io/v1alpha3
+kind: KubeVirt
+metadata:
+  name: kubevirt
+spec:
+  imageTag: v0.30
+  certificateRotateStrategy: {}
+  configuration: {}
+  imagePullPolicy: IfNotPresent
+```
 
-The following is a list of examples, either historical or current, of
-scenarios where libvirt's approach to isolation clashed with
-Kubernetes' and changes on either component were necessary.
+Note the `imageTag` attribute: when present, the KubeVirt operator
+will take steps to ensure that the version of KubeVirt that's
+deployed on the cluster matches its value, which in our case will
+trigger an upgrade.
 
-SELinux
+The following chart explain the upgrade flow in more detail and shows
+how the various components are affected:
 
-* libvirt use of hugetlbfs for hugepages config is disallowed by
-  `container_t`
-  * Possibly fixable by using memfd
-    * [libvirt memoryBacking docs][]
-    * [KubeVirt memfd issue][]
-* Use of libvirt+QEMU multiqueue tap support is disallowed by
-  `container_t`
-  * And there’s no way to pass in this setup from outside the
-    existing stack
-  * [KubeVirt multiqueue workaround][] extending their SELinux policy to allow
-    `attach_queue`
-* Passing precreated tap devices to libvirt triggers
-  relabelfrom+relabelto `tun_socket` SELinux access
-  * This may not be virt stacks fault, seems to happen automatically
-    when permissions aren’t correct
+![KubeVirt upgrade flow][Upgrades-Kubevirt]
 
-Capabilities
+KubeVirt is released as a complete suite: no individual
+`virt-launcher` releases are planned. Everything is tested together,
+everything is released together.
 
-* libvirt performs memory locking for VFIO devices unconditionally
-  * Previously KubeVirt had to grant `CAP_SYS_RESOURCE` to pods.
-    KubeVirt worked around it by duplicating libvirt’s memory pinning
-    calculations so the libvirt action would be a no-op, but that is
-    fragile and may cause the issue to resurface if libvirt
-    calculation logic changes.
-  * References: [libvir-list memlock thread][], [KubeVirt memlock
-    PR][], [libvirt qemuDomainGetMemLockLimitBytes][], [KubeVirt
-    VMI.getMemlockSize][]
-* virtiofsd requires `CAP_SYS_ADMIN` capability to perform
-  `unshare(CLONE_NEWPID|CLONE_NEWNS)`
-  * This is required for certain use cases like running overlayfs in
-    the VM on top of virtiofs, but is not a requirement for all
-    usecases.
-  * References: [KubeVirt virtiofs PR][], [RHEL virtiofs bug][]
-* KubeVirt uses libvirt for CPU pinning, which requires the pod to
-  have `CAP_SYS_NICE`.
-  * Long term, KubeVirt would like to handle that pinning in their
-    privileged component virt-handler, so `CAP_SYS_NICE` can be
-    dropped.
-    * Sidenote: libvirt unconditionally requires `CAP_SYS_NICE` when
-      any other running VM is using CPU pinning, however this sounds
-      like a plain old bug.
-  * References: [KubeVirt CPU pinning PR][], [KubeVirt CPU pinning
-    workaround PR][], [RHEL CPU pinning bug][]
-* libvirt bridge usage used to require `CAP_NET_ADMIN`
-  * This is a historical example for reference. libvirt usage of a
-    bridge device always implied tap device creation, which required
-    `CAP_NET_ADMIN` privileges for the pod
-  * The fix was to teach libvirt to accept a precreated tap device
-    and skip some setup operations on it
-    * Example XML: `<interface type='ethernet'><target dev='mytap0'
-      managed='no'/></interface>`
-  * Kubevirt still hasn’t fully managed to drop `CAP_NET_ADMIN`
-    though
-  * References: [RHEL precreated TAP bug][], [libvirt precreated TAP
-    patches][], [KubeVirt precreated TAP PR][], [KubeVirt NET_ADMIN
-    issue][], [KubeVirt NET_ADMIN issue][]
+## QEMU and libvirt
 
-[KubeVirt CPU pinning PR]: https://github.com/kubevirt/kubevirt/pull/1381
-[KubeVirt CPU pinning workaround PR]: https://github.com/kubevirt/kubevirt/pull/1648
-[KubeVirt NET_ADMIN PR]: https://github.com/kubevirt/kubevirt/pull/3290
-[KubeVirt NET_ADMIN issue]: https://github.com/kubevirt/kubevirt/issues/3085
-[KubeVirt SELinux policy]: https://github.com/kubevirt/kubevirt/blob/master/cmd/virt-handler/virt_launcher.cil
-[KubeVirt VMI.getMemlockSize]: https://github.com/kubevirt/kubevirt/blob/f5ffba5f84365155c81d0e2cda4aa709da062230/pkg/virt-handler/isolation/isolation.go#L206
-[KubeVirt memfd issue]: https://github.com/kubevirt/kubevirt/issues/3781
-[KubeVirt memlock PR]: https://github.com/kubevirt/kubevirt/pull/2584
-[KubeVirt multiqueue workaround]: https://github.com/kubevirt/kubevirt/pull/2941/commits/bc55cb916003c54f6cbf329112a4e36d0d874836
-[KubeVirt precreated TAP PR]: https://github.com/kubevirt/kubevirt/pull/2837
-[KubeVirt virtiofs PR]: https://github.com/kubevirt/kubevirt/pull/3493
-[RHEL CPU pinning bug]: https://bugzilla.redhat.com/show_bug.cgi?id=1819801
-[RHEL precreated TAP bug]: https://bugzilla.redhat.com/show_bug.cgi?id=1723367
-[RHEL virtiofs bug]: https://bugzilla.redhat.com/show_bug.cgi?id=1854595
-[libvir-list memlock thread]: https://www.redhat.com/archives/libvirt-users/2019-August/msg00046.html
-[libvirt memoryBacking docs]: https://libvirt.org/formatdomain.html#elementsMemoryBacking
-[libvirt precreated TAP patches]: https://www.redhat.com/archives/libvir-list/2019-August/msg01256.html
-[libvirt qemuDomainGetMemLockLimitBytes]: https://gitlab.com/libvirt/libvirt/-/blob/84bb5fd1ab2bce88e508d416f4bcea520c803ea8/src/qemu/qemu_domain.c#L8712
+The versions of QEMU and libvirt used for VMs are also tied to the
+version of KubeVirt and are upgraded along with everything else.
+
+* Migrations from old libvirt/QEMU to new libvirt/QEMU pairs are
+  possible
+* As soon as the new `virt-handler` and the new controller are rolled
+  out, the cluster will only start VMIs with the new QEMU/libvirt
+  versions
+
+## Version compatibility
+
+The virt stack is updated along with KubeVirt, which mitigates
+compatibility concerns. As a rule of thumb, versions of QEMU and
+libvirt older than a year or so are not taken into consideration.
+
+Currently, the ability to perform backwards migation (eg. from a
+newer version of QEMU to an older one) is not necessary, but that
+could very well change as KubeVirt becomes more widely used.
+
+[Upgrades-Kubevirt]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Upgrades-Kubevirt.png
+[custom resource]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+[operator]: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
 
 
