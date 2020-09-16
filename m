@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E642726C22F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:35:38 +0200 (CEST)
-Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA3B26C248
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:49:59 +0200 (CEST)
+Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIVis-0002WV-0v
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:35:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50680)
+	id 1kIVwk-0000Fs-MI
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:49:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kIVhj-00020U-6K
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:34:27 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37390)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIVo1-0000KF-Td
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:40:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kIVhg-00066K-W7
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:34:26 -0400
-Received: by mail-wr1-x430.google.com with SMTP id z4so6557053wrr.4
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 04:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=39Yh7WvnMUHO8U2HwGDZ9APJKe/qVKadkuEKShwpdao=;
- b=ISEDhDy53+hWAG2O0i8wtcLxI0sCD9eUeBrL5RQt5y1G5c/SOlKHoUmlKluWVEgeVd
- b65E0V6/7CaCkalM0TtOgpkcfbR5mHSpiC9ygUGBlL0pFiXR/XYS+8qmgmOPHXYTzlNm
- CIE3TzH5fLRDRgipkVbUfEGgwDcwxE8NZiUh5N8Zou+FQgHpPY01on8/KdzQhFuVr2jK
- KKrZX45J77gAz9yQhrt2VB85utg/0d2EdHj2Bm80dcroX8rIlKwYiuAMVbUCSXzfmdVF
- lK9q1w3plqnw7aAXSL3rmKU0qBhrIom1Hgn/XaKX6kq2J3fRNi2ufwN6VjpOglPSWJ2h
- IjyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=39Yh7WvnMUHO8U2HwGDZ9APJKe/qVKadkuEKShwpdao=;
- b=e3LKFE6GzD5UxW8EDmnuYe8F9hzbj9/uWPw8c3CrwAsY1rfDJZyF/Nb5kXXCIcid3W
- YSjOjCsrDSoeX2ddiEMR1VmYXbDMxMzJju/3H44M6Z77gkhsWsuyyWFBC8mUdn6BXz9m
- c5g6Muaf9vB2xNRXbPFiWNZvq2Ahmc2mh2k8Y3WzJvifacxpE9YVKMp4REHTbzzWzK4y
- BY9HwmiFfzAnjb+ZTYAr35Q6o65W3RLqqwouQuPCts/priyuD+N7Y1ggCIoiQIfSvXGK
- BvFuPPI4J0lXz7IldROzTzQzHil1i8iiy0ypxd3bTDN4KoAh33Y2IJYCeIUaoUzM2ljE
- j6uQ==
-X-Gm-Message-State: AOAM530EvX4H3nnxwQp/NNi4ordRRQXKIlBKWN006ZbGV8bim8d42S+w
- z87FwiA478RMYRPDjh143QEk7tY8GxNNLA==
-X-Google-Smtp-Source: ABdhPJyAAxp4/Yvap7+pl2nJ9DwOr6KXSyakR9e82HQOrIQ+MyStMcURJBgGyRkBpxmOsWyd1UpyBA==
-X-Received: by 2002:adf:e44b:: with SMTP id t11mr3349007wrm.101.1600256063365; 
- Wed, 16 Sep 2020 04:34:23 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id e1sm25683077wrp.49.2020.09.16.04.34.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 04:34:22 -0700 (PDT)
-Date: Wed, 16 Sep 2020 12:34:20 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Bug 1895399 <1895399@bugs.launchpad.net>
-Subject: Re: [Bug 1895399] [NEW] Docfix: add missing virtiofsd cache default
- 'auto'
-Message-ID: <20200916113420.GE756728@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIVnz-0007EP-Er
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:40:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kIVny-00008x-9I
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 11:40:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 44FDD2E80DC
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 11:40:54 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 16 Sep 2020 11:34:20 -0000
+From: Stefan Hajnoczi <1895399@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hcoin stefanha
+X-Launchpad-Bug-Reporter: Harry Coin (hcoin)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
 References: <159992963448.16886.7579356964954187024.malonedeb@soybean.canonical.com>
  <20200914100806.GC579094@stefanha-x1.localdomain>
  <5d7c2982-4282-d521-82d7-196468b45fee@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vmttodhTwj0NAgWp"
-Content-Disposition: inline
-In-Reply-To: <5d7c2982-4282-d521-82d7-196468b45fee@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x430.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-Id: <20200916113420.GE756728@stefanha-x1.localdomain>
+Subject: Re: [Bug 1895399] [NEW] Docfix: add missing virtiofsd cache default
+ 'auto'
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: de72e8cc2a7b4620abd2f9dcade4b716570d5c9b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 05:50:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,39 +74,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1895399 <1895399@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---vmttodhTwj0NAgWp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
 On Mon, Sep 14, 2020 at 02:53:57PM -0000, Harry Coin wrote:
-> OK.=A0 First time for everything:
->=20
+> OK.=C2=A0 First time for everything:
+> =
+
 > Signed-off-by: Harry G. Coin <hgcoin@gmail.com>
 
 Thank you. I posted your patch to the QEMU mailing list with your
 authorship information:
 https://patchew.org/QEMU/20200916112250.760245-1-stefanha@redhat.com/
 
---vmttodhTwj0NAgWp
-Content-Type: application/pgp-signature; name="signature.asc"
+-- =
 
------BEGIN PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895399
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9h+DwACgkQnKSrs4Gr
-c8gLNwgAkIqE4kY1Wwh07wENPBfa2OuWJXL9sCcL6FZP0y9pP8AAPh3DvrUPE7wN
-V7KUu5tmCzO9H2/oMk+7rdfpghMoutgdwODNwv9+0RwRYITfXXqsQL9Xm41RsJZt
-BayREG/6bSI5xG/UuY5vI3lHGxxxpM3SwJ9jgjLDEJxQlisvYbbFubp32Re8luyg
-5yiowAfrZnz5oOVBAAPuEZLsviV5JAbkJSc2DhE7J5z8YLmLV5orZTpV9yzVZRr8
-VvZ477BvOJj0Vhre1e1SSu9uJDcGNpRvbGq3m8sz1hOkgsF1liu93cjehs3V82tZ
-/ArliB4sLbSTD7TFJMcmZQ1teB8nHg==
-=Xzp6
------END PGP SIGNATURE-----
+Title:
+  Docfix: add missing virtiofsd cache default 'auto'
 
---vmttodhTwj0NAgWp--
+Status in QEMU:
+  New
+
+Bug description:
+  The usage command line for virtiofsd has:
+
+  void fuse_cmdline_help(void)
+  {
+      printf("    -h   --help                print help\n"
+  ...
+             "    -o cache=3D<mode>            cache mode. could be one of =
+\"auto, "
+             "always, none\"\n"
+             "                               default: auto\n"
+
+  =
+
+  But the default: auto info is missing from the man page.  I suggest this =
+patch:
+
+  --- docs/tools/virtiofsd.rst    2020-09-10 18:07:45.380430677 -0500
+  +++ /tmp/virtiofsd.rst  2020-09-12 11:48:10.440815204 -0500
+  @@ -106,6 +106,7 @@
+     forbids the FUSE client from caching to achieve best coherency at the =
+cost of
+     performance.  ``auto`` acts similar to NFS with a 1 second metadata ca=
+che
+     timeout.  ``always`` sets a long cache lifetime at the expense of cohe=
+rency.
+  +  The default is ``auto``.
+   =
+
+   Examples
+   --------
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895399/+subscriptions
 
