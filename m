@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495A326C383
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:06:57 +0200 (CEST)
-Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1248826C385
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:07:34 +0200 (CEST)
+Received: from localhost ([::1]:37440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIY5H-0001vt-SY
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35602)
+	id 1kIY5t-0003AB-5q
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIY49-0000ps-Uo
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:05:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41128
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIY4o-0001w5-3k
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:06:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIY47-0001la-F7
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:05:45 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIY4m-0001yt-9b
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:06:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600265142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=spes70wtRxtdTrcsgJaD3iqBO0Btd1aOtLaRW5v7QV8=;
- b=IxMfAyAfLGdlNF30ALSzesh0GzamdIpMObqw3Zkc/drUZbGdFJnyFZuCEezQzrvJpn/max
- 0PGMLWW7PXbEk4iMpcBpWwQy0Hz24zaeR5Yq/L1r15B9Q1/Ih254sGMiugEyWZvszed7+H
- aYmTp+FVZKJqUytxgnnFyXuZR5fdjM0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-XCh3F0twMXeOS7fshTpoNA-1; Wed, 16 Sep 2020 10:05:39 -0400
-X-MC-Unique: XCh3F0twMXeOS7fshTpoNA-1
-Received: by mail-wm1-f71.google.com with SMTP id b14so873058wmj.3
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 07:05:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=spes70wtRxtdTrcsgJaD3iqBO0Btd1aOtLaRW5v7QV8=;
- b=jA40vtPV9D3W6c1Y20xsuC8Ke7QEGBSi+sWo00ISYY5ZagMGROWpNP3bMQGgMbesAB
- AKPCeYr1GrD8B90kQe3xC5yZhKYBf3xvVwk6QSv5Rj3tFx7yMSPpOPFr5Be1qIPWW/H5
- nsSNo7avrJBE0OXkclfJOaKE9HqSQ90/+CmuiBqsczzME3HRxje3q6aBoGQC/Rkmk00O
- ZI97TQJXJege3E+aul1vzSQvhEaDgS4453IF+xWmxHvNsWHMM2/N12nENuKkOwtTw292
- 2+yvU9xFxvN6QDhkKkC9Q3ZNcdvV+eRU1TIhlTuoOlfITiXnG9p/sCyaQwjXsUMjFAr6
- hivQ==
-X-Gm-Message-State: AOAM533AiljJgC7Z9ixMQhIQLuacC+oI8PNBfggm5KikfSzwr+yOaIOH
- N6l9BELjxxHByqwJrR1bG+k8LrJbxbigM89TiXBuLmTC5N68Mgq2M0CJ1AELDYXvyphwZfxLAoK
- 6PQEafsAUFvdpHCQ=
-X-Received: by 2002:a1c:f415:: with SMTP id z21mr4928677wma.88.1600265138305; 
- Wed, 16 Sep 2020 07:05:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxfES5XFnVH5c+U5/0Ym5qbYmcb+SSSvr6TS2UjqsDODxUKrz16b2X33C5Qw+AwEGAv6Fws2Q==
-X-Received: by 2002:a1c:f415:: with SMTP id z21mr4928656wma.88.1600265138118; 
- Wed, 16 Sep 2020 07:05:38 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id h2sm34287479wrp.69.2020.09.16.07.05.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 07:05:36 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/nvram/fw_cfg: Assert linked data is not NULL
-Date: Wed, 16 Sep 2020 16:05:35 +0200
-Message-Id: <20200916140535.1451663-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ s=mimecast20190719; t=1600265182;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=2POS4tR5DDdWPJj7M6IYrwS5GbzewCMxC4xuj+CcEmg=;
+ b=IogKJaAd+EvCVJ0Cwk5nZIqCe42G+/vkrv+XKl12esm/B41V1h8m9tjt4YUzkn+ViV8s18
+ x5KfIXDUsHi6QmFyOS1iEgit7Oc946KNkaxHoUcBl4wNSZDqLTuUI2NZbjBPGCizqZCO2G
+ qVNDtYofVmGj+LFUjp4iJ33XHQgFMYo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-fbALcrTJMjmqI_pvnTMLpw-1; Wed, 16 Sep 2020 10:06:03 -0400
+X-MC-Unique: fbALcrTJMjmqI_pvnTMLpw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80D771891E9B;
+ Wed, 16 Sep 2020 14:06:02 +0000 (UTC)
+Received: from redhat.com (ovpn-113-248.ams2.redhat.com [10.36.113.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BFC21002397;
+ Wed, 16 Sep 2020 14:05:53 +0000 (UTC)
+Date: Wed, 16 Sep 2020 15:05:50 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: Python 3.5 EOL; when can require 3.6?
+Message-ID: <20200916140550.GQ1535709@redhat.com>
+References: <875z8eupyp.fsf@dusky.pond.sub.org>
+ <CAFEAcA8q8J1n2UqsNbHgNwEedA8pZ6fNA7obCR1REN-33nvmkg@mail.gmail.com>
+ <d07189e2-0683-2eb9-44e0-a275688fa8b4@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <d07189e2-0683-2eb9-44e0-a275688fa8b4@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 06:27:39
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,33 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The linked data passed to the fw_cfg device must not be NULL.
-Add an assertion.
+On Wed, Sep 16, 2020 at 04:00:14PM +0200, Thomas Huth wrote:
+> On 16/09/2020 14.30, Peter Maydell wrote:
+> > On Wed, 16 Sep 2020 at 08:43, Markus Armbruster <armbru@redhat.com> wrote:
+> >> We require Python 3.5.  It will reach its "end of life" at the end of
+> >> September 2020[*].  Any reason not to require 3.6 for 5.2?  qemu-iotests
+> >> already does for its Python parts.
+> [...]
+> > The default should be
+> > "leave the version dependency where it is", not "bump the version
+> > dependency as soon as we can".
+> 
+> OTOH, if none of our supported build systems uses python 3.5 by default
+> anymore, it also will not get tested anymore, so bugs might creep in,
+> which will of course end up in a bad experience for the users, too, that
+> still try to build with such an old version. So limiting the version to
+> the level that we also test is IMHO very reasonable.
+> 
+> Let's have a look at the (older) systems that we support and the python
+> versions according to repology.org:
+> 
+> - RHEL7 / CentOS 7 : 3.6.8
+> - Ubuntu 18.04 (Bionic) : >= 3.6.5
+> - openSUSE Leap 15.0 : >= 3.6.5
+> - OpenBSD Ports : >= 3.7.9
+> - FreeBSD Ports : >= 3.5.10 - but there is also 3.6 or newer
 
-Reported-by: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/nvram/fw_cfg.c | 1 +
- 1 file changed, 1 insertion(+)
+"pkg install python3" will give you python 3.7 right now.
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index f3a4728288e..40dcc08b57b 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -711,6 +711,7 @@ static void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
- 
-     key &= FW_CFG_ENTRY_MASK;
- 
-+    assert(data);
-     assert(key < fw_cfg_max_entry(s) && len < UINT32_MAX);
-     assert(s->entries[arch][key].data == NULL); /* avoid key conflict */
- 
+> - Homebrew : >= 3.7.9
+> 
+> ... so I think it should be fine to retire 3.5 nowadays.
+
+Regards,
+Daniel
 -- 
-2.26.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
