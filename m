@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF2926C24C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:52:49 +0200 (CEST)
-Received: from localhost ([::1]:44454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9787B26C24E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:52:55 +0200 (CEST)
+Received: from localhost ([::1]:45186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIVzU-0004l7-D5
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53456)
+	id 1kIVza-00053P-LX
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIVs6-0004Lc-Fa
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:45:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45077
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuY-0006Wn-Qq
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIVs0-0007bt-Ne
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:45:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuW-00085i-QN
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256703;
+ s=mimecast20190719; t=1600256859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OZ6xbRV1GTtHNDCIw9kuM66RQZbsbxqKTULj56XzQng=;
- b=JySLZBebfmFuwO1dK6Qx2T2opt/OG8rR7HsKgUs9/xnLKYPI6yyEwI5JvylYOk531JPQ3Z
- 1Zn6rdsC4lVht2LJOL/eQP2KnMvKES++uvSfu+/oThlAi3eXdKdbLimoPSoeAMqDXr+rcB
- NPFY3+ZYgg8ngJ6BZsJDdxYTB2/ip7o=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aCGoLUB/3C+UKaOM/2a/E5qmcsroF3zxNVaOeTyeKbI=;
+ b=JLp5Aad+IV3DQ4gb3uNK5tdlVHvbYIi3wMgDkRYuMzMCUldLSpaY73E/IwFF8TwMU+38FW
+ RmP803qyITjbgBZMbs2+m02eTHXb8pfBae+tK7HagqglfY8vFPzPGzOkF3kH92scvBHtad
+ Y7p+vGsVCoGYqhQL2ANUQOLzs71jekM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-pjMH5JgoN6uUeG7ENSRRrg-1; Wed, 16 Sep 2020 07:44:59 -0400
-X-MC-Unique: pjMH5JgoN6uUeG7ENSRRrg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-188-mfU0nl-6POeNsiWHd5P1Pg-1; Wed, 16 Sep 2020 07:47:36 -0400
+X-MC-Unique: mfU0nl-6POeNsiWHd5P1Pg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DE6380B702;
- Wed, 16 Sep 2020 11:44:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDC1260CCC;
- Wed, 16 Sep 2020 11:44:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3187D113864A; Wed, 16 Sep 2020 13:44:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 9/9] migration: introduce snapshot-{save, load,
- delete} QMP commands
-References: <20200915113523.2520317-1-berrange@redhat.com>
- <20200915113523.2520317-10-berrange@redhat.com>
- <87tuvyt9sf.fsf@dusky.pond.sub.org>
- <20200916082751.GC1535709@redhat.com>
-Date: Wed, 16 Sep 2020 13:44:56 +0200
-In-Reply-To: <20200916082751.GC1535709@redhat.com> ("Daniel P. =?utf-8?Q?B?=
- =?utf-8?Q?errang=C3=A9=22's?=
- message of "Wed, 16 Sep 2020 09:27:51 +0100")
-Message-ID: <87h7ryoshz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FCED186DD25;
+ Wed, 16 Sep 2020 11:47:35 +0000 (UTC)
+Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 110AD5DA71;
+ Wed, 16 Sep 2020 11:47:33 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/24] qtests, unit tests and Cirrus-CI fixes / improvements
+Date: Wed, 16 Sep 2020 13:47:07 +0200
+Message-Id: <20200916114731.102080-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 06:27:39
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,141 +76,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+ Hi Peter,
 
-> On Wed, Sep 16, 2020 at 10:17:52AM +0200, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > savevm, loadvm and delvm are some of the few HMP commands that have ne=
-ver
->> > been converted to use QMP. The reasons for the lack of conversion are
->> > that they blocked execution of the event thread, and the semantics
->> > around choice of disks were ill-defined.
->> >
->> > Despite this downside, however, libvirt and applications using libvirt
->> > have used these commands for as long as QMP has existed, via the
->> > "human-monitor-command" passthrough command. IOW, while it is clearly
->> > desirable to be able to fix the problems, they are not a blocker to
->> > all real world usage.
->> >
->> > Meanwhile there is a need for other features which involve adding new
->> > parameters to the commands. This is possible with HMP passthrough, but
->> > it provides no reliable way for apps to introspect features, so using
->> > QAPI modelling is highly desirable.
->> >
->> > This patch thus introduces new snapshot-{load,save,delete} commands to
->> > QMP that are intended to replace the old HMP counterparts. The new
->> > commands are given different names, because they will be using the new
->> > QEMU job framework and thus will have diverging behaviour from the HMP
->> > originals. It would thus be misleading to keep the same name.
->> >
->> > While this design uses the generic job framework, the current impl is
->> > still blocking. The intention that the blocking problem is fixed later=
-.
->> > None the less applications using these new commands should assume that
->> > they are asynchronous and thus wait for the job status change event to
->> > indicate completion.
->> >
->> > In addition to using the job framework, the new commands require the
->> > caller to be explicit about all the block device nodes used in the
->> > snapshot operations, with no built-in default heuristics in use.
->> >
->> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> [...]
->> > diff --git a/qapi/job.json b/qapi/job.json
->> > index 280c2f76f1..b2cbb4fead 100644
->> > --- a/qapi/job.json
->> > +++ b/qapi/job.json
->> > @@ -22,10 +22,17 @@
->> >  #
->> >  # @amend: image options amend job type, see "x-blockdev-amend" (since=
- 5.1)
->> >  #
->> > +# @snapshot-load: snapshot load job type, see "snapshot-load" (since =
-5.2)
->> > +#
->> > +# @snapshot-save: snapshot save job type, see "snapshot-save" (since =
-5.2)
->> > +#
->> > +# @snapshot-delete: snapshot delete job type, see "snapshot-delete" (=
-since 5.2)
->> > +#
->> >  # Since: 1.7
->> >  ##
->> >  { 'enum': 'JobType',
->> > -  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend']=
- }
->> > +  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend',
->> > +           'snapshot-load', 'snapshot-save', 'snapshot-delete'] }
->> > =20
->> >  ##
->> >  # @JobStatus:
->> > diff --git a/qapi/migration.json b/qapi/migration.json
->> > index 675f70bb67..b584c0be31 100644
->> > --- a/qapi/migration.json
->> > +++ b/qapi/migration.json
->> > @@ -1720,3 +1720,123 @@
->> >  ##
->> >  { 'event': 'UNPLUG_PRIMARY',
->> >    'data': { 'device-id': 'str' } }
->> > +
->> > +##
->> > +# @snapshot-save:
->> > +#
->> > +# Save a VM snapshot
->> > +#
->> > +# @job-id: identifier for the newly created job
->> > +# @tag: name of the snapshot to create
->> > +# @devices: list of block device node names to save a snapshot to
->>=20
->> Looks like you dropped the idea to also accept drive IDs.  Is that for
->> good, or would you like to add it later?
->
-> I'm still kind of on the fence, but if general opinion is that we should
-> accept drive IDs, I'll add it.
+the following changes since commit de39a045bd8d2b49e4f3d07976622c29d58e0bac:
 
-I'm fine with accepting only node names.  But unless we're fairly
-certain node names will do, we should try to pick an interface that can
-be extended to drive IDs painlessly.
+  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200915-pull-request' into staging (2020-09-15 14:25:05 +0100)
 
-> I wonder what the other blockdev-* APIs accept - some consistency between
-> APIs is desirable.
+are available in the Git repository at:
 
-The common pattern appears to be
+  https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-16
 
-    # Either @device or @node-name must be set but not both.
-    #
-    # @device: the name of the device to get the image resized
-    #
-    # @node-name: graph node name to get the image resized (Since 2.0)
-    #
-    [...]
-                '*device': 'str',
-                '*node-name': 'str',
+for you to fetch changes up to 114daec31d64600e5a070abcdb8de2cf74d01e94:
 
-For snapshot-save & friends, I can see two reasonably consistent ways:
+  cirrus: Building freebsd in a single shot (2020-09-16 12:15:07 +0200)
 
-1. Have two optional lists, must specify exactly one of them.
+----------------------------------------------------------------
+* Fix "readlink -f" problem in iotests on macOS (to fix the Cirrus-CI tests)
+* Some minor qtest improvements
+* Fix the unit tests to work on MSYS2, too
+* Enable building and testing on MSYS2 in the Cirrus-CI
+* Build FreeBSD with one task again in the Cirrus-CI
+----------------------------------------------------------------
 
-2. Change the list element from 'str' to a struct with the two optional
-members, must specify exactly one.
+Alexander Bulekov (1):
+      fuzz: Change the way we write qtest log to stderr
 
-The second way lets you mix drive IDs and node-names freely.  Do we want
-to?
+Max Reitz (1):
+      iotests: Drop readlink -f
 
-If yes, we can still use a variation of the first way: accept *both*
-lists.
+Maxim Levitsky (1):
+      rcu: Implement drain_call_rcu
 
-Permitting mixing makes it possible to specify the same device twice.
-Could be silently accepted, or made a hard error.  Matter of taste.
+Thomas Huth (4):
+      tests/qtest/qmp-cmd-test: Use inclusive language
+      tests/socket-helpers: Treat EAI_NONAME as EADDRNOTAVAIL
+      Simplify the .gitignore file
+      qga/commands-win32: Fix problem with redundant protype declaration
+
+Yonggang Luo (17):
+      tests: Convert g_free to g_autofree macro in test-logging.c
+      rcu: fixes test-logging.c by call drain_call_rcu before rmdir_full
+      meson: Disable test-char on msys2/mingw for fixing tests stuck
+      meson: disable crypto tests are empty under win32
+      tests: Fixes test-replication.c on msys2/mingw.
+      tests: test-replication disable /replication/secondary/* on msys2/mingw.
+      osdep: file locking functions are not available on Win32
+      meson: Use -b to ignore CR vs. CR-LF issues on Windows
+      meson: remove empty else and duplicated gio deps
+      vmstate: Fixes test-vmstate.c on msys2/mingw
+      tests: Fixes test-io-channel-socket.c tests under msys2/mingw
+      tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence with aio-posix.c
+      tests: Fixes test-io-channel-file by mask only owner file state mask bits
+      tests: fix test-util-sockets.c
+      tests: Fixes test-qdev-global-props.c
+      ci: Enable msys2 ci in cirrus
+      cirrus: Building freebsd in a single shot
+
+ .cirrus.yml                    |  98 ++++++++++++++++++--------
+ .gitignore                     | 152 -----------------------------------------
+ include/qemu/osdep.h           |   2 +-
+ include/qemu/rcu.h             |   1 +
+ meson.build                    |   6 --
+ qga/commands-win32.c           |   5 +-
+ tests/meson.build              |  10 ++-
+ tests/qapi-schema/meson.build  |   2 +-
+ tests/qemu-iotests/check       |   2 +-
+ tests/qtest/fuzz/fuzz.c        |   5 +-
+ tests/qtest/qmp-cmd-test.c     |  10 +--
+ tests/socket-helpers.c         |   3 +-
+ tests/test-io-channel-file.c   |  12 +++-
+ tests/test-io-channel-socket.c |   2 +
+ tests/test-logging.c           |   5 +-
+ tests/test-qdev-global-props.c |   9 ++-
+ tests/test-replication.c       |  22 ++++--
+ tests/test-util-sockets.c      |   6 +-
+ tests/test-vmstate.c           |   3 +-
+ util/aio-win32.c               |  12 +++-
+ util/rcu.c                     |  55 +++++++++++++++
+ 21 files changed, 207 insertions(+), 215 deletions(-)
 
 
