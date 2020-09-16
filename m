@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0039126C28C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:11:39 +0200 (CEST)
-Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3C726C26F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:04:33 +0200 (CEST)
+Received: from localhost ([::1]:57332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWHj-0005DS-2E
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:11:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54458)
+	id 1kIWAq-0005Ey-7q
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:04:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVv8-0007TW-Eu
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32894)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVvH-0007V5-2u
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVv6-0008DI-Gy
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVvE-0008E2-6L
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256895;
+ s=mimecast20190719; t=1600256903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pv/yOb/SN2uqPy61RGF0jsphnBom+eGfuJ+sgwlLPs8=;
- b=BG5d9RWM3P7VgXkKof1o7L4nswDvWsqKL8y/I9gMPRq1eYBbbBX1oLMAH4pqT89NmQMgmI
- SvPT2KXIVChSQd7BN4waHcBhAzS1L4mbcgKwvnsvAIyVfQauqEoX7B7IUH2z9BGySlmtuF
- KCkZiTRBbBM32xZvo6CrsVKRVjlKt5g=
+ bh=5pgmW3Tgw3grA4G0aHb8Y9UjrOv7Bu7D0uP3/KogksY=;
+ b=Me0E87E4I/H4qbA9Npyb5jPQdyl+gDvG8r3q9ITUPH5RXfxCI1xnLonXEMHBJSbefvNY9A
+ uzX2/2UwgUiFswb/HH5ZUN/6MYMpbuU3PKa38boiGx6SgeDvF68nHQczSA5y1G41DDE3bk
+ bkXjj+iPjAiVcXPwn2eNLpAz6Qk/d2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-ZZUAYVbGO96PhGH2A3gWgw-1; Wed, 16 Sep 2020 07:48:11 -0400
-X-MC-Unique: ZZUAYVbGO96PhGH2A3gWgw-1
+ us-mta-267-Hl_fFd_qMGSxsnR2bGKQpg-1; Wed, 16 Sep 2020 07:48:12 -0400
+X-MC-Unique: Hl_fFd_qMGSxsnR2bGKQpg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13D271007474;
- Wed, 16 Sep 2020 11:48:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A8F186DD2B;
+ Wed, 16 Sep 2020 11:48:11 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 154DD5DA71;
- Wed, 16 Sep 2020 11:48:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DE735DA71;
+ Wed, 16 Sep 2020 11:48:10 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 23/24] ci: Enable msys2 ci in cirrus
-Date: Wed, 16 Sep 2020 13:47:30 +0200
-Message-Id: <20200916114731.102080-24-thuth@redhat.com>
+Subject: [PULL 24/24] cirrus: Building freebsd in a single shot
+Date: Wed, 16 Sep 2020 13:47:31 +0200
+Message-Id: <20200916114731.102080-25-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -85,97 +85,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-Install msys2 in a proper way refer to:
- https://github.com/cirruslabs/cirrus-ci-docs/issues/699
-The https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2 need to be updated.
-There is no need of --cross-prefix, open mingw64.exe instead of msys2.exe then
-we don't need the --cross-prefix, besides we use environment variable settings:
-    MSYS: winsymlinks:nativestrict
-    MSYSTEM: MINGW64
-    CHERE_INVOKING: 1
-to opening mingw64 native shell.
+This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
+("cirrus.yml: Split FreeBSD job into two parts").
+
+freebsd 1 hour limit not hit anymore
+
+I think we going to a wrong direction, I think there is some tests a stall the test runner,
+please look at
+https://cirrus-ci.com/task/5110577531977728
+When its running properly, the consumed time are little, but when tests running too long,
+look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
+
+And look at
+https://cirrus-ci.com/task/6119341601062912
+
+If the tests running properly, the time consuming are little
+We should not hide the error by split them
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200915121318.247-25-luoyonggang@gmail.com>
-[thuth: Add --target-list-exclude to speed it up a little bit, and
-        add capstone package to avoid build failure with internal capstone]
+Reviewed-by: Ed Maste <emaste@FreeBSD.org>
+Message-Id: <20200915121318.247-16-luoyonggang@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .cirrus.yml | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ .cirrus.yml | 35 ++++++++---------------------------
+ 1 file changed, 8 insertions(+), 27 deletions(-)
 
 diff --git a/.cirrus.yml b/.cirrus.yml
-index 3dd9fcff7f..e5feb53b54 100644
+index e5feb53b54..d58782ce67 100644
 --- a/.cirrus.yml
 +++ b/.cirrus.yml
-@@ -63,3 +63,66 @@ macos_xcode_task:
-                    --enable-werror --cc=clang || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check
-+
-+windows_msys2_task:
-+  windows_container:
-+    image: cirrusci/windowsservercore:cmake
-+    os_version: 2019
+@@ -1,38 +1,19 @@
+ env:
+   CIRRUS_CLONE_DEPTH: 1
+ 
+-freebsd_1st_task:
++freebsd_12_task:
+   freebsd_instance:
+     image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gsed
+-    nettle perl5 pixman pkgconf png usbredir
 +    cpu: 8
 +    memory: 8G
-+  env:
-+    MSYS: winsymlinks:nativestrict
-+    MSYSTEM: MINGW64
-+    CHERE_INVOKING: 1
-+  printenv_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
 +  install_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
-+        curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
-+        curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
-+        pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Sy"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed
-+        bash pacman pacman-mirrors msys2-runtime"
-+    - taskkill /F /IM gpg-agent.exe
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed
-+        base-devel
-+        git
-+        mingw-w64-x86_64-python
-+        mingw-w64-x86_64-python-setuptools
-+        mingw-w64-x86_64-toolchain
-+        mingw-w64-x86_64-capstone
-+        mingw-w64-x86_64-SDL2
-+        mingw-w64-x86_64-SDL2_image
-+        mingw-w64-x86_64-gtk3
-+        mingw-w64-x86_64-glib2
-+        mingw-w64-x86_64-ninja
-+        mingw-w64-x86_64-make
-+        mingw-w64-x86_64-lzo2
-+        mingw-w64-x86_64-zstd
-+        mingw-w64-x86_64-libjpeg-turbo
-+        mingw-w64-x86_64-pixman
-+        mingw-w64-x86_64-libgcrypt
-+        mingw-w64-x86_64-libpng
-+        mingw-w64-x86_64-libssh
-+        mingw-w64-x86_64-libxml2
-+        mingw-w64-x86_64-snappy
-+        mingw-w64-x86_64-libusb
-+        mingw-w64-x86_64-usbredir
-+        mingw-w64-x86_64-libtasn1
-+        mingw-w64-x86_64-nettle
-+        mingw-w64-x86_64-cyrus-sasl
-+        mingw-w64-x86_64-curl
-+        mingw-w64-x86_64-gnutls
-+        mingw-w64-x86_64-zstd"
-+  script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
-+      --python=python3 --ninja=ninja
-+      --target-list-exclude=i386-softmmu,arm-softmmu,ppc-softmmu,mips-softmmu"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j$NUMBER_OF_PROCESSORS"
-+  test_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
++    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
++    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed
++          nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --disable-user --target-list-exclude='alpha-softmmu
+-        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
+-        --enable-werror || { cat config.log; exit 1; }
+-    - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake -j$(sysctl -n hw.ncpu) check
+-
+-freebsd_2nd_task:
+-  freebsd_instance:
+-    image_family: freebsd-12-1
+-    cpu: 4
+-    memory: 4G
+-  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
+-    nettle perl5 pixman pkgconf png SDL2 usbredir
+-  script:
+-    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
+-        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
+-        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
+-        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
+-        || { cat config.log; exit 1; }
++    - ../configure --enable-werror || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake -j$(sysctl -n hw.ncpu) check
+ 
 -- 
 2.18.2
 
