@@ -2,102 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D64326C7E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 20:36:19 +0200 (CEST)
-Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D4126C935
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 21:04:37 +0200 (CEST)
+Received: from localhost ([::1]:60444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIcHy-0007v4-BU
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 14:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60294)
+	id 1kIcjM-0006si-6A
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 15:04:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIcCn-0004TV-F3
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 14:30:58 -0400
-Received: from mail-bn8nam08on2083.outbound.protection.outlook.com
- ([40.107.100.83]:39671 helo=NAM04-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIcCk-0001pT-3P
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 14:30:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n8RBULZHEJ0tVUKqiAZckpU/MsKAteFHCDrLnd16uRORzrjHSLfq1EFlPtNXC23rAnjv6tuB5wq80XEl8+xQZATh0GwmZJ7FwvpwoBa290ChL2DU0THX0KkxolVg7DujUthnUTzlfHgpHeHTpzAMgk+cGSezQwuh+XGWvrDaLzsCyV0TcOvG1woTEQwU0r2DvmLT6UUnfnW/+0my00/bB5LZJTjF4sSQXtoHSgID13bDHLDeuxAY2VBTzQmBsxdt4SaOsLtzkXrAAimDiGlO+kuQH4CeqyMBTFRHg8g+z3+h+QJlGR+7kZpFqdDKvVg3Wq4+5ClaiET5Hz+dylH/bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qog87hl0jx9CrYnSHm9HC7OK8BLH9JLhpshPBZdtxUs=;
- b=RTg/1KgaGzgXe8T4hI5zY6Pwcu/r0d1Zcw0oWMsYxSaZ9AjcqdITt/NI7n5AswOud32elyJXh/3z+a+ANBQoZOgyg7xK8vWJEDVZbeQCOCdQ9ZZNCh0xiezsBwOhgZ8zTIXN06v4rq4oG41dV8lEr7JQJypnEgOKDYyugClTWB0TLoz3d6ry35237B5Ok5y9vNfYkfktd3YFc5L5AbkN0SeFgyDjbhskvEoNOCR/Ey/YbzXCyaCKTBP3hvqki3BBk7x+JOSrjYf7BS2AAS29R6g846F6EAFZbKWOzCXQvhZpVqeNSl+lOC9wTVExvguTb3oGeqgKjBGBWTnCWBhMJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qog87hl0jx9CrYnSHm9HC7OK8BLH9JLhpshPBZdtxUs=;
- b=V8uepr75UUUzCe9vjw2hq24t3mks47XFT1lsRDZI4qwavlvhiKaPKmprODmXp8yyAghwTIpUs5CnNbnGXuOor6o4daCvSfvIr8YdGSf7T/KgfGWDj23cHQqpXY2Bvc51Ot0QCXNjE9T6CKrYDMmhjCwq5K1Z+6v8R7WRzchWeLo=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB5975.namprd02.prod.outlook.com (2603:10b6:a03:118::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Wed, 16 Sep
- 2020 18:30:50 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::1007:f094:45c9:bb47]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::1007:f094:45c9:bb47%8]) with mapi id 15.20.3370.019; Wed, 16 Sep 2020
- 18:30:50 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: eMMC support 
-Thread-Topic: eMMC support 
-Thread-Index: AdaMV1egTP30pYAoRjSnbjGpoRC6iA==
-Date: Wed, 16 Sep 2020 18:30:50 +0000
-Message-ID: <BY5PR02MB6772761F83EDC56737969C18CA210@BY5PR02MB6772.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: amsat.org; dkim=none (message not signed)
- header.d=none;amsat.org; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.50.130]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 0007a03c-58d5-487a-9ad9-08d85a6ea35a
-x-ms-traffictypediagnostic: BYAPR02MB5975:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB59750ED915EBA6E166B6DF55CA210@BYAPR02MB5975.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AjMYrFe22Co3va5ZwCITiZbfPHbOynSB2emiYheht9iJDfsEVIVtHXB2tWCp/Vst8yYacSf6IBTG7yuH0PTrIuB+RDR1uxJvq3SkjpT0Y2s15AzjlwXBIUb8dKgvmDQN7tDbSSEvHTTqpcEUz7EmyCifjAq7Kp3Q1s4q8EJY08Ldcp0QZyyNaPt6tvtlcKO0DH5whguB1n1A1gp2aau6eLgehnYOgnHAbPYowUpwAMcIA98nlnW7oqWLEh6+X00hWgamJjzeLWVghHZ5VzstXEN7Ir2P8FMu+0i3Xf24MYtE5hRtapctrInTWP/jif3nETSKnu+5Ij195hTd0+TeP8LIGTwwaJJLeas9xu6H53I2/CaN7jIrzJf4vi0tKI4WT5lhfXsid2DJtln7trG3lvc0F3Bch1PXG/CAliwIfJnJZ75flTkjk0pIzt5UpRLy
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(376002)(136003)(396003)(366004)(39850400004)(55016002)(71200400001)(2906002)(26005)(9326002)(21615005)(6506007)(66946007)(166002)(107886003)(86362001)(4326008)(83380400001)(7696005)(4743002)(8936002)(186003)(76116006)(8676002)(316002)(6916009)(54906003)(7116003)(52536014)(66556008)(4744005)(66446008)(478600001)(66476007)(9686003)(966005)(33656002)(5660300002)(3480700007)(64756008);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: 3o3Ri/Turn3LdVOFWEDLeoWtVxaE7IvQ2cBdTXr6VcBxQ6CfBEJsiBAI7IKQQx2nUUQJqH8ug7KIuXPg++hbnMkg4tgQvMxFqj+MzN0In+cRR2xCnGZgl47Lu8Hg6th6EmE6y9XOX7eXXwBHR1knreqUhpSlydFzUp9Mh887un9VvV2sZzdnfyJb1CjyqK0LglDQwFLs1wEn32gbgJGNB4mSwMsdW+AVN5oDIAhx7ewUbcUqOpb2sfb6K0pJRlqyGK1z2M0iP+jn7Mf/7TQI2erC0eEPA23vLLv/RTL7adSmnOw4PAjLFrlkl3windkY13Xh/OBFQLUqiOYmcenHa9tESQzeYUJ5Y5NBMGpXf8wDKRRT0FelZ2S2K56JLv8dTmc5G+Cy7bFxlvDYERfRKW++EMvpsnRTf/Ba9c2jnkQAnxH9uMCkFYjJfK9vQG0gSLlQgPUTJZHBTlpZ0ODDoNJ7ndv42rdB8aGllZjdqraBF7YEEQs4ujfbTlawxEO9JoCQRiz3I2jJB0igEegmXEXdqRVMjI4iqwqebecHecs2e8ouZmo4eFE55EZ8+6l04BWN2xca9jO1ZDbW7Z/AXnm+bvJo0LISs1zbYGJWWSnlrZXcgAaoTPz082GWwWpt+Od8kD6JbOvzFSzZ3byZ3A==
-Content-Type: multipart/alternative;
- boundary="_000_BY5PR02MB6772761F83EDC56737969C18CA210BY5PR02MB6772namp_"
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1kIchi-0006LL-9d
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 15:02:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36243)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1kIchf-00065q-Tg
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 15:02:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600282970;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OIh+TgXnC3bWytGL7kKglQeeGQJ79e9RVEiY5yofd4s=;
+ b=h0wJJj2h6p227/FnhAA8NG4lZDhHzHp2rg+E2JggEOT+xoTv8Qa7cI/7B0ekAKM6dXxSCc
+ ybo5+kImRnhIBoqt8b2d3/Zd7et+lFfg/0hvIUEc1oWJ53qdXY3NT977jQ5811WL6A9P8Y
+ 3lokKWaK6UNqPJ2rqPXepDFdrIRFBWs=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-I_eJVMfcPrSzGOcChZB-tw-1; Wed, 16 Sep 2020 15:02:48 -0400
+X-MC-Unique: I_eJVMfcPrSzGOcChZB-tw-1
+Received: by mail-yb1-f198.google.com with SMTP id i199so7943739ybg.22
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 12:02:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OIh+TgXnC3bWytGL7kKglQeeGQJ79e9RVEiY5yofd4s=;
+ b=d15usQQpAAEIzGyFrUOsffdYSdOCa9b1gwmXCgcptpqOa1guxW7NNNRtGPT/E5+6fM
+ TspQWhg/dkxdAwOW2vd9ilwLD6yTjCg/gPoypGZkV0/tmKO0okjJiPHHOWXjEq9nYZ9w
+ C8ILM+AEkNOvEi0We3w7MeWL0EAAaCDyvQSPgtPzfLfQSzsfcrcDcb92lYaylnMgVdxL
+ DSzVfZbA09opDDwtpe62obgGlmw2nJ3Ef+hc95Vo8RrqFJ85VfBpcwSV9AefTpz8cAtq
+ 7B28/FrhP+Dt42YFckq4udJPhgfXdnh4TrX5vGQnVReKnbV2KnVJNbY8ONWDZqDuixx6
+ hcug==
+X-Gm-Message-State: AOAM530E+RSGRH9DY7V/J7RIa6Xtdyc/lkthNxX4/AyB2qekhVCzaS7B
+ bNhuSDmKMtYLvu7KrqzkN3uewF1EOgX+KFrsFeKIO/FaECZ1cMpU4oRfgoMaN0LQAtL+IcdLq1n
+ wvy57HG4B60ADKnnWAoB1ImLqtJM4ucM=
+X-Received: by 2002:a25:c54f:: with SMTP id v76mr36401446ybe.321.1600282968177; 
+ Wed, 16 Sep 2020 12:02:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRtaGUG63YSLcFclB99FFMieahGetwKElCpz5pCEKpzCrKMNeYoeFIcwOCQnWemJFRlIineHfeGyuhYlfPRRs=
+X-Received: by 2002:a25:c54f:: with SMTP id v76mr36401400ybe.321.1600282967805; 
+ Wed, 16 Sep 2020 12:02:47 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0007a03c-58d5-487a-9ad9-08d85a6ea35a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2020 18:30:50.5391 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2vJllIHmWanRHylJipWYQg/AJZzrlPKOqB78NCqtpa/v6SrCoLfQ9JrX3lGycJcJwLLrU38miF9KrYiAta5vQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5975
-Received-SPF: pass client-ip=40.107.100.83; envelope-from=saipava@xilinx.com;
- helo=NAM04-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 14:30:52
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200818215227.181654-1-jusual@redhat.com>
+ <20200818215227.181654-3-jusual@redhat.com>
+ <20200821140815.288f14db@redhat.com>
+In-Reply-To: <20200821140815.288f14db@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Wed, 16 Sep 2020 21:02:36 +0200
+Message-ID: <CAMDeoFUqf41OZEhpQJQ=o5087DV3bazxJMJNpw=dsAHA-+Od1A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/4] hw/i386/acpi-build: Add ACPI PCI hot-plug
+ methods to q35
+To: Igor Mammedov <imammedo@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsuvorov@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsuvorov@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,106 +92,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgari@xilinx.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BY5PR02MB6772761F83EDC56737969C18CA210BY5PR02MB6772namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Aug 21, 2020 at 2:08 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Tue, 18 Aug 2020 23:52:25 +0200
+> Julia Suvorova <jusual@redhat.com> wrote:
+>
+> > Implement notifications and gpe to support q35 ACPI PCI hot-plug.
+> > Use 0xcc4 - 0xcd7 range for 'acpi-pci-hotplug' io ports.
+>
+> in addition to comment from Philippe
+>
+>
+> >
+> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > ---
+> >  include/hw/acpi/pcihp.h |  3 ++-
+> >  hw/acpi/pcihp.c         | 10 ++++++----
+> >  hw/acpi/piix4.c         |  2 +-
+> >  hw/i386/acpi-build.c    | 25 ++++++++++++++-----------
+> >  4 files changed, 23 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+> > index 8bc4a4c01d..1e9d246f57 100644
+> > --- a/include/hw/acpi/pcihp.h
+> > +++ b/include/hw/acpi/pcihp.h
+> > @@ -54,7 +54,8 @@ typedef struct AcpiPciHpState {
+> >  } AcpiPciHpState;
+> >
+> >  void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
+> > -                     MemoryRegion *address_space_io, bool bridges_enabled);
+> > +                     MemoryRegion *address_space_io, bool bridges_enabled,
+> > +                     bool is_piix4);
+> >
+> >  void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+> >                                     DeviceState *dev, Error **errp);
+> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > index 9e31ab2da4..9a35ed6c83 100644
+> > --- a/hw/acpi/pcihp.c
+> > +++ b/hw/acpi/pcihp.c
+> > @@ -38,7 +38,8 @@
+> >  #include "qom/qom-qobject.h"
+> >  #include "trace.h"
+> >
+> > -#define ACPI_PCIHP_ADDR 0xae00
+> > +#define ACPI_PCIHP_ADDR_PIIX4 0xae00
+> > +#define ACPI_PCIHP_ADDR_Q35 0x0cc4
+> >  #define ACPI_PCIHP_SIZE 0x0014
+> >  #define PCI_UP_BASE 0x0000
+> >  #define PCI_DOWN_BASE 0x0004
+> > @@ -359,12 +360,13 @@ static const MemoryRegionOps acpi_pcihp_io_ops = {
+> >  };
+> >
+> >  void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+> > -                     MemoryRegion *address_space_io, bool bridges_enabled)
+> > +                     MemoryRegion *address_space_io, bool bridges_enabled,
+> > +                     bool is_piix4)
+> >  {
+> >      s->io_len = ACPI_PCIHP_SIZE;
+> > -    s->io_base = ACPI_PCIHP_ADDR;
+> > +    s->io_base = is_piix4 ? ACPI_PCIHP_ADDR_PIIX4 : ACPI_PCIHP_ADDR_Q35;
+> >
+> > -    s->root= root_bus;
+> > +    s->root = root_bus;
+> >      s->legacy_piix = !bridges_enabled;
+> >
+> >      memory_region_init_io(&s->io, owner, &acpi_pcihp_io_ops, s,
+> > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> > index cdfa0e2998..1f27bfbd06 100644
+> > --- a/hw/acpi/piix4.c
+> > +++ b/hw/acpi/piix4.c
+> > @@ -596,7 +596,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+> >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
+> >
+> >      acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> > -                    s->use_acpi_hotplug_bridge);
+> > +                    s->use_acpi_hotplug_bridge, true);
+> >
+> >      s->cpu_hotplug_legacy = true;
+> >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index b7bcbbbb2a..f3cd52bd06 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -201,10 +201,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+> >          /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
+> >          pm->fadt.rev = 1;
+> >          pm->cpu_hp_io_base = PIIX4_CPU_HOTPLUG_IO_BASE;
+> > -        pm->pcihp_io_base =
+> > -            object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
+> > -        pm->pcihp_io_len =
+> > -            object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
+> >      }
+> >      if (lpc) {
+> >          struct AcpiGenericAddress r = { .space_id = AML_AS_SYSTEM_IO,
+> > @@ -214,6 +210,10 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+> >          pm->fadt.flags |= 1 << ACPI_FADT_F_RESET_REG_SUP;
+> >          pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
+> >      }
+> > +    pm->pcihp_io_base =
+> > +        object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
+> > +    pm->pcihp_io_len =
+> > +        object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
+> >
+> >      /* The above need not be conditional on machine type because the reset port
+> >       * happens to be the same on PIIX (pc) and ICH9 (q35). */
+> > @@ -472,7 +472,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+> >          QLIST_FOREACH(sec, &bus->child, sibling) {
+> >              int32_t devfn = sec->parent_dev->devfn;
+> >
+> > -            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
+> > +            if (pci_bus_is_root(sec)) {
+> Does pcie bus on hostbridge fall into pci_bus_is_express() categiry or not?
 
-Hi Philippe,
+I don't understand why it's there in the first place.
+pci_bus_is_root() check is for pxb, but pci_bus_is_express() is
+useless because everything is under 'if (pcihp_bridge_en) {', which
+means that no pcie bus will get there (before this patch).
 
-We are looking to add eMMC support, I searched the mailing list and found a=
- series posted on eMMC by "Vincent Palatin"
-https://lists.gnu.org/archive/html/qemu-devel/2011-07/msg02833.html
+> >                  continue;
+> >              }
+> >
+> > @@ -1368,7 +1368,7 @@ static void build_piix4_isa_bridge(Aml *table)
+> >      aml_append(table, scope);
+> >  }
+> >
+> > -static void build_piix4_pci_hotplug(Aml *table)
+> > +static void build_i386_pci_hotplug(Aml *table, uint64_t pcihp_addr)
+> >  {
+> >      Aml *scope;
+> >      Aml *field;
+> > @@ -1377,20 +1377,22 @@ static void build_piix4_pci_hotplug(Aml *table)
+> >      scope =  aml_scope("_SB.PCI0");
+> >
+> >      aml_append(scope,
+> > -        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(0xae00), 0x08));
+> > +        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(pcihp_addr), 0x08));
+> >      field = aml_field("PCST", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+> >      aml_append(field, aml_named_field("PCIU", 32));
+> >      aml_append(field, aml_named_field("PCID", 32));
+> >      aml_append(scope, field);
+> >
+> >      aml_append(scope,
+> > -        aml_operation_region("SEJ", AML_SYSTEM_IO, aml_int(0xae08), 0x04));
+> > +    aml_operation_region("SEJ", AML_SYSTEM_IO,
+> > +                         aml_int(pcihp_addr + 0x08), 0x04));
+>                                                  ^^^^
+> how about turning this offset into macro?
+>
+> >      field = aml_field("SEJ", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+> >      aml_append(field, aml_named_field("B0EJ", 32));
+> >      aml_append(scope, field);
+> >
+> >      aml_append(scope,
+> > -        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x04));
+> > +        aml_operation_region("BNMR", AML_SYSTEM_IO,
+> > +                             aml_int(pcihp_addr + 0x10), 0x04));
+> ditto
+>
+> >      field = aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+> >      aml_append(field, aml_named_field("BNUM", 32));
+> >      aml_append(scope, field);
+> > @@ -1504,7 +1506,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          build_hpet_aml(dsdt);
+> >          build_piix4_isa_bridge(dsdt);
+> >          build_isa_devices_aml(dsdt);
+> > -        build_piix4_pci_hotplug(dsdt);
+> >          build_piix4_pci0_int(dsdt);
+> >      } else {
+> >          sb_scope = aml_scope("_SB");
+> > @@ -1526,6 +1527,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          }
+> >      }
+> >
+> > +    build_i386_pci_hotplug(dsdt, pm->pcihp_io_base);
+> > +
+> >      if (pcmc->legacy_cpu_hotplug) {
+> >          build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
+> >      } else {
+> > @@ -1546,7 +1549,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >      {
+> >          aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+> >
+> > -        if (misc->is_piix4) {
+> > +        if (misc->is_piix4 || pm->pcihp_bridge_en) {
+> >              method = aml_method("_E01", 0, AML_NOTSERIALIZED);
+> >              aml_append(method,
+> >                  aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
+>
 
-I would like to consider the above work and mix-up with more changes to sta=
-rt adding support for eMMC. Do you have any suggestions on the approach fol=
-lowed in above patches ?
-
-Note: Here is the existing support available in Xilinx fork, which might re=
-quire some work
-https://github.com/Xilinx/qemu/blob/master/hw/sd/sd.c
-
-Regards,
-Sai Pavan
-
---_000_BY5PR02MB6772761F83EDC56737969C18CA210BY5PR02MB6772namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi Philippe,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We are looking to add eMMC support, I searched the m=
-ailing list and found a series posted on eMMC by &#8220;Vincent Palatin&#82=
-21;<o:p></o:p></p>
-<p class=3D"MsoNormal"><a href=3D"https://lists.gnu.org/archive/html/qemu-d=
-evel/2011-07/msg02833.html">https://lists.gnu.org/archive/html/qemu-devel/2=
-011-07/msg02833.html</a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I would like to consider the above work and mix-up w=
-ith more changes to start adding support for eMMC. Do you have any suggesti=
-ons on the approach followed in above patches ?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Note: Here is the existing support available in Xili=
-nx fork, which might require some work<br>
-<a href=3D"https://github.com/Xilinx/qemu/blob/master/hw/sd/sd.c">https://g=
-ithub.com/Xilinx/qemu/blob/master/hw/sd/sd.c</a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Regards,<br>
-Sai Pavan<o:p></o:p></p>
-</div>
-</body>
-</html>
-
---_000_BY5PR02MB6772761F83EDC56737969C18CA210BY5PR02MB6772namp_--
 
