@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF86126C253
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:54:26 +0200 (CEST)
-Received: from localhost ([::1]:52760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A4F26C254
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:54:31 +0200 (CEST)
+Received: from localhost ([::1]:53224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIW13-000896-Ts
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54086)
+	id 1kIW18-0008Kq-4F
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuY-0006Vb-7n
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26983)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuZ-0006Ys-Th
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuW-00085h-IH
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:41 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuY-00085q-5v
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256859;
+ s=mimecast20190719; t=1600256861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=A2tV9oeHez2YQrbw8L9rHJdjq76hn2DBGV9d5g/1S2g=;
- b=NNjk6bIvWPpSS+4zvfjQ8Z7qbOqV7NbPPSYX5tSPPmLEL8cTMC20SDNX+NRs/ehY1bTD4B
- Pjeq9R7Ol1ZGO5KTr6Ol8/fAIe8PdB1cqliKzdItybxiX9sm4bN54H/o/QpEivrVK5schG
- qNtkuRHS9FS/vwYhFG4nZgm+m/HQGFc=
+ references:references; bh=F+pc1nDFelHE4seVIkTLbhi+MZZTdRgtj08zn+IhqNs=;
+ b=O3Z3R+if3OOaKtoNrQz3FSE+LJ0W8qR8ikhURK5rjF0pll5crDVQvBdxkzHZLhLFci9sqw
+ 5wrI/pr2hIOKy2wMXYsoLvXw9EJS85DsnIe040WAZuQa0kw8EwvxJcdpUxJdZIWCFlBk1D
+ lsPZbxNUUpiWz/39K7NUBJCQwnVIAqU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-1sg9L4d6MB2EabpzCcPI6g-1; Wed, 16 Sep 2020 07:47:37 -0400
-X-MC-Unique: 1sg9L4d6MB2EabpzCcPI6g-1
+ us-mta-400-o56SBMQ1NPWFC0L88IFjzQ-1; Wed, 16 Sep 2020 07:47:39 -0400
+X-MC-Unique: o56SBMQ1NPWFC0L88IFjzQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D66D1006712;
- Wed, 16 Sep 2020 11:47:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B0FD10BBEC3;
+ Wed, 16 Sep 2020 11:47:38 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 989245DA71;
- Wed, 16 Sep 2020 11:47:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08F6A5DA71;
+ Wed, 16 Sep 2020 11:47:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/24] iotests: Drop readlink -f
-Date: Wed, 16 Sep 2020 13:47:08 +0200
-Message-Id: <20200916114731.102080-2-thuth@redhat.com>
+Subject: [PULL 02/24] fuzz: Change the way we write qtest log to stderr
+Date: Wed, 16 Sep 2020 13:47:09 +0200
+Message-Id: <20200916114731.102080-3-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -79,41 +79,39 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-On macOS, (out of the box) readlink does not have -f.  We do not really
-need readlink here, though, it was just a replacement for realpath
-(which is not available on our BSD test systems), which we needed to
-make the $(dirname) into an absolute path.
+Telling QTest to log to /dev/fd/2, essentially results in dup(2). This
+is fine, if other code isn't logging to stderr. Otherwise, the order of
+the logs is mixed due to buffering issues, since two file-descriptors
+are used to write to the same file. We can avoid this, since just
+specifying "-qtest" sets the log fd to stderr. If we want to disable
+qtest logs, we can just add -qtest-log none.
 
-Instead of using either, just use "cd; pwd" like is done for
-$source_iotests.
-
-Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
-       ("iotests: Allow running from different directory")
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Claudio Fontana <cfontana@suse.de>
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200914145606.94620-1-mreitz@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200819061110.1320568-2-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/check | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/fuzz/fuzz.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index e14a1f354d..678b6e4910 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -44,7 +44,7 @@ then
-         _init_error "failed to obtain source tree name from check symlink"
-     fi
-     source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
--    build_iotests=$(readlink -f $(dirname "$0"))
-+    build_iotests=$(cd "$(dirname "$0")"; pwd)
- else
-     # called from the source tree
-     source_iotests=$PWD
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 1ceea84702..7f266ffc63 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -202,9 +202,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+ 
+     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
+     GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
+-    g_string_append_printf(cmd_line,
+-                           " -qtest /dev/null -qtest-log %s",
+-                           getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null");
++    g_string_append_printf(cmd_line, " %s -qtest /dev/null ",
++                           getenv("QTEST_LOG") ? "" : "-qtest-log none");
+ 
+     /* Split the runcmd into an argv and argc */
+     wordexp_t result;
 -- 
 2.18.2
 
