@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B51A26C331
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 15:18:18 +0200 (CEST)
-Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A907E26C33A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 15:23:57 +0200 (CEST)
+Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIXKD-0001v4-Fc
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 09:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
+	id 1kIXPg-0003vz-OW
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 09:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kIXJ5-00015n-Qm
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kIXJ4-0003bc-6d
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:17:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600262225;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AqrwQUMDpDHP2ZI9AWSq0IRNR2OrVKMF4JI7oYuaQF0=;
- b=fwqG4nTuGGASqxyM3m4w3Fm1pzT1VNH7NEHJNezavbJA3FRGuTDFOPuZlGFFtyi1cap9tL
- PRywa7hvCGHa9mN1KMs4mNC1To68xv/AyZl1nb12kPzAMqmw/0unxX2JFfbp7IXQij3xe0
- 99WGqaLu2iFWn54ZYNVLXxKkus60ME4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-LN6If2IUN2aLAGKvoHZ5dQ-1; Wed, 16 Sep 2020 09:17:04 -0400
-X-MC-Unique: LN6If2IUN2aLAGKvoHZ5dQ-1
-Received: by mail-wm1-f70.google.com with SMTP id m25so1030903wmi.0
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 06:17:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kIXOZ-0003GI-Hy
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:22:47 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kIXOW-0004C4-Tg
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:22:47 -0400
+Received: by mail-wm1-x343.google.com with SMTP id e17so2788915wme.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 06:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=FTdKJyZhaqzqiFS20GLeWOq3/b3XBWF+NtSFpOI43Yc=;
+ b=QDINmPPA35tial5PZkbsE3CHirxd8L6IGNzvPvcUFSXjLDApmW5cJWIxdgJRKlytJL
+ Ss/w1t6xsX2BMbd6AuAUN6PPGHw2SiF7F1Odp+FNixu1Ko7lyH/r9TGgh41XTSc5B5w+
+ FaEaXHhI52kT1dQGSruFTtvztn5qsxyMcF2ujYlU3ivlDG6oVRRI/2BXs6A21G7mzDrp
+ ig/q7m489zjj0w7DnoTK7vxRlzZTK8l2xzqJfZH7GCSsD7xdm1nmBsJmSlUP6GE+kdbx
+ aQYhnGeqz8v97XLkQYmExLHPjqnrE1Q8QNItGAPsaXV7UUFBusENqn/0OQk+tDvMO4X1
+ 5WPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=AqrwQUMDpDHP2ZI9AWSq0IRNR2OrVKMF4JI7oYuaQF0=;
- b=nKE1BaUhzULXf+0fjYt1m6WLkhWbN9UU6M34PTLqip2OqORaa0PkJr+MIZo92zx0RG
- bsLvHasGIHZrbAzY96Xs85FJkV+A2al6IIRvw2FWi/GbKMvm6o5Tiz5bpYc6T3Yc2HZa
- cgq9g9toL0DKBpFnnwsbDh31ixm/iqAt8clHALPNlP+3vvo/DPoIS8vfcbJMOHUf08jY
- JK3TCCh9xXKPxhPeVhC+GGz2FTlOJSFbD51W5cAxB7yZNn0w/vrSFMFIjQ0LF7kPTvEn
- OCIdmNtre33uEjbalRCEdIMEukNHd33ZRaOjH+FfzmL2y8BR1Jm/mi3if/Py9Ga115eo
- En2A==
-X-Gm-Message-State: AOAM533BbaJNuqidgFXwbb1k01JV/qm61KIEqO//RBbcrQyUqaSjTY1B
- zDUGu/1U5kqoeQlGJaEmj2javQv/Ldq0D8nqQgTRDUknMfdjuUT/htPt4ghGTk+sKUAI/mCPaIf
- CKj7PZz9Xox2AokA=
-X-Received: by 2002:a05:6000:11c5:: with SMTP id
- i5mr27277811wrx.18.1600262222842; 
- Wed, 16 Sep 2020 06:17:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbksDFuB0XOOIBUgVkZkM9BlfcwWGVxUl3cTkRjR1dusCrvcBSKKeZagUgGJc4JGoJc2aNzg==
-X-Received: by 2002:a05:6000:11c5:: with SMTP id
- i5mr27277791wrx.18.1600262222600; 
- Wed, 16 Sep 2020 06:17:02 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id e18sm32260645wrx.50.2020.09.16.06.17.01
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=FTdKJyZhaqzqiFS20GLeWOq3/b3XBWF+NtSFpOI43Yc=;
+ b=KYuWwAsEiQWyM/dQCZnhE1DdP5+3oRmIi8XbS+OmJ+fLyK1Wjd0VXZVQbfAUXSjBIY
+ GAVgSgRAWCG9sN6YWxjImBn5nPNJ0Hpcrkw3FSXStzLMB+Q0uDAvyn4iDn1MhZ8JGbaN
+ K4jKSTFxHvmgu502mwSl0Ynz0s9QAR6k5NjKTMIFRrAu4fNRezUhxmLDRtRyP9kMyfK/
+ 94xSUkJVeoWSTJSvQghI9zz8gIjc3U+xZWq1v1ZKJQJOzjsfbep7bLQXOtqRTSdl+Ydw
+ cG1KcyEWL7iKo0R6j/qXu0s47knH3oID8XhwR/y/kWz58trp/954br5cPd5RAeKXgGwW
+ sQBQ==
+X-Gm-Message-State: AOAM530x3Ovmqb60uTmyC6tCQpCpvcUSNs3kTFIxG17Rw18IYqia2XXz
+ HPjl8+ToCGSx2MoOGBdhB1alUA==
+X-Google-Smtp-Source: ABdhPJwxDth1xXnI5Z6c72AmA34OMtA98s7dds2V4IuCofKIKjY/qiHPunLXnoKFzLBuCZfJtPRSmQ==
+X-Received: by 2002:a1c:6254:: with SMTP id w81mr4621840wmb.94.1600262563184; 
+ Wed, 16 Sep 2020 06:22:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d23sm5172353wmb.6.2020.09.16.06.22.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 06:17:01 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [BUG] Migration hv_time rollback
-In-Reply-To: <37b1b2b7-40f5-d0b1-2709-df9fe24fc65f@redhat.com>
-References: <20200916090602.blkm7eym6g5bnvvk@tartarus>
- <20200916112956.GE2833@work-vm>
- <37b1b2b7-40f5-d0b1-2709-df9fe24fc65f@redhat.com>
-Date: Wed, 16 Sep 2020 15:17:00 +0200
-Message-ID: <87363hj1yr.fsf@vitty.brq.redhat.com>
+ Wed, 16 Sep 2020 06:22:42 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 550E01FF7E;
+ Wed, 16 Sep 2020 14:22:41 +0100 (BST)
+References: <20200805185403.15227-1-thuth@redhat.com>
+ <c1927c74-da26-a17d-e92e-1e052540733f@redhat.com>
+ <dcf9c72a-069a-d853-594c-64a3a9187358@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] travis.yml: Drop the default softmmu builds
+In-reply-to: <dcf9c72a-069a-d853-594c-64a3a9187358@redhat.com>
+Date: Wed, 16 Sep 2020 14:22:41 +0100
+Message-ID: <87lfh9zwim.fsf@linaro.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,33 +90,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Antoine Damhet <antoine.damhet@blade-group.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 16/09/20 13:29, Dr. David Alan Gilbert wrote:
->>> I have tracked the bug to the fact that `kvmclock` is not exposed and
->>> disabled from qemu PoV but is in fact used by `hv-time` (in KVM).
+Thomas Huth <thuth@redhat.com> writes:
+
+> On 05/09/2020 14.15, Thomas Huth wrote:
+>> On 05/08/2020 20.54, Thomas Huth wrote:
+>>> The total runtime of all Travis jobs is very long and we are testing
+>>> all softmmu targets in the gitlab-CI already - so we can speed up the
+>>> Travis testing a little bit by not testing the softmmu targets here
+>>> anymore.
 >>>
->>> I think we should enable the `kvmclock` (qemu device) if `hv-time` is
->>> present and add Hyper-V support for the `kvmclock_current_nsec`
->>> function.
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>  Well, ok, we do not test all the softmmu targets on gitlab-CI with
+>>>  that same ancient version of Ubuntu ... but do we still care about
+>>>  testing all softmmut targets on Ubuntu Xenial at all? ... at least
+>>>  according to our support policy, we do not care about Xenial anymore.
+>>>
+>>>  .travis.yml | 14 --------------
+>>>  1 file changed, 14 deletions(-)
+>>>
+>>> diff --git a/.travis.yml b/.travis.yml
+>>> index 6695c0620f..18290bc51d 100644
+>>> --- a/.travis.yml
+>>> +++ b/.travis.yml
+>>> @@ -123,20 +123,6 @@ jobs:
+>>>          - CONFIG=3D"--disable-system --static"
+>>>          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>>>=20=20
+>>> -
+>>> -    # we split the system builds as it takes a while to build them all
+>>> -    - name: "GCC (main-softmmu)"
+>>> -      env:
+>>> -        - CONFIG=3D"--disable-user --target-list=3D${MAIN_SOFTMMU_TARG=
+ETS}"
+>>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>>> -
+>>> -
+>>> -    - name: "GCC (other-softmmu)"
+>>> -      env:
+>>> -       - CONFIG=3D"--disable-user --target-list-exclude=3D${MAIN_SOFTM=
+MU_TARGETS}"
+>>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>>> -
+>>> -
+>>>      # Just build tools and run minimal unit and softfloat checks
+>>>      - name: "GCC check-softfloat (user)"
+>>>        env:
+>>>
+>>=20
+>> Ping?
 >
-> Yes, this seems correct.  I would have to check but it may even be
-> better to _always_ send kvmclock data in the live migration stream.
->
+> Ping^2 ... Alex, Philippe, any opinions on this patch?
 
-The question I have is: with 'kvm=off', do we actually restore TSC
-reading on migration? (and I guess the answer is 'no' or Hyper-V TSC
-page would 'just work' I guess). So yea, maybe dropping the
-'cpu->env.features[FEAT_KVM]' check is the right fix.
+I'm agnostic on this. Is it worth slightly reducing our coverage for ~50
+minutes of runtime out of 10 hours? I guess it would be a bit greener.
 
--- 
-Vitaly
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
