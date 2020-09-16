@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7A026C266
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:01:59 +0200 (CEST)
-Received: from localhost ([::1]:49002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5011426C282
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:09:14 +0200 (CEST)
+Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIW8M-0001py-11
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:01:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54408)
+	id 1kIWFN-0002Zz-Ck
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVv1-0007G8-8c
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30495)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVv8-0007TD-AU
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuz-0008Ca-G7
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVv5-0008DC-OD
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256888;
+ s=mimecast20190719; t=1600256895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=08/OZLaHYaKtIXP4UD5zd+jhITM2zuxqFZNAPYjBMDc=;
- b=LDjIlOPJIZiJOX1OOKeXp79+WG+WFnvbtCfzvKiyhO8tNi0o5bsZoSghwIu09xOQsG6sg1
- P+acNylpmP8mRb7PzrJS/7WerrTVM4kIraWTQXr5M3kt8KTBgGJwZxZBMQsBjJaRlBdvt0
- WfU2HfoFRNJNtxei7bPLsyc2x0utycQ=
+ bh=B50KFT+WxoEd/xATwyMJxBjBez5n+Hf8OzuZBjfkAUg=;
+ b=bMTPCcuPZR2x2R7Kh59R2OckNGy0o6yq4LCpYk49cNv+X80KFV9WqWBgvcfB/ErPmOFEV4
+ Y6SLkhDFVOJl8kmUNKpOCk67KFV4gWktyXYIh58mPB5fK3U9YG7Sh4+ZzoxrGgE8FaTrqt
+ SPsTQhuW53ODZpwr96mt6yY+6+ujcwY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-rQqLPJ1dMcyMVqYKZeOeGw-1; Wed, 16 Sep 2020 07:48:06 -0400
-X-MC-Unique: rQqLPJ1dMcyMVqYKZeOeGw-1
+ us-mta-21-s-8nDXDLN7iZCyKgao5zKw-1; Wed, 16 Sep 2020 07:48:08 -0400
+X-MC-Unique: s-8nDXDLN7iZCyKgao5zKw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAE2910BBED7;
- Wed, 16 Sep 2020 11:48:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 428ED186DD23;
+ Wed, 16 Sep 2020 11:48:07 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A184A5DA71;
- Wed, 16 Sep 2020 11:48:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 35D1D5DA71;
+ Wed, 16 Sep 2020 11:48:06 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 20/24] tests: Fixes test-io-channel-file by mask only owner
- file state mask bits
-Date: Wed, 16 Sep 2020 13:47:27 +0200
-Message-Id: <20200916114731.102080-21-thuth@redhat.com>
+Subject: [PULL 21/24] tests: fix test-util-sockets.c
+Date: Wed, 16 Sep 2020 13:47:28 +0200
+Message-Id: <20200916114731.102080-22-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -86,50 +85,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-This is the error on msys2/mingw
-Running test test-io-channel-file
+Fixes following errors:
+Running test test-util-sockets
+ERROR test-util-sockets - missing test plan
+
+# Start of name tests
 **
-ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
-ERROR test-io-channel-file - Bail out! ERROR:../tests/test-io-channel-file.c:59:test_io_channel_file_helper: assertion failed (TEST_MASK & ~mask == st.st_mode & 0777): (384 == 438)
+ERROR:../tests/test-util-sockets.c:93:test_socket_fd_pass_name_good: assertion failed (fd != -1): (-1 != -1)
+Bail out! ERROR:../tests/test-util-sockets.c:93:test_socket_fd_pass_name_good: assertion failed (fd != -1): (-1 != -1)
+
+First should call to qemu_init_main_loop before socket_init,
+then on win32 doesn't support for SOCKET_ADDRESS_TYPE_FD socket type
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200915171234.236-20-luoyonggang@gmail.com>
+Message-Id: <20200915121318.247-21-luoyonggang@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/test-io-channel-file.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ tests/test-util-sockets.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/tests/test-io-channel-file.c b/tests/test-io-channel-file.c
-index bac2b07562..0aa0477541 100644
---- a/tests/test-io-channel-file.c
-+++ b/tests/test-io-channel-file.c
-@@ -28,6 +28,16 @@
- #define TEST_FILE "tests/test-io-channel-file.txt"
- #define TEST_MASK 0600
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index af9f5c0c70..1bbb16d9b1 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -75,7 +75,7 @@ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap) { abort(); }
+ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp) {}
+ void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp) {}
  
-+/*
-+ * On Windows the stat() function in the C library checks only
-+ * the FAT-style READONLY attribute and does not look at the ACL at all.
-+ */
-+#ifdef _WIN32
-+#define TEST_MASK_EXPECT 0700
-+#else
-+#define TEST_MASK_EXPECT 0777
-+#endif
-+
- static void test_io_channel_file_helper(int flags)
+-
++#ifndef _WIN32
+ static void test_socket_fd_pass_name_good(void)
  {
-     QIOChannel *src, *dst;
-@@ -56,7 +66,7 @@ static void test_io_channel_file_helper(int flags)
-     umask(mask);
-     ret = stat(TEST_FILE, &st);
-     g_assert_cmpint(ret, >, -1);
--    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & 0777);
-+    g_assert_cmpuint(TEST_MASK & ~mask, ==, st.st_mode & TEST_MASK_EXPECT);
+     SocketAddress addr;
+@@ -227,6 +227,7 @@ static void test_socket_fd_pass_num_nocli(void)
  
-     unlink(TEST_FILE);
-     object_unref(OBJECT(src));
+     g_free(addr.u.fd.str);
+ }
++#endif
+ 
+ #ifdef __linux__
+ static gchar *abstract_sock_name;
+@@ -321,6 +322,7 @@ int main(int argc, char **argv)
+ {
+     bool has_ipv4, has_ipv6;
+ 
++    qemu_init_main_loop(&error_abort);
+     socket_init();
+ 
+     g_test_init(&argc, &argv, NULL);
+@@ -340,6 +342,7 @@ int main(int argc, char **argv)
+                         test_fd_is_socket_bad);
+         g_test_add_func("/util/socket/is-socket/good",
+                         test_fd_is_socket_good);
++#ifndef _WIN32
+         g_test_add_func("/socket/fd-pass/name/good",
+                         test_socket_fd_pass_name_good);
+         g_test_add_func("/socket/fd-pass/name/bad",
+@@ -352,6 +355,7 @@ int main(int argc, char **argv)
+                         test_socket_fd_pass_num_bad);
+         g_test_add_func("/socket/fd-pass/num/nocli",
+                         test_socket_fd_pass_num_nocli);
++#endif
+     }
+ 
+ #ifdef __linux__
 -- 
 2.18.2
 
