@@ -2,74 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6524326BF44
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:28:02 +0200 (CEST)
-Received: from localhost ([::1]:48556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF88A26BF4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:30:07 +0200 (CEST)
+Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kISnJ-0000EI-9l
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58126)
+	id 1kISpK-0004TC-Tc
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:30:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1kISg1-0000qO-1v; Wed, 16 Sep 2020 04:20:30 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:36413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1kISfx-0004x9-Go; Wed, 16 Sep 2020 04:20:27 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id b17so1155430pji.1;
- Wed, 16 Sep 2020 01:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fmGZF5+gALayIq6Zx2cIKlc+1e9CSaPO+NBWM9DNzS4=;
- b=d3/ZpwtRYd9FSiDDJcxMg2zer5dvnu25bGTxfieyDiAsDFEx7/xYkEDmuxHKF0L9GE
- wz2mYL03guGyNmhAdAYitxUaT0yCMnERoggjCBzyf8sSkMFnZbf+3qkF7tK+l1rL/qjQ
- QlFpSi6NnlDRtccpikPTNW7LA7kRRRsc2xggD2T9GFITbMuOM+SYnOXreB29erIJymUx
- WeZ0k3cRPhxACcNvKzLQnBk+98zL7GoHXXS11f+hl/ILSs5P5TSEVl2tDxnLXLZVQIag
- S04iUpqdh1RDTdxHOlwvZdNV8GHY8AzoCKfRJl1TA+StCUUfhZ2FCPk74bl2JpuWKCAA
- vDbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=fmGZF5+gALayIq6Zx2cIKlc+1e9CSaPO+NBWM9DNzS4=;
- b=Iv8cN51GeGMP7jGu9OPE+yDF4BXwTFQ/uMO8IHA0dVUPzqHZ5QyHOYVu4LnQZ4qwkU
- 97plTmgdRgWmuiouxwJ0ZmzwvEdoi0thgVC4ul6EodLbsowze/HtQ2htBZU0jYYl863y
- w4yr7sTpo1xE0OsxAlyskEr9s1VxvAidy/ZwJBy50UKizfUW9Oa8vul6XP72WZnFvUzA
- IUd4eGbzWHDpuGztMTFvaaRdrdUS+OyrCqQntcvv6OWFyC86M+3xSDeEQ/qCn+1fIY3p
- EpRaZaD5A72JRwZPW4uSU08uKc0MAF2sp66qh8O6UibWD88xF+iFoAiLdtFUWzUrqRRt
- qOQg==
-X-Gm-Message-State: AOAM531ZccrqEEdHNq7IcVGphQOnO6X+XFu/8wDafVxjvpm9b8qUHtl7
- myiBMM55OF8OCkXEf2UvJzg=
-X-Google-Smtp-Source: ABdhPJxECdFJqGk12P+s+ScfoMctJg30qv8RccShVzalt05avCWlqun88pPPGy8oKywI76EWhzQD9g==
-X-Received: by 2002:a17:90a:d997:: with SMTP id
- d23mr3017491pjv.171.1600244421394; 
- Wed, 16 Sep 2020 01:20:21 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
- by smtp.gmail.com with ESMTPSA id hg16sm1763850pjb.37.2020.09.16.01.20.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 01:20:20 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH] misc: aspeed_scu: Update AST2600 silicon id register
-Date: Wed, 16 Sep 2020 17:50:12 +0930
-Message-Id: <20200916082012.776628-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kISh1-0002Cj-NP
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:21:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45847
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kISh0-00058U-95
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:21:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600244488;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VYvRFxpsVGgYFgfmmNinnOuwPhsFrAlZHH7shdw5yuY=;
+ b=DYK2s5iGMYpXPltWUmUduEKzy1xTUbmGCoP1cEQTu6SCRXcCa9wqj5JSyRbqMfxmdRIqF9
+ Bh2TnAaZ4LwVNdJ00zg37ZMtetJgD9jYCjgfSEI9uLZsvVSlYfkgTlD/DX2R/9L5B91k+J
+ ejCjNy22sQ6YaqrWAKVMIMLOokfMmAE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-581-g0YuVt-xN52K1aLZJ8gn9Q-1; Wed, 16 Sep 2020 04:21:25 -0400
+X-MC-Unique: g0YuVt-xN52K1aLZJ8gn9Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83CA410BBEC3;
+ Wed, 16 Sep 2020 08:21:23 +0000 (UTC)
+Received: from [10.36.113.190] (ovpn-113-190.ams2.redhat.com [10.36.113.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7240F610F2;
+ Wed, 16 Sep 2020 08:21:17 +0000 (UTC)
+Subject: Re: [PATCH v6 8/8] s390: guest support for diagnose 0x318
+To: Thomas Huth <thuth@redhat.com>, Collin Walling <walling@linux.ibm.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+References: <20200915194416.107460-1-walling@linux.ibm.com>
+ <20200915194416.107460-9-walling@linux.ibm.com>
+ <30a23907-7ed7-0361-7943-5b938a8f6c68@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat GmbH
+Message-ID: <a667faf0-360b-0f67-aada-e185acacd684@redhat.com>
+Date: Wed, 16 Sep 2020 10:21:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=joel.stan@gmail.com; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <30a23907-7ed7-0361-7943-5b938a8f6c68@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:37:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,52 +130,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: frankja@linux.ibm.com, mst@redhat.com, cohuck@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, pbonzini@redhat.com,
+ sumanthk@linux.ibm.com, mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aspeed have released an updated datasheet (v7) containing the silicon id
-for the AST2600 A2. It looks like this:
+On 16.09.20 10:11, Thomas Huth wrote:
+> On 15/09/2020 21.44, Collin Walling wrote:
+>> DIAGNOSE 0x318 (diag318) is an s390 instruction that allows the storage
+>> of diagnostic information that is collected by the firmware in the case
+>> of hardware/firmware service events.
+>>
+>> QEMU handles the instruction by storing the info in the CPU state. A
+>> subsequent register sync will communicate the data to the hypervisor.
+>>
+>> QEMU handles the migration via a VM State Description.
+>>
+>> This feature depends on the Extended-Length SCCB (els) feature. If
+>> els is not present, then a warning will be printed and the SCLP bit
+>> that allows the Linux kernel to execute the instruction will not be
+>> set.
+>>
+>> Availability of this instruction is determined by byte 134 (aka fac134)
+>> bit 0 of the SCLP Read Info block. This coincidentally expands into the
+>> space used for CPU entries, which means VMs running with the diag318
+>> capability may not be able to read information regarding all CPUs
+>> unless the guest kernel supports an extended-length SCCB.
+>>
+>> This feature is not supported in protected virtualization mode.
+>>
+>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>> Acked-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>  hw/s390x/sclp.c                     |  5 ++++
+>>  include/hw/s390x/sclp.h             |  8 ++++++
+>>  target/s390x/cpu.h                  |  2 ++
+>>  target/s390x/cpu_features.h         |  1 +
+>>  target/s390x/cpu_features_def.h.inc |  3 +++
+>>  target/s390x/cpu_models.c           |  1 +
+>>  target/s390x/gen-features.c         |  1 +
+>>  target/s390x/kvm.c                  | 39 +++++++++++++++++++++++++++++
+>>  target/s390x/machine.c              | 17 +++++++++++++
+>>  9 files changed, 77 insertions(+)
+> 
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> 
+> (I hope David could still comment on the CPU model stuff ... it looks ok
+> to me here, but I got that wrong a couple of times in the past already...)
+> 
 
-              SCU004      SCU014
-  AST2600-A0  0x05000303  0x05000303
-  AST2600-A1  0x05010303  0x05010303
-  AST2600-A2  0x05010303  0x05020303
-  AST2620-A1  0x05010203  0x05010203
-  AST2620-A2  0x05010203  0x05020203
+Had a skim over it and it looks good to me!
 
-The SCU004 (silicon id 1) value matches SCU014 for A0, but for
-subsequent revisions it is hard coded to the A1 value.
+Acked-by: David Hildenbrand <david@redhat.com>
 
-Qemu effectively dropped support for the A0 in 7582591ae745 ("aspeed:
-Support AST2600A1 silicon revision") as the A0 reset table was removed,
-so it makes sense to only support the behaviour of A1 and onwards.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/misc/aspeed_scu.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index dc6dd87c22f4..40a38ebd8549 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -670,7 +670,12 @@ static void aspeed_ast2600_scu_reset(DeviceState *dev)
- 
-     memcpy(s->regs, asc->resets, asc->nr_regs * 4);
- 
--    s->regs[AST2600_SILICON_REV] = s->silicon_rev;
-+    /*
-+     * A0 reports A0 in _REV, but subsequent revisions report A1 regardless
-+     * of actual revision. QEMU and Linux only support A1 onwards so this is
-+     * sufficient.
-+     */
-+    s->regs[AST2600_SILICON_REV] = AST2600_A1_SILICON_REV;
-     s->regs[AST2600_SILICON_REV2] = s->silicon_rev;
-     s->regs[AST2600_HW_STRAP1] = s->hw_strap1;
-     s->regs[AST2600_HW_STRAP2] = s->hw_strap2;
 -- 
-2.28.0
+Thanks,
+
+David / dhildenb
 
 
