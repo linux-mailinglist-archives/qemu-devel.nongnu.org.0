@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3182926B9BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 04:15:08 +0200 (CEST)
-Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 069D626B9BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 04:15:29 +0200 (CEST)
+Received: from localhost ([::1]:44556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIMyR-0005qw-7n
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 22:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45336)
+	id 1kIMyl-0006Nz-UA
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 22:15:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kIMwm-0004mu-HG
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:13:24 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46950)
+ id 1kIMxJ-00057c-P8
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:13:57 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:35679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kIMwk-0003gr-RX
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:13:24 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b124so3019609pfg.13
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 19:13:22 -0700 (PDT)
+ id 1kIMxH-0003jp-I0
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:13:57 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id bg9so2339629plb.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 19:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=NT2NaTDoFyX6YtFvcEFgk7zVNbXeaFgR6IheAsEIBBE=;
- b=HKKSg0v6IHa7J+UAhNkHu2eS2YE8L35XM3DgDR7E7feXVjv/IZsYMzWHtX/E+5a0OK
- uuFTrXiWop1D+WcfiZjMkjRdzzzjE8wCpUUZYmg9BHVFfPewokZqwBqUksMY2JojE12p
- fCwYc4aZDvuKPTS50YkroH78+OpHH8KQzmlli/bJM3GcgEC1XdwHb8lH45DXeR80glku
- uKg+gMGtgrC6eRqWK4rU9jODUAvjOJYCOYVJqIQFjMWsywWPYpy0gC9BmXR2Zi2YIkkj
- mVIhF3xTBRopZ295+uYBUU4RzIot9RUQ2znBKcpdFwE1BNoMxB+rfrbsZ4xPmbkFYLL7
- tBjA==
+ bh=qq0Y/lhSgYy9WDUVwiRU6p4w+9NB9bg6wIQQQEOCk/Y=;
+ b=A/ctiAUeb9GljjHqakh3VGesThj+Z8Qz3mfBeCAYi/rlZWNZVxU3BZZH+jr9GREpOz
+ FeW31n3hGpxJjNk+f4149iq0cRU+OEZhEIe9WPP5qfHxDA5A4qQyUHE20sER4oLjYh2y
+ jP7Uqrit1TLsjA6keJZk0zqJo6FbDSW7reGHPzpuRGxLzv0h3vq50eVGFDM9hnKhNPF/
+ UxsE1CXXOQXZ6JwWBqjSP5MTbx8ntcCZbuAMTaf179rA+IcYcbjSDelyiL+WryBVvRTW
+ z5q0T72E3Nl4vgxaHUFJX13GULLNa/bdhPVL1J8YtK2AkKKCFCMwWcxH4SqW24Q2Weat
+ 5ydg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=NT2NaTDoFyX6YtFvcEFgk7zVNbXeaFgR6IheAsEIBBE=;
- b=JWYR+w5ejhI/ty7vUA8HBLSfYUPW70LAoRC+QpgRqhWQzWLbeoC6lh/HlUvf6h+bJM
- f9y6Cr1WTCqIE5HF44++ZJLFgNXLilXdvBolhaW3QWRM2dKrHSh9f7Fz3ubkQZfapApj
- SBsgm/w8vm4I+171EEccmCZ4WJAYrmSchsMj9Pl3GnQ1uD9KX1/1xMyY1HxfxM9b8a6A
- OVmuMj349cJ+TFRbniFFHaKLZtUH/iwPZMkfV7gOCh7Eh0sWVrhkbbKwrNKLlJqwwYGZ
- Ms8XnAioxrktz5zck4DsTjnvfSxGyKn09NKXKCwTN0n/6Ovk7SR7vYeXNB4eOtip+Zd9
- Ya6A==
-X-Gm-Message-State: AOAM531OLoxXG11cnHqKEx1/ZdXkCAQVIkyLcK7lwuU+thvvtwvyvnfL
- W9KgbXRjfSNqDmgLWd74yiY=
-X-Google-Smtp-Source: ABdhPJw2wr7LWil3xM6GEnEtO6D3ivQ2r215dXuVY17FpJUQeNcZF7wpELlrKUKMR9PjP0AzXCrqKw==
-X-Received: by 2002:a63:354:: with SMTP id 81mr17419322pgd.216.1600222400022; 
- Tue, 15 Sep 2020 19:13:20 -0700 (PDT)
+ bh=qq0Y/lhSgYy9WDUVwiRU6p4w+9NB9bg6wIQQQEOCk/Y=;
+ b=ty3tMyeQPJSlezFAkcO92gCmOz1pD7B9V9IlkYb1FMS3Ab+R/bt6vzx8oH4rUrufxr
+ /j0iNxIr/jyEdkjHiPdlfICEY4lfsAbTQp6VQ2YBGb2F5VOLwiKrc60yqNDcAxu29W2g
+ IGScJBnYErUNXZ9n7wwkCLc88nR+NDd1KUxM0V4U8Z36vExMypVt68Ie2QzNs4RrYmBX
+ tqMS3dZsAUpl1v8RfmxKUAf32HHl+Y28OIQommZAEaMID9unLQ9UrdfyBT1YZA++Mhtv
+ X2o4PRODoY1wQ0TR8yjo4BL5Zk+rbfbtqKSvRcknb0QkulY0s1MlMMrofmUhxSgE0y1d
+ /t6Q==
+X-Gm-Message-State: AOAM531AL3TSmamrjAf0FA3VeLFnF1W/303RurHNSJishTWIsPcfj65g
+ x6I3fzKbJKuPovd5qVeOC20=
+X-Google-Smtp-Source: ABdhPJyADP6aMYIL8yR/eJo9CuuAMGoBdceAgZvTQBUX3iUryal7gIkjUuvk55UaMCd7FUnZU2i6AA==
+X-Received: by 2002:a17:90b:883:: with SMTP id
+ bj3mr1823695pjb.184.1600222432873; 
+ Tue, 15 Sep 2020 19:13:52 -0700 (PDT)
 Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id y29sm16149486pfq.207.2020.09.15.19.13.16
+ by smtp.gmail.com with ESMTPSA id y29sm16149486pfq.207.2020.09.15.19.13.49
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 15 Sep 2020 19:13:19 -0700 (PDT)
+ Tue, 15 Sep 2020 19:13:52 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V9 2/6] target/mips: Fix PageMask with variable page size
-Date: Wed, 16 Sep 2020 10:12:20 +0800
-Message-Id: <1600222344-16808-3-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V9 3/6] target/mips: Add loongson-ext lswc2 group of
+ instructions (Part 1)
+Date: Wed, 16 Sep 2020 10:12:21 +0800
+Message-Id: <1600222344-16808-4-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
 References: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x62b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,84 +94,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-Our current code assumed the target page size is always 4k
-when handling PageMask and VPN2, however, variable page size
-was just added to mips target and that's nolonger true.
+LWC2 & SWC2 have been rewritten by Loongson EXT vendor ASE
+as "load/store quad word" and "shifted load/store" groups of
+instructions.
+
+This patch add implementation of these instructions:
+gslq: load 16 bytes to GPR
+gssq: store 16 bytes from GPR
+gslqc1: load 16 bytes to FPR
+gssqc1: store 16 bytes from FPR
+
+Details of Loongson-EXT is here:
+https://github.com/FlyGoat/loongson-insn/blob/master/loongson-ext.md
 
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- target/mips/cp0_helper.c | 36 +++++++++++++++++++++++++++++-------
- target/mips/cpu.h        |  1 +
- 2 files changed, 30 insertions(+), 7 deletions(-)
+ target/mips/translate.c | 81 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
 
-diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-index de64add..62bcb97 100644
---- a/target/mips/cp0_helper.c
-+++ b/target/mips/cp0_helper.c
-@@ -867,13 +867,35 @@ void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 398edf7..08d51e1 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -460,6 +460,17 @@ enum {
+     R6_OPC_SCD         = 0x27 | OPC_SPECIAL3,
+ };
  
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
- {
--    uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
--    if (!(env->insn_flags & ISA_MIPS32R6) || (arg1 == ~0) ||
--        (mask == 0x0000 || mask == 0x0003 || mask == 0x000F ||
--         mask == 0x003F || mask == 0x00FF || mask == 0x03FF ||
--         mask == 0x0FFF || mask == 0x3FFF || mask == 0xFFFF)) {
--        env->CP0_PageMask = arg1 & (0x1FFFFFFF & (TARGET_PAGE_MASK << 1));
-+    unsigned long mask;
-+    int maskbits;
++/* Loongson EXT load/store quad word opcodes */
++#define MASK_LOONGSON_GSLSQ(op)           (MASK_OP_MAJOR(op) | (op & 0x8020))
++enum {
++    OPC_GSLQ        = 0x0020 | OPC_LWC2,
++    OPC_GSLQC1      = 0x8020 | OPC_LWC2,
++    OPC_GSSHFL      = OPC_LWC2,
++    OPC_GSSQ        = 0x0020 | OPC_SWC2,
++    OPC_GSSQC1      = 0x8020 | OPC_SWC2,
++    OPC_GSSHFS      = OPC_SWC2,
++};
 +
-+    if (env->insn_flags & ISA_MIPS32R6) {
-+        return;
-+    }
-+    /* Don't care MASKX as we don't support 1KB page */
-+    mask = extract32((uint32_t)arg1, CP0PM_MASK, 16);
-+    maskbits = find_first_zero_bit(&mask, 32);
-+
-+    /* Ensure no more set bit after first zero */
-+    if (mask >> maskbits) {
-+        goto invalid;
-+    }
-+    /* We don't support VTLB entry smaller than target page */
-+    if ((maskbits + 12) < TARGET_PAGE_BITS) {
-+        goto invalid;
-     }
-+    env->CP0_PageMask = mask << CP0PM_MASK;
-+
-+    return;
-+
-+invalid:
-+    /*
-+     * When invalid, ensure the value is bigger tan or equel to
-+     * the minimal but smaller than or equel to the maxium.
-+     */
-+    maskbits = MIN(16, MAX(maskbits, TARGET_PAGE_BITS - 12));
-+    env->CP0_PageMask = ((1 << (16 + 1)) - 1) << CP0PM_MASK;
+ /* BSHFL opcodes */
+ #define MASK_BSHFL(op)              (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+ 
+@@ -5910,6 +5921,74 @@ no_rd:
+     tcg_temp_free_i64(t1);
  }
  
- void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
-@@ -1104,7 +1126,7 @@ void helper_mthc0_saar(CPUMIPSState *env, target_ulong arg1)
- void helper_mtc0_entryhi(CPUMIPSState *env, target_ulong arg1)
- {
-     target_ulong old, val, mask;
--    mask = (TARGET_PAGE_MASK << 1) | env->CP0_EntryHi_ASID_mask;
-+    mask = ~((1 << 14) - 1) | env->CP0_EntryHi_ASID_mask;
-     if (((env->CP0_Config4 >> CP0C4_IE) & 0x3) >= 2) {
-         mask |= 1 << CP0EnHi_EHINV;
-     }
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 7cf7f52..9c8bb23 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -618,6 +618,7 @@ struct CPUMIPSState {
-  * CP0 Register 5
-  */
-     int32_t CP0_PageMask;
-+#define CP0PM_MASK 13
-     int32_t CP0_PageGrain_rw_bitmask;
-     int32_t CP0_PageGrain;
- #define CP0PG_RIE 31
++static void gen_loongson_lswc2(DisasContext *ctx, int rt,
++                                int rs, int rd)
++{
++    TCGv t0, t1, t2;
++    TCGv_i32 fp0;
++    int lsq_offset = ((int)((ctx->opcode >> 6) & 0x1ff) << 23) >> 19;
++    int lsq_rt1 = ctx->opcode & 0x1f;
++    int shf_offset = (int8_t)(ctx->opcode >> 6);
++
++    t0 = tcg_temp_new();
++
++    switch (MASK_LOONGSON_GSLSQ(ctx->opcode)) {
++#if defined(TARGET_MIPS64)
++    case OPC_GSLQ:
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, rt);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, lsq_rt1);
++        break;
++    case OPC_GSLQC1:
++        check_cp1_enabled(ctx);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_store_fpr64(ctx, t0, rt);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_store_fpr64(ctx, t0, lsq_rt1);
++        break;
++    case OPC_GSSQ:
++        t1 = tcg_temp_new();
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        gen_load_gpr(t1, lsq_rt1);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSSQC1:
++        check_cp1_enabled(ctx);
++        t1 = tcg_temp_new();
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset);
++        gen_load_fpr64(ctx, t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_base_offset_addr(ctx, t0, rs, lsq_offset + 8);
++        gen_load_fpr64(ctx, t1, lsq_rt1);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#endif
++    default:
++        MIPS_INVAL("loongson_gslsq");
++        generate_exception_end(ctx, EXCP_RI);
++        break;
++    }
++    tcg_temp_free(t0);
++}
++
+ /* Traps */
+ static void gen_trap(DisasContext *ctx, uint32_t opc,
+                      int rs, int rt, int16_t imm)
+@@ -30774,6 +30853,8 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+             /* OPC_BC, OPC_BALC */
+             gen_compute_compact_branch(ctx, op, 0, 0,
+                                        sextract32(ctx->opcode << 2, 0, 28));
++        } else if (ctx->insn_flags & ASE_LEXT) {
++            gen_loongson_lswc2(ctx, rt, rs, rd);
+         } else {
+             /* OPC_LWC2, OPC_SWC2 */
+             /* COP2: Not implemented. */
 -- 
 2.7.0
 
