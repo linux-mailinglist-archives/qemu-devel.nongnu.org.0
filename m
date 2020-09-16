@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA88926BF72
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:36:49 +0200 (CEST)
-Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5250526BF53
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:31:53 +0200 (CEST)
+Received: from localhost ([::1]:36714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kISvo-0004b2-TX
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59164)
+	id 1kISr2-00073Y-Bo
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:31:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kISl1-0007VK-4i
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:25:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50410)
+ id 1kISnM-0002ZN-Cj
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:28:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kISkw-0005bM-CL
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:25:38 -0400
+ id 1kISnJ-0005mK-C8
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:28:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600244733;
+ s=mimecast20190719; t=1600244880;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/FmiDxG7EyMCs7YyNrVuHeU0Ntl4VVPuwJoAtctCyH0=;
- b=cvrtbxaNySF7kA9fgPU7D/QqG4YxAaAd4bmMajGKXaeIFcaq9EdZQny6j4otAJrWeL51Mo
- bryVPfciRerkmg9vOAbKQTPZbJWBSCDD1Z3zFeI310ISFBZxyGDbM7zwDLApf2lSm8rkTG
- GuR8VuK0pdsuvNk0vVQFbiCd4penbB8=
+ bh=PIBbeaRry87iGA44wiTGBGij/hG+R7FSrF5Sa9Ju59Y=;
+ b=KN0b2RKB3huCZQehtFGE3zs+XunApDa2lOGX+FBplb0SP78ElfA3swEWRZBzZuJDs70M4S
+ MQ21k5CVhd8dq38t4czCF3hRve/PHjeDqLwf2GoxRC9sRXCm8Nf5L2NrK4WW5ZKu6Vh1HL
+ N6MjO3JcdUvwjUctG6M18Qz/Qw9yc8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-uwsPSRKFPPKX81wg2q3oQQ-1; Wed, 16 Sep 2020 04:25:31 -0400
-X-MC-Unique: uwsPSRKFPPKX81wg2q3oQQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-480-GeUF0TFtOaqJ6oF6SmYLBw-1; Wed, 16 Sep 2020 04:27:58 -0400
+X-MC-Unique: GeUF0TFtOaqJ6oF6SmYLBw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7342564089;
- Wed, 16 Sep 2020 08:25:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7588E8064B1;
+ Wed, 16 Sep 2020 08:27:57 +0000 (UTC)
 Received: from redhat.com (ovpn-113-248.ams2.redhat.com [10.36.113.248])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DAA060BE5;
- Wed, 16 Sep 2020 08:25:24 +0000 (UTC)
-Date: Wed, 16 Sep 2020 09:25:22 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A63A27839F;
+ Wed, 16 Sep 2020 08:27:54 +0000 (UTC)
+Date: Wed, 16 Sep 2020 09:27:51 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 5/9] migration: control whether snapshots are ovewritten
-Message-ID: <20200916082522.GB1535709@redhat.com>
+Subject: Re: [PATCH v4 9/9] migration: introduce snapshot-{save, load,
+ delete} QMP commands
+Message-ID: <20200916082751.GC1535709@redhat.com>
 References: <20200915113523.2520317-1-berrange@redhat.com>
- <20200915113523.2520317-6-berrange@redhat.com>
- <871rj2uprf.fsf@dusky.pond.sub.org>
+ <20200915113523.2520317-10-berrange@redhat.com>
+ <87tuvyt9sf.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <871rj2uprf.fsf@dusky.pond.sub.org>
+In-Reply-To: <87tuvyt9sf.fsf@dusky.pond.sub.org>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -96,65 +97,92 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 16, 2020 at 09:47:32AM +0200, Markus Armbruster wrote:
+On Wed, Sep 16, 2020 at 10:17:52AM +0200, Markus Armbruster wrote:
 > Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> > The traditional HMP "savevm" command will overwrite an existing snapshot
-> > if it already exists with the requested name. This new flag allows this
-> > to be controlled allowing for safer behaviour with a future QMP command.
+> > savevm, loadvm and delvm are some of the few HMP commands that have never
+> > been converted to use QMP. The reasons for the lack of conversion are
+> > that they blocked execution of the event thread, and the semantics
+> > around choice of disks were ill-defined.
+> >
+> > Despite this downside, however, libvirt and applications using libvirt
+> > have used these commands for as long as QMP has existed, via the
+> > "human-monitor-command" passthrough command. IOW, while it is clearly
+> > desirable to be able to fix the problems, they are not a blocker to
+> > all real world usage.
+> >
+> > Meanwhile there is a need for other features which involve adding new
+> > parameters to the commands. This is possible with HMP passthrough, but
+> > it provides no reliable way for apps to introspect features, so using
+> > QAPI modelling is highly desirable.
+> >
+> > This patch thus introduces new snapshot-{load,save,delete} commands to
+> > QMP that are intended to replace the old HMP counterparts. The new
+> > commands are given different names, because they will be using the new
+> > QEMU job framework and thus will have diverging behaviour from the HMP
+> > originals. It would thus be misleading to keep the same name.
+> >
+> > While this design uses the generic job framework, the current impl is
+> > still blocking. The intention that the blocking problem is fixed later.
+> > None the less applications using these new commands should assume that
+> > they are asynchronous and thus wait for the job status change event to
+> > indicate completion.
+> >
+> > In addition to using the job framework, the new commands require the
+> > caller to be explicit about all the block device nodes used in the
+> > snapshot operations, with no built-in default heuristics in use.
 > >
 > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  include/migration/snapshot.h | 2 +-
-> >  migration/savevm.c           | 4 ++--
-> >  monitor/hmp-cmds.c           | 2 +-
-> >  replay/replay-snapshot.c     | 2 +-
-> >  4 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
-> > index c85b6ec75b..d7db1174ef 100644
-> > --- a/include/migration/snapshot.h
-> > +++ b/include/migration/snapshot.h
-> > @@ -15,7 +15,7 @@
-> >  #ifndef QEMU_MIGRATION_SNAPSHOT_H
-> >  #define QEMU_MIGRATION_SNAPSHOT_H
+> [...]
+> > diff --git a/qapi/job.json b/qapi/job.json
+> > index 280c2f76f1..b2cbb4fead 100644
+> > --- a/qapi/job.json
+> > +++ b/qapi/job.json
+> > @@ -22,10 +22,17 @@
+> >  #
+> >  # @amend: image options amend job type, see "x-blockdev-amend" (since 5.1)
+> >  #
+> > +# @snapshot-load: snapshot load job type, see "snapshot-load" (since 5.2)
+> > +#
+> > +# @snapshot-save: snapshot save job type, see "snapshot-save" (since 5.2)
+> > +#
+> > +# @snapshot-delete: snapshot delete job type, see "snapshot-delete" (since 5.2)
+> > +#
+> >  # Since: 1.7
+> >  ##
+> >  { 'enum': 'JobType',
+> > -  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend'] }
+> > +  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend',
+> > +           'snapshot-load', 'snapshot-save', 'snapshot-delete'] }
 > >  
-> > -int save_snapshot(const char *name, Error **errp);
-> > +int save_snapshot(const char *name, bool overwrite, Error **errp);
-> >  int load_snapshot(const char *name, Error **errp);
-> >  
-> >  #endif
-> > diff --git a/migration/savevm.c b/migration/savevm.c
-> > index 76972d69b0..2025e3e579 100644
-> > --- a/migration/savevm.c
-> > +++ b/migration/savevm.c
-> > @@ -2658,7 +2658,7 @@ int qemu_load_device_state(QEMUFile *f)
-> >      return 0;
-> >  }
-> >  
-> > -int save_snapshot(const char *name, Error **errp)
-> > +int save_snapshot(const char *name, bool overwrite, Error **errp)
-> >  {
-> >      BlockDriverState *bs;
-> >      QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
-> > @@ -2685,7 +2685,7 @@ int save_snapshot(const char *name, Error **errp)
-> >      }
-> >  
-> >      /* Delete old snapshots of the same name */
-> > -    if (name) {
-> > +    if (name && overwrite) {
-> >          if (bdrv_all_delete_snapshot(name, false, NULL, errp) < 0) {
-> >              return ret;
-> >          }
+> >  ##
+> >  # @JobStatus:
+> > diff --git a/qapi/migration.json b/qapi/migration.json
+> > index 675f70bb67..b584c0be31 100644
+> > --- a/qapi/migration.json
+> > +++ b/qapi/migration.json
+> > @@ -1720,3 +1720,123 @@
+> >  ##
+> >  { 'event': 'UNPLUG_PRIMARY',
+> >    'data': { 'device-id': 'str' } }
+> > +
+> > +##
+> > +# @snapshot-save:
+> > +#
+> > +# Save a VM snapshot
+> > +#
+> > +# @job-id: identifier for the newly created job
+> > +# @tag: name of the snapshot to create
+> > +# @devices: list of block device node names to save a snapshot to
 > 
-> Are you sure this is sane?
-> 
-> To see what happens, I set a breakpoint on this function, set overwrite
-> to false.  I got a *second* snapshot with the same ID.
+> Looks like you dropped the idea to also accept drive IDs.  Is that for
+> good, or would you like to add it later?
 
-Sigh. No, it doesn't do what I was meaning it to, and I forgot to add
-a test case for this scenario in the last patch.
+I'm still kind of on the fence, but if general opinion is that we should
+accept drive IDs, I'll add it.
 
+I wonder what the other blockdev-* APIs accept - some consistency between
+APIs is desirable.
 
 Regards,
 Daniel
