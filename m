@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8D726BDB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 09:12:34 +0200 (CEST)
-Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E21426BDCA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 09:18:14 +0200 (CEST)
+Received: from localhost ([::1]:57370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIRcH-0001kM-KF
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 03:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43210)
+	id 1kIRhl-0004rt-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 03:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kIRb9-0000yg-BV
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:11:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46519)
+ id 1kIRfq-0003Ws-5n
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:16:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kIRb7-0004Ra-Dx
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:11:23 -0400
+ id 1kIRfn-0005EW-Do
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:16:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600240280;
+ s=mimecast20190719; t=1600240569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JOp/s9rvFeVffbPrQJASEyBpKHtTtv60MM7qPi5To6E=;
- b=MJtYlarNjyp482Vp2i24duZs36QlM1tn9PQJwUcaVycQNOfQDTXPs+Tr5qrFqK3gNQ5/UD
- LVAr1O1DyfiedTwzC16wp4bm72x+XtQCGvWKu2dfUi5HBo8eKsPH/qhctBBRrEnpcooZ5b
- ylQhmSIYLlguQzlxASJc3RNlG2RssiA=
+ bh=Eb1PgAZdheoRHsdFTsQTfzToUxbGE/9cpI9HwKA31gs=;
+ b=SrdGS5jXCV8Iuulq+4KffIF67jTOzjYO63UIO5/IRBDRo4dIYXs84i966/q2WkMT+5n3uJ
+ Ab/unc9UARCn1kigvnxtr1uByhXBbskcStJRqpvbs2ND+cu8i83S7vu2o2PPgkTGTTFIpu
+ i4B3qa8fCZamk9XGgspZYzL+OPJidPk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-EbRTYmfkOt2anjvOTYlC-Q-1; Wed, 16 Sep 2020 03:11:17 -0400
-X-MC-Unique: EbRTYmfkOt2anjvOTYlC-Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-255-rVRkQjpvMk-JewRY69xFvQ-1; Wed, 16 Sep 2020 03:16:07 -0400
+X-MC-Unique: rVRkQjpvMk-JewRY69xFvQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BBEC873113;
- Wed, 16 Sep 2020 07:11:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D0361891E8C;
+ Wed, 16 Sep 2020 07:16:06 +0000 (UTC)
 Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BA2560CD1;
- Wed, 16 Sep 2020 07:11:07 +0000 (UTC)
-Date: Wed, 16 Sep 2020 09:11:06 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23EB775147;
+ Wed, 16 Sep 2020 07:15:55 +0000 (UTC)
+Date: Wed, 16 Sep 2020 09:15:54 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v4 10/11] tests/acpi: unit test exercizing hotplug off
- for pci root bus & bridge in i440fx
-Message-ID: <20200916091106.3cdafcec@redhat.com>
-In-Reply-To: <20200916061335.14045-11-ani@anisinha.ca>
+Subject: Re: [PATCH v4 00/11] i440fx/acpi: addition of feature and bug fixes.
+Message-ID: <20200916091554.5c695601@redhat.com>
+In-Reply-To: <20200916061335.14045-1-ani@anisinha.ca>
 References: <20200916061335.14045-1-ani@anisinha.ca>
- <20200916061335.14045-11-ani@anisinha.ca>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -82,9 +80,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- jusual@redhat.com, qemu-devel@nongnu.org,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ qemu-devel@nongnu.org,
  Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?= =?UTF-8?B?w6k=?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
@@ -92,78 +90,72 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Sep 2020 11:43:34 +0530
+On Wed, 16 Sep 2020 11:43:24 +0530
 Ani Sinha <ani@anisinha.ca> wrote:
 
-> This change adds a unit test to exercize the case when hotplug is disabled both for
-> pci root bus and the pci bridges by passing the following two switches to qemu:
+> In v4 I have made the following changes:
 > 
->   -global PIIX4_PM.acpi-root-pci-hotplug=off
->   -global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off
+> - a cosmetic change for patch #4. Commit log was updated as per Igor's suggestion.
+> - patches #10 and #11 were added to unit test patch #9.
 > 
-> bios-tables-test-allowed-diff.h documents the fact that a new DSDT acpi gold master
-> binary blob we need to be added to test this. We will do the actual addition in the
-> next patch in the series.
+> The DSDT table after disabling hotplug on the root bus and the pci bridges is shown here:
 > 
-> The following link contains the disassembly of the DSDT table after passing the above
-> two switches to qemu: https://pastebin.ubuntu.com/p/WvpYYjpPN8/
+> https://pastebin.ubuntu.com/p/WvpYYjpPN8/
 > 
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> ---
->  tests/qtest/bios-tables-test-allowed-diff.h |  1 +
->  tests/qtest/bios-tables-test.c              | 19 ++++++++++++++++++-
->  2 files changed, 19 insertions(+), 1 deletion(-)
+> This was generated by disassembling the newly added DSDT golden master binary table blob
+> DSDT.hpbrroot.
 > 
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..dea61d94f1 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/pc/DSDT.hpbrroot",
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 7632cfe1be..4c834474ad 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -768,6 +768,21 @@ static void test_acpi_piix4_bridge_hotplug(void)
->      free_test_data(&data);
->  }
->  
-> +static void test_acpi_piix4_bridge_root_hotplug(void)
-maybe better naming would be
-s/bridge_root_hotplug/no_acpi_pci_hotplug/
+> I sincerely hope this is the final iteration of the set of patches.  The patches has been
+> unit tested on top of latest qemu upstream master branch.
 
-> +{
-> +    test_data data;
-> +
-> +    memset(&data, 0, sizeof(data));
-> +    data.machine = MACHINE_PC;
-> +    data.variant = ".hpbrroot";
-> +    data.required_struct_types = base_required_struct_types;
-> +    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-> +    test_acpi_one("-global PIIX4_PM.acpi-root-pci-hotplug=off "
-> +                  "-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off "
-> +                  "-device pci-bridge,chassis_nr=1", &data);
-> +    free_test_data(&data);
-> +}
-> +
->  static void test_acpi_q35_tcg(void)
->  {
->      test_data data;
-> @@ -1172,8 +1187,10 @@ int main(int argc, char *argv[])
->          qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
->          qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
->          qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
-> -        qtest_add_func("acpi/piix4/hotplug", test_acpi_piix4_root_hotplug);
-> +        qtest_add_func("acpi/piix4/roothotplug", test_acpi_piix4_root_hotplug);
->          qtest_add_func("acpi/piix4/brhotplug", test_acpi_piix4_bridge_hotplug);
-> +        qtest_add_func("acpi/piix4/disablehp",
-how about:
-"pci-hotplug/off"
+usually one includes Reviewed|...|-by tags from previous version,
+unless there was a functional change in a reviewed patch or you
+feel that trivial changes (if any) deserve review.
 
-> +                       test_acpi_piix4_bridge_root_hotplug);
->          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
->          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
->          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+
+> Ani Sinha (11):
+>   tests/acpi: document addition of table DSDT.roothp for unit testing
+>     root pci hotplug on/off
+>   tests/acpi: add a new unit test to test hotplug off/on feature on the
+>     root pci bus
+>   tests/acpi: add a new ACPI table in order to test root pci hotplug
+>     on/off
+>   Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
+>     non-hotpluggable bus
+>   i440fx/acpi: do not add hotplug related amls for cold plugged bridges
+>   tests/acpi: list added acpi table binary file for pci bridge hotplug
+>     test
+>   tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support'
+>     bridge flag
+>   tests/acpi: add newly added acpi DSDT table blob for pci bridge
+>     hotplug flag
+>   piix4: don't reserve hw resources when hotplug is off globally
+>   tests/acpi: unit test exercizing hotplug off for pci root bus & bridge
+>     in i440fx
+>   tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx
+>     hotplug
+> 
+>  hw/acpi/pcihp.c                   |  15 ++++++++++
+>  hw/acpi/piix4.c                   |   6 ++--
+>  hw/i386/acpi-build.c              |  37 ++++++++++++++---------
+>  tests/data/acpi/pc/DSDT.hpbridge  | Bin 0 -> 4895 bytes
+>  tests/data/acpi/pc/DSDT.hpbrroot  | Bin 0 -> 2953 bytes
+>  tests/data/acpi/pc/DSDT.roothp    | Bin 0 -> 5130 bytes
+>  tests/data/acpi/q35/DSDT          | Bin 7678 -> 7670 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 8994 bytes
+>  tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7688 bytes
+>  tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8133 bytes
+>  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9323 bytes
+>  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7745 bytes
+>  tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9029 bytes
+>  tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8801 bytes
+>  tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7676 bytes
+>  tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8276 bytes
+>  tests/qtest/bios-tables-test.c    |  47 ++++++++++++++++++++++++++++++
+>  17 files changed, 90 insertions(+), 15 deletions(-)
+>  create mode 100644 tests/data/acpi/pc/DSDT.hpbridge
+>  create mode 100644 tests/data/acpi/pc/DSDT.hpbrroot
+>  create mode 100644 tests/data/acpi/pc/DSDT.roothp
+> 
 
 
