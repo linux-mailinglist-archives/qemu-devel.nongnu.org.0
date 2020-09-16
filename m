@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA8226C2DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:42:17 +0200 (CEST)
-Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651D426C2BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:31:12 +0200 (CEST)
+Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWlN-0005AR-1j
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36672)
+	id 1kIWac-0006nH-3p
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIWWX-0002LI-I9
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:26:57 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41867)
+ id 1kIWWZ-0002N6-MC
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:26:59 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIWWV-00059M-Q1
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:26:57 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id w5so6697267wrp.8
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:26:55 -0700 (PDT)
+ id 1kIWWX-00059a-Ve
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:26:59 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id s12so6671138wrw.11
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5iSSa42PazJoHEVNt7cs++ElcTxDkn7cDPvhYrmokYY=;
- b=rQYl/9GYYL2ulWNVIu+uhGHV3K1FZcHQJNKjpbsPQIhMybPfKJL1SCxSLKk7PBbQ/b
- jy/gkobYyHoc29dRW5qwVJ4cOeMDFZefeSKLN8hqUoMxbQHggcHwHnwP+3uHi9VyCxaY
- UlklLaUmIf+3WFUo1Fy8dAF2ZKf+greyrakBcxW7Ufz9GO8+eU8lz9+h9Zs7aIOHaaX5
- o+1BSLTZoMciHZo9TRg56lmvYhIUn9n0cpMcqM7Guk1EwsQKb6WchkszHtPXn9/DzujX
- YGxWR4uN65Ze1P9AVQneMfsJ8mlBIKWZwjoCW9JIVvFHNR1BSxgfmWH8teIHWaGJoxKt
- am/Q==
+ bh=Ktsao0Yr9LA/9tEst7nosAjV8iuHgs9MeN8ofZc1GKU=;
+ b=P9tOy0dn7xDs9MfiQW7s7b3wrLjqT+3Ud5cTYvd30dzRlalOyVzpoiOs/CaIWuhf5x
+ xQrEdnGucV1Jc/uvze69pcaum8hjFJyX4r9rxGVGwGRth6Z2vNvN8+aOPtXTwMzEAIqY
+ w36JsThHcKIzm/At8OeNxLmhedPckWdyQYWqNixTQA8pPKp6+Z1RI7bNaRB9OBR8XTsH
+ 544e6Qf+C5/H1klGZtyjVENpUBqk9Qg7CrH0lnym/9sF1BKH48BjhTF45Gxv5xRbJfy6
+ 2JgB3BZ/S99DjYSV4G2PPIQqHyyk7VP98tKV976bR0mtNxwpGEGMHNv8Gza7A611Kb3I
+ pDzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5iSSa42PazJoHEVNt7cs++ElcTxDkn7cDPvhYrmokYY=;
- b=X9cMD5+IWI24WNJ+jAGAtx8cD7wscBq2y1TBZ6SI7q5kStzMxjXACqyzcV0bfa8mnC
- Wlz/J+xtNDDikyPsJ5o6I/YTadNrdqJUEPP9bfgcZH5AC/C+o48iu59cN5fDtWJrGzN9
- dxyM0nW2pvUUheD8jweI/YzM4EAmh3f8YJ9Na1pAKaypUo193qCIZKbg+aiPdjhfFo1a
- TtLgCp7CMuDwcanL9VUgtaYT/6ZfcITndvJ4bNjdvnlO4xUxJALUzhDn8yibmzaYbPCm
- hnEsPdxur4j/1ssyf5ZDzjSsk6ZidycYLmljODpHOcDscerXu27sqn8Fpr/c/Pen8KsQ
- b4cA==
-X-Gm-Message-State: AOAM531C3+yjvG7/wx8vJFQvL3FJiE5SNCFjo8Mibc7ptXSA6QyLewa3
- 6sga8avbvNOBqsotE9x8PsZdHA==
-X-Google-Smtp-Source: ABdhPJyi1lb9BucQK+YSGCgwjAE4v/wcMxWRzaFCiUjXcfLHqnTPGmu7sLGALTmBR1o0MLac7XzrUQ==
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr26315164wrr.283.1600259214510; 
- Wed, 16 Sep 2020 05:26:54 -0700 (PDT)
+ bh=Ktsao0Yr9LA/9tEst7nosAjV8iuHgs9MeN8ofZc1GKU=;
+ b=U0zM9Wo4oZzJCiy5hJzmOUwSY4lQPMEYwHRm+SfYtIgHci6nSNKYstlUkm8OMYAgGL
+ UdhMUmIz47CpFoLwaXifcBZCFt+CuGgvZwk6sxOx7rgHxJuMFaYfpOZxIuQ1W74a99IA
+ ksOWibAzVE5oH8AYzIDpdxHeI0ZPQb51adp9r2M17w+FeBPt0XZVCPoV1o6UI/H0t+XZ
+ rmvjC+e41B/DB7TyUGxCi82isznDbsILfcDOrLeU2QxFH2HB6NFvuP/cxeVbQtvYNrSF
+ g9gekoE273ubadM5PaHieescL8RJbF+Gi77PEvycSnR5DzdofF9U/RJTGfEH98I/IUHc
+ JGWg==
+X-Gm-Message-State: AOAM530pyzJwXuB5s+Wg2sUrEOUkt7+Ib7AqlfOwfa8fZbzoX6AC/M8P
+ MBrnBJnQtXwsSMWWPv9yk8DD0g==
+X-Google-Smtp-Source: ABdhPJwaIEKrjJmzFNEEHSIbceUtInRs5BcfPeqc52IiH1kqHCzcZJwXw333gQIHXQAXB7nKkBoTvw==
+X-Received: by 2002:adf:b74b:: with SMTP id n11mr868485wre.274.1600259216498; 
+ Wed, 16 Sep 2020 05:26:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i3sm32231510wrs.4.2020.09.16.05.26.49
+ by smtp.gmail.com with ESMTPSA id u186sm4534115wmu.34.2020.09.16.05.26.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 05:26:51 -0700 (PDT)
+ Wed, 16 Sep 2020 05:26:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B7DEC1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id CE24C1FF90;
  Wed, 16 Sep 2020 13:26:48 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 3/8] configure: move deprecated feature processing to
- supported_target
-Date: Wed, 16 Sep 2020 13:26:43 +0100
-Message-Id: <20200916122648.17468-4-alex.bennee@linaro.org>
+Subject: [PULL 4/8] configure: also skip deprecated targets with
+ target-list-exclude
+Date: Wed, 16 Sep 2020 13:26:44 +0100
+Message-Id: <20200916122648.17468-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200916122648.17468-1-alex.bennee@linaro.org>
 References: <20200916122648.17468-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,71 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the common point at which we validate targets so it makes
-sense to add_to deprecated_features here. It will make future target
-deprecation easier as we only need to tweak one list.
+Now the user has to make an even more deliberate decision to
+enable a deprecated target rather than getting it as a side effect of
+using --target-exclude-list.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200915134317.11110-4-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200915134317.11110-5-alex.bennee@linaro.org>
 
 diff --git a/configure b/configure
-index ce27eafb0a9e..51d03a8d340f 100755
+index 51d03a8d340f..f5fe48d6dd7b 100755
 --- a/configure
 +++ b/configure
-@@ -280,6 +280,9 @@ supported_whpx_target() {
-     return 1
- }
+@@ -1729,9 +1729,14 @@ if [ "$bsd_user" = "yes" ]; then
+     mak_wilds="${mak_wilds} $source_path/default-configs/*-bsd-user.mak"
+ fi
  
-+deprecated_targets_list=ppc64abi32-linux-user
-+deprecated_features=""
-+
- supported_target() {
-     case "$1" in
-         *-softmmu)
-@@ -301,6 +304,12 @@ supported_target() {
-             return 1
-             ;;
-     esac
-+
-+    # if a deprecated target is enabled we note it here
-+    if echo "$deprecated_targets_list" | grep -q "$1"; then
-+        add_to deprecated_features $1
+-if test -z "$target_list_exclude" -a -z "$target_list"; then
+-    # if the user doesn't specify anything lets skip deprecating stuff
+-    target_list_exclude=$deprecated_targets_list
++# If the user doesn't explicitly specify a deprecated target we will
++# skip it.
++if test -z "$target_list"; then
++    if test -z "$target_list_exclude"; then
++        target_list_exclude="$deprecated_targets_list"
++    else
++        target_list_exclude="$target_list_exclude,$deprecated_targets_list"
 +    fi
-+
-     test "$tcg" = "yes" && return 0
-     supported_kvm_target "$1" && return 0
-     supported_xen_target "$1" && return 0
-@@ -542,8 +551,6 @@ gettext=""
- bogus_os="no"
- malloc_trim=""
- 
--deprecated_features=""
--
- # parse CC options first
- for opt do
-   optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
-@@ -1724,7 +1731,7 @@ fi
- 
- if test -z "$target_list_exclude" -a -z "$target_list"; then
-     # if the user doesn't specify anything lets skip deprecating stuff
--    target_list_exclude=ppc64abi32-linux-user
-+    target_list_exclude=$deprecated_targets_list
  fi
  
  exclude_list=$(echo "$target_list_exclude" | sed -e 's/,/ /g')
-@@ -7668,7 +7675,6 @@ case "$target_name" in
-     TARGET_SYSTBL_ABI=common,nospu,32
-     echo "TARGET_ABI32=y" >> $config_target_mak
-     gdb_xml_files="power64-core.xml power-fpu.xml power-altivec.xml power-spe.xml power-vsx.xml"
--    deprecated_features="ppc64abi32 ${deprecated_features}"
-   ;;
-   riscv32)
-     TARGET_BASE_ARCH=riscv
 -- 
 2.20.1
 
