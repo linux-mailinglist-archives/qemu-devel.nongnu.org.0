@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC90126CC51
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 22:42:45 +0200 (CEST)
-Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52B726CC77
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 22:45:01 +0200 (CEST)
+Received: from localhost ([::1]:49002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIeGK-0007cy-D9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 16:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34070)
+	id 1kIeIW-0001Vx-Of
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 16:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIeDx-0006Au-0N
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 16:40:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35023)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIeDy-0006BZ-DR
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 16:40:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIeDu-0002x1-7h
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 16:40:16 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIeDw-0002xN-JN
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 16:40:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600288812;
+ s=mimecast20190719; t=1600288815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DLMeXlaAeb8tjE7YKDswsBb2zaboMgq7LXbYKwBwmhs=;
- b=DdtZeUaYZHg2hh8LVwOnm4AHz5gPAzkyXvIccb5ExE3EDXrh/Sf9PpR7xCNHtFqAmEA1vn
- Jk6P32d3w+8D/ay92ra8BvmmsDR0DLGpp6KIgk6l3BwLpYQHFlzEBozCPGqm3GYHB0AJPd
- 6NVbV7PJw6in/jgihOX0E4WFVxX/YUg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-vTJksi97NO-F1Ufr5rL-7A-1; Wed, 16 Sep 2020 16:40:08 -0400
-X-MC-Unique: vTJksi97NO-F1Ufr5rL-7A-1
-Received: by mail-wr1-f69.google.com with SMTP id l15so3004089wro.10
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 13:40:08 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iV/ElKucvX82AYjveXxyl1sOCENXpVHeSTvARkSKpI4=;
+ b=GzUAbqvkBapxooNEQm47EEdX2CqYevCH992Fzoq6Bp/DFjlfjsacWNFaK8NBj3VrYo+pWe
+ /OorasKjUxZH5jpzTxFiNXtJZpzh+mKSC+pI5p9r2QVZZ6tYiRAvmAooJPfdSsePiWAU3I
+ lkvP105ki9S/k/1xAmFWadBBGeXqSVo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-uHBPRmjAPCGXPLxzcTVT5A-1; Wed, 16 Sep 2020 16:40:13 -0400
+X-MC-Unique: uHBPRmjAPCGXPLxzcTVT5A-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so2974378wrs.17
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 13:40:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DLMeXlaAeb8tjE7YKDswsBb2zaboMgq7LXbYKwBwmhs=;
- b=DAvPFWntT4rMZIa+xQpS7LIpkB8z11OXLGVz9o/1Q8trkj6qnOyqsu8OLNCoS9XT/7
- kUnqpIvT1IM7cNq2AU6+eYE95Zr2N5NCQale8wl+YF/IWKpti2dLYbW5+fujy8jFhVl/
- BmpzBnA05fLdRMF0plYk5Pyscs/KnrlHeMLvQQ8CBSXZpwtjvgnnxqvMICwG/ZXCPHYn
- yEvIsz6bJbuuxXapbGuVogCPcgmrsG8fZCIDojeEFgywqrAUpbMYuCMjHfS7FykxHUAW
- PXzD1aYJZDDmA2W4BO0B9hr2ssis9UbuoQUgDjjNg5x191MbKzloC9rMMQtZm9MaPT0Y
- ySNQ==
-X-Gm-Message-State: AOAM533WAE6OOSwtI+zk2j4Bs/a8nqeB8jUTrLiBdRL2Ij5ExqbHKsAn
- G3yputEKDOdq2nZkbcdWOeDqDRBhXoIV3DXGMF/oMJhK6/bPQ7qYKnM+sRvhF4dyCz8M4BfmpkI
- S+fF41iDpxr0EjI0=
-X-Received: by 2002:a1c:9a57:: with SMTP id c84mr6447597wme.136.1600288806814; 
- Wed, 16 Sep 2020 13:40:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwV8KvDIMSsFjwHgi00AGGBXdSGsf1Za2PfXMgU+a4s1xa8+mGU8Z739I3h4KeWG9IUKm10gg==
-X-Received: by 2002:a1c:9a57:: with SMTP id c84mr6447580wme.136.1600288806564; 
- Wed, 16 Sep 2020 13:40:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=iV/ElKucvX82AYjveXxyl1sOCENXpVHeSTvARkSKpI4=;
+ b=f/FLMN0uCxYakaci40o5HmoZcK3lCO+9RO8tFzl18skB7ZSXwsiOCGE2KWPU/7OByc
+ sNhmk8kayjVAj5mOc8IXannnY6zah1n6yg+3VMYyKz6AUA5XSK58eDAUTL/oIG7G0luN
+ B8b1l9KzhqM+x7EMBIubmfE13YTm1yqVnlHRdH1xOT2aMW+oKxKLE6hTOwrsy17/lPam
+ VzRDFNhIH8b8ZC/ftMrtISZQtz5FeXfmw2xf67KUtWpFy0ZA3b9Z1HA9jqqB4Q0R4UJW
+ Z6eibdItBDt8dFeN6o/lJTZUKdrnkNidfBM5CICyMORpKau8v8KE3ZGsseuioaNEKAlS
+ V2LQ==
+X-Gm-Message-State: AOAM530z5zzJ+xCp1PyQFufHt5cACmruL5f/W8E7hv0QtMZagB3YI5uX
+ +gh1E3VIqg1S22v9LGpG0yTeFe9DCZ0Mv6sbrvj86ud0do59zV4OaLBv0EgnBVJSyNyClqjxCeI
+ YckeTqIvpv3xv1Hk=
+X-Received: by 2002:a1c:f715:: with SMTP id v21mr7039780wmh.117.1600288811944; 
+ Wed, 16 Sep 2020 13:40:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0BRSKUk1/BHT7jquOHQu/rHGGRcmepdVQVvD/tPFjMeB7ZqbrnLPBFIgCzuuH4wtZxUTP+Q==
+X-Received: by 2002:a1c:f715:: with SMTP id v21mr7039762wmh.117.1600288811765; 
+ Wed, 16 Sep 2020 13:40:11 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id m1sm6812879wmc.28.2020.09.16.13.40.04
+ by smtp.gmail.com with ESMTPSA id d6sm35474850wrq.67.2020.09.16.13.40.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 13:40:05 -0700 (PDT)
+ Wed, 16 Sep 2020 13:40:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] block/nvme: Fix NVMeRegs alignment/packing and use atomic
- operations
-Date: Wed, 16 Sep 2020 22:40:01 +0200
-Message-Id: <20200916204004.1511985-1-philmd@redhat.com>
+Subject: [PATCH 1/3] block/nvme: Initialize constant values with const_le32()
+Date: Wed, 16 Sep 2020 22:40:02 +0200
+Message-Id: <20200916204004.1511985-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200916204004.1511985-1-philmd@redhat.com>
+References: <20200916204004.1511985-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -94,96 +97,101 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a compiler optimization problem introduced in commit
-e5ff22ba9fc ("block/nvme: Pair doorbell registers"),
-use atomic operations.
+To avoid multiple endianess conversion, as we know the device
+registers are in little-endian, directly use const_le32() with
+constant values.
 
-For some not understood yet reason using atomic_and triggers
-a NMI on x86 arch. Using the following snippet on top of this
-series:
-
--- >8 --
--    atomic_set(&s->regs->ctrl.cc,
--               cpu_to_le32(atomic_read(&s->regs->ctrl.cc) & const_le32(0xFE)=
-));
-+    atomic_and(&s->regs->ctrl.cc, const_le32(0xFE));
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
+ block/nvme.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-triggers:
-
- {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source:=
- 3
- {1}[Hardware Error]: event severity: fatal
- {1}[Hardware Error]:  Error 0, type: fatal
- {1}[Hardware Error]:   section_type: PCIe error
- {1}[Hardware Error]:   port_type: 0, PCIe end point
- {1}[Hardware Error]:   version: 1.16
- {1}[Hardware Error]:   command: 0x0006, status: 0x0010
- {1}[Hardware Error]:   device_id: 0000:04:00.0
- {1}[Hardware Error]:   slot: 0
- {1}[Hardware Error]:   secondary_bus: 0x00
- {1}[Hardware Error]:   vendor_id: 0x8086, device_id: 0x2701
- {1}[Hardware Error]:   class_code: 010802
- {1}[Hardware Error]:   aer_uncor_status: 0x00100000, aer_uncor_mask: 0x00018=
-000
- {1}[Hardware Error]:   aer_uncor_severity: 0x000e7030
- {1}[Hardware Error]:   TLP Header: 33000000 00000000 00000000 00000000
- Kernel panic - not syncing: Fatal hardware error!
- CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.6.8-100.fc30.x86_64 #1
- Hardware name: Dell Inc. PowerEdge R430/03XKDV, BIOS 1.2.6 06/08/2015
- Call Trace:
-  <NMI>
-  dump_stack+0x66/0x90
-  panic+0xf1/0x2d3
-  __ghes_panic.part.0+0x26/0x26
-  ghes_notify_nmi.cold+0x5/0x5
-  nmi_handle+0x66/0x120
-  default_do_nmi+0x45/0x100
-  do_nmi+0x165/0x1d0
-  end_repeat_nmi+0x16/0x50
- RIP: 0010:intel_idle+0x82/0x130
- Code: 65 48 8b 04 25 c0 8b 01 00 0f 01 c8 48 8b 00 a8 08 75 17 e9 07 00 00 0=
-0 0f 00 2d f5 cd 6d 00 b9 01 00 00 00 48 89 d8 0f 01 c9 <65> 48 8b 04 25 c0 8=
-b 01 00 f0 80 60 02 df f0 83 44 24 fc 00 b
- RSP: 0018:ffffffffa8603e30 EFLAGS: 00000046
- RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
- RDX: 0000000000000000 RSI: ffffffffa875edc0 RDI: 0000000000000000
- RBP: ffffffffa875edc0 R08: 00000013ef2b797f R09: 000000000000ba42
- R10: 00000000000993b3 R11: ffffa070afc29ca4 R12: 0000000000000002
- R13: ffffffffa875edc0 R14: 0000000000000002 R15: ffffffffa8614840
-  ? intel_idle+0x82/0x130
-  ? intel_idle+0x82/0x130
-  </NMI>
-  cpuidle_enter_state+0x81/0x3e0
-  cpuidle_enter+0x29/0x40
-  do_idle+0x1c0/0x260
-  cpu_startup_entry+0x19/0x20
-  start_kernel+0x7ad/0x7ba
-  secondary_startup_64+0xb6/0xc0
- Kernel Offset: 0x26000000 from 0xffffffff81000000 (relocation range: 0xfffff=
-fff80000000-0xffffffffbfffffff)
-
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-Philippe Mathieu-Daud=C3=A9 (3):
-  block/nvme: Initialize constant values with const_le32()
-  block/nvme: Use atomic operations instead of 'volatile' keyword
-  block/nvme: Align NVMeRegs structure to 4KiB and mark it packed
-
- block/nvme.c | 55 ++++++++++++++++++++++++++++------------------------
- 1 file changed, 30 insertions(+), 25 deletions(-)
-
---=20
+diff --git a/block/nvme.c b/block/nvme.c
+index f4f27b6da7d..b91749713e0 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -511,7 +511,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     uint64_t iova;
+     NvmeCmd cmd = {
+         .opcode = NVME_ADM_CMD_IDENTIFY,
+-        .cdw10 = cpu_to_le32(0x1),
++        .cdw10 = const_le32(0x1),
+     };
+ 
+     id = qemu_try_memalign(s->page_size, sizeof(*id));
+@@ -649,7 +649,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+         .opcode = NVME_ADM_CMD_CREATE_CQ,
+         .dptr.prp1 = cpu_to_le64(q->cq.iova),
+         .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | (n & 0xFFFF)),
+-        .cdw11 = cpu_to_le32(0x3),
++        .cdw11 = const_le32(0x3),
+     };
+     if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
+         error_setg(errp, "Failed to create CQ io queue [%d]", n);
+@@ -734,10 +734,10 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     timeout_ms = MIN(500 * ((cap >> 24) & 0xFF), 30000);
+ 
+     /* Reset device to get a clean state. */
+-    s->regs->ctrl.cc = cpu_to_le32(le32_to_cpu(s->regs->ctrl.cc) & 0xFE);
++    s->regs->ctrl.cc &= const_le32(0xFE);
+     /* Wait for CSTS.RDY = 0. */
+     deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * SCALE_MS;
+-    while (le32_to_cpu(s->regs->ctrl.csts) & 0x1) {
++    while (s->regs->ctrl.csts & const_le32(0x1)) {
+         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
+             error_setg(errp, "Timeout while waiting for device to reset (%"
+                              PRId64 " ms)",
+@@ -758,18 +758,18 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     }
+     s->nr_queues = 1;
+     QEMU_BUILD_BUG_ON(NVME_QUEUE_SIZE & 0xF000);
+-    s->regs->ctrl.aqa = cpu_to_le32((NVME_QUEUE_SIZE << 16) | NVME_QUEUE_SIZE);
++    s->regs->ctrl.aqa = const_le32((NVME_QUEUE_SIZE << 16) | NVME_QUEUE_SIZE);
+     s->regs->ctrl.asq = cpu_to_le64(s->queues[INDEX_ADMIN]->sq.iova);
+     s->regs->ctrl.acq = cpu_to_le64(s->queues[INDEX_ADMIN]->cq.iova);
+ 
+     /* After setting up all control registers we can enable device now. */
+-    s->regs->ctrl.cc = cpu_to_le32((ctz32(NVME_CQ_ENTRY_BYTES) << 20) |
++    s->regs->ctrl.cc = const_le32((ctz32(NVME_CQ_ENTRY_BYTES) << 20) |
+                               (ctz32(NVME_SQ_ENTRY_BYTES) << 16) |
+                               0x1);
+     /* Wait for CSTS.RDY = 1. */
+     now = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+     deadline = now + timeout_ms * 1000000;
+-    while (!(le32_to_cpu(s->regs->ctrl.csts) & 0x1)) {
++    while (!(s->regs->ctrl.csts & const_le32(0x1))) {
+         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
+             error_setg(errp, "Timeout while waiting for device to start (%"
+                              PRId64 " ms)",
+@@ -848,8 +848,8 @@ static int nvme_enable_disable_write_cache(BlockDriverState *bs, bool enable,
+     NvmeCmd cmd = {
+         .opcode = NVME_ADM_CMD_SET_FEATURES,
+         .nsid = cpu_to_le32(s->nsid),
+-        .cdw10 = cpu_to_le32(0x06),
+-        .cdw11 = cpu_to_le32(enable ? 0x01 : 0x00),
++        .cdw10 = const_le32(0x06),
++        .cdw11 = enable ? const_le32(0x01) : 0x00,
+     };
+ 
+     ret = nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd);
+@@ -1278,8 +1278,8 @@ static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
+     NvmeCmd cmd = {
+         .opcode = NVME_CMD_DSM,
+         .nsid = cpu_to_le32(s->nsid),
+-        .cdw10 = cpu_to_le32(0), /*number of ranges - 0 based*/
+-        .cdw11 = cpu_to_le32(1 << 2), /*deallocate bit*/
++        .cdw10 = const_le32(0), /*number of ranges - 0 based*/
++        .cdw11 = const_le32(1 << 2), /*deallocate bit*/
+     };
+ 
+     NVMeCoData data = {
+-- 
 2.26.2
 
 
