@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4860B26C3C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:35:27 +0200 (CEST)
-Received: from localhost ([::1]:50156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A171A26C3BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:34:27 +0200 (CEST)
+Received: from localhost ([::1]:46410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIYWs-00071s-64
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
+	id 1kIYVu-0005VU-Km
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYIi-0003US-8r
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:48 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47936)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYIj-0003Xv-At
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:49 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYIe-0003uU-Cr
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:47 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYIe-0003uf-K8
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:48 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B0D47B3E9;
- Wed, 16 Sep 2020 14:20:37 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 8E73DB53E;
+ Wed, 16 Sep 2020 14:20:38 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: [PATCH v8 16/17] kvm: remove kvm specific functions from global
- includes
-Date: Wed, 16 Sep 2020 16:20:03 +0200
-Message-Id: <20200916142004.27429-17-cfontana@suse.de>
+Subject: [PATCH v8 17/17] accel/tcg: use current_machine as it is always set
+ for softmmu
+Date: Wed, 16 Sep 2020 16:20:04 +0200
+Message-Id: <20200916142004.27429-18-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200916142004.27429-1-cfontana@suse.de>
 References: <20200916142004.27429-1-cfontana@suse.de>
@@ -61,102 +61,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
  Pavel Dovgalyuk <dovgaluk@ispras.ru>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Claudio Fontana <cfontana@suse.de>
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Colin Xu <colin.xu@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/kvm/kvm-cpus.h   |  7 +++++++
- accel/stubs/kvm-stub.c | 22 ----------------------
- include/sysemu/kvm.h   |  7 -------
- 3 files changed, 7 insertions(+), 29 deletions(-)
+current_machine is always set before accelerators are initialized,
+so use that instead of MACHINE(qdev_get_machine()).
 
-diff --git a/accel/kvm/kvm-cpus.h b/accel/kvm/kvm-cpus.h
-index 547fbee111..60c5a554c2 100644
---- a/accel/kvm/kvm-cpus.h
-+++ b/accel/kvm/kvm-cpus.h
-@@ -14,4 +14,11 @@
- 
- extern const CpusAccel kvm_cpus;
- 
-+int kvm_init_vcpu(CPUState *cpu);
-+int kvm_cpu_exec(CPUState *cpu);
-+void kvm_destroy_vcpu(CPUState *cpu);
-+void kvm_cpu_synchronize_post_reset(CPUState *cpu);
-+void kvm_cpu_synchronize_post_init(CPUState *cpu);
-+void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
-+
- #endif /* KVM_CPUS_H */
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 69f8a842da..680e099463 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -32,15 +32,6 @@ bool kvm_readonly_mem_allowed;
- bool kvm_ioeventfd_any_length_allowed;
- bool kvm_msi_use_devid;
- 
--void kvm_destroy_vcpu(CPUState *cpu)
--{
--}
--
--int kvm_init_vcpu(CPUState *cpu)
--{
--    return -ENOSYS;
--}
--
- void kvm_flush_coalesced_mmio_buffer(void)
- {
- }
-@@ -49,19 +40,6 @@ void kvm_cpu_synchronize_state(CPUState *cpu)
- {
- }
- 
--void kvm_cpu_synchronize_post_reset(CPUState *cpu)
--{
--}
--
--void kvm_cpu_synchronize_post_init(CPUState *cpu)
--{
--}
--
--int kvm_cpu_exec(CPUState *cpu)
--{
--    abort();
--}
--
- bool kvm_has_sync_mmu(void)
- {
-     return false;
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 07937454d2..fe7dab1466 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -223,10 +223,6 @@ int kvm_has_many_ioeventfds(void);
- int kvm_has_gsi_routing(void);
- int kvm_has_intx_set_mask(void);
- 
--int kvm_init_vcpu(CPUState *cpu);
--int kvm_cpu_exec(CPUState *cpu);
--void kvm_destroy_vcpu(CPUState *cpu);
--
- /**
-  * kvm_arm_supports_user_irq
-  *
-@@ -486,9 +482,6 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
- #endif /* NEED_CPU_H */
- 
- void kvm_cpu_synchronize_state(CPUState *cpu);
--void kvm_cpu_synchronize_post_reset(CPUState *cpu);
--void kvm_cpu_synchronize_post_init(CPUState *cpu);
--void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
- 
- void kvm_init_cpu_signals(CPUState *cpu);
- 
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ accel/tcg/tcg-cpus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
+index ec7158b55e..05af1168a2 100644
+--- a/accel/tcg/tcg-cpus.c
++++ b/accel/tcg/tcg-cpus.c
+@@ -484,7 +484,7 @@ static void tcg_start_vcpu_thread(CPUState *cpu)
+          * then we will have cpus running in parallel.
+          */
+         if (qemu_tcg_mttcg_enabled()) {
+-            MachineState *ms = MACHINE(qdev_get_machine());
++            MachineState *ms = current_machine;
+             if (ms->smp.max_cpus > 1) {
+                 parallel_cpus = true;
+             }
 -- 
 2.26.2
 
