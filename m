@@ -2,117 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4B526BDC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 09:17:06 +0200 (CEST)
-Received: from localhost ([::1]:55136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4BF26BDCD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 09:19:50 +0200 (CEST)
+Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIRgf-0003w7-LB
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 03:17:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
+	id 1kIRjJ-0005mk-Lo
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 03:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIRfm-0003QN-8z
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:16:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIRfj-0005EI-Vt
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:16:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600240567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YeskkhZrdYRC30aRDkN1HB5+YtMrgEAue+Oyyc6RWmM=;
- b=JK7QUaOjebzmelTLjOPdKJ28LUe+lXPXYymTvpydI6F/HPxyDT+0WCp/v4KUAkFBOdvC4C
- SNrLVFb6lVpmE54tebXVVNfcGVr/QbyhNucXHCJ/AAitW9vE0f3unMbinL/Z7PH7TnBYgC
- FInWG5UlBY68Ix258hDFgcZFkdromKM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-ldRULAslOJe8Nx_7yTS8TA-1; Wed, 16 Sep 2020 03:16:02 -0400
-X-MC-Unique: ldRULAslOJe8Nx_7yTS8TA-1
-Received: by mail-wr1-f72.google.com with SMTP id l15so2180083wro.10
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 00:16:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIRiB-0005Iw-8D
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:18:39 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIRi8-0005Vu-UO
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 03:18:38 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e16so5758501wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 00:18:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z42oBDChayfqEZYKk6vATJkYEAj/nxm/5kasbc+bHMU=;
+ b=x7RKjR/kdBEXskrZZoTes+i0R75hsULVWrtajsiv7u5DAMwVA1tUsO3OjgmMtAIUpZ
+ QpwR1dTca4IL1J8yP5tdYdygnFuiSP1mlAtL7lSa6FKF5Yk3QNxsebzrpk0JeirjZf52
+ P4IisBaeKVbwg+vjk+V5CUt/ujFIjss1vNEux8G82HvEjeKrDrsSINmPr7Hw7Bxfppd/
+ vpksy58xLqhJTgL9bnRgyjRV6T1+alx+MSas/SVNZ+bmrMEx3Lx3PpW3slnsoAcLEOFd
+ pYb/Tk+sQhBFECk0DKkrzwY9AVGTPEElodOWQXzi19RJGQ+lFB42IVV9nQ2ifL7w77Te
+ jm7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=YeskkhZrdYRC30aRDkN1HB5+YtMrgEAue+Oyyc6RWmM=;
- b=TwzqgKBqf0ddKJ4W4NwbOuCyJBhQHJzZ55JS/QuMAcf3Qd24fzMB7xhc3Z0vZVG/YJ
- IG8A6NstTUt+xx87apr3bciYW6Rbq9p7oPGoMYHGeZVOT/EkNwc9RllozEDdiZ+eEXkS
- Jwfa+Jh5/1/K4/G2dIXWSp/ZEeDtZ7HV8QRDFietNaQwwnfhJr1TYil6X0j6G8TKLpQ4
- yTlq13sBe/CW3hv7OVVuvI6hBxJ2UMS9Uk6LHk0+0uv35i4/UKQ8qu1Q7LB7djzhVAXA
- nC7Fk/hj5av5Fb3NLaE5ctIzZCpMX7wWfgs6jbgnxYWl9LLRlQ8BV4yBYC9rStwjZFxA
- ES+w==
-X-Gm-Message-State: AOAM532FiDO2xy73qZIiEwQtX0znBczWQvMBSgIvE9AIFrWshsY8pLGB
- SLw+gnbMFGApEJiHZnXCcX1+PpepsuUJRqEMWrgbMqyAg0Q86bKF8bkt6ZrNXkjqKrCtQLJnm/m
- n6jBBnyk+tyzLOnc=
-X-Received: by 2002:a5d:568d:: with SMTP id f13mr24570482wrv.303.1600240561725; 
- Wed, 16 Sep 2020 00:16:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwq0noszoQVJzm1DolWidvEViQOZeYjUogYdFgbN9z6nyZ6FKwQGNCkB9JVIICEVejxkoml4w==
-X-Received: by 2002:a5d:568d:: with SMTP id f13mr24570450wrv.303.1600240561426; 
- Wed, 16 Sep 2020 00:16:01 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id t15sm24849685wrp.20.2020.09.16.00.15.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Sep 2020 00:16:00 -0700 (PDT)
-Subject: Re: [PATCH v3 2/5] vfio: Create shared routine for scanning info
- capabilities
-To: Matthew Rosato <mjrosato@linux.ibm.com>, alex.williamson@redhat.com,
- cohuck@redhat.com
-References: <1600197283-25274-1-git-send-email-mjrosato@linux.ibm.com>
- <1600197283-25274-3-git-send-email-mjrosato@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <3ee0b4c6-865e-82b3-b003-64a4ddaab4b5@redhat.com>
-Date: Wed, 16 Sep 2020 09:15:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z42oBDChayfqEZYKk6vATJkYEAj/nxm/5kasbc+bHMU=;
+ b=kSB60OiCbVG2HppbhA+9vPYMTpyujOLLrH7Zs5xitCbb8tePE+/EjgO1GQT3dR+/8D
+ x+9TH7QUx1GGJFoXCZptOyHbuxn+HlY/ikNRZqXb1CrKpYspsKS49EgZV6Deq2YxSofa
+ plXbrtZVZeG1T2OF7QYUAa5Cntihpk+j3ygflo2sNiHXV6yTX0e+I51frZ2utc6YHcL5
+ wnRV20uV2Ll0l85SvTMtlhQjaGcZIWfjIX4Cye5Y7nBENQP/aWvFTDe97S4GHDTHthpQ
+ UqMKGrsZDcN2KsSmMnKZJynx4HgK/dRKj1a6Wj3U1UiIs/VWGh1Ndsp5Et+EdesUSOvP
+ XrTA==
+X-Gm-Message-State: AOAM5314BVgvZIp3Rop4tDvQUxGvYIac1XUdRcgJXlqpVXaz9UQY1v6+
+ Rqn3DDgizn5OjRSh8Rvo8IxZjjDhi3TB9q1yFq7zJg==
+X-Google-Smtp-Source: ABdhPJzNUVEOf4HWOZ9CoyBQLnWuOIAqnGqr56j6fcFasg6C9a1Fc2pSwjOaVfVHM1giRRxQo/3vxCzX7TNEzz+8Tyg=
+X-Received: by 2002:a5d:518b:: with SMTP id k11mr24661941wrv.369.1600240714867; 
+ Wed, 16 Sep 2020 00:18:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1600197283-25274-3-git-send-email-mjrosato@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200916061335.14045-1-ani@anisinha.ca>
+ <20200916091554.5c695601@redhat.com>
+In-Reply-To: <20200916091554.5c695601@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 16 Sep 2020 12:48:22 +0530
+Message-ID: <CAARzgwybU2yUqF=QMjsqrXDp7Q3mb+Ue2Vwm964BciVksJ0HMQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/11] i440fx/acpi: addition of feature and bug fixes.
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::444;
+ envelope-from=ani@anisinha.ca; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,67 +77,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- schnelle@linux.ibm.com, david@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mst@redhat.com, pbonzini@redhat.com, rth@twiddle.net
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/15/20 9:14 PM, Matthew Rosato wrote:
-> Rather than duplicating the same loop in multiple locations,
-> create a static function to do the work.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Got it.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> ---
->  hw/vfio/common.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 3335714..eba7b55 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -825,17 +825,12 @@ static void vfio_listener_release(VFIOContainer *container)
->      }
->  }
->  
-> -struct vfio_info_cap_header *
-> -vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-> +static struct vfio_info_cap_header *
-> +vfio_get_cap(void *ptr, uint32_t cap_offset, uint16_t id)
->  {
->      struct vfio_info_cap_header *hdr;
-> -    void *ptr = info;
-> -
-> -    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
-> -        return NULL;
-> -    }
->  
-> -    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-> +    for (hdr = ptr + cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
->          if (hdr->id == id) {
->              return hdr;
->          }
-> @@ -844,6 +839,16 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
->      return NULL;
->  }
->  
-> +struct vfio_info_cap_header *
-> +vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-> +{
-> +    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
-> +        return NULL;
-> +    }
-> +
-> +    return vfio_get_cap((void *)info, info->cap_offset, id);
-> +}
-> +
->  static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
->                                            struct vfio_region_info *info)
->  {
-> 
-
+On Wed, Sep 16, 2020 at 12:46 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Wed, 16 Sep 2020 11:43:24 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > In v4 I have made the following changes:
+> >
+> > - a cosmetic change for patch #4. Commit log was updated as per Igor's suggestion.
+> > - patches #10 and #11 were added to unit test patch #9.
+> >
+> > The DSDT table after disabling hotplug on the root bus and the pci bridges is shown here:
+> >
+> > https://pastebin.ubuntu.com/p/WvpYYjpPN8/
+> >
+> > This was generated by disassembling the newly added DSDT golden master binary table blob
+> > DSDT.hpbrroot.
+> >
+> > I sincerely hope this is the final iteration of the set of patches.  The patches has been
+> > unit tested on top of latest qemu upstream master branch.
+>
+> usually one includes Reviewed|...|-by tags from previous version,
+> unless there was a functional change in a reviewed patch or you
+> feel that trivial changes (if any) deserve review.
+>
+>
+> > Ani Sinha (11):
+> >   tests/acpi: document addition of table DSDT.roothp for unit testing
+> >     root pci hotplug on/off
+> >   tests/acpi: add a new unit test to test hotplug off/on feature on the
+> >     root pci bus
+> >   tests/acpi: add a new ACPI table in order to test root pci hotplug
+> >     on/off
+> >   Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
+> >     non-hotpluggable bus
+> >   i440fx/acpi: do not add hotplug related amls for cold plugged bridges
+> >   tests/acpi: list added acpi table binary file for pci bridge hotplug
+> >     test
+> >   tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support'
+> >     bridge flag
+> >   tests/acpi: add newly added acpi DSDT table blob for pci bridge
+> >     hotplug flag
+> >   piix4: don't reserve hw resources when hotplug is off globally
+> >   tests/acpi: unit test exercizing hotplug off for pci root bus & bridge
+> >     in i440fx
+> >   tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx
+> >     hotplug
+> >
+> >  hw/acpi/pcihp.c                   |  15 ++++++++++
+> >  hw/acpi/piix4.c                   |   6 ++--
+> >  hw/i386/acpi-build.c              |  37 ++++++++++++++---------
+> >  tests/data/acpi/pc/DSDT.hpbridge  | Bin 0 -> 4895 bytes
+> >  tests/data/acpi/pc/DSDT.hpbrroot  | Bin 0 -> 2953 bytes
+> >  tests/data/acpi/pc/DSDT.roothp    | Bin 0 -> 5130 bytes
+> >  tests/data/acpi/q35/DSDT          | Bin 7678 -> 7670 bytes
+> >  tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 8994 bytes
+> >  tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7688 bytes
+> >  tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8133 bytes
+> >  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9323 bytes
+> >  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7745 bytes
+> >  tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9029 bytes
+> >  tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8801 bytes
+> >  tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7676 bytes
+> >  tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8276 bytes
+> >  tests/qtest/bios-tables-test.c    |  47 ++++++++++++++++++++++++++++++
+> >  17 files changed, 90 insertions(+), 15 deletions(-)
+> >  create mode 100644 tests/data/acpi/pc/DSDT.hpbridge
+> >  create mode 100644 tests/data/acpi/pc/DSDT.hpbrroot
+> >  create mode 100644 tests/data/acpi/pc/DSDT.roothp
+> >
+>
 
