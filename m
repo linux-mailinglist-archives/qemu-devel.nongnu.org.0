@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B68A26C2C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:34:10 +0200 (CEST)
-Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F82826C2BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:31:39 +0200 (CEST)
+Received: from localhost ([::1]:36892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWdV-0002cI-Bh
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1kIWb4-0007NI-70
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:31:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kIWOX-0002kC-5c
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:18:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51120)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kIWMM-0000p5-JY
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:16:26 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57745
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kIWOU-00040Q-Aq
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:18:40 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kIWMK-0003k7-M9
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:16:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600258717;
+ s=mimecast20190719; t=1600258582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sGVWoFRRNIJjaEFjSCQuZV4/kPlzBlxwBNKlkQWqWq4=;
- b=auLFRneYCiLqdyqN2QaMa6qsnTB9RM0kLMRRD17ML5f8C466fas/k/axnaaTfzySHqx/Et
- zIe3ktXpsqkH+9H7SumWnzWr0SMM4TpF6gPQnc3VWTn1XFvjm0UiViLB2yQQHYt697koGN
- PSVCNBxJd8xSYgmi4L/BYsAMeptSkcE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-6wdkQkF6OJWFdGKMYnbfHQ-1; Wed, 16 Sep 2020 08:18:30 -0400
-X-MC-Unique: 6wdkQkF6OJWFdGKMYnbfHQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2385E1084C81;
- Wed, 16 Sep 2020 12:18:29 +0000 (UTC)
-Received: from [10.3.113.91] (ovpn-113-91.phx2.redhat.com [10.3.113.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 733681002388;
- Wed, 16 Sep 2020 12:18:28 +0000 (UTC)
-Subject: Re: [PATCH v2] qemu-img: Support bitmap --merge into backing image
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20200914191009.644842-1-eblake@redhat.com>
- <f4d640aa-6aec-7dbc-69ae-5a2a6921447d@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <07832208-dcc8-8e33-c7e7-05f9c891fec3@redhat.com>
-Date: Tue, 15 Sep 2020 08:31:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=PEOr/2G1n1nCZbajL1C4h74rXsnVuP1foPnAS/GD2kU=;
+ b=OorQ+/gzJNt5TkiVzKJ2oc8zwoVIjtmfQQgcfVnnafRGDTo59G74/BILYT5XmC9IOh62SM
+ yqb558B/dB+8ipMv1puGz3HjhOErvWKY5xdHHAC1OfzQlSjETX8j5ZQZyP+JotuZQDEoKA
+ VW3V/ZjcIsNPTClTaq7D4UO84j0GzTM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-hsjOsDZqNc2J79w91Km_pg-1; Wed, 16 Sep 2020 08:16:19 -0400
+X-MC-Unique: hsjOsDZqNc2J79w91Km_pg-1
+Received: by mail-wm1-f69.google.com with SMTP id m20so955411wmg.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:16:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=PEOr/2G1n1nCZbajL1C4h74rXsnVuP1foPnAS/GD2kU=;
+ b=bORuj0XsqUKiCY8IRFYWx7H8Zn0CFVV8JB6B/VsKfHERDrGGC1+zINW7Tkn/ZBvPa7
+ 75j6h/jS2R5vT7UEp+u/OsNBuFNazka8Eu7SYeBKhUsdQ9ziq/Z+yassDQr7e8fA6afQ
+ AO+WojFrFnAZdb+lCngo919pzltqbGqt5kFh4rRyIzvO3FOZiVN2hzWVcrfbi75a3xRE
+ sA+TED5Wly6QnBZbeAFpDikHc6J+SjVFAgJuO3qFN/C4asO6XFm2Z/LkTe31qlj/kk/a
+ 9Zmi3thwp53CheWPNmkbKlsOMmJN8KxTsQqUfD3xEUjuTdC+xifbsg9UKKcTDwbcwucK
+ 5a4w==
+X-Gm-Message-State: AOAM533zl7Oikjt9Ndjvl/KP9oKNuql/HNkmRWcQwVr+DAZZOE8PI7cU
+ bqcl/yoaFJBkGtAsRqCm8HxhAX1YZ3bcU8u7QcI/EAEWLzq15sadnn3OA2v2tNFy9Urfga26KPv
+ pKQV93s1lPZtRj4A=
+X-Received: by 2002:a1c:5a05:: with SMTP id o5mr4201541wmb.7.1600258576642;
+ Wed, 16 Sep 2020 05:16:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwBsEobzGS2xwDtZgtHnkoZqQNtSwNIZv7jcKlzRFy8dVwN0kgtDzbt9ySDB6eQF+1fKzuNlg==
+X-Received: by 2002:a1c:5a05:: with SMTP id o5mr4201527wmb.7.1600258576410;
+ Wed, 16 Sep 2020 05:16:16 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id m10sm5033353wmi.9.2020.09.16.05.16.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Sep 2020 05:16:15 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Antoine Damhet <antoine.damhet@blade-group.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [BUG] Migration hv_time rollback
+In-Reply-To: <20200916115950.tsarwvk2dwgiceoe@tartarus>
+References: <20200916090602.blkm7eym6g5bnvvk@tartarus>
+ <20200916112956.GE2833@work-vm> <20200916115950.tsarwvk2dwgiceoe@tartarus>
+Date: Wed, 16 Sep 2020 14:16:14 +0200
+Message-ID: <878sd9j4s1.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f4d640aa-6aec-7dbc-69ae-5a2a6921447d@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:41:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIMWL_WL_HIGH=-2.999, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,98 +96,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, eshenitz@redhat.com, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/15/20 3:57 AM, Max Reitz wrote:
-> On 14.09.20 21:10, Eric Blake wrote:
->> If you have the chain 'base.qcow2 <- top.qcow2' and want to merge a
->> bitmap from top into base, qemu-img was failing with:
->>
->> qemu-img: Could not open 'top.qcow2': Could not open backing file: Failed to get shared "write" lock
->> Is another process using the image [base.qcow2]?
->>
->> The easiest fix is to not open the entire backing chain of either
->> image (source or destination); after all, the point of 'qemu-img
->> bitmap' is solely to manipulate bitmaps directly within a single qcow2
->> image, and this is made more precise if we don't pay attention to
->> other images in the chain that may happen to have a bitmap by the same
->> name.
->>
->> However, note that during normal usage, it is a feature that qemu will
->> allow a bitmap from a backing image to be exposed by an overlay BDS;
->> doing so makes it easier to perform incremental backup, where we have:
->>
->> Base <- Active <- temporrary
-> 
-> *temporary
-> 
-> (Also it’s a bit strange that “Base” and “Active” are capitalized, but
-> “temporary” isn’t)
-> 
->>            \--block job ->/
->>
->> with temporary being fed by a block-copy 'sync' job; when exposing
-> 
-> s/block-copy 'sync'/backup 'sync=none'/?
+Antoine Damhet <antoine.damhet@blade-group.com> writes:
 
-Will fix both.
+> On Wed, Sep 16, 2020 at 12:29:56PM +0100, Dr. David Alan Gilbert wrote:
+>> cc'ing in Vitaly who knows about the hv stuff.
+>
+> Thanks
+>
+>> 
+>> * Antoine Damhet (antoine.damhet@blade-group.com) wrote:
+>> > Hi,
+>> > 
+>> > We are experiencing timestamp rollbacks during live-migration of
+>> > Windows 10 guests with the following qemu configuration (linux 5.4.46
+>> > and qemu master):
+>> > ```
+>> > $ qemu-system-x86_64 -enable-kvm -cpu host,kvm=off,hv_time [...]
+>> > ```
+>> 
+>> How big a jump are you seeing, and how did you notice it in the guest?
+>
+> I'm seeing jumps of about the guest uptime (indicating a reset of the
+> counter). It's expected because we won't call `KVM_SET_CLOCK` to
+> restore any value.
+>
+> We first noticed it because after some migrations `dwm.exe` crashes with
+> the "(NTSTATUS) 0x8898009b - QueryPerformanceCounter returned a time in
+> the past." error code.
+>
+> I can also confirm the following hack makes the behavior disappear:
+>
+> ```
+> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+> index 64283358f9..f334bdf35f 100644
+> --- a/hw/i386/kvm/clock.c
+> +++ b/hw/i386/kvm/clock.c
+> @@ -332,11 +332,7 @@ void kvmclock_create(void)
+>  {
+>      X86CPU *cpu = X86_CPU(first_cpu);
+>
+> -    if (kvm_enabled() &&
+> -        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
+> -                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2))) {
+> -        sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+> -    }
+> +    sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+>  }
+>
 
-> 
->> temporary over NBD, referring to a bitmap that lives only in Active is
->> less effort than having to copy a bitmap into temporary [1].  So the
->> testsuite additions in this patch check both where bitmaps get
->> allocated (the qemu-img info output), and, when NOT using 'qemu-img
->> bitmap', that bitmaps are indeed visible through a backing chain.
-> 
-> Well.  It is useful over NBD but I would doubt that it isn’t useful in
-> general.  For example, the QMP commands that refer to bitmaps always do
-> so through a node-name + bitmap-name combination, and they require that
-> the given bitmap is exactly on the given node.
-> 
-> So I think this is a very much a case-by-case question.  (And in
-> practice, NBD seems to be the outlier, not qemu-img bitmap.)
-> 
 
-I'm happy to reword slightly to give that caveat.
+Oh, I think I see what's going on. When you add 'kvm=off'
+cpu->env.features[FEAT_KVM] is reset (see x86_cpu_expand_features()) so
+kvmclock QEMU device is not created and nobody calls KVM_SET_CLOCK on
+migration.
 
->> [1] Full disclosure: prior to the recent commit 374eedd1c4 and
->> friends, we were NOT able to see bitmaps through filters, which meant
->> that we actually did not have nice clean semantics for uniformly being
->> able to pick up bitmaps from anywhere in the backing chain (seen as a
->> change in behavior between qemu 4.1 and 4.2 at commit 00e30f05de, when
->> block-copy swapped from a one-off to a filter).  Which means libvirt
->> was already coded to copy bitmaps around for the sake of older qemu,
->> even though modern qemu no longer needs it.  Oh well.
->>
->> Fixes: http://bugzilla.redhat.com/1877209
->> Reported-by: Eyal Shenitzky <eshenitz@redhat.com>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->> ---
->>
->> In v2:
->> - also use BDRV_O_NO_BACKING on source [Max]
->> - improved commit message [Max]
->>
->>   qemu-img.c                 | 11 ++++++--
->>   tests/qemu-iotests/291     | 12 ++++++++
->>   tests/qemu-iotests/291.out | 56 ++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 76 insertions(+), 3 deletions(-)
-> 
-> The code looks good to me, but I wonder whether in the commit message it
-> should be noted that we don’t want to let bitmaps from deeper nodes
-> shine through by default everywhere, but just in specific cases where
-> that’s useful (i.e. only NBD so far AFAIA).
-
-So is this a Reviewed-by?  I'm happy to queue it through my bitmaps 
-tree, if so.
-
+In case we really want to support 'kvm=off' I think we can add Hyper-V
+features check here along with KVM, this should do the job.
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Vitaly
 
 
