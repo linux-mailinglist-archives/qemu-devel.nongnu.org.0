@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D325826B8D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 02:51:25 +0200 (CEST)
-Received: from localhost ([::1]:40850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9913E26B8B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 02:49:12 +0200 (CEST)
+Received: from localhost ([::1]:33822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kILfQ-0002so-TT
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 20:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56756)
+	id 1kILdH-0008RE-K7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 20:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kILax-0006HD-UQ
+ id 1kILax-0006G3-En
  for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:47 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33394)
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kILau-0001Vd-LQ
+ id 1kILav-0001Vx-Rz
  for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:47 -0400
-Received: by mail-pf1-x444.google.com with SMTP id z18so413214pfg.0
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:46:44 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id e4so2238988pln.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:46:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+jDBZOfLiTrHQFNxHg77u5bGYtXjoCt88pLLuScea1s=;
- b=mrAEDLWaG0r6y4SrB4wKFW0RpKtBFvptgTnZrV0obPYX1D8UPQRcAHZlThDotJQL+v
- EPvaUkAX8MXvkmhcFUWiRkbTKgrm64Pyp0wMRe+EXytC4o+2fvpzhFpNRaUFIKfPrGQE
- 7Scz5okPjMt94y2zl/Ar3MUlrDVHLkmEoXzcwlVcDPO7HtUS6EqhVHu+5jK3QD7VvpQR
- 546j6RabTgu6ZbuErwgyFnSLqCNP1e0Cak22uZgcrNJel3tVv8AdJx3TxyjgP08FvEh+
- v1H4vr4T02c4uKSlKBqSMCnHd5nuJMXg+mZCKpvP8PcMptP7c1NGASw0TtkJ/XKW/tB2
- 2R9A==
+ bh=RffEK/rCiFhZmvHDae5MdJFHwlUbrlsn383XqLguch4=;
+ b=h3gEi3/slhIcV2djfTfSFVwGQfUeVhbW29GKU+wNBAYZRYASifAYiwU2GhWCopKRrk
+ L2cRJicJ2fWTVWiBNOcHYFAz4Qr/dcDtREvGcwoaxy8BN2MEl96W6+FOOlxL+etoCmmV
+ vXOHiIIIkQGcTwAY7n/vW6A6O79WtP+H/k9ECczFOK86JyP5D+yF5qVmu0F3Pcz8xnN6
+ mrQNM9gkBYfRtKrSmvaYZ8I3tPv+F3t1TF6ejXJ+HAKyJuHDLHlh/eX0OKChTdzNY1gH
+ hykkkHPW44bEvk/L/qE95/bsMGOS2aRLAsmVG684xbfTYTPUjRaG63/YNHjVq5w++TDU
+ 0c5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+jDBZOfLiTrHQFNxHg77u5bGYtXjoCt88pLLuScea1s=;
- b=CMg+e5s7kC5Mpxq1cbpG6nLFdQKBsBoxbkqfBme4/m/Zt2obu8JiXcVLipX6B9WcVN
- Zl2GO5gU/IqgLEWly17uaKa9p1G+mZ+JsMltky3SxHahh1vBU7/b/Z6NoqBIGas8Lwly
- NxDaRcx6k4NHHksTl9eXvsFTGfB3rS5f8kML9HvbhSM1AA3QN+ros7OBDP+n1Vew7aCq
- nfuky+PQzjXNuIFC9+9+e/WGtHVuz+KN4xM6FqNU13cSUcu0x1LFCKz+vsAuGM+Vmv1e
- 1lVICeEsXnHeWhDvtosTnpx3zoIUm4o2zr0kpVB9X7DHfB8YgZoLWu5EPtd3tc5m6UUB
- xs0g==
-X-Gm-Message-State: AOAM530anw78D81Fw3rDBAzQCbO5q2/hqGmf391Gvl7HnDNPlQ14NFuD
- hUGBdFls+QdcdWH+5YHJ6PiVHi9pkFCEfA==
-X-Google-Smtp-Source: ABdhPJwBKhgsIWz+hInQGSaNJP6ku4tXxczmI2H3qaPlpHhMk2WYbEtGPZ6VCpw9S28/s4tSTxi67Q==
-X-Received: by 2002:a63:c9:: with SMTP id 192mr16920983pga.37.1600217202984;
- Tue, 15 Sep 2020 17:46:42 -0700 (PDT)
+ bh=RffEK/rCiFhZmvHDae5MdJFHwlUbrlsn383XqLguch4=;
+ b=r0cUaQ1wTIyJZLc1BzNXzdTaKNaQNS8uqbesDhl/kiGKbIJNWkTq9VuYBms6Q7+GuX
+ BPY98p1H+uawKkLO1+MjsQq83/udhwbPQheDGXvfDO2uNYhhoi1yajTvbsr63Yk+1knj
+ EP9Vn3gupp7vaUAFlzOPktbdhsX5wzlPtuT3OQ4ZVk1jDhoa5AD5wo23MsHrsMetp2/z
+ bdPzt88PtIGA5Srl46g1mEm7e7HDMM6EW4T8KOxlYMh0cxc0Lh3MzPW+q9kh9g0F/gsZ
+ NxVrmXt7k3+jcG9HJn5gijBfY8Ski5+iqCKNKaLIHvoMDs+Nokgl8A2/GoznRmlDlLqN
+ zXqg==
+X-Gm-Message-State: AOAM530ITku+g+HzySFpiYhJ//IFDtNj+XjJuIqUfr1zSpfy4T8vNTNG
+ yMf5qjy4nWm+H3YvuonaABU6D9mdRedaog==
+X-Google-Smtp-Source: ABdhPJx+h+9xqaf8n1Ja6zNGxq0+GezVWStbgn6ST6XO8IRIoMO7Mxy1rvEsCg30nuIQea6aJltR9Q==
+X-Received: by 2002:a17:90a:ad8b:: with SMTP id
+ s11mr1713407pjq.40.1600217204217; 
+ Tue, 15 Sep 2020 17:46:44 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id kf10sm611723pjb.2.2020.09.15.17.46.41
+ by smtp.gmail.com with ESMTPSA id kf10sm611723pjb.2.2020.09.15.17.46.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 17:46:42 -0700 (PDT)
+ Tue, 15 Sep 2020 17:46:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/6] qom: Allow objects to be allocated with increased
- alignment
-Date: Tue, 15 Sep 2020 17:46:34 -0700
-Message-Id: <20200916004638.2444147-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 3/6] target/arm: Set instance_align on CPUARM TypeInfo
+Date: Tue, 15 Sep 2020 17:46:35 -0700
+Message-Id: <20200916004638.2444147-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200916004638.2444147-1-richard.henderson@linaro.org>
 References: <20200916004638.2444147-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,127 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It turns out that some hosts have a default malloc alignment less
-than that required for vectors.
-
-We assume that, with compiler annotation on CPUArchState, that we
-can properly align the vector portion of the guest state.  Fix the
-alignment of the allocation by using qemu_memalloc when required.
+Fix alignment of CPUARMState.vfp.zregs.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 ---
- include/qom/object.h |  5 +++++
- qom/object.c         | 36 +++++++++++++++++++++++++++++++++---
- 2 files changed, 38 insertions(+), 3 deletions(-)
+ target/arm/cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 056f67ab3b..5709c36859 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -691,6 +691,7 @@ struct Object
-         .parent = TYPE_##PARENT_MODULE_OBJ_NAME, \
-         .name = TYPE_##MODULE_OBJ_NAME, \
-         .instance_size = sizeof(ModuleObjName), \
-+        .instance_align = __alignof__(ModuleObjName), \
-         .instance_init = module_obj_name##_init, \
-         .instance_finalize = module_obj_name##_finalize, \
-         .class_size = sizeof(ModuleObjName##Class), \
-@@ -770,6 +771,9 @@ struct Object
-  * @instance_size: The size of the object (derivative of #Object).  If
-  *   @instance_size is 0, then the size of the object will be the size of the
-  *   parent object.
-+ * @instance_align: The required alignment of the object.  If @instance_align
-+ *   is 0, then normal malloc alignment is sufficient; if non-zero, then we
-+ *   must use qemu_memalign for allocation.
-  * @instance_init: This function is called to initialize an object.  The parent
-  *   class will have already been initialized so the type is only responsible
-  *   for initializing its own members.
-@@ -807,6 +811,7 @@ struct TypeInfo
-     const char *parent;
- 
-     size_t instance_size;
-+    size_t instance_align;
-     void (*instance_init)(Object *obj);
-     void (*instance_post_init)(Object *obj);
-     void (*instance_finalize)(Object *obj);
-diff --git a/qom/object.c b/qom/object.c
-index 387efb25eb..fcc15f6d88 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -50,6 +50,7 @@ struct TypeImpl
-     size_t class_size;
- 
-     size_t instance_size;
-+    size_t instance_align;
- 
-     void (*class_init)(ObjectClass *klass, void *data);
-     void (*class_base_init)(ObjectClass *klass, void *data);
-@@ -114,6 +115,7 @@ static TypeImpl *type_new(const TypeInfo *info)
- 
-     ti->class_size = info->class_size;
-     ti->instance_size = info->instance_size;
-+    ti->instance_align = info->instance_align;
- 
-     ti->class_init = info->class_init;
-     ti->class_base_init = info->class_base_init;
-@@ -688,16 +690,44 @@ static void object_finalize(void *data)
-     }
- }
- 
-+/* Find the minimum alignment guaranteed by the system malloc. */
-+#if __STDC_VERSION__ >= 201112L
-+typddef max_align_t qemu_max_align_t;
-+#else
-+typedef union {
-+    long l;
-+    void *p;
-+    double d;
-+    long double ld;
-+} qemu_max_align_t;
-+#endif
-+
- static Object *object_new_with_type(Type type)
- {
-     Object *obj;
-+    size_t size, align;
-+    void (*obj_free)(void *);
- 
-     g_assert(type != NULL);
-     type_initialize(type);
- 
--    obj = g_malloc(type->instance_size);
--    object_initialize_with_type(obj, type->instance_size, type);
--    obj->free = g_free;
-+    size = type->instance_size;
-+    align = type->instance_align;
-+
-+    /*
-+     * Do not use qemu_memalign unless required.  Depending on the
-+     * implementation, extra alignment implies extra overhead.
-+     */
-+    if (likely(align <= __alignof__(qemu_max_align_t))) {
-+        obj = g_malloc(size);
-+        obj_free = g_free;
-+    } else {
-+        obj = qemu_memalign(align, size);
-+        obj_free = qemu_vfree;
-+    }
-+
-+    object_initialize_with_type(obj, size, type);
-+    obj->free = obj_free;
- 
-     return obj;
- }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 7b5ea65fab..a7643deab4 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2290,6 +2290,7 @@ void arm_cpu_register(const ARMCPUInfo *info)
+     TypeInfo type_info = {
+         .parent = TYPE_ARM_CPU,
+         .instance_size = sizeof(ARMCPU),
++        .instance_align = __alignof__(ARMCPU),
+         .instance_init = arm_cpu_instance_init,
+         .class_size = sizeof(ARMCPUClass),
+         .class_init = info->class_init ?: cpu_register_class_init,
+@@ -2305,6 +2306,7 @@ static const TypeInfo arm_cpu_type_info = {
+     .name = TYPE_ARM_CPU,
+     .parent = TYPE_CPU,
+     .instance_size = sizeof(ARMCPU),
++    .instance_align = __alignof__(ARMCPU),
+     .instance_init = arm_cpu_initfn,
+     .instance_finalize = arm_cpu_finalizefn,
+     .abstract = true,
 -- 
 2.25.1
 
