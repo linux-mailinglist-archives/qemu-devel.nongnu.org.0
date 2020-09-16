@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05F326B8A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 02:48:45 +0200 (CEST)
-Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8826E26B8B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 02:49:17 +0200 (CEST)
+Received: from localhost ([::1]:34348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kILcq-0007uO-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 20:48:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56680)
+	id 1kILdM-0000Cj-JE
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 20:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kILav-0006C6-5P
+ id 1kILav-0006CK-CC
  for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:45 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:33177)
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:55221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kILas-0001Ux-4y
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:44 -0400
-Received: by mail-pf1-x435.google.com with SMTP id z18so413151pfg.0
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:46:41 -0700 (PDT)
+ id 1kILat-0001VM-CC
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:45 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id mm21so663495pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:46:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yNC3S/khtq12tJRSCbvlPPiZVwJzXQmUa6AFIClVkY4=;
- b=t9a8vZ7RVzwtQjEt1J3AvjbyTZKrIuOQeg0s7nSJZG9F1LWO3SLgm5PwDxJ3DAE9i3
- q7n9XBArD+tloYxXm+vYjQabmP6m1qeGXccS62ucuNFVnGZEDc1OxQoPzFZu4rScBFUc
- /96SgSqFvhTiQatY8Ks4SLZUJKaa5MBkNP8XtU1chc8hU/2h45rJhlB3eWPR3LpDujKA
- sSQMyx48zVXVznCYLCHQsRScFLuQ9NSIPL2ShMg/gHTtD2YGrn/w0yp5DY5yO4U8UGmy
- Ml0cuUD96dTFzuqWfJ6VbzN+TxH+fLYtpCZeUqzdeQCgEXWjFoGSGyAUE+/97vEEzefm
- oP4w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JlzqTM8MN4TgFiIIYSOlECE3VdxOaRIuKAB56KsJHUw=;
+ b=yUB+GUJ48KcdLz4tskSlwvs/6KoJcFilBd4dSdNlrS0Z8UKcuNx/IkQBKYpMIF2pNt
+ NTQrGJdfqkF5PvR8LIddUdIM12mJYtT2Gy5i704InoURar7a4V34BqhPLsHkTQbaDfeq
+ wYIE1W4QPsZRwYDh5fdu40YD+s6tYv9PD15eyZ1JbtU9p/kf5WwLbY/qdqkH62DTxRrh
+ GV/nAFMlDAijuPZlHOGzXgjEmqNHWIZAYkCgjYiN7JMsbcUe3b10vvJesx+JMNupL9Bi
+ E47d++PfoCa5Anscv7sQHooAgd9XDQeuw5v4WW5MDwRJk49dMTyT0W+pXcpJThBPKlYi
+ E7uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yNC3S/khtq12tJRSCbvlPPiZVwJzXQmUa6AFIClVkY4=;
- b=GoVWHXslL9v5hUtAqF6lHyxL183CSeXaapaeB72dZAJZVwVjU4L4r6mmwI9ML+Ny0n
- dyy/0UI16YGcqrZcusiRI3f7OBNbVEB9YmrQ0PLqWG/FVzycj7IMpefi8dGt2N6xYrAV
- x3F5pmZf1x3jFNjggq/PBEzX5+t+dvOLEui8RKbNfLiDL5Jj/35qfulWwYHiRLIw/xM3
- K5YLxi6kOxl7RnvwiIRSpC8Y1R2RJfBE6/uzOaRMdTHPQqCCDe6HHE2ukvtNjfZBpass
- iEk4XOyhRAWnQk6Vk9W3d7hhyGhQOSdAXk4go3ev2WlKZBLaF4M3OCzIQI/mwT9m6xgP
- jHtw==
-X-Gm-Message-State: AOAM531tjl9RLArXwsUER29Po8m+Ziz6NeUUdB7mF2G7hMoFbJmBU6HD
- 8MK9dfpbkj1wP0JK4D4b82lu0Br5414IHw==
-X-Google-Smtp-Source: ABdhPJy3dazCFMWcdNrfGtLknyJ6gg7B2dLw1Nk7g9bwMYZfOWiG6C5+ZdP5uNbaz5iBcX6Yvjy1IQ==
-X-Received: by 2002:a62:7c82:0:b029:13c:1611:6525 with SMTP id
- x124-20020a627c820000b029013c16116525mr20664512pfc.5.1600217200425; 
- Tue, 15 Sep 2020 17:46:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JlzqTM8MN4TgFiIIYSOlECE3VdxOaRIuKAB56KsJHUw=;
+ b=rnO/mmTEv3k4GGC01liPvO0yzgl5YECvVS/UlxEaDdDfdBcmRnow2lSeHGbWu8LoPe
+ gdmOPZFDHSZmnkhmkafWRj1Tv+5DSigNECmtP9+9cCRpo9ApuVay3YXKN70Dn52UCD/x
+ ncV6GLrDhPBeNmb1f4p4O5hTixzxbdpX2P3NFHLtS5uBiCAXSI1MpCMqs8NfcU33oKey
+ SimLKdggGaV/buvsqnHhz7TQ65AWI0EedmI2634O3zC6V7vwrKuZOonoxvJXUHnjj3v3
+ YJIYGkXL0nwngi7qgRE00TDg/ttrnwnmUHYVMkXFjsrtNTfpL5Hl2VwIEYMwclyoGxez
+ e0qw==
+X-Gm-Message-State: AOAM533sJquGxF5M3SEM8rdLJk/nxDBxL1Fi2EGEq27J7gVtss6rhFbA
+ d3jQaYo+A+nIuALJ4F57Y10JRzQdlk/04w==
+X-Google-Smtp-Source: ABdhPJy6VBIa0S05MzVu5YswlHGmEMaw4Q6wYDdfN/qb/tVPa0UbXpVDnJVvkKjv3J4CqcYTsr5VAw==
+X-Received: by 2002:a17:90a:ca82:: with SMTP id
+ y2mr1648127pjt.233.1600217201728; 
+ Tue, 15 Sep 2020 17:46:41 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id kf10sm611723pjb.2.2020.09.15.17.46.38
+ by smtp.gmail.com with ESMTPSA id kf10sm611723pjb.2.2020.09.15.17.46.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 17:46:39 -0700 (PDT)
+ Tue, 15 Sep 2020 17:46:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/6] qom: Allow object to be aligned
-Date: Tue, 15 Sep 2020 17:46:32 -0700
-Message-Id: <20200916004638.2444147-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 1/6] util/oslib-win32: Use _aligned_malloc for
+ qemu_try_memalign
+Date: Tue, 15 Sep 2020 17:46:33 -0700
+Message-Id: <20200916004638.2444147-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200916004638.2444147-1-richard.henderson@linaro.org>
+References: <20200916004638.2444147-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -71,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,75 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-riscv@nongnu.org,
- David Hildenbrand <david@redhat.com>, qemu-ppc@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've seen some failures on arm and s390x hosts after
-enabling host vector support.  It turns out that the
-malloc for these hosts does not provide 16-byte alignment.
+We do not need or want to be allocating page sized quanta.
 
-We already have a function that can alloc with alignment,
-but we need to pass this down from the structure.  We also
-don't want to use this function unconditionally, because
-the windows version does page allocation, which would be
-overkill for the vast majority of the objects allocated.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+Cc: Stefan Weil <sw@weilnetz.de>
+---
+ util/oslib-win32.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-Changes in v2:
-  * Add _aligned_malloc patch for win32.  For what it's
-    worth, this passes a gitlab cross-compile test.
-
-  * Add and use qemu_max_align_t for choosing between
-    g_malloc and qemu_memalign.
-
-    I had been discussing extra checks for i386-linux with
-    Eduardo, but then it occured to me that both linux libc
-    posix_memalign is smart enough to not imply extra overhead.
-    So qemu_memalign with alignment <= malloc alignment is
-    handled easily by the system.
-
-
-r~
-
-
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: qemu-arm@nongnu.org
-Cc: qemu-ppc@nongnu.org
-Cc: qemu-riscv@nongnu.org
-Cc: qemu-s390x@nongnu.org
-
-
-Richard Henderson (6):
-  util/oslib-win32: Use _aligned_malloc for qemu_try_memalign
-  qom: Allow objects to be allocated with increased alignment
-  target/arm: Set instance_align on CPUARM TypeInfo
-  target/ppc: Set instance_align on PowerPCCPU TypeInfo
-  target/riscv: Set instance_align on RISCVCPU TypeInfo
-  target/s390x: Set instance_align on S390CPU TypeInfo
-
- include/qom/object.h            |  5 +++++
- qom/object.c                    | 36 ++++++++++++++++++++++++++++++---
- target/arm/cpu.c                |  2 ++
- target/riscv/cpu.c              |  1 +
- target/s390x/cpu.c              |  1 +
- util/oslib-win32.c              | 10 +++------
- target/ppc/translate_init.c.inc |  1 +
- 7 files changed, 46 insertions(+), 10 deletions(-)
-
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index c654dafd93..8d838bf342 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -56,10 +56,8 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+ {
+     void *ptr;
+ 
+-    if (!size) {
+-        abort();
+-    }
+-    ptr = VirtualAlloc(NULL, size, MEM_COMMIT, PAGE_READWRITE);
++    assert(size != 0);
++    ptr = _aligned_malloc(alignment, size);
+     trace_qemu_memalign(alignment, size, ptr);
+     return ptr;
+ }
+@@ -93,9 +91,7 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared)
+ void qemu_vfree(void *ptr)
+ {
+     trace_qemu_vfree(ptr);
+-    if (ptr) {
+-        VirtualFree(ptr, 0, MEM_RELEASE);
+-    }
++    _aligned_free(ptr);
+ }
+ 
+ void qemu_anon_ram_free(void *ptr, size_t size)
 -- 
 2.25.1
 
