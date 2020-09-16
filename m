@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E07B26BF7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:39:10 +0200 (CEST)
-Received: from localhost ([::1]:56296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E54B26BF84
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:40:19 +0200 (CEST)
+Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kISy5-0006yv-5e
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33402)
+	id 1kISzC-0008LU-Da
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1kISwZ-0005kD-4h
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:37:36 -0400
-Received: from mga14.intel.com ([192.55.52.115]:47313)
+ id 1kISwX-0005jz-HL
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:37:34 -0400
+Received: from mga14.intel.com ([192.55.52.115]:47314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1kISwU-00078f-JK
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:37:34 -0400
-IronPort-SDR: xmjTz4eujF6EUs7WaWv9IPZ4zIIhXkSCwAMa7TjjlhE2hQgaNVvjw6ymI/CBzAzZucAa+ds+D+
- kQghNS3ChDUA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="158705907"
-X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="158705907"
+ id 1kISwU-00078m-Kj
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:37:33 -0400
+IronPort-SDR: dXnNaK4+qYMpEgYD9yD3VKw5KMU0OaQ+Ta4zCoKBcotWeUVWEN20b0jVgLcNriCEBfOT3TC1hg
+ kHRRPLSxFznQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="158705914"
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="158705914"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2020 01:37:26 -0700
-IronPort-SDR: UfUGURLDNXZjmli5whk5TzqUrU+1IDoGAl1SOqKY4/nNjHNEdpFZ0Nwpme4pqFl8HIwlx4hV+I
- 430/UIpmcC5w==
+ 16 Sep 2020 01:37:28 -0700
+IronPort-SDR: b3kyrAn65mKXzuqOzuQ4r5CZ0YGPGlSwRVZOXEQyHeqn2hLeFVgFVMJ/Utssyq7rbfy6kD416m
+ CeZvJ+/HSy0w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="306959077"
+X-IronPort-AV: E=Sophos;i="5.76,432,1592895600"; d="scan'208";a="306959088"
 Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
  ([10.239.48.212])
- by orsmga006.jf.intel.com with ESMTP; 16 Sep 2020 01:37:23 -0700
+ by orsmga006.jf.intel.com with ESMTP; 16 Sep 2020 01:37:26 -0700
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: ehabkost@redhat.com, eblake@redhat.com, pbonzini@redhat.com,
  rth@twiddle.net, armbru@redhat.com
-Subject: [PATCH v3 1/2] Introduce (x86) CPU model deprecation API
-Date: Wed, 16 Sep 2020 16:37:13 +0800
-Message-Id: <1600245434-63021-1-git-send-email-robert.hu@linux.intel.com>
+Subject: [PATCH v3 2/2] Mark Icelake-Client CPU models deprecated
+Date: Wed, 16 Sep 2020 16:37:14 +0800
+Message-Id: <1600245434-63021-2-git-send-email-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1600245434-63021-1-git-send-email-robert.hu@linux.intel.com>
+References: <1600245434-63021-1-git-send-email-robert.hu@linux.intel.com>
 Received-SPF: none client-ip=192.55.52.115;
  envelope-from=robert.hu@linux.intel.com; helo=mga14.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 04:37:26
@@ -68,201 +70,45 @@ Cc: robert.hu@intel.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Complement versioned CPU model framework with the ability of marking some
-versions deprecated. When that CPU model is chosen, get some warning. The
-warning message is customized, e.g. telling in which future QEMU version will
-it be obsoleted.
-The deprecation message will also appear by x86_cpu_list_entry(), e.g. '-cpu
-help'.
-QMP 'query-cpu-definitions' will also return a bool value indicating the
-deprecation status.
+Going to obsolete Icelake-Client CPU models in the future.
 
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
 ---
-Changelog
+Change log
 v3:
-Make the deprecation implementation CPUClass generic.
+Obsolete in v5.2 --> v5.3.
 
-v2:
-Move deprecation check from parse_cpu_option() to machine_run_board_init(), so
-that it can cover implicit cpu_type assignment cases.
-Add qapi new member documentation. Thanks Eric for comment and guidance on qapi.
+ target/i386/cpu.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
- hw/core/machine.c        | 12 ++++++++++--
- include/hw/core/cpu.h    |  6 ++++++
- qapi/machine-target.json |  7 ++++++-
- target/i386/cpu.c        | 29 +++++++++++++++++++++++------
- 4 files changed, 45 insertions(+), 9 deletions(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index ea26d61..b41f88d 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1095,6 +1095,8 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
- void machine_run_board_init(MachineState *machine)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(machine);
-+    ObjectClass *oc = object_class_by_name(machine->cpu_type);
-+    CPUClass *cc;
- 
-     if (machine->ram_memdev_id) {
-         Object *o;
-@@ -1114,11 +1116,10 @@ void machine_run_board_init(MachineState *machine)
-      * specified a CPU with -cpu check here that the user CPU is supported.
-      */
-     if (machine_class->valid_cpu_types && machine->cpu_type) {
--        ObjectClass *class = object_class_by_name(machine->cpu_type);
-         int i;
- 
-         for (i = 0; machine_class->valid_cpu_types[i]; i++) {
--            if (object_class_dynamic_cast(class,
-+            if (object_class_dynamic_cast(oc,
-                                           machine_class->valid_cpu_types[i])) {
-                 /* The user specificed CPU is in the valid field, we are
-                  * good to go.
-@@ -1141,6 +1142,13 @@ void machine_run_board_init(MachineState *machine)
-         }
-     }
- 
-+    /* Check if CPU type is deprecated and warn if so */
-+    cc = CPU_CLASS(oc);
-+    if (cc->deprecated) {
-+        warn_report("CPU model %s is deprecated -- %s", machine->cpu_type,
-+                    cc->deprecation_note);
-+    }
-+
-     machine_class->init(machine);
- }
- 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 99dc33f..c4b17c8 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -155,6 +155,10 @@ struct TranslationBlock;
-  * @disas_set_info: Setup architecture specific components of disassembly info
-  * @adjust_watchpoint_address: Perform a target-specific adjustment to an
-  * address before attempting to match it against watchpoints.
-+ * @deprecated: True if this CPU model is deprecated (going to be removed in
-+ *              near future).
-+ * @deprecation_note: Message about the deprecation. e.g. Since which version
-+ *                    will it be obsoleted.
-  *
-  * Represents a CPU family or model.
-  */
-@@ -221,6 +225,8 @@ struct CPUClass {
-     vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
-     void (*tcg_initialize)(void);
- 
-+    bool deprecated;
-+    const char *deprecation_note;
-     /* Keep non-pointer data at the end to minimize holes.  */
-     int gdb_num_core_regs;
-     bool gdb_stop_before_watchpoint;
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index 698850c..fec3bb8 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -286,6 +286,10 @@
- #            in the VM configuration, because aliases may stop being
- #            migration-safe in the future (since 4.1)
- #
-+# @deprecated: If true, this CPU model is deprecated and may be removed in
-+#              in some future version of QEMU according to the QEMU deprecation
-+#              policy. (since 5.2)
-+#
- # @unavailable-features is a list of QOM property names that
- # represent CPU model attributes that prevent the CPU from running.
- # If the QOM property is read-only, that means there's no known
-@@ -310,7 +314,8 @@
-             'static': 'bool',
-             '*unavailable-features': [ 'str' ],
-             'typename': 'str',
--            '*alias-of' : 'str' },
-+            '*alias-of' : 'str',
-+            'deprecated' : 'bool' },
-   'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
- 
- ##
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 49d8958..9cb82b7 100644
+index 9cb82b7..15c1c00 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1716,6 +1716,7 @@ typedef struct X86CPUVersionDefinition {
-     const char *alias;
-     const char *note;
-     PropValue *props;
-+    bool       deprecated;
- } X86CPUVersionDefinition;
- 
- /* Base definition for a CPU model */
-@@ -1751,6 +1752,11 @@ struct X86CPUModel {
-      * This matters only for "-cpu help" and query-cpu-definitions
-      */
-     bool is_alias;
-+    /*
-+     * If true, this model is deprecated, and may be removed in the future.
-+     * Trying to use it now will cause a warning.
-+     */
-+    bool deprecated;
- };
- 
- /* Get full model name for CPU version */
-@@ -5096,6 +5102,7 @@ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
-     info->migration_safe = cc->migration_safe;
-     info->has_migration_safe = true;
-     info->q_static = cc->static_model;
-+    info->deprecated = cc->model ? cc->model->deprecated : false;
-     /*
-      * Old machine types won't report aliases, so that alias translation
-      * doesn't break compatibility with previous QEMU versions.
-@@ -5486,9 +5493,12 @@ static void x86_cpu_cpudef_class_init(ObjectClass *oc, void *data)
- {
-     X86CPUModel *model = data;
-     X86CPUClass *xcc = X86_CPU_CLASS(oc);
-+    CPUClass *cc = CPU_CLASS(oc);
- 
-     xcc->model = model;
-     xcc->migration_safe = true;
-+    cc->deprecated = model->deprecated;
-+    cc->deprecation_note = g_strdup(model->note);
- }
- 
- static void x86_register_cpu_model_type(const char *name, X86CPUModel *model)
-@@ -5524,21 +5534,28 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
-     x86_register_cpu_model_type(def->name, m);
- 
-     /* Versioned models: */
--
-     for (vdef = x86_cpu_def_get_versions(def); vdef->version; vdef++) {
--        X86CPUModel *m = g_new0(X86CPUModel, 1);
-+        X86CPUModel *vm = g_new0(X86CPUModel, 1);
-         g_autofree char *name =
-             x86_cpu_versioned_model_name(def, vdef->version);
--        m->cpudef = def;
--        m->version = vdef->version;
--        m->note = vdef->note;
--        x86_register_cpu_model_type(name, m);
-+        vm->cpudef = def;
-+        vm->version = vdef->version;
-+        vm->note = vdef->note;
-+        vm->deprecated = vdef->deprecated;
-+        /* If Model-v1 is deprecated, Model is deprecated. */
-+        if (vdef->version == 1 && vdef->deprecated == true) {
-+            m->deprecated = true;
-+            m->note = vdef->note;
-+        }
-+        x86_register_cpu_model_type(name, vm);
- 
-         if (vdef->alias) {
-             X86CPUModel *am = g_new0(X86CPUModel, 1);
-             am->cpudef = def;
-             am->version = vdef->version;
-             am->is_alias = true;
-+            am->note = vdef->note;
-+            am->deprecated = vdef->deprecated;
-             x86_register_cpu_model_type(vdef->alias, am);
+@@ -3467,7 +3467,12 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .xlevel = 0x80000008,
+         .model_id = "Intel Core Processor (Icelake)",
+         .versions = (X86CPUVersionDefinition[]) {
+-            { .version = 1 },
++            {
++                .version = 1,
++                .deprecated = true,
++                .note = "Deprecated. Will be obsoleted in v5.3. Please use "
++                        "'Icelake-Server-v1' CPU model",
++            },
+             {
+                 .version = 2,
+                 .note = "no TSX",
+@@ -3477,6 +3482,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+                     { "rtm", "off" },
+                     { /* end of list */ }
+                 },
++                .deprecated = true,
++                .note = "Deprecated. Will be obsoleted in v5.3. Please use "
++                        "'Icelake-Server-v2' CPU model",
+             },
+             { /* end of list */ }
          }
-     }
 -- 
 1.8.3.1
 
