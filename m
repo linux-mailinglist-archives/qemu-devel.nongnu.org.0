@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BE126C55C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:52:43 +0200 (CEST)
-Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC3926C566
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:55:31 +0200 (CEST)
+Received: from localhost ([::1]:41978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIafi-00085v-DY
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60464)
+	id 1kIaiQ-0002tY-Fg
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:55:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kIada-0006Tu-Tf
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:50:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55479)
+ id 1kIaef-0007n6-HW
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:51:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kIadY-0004cN-AZ
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:50:30 -0400
+ id 1kIaed-0004sG-IL
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:51:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600275027;
+ s=mimecast20190719; t=1600275094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sPn5+uqUpbmcoJWdVCPS/WvOMyDDZbYaATK656tACZQ=;
- b=YEMSFewrnvV7URid2x9lhKaJ+JuGskYhPKem/ZBl6vxrSJ8Drkf99v2LzcNuZL9xM5Huqn
- udelgkazEsYorUVtav3/h0zSs1MpNFyHOOKpHnkFfOdIWQF7fH1hU5DIOZKVH3Eb9niEkj
- rgQMwHKlgxm3xBplMBCVHurKx182Skw=
+ bh=zYbXhRFv2/Q7VE3eohs7gSTwE1mbBL5ziN+DOPHxong=;
+ b=U6uKuva3S115+7Y5PWd8OeRT9/y8TLs9KJaHj/C6/riY+FctL9wHFAIDvf8QTZ7N2nAf0W
+ aNQRkEQIf7Z0QZYA4zkELle6RcEVJjwPb+6AnLhwyyDX5Zlc4ILjFFvASrqX3/hTYcVDIH
+ BPNncwhID+l1YbxjiGdl6nUDWIQaL1Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-YMGMW7hePfyi5jE0csnuZQ-1; Wed, 16 Sep 2020 12:50:23 -0400
-X-MC-Unique: YMGMW7hePfyi5jE0csnuZQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-137-9ENHTE95PXK7IQI4t4EdVQ-1; Wed, 16 Sep 2020 12:51:31 -0400
+X-MC-Unique: 9ENHTE95PXK7IQI4t4EdVQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56B7F80EFA4
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:50:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E18B8015A3
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:51:30 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.195.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 212FB100238C;
- Wed, 16 Sep 2020 16:50:15 +0000 (UTC)
-Message-ID: <8f4e5ad1128b97cfb3821657e9ecaedca32045e6.camel@redhat.com>
-Subject: [RFC DOCUMENT 05/12] kubevirt-and-kvm: Add Networking page
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23AD667CEF;
+ Wed, 16 Sep 2020 16:51:24 +0000 (UTC)
+Message-ID: <5e03a19f14ef4d3c41721323a95fdb4be0aa81fc.camel@redhat.com>
+Subject: [RFC DOCUMENT 06/12] kubevirt-and-kvm: Add Live Migration page
 From: Andrea Bolognani <abologna@redhat.com>
 To: libvir-list@redhat.com, qemu-devel@nongnu.org
-Date: Wed, 16 Sep 2020 18:50:13 +0200
+Date: Wed, 16 Sep 2020 18:51:21 +0200
 In-Reply-To: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
 References: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
 User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=abologna@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -81,183 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sbrivio@redhat.com, vromanso@redhat.com, alkaplan@redhat.com,
- rmohr@redhat.com, crobinso@redhat.com
+Cc: vromanso@redhat.com, rmohr@redhat.com, crobinso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Networking.md
+https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Live-Migration.md
 
-# Networking
+# Live Migration
 
-## Problem description
+There are two scenarios where live migration is triggered in KubeVirt
 
-Service meshes (such as [Istio][], [Linkerd][]) typically expect
-application processes to run on the same physical host, usually in a
-separate user namespace. Network namespaces might be used too, for
-additional isolation. Network traffic to and from local processes is
-monitored and proxied by redirection and observation of local
-sockets. `iptables` and `nftables` (collectively referred to as the
-`netfilter` framework) are the typical Linux facilities providing
-classification and redirection of packets.
+* As per user request, by posting a `VirtualMachineInstanceMigration`
+  to the cluster
+* As per cluster request, for instance on a Node eviction (due lack
+  of resources or maintenance of given Node)
 
-![containers][Networking-Containers]
-*Service meshes with containers. Typical ingress path:
-**1.** NIC driver queues buffers for IP processing
-**2.** `netfilter` rules installed by *service mesh* redirect packets
-       to proxy
-**3.** IP receive path completes, L4 protocol handler invoked
-**4.** TCP socket of proxy receives packets
-**5.** proxy opens TCP socket towards application service
-**6.** packets get TCP header, ready for classification
-**7.** `netfilter` rules installed by service mesh forward request to
-       service
-**8.** local IP routing queues packets for TCP protocol handler
-**9.** application process receives packets and handles request.
-Egress path is conceptually symmetrical.*
+In both situations, KubeVirt will use libvirt to handle logic and
+coordination with QEMU while KubeVirt's components manage the
+Kubernetes control plane and the cluster's limitations.
 
-If we move application processes to VMs, sockets and processes are
-not visible anymore. All the traffic is typically forwarded via
-interfaces operating at data link level. Socket redirection and port
-mapping to local processes don't work.
+In short, KubeVirt:
 
-![and now?][Networking-Challenge]
-*Application process moved to VM:
-**8.** IP layer enqueues packets to L2 interface towards application
-**9.** `tap` driver forwards L2 packets to guest
-**10.** packets are received on `virtio-net` ring buffer
-**11.** guest driver queues buffers for IP processing
-**12.** IP receive path completes, L4 protocol handler invoked
-**13.** TCP socket of application receives packets and handles request.
-**:warning: Proxy challenge**: the service mesh can't forward packets
-to local sockets via `netfilter` rules. *Add-on* NAT rules might
-conflict, as service meshes expect full control of the ruleset.
-Socket monitoring and PID/UID classification isn't possible.*
+* Checks if the target host is capable of migration of the given VM;
+* Handles single network namespace per Pod by proxying migration data
+  (more at [Networking][])
+* Handles cluster resources usage (e.g: bandwidth usage);
+* Handles cross-version migration;
 
-## Existing solutions
+![Live migration between two nodes][Live-Migration-Flow]
 
-Existing solutions typically implement a full TCP/IP stack, replaying
-traffic on sockets local to the Pod of the service mesh. This creates
-the illusion of application processes running on the same host,
-eventually separated by user namespaces.
+## Limitations
 
-![slirp][Networking-Slirp]
-*Existing solutions introduce a third TCP/IP stack:
-**8.** local IP routing queues packets for TCP protocol handler
-**9.** userspace implementation of TCP/IP stack receives packets on
-       local socket, and
-**10.** forwards L2 encapsulation to `tap` *QEMU* interface (socket
-        back-end).*
+Live migration is not possible if:
 
-While being almost transparent to the service mesh infrastructure,
-this kind of solution comes with a number of downsides:
+* The VM is configured with cpu-passthrough;
+* The VM has local or non-shared volume
+* The Pod is using bridge binding for network access (right side of
+  image below)
 
-* three different TCP/IP stacks (guest, adaptation and host) need to
-  be traversed for every service request. There are no chances to
-  implement zero-copy mechanisms, and the amount of context switches
-  increases dramatically
-* addressing needs to be coordinated to create the pretense of
-  consistent addresses and routes between guest and host
-  environments. This typically needs a NAT with masquerading, or some
-  form of packet bridging
-* the traffic seen by the service mesh and observable externally is a
-  distant replica of the packets forwarded to and from the guest
-  environment:
-  * TCP congestion windows and network buffering mechanisms in
-    general operate differently from what would be naturally expected
-    by the application
-  * protocols carrying addressing information might pose additional
-    challenges, as the applications don't see the same set of
-    addresses and routes as they would if deployed with regular
-    containers
+![Kubevirt's Pod][Live-Migration-Network]
 
-## Experiments
+## More on KubeVirt's Live migration
 
-![experiments: thin layer][Networking-Experiments-Thin-Layer]
-*How can we improve on the existing solutions while maintaining
-drop-in compatibility? A thin layer implements a TCP adaptation
-and IP services.*
+This blog [post on live migration][] explains how to have live
+migration enabled in KubeVirt's VMs and describes some of its
+caveats.
 
-These are some directions we have been exploring so far:
-
-* a thinner layer between guest and host, that only implements what's
-  strictly needed to pretend processes are running locally. A further
-  TCP/IP stack is not necessarily needed. Some sort of TCP adaptation
-  is needed, however, if this layer (currently implemented as
-  userspace process) runs without the `CAP_NET_RAW` capability: we
-  can't create raw IP sockets on the Pod, and therefore need to map
-  packets at layer 2 to layer 4 sockets offered by the host kernel
-  * to avoid implementing an actual TCP/IP stack like the one
-    offered by *libslirp*, we can align TCP parameters advertised
-    towards the guest (MSS, congestion window) to the socket
-    parameters provided by the host kernel, probing them via the
-    `TCP_INFO` socket option (introduced in Linux 2.4).
-    Segmentation and reassembly is therefore not needed, providing
-    solid chances to avoid dynamic memory allocation altogether, and
-    congestion control becomes implicitly equivalent as parameters
-    are mirrored between the two sides
-  * to reflect the actual receiving dynamic of the guest and support
-    retransmissions without a permanent userspace buffer, segments
-    are not dequeued (`MSG_PEEK`) until acknowledged by the receiver
-    (application)
-  * similarly, the implementation of the host-side sender adjusts MSS
-    (`TCP_MAXSEG` socket option, since Linux 2.6.28) and advertised
-    window (`TCP_WINDOW_CLAMP`, since Linux 2.4) to the parameters
-    observed from incoming packets
-  * this adaptation layer needs to maintain some of the TCP states,
-    but we can rely on the host kernel TCP implementation for the
-    different states of connections being closed
-  * no particular requirements are placed on the MTU of guest
-    interfaces: if fragments are received, payload from the single
-    fragmented packets can be reassembled by the host kernel as
-    needed, and out-of-order fragments can be safely discarded, as
-    there's no intermediate hop justifying the condition
-* this layer would connect to `qemu` over a *UNIX domain socket*,
-  instead of a `tap` interface, so that the `CAP_NET_ADMIN`
-  capability doesn't need to be granted to any process on the Pod:
-  no further network interfaces are created on the host
-* transparent, adaptive mapping of ports to the guest, to avoid the
-  need for explicit port forwarding
-* security and maintainability goals: no dynamic memory allocation,
-  ~2 000 *LoC* target, no external dependencies
-
-![experiments: ebpf][Networking-Experiments-eBPF]
-*Additionally, an `eBPF` fast path could be implemented
-**6.** hooking at socket level, and
-**7.** mapping IP and Ethernet addresses,
-with the existing layer implementing connection tracking and slow
-path*
-
-If additional capabilities are granted, the data path can be
-optimised in several ways:
-
-* with `CAP_NET_RAW`:
-  * the adaptation layer can use raw IP sockets instead of L4 sockets,
-    implementing a pure connection tracking, without the need for any
-    TCP logic: the guest operating system implements the single TCP
-    stack needed with this variation
-  * zero-copy mechanisms could be implemented using `vhost-user` and
-    QEMU socket back-ends, instead of relying on a full-fledged layer 2
-    (Ethernet) interface
-* with `CAP_BPF` and `CAP_NET_ADMIN`:
-  * context switching in packet forwarding could be avoided by the
-    `sockmap` extension provided by `eBPF`, and programming the `XDP`
-    data hooks for in-kernel data transfers
-  * using eBPF programs, we might want to switch (dynamically?) to
-    the `vhost-net` facility
-  * the userspace process would still need to take care of
-    establishing in-kernel flows, and providing IP and IPv6
-    services (ARP, DHCP, NDP) for addressing transparency and to
-    avoid the need for further capabilities (e.g.
-    `CAP_NET_BIND_SERVICE`), but the main, fast datapath would
-    reside entirely in the kernel
-
-[Istio]: https://istio.io/
-[Linkerd]: https://linkerd.io/
-[Networking-Challenge]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Networking-Challenge.png
-[Networking-Containers]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Networking-Containers.png
-[Networking-Experiments-Thin-Layer]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Networking-Experiments-Thin-Layer.png
-[Networking-Experiments-eBPF]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Networking-Experiments-eBPF.png
-[Networking-Slirp]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Networking-Slirp.png
+[Live-Migration-Flow]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Live-Migration-Flow.png
+[Live-Migration-Network]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Live-Migration-Network.png
+[Networking]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Networking.md
+[post on live migration]: https://kubevirt.io/2020/Live-migration.html
 
 
