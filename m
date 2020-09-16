@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B2C26C3AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:27:09 +0200 (CEST)
-Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2FB26C39A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:22:30 +0200 (CEST)
+Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIYOq-0003rw-3N
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:27:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
+	id 1kIYKL-0004gD-EV
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:22:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIYHp-0002WV-BP
+ id 1kIYHq-0002XM-NG
  for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:19:54 -0400
-Received: from mail-dm6nam10on2066.outbound.protection.outlook.com
- ([40.107.93.66]:26976 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+Received: from mail-bn8nam11on2057.outbound.protection.outlook.com
+ ([40.107.236.57]:35297 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIYHm-0003j9-2F
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:19:52 -0400
+ id 1kIYHm-0003jO-Et
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:19:54 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=asc9MmPb/g1bLO6/DmjGlTEzcU+8+xAo7nBPGCLqQ910pi6fcJowPThX5+A/B3c/uyxhQyBvr2J5hGnGM6ECgxkxODCASUH40meL9XpIGxeO6F4U2TSCer4rFFzSa7NO/Jm662iSRes6uWUnTRyQTdpCAwtQ8CoLEa9v11Z+HxolHyIyFRmirz0B7NIx3z9N6xdaRPbRz0goNc4b1mWih24Udv1CB9f9fsJ19FzBy5wv+ib5kpq5UacD4UqAwviLgnd36TKpTJWc5OnRiFHBA0X6ok2yGHd15SsW7xHttFRfyLe1BDPMJuUNwWQBfstzUuwIQ74q7gTzNT4gTh06Tg==
+ b=DX013YRnxFnekdOwxxFXbb6JnfrIRC3u/BUmBGRyyedloPE8MJJLpcjsRGVKbI2LeZuIpuAsIQusnrhfnxA/Jkixc7pPQAlA529S4bjI7hWIDQzl0GtRKJczHNqvuOnh+Pm6FSs+9GNZNSLJQb8twLhFaGElDP8Qe8L/i76EAyxb1rHCZNUXKDvR0S+YlKo4zbfBm9hyF1nOXEi8y4bsoqs30cVIas+tqWSyLlNhQH8y9LnyhKR+E9mvLVq31NX8LqxuQFauJ7+yg+/DJftTK2otD6k/nB3z1b0uPS4AmzqPZDb9hXxqQwpIxyidnLLb6nOG9Tu43G3HDxpilJWBhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hqR/3x7/h/vE0Iove5QMCJbn2MqiD96QXWHQCbAlVRE=;
- b=Suy2/NUo44X+h1KOcJT97M1FUbl5/ZAz7UNeBsw08tDvjYLSJpukoWEDYuJt0OwgLMRP1hJhg94ZMw+utg39ac1lB9aKBprNnaE9szC5d0WbUZogjtaqt+uIZZXlTnC4Cowf6kLVg2QYRL3jBQr8uTyVutgXcFDyItCR0W9mbLgYASDttu/+wsbP4ufv6EmZ+Dqdi9e7PjABPFRwPUrYGVrUFcj8MgyGdBV62q3p2HlhQmgPAl/Z1D3o0SoZb7/yrPY+ewl+qNu4Ou1ElygY2T3QCWqS/O9hO0iXffLWGJMlmSNbqXW5iiOG6M+xc+oyjy5rRbesCbTuGRnMvtWuEQ==
+ bh=UGMjhOGlWII9upFOj1WGAEAbwykzpWtNVCvHbuOelTI=;
+ b=Unnn/OqFK0aUalaLRUT6P1EcPxiRTWcyNJw1NqNEyZmqL9czQF8Z7i/uKsc3qOpDfHtS/IWF5DTrIJzzuIvB0PorXr064pyrGTtoMcPwKw06mKBDaFL3aszQYE1sWlATwNVa28tm9itCCteSCA+pwv5oG6nD7AhfGfBdQ7ufr44A39BAa9UGnIhJMaTk97rZKxheZvTZc1Ip7wa9FtcDNB8IiVil+ZBfJTBVQ2lqvG/BapTy6wvDm1QCbU/Ax+HUhZQ01o7x79JIUuiDHyhs/q5Lbyp7jXYczwIRTW4iqf+7f/yQj9x0F4HwU3u62CvsrT4ybe42JyKia2VRInCQ5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hqR/3x7/h/vE0Iove5QMCJbn2MqiD96QXWHQCbAlVRE=;
- b=NyVz9O84c0SHMut7J4m/VSEbo7hB0A/v9kOHOyLt4aUJz5vbKqHJF7q7kIC+xr6FMjxQ4ONABxS9C5mzih8cThXVw+udLPUNveXxe8XnxznH1AkhD9WxJcIrWaIWmT34C1MmQGloyVzPnwY/WtMG0VO2GSOozxu1BKxXgYr8bhE=
-Received: from MN2PR19CA0007.namprd19.prod.outlook.com (2603:10b6:208:178::20)
- by DM5PR0201MB3431.namprd02.prod.outlook.com (2603:10b6:4:76::20)
+ bh=UGMjhOGlWII9upFOj1WGAEAbwykzpWtNVCvHbuOelTI=;
+ b=FrNO1qZvQIKCi8Px3hU8lUvv6nKEUSa/jFUfMyfye0b1np2TTNjXKSiphsbimyfgFykCyk0uNjq7X8n5vTWC1BvQIKNztMnX4Q9q38ltYcreBsWgBe4byGgte+CmzTDUZjTCQtfOD9XCd7QwzH90T50bkSPcR4m3yeT+hi7V6hY=
+Received: from CY4PR06CA0045.namprd06.prod.outlook.com (2603:10b6:903:77::31)
+ by BYAPR02MB5973.namprd02.prod.outlook.com (2603:10b6:a03:11d::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.19; Wed, 16 Sep
- 2020 14:19:45 +0000
-Received: from BL2NAM02FT045.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:178:cafe::57) by MN2PR19CA0007.outlook.office365.com
- (2603:10b6:208:178::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Wed, 16 Sep
+ 2020 14:19:46 +0000
+Received: from CY1NAM02FT042.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:77:cafe::e6) by CY4PR06CA0045.outlook.office365.com
+ (2603:10b6:903:77::31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11 via Frontend
- Transport; Wed, 16 Sep 2020 14:19:44 +0000
+ Transport; Wed, 16 Sep 2020 14:19:45 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
  header.d=none;wdc.com; dmarc=bestguesspass action=none
@@ -54,26 +54,26 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT045.mail.protection.outlook.com (10.152.77.16) with Microsoft SMTP
- Server id 15.20.3370.16 via Frontend Transport; Wed, 16 Sep 2020 14:19:44
+ CY1NAM02FT042.mail.protection.outlook.com (10.152.75.136) with Microsoft SMTP
+ Server id 15.20.3370.16 via Frontend Transport; Wed, 16 Sep 2020 14:19:45
  +0000
-Received: from [149.199.38.66] (port=43161 helo=smtp.xilinx.com)
+Received: from [149.199.38.66] (port=43174 helo=smtp.xilinx.com)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kIYHZ-0004AB-A2; Wed, 16 Sep 2020 07:19:37 -0700
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ id 1kIYHZ-0004AF-Vx; Wed, 16 Sep 2020 07:19:37 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.63)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kIYHg-0004qI-4A; Wed, 16 Sep 2020 07:19:44 -0700
-Received: from xsj-pvapsmtp01 (xsj-smtp1.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08GEJh5h010165; 
+ id 1kIYHg-0004qW-Jb; Wed, 16 Sep 2020 07:19:44 -0700
+Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08GEJh9g017276; 
  Wed, 16 Sep 2020 07:19:43 -0700
 Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1kIYHe-0004pp-GY; Wed, 16 Sep 2020 07:19:42 -0700
+ id 1kIYHf-0004pe-1F; Wed, 16 Sep 2020 07:19:43 -0700
 Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 9EDCA13C029D; Wed, 16 Sep 2020 19:53:25 +0530 (IST)
+ id 99AA713C0235; Wed, 16 Sep 2020 19:53:26 +0530 (IST)
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>,
@@ -81,9 +81,9 @@ To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Edgar Iglesias <edgari@xilinx.com>,
  Francisco Eduardo Iglesias <figlesia@xilinx.com>
-Subject: [PATCH v7 4/7] usb: hcd-xhci-sysbus: Attach xhci to sysbus device
-Date: Wed, 16 Sep 2020 19:52:17 +0530
-Message-Id: <1600266140-20763-5-git-send-email-sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v7 5/7] misc: Add versal-usb2-ctrl-regs module
+Date: Wed, 16 Sep 2020 19:52:18 +0530
+Message-Id: <1600266140-20763-6-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600266140-20763-1-git-send-email-sai.pavan.boddu@xilinx.com>
 References: <1600266140-20763-1-git-send-email-sai.pavan.boddu@xilinx.com>
@@ -95,31 +95,31 @@ X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 09270677-6087-4dd9-b3f9-08d85a4b8f41
-X-MS-TrafficTypeDiagnostic: DM5PR0201MB3431:
-X-Microsoft-Antispam-PRVS: <DM5PR0201MB3431256EE5DA49AF148EC4C2CA210@DM5PR0201MB3431.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: bc62d8a1-8051-4973-d7b0-08d85a4b8f91
+X-MS-TrafficTypeDiagnostic: BYAPR02MB5973:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB5973D9F8847745C4938C57A9CA210@BYAPR02MB5973.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:130;
+X-MS-Oob-TLC-OOBClassifiers: OLM:352;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xnq0LnthNlHxavRYV0endIVr6bMi3KBEAr2gpuyVT15lZpbi2i+GOqHJPvvbBXXU40SeJKTEGU7z7pt8Ai9q1r0cngK8JoV6ORi908Qcv02PaBvlHE9i/JukXY9bGAheYwo6px6VOLY5a+PEFoDLg+hPUGfYoSg6uap1jsgtDoMCogHbA6AolgdPuE9yHbyAq4VpXeYFc/yja0snBwtVJbI5fcgQIBGHizx0KlclhJoMNqt+5Y9SOkcakuScfDNqUZItVxH6fAtaY6XP+YXOS1A9kLEpBcH+mHJSp5yvILc7DnZzIAnLAP1vdadM+8a8M4vEoxGKcmyXpotEGiQbTl5kc17HgN6pBHrGJDTryYQ1yudpjGSkyoz95gJR3dn15cyMuMvAGt5lvoSZBGLmSA==
+X-Microsoft-Antispam-Message-Info: p8vbeW4qrCRCQJQLJGXT6LSljyBuvc6UGtmwIurOk7w6LZivml9vAsacgoE/e+fvMBRfYchKPE9hiGty05RehJb2v1ghovJNBZIvNGOWGBsR2TYNTV18Yaijq6HW6cnPtPqt8QNFMh+sSgY5dxO8cVgwV2iiitrYNeNViegzTwH0OpOKfGhkGwVa53qUAJqghF/X4lxi7Uo7FWkjsV1bb/CAvqybvnOUNErUj+lNwlqFNzfYqOvCkoT2A6IlRPMstq79+Rl7e9eYdOt44VTpVPHF3JbK42j6yNa8Nn8VNTOhDyWaZ5l+MkRh0mGmT56xExc7BlNWqt2byEYebN2pwxxABpZ+y/DeEEwAB8EFvMFPZwG+LXJ2/QuxleR+6iGtfva7sIydlh+hWcBjIhnWhQ==
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(346002)(396003)(39860400002)(376002)(136003)(46966005)(81166007)(356005)(47076004)(82310400003)(70586007)(36756003)(110136005)(70206006)(83380400001)(7416002)(478600001)(316002)(42186006)(82740400003)(8936002)(6636002)(336012)(426003)(2906002)(6666004)(8676002)(6266002)(107886003)(2616005)(186003)(26005)(5660300002)(4326008)(54906003);
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:ErrorRetry; CAT:NONE;
+ SFS:(376002)(39860400002)(346002)(396003)(136003)(46966005)(26005)(110136005)(70586007)(426003)(5660300002)(478600001)(8936002)(4326008)(316002)(2616005)(70206006)(54906003)(7416002)(186003)(30864003)(42186006)(6266002)(107886003)(336012)(82740400003)(81166007)(47076004)(356005)(19627235002)(8676002)(2906002)(6666004)(6636002)(83380400001)(82310400003)(36756003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 14:19:44.5270 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09270677-6087-4dd9-b3f9-08d85a4b8f41
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 14:19:45.0529 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc62d8a1-8051-4973-d7b0-08d85a4b8f91
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT045.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT042.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0201MB3431
-Received-SPF: pass client-ip=40.107.93.66; envelope-from=saipava@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 10:19:46
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5973
+Received-SPF: pass client-ip=40.107.236.57; envelope-from=saipava@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 10:19:47
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -147,203 +147,309 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use XHCI as sysbus device, add memory region property to get the
-address space instance for dma read/write.
+This module emulates control registers of versal usb2 controller, this is added
+just to make guest happy. In general this module would control the phy-reset
+signal from usb controller, data coherency of the transactions, signals
+the host system errors received from controller.
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
 ---
- hw/usb/Kconfig           |  5 +++
- hw/usb/hcd-xhci-sysbus.c | 99 ++++++++++++++++++++++++++++++++++++++++++++++++
- hw/usb/hcd-xhci-sysbus.h | 32 ++++++++++++++++
- hw/usb/hcd-xhci.h        |  1 +
- hw/usb/meson.build       |  1 +
- 5 files changed, 138 insertions(+)
- create mode 100644 hw/usb/hcd-xhci-sysbus.c
- create mode 100644 hw/usb/hcd-xhci-sysbus.h
+ hw/misc/meson.build                          |   1 +
+ hw/misc/xlnx-versal-usb2-ctrl-regs.c         | 222 +++++++++++++++++++++++++++
+ include/hw/misc/xlnx-versal-usb2-ctrl-regs.h |  45 ++++++
+ 3 files changed, 268 insertions(+)
+ create mode 100644 hw/misc/xlnx-versal-usb2-ctrl-regs.c
+ create mode 100644 include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
 
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index bab582f..4dd2ba9 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -48,6 +48,11 @@ config USB_XHCI_NEC
-     depends on PCI
-     select USB_XHCI
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 793d45b..b336dd1 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -109,3 +109,4 @@ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cp
+ specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
  
-+config USB_XHCI_SYSBUS
-+    bool
-+    default y if USB_XHCI
-+    select USB
-+
- config USB_MUSB
-     bool
-     select USB
-diff --git a/hw/usb/hcd-xhci-sysbus.c b/hw/usb/hcd-xhci-sysbus.c
+ specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
++specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
+diff --git a/hw/misc/xlnx-versal-usb2-ctrl-regs.c b/hw/misc/xlnx-versal-usb2-ctrl-regs.c
 new file mode 100644
-index 0000000..d5b4656
+index 0000000..94fd7cf
 --- /dev/null
-+++ b/hw/usb/hcd-xhci-sysbus.c
-@@ -0,0 +1,99 @@
++++ b/hw/misc/xlnx-versal-usb2-ctrl-regs.c
+@@ -0,0 +1,222 @@
 +/*
-+ * USB xHCI controller for system-bus interface
-+ * Based on hcd-echi-sysbus.c
-+
-+ * SPDX-FileCopyrightText: 2020 Xilinx
-+ * SPDX-FileContributor: Author: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
++ * QEMU model of the VersalUsb2CtrlRegs Register control/Status block for
++ * USB2.0 controller
 + *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * This module should control phy_reset, permanent device plugs, frame length
++ * time adjust & setting of coherency paths. None of which are emulated in
++ * present model.
++ *
++ * Copyright (c) 2020 Xilinx Inc. Vikram Garhwal <fnu.vikram@xilinx.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
++
 +#include "qemu/osdep.h"
-+#include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
-+#include "trace.h"
-+#include "qapi/error.h"
-+#include "hcd-xhci-sysbus.h"
++#include "hw/sysbus.h"
 +#include "hw/irq.h"
++#include "hw/register.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "qom/object.h"
++#include "migration/vmstate.h"
++#include "hw/misc/xlnx-versal-usb2-ctrl-regs.h"
 +
-+static void xhci_sysbus_intr_raise(XHCIState *xhci, int n, bool level)
++#ifndef XILINX_VERSAL_USB2_CTRL_REGS_ERR_DEBUG
++#define XILINX_VERSAL_USB2_CTRL_REGS_ERR_DEBUG 0
++#endif
++
++REG32(BUS_FILTER, 0x30)
++    FIELD(BUS_FILTER, BYPASS, 0, 4)
++REG32(PORT, 0x34)
++    FIELD(PORT, HOST_SMI_BAR_WR, 4, 1)
++    FIELD(PORT, HOST_SMI_PCI_CMD_REG_WR, 3, 1)
++    FIELD(PORT, HOST_MSI_ENABLE, 2, 1)
++    FIELD(PORT, PWR_CTRL_PRSNT, 1, 1)
++    FIELD(PORT, HUB_PERM_ATTACH, 0, 1)
++REG32(JITTER_ADJUST, 0x38)
++    FIELD(JITTER_ADJUST, FLADJ, 0, 6)
++REG32(BIGENDIAN, 0x40)
++    FIELD(BIGENDIAN, ENDIAN_GS, 0, 1)
++REG32(COHERENCY, 0x44)
++    FIELD(COHERENCY, USB_COHERENCY, 0, 1)
++REG32(XHC_BME, 0x48)
++    FIELD(XHC_BME, XHC_BME, 0, 1)
++REG32(REG_CTRL, 0x60)
++    FIELD(REG_CTRL, SLVERR_ENABLE, 0, 1)
++REG32(IR_STATUS, 0x64)
++    FIELD(IR_STATUS, HOST_SYS_ERR, 1, 1)
++    FIELD(IR_STATUS, ADDR_DEC_ERR, 0, 1)
++REG32(IR_MASK, 0x68)
++    FIELD(IR_MASK, HOST_SYS_ERR, 1, 1)
++    FIELD(IR_MASK, ADDR_DEC_ERR, 0, 1)
++REG32(IR_ENABLE, 0x6c)
++    FIELD(IR_ENABLE, HOST_SYS_ERR, 1, 1)
++    FIELD(IR_ENABLE, ADDR_DEC_ERR, 0, 1)
++REG32(IR_DISABLE, 0x70)
++    FIELD(IR_DISABLE, HOST_SYS_ERR, 1, 1)
++    FIELD(IR_DISABLE, ADDR_DEC_ERR, 0, 1)
++REG32(USB3, 0x78)
++
++static void ir_update_irq(VersalUsb2CtrlRegs *s)
 +{
-+    XHCISysbusState *s = container_of(xhci, XHCISysbusState, xhci);
-+
-+    qemu_set_irq(s->irq[n], level);
++    bool pending = s->regs[R_IR_STATUS] & ~s->regs[R_IR_MASK];
++    qemu_set_irq(s->irq_ir, pending);
 +}
 +
-+void xhci_sysbus_reset(DeviceState *dev)
++static void ir_status_postw(RegisterInfo *reg, uint64_t val64)
 +{
-+    XHCISysbusState *s = XHCI_SYSBUS(dev);
-+
-+    device_legacy_reset(DEVICE(&s->xhci));
++    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(reg->opaque);
++    /*
++     * TODO: This should also clear USBSTS.HSE field in USB XHCI register.
++     * May be combine both the modules.
++     */
++    ir_update_irq(s);
 +}
 +
-+static void xhci_sysbus_realize(DeviceState *dev, Error **errp)
++static uint64_t ir_enable_prew(RegisterInfo *reg, uint64_t val64)
 +{
-+    XHCISysbusState *s = XHCI_SYSBUS(dev);
-+    Error *err = NULL;
++    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(reg->opaque);
++    uint32_t val = val64;
 +
-+    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
-+    object_property_set_bool(OBJECT(&s->xhci), "realized", true, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
++    s->regs[R_IR_MASK] &= ~val;
++    ir_update_irq(s);
++    return 0;
++}
++
++static uint64_t ir_disable_prew(RegisterInfo *reg, uint64_t val64)
++{
++    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(reg->opaque);
++    uint32_t val = val64;
++
++    s->regs[R_IR_MASK] |= val;
++    ir_update_irq(s);
++    return 0;
++}
++
++static const RegisterAccessInfo usb2_regs_regs_info[] = {
++    {   .name = "BUS_FILTER",  .addr = A_BUS_FILTER,
++        .rsvd = 0xfffffff0,
++    },{ .name = "PORT",  .addr = A_PORT,
++        .rsvd = 0xffffffe0,
++    },{ .name = "JITTER_ADJUST",  .addr = A_JITTER_ADJUST,
++        .reset = 0x20,
++        .rsvd = 0xffffffc0,
++    },{ .name = "BIGENDIAN",  .addr = A_BIGENDIAN,
++        .rsvd = 0xfffffffe,
++    },{ .name = "COHERENCY",  .addr = A_COHERENCY,
++        .rsvd = 0xfffffffe,
++    },{ .name = "XHC_BME",  .addr = A_XHC_BME,
++        .reset = 0x1,
++        .rsvd = 0xfffffffe,
++    },{ .name = "REG_CTRL",  .addr = A_REG_CTRL,
++        .rsvd = 0xfffffffe,
++    },{ .name = "IR_STATUS",  .addr = A_IR_STATUS,
++        .rsvd = 0xfffffffc,
++        .w1c = 0x3,
++        .post_write = ir_status_postw,
++    },{ .name = "IR_MASK",  .addr = A_IR_MASK,
++        .reset = 0x3,
++        .rsvd = 0xfffffffc,
++        .ro = 0x3,
++    },{ .name = "IR_ENABLE",  .addr = A_IR_ENABLE,
++        .rsvd = 0xfffffffc,
++        .pre_write = ir_enable_prew,
++    },{ .name = "IR_DISABLE",  .addr = A_IR_DISABLE,
++        .rsvd = 0xfffffffc,
++        .pre_write = ir_disable_prew,
++    },{ .name = "USB3",  .addr = A_USB3,
 +    }
-+    s->irq = g_new0(qemu_irq, s->xhci.numintrs);
-+    qdev_init_gpio_out_named(dev, s->irq, SYSBUS_DEVICE_GPIO_IRQ,
-+                             s->xhci.numintrs);
-+    if (s->xhci.dma_mr) {
-+        s->xhci.as =  g_malloc0(sizeof(AddressSpace));
-+        address_space_init(s->xhci.as, s->xhci.dma_mr, NULL);
-+    } else {
-+        s->xhci.as = &address_space_memory;
-+    }
-+
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->xhci.mem);
-+}
-+
-+static void xhci_sysbus_instance_init(Object *obj)
-+{
-+    XHCISysbusState *s = XHCI_SYSBUS(obj);
-+
-+    object_initialize_child(obj, "xhci-core", &s->xhci, TYPE_XHCI);
-+    qdev_alias_all_properties(DEVICE(&s->xhci), obj);
-+
-+    object_property_add_link(obj, "dma", TYPE_MEMORY_REGION,
-+                             (Object **)&s->xhci.dma_mr,
-+                             qdev_prop_allow_set_link_before_realize,
-+                             OBJ_PROP_LINK_STRONG);
-+    s->xhci.intr_update = NULL;
-+    s->xhci.intr_raise = xhci_sysbus_intr_raise;
-+}
-+
-+static Property xhci_sysbus_props[] = {
-+    DEFINE_PROP_UINT32("intrs", XHCISysbusState, xhci.numintrs, MAXINTRS),
-+    DEFINE_PROP_UINT32("slots", XHCISysbusState, xhci.numslots, MAXSLOTS),
-+    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void xhci_sysbus_class_init(ObjectClass *klass, void *data)
++static void usb2_regs_reset(DeviceState *dev)
++{
++    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(dev);
++    unsigned int i;
++
++    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
++        register_reset(&s->regs_info[i]);
++    }
++
++    ir_update_irq(s);
++}
++
++static const MemoryRegionOps usb2_regs_ops = {
++    .read = register_read_memory,
++    .write = register_write_memory,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++};
++
++static void usb2_regs_init(Object *obj)
++{
++    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    RegisterInfoArray *reg_array;
++
++    memory_region_init(&s->iomem, obj, TYPE_XILINX_VERSAL_USB2_CTRL_REGS,
++                       USB2_REGS_R_MAX * 4);
++    reg_array =
++        register_init_block32(DEVICE(obj), usb2_regs_regs_info,
++                              ARRAY_SIZE(usb2_regs_regs_info),
++                              s->regs_info, s->regs,
++                              &usb2_regs_ops,
++                              XILINX_VERSAL_USB2_CTRL_REGS_ERR_DEBUG,
++                              USB2_REGS_R_MAX * 4);
++    memory_region_add_subregion(&s->iomem,
++                                0x0,
++                                &reg_array->mem);
++    sysbus_init_mmio(sbd, &s->iomem);
++    sysbus_init_irq(sbd, &s->irq_ir);
++}
++
++static const VMStateDescription vmstate_usb2_regs = {
++    .name = TYPE_XILINX_VERSAL_USB2_CTRL_REGS,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, VersalUsb2CtrlRegs, USB2_REGS_R_MAX),
++        VMSTATE_END_OF_LIST(),
++    }
++};
++
++static void usb2_regs_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->reset = xhci_sysbus_reset;
-+    dc->realize = xhci_sysbus_realize;
-+    device_class_set_props(dc, xhci_sysbus_props);
++    dc->reset = usb2_regs_reset;
++    dc->vmsd = &vmstate_usb2_regs;
 +}
 +
-+static const TypeInfo xhci_sysbus_info = {
-+    .name          = TYPE_XHCI_SYSBUS,
++static const TypeInfo usb2_regs_info = {
++    .name          = TYPE_XILINX_VERSAL_USB2_CTRL_REGS,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XHCISysbusState),
-+    .class_init    = xhci_sysbus_class_init,
-+    .instance_init = xhci_sysbus_instance_init
++    .instance_size = sizeof(VersalUsb2CtrlRegs),
++    .class_init    = usb2_regs_class_init,
++    .instance_init = usb2_regs_init,
 +};
 +
-+static void xhci_sysbus_register_types(void)
++static void usb2_regs_register_types(void)
 +{
-+    type_register_static(&xhci_sysbus_info);
++    type_register_static(&usb2_regs_info);
 +}
 +
-+type_init(xhci_sysbus_register_types);
-diff --git a/hw/usb/hcd-xhci-sysbus.h b/hw/usb/hcd-xhci-sysbus.h
++type_init(usb2_regs_register_types)
+diff --git a/include/hw/misc/xlnx-versal-usb2-ctrl-regs.h b/include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
 new file mode 100644
-index 0000000..a308753
+index 0000000..975a717
 --- /dev/null
-+++ b/hw/usb/hcd-xhci-sysbus.h
-@@ -0,0 +1,32 @@
++++ b/include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
+@@ -0,0 +1,45 @@
 +/*
-+ * USB xHCI controller for system-bus interface
++ * QEMU model of the VersalUsb2CtrlRegs Register control/Status block for
++ * USB2.0 controller
 + *
-+ * SPDX-FileCopyrightText: 2020 Xilinx
-+ * SPDX-FileContributor: Author: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-+ * SPDX-sourceInfo: Based on hcd-echi-sysbus
++ * Copyright (c) 2020 Xilinx Inc. Vikram Garhwal <fnu.vikram@xilinx.com>
 + *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
 +
-+#ifndef HW_USB_HCD_XHCI_SYSBUS_H
-+#define HW_USB_HCD_XHCI_SYSBUS_H
++#ifndef _XLNX_USB2_REGS_H_
++#define _XLNX_USB2_REGS_H_
 +
-+#include "hw/usb.h"
-+#include "hcd-xhci.h"
-+#include "hw/sysbus.h"
++#define TYPE_XILINX_VERSAL_USB2_CTRL_REGS "xlnx.versal-usb2-ctrl-regs"
 +
-+#define TYPE_XHCI_SYSBUS "sysbus-xhci"
-+#define XHCI_SYSBUS(obj) \
-+    OBJECT_CHECK(XHCISysbusState, (obj), TYPE_XHCI_SYSBUS)
++#define XILINX_VERSAL_USB2_CTRL_REGS(obj) \
++     OBJECT_CHECK(VersalUsb2CtrlRegs, (obj), TYPE_XILINX_VERSAL_USB2_CTRL_REGS)
 +
++#define USB2_REGS_R_MAX ((0x78 / 4) + 1)
 +
-+typedef struct XHCISysbusState {
-+    /*< private >*/
++typedef struct VersalUsb2CtrlRegs {
 +    SysBusDevice parent_obj;
-+    /*< public >*/
-+    XHCIState xhci;
-+    qemu_irq *irq;
-+} XHCISysbusState;
++    MemoryRegion iomem;
++    qemu_irq irq_ir;
 +
-+void xhci_sysbus_reset(DeviceState *dev);
++    uint32_t regs[USB2_REGS_R_MAX];
++    RegisterInfo regs_info[USB2_REGS_R_MAX];
++} VersalUsb2CtrlRegs;
++
 +#endif
-diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
-index 525291b..4108a65 100644
---- a/hw/usb/hcd-xhci.h
-+++ b/hw/usb/hcd-xhci.h
-@@ -191,6 +191,7 @@ typedef struct XHCIState {
- 
-     USBBus bus;
-     MemoryRegion mem;
-+    MemoryRegion *dma_mr;
-     AddressSpace *as;
-     MemoryRegion mem_cap;
-     MemoryRegion mem_oper;
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 90dc54f..934e4fa 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -22,6 +22,7 @@ softmmu_ss.add(when: 'CONFIG_USB_EHCI_PCI', if_true: files('hcd-ehci-pci.c'))
- softmmu_ss.add(when: 'CONFIG_USB_EHCI_SYSBUS', if_true: files('hcd-ehci.c', 'hcd-ehci-sysbus.c'))
- softmmu_ss.add(when: 'CONFIG_USB_XHCI', if_true: files('hcd-xhci.c'))
- softmmu_ss.add(when: 'CONFIG_USB_XHCI_PCI', if_true: files('hcd-xhci-pci.c'))
-+softmmu_ss.add(when: 'CONFIG_USB_XHCI_SYSBUS', if_true: files('hcd-xhci-sysbus.c'))
- softmmu_ss.add(when: 'CONFIG_USB_XHCI_NEC', if_true: files('hcd-xhci-nec.c'))
- softmmu_ss.add(when: 'CONFIG_USB_MUSB', if_true: files('hcd-musb.c'))
- softmmu_ss.add(when: 'CONFIG_USB_DWC2', if_true: files('hcd-dwc2.c'))
 -- 
 2.7.4
 
