@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1618326C25C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:59:25 +0200 (CEST)
-Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C3126C247
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:49:55 +0200 (CEST)
+Received: from localhost ([::1]:33198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIW5s-0006fJ-41
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:59:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54214)
+	id 1kIVwg-0008TL-O8
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVui-0006fq-1F
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29109)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVug-0006eM-H7
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVug-00088K-4C
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVue-00087f-5u
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256869;
+ s=mimecast20190719; t=1600256867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WWHisNxk1is5b9d8cFYEQyOm2gWnVtJm6fIUPNqikiw=;
- b=TDUgEeooS5E2VYQd2b1OuBv4xfPJU2YfKkNRZBxtlR0R3e8Vye46P4RpSSkl6xtaKLvZuH
- ntvjX7PRMZ2mmuUYM/aBU/28PoOR/RilvXBnS+5XJoGznuAwf0JbukKHY+wf8rUSTege3D
- lDZAya6g2tsSo7AVtxOJyUrF/foUgVs=
+ bh=/FSe9+N7Ey81R37g/nLUGGPJ15xAAJ5ghXf96mBoZyc=;
+ b=fushdf6irO1IC/Yqmc9Zmq7kligV/O2WMIqkEIfZmeuf0q7E8YY//Me+GqCtS1bre9eJl/
+ H5fViKG4Gy0K7TiIfnj6zK/e5byLLOMQ2GR6ijoiOGXFfgDiODovvD/FiPOnSTFitgSrj4
+ BBnH5wpYwBkAxoZMsOjiVXacFypgwGM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-2nvZmvL_MZuZ27RO-xRqZg-1; Wed, 16 Sep 2020 07:47:43 -0400
-X-MC-Unique: 2nvZmvL_MZuZ27RO-xRqZg-1
+ us-mta-118-r5sHGWLcN0uUJEv7Kokiww-1; Wed, 16 Sep 2020 07:47:45 -0400
+X-MC-Unique: r5sHGWLcN0uUJEv7Kokiww-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9C01802B4C;
- Wed, 16 Sep 2020 11:47:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 697B780EF84;
+ Wed, 16 Sep 2020 11:47:44 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 843BF5DE86;
- Wed, 16 Sep 2020 11:47:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 282FB5DE4A;
+ Wed, 16 Sep 2020 11:47:42 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/24] Simplify the .gitignore file
-Date: Wed, 16 Sep 2020 13:47:12 +0200
-Message-Id: <20200916114731.102080-6-thuth@redhat.com>
+Subject: [PULL 06/24] qga/commands-win32: Fix problem with redundant protype
+ declaration
+Date: Wed, 16 Sep 2020 13:47:13 +0200
+Message-Id: <20200916114731.102080-7-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -83,185 +84,55 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we always do out-of-tree builds (and the in-tree builds are
-faked via a "build" directory), we can simplify out .gitignore file
-quite a bit.
+When compiling QEMU with MSYS2 on Windows, there is currently the
+following error:
 
-Message-Id: <20200909080305.258961-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+../qga/commands-win32.c:62:24: error: redundant redeclaration of
+ 'CM_Get_DevNode_PropertyW' [-Werror=redundant-decls]
+   62 | CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../qga/commands-win32.c:26:
+C:/tools/msys64/mingw64/x86_64-w64-mingw32/include/cfgmgr32.h:840:26: note:
+ previous declaration of 'CM_Get_DevNode_PropertyW' was here
+  840 |   CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(DEVINST dnDevInst,
+   const DEVPROPKEY *PropertyKey, DEVPROPTYPE *PropertyType, PBYTE PropertyBuffer,
+   PULONG PropertyBufferSize, ULONG ulFlags);
+
+Seems like this protype is sometimes available in the cfgmgr32.h
+header, and sometimes not. Let's silence the compiler warning here
+to let the build pass with -Werror, too.
+
+Message-Id: <20200915114757.55635-1-thuth@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitignore | 152 -----------------------------------------------------
- 1 file changed, 152 deletions(-)
+ qga/commands-win32.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/.gitignore b/.gitignore
-index b6fdd34ddf..5515f595e6 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -1,163 +1,11 @@
- /GNUmakefile
- /build/
--/.doctrees
--/config-devices.*
--/config-host.*
--/config-target.*
--/config.status
--/config-temp
--/tools/virtiofsd/50-qemu-virtiofsd.json
--/elf2dmp
--/trace-events-all
--/trace/generated-events.h
--/trace/generated-events.c
--/trace/generated-helpers-wrappers.h
--/trace/generated-helpers.h
--/trace/generated-helpers.c
--/trace/generated-tcg-tracers.h
--/ui/shader/texture-blit-frag.h
--/ui/shader/texture-blit-vert.h
--/ui/shader/texture-blit-flip-vert.h
--/ui/input-keymap-*.c.inc
--*-timestamp
--/*-softmmu
--/*-darwin-user
--/*-linux-user
--/*-bsd-user
--/ivshmem-client
--/ivshmem-server
--/libdis*
--/libuser
--/linux-headers/asm
--/qga/qapi-generated
--/qapi-gen-timestamp
--/qapi/qapi-builtin-types.[ch]
--/qapi/qapi-builtin-visit.[ch]
--/qapi/qapi-commands-*.[ch]
--**/qapi/qapi-commands.[ch]
--**/qapi/qapi-emit-events.[ch]
--/qapi/qapi-events-*.[ch]
--**/qapi/qapi-events.[ch]
--**/qapi/qapi-init-commands.[ch]
--**/qapi/qapi-introspect.[ch]
--/qapi/qapi-types-*.[ch]
--**/qapi/qapi-types.[ch]
--/qapi/qapi-visit-*.[ch]
--!/qapi/qapi-visit-core.c
--**/qapi/qapi-visit.[ch]
--**/qapi/qapi-doc.texi
--/qemu-edid
--/qemu-img
--/qemu-nbd
--/qemu-options.def
--/qemu-options.texi
--/qemu-img-cmds.texi
--/qemu-img-cmds.h
--/qemu-io
--/qemu-ga
--/qemu-bridge-helper
--/qemu-keymap
--/qemu-monitor.texi
--/qemu-monitor-info.texi
--/qemu-storage-daemon
--/qemu-version.h
--/qemu-version.h.tmp
--/module_block.h
--/scsi/qemu-pr-helper
--/vhost-user-scsi
--/vhost-user-blk
--/vhost-user-gpu
--/vhost-user-input
--/fsdev/virtfs-proxy-helper
--*.tmp
--*.[1-9]
--*.a
--*.aux
--*.cp
--*.exe
--*.msi
--*.dll
--*.so
--*.fn
--*.ky
--*.log
--*.pdf
--*.pod
--*.cps
--*.fns
--*.kys
--*.pg
--*.pyc
--*.toc
--*.tp
--*.vr
--*.d
--!/.gitlab-ci.d
--!/scripts/qemu-guest-agent/fsfreeze-hook.d
--*.o
- .sdk
--*.gcda
--*.gcno
--*.gcov
--/pc-bios/bios-pq/status
--/pc-bios/edk2-*.fd
--/pc-bios/vgabios-pq/status
--/pc-bios/optionrom/linuxboot.asm
--/pc-bios/optionrom/linuxboot.bin
--/pc-bios/optionrom/linuxboot.raw
--/pc-bios/optionrom/linuxboot.img
--/pc-bios/optionrom/linuxboot_dma.asm
--/pc-bios/optionrom/linuxboot_dma.bin
--/pc-bios/optionrom/linuxboot_dma.raw
--/pc-bios/optionrom/linuxboot_dma.img
--/pc-bios/optionrom/pvh.asm
--/pc-bios/optionrom/pvh.bin
--/pc-bios/optionrom/pvh.raw
--/pc-bios/optionrom/pvh.img
--/pc-bios/optionrom/multiboot.asm
--/pc-bios/optionrom/multiboot.bin
--/pc-bios/optionrom/multiboot.raw
--/pc-bios/optionrom/multiboot.img
--/pc-bios/optionrom/kvmvapic.asm
--/pc-bios/optionrom/kvmvapic.bin
--/pc-bios/optionrom/kvmvapic.raw
--/pc-bios/optionrom/kvmvapic.img
--/pc-bios/s390-ccw/s390-ccw.elf
--/pc-bios/s390-ccw/s390-ccw.img
--/docs/built
--/docs/interop/qemu-ga-qapi.texi
--/docs/interop/qemu-ga-ref.html
--/docs/interop/qemu-ga-ref.info*
--/docs/interop/qemu-ga-ref.txt
--/docs/interop/qemu-qmp-qapi.texi
--/docs/interop/qemu-qmp-ref.html
--/docs/interop/qemu-qmp-ref.info*
--/docs/interop/qemu-qmp-ref.txt
--/docs/version.texi
--/contrib/vhost-user-gpu/50-qemu-gpu.json
--*.tps
- .stgit-*
- .git-submodule-status
- cscope.*
- tags
- TAGS
--docker-src.*
- *~
- *.ast_raw
- *.depend_raw
--trace.c
--trace-ust.h
--trace-ust.h
--trace-dtrace.h
--trace-dtrace.dtrace
--trace-root.h
--trace-root.c
--trace-ust-root.h
--trace-ust-root.h
--trace-ust-all.h
--trace-ust-all.c
--trace-dtrace-root.h
--trace-dtrace-root.dtrace
--trace-ust-all.h
--trace-ust-all.c
--/target/arm/decode-sve.c.inc
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 48d8bbe649..0c3c05484f 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -57,8 +57,10 @@ DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverDate, 0xa8b865dd, 0x2e3d,
+ DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverVersion, 0xa8b865dd, 0x2e3d,
+     0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 3);
+     /* DEVPROP_TYPE_STRING */
+-/* The following shoud be in cfgmgr32.h, but it isn't */
++/* The CM_Get_DevNode_PropertyW prototype is only sometimes in cfgmgr32.h */
+ #ifndef CM_Get_DevNode_Property
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wredundant-decls"
+ CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
+     DEVINST          dnDevInst,
+     CONST DEVPROPKEY * PropertyKey,
+@@ -68,6 +70,7 @@ CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
+     ULONG            ulFlags
+ );
+ #define CM_Get_DevNode_Property CM_Get_DevNode_PropertyW
++#pragma GCC diagnostic pop
+ #endif
+ 
+ #ifndef SHTDN_REASON_FLAG_PLANNED
 -- 
 2.18.2
 
