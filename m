@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB0626B9B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 04:13:21 +0200 (CEST)
-Received: from localhost ([::1]:39762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F73A26B9BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 04:15:14 +0200 (CEST)
+Received: from localhost ([::1]:43682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIMwh-0004P6-TH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 22:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45210)
+	id 1kIMyX-00062O-2V
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 22:15:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kIMvv-0003zO-Jv
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:12:31 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42331)
+ id 1kIMwG-0004Ei-BA
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:12:52 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:42337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kIMvt-0003dV-GA
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:12:31 -0400
-Received: by mail-pf1-x442.google.com with SMTP id d6so3041487pfn.9
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 19:12:28 -0700 (PDT)
+ id 1kIMwE-0003eP-SG
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 22:12:52 -0400
+Received: by mail-pf1-x444.google.com with SMTP id d6so3041945pfn.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 19:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=fTC7VP165+6FV2qJiWM5/gGcADlqksOlmXJZKIkA60o=;
- b=kEO6OhpNBsZyMqnCS8HQ71nEGbd1k+/sCOUBSOed1drumYhLm1qU6wZCWd9VXikU4N
- 5Z0rEpWGPhUU3NWWNMX/qakqiHkRjA1rdy0hwO6wKLw868SYIcYsx9llP4NYRnbGC/qr
- wnMeCtLwFTYha+uTee2+yJsq7JS3iZkJbURuXriOlhldnn9204JgV08MrGuUnHYZ7pcH
- gAN0kOsrbtDLoc2BHebHSFPB7gnnoaJZJ3rynmFvWb6/kMXgXjLv5ytpkCSvopFw43jR
- FY2jcEF4ZtAWRow/l2lme7pwD27S15ATtFjtPH1e8/jscm+kenWZUUM9xLJOWD5naLFK
- 33/w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=UZo00x5e0PgCE56Mxc+bsaLI7WCxdZMfP8+4vb35TnY=;
+ b=Alp95rrdqAVJEIc5zWAXfeUhhW/9ma9I13QRsh72lpVIPBe+tB9H9E0BcSs/Np5qi9
+ TkR9+808QsluR3H7jw69eCSr26DTPNowrm8pKUir5c+YXUigGFZBa5PJ6CndjkVPNyip
+ 2ba6ovMLBkcCDx/4vXWlcxfDgWJEmqYOBka0SWCD5t0THhePhex1zp/5oAAvVPwEOGKG
+ dy9c6gSC6+Ny8SPd+LXRt1XRk+D1rh3AkEPVOBROyMJx2s2jQHXsC9S67HTkMlVlcwOi
+ Bxh4wqepBHFU/Qe6Xvy7Fu9FPKG3/eZvEJXs8uee9Bqe8Ai/BSZrrhn7gXsK2RamaaOE
+ VdnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=fTC7VP165+6FV2qJiWM5/gGcADlqksOlmXJZKIkA60o=;
- b=KBkBLGTX288334WheQtx9W2J8bsw1ILdQzkf5nCQng4lbgsOwCT9eruacW3Jhec77R
- E/N1uCKFWh9O5ZdFhFLj198Y42tvav5Q6EKqMlnif7fYbLyS4hmA3U3Z+ooEw138M8pQ
- h8LIeREl7qGuwG/M6HZ4f5bq1FwWqQWJ8tuCk1z8MAyM9sqcvd+F/jlwJKtQGGq/vU5V
- 2vFOEGUjnnT0QcXIwHmqr1EEXllukUF5GFhEFoR/p/FOwjz1Udo9/pWeIHmNFukDsaoc
- +1C+oUAxaf1i99S/Eg4KT0t0pn3Qn5Id92divD4ycE/TuJ/a12tXLNd3yDjJ2h8Jq6Vk
- pQnQ==
-X-Gm-Message-State: AOAM530OGYYJGMNLN5LnPPUnCbWh5GDfxs9ej8wIoxcXlTHoFdEwmUbR
- MpsmZO7iUER9wymCh15YQKY=
-X-Google-Smtp-Source: ABdhPJwnQCyJThDhF/mEpRy3Vt9cbFNGm8kmIM1bLNUCdMOKYu5sbeszwO1SfsxWJqBiheq8XyHJuA==
-X-Received: by 2002:a63:205d:: with SMTP id r29mr16132364pgm.278.1600222347391; 
- Tue, 15 Sep 2020 19:12:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=UZo00x5e0PgCE56Mxc+bsaLI7WCxdZMfP8+4vb35TnY=;
+ b=SFCKiTgzkbrLOIdwD9HC2PvtEAusayqkyKvjt4odYJVmXK3w9OcAoFqjEoz1xrJvC+
+ S2cr0GsmJur5tPrIUUjzFcsDxWPsrC6/qSYXagjSKv51etDKT+YJ0khaims8HwyssXmG
+ GKAJzVG7YCYfG0XB/vm5InaG2g4gT1ERmMFZ9Q416IWsI93LYwSV8YRj9ZZXgpfShyqO
+ 58XFeesRAuzWTVkS/KWFbjSRmU/yfZsNMAEZM19nzpgNW2VKsqTvaOCrnW7PohTSw2/9
+ 2dMS1FM4f+0jrZmIUzRmcMT3HypKYv96v98PxpJV2+SOTp/+LcNP2+RQRdjRg8NdAB52
+ bTIw==
+X-Gm-Message-State: AOAM533XmtMUsaFJaKGRDPFZHTMVyL/l5mIvPHfx+npNh2TNSnaCK03N
+ S51EAc0EgWqB6NqoW14Ut7I=
+X-Google-Smtp-Source: ABdhPJx8UpuH7zd9QSc1U/aT202HcO4nuY5YVhJEmXPv0wuXlt1u4+gZ5ptvBu/kVy0gLxbOVSBb9A==
+X-Received: by 2002:a63:4923:: with SMTP id w35mr16286724pga.368.1600222369700; 
+ Tue, 15 Sep 2020 19:12:49 -0700 (PDT)
 Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id y29sm16149486pfq.207.2020.09.15.19.12.22
+ by smtp.gmail.com with ESMTPSA id y29sm16149486pfq.207.2020.09.15.19.12.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 15 Sep 2020 19:12:26 -0700 (PDT)
+ Tue, 15 Sep 2020 19:12:49 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V9 0/6] mips: Add Loongson-3 machine support
-Date: Wed, 16 Sep 2020 10:12:18 +0800
-Message-Id: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V9 1/6] linux-headers: Update MIPS KVM type defintition
+Date: Wed, 16 Sep 2020 10:12:19 +0800
+Message-Id: <1600222344-16808-2-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x442.google.com
+In-Reply-To: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
+References: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,140 +90,31 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
-R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
-Loongson-3A R4 is the newest and its ISA is almost the superset of all
-others. To reduce complexity, in QEMU we just define two CPU types:
-
-1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
-   suitable for TCG because Loongson-3A R1 has fewest ASE.
-2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
-   suitable for KVM because Loongson-3A R4 has the VZ ASE.
-
-Loongson-3 lacks English documents. I've tried to translated them with
-translate.google.com, and the machine translated documents (together
-with their original Chinese versions) are available here.
-
-Loongson-3A R1 (Loongson-3A1000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P1.pdf (Chinese Version)
-User Manual Part 2:
-http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P2.pdf (Chinese Version)
-
-Loongson-3A R2 (Loongson-3A2000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese Version)
-User Manual Part 2:
-http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese Version)
-
-Loongson-3A R3 (Loongson-3A3000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.pdf (Chinese Version)
-User Manual Part 2:
-http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.pdf (Chinese Version)
-
-Loongson-3A R4 (Loongson-3A4000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
-http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
-User Manual Part 2:
-I'm sorry that it is unavailable now.
-
-And human-translated documents (W.I.P) are available here now:
-https://github.com/loongson-community/docs/tree/master/English-translation-of-Loongson-manual
-
-Both KVM and TCG are available now!
-
-We now already have a full functional Linux kernel (based on Linux-5.4.x
-LTS, the kvm host side and guest side have both been upstream for Linux-
-5.9, but Linux-5.9 has not been released yet) here:
-
-https://github.com/chenhuacai/linux
-
-Of course the upstream kernel is also usable (though it is "unstable"
-now):
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-
-How to use QEMU/Loongson-3?
-1, Download kernel source from the above URL;
-2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
-3, Boot a Loongson-3A4000 host with this kernel (for KVM mode);
-4, Build QEMU-master with this patchset;
-5, modprobe kvm (only necessary for KVM mode);
-6, Use QEMU with TCG:
-       qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
-   Use QEMU with KVM:
-       qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
-
-   The "-cpu" parameter is optional here and QEMU will use the correct type for TCG/KVM automatically.
-
-V1 -> V2:
-1, Add a cover letter;
-2, Improve CPU definitions;
-3, Remove LS7A-related things (Use GPEX instead);
-4, Add a description of how to run QEMU/Loongson-3.
-
-V2 -> V3:
-1, Fix all possible checkpatch.pl errors and warnings.
-
-V3 -> V4:
-1, Sync code with upstream;
-2, Remove merged patches;
-3, Fix build failure without CONFIG_KVM;
-4, Add Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>.
-
-V4 -> V5:
-1, Improve coding style;
-2, Remove merged patches;
-3, Rename machine name from "loongson3" to "loongson3-virt";
-4, Rework the "loongson3-virt" machine to drop any ISA things;
-5, Rework "hw/mips: Implement the kvm_type() hook in MachineClass";
-6, Add Jiaxun Yang as a reviewer of Loongson-3.
-
-V5 -> V6:
-1, Fix license preamble;
-2, Improve commit messages;
-3, Add hw/intc/loongson_liointc.c to MAINTAINERS;
-4, Fix all possible checkpatch.pl errors and warnings.
-
-V7 and V8 have only one patch (machine definition) with some minor improvements.
-
-V8 -> V9:
-1, Update KVM type definition from kernel;
-2, Fix PageMask with variable page size for TCG;
-3, Add TCG support (add Loongson-EXT instructions).
-
-Huacai Chen and Jiaxun Yang (6):
- linux-headers: Update MIPS KVM type defintition
- target/mips: Fix PageMask with variable page size
- target/mips: Add loongson-ext lswc2 group of instructions (Part 1)
- target/mips: Add loongson-ext lswc2 group of instructions (Part 2)
- target/mips: Add loongson-ext lsdc2 group of instructions
- hw/mips: Add Loongson-3 machine support
+Update MIPS KVM type defintition from Linux 5.9-rc6.
 
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 ---
- default-configs/mips64el-softmmu.mak |   1 +
- hw/mips/Kconfig                      |  11 +
- hw/mips/fw_cfg.c                     |  35 ++
- hw/mips/fw_cfg.h                     |  19 +
- hw/mips/loongson3_virt.c             | 956 +++++++++++++++++++++++++++++++++++
- hw/mips/meson.build                  |   3 +-
- linux-headers/linux/kvm.h            |   5 +-
- target/mips/cp0_helper.c             |  36 +-
- target/mips/cpu.h                    |   1 +
- target/mips/translate.c              | 437 ++++++++++++++++
- 10 files changed, 1494 insertions(+), 10 deletions(-)
- create mode 100644 hw/mips/fw_cfg.c
- create mode 100644 hw/mips/fw_cfg.h
- create mode 100644 hw/mips/loongson3_virt.c
---
+ linux-headers/linux/kvm.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index a28c366..36a480f 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -789,9 +789,10 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_VM_PPC_HV 1
+ #define KVM_VM_PPC_PR 2
+ 
+-/* on MIPS, 0 forces trap & emulate, 1 forces VZ ASE */
+-#define KVM_VM_MIPS_TE		0
++/* on MIPS, 0 indicates auto, 1 forces VZ ASE, 2 forces trap & emulate */
++#define KVM_VM_MIPS_AUTO	0
+ #define KVM_VM_MIPS_VZ		1
++#define KVM_VM_MIPS_TE		2
+ 
+ #define KVM_S390_SIE_PAGE_OFFSET 1
+ 
+-- 
 2.7.0
+
 
