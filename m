@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102C726C2A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:19:19 +0200 (CEST)
-Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8506B26C29A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:15:46 +0200 (CEST)
+Received: from localhost ([::1]:55186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWP8-0002pM-3o
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58102)
+	id 1kIWLh-0007iN-8u
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:15:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIWBF-0006cR-K1; Wed, 16 Sep 2020 08:04:57 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:36107)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIWBC-0001vj-HT; Wed, 16 Sep 2020 08:04:57 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id x69so6720604lff.3;
- Wed, 16 Sep 2020 05:04:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=28lA9K0Y7vK3gyOz2tFYnoRJMiI2arDvXFbLiyUK6+U=;
- b=i4G7wKqOgY3fkpd9WlZqCuEyRG+zU47T217XFo3Y2txyx4ir+S/58iZeaDEIeFMJX5
- nlkZnNlKXUIaeItF35IM0CDkkIJ4V1ED63+tlskB1jq4yJeWBE+VaDr1nCn7x4GZT2Gr
- TqUL+NhV7I4NZGI7xcx+yxDQNHnywb5ftEuP/QEDzBflaDX9xFgiZ1VHIdKwpmpHMVdr
- 6suf6fu6FZ1XzAdB5WL/ZYE3EaUyfSbvRxsC4sl6VWrR3yHkc8Zw4pKjpmF0i/azVW4l
- scpYRcdpGvIODN/G7RdgKGG8wZ2X+6eg8PZBOhHgfDCz0wrdBy6RClAq96jSdpTBj0C9
- dZtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=28lA9K0Y7vK3gyOz2tFYnoRJMiI2arDvXFbLiyUK6+U=;
- b=B8Ei27CZcVbHiweUHmiQFL4GvuydetJdZg8LxRwvgISAfh3AVE7Mb/FIy7iV+MnnRw
- zqDj02Xy5DCN4T6tuT6CGwe1D10ixFVfGNHFZVUtAPs7J1nMSeMyRIrSx0USW3em20P0
- GNqYWk0O/gbvNPXf9Dt3GAJ+E5nWdb7cl40ct3jmikAOpUfgLVvNJrF+Z4buSFCdsxcp
- 9iw3pgogTXNBl59zZDJI78mLvEE2bibhHQQN4EUqvnz1cFXYVsHHDc8ZU0YFz3SKhDZV
- kr7v25sdODgL3PYKLy7+Dgo43+KU5Wto7s+Mw1jtnnZFnq42CXlbD1iKziDIkjPaoIT9
- PfTA==
-X-Gm-Message-State: AOAM531ENKSg6IPRAdNbo5xrZEE8l8K1jXzqMzJPOjuWoPgsJ8RxoILU
- 48sbfBp9dmSJEho8D78nTPe4aKo67maToYeohHA=
-X-Google-Smtp-Source: ABdhPJxnwwlGQQ4Pa1JFAZ1Hx1dRqFHqzBJrH0Po7haCtKiHFgvi3dlerMRX+KpW3aWG0TCTDaqmc6uu2qXQj94UEHc=
-X-Received: by 2002:a19:383:: with SMTP id 125mr8010907lfd.356.1600257890287; 
- Wed, 16 Sep 2020 05:04:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIWIl-0006gA-1z
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:12:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIWIh-0003BM-5n
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:12:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600258357;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MjdqkQrNCOU8qKuPolN4l93DFE+SPQoKiV9fCSz9RZc=;
+ b=Zif7J8Vr3yxZXc50tplzQKtX7fAe1+Pnd6NT+qWUZwQX3W+oWtUh+SCZRwc3RYfv0Ojxrq
+ W0R/x6dfQVCUIuRTVp86ebIE3yVd5E+5bByTY+EiuyKXyEoux/miWoBvUBXTgXwdHkj/55
+ DcVvJIMK9ahPCzCujK1adcYKQHbsCeg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-IiN73Xa5Pcqu5f1kPbdRbA-1; Wed, 16 Sep 2020 08:12:36 -0400
+X-MC-Unique: IiN73Xa5Pcqu5f1kPbdRbA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1416A56B35;
+ Wed, 16 Sep 2020 12:12:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 995855DA71;
+ Wed, 16 Sep 2020 12:12:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 254C2113864A; Wed, 16 Sep 2020 14:12:31 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 06/37] qapi: delint using flake8
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-7-jsnow@redhat.com>
+Date: Wed, 16 Sep 2020 14:12:31 +0200
+In-Reply-To: <20200915224027.2529813-7-jsnow@redhat.com> (John Snow's message
+ of "Tue, 15 Sep 2020 18:39:56 -0400")
+Message-ID: <87wo0tor80.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20200915171234.236-1-luoyonggang@gmail.com>
- <cd40da60-d03f-bf37-c0d7-1f362419cf75@redhat.com>
-In-Reply-To: <cd40da60-d03f-bf37-c0d7-1f362419cf75@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 16 Sep 2020 20:04:40 +0800
-Message-ID: <CAE2XoE9dJvwH_12XRo5c62D9x_akcuvO2EY5xCOm-E5Y8WysCw@mail.gmail.com>
-Subject: Re: [PATCH v10 00/26] W32, W64 msys2/mingw patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000001984bd05af6d135b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x12a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,83 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Qemu-block <qemu-block@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>,
- Peter Lieven <pl@kamp.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001984bd05af6d135b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+John Snow <jsnow@redhat.com> writes:
 
-On Wed, Sep 16, 2020 at 7:52 PM Thomas Huth <thuth@redhat.com> wrote:
+> Petty style guide fixes and line length enforcement.  Not a big win, not
+> a big loss, but flake8 passes 100% on the qapi module, which gives us an
+> easy baseline to enforce hereafter.
 >
-> On 15/09/2020 19.12, Yonggang Luo wrote:
-> [...]
-> > It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses an=
-d
-> > disable partial test-char tests.
-> > And then fixes all unit tests failure on msys2/mingw
-> > This fixes the reviews suggested in the mailling list
-> > All cirrus CI are passed
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/.flake8     |  2 ++
+>  scripts/qapi/commands.py |  3 ++-
+>  scripts/qapi/schema.py   |  8 +++++---
+>  scripts/qapi/visit.py    | 15 ++++++++++-----
+>  4 files changed, 19 insertions(+), 9 deletions(-)
+>  create mode 100644 scripts/qapi/.flake8
 >
-> Thanks a lot for your work, I've added most of your patches to my latest
-> "testing" pull request now, so that we should get basic test coverage on
-> msys2 now in the Cirrus-CI if it gets merged.
->
-> I skipped the NFS, capstone, test-char and crypto patches for now (and
-> replaced them with older versions of your patches where you've disabled
-> them) - I think these patches still need some more review / work and
-> then should go through the trees of the corresponding maintainers later.
-Happy to see, once your branch merged, I'll rebase these patches and resend
-them
-separately
->
->  Cheers,
->   Thomas
->
+> diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
+> new file mode 100644
+> index 0000000000..45d8146f3f
+> --- /dev/null
+> +++ b/scripts/qapi/.flake8
+> @@ -0,0 +1,2 @@
+> +[flake8]
+> +extend-ignore = E722  # Pylint handles this, but smarter.
 
+I guess you mean pylint's W0702 a.k.a. bare-except.  What's wrong with
+flake8's E722 compared to pylint's W0702?
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+> \ No newline at end of file
 
---0000000000001984bd05af6d135b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So put one there :)
 
-<div dir=3D"ltr"><br><br>On Wed, Sep 16, 2020 at 7:52 PM Thomas Huth &lt;<a=
- href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br>&gt;<b=
-r>&gt; On 15/09/2020 19.12, Yonggang Luo wrote:<br>&gt; [...]<br>&gt; &gt; =
-It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and<br=
->&gt; &gt; disable partial test-char tests.<br>&gt; &gt; And then fixes all=
- unit tests failure on msys2/mingw<br>&gt; &gt; This fixes the reviews sugg=
-ested in the mailling list<br>&gt; &gt; All cirrus CI are passed<br>&gt;<br=
->&gt; Thanks a lot for your work, I&#39;ve added most of your patches to my=
- latest<br>&gt; &quot;testing&quot; pull request now, so that we should get=
- basic test coverage on<br>&gt; msys2 now in the Cirrus-CI if it gets merge=
-d.<br>&gt;<br>&gt; I skipped the NFS, capstone, test-char and crypto patche=
-s for now (and<br>&gt; replaced them with older versions of your patches wh=
-ere you&#39;ve disabled<br>&gt; them) - I think these patches still need so=
-me more review / work and<br>&gt; then should go through the trees of the c=
-orresponding maintainers later.<div>Happy to see, once your branch merged, =
-I&#39;ll rebase these patches and resend them</div><div>separately<br>&gt;<=
-br>&gt; =C2=A0Cheers,<br>&gt; =C2=A0 Thomas<br>&gt;<br><br><br>--<br>=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=
-=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div><=
-/div>
+> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+> index e1df0e341f..2e4b4de0fa 100644
+> --- a/scripts/qapi/commands.py
+> +++ b/scripts/qapi/commands.py
+> @@ -69,7 +69,8 @@ def gen_call(name, arg_type, boxed, ret_type):
+>  def gen_marshal_output(ret_type):
+>      return mcgen('''
+>  
+> -static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
+> +static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out,
+> +                                          Error **errp)
 
---0000000000001984bd05af6d135b--
+The continued parameter list may become misalignd in generated C.  E.g.
+
+    static void qmp_marshal_output_BlockInfoList(BlockInfoList *ret_in, QObject **ret_out,
+                                              Error **errp)
+    {
+    ...
+    }
+
+Do we care?
+
+More of the same below.
+
+>  {
+>      Visitor *v;
+>  
+[...]
+
 
