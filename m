@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A41D26C249
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:50:07 +0200 (CEST)
-Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75ABA26C23E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:45:16 +0200 (CEST)
+Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIVws-0000TV-4v
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
+	id 1kIVsB-0003L2-Dd
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIVmH-0006OX-46
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:39:09 -0400
-Received: from mail-bn8nam12on2053.outbound.protection.outlook.com
- ([40.107.237.53]:12830 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ id 1kIVmJ-0006QE-92
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:39:11 -0400
+Received: from mail-bn8nam11on2070.outbound.protection.outlook.com
+ ([40.107.236.70]:47584 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIVmE-0006qi-Ff
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:39:08 -0400
+ id 1kIVmD-0006qZ-WC
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:39:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kcdR3T4duVP0HboCFMixkxvYZJ3r4hKJv1TzI7luZHDcPmxw45KGuCg9A1SPSRrN8BhQlsOLj7VQyUC2SDZmmlflkpOdhHB+TOHj9NcsRG5UH0Duad4AYrytbZUd3r2b1B0ihJVpA1J/FUBm24st/bhNdcTNnHjSlBB20MDrA2fkYse41K5IuEGPSNMTzwoDAPqrgBLcSKyS/KkeOQxycTRmNg7z5sKB3CEgzRM8UWbQvENcTjCtmZ9D3uovsndYIXpU3qHw22UTiNdO/SakVmAdVPOH7zhce1Ayhx682+dMqwEy4+URbTRQSY15GdRyLrce8he5hFcNGxZCpmbodQ==
+ b=abCeWq19SdnZ6IAUEzX1wNBKN+3FILctDS77YtV7mv2fVmhah4Fs0eX2mjseXjllM7ebLiY+45fgv7uiIXJBdeIarT2Xs8ShFczrX8uIJJFedJPgGoKJ/Gt0tvf7VSAFOLw9JO1xtMLcG4gx/a1AZ0NinqKfhPZSoOLkohuykL6dQIJ2jdXspiFkjzuK9W7zPOirizFX6MPbXTyd5rvgZvIYv1kEhTblY+jUJ+aaq9agFO9FJQECN5B4QWcr0bU4FNseQEtHTYT4d4ZhbSs8xK9cY64YS7bCBShgw8bJqehii7PO021rxZZWYOTHDxq5VLVqr9PATe4/JOm+EwtfZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGMjhOGlWII9upFOj1WGAEAbwykzpWtNVCvHbuOelTI=;
- b=hE6x63BJuCJ9mV/UjXC1vtHM7XsJ+ectiOKWJq8Yib7d2G0tyFugyvdExiEn0A7KFig4Dh8UeiiaM6CEDneKayTd82Ddd6MQblQc3NUqRjkkPmWPZlOdmSyJyNmcRBABBjjY97/zmcPzJ385RjqSlM0qAM4wrjLjuVXfIr05q0aKy91SjXoGurLyGFtzVJ6ykA70Z+xjrcJTPyCWZ9WJ27amOwE5R3UzgMu3Ucic6ovq6DbpOjJS6qqlrBQGY2TS8zrB0/DXxQb1a2XMKwMvBEz+isoR/RAkB29ywLzvfrSy132GcY/biZYFz+uB63DK1P5YJaBnNwZhsSkY268Cyw==
+ bh=pH7b5l2TKJq7p0oo2GK0xET5iwidX7M2+4FAx+h3uT0=;
+ b=AxlFNGYTjKfVHHDCHFvPlwUvwUz1rdOYm+5pvflya9RtQIeI/2e3NnqfmMf+VDxzVPlaBQqfeS9lxT2KAlo591xOOFu9AnRPD6Gy60kg7XGfJuRYDf8zgIFvzfIIvon7ayZjfXXjXKKXN/bVot+yDh+qTCn4bfz1/KmmiLilyeY826/F51fgbjJrpfxBxgxrqLLIh+VikrBZl37pWgHL4wJFHS440/3xpy4hCFgXcTcgEpK2C1DOdDysyAQqYwU3P4SLmKn3Po8mrOLBh1obnNOQvVOCf+3/x5cZjq7Wh7TGSN64ygOq11Uaxc68C3qM4NZ1h/ULDMYABClPzQILNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -34,17 +34,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGMjhOGlWII9upFOj1WGAEAbwykzpWtNVCvHbuOelTI=;
- b=kmuDegFoRA52TSs43lv0Imob+1/S/VOe8r8lq1V25cxpI2KnbdxBA86xUr+FM1Qu1um+blaa98S/Mbsm3WUDg4hjSgty+Pu3kfaFrk+CRXyi4kFQpZS7rAGCR5BW/WuP0YCMr0ARK8C7n4z/0elVyiTuauMgfX9FDVUUJsfrDNQ=
-Received: from BL0PR03CA0020.namprd03.prod.outlook.com (2603:10b6:208:2d::33)
- by BN6PR02MB2420.namprd02.prod.outlook.com (2603:10b6:404:56::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Wed, 16 Sep
+ bh=pH7b5l2TKJq7p0oo2GK0xET5iwidX7M2+4FAx+h3uT0=;
+ b=GTslUU++jt425OPBvHiCXg90LPgwpZSd7kgVid4gzEIM3m9IIKwK5Wg+6o9T42Hqu2N78YefbNa+55IvbkBNbcZwOz/rkCJwzbSlgKQDryjdsknbyaYDkkpOWqgtgevDPFFhqdps5ZE3X3g0dbdpupZM2ofijcetLHjvvcPRl2c=
+Received: from SA0PR11CA0051.namprd11.prod.outlook.com (2603:10b6:806:d0::26)
+ by BN7PR02MB5267.namprd02.prod.outlook.com (2603:10b6:408:2b::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Wed, 16 Sep
  2020 11:39:02 +0000
-Received: from BL2NAM02FT005.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:2d:cafe::89) by BL0PR03CA0020.outlook.office365.com
- (2603:10b6:208:2d::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11 via Frontend
+Received: from SN1NAM02FT059.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:d0:cafe::b2) by SA0PR11CA0051.outlook.office365.com
+ (2603:10b6:806:d0::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14 via Frontend
  Transport; Wed, 16 Sep 2020 11:39:02 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
@@ -54,27 +54,26 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT005.mail.protection.outlook.com (10.152.76.252) with Microsoft SMTP
+ SN1NAM02FT059.mail.protection.outlook.com (10.152.72.177) with Microsoft SMTP
  Server id 15.20.3370.16 via Frontend Transport; Wed, 16 Sep 2020 11:39:02
  +0000
-Received: from [149.199.38.66] (port=45756 helo=smtp.xilinx.com)
+Received: from [149.199.38.66] (port=45789 helo=smtp.xilinx.com)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kIVm3-0001bt-C9; Wed, 16 Sep 2020 04:38:55 -0700
+ id 1kIVm3-0001bw-NG; Wed, 16 Sep 2020 04:38:55 -0700
 Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.63)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kIVm9-0007Oo-Tn; Wed, 16 Sep 2020 04:39:01 -0700
-Received: from xsj-pvapsmtp01 (smtp-fallback.xilinx.com [149.199.38.66] (may
- be forged))
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08GBd0cH002855; 
+ id 1kIVmA-0007PF-8F; Wed, 16 Sep 2020 04:39:02 -0700
+Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08GBd152002859; 
  Wed, 16 Sep 2020 04:39:01 -0700
 Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1kIVm8-0007Ng-CJ; Wed, 16 Sep 2020 04:39:00 -0700
+ id 1kIVm8-0007NS-K4; Wed, 16 Sep 2020 04:39:01 -0700
 Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id D8C1D13C0567; Wed, 16 Sep 2020 17:12:43 +0530 (IST)
+ id 876E613C0235; Wed, 16 Sep 2020 17:12:44 +0530 (IST)
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>,
@@ -82,9 +81,9 @@ To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Edgar Iglesias <edgari@xilinx.com>,
  Francisco Eduardo Iglesias <figlesia@xilinx.com>
-Subject: [PATCH v6 5/7] misc: Add versal-usb2-ctrl-regs module
-Date: Wed, 16 Sep 2020 17:11:06 +0530
-Message-Id: <1600256469-13130-6-git-send-email-sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v6 5/7] misc: Add versal-usb2-regs module
+Date: Wed, 16 Sep 2020 17:11:07 +0530
+Message-Id: <1600256469-13130-7-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600256469-13130-1-git-send-email-sai.pavan.boddu@xilinx.com>
 References: <1600256469-13130-1-git-send-email-sai.pavan.boddu@xilinx.com>
@@ -96,31 +95,31 @@ X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a85fc495-a13a-4d23-192d-08d85a351c1e
-X-MS-TrafficTypeDiagnostic: BN6PR02MB2420:
-X-Microsoft-Antispam-PRVS: <BN6PR02MB2420A2ABD007A245B8E21BF4CA210@BN6PR02MB2420.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: cee9c0bc-4cfd-4700-2357-08d85a351c4b
+X-MS-TrafficTypeDiagnostic: BN7PR02MB5267:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB52670E3681E56273BD1A514ECA210@BN7PR02MB5267.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
 X-MS-Oob-TLC-OOBClassifiers: OLM:352;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /HKAPFKD9P1snlLMEJhgEq7tdoaNDrTLsq06QOuMU8fYQw/kJVUoyaMJEAhmoMUjFpezRYKYlJ0P4FjUkfF++fnfRyG4XCwPfc9s9BSBsCdc7u0GfZeYxBEgbuEuULUsQAAYZTKsTUSZHUb2h7YXZimQPdacBLToY/wJKjlMpwtRa5f0IIYCfpgvPGlan9f4XJVS1aMiEoU3F0BdcujdJOPGENAHyvyMfJ/kV/JS2aks0P29GVr9erfo6k5sJqU8LpzradfrKXEtUnxj9l+mp1jrSvTqTshWVvU6H+0kkEDbaKALigVhjERXq5PXiL26rbloEIfhTTatcKuOK7Ubf3XXKM0RQp/bowPiCIRwMVav6soNSctlQTOC3at+9zTfLjFWO/RN5WO9WcCCvH7xqtSnCkPYsY7hiRdP4ZgoC+PcZFQjgkrEMHhF4xoE7xUuyGpjoEyrAem+v/tG4E0e6g==
+X-Microsoft-Antispam-Message-Info: RUXgsTfPRoeJ51Oi3lQpnEo4bIwGjkFZCpUEp+kWo+5tyYpas6/34gHJoB4tyQZq9qXvn6HcUA7EuAxDccaPW5xkz/6OwG8SR1ylxVUR8Zcl2JSwfKt73BnCI6ye+tIK1LLPi6OUBZg+dTlihMeQgZyjRCtpPA/+LwJMo/i+IbfjqeSQkMBin1r44P+VsjoDWokhilMtSY7rqfChUPGg87zIeZVa4+OU02Qd7SDf0HaPrVEed2yHnN13CYp/IT9Dtsr3NxreGjHVUHoJNhN4y5+AORyAtSxCTPjDqypnF+zsWogreZg3lIaow98v3KvxzEEzyUcsd8Fy5x7jp8SJWX3wGC4bzGsdpzh/Bgj8JaepfIXua2wAU9mZkB9HpYn//eATLO2ACGwPHgcukOXBiA==
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(39850400004)(136003)(346002)(376002)(396003)(46966005)(54906003)(5660300002)(6636002)(42186006)(82310400003)(110136005)(316002)(8676002)(83380400001)(186003)(4326008)(356005)(2906002)(336012)(6666004)(107886003)(426003)(19627235002)(81166007)(26005)(7416002)(6266002)(2616005)(478600001)(47076004)(70206006)(82740400003)(8936002)(36756003)(70586007)(30864003)(42866002);
+ SFS:(346002)(376002)(396003)(136003)(39850400004)(46966005)(8676002)(426003)(81166007)(6666004)(7416002)(70586007)(70206006)(47076004)(316002)(82310400003)(42186006)(336012)(356005)(36756003)(82740400003)(83380400001)(478600001)(2616005)(26005)(6266002)(8936002)(5660300002)(4326008)(6636002)(54906003)(2906002)(186003)(107886003)(110136005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 11:39:02.4286 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a85fc495-a13a-4d23-192d-08d85a351c1e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 11:39:02.7238 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cee9c0bc-4cfd-4700-2357-08d85a351c4b
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT005.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT059.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2420
-Received-SPF: pass client-ip=40.107.237.53; envelope-from=saipava@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 07:39:05
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB5267
+Received-SPF: pass client-ip=40.107.236.70; envelope-from=saipava@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 07:39:04
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -157,8 +156,8 @@ Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
 ---
  hw/misc/meson.build                          |   1 +
- hw/misc/xlnx-versal-usb2-ctrl-regs.c         | 222 +++++++++++++++++++++++++++
- include/hw/misc/xlnx-versal-usb2-ctrl-regs.h |  45 ++++++
+ hw/misc/xlnx-versal-usb2-ctrl-regs.c         | 221 +++++++++++++++++++++++++++
+ include/hw/misc/xlnx-versal-usb2-ctrl-regs.h |  46 ++++++
  3 files changed, 268 insertions(+)
  create mode 100644 hw/misc/xlnx-versal-usb2-ctrl-regs.c
  create mode 100644 include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
@@ -174,13 +173,12 @@ index 793d45b..b336dd1 100644
 +specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
 diff --git a/hw/misc/xlnx-versal-usb2-ctrl-regs.c b/hw/misc/xlnx-versal-usb2-ctrl-regs.c
 new file mode 100644
-index 0000000..94fd7cf
+index 0000000..6ddd38b
 --- /dev/null
 +++ b/hw/misc/xlnx-versal-usb2-ctrl-regs.c
-@@ -0,0 +1,222 @@
+@@ -0,0 +1,221 @@
 +/*
-+ * QEMU model of the VersalUsb2CtrlRegs Register control/Status block for
-+ * USB2.0 controller
++ * QEMU model of the XlnxUsb2Regs Register control block/Status for USB2.0 IP
 + *
 + * This module should control phy_reset, permanent device plugs, frame length
 + * time adjust & setting of coherency paths. None of which are emulated in
@@ -217,8 +215,8 @@ index 0000000..94fd7cf
 +#include "migration/vmstate.h"
 +#include "hw/misc/xlnx-versal-usb2-ctrl-regs.h"
 +
-+#ifndef XILINX_VERSAL_USB2_CTRL_REGS_ERR_DEBUG
-+#define XILINX_VERSAL_USB2_CTRL_REGS_ERR_DEBUG 0
++#ifndef XILINX_USB2_REGS_ERR_DEBUG
++#define XILINX_USB2_REGS_ERR_DEBUG 0
 +#endif
 +
 +REG32(BUS_FILTER, 0x30)
@@ -253,7 +251,7 @@ index 0000000..94fd7cf
 +    FIELD(IR_DISABLE, ADDR_DEC_ERR, 0, 1)
 +REG32(USB3, 0x78)
 +
-+static void ir_update_irq(VersalUsb2CtrlRegs *s)
++static void ir_update_irq(XlnxUsb2Regs *s)
 +{
 +    bool pending = s->regs[R_IR_STATUS] & ~s->regs[R_IR_MASK];
 +    qemu_set_irq(s->irq_ir, pending);
@@ -261,7 +259,7 @@ index 0000000..94fd7cf
 +
 +static void ir_status_postw(RegisterInfo *reg, uint64_t val64)
 +{
-+    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(reg->opaque);
++    XlnxUsb2Regs *s = XILINX_USB2_REGS(reg->opaque);
 +    /*
 +     * TODO: This should also clear USBSTS.HSE field in USB XHCI register.
 +     * May be combine both the modules.
@@ -271,7 +269,7 @@ index 0000000..94fd7cf
 +
 +static uint64_t ir_enable_prew(RegisterInfo *reg, uint64_t val64)
 +{
-+    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(reg->opaque);
++    XlnxUsb2Regs *s = XILINX_USB2_REGS(reg->opaque);
 +    uint32_t val = val64;
 +
 +    s->regs[R_IR_MASK] &= ~val;
@@ -281,7 +279,7 @@ index 0000000..94fd7cf
 +
 +static uint64_t ir_disable_prew(RegisterInfo *reg, uint64_t val64)
 +{
-+    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(reg->opaque);
++    XlnxUsb2Regs *s = XILINX_USB2_REGS(reg->opaque);
 +    uint32_t val = val64;
 +
 +    s->regs[R_IR_MASK] |= val;
@@ -326,7 +324,7 @@ index 0000000..94fd7cf
 +
 +static void usb2_regs_reset(DeviceState *dev)
 +{
-+    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(dev);
++    XlnxUsb2Regs *s = XILINX_USB2_REGS(dev);
 +    unsigned int i;
 +
 +    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
@@ -348,18 +346,18 @@ index 0000000..94fd7cf
 +
 +static void usb2_regs_init(Object *obj)
 +{
-+    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(obj);
++    XlnxUsb2Regs *s = XILINX_USB2_REGS(obj);
 +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
 +    RegisterInfoArray *reg_array;
 +
-+    memory_region_init(&s->iomem, obj, TYPE_XILINX_VERSAL_USB2_CTRL_REGS,
++    memory_region_init(&s->iomem, obj, TYPE_XILINX_USB2_REGS,
 +                       USB2_REGS_R_MAX * 4);
 +    reg_array =
 +        register_init_block32(DEVICE(obj), usb2_regs_regs_info,
 +                              ARRAY_SIZE(usb2_regs_regs_info),
 +                              s->regs_info, s->regs,
 +                              &usb2_regs_ops,
-+                              XILINX_VERSAL_USB2_CTRL_REGS_ERR_DEBUG,
++                              XILINX_USB2_REGS_ERR_DEBUG,
 +                              USB2_REGS_R_MAX * 4);
 +    memory_region_add_subregion(&s->iomem,
 +                                0x0,
@@ -369,11 +367,11 @@ index 0000000..94fd7cf
 +}
 +
 +static const VMStateDescription vmstate_usb2_regs = {
-+    .name = TYPE_XILINX_VERSAL_USB2_CTRL_REGS,
++    .name = TYPE_XILINX_USB2_REGS,
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, VersalUsb2CtrlRegs, USB2_REGS_R_MAX),
++        VMSTATE_UINT32_ARRAY(regs, XlnxUsb2Regs, USB2_REGS_R_MAX),
 +        VMSTATE_END_OF_LIST(),
 +    }
 +};
@@ -387,9 +385,9 @@ index 0000000..94fd7cf
 +}
 +
 +static const TypeInfo usb2_regs_info = {
-+    .name          = TYPE_XILINX_VERSAL_USB2_CTRL_REGS,
++    .name          = TYPE_XILINX_USB2_REGS,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(VersalUsb2CtrlRegs),
++    .instance_size = sizeof(XlnxUsb2Regs),
 +    .class_init    = usb2_regs_class_init,
 +    .instance_init = usb2_regs_init,
 +};
@@ -402,15 +400,16 @@ index 0000000..94fd7cf
 +type_init(usb2_regs_register_types)
 diff --git a/include/hw/misc/xlnx-versal-usb2-ctrl-regs.h b/include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
 new file mode 100644
-index 0000000..975a717
+index 0000000..1d75f63
 --- /dev/null
 +++ b/include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,46 @@
 +/*
-+ * QEMU model of the VersalUsb2CtrlRegs Register control/Status block for
-+ * USB2.0 controller
++ * QEMU model of the XlnxUsb2Regs Register control block/Status for USB2.0 IP
 + *
-+ * Copyright (c) 2020 Xilinx Inc. Vikram Garhwal <fnu.vikram@xilinx.com>
++ * Copyright (c) 2020 Xilinx Inc.
++ *
++ * Autogenerated by xregqemu.py 2020-04-08.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a copy
 + * of this software and associated documentation files (the "Software"), to deal
@@ -434,21 +433,21 @@ index 0000000..975a717
 +#ifndef _XLNX_USB2_REGS_H_
 +#define _XLNX_USB2_REGS_H_
 +
-+#define TYPE_XILINX_VERSAL_USB2_CTRL_REGS "xlnx.versal-usb2-ctrl-regs"
++#define TYPE_XILINX_USB2_REGS "xlnx.versal-usb2-ctrl-regs"
 +
-+#define XILINX_VERSAL_USB2_CTRL_REGS(obj) \
-+     OBJECT_CHECK(VersalUsb2CtrlRegs, (obj), TYPE_XILINX_VERSAL_USB2_CTRL_REGS)
++#define XILINX_USB2_REGS(obj) \
++     OBJECT_CHECK(XlnxUsb2Regs, (obj), TYPE_XILINX_USB2_REGS)
 +
 +#define USB2_REGS_R_MAX ((0x78 / 4) + 1)
 +
-+typedef struct VersalUsb2CtrlRegs {
++typedef struct XlnxUsb2Regs {
 +    SysBusDevice parent_obj;
 +    MemoryRegion iomem;
 +    qemu_irq irq_ir;
 +
 +    uint32_t regs[USB2_REGS_R_MAX];
 +    RegisterInfo regs_info[USB2_REGS_R_MAX];
-+} VersalUsb2CtrlRegs;
++} XlnxUsb2Regs;
 +
 +#endif
 -- 
