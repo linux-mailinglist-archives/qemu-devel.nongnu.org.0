@@ -2,97 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A1126C32E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 15:16:46 +0200 (CEST)
-Received: from localhost ([::1]:32952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4683226C332
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 15:18:20 +0200 (CEST)
+Received: from localhost ([::1]:36160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIXIj-0000cG-4a
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 09:16:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50838)
+	id 1kIXKF-0001xg-CE
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 09:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIXHR-000058-2q
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:15:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27155)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIXJ6-00015v-Rw
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:17:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIXHP-0003Nb-Dp
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:15:24 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIXJ5-0003bi-5Z
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 09:17:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600262122;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1600262226;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Ie3Y2N0X/CPUx2cbAr5xjtUAzdGz/98YvN2sjKALPY=;
- b=KimvRwE9icF/NxnSWp9CHY202P55EbMdZI/ykSeO1MILo+WqE3nuiAzQhE9XhOcRcYdEQ/
- XrTYU9VutqF4QE031rNLjcNf2sFOj5heZxLCpMdbpHBBPc+jhu/lrMMVkKtOCppa/Ejd4A
- 4SL4r7wScFVkF0Anax+qz3rCPzeIenI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-rHjTMhFOMFi89pKHa4OBiA-1; Wed, 16 Sep 2020 09:15:19 -0400
-X-MC-Unique: rHjTMhFOMFi89pKHa4OBiA-1
-Received: by mail-wr1-f72.google.com with SMTP id v12so2540047wrm.9
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 06:15:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6Ie3Y2N0X/CPUx2cbAr5xjtUAzdGz/98YvN2sjKALPY=;
- b=Ua3BBqoKS/g93LCpiXibjWIzngqWOsA4+ihk1vh04Le0P5Xt1QSw6xrNAmWMSTqhbj
- YsF9UamldCou2xPKdb3HJnlwM374mSkrj7160hxJGDfmRVySm1Vs0W/dQl9mogoGe6dT
- /xgS+sxr/H9bBPN21wjBd7D0EGzs4vTEmbCx26SlNapMZat5fKc7PyOwcl9lRIQ1tSdF
- AHMrnsJQK6SuQqB198okernxxhiw8Qytcg6zozsWZFJRHqmSV//f3ssoCHjoiHpJidss
- 6pqvO+JEmNlz7F5RFh7bS8MiBgQjozOzifPSB/fvdqO3LcoxTLit8JD4bpfWpXKHnd9O
- CAew==
-X-Gm-Message-State: AOAM532LAz4FEbPIejS7+IOCTTMgfX52AYy6SCY/Hg+zk9HWgDg0klIx
- fdrflXY/CLCI5EbZLSFVNlfEOfhvEoQZgVTKvEL0murvXVUpJnwa6eKkAcqXk7vNmZc+tDkm09D
- 5jbK3T5src5/srQk=
-X-Received: by 2002:adf:dd49:: with SMTP id u9mr3773482wrm.392.1600262118134; 
- Wed, 16 Sep 2020 06:15:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgDMx+GGOv+PjHdFaVQ23Fm2dzNH8/Ir4TGAYSF6DRqQuTmoh22tYDzBFOovXWxSUZGCqZtA==
-X-Received: by 2002:adf:dd49:: with SMTP id u9mr3773457wrm.392.1600262117935; 
- Wed, 16 Sep 2020 06:15:17 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:cf8e:a9a0:1aed:9a37?
- ([2001:b07:6468:f312:cf8e:a9a0:1aed:9a37])
- by smtp.gmail.com with ESMTPSA id a13sm5364735wme.26.2020.09.16.06.15.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Sep 2020 06:15:17 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/3] Automatically convert configure options to meson
- build options
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <20200913100534.22084-1-pbonzini@redhat.com>
- <20200914095753.GB579094@stefanha-x1.localdomain>
- <e661b2cf-0721-441c-3ce6-573b3eb7950a@redhat.com>
- <20200916112538.GC756728@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6c13e672-a296-4e72-86c2-dac2e3d35e24@redhat.com>
-Date: Wed, 16 Sep 2020 15:15:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=CSAAfNvxVaOMW94uXCso4QhEcNJ4tXSePacdlb2t/TI=;
+ b=CQUpSJzyN1rppmtqV/xxQJhxhozeVfRQ0yGyfiDgajRT21oLOOUWz4YB4kS9t1VET0/vJ2
+ Aeg88cHfzkweA/yhbq3JoyB6v+sV8lLvqKoqVRlRRsdqS9QFsUEfR6Pn6kiYOznyP4w7x+
+ 4fMPXy1NK8qm8rJe2vsCYVV71/rvujA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-TztLMjuXN1Kv85cIVfBaXA-1; Wed, 16 Sep 2020 09:17:04 -0400
+X-MC-Unique: TztLMjuXN1Kv85cIVfBaXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25F86100855B;
+ Wed, 16 Sep 2020 13:17:03 +0000 (UTC)
+Received: from redhat.com (ovpn-113-248.ams2.redhat.com [10.36.113.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A31DC78806;
+ Wed, 16 Sep 2020 13:17:01 +0000 (UTC)
+Date: Wed, 16 Sep 2020 14:16:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] travis.yml: Drop the default softmmu builds
+Message-ID: <20200916131658.GM1535709@redhat.com>
+References: <20200805185403.15227-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200916112538.GC756728@stefanha-x1.localdomain>
+In-Reply-To: <20200805185403.15227-1-thuth@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -51
-X-Spam_score: -5.2
+X-Spam_score_int: -50
+X-Spam_score: -5.1
 X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,25 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/09/20 13:25, Stefan Hajnoczi wrote:
->> No, only developers need jq and only if they add configure options.
->> Using Python would certainly be possible, though probably it wouldn't be
->> a one-liner as for jq.
-> I see. Avoiding the dependency would be nice but only if the alternative
-> is reasonable.
+On Wed, Aug 05, 2020 at 08:54:03PM +0200, Thomas Huth wrote:
+> The total runtime of all Travis jobs is very long and we are testing
+> all softmmu targets in the gitlab-CI already - so we can speed up the
+> Travis testing a little bit by not testing the softmmu targets here
+> anymore.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Well, ok, we do not test all the softmmu targets on gitlab-CI with
+>  that same ancient version of Ubuntu ... but do we still care about
+>  testing all softmmut targets on Ubuntu Xenial at all? ... at least
+>  according to our support policy, we do not care about Xenial anymore.
 
-I guess this counts as reasonable:
- 
-python3 -c 'import json, sys; print(
-  json.dumps(sorted([x for x in json.loads(sys.stdin.read()) 
-                    if x["section"] == "user"], key=lambda x: x["name"]),
-             indent=2))'
+Yep, we explicitly don't care about Xenial. Even if we did care about
+Xenial, we could put such a job on GitLab CI instead.
 
-Paolo
+IIUC, the main unique feature wrt Travis vs GitLab are potential for
+non-x86 hardware testing, and functional use of KVM. So if the job
+isn't using one of the unique Travis features, we should cull it
+from Travis and GitLab if the job is still appicable.
+
+>  .travis.yml | 14 --------------
+>  1 file changed, 14 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
