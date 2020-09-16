@@ -2,60 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58CF326BEDF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:12:55 +0200 (CEST)
-Received: from localhost ([::1]:42602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF1626BEFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:17:46 +0200 (CEST)
+Received: from localhost ([::1]:51496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kISYg-0002X0-DY
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
+	id 1kISdM-0006PQ-W9
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:17:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kISXX-0001JI-Ax
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:11:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55760)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIScQ-0005Ot-EJ
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:16:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kISXV-0003oJ-L5
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:11:43 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIScN-0004UZ-Jo
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:16:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600243900;
+ s=mimecast20190719; t=1600244202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=21NAeuTj0abPnIKf+MtoAY/tsr+YSACyz1DlDKk6EGw=;
- b=INkeH98sBu3//21Zn/15H1VRG7h2Anjhrzx8dWPPx2Z0WXBrCyEeowpavyed8WGZDmDBBt
- H2TbugYANiMjJ5Six27ENwXq5kGsO/ir+KMhaePky0pshlUNK8puXiVlzrp9G3qJTepkjB
- y9C36aMPHXbD0M6okbjZAU6K46QTrOA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-88L1XEZ5P1CZ1pRbcj3kzA-1; Wed, 16 Sep 2020 04:11:37 -0400
-X-MC-Unique: 88L1XEZ5P1CZ1pRbcj3kzA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 217858030CC;
- Wed, 16 Sep 2020 08:11:36 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C09E519728;
- Wed, 16 Sep 2020 08:11:35 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: do not limit Hypervisor.framework test to Darwin
-Date: Wed, 16 Sep 2020 04:11:31 -0400
-Message-Id: <20200916081131.21775-2-pbonzini@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0Yh9xdfCzuciSNTS76MNbTzou5+9Kqf2xY5MhJDxKBw=;
+ b=c7RA+iu2lXjLjrMqyw5ZgR5QYV43praFZA7f+X9CTEQJebEZYvRy3BHaT6sGgpFFlv8VIQ
+ QzqO6Fv9NdJbNGT4K/SyV1v8IidJ1E5gFjCuc7bbXF41HKFqcINez3Y0N6OqFVSUfFxAqR
+ OJaBrMNGarAgjIJL0dcDCamLq9gtaUY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-WQeB5WeCP4GIewU4wW14mw-1; Wed, 16 Sep 2020 04:16:39 -0400
+X-MC-Unique: WQeB5WeCP4GIewU4wW14mw-1
+Received: by mail-wm1-f71.google.com with SMTP id s24so549598wmh.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 01:16:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=0Yh9xdfCzuciSNTS76MNbTzou5+9Kqf2xY5MhJDxKBw=;
+ b=WR3WHN0adl20Fcqb1bsjrK5gm5gLoqf711nj2RCImYKv17iDgwBt6k68vpPrsSqeD+
+ Ff6nVx4gTOx7jghECtHztrIL3ETs/jc0nJd+h3sFkkNlpI/f+JD6xOBabMyK+CKvJyPO
+ 677IVjZKGKfSl3PSItPtvtJq4tQqk/RaaPhG6zVa+MsHB4kQ9Y3rRmxHxwESRsQUsDsO
+ Sm/HpPwvIUkWyGS2bWEVuP/PM+OaYS6qVPXs9KInfMC37VGoI3rDWcZLeFYUDGuf23Zr
+ gZlqmuT8GR/XH1cGJZc6rwqRlCgJS807BrT/JEeuKg5vFjR/Eu56JpfQpG79s0IfDle3
+ /TvQ==
+X-Gm-Message-State: AOAM531tzJd2cdi2N6RKsIimmuAtkrsddQessK1oLWhXDHiOyKp6qFxd
+ bLhJhvHMMm4k2kY5PdrllgPf+NP1P3Pi8MhyQEa44Q1skJR4A7BzQYt+P9bmT8Eq91wmjgy+Xn9
+ zyoa9gIOfsQiK288=
+X-Received: by 2002:adf:9c93:: with SMTP id d19mr26011456wre.275.1600244198390; 
+ Wed, 16 Sep 2020 01:16:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxN6hgiRcJRhdIopa7sRn7LG2A+0rxQJofEKY/qTIPu/UJeLWC+Wj0I2N5f/6CAtfBmTX7m9Q==
+X-Received: by 2002:adf:9c93:: with SMTP id d19mr26011432wre.275.1600244198202; 
+ Wed, 16 Sep 2020 01:16:38 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id i3sm31080315wrs.4.2020.09.16.01.16.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Sep 2020 01:16:37 -0700 (PDT)
+Subject: Re: Python 3.5 EOL; when can require 3.6?
+To: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
+References: <875z8eupyp.fsf@dusky.pond.sub.org>
+ <495bd2bd-4f38-8fe2-e758-82acbecd0d04@redhat.com>
+ <436800a3-7645-52f7-5fea-134d883c0a7b@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <4c9c74a7-9fed-b90a-f0cf-1b791c9b4cb5@redhat.com>
+Date: Wed, 16 Sep 2020 10:16:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <436800a3-7645-52f7-5fea-134d883c0a7b@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -64,8 +110,9 @@ X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,56 +125,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe de Dinechin <dinechin@redhat.com>, r.bolshakov@yadro.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because the target/i386/hvf/meson.build rule culls hvf support
-on non-Darwin systems, a --enable-hvf build is succeeding.
-To fix this, just try the compilation test every time someone
-passes --enable-hvf.
+On 9/16/20 10:02 AM, Thomas Huth wrote:
+> On 16/09/2020 09.53, Philippe Mathieu-Daudé wrote:
+>> On 9/16/20 9:43 AM, Markus Armbruster wrote:
+>>> We require Python 3.5.  It will reach its "end of life" at the end of
+>>> September 2020[*].  Any reason not to require 3.6 for 5.2?  qemu-iotests
+>>> already does for its Python parts.
+>>>
+>>>
+>>> [*] https://www.python.org/downloads/release/python-3510/
+>>
+>> Not answering your question, but it would help to start a table
+>> of "oldest package released" versions, with our supported distributions
+>> as columns and package names as row.
+>>
+>> This way when new distributions are released (and oldest dropped from
+>> our side) we can add/remove a column and see the oldest version we aim
+>> to support.
+> 
+> That's quite a bit of extra work - I think it's enough to look up the
+> versions on repology instead, e.g.:
+> 
+> https://repology.org/project/python/versions
 
-Reported-by: Christophe de Dinechin <dinechin@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Clever :) So maybe we can script that.
 
-diff --git a/configure b/configure
-index b4c0e0d07c..14b06a2510 100755
---- a/configure
-+++ b/configure
-@@ -863,7 +863,7 @@ Darwin)
-   bsd="yes"
-   darwin="yes"
-   hax="yes"
--  hvf="yes"
-+  hvf=""
-   if [ "$cpu" = "x86_64" ] ; then
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
-@@ -5867,16 +5867,18 @@ fi
- 
- #################################################
- # Check to see if we have the Hypervisor framework
--if [ "$darwin" = "yes" ] ; then
-+if [ "$hvf" != "no" ] ; then
-   cat > $TMPC << EOF
- #include <Hypervisor/hv.h>
- int main() { return 0;}
- EOF
-   if ! compile_object ""; then
-+    if test "$hvf" = "yes"; then
-+	error_exit "Hypervisor.framework not available"
-+    fi
-     hvf='no'
-   else
-     hvf='yes'
--    QEMU_LDFLAGS="-framework Hypervisor $QEMU_LDFLAGS"
-   fi
- fi
- 
--- 
-2.26.2
+> 
+>  Thomas
+> 
 
 
