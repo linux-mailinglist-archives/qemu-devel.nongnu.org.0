@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8C726BBFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 07:52:17 +0200 (CEST)
-Received: from localhost ([::1]:53800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC3426BD13
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 08:29:32 +0200 (CEST)
+Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIQMZ-000282-Rk
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 01:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55696)
+	id 1kIQwd-0002hW-SQ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 02:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kIQLj-0001Zv-Bg; Wed, 16 Sep 2020 01:51:23 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:45127)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kIQLf-0003UY-L4; Wed, 16 Sep 2020 01:51:23 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.108])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 6F9EE62142D3;
- Wed, 16 Sep 2020 07:51:08 +0200 (CEST)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 16 Sep
- 2020 07:51:07 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006f62c1393-4430-41ca-b1fd-b82882e93c8a,
- 282F6B8BB580550643A9CB45D70726BD5CC915E6) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH] hw/arm/aspeed: Map the UART5 device unconditionally
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- <qemu-devel@nongnu.org>
-References: <20200905212415.760452-1-f4bug@amsat.org>
- <e640309b-b694-e815-d64d-40dd453e52ef@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <5e27c1f9-6d11-fa62-ba71-0020ce9d595b@kaod.org>
-Date: Wed, 16 Sep 2020 07:51:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <e640309b-b694-e815-d64d-40dd453e52ef@amsat.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a58f799c-3962-4c12-8c8b-e0285d6d319b
-X-Ovh-Tracer-Id: 12090757628491369254
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtddugdelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejhedtveeihffguefgveejieevfeevtddvhefhjeeludevjeeifefhfeefteefueenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehfgegsuhhgsegrmhhsrghtrdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 01:51:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIQhW-0001RF-Gd
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:13:54 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIQhS-0005h1-IJ
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:13:52 -0400
+Received: by mail-pg1-x542.google.com with SMTP id y1so3294425pgk.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 23:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=PcCk1GLI4Q58jUzt52DY4ZcRuX2d8nFJDm69ZitJ4Dc=;
+ b=Ww8989pvyIpabXzG5BGwtFO/G04N5ZlKxidXaGWGePYK8ajfwzrYPJdVVc9HHOLJgm
+ b/vob2Eu+WJmqe6IEnzhvkuUbMw7naO2HYmDnmkFZ/3IefwdsQ9hZvy8xgFJ7RduDo/U
+ 23EKs7/E4UEXJSJXisYr3nIzuyWKAfjOztcXukASChKmAYo/dNin/Ru3fO37pqNdN4Xa
+ M31+fNO8Sp8C7CGGJ8erL8HRO7Cfzw+3b20g9F7FidwunrRyCrizfHKTfe/9Q8TTfgbb
+ AiwgXPtAPJDazQBSx+ngZmnxc50J/W47FA2AvBSAjkYBrMr9S0tKIKg3jDo9dA2CNkzg
+ opug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=PcCk1GLI4Q58jUzt52DY4ZcRuX2d8nFJDm69ZitJ4Dc=;
+ b=Kh8IaZRjim2Pvb3lWyG641E3B5eCq/SF10O+Aq09Cg7Zx3ZlQ7+p0D08YBe0yBqN5X
+ xP8yUn41m1Jhs6u8Bj9CEZxlAQCgMS0ujOIVsscC/dCwlnD4hCdYCZMwFFQiyCrZmxTC
+ 2VwLmjyhaGgYrpjcSqIkNixzxc4/Wb1SLmsyumgLxWrJeCeQMblQnYjrRl50PfmeDFDC
+ UjK1WVvBsJWUBI4aANQOLe8aYoqQIAPLGg4ZlV6l4mw26wnqZYUJTScWlzC5WkvACyVb
+ cMi9T8RWw7W+jU1+IrLJBC17BYOtSnIno4S3BE2IJTvfS6sDoUW9kIzZnDTkXmT8xLNp
+ zXiw==
+X-Gm-Message-State: AOAM531DUPWu65I+Lm1bnzwrU+T4qcURifCizCrir3M9X9DuNZnh9xCJ
+ 7VkseF/08Ap4CSWCvedani+n80qGcp6eBEuv
+X-Google-Smtp-Source: ABdhPJxmD9HypI6+cu93r2iNLseJQKoH/9skDGa8JKOmTvy9IL+OR+4IQZ/RxTyeS/KFbTmpTTcddw==
+X-Received: by 2002:a63:5b0c:: with SMTP id p12mr16890803pgb.102.1600236828482; 
+ Tue, 15 Sep 2020 23:13:48 -0700 (PDT)
+Received: from localhost.localdomain ([203.163.234.244])
+ by smtp.googlemail.com with ESMTPSA id c20sm583164pfc.209.2020.09.15.23.13.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Sep 2020 23:13:47 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/11] i440fx/acpi: addition of feature and bug fixes.
+Date: Wed, 16 Sep 2020 11:43:24 +0530
+Message-Id: <20200916061335.14045-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2607:f8b0:4864:20::542;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,72 +76,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/15/20 7:23 PM, Philippe Mathieu-Daudé wrote:
-> ping?
+In v4 I have made the following changes:
 
-It's reviewed : 
+- a cosmetic change for patch #4. Commit log was updated as per Igor's suggestion.
+- patches #10 and #11 were added to unit test patch #9.
 
-  http://patchwork.ozlabs.org/project/qemu-devel/patch/20200905212415.760452-1-f4bug@amsat.org/
+The DSDT table after disabling hotplug on the root bus and the pci bridges is shown here:
 
-I will send a PR when I have more patches.
+https://pastebin.ubuntu.com/p/WvpYYjpPN8/
 
-Thanks,
+This was generated by disassembling the newly added DSDT golden master binary table blob
+DSDT.hpbrroot.
 
-C. 
+I sincerely hope this is the final iteration of the set of patches.  The patches has been
+unit tested on top of latest qemu upstream master branch.
 
-> On 9/5/20 11:24 PM, Philippe Mathieu-Daudé wrote:
->> The UART5 is present on the machine regardless there is a
->> character device connected to it. Map it unconditionally.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/arm/aspeed_ast2600.c | 8 +++-----
->>  hw/arm/aspeed_soc.c     | 8 +++-----
->>  2 files changed, 6 insertions(+), 10 deletions(-)
->>
->> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
->> index 9d95e421435..1450bde7cf2 100644
->> --- a/hw/arm/aspeed_ast2600.c
->> +++ b/hw/arm/aspeed_ast2600.c
->> @@ -325,11 +325,9 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
->>      }
->>  
->>      /* UART - attach an 8250 to the IO space as our UART5 */
->> -    if (serial_hd(0)) {
->> -        qemu_irq uart5 = aspeed_soc_get_irq(s, ASPEED_DEV_UART5);
->> -        serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
->> -                       uart5, 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->> -    }
->> +    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
->> +                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
->> +                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->>  
->>      /* I2C */
->>      object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
->> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
->> index 35be126db6f..7eefd54ac07 100644
->> --- a/hw/arm/aspeed_soc.c
->> +++ b/hw/arm/aspeed_soc.c
->> @@ -283,11 +283,9 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
->>      }
->>  
->>      /* UART - attach an 8250 to the IO space as our UART5 */
->> -    if (serial_hd(0)) {
->> -        qemu_irq uart5 = aspeed_soc_get_irq(s, ASPEED_DEV_UART5);
->> -        serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
->> -                       uart5, 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->> -    }
->> +    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
->> +                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
->> +                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
->>  
->>      /* I2C */
->>      object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
->>
+
+Ani Sinha (11):
+  tests/acpi: document addition of table DSDT.roothp for unit testing
+    root pci hotplug on/off
+  tests/acpi: add a new unit test to test hotplug off/on feature on the
+    root pci bus
+  tests/acpi: add a new ACPI table in order to test root pci hotplug
+    on/off
+  Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
+    non-hotpluggable bus
+  i440fx/acpi: do not add hotplug related amls for cold plugged bridges
+  tests/acpi: list added acpi table binary file for pci bridge hotplug
+    test
+  tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support'
+    bridge flag
+  tests/acpi: add newly added acpi DSDT table blob for pci bridge
+    hotplug flag
+  piix4: don't reserve hw resources when hotplug is off globally
+  tests/acpi: unit test exercizing hotplug off for pci root bus & bridge
+    in i440fx
+  tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx
+    hotplug
+
+ hw/acpi/pcihp.c                   |  15 ++++++++++
+ hw/acpi/piix4.c                   |   6 ++--
+ hw/i386/acpi-build.c              |  37 ++++++++++++++---------
+ tests/data/acpi/pc/DSDT.hpbridge  | Bin 0 -> 4895 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot  | Bin 0 -> 2953 bytes
+ tests/data/acpi/pc/DSDT.roothp    | Bin 0 -> 5130 bytes
+ tests/data/acpi/q35/DSDT          | Bin 7678 -> 7670 bytes
+ tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 8994 bytes
+ tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7688 bytes
+ tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8133 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9323 bytes
+ tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7745 bytes
+ tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9029 bytes
+ tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8801 bytes
+ tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7676 bytes
+ tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8276 bytes
+ tests/qtest/bios-tables-test.c    |  47 ++++++++++++++++++++++++++++++
+ 17 files changed, 90 insertions(+), 15 deletions(-)
+ create mode 100644 tests/data/acpi/pc/DSDT.hpbridge
+ create mode 100644 tests/data/acpi/pc/DSDT.hpbrroot
+ create mode 100644 tests/data/acpi/pc/DSDT.roothp
+
+-- 
+2.17.1
 
 
