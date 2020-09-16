@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5132026C563
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:54:57 +0200 (CEST)
-Received: from localhost ([::1]:40744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBF426C567
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:55:42 +0200 (CEST)
+Received: from localhost ([::1]:42952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIahr-0002P4-T4
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60926)
+	id 1kIaib-0003Ks-Si
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:55:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
- id 1kIafi-0000dz-In; Wed, 16 Sep 2020 12:52:42 -0400
-Received: from mgw-02.mpynet.fi ([82.197.21.91]:53692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ari@tuxera.com>)
- id 1kIafe-0004zi-T4; Wed, 16 Sep 2020 12:52:41 -0400
-Received: from pps.filterd (mgw-02.mpynet.fi [127.0.0.1])
- by mgw-02.mpynet.fi (8.16.0.42/8.16.0.42) with SMTP id 08GGi13E028423;
- Wed, 16 Sep 2020 19:52:02 +0300
-Received: from ex13.tuxera.com (ex13.tuxera.com [178.16.184.72])
- by mgw-02.mpynet.fi with ESMTP id 33k5pf12d2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Wed, 16 Sep 2020 19:52:02 +0300
-Received: from [192.168.0.79] (62.78.240.173) by tuxera-exch.ad.tuxera.com
- (10.20.48.11) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Sep
- 2020 19:52:02 +0300
-Subject: Re: [PATCH 07/14] block/blklogwrites: drop error propagation
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
- <20200909185930.26524-8-vsementsov@virtuozzo.com>
- <8856cf15-4092-55b7-6537-a6beb4ce8a18@tuxera.com>
- <87k0x0g2pu.fsf@dusky.pond.sub.org>
-From: Ari Sundholm <ari@tuxera.com>
-Message-ID: <dd40693c-2dda-895d-f372-662b0071ee62@tuxera.com>
-Date: Wed, 16 Sep 2020 19:52:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1kIag4-0001L9-De
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:53:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53970
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1kIag2-00051e-8n
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:53:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600275180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UO2MPl61bpXLCaJVgcXnG/6+JOy2xawFMMO2g98mkbk=;
+ b=gn4qWz9L9ltlKSlyFppTEfhsIbwfuz/0K5wyBHFJCH8gvCnYU6yctNfOkJjziVAl879rW/
+ PFSqPrg+FvJyewdeK4T99oBjKQ67LFy5cl+K2Jnx/HHj94ARx7iqGHcHk2R24JNgiX7Qt3
+ C0QpWxu1pKr8O+xJCMCz89R/Nk57kPw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-AgPphmqrN_CXpYfdc3VuUQ-1; Wed, 16 Sep 2020 12:52:58 -0400
+X-MC-Unique: AgPphmqrN_CXpYfdc3VuUQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1671DEF4F7
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:52:50 +0000 (UTC)
+Received: from harajuku.usersys.redhat.com (unknown [10.40.195.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9280516E30;
+ Wed, 16 Sep 2020 16:52:18 +0000 (UTC)
+Message-ID: <640224075dc9c0ce5e1315e4769b48108822c084.camel@redhat.com>
+Subject: [RFC DOCUMENT 07/12] kubevirt-and-kvm: Add CPU Pinning page
+From: Andrea Bolognani <abologna@redhat.com>
+To: libvir-list@redhat.com, qemu-devel@nongnu.org
+Date: Wed, 16 Sep 2020 18:52:15 +0200
+In-Reply-To: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
+References: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-In-Reply-To: <87k0x0g2pu.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [62.78.240.173]
-X-ClientProxiedBy: tuxera-exch.ad.tuxera.com (10.20.48.11) To
- tuxera-exch.ad.tuxera.com (10.20.48.11)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-16_11:2020-09-16,
- 2020-09-16 signatures=0
-X-Proofpoint-Spam-Details: rule=mpy_notspam policy=mpy score=0 spamscore=0
- phishscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009160119
-Received-SPF: pass client-ip=82.197.21.91; envelope-from=ari@tuxera.com;
- helo=mgw-02.mpynet.fi
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 12:52:32
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.062,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=abologna@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 11:53:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,272 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- berto@igalia.com, stefanha@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org, pavel.dovgaluk@ispras.ru,
- pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com
+Cc: vromanso@redhat.com, rmohr@redhat.com, crobinso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/CPU-Pinning.md
 
-On 9/11/20 11:03 AM, Markus Armbruster wrote:
-> Ari Sundholm <ari@tuxera.com> writes:
-> 
->> Hi Vladimir!
->>
->> Thank you for working on this. My comments below.
->>
->> On 9/9/20 9:59 PM, Vladimir Sementsov-Ogievskiy wrote:
->>> It's simple to avoid error propagation in blk_log_writes_open(), we
->>> just need to refactor blk_log_writes_find_cur_log_sector() a bit.
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy
->>> <vsementsov@virtuozzo.com>
->>> ---
->>>    block/blklogwrites.c | 23 +++++++++++------------
->>>    1 file changed, 11 insertions(+), 12 deletions(-)
->>> diff --git a/block/blklogwrites.c b/block/blklogwrites.c
->>> index 7ef046cee9..c7da507b2d 100644
->>> --- a/block/blklogwrites.c
->>> +++ b/block/blklogwrites.c
->>> @@ -96,10 +96,10 @@ static inline bool blk_log_writes_sector_size_valid(uint32_t sector_size)
->>>            sector_size < (1ull << 24);
->>>    }
->>>    -static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild
->>> *log,
->>> -                                                   uint32_t sector_size,
->>> -                                                   uint64_t nr_entries,
->>> -                                                   Error **errp)
->>> +static int64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
->>
->> I'd rather not change the return type for reasons detailed below.
->>
->>> +                                                  uint32_t sector_size,
->>> +                                                  uint64_t nr_entries,
->>> +                                                  Error **errp)
->>>    {
->>>        uint64_t cur_sector = 1;
->>>        uint64_t cur_idx = 0;
->>> @@ -112,13 +112,13 @@ static uint64_t blk_log_writes_find_cur_log_sector(BdrvChild *log,
->>>            if (read_ret < 0) {
->>>                error_setg_errno(errp, -read_ret,
->>>                                 "Failed to read log entry %"PRIu64, cur_idx);
->>> -            return (uint64_t)-1ull;
->>> +            return read_ret;
->>
->> This is OK, provided the change in return type signedness is necessary
->> in the first place.
->>
->>>            }
->>>              if (cur_entry.flags & ~cpu_to_le64(LOG_FLAG_MASK)) {
->>>                error_setg(errp, "Invalid flags 0x%"PRIx64" in log entry %"PRIu64,
->>>                           le64_to_cpu(cur_entry.flags), cur_idx);
->>> -            return (uint64_t)-1ull;
->>> +            return -EINVAL;
->>
->> This is OK, provided the return type signedness change is necessary,
->> although we already do have errp to indicate any errors.
->>
->>>            }
->>>              /* Account for the sector of the entry itself */
->>> @@ -143,7 +143,6 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
->>>    {
->>>        BDRVBlkLogWritesState *s = bs->opaque;
->>>        QemuOpts *opts;
->>> -    Error *local_err = NULL;
->>>        int ret;
->>>        uint64_t log_sector_size;
->>>        bool log_append;
->>> @@ -215,15 +214,15 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
->>>            s->nr_entries = 0;
->>>              if (blk_log_writes_sector_size_valid(log_sector_size)) {
->>> -            s->cur_log_sector =
->>> +            int64_t cur_log_sector =
->>>                    blk_log_writes_find_cur_log_sector(s->log_file, log_sector_size,
->>> -                                    le64_to_cpu(log_sb.nr_entries), &local_err);
->>> -            if (local_err) {
->>> -                ret = -EINVAL;
->>> -                error_propagate(errp, local_err);
->>> +                                    le64_to_cpu(log_sb.nr_entries), errp);
->>> +            if (cur_log_sector < 0) {
->>> +                ret = cur_log_sector;
->>
->> This changes the semantics slightly. Changing the return type to int64
->> may theoretically cause valid return values to be interpreted as
->> errors. Since we already do have a dedicated out pointer for the error
->> value (errp), why not use it?
-> 
-> Error.h's big comment:
-> 
->   * Error reporting system loosely patterned after Glib's GError.
->   *
->   * = Rules =
->   [...]
->   * - Whenever practical, also return a value that indicates success /
->   *   failure.  This can make the error checking more concise, and can
->   *   avoid useless error object creation and destruction.  Note that
->   *   we still have many functions returning void.  We recommend
->   *   • bool-valued functions return true on success / false on failure,
->   *   • pointer-valued functions return non-null / null pointer, and
->   *   • integer-valued functions return non-negative / negative.
-> 
-> blk_log_writes_find_cur_log_sector() does return such an error value
-> before the patch: (uint64_t)-1.
-> 
-> The caller does not use it to check for errors.  It uses @err instead.
-> Awkward, has to error_propagate().
-> 
-> Avoiding error_propagate() reduces the error handling boileplate.  It
-> also improves behavior when @errp is &error_abort: we get the abort
-> right where the error happens instead of where we propagate it.
-> 
-> Furthermore, caller has to make an error code (-EINVAL), because
-> returning (uint64_t)-1 throws it away.  Yes, a detailed error is stored
-> into @err, but you can't cleanly extract the error code.
-> 
-> Using a signed integer for returning "non-negative offset or negative
-> errno code" is pervasive, starting with read() and write().  It hasn't
-> been a problem there, and it hasn't been a problem in the block layer.
-> 8 exbi-blocks should do for a while.  Should it become troublesome, we
-> won't solve the problem by going unsigned and adding one bit, we'll
-> double the width and add 64.
-> 
+# CPU pinning
 
-I am in complete agreement with eliminating error propagation within the 
-blklogwrites driver. This was never a point of disagreement.
+As is the case for many of KubeVirt's features, CPU pinning is
+partially achieved using standard Kubernetes components: this both
+reduces the amount of new code that has to be written and guarantees
+better integration with containers running side by side with the VMs.
 
-As error propagation is dropped in this patch, the awkwardness referred 
-to above will be no more, making that a moot point.
+## Kubernetes CPU Manager
 
-My main issue was that this patch does more than just the mechanical 
-transformation required. Changes that are not strictly necessary are 
-made, and they slightly change the semantics while duplicating the error 
-code and halving the range of the return type (instead of just returning 
-*some* value in the absence of a possibility to return nothing, which 
-will be thrown away by the caller anyway when an error has occurred).
+The Static policy allocates exclusive CPUs to pod containers in the
+Guaranteed QoS class which request integer CPUs. On a best-effort
+basis, the Static policy tries to allocate CPUs topologically in the
+following order:
 
-However, as the consensus seems to be that it is best to change the 
-return type to int64_t for consistency with the rest of the codebase, I 
-will not object any further regarding that point. Having conceded that, 
-this makes the difference between my preferred minimalistic approach and 
-this patch insignificant, and it is not my intention to needlessly 
-obstruct a perfectly fine patch series.
+* Allocate all the CPUs in the same processor socket if available and
+  the container requests at least an entire socket worth of CPUs.
+* Allocate all the logical CPUs (hyperthreads) from the same physical
+  CPU core if available and the container requests an entire core
+  worth of CPUs.
+* Allocate any available logical CPU, preferring to acquire CPUs from
+  the same socket.
 
-BTW, I do not think it would be difficult at all to extend the code in 
-error.h to make it convenient to extract errno and/or win32 error values 
-that have been explicitly provided, but this is a matter best discussed 
-separately and left for a later patch.
+## KubeVirt dedicated CPU placement
 
-As for general matters regarding error handling and separation between 
-results and errors, I am open to discussing these off-list.
+KubeVirt relies on the Kubernetes CPU Manager to allocate dedicated
+CPUs to the `virt-launcher` container.
 
-Best regards,
-Ari Sundholm
-ari@tuxera.com
+When `virt-launcher` starts, it reads
+`/sys/fs/cgroup/cpuset/cpuset.cpus` and generates `<vcpupin>`
+configuration for libvirt based on the information found within.
+However, affinity changes require `CAP_SYS_NICE` so this additional
+capability has to be granted to the VM pod.
 
-> Additional rationale for returning recognizable error values:
-> 
-> commit e3fe3988d7851cac30abffae06d2f555ff7bee62
-> Author: Markus Armbruster <armbru@redhat.com>
-> Date:   Tue Jul 7 18:05:31 2020 +0200
-> 
->      error: Document Error API usage rules
->      
->      This merely codifies existing practice, with one exception: the rule
->      advising against returning void, where existing practice is mixed.
->      
->      When the Error API was created, we adopted the (unwritten) rule to
->      return void when the function returns no useful value on success,
->      unlike GError, which recommends to return true on success and false on
->      error then.
->      
->      When a function returns a distinct error value, say false, a checked
->      call that passes the error up looks like
->      
->          if (!frobnicate(..., errp)) {
->              handle the error...
->          }
->      
->      When it returns void, we need
->      
->          Error *err = NULL;
->      
->          frobnicate(..., &err);
->          if (err) {
->              handle the error...
->              error_propagate(errp, err);
->          }
->      
->      Not only is this more verbose, it also creates an Error object even
->      when @errp is null, &error_abort or &error_fatal.
->      
->      People got tired of the additional boilerplate, and started to ignore
->      the unwritten rule.  The result is confusion among developers about
->      the preferred usage.
->      
->      Make the rule advising against returning void official by putting it
->      in writing.  This will hopefully reduce confusion.
->      [...]
-> 
-> Additional rationale for avoiding error_propagate():
-> 
-> commit ae7c80a7bd73685437bf6ba9d7c26098351f4166
-> Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Date:   Tue Jul 7 18:50:30 2020 +0200
-> 
->      error: New macro ERRP_GUARD()
->      
->      Introduce a new ERRP_GUARD() macro, to be used at start of functions
->      with an errp OUT parameter.
->      
->      It has three goals:
->      
->      1. Fix issue with error_fatal and error_prepend/error_append_hint: the
->      user can't see this additional information, because exit() happens in
->      error_setg earlier than information is added. [Reported by Greg Kurz]
->      
->      2. Fix issue with error_abort and error_propagate: when we wrap
->      error_abort by local_err+error_propagate, the resulting coredump will
->      refer to error_propagate and not to the place where error happened.
->      (the macro itself doesn't fix the issue, but it allows us to [3.] drop
->      the local_err+error_propagate pattern, which will definitely fix the
->      issue) [Reported by Kevin Wolf]
->      
->      3. Drop local_err+error_propagate pattern, which is used to workaround
->      void functions with errp parameter, when caller wants to know resulting
->      status. (Note: actually these functions could be merely updated to
->      return int error code).
->      [...]
-> 
->> Assigning cur_log_sector to ret looks a bit odd to me. Why not use the
->> original -EINVAL - or maybe some more appropriate errno value than
->> -EINVAL?
-> 
-> We assign the error code returned by
-> blk_log_writes_find_cur_log_sector(), which seems proper to me.
-> 
-> Care to suggest a better variable name?
-> 
->> I think the desired effect of this change could be achieved with less
->> churn. How about just making just the following change in addition to
->> adding ERRP_GUARD() to the beginning of the function and getting rid
->> of local_err:
->>
->> -                                    le64_to_cpu(log_sb.nr_entries),
->>                                       &local_err);
->> +                                    le64_to_cpu(log_sb.nr_entries), errp);
->> -            if (local_err) {
->> +            if (*errp) {
->>                   ret = -EINVAL;
->> -                error_propagate(errp, local_err);
->>>                    goto fail_log;
->>>                }
->>>    +            s->cur_log_sector = cur_log_sector;
->>>                s->nr_entries = le64_to_cpu(log_sb.nr_entries);
->>>            }
->>>        } else {
-> 
-> I prefer this patch.  But it's up to the block maintainers.
-> 
+Going forward, we would like to perform the affinity change in
+`virt-handler` (the privileged component running at the node level),
+which would allow the VM pod to work without additional capabilities.
 
 
