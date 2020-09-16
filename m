@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC82A26C294
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:13:59 +0200 (CEST)
-Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CFF26C265
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:01:54 +0200 (CEST)
+Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWJy-0006uf-R9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
+	id 1kIW8H-0001fg-9y
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:01:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVzM-0005it-SL
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:52:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56961
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIW1Y-0001Md-AQ
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:54:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVzK-0000HY-Tq
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:52:40 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIW1U-0000V8-Fo
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:54:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600257157;
+ s=mimecast20190719; t=1600257291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C+psTNPTjBpAdg4roaaa0Yr2Mls4yjzGGGOrts3SUJk=;
- b=cxgfAG2RjC0/xF8rdjM5DcMux0lab8fYl2eo5ceWS/DSXmkFeEBPhSD8n4S9Zgzxwd0/au
- ezZtxWVyEZcZJF1KuFc+p80zpF3VgDnotKpyFZlaBK3ep9eGKKeXJVu7ECI2F08lwpDljJ
- 6xP5XrG5WvrgsoqFOo3U3qfyx/BX1t8=
+ bh=8/WkIN3zqk/MjMLAzQ3kRjoBxXohAtKBI8IbighYvpQ=;
+ b=Flof6GiQbULWy+mC4THtidgFsdwiHrEKrtay5VmOMCEdNmm100U7b3E9CVF37BA1JeobUN
+ zl2n748O4WvwfcUthqnJfMIxjAm35KQXpKhgWX7fN5ggoZg2+9OqRVO/4YOM60n2XjE/nK
+ eQFgc9I9leck0BXOOuFd1dl8jzNs4jI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-4Z7eV12xPGm-Oya6z7WPwg-1; Wed, 16 Sep 2020 07:52:34 -0400
-X-MC-Unique: 4Z7eV12xPGm-Oya6z7WPwg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-528-xRvwrIjfONmDgahGwoXJEw-1; Wed, 16 Sep 2020 07:54:48 -0400
+X-MC-Unique: xRvwrIjfONmDgahGwoXJEw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C5681021D21;
- Wed, 16 Sep 2020 11:52:32 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7004C4D;
- Wed, 16 Sep 2020 11:52:25 +0000 (UTC)
-Subject: Re: [PATCH v10 00/26] W32, W64 msys2/mingw patches
-To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
-References: <20200915171234.236-1-luoyonggang@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <cd40da60-d03f-bf37-c0d7-1f362419cf75@redhat.com>
-Date: Wed, 16 Sep 2020 13:52:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44E98EA1C0;
+ Wed, 16 Sep 2020 11:54:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 806A167CF9;
+ Wed, 16 Sep 2020 11:54:45 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0DDE7113864A; Wed, 16 Sep 2020 13:54:44 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 04/37] qapi: move generator entrypoint into module
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-5-jsnow@redhat.com>
+Date: Wed, 16 Sep 2020 13:54:44 +0200
+In-Reply-To: <20200915224027.2529813-5-jsnow@redhat.com> (John Snow's message
+ of "Tue, 15 Sep 2020 18:39:54 -0400")
+Message-ID: <877dsuos1n.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200915171234.236-1-luoyonggang@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 06:27:39
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -51
-X-Spam_score: -5.2
+X-Spam_score_int: -50
+X-Spam_score: -5.1
 X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,36 +82,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Peter Lieven <pl@kamp.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/09/2020 19.12, Yonggang Luo wrote:
+John Snow <jsnow@redhat.com> writes:
+
+> As part of delinting and adding type hints to the QAPI generator, it's
+> helpful for the entrypoint to be part of the module, only leaving a very
+> tiny entrypoint shim outside of the module.
+>
+> As a result, all of the include statements are reworked to be module-aware,
+> as explicit relative imports.
+
+Should this be split into two commits, one for each of the paragraphs
+above?
+
+PEP 8 recommends absolute imports, with one exception:
+
+    However, explicit relative imports are an acceptable alternative to
+    absolute imports, especially when dealing with complex package
+    layouts where using absolute imports would be unnecessarily verbose:
+
+        from . import sibling
+        from .sibling import example
+
+    Standard library code should avoid complex package layouts and
+    always use absolute imports.
+
+Do you think it covers your use of relative imports?
+
+> This is done primarily for the benefit of python tooling (pylint, mypy,
+> flake8, et al) which otherwise has trouble consistently resolving
+> "qapi.x" to mean "a sibling file in this folder."
+
+Can you give me an example of some tool having troube?
+
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi-gen.py        | 94 +++-----------------------------------
+>  scripts/qapi/commands.py   |  4 +-
+>  scripts/qapi/doc.py        |  2 +-
+>  scripts/qapi/events.py     |  8 ++--
+>  scripts/qapi/expr.py       |  4 +-
+>  scripts/qapi/gen.py        |  4 +-
+>  scripts/qapi/introspect.py |  8 ++--
+>  scripts/qapi/parser.py     |  4 +-
+>  scripts/qapi/schema.py     |  8 ++--
+>  scripts/qapi/script.py     | 91 ++++++++++++++++++++++++++++++++++++
+>  scripts/qapi/types.py      |  6 +--
+>  scripts/qapi/visit.py      |  6 +--
+>  12 files changed, 124 insertions(+), 115 deletions(-)
+>  create mode 100644 scripts/qapi/script.py
+
+Naming is hard...  main.py?
+
+>
+> diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+> index 59becba3e1..e649f8dd44 100644
+> --- a/scripts/qapi-gen.py
+> +++ b/scripts/qapi-gen.py
+> @@ -1,97 +1,15 @@
+>  #!/usr/bin/env python3
+> -
+> -# This work is licensed under the terms of the GNU GPL, version 2 or later.
+> -# See the COPYING file in the top-level directory.
+> -
+
+Keep the license blurb.
+
 [...]
-> It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and
-> disable partial test-char tests.
-> And then fixes all unit tests failure on msys2/mingw
-> This fixes the reviews suggested in the mailling list
-> All cirrus CI are passed
-
-Thanks a lot for your work, I've added most of your patches to my latest
-"testing" pull request now, so that we should get basic test coverage on
-msys2 now in the Cirrus-CI if it gets merged.
-
-I skipped the NFS, capstone, test-char and crypto patches for now (and
-replaced them with older versions of your patches where you've disabled
-them) - I think these patches still need some more review / work and
-then should go through the trees of the corresponding maintainers later.
-
- Cheers,
-  Thomas
 
 
