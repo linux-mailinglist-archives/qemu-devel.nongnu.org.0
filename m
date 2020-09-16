@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D14426C3A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:24:19 +0200 (CEST)
-Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7979B26C39C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:23:04 +0200 (CEST)
+Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIYM6-0007eM-Ih
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39836)
+	id 1kIYKt-0005kc-Jb
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIYHm-0002UN-Nq
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:19:50 -0400
-Received: from mail-mw2nam10on2048.outbound.protection.outlook.com
- ([40.107.94.48]:44513 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ id 1kIYI0-0002dn-Ke
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:04 -0400
+Received: from mail-bn8nam11on2059.outbound.protection.outlook.com
+ ([40.107.236.59]:16224 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kIYHj-0003j6-4i
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:19:50 -0400
+ id 1kIYHm-0003jC-Eu
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:04 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E4+Kl94j1ZDYoHhNhhFsfPgMaTrxmtEPDTHRJ9n9V/eeXss17/grt/wodjswT0MyyQe3uI1aRUO30bTsK/L9uz1aImSnNEogfSA6ltGeg3UsLzF9NxO2KYNWchJwSySrZmk0synQOuRzcwjXgyD4cM5wT8W3HLSTpp95acpaulLZ5XnEV1RO4w8khNM/Y1RjI0ZJM2OH/R7Qo+P3Dktc2hDBSpWtga3gVrL65uhyf5p/89i4G4784JOtIEx5PifvMEWZk2T/xG3B7Bn7Yx47JMGGNF9u+1rdj4LFr2GG2Ofr8sa8rwmWzOT0gtv9X2q+dw5lTBsZpmHpi3t8NI5vhA==
+ b=JKfXhCm5dqTIqrpJW3Nq7e226bj+eOYVHADKOA+mOkYMuNh8rZDMcLgBk7TkEI2laRD1OoxTpWjV9PPzSTIAjD1EhC29ApjCJqDkSoJhxuEbDx8YNbj6haug0uvbJErzJtEVeaJxRL5GO0CYdLm6AYN4OGbI5L/uN+fUfMu0AEU0K64Ar+m3dS6P2ge/l8uw05/5xIfA3b8N5nuBFLJzTucEdV+70moU48QL2F/BoiM5BczQOIlhtz9ExFE0fQbtmBGVdXsiyyGoMrbGi1BxvgeglfM/51KM2Qy+DoWppLT2hvblI5tDPBoYRNYFHn1Tplb6rAqVQO9fTsFCUd3ZNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PGY80Zrn4ZKsD7lZfV9kljP5vX0JAfYy1pIBgt1vsug=;
- b=PGu1OoVtKqxFo7TpCONGdsDYRkwu09IOwJsxwKnUFAS7DYJa0ZGIwnT2IzUCN3MBfBLDK1ei37vDUQJgxd3tFI6gslVPqxj9VGirxbERiC/Bg9BDCTWtq2odRyl/27giDHO8rpXBRkl9z8jW+AMbc06/oUh+Fi5AfKIC7LbC8G7PXkZXvW+3+8Fsy0XiT4MWaafi5g0aXqEYBq/ujUPrcTtcNbZICm73sqOSrmD7MAAIe8DOR3W67/iV8zLk8W1a3cKyc0DUpymHgffzuiTwndROYmM2ptVyyxdoFrfL9bn7R6g1voiOncMh4Bo4ZG/88SlCw2bd7fy1nH/ky+pLxQ==
+ bh=OabyTJfZNT7yw+eAWBRwavkvMnq3lyEJeAN0FPisZKQ=;
+ b=QWsfPwzbh64nv9xzaGRgUm32gL/M50NQqWfe8i++RsI4+SQKxs5RJfPPiCZSMFyJozskMjTCEA763q0kxaNgJWDZ3FEF2Fg/b+oIq1kmY7jh0U/h5SP522Qw7t+dzIn5b9kb6N9LFFX4x6JQZqHdwCljholVvCSXvQmSnaI1gu/v2o1Z7PhRfAC4EAxdqxYMex74RfgnEZUeY2AVV0mu3nis0JP9YAuwr1Ftd/pQvP/NFBWs4aA9eABR+M6tDUwW+x1/u8oCLlfBipNZdvFsOhnQU0fb1vaNjglCWynHgXbV52S6g3OPd+b6gz5jvFfWG7p0AhGjGJzADrvgvVvuqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PGY80Zrn4ZKsD7lZfV9kljP5vX0JAfYy1pIBgt1vsug=;
- b=E/zIZxjIRa2rfO1TCeiCzi2IPHAa9NFEywEr4gjhc/NHF6XI+iTC9VRM8DYnyi6wg+J+/4SVCpJGiyouK2FIfl+n4RUfV4CjY5SiSRdfE8doPqXnuSx/x0Knvo1sHKl8EOpQ8C9txKpV0jaqhtDpT8Vw7rBLMYj6lq8DGap6+UA=
-Received: from DM5PR04CA0064.namprd04.prod.outlook.com (2603:10b6:3:ef::26) by
- MN2PR02MB7038.namprd02.prod.outlook.com (2603:10b6:208:207::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Wed, 16 Sep
- 2020 14:19:43 +0000
-Received: from CY1NAM02FT041.eop-nam02.prod.protection.outlook.com
- (2603:10b6:3:ef:cafe::7e) by DM5PR04CA0064.outlook.office365.com
- (2603:10b6:3:ef::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11 via Frontend
- Transport; Wed, 16 Sep 2020 14:19:43 +0000
+ bh=OabyTJfZNT7yw+eAWBRwavkvMnq3lyEJeAN0FPisZKQ=;
+ b=gk9ErJ8d2UIEvKUqPHqGtvuTFONX4RqucaFl6mwaFiSp4WpYWJpFPWaEqdrWKXiiqut+LpAtFDSgryL4d0anT13zZUXxOc0RhTAfc55Wr7k3TDvPW4zAtTk1DyqjK7wSRn3PS69AWSVQBTJ/S53/gpej6r0RTD2s0L8dniUFm/I=
+Received: from MN2PR20CA0034.namprd20.prod.outlook.com (2603:10b6:208:e8::47)
+ by CH2PR02MB6492.namprd02.prod.outlook.com (2603:10b6:610:67::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Wed, 16 Sep
+ 2020 14:19:44 +0000
+Received: from BL2NAM02FT036.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:e8:cafe::ca) by MN2PR20CA0034.outlook.office365.com
+ (2603:10b6:208:e8::47) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14 via Frontend
+ Transport; Wed, 16 Sep 2020 14:19:44 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
  header.d=none;wdc.com; dmarc=bestguesspass action=none
@@ -54,26 +54,26 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT041.mail.protection.outlook.com (10.152.74.156) with Microsoft SMTP
- Server id 15.20.3370.16 via Frontend Transport; Wed, 16 Sep 2020 14:19:42
+ BL2NAM02FT036.mail.protection.outlook.com (10.152.77.154) with Microsoft SMTP
+ Server id 15.20.3370.16 via Frontend Transport; Wed, 16 Sep 2020 14:19:43
  +0000
-Received: from [149.199.38.66] (port=43134 helo=smtp.xilinx.com)
+Received: from [149.199.38.66] (port=43144 helo=smtp.xilinx.com)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kIYHX-0004A4-OU; Wed, 16 Sep 2020 07:19:35 -0700
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+ id 1kIYHY-0004A7-JH; Wed, 16 Sep 2020 07:19:36 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.63)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kIYHe-0004ps-Dy; Wed, 16 Sep 2020 07:19:42 -0700
-Received: from xsj-pvapsmtp01 (xsj-pvapsmtp01.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08GEJfvb017272; 
- Wed, 16 Sep 2020 07:19:41 -0700
+ id 1kIYHf-0004q9-8i; Wed, 16 Sep 2020 07:19:43 -0700
+Received: from xsj-pvapsmtp01 (smtp3.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08GEJgGZ010163; 
+ Wed, 16 Sep 2020 07:19:42 -0700
 Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1kIYHc-0004pY-PS; Wed, 16 Sep 2020 07:19:41 -0700
+ id 1kIYHd-0004pe-MA; Wed, 16 Sep 2020 07:19:42 -0700
 Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id DB77C13C029D; Wed, 16 Sep 2020 19:53:23 +0530 (IST)
+ id C396413C0235; Wed, 16 Sep 2020 19:53:24 +0530 (IST)
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>,
@@ -81,9 +81,9 @@ To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Edgar Iglesias <edgari@xilinx.com>,
  Francisco Eduardo Iglesias <figlesia@xilinx.com>
-Subject: [PATCH v7 2/7] usb/hcd-xhci: Move qemu-xhci device to hcd-xhci-pci.c
-Date: Wed, 16 Sep 2020 19:52:15 +0530
-Message-Id: <1600266140-20763-3-git-send-email-sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v7 3/7] usb/hcd-xhci: Split pci wrapper for xhci base model
+Date: Wed, 16 Sep 2020 19:52:16 +0530
+Message-Id: <1600266140-20763-4-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600266140-20763-1-git-send-email-sai.pavan.boddu@xilinx.com>
 References: <1600266140-20763-1-git-send-email-sai.pavan.boddu@xilinx.com>
@@ -95,31 +95,31 @@ X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: f3e635c2-c77d-464f-bd21-08d85a4b8e42
-X-MS-TrafficTypeDiagnostic: MN2PR02MB7038:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB703843C6BFCE267960AF058FCA210@MN2PR02MB7038.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: c975f53a-328d-4cd9-0de3-08d85a4b8ee2
+X-MS-TrafficTypeDiagnostic: CH2PR02MB6492:
+X-Microsoft-Antispam-PRVS: <CH2PR02MB64924A7B2F13BCEA5F9FFB61CA210@CH2PR02MB6492.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Oob-TLC-OOBClassifiers: OLM:98;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x7/uslxbBuecZY4RbR2mE8DoTYrpfF1qag7eguNWEByAQR6EpZtKAYDjQBnc8DQQR65d0lBU4i9jxaw1vyfOEk2afyZS5uTpEumzC45g8rgDba6zCe6anWa6khWYNo3LvZ/6TGZ1Dv4n8MHpUvOPvrEysjXH/ZDUE+UuiwVr685vTya8TdzFk5v5FHNlePTxY02Pk7YspK4OVBcxWsD2HUNKHYSphuV5xt330ZM0IVHZAahEGUgs6g+t//H3oyW8neGalOYNBdJlaXFy4chA2gWcDEdGOkq99p9ylQilTJNG5o0fnlqp2lJfL82hSK9i+vUoZ13S6BqSLCmH4Hqid9hSQxV+O8a5LOgIDUdMXLVZDqsHuPkjgbspLZ9XLNt/3x5T45wXTAyzUMxVuk6qPHeMXn0Lwzl3YAX8yubT1X/oUrWIkYfaeMBN/u4sQyAIz6Q8IY/r1dbXMpg9owZGEQSa4dMjtCximRKNVGT1p0uQDBKN+aB4hM6ff+9TmqWnh7FOMdeo5v8QtOHs4wbNK35LQqkKa3xmrtq5czfB9No=
+X-Microsoft-Antispam-Message-Info: 3pB6jRoJ7kwAMHTFbx1WD3r0sqxx5S2vV6tCKdXn5PTme6BWqVjDXfvgxkk5Q2/8d/fPiU00JQiUkDwOj07MNA+MFI44uHNASAVu8ww0+Moq0+bUCc8ekT0BlnKtIiC2iRYQYe8HaBow6QXSm7gzsaNHy5MG1sElvX4y7yji7NV9VNAMgxIOHQ+mFBZE9hV9svrRu4dtlSM7LO5eB8NdFoy6mZ7KXhw6ERPaC1pfE65EHfsuqGwRGU1lSI/ZcLbxk/8Mv6YRddNmOAYEW+zJWOsd68WRsw3FRFW5FNu+e3vPI/Adh5RiXN5/E0IkVky/e0iz4BzZ417vnO0gSJIvAYpdSl32zTpdgOvXWLSlVBDOovFSSvVeHECtQX/Sd4DLAJRyDCgxIZSS+mBxgmMOYloVtf7DwZBevpXrHHzZQE2YcM9wRozgXbcGeZatSV+6QmSQ/mzIrq0S6bqHC035B4aia/bMkJ07aZBvuUUywSSfZCbETf7ZucpRy4Ix7V7vbydpr8ZqnMAtnWS7zr2GyQ==
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(346002)(376002)(396003)(39860400002)(136003)(46966005)(2616005)(36756003)(5660300002)(70206006)(6666004)(54906003)(110136005)(107886003)(4326008)(8676002)(70586007)(2906002)(8936002)(6636002)(6266002)(478600001)(7416002)(336012)(426003)(42186006)(316002)(186003)(26005)(356005)(83380400001)(82310400003)(47076004)(81166007)(82740400003)(2004002);
+ SFS:(39850400004)(346002)(136003)(396003)(376002)(46966005)(8936002)(5660300002)(30864003)(6636002)(8676002)(426003)(7416002)(336012)(316002)(4326008)(6666004)(82310400003)(42186006)(6266002)(107886003)(36756003)(2616005)(186003)(47076004)(110136005)(26005)(81166007)(356005)(54906003)(82740400003)(478600001)(83380400001)(70586007)(70206006)(2906002)(2004002)(309714004);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 14:19:42.8570 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3e635c2-c77d-464f-bd21-08d85a4b8e42
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 14:19:43.9001 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c975f53a-328d-4cd9-0de3-08d85a4b8ee2
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT041.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT036.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB7038
-Received-SPF: pass client-ip=40.107.94.48; envelope-from=saipava@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 10:19:45
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6492
+Received-SPF: pass client-ip=40.107.236.59; envelope-from=saipava@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 10:19:46
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -147,52 +147,303 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move pci specific devices to new file. This set the environment to move all
-pci specific hooks in hcd-xhci.c to hcd-xhci-pci.c.
+This patch sets the base to use xhci as sysbus model, for which pci
+specific hooks are moved to hcd-xhci-pci.c. As a part of this requirment
+msi/msix interrupts handling is moved under XHCIPCIState. Made required
+changes for qemu-xhci-nec.
+
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+
+fixup
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 ---
- hw/usb/Kconfig        |  6 +++++
- hw/usb/hcd-xhci-pci.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++
- hw/usb/hcd-xhci.c     | 33 ++------------------------
- hw/usb/hcd-xhci.h     |  4 ++++
- hw/usb/meson.build    |  1 +
- 5 files changed, 79 insertions(+), 31 deletions(-)
- create mode 100644 hw/usb/hcd-xhci-pci.c
+ hw/usb/hcd-xhci-nec.c |  18 ++---
+ hw/usb/hcd-xhci-pci.c | 188 +++++++++++++++++++++++++++++++++++++++++++--
+ hw/usb/hcd-xhci-pci.h |  45 +++++++++++
+ hw/usb/hcd-xhci.c     | 205 ++++++++++----------------------------------------
+ hw/usb/hcd-xhci.h     |  16 ++--
+ 5 files changed, 285 insertions(+), 187 deletions(-)
+ create mode 100644 hw/usb/hcd-xhci-pci.h
 
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index 3fc8fbe..bab582f 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -36,6 +36,12 @@ config USB_XHCI
-     depends on PCI
-     select USB
+diff --git a/hw/usb/hcd-xhci-nec.c b/hw/usb/hcd-xhci-nec.c
+index e6a5a22..2efa6fa 100644
+--- a/hw/usb/hcd-xhci-nec.c
++++ b/hw/usb/hcd-xhci-nec.c
+@@ -25,17 +25,17 @@
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
  
-+config USB_XHCI_PCI
-+    bool
-+    default y if PCI_DEVICES
-+    depends on PCI
-+    select USB_XHCI
-+
- config USB_XHCI_NEC
-     bool
-     default y if PCI_DEVICES
+-#include "hcd-xhci.h"
++#include "hcd-xhci-pci.h"
+ 
+ static Property nec_xhci_properties[] = {
+-    DEFINE_PROP_ON_OFF_AUTO("msi", XHCIState, msi, ON_OFF_AUTO_AUTO),
+-    DEFINE_PROP_ON_OFF_AUTO("msix", XHCIState, msix, ON_OFF_AUTO_AUTO),
+-    DEFINE_PROP_BIT("superspeed-ports-first",
+-                    XHCIState, flags, XHCI_FLAG_SS_FIRST, true),
+-    DEFINE_PROP_BIT("force-pcie-endcap", XHCIState, flags,
++    DEFINE_PROP_ON_OFF_AUTO("msi", XHCIPciState, msi, ON_OFF_AUTO_AUTO),
++    DEFINE_PROP_ON_OFF_AUTO("msix", XHCIPciState, msix, ON_OFF_AUTO_AUTO),
++    DEFINE_PROP_BIT("superspeed-ports-first", XHCIPciState,
++                    xhci.flags, XHCI_FLAG_SS_FIRST, true),
++    DEFINE_PROP_BIT("force-pcie-endcap", XHCIPciState, xhci.flags,
+                     XHCI_FLAG_FORCE_PCIE_ENDCAP, false),
+-    DEFINE_PROP_UINT32("intrs", XHCIState, numintrs, MAXINTRS),
+-    DEFINE_PROP_UINT32("slots", XHCIState, numslots, MAXSLOTS),
++    DEFINE_PROP_UINT32("intrs", XHCIPciState, xhci.numintrs, MAXINTRS),
++    DEFINE_PROP_UINT32("slots", XHCIPciState, xhci.numslots, MAXSLOTS),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -52,7 +52,7 @@ static void nec_xhci_class_init(ObjectClass *klass, void *data)
+ 
+ static const TypeInfo nec_xhci_info = {
+     .name          = TYPE_NEC_XHCI,
+-    .parent        = TYPE_XHCI,
++    .parent        = TYPE_XHCI_PCI,
+     .class_init    = nec_xhci_class_init,
+ };
+ 
 diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
-new file mode 100644
-index 0000000..1562757
---- /dev/null
+index 1562757..15d288c 100644
+--- a/hw/usb/hcd-xhci-pci.c
 +++ b/hw/usb/hcd-xhci-pci.c
-@@ -0,0 +1,66 @@
+@@ -25,12 +25,188 @@
+ #include "qemu/osdep.h"
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
++#include "migration/vmstate.h"
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+-#include "hcd-xhci.h"
++#include "hcd-xhci-pci.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+ 
++#define OFF_MSIX_TABLE  0x3000
++#define OFF_MSIX_PBA    0x3800
++
++static void xhci_pci_intr_update(XHCIState *xhci, int n, bool enable)
++{
++    XHCIPciState *s = container_of(xhci, XHCIPciState, xhci);
++    PCIDevice *pci_dev = PCI_DEVICE(s);
++
++    if (!msix_enabled(pci_dev)) {
++        return;
++    }
++    if (enable == !!s->msix_used[n]) {
++        return;
++    }
++    if (enable) {
++        trace_usb_xhci_irq_msix_use(n);
++        msix_vector_use(pci_dev, n);
++        s->msix_used[n] = 1;
++    } else {
++        trace_usb_xhci_irq_msix_unuse(n);
++        msix_vector_unuse(pci_dev, n);
++        s->msix_used[n] = 0;
++    }
++}
++
++static void xhci_pci_intr_raise(XHCIState *xhci, int n, bool level)
++{
++    XHCIPciState *s = container_of(xhci, XHCIPciState, xhci);
++    PCIDevice *pci_dev = PCI_DEVICE(s);
++
++    if (n == 0 &&
++        !(msix_enabled(pci_dev) ||
++         msi_enabled(pci_dev))) {
++        pci_set_irq(pci_dev, level);
++    }
++    if (msix_enabled(pci_dev)) {
++        msix_notify(pci_dev, n);
++        return;
++    }
++
++    if (msi_enabled(pci_dev)) {
++        msi_notify(pci_dev, n);
++        return;
++    }
++}
++
++static void xhci_pci_reset(DeviceState *dev)
++{
++    XHCIPciState *s = XHCI_PCI(dev);
++
++    device_legacy_reset(DEVICE(&s->xhci));
++}
++
++static void usb_xhci_pci_realize(struct PCIDevice *dev, Error **errp)
++{
++    int ret;
++    Error *err = NULL;
++    XHCIPciState *s = XHCI_PCI(dev);
++
++    dev->config[PCI_CLASS_PROG] = 0x30;    /* xHCI */
++    dev->config[PCI_INTERRUPT_PIN] = 0x01; /* interrupt pin 1 */
++    dev->config[PCI_CACHE_LINE_SIZE] = 0x10;
++    dev->config[0x60] = 0x30; /* release number */
++
++    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
++    s->xhci.intr_update = xhci_pci_intr_update;
++    s->xhci.intr_raise = xhci_pci_intr_raise;
++    object_property_set_bool(OBJECT(&s->xhci), "realized", true, &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++    if (strcmp(object_get_typename(OBJECT(dev)), TYPE_NEC_XHCI) == 0) {
++        s->xhci.nec_quirks = true;
++    }
++
++    if (s->msi != ON_OFF_AUTO_OFF) {
++        ret = msi_init(dev, 0x70, s->xhci.numintrs, true, false, &err);
++        /*
++         * Any error other than -ENOTSUP(board's MSI support is broken)
++         * is a programming error
++         */
++        assert(!ret || ret == -ENOTSUP);
++        if (ret && s->msi == ON_OFF_AUTO_ON) {
++            /* Can't satisfy user's explicit msi=on request, fail */
++            error_append_hint(&err, "You have to use msi=auto (default) or "
++                    "msi=off with this machine type.\n");
++            error_propagate(errp, err);
++            return;
++        }
++        assert(!err || s->msi == ON_OFF_AUTO_AUTO);
++        /* With msi=auto, we fall back to MSI off silently */
++        error_free(err);
++    }
++    pci_register_bar(dev, 0,
++                     PCI_BASE_ADDRESS_SPACE_MEMORY |
++                     PCI_BASE_ADDRESS_MEM_TYPE_64,
++                     &s->xhci.mem);
++
++    if (pci_bus_is_express(pci_get_bus(dev)) ||
++        xhci_get_flag(&s->xhci, XHCI_FLAG_FORCE_PCIE_ENDCAP)) {
++        ret = pcie_endpoint_cap_init(dev, 0xa0);
++        assert(ret > 0);
++    }
++
++    if (s->msix != ON_OFF_AUTO_OFF) {
++        /* TODO check for errors, and should fail when msix=on */
++        msix_init(dev, s->xhci.numintrs,
++                  &s->xhci.mem, 0, OFF_MSIX_TABLE,
++                  &s->xhci.mem, 0, OFF_MSIX_PBA,
++                  0x90, NULL);
++    }
++    s->xhci.as = pci_get_address_space(dev);
++}
++
++static void usb_xhci_pci_exit(PCIDevice *dev)
++{
++    XHCIPciState *s = XHCI_PCI(dev);
++    /* destroy msix memory region */
++    if (dev->msix_table && dev->msix_pba
++        && dev->msix_entry_used) {
++        msix_uninit(dev, &s->xhci.mem, &s->xhci.mem);
++    }
++}
++
++static const VMStateDescription vmstate_xhci_pci = {
++    .name = "xhci-pci",
++    .version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(parent_obj, XHCIPciState),
++        VMSTATE_MSIX(parent_obj, XHCIPciState),
++        VMSTATE_UINT8_ARRAY(msix_used, XHCIPciState, MAXINTRS),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void xhci_instance_init(Object *obj)
++{
++    XHCIPciState *s = XHCI_PCI(obj);
++    /*
++     * QEMU_PCI_CAP_EXPRESS initialization does not depend on QEMU command
++     * line, therefore, no need to wait to realize like other devices
++     */
++    PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
++    object_initialize_child(obj, "xhci-core", &s->xhci, TYPE_XHCI);
++    qdev_alias_all_properties(DEVICE(&s->xhci), obj);
++}
++
++static void xhci_class_init(ObjectClass *klass, void *data)
++{
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset   = xhci_pci_reset;
++    dc->vmsd    = &vmstate_xhci_pci;
++    set_bit(DEVICE_CATEGORY_USB, dc->categories);
++    k->realize      = usb_xhci_pci_realize;
++    k->exit         = usb_xhci_pci_exit;
++    k->class_id     = PCI_CLASS_SERIAL_USB;
++}
++
++static const TypeInfo xhci_pci_info = {
++    .name          = TYPE_XHCI_PCI,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(XHCIPciState),
++    .class_init    = xhci_class_init,
++    .instance_init = xhci_instance_init,
++    .abstract      = true,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_PCIE_DEVICE },
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { }
++    },
++};
++
+ static void qemu_xhci_class_init(ObjectClass *klass, void *data)
+ {
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+@@ -42,10 +218,11 @@ static void qemu_xhci_class_init(ObjectClass *klass, void *data)
+ 
+ static void qemu_xhci_instance_init(Object *obj)
+ {
+-    XHCIState *xhci = XHCI(obj);
++    XHCIPciState *s = XHCI_PCI(obj);
++    XHCIState *xhci = &s->xhci;
+ 
+-    xhci->msi      = ON_OFF_AUTO_OFF;
+-    xhci->msix     = ON_OFF_AUTO_AUTO;
++    s->msi      = ON_OFF_AUTO_OFF;
++    s->msix     = ON_OFF_AUTO_AUTO;
+     xhci->numintrs = MAXINTRS;
+     xhci->numslots = MAXSLOTS;
+     xhci_set_flag(xhci, XHCI_FLAG_SS_FIRST);
+@@ -53,13 +230,14 @@ static void qemu_xhci_instance_init(Object *obj)
+ 
+ static const TypeInfo qemu_xhci_info = {
+     .name          = TYPE_QEMU_XHCI,
+-    .parent        = TYPE_XHCI,
++    .parent        = TYPE_XHCI_PCI,
+     .class_init    = qemu_xhci_class_init,
+     .instance_init = qemu_xhci_instance_init,
+ };
+ 
+ static void xhci_register_types(void)
+ {
++    type_register_static(&xhci_pci_info);
+     type_register_static(&qemu_xhci_info);
+ }
+ 
+diff --git a/hw/usb/hcd-xhci-pci.h b/hw/usb/hcd-xhci-pci.h
+new file mode 100644
+index 0000000..e7c005e
+--- /dev/null
++++ b/hw/usb/hcd-xhci-pci.h
+@@ -0,0 +1,45 @@
 +/*
-+ * USB xHCI controller with PCI bus emulation
++ * USB xHCI controller emulation
 + *
-+ * SPDX-FileCopyrightText: 2011 Securiforest
-+ * SPDX-FileContributor: Hector Martin <hector@marcansoft.com>
-+ * SPDX-sourceInfo: Based on usb-ohci.c, emulates Renesas NEC USB 3.0
-+ * SPDX-FileCopyrightText: 2020 Xilinx
-+ * SPDX-FileContributor: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-+ * SPDX-sourceInfo: Moved the pci specific content for hcd-xhci.c to
-+ *                  hcd-xhci-pci.c
++ * Copyright (c) 2011 Securiforest
++ * Date: 2011-05-11 ;  Author: Hector Martin <hector@marcansoft.com>
++ * Based on usb-ohci.c, emulates Renesas NEC USB 3.0
++ * Date: 2020-01-1; Author: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
++ * PCI hooks are moved from XHCIState to XHCIPciState
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -207,145 +458,470 @@ index 0000000..1562757
 + * You should have received a copy of the GNU Lesser General Public
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
++
++#ifndef HW_USB_HCD_XHCI_PCI_H
++#define HW_USB_HCD_XHCI_PCI_H
++
++#include "hw/usb.h"
 +#include "hcd-xhci.h"
-+#include "trace.h"
-+#include "qapi/error.h"
 +
-+static void qemu_xhci_class_init(ObjectClass *klass, void *data)
-+{
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++#define TYPE_XHCI_PCI "pci-xhci"
++#define XHCI_PCI(obj) \
++    OBJECT_CHECK(XHCIPciState, (obj), TYPE_XHCI_PCI)
 +
-+    k->vendor_id    = PCI_VENDOR_ID_REDHAT;
-+    k->device_id    = PCI_DEVICE_ID_REDHAT_XHCI;
-+    k->revision     = 0x01;
-+}
 +
-+static void qemu_xhci_instance_init(Object *obj)
-+{
-+    XHCIState *xhci = XHCI(obj);
++typedef struct XHCIPciState {
++    /*< private >*/
++    PCIDevice parent_obj;
++    /*< public >*/
++    XHCIState xhci;
++    OnOffAuto msi;
++    OnOffAuto msix;
++    uint8_t msix_used[MAXINTRS];
++} XHCIPciState;
 +
-+    xhci->msi      = ON_OFF_AUTO_OFF;
-+    xhci->msix     = ON_OFF_AUTO_AUTO;
-+    xhci->numintrs = MAXINTRS;
-+    xhci->numslots = MAXSLOTS;
-+    xhci_set_flag(xhci, XHCI_FLAG_SS_FIRST);
-+}
-+
-+static const TypeInfo qemu_xhci_info = {
-+    .name          = TYPE_QEMU_XHCI,
-+    .parent        = TYPE_XHCI,
-+    .class_init    = qemu_xhci_class_init,
-+    .instance_init = qemu_xhci_instance_init,
-+};
-+
-+static void xhci_register_types(void)
-+{
-+    type_register_static(&qemu_xhci_info);
-+}
-+
-+type_init(xhci_register_types)
++#endif
 diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 254cf1e..f927567 100644
+index f927567..6a03edd 100644
 --- a/hw/usb/hcd-xhci.c
 +++ b/hw/usb/hcd-xhci.c
-@@ -23,7 +23,6 @@
- #include "qemu/timer.h"
+@@ -24,10 +24,7 @@
  #include "qemu/module.h"
  #include "qemu/queue.h"
--#include "hw/usb.h"
  #include "migration/vmstate.h"
- #include "hw/pci/pci.h"
+-#include "hw/pci/pci.h"
  #include "hw/qdev-properties.h"
-@@ -429,12 +428,12 @@ static const char *ep_state_name(uint32_t state)
-                        ARRAY_SIZE(ep_state_names));
+-#include "hw/pci/msi.h"
+-#include "hw/pci/msix.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+ 
+@@ -56,8 +53,6 @@
+ #define OFF_OPER        LEN_CAP
+ #define OFF_RUNTIME     0x1000
+ #define OFF_DOORBELL    0x2000
+-#define OFF_MSIX_TABLE  0x3000
+-#define OFF_MSIX_PBA    0x3800
+ /* must be power of 2 */
+ #define LEN_REGS        0x4000
+ 
+@@ -547,54 +542,28 @@ static XHCIPort *xhci_lookup_port(XHCIState *xhci, struct USBPort *uport)
+     return &xhci->ports[index];
  }
  
--static bool xhci_get_flag(XHCIState *xhci, enum xhci_flags bit)
-+bool xhci_get_flag(XHCIState *xhci, enum xhci_flags bit)
+-static void xhci_intx_update(XHCIState *xhci)
++static void xhci_intr_update(XHCIState *xhci, int v)
  {
-     return xhci->flags & (1 << bit);
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     int level = 0;
+ 
+-    if (msix_enabled(pci_dev) ||
+-        msi_enabled(pci_dev)) {
+-        return;
+-    }
+-
+-    if (xhci->intr[0].iman & IMAN_IP &&
+-        xhci->intr[0].iman & IMAN_IE &&
+-        xhci->usbcmd & USBCMD_INTE) {
+-        level = 1;
+-    }
+-
+-    trace_usb_xhci_irq_intx(level);
+-    pci_set_irq(pci_dev, level);
+-}
+-
+-static void xhci_msix_update(XHCIState *xhci, int v)
+-{
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+-    bool enabled;
+-
+-    if (!msix_enabled(pci_dev)) {
+-        return;
+-    }
+-
+-    enabled = xhci->intr[v].iman & IMAN_IE;
+-    if (enabled == xhci->intr[v].msix_used) {
+-        return;
++    if (v == 0) {
++        if (xhci->intr[0].iman & IMAN_IP &&
++            xhci->intr[0].iman & IMAN_IE &&
++            xhci->usbcmd & USBCMD_INTE) {
++            level = 1;
++        }
++        if (xhci->intr_raise) {
++            xhci->intr_raise(xhci, 0, level);
++        }
+     }
+-
+-    if (enabled) {
+-        trace_usb_xhci_irq_msix_use(v);
+-        msix_vector_use(pci_dev, v);
+-        xhci->intr[v].msix_used = true;
+-    } else {
+-        trace_usb_xhci_irq_msix_unuse(v);
+-        msix_vector_unuse(pci_dev, v);
+-        xhci->intr[v].msix_used = false;
++    if (xhci->intr_update) {
++        xhci->intr_update(xhci, v,
++                     xhci->intr[v].iman & IMAN_IE);
+     }
  }
  
--static void xhci_set_flag(XHCIState *xhci, enum xhci_flags bit)
-+void xhci_set_flag(XHCIState *xhci, enum xhci_flags bit)
+ static void xhci_intr_raise(XHCIState *xhci, int v)
  {
-     xhci->flags |= (1 << bit);
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     bool pending = (xhci->intr[v].erdp_low & ERDP_EHB);
+ 
+     xhci->intr[v].erdp_low |= ERDP_EHB;
+@@ -611,22 +580,8 @@ static void xhci_intr_raise(XHCIState *xhci, int v)
+     if (!(xhci->usbcmd & USBCMD_INTE)) {
+         return;
+     }
+-
+-    if (msix_enabled(pci_dev)) {
+-        trace_usb_xhci_irq_msix(v);
+-        msix_notify(pci_dev, v);
+-        return;
+-    }
+-
+-    if (msi_enabled(pci_dev)) {
+-        trace_usb_xhci_irq_msi(v);
+-        msi_notify(pci_dev, v);
+-        return;
+-    }
+-
+-    if (v == 0) {
+-        trace_usb_xhci_irq_intx(1);
+-        pci_irq_assert(pci_dev);
++    if (xhci->intr_raise) {
++        xhci->intr_raise(xhci, v, true);
+     }
  }
-@@ -3730,37 +3729,9 @@ static const TypeInfo xhci_info = {
-     },
+ 
+@@ -2717,7 +2672,6 @@ static void xhci_reset(DeviceState *dev)
+         xhci->intr[i].erstba_high = 0;
+         xhci->intr[i].erdp_low = 0;
+         xhci->intr[i].erdp_high = 0;
+-        xhci->intr[i].msix_used = 0;
+ 
+         xhci->intr[i].er_ep_idx = 0;
+         xhci->intr[i].er_pcs = 1;
+@@ -2939,8 +2893,7 @@ static uint64_t xhci_oper_read(void *ptr, hwaddr reg, unsigned size)
+ static void xhci_oper_write(void *ptr, hwaddr reg,
+                             uint64_t val, unsigned size)
+ {
+-    XHCIState *xhci = ptr;
+-    DeviceState *d = DEVICE(ptr);
++    XHCIState *xhci = XHCI(ptr);
+ 
+     trace_usb_xhci_oper_write(reg, val);
+ 
+@@ -2962,15 +2915,15 @@ static void xhci_oper_write(void *ptr, hwaddr reg,
+         xhci->usbcmd = val & 0xc0f;
+         xhci_mfwrap_update(xhci);
+         if (val & USBCMD_HCRST) {
+-            xhci_reset(d);
++            xhci_reset(DEVICE(xhci));
+         }
+-        xhci_intx_update(xhci);
++        xhci_intr_update(xhci, 0);
+         break;
+ 
+     case 0x04: /* USBSTS */
+         /* these bits are write-1-to-clear */
+         xhci->usbsts &= ~(val & (USBSTS_HSE|USBSTS_EINT|USBSTS_PCD|USBSTS_SRE));
+-        xhci_intx_update(xhci);
++        xhci_intr_update(xhci, 0);
+         break;
+ 
+     case 0x14: /* DNCTRL */
+@@ -3073,10 +3026,7 @@ static void xhci_runtime_write(void *ptr, hwaddr reg,
+         }
+         intr->iman &= ~IMAN_IE;
+         intr->iman |= val & IMAN_IE;
+-        if (v == 0) {
+-            xhci_intx_update(xhci);
+-        }
+-        xhci_msix_update(xhci, v);
++        xhci_intr_update(xhci, v);
+         break;
+     case 0x04: /* IMOD */
+         intr->imod = val;
+@@ -3321,7 +3271,6 @@ static USBBusOps xhci_bus_ops = {
+ 
+ static void usb_xhci_init(XHCIState *xhci)
+ {
+-    DeviceState *dev = DEVICE(xhci);
+     XHCIPort *port;
+     unsigned int i, usbports, speedmask;
+ 
+@@ -3336,7 +3285,7 @@ static void usb_xhci_init(XHCIState *xhci)
+     usbports = MAX(xhci->numports_2, xhci->numports_3);
+     xhci->numports = xhci->numports_2 + xhci->numports_3;
+ 
+-    usb_bus_new(&xhci->bus, sizeof(xhci->bus), &xhci_bus_ops, dev);
++    usb_bus_new(&xhci->bus, sizeof(xhci->bus), &xhci_bus_ops, xhci->hostOpaque);
+ 
+     for (i = 0; i < usbports; i++) {
+         speedmask = 0;
+@@ -3376,21 +3325,12 @@ static void usb_xhci_init(XHCIState *xhci)
+     }
+ }
+ 
+-static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
++static void usb_xhci_realize(DeviceState *dev, Error **errp)
+ {
+-    int i, ret;
+-    Error *err = NULL;
++    int i;
+ 
+     XHCIState *xhci = XHCI(dev);
+ 
+-    dev->config[PCI_CLASS_PROG] = 0x30;    /* xHCI */
+-    dev->config[PCI_INTERRUPT_PIN] = 0x01; /* interrupt pin 1 */
+-    dev->config[PCI_CACHE_LINE_SIZE] = 0x10;
+-    dev->config[0x60] = 0x30; /* release number */
+-
+-    if (strcmp(object_get_typename(OBJECT(dev)), TYPE_NEC_XHCI) == 0) {
+-        xhci->nec_quirks = true;
+-    }
+     if (xhci->numintrs > MAXINTRS) {
+         xhci->numintrs = MAXINTRS;
+     }
+@@ -3412,36 +3352,18 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
+         xhci->max_pstreams_mask = 0;
+     }
+ 
+-    if (xhci->msi != ON_OFF_AUTO_OFF) {
+-        ret = msi_init(dev, 0x70, xhci->numintrs, true, false, &err);
+-        /* Any error other than -ENOTSUP(board's MSI support is broken)
+-         * is a programming error */
+-        assert(!ret || ret == -ENOTSUP);
+-        if (ret && xhci->msi == ON_OFF_AUTO_ON) {
+-            /* Can't satisfy user's explicit msi=on request, fail */
+-            error_append_hint(&err, "You have to use msi=auto (default) or "
+-                    "msi=off with this machine type.\n");
+-            error_propagate(errp, err);
+-            return;
+-        }
+-        assert(!err || xhci->msi == ON_OFF_AUTO_AUTO);
+-        /* With msi=auto, we fall back to MSI off silently */
+-        error_free(err);
+-    }
+-
+     usb_xhci_init(xhci);
+-    xhci->as = pci_get_address_space(dev);
+     xhci->mfwrap_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, xhci_mfwrap_timer, xhci);
+ 
+-    memory_region_init(&xhci->mem, OBJECT(xhci), "xhci", LEN_REGS);
+-    memory_region_init_io(&xhci->mem_cap, OBJECT(xhci), &xhci_cap_ops, xhci,
++    memory_region_init(&xhci->mem, OBJECT(dev), "xhci", LEN_REGS);
++    memory_region_init_io(&xhci->mem_cap, OBJECT(dev), &xhci_cap_ops, xhci,
+                           "capabilities", LEN_CAP);
+-    memory_region_init_io(&xhci->mem_oper, OBJECT(xhci), &xhci_oper_ops, xhci,
++    memory_region_init_io(&xhci->mem_oper, OBJECT(dev), &xhci_oper_ops, xhci,
+                           "operational", 0x400);
+-    memory_region_init_io(&xhci->mem_runtime, OBJECT(xhci), &xhci_runtime_ops, xhci,
+-                          "runtime", LEN_RUNTIME);
+-    memory_region_init_io(&xhci->mem_doorbell, OBJECT(xhci), &xhci_doorbell_ops, xhci,
+-                          "doorbell", LEN_DOORBELL);
++    memory_region_init_io(&xhci->mem_runtime, OBJECT(dev), &xhci_runtime_ops,
++                           xhci, "runtime", LEN_RUNTIME);
++    memory_region_init_io(&xhci->mem_doorbell, OBJECT(dev), &xhci_doorbell_ops,
++                           xhci, "doorbell", LEN_DOORBELL);
+ 
+     memory_region_add_subregion(&xhci->mem, 0,            &xhci->mem_cap);
+     memory_region_add_subregion(&xhci->mem, OFF_OPER,     &xhci->mem_oper);
+@@ -3452,31 +3374,13 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
+         XHCIPort *port = &xhci->ports[i];
+         uint32_t offset = OFF_OPER + 0x400 + 0x10 * i;
+         port->xhci = xhci;
+-        memory_region_init_io(&port->mem, OBJECT(xhci), &xhci_port_ops, port,
++        memory_region_init_io(&port->mem, OBJECT(dev), &xhci_port_ops, port,
+                               port->name, 0x10);
+         memory_region_add_subregion(&xhci->mem, offset, &port->mem);
+     }
+-
+-    pci_register_bar(dev, 0,
+-                     PCI_BASE_ADDRESS_SPACE_MEMORY|PCI_BASE_ADDRESS_MEM_TYPE_64,
+-                     &xhci->mem);
+-
+-    if (pci_bus_is_express(pci_get_bus(dev)) ||
+-        xhci_get_flag(xhci, XHCI_FLAG_FORCE_PCIE_ENDCAP)) {
+-        ret = pcie_endpoint_cap_init(dev, 0xa0);
+-        assert(ret > 0);
+-    }
+-
+-    if (xhci->msix != ON_OFF_AUTO_OFF) {
+-        /* TODO check for errors, and should fail when msix=on */
+-        msix_init(dev, xhci->numintrs,
+-                  &xhci->mem, 0, OFF_MSIX_TABLE,
+-                  &xhci->mem, 0, OFF_MSIX_PBA,
+-                  0x90, NULL);
+-    }
+ }
+ 
+-static void usb_xhci_exit(PCIDevice *dev)
++static void usb_xhci_unrealize(DeviceState *dev)
+ {
+     int i;
+     XHCIState *xhci = XHCI(dev);
+@@ -3503,19 +3407,12 @@ static void usb_xhci_exit(PCIDevice *dev)
+         memory_region_del_subregion(&xhci->mem, &port->mem);
+     }
+ 
+-    /* destroy msix memory region */
+-    if (dev->msix_table && dev->msix_pba
+-        && dev->msix_entry_used) {
+-        msix_uninit(dev, &xhci->mem, &xhci->mem);
+-    }
+-
+     usb_bus_release(&xhci->bus);
+ }
+ 
+ static int usb_xhci_post_load(void *opaque, int version_id)
+ {
+     XHCIState *xhci = opaque;
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     XHCISlot *slot;
+     XHCIEPContext *epctx;
+     dma_addr_t dcbaap, pctx;
+@@ -3561,11 +3458,7 @@ static int usb_xhci_post_load(void *opaque, int version_id)
+     }
+ 
+     for (intr = 0; intr < xhci->numintrs; intr++) {
+-        if (xhci->intr[intr].msix_used) {
+-            msix_vector_use(pci_dev, intr);
+-        } else {
+-            msix_vector_unuse(pci_dev, intr);
+-        }
++        xhci_intr_update(xhci, intr);
+     }
+ 
+     return 0;
+@@ -3634,7 +3527,6 @@ static const VMStateDescription vmstate_xhci_intr = {
+         VMSTATE_UINT32(erdp_high,     XHCIInterrupter),
+ 
+         /* state */
+-        VMSTATE_BOOL(msix_used,       XHCIInterrupter),
+         VMSTATE_BOOL(er_pcs,          XHCIInterrupter),
+         VMSTATE_UINT64(er_start,      XHCIInterrupter),
+         VMSTATE_UINT32(er_size,       XHCIInterrupter),
+@@ -3657,9 +3549,6 @@ static const VMStateDescription vmstate_xhci = {
+     .version_id = 1,
+     .post_load = usb_xhci_post_load,
+     .fields = (VMStateField[]) {
+-        VMSTATE_PCI_DEVICE(parent_obj, XHCIState),
+-        VMSTATE_MSIX(parent_obj, XHCIState),
+-
+         VMSTATE_STRUCT_VARRAY_UINT32(ports, XHCIState, numports, 1,
+                                      vmstate_xhci_port, XHCIPort),
+         VMSTATE_STRUCT_VARRAY_UINT32(slots, XHCIState, numslots, 1,
+@@ -3691,42 +3580,28 @@ static Property xhci_properties[] = {
+                     XHCI_FLAG_ENABLE_STREAMS, true),
+     DEFINE_PROP_UINT32("p2",    XHCIState, numports_2, 4),
+     DEFINE_PROP_UINT32("p3",    XHCIState, numports_3, 4),
++    DEFINE_PROP_LINK("host",    XHCIState, hostOpaque, TYPE_DEVICE,
++                     DeviceState *),
+     DEFINE_PROP_END_OF_LIST(),
  };
  
--static void qemu_xhci_class_init(ObjectClass *klass, void *data)
+-static void xhci_instance_init(Object *obj)
 -{
--    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--
--    k->vendor_id    = PCI_VENDOR_ID_REDHAT;
--    k->device_id    = PCI_DEVICE_ID_REDHAT_XHCI;
--    k->revision     = 0x01;
+-    /* QEMU_PCI_CAP_EXPRESS initialization does not depend on QEMU command
+-     * line, therefore, no need to wait to realize like other devices */
+-    PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
 -}
 -
--static void qemu_xhci_instance_init(Object *obj)
--{
--    XHCIState *xhci = XHCI(obj);
--
--    xhci->msi      = ON_OFF_AUTO_OFF;
--    xhci->msix     = ON_OFF_AUTO_AUTO;
--    xhci->numintrs = MAXINTRS;
--    xhci->numslots = MAXSLOTS;
--    xhci_set_flag(xhci, XHCI_FLAG_SS_FIRST);
--}
--
--static const TypeInfo qemu_xhci_info = {
--    .name          = TYPE_QEMU_XHCI,
--    .parent        = TYPE_XHCI,
--    .class_init    = qemu_xhci_class_init,
--    .instance_init = qemu_xhci_instance_init,
--};
--
- static void xhci_register_types(void)
+ static void xhci_class_init(ObjectClass *klass, void *data)
  {
-     type_register_static(&xhci_info);
--    type_register_static(&qemu_xhci_info);
+-    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
++    dc->realize = usb_xhci_realize;
++    dc->unrealize = usb_xhci_unrealize;
++    dc->reset   = xhci_reset;
+     dc->vmsd    = &vmstate_xhci;
+     device_class_set_props(dc, xhci_properties);
+-    dc->reset   = xhci_reset;
+-    set_bit(DEVICE_CATEGORY_USB, dc->categories);
+-    k->realize      = usb_xhci_realize;
+-    k->exit         = usb_xhci_exit;
+-    k->class_id     = PCI_CLASS_SERIAL_USB;
++    dc->user_creatable = false;
  }
  
- type_init(xhci_register_types)
+ static const TypeInfo xhci_info = {
+     .name          = TYPE_XHCI,
+-    .parent        = TYPE_PCI_DEVICE,
++    .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(XHCIState),
+     .class_init    = xhci_class_init,
+-    .instance_init = xhci_instance_init,
+-    .abstract      = true,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_PCIE_DEVICE },
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { }
+-    },
+ };
+ 
+ static void xhci_register_types(void)
 diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
-index 2570937..dab3424 100644
+index dab3424..525291b 100644
 --- a/hw/usb/hcd-xhci.h
 +++ b/hw/usb/hcd-xhci.h
-@@ -23,6 +23,8 @@
- #define HW_USB_HCD_XHCI_H
+@@ -24,6 +24,7 @@
  #include "qom/object.h"
  
-+#include "hw/usb.h"
-+
+ #include "hw/usb.h"
++#include "sysemu/dma.h"
+ 
  #define TYPE_XHCI "base-xhci"
  #define TYPE_NEC_XHCI "nec-usb-xhci"
- #define TYPE_QEMU_XHCI "qemu-xhci"
-@@ -231,4 +233,6 @@ struct XHCIState {
-     bool nec_quirks;
- };
+@@ -171,7 +172,7 @@ typedef struct XHCIInterrupter {
+     uint32_t erdp_low;
+     uint32_t erdp_high;
  
-+bool xhci_get_flag(XHCIState *xhci, enum xhci_flags bit);
-+void xhci_set_flag(XHCIState *xhci, enum xhci_flags bit);
- #endif
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index b7c7ff2..90dc54f 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -21,6 +21,7 @@ softmmu_ss.add(when: 'CONFIG_USB_EHCI', if_true: files('hcd-ehci.c'))
- softmmu_ss.add(when: 'CONFIG_USB_EHCI_PCI', if_true: files('hcd-ehci-pci.c'))
- softmmu_ss.add(when: 'CONFIG_USB_EHCI_SYSBUS', if_true: files('hcd-ehci.c', 'hcd-ehci-sysbus.c'))
- softmmu_ss.add(when: 'CONFIG_USB_XHCI', if_true: files('hcd-xhci.c'))
-+softmmu_ss.add(when: 'CONFIG_USB_XHCI_PCI', if_true: files('hcd-xhci-pci.c'))
- softmmu_ss.add(when: 'CONFIG_USB_XHCI_NEC', if_true: files('hcd-xhci-nec.c'))
- softmmu_ss.add(when: 'CONFIG_USB_MUSB', if_true: files('hcd-musb.c'))
- softmmu_ss.add(when: 'CONFIG_USB_DWC2', if_true: files('hcd-dwc2.c'))
+-    bool msix_used, er_pcs;
++    bool er_pcs;
+ 
+     dma_addr_t er_start;
+     uint32_t er_size;
+@@ -185,10 +186,8 @@ typedef struct XHCIInterrupter {
+ 
+ } XHCIInterrupter;
+ 
+-struct XHCIState {
+-    /*< private >*/
+-    PCIDevice parent_obj;
+-    /*< public >*/
++typedef struct XHCIState {
++    DeviceState parent;
+ 
+     USBBus bus;
+     MemoryRegion mem;
+@@ -205,8 +204,9 @@ struct XHCIState {
+     uint32_t numslots;
+     uint32_t flags;
+     uint32_t max_pstreams_mask;
+-    OnOffAuto msi;
+-    OnOffAuto msix;
++    void (*intr_update)(XHCIState *s, int n, bool enable);
++    void (*intr_raise)(XHCIState *s, int n, bool level);
++    DeviceState *hostOpaque;
+ 
+     /* Operational Registers */
+     uint32_t usbcmd;
+@@ -231,7 +231,7 @@ struct XHCIState {
+     XHCIRing cmd_ring;
+ 
+     bool nec_quirks;
+-};
++} XHCIState;
+ 
+ bool xhci_get_flag(XHCIState *xhci, enum xhci_flags bit);
+ void xhci_set_flag(XHCIState *xhci, enum xhci_flags bit);
 -- 
 2.7.4
 
