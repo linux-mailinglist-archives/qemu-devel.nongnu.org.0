@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCE426C26D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:04:32 +0200 (CEST)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F3D26C278
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:07:24 +0200 (CEST)
+Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWAp-0005Gh-IY
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54270)
+	id 1kIWDb-0008Os-5D
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuo-0006kp-KS
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40706)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuv-00071K-Ti
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVum-00089U-Ld
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVut-0008AY-Iz
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256876;
+ s=mimecast20190719; t=1600256882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=Xpj5Ja/hMrtC5TtCA7FriRu7OWDoU0v2ui+k7goVvEU=;
- b=DCLkZ3RWopVO6l0E5yUKwnsynm4U9geMWfRegy3uSj+wWrD44J+BBRyYkshL8GsPbl/yHq
- sfo+v+q2VF6EInfyHUQdy3ipNpQPz1lzmHS1EvUhd/3HLcwBjX7BlmxA5StUDQ24cMViTv
- pvt4+/0x+w7F9YGKw5RZORsdQHnZNKI=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xl5qiRzwSRkCkfNitlG1ppcGEHzDiCZJWdHWHLlSBWk=;
+ b=FdzPw6UKt3ClmKqIRhC/ZzOTmpHJ7smVFMwolFsC9zbFYk+WFhtoGPo4fb+xIuasrHPN8U
+ 4llM6poea1S/EJK5eXzEHeVWA9smZh04u+75Pk3qpgh9b3Fms7FapVxOYDzxNo1qYePhz+
+ g31KbJ3NRJBHgQXPVLJHc1YQxHyjQqU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-eBGothTEOMOR2Rs66g4oQg-1; Wed, 16 Sep 2020 07:47:51 -0400
-X-MC-Unique: eBGothTEOMOR2Rs66g4oQg-1
+ us-mta-139-tYQT98DTPJ2mgFXamyktxg-1; Wed, 16 Sep 2020 07:47:55 -0400
+X-MC-Unique: tYQT98DTPJ2mgFXamyktxg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 601D180EFA4;
- Wed, 16 Sep 2020 11:47:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A56AE80EF9F;
+ Wed, 16 Sep 2020 11:47:54 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56DCA5DE86;
- Wed, 16 Sep 2020 11:47:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AE875DEC1;
+ Wed, 16 Sep 2020 11:47:53 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/24] meson: Disable test-char on msys2/mingw for fixing tests
- stuck
-Date: Wed, 16 Sep 2020 13:47:17 +0200
-Message-Id: <20200916114731.102080-11-thuth@redhat.com>
+Subject: [PULL 13/24] tests: test-replication disable /replication/secondary/*
+ on msys2/mingw.
+Date: Wed, 16 Sep 2020 13:47:20 +0200
+Message-Id: <20200916114731.102080-14-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
@@ -82,32 +86,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
+They caused failure on msys2/mingw, that's because file-win32.c not implement
+.bdrv_reopen_prepare/commit/abort yet.
+
+This is the error message:
+> $ ./tests/test-replication.exe
+> # random seed: R02S3f4d1c01af2b0a046990e0235c481faf
+> 1..13
+> # Start of replication tests
+> # Start of primary tests
+> ok 1 /replication/primary/read
+> ok 2 /replication/primary/write
+> ok 3 /replication/primary/start
+> ok 4 /replication/primary/stop
+> ok 5 /replication/primary/do_checkpoint
+> ok 6 /replication/primary/get_error_all
+> # End of primary tests
+> # Start of secondary tests
+> ok 7 /replication/secondary/read
+> ok 8 /replication/secondary/write
+> Unexpected error in bdrv_reopen_prepare() at ../block.c:4191:
+> Block format 'file' used by node '#block4287' does not support reopening
+> files
+
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20200907200432.2418-3-luoyonggang@gmail.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200915121318.247-9-luoyonggang@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/meson.build | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tests/test-replication.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/meson.build b/tests/meson.build
-index dae8a77df1..82342a2f97 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -195,8 +195,13 @@ if have_system
-   # are not runnable under TSan due to a known issue.
-   # https://github.com/google/sanitizers/issues/1116
-   if 'CONFIG_TSAN' not in config_host
-+    if 'CONFIG_POSIX' in config_host
-+        tests += {
-+          'test-char': ['socket-helpers.c', qom, io, chardev]
-+        }
-+    endif
-+
-     tests += {
--      'test-char': ['socket-helpers.c', qom, io, chardev],
-       'test-qdev-global-props': [qom, hwcore, testqapi]
-     }
-   endif
+diff --git a/tests/test-replication.c b/tests/test-replication.c
+index e7cbd6b144..b067240add 100644
+--- a/tests/test-replication.c
++++ b/tests/test-replication.c
+@@ -392,6 +392,7 @@ static void test_secondary_write(void)
+     teardown_secondary();
+ }
+ 
++#ifndef _WIN32
+ static void test_secondary_start(void)
+ {
+     BlockBackend *top_blk, *local_blk;
+@@ -546,6 +547,7 @@ static void test_secondary_get_error_all(void)
+ 
+     teardown_secondary();
+ }
++#endif
+ 
+ static void sigabrt_handler(int signo)
+ {
+@@ -597,6 +599,7 @@ int main(int argc, char **argv)
+     /* Secondary */
+     g_test_add_func("/replication/secondary/read",  test_secondary_read);
+     g_test_add_func("/replication/secondary/write", test_secondary_write);
++#ifndef _WIN32
+     g_test_add_func("/replication/secondary/start", test_secondary_start);
+     g_test_add_func("/replication/secondary/stop",  test_secondary_stop);
+     g_test_add_func("/replication/secondary/continuous_replication",
+@@ -605,6 +608,7 @@ int main(int argc, char **argv)
+                     test_secondary_do_checkpoint);
+     g_test_add_func("/replication/secondary/get_error_all",
+                     test_secondary_get_error_all);
++#endif
+ 
+     ret = g_test_run();
+ 
 -- 
 2.18.2
 
