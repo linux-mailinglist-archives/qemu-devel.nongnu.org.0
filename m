@@ -2,35 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889D926C3C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:37:07 +0200 (CEST)
-Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6999F26C3C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 16:35:06 +0200 (CEST)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIYYU-0001Ez-1o
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40006)
+	id 1kIYWX-0006ED-E0
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 10:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYID-00032n-3d
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:21 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47160)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYI8-0003mD-RF
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYIC-00030k-4f
  for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47230)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kIYI8-0003mY-RF
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 10:20:15 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B8195B32F;
- Wed, 16 Sep 2020 14:20:23 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 6CD93B39B;
+ Wed, 16 Sep 2020 14:20:25 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: [PATCH v8 00/17] QEMU cpus.c refactoring part2
-Date: Wed, 16 Sep 2020 16:19:47 +0200
-Message-Id: <20200916142004.27429-1-cfontana@suse.de>
+Subject: [PATCH v8 02/17] icount: rename functions to be consistent with the
+ module name
+Date: Wed, 16 Sep 2020 16:19:49 +0200
+Message-Id: <20200916142004.27429-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200916142004.27429-1-cfontana@suse.de>
+References: <20200916142004.27429-1-cfontana@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -59,442 +62,518 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
  Pavel Dovgalyuk <dovgaluk@ispras.ru>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Colin Xu <colin.xu@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Claudio Fontana <cfontana@suse.de>
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Colin Xu <colin.xu@intel.com>,
+ Wenchao Wang <wenchao.wang@intel.com>, haxm-team@intel.com,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Motivation and higher level steps:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
-
-Current state is mostly all reviewed, but I include here a few resolutions
-of rebasing conflicts and a new patch to use current_machine instead of
-qdev_get_machine in softmmu context.
-
-It's minor, but if additional reviewing is necessary, here is the whole series again.
-
-CI is all green, and also available at https://github.com/hw-claudio/qemu.git "cpus-refactoring"
-
-The following changes since commit 5a77bbb53b087f95dbba7ce30b02ac2d7b147a3a:
-
-  iotests: Work around failing readlink -f (2020-09-15 18:19:26 +0200)
-
-are available in the Git repository at:
-
-  https://github.com/hw-claudio/qemu.git 
-
-for you to fetch changes up to f9ec667595537400a6bc0aaf094a5ca6bbaacf44:
-
-  accel/tcg: use current_machine as it is always set for softmmu (2020-09-15 18:19:27 +0200)
-
-----------------------------------------------------------------
-Claudio Fontana (17):
-      cpu-timers, icount: new modules
-      icount: rename functions to be consistent with the module name
-      cpus: prepare new CpusAccel cpu accelerator interface
-      cpus: extract out TCG-specific code to accel/tcg
-      cpus: extract out qtest-specific code to accel/qtest
-      cpus: extract out kvm-specific code to accel/kvm
-      cpus: extract out hax-specific code to target/i386/
-      cpus: extract out whpx-specific code to target/i386/
-      cpus: extract out hvf-specific code to target/i386/hvf/
-      cpus: cleanup now unneeded includes
-      cpus: remove checks for non-NULL cpus_accel
-      cpus: add handle_interrupt to the CpusAccel interface
-      hvf: remove hvf specific functions from global includes
-      whpx: remove whpx specific functions from global includes
-      hax: remove hax specific functions from global includes
-      kvm: remove kvm specific functions from global includes
-      accel/tcg: use current_machine as it is always set for softmmu
-
-----------------------------------------------------------------
-
-Further work for future patches include:
-
-* additional improvements to naming consistency in QEMU files.
-  (Claudio, Alex, Roman)
-
-* tcg vcpu start refactoring, providing then multiple structs for
-  mttg, icount, normal. (Claudio, Alex)
-
-* possible removal of NULL check for virtual clock if the qcow2
-  early call is solved. (Claudio, Paolo, Berto)
-
-PATCH v7 -> PATCH v8:
-
-* rebased on latest master, including "softmmu/cpus: Only set parallel_cpus for SMP"
-
-* added a patch to use current_machine instead of qdev_get_machine in softmmu context.
-
-PATCH v6 -> PATCH v7:
-
-* in patch "cpu-timers, icount: new modules":
-  - remove redundant double initialization of spice
-  - remove lingering calls to icount_get
-
-PATCH v5 -> PATCH v6:
-
-* moved to mason build system
-
-* patch (new): cpus: remove checks for non-NULL cpus_accel (Richard)
-
-  This has however a big caveat: in some cases the virtual clock is
-  queried before an accelerator is set or ticks are enabled; this is
-  currently special cased (keeping the NULL check in cpus_get_virtual_clock),
-  but maybe this should not happen at all? (Paolo, Berto)
-
-* in patch "cpu-timers, icount: new modules"
-  do not change (yet) icount_enabled() to a function.
-  Mimic instead what is done with tcg_enabled(). (Richard)
-
-* split the changes into two separate patches, with name-only changes
-  extracted out into a separate patch (Richard).
-  Removed existing Reviewed-by because of these changes (Alex)-
-  Alex are you ok with them?
-
-* in patch "cpus: prepare new CpusAccel cpu accelerator interface"
-  remove some unneeded stubs from stubs/cpu-synchronize-state.c
-  Use const for the CpusAccel interface. (Richard)
-
-* in patch "cpus: extract out TCG-specific code to accel/tcg"
-  use const for the CpusAccel interface. (Richard)
-
-* in patch "cpus: extract out qtest-specific code to accel/qtest"
-  use const for the CpusAccel interface;
-  use g_assert_not_reached (Richard)
-
-* in patch "cpus: extract out kvm-specific code to accel/kvm"
-  use const for the CpusAccel interface. (Richard)
-
-* in patch "cpus: extract out hax-specific code to target/i386/"
-  use const for the CpusAccel interface. (Richard)
-
-* in patch "cpus: extract out whpx-specific code to target/i386/"
-  use const for the CpusAccel interface. (Richard)
-
-* in patch "cpus: extract out hvf-specific code to target/i386/hvf/"
-  use const for the CpusAccel interface. (Richard)
-
-
-RFC v4 -> PATCH v5:
-
-* in patch 2, move comment about cpus_get_elapsed_ticks from patch 3
-  (Philippe)
-
-* in patch 11-14, do not create separate xxx-int.h files,
-  instead use the xxx-cpus.h files (Philippe)
-
-RFC v3 -> v4:
-
-* added patch 9: cleanup unneeded includes
-
-* added patch 10: add handle_interrupt to the interface (Roman)
-
-* added patch 11-14: remove accelerator specific internal functions
-  from global includes (Roman)
-
-* in patch 2, removed leftover "if hvf_enabled" hunk
-
-* in patch 2, convert if (!tcg_enabled) with more punctual if (hax_enabled)
-  when eating dummy APC
-
-----
-
-RFC v2 -> v3:
-
-* provided defaults for all methods.
-  Only create_vcpu_thread is now a mandatory field. (Paolo)
-
-* separated new CpusAccel patch from its first user, new patch nr. 2:
-  "cpus: prepare new CpusAccel cpu accelerator interface"
-
-* new CpusAccel methods: get_virtual_clock and get_elapsed_ticks.
-  (Paolo)
-
-  In this series, get_virtual_clock has a separate implementation
-  between TCG/icount and qtest,
-  while get_elapsed_ticks only returns a virtual counter for icount.
-
-  Looking for more comments in this area.
-
-----
-
-RFC v1 -> v2:
-
-* split the cpus.c accelerator refactoring into 6 patches.
-
-* other minor changes to be able to proceed step by step.
-
-----
-
-* Rebased on commit 255ae6e2158c743717bed76c9a2365ee4bcd326e,
-"replay: notify the main loop when there are no instructions"
-
-[SPLIT into part1 and part2]
-
-----
-
-v6 -> v7:
-
-* rebased changes on top of Pavel Dovgalyuk changes to dma-helpers.c
-  "icount: make dma reads deterministic"
-
-----
-
-v5 -> v6:
-
-* rebased changes on top of Emilio G. Cota changes to cpus.c
-  "cpu: convert queued work to a QSIMPLEQ"
-
-* keep a pointer in cpus.c instead of a copy of CpusAccel
-  (Alex)
-
-----
-
-
-v4 -> v5: rebase on latest master
-
-* rebased changes on top of roman series to remove one of the extra states for hvf.
-  (Is the result now functional for HVF?)
-
-* rebased changes on top of icount changes and fixes to icount_configure and
-  the new shift vmstate. (Markus)
-
-v3 -> v4:
-
-* overall: added copyright headers to all files that were missing them
-  (used copyright and license of the module the stuff was extracted from).
-  For the new interface files, added SUSE LLC.
-
-* 1/4 (move softmmu only files from root):
-
-  MAINTAINERS: moved softmmu/cpus.c to its final location (from patch 2)
-
-* 2/4 (cpu-throttle):
-
-  MAINTAINERS (to patch 1),
-  copyright Fabrice Bellard and license from cpus.c
-
-* 3/4 (cpu-timers, icount):
-
-  - MAINTAINERS: add cpu-timers.c and icount.c to Paolo
-
-  - break very long lines (patchew)
-
-  - add copyright SUSE LLC, GPLv2 to cpu-timers.h
-
-  - add copyright Fabrice Bellard and license from cpus.c to timers-state.h
-    as it is lifted from cpus.c
-
-  - vl.c: in configure_accelerators bail out if icount_enabled()
-    and !tcg_enabled() as qtest does not enable icount anymore.
-
-* 4/4 (accel stuff to accel):
-
-  - add copyright SUSE LLC to files that mostly only consist of the
-    new interface. Add whatever copyright was in the accelerator code
-    if instead they mostly consist of accelerator code.
-
-  - change a comment to mention the result of the AccelClass experiment
-
-  - moved qtest accelerator into accel/qtest/ , make it like the others.
-
-  - rename xxx-cpus-interface to xxx-cpus (remove "interface" from names)
-
-  - rename accel_int to cpus_accel
-
-  - rename CpusAccel functions from cpu_synchronize_* to synchronize_*
-
-
---------
-
-v2 -> v3:
-
-* turned into a 4 patch series, adding a first patch moving
-  softmmu code currently in top_srcdir to softmmu/
-
-* cpu-throttle: moved to softmmu/
-
-* cpu-timers, icount:
-
-  - moved to softmmu/
-
-  - fixed assumption of qtest_enabled() => icount_enabled()
-  causing the failure of check-qtest-arm goal, in test-arm-mptimer.c
-
-  Fix is in hw/core/ptimer.c,
-
-  where the artificial timeout rate limit should not be applied
-  under qtest_enabled(), in a similar way to how it is not applied
-  for icount_enabled().
-
-* CpuAccelInterface: no change.
-
-
---------
-
-
-v1 -> v2:
-
-* 1/3 (cpu-throttle): provide a description in the commit message
-
-* 2/3 (cpu-timers, icount): in this v2 separate icount from cpu-timers,
-  as icount is actually TCG-specific. Only build it under CONFIG_TCG.
-
-  To do this, qtest had to be detached from icount. To this end, a
-  trivial global counter for qtest has been introduced.
-
-* 3/3 (CpuAccelInterface): provided a description.
-
-This is point 8) in that plan. The idea is to extract the unrelated parts
-in cpus, and register interfaces from each single accelerator to the main
-cpus module (cpus.c).
-
-While doing this RFC, I noticed some assumptions about Windows being
-either TCG or HAX (not considering WHPX) that might need to be revisited.
-I added a comment there.
-
-The thing builds successfully based on Linux cross-compilations for
-windows/hax, windows/whpx, and I got a good build on Darwin/hvf.
-
-Tests run successully for tcg and kvm configurations, but did not test on
-windows or darwin.
-
-Welcome your feedback and help on this,
-
-Claudio
-
-Claudio Fontana (17):
-  cpu-timers, icount: new modules
-  icount: rename functions to be consistent with the module name
-  cpus: prepare new CpusAccel cpu accelerator interface
-  cpus: extract out TCG-specific code to accel/tcg
-  cpus: extract out qtest-specific code to accel/qtest
-  cpus: extract out kvm-specific code to accel/kvm
-  cpus: extract out hax-specific code to target/i386/
-  cpus: extract out whpx-specific code to target/i386/
-  cpus: extract out hvf-specific code to target/i386/hvf/
-  cpus: cleanup now unneeded includes
-  cpus: remove checks for non-NULL cpus_accel
-  cpus: add handle_interrupt to the CpusAccel interface
-  hvf: remove hvf specific functions from global includes
-  whpx: remove whpx specific functions from global includes
-  hax: remove hax specific functions from global includes
-  kvm: remove kvm specific functions from global includes
-  accel/tcg: use current_machine as it is always set for softmmu
-
- MAINTAINERS                    |    5 +-
- accel/kvm/kvm-all.c            |   14 +-
- accel/kvm/kvm-cpus.c           |   88 ++
- accel/kvm/kvm-cpus.h           |   24 +
- accel/kvm/meson.build          |    5 +-
- accel/meson.build              |    2 +-
- accel/qtest/meson.build        |    7 +
- accel/qtest/qtest-cpus.c       |   91 ++
- accel/qtest/qtest-cpus.h       |   17 +
- accel/{ => qtest}/qtest.c      |   13 +-
- accel/stubs/hax-stub.c         |   10 -
- accel/stubs/hvf-stub.c         |   30 -
- accel/stubs/kvm-stub.c         |   23 -
- accel/stubs/meson.build        |    2 -
- accel/stubs/whpx-stub.c        |   47 -
- accel/tcg/cpu-exec.c           |   43 +-
- accel/tcg/meson.build          |    2 +-
- accel/tcg/tcg-all.c            |   42 +-
- accel/tcg/tcg-cpus.c           |  579 +++++++++++
- accel/tcg/tcg-cpus.h           |   17 +
- accel/tcg/translate-all.c      |    3 +-
- dma-helpers.c                  |    4 +-
- docs/replay.txt                |    6 +-
- exec.c                         |    4 -
- hw/core/cpu.c                  |   14 +-
- hw/core/ptimer.c               |    8 +-
- hw/i386/x86.c                  |    3 +-
- include/exec/cpu-all.h         |    4 +
- include/exec/exec-all.h        |    4 +-
- include/hw/core/cpu.h          |   14 -
- include/qemu/timer.h           |   24 +-
- include/sysemu/cpu-timers.h    |   90 ++
- include/sysemu/cpus.h          |   50 +-
- include/sysemu/hax.h           |   17 -
- include/sysemu/hvf.h           |    8 -
- include/sysemu/hw_accel.h      |   69 +-
- include/sysemu/kvm.h           |    7 -
- include/sysemu/qtest.h         |    2 +
- include/sysemu/replay.h        |    4 +-
- include/sysemu/whpx.h          |   19 -
- replay/replay.c                |    6 +-
- softmmu/cpu-timers.c           |  279 ++++++
- softmmu/cpus.c                 | 1706 +++-----------------------------
- softmmu/icount.c               |  492 +++++++++
- softmmu/meson.build            |   10 +-
- softmmu/qtest.c                |   34 +-
- softmmu/timers-state.h         |   69 ++
- softmmu/vl.c                   |    8 +-
- stubs/clock-warp.c             |    7 -
- stubs/cpu-get-clock.c          |    3 +-
- stubs/cpu-get-icount.c         |   16 -
- stubs/cpu-synchronize-state.c  |    9 +
- stubs/cpus-get-virtual-clock.c |    8 +
- stubs/icount.c                 |   45 +
- stubs/meson.build              |    6 +-
- stubs/qemu-timer-notify-cb.c   |    2 +-
- stubs/qtest.c                  |    5 +
- target/alpha/translate.c       |    3 +-
- target/arm/helper.c            |    7 +-
- target/i386/hax-all.c          |   17 +-
- target/i386/hax-cpus.c         |   84 ++
- target/i386/hax-cpus.h         |   33 +
- target/i386/hax-i386.h         |    2 +
- target/i386/hax-mem.c          |    2 +-
- target/i386/hax-posix.c        |   13 +-
- target/i386/hax-windows.c      |   22 +-
- target/i386/hax-windows.h      |    2 +
- target/i386/hvf/hvf-cpus.c     |  131 +++
- target/i386/hvf/hvf-cpus.h     |   25 +
- target/i386/hvf/hvf.c          |   12 +-
- target/i386/hvf/meson.build    |    1 +
- target/i386/hvf/x86hvf.c       |    2 +
- target/i386/hvf/x86hvf.h       |    1 -
- target/i386/meson.build        |   14 +-
- target/i386/whpx-all.c         |   13 +-
- target/i386/whpx-cpus.c        |   96 ++
- target/i386/whpx-cpus.h        |   34 +
- target/riscv/csr.c             |    8 +-
- tests/ptimer-test-stubs.c      |    5 +-
- tests/test-timed-average.c     |    2 +-
- util/main-loop.c               |   12 +-
- util/qemu-timer.c              |   14 +-
- 82 files changed, 2639 insertions(+), 2036 deletions(-)
- create mode 100644 accel/kvm/kvm-cpus.c
- create mode 100644 accel/kvm/kvm-cpus.h
- create mode 100644 accel/qtest/meson.build
- create mode 100644 accel/qtest/qtest-cpus.c
- create mode 100644 accel/qtest/qtest-cpus.h
- rename accel/{ => qtest}/qtest.c (81%)
- delete mode 100644 accel/stubs/hvf-stub.c
- delete mode 100644 accel/stubs/whpx-stub.c
- create mode 100644 accel/tcg/tcg-cpus.c
- create mode 100644 accel/tcg/tcg-cpus.h
- create mode 100644 include/sysemu/cpu-timers.h
- create mode 100644 softmmu/cpu-timers.c
- create mode 100644 softmmu/icount.c
- create mode 100644 softmmu/timers-state.h
- delete mode 100644 stubs/clock-warp.c
- delete mode 100644 stubs/cpu-get-icount.c
- create mode 100644 stubs/cpu-synchronize-state.c
- create mode 100644 stubs/cpus-get-virtual-clock.c
- create mode 100644 stubs/icount.c
- create mode 100644 target/i386/hax-cpus.c
- create mode 100644 target/i386/hax-cpus.h
- create mode 100644 target/i386/hvf/hvf-cpus.c
- create mode 100644 target/i386/hvf/hvf-cpus.h
- create mode 100644 target/i386/whpx-cpus.c
- create mode 100644 target/i386/whpx-cpus.h
-
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ accel/tcg/cpu-exec.c        |  6 +++---
+ docs/replay.txt             |  6 +++---
+ include/sysemu/cpu-timers.h | 16 +++++++-------
+ include/sysemu/replay.h     |  4 ++--
+ replay/replay.c             |  2 +-
+ softmmu/cpu-timers.c        |  6 +++---
+ softmmu/cpus.c              |  6 +++---
+ softmmu/icount.c            | 42 ++++++++++++++++++-------------------
+ softmmu/vl.c                |  2 +-
+ stubs/icount.c              | 16 +++++++-------
+ target/arm/helper.c         |  4 ++--
+ target/riscv/csr.c          |  4 ++--
+ util/main-loop.c            |  2 +-
+ util/qemu-timer.c           |  4 ++--
+ 14 files changed, 60 insertions(+), 60 deletions(-)
+
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index ee9d22d92c..b44e92b753 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -71,7 +71,7 @@ static void align_clocks(SyncClocks *sc, CPUState *cpu)
+     }
+ 
+     cpu_icount = cpu->icount_extra + cpu_neg(cpu)->icount_decr.u16.low;
+-    sc->diff_clk += cpu_icount_to_ns(sc->last_cpu_icount - cpu_icount);
++    sc->diff_clk += icount_to_ns(sc->last_cpu_icount - cpu_icount);
+     sc->last_cpu_icount = cpu_icount;
+ 
+     if (sc->diff_clk > VM_CLOCK_ADVANCE) {
+@@ -664,7 +664,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
+     assert(icount_enabled());
+ #ifndef CONFIG_USER_ONLY
+     /* Ensure global icount has gone forward */
+-    cpu_update_icount(cpu);
++    icount_update(cpu);
+     /* Refill decrementer and continue execution.  */
+     insns_left = MIN(0xffff, cpu->icount_budget);
+     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+@@ -774,7 +774,7 @@ void dump_drift_info(void)
+     }
+ 
+     qemu_printf("Host - Guest clock  %"PRIi64" ms\n",
+-                (cpu_get_clock() - cpu_get_icount()) / SCALE_MS);
++                (cpu_get_clock() - icount_get()) / SCALE_MS);
+     if (icount_align_option) {
+         qemu_printf("Max guest delay     %"PRIi64" ms\n",
+                     -max_delay / SCALE_MS);
+diff --git a/docs/replay.txt b/docs/replay.txt
+index 70c27edb36..8952e6d852 100644
+--- a/docs/replay.txt
++++ b/docs/replay.txt
+@@ -184,11 +184,11 @@ is then incremented (which is called "warping" the virtual clock) as
+ soon as the timer fires or the CPUs need to go out of the idle state.
+ Two functions are used for this purpose; because these actions change
+ virtual machine state and must be deterministic, each of them creates a
+-checkpoint.  qemu_start_warp_timer checks if the CPUs are idle and if so
+-starts accounting real time to virtual clock.  qemu_account_warp_timer
++checkpoint.  icount_start_warp_timer checks if the CPUs are idle and if so
++starts accounting real time to virtual clock.  icount_account_warp_timer
+ is called when the CPUs get an interrupt or when the warp timer fires,
+ and it warps the virtual clock by the amount of real time that has passed
+-since qemu_start_warp_timer.
++since icount_start_warp_timer.
+ 
+ Bottom halves
+ -------------
+diff --git a/include/sysemu/cpu-timers.h b/include/sysemu/cpu-timers.h
+index 4b621fea51..7726e005cd 100644
+--- a/include/sysemu/cpu-timers.h
++++ b/include/sysemu/cpu-timers.h
+@@ -35,30 +35,30 @@ extern int use_icount;
+  * Update the icount with the executed instructions. Called by
+  * cpus-tcg vCPU thread so the main-loop can see time has moved forward.
+  */
+-void cpu_update_icount(CPUState *cpu);
++void icount_update(CPUState *cpu);
+ 
+ /* get raw icount value */
+-int64_t cpu_get_icount_raw(void);
++int64_t icount_get_raw(void);
+ 
+ /* return the virtual CPU time in ns, based on the instruction counter. */
+-int64_t cpu_get_icount(void);
++int64_t icount_get(void);
+ /*
+  * convert an instruction counter value to ns, based on the icount shift.
+  * This shift is set as a fixed value with the icount "shift" option
+  * (precise mode), or it is constantly approximated and corrected at
+  * runtime in adaptive mode.
+  */
+-int64_t cpu_icount_to_ns(int64_t icount);
++int64_t icount_to_ns(int64_t icount);
+ 
+ /* configure the icount options, including "shift" */
+-void configure_icount(QemuOpts *opts, Error **errp);
++void icount_configure(QemuOpts *opts, Error **errp);
+ 
+ /* used by tcg vcpu thread to calc icount budget */
+-int64_t qemu_icount_round(int64_t count);
++int64_t icount_round(int64_t count);
+ 
+ /* if the CPUs are idle, start accounting real time to virtual clock. */
+-void qemu_start_warp_timer(void);
+-void qemu_account_warp_timer(void);
++void icount_start_warp_timer(void);
++void icount_account_warp_timer(void);
+ 
+ /*
+  * CPU Ticks and Clock
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index 5471bb514d..a140d69a73 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -109,12 +109,12 @@ int64_t replay_read_clock(ReplayClockKind kind);
+ #define REPLAY_CLOCK(clock, value)                                      \
+     (replay_mode == REPLAY_MODE_PLAY ? replay_read_clock((clock))       \
+         : replay_mode == REPLAY_MODE_RECORD                             \
+-            ? replay_save_clock((clock), (value), cpu_get_icount_raw()) \
++            ? replay_save_clock((clock), (value), icount_get_raw()) \
+         : (value))
+ #define REPLAY_CLOCK_LOCKED(clock, value)                               \
+     (replay_mode == REPLAY_MODE_PLAY ? replay_read_clock((clock))       \
+         : replay_mode == REPLAY_MODE_RECORD                             \
+-            ? replay_save_clock((clock), (value), cpu_get_icount_raw_locked()) \
++            ? replay_save_clock((clock), (value), icount_get_raw_locked()) \
+         : (value))
+ 
+ /* Processing data from random generators */
+diff --git a/replay/replay.c b/replay/replay.c
+index 7e4a1ba78e..4c1457b07e 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -64,7 +64,7 @@ bool replay_next_event_is(int event)
+ 
+ uint64_t replay_get_current_icount(void)
+ {
+-    return cpu_get_icount_raw();
++    return icount_get_raw();
+ }
+ 
+ int replay_get_instructions(void)
+diff --git a/softmmu/cpu-timers.c b/softmmu/cpu-timers.c
+index 6c6c56090f..7efec17fea 100644
+--- a/softmmu/cpu-timers.c
++++ b/softmmu/cpu-timers.c
+@@ -70,7 +70,7 @@ int64_t cpu_get_ticks(void)
+     int64_t ticks;
+ 
+     if (icount_enabled()) {
+-        return cpu_get_icount();
++        return icount_get();
+     }
+ 
+     qemu_spin_lock(&timers_state.vm_clock_lock);
+@@ -160,7 +160,7 @@ static bool adjust_timers_state_needed(void *opaque)
+     return s->icount_rt_timer != NULL;
+ }
+ 
+-static bool shift_state_needed(void *opaque)
++static bool icount_shift_state_needed(void *opaque)
+ {
+     return icount_enabled() == 2;
+ }
+@@ -196,7 +196,7 @@ static const VMStateDescription icount_vmstate_shift = {
+     .name = "timer/icount/shift",
+     .version_id = 1,
+     .minimum_version_id = 1,
+-    .needed = shift_state_needed,
++    .needed = icount_shift_state_needed,
+     .fields = (VMStateField[]) {
+         VMSTATE_INT16(icount_time_shift, TimersState),
+         VMSTATE_END_OF_LIST()
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 1ec713923f..cf604c55bb 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -560,7 +560,7 @@ static int64_t tcg_get_icount_limit(void)
+             deadline = INT32_MAX;
+         }
+ 
+-        return qemu_icount_round(deadline);
++        return icount_round(deadline);
+     } else {
+         return replay_get_instructions();
+     }
+@@ -615,7 +615,7 @@ static void process_icount_data(CPUState *cpu)
+ {
+     if (icount_enabled()) {
+         /* Account for executed instructions */
+-        cpu_update_icount(cpu);
++        icount_update(cpu);
+ 
+         /* Reset the counters */
+         cpu_neg(cpu)->icount_decr.u16.low = 0;
+@@ -716,7 +716,7 @@ static void *qemu_tcg_rr_cpu_thread_fn(void *arg)
+         replay_mutex_lock();
+         qemu_mutex_lock_iothread();
+         /* Account partial waits to QEMU_CLOCK_VIRTUAL.  */
+-        qemu_account_warp_timer();
++        icount_account_warp_timer();
+ 
+         /* Run the timers here.  This is much more efficient than
+          * waking up the I/O thread and waiting for completion.
+diff --git a/softmmu/icount.c b/softmmu/icount.c
+index 4e26bf445d..40854a863e 100644
+--- a/softmmu/icount.c
++++ b/softmmu/icount.c
+@@ -73,7 +73,7 @@ static void icount_enable_adaptive(void)
+  * originally budgeted minus the current state of the decrementing
+  * icount counters in extra/u16.low.
+  */
+-static int64_t cpu_get_icount_executed(CPUState *cpu)
++static int64_t icount_get_executed(CPUState *cpu)
+ {
+     return (cpu->icount_budget -
+             (cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra));
+@@ -84,9 +84,9 @@ static int64_t cpu_get_icount_executed(CPUState *cpu)
+  * account executed instructions. This is done by the TCG vCPU
+  * thread so the main-loop can see time has moved forward.
+  */
+-static void cpu_update_icount_locked(CPUState *cpu)
++static void icount_update_locked(CPUState *cpu)
+ {
+-    int64_t executed = cpu_get_icount_executed(cpu);
++    int64_t executed = icount_get_executed(cpu);
+     cpu->icount_budget -= executed;
+ 
+     atomic_set_i64(&timers_state.qemu_icount,
+@@ -98,16 +98,16 @@ static void cpu_update_icount_locked(CPUState *cpu)
+  * account executed instructions. This is done by the TCG vCPU
+  * thread so the main-loop can see time has moved forward.
+  */
+-void cpu_update_icount(CPUState *cpu)
++void icount_update(CPUState *cpu)
+ {
+     seqlock_write_lock(&timers_state.vm_clock_seqlock,
+                        &timers_state.vm_clock_lock);
+-    cpu_update_icount_locked(cpu);
++    icount_update_locked(cpu);
+     seqlock_write_unlock(&timers_state.vm_clock_seqlock,
+                          &timers_state.vm_clock_lock);
+ }
+ 
+-static int64_t cpu_get_icount_raw_locked(void)
++static int64_t icount_get_raw_locked(void)
+ {
+     CPUState *cpu = current_cpu;
+ 
+@@ -117,47 +117,47 @@ static int64_t cpu_get_icount_raw_locked(void)
+             exit(1);
+         }
+         /* Take into account what has run */
+-        cpu_update_icount_locked(cpu);
++        icount_update_locked(cpu);
+     }
+     /* The read is protected by the seqlock, but needs atomic64 to avoid UB */
+     return atomic_read_i64(&timers_state.qemu_icount);
+ }
+ 
+-static int64_t cpu_get_icount_locked(void)
++static int64_t icount_get_locked(void)
+ {
+-    int64_t icount = cpu_get_icount_raw_locked();
++    int64_t icount = icount_get_raw_locked();
+     return atomic_read_i64(&timers_state.qemu_icount_bias) +
+-        cpu_icount_to_ns(icount);
++        icount_to_ns(icount);
+ }
+ 
+-int64_t cpu_get_icount_raw(void)
++int64_t icount_get_raw(void)
+ {
+     int64_t icount;
+     unsigned start;
+ 
+     do {
+         start = seqlock_read_begin(&timers_state.vm_clock_seqlock);
+-        icount = cpu_get_icount_raw_locked();
++        icount = icount_get_raw_locked();
+     } while (seqlock_read_retry(&timers_state.vm_clock_seqlock, start));
+ 
+     return icount;
+ }
+ 
+ /* Return the virtual CPU time, based on the instruction counter.  */
+-int64_t cpu_get_icount(void)
++int64_t icount_get(void)
+ {
+     int64_t icount;
+     unsigned start;
+ 
+     do {
+         start = seqlock_read_begin(&timers_state.vm_clock_seqlock);
+-        icount = cpu_get_icount_locked();
++        icount = icount_get_locked();
+     } while (seqlock_read_retry(&timers_state.vm_clock_seqlock, start));
+ 
+     return icount;
+ }
+ 
+-int64_t cpu_icount_to_ns(int64_t icount)
++int64_t icount_to_ns(int64_t icount)
+ {
+     return icount << atomic_read(&timers_state.icount_time_shift);
+ }
+@@ -188,7 +188,7 @@ static void icount_adjust(void)
+                        &timers_state.vm_clock_lock);
+     cur_time = REPLAY_CLOCK_LOCKED(REPLAY_CLOCK_VIRTUAL_RT,
+                                    cpu_get_clock_locked());
+-    cur_icount = cpu_get_icount_locked();
++    cur_icount = icount_get_locked();
+ 
+     delta = cur_icount - cur_time;
+     /* FIXME: This is a very crude algorithm, somewhat prone to oscillation.  */
+@@ -229,7 +229,7 @@ static void icount_adjust_vm(void *opaque)
+     icount_adjust();
+ }
+ 
+-int64_t qemu_icount_round(int64_t count)
++int64_t icount_round(int64_t count)
+ {
+     int shift = atomic_read(&timers_state.icount_time_shift);
+     return (count + (1 << shift) - 1) >> shift;
+@@ -266,7 +266,7 @@ static void icount_warp_rt(void)
+              * In adaptive mode, do not let QEMU_CLOCK_VIRTUAL run too
+              * far ahead of real time.
+              */
+-            int64_t cur_icount = cpu_get_icount_locked();
++            int64_t cur_icount = icount_get_locked();
+             int64_t delta = clock - cur_icount;
+             warp_delta = MIN(warp_delta, delta);
+         }
+@@ -291,7 +291,7 @@ static void icount_timer_cb(void *opaque)
+     icount_warp_rt();
+ }
+ 
+-void qemu_start_warp_timer(void)
++void icount_start_warp_timer(void)
+ {
+     int64_t clock;
+     int64_t deadline;
+@@ -394,7 +394,7 @@ void qemu_start_warp_timer(void)
+     }
+ }
+ 
+-void qemu_account_warp_timer(void)
++void icount_account_warp_timer(void)
+ {
+     if (!icount_enabled() || !icount_sleep) {
+         return;
+@@ -417,7 +417,7 @@ void qemu_account_warp_timer(void)
+     icount_warp_rt();
+ }
+ 
+-void configure_icount(QemuOpts *opts, Error **errp)
++void icount_configure(QemuOpts *opts, Error **errp)
+ {
+     const char *option = qemu_opt_get(opts, "shift");
+     bool sleep = qemu_opt_get_bool(opts, "sleep", true);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 23a9c60bc3..5b90e69e54 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2693,7 +2693,7 @@ static void user_register_global_props(void)
+ 
+ static int do_configure_icount(void *opaque, QemuOpts *opts, Error **errp)
+ {
+-    configure_icount(opts, errp);
++    icount_configure(opts, errp);
+     return 0;
+ }
+ 
+diff --git a/stubs/icount.c b/stubs/icount.c
+index 61e28cbaf9..f13c43568b 100644
+--- a/stubs/icount.c
++++ b/stubs/icount.c
+@@ -6,40 +6,40 @@
+ 
+ int use_icount;
+ 
+-void cpu_update_icount(CPUState *cpu)
++void icount_update(CPUState *cpu)
+ {
+     abort();
+ }
+-void configure_icount(QemuOpts *opts, Error **errp)
++void icount_configure(QemuOpts *opts, Error **errp)
+ {
+     /* signal error */
+     error_setg(errp, "cannot configure icount, TCG support not available");
+ }
+-int64_t cpu_get_icount_raw(void)
++int64_t icount_get_raw(void)
+ {
+     abort();
+     return 0;
+ }
+-int64_t cpu_get_icount(void)
++int64_t icount_get(void)
+ {
+     abort();
+     return 0;
+ }
+-int64_t cpu_icount_to_ns(int64_t icount)
++int64_t icount_to_ns(int64_t icount)
+ {
+     abort();
+     return 0;
+ }
+-int64_t qemu_icount_round(int64_t count)
++int64_t icount_round(int64_t count)
+ {
+     abort();
+     return 0;
+ }
+-void qemu_start_warp_timer(void)
++void icount_start_warp_timer(void)
+ {
+     abort();
+ }
+-void qemu_account_warp_timer(void)
++void icount_account_warp_timer(void)
+ {
+     abort();
+ }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index dd5a28f1c7..c7644125c4 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1212,12 +1212,12 @@ static bool instructions_supported(CPUARMState *env)
+ 
+ static uint64_t instructions_get_count(CPUARMState *env)
+ {
+-    return (uint64_t)cpu_get_icount_raw();
++    return (uint64_t)icount_get_raw();
+ }
+ 
+ static int64_t instructions_ns_per(uint64_t icount)
+ {
+-    return cpu_icount_to_ns((int64_t)icount);
++    return icount_to_ns((int64_t)icount);
+ }
+ #endif
+ 
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index e51ed7b9ca..aaef6c6f20 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -300,7 +300,7 @@ static int read_instret(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     if (icount_enabled()) {
+-        *val = cpu_get_icount();
++        *val = icount_get();
+     } else {
+         *val = cpu_get_host_ticks();
+     }
+@@ -315,7 +315,7 @@ static int read_instreth(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     if (icount_enabled()) {
+-        *val = cpu_get_icount() >> 32;
++        *val = icount_get() >> 32;
+     } else {
+         *val = cpu_get_host_ticks() >> 32;
+     }
+diff --git a/util/main-loop.c b/util/main-loop.c
+index 0c5fe0107e..6470f8eae3 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -526,7 +526,7 @@ void main_loop_wait(int nonblocking)
+          * CPU thread can infinitely wait for event after
+          * missing the warp
+          */
+-        qemu_start_warp_timer();
++        icount_start_warp_timer();
+     }
+     qemu_clock_run_all_timers();
+ }
+diff --git a/util/qemu-timer.c b/util/qemu-timer.c
+index aeb6b613b8..9a0e3bacaa 100644
+--- a/util/qemu-timer.c
++++ b/util/qemu-timer.c
+@@ -419,7 +419,7 @@ static void timerlist_rearm(QEMUTimerList *timer_list)
+ {
+     /* Interrupt execution to force deadline recalculation.  */
+     if (icount_enabled() && timer_list->clock->type == QEMU_CLOCK_VIRTUAL) {
+-        qemu_start_warp_timer();
++        icount_start_warp_timer();
+     }
+     timerlist_notify(timer_list);
+ }
+@@ -636,7 +636,7 @@ int64_t qemu_clock_get_ns(QEMUClockType type)
+     default:
+     case QEMU_CLOCK_VIRTUAL:
+         if (icount_enabled()) {
+-            return cpu_get_icount();
++            return icount_get();
+         } else if (qtest_enabled()) { /* for qtest_clock_warp */
+             return qtest_get_virtual_clock();
+         } else {
 -- 
 2.26.2
 
