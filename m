@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2366326C26C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:04:30 +0200 (CEST)
-Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E90C726C2A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:17:32 +0200 (CEST)
+Received: from localhost ([::1]:59470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWAn-00058M-6K
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:04:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56594)
+	id 1kIWNO-0001Aj-EY
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:17:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kIW6L-0000hU-03
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:59:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34530)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kIW6I-0001C0-KM
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:59:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600257587;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hH624yEul52ULnR9EqiYlG9OV+Yh9dZyn6ubeR2SBAc=;
- b=WfKCUzvp5H8oc2mvpOuHOqP/jBmwroZoDK1nUfoGVGUiAqChz85DVEZLRdJUCl1sKrtGTo
- IU6mDJwxX5PNG9ADNeJVfXCkPrkTc1ujgNMb1W3mfrzfLkXU04x2sbOyfg8GnfDoXpQoJO
- bVc+9q81qNuiR395+0rbbRKEtJlmcF4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-0bK3UGZEMC6MpdEgRxvWoA-1; Wed, 16 Sep 2020 07:59:46 -0400
-X-MC-Unique: 0bK3UGZEMC6MpdEgRxvWoA-1
-Received: by mail-wr1-f71.google.com with SMTP id v12so2460041wrm.9
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 04:59:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1kIW6O-0000jM-3P
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:59:57 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1kIW6L-0001DJ-Rv
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:59:55 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id k18so2707369wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 04:59:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=blade-group.com; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QI8CHkdLFKbabYboce+LlxNHsg+oVRiDEvBQJwSrNCM=;
+ b=jCTf6WPLKeGXUWZQU6MzY7erBulIkf+22dw1bTDHiX/oNPveJoUMMWleXbJrMtpZmo
+ j5bxlL+UxnYGYcDrF+2IFGf65qZPT0AFagNd2nfZjtAn0bdB/HLtRfDwLE1eauqGR5PZ
+ HqeepjfvvKc8kBQg8+aEYA9y+scE9Vc++qmw+jlHp+gVNE6U3eXxBuCVbQ30wncbN6se
+ CQmWGJsf7YAth0pgF+kVaqrR9zY+lzY8kl8o0k58EtHcOh8I4Pe//mMzmHLXzooINSVS
+ G8WQ6T5IsIrnMeO4UxItL0g97VZuv9LBrP0HbDcKon3mgMaopz63AZubGnJj43/KEPCT
+ qrYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=hH624yEul52ULnR9EqiYlG9OV+Yh9dZyn6ubeR2SBAc=;
- b=ciX6+FLKAxox+BoiGAB6f/zfqn5yKjcrfX94TJRmOs0nQfpRfq2at5v90V/7MPQiVq
- L3Z0M88M6QMpkwa7Cm/Zq3DHw4nApZvT6vnE0VRcU4ACwidGvmXuzKnOG9IN2aRAsrcM
- BTg/5LoHmWqRbe769IFwbRkEBFXIf0PK92QsqcBodpxii6eReOInIld+mKjX1cv4zmcf
- mhf5I1F8yQ0b5YBYRucK5NgsQagd1IZkJdy/FybinOI3ZUuzNf8RJWIGaAuYTtmlgeeY
- xnjPz9CVx6/1dZiNJOkehkaF+lz7BldimFJupW65LLVizk17be//NNSCljm7fTtMZ8JR
- FXUg==
-X-Gm-Message-State: AOAM530bsjebM8li4yopiLWSc3k5FjdTlZ+Cn9v+7cYMYa0jM1n3jTEA
- /0mESum6sqS1SV7Dqk++WBFzX9ESsJKC6XfKQYKAAnRsX75YMRYgQaKFGrRGD/msMLmtdPFI382
- fbItqW79Oapiia+o=
-X-Received: by 2002:a5d:4c4c:: with SMTP id n12mr13041362wrt.162.1600257585028; 
- Wed, 16 Sep 2020 04:59:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHPoIjRdathkMPoqSzY2w6iy/fDaeOn+3czvQg8WRyYQiy+NMGDrZg08acIK48s/qcHGuXgA==
-X-Received: by 2002:a5d:4c4c:: with SMTP id n12mr13041342wrt.162.1600257584816; 
- Wed, 16 Sep 2020 04:59:44 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id y6sm32981201wrn.41.2020.09.16.04.59.43
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QI8CHkdLFKbabYboce+LlxNHsg+oVRiDEvBQJwSrNCM=;
+ b=HH6HhVZudc84xatHADhM5NtjKW6vQrSt4XGhpBO4ojtDcKcC6hgyfqvMjyXBIeLIm7
+ lLMZCiLl7oEhhe8mVRovUFvagYv+WWZ89iwLLGYJxsjl18KcWPWw9pJx6Dzwsxmh1lEk
+ q9YKOEG6OV6ffsiOI3J9hyVNEnm1neK4lu3sMgmT4igsJBiELN20BGCPvJOHhLJge4HZ
+ PGGHINgGuJwKo9tII8CfFcwqx/H+iymyPC/6VFAEbtexMDW4Pia917AsSAPZgKGkm3s3
+ nr53WdvQ/bjTP95SlM73Nosesc1fU5D4LFcllbTN6TA36BDYXymAda1VAQvSaWCvwGCr
+ mGJA==
+X-Gm-Message-State: AOAM531zY/XccWqoqM3zlRI7X8a4ZQlkli/vGuDZQqBaGlvw29kWbJax
+ xoR0SliAX6gVqk+rCUkGihYbtw==
+X-Google-Smtp-Source: ABdhPJxQ+5R7c3vXSDHCprkdV8DH9LMzbuSc7Jn5tCSiJWR8ym9yp7a5l61RwkCLrX386AMmrDgnOQ==
+X-Received: by 2002:a1c:6341:: with SMTP id x62mr4385766wmb.70.1600257592331; 
+ Wed, 16 Sep 2020 04:59:52 -0700 (PDT)
+Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
+ by smtp.gmail.com with ESMTPSA id q15sm30810594wrr.8.2020.09.16.04.59.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 04:59:44 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Antoine Damhet <antoine.damhet@blade-group.com>
+ Wed, 16 Sep 2020 04:59:51 -0700 (PDT)
+Date: Wed, 16 Sep 2020 13:59:50 +0200
+From: Antoine Damhet <antoine.damhet@blade-group.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Subject: Re: [BUG] Migration hv_time rollback
-In-Reply-To: <20200916112956.GE2833@work-vm>
+Message-ID: <20200916115950.tsarwvk2dwgiceoe@tartarus>
 References: <20200916090602.blkm7eym6g5bnvvk@tartarus>
  <20200916112956.GE2833@work-vm>
-Date: Wed, 16 Sep 2020 13:59:43 +0200
-Message-ID: <87bli6hqz4.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="h6abctsp65t6bzip"
+Content-Disposition: inline
+In-Reply-To: <20200916112956.GE2833@work-vm>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x32e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,72 +86,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
+--h6abctsp65t6bzip
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 16, 2020 at 12:29:56PM +0100, Dr. David Alan Gilbert wrote:
 > cc'ing in Vitaly who knows about the hv stuff.
->
 
-cc'ing Marcelo who knows about clocksources :-)
+Thanks
 
+>=20
 > * Antoine Damhet (antoine.damhet@blade-group.com) wrote:
->> Hi,
->> 
->> We are experiencing timestamp rollbacks during live-migration of
->> Windows 10 guests
-
-Are you migrating to the same hardware (with the same TSC frequency)? Is
-TSC used as the clocksource on the host?
-
->>  with the following qemu configuration (linux 5.4.46
->> and qemu master):
->> ```
->> $ qemu-system-x86_64 -enable-kvm -cpu host,kvm=off,hv_time [...]
->> ```
-
-Out of pure curiosity, what's the purpose of doing 'kvm=off'? Windows is
-not going to check for KVM identification anyway so we pretend we're
-Hyper-V. 
-
-Also, have you tried adding more Hyper-V enlightenments? 
-
->
+> > Hi,
+> >=20
+> > We are experiencing timestamp rollbacks during live-migration of
+> > Windows 10 guests with the following qemu configuration (linux 5.4.46
+> > and qemu master):
+> > ```
+> > $ qemu-system-x86_64 -enable-kvm -cpu host,kvm=3Doff,hv_time [...]
+> > ```
+>=20
 > How big a jump are you seeing, and how did you notice it in the guest?
->
+
+I'm seeing jumps of about the guest uptime (indicating a reset of the
+counter). It's expected because we won't call `KVM_SET_CLOCK` to
+restore any value.
+
+We first noticed it because after some migrations `dwm.exe` crashes with
+the "(NTSTATUS) 0x8898009b - QueryPerformanceCounter returned a time in
+the past." error code.
+
+I can also confirm the following hack makes the behavior disappear:
+
+```
+diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+index 64283358f9..f334bdf35f 100644
+--- a/hw/i386/kvm/clock.c
++++ b/hw/i386/kvm/clock.c
+@@ -332,11 +332,7 @@ void kvmclock_create(void)
+ {
+     X86CPU *cpu =3D X86_CPU(first_cpu);
+
+-    if (kvm_enabled() &&
+-        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
+-                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2))=
+) {
+-        sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+-    }
++    sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+ }
+
+ static void kvmclock_register_types(void)
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 32b1453e6a..11d980ba85 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -158,9 +158,7 @@ static void pc_init1(MachineState *machine,
+
+     x86_cpus_init(x86ms, pcmc->default_cpu_version);
+
+-    if (kvm_enabled() && pcmc->kvmclock_enabled) {
+-        kvmclock_create();
+-    }
++    kvmclock_create();
+
+     if (pcmc->pci_enabled) {
+         pci_memory =3D g_new(MemoryRegion, 1);
+```
+
+>=20
 > Dave
->
->> I have tracked the bug to the fact that `kvmclock` is not exposed and
->> disabled from qemu PoV but is in fact used by `hv-time` (in KVM).
->> 
->> I think we should enable the `kvmclock` (qemu device) if `hv-time` is
->> present and add Hyper-V support for the `kvmclock_current_nsec`
->> function.
+>=20
+> > I have tracked the bug to the fact that `kvmclock` is not exposed and
+> > disabled from qemu PoV but is in fact used by `hv-time` (in KVM).
+> >=20
+> > I think we should enable the `kvmclock` (qemu device) if `hv-time` is
+> > present and add Hyper-V support for the `kvmclock_current_nsec`
+> > function.
+> >=20
+> > I'm asking for advice because I am unsure this is the _right_ approach
+> > and how to keep migration compatibility between qemu versions.
+> >=20
+> > Thank you all,
+> >=20
+> > --=20
+> > Antoine 'xdbob' Damhet
+>=20
+>=20
+> --=20
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>=20
 
-AFAICT kvmclock_current_nsec() checks whether kvmclock was enabled by
-the guest:
+--=20
+Antoine 'xdbob' Damhet
 
-   if (!(env->system_time_msr & 1ULL)) {
-        /* KVM clock not active */
-        return 0;
-    }
+--h6abctsp65t6bzip
+Content-Type: application/pgp-signature; name="signature.asc"
 
-and this is (and way) always false for Windows guests.
+-----BEGIN PGP SIGNATURE-----
 
->> 
->> I'm asking for advice because I am unsure this is the _right_ approach
->> and how to keep migration compatibility between qemu versions.
->> 
->> Thank you all,
->> 
->> -- 
->> Antoine 'xdbob' Damhet
+iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAl9h/jEACgkQ3AmjLzzl
+jz6jiQf/fiNRX4JVTmByAlW305o0Mzih4RdUbZGFRm1ytGOv+ZhJVfynCGlXBZMQ
+P++lYJIzlt1gt6Uj4NNEgsbLP22hUiyRefjhTkNs9G7X6MpptIBcUJwihmSW1pnX
+DzpGcxkmLD2FhG2yu9yZBeFxQo2rIv/6UYDFjpFmGBWxl9yKKnvrNKs17bU5FhTb
+wEJ7Z0iQZRhl89uhuUgR/CQhcdaAWwK81j2X2yCNz/Xse6siVSOBHiNCOW8Bo+M7
+SilsZdFhKE65jAN41UelkUOGlKud/PUt/jQDO2SJ3mxVfD2+JA8ot+qfNsxesRwu
+V1wAgZDq+NpxR5Zf0NvU1F92ze1aVA==
+=zIp1
+-----END PGP SIGNATURE-----
 
--- 
-Vitaly
-
+--h6abctsp65t6bzip--
 
