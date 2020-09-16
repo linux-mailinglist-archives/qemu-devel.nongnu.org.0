@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB0726C54F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:50:30 +0200 (CEST)
-Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5703826C564
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:54:57 +0200 (CEST)
+Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIadY-0005OF-PX
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59388)
+	id 1kIahs-0002Mj-3N
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kIaZT-0001ma-BM
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:46:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34890)
+ id 1kIaaN-0002US-Ht
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:47:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kIaZQ-0004CQ-IW
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:46:14 -0400
+ id 1kIaaL-0004Ha-9R
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:47:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600274770;
+ s=mimecast20190719; t=1600274828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q5sY9uNfINu8hL60bZpBLUdYoN/SHQ1Za1Ze88KLtyY=;
- b=dAEqQZNZRauiC8XD2R7Zj/LXmYjJm9lOzb6BUxTi9gwc3achqfSB3RdpgkSYUbPzSFvJ+X
- RE9EpruoSTg4TIid3NrSXQw+n93e7i/XmJGeNrzbd256yXIvPDFYyK/BaLV8TU38Y/ekRH
- dRRa3yFmvwCslqT0EjpllE4FxXMWYr4=
+ bh=X0LKG1YKxt/3zUKXuTaCRFAy5rqBc0p5rbc3NArpcyE=;
+ b=RbsZSNB1Iszx3XZoT/tex5xwrwdLsonyvd618lX7D1AORGuRMrMYcNCjHdZj0DhZ0sYQm6
+ GZEKV0g8DAz076efIQSWIEj2mNiQQJTz4BawL5U7srR71LjZTxgnABawMme3HlR6EjcN01
+ okQI43/Bjem3zCgIlqP3kclP74rfTCk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-RXsIiUonOnO1iYPUrlSJ0w-1; Wed, 16 Sep 2020 12:46:08 -0400
-X-MC-Unique: RXsIiUonOnO1iYPUrlSJ0w-1
+ us-mta-337-9PqgpOYBPqmYr0JPNj5Omw-1; Wed, 16 Sep 2020 12:47:03 -0400
+X-MC-Unique: 9PqgpOYBPqmYr0JPNj5Omw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECA689CC2C
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:46:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5141C80EF8A
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:47:02 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.195.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E11EC1002D79;
- Wed, 16 Sep 2020 16:45:40 +0000 (UTC)
-Message-ID: <940b43fe8b248ba0cc22f53d1e569551a2ce2482.camel@redhat.com>
-Subject: [RFC DOCUMENT 01/12] kubevirt-and-kvm: Add Index page
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 420171002D42;
+ Wed, 16 Sep 2020 16:46:59 +0000 (UTC)
+Message-ID: <b665189d8343e29f96c6649f3d5309f9ff8af844.camel@redhat.com>
+Subject: [RFC DOCUMENT 02/12] kubevirt-and-kvm: Add Components page
 From: Andrea Bolognani <abologna@redhat.com>
 To: libvir-list@redhat.com, qemu-devel@nongnu.org
-Date: Wed, 16 Sep 2020 18:45:37 +0200
+Date: Wed, 16 Sep 2020 18:46:57 +0200
 In-Reply-To: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
 References: <a6b5e34843b3f08994d4ffefadc5867001e0bc36.camel@redhat.com>
 User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
@@ -54,13 +54,13 @@ MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=abologna@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -85,199 +85,142 @@ Cc: vromanso@redhat.com, rmohr@redhat.com, crobinso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Index.md
+https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Components.md
 
-# KubeVirt and the KVM user space
+# Components
 
-This is the entry point to a series of documents which, together,
-detail the current status of KubeVirt and how it interacts with the
-KVM user space.
+This document describes the various components of the KubeVirt
+architecture, how they fit together, and how they compare to the
+traditional virtualization architecture (QEMU + libvirt).
 
-The intended audience is people who are familiar with the traditional
-virtualization stack (QEMU plus libvirt), and in order to make it
-more approachable to them comparisons, are included and little to no
-knowledge of KubeVirt or Kubernetes is assumed.
+## Traditional architecture
 
-Each section contains a short summary as well as a link to a separate
-document discussing the topic in more detail, with the intention that
-readers will be able to quickly get a high-level understading of the
-various topics by reading this overview document and then dig further
-into the specific areas they're interested in.
+For the comparison to make sense, let's start by reviewing the
+architecture used for traditional virtualization.
 
-## Architecture
+![libvirt architecture][Components-Libvirt]
 
-### Goals
+(Image taken from the "[Look into libvirt][]" presentation by Osier
+Yang, which is a bit old but still mostly accurate from a high-level
+perspective.)
 
-* KubeVirt aims to feel completely native to Kubernetes users
-  * VMs should behave like containers whenever possible
-  * There should be no features that are limited to VMs when it would
-    make sense to implement them for containers too
-* KubeVirt also aims to support all the workloads that traditional
-  virtualization can handle
-  * Windows support, device assignment etc. are all fair game
-* When these two goals clash, integration with Kubernetes usually
-  wins
+In particular, the `libvirtd` process runs with high privileges on
+the host and is responsible for managing all VMs.
 
-### Components
+When asked to start a VM, the management process will
 
-* KubeVirt is made up of various discrete components that interact
-  with Kubernetes and the KVM user space
-  * The overall design is somewhat similar to that of libvirt, except
-    with a much higher granularity and many of the tasks offloaded to
-    Kubernetes
-  * Some of the components run at the cluster level or host level
-    with very high privileges, others run at the pod level with
-    significantly reduced privileges
+* Prepare the environment by performing a number of privileged
+  operations upfront
+* Set up CGroups
+* Set up kernel namespaces
+* Apply SELinux labels
+* Configure network devices
+* Open host files
+* ...
+* Start a non-privileged QEMU process in that environment
 
-Additional information: [Components][]
+## Kubernetes
 
-### Runtime environment
+To understand how KubeVirt works, it's first necessary to have some
+knowledge of Kubernetes.
 
-* QEMU expects its environment to be set up in advance, something
-  that is typically taken care of by libvirt
-* libvirtd, when not running in session mode, assumes that it has
-  root-level access to the system and can perform pretty much any
-  privileged operation
-* In Kubernetes, the runtime environment is usually heavily locked
-  down and many privileged operations are not permitted
-  * Requiring additional permissions for VMs goes against the goal,
-    mentioned earlier, to have VMs behave the same as containers
-    whenever possible
+In Kubernetes, every user workload runs inside [Pods][]. The pod is
+the smallest unit of work that Kubernetes will schedule.
 
-## Specific areas
+Some facts about pods:
 
-### Hotplug
+* They consist of multiple containers
+* The containers share a network namespace
+* The containers have their own PID and mount namespace
+* The containers have their own CGroups for CPU, memory, devices and
+  so forth. They are controlled by k8s and can’t be modified from
+  outside.
+* Pods can be started with extended privileges (`CAP_NICE`,
+  `CAP_NET_RAW`, root user, ...)
+* The app in the pods can drop the privileges, but the pod can not
+  drop them (`kubectl exec` gives you a shell with the full
+  privileges).
 
-* QEMU supports hotplug (and hot-unplug) of most devices, and its use
-  is extremely common
-* Conversely, resources associated with containers such as storage
-  volumes, network interfaces and CPU shares are allocated upfront
-  and do not change throughout the life of the workload
-  * If the container needs more (or less) resources, the Kubernetes
-    approach is to destroy the existing one and schedule a new one to
-    take over its role
+Creating pods with elevated privileges is generally frowned upon, and
+depending on the policy decided by the cluster administrator it might
+be outright impossible.
 
-Additional information: [Hotplug][]
+## KubeVirt architecture
 
-### Storage
+Let's now discuss how KubeVirt is structured.
 
-* Handled through the same Kubernetes APIs used for containers
-  * QEMU / libvirt only see an image file and don't have direct
-    access to the underlying storage implementation
-  * This makes certain scenarios that are common in the
-    virtualization world very challenging: examples include hotplug
-    and full VM snapshots (storage plus memory)
-* It might be possible to remove some of these limitations by
-  changing the way storage is exposed to QEMU, or even take advantage
-  of the storage technologies that QEMU already implements and make
-  them available to containers in addition to VMs.
+![KubeVirt architecture][Components-Kubevirt]
 
-Additional information: [Storage][]
+The main components are:
 
-### Networking
+* `virt-launcher`, a copy of which runs inside each pod besides QEMU
+  and libvirt, is the unprivileged component responsible for
+  receiving commands from other KubeVirt components and reporting
+  back events such as VM crashes;
+* `virt-handler` runs at the node level via a DaemonSet, and is the
+  privileged component which takes care of the VM setup by reaching
+  into the corresponding pod and modifying its namespaces;
+* `virt-controller` runs at the cluster level and monitors the API
+  server so that it can react to user requests and VM events;
+* `virt-api`, also running at the cluster level, exposes a few
+  additional APIs that only apply to VMs, such as the "console" and
+  "vnc" actions.
 
-* Application processes running in VMs are hidden behind a network
-  interface as opposed to local sockets and processes running in
-  a separated user namespace
-  * Service meshes proxy and monitor applications by means of
-    socket redirection and classification on local ports and
-    process identifiers. We need to aim for generic compatibility
-  * Existing solutions replicate a full TCP/IP stack to pretend
-    applications running in a QEMU instance are local. No chances
-    for zero-copy and context switching avoidance
-* Network connectivity is shared between control plane and workload
-  itself. Addressing and port mapping need particular attention
-* Linux capabilities granted to the pod might be minimal, or none
-  at all. Live migration presents further challenges in terms of
-  network addressing and port mapping
+When a KubeVirt VM is started:
 
-Additional information: [Networking][]
+* We request a Pod with certain privileges and resources from
+  Kubernetes.
+* The kubelet (the node daemon of kubernetes) prepares the
+  environment with the help of a container runtime.
+* A shim process (virt-launcher) is our main entrypoint in the pod,
+  which starts libvirt
+* Once our node-daemon (virt-handler) can reach our shim process, it
+  does privileged setup from outside. It reaches into the namespaces
+  and modifies their content as needed. We mostly have to modify the
+  mount and network namespaces.
+* Once the environment is prepared, virt-handler asks virt-launcher
+  to start a VM via its libvirt component.
 
-### Live migration
+More information can be found in the [KubeVirt architecture][] page.
 
-* QEMU supports live migration between hosts, usually coordinated by
-  libvirt
-* Kubernetes expects containers to be disposable, so the equivalent
-  of live migration would be to simply destroy the ones running on
-  the source node and schedule replacements on the destination node
-* For KubeVirt, a hybrid approach is used: a new container is created
-  on the target node, then the VM is migrated from the old container,
-  running on the source node, to the newly-created one
+## Comparison
 
-Additional information: [Live migration][]
+The two architectures are quite similar from the high-level point of
+view: in both cases there are a number of privileged components which
+take care of preparing an environment suitable for running an
+unprivileged QEMU process in.
 
-### CPU pinning
+The difference, however, is that while libvirtd takes care of all
+this setup itself, in the case of KubeVirt several smaller components
+are involved: some of these components are privileged just as libvirtd
+is, but others are not, and some of the tasks are not even performed
+by KubeVirt itself but rather delegated to the existing Kubernetes
+infrastructure.
 
-* CPU pinning is not handled by QEMU directly, but is instead
-  delegated to libvirt
-* KubeVirt figures out which CPUs are assigned to the container after
-  it has been started by Kubernetes, and passes that information to
-  libvirt so that it can perform CPU pinning
+## Use of libvirtd in KubeVirt
 
-Additional information: [CPU pinning][]
+In the traditional virtualization scenario, `libvirtd` provides a
+number of useful features on top of those available with plain QEMU,
+including
 
-### NUMA pinning
+* support for multiple clients connecting at the same time
+* management of multiple VMs through a single entry point
+* remote API access
 
-* NUMA pinning is not handled by QEMU directly, but is instead
-  delegated to libvirt
-* KubeVirt doesn't implement NUMA pinning at the moment
+KubeVirt interacts with libvirt under certain conditions that make
+the features described above irrelevant:
 
-Additional information: [NUMA pinning][]
+* there's only one client talking to libvirt: `virt-handler`
+* libvirt is only asked to manage a single VM
+* client and libvirt are running in the same pod, no remote libvirt
+  access
 
-### Isolation
-
-* For security reasons, it's a good idea to run each QEMU process in
-  an environment that is isolated from the host as well as other VMs
-  * This includes using a separate unprivileged user account, setting
-    up namespaces and cgroups, using SELinux...
-  * QEMU doesn't take care of this itself and delegates it to libvirt
-* Most of these techniques serve as the base for containers, so
-  KubeVirt can rely on Kubernetes providing a similar level of
-  isolation without further intervention
-
-Additional information: [Isolation][]
-
-## Other tidbits
-
-### Upgrades
-
-* When libvirt is upgraded, running VMs keep using the old QEMU
-  binary: the new QEMU binary is used for newly-started VMs as well
-  as after VMs have been power cycled or migrated
-* KubeVirt behaves similarly, with the old version of libvirt and
-  QEMU remaining in use for running VMs
-
-Additional information [Upgrades][]
-
-### Backpropagation
-
-* Applications using libvirt usually don't provide all information,
-  eg. a full PCI topology, and let libvirt fill in the blanks
-  * This might require a second step where the additional information
-    is collected and stored along with the original one
-* Backpropagation doesn't fit well in Kubernetes' declarative model,
-  so KubeVirt doesn't currently perform it
-
-Additional information: [Backpropagation][]
-
-## Contacts and credits
-
-This information was collected and organized by many people at Red
-Hat, some of which have agreed to serve as point of contacts for
-follow-up discussion.
-
-Additional information: [Contacts][]
-
-[Backpropagation]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Backpropagation.md
-[CPU pinning]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/CPU-Pinning.md
-[Components]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Components.md
-[Contacts]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Contacts.md
-[Hotplug]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Hotplug.md
-[Isolation]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Isolation.md
-[Live migration]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Live-Migration.md
-[NUMA pinning]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/NUMA-Pinning.md
-[Networking]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Networking.md
-[Storage]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Storage.md
-[Upgrades]: https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Upgrades.md
+[Components-Kubevirt]: 
+https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Components-Kubevirt.png
+[Components-Libvirt]: 
+https://gitlab.com/abologna/kubevirt-and-kvm/-/blob/master/Images/Components-Libvirt.png
+[KubeVirt architecture]: https://github.com/kubevirt/kubevirt/blob/master/docs/architecture.md
+[Look into libvirt]: https://www.slideshare.net/ben_duyujie/look-into-libvirt-osier-yang
+[Pods]: https://kubernetes.io/docs/concepts/workloads/pods/
 
 
