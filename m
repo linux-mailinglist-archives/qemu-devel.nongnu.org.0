@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8E526C511
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:23:16 +0200 (CEST)
-Received: from localhost ([::1]:37140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9562326C519
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 18:25:16 +0200 (CEST)
+Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIaDD-0000VA-OJ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52276)
+	id 1kIaF9-0002dg-M7
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 12:25:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kIaAz-0007ij-12
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:20:57 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:40747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kIaAv-0008PD-0q
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:20:56 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id gf14so1784338pjb.5
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 09:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cQy0aSJh2RAUVlyGB/Ezp5D9ncokCdOBVPu2B/g4kyk=;
- b=VYTcvoxzvy+6NMEk+cmZFSmynKepW2BxwXYwOixMKXtYCMDT8ee5njkIXXoSKFU+nN
- cuWy6hQMGVUhbrqyx5A7HYdD9jC0U6fGDQqPkAHVE25QM7fyceIRnSXzvrw1VCGhi2kR
- Xol23ygj1wcUd3RkRkqUy4ZPpb0WP2gYAvCC9iErxHK3wtUUR1aDBZKqf4iqb/mGVuIK
- bHWv0nDaPal8kV0f9Aiq2UbuYuO6/2jV+v4fd5eV8CAKxWA/oJCzo6goqHiWlVLNUx3c
- mRoyjd3tjq+pDy15cqwfyB6eAJW2hpth+jona02nMcvtFO14s0waRXlsXJ5UG0HfDv1H
- i/oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cQy0aSJh2RAUVlyGB/Ezp5D9ncokCdOBVPu2B/g4kyk=;
- b=UZfqCAKdbq3OlSUxo1wgQBxVAGoTKD3TRY4ZFg/yJZlY0zWMj8tgSSDS75TCwKoG1e
- +WVr8krl8+JHVt2I3GFkcc9Vh/2jT+d97d3FAjxR1e18A3Raqm9ichJr2XGYD49nZnE1
- i7zrqvEwhXaXpaTT6mNh70bedSDURGekCXbgeKZtXAvPE0Ay/xnCkplIKELOzPNU3tba
- 4bpnsnIcFYxDhNG5SUh1cFRQoLid70U+UQwlCyBDpbVOvi/4i4T46gPhkYGarDXtr1pv
- BJ3Li/98CEd0YTnZ9Sbw1+LwJ8gctpdTufw2EIFDDiaQW+dM10TLKNOm7260D1rYbxEm
- MvQg==
-X-Gm-Message-State: AOAM532H0l+kxjCBeewaBlfN6TfZZcifp5hW5Wj8y6+gbgjFR8b/9o40
- Ss09eq+mn4jD2bZFCyGGPAcKDA==
-X-Google-Smtp-Source: ABdhPJz1gu8Lr3jiFoih3OM6+XuvhJfAZnggANQjE5fPi/mhby/PRHOkNmhjZAwU6rPMWsiC3mGoeg==
-X-Received: by 2002:a17:90a:ba91:: with SMTP id
- t17mr4837597pjr.83.1600273250992; 
- Wed, 16 Sep 2020 09:20:50 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id r144sm19077672pfc.63.2020.09.16.09.20.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Sep 2020 09:20:50 -0700 (PDT)
-Subject: Re: [PATCH] configure: move cocoa option to Meson
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200916081131.21775-1-pbonzini@redhat.com>
- <4a101a38-cf97-f155-9b89-cfd70a35fe8b@linaro.org>
-Message-ID: <af429549-314b-ac71-5c14-380da9b78962@linaro.org>
-Date: Wed, 16 Sep 2020 09:20:48 -0700
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIaCl-0000xH-3e
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:22:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIaCj-0000CG-1W
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 12:22:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600273361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oGtlFQVIq3jnMfePomStNiA0xNws0k776rzhyJtsaK4=;
+ b=c2NEaStiGK2uuo01tTWDM+L1W3FJ0+eFylRJZdDdUTI0ngkUAeytHuF7NagarnyTalABL9
+ NpY7HOnjNWn24Wz9lvS2o2fkzV/zRBLmbIOestyiw3L0VK9uEA1pNSQDeOpxJfkKgwFy6d
+ 2UajmbenSINABwoQ+vZECdVFmpPJAVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-s6_qUZdqNO-zf9F70APcxg-1; Wed, 16 Sep 2020 12:22:40 -0400
+X-MC-Unique: s6_qUZdqNO-zf9F70APcxg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC852801AAB
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 16:22:38 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27B7519728;
+ Wed, 16 Sep 2020 16:22:37 +0000 (UTC)
+Subject: Re: Python docstrings and licensing/authorship
+To: Christophe de Dinechin <cdupontd@redhat.com>
+References: <361aad7f-c2a3-524e-bd5a-2fc1fa6fe38a@redhat.com>
+ <5C5765B1-3E0F-4577-B7B3-8BFFCB2D936F@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <d6b98fa9-ee29-a9d3-c3e7-30ae84b8e4cd@redhat.com>
+Date: Wed, 16 Sep 2020 12:22:37 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <4a101a38-cf97-f155-9b89-cfd70a35fe8b@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <5C5765B1-3E0F-4577-B7B3-8BFFCB2D936F@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.062,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,15 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe de Dinechin <dinechin@redhat.com>, r.bolshakov@yadro.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/20 8:30 AM, Richard Henderson wrote:
-> Isn't the error redundant with the required above?
+On 9/16/20 12:05 PM, Christophe de Dinechin wrote:
+> 
+> 
+>> On 16 Sep 2020, at 17:47, John Snow <jsnow@redhat.com> wrote:
+>>
+>> For some of the Python cleanup work I am doing, I am moving preamble comments into docstrings. These docstrings are visible in interactive editors and may be visible when using Sphinx to generate documentation manuals for Python code.
+>>
+>> My instinct is to remove the licensing and authorship information from the preamble and leave the docstring only with information functionally relevant to the module, while leaving licensing and authorship information in a comment (above? below?).
+>>
+>> The end effect would be that using e.g. `help(qapi.parser)` in the interactive Python shell would not show licensing or copyright for the module, but it would still be visible in the source file, as always.
+>>
+>> Is this in bad taste? Do we have strong feelings about authorship and licensing being visible in help output and generated documentation?
+> 
+> What about putting that in a separate pseudo-entity, so that help(copyright) would show it?
+> 
 
-Nevermind.  Obviously the required: is buried under the targetos check.  ENOCOFFEE.
+help is a Python builtin that shows metadata about an object. If an 
+object has a docstring, it is capable of displaying that as part of the 
+help output. I'm not sure what type you are suggesting `copyright` to be.
 
+So, you could do something like:
 
-r~
+__copyright__ == """
+Copyright (C) 2020 John Snow, for Red Hat Inc.
+"""
+
+And you could then theoretically do:
+
+ >>> import qapi
+ >>> qapi.__copyright__
+
+which will show you that information. However, I don't think there's any 
+standard for module-level metadata like this, so the odds of this 
+information being seen or used is low.
+
+Python has some standards for package-level metadata, but I don't think 
+there are any standards for module-level metadata *except* the __doc__ 
+attribute -- which is where the module-level docstring goes when we 
+write one.
+
+The real question I have is if anyone thinks it would be "rude" to 
+separate out any of the comment preambles (currently not visible at 
+runtime or docs in any way, shape or form!) into two pieces:
+
+1. Functional stuff relating to the usage of the module, visible in 
+help(module_name), visible in generated docs, visible in IDE popups, etc.
+
+2. Authorship/copyright and licensing info, not visible in the above places.
+
+>>
+>> --js
+>>
+>>
+> 
+
 
