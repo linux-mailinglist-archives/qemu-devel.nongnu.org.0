@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862F826BCAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 08:21:16 +0200 (CEST)
-Received: from localhost ([::1]:57598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6489726BCE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 08:24:50 +0200 (CEST)
+Received: from localhost ([::1]:42160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIQod-0000jK-EV
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 02:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
+	id 1kIQs5-0006En-EW
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 02:24:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIQhx-00022Q-Iz
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:14:21 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43709)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIQi3-0002H1-28
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:14:27 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIQhv-0005mU-Q1
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:14:21 -0400
-Received: by mail-pf1-x444.google.com with SMTP id f18so3336017pfa.10
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 23:14:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIQi1-0005nW-6G
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:14:26 -0400
+Received: by mail-pg1-x541.google.com with SMTP id 7so3277340pgm.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 23:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=fmZ0zShxvpsHgpLnoq8aruXTkYTNo4xgCabQ1KXMZUo=;
- b=o3qwXZHlstNr1lKXanIrCPjDnUDYaRnRTolEGqaDHNDtDLQBdXb1pa1dKHGV3HntjW
- /sOcDC3JM4cEaqKyUqMGf2vpovwyUKg5CMT8EtRUN9b0mgRVLjhB1Pe55qwG6GoPK8H7
- XBoyQbGC04k+rnOlH8QjCJM09pewt1lGRictVL9mCvlu0tCsRxLB8pG8gUhmcEBO9PNR
- DEjn3qWSsvP9d+WSIHbI/TWyKUTUmzYBJjCfTZJpaOa1KzAkkFO9NejloIBe+EqUKj/r
- bN4kK56nXDPTVdx9ClKzzC8V5mQFonfZ4sTcyE99T8NYyiOkKx4SJmCaCpoYRQE+QS+H
- 1pXQ==
+ bh=1HJAcNNwPJS7p1FkxDsM+O9s3xr3SqwAfIoNSM2l/6c=;
+ b=cy9Yx850Esuk6FqkO2YoK97gz3jAnNK5OwBTSZJt9CU3Q98taTCvBFBiaYeGSVv2C7
+ JboXojTqvbohMxIThjQT+85mEb0klfV23rdPWgv/rAOd1GaGMg72gXcwnoVufMyq9K6L
+ qmDrrmOQk9DKSBSOAAAKZ/Q8ahwtT4WplAHhl9PWVbH6vhz0wU04x1XY0T29TMonU3St
+ sp/FnBO/ytLibiA3dHLK9cUJOkgrXVNT/Az1lS0dyR9h9HKlJysLNcdKVqonHnpxxcD3
+ fjKr1V2cu+KLAMgFtLKr9T7RGyyGXCQkWi/rBfvLxpeVVyqNY+WY1rP3g9kPJ4qZAmpG
+ OtBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=fmZ0zShxvpsHgpLnoq8aruXTkYTNo4xgCabQ1KXMZUo=;
- b=INB85eDtAj65ihyfFBDH0n+5a7s2uzD1JERSxwsunRY+/nNkOWUUAOniFRLJ6Y0mBP
- J087rEh+/fjI3L3yi+IFfIWSDpFPG/yBofDGrDNCgG3HqyOGr7snOa0pxpe1/IK6NVf7
- 7tkSAIYXhGCZSgc4O/yO7mRkJwqIsipYDULeNOymQiBfTAhju3KfSWHabnavDqeCOHjH
- oWagGqGnLnWhGdPIGCe/w1b8WcNwUmOz24Py9MbZCdUYNuWgKxN6rw1dS8WqOmBkr2g5
- CD4AoCQ0diZY12f8n2Cqq1+0gVPVcZjGz0UktSczbi5RJZol8eJVi2e8UUtppvjXBWsm
- KJrA==
-X-Gm-Message-State: AOAM532a/ALJT9Gwwr2PCRj4tIbsF+9fZjOrFZCHe5Ju2mzjv4nAqnHQ
- bA0tsZMiI3iKpqsrCYXMJHRLdgHmfuYEFcl1
-X-Google-Smtp-Source: ABdhPJyFq0CWY8fBpUHXvxc5uTl0gVpG6Vz4UtCQKPyFIMolv7N1XFNor56Me1jD5C9UedCF8JRlCw==
-X-Received: by 2002:a63:4a19:: with SMTP id x25mr16774931pga.56.1600236858247; 
- Tue, 15 Sep 2020 23:14:18 -0700 (PDT)
+ bh=1HJAcNNwPJS7p1FkxDsM+O9s3xr3SqwAfIoNSM2l/6c=;
+ b=hs9HI3Icbh1RxioDtzlVL+baXcoLOp9wwAtHHrR6dfgMmhOJM3heurqfMLX/Lt/1q6
+ ynlW1aS5Q7C4+eCeQTQnnX3LExZGhUt0j3CkSmkgVgPFhRYEobC+6NF4LcLy21d/+Bf1
+ fonFCRhep8Z+TUuYbef06qKTbLyO36cKDdhKJOJZkzcUTblJfjUIE9C1wlZ6Zk/B4uKt
+ RFtZywxIdRTJIRCW4A/YMd/A2ihORvH/jZ5bM0W3ptoib8TKOHT1EbGwV5sChRbj8NHI
+ rkzL//eItTf9PHfv8AZtU3uWkQ6bMF/BorkUWfMrIaZ1CjGN4/gaOS/54zYuGVQwCyc1
+ 8BbA==
+X-Gm-Message-State: AOAM532LmjU5hSgbqBaFnN821Q/C68GX3unE7tQLfqryY/ej7YVanNwH
+ sTMHdWH8r34RAc/nlBGirPR0dCAKd+VY1GCp
+X-Google-Smtp-Source: ABdhPJy4bRObR/pJQ1T2VP6hP5fPrSjiX7CQKNZOYUozR5EIDrL+Pf5iNwL0228upQYYLrkPNDkcuw==
+X-Received: by 2002:a65:4984:: with SMTP id r4mr16836797pgs.261.1600236863509; 
+ Tue, 15 Sep 2020 23:14:23 -0700 (PDT)
 Received: from localhost.localdomain ([203.163.234.244])
- by smtp.googlemail.com with ESMTPSA id c20sm583164pfc.209.2020.09.15.23.14.13
+ by smtp.googlemail.com with ESMTPSA id c20sm583164pfc.209.2020.09.15.23.14.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 23:14:17 -0700 (PDT)
+ Tue, 15 Sep 2020 23:14:22 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/11] tests/acpi: list added acpi table binary file for
- pci bridge hotplug test
-Date: Wed, 16 Sep 2020 11:43:30 +0530
-Message-Id: <20200916061335.14045-7-ani@anisinha.ca>
+Subject: [PATCH v4 07/11] tests/acpi: unit test for
+ 'acpi-pci-hotplug-with-bridge-support' bridge flag
+Date: Wed, 16 Sep 2020 11:43:31 +0530
+Message-Id: <20200916061335.14045-8-ani@anisinha.ca>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200916061335.14045-1-ani@anisinha.ca>
 References: <20200916061335.14045-1-ani@anisinha.ca>
-Received-SPF: none client-ip=2607:f8b0:4864:20::444;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x444.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::541;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -80,9 +80,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ jusual@redhat.com, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
@@ -90,22 +90,49 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The file 'tests/data/acpi/pc/DSDT.hpbridge' is a newly added acpi table file for
-testing the pci bridge option 'acpi-pci-hotplug-with-bridge-support' under i440fx.
-This change documents this fact.
+This change adds a new unit test for the global flag
+'acpi-pci-hotplug-with-bridge-support' which is available for cold plugged pci
+bridges in i440fx. The flag can be used to turn off acpi based hotplug support
+for all pci bridges.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/bios-tables-test.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..96a9237355 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT.hpbridge",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index d8c7d57557..7632cfe1be 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -754,6 +754,20 @@ static void test_acpi_piix4_root_hotplug(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_piix4_bridge_hotplug(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_PC;
++    data.variant = ".hpbridge";
++    data.required_struct_types = base_required_struct_types;
++    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
++    test_acpi_one("-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off "
++                  "-device pci-bridge,chassis_nr=1", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg(void)
+ {
+     test_data data;
+@@ -1159,6 +1173,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+         qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
+         qtest_add_func("acpi/piix4/hotplug", test_acpi_piix4_root_hotplug);
++        qtest_add_func("acpi/piix4/brhotplug", test_acpi_piix4_bridge_hotplug);
+         qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+         qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+         qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 -- 
 2.17.1
 
