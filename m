@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535EB26C0DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:41:16 +0200 (CEST)
-Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE6E26C132
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:54:47 +0200 (CEST)
+Received: from localhost ([::1]:53126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kITwB-0004MG-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50296)
+	id 1kIU9G-0000Un-VX
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kITv6-0003oK-9T
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:40:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kITv3-0007Ew-La
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:40:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600249203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5YHReJg9ruLQPhx8Wm1nqEp9LLfabGow8aKg/1oCrcE=;
- b=ISxyJgoWhhl8IhKuNRs9X4gDCxf327DiHFyDvmN2bRlsf8EL5dZBWWqpa8RThsxKsa5HSR
- jxywiGrc8VxcMkejMHhyQbKOkSaX/zL6jrA6pnEYmpHa0byvCbR75IjGLmcWIlVA0kVdxT
- hWi6tqmmYWu79Zsr+On2Rh0iRK8I3Hw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-PdneZ8RkOUm1jRq31pT6Bg-1; Wed, 16 Sep 2020 05:40:00 -0400
-X-MC-Unique: PdneZ8RkOUm1jRq31pT6Bg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37F22CD05F;
- Wed, 16 Sep 2020 09:39:56 +0000 (UTC)
-Received: from localhost (ovpn-115-47.ams2.redhat.com [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7134968D63;
- Wed, 16 Sep 2020 09:39:55 +0000 (UTC)
-Date: Wed, 16 Sep 2020 10:39:54 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 3/3] nvdimm: honor -object memory-backend-file,
- readonly=on option
-Message-ID: <20200916093954.GB749356@stefanha-x1.localdomain>
-References: <20200804101244.1283503-1-stefanha@redhat.com>
- <20200804101244.1283503-4-stefanha@redhat.com>
- <db6f0cae-88ee-fba0-2d2c-82255f52e7f6@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIU5I-0003h2-I7
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIU5F-0000Oy-3j
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:50:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kIU5D-0004yN-Be
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 09:50:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 56EF82E8053
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 09:50:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <db6f0cae-88ee-fba0-2d2c-82255f52e7f6@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cmJC7u66zC7hs+87"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 16 Sep 2020 09:42:50 -0000
+From: Laurent Vivier <1895053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier pauldzim petunia2000
+X-Launchpad-Bug-Reporter: Petunia (petunia2000)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
+ <160012098302.13806.18015836722669860873.malone@gac.canonical.com>
+Message-Id: <010e4620-496c-3e35-8290-f2b338331045@vivier.eu>
+Subject: Re: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to
+ start Journal Service.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: b458b0c9838e21d380eae244b47778e0c45b4bb7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 05:50:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,90 +74,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---cmJC7u66zC7hs+87
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Le 15/09/2020 =C3=A0 00:03, Petunia a =C3=A9crit=C2=A0:
+> for file in /proc/sys/fs/binfmt_misc/* ; do echo "$file"; LANG=3DC cat $f=
+ile; done
+...
+> /proc/sys/fs/binfmt_misc/arm
+> enabled
+> interpreter /usr/bin/qemu-arm-static
+> flags: OCF
+> offset 0
+> magic 7f454c4601010100000000000000000002002800
+> mask ffffffffffffff00fffffffffffffffffeffffff
 
-On Fri, Aug 21, 2020 at 03:03:50PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 8/4/20 12:12 PM, Stefan Hajnoczi wrote:
-> > Make it possible to present read-only files to the guest as "unarmed"
-> > NVDIMMs. The Linux NVDIMM device (/dev/pmemX) is read-only.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  docs/nvdimm.txt | 8 +++++++-
-> >  hw/mem/nvdimm.c | 4 ++++
-> >  2 files changed, 11 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-> > index c2c6e441b3..c0b52de111 100644
-> > --- a/docs/nvdimm.txt
-> > +++ b/docs/nvdimm.txt
-> > @@ -17,7 +17,7 @@ following command line options:
-> > =20
-> >   -machine pc,nvdimm
-> >   -m $RAM_SIZE,slots=3D$N,maxmem=3D$MAX_SIZE
-> > - -object memory-backend-file,id=3Dmem1,share=3Don,mem-path=3D$PATH,siz=
-e=3D$NVDIMM_SIZE
-> > + -object memory-backend-file,id=3Dmem1,share=3Don,mem-path=3D$PATH,siz=
-e=3D$NVDIMM_SIZE,readonly=3Doff
-> >   -device nvdimm,id=3Dnvdimm1,memdev=3Dmem1
-> > =20
-> >  Where,
-> > @@ -42,6 +42,12 @@ Where,
-> >     "share=3Doff", then guest writes won't be applied to the backend
-> >     file and thus will be invisible to other guests.
-> > =20
-> > +   "readonly=3Don/off" controls whether the the file $PATH is opened r=
-ead-only or
->=20
-> Double "the the".
+'F'[1] flags means the interpreter is loaded from your host:
+your "--bind" arg is not needed and the file I asked you to copy inside
+the container is not used.
 
-Will fix.
+So to enable the traces, the easier way to do is to rename the file
+directly on the host and to reload the configuration (but warning, if
+you have other containers running they will be also run with trace):
 
-> > diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-> > index e1574bc07c..694223450e 100644
-> > --- a/hw/mem/nvdimm.c
-> > +++ b/hw/mem/nvdimm.c
-> > @@ -151,6 +151,10 @@ static void nvdimm_prepare_memory_region(NVDIMMDev=
-ice *nvdimm, Error **errp)
-> >                               "nvdimm-memory", mr, 0, pmem_size);
-> >      memory_region_set_nonvolatile(nvdimm->nvdimm_mr, true);
-> >      nvdimm->nvdimm_mr->align =3D align;
-> > +
-> > +    if (memory_region_is_rom(mr)) {
-> > +        nvdimm->unarmed =3D true; /* this device is read-only */
-> > +    }
->=20
-> Can you move this hunk before the alias creation?
-> (Just before nvdimm->nvdimm_mr =3D ...).
+sudo mv /usr/bin/qemu-arm-static /usr/vib/qemu-arm-org
+sudo cp qemu-wrapper /usr/bin/qemu-arm-static
+sudo systemctl restart systemd-binfmt.service
+systemd-nspawn  --boot --directory=3D/mnt
 
-Will fix.
+[1] linux/Documentation/admin-guide/binfmt-misc.rst
 
---cmJC7u66zC7hs+87
-Content-Type: application/pgp-signature; name="signature.asc"
+``F`` - fix binary
+      The usual behaviour of binfmt_misc is to spawn the
+      binary lazily when the misc format file is invoked.  However,
+      this doesn``t work very well in the face of mount namespaces and
+      changeroots, so the ``F`` mode opens the binary as soon as the
+      emulation is installed and uses the opened image to spawn the
+      emulator, meaning it is always available once installed,
+      regardless of how the environment changes.
 
------BEGIN PGP SIGNATURE-----
+-- =
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9h3WoACgkQnKSrs4Gr
-c8gb7ggAqkYALCALUBNdThQO8k8pF+5vrmVRhoZNFDuzwKgF8eyxUFZYpbLUuwG7
-l6JNf4bq/Vl5ezcrOmqDfcwCL0AR5Zy+/0I9DhtQ6WkPbdfMFJQW/qPxNmi0EXYj
-J2QdwxeUz0WEJNBJTqotBE+K46S2RTnR4f6CmMbZhzExJ6uWvKK9y7AwmT4agw55
-Ya/hovmOUf8VmU4d/NgrBGUXXo2ReinH65lmRt6Y/J4Qm4t37Eo+Q5BHOZQEqnF8
-mtM5aiaOm5qsOJW8IMJaYCEpbTvGK6uACMwZ2+i1bSIUAupWS1XBPl/NHejGgu89
-2UgIR0yS5vVgeBw8okKG24gvfODULA==
-=FZnS
------END PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895053
 
---cmJC7u66zC7hs+87--
+Title:
+  Cannot nspawn raspbian 10 [FAILED] Failed to start Journal Service.
 
+Status in QEMU:
+  New
+
+Bug description:
+  Hi, I'm using nspawn and asked the question @systemd-devel. They redirect=
+ed me to you, guessing that nspawn calls a syscall or ioctl qemu isnt aware=
+ of and can't implement properly?
+  They were like: "Sorry, that's not my department." ^^
+
+  Maybe you can reproduce the issue or help me investigating whats wrong
+  or put the ball right back into their court? :D
+
+  Testscript:
+  wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -o r.zip
+  unzip r.zip
+  LOOP=3D$(losetup --show -Pf *raspios-buster-armhf-lite.img)
+  mount ${LOOP}p2 /mnt
+  mount ${LOOP}p1 /mnt/boot
+  systemd-nspawn --bind /usr/bin/qemu-arm-static --boot --directory=3D/mnt =
+-- systemd.log_level=3Ddebug
+
+  Output:
+  see attachment
+
+  System:
+  uname -a
+  Linux MArch 5.8.7-arch1-1 #1 SMP PREEMPT Sat, 05 Sep 2020 12:31:32 +0000
+  x86_64 GNU/Linux
+
+  qemu-arm-static --version
+  qemu-arm version 5.1.0
+
+  systemd-nspawn --version
+  systemd 246 (246.4-1-arch)
+  +PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP +LIBCRYPTSETUP
+  +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2=
+ -IDN
+  +PCRE2 default-hierarchy=3Dhybrid
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895053/+subscriptions
 
