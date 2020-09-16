@@ -2,71 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8724826C4A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 17:55:59 +0200 (CEST)
-Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0661626C4B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 17:58:04 +0200 (CEST)
+Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIZmo-0000QW-K9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 11:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43042)
+	id 1kIZoo-0002lk-3c
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 11:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kIZkI-0007Dw-0s
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 11:53:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21293
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1kIZkd-0007Z9-Ff
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 11:53:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kIZkC-00033a-Tj
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 11:53:21 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1kIZka-000379-Qd
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 11:53:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600271595;
+ s=mimecast20190719; t=1600271619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MIlTES1g24RSOmPR8981LEkwf+VWH4L7JhZ45ApJbfA=;
- b=TRRkhkHyzkig55OOKqfiXTkGZm7zxh9kplQOTYELz4LuEgs3niUmkdGy3wddzk4OISvosE
- Vqm2OKzb/dhnOgRL2KFGB/uDN+Jga34rpAS8Va28X7VJCt+1jnCtIowe3p62GN4BVQu1j0
- WzrWjGDFeJCNV2Um2vZwM10w2X46ShU=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HWdeeXmvMfJ4QTdCHFEZy325/d/LM4SADRJYy9Cw/zQ=;
+ b=Cz7DZtAnvO/xQqgDyrVT4YQVN7xn/ddCxsF7tryITSzxdwo4yAM//1OFuLu4BZascUUtpj
+ 0+kYmtL1I1h/iZU06hqYU3wMcLp2yVSuuyZOqedgg1+24gt42ypZeWPjNLFtkN54SXmKXJ
+ vDC2S7j7xT5Gnts3dRMK11wOoLnXWjY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-CwWUPmeiOeSqwfqeUdhpOg-1; Wed, 16 Sep 2020 11:53:13 -0400
-X-MC-Unique: CwWUPmeiOeSqwfqeUdhpOg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-22-YLV2UVCZPKuo5jK7prM5VA-1; Wed, 16 Sep 2020 11:53:37 -0400
+X-MC-Unique: YLV2UVCZPKuo5jK7prM5VA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 073B256BE3;
- Wed, 16 Sep 2020 15:53:12 +0000 (UTC)
-Received: from gondolin (ovpn-115-151.ams2.redhat.com [10.36.115.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7067878809;
- Wed, 16 Sep 2020 15:53:02 +0000 (UTC)
-Date: Wed, 16 Sep 2020 17:53:00 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Collin Walling <walling@linux.ibm.com>
-Subject: Re: [PATCH v6 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
-Message-ID: <20200916175300.5c2b6bbb.cohuck@redhat.com>
-In-Reply-To: <20200915194416.107460-1-walling@linux.ibm.com>
-References: <20200915194416.107460-1-walling@linux.ibm.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D0948B124B
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 15:53:37 +0000 (UTC)
+Received: from [10.36.113.15] (ovpn-113-15.ams2.redhat.com [10.36.113.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBF9260E1C;
+ Wed, 16 Sep 2020 15:53:32 +0000 (UTC)
+Subject: Re: [PATCH 5/9] vhost-vdpa: remove the unnecessary initialization
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <20200831082737.10983-1-jasowang@redhat.com>
+ <20200831082737.10983-6-jasowang@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
+Message-ID: <b437a9a1-9db7-d56b-b501-4f859ed6ddc7@redhat.com>
+Date: Wed, 16 Sep 2020 17:53:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200831082737.10983-6-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 11:53:15
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
+X-Spam_score_int: -51
+X-Spam_score: -5.2
 X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,173 +139,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, mst@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, pbonzini@redhat.com, sumanthk@linux.ibm.com,
- mihajlov@linux.ibm.com, rth@twiddle.net
+Cc: lulu@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Sep 2020 15:44:08 -0400
-Collin Walling <walling@linux.ibm.com> wrote:
+On 31/08/2020 10:27, Jason Wang wrote:
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  net/vhost-vdpa.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 397d4d3082..bcbf49d55b 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -175,10 +175,10 @@ static NetClientInfo net_vhost_vdpa_info = {
+>  static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+>                                 const char *name, const char *vhostdev)
+>  {
+> -    NetClientState *nc = NULL;
+> +    NetClientState *nc;
+>      VhostVDPAState *s;
+> -    int vdpa_device_fd = -1;
+> -    int ret = 0;
+> +    int vdpa_device_fd;
+> +    int ret;
+>      assert(name);
+>      nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
+>      snprintf(nc->info_str, sizeof(nc->info_str), "vhostdev=%s", vhostdev);
+> 
 
-> Changelog:
->=20
->     v6
->=20
->     =E2=80=A2 sccb_verify_boundary function:
->         =E2=80=A2 s/len/sccb_len
->         =E2=80=A2 removed the endian check/conversion of the sccb_len fro=
-m within=20
->           this function (caller is now responsible)
->=20
->     =E2=80=A2 proper endian conversion when using header length to malloc
->=20
->     =E2=80=A2 use g_autofree for work_sccb
->=20
->     =E2=80=A2 added r-b's and acks (thanks!)
->=20
->     =E2=80=A2 added a feature-check fence within the diag_318_handler to =
-ensure
->         the handler does not complete without proper feature support
->         =E2=80=A2 will throw a program exception if handler is invoked bu=
-t
->           feature is not enabled
->=20
->    =20
->=20
->     v5 (comment below pertains to version 5)
->=20
->     Janosch, Thomas, Conny: I've removed your r-b's from patch #3 since I
->     added some g_mallocs in place and I'd like to make sure things are
->     done properly there (explained in changelog, but let me know if furth=
-er
->     explanation is necessary).
->=20
->     Janosch, please let me know if the changes to #3 are safe under PV.
->=20
->     Thanks.
->=20
->     =E2=80=A2 removed sccb_verify_length function
->         - will simply use the length check code that was in place before
->=20
->     =E2=80=A2 introduced a macro for calculating required SCCB length
->         - takes a struct and max # of cpus as args
->=20
->     =E2=80=A2 work_sccb size is now dynamically allocated based on the le=
-ngth
->       provided by the guest kernel, instead of always using a static
->       4K size
->         - as such, the SCCB will have to be read twice:
->             - first time to retrieve the header
->             - second time with proper size after space for work_sccb=20
->               is allocated
->=20
->=20
->=20
->     v4
->    =20
->     =E2=80=A2 added r-b's and ack's (thanks, everyone!)
->=20
->     =E2=80=A2 renamed boundary and length function
->=20
->     =E2=80=A2 updated header sync to reflect a change discussed in the re=
-spective
->         KVM patches
->=20
->     =E2=80=A2 s/data_len/offset_cpu
->=20
->     =E2=80=A2 added /* fallthrough */ comment in boundary check
->=20
->=20
->=20
->     v3
->=20
->     =E2=80=A2 Device IOCTLs removed
->         - diag 318 info is now communicated via sync_regs
->=20
->     =E2=80=A2 Reset code removed
->         - this is now handled in KVM
->         - diag318_info is stored within the CPU reset portion of the
->             S390CPUState
->=20
->     =E2=80=A2 Various cleanups for ELS preliminary patches
->=20
->=20
->=20
->     v2
->=20
->     =E2=80=A2 QEMU now handles the instruction call
->         - as such, the "enable diag 318" IOCTL has been removed
->=20
->     =E2=80=A2 patch #1 now changes the read scp/cpu info functions to
->       retrieve the machine state once
->         - as such, I have not added any ack's or r-bs since this
->           patch differs from the previous version
->=20
->     =E2=80=A2 patch #3 introduces a new "get_read_scp_info_data_len"
->       function in order clean-up the variable data length assignment
->       in patch #7
->         - a comment above this function should help clarify what's
->           going on to make things a bit easier to read
->=20
->     =E2=80=A2 other misc clean ups and fixes
->         - s/diag318/diag_318 in order to keep the naming scheme
->           consistent with Linux and other diag-related code
->         - s/byte_134/fac134 to align naming scheme with Linux
->=20
-> -----------------------------------------------------------------------
->=20
-> This patch series introduces two features for an s390 KVM quest:
->     - Extended-Length SCCB (els) for the Read SCP/CPU Info SCLP=20
->         commands
->     - DIAGNOSE 0x318 (diag_318) enabling / migration handling
->=20
-> The diag 318 feature depends on els and KVM support.
->=20
-> The els feature is handled entirely with QEMU, and does not require=20
-> KVM support.
->=20
-> Both features are made available starting with the zEC12-full model.
->=20
-> These patches are introduced together for two main reasons:
->     - els allows diag 318 to exist while retaining the original 248=20
->         VCPU max
->     - diag 318 is presented to show how els is useful
->=20
-> Full els support is dependant on the Linux kernel, which must react
-> to the SCLP response code and set an appropriate-length SCCB.=20
->=20
-> A user should take care when tuning the CPU model for a VM.
-> If a user defines a VM with els support and specifies 248 CPUs, but
-> the guest Linux kernel cannot react to the SCLP response code, then
-> the guest will crash immediately upon kernel startup.
->=20
-> Collin L. Walling (8):
->   s390/sclp: get machine once during read scp/cpu info
->   s390/sclp: rework sclp boundary checks
->   s390/sclp: read sccb from mem based on provided length
->   s390/sclp: check sccb len before filling in data
->   s390/sclp: use cpu offset to locate cpu entries
->   s390/sclp: add extended-length sccb support for kvm guest
->   s390/kvm: header sync for diag318
->   s390: guest support for diagnose 0x318
->=20
->  hw/s390x/event-facility.c           |   2 +-
->  hw/s390x/sclp.c                     | 142 ++++++++++++++++++++--------
->  include/hw/s390x/sclp.h             |  11 ++-
->  linux-headers/asm-s390/kvm.h        |   7 +-
->  linux-headers/linux/kvm.h           |   1 +
->  target/s390x/cpu.h                  |   2 +
->  target/s390x/cpu_features.h         |   1 +
->  target/s390x/cpu_features_def.h.inc |   4 +
->  target/s390x/cpu_models.c           |   1 +
->  target/s390x/gen-features.c         |   2 +
->  target/s390x/kvm.c                  |  47 +++++++++
->  target/s390x/machine.c              |  17 ++++
->  12 files changed, 194 insertions(+), 43 deletions(-)
->=20
-
-Thanks, applied.
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 
 
