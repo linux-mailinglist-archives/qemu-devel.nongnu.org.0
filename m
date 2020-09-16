@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFCF626C2DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:41:44 +0200 (CEST)
-Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8AC26C2F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:52:32 +0200 (CEST)
+Received: from localhost ([::1]:35726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWkp-0004Rr-P2
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
+	id 1kIWvH-0005Ci-Dc
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIWjW-0003Vn-N3
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:40:22 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:35537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIWjU-0006y9-9i
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:40:22 -0400
-Received: by mail-ej1-x644.google.com with SMTP id u21so10164487eja.2
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kGZZ8aqSQk9cHzUIibLvZgqJ7ShiwOVZPvdjZ9DjNgs=;
- b=oP0bhcgTg6Y0BiYUXL9yKPKXHp71Ij3O7DOG4EoowS99f2oW1dn4wxmbtWHxcELhD/
- FeXMMwvJuB/ao2N3wm/Oe4bW0BcZRTNyFIqKEgFe9UWt0EBLvwtahA2T00arYlipXB+u
- UNlw7D8CUhhFGOcxqNnn4/2ECKJfVMMFa8BuDUKk0af5tiUyMNmVVOUKFpgdstPRQEA3
- roVHmPZ4guGjOqlrlNyxWAQFd+V5SccL6YROM5Nl8Aaq1rVehvCZ8pgZxi5C2Pm9gAmJ
- SIVyqnNSBH3O0eNJ9fdW044XYu8Ai5nnwq3mALIkA3fUGchlRQ4u51BR5zK2fMedOOtE
- a40A==
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kIWty-0004g8-1b
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:51:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kIWtr-0000AP-FL
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:51:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600260661;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bu4gYb7/byEkLcKmvTbZ8ShzFxwDvBfzyulEj33tGV8=;
+ b=UJHbcdQknv2jNc1LfT3SXs4D9Jl8SolnZp8j288fBUDnOdDYpXjJMyrIbBkcKmSOYAB/pF
+ k+JpXA8BKpR77ATM+hD1kMgiyvKQwpCZ3wb3CMjCDlir7IYrtlefswIVoAe/vZvuE29Sz1
+ 3z6GRjX+19/Szk3XWLH3I3ufuaDsLdg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-ytf6EWZaOda9ByPRkG8qpw-1; Wed, 16 Sep 2020 08:51:00 -0400
+X-MC-Unique: ytf6EWZaOda9ByPRkG8qpw-1
+Received: by mail-wr1-f69.google.com with SMTP id f18so2500222wrv.19
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:50:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kGZZ8aqSQk9cHzUIibLvZgqJ7ShiwOVZPvdjZ9DjNgs=;
- b=pVb5KWemJPkC0S4h7m35wbnk8motp0Jk+mbLgSEtqYMCKW3YLrU5A5YfwrXTQ14akx
- slVuN7Zu2nDbzUCYWCEvcuNdW/a8NDIeBloDlZ+lBmpRm98ryRodvqHVEmlH/DsdKnRF
- nxBbhS9ZUYct52L4pX7B060PAGSfbvp60Oj+ztZHt7aBpFlgmPPBGrjM8Fp82Nbm87vA
- w4ygHcBv5qBM1RgCbYbXF09Nj0p3XfhlgLHqN9PAX85bRZxSkcx3C74nvvtna+5mbGcj
- y5GibDYQ08Ek6PRd/J+weEKPwfZRv0ZgGHSnegcgI0VlqMiWZdCuYM6ZML7wq9cfCVV3
- hK8w==
-X-Gm-Message-State: AOAM532OzcKEzz60kmccWtbPX7sWDzpoqREe2ek/GY477KcwT5pxPKJK
- +JK0RbfT22BDqK1g2zDJ60rBEUPH8XwUCEaH0IPOSA==
-X-Google-Smtp-Source: ABdhPJyGUaZzaR7a/6wMfmr7/7E1Yk/tBJ51Nfr9dGpLueJTbH+9JZIZF+06YlvB/hpxzwsi33x0rYZ7+e6UtwEae5c=
-X-Received: by 2002:a17:906:71c9:: with SMTP id
- i9mr24747960ejk.250.1600260018640; 
- Wed, 16 Sep 2020 05:40:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=bu4gYb7/byEkLcKmvTbZ8ShzFxwDvBfzyulEj33tGV8=;
+ b=LD0zwLFfu9XXqi1/DBwaLcbaB+KRVca6QY0igBpkWHExHPfywDe7/y4Y5sFKTDog9s
+ 3jHte8Z34VqgNyospYn5eKtVOUXq8Lyhz6i9PFhXk+zApRcRVl/hkPVBZ5FNR9cmvfSk
+ VOPkUf2o44frq+A6XvoxbseOT+RoaQYXB6NObaoW+xyBW2yCVHiUBcoXUUr9q+GWqUTm
+ gyzClX/RwLR/TCoz3/4EPfJGtrikoVITwkeqyiW/derhtUStr8opl/YlWJEzNlORLJ4v
+ 7crySj7lN5VROwnwVBK3cxZE1Z8kanKJuxVN+OW4ocT6s+wT/KtYbZRbjWPae38c4c9p
+ crKg==
+X-Gm-Message-State: AOAM531lE0V4JgJSrDhH0ln9lpXZgJjPTP4qXsSiPoWRB/j8FGYLzfCR
+ WfJOOlbgWJTf5V9D0esdMu4QpR5Uowj5bn2cs+STyYDiHFsvL96/KnfL9gJRk3R2DX4eUQahm7A
+ Yq5f2z2bx8arq/gI=
+X-Received: by 2002:adf:e6c7:: with SMTP id y7mr25124190wrm.147.1600260658421; 
+ Wed, 16 Sep 2020 05:50:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqCiUmbdsgB08+TApOuWGFF/Fd0qlcevWhWoglRu1evyr0r69cJ34/X3RuTEYLDg1KsDo0BQ==
+X-Received: by 2002:adf:e6c7:: with SMTP id y7mr25124168wrm.147.1600260658173; 
+ Wed, 16 Sep 2020 05:50:58 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id e1sm26019288wrp.49.2020.09.16.05.50.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Sep 2020 05:50:57 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Antoine Damhet <antoine.damhet@blade-group.com>
+Subject: Re: [BUG] Migration hv_time rollback
+In-Reply-To: <878sd9j4s1.fsf@vitty.brq.redhat.com>
+References: <20200916090602.blkm7eym6g5bnvvk@tartarus>
+ <20200916112956.GE2833@work-vm> <20200916115950.tsarwvk2dwgiceoe@tartarus>
+ <878sd9j4s1.fsf@vitty.brq.redhat.com>
+Date: Wed, 16 Sep 2020 14:50:56 +0200
+Message-ID: <875z8dj367.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-References: <20200916122648.17468-1-alex.bennee@linaro.org>
- <20200916122648.17468-8-alex.bennee@linaro.org>
-In-Reply-To: <20200916122648.17468-8-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Sep 2020 13:40:07 +0100
-Message-ID: <CAFEAcA_UEoe2H5zc=L1T3p31FoxKSfG0mRznN-68FQmGTp3+pg@mail.gmail.com>
-Subject: Re: [PULL 7/8] gitlab: create a build-deprecated target
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,58 +95,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Sep 2020 at 13:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> These targets might be deprecated but we should keep them building
-> before the final axe comes down. Lets keep them all in one place and
-> don't hold up the CI if they do fail. They are either poorly tested or
-> already flaky anyway.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20200915134317.11110-8-alex.bennee@linaro.org>
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 72e8604579ee..f027b55aef15 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -254,6 +254,16 @@ build-clang:
->        ppc-softmmu s390x-softmmu arm-linux-user
->      MAKE_CHECK_ARGS: check
->
-> +# These targets are on the way out
-> +build-deprecated:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: debian-all-test-cross
-> +    CONFIGURE_ARGS: --disable-docs --disable-tools --disable-system
-> +    MAKE_CHECK_ARGS: check-tcg
-> +    TARGETS: ppc64abi32-linux-user tilegx-linux-user
-> +  allow_failure: true
+Vitaly Kuznetsov <vkuznets@redhat.com> writes:
 
-It's kind of awkward to have the CI config need to be updated when
-we mark a config as deprecated. Can we have something so that
-the CI just arranges to build all of the deprecated targets?
+> Antoine Damhet <antoine.damhet@blade-group.com> writes:
+>
+>> On Wed, Sep 16, 2020 at 12:29:56PM +0100, Dr. David Alan Gilbert wrote:
+>>> cc'ing in Vitaly who knows about the hv stuff.
+>>
+>> Thanks
+>>
+>>> 
+>>> * Antoine Damhet (antoine.damhet@blade-group.com) wrote:
+>>> > Hi,
+>>> > 
+>>> > We are experiencing timestamp rollbacks during live-migration of
+>>> > Windows 10 guests with the following qemu configuration (linux 5.4.46
+>>> > and qemu master):
+>>> > ```
+>>> > $ qemu-system-x86_64 -enable-kvm -cpu host,kvm=off,hv_time [...]
+>>> > ```
+>>> 
+>>> How big a jump are you seeing, and how did you notice it in the guest?
+>>
+>> I'm seeing jumps of about the guest uptime (indicating a reset of the
+>> counter). It's expected because we won't call `KVM_SET_CLOCK` to
+>> restore any value.
+>>
+>> We first noticed it because after some migrations `dwm.exe` crashes with
+>> the "(NTSTATUS) 0x8898009b - QueryPerformanceCounter returned a time in
+>> the past." error code.
+>>
+>> I can also confirm the following hack makes the behavior disappear:
+>>
+>> ```
+>> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+>> index 64283358f9..f334bdf35f 100644
+>> --- a/hw/i386/kvm/clock.c
+>> +++ b/hw/i386/kvm/clock.c
+>> @@ -332,11 +332,7 @@ void kvmclock_create(void)
+>>  {
+>>      X86CPU *cpu = X86_CPU(first_cpu);
+>>
+>> -    if (kvm_enabled() &&
+>> -        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
+>> -                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2))) {
+>> -        sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+>> -    }
+>> +    sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+>>  }
+>>
+>
+>
+> Oh, I think I see what's going on. When you add 'kvm=off'
+> cpu->env.features[FEAT_KVM] is reset (see x86_cpu_expand_features()) so
+> kvmclock QEMU device is not created and nobody calls KVM_SET_CLOCK on
+> migration.
+>
+> In case we really want to support 'kvm=off' I think we can add Hyper-V
+> features check here along with KVM, this should do the job.
 
-(As demonstration, this list is missing unicore32, which is also deprecated=
-.)
+Does the untested
 
-Also, "allow_failure: true" seems wrong to me. These targets
-are only deprecated, which means we promise that the feature
-should still work (to whatever extent it already did) for the 2
-releases in which it is deprecated. We want our CI to tell us
-if it fails to compile or fails tests, because we would need to
-fix those bugs for a release.
+diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+index 64283358f91d..e03b2ca6d8f6 100644
+--- a/hw/i386/kvm/clock.c
++++ b/hw/i386/kvm/clock.c
+@@ -333,8 +333,9 @@ void kvmclock_create(void)
+     X86CPU *cpu = X86_CPU(first_cpu);
+ 
+     if (kvm_enabled() &&
+-        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
+-                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2))) {
++        ((cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
++                                         (1ULL << KVM_FEATURE_CLOCKSOURCE2))) ||
++         (cpu->env.features[FEAT_HYPERV_EAX] & HV_TIME_REF_COUNT_AVAILABLE))) {
+         sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+     }
+ }
 
-thanks
--- PMM
+help?
+
+(I don't think we need to remove all 'if (kvm_enabled())' checks from
+machine types as 'kvm=off' should not be related).
+
+-- 
+Vitaly
+
 
