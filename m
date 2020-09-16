@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3EC526C13F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:58:41 +0200 (CEST)
-Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF2626C148
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 12:00:39 +0200 (CEST)
+Received: from localhost ([::1]:45318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIUD2-0006U7-NK
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:58:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
+	id 1kIUEw-0000cm-EE
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 06:00:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIU53-0003bW-AA
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:50:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48610)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kIU6k-0005qG-9C
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:52:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55825
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIU50-0000MZ-Hk
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:50:25 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kIU6i-0000d7-F1
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:52:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600249821;
+ s=mimecast20190719; t=1600249927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h9ZXZ6BfZz4YuinWVU97iIjAShKFFHOWfOo2a0JDzXA=;
- b=aq/FjG6QiIx5S/T4UK9VhbL3iMcVB/YPP41TKk5ep2SH1X3XZeUsBLyTxl+YdXPya0mbDJ
- eQpaS2V3bQMm4M4CqPDivti8itxCZgwHkKPor+199hcdpw+JO9/TeSau/OIeQMtB1BAcd6
- adsLTLT+B4753f7gdeZ2Nba/pfvvR8U=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YoBWOJ3skTgMMGECEY2gdzMICoZSvqHUaQ4IDMrjOrw=;
+ b=gt2CTBE7k3aGC7LnYcy2RaxL/q9Sp8xdX8vFzvWpAKvrny7fuV32iY3EziOwrihpoifsfg
+ Wl094EeE/a/3HXVfdQ9i0nYaGf6bxkUO/voNZRnrtWZDu3b75az/v5VNDAbQ9qlSHapxLw
+ e8Wdx99lEqzq5W4W7ZEkWh7nUsJVAIc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-lZaLAzTZN_208dvRY07CLA-1; Wed, 16 Sep 2020 05:50:18 -0400
-X-MC-Unique: lZaLAzTZN_208dvRY07CLA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-152-uiKC3D6gPEC_2ck9i6NbCg-1; Wed, 16 Sep 2020 05:51:59 -0400
+X-MC-Unique: uiKC3D6gPEC_2ck9i6NbCg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05186425DE;
- Wed, 16 Sep 2020 09:50:17 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 880505DE71;
- Wed, 16 Sep 2020 09:50:07 +0000 (UTC)
-Subject: Re: Python 3.5 EOL; when can require 3.6?
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <875z8eupyp.fsf@dusky.pond.sub.org>
- <1ad049f0-09f9-d56f-bc63-d120a0dbcf24@redhat.com>
- <20200916083327.GE1535709@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <91372bbf-bb36-2ade-c8a4-7e1f8b0776ea@redhat.com>
-Date: Wed, 16 Sep 2020 11:50:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB6AF107464B;
+ Wed, 16 Sep 2020 09:51:57 +0000 (UTC)
+Received: from localhost (ovpn-115-47.ams2.redhat.com [10.36.115.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D24B47BE5B;
+ Wed, 16 Sep 2020 09:51:51 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] nvdimm: read-only file support
+Date: Wed, 16 Sep 2020 10:51:47 +0100
+Message-Id: <20200916095150.755714-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200916083327.GE1535709@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 00:53:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,42 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>, eric.g.ernst@gmail.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/09/2020 10.33, Daniel P. Berrangé wrote:
-> On Wed, Sep 16, 2020 at 09:54:32AM +0200, Thomas Huth wrote:
->> On 16/09/2020 09.43, Markus Armbruster wrote:
->>> We require Python 3.5.  It will reach its "end of life" at the end of
->>> September 2020[*].  Any reason not to require 3.6 for 5.2?  qemu-iotests
->>> already does for its Python parts.
->>
->> I think the only reason for requiring Python 3.5 is that we still use
->> Ubuntu Xenial in Travis. We don't support Xenial according to our
->> support policy anymore, but we did not update to Bionic there since it
->> has that broken version of libssh.
->>
->> Fortunately, since a couple of weeks, Travis now supports Focal, too, so
->> once we switched our .travis.yml to use Focal, I think we could start
->> requiring Python 3.6.
-> 
-> Note we really should not be constrained by what Travis provides as
-> images. Travis images provide docker, so we can spawn our Travis
-> jobs inside containers to get arbitrary linux distros. We did this
-> for libvirt for a while until we switched to GitLab CI. So we
-> definitely don't need to care about Xenial from a Travis POV no
-> matter what.
-
-I hope we could finally exploit the possibility to use KVM on Travis ...
-that won't be possible anymore once we use containers there.
-
- Thomas
+djI6CiAqIHMvdGhlIHRoZS90aGUvIGluIGRvY3VtZW50YXRpb24gW1BoaWxpcHBlXQogKiBBc3Np
+Z24gbnZkaW1tLT51bmFybWVkIGVhcmxpZXIgW1BoaWxpcHBlXQoKVGhlcmUgaXMgY3VycmVudGx5
+IG5vIHdheSB0byBiYWNrIGFuIE5WRElNTSB3aXRoIGEgcmVhZC1vbmx5IGZpbGUgc28gaXQgY2Fu
+IGJlCnNhZmVseSBzaGFyZWQgYmV0d2VlbiB1bnRydXN0ZWQgZ3Vlc3RzLgoKSW50cm9kdWNlIGFu
+IC1vYmplY3QgbWVtb3J5LWJhY2tlbmQtZmlsZSxyZWFkb25seT1vbnxvZmYgb3B0aW9uLgoKSnVs
+aW8gTW9udGVzIHNlbnQgYW4gZWFybGllciBwYXRjaCBoZXJlOgpodHRwczovL3BhdGNoZXcub3Jn
+L1FFTVUvMjAxOTA3MDgyMTE5MzYuODAzNy0xLWp1bGlvLm1vbnRlc0BpbnRlbC5jb20vCgpFcmlj
+IEVybnN0IHJlcXVlc3RlZCB0aGlzIGZlYXR1cmUgYWdhaW4gZm9yIEthdGEgQ29udGFpbmVycyBz
+byBJIGdhdmUgaXQgYSB0cnkuCgpTdGVmYW4gSGFqbm9jemkgKDMpOgogIG1lbW9yeTogYWRkIHJl
+YWRvbmx5IHN1cHBvcnQgdG8gbWVtb3J5X3JlZ2lvbl9pbml0X3JhbV9mcm9tX2ZpbGUoKQogIGhv
+c3RtZW0tZmlsZTogYWRkIHJlYWRvbmx5PW9ufG9mZiBvcHRpb24KICBudmRpbW06IGhvbm9yIC1v
+YmplY3QgbWVtb3J5LWJhY2tlbmQtZmlsZSxyZWFkb25seT1vbiBvcHRpb24KCiBkb2NzL252ZGlt
+bS50eHQgICAgICAgICAgIHwgIDggKysrKysrKy0KIGluY2x1ZGUvZXhlYy9tZW1vcnkuaCAgICAg
+fCAgMiArKwogaW5jbHVkZS9leGVjL3JhbV9hZGRyLmggICB8ICA1ICsrKy0tCiBpbmNsdWRlL3Fl
+bXUvbW1hcC1hbGxvYy5oIHwgIDIgKysKIGJhY2tlbmRzL2hvc3RtZW0tZmlsZS5jICAgfCAyNiAr
+KysrKysrKysrKysrKysrKysrKysrKysrLQogZXhlYy5jICAgICAgICAgICAgICAgICAgICB8IDE4
+ICsrKysrKysrKysrLS0tLS0tLQogaHcvbWVtL252ZGltbS5jICAgICAgICAgICB8ICA0ICsrKysK
+IHNvZnRtbXUvbWVtb3J5LmMgICAgICAgICAgfCAgNyArKysrKy0tCiB1dGlsL21tYXAtYWxsb2Mu
+YyAgICAgICAgIHwgMTAgKysrKysrLS0tLQogdXRpbC9vc2xpYi1wb3NpeC5jICAgICAgICB8ICAy
+ICstCiBxZW11LW9wdGlvbnMuaHggICAgICAgICAgIHwgIDUgKysrKy0KIDExIGZpbGVzIGNoYW5n
+ZWQsIDcwIGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygtKQoKLS0gCjIuMjYuMgoK
 
 
