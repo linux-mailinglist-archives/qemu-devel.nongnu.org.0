@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD6226C2C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:33:32 +0200 (CEST)
-Received: from localhost ([::1]:42998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CD426C2DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:42:27 +0200 (CEST)
+Received: from localhost ([::1]:44894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWct-0001b6-VE
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36620)
+	id 1kIWlW-0005WH-Or
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:42:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIWWU-0002Hn-G7
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:26:54 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40532)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIWkG-0004KT-0H
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:41:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kIWWS-00058v-LM
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:26:54 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id j2so6701935wrx.7
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:26:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jZ6O2w/Kfi3k/oWIW8f2nmLwv8cNGZxfrT3LHYdaJYc=;
- b=t641ZX9VXlASXLcZFA340Zase/E3gqxmJ14ShHIwOBjeq8wioLtANn4cMcgq7rrSMy
- Mo3MJPgrAW8BXR8w6/MhLelk/LlBFsSBKsym5KYd+2oiSyFALKm1mji5Upiw9nVmuBNQ
- WZOLClNG+saPZOYSPbgMAD6rzw4D/pKSx41q6ZicQVPBsNUr1Ze3YfI+bmypGPi252Ki
- 4ci/roBsMn7DFyIZhgDHMiybmqW/EP+3XiaK1PGv4wLukdxgTg3AtjoSG06+Z5Sqd+S4
- p7Tv85W4yGTs2aXsKbUReqpgZpSZVyi+tIOnXpnCrZ4MGxzzkFalp3RCcZt2jvis4NXk
- W2KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jZ6O2w/Kfi3k/oWIW8f2nmLwv8cNGZxfrT3LHYdaJYc=;
- b=QvqdqcuTVU7y89oSSYI74adEC0K+4f6nGXUx2mLObnVh1ZiwtTeVHzETvTpEan9E7T
- PRjis30xDVhxJCohS/DDBP8FKLZx2Icgefs7FbJTvddx1LIXThRnZwXmo4hhz64L3kEG
- CpwvS03zUsFc5pPraO6JOQu9dQR+BHL1/MygAHwAGVX+l+jfqUzwLLAbHb65pdkIABwV
- C4VUPY7uQiGkoEmAhHcd9xTIa961XC4AjqxQ3kZcvJMlVRtArED6AqzrLJzBNfjSPq3G
- eFlmBNrYqLX51jLoZ8yw9LUhviG6+qgw2rGlaT/qIQZtMpcCH10vnMTET/7aHwcpaNb7
- f/rg==
-X-Gm-Message-State: AOAM533bavbzi9ELWZi8saZAD57JU8bD65/AJ7KtVXNuy/DzhSsxag0u
- pSL+zP9rPcf5ADo5eQ9UardmLw==
-X-Google-Smtp-Source: ABdhPJw/2XdJCUhnBDjWPz4ZRcgeBlz4qTD0HJYd3RmqANUQO2kmhJbPC7+dCat3Cgws+NQb42HjOQ==
-X-Received: by 2002:adf:9c93:: with SMTP id d19mr27114459wre.275.1600259210472; 
- Wed, 16 Sep 2020 05:26:50 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 11sm5127743wmi.14.2020.09.16.05.26.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 05:26:49 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 797D01FF7E;
- Wed, 16 Sep 2020 13:26:48 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 0/8] configure deprecation, linux-user and test fix
-Date: Wed, 16 Sep 2020 13:26:40 +0100
-Message-Id: <20200916122648.17468-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kIWkC-0007C2-7M
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:41:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kIWk9-0000Jg-Sw
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 12:41:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D6E9A2E80E7
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 12:41:01 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 16 Sep 2020 12:26:41 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1895080@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user mmap
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee hansni laurent-vivier
+X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <159970958159.31371.12301700684467003959.malonedeb@wampee.canonical.com>
+Message-Id: <20200916122648.17468-2-alex.bennee@linaro.org>
+Subject: [Bug 1895080] [PULL 1/8] linux-user: test,
+ don't assert addr != test in pgb_reserved_va
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: fd9cd4bf9d062a15ce30949bc95f18384504041c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 05:50:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,55 +73,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1895080 <1895080@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit de39a045bd8d2b49e4f3d07976622c29d58e0bac:
+On older kernels which don't implement MAP_FIXED_NOREPLACE the kernel
+may still fail to give us the address we asked for despite having
+already probed the map for a valid hole. Asserting isn't particularly
+useful to the user so let us move the check up and expand the
+error_report a little to give them a fighting chance of working around
+the problem.
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200915-pull-request' into staging (2020-09-15 14:25:05 +0100)
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Bug 1895080 <1895080@bugs.launchpad.net>
+Ameliorates: ee94743034
+Message-Id: <20200915134317.11110-2-alex.bennee@linaro.org>
 
-are available in the Git repository at:
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 4961e6119e24..f6022fd70493 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2331,14 +2331,13 @@ static void pgb_reserved_va(const char *image_name,=
+ abi_ulong guest_loaddr,
+     assert(guest_base !=3D 0);
+     test =3D g2h(0);
+     addr =3D mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
+-    if (addr =3D=3D MAP_FAILED) {
++    if (addr =3D=3D MAP_FAILED || addr !=3D test) {
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space (%s) for use as guest address space (check you=
+r "
+-                     "virtual memory ulimit setting or reserve less "
+-                     "using -R option)", reserved_va, strerror(errno));
++                     "space at %p (%s) for use as guest address space (che=
+ck your"
++                     "virtual memory ulimit setting, min_mmap_addr or rese=
+rve less "
++                     "using -R option)", reserved_va, test, strerror(errno=
+));
+         exit(EXIT_FAILURE);
+     }
+-    assert(addr =3D=3D test);
+ }
+ =
 
-  https://github.com/stsquad/qemu.git tags/pull-configure-fixes-160920-1
+ void probe_guest_base(const char *image_name, abi_ulong guest_loaddr,
+-- =
 
-for you to fetch changes up to 3ffc7f013763bf4fc50c3b403cbacca2bee68cfa:
-
-  configure: add [lm32|unicore32]-softmmu to deprecation logic (2020-09-16 10:07:01 +0100)
-
-----------------------------------------------------------------
-configure tweaks for deprecation
-
-  - iotest fix for readlink -f
-  - linux-user, report rather than assert on mmap failure
-  - clean-up and re-factor the logic
-  - add tilegx-linux-user to deprecated_targets_list
-  - add [lm32|unicore32]-softmmu deprecated_targets_list
-  - add a gitlab deprecated builds test
-
-----------------------------------------------------------------
-Alex Bennée (7):
-      linux-user: test, don't assert addr != test in pgb_reserved_va
-      configure: move deprecated feature processing to supported_target
-      configure: also skip deprecated targets with target-list-exclude
-      configure: clean-up the target-list-exclude logic
-      configure: include tilegx-linux-user in the deprecation logic
-      gitlab: create a build-deprecated target
-      configure: add [lm32|unicore32]-softmmu to deprecation logic
-
-Max Reitz (1):
-      iotests: Drop readlink -f
-
- configure                | 33 ++++++++++++++++++---------------
- linux-user/elfload.c     |  9 ++++-----
- .gitlab-ci.yml           | 15 +++++++++++++--
- .shippable.yml           |  2 +-
- .travis.yml              |  3 +--
- tests/qemu-iotests/check |  2 +-
- 6 files changed, 38 insertions(+), 26 deletions(-)
-
--- 
 2.20.1
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895080
+
+Title:
+  pgb_reserved_va: Assertion `addr =3D=3D test' failed
+
+Status in QEMU:
+  New
+
+Bug description:
+  This problem occurs on CentOS-7.5 (64-bit) with qemu-5.1.0, qemu head
+  (commit 9435a8b3dd35f1f926f1b9127e8a906217a5518a) for riscv32-linux-
+  user.
+
+  Firstly, compile fails:
+  Compiling C object libqemu-riscv32-linux-user.fa.p/linux-user_strace.c.o
+  ../qemu.git/linux-user/strace.c:1210:18: error: =E2=80=98FALLOC_FL_KEEP_S=
+IZE=E2=80=99 undeclared here (not in a function)
+       FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+
+  I have to add below include to linux-user/strace.c
+  diff --git a/linux-user/strace.c b/linux-user/strace.c
+  index 11fea14fba..22e51d4a8a 100644
+  --- a/linux-user/strace.c
+  +++ b/linux-user/strace.c
+  @@ -7,6 +7,7 @@
+   #include <sys/mount.h>
+   #include <arpa/inet.h>
+   #include <netinet/tcp.h>
+  +#include <linux/falloc.h>
+   #include <linux/if_packet.h>
+   #include <linux/netlink.h>
+   #include <sched.h>
+
+  Then trying qemu-riscv32 with a simple ELF, I get:
+  linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test' =
+failed.
+
+  strace shows that:
+  mmap(0x1000, 4294963200, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESER=
+VE, -1, 0) =3D 0x10000
+  write(2, "qemu-riscv32: ../qemu.git/linux-"..., 103qemu-riscv32: ../qemu.=
+git/linux-user/elfload.c:2341: pgb_reserved_va: Assertion `addr =3D=3D test=
+' failed.
+  ) =3D 103
+
+  The source code is in the function pgb_reserved_va (linux-
+  user/elfload.c). I think mmap cannot guarantee that the returned
+  pointer (test) equals to the parameter of addr. So is this a bug to
+  assert (addr =3D=3D test)?
+
+  Attached configure script and test ELF file.
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895080/+subscriptions
 
