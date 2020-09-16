@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC62E26BC51
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 08:13:40 +0200 (CEST)
-Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894D026BD16
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 08:30:03 +0200 (CEST)
+Received: from localhost ([::1]:55046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIQhH-0008Vh-Q6
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 02:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58872)
+	id 1kIQx8-0003Me-HH
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 02:30:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kIQfM-0006oC-4j
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:11:40 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:52398 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kIQfH-0005Xp-5Q
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:11:39 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 113619CD38B00366F12B;
- Wed, 16 Sep 2020 14:11:30 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Wed, 16 Sep 2020
- 14:11:22 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
- <berrange@redhat.com>
-Subject: [PATCH v10 12/12] migration/dirtyrate: Add trace_calls to make it
- easier to debug
-Date: Wed, 16 Sep 2020 14:22:07 +0800
-Message-ID: <1600237327-33618-13-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1600237327-33618-1-git-send-email-zhengchuan@huawei.com>
-References: <1600237327-33618-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kIQvD-0001gr-0R
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:28:03 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54958
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kIQv9-0007ST-HY
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 02:28:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600237678;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XxEKtj0TConFqtJMGdUGim2Qm+NGUqGqg2OeQXOKzEQ=;
+ b=fZx8fc+clMzBUWcD85Wry5CEFHLio9+Ddy1KVMdNCIoQbFC5rJ7pjclF6uMdGt6LiScUQp
+ ZQKYX+D6NV0VvHs0ua+B8b6pNANBC+ydwvNU+zAEZ65Q/Hgz5wIStkTke1VhEY/EyxLc+z
+ GKqPEW9/iZ52OP76+G1A7oAp2B6laNg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-N1bvOt4tMJqk4C3tyg5XMA-1; Wed, 16 Sep 2020 02:27:56 -0400
+X-MC-Unique: N1bvOt4tMJqk4C3tyg5XMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C032E801F97;
+ Wed, 16 Sep 2020 06:27:54 +0000 (UTC)
+Received: from kaapi (ovpn-112-169.phx2.redhat.com [10.3.112.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2484F5D9CA;
+ Wed, 16 Sep 2020 06:27:47 +0000 (UTC)
+Date: Wed, 16 Sep 2020 11:57:45 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] pci: check bus pointer before dereference
+In-Reply-To: <b0859f8a-1224-66d0-7e32-091caa5cfcbe@redhat.com>
+Message-ID: <nycvar.YSQ.7.78.906.2009161152040.10832@xnncv>
+References: <20200827114917.1851111-1-ppandit@redhat.com>
+ <CAKXe6SJNio2cy05ecr_DyB0Z6WjxHN_X8ZiOU5By0jwdRq12fg@mail.gmail.com>
+ <b0859f8a-1224-66d0-7e32-091caa5cfcbe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:11:31
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed;
+ boundary="-1463810047-425576118-1600237674=:10832"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 00:53:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,100 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, zhang.zhanghailiang@huawei.com, liq3ea@gmail.com,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Ruhr-University <bugs-syssec@rub.de>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add trace_calls to make it easier to debug
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810047-425576118-1600237674=:10832
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
----
- migration/dirtyrate.c  | 9 +++++++++
- migration/trace-events | 8 ++++++++
- 2 files changed, 17 insertions(+)
++-- On Tue, 15 Sep 2020, Philippe Mathieu-Daudé wrote --+
+| > I think in normal this 'bus' will be not NULL. I have look at the link in 
+| > the commit msg. I find it is another DMA to MMIO issue which we have 
+| > discussed a lot but didn't come up with an satisfying solution.
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 06f455d..f432840 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -22,6 +22,7 @@
- #include "qapi/qapi-commands-migration.h"
- #include "migration.h"
- #include "ram.h"
-+#include "trace.h"
- #include "dirtyrate.h"
+  If 'bus' is unlikely to be NULL, should this be a regular non-CVE bug?
  
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
-@@ -54,6 +55,7 @@ static bool is_sample_period_valid(int64_t sec)
- static int dirtyrate_set_state(int *state, int old_state, int new_state)
- {
-     assert(new_state < DIRTY_RATE_STATUS__MAX);
-+    trace_dirtyrate_set_state(DirtyRateStatus_str(new_state));
-     if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
-         return 0;
-     } else {
-@@ -76,6 +78,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
- 
-+    trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
-+
-     return info;
- }
- 
-@@ -123,6 +127,7 @@ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
-     crc = crc32(0, (info->ramblock_addr +
-                 vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
- 
-+    trace_get_ramblock_vfn_hash(info->idstr, vfn, crc);
-     return crc;
- }
- 
-@@ -201,6 +206,8 @@ static bool skip_sample_ramblock(RAMBlock *block)
-      * Sample only blocks larger than MIN_RAMBLOCK_SIZE.
-      */
-     if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
-+        trace_skip_sample_ramblock(block->idstr,
-+                                   qemu_ram_get_used_length(block));
-         return true;
-     }
- 
-@@ -260,6 +267,7 @@ static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
-     for (i = 0; i < info->sample_pages_count; i++) {
-         crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
-         if (crc != info->hash_result[i]) {
-+            trace_calc_page_dirty_rate(info->idstr, crc, info->hash_result[i]);
-             info->sample_dirty_count++;
-         }
-     }
-@@ -285,6 +293,7 @@ find_block_matched(RAMBlock *block, int count,
-     if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
-         infos[i].ramblock_pages !=
-             (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-+        trace_find_page_matched(block->idstr);
-         return NULL;
-     }
- 
-diff --git a/migration/trace-events b/migration/trace-events
-index 4ab0a50..8c2b58f 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -312,3 +312,11 @@ dirty_bitmap_load_bits_zeroes(void) ""
- dirty_bitmap_load_header(uint32_t flags) "flags 0x%x"
- dirty_bitmap_load_enter(void) ""
- dirty_bitmap_load_success(void) ""
-+
-+# dirtyrate.c
-+dirtyrate_set_state(const char *new_state) "new state %s"
-+query_dirty_rate_info(const char *new_state) "current state %s"
-+get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock name: %s, vfn: %"PRIu64 ", crc: %" PRIu32
-+calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
-+skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
-+find_page_matched(const char *idstr) "ramblock %s addr or size changed"
--- 
-1.8.3.1
+| As usual, question is how we got here.
+| As Li said, it is another DMA to MMIO bug class.
+| 
+| lsi_execute_script
+|  -> address_space_write
+|     -> acpi_pcihp_eject_slot
+|        -> bus_remove_child
+| 
+| So at this point the PCI device is still MMIO-mapped but eject from the 
+| bus... ??? Then IRQ is triggered, which the device wants to propagate via 
+| its PCI bus but it doesn't have any more and b00m.
+| 
+| If a device is hotpluggable, who is responsible to unmap its regions?
+
+  Not sure, I guess I'll leave it for the upstream maintainers to device a 
+better solution.
+
+| Nack, this should be an abort().
+
+===
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index de0fae10ab..0ccb991410 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -253,6 +253,7 @@ static void pci_change_irq_level(PCIDevice *pci_dev, int 
+irq_num, int change)
+     PCIBus *bus;
+     for (;;) {
+         bus = pci_get_bus(pci_dev);
++        assert(bus);
+         irq_num = bus->map_irq(pci_dev, irq_num);
+         if (bus->set_irq)
+             break;
+===
+
+This should be okay for now?
+
+
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810047-425576118-1600237674=:10832--
 
 
