@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CFF26C265
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:01:54 +0200 (CEST)
-Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2366326C26C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:04:30 +0200 (CEST)
+Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIW8H-0001fg-9y
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:01:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55680)
+	id 1kIWAn-00058M-6K
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIW1Y-0001Md-AQ
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:54:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50268)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kIW6L-0000hU-03
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:59:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIW1U-0000V8-Fo
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:54:55 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kIW6I-0001C0-KM
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:59:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600257291;
+ s=mimecast20190719; t=1600257587;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8/WkIN3zqk/MjMLAzQ3kRjoBxXohAtKBI8IbighYvpQ=;
- b=Flof6GiQbULWy+mC4THtidgFsdwiHrEKrtay5VmOMCEdNmm100U7b3E9CVF37BA1JeobUN
- zl2n748O4WvwfcUthqnJfMIxjAm35KQXpKhgWX7fN5ggoZg2+9OqRVO/4YOM60n2XjE/nK
- eQFgc9I9leck0BXOOuFd1dl8jzNs4jI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-xRvwrIjfONmDgahGwoXJEw-1; Wed, 16 Sep 2020 07:54:48 -0400
-X-MC-Unique: xRvwrIjfONmDgahGwoXJEw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44E98EA1C0;
- Wed, 16 Sep 2020 11:54:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 806A167CF9;
- Wed, 16 Sep 2020 11:54:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0DDE7113864A; Wed, 16 Sep 2020 13:54:44 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 04/37] qapi: move generator entrypoint into module
-References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-5-jsnow@redhat.com>
-Date: Wed, 16 Sep 2020 13:54:44 +0200
-In-Reply-To: <20200915224027.2529813-5-jsnow@redhat.com> (John Snow's message
- of "Tue, 15 Sep 2020 18:39:54 -0400")
-Message-ID: <877dsuos1n.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=hH624yEul52ULnR9EqiYlG9OV+Yh9dZyn6ubeR2SBAc=;
+ b=WfKCUzvp5H8oc2mvpOuHOqP/jBmwroZoDK1nUfoGVGUiAqChz85DVEZLRdJUCl1sKrtGTo
+ IU6mDJwxX5PNG9ADNeJVfXCkPrkTc1ujgNMb1W3mfrzfLkXU04x2sbOyfg8GnfDoXpQoJO
+ bVc+9q81qNuiR395+0rbbRKEtJlmcF4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-0bK3UGZEMC6MpdEgRxvWoA-1; Wed, 16 Sep 2020 07:59:46 -0400
+X-MC-Unique: 0bK3UGZEMC6MpdEgRxvWoA-1
+Received: by mail-wr1-f71.google.com with SMTP id v12so2460041wrm.9
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 04:59:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=hH624yEul52ULnR9EqiYlG9OV+Yh9dZyn6ubeR2SBAc=;
+ b=ciX6+FLKAxox+BoiGAB6f/zfqn5yKjcrfX94TJRmOs0nQfpRfq2at5v90V/7MPQiVq
+ L3Z0M88M6QMpkwa7Cm/Zq3DHw4nApZvT6vnE0VRcU4ACwidGvmXuzKnOG9IN2aRAsrcM
+ BTg/5LoHmWqRbe769IFwbRkEBFXIf0PK92QsqcBodpxii6eReOInIld+mKjX1cv4zmcf
+ mhf5I1F8yQ0b5YBYRucK5NgsQagd1IZkJdy/FybinOI3ZUuzNf8RJWIGaAuYTtmlgeeY
+ xnjPz9CVx6/1dZiNJOkehkaF+lz7BldimFJupW65LLVizk17be//NNSCljm7fTtMZ8JR
+ FXUg==
+X-Gm-Message-State: AOAM530bsjebM8li4yopiLWSc3k5FjdTlZ+Cn9v+7cYMYa0jM1n3jTEA
+ /0mESum6sqS1SV7Dqk++WBFzX9ESsJKC6XfKQYKAAnRsX75YMRYgQaKFGrRGD/msMLmtdPFI382
+ fbItqW79Oapiia+o=
+X-Received: by 2002:a5d:4c4c:: with SMTP id n12mr13041362wrt.162.1600257585028; 
+ Wed, 16 Sep 2020 04:59:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHPoIjRdathkMPoqSzY2w6iy/fDaeOn+3czvQg8WRyYQiy+NMGDrZg08acIK48s/qcHGuXgA==
+X-Received: by 2002:a5d:4c4c:: with SMTP id n12mr13041342wrt.162.1600257584816; 
+ Wed, 16 Sep 2020 04:59:44 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id y6sm32981201wrn.41.2020.09.16.04.59.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Sep 2020 04:59:44 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Antoine Damhet <antoine.damhet@blade-group.com>
+Subject: Re: [BUG] Migration hv_time rollback
+In-Reply-To: <20200916112956.GE2833@work-vm>
+References: <20200916090602.blkm7eym6g5bnvvk@tartarus>
+ <20200916112956.GE2833@work-vm>
+Date: Wed, 16 Sep 2020 13:59:43 +0200
+Message-ID: <87bli6hqz4.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -82,77 +95,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
-> As part of delinting and adding type hints to the QAPI generator, it's
-> helpful for the entrypoint to be part of the module, only leaving a very
-> tiny entrypoint shim outside of the module.
+> cc'ing in Vitaly who knows about the hv stuff.
 >
-> As a result, all of the include statements are reworked to be module-aware,
-> as explicit relative imports.
 
-Should this be split into two commits, one for each of the paragraphs
-above?
+cc'ing Marcelo who knows about clocksources :-)
 
-PEP 8 recommends absolute imports, with one exception:
+> * Antoine Damhet (antoine.damhet@blade-group.com) wrote:
+>> Hi,
+>> 
+>> We are experiencing timestamp rollbacks during live-migration of
+>> Windows 10 guests
 
-    However, explicit relative imports are an acceptable alternative to
-    absolute imports, especially when dealing with complex package
-    layouts where using absolute imports would be unnecessarily verbose:
+Are you migrating to the same hardware (with the same TSC frequency)? Is
+TSC used as the clocksource on the host?
 
-        from . import sibling
-        from .sibling import example
+>>  with the following qemu configuration (linux 5.4.46
+>> and qemu master):
+>> ```
+>> $ qemu-system-x86_64 -enable-kvm -cpu host,kvm=off,hv_time [...]
+>> ```
 
-    Standard library code should avoid complex package layouts and
-    always use absolute imports.
+Out of pure curiosity, what's the purpose of doing 'kvm=off'? Windows is
+not going to check for KVM identification anyway so we pretend we're
+Hyper-V. 
 
-Do you think it covers your use of relative imports?
-
-> This is done primarily for the benefit of python tooling (pylint, mypy,
-> flake8, et al) which otherwise has trouble consistently resolving
-> "qapi.x" to mean "a sibling file in this folder."
-
-Can you give me an example of some tool having troube?
-
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi-gen.py        | 94 +++-----------------------------------
->  scripts/qapi/commands.py   |  4 +-
->  scripts/qapi/doc.py        |  2 +-
->  scripts/qapi/events.py     |  8 ++--
->  scripts/qapi/expr.py       |  4 +-
->  scripts/qapi/gen.py        |  4 +-
->  scripts/qapi/introspect.py |  8 ++--
->  scripts/qapi/parser.py     |  4 +-
->  scripts/qapi/schema.py     |  8 ++--
->  scripts/qapi/script.py     | 91 ++++++++++++++++++++++++++++++++++++
->  scripts/qapi/types.py      |  6 +--
->  scripts/qapi/visit.py      |  6 +--
->  12 files changed, 124 insertions(+), 115 deletions(-)
->  create mode 100644 scripts/qapi/script.py
-
-Naming is hard...  main.py?
+Also, have you tried adding more Hyper-V enlightenments? 
 
 >
-> diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
-> index 59becba3e1..e649f8dd44 100644
-> --- a/scripts/qapi-gen.py
-> +++ b/scripts/qapi-gen.py
-> @@ -1,97 +1,15 @@
->  #!/usr/bin/env python3
-> -
-> -# This work is licensed under the terms of the GNU GPL, version 2 or later.
-> -# See the COPYING file in the top-level directory.
-> -
+> How big a jump are you seeing, and how did you notice it in the guest?
+>
+> Dave
+>
+>> I have tracked the bug to the fact that `kvmclock` is not exposed and
+>> disabled from qemu PoV but is in fact used by `hv-time` (in KVM).
+>> 
+>> I think we should enable the `kvmclock` (qemu device) if `hv-time` is
+>> present and add Hyper-V support for the `kvmclock_current_nsec`
+>> function.
 
-Keep the license blurb.
+AFAICT kvmclock_current_nsec() checks whether kvmclock was enabled by
+the guest:
 
-[...]
+   if (!(env->system_time_msr & 1ULL)) {
+        /* KVM clock not active */
+        return 0;
+    }
+
+and this is (and way) always false for Windows guests.
+
+>> 
+>> I'm asking for advice because I am unsure this is the _right_ approach
+>> and how to keep migration compatibility between qemu versions.
+>> 
+>> Thank you all,
+>> 
+>> -- 
+>> Antoine 'xdbob' Damhet
+
+-- 
+Vitaly
 
 
