@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A4F26C254
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:54:31 +0200 (CEST)
-Received: from localhost ([::1]:53224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E899426C258
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:57:12 +0200 (CEST)
+Received: from localhost ([::1]:33042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIW18-0008Kq-4F
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
+	id 1kIW3j-0003MN-UI
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuZ-0006Ys-Th
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57627)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVub-0006bf-NE
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:45 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38533
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuY-00085q-5v
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:43 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVua-00086N-02
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256861;
+ s=mimecast20190719; t=1600256863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=F+pc1nDFelHE4seVIkTLbhi+MZZTdRgtj08zn+IhqNs=;
- b=O3Z3R+if3OOaKtoNrQz3FSE+LJ0W8qR8ikhURK5rjF0pll5crDVQvBdxkzHZLhLFci9sqw
- 5wrI/pr2hIOKy2wMXYsoLvXw9EJS85DsnIe040WAZuQa0kw8EwvxJcdpUxJdZIWCFlBk1D
- lsPZbxNUUpiWz/39K7NUBJCQwnVIAqU=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QFkLeMuxUXYDYD3rboRzVpk9jjX07A/28QMH2CKKFWI=;
+ b=iahqOdgAAhB5Vw5AHf3BiBAv/jIsUMlI07uD5XP9F1Mk40Vo4cZxcHuqb6HlUlhIFXYKs/
+ CpRNaWxr2XrauCCCwLIO6Z4cNvsXGLpCqwfJmP0KhTewyHUfH2NEqg104yOcQKKFV7uVsh
+ I55RQqMTWIZcQFNbHKA75l6eftGBXbg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-o56SBMQ1NPWFC0L88IFjzQ-1; Wed, 16 Sep 2020 07:47:39 -0400
-X-MC-Unique: o56SBMQ1NPWFC0L88IFjzQ-1
+ us-mta-414-9-7imVLfP1OHTSS3fuc99A-1; Wed, 16 Sep 2020 07:47:40 -0400
+X-MC-Unique: 9-7imVLfP1OHTSS3fuc99A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B0FD10BBEC3;
- Wed, 16 Sep 2020 11:47:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFDD310BBEE1;
+ Wed, 16 Sep 2020 11:47:39 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08F6A5DA71;
- Wed, 16 Sep 2020 11:47:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD0D85DA71;
+ Wed, 16 Sep 2020 11:47:38 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/24] fuzz: Change the way we write qtest log to stderr
-Date: Wed, 16 Sep 2020 13:47:09 +0200
-Message-Id: <20200916114731.102080-3-thuth@redhat.com>
+Subject: [PULL 03/24] tests/qtest/qmp-cmd-test: Use inclusive language
+Date: Wed, 16 Sep 2020 13:47:10 +0200
+Message-Id: <20200916114731.102080-4-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 00:53:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,39 +84,53 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+We simply want to ignore certain queries here, so let's rather
+use the term 'ignore' to express this intention.
 
-Telling QTest to log to /dev/fd/2, essentially results in dup(2). This
-is fine, if other code isn't logging to stderr. Otherwise, the order of
-the logs is mixed due to buffering issues, since two file-descriptors
-are used to write to the same file. We can avoid this, since just
-specifying "-qtest" sets the log fd to stderr. If we want to disable
-qtest logs, we can just add -qtest-log none.
-
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20200819061110.1320568-2-alxndr@bu.edu>
+Message-Id: <20200914163755.42618-1-thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/fuzz.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ tests/qtest/qmp-cmd-test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 1ceea84702..7f266ffc63 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -202,9 +202,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index 3109a9fe96..8a4c570e83 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -82,9 +82,9 @@ static void test_query(const void *data)
+     qtest_quit(qts);
+ }
  
-     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
-     GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
--    g_string_append_printf(cmd_line,
--                           " -qtest /dev/null -qtest-log %s",
--                           getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null");
-+    g_string_append_printf(cmd_line, " %s -qtest /dev/null ",
-+                           getenv("QTEST_LOG") ? "" : "-qtest-log none");
+-static bool query_is_blacklisted(const char *cmd)
++static bool query_is_ignored(const char *cmd)
+ {
+-    const char *blacklist[] = {
++    const char *ignored[] = {
+         /* Not actually queries: */
+         "add-fd",
+         /* Success depends on target arch: */
+@@ -101,8 +101,8 @@ static bool query_is_blacklisted(const char *cmd)
+     };
+     int i;
  
-     /* Split the runcmd into an argv and argc */
-     wordexp_t result;
+-    for (i = 0; blacklist[i]; i++) {
+-        if (!strcmp(cmd, blacklist[i])) {
++    for (i = 0; ignored[i]; i++) {
++        if (!strcmp(cmd, ignored[i])) {
+             return true;
+         }
+     }
+@@ -179,7 +179,7 @@ static void add_query_tests(QmpSchema *schema)
+             continue;
+         }
+ 
+-        if (query_is_blacklisted(si->name)) {
++        if (query_is_ignored(si->name)) {
+             continue;
+         }
+ 
 -- 
 2.18.2
 
