@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631E726C276
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:06:29 +0200 (CEST)
-Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C6426C26B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:03:44 +0200 (CEST)
+Received: from localhost ([::1]:53736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWCi-00078b-Cf
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54374)
+	id 1kIWA3-0003nK-Cy
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVux-000765-BD
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47187)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuw-00074G-Lh
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuv-0008C0-BK
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuu-0008Bq-Sa
  for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600256884;
@@ -23,29 +23,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K9e67ztPEAZgZUS2wgarxdF7g0G7almcuKEY30aLGiY=;
- b=dK0MAULxEHG+V3f/IhZXkX1/ThORyYFEYqOAkOYZn2FNLTQwW/0IzjYkNYtm5fvtu3zhfO
- bOLMA4zNsfbbhGVCQdvjsB8jS2u0V9HwBgo3D3mT4lEI80jX3M6JpntplHvL+E/rXjdgdi
- b0jz7lbcvXxqRy5UnqDf8HBrFeSpVXI=
+ bh=HuiDXMcON1NzKj/dAWVPuUogvuM/Y+oabFxej02umqw=;
+ b=WCMw7FvJWw5F0ANNIL+gFDklMdmAeqTWVBZkMeGXdg659RyfCgmTCtnTK5ieaLljyCjt3D
+ CZ8nHTpgBcwy5a4XnmxPVEpmvy8+Jb6s4hkI964KtZWE0trK7IHlrW++ESE6DPKkPVrb63
+ czKM6KHiOQtrByowidafSB5RGqj4jIM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-b3-GTJ6xNim_kzJdNfOZbw-1; Wed, 16 Sep 2020 07:48:00 -0400
-X-MC-Unique: b3-GTJ6xNim_kzJdNfOZbw-1
+ us-mta-199-fvPXXXnMMCi3yhuKwxAYfQ-1; Wed, 16 Sep 2020 07:48:02 -0400
+X-MC-Unique: fvPXXXnMMCi3yhuKwxAYfQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E3C856B2A;
- Wed, 16 Sep 2020 11:47:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FAAF87A831;
+ Wed, 16 Sep 2020 11:48:01 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 528CF5DA71;
- Wed, 16 Sep 2020 11:47:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBE625DE4A;
+ Wed, 16 Sep 2020 11:47:59 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 16/24] meson: remove empty else and duplicated gio deps
-Date: Wed, 16 Sep 2020 13:47:23 +0200
-Message-Id: <20200916114731.102080-17-thuth@redhat.com>
+Subject: [PULL 17/24] vmstate: Fixes test-vmstate.c on msys2/mingw
+Date: Wed, 16 Sep 2020 13:47:24 +0200
+Message-Id: <20200916114731.102080-18-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -85,38 +85,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
+The vmstate are valid on win32, just need generate tmp path properly
+
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200915121318.247-14-luoyonggang@gmail.com>
+Message-Id: <20200910103059.987-17-luoyonggang@gmail.com>
+[thuth: Make indentation a little bit nicer]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- meson.build | 6 ------
- 1 file changed, 6 deletions(-)
+ tests/test-vmstate.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index bba766b4bc..f4d1ab1096 100644
---- a/meson.build
-+++ b/meson.build
-@@ -317,7 +317,6 @@ opengl = not_found
- if 'CONFIG_OPENGL' in config_host
-   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
-                               link_args: config_host['OPENGL_LIBS'].split())
--else
- endif
- gtk = not_found
- if 'CONFIG_GTK' in config_host
-@@ -344,11 +343,6 @@ if 'CONFIG_ICONV' in config_host
-   iconv = declare_dependency(compile_args: config_host['ICONV_CFLAGS'].split(),
-                              link_args: config_host['ICONV_LIBS'].split())
- endif
--gio = not_found
--if 'CONFIG_GIO' in config_host
--  gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
--                           link_args: config_host['GIO_LIBS'].split())
--endif
- vnc = not_found
- png = not_found
- jpeg = not_found
+diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
+index 1c763015d0..a001879585 100644
+--- a/tests/test-vmstate.c
++++ b/tests/test-vmstate.c
+@@ -34,7 +34,6 @@
+ #include "qemu/module.h"
+ #include "io/channel-file.h"
+ 
+-static char temp_file[] = "/tmp/vmst.test.XXXXXX";
+ static int temp_fd;
+ 
+ 
+@@ -1484,6 +1483,8 @@ static void test_tmp_struct(void)
+ 
+ int main(int argc, char **argv)
+ {
++    g_autofree char *temp_file = g_strdup_printf("%s/vmst.test.XXXXXX",
++                                                 g_get_tmp_dir());
+     temp_fd = mkstemp(temp_file);
+ 
+     module_call_init(MODULE_INIT_QOM);
 -- 
 2.18.2
 
