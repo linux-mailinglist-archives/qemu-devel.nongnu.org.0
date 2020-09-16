@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE6E26C132
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:54:47 +0200 (CEST)
-Received: from localhost ([::1]:53126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C74126C0FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:48:38 +0200 (CEST)
+Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIU9G-0000Un-VX
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53360)
+	id 1kIU3J-0007Qb-3n
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:48:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIU5I-0003h2-I7
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:50:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIU5F-0000Oy-3j
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:50:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kIU5D-0004yN-Be
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 09:50:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 56EF82E8053
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 09:50:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kIU1s-00062B-MW
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:47:08 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27802
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kIU1q-0008Du-TS
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:47:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600249626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BheMcis1sJHJd6LosWlCnFQY7a76c84OiIt1JjtLhaY=;
+ b=WOSzeSpiOJNNMuXc/eDkIzgwKde6/R2tOgdFuQswfU6zNZeVFkuIzrsMUU30JB660RYub2
+ VjVbcrNQb6tpsCR2Xst27W++WBQgfEPMka4eXRvuVCkcEpjByYWgtk7Snv8+KYj/HSh9eg
+ zaNULgjfeP369VvRYtksfKJehAPd1oo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-6f2OqUl-OEinPl3tJPkmzQ-1; Wed, 16 Sep 2020 05:47:02 -0400
+X-MC-Unique: 6f2OqUl-OEinPl3tJPkmzQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3889A8030CB;
+ Wed, 16 Sep 2020 09:47:01 +0000 (UTC)
+Received: from work-vm (ovpn-114-237.ams2.redhat.com [10.36.114.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D580410021AA;
+ Wed, 16 Sep 2020 09:46:55 +0000 (UTC)
+Date: Wed, 16 Sep 2020 10:46:53 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v7 10/13] hmp: Add support for coroutine command handlers
+Message-ID: <20200916094653.GB2833@work-vm>
+References: <20200909151149.490589-1-kwolf@redhat.com>
+ <20200909151149.490589-11-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 16 Sep 2020 09:42:50 -0000
-From: Laurent Vivier <1895053@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier pauldzim petunia2000
-X-Launchpad-Bug-Reporter: Petunia (petunia2000)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
- <160012098302.13806.18015836722669860873.malone@gac.canonical.com>
-Message-Id: <010e4620-496c-3e35-8290-f2b338331045@vivier.eu>
-Subject: Re: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to
- start Journal Service.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: b458b0c9838e21d380eae244b47778e0c45b4bb7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 05:50:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200909151149.490589-11-kwolf@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 00:53:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,94 +82,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
+Cc: marcandre.lureau@gmail.com, stefanha@redhat.com, armbru@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/09/2020 =C3=A0 00:03, Petunia a =C3=A9crit=C2=A0:
-> for file in /proc/sys/fs/binfmt_misc/* ; do echo "$file"; LANG=3DC cat $f=
-ile; done
-...
-> /proc/sys/fs/binfmt_misc/arm
-> enabled
-> interpreter /usr/bin/qemu-arm-static
-> flags: OCF
-> offset 0
-> magic 7f454c4601010100000000000000000002002800
-> mask ffffffffffffff00fffffffffffffffffeffffff
+* Kevin Wolf (kwolf@redhat.com) wrote:
+> Often, QMP command handlers are not only called to handle QMP commands,
+> but also from a corresponding HMP command handler. In order to give them
+> a consistent environment, optionally run HMP command handlers in a
+> coroutine, too.
+> 
+> The implementation is a lot simpler than in QMP because for HMP, we
+> still block the VM while the coroutine is running.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
-'F'[1] flags means the interpreter is loaded from your host:
-your "--bind" arg is not needed and the file I asked you to copy inside
-the container is not used.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-So to enable the traces, the easier way to do is to rename the file
-directly on the host and to reload the configuration (but warning, if
-you have other containers running they will be also run with trace):
+> ---
+>  monitor/monitor-internal.h |  1 +
+>  monitor/hmp.c              | 37 ++++++++++++++++++++++++++++++++-----
+>  2 files changed, 33 insertions(+), 5 deletions(-)
+> 
+> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+> index b55d6df07f..ad2e64be13 100644
+> --- a/monitor/monitor-internal.h
+> +++ b/monitor/monitor-internal.h
+> @@ -74,6 +74,7 @@ typedef struct HMPCommand {
+>      const char *help;
+>      const char *flags; /* p=preconfig */
+>      void (*cmd)(Monitor *mon, const QDict *qdict);
+> +    bool coroutine;
+>      /*
+>       * @sub_table is a list of 2nd level of commands. If it does not exist,
+>       * cmd should be used. If it exists, sub_table[?].cmd should be
+> diff --git a/monitor/hmp.c b/monitor/hmp.c
+> index 4b66ca1cd6..b858b0dbde 100644
+> --- a/monitor/hmp.c
+> +++ b/monitor/hmp.c
+> @@ -1056,12 +1056,26 @@ fail:
+>      return NULL;
+>  }
+>  
+> +typedef struct HandleHmpCommandCo {
+> +    Monitor *mon;
+> +    const HMPCommand *cmd;
+> +    QDict *qdict;
+> +    bool done;
+> +} HandleHmpCommandCo;
+> +
+> +static void handle_hmp_command_co(void *opaque)
+> +{
+> +    HandleHmpCommandCo *data = opaque;
+> +    data->cmd->cmd(data->mon, data->qdict);
+> +    monitor_set_cur(qemu_coroutine_self(), NULL);
+> +    data->done = true;
+> +}
+> +
+>  void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
+>  {
+>      QDict *qdict;
+>      const HMPCommand *cmd;
+>      const char *cmd_start = cmdline;
+> -    Monitor *old_mon;
+>  
+>      trace_handle_hmp_command(mon, cmdline);
+>  
+> @@ -1080,10 +1094,23 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
+>          return;
+>      }
+>  
+> -    /* old_mon is non-NULL when called from qmp_human_monitor_command() */
+> -    old_mon = monitor_set_cur(qemu_coroutine_self(), &mon->common);
+> -    cmd->cmd(&mon->common, qdict);
+> -    monitor_set_cur(qemu_coroutine_self(), old_mon);
+> +    if (!cmd->coroutine) {
+> +        /* old_mon is non-NULL when called from qmp_human_monitor_command() */
+> +        Monitor *old_mon = monitor_set_cur(qemu_coroutine_self(), &mon->common);
+> +        cmd->cmd(&mon->common, qdict);
+> +        monitor_set_cur(qemu_coroutine_self(), old_mon);
+> +    } else {
+> +        HandleHmpCommandCo data = {
+> +            .mon = &mon->common,
+> +            .cmd = cmd,
+> +            .qdict = qdict,
+> +            .done = false,
+> +        };
+> +        Coroutine *co = qemu_coroutine_create(handle_hmp_command_co, &data);
+> +        monitor_set_cur(co, &mon->common);
+> +        aio_co_enter(qemu_get_aio_context(), co);
+> +        AIO_WAIT_WHILE(qemu_get_aio_context(), !data.done);
+> +    }
+>  
+>      qobject_unref(qdict);
+>  }
+> -- 
+> 2.25.4
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-sudo mv /usr/bin/qemu-arm-static /usr/vib/qemu-arm-org
-sudo cp qemu-wrapper /usr/bin/qemu-arm-static
-sudo systemctl restart systemd-binfmt.service
-systemd-nspawn  --boot --directory=3D/mnt
-
-[1] linux/Documentation/admin-guide/binfmt-misc.rst
-
-``F`` - fix binary
-      The usual behaviour of binfmt_misc is to spawn the
-      binary lazily when the misc format file is invoked.  However,
-      this doesn``t work very well in the face of mount namespaces and
-      changeroots, so the ``F`` mode opens the binary as soon as the
-      emulation is installed and uses the opened image to spawn the
-      emulator, meaning it is always available once installed,
-      regardless of how the environment changes.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895053
-
-Title:
-  Cannot nspawn raspbian 10 [FAILED] Failed to start Journal Service.
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi, I'm using nspawn and asked the question @systemd-devel. They redirect=
-ed me to you, guessing that nspawn calls a syscall or ioctl qemu isnt aware=
- of and can't implement properly?
-  They were like: "Sorry, that's not my department." ^^
-
-  Maybe you can reproduce the issue or help me investigating whats wrong
-  or put the ball right back into their court? :D
-
-  Testscript:
-  wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -o r.zip
-  unzip r.zip
-  LOOP=3D$(losetup --show -Pf *raspios-buster-armhf-lite.img)
-  mount ${LOOP}p2 /mnt
-  mount ${LOOP}p1 /mnt/boot
-  systemd-nspawn --bind /usr/bin/qemu-arm-static --boot --directory=3D/mnt =
--- systemd.log_level=3Ddebug
-
-  Output:
-  see attachment
-
-  System:
-  uname -a
-  Linux MArch 5.8.7-arch1-1 #1 SMP PREEMPT Sat, 05 Sep 2020 12:31:32 +0000
-  x86_64 GNU/Linux
-
-  qemu-arm-static --version
-  qemu-arm version 5.1.0
-
-  systemd-nspawn --version
-  systemd 246 (246.4-1-arch)
-  +PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP +LIBCRYPTSETUP
-  +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2=
- -IDN
-  +PCRE2 default-hierarchy=3Dhybrid
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895053/+subscriptions
 
