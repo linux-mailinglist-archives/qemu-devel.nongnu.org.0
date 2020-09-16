@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780EA26C171
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 12:03:49 +0200 (CEST)
-Received: from localhost ([::1]:54526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C9226C182
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 12:10:47 +0200 (CEST)
+Received: from localhost ([::1]:41138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIUI0-0004ix-GA
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 06:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55902)
+	id 1kIUOk-0002aR-Uw
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 06:10:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kIUFf-00029r-QY
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 06:01:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27754)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kIUNL-00023X-Uf
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 06:09:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kIUFd-0001rh-VC
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 06:01:23 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kIUNJ-0002qr-ED
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 06:09:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600250481;
+ s=mimecast20190719; t=1600250956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b+BtD94FO8ZoxunpXlbSATsg5yugE548JCHe/T+26L4=;
- b=hHa2QsfXVqHCXXpbYNJ4fPTK4O443gURiNqylyGE1HMJnl+SqHHbQg0KITkUSXNCixrbxZ
- wjbwcmgYCjJ+Dcv2Sz43/njaDLm+7C+XrIRlFnk9ya/tUR0xFQ7mWPm6MwXOATJ7XNy8eP
- A4nmKer+69wmhvIkwTmCbofHgm+zwgU=
+ bh=ak7jzWSXiAVceJ8UKOsGDGjc6IdRK7bMWFGcyYhdK8E=;
+ b=iN5QxYzSocrTUIwPCwi93jdIPLtDTvAYlb7WCayZ7kCMc4Pw8MS67yZOH1pmB+jn/nvE7n
+ LW9xUVudxMKtUudvEMfMpeG8KsLusmKIIIcpvQbE4HxquAkJL+c3tBvwDDikwbxAO0FYC+
+ ITG3kWOW5H6lE/h60lfq3GYFxzawdn4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-i8KH1gPENEiL-uHX4p442Q-1; Wed, 16 Sep 2020 06:01:19 -0400
-X-MC-Unique: i8KH1gPENEiL-uHX4p442Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-223-79EJlYvLNMWRCWkXYlX3qg-1; Wed, 16 Sep 2020 06:09:12 -0400
+X-MC-Unique: 79EJlYvLNMWRCWkXYlX3qg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5A19EA323;
- Wed, 16 Sep 2020 10:01:17 +0000 (UTC)
-Received: from gondolin (ovpn-112-252.ams2.redhat.com [10.36.112.252])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBA2B75123;
- Wed, 16 Sep 2020 10:01:14 +0000 (UTC)
-Date: Wed, 16 Sep 2020 12:01:12 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: Re: [PATCH v3 3/5] vfio: Find DMA available capability
-Message-ID: <20200916120112.53604f46.cohuck@redhat.com>
-In-Reply-To: <1600197283-25274-4-git-send-email-mjrosato@linux.ibm.com>
-References: <1600197283-25274-1-git-send-email-mjrosato@linux.ibm.com>
- <1600197283-25274-4-git-send-email-mjrosato@linux.ibm.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A02158015A3;
+ Wed, 16 Sep 2020 10:09:10 +0000 (UTC)
+Received: from localhost (ovpn-115-47.ams2.redhat.com [10.36.115.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B85E060BFA;
+ Wed, 16 Sep 2020 10:09:06 +0000 (UTC)
+Date: Wed, 16 Sep 2020 11:09:05 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [PATCH 1/3] util/iov: add iov_discard_undo()
+Message-ID: <20200916100905.GA756046@stefanha-x1.localdomain>
+References: <20200812104918.107116-1-stefanha@redhat.com>
+ <20200812104918.107116-2-stefanha@redhat.com>
+ <CAKXe6S+nUWQGFDKRu8mBBOTKc1kWc7YfO=p+F7+ObnmW017atg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+In-Reply-To: <CAKXe6S+nUWQGFDKRu8mBBOTKc1kWc7YfO=p+F7+ObnmW017atg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SHORT_URL=1.21, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,28 +83,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- david@redhat.com, schnelle@linux.ibm.com, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Sep 2020 15:14:41 -0400
-Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+--BOKacYhQ+x31HxR3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> The underlying host may be limiting the number of outstanding DMA
-> requests for type 1 IOMMU.  Add helper functions to check for the
-> DMA available capability and retrieve the current number of DMA
-> mappings allowed.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->  hw/vfio/common.c              | 31 +++++++++++++++++++++++++++++++
->  include/hw/vfio/vfio-common.h |  2 ++
->  2 files changed, 33 insertions(+)
+On Sun, Aug 16, 2020 at 04:26:45PM +0800, Li Qiang wrote:
+> Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8812=
+=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=886:52=E5=86=99=E9=81=93=EF=BC=
+=9A
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Thanks for your review!
+
+> > +    /* Discard more bytes than vector size */
+> > +    iov_random(&iov, &iov_cnt);
+> > +    iov_orig =3D g_memdup(iov, sizeof(iov[0]) * iov_cnt);
+> > +    iov_tmp =3D iov;
+> > +    iov_cnt_tmp =3D iov_cnt;
+> > +    size =3D iov_size(iov, iov_cnt);
+> > +    iov_discard_front_undoable(&iov_tmp, &iov_cnt_tmp, size + 1, &undo=
+);
+> > +    iov_discard_undo(&undo);
+> > +    assert(iov_equals(iov, iov_orig, iov_cnt));
+> >
+>=20
+> The 'iov_discard_front_undoable' will change the 'iov_tmp' it will not
+> touch 'iov_orig'.
+> So the test will be always passed. The actually function will not be test=
+ed.
+
+The test verifies that the iovec elements are restored to their previous
+state by iov_discard_undo().
+
+I think you are saying you'd like iov_discard_undo() to reset the
+iov_tmp pointer? Currently that is not how the API works. The caller is
+assumed to have the original pointer (e.g. virtio-blk has
+req->elem.in/out_sg) and therefore it is not necessary to reset iov_tmp.
+
+> Also, maybe we could abstract a function to do these discard test?
+
+The structure of the test cases is similar but they vary in different
+places. I'm not sure if this can be abstracted nicely.
+
+> > diff --git a/util/iov.c b/util/iov.c
+> > index 45ef3043ee..efcf04b445 100644
+> > --- a/util/iov.c
+> > +++ b/util/iov.c
+> > @@ -636,14 +636,33 @@ void qemu_iovec_clone(QEMUIOVector *dest, const
+> > QEMUIOVector *src, void *buf)
+> >      }
+> >  }
+> >
+> > -size_t iov_discard_front(struct iovec **iov, unsigned int *iov_cnt,
+> > -                         size_t bytes)
+> > +void iov_discard_undo(IOVDiscardUndo *undo)
+> > +{
+> > +    /* Restore original iovec if it was modified */
+> > +    if (undo->modified_iov) {
+> > +        *undo->modified_iov =3D undo->orig;
+> > +    }
+> > +}
+> > +
+> > +size_t iov_discard_front_undoable(struct iovec **iov,
+> > +                                  unsigned int *iov_cnt,
+> > +                                  size_t bytes,
+> > +                                  IOVDiscardUndo *undo)
+> >  {
+> >      size_t total =3D 0;
+> >      struct iovec *cur;
+> >
+> > +    if (undo) {
+> > +        undo->modified_iov =3D NULL;
+> > +    }
+> > +
+> >      for (cur =3D *iov; *iov_cnt > 0; cur++) {
+> >          if (cur->iov_len > bytes) {
+> > +            if (undo) {
+> > +                undo->modified_iov =3D cur;
+> > +                undo->orig =3D *cur;
+> > +            }
+> > +
+> >
+>=20
+> Why here we remember the 'cur'? 'cur' is the some of the 'iov'.
+> Maybe we remember the 'iov'. I think we need the undo structure like this=
+:
+>=20
+> struct IOVUndo {
+>     iov **modified_iov;
+>     iov *orig;
+> };
+>=20
+> Then we can remeber the origin 'iov'.
+
+Yes, this could be done but it's not needed (yet?). VirtQueueElement has
+the original struct iovec pointers so adding this would be redundant.
+
+--BOKacYhQ+x31HxR3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9h5EEACgkQnKSrs4Gr
+c8i8VAf+NO6YhS/MV51d0fXVv6sVAHNFRrAqAIBJE4+AlbW6o4TKEUI9QQriSduk
+IYwVMd1mdrKmCm1iJHNGVV0I1EfmosI3yCtapb1tF2MF3Z2+cwYnGQorpej8l51B
+Zz4zPPaRPYcPHg42IOjT7tTMZW+WyGwZcQsqkR+DTH+dK+Ccbl1rDoXdYwOTgAFk
+vQB4wqoOSjbL4LDCr9hq1qK1LbIAq74AxzlVIEfroSO9ERIb4NEV9yW78+p/MhZN
+bo/tm0ufibbhz6bMJC0R+Lfo+zFP+1jpbmg4DlNBvKmQsbR5zGjF9REnA8+FD94O
+uWGVfJ18Y4K9eq1FMrN5R9Az88vnhg==
+=elyP
+-----END PGP SIGNATURE-----
+
+--BOKacYhQ+x31HxR3--
 
 
