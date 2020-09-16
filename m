@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457E726B8DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 02:51:46 +0200 (CEST)
-Received: from localhost ([::1]:41246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC0F26B8AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 02:49:04 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kILfl-00032y-9T
-	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 20:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
+	id 1kILd8-00083c-PV
+	for lists+qemu-devel@lfdr.de; Tue, 15 Sep 2020 20:49:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kILay-0006Ib-G7
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:48 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35767)
+ id 1kILaz-0006KY-DI
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:49 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:35395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kILaw-0001WT-R1
- for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:48 -0400
-Received: by mail-pf1-x442.google.com with SMTP id o68so2968042pfg.2
- for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:46:46 -0700 (PDT)
+ id 1kILax-0001Wt-Uv
+ for qemu-devel@nongnu.org; Tue, 15 Sep 2020 20:46:49 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id jw11so651274pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Sep 2020 17:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zb/g+Fvikq2LApYjpqfoFSuv71lvaud3AwPVH756moE=;
- b=h7L0pgKPC0W0oEwh5/ubrCmFUy2fLCRxqL/CLrRJ9TigHUTVKt1wHEKBqbQKSHUE7u
- vk5Lc2MSGnPxGOxWtgqPeQWEeO+DzSb0h6n0rzJ1IGjRNbCjiAPRVIcNHgvz5jdJyGPH
- Hj0Zv6TG8TRGZ9/aHUQGHnlr8x1tdUo3OQ9Tb7eJyay1NP03X9kRqOJLmOnKhHMe3xzG
- HX2Hexo9c4YOqOOIkuo4g1xfdSR1C78+iX4kJi8A4I55s3em3iPu3vJHsHJuu+PT9sss
- ebK2nzS0NtlpPV5lptyyjDxZ7wr3hwnprx3F1Q76bKgYXZUuT5TFmZxQrarny/x1fPQt
- w16w==
+ bh=dqbg1+YUD56oz0mEVRHEVZEpbEBWoWejpoX6YFZKEQU=;
+ b=V4SZ0rI5iaEkHjBOYajV8wfP166DB7wHEjOLKMGwCBLD0HZlXs+HqwlB9dyXR6h5YD
+ eXylJy52HH2bIJx+N6TbnJ/29tJ9gFGq+TfoZv3Zo2+eAfC4A7a94wqY2UrUFAmCVIsk
+ tssV5c6rNM7E5S7A2Xq0EE11VI6ivpzcqMfOlSIY6tdyWZV+zij/ai1pArOZcUS4VMQA
+ Ys+/kq37QgJeROu4ay8yPMki5IFXVOLKmaNvqRORf9YgSwIOkErvZ3AbjYV0zV4noqPT
+ mdZ94XDQ/9wsFWBIaDHewPKZXN3RErshA+oPQcne0LwFzmcenkTneWQQJvyhlNjsNfHl
+ 3XMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zb/g+Fvikq2LApYjpqfoFSuv71lvaud3AwPVH756moE=;
- b=SvYwabpt+3dhp/9TMtKKRPj7AvlxguEsRgt36FtRkV+Llgc1hJJefRMzXkrv+jrGPJ
- Fe0ZJ3hlYKg+eXbLQ6x7Gspmc/3sxsrdC63g0v8V9mwhzgL+G5kFcnsboyYMkm3e3K53
- 6BWKGkQb8iRjf139obuWwTWyfWS5VjgZ6ix8pMas+w+YKgWdOBbgOvE5tcpgYxtuxZ8K
- NnuQqu6IsswUbO6f5IXmMUEWPsh8B/KpnmXx1K+Rx5LQQ1W3EhEksnbntBUeivJozRcv
- sj1OV7uSgufAziW6DD6HSXkz2MOl1zjUbMyc808XEeC35ugR26xzVvogayTWezEnsywx
- EQ+w==
-X-Gm-Message-State: AOAM531NzQ82NGXNBQG0eFxZqzh4+tFWWg7nZ11DzWNYd8SRujvlqB9K
- 8OEtdXNZGosWTKhnil47QMx6Foo8lONeHw==
-X-Google-Smtp-Source: ABdhPJznwfBpFEHmNAKipCJRgIBqFEmIs4WQKPT3KH8b9+GwSYJVPRtAbwzl3uI+L3IZT/I5OC+IQg==
-X-Received: by 2002:a63:fc04:: with SMTP id j4mr502866pgi.310.1600217205229;
- Tue, 15 Sep 2020 17:46:45 -0700 (PDT)
+ bh=dqbg1+YUD56oz0mEVRHEVZEpbEBWoWejpoX6YFZKEQU=;
+ b=CYrlQPUTUfd48AMQFlXHkZUpfrYs4WGX45zedxap6lm2LguE3NiU7dtLw0ZdXySy5y
+ JhEqAg6AlEViW1T89Wr0LSqiDsYHKK5ARYRfG5XxmXHDA/fv8Vu+b+uzuO2cQkER8wxs
+ jW+h3gLRgKBEY98i+8wvz22XnwM4p4ZVUYFY3qMtWDj8RvdervykTqTC/v2QogzPNJt8
+ Fm+dOmOwuxMAZ2n/+HeWYHJ1KUywSZ0Ee6qxlddonkXGQLYMuuEM0HllixBRYiYQlZ+5
+ SL/vJ6cV1L4N3ad/Pr4K9v7dkfRsow3OxY1qgnKItuSTAmE/ItG6O8y7vtEiqEmrszQ/
+ CTfw==
+X-Gm-Message-State: AOAM530DRsW5Eucvhlcwnnjf8GZucFhqPlAGXtQc8v7E+ntBkzWJDZT5
+ ESKWtLp7jsaGFkL40i+UtbmfG0lyylz8Kw==
+X-Google-Smtp-Source: ABdhPJyB0a6HD1odyvXgF/38HdPTjf6DkmeoNFdyBFVad/ZfeBolhbcsjiNw6CZ4BFbrhrH4EdL3bw==
+X-Received: by 2002:a17:90b:793:: with SMTP id
+ l19mr1728901pjz.154.1600217206348; 
+ Tue, 15 Sep 2020 17:46:46 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id kf10sm611723pjb.2.2020.09.15.17.46.44
+ by smtp.gmail.com with ESMTPSA id kf10sm611723pjb.2.2020.09.15.17.46.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 17:46:44 -0700 (PDT)
+ Tue, 15 Sep 2020 17:46:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] target/ppc: Set instance_align on PowerPCCPU TypeInfo
-Date: Tue, 15 Sep 2020 17:46:36 -0700
-Message-Id: <20200916004638.2444147-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 5/6] target/riscv: Set instance_align on RISCVCPU TypeInfo
+Date: Tue, 15 Sep 2020 17:46:37 -0700
+Message-Id: <20200916004638.2444147-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200916004638.2444147-1-richard.henderson@linaro.org>
 References: <20200916004638.2444147-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,32 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-riscv@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix alignment of CPUPPCState.vsr.
+Fix alignment of CPURISCVState.vreg.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-ppc@nongnu.org
+Cc: Alistair Francis <Alistair.Francis@wdc.com>
+Cc: qemu-riscv@nongnu.org
 ---
- target/ppc/translate_init.c.inc | 1 +
+ target/riscv/cpu.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 230a062d29..accb4f2fae 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -10960,6 +10960,7 @@ static const TypeInfo ppc_cpu_type_info = {
-     .name = TYPE_POWERPC_CPU,
-     .parent = TYPE_CPU,
-     .instance_size = sizeof(PowerPCCPU),
-+    .instance_align = __alignof__(PowerPCCPU),
-     .instance_init = ppc_cpu_instance_init,
-     .instance_finalize = ppc_cpu_instance_finalize,
-     .abstract = true,
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 57c006df5d..0bbfd7f457 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -628,6 +628,7 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+         .name = TYPE_RISCV_CPU,
+         .parent = TYPE_CPU,
+         .instance_size = sizeof(RISCVCPU),
++        .instance_align = __alignof__(RISCVCPU),
+         .instance_init = riscv_cpu_init,
+         .abstract = true,
+         .class_size = sizeof(RISCVCPUClass),
 -- 
 2.25.1
 
