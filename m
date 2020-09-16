@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3C726C26F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:04:33 +0200 (CEST)
-Received: from localhost ([::1]:57332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC82A26C294
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:13:59 +0200 (CEST)
+Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWAq-0005Ey-7q
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:04:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54508)
+	id 1kIWJy-0006uf-R9
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:13:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVvH-0007V5-2u
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50025)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVzM-0005it-SL
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:52:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56961
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVvE-0008E2-6L
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:26 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVzK-0000HY-Tq
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:52:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256903;
+ s=mimecast20190719; t=1600257157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5pgmW3Tgw3grA4G0aHb8Y9UjrOv7Bu7D0uP3/KogksY=;
- b=Me0E87E4I/H4qbA9Npyb5jPQdyl+gDvG8r3q9ITUPH5RXfxCI1xnLonXEMHBJSbefvNY9A
- uzX2/2UwgUiFswb/HH5ZUN/6MYMpbuU3PKa38boiGx6SgeDvF68nHQczSA5y1G41DDE3bk
- bkXjj+iPjAiVcXPwn2eNLpAz6Qk/d2c=
+ bh=C+psTNPTjBpAdg4roaaa0Yr2Mls4yjzGGGOrts3SUJk=;
+ b=cxgfAG2RjC0/xF8rdjM5DcMux0lab8fYl2eo5ceWS/DSXmkFeEBPhSD8n4S9Zgzxwd0/au
+ ezZtxWVyEZcZJF1KuFc+p80zpF3VgDnotKpyFZlaBK3ep9eGKKeXJVu7ECI2F08lwpDljJ
+ 6xP5XrG5WvrgsoqFOo3U3qfyx/BX1t8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-Hl_fFd_qMGSxsnR2bGKQpg-1; Wed, 16 Sep 2020 07:48:12 -0400
-X-MC-Unique: Hl_fFd_qMGSxsnR2bGKQpg-1
+ us-mta-321-4Z7eV12xPGm-Oya6z7WPwg-1; Wed, 16 Sep 2020 07:52:34 -0400
+X-MC-Unique: 4Z7eV12xPGm-Oya6z7WPwg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A8F186DD2B;
- Wed, 16 Sep 2020 11:48:11 +0000 (UTC)
-Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DE735DA71;
- Wed, 16 Sep 2020 11:48:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C5681021D21;
+ Wed, 16 Sep 2020 11:52:32 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-19.ams2.redhat.com [10.36.113.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7004C4D;
+ Wed, 16 Sep 2020 11:52:25 +0000 (UTC)
+Subject: Re: [PATCH v10 00/26] W32, W64 msys2/mingw patches
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+References: <20200915171234.236-1-luoyonggang@gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 24/24] cirrus: Building freebsd in a single shot
-Date: Wed, 16 Sep 2020 13:47:31 +0200
-Message-Id: <20200916114731.102080-25-thuth@redhat.com>
-In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
-References: <20200916114731.102080-1-thuth@redhat.com>
+Message-ID: <cd40da60-d03f-bf37-c0d7-1f362419cf75@redhat.com>
+Date: Wed, 16 Sep 2020 13:52:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200915171234.236-1-luoyonggang@gmail.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 06:27:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
+X-Spam_score_int: -51
+X-Spam_score: -5.2
 X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,90 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Peter Lieven <pl@kamp.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+On 15/09/2020 19.12, Yonggang Luo wrote:
+[...]
+> It first introduce msys2 CI on cirrus by fixes nfs, capstone, curses and
+> disable partial test-char tests.
+> And then fixes all unit tests failure on msys2/mingw
+> This fixes the reviews suggested in the mailling list
+> All cirrus CI are passed
 
-This reverts commit 45f7b7b9f38f5c4d1529a37c93dedfc26a231bba
-("cirrus.yml: Split FreeBSD job into two parts").
+Thanks a lot for your work, I've added most of your patches to my latest
+"testing" pull request now, so that we should get basic test coverage on
+msys2 now in the Cirrus-CI if it gets merged.
 
-freebsd 1 hour limit not hit anymore
+I skipped the NFS, capstone, test-char and crypto patches for now (and
+replaced them with older versions of your patches where you've disabled
+them) - I think these patches still need some more review / work and
+then should go through the trees of the corresponding maintainers later.
 
-I think we going to a wrong direction, I think there is some tests a stall the test runner,
-please look at
-https://cirrus-ci.com/task/5110577531977728
-When its running properly, the consumed time are little, but when tests running too long,
-look at the cpu usage, the cpu usage are nearly zero. doesn't consuming time.
-
-And look at
-https://cirrus-ci.com/task/6119341601062912
-
-If the tests running properly, the time consuming are little
-We should not hide the error by split them
-
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Ed Maste <emaste@FreeBSD.org>
-Message-Id: <20200915121318.247-16-luoyonggang@gmail.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .cirrus.yml | 35 ++++++++---------------------------
- 1 file changed, 8 insertions(+), 27 deletions(-)
-
-diff --git a/.cirrus.yml b/.cirrus.yml
-index e5feb53b54..d58782ce67 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -1,38 +1,19 @@
- env:
-   CIRRUS_CLONE_DEPTH: 1
- 
--freebsd_1st_task:
-+freebsd_12_task:
-   freebsd_instance:
-     image_family: freebsd-12-1
--    cpu: 4
--    memory: 4G
--  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
--    bash curl cyrus-sasl git glib gmake gnutls gsed
--    nettle perl5 pixman pkgconf png usbredir
-+    cpu: 8
-+    memory: 8G
-+  install_script:
-+    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
-+    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed
-+          nettle perl5 pixman pkgconf png usbredir
-   script:
-     - mkdir build
-     - cd build
--    - ../configure --disable-user --target-list-exclude='alpha-softmmu
--        ppc64-softmmu ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
--        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu'
--        --enable-werror || { cat config.log; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake -j$(sysctl -n hw.ncpu) check
--
--freebsd_2nd_task:
--  freebsd_instance:
--    image_family: freebsd-12-1
--    cpu: 4
--    memory: 4G
--  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
--    bash curl cyrus-sasl git glib gmake gnutls gtk3 gsed libepoxy mesa-libs
--    nettle perl5 pixman pkgconf png SDL2 usbredir
--  script:
--    - ./configure --enable-werror --target-list='alpha-softmmu ppc64-softmmu
--        ppc-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu
--        sparc64-softmmu sparc-softmmu x86_64-softmmu i386-softmmu
--        sparc-bsd-user sparc64-bsd-user x86_64-bsd-user i386-bsd-user'
--        || { cat config.log; exit 1; }
-+    - ../configure --enable-werror || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake -j$(sysctl -n hw.ncpu) check
- 
--- 
-2.18.2
+ Cheers,
+  Thomas
 
 
