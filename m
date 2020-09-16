@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7403026C08C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:29:37 +0200 (CEST)
-Received: from localhost ([::1]:60948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835F326C088
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 11:29:36 +0200 (CEST)
+Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kITku-0004Ao-Fc
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46104)
+	id 1kITkt-000489-JP
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 05:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kITi5-0008S2-6D
+ id 1kITi5-0008SE-Jh
  for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:26:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40407)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kITi1-0005F9-1Q
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:26:40 -0400
+ id 1kITi3-0005FQ-4e
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 05:26:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600248395;
+ s=mimecast20190719; t=1600248398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0noMqEEwXEQCXdwYxIBfUrKdLiJaDdhoPitQpm3ruXQ=;
- b=cO42soS8LsaWYI24OVz8IMAJm9b9CjVzFenHh6Q3DRK0qP/K82on2i6noulxQdy6cx6BBU
- R9e7+Y3k0aR9GjfoKUaF8jPqSRNBootQ0Md8OGcdUQfDTxrQssEZo8RCjiWfeAJMgHfehn
- QcmENeTCqhoBIMfu8gojc7eeD7rllmA=
+ bh=gTO/SQ9vshib7GcatEkVOzEDRKcf41wNlPhOxTVqARc=;
+ b=Jqxd0DvuGa/8tD5hsKvTzT0ONuBFlAi/AH3jQOpwTtzgSPPLnPEv+tOFzEoW7b5zARIVCb
+ Kh5LANxA2c1Pi0DmkaOM/RxWW3Zio+K8AGYwILU8kCxFcCPmuJUahQQLXPRsoNnR/w184T
+ YM4QwfHR5IXmT1vWKPXrmwPXWwEhUpw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-_1ctEnYQMfeM3YnoTtf6qw-1; Wed, 16 Sep 2020 05:26:33 -0400
-X-MC-Unique: _1ctEnYQMfeM3YnoTtf6qw-1
+ us-mta-443--JT9L-EbOSyJUwnSRqmltQ-1; Wed, 16 Sep 2020 05:26:35 -0400
+X-MC-Unique: -JT9L-EbOSyJUwnSRqmltQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B368A84E244;
- Wed, 16 Sep 2020 09:26:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E6C1EA1CA;
+ Wed, 16 Sep 2020 09:26:34 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.192.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43DAD5DE4A;
- Wed, 16 Sep 2020 09:26:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DA325DE46;
+ Wed, 16 Sep 2020 09:26:32 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v3 3/5] hw/arm/virt: Move kvm pmu setup to virt_cpu_post_init
-Date: Wed, 16 Sep 2020 11:26:18 +0200
-Message-Id: <20200916092620.19161-4-drjones@redhat.com>
+Subject: [PATCH v3 4/5] DO NOT MERGE: HACK: Add steal time KVM cap to kvm.h
+Date: Wed, 16 Sep 2020 11:26:19 +0200
+Message-Id: <20200916092620.19161-5-drjones@redhat.com>
 In-Reply-To: <20200916092620.19161-1-drjones@redhat.com>
 References: <20200916092620.19161-1-drjones@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +68,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,83 +85,22 @@ Cc: peter.maydell@linaro.org, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the KVM PMU setup part of fdt_add_pmu_nodes() to
-virt_cpu_post_init(), which is a more appropriate location. Now
-fdt_add_pmu_nodes() is also named more appropriately, because it
-no longer does anything but fdt node creation.
-
-No functional change intended.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- hw/arm/virt.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ linux-headers/linux/kvm.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 2cba21fe3ad9..6797eb397a7a 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -521,21 +521,12 @@ static void fdt_add_gic_node(VirtMachineState *vms)
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index a28c3667370b..924672cca1f1 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_PPC_SECURE_GUEST 181
+ #define KVM_CAP_HALT_POLL 182
+ #define KVM_CAP_ASYNC_PF_INT 183
++#define KVM_CAP_STEAL_TIME 187
  
- static void fdt_add_pmu_nodes(const VirtMachineState *vms)
- {
--    CPUState *cpu;
--    ARMCPU *armcpu;
-+    ARMCPU *armcpu = ARM_CPU(first_cpu);
-     uint32_t irqflags = GIC_FDT_IRQ_FLAGS_LEVEL_HI;
+ #ifdef KVM_CAP_IRQ_ROUTING
  
--    CPU_FOREACH(cpu) {
--        armcpu = ARM_CPU(cpu);
--        if (!arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
--            return;
--        }
--        if (kvm_enabled()) {
--            if (kvm_irqchip_in_kernel()) {
--                kvm_arm_pmu_set_irq(cpu, PPI(VIRTUAL_PMU_IRQ));
--            }
--            kvm_arm_pmu_init(cpu);
--        }
-+    if (!arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
-+        assert(!object_property_get_bool(OBJECT(armcpu), "pmu", NULL));
-+        return;
-     }
- 
-     if (vms->gic_version == VIRT_GIC_VERSION_2) {
-@@ -544,7 +535,6 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
-                              (1 << vms->smp_cpus) - 1);
-     }
- 
--    armcpu = ARM_CPU(qemu_get_cpu(0));
-     qemu_fdt_add_subnode(vms->fdt, "/pmu");
-     if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
-         const char compat[] = "arm,armv8-pmuv3";
-@@ -1678,11 +1668,23 @@ static void finalize_gic_version(VirtMachineState *vms)
-  */
- static void virt_cpu_post_init(VirtMachineState *vms)
- {
--    bool aarch64;
-+    bool aarch64, pmu;
-+    CPUState *cpu;
- 
-     aarch64 = object_property_get_bool(OBJECT(first_cpu), "aarch64", NULL);
-+    pmu = object_property_get_bool(OBJECT(first_cpu), "pmu", NULL);
- 
--    if (!kvm_enabled()) {
-+    if (kvm_enabled()) {
-+        CPU_FOREACH(cpu) {
-+            if (pmu) {
-+                assert(arm_feature(&ARM_CPU(cpu)->env, ARM_FEATURE_PMU));
-+                if (kvm_irqchip_in_kernel()) {
-+                    kvm_arm_pmu_set_irq(cpu, PPI(VIRTUAL_PMU_IRQ));
-+                }
-+                kvm_arm_pmu_init(cpu);
-+            }
-+        }
-+    } else {
-         if (aarch64 && vms->highmem) {
-             int requested_pa_size = 64 - clz64(vms->highest_gpa);
-             int pamax = arm_pamax(ARM_CPU(first_cpu));
 -- 
 2.26.2
 
