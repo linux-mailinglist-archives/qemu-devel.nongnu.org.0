@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFB926BF64
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:34:21 +0200 (CEST)
-Received: from localhost ([::1]:43860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA88926BF72
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:36:49 +0200 (CEST)
+Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIStQ-0001hB-Iz
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58644)
+	id 1kISvo-0004b2-TX
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kISii-0004kE-3R; Wed, 16 Sep 2020 04:23:16 -0400
-Received: from ozlabs.org ([203.11.71.1]:38907)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kISig-0005FH-32; Wed, 16 Sep 2020 04:23:15 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BrtQH728Yz9sTs; Wed, 16 Sep 2020 18:23:03 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1600244583;
- bh=7crGrX784o8VR9fYf+XTvBKCri4oNb6QzGod350j46U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hj0KQ0Yx0xPvzTVcsA0v5kRXiOJPNnOQcL1/vt1t9D8zAYVCwB009kN43+TUx1Rs0
- SpiIy0Vm4mPlMhAXy5IeXjNYXczhsQuaSaETZ7hm7nrJCYyMDbTZUVbvmAkbkW2hZd
- Mqih3hxCsshwLM9HYe541RZnWXvWFeag2Oq6HuHQ=
-Date: Wed, 16 Sep 2020 12:50:22 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] hw/rtc/m48t59: Simplify m48t59_init()
-Message-ID: <20200916025022.GE5258@yekko.fritz.box>
-References: <20200914102425.1152962-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kISl1-0007VK-4i
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:25:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kISkw-0005bM-CL
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:25:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600244733;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/FmiDxG7EyMCs7YyNrVuHeU0Ntl4VVPuwJoAtctCyH0=;
+ b=cvrtbxaNySF7kA9fgPU7D/QqG4YxAaAd4bmMajGKXaeIFcaq9EdZQny6j4otAJrWeL51Mo
+ bryVPfciRerkmg9vOAbKQTPZbJWBSCDD1Z3zFeI310ISFBZxyGDbM7zwDLApf2lSm8rkTG
+ GuR8VuK0pdsuvNk0vVQFbiCd4penbB8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-uwsPSRKFPPKX81wg2q3oQQ-1; Wed, 16 Sep 2020 04:25:31 -0400
+X-MC-Unique: uwsPSRKFPPKX81wg2q3oQQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7342564089;
+ Wed, 16 Sep 2020 08:25:30 +0000 (UTC)
+Received: from redhat.com (ovpn-113-248.ams2.redhat.com [10.36.113.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DAA060BE5;
+ Wed, 16 Sep 2020 08:25:24 +0000 (UTC)
+Date: Wed, 16 Sep 2020 09:25:22 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v4 5/9] migration: control whether snapshots are ovewritten
+Message-ID: <20200916082522.GB1535709@redhat.com>
+References: <20200915113523.2520317-1-berrange@redhat.com>
+ <20200915113523.2520317-6-berrange@redhat.com>
+ <871rj2uprf.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pY3vCvL1qV+PayAL"
+In-Reply-To: <871rj2uprf.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-In-Reply-To: <20200914102425.1152962-1-f4bug@amsat.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 04:23:03
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,149 +85,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Sep 16, 2020 at 09:47:32AM +0200, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > The traditional HMP "savevm" command will overwrite an existing snapshot
+> > if it already exists with the requested name. This new flag allows this
+> > to be controlled allowing for safer behaviour with a future QMP command.
+> >
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  include/migration/snapshot.h | 2 +-
+> >  migration/savevm.c           | 4 ++--
+> >  monitor/hmp-cmds.c           | 2 +-
+> >  replay/replay-snapshot.c     | 2 +-
+> >  4 files changed, 5 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
+> > index c85b6ec75b..d7db1174ef 100644
+> > --- a/include/migration/snapshot.h
+> > +++ b/include/migration/snapshot.h
+> > @@ -15,7 +15,7 @@
+> >  #ifndef QEMU_MIGRATION_SNAPSHOT_H
+> >  #define QEMU_MIGRATION_SNAPSHOT_H
+> >  
+> > -int save_snapshot(const char *name, Error **errp);
+> > +int save_snapshot(const char *name, bool overwrite, Error **errp);
+> >  int load_snapshot(const char *name, Error **errp);
+> >  
+> >  #endif
+> > diff --git a/migration/savevm.c b/migration/savevm.c
+> > index 76972d69b0..2025e3e579 100644
+> > --- a/migration/savevm.c
+> > +++ b/migration/savevm.c
+> > @@ -2658,7 +2658,7 @@ int qemu_load_device_state(QEMUFile *f)
+> >      return 0;
+> >  }
+> >  
+> > -int save_snapshot(const char *name, Error **errp)
+> > +int save_snapshot(const char *name, bool overwrite, Error **errp)
+> >  {
+> >      BlockDriverState *bs;
+> >      QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
+> > @@ -2685,7 +2685,7 @@ int save_snapshot(const char *name, Error **errp)
+> >      }
+> >  
+> >      /* Delete old snapshots of the same name */
+> > -    if (name) {
+> > +    if (name && overwrite) {
+> >          if (bdrv_all_delete_snapshot(name, false, NULL, errp) < 0) {
+> >              return ret;
+> >          }
+> 
+> Are you sure this is sane?
+> 
+> To see what happens, I set a breakpoint on this function, set overwrite
+> to false.  I got a *second* snapshot with the same ID.
 
---pY3vCvL1qV+PayAL
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sigh. No, it doesn't do what I was meaning it to, and I forgot to add
+a test case for this scenario in the last patch.
 
-On Mon, Sep 14, 2020 at 12:24:25PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> As the 'io_base' argument of m48t59_init() is unused (set to 0),
-> remove it to simplify.
-> To create a device on the ISA bus, m48t59_init_isa() is the
-> preferred function to use.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> ---
->  include/hw/rtc/m48t59.h |  2 +-
->  hw/ppc/ppc405_boards.c  |  2 +-
->  hw/rtc/m48t59.c         | 10 ++--------
->  hw/sparc/sun4m.c        |  2 +-
->  hw/sparc64/sun4u.c      |  2 +-
->  5 files changed, 6 insertions(+), 12 deletions(-)
 
-ppc part
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->=20
-> diff --git a/include/hw/rtc/m48t59.h b/include/hw/rtc/m48t59.h
-> index 04abedf3b2b..62297ee0db1 100644
-> --- a/include/hw/rtc/m48t59.h
-> +++ b/include/hw/rtc/m48t59.h
-> @@ -50,7 +50,7 @@ struct NvramClass {
->  Nvram *m48t59_init_isa(ISABus *bus, uint32_t io_base, uint16_t size,
->                         int base_year, int type);
->  Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
-> -                   uint32_t io_base, uint16_t size, int base_year,
-> +                   uint16_t size, int base_year,
->                     int type);
-> =20
->  #endif /* HW_M48T59_H */
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 6198ec1035b..93ffee801a3 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -227,7 +227,7 @@ static void ref405ep_init(MachineState *machine)
->      /* Register FPGA */
->      ref405ep_fpga_init(sysmem, 0xF0300000);
->      /* Register NVRAM */
-> -    m48t59_init(NULL, 0xF0000000, 0, 8192, 1968, 8);
-> +    m48t59_init(NULL, 0xF0000000, 8192, 1968, 8);
->      /* Load kernel */
->      linux_boot =3D (kernel_filename !=3D NULL);
->      if (linux_boot) {
-> diff --git a/hw/rtc/m48t59.c b/hw/rtc/m48t59.c
-> index 6525206976b..2d6a095c4e4 100644
-> --- a/hw/rtc/m48t59.c
-> +++ b/hw/rtc/m48t59.c
-> @@ -566,7 +566,7 @@ const MemoryRegionOps m48t59_io_ops =3D {
-> =20
->  /* Initialisation routine */
->  Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
-> -                   uint32_t io_base, uint16_t size, int base_year,
-> +                   uint16_t size, int base_year,
->                     int model)
->  {
->      DeviceState *dev;
-> @@ -584,13 +584,7 @@ Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
->          s =3D SYS_BUS_DEVICE(dev);
->          sysbus_realize_and_unref(s, &error_fatal);
->          sysbus_connect_irq(s, 0, IRQ);
-> -        if (io_base !=3D 0) {
-> -            memory_region_add_subregion(get_system_io(), io_base,
-> -                                        sysbus_mmio_get_region(s, 1));
-> -        }
-> -        if (mem_base !=3D 0) {
-> -            sysbus_mmio_map(s, 0, mem_base);
-> -        }
-> +        sysbus_mmio_map(s, 0, mem_base);
-> =20
->          return NVRAM(s);
->      }
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 947b69d1597..56a0d38f274 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -970,7 +970,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *h=
-wdef,
->          create_unimplemented_device("SUNW,sx", hwdef->sx_base, 0x2000);
->      }
-> =20
-> -    nvram =3D m48t59_init(slavio_irq[0], hwdef->nvram_base, 0, 0x2000, 1=
-968, 8);
-> +    nvram =3D m48t59_init(slavio_irq[0], hwdef->nvram_base, 0x2000, 1968=
-, 8);
-> =20
->      slavio_timer_init_all(hwdef->counter_base, slavio_irq[19], slavio_cp=
-u_irq, smp_cpus);
-> =20
-> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-> index b4aabfc076f..1cc57b030a7 100644
-> --- a/hw/sparc64/sun4u.c
-> +++ b/hw/sparc64/sun4u.c
-> @@ -675,7 +675,7 @@ static void sun4uv_init(MemoryRegion *address_space_m=
-em,
->      pci_ide_create_devs(pci_dev);
-> =20
->      /* Map NVRAM into I/O (ebus) space */
-> -    nvram =3D m48t59_init(NULL, 0, 0, NVRAM_SIZE, 1968, 59);
-> +    nvram =3D m48t59_init(NULL, 0, NVRAM_SIZE, 1968, 59);
->      s =3D SYS_BUS_DEVICE(nvram);
->      memory_region_add_subregion(pci_address_space_io(ebus), 0x2000,
->                                  sysbus_mmio_get_region(s, 0));
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---pY3vCvL1qV+PayAL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9hfW4ACgkQbDjKyiDZ
-s5IV/BAAjXVTtfVkiyfGVtxJFGfYhd1uOef7EUmCXuB1FRxUwOyHhqgQdHubeXGi
-anlq4rVhM9rR0D9kuRtzMC1ARA6eVrMkYIeikoYdwdXN7rwjyvHMsKEkMQ0s2LB4
-XxA3lVuPSgrF2Fh6/xxM5ay3KCr8DxIR2/cmqV7EIww9eUMc94iNSeOtCGlcwqsG
-XKBA+WOTvnNGIdmIAUbs6rUtLUrq6f3SzD9CMY+kssES5l6g8ES8r1bvyy9+HS4l
-f3EaPhmZxOxnVCOdArUW0P6HHfgJcvBuDB2e9I1IvM6hMciAZXKfS77OW3ivFQko
-rHCRTVSn6dC3An/KqS8d5h3HCLVduhCSs3L59TkXQKjIha7dEwfnbJOeYMkq1csD
-FuDjcSIVAY79orbaGmi/WtSTm8tAnCAhDsHFWrVQ/YDb1DkMsn64JDaIcMwcmoAs
-WgWctM8ESi94R/MwdSZSYJFmrOo9Lob2Y4uoTCwzbj/Gv/mxLdjvD6FgmyyWdK5A
-E9WaBimzjNNY+T8+XoL82KWNEFoqiYKAA7iQarnQPqt1YD0rsQQGL73+C1/vzPaT
-fxMUOlE6HjELYul26sSNo4Bvt8UlZtQpAX9suViTrQR/w1bDW0zHihqsVHME58dJ
-7X/FFtp6fqOwGCaoBln608t0a1t4cNqZxGklXGhW6iDq9kt3iGo=
-=SU0y
------END PGP SIGNATURE-----
-
---pY3vCvL1qV+PayAL--
 
