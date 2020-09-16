@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A1526C24D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:52:55 +0200 (CEST)
-Received: from localhost ([::1]:45178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DEF26C255
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:54:34 +0200 (CEST)
+Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIVza-00053B-DQ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54386)
+	id 1kIW1B-0008Li-Bh
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuy-00079X-Ne
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44196)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVv4-0007OT-JK
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53251
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuw-0008CF-Sh
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:08 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVv2-0008Cx-TH
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:48:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600256886;
+ s=mimecast20190719; t=1600256892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6vPgTP1quLTioamb771udJU8nvol8XHvL3zkTO1QRjM=;
- b=S+nmXlrJS6NTR+JAxNBBSLbCLi9WekWK/5cIp2pG+cxS5K1U2LI8OgjM0Iqey1UpJbl1yM
- 0IQz/MkwGzgNQol+Dds2nsCJvYGQRxtk0tL3gzH8FmLkTyDIy48J5RGYLHVHnKg/Ai87ZF
- e5HNXnPkVpWWWTXDXm6+thxWX99KTrU=
+ bh=oiD47uj9RHLlopaMZnpaTTXF1KAPjox9BrL20z6NR8s=;
+ b=Kutz1bkuXvM2KPJnRX2MdzPIZBNn/u7JsSb8p+t2sSCEC7AKvC1Bz72nfo/VZerxyZvdtY
+ mg/BwfDJDg3EWSxx9SRPXhw89iXqjECdI4IsIRTV9QYN4QsqEw59VpJYuxrzsJpfH5s39i
+ 4JszM3C0KiCKipcbDlo8vHlZdDrtK6Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-516U39qQMQOZWp_jd3AeTw-1; Wed, 16 Sep 2020 07:48:03 -0400
-X-MC-Unique: 516U39qQMQOZWp_jd3AeTw-1
+ us-mta-385-RFDzt53gO1y87IY67wQEsQ-1; Wed, 16 Sep 2020 07:48:09 -0400
+X-MC-Unique: RFDzt53gO1y87IY67wQEsQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E13356BFB;
- Wed, 16 Sep 2020 11:48:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CAF910BBED7;
+ Wed, 16 Sep 2020 11:48:08 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 693555DE4A;
- Wed, 16 Sep 2020 11:48:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FF275DA71;
+ Wed, 16 Sep 2020 11:48:07 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 18/24] tests: Fixes test-io-channel-socket.c tests under
- msys2/mingw
-Date: Wed, 16 Sep 2020 13:47:25 +0200
-Message-Id: <20200916114731.102080-19-thuth@redhat.com>
+Subject: [PULL 22/24] tests: Fixes test-qdev-global-props.c
+Date: Wed, 16 Sep 2020 13:47:29 +0200
+Message-Id: <20200916114731.102080-23-thuth@redhat.com>
 In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
 References: <20200916114731.102080-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 06:27:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,50 +86,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-Currently test-io-channel-socket doesn't init with
-qemu_init_main_loop
-and that's cause the qemu_aio_context not inited,
-and the following is the stack when null pointer accessed:
-
-qemu_fd_register (c:\work\xemu\qemu\util\main-loop.c:336)
-qemu_try_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:224)
-qemu_set_nonblock (c:\work\xemu\qemu\util\oslib-win32.c:230)
-socket_can_bind_connect (c:\work\xemu\qemu\tests\socket-helpers.c:93)
-socket_check_protocol_support (c:\work\xemu\qemu\tests\socket-helpers.c:141)
-main (c:\work\xemu\qemu\tests\test-io-channel-socket.c:568)
-__tmainCRTStartup (@__tmainCRTStartup:142)
-mainCRTStartup (@1400014f6..140001539:3)
-BaseThreadInitThunk (@BaseThreadInitThunk:9)
-RtlUserThreadStart (@RtlUserThreadStart:12)
+On win32 the line ending are \r\n, so we skip the \n in function test_dynamic_globalprop
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200915121318.247-18-luoyonggang@gmail.com>
+Message-Id: <20200915171234.236-22-luoyonggang@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/test-io-channel-socket.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/test-qdev-global-props.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
-index d43083a766..743577d744 100644
---- a/tests/test-io-channel-socket.c
-+++ b/tests/test-io-channel-socket.c
-@@ -25,6 +25,7 @@
- #include "socket-helpers.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-+#include "qemu/main-loop.h"
+diff --git a/tests/test-qdev-global-props.c b/tests/test-qdev-global-props.c
+index 8a3c14d92c..c8862cac5f 100644
+--- a/tests/test-qdev-global-props.c
++++ b/tests/test-qdev-global-props.c
+@@ -251,10 +251,13 @@ static void test_dynamic_globalprop(void)
+     g_test_trap_assert_passed();
+     g_test_trap_assert_stderr_unmatched("*prop1*");
+     g_test_trap_assert_stderr_unmatched("*prop2*");
+-    g_test_trap_assert_stderr("*warning: global dynamic-prop-type-bad.prop3 has invalid class name\n*");
++    g_test_trap_assert_stderr(
++        "*warning: global dynamic-prop-type-bad.prop3 has invalid class name*");
+     g_test_trap_assert_stderr_unmatched("*prop4*");
+-    g_test_trap_assert_stderr("*warning: global nohotplug-type.prop5=105 not used\n*");
+-    g_test_trap_assert_stderr("*warning: global nondevice-type.prop6 has invalid class name\n*");
++    g_test_trap_assert_stderr(
++        "*warning: global nohotplug-type.prop5=105 not used*");
++    g_test_trap_assert_stderr(
++        "*warning: global nondevice-type.prop6 has invalid class name*");
+     g_test_trap_assert_stdout("");
+ }
  
- 
- static void test_io_channel_set_socket_bufs(QIOChannel *src,
-@@ -556,6 +557,7 @@ int main(int argc, char **argv)
-     bool has_ipv4, has_ipv6;
- 
-     module_call_init(MODULE_INIT_QOM);
-+    qemu_init_main_loop(&error_abort);
-     socket_init();
- 
-     g_test_init(&argc, &argv, NULL);
 -- 
 2.18.2
 
