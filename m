@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EE426C2CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:36:09 +0200 (CEST)
-Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5719C26C2D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 14:38:50 +0200 (CEST)
+Received: from localhost ([::1]:34546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIWfQ-0005cp-B6
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38000)
+	id 1kIWi1-0001EK-Br
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 08:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIWaY-00089V-Jw
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:31:06 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38043)
+ id 1kIWdF-0003Ed-GO
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:33:53 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:38431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIWaV-0005lB-Qd
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:31:05 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id i22so10097816eja.5
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:31:02 -0700 (PDT)
+ id 1kIWdD-00060K-1Q
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 08:33:53 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id c8so6103786edv.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 05:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QsyQtjBhgMML5i8VvWbY33ngdnJBXWnt6l+KWleGPgk=;
- b=GZL24bEfymwqljYwg/If5iriLNmgMyrnA6a8kdaumLrqPzCvBtc09/V9yRwYIWh6oZ
- fo04TNxyOGv5PV33R+J6Fry3uwGfRpWxr7Y5Jj76x8FIoO2sYyga7z6tPsFjlJhTMNjN
- R6j2J5cZASRNIKtjTByvr6KKCMupndVXX7sFixmn+41J8V+nLcS5KutsMb8MCTyMIZP2
- cgv06dTSqSGy75qYFKacUDmG9L9T3bJZJK3mBjzksIkPJLDXx/BWJm/V2Lmz/COej3KL
- sG9SS5dcTuoCY4bdNG0IkexI2lEmvNA/6LipoI0EnCH5Y9LHH4Gx80K22eWu5ObFNsxk
- gz0w==
+ :cc; bh=lRD0Tr0/Jp2bOEXR6ZBlrrC0vMKCglNBu4Y2ZAONc0Q=;
+ b=pqZqBpttK8J4fcIQMvIRZiSBMFdxVivAUjs/w+SVzgh6ntD2Az0aoPhqSLiYt4V9fC
+ g9lcpnBvalR9rvQoRmH9L3HbX9nZyd3TewzB3uqCgmSiKOy2iQmObjThSNBUzRD7OlFT
+ lkNjdtTxa363Cjoasqdrf3ogX5gXZJvL8xyD3+xt5PTGRlQQSfHRdj5cdw+z3HjigNE8
+ Hewf9hbnDeLaXV2FrO26eFJO7J831MDSxXSbCa1JiXLRlHGmG1rQZ2xvz5TCC9VqFlWr
+ iF2sgGpuHHHP5d03B6HX/X+/lON0ILOWuGWG04l/mp3+MgzjunpsB1ehWYbI/gBVquho
+ 5UTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=QsyQtjBhgMML5i8VvWbY33ngdnJBXWnt6l+KWleGPgk=;
- b=q4fLG6cwBSm9LM2fGBHFwDwD/igEdbzJ1ITaSUOczzz9q0MqFsDokjghi9FwhwAI6A
- i2CLOaDiku9P0geS7quKbuUClg3sX6WrJ+J0Y0bnAii8qfWvjZecpxm/diadoRiqnqce
- UZULJyjrWnmauN11aXR3S+iQ6qYLEjZoPX7sgBvRai3bNZiPTo3clrgkZXLQnG59IgCG
- YEAutQ2v9SOVSqgctS/iN0fDZBNbjFVVngRHVu4M5/hOx8AfBVmKRt2KI8dCoed8eZtT
- ZX0cS+lDbGMlsJLPbvIkCnD800kLCfpy6oK4Q8PNGs6xW8B/BdkCgoQOZnwm02D4+UX5
- QbBg==
-X-Gm-Message-State: AOAM531rYHb3DTz17+aU5+YqZLkZUV4btfwiecwAQGhjqgk16J/TH3IV
- GFIswqeUt7sc7X1JNrlgbjyOrgW/2w0Z/eX7wwtVrw==
-X-Google-Smtp-Source: ABdhPJwAH/mWssB/HpqxczgSKW0Nt4qnSVpmKYRJbBIflMdUYL73ryvAhLdLM7Z8ui5944GJ9DFlvCE9/+VZQjf9aVo=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr24516517ejk.407.1600259461348; 
- Wed, 16 Sep 2020 05:31:01 -0700 (PDT)
+ bh=lRD0Tr0/Jp2bOEXR6ZBlrrC0vMKCglNBu4Y2ZAONc0Q=;
+ b=MaFykH9L4tGaH6tmcsIxKIY+7daJxR5lUlTl9JEIMFHFKS2YJc6vQ3RPdondy/iYbk
+ BfhOjkfjve/Sufjgyv9y2mggZzUU6MybbhXjaRWY6lsRa2w8ZD1SzksOoyRpIShjzPXi
+ wwJ/t2MxRbvikWXWoo4566kEnKbe6i+fu+xzxAD6KyyGqahowsKivHyKKoCDIReP7NCs
+ NCd8cag6Pqa4+J+0I6rcpyzKzok8jLCLjeyW/WF9lWqrd9tDf9atc+eoA9m7KbQpe035
+ mg3AffYtaYLk38SIsXO0dsypN/5qqNtz5e/h438uHrYOzARXAxTxT3pAVAv8nrgcBq8B
+ rXVA==
+X-Gm-Message-State: AOAM533OtFDzMt84kshnAV6oIJvAGmBAcu+OKxTEUY9xFdUUUYEcU7e2
+ NyZfotw4Q/r48KvOsY33kmmokr4hnQgCQlMjlFu1WA==
+X-Google-Smtp-Source: ABdhPJyhtCRtX35/+CizC2ib/bQvcp6PXQWKnhH9/Ewb5sf9rzEKgflh3mDz3cVB0cGCHc6PBKIZsKkiOxneq+Lpvd0=
+X-Received: by 2002:a05:6402:1495:: with SMTP id
+ e21mr26796648edv.146.1600259629509; 
+ Wed, 16 Sep 2020 05:33:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <875z8eupyp.fsf@dusky.pond.sub.org>
-In-Reply-To: <875z8eupyp.fsf@dusky.pond.sub.org>
+References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
+ <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
+ <20200914101517.GD579094@stefanha-x1.localdomain>
+ <nycvar.YSQ.7.78.906.2009151536090.10832@xnncv>
+ <20200916111025.GA756728@stefanha-x1.localdomain>
+In-Reply-To: <20200916111025.GA756728@stefanha-x1.localdomain>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Sep 2020 13:30:49 +0100
-Message-ID: <CAFEAcA8q8J1n2UqsNbHgNwEedA8pZ6fNA7obCR1REN-33nvmkg@mail.gmail.com>
-Subject: Re: Python 3.5 EOL; when can require 3.6?
-To: Markus Armbruster <armbru@redhat.com>
+Date: Wed, 16 Sep 2020 13:33:38 +0100
+Message-ID: <CAFEAcA8FD9HNKvsGs0q6YpSdX8gsoBaNtAPXuvv+e35O33Jbmg@mail.gmail.com>
+Subject: Re: About 'qemu-security' mailing list
+To: Stefan Hajnoczi <stefanha@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,41 +83,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Sep 2020 at 08:43, Markus Armbruster <armbru@redhat.com> wrote:
-> We require Python 3.5.  It will reach its "end of life" at the end of
-> September 2020[*].  Any reason not to require 3.6 for 5.2?  qemu-iotests
-> already does for its Python parts.
+On Wed, 16 Sep 2020 at 12:10, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> I think it's worth investigating whether GitLab Issues can be configured
+> in a secure-enough way for security bug reporting. That way HTTPS is
+> used and only GitLab stores the confidential information (this isn't
+> end-to-end encryption but seems better than unencrypted SMTP and
+> plaintext emails copied across machines).
 
-I think these things really ought to start with the converse question:
-what is the important new thing that 3.6 brings to the table that
-makes it worth moving our minimum requirement forward ?
-If our code still works on 3.5 and there's nothing we really want to
-do to the code that would be awkward to do without insisting on
-3.6, why should we irritate users by arbitrarily bumping the version
-requirement ?
-
-Also as Dan notes upstream's EOL policies aren't very relevant,
-because our policy is based on what distros ship.
-
-My broader point of view: C does not have any kind of infrastructure
-like Rust's cargo or node's npm that makes it easy for a project to
-say "we depend on these versions of these other packages" and
-have them be satisified in a fairly painless-to-the-end-user/distro
-way. So I prefer to take the approach of being as conservative as
-possible about what we depend on, because the alternative tends
-to be either pain for the person trying to compile QEMU (when they
-have to scrabble around finding and building dependencies they
-don't have conveniently to hand) or pain for us (when we have
-to ship a dependency as a submodule). The default should be
-"leave the version dependency where it is", not "bump the version
-dependency as soon as we can".
+Given that we currently use launchpad for bugs we should also look
+at whether launchpad's "private security" bug classification would
+be useful for us (currently such bug reports effectively go to /dev/null
+but this can be fixed).
 
 thanks
 -- PMM
