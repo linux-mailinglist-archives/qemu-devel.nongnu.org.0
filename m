@@ -2,75 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A23626BF4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:30:22 +0200 (CEST)
-Received: from localhost ([::1]:59938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F1526BF57
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 10:32:21 +0200 (CEST)
+Received: from localhost ([::1]:38524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kISpZ-0004tR-FD
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:30:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
+	id 1kISrU-0007nY-NL
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 04:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kISib-0004ht-Te
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:23:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kISiX-0005E4-8m
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 04:23:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600244582;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jV0lCDEWsJXMKTbmJUGcIIgrfrQ13Kv6FUHIAQbMaJo=;
- b=Ssltll/4APfPzrIG7kpHRRszsIPa+Y/AvCaRuAbeUuydTR6aiyysIEuzgkK4UYPqf2S8fG
- kuIwq7EE+VIA4/vUGra6iQuKb4UzCVFmC4HmMxqL9Xba5dzpK5MUXSCDgYnQLTlmsk928k
- 5amtA6YT+bVkLxMXHVK4Ago8eDvbWLc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-lVd6HfZWMJCRCd75zpnZ5A-1; Wed, 16 Sep 2020 04:22:56 -0400
-X-MC-Unique: lVd6HfZWMJCRCd75zpnZ5A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB4AF10082F9;
- Wed, 16 Sep 2020 08:22:55 +0000 (UTC)
-Received: from harajuku.usersys.redhat.com (unknown [10.40.195.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B4C519C71;
- Wed, 16 Sep 2020 08:22:49 +0000 (UTC)
-Message-ID: <ae92199e3e4b63bb3a74e988d7f7ee9aabb1363c.camel@redhat.com>
-Subject: Re: Python 3.5 EOL; when can require 3.6?
-From: Andrea Bolognani <abologna@redhat.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, Markus
- Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Date: Wed, 16 Sep 2020 10:22:47 +0200
-In-Reply-To: <495bd2bd-4f38-8fe2-e758-82acbecd0d04@redhat.com>
-References: <875z8eupyp.fsf@dusky.pond.sub.org>
- <495bd2bd-4f38-8fe2-e758-82acbecd0d04@redhat.com>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kISig-0004iX-FN; Wed, 16 Sep 2020 04:23:14 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40101 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kISid-0005E5-Jk; Wed, 16 Sep 2020 04:23:14 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BrtQF0WNYz9sS8; Wed, 16 Sep 2020 18:22:59 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1600244581;
+ bh=vLgOrDSqQIgoxOCgpyITbFhYx3DEQa/ax/945SFyFUc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mZnlg2QksL9fNPFobqxOWyRDVVf5REDcGB/nWqVgQ6LresmPpCXrbVZkd7sdLNGN2
+ nzotNqG4y7U4JerBaK3qykzulNQbmBR1FeHgStnlXsCbGxcAI/EbuCSUsCB1123vFn
+ r8TjxrLQBC3R3hbDLgLZf7nsRePCrGyrbO0CFi9E=
+Date: Wed, 16 Sep 2020 12:18:04 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 4/6] target/ppc: Set instance_align on PowerPCCPU
+ TypeInfo
+Message-ID: <20200916021804.GB5258@yekko.fritz.box>
+References: <20200916004638.2444147-1-richard.henderson@linaro.org>
+ <20200916004638.2444147-5-richard.henderson@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DKU6Jbt7q3WqK7+M"
+Content-Disposition: inline
+In-Reply-To: <20200916004638.2444147-5-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +62,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-09-16 at 09:53 +0200, Philippe Mathieu-Daudé wrote:
-> On 9/16/20 9:43 AM, Markus Armbruster wrote:
-> > We require Python 3.5.  It will reach its "end of life" at the end of
-> > September 2020[*].  Any reason not to require 3.6 for 5.2?  qemu-iotests
-> > already does for its Python parts.
-> 
-> Not answering your question, but it would help to start a table
-> of "oldest package released" versions, with our supported distributions
-> as columns and package names as row.
-> 
-> This way when new distributions are released (and oldest dropped from
-> our side) we can add/remove a column and see the oldest version we aim
-> to support.
 
-In case you're not already aware of it, https://repology.org/ is a
-very valuable tool when it comes to figuring out minimum versions for
-dependencies.
+--DKU6Jbt7q3WqK7+M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Andrea Bolognani / Red Hat / Virtualization
+On Tue, Sep 15, 2020 at 05:46:36PM -0700, Richard Henderson wrote:
+> Fix alignment of CPUPPCState.vsr.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+LGTM
+
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: qemu-ppc@nongnu.org
+> ---
+>  target/ppc/translate_init.c.inc | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
+c.inc
+> index 230a062d29..accb4f2fae 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/translate_init.c.inc
+> @@ -10960,6 +10960,7 @@ static const TypeInfo ppc_cpu_type_info =3D {
+>      .name =3D TYPE_POWERPC_CPU,
+>      .parent =3D TYPE_CPU,
+>      .instance_size =3D sizeof(PowerPCCPU),
+> +    .instance_align =3D __alignof__(PowerPCCPU),
+>      .instance_init =3D ppc_cpu_instance_init,
+>      .instance_finalize =3D ppc_cpu_instance_finalize,
+>      .abstract =3D true,
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--DKU6Jbt7q3WqK7+M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9hddoACgkQbDjKyiDZ
+s5KbxRAAr82cZFqegBl2HNAZc7rmb9W/9wwR1LqzcnCR3dEf+sdKBHM3EEfb4Ox1
+x8O3LiPlnXHF2g5KYapsgtX6pXZFv3uwAHObfZ4FxxrTXM20DGXjEKs7csJQQpMs
+B2CjuxDATkj1+dfuKy2Rej4+GQ5Omhi4gG+1vO78SjOMQkjCT/yzgJq+quwT2Mh+
+4i9Bbi6AHikjWegbJWPKZO4sM0Kdm8tN29tD9Y4hVTNbQ4FFq86Qhhnly2T7TxQs
+kweJ3Fdm7lA/W1WN62ani6Sh277kNvA6dknaWEBviasPeOdWfg8VehccEQ4GiV3L
+KhNV/Vj1sId2OBBf14xH7zt1Qe99ZouQlJrXZWC9cbSJRI7CGixuBj8mMzeCf/NO
+S2gXBNjHL6MwMnrSVutGMEMJO5gZ+LBKBvYa9BQZLi9W2B8hNEk21+QkV/iNuuOx
+nsq57xWOiquHX4Dd0cUysHCkvpcCXGMzx4mQZt2XtM3yOSDkP6Ul3p5aotC2eBYB
+eAwbUJx6ifwB4mip4cDS4GeQy90S3oB8V07YnUktE4T5vOxifCpp5Zqhhrk8qFiE
+qivFkvLdhv7wjI7H2C67LmubKlLKl/vAj7MvBpPt+6NcuDiAogEEcmTEvi1uFpih
+S/2J4Ubeg3F2IiG8ZxzT3VJv9egjvzX7mbD+h6pn1+hZ/3YEL+o=
+=Hu+A
+-----END PGP SIGNATURE-----
+
+--DKU6Jbt7q3WqK7+M--
 
