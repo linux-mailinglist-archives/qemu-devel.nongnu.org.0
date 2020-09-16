@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9134226C77E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 20:28:21 +0200 (CEST)
-Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7953B26C78A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 20:29:59 +0200 (CEST)
+Received: from localhost ([::1]:35318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIcAG-0000N4-0u
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 14:28:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58818)
+	id 1kIcBq-0002EE-JH
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 14:29:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kIc7e-0007JI-03
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 14:25:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43948)
+ id 1kIc89-0007iF-Ha
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 14:26:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58837
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kIc7T-00011U-Gf
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 14:25:35 -0400
+ id 1kIc82-0001Bj-CV
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 14:26:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600280724;
+ s=mimecast20190719; t=1600280761;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ua/JPcaXcTwVTSXFhXBd8ky0UDiTDJR8Lf1n8scmRrk=;
- b=RLFVzf/OfyF76s0aqe03qVSYF3pCJoA8OEFVSTa/m8Rk8HWyaTlk36Vd7KVSQMsSKgiMer
- L/3Jlb+ma95QXOl/6OQDvOvx1NMigCvMTWCMJmysNfRkwHKqzIm9HkIfqa8qkBqIsFvgax
- Q2GxDb9+pSSkMooHW/5mWsq724eizGg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ffw4fFAnsGJ3n9BmXL3U0n3ZEeYTPcS8WThzCgkKT8g=;
+ b=TYpoNJjlPa/NPlK8yVGyVshJ5HSfUOcssVjZRsnJbOh8Givm2rhrZeM7/zfW/RDvkBnkuo
+ 1z8RNS12dPfl6zZ1lKTnbgrdb1CVi5sBhyC63dfBnBFhMcHr1a72aWTYtfxhCieIELyJjy
+ tvJ2lWBBVLJNqBuZ0cfO3WVJXQO4AnA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-PxAovXaJM3yDaQx8Mx_0kA-1; Wed, 16 Sep 2020 14:25:22 -0400
-X-MC-Unique: PxAovXaJM3yDaQx8Mx_0kA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-303-YtibvD2LNCqdkRgXfisZhQ-1; Wed, 16 Sep 2020 14:25:58 -0400
+X-MC-Unique: YtibvD2LNCqdkRgXfisZhQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D649802B6D
- for <qemu-devel@nongnu.org>; Wed, 16 Sep 2020 18:25:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08947801FD7;
+ Wed, 16 Sep 2020 18:25:51 +0000 (UTC)
 Received: from localhost (ovpn-119-217.rdu2.redhat.com [10.10.119.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA7ED100238C;
- Wed, 16 Sep 2020 18:25:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36AFE2C31E;
+ Wed, 16 Sep 2020 18:25:35 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] qom: Convert more declarations to OBJECT_DECLARE*
-Date: Wed, 16 Sep 2020 14:25:14 -0400
-Message-Id: <20200916182519.415636-1-ehabkost@redhat.com>
+Subject: [PATCH 3/5] qom: Remove module_obj_name parameter from
+ OBJECT_DECLARE* macros
+Date: Wed, 16 Sep 2020 14:25:17 -0400
+Message-Id: <20200916182519.415636-4-ehabkost@redhat.com>
+In-Reply-To: <20200916182519.415636-1-ehabkost@redhat.com>
+References: <20200916182519.415636-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 11:15:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,664 +82,1189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Amit Shah <amit@kernel.org>, Alistair Francis <alistair@alistair23.me>,
+ Paul Durrant <paul@xen.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
+ Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-block@nongnu.org,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Michael Walle <michael@walle.cc>, Corey Minyard <cminyard@mvista.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This converts many QOM types to use OBJECT_DECLARE* instead of=0D
-manually using DECLARE*_CHECKER*.=0D
-=0D
-Before doing that, I'm simplifying the OBJECT_DECLARE* API to=0D
-make it easier to use and more difficult to misuse.  The=0D
-module_obj_name and ParentClassType parameters were removed=0D
-because they are not needed.=0D
-=0D
-Eduardo Habkost (5):=0D
-  scripts/codeconverter: Update to latest version=0D
-  qom: Remove ParentClassType argument from OBJECT_DECLARE_SIMPLE_TYPE=0D
-  qom: Remove module_obj_name parameter from OBJECT_DECLARE* macros=0D
-  [automated] Use OBJECT_DECLARE_TYPE when possible=0D
-  [automated] Use OBJECT_DECLARE_SIMPLE_TYPE when possible=0D
-=0D
- hw/9pfs/virtio-9p.h                           |   4 +-=0D
- hw/audio/intel-hda.h                          |   6 +-=0D
- hw/display/ati_int.h                          |   4 +-=0D
- hw/display/qxl.h                              |   4 +-=0D
- hw/display/virtio-vga.h                       |   2 +-=0D
- hw/i386/amd_iommu.h                           |   4 +-=0D
- hw/misc/tmp105.h                              |   4 +-=0D
- hw/net/fsl_etsec/etsec.h                      |   3 +-=0D
- hw/net/tulip.h                                |   4 +-=0D
- hw/ppc/e500-ccsr.h                            |   4 +-=0D
- hw/ppc/e500.h                                 |   5 +-=0D
- hw/ppc/mac.h                                  |   4 +-=0D
- hw/s390x/ccw-device.h                         |   4 +-=0D
- hw/s390x/ipl.h                                |   4 +-=0D
- hw/s390x/s390-pci-bus.h                       |  16 +-=0D
- hw/s390x/virtio-ccw.h                         |  57 +-=0D
- hw/usb/ccid.h                                 |   5 +-=0D
- hw/usb/hcd-dwc2.h                             |   3 +-=0D
- hw/usb/hcd-ehci.h                             |  13 +-=0D
- hw/usb/hcd-ohci.h                             |   4 +-=0D
- hw/usb/hcd-xhci.h                             |   4 +-=0D
- hw/vfio/pci.h                                 |   4 +-=0D
- hw/virtio/virtio-pci.h                        |   5 +-=0D
- hw/xen/xen_pt.h                               |   4 +-=0D
- include/authz/base.h                          |   2 +-=0D
- include/authz/list.h                          |   4 +-=0D
- include/authz/listfile.h                      |   4 +-=0D
- include/authz/pamacct.h                       |   4 +-=0D
- include/authz/simple.h                        |   4 +-=0D
- include/block/throttle-groups.h               |   4 +-=0D
- include/chardev/char.h                        |   4 +-=0D
- include/crypto/secret_common.h                |   2 +-=0D
- include/crypto/secret_keyring.h               |   4 +-=0D
- include/hw/acpi/generic_event_device.h        |   4 +-=0D
- include/hw/acpi/vmgenid.h                     |   4 +-=0D
- include/hw/adc/stm32f2xx_adc.h                |   4 +-=0D
- include/hw/arm/allwinner-a10.h                |   4 +-=0D
- include/hw/arm/allwinner-h3.h                 |   4 +-=0D
- include/hw/arm/armsse.h                       |   2 +-=0D
- include/hw/arm/armv7m.h                       |   8 +-=0D
- include/hw/arm/aspeed_soc.h                   |   5 +-=0D
- include/hw/arm/bcm2835_peripherals.h          |   4 +-=0D
- include/hw/arm/bcm2836.h                      |   5 +-=0D
- include/hw/arm/digic.h                        |   4 +-=0D
- include/hw/arm/exynos4210.h                   |   4 +-=0D
- include/hw/arm/fsl-imx25.h                    |   4 +-=0D
- include/hw/arm/fsl-imx31.h                    |   4 +-=0D
- include/hw/arm/fsl-imx6.h                     |   4 +-=0D
- include/hw/arm/fsl-imx6ul.h                   |   4 +-=0D
- include/hw/arm/fsl-imx7.h                     |   4 +-=0D
- include/hw/arm/msf2-soc.h                     |   4 +-=0D
- include/hw/arm/nrf51_soc.h                    |   4 +-=0D
- include/hw/arm/omap.h                         |   4 +-=0D
- include/hw/arm/pxa.h                          |  15 +-=0D
- include/hw/arm/smmu-common.h                  |   5 +-=0D
- include/hw/arm/smmuv3.h                       |   5 +-=0D
- include/hw/arm/stm32f205_soc.h                |   4 +-=0D
- include/hw/arm/stm32f405_soc.h                |   4 +-=0D
- include/hw/arm/virt.h                         |   5 +-=0D
- include/hw/arm/xlnx-versal.h                  |   4 +-=0D
- include/hw/arm/xlnx-zynqmp.h                  |   4 +-=0D
- include/hw/block/flash.h                      |   8 +-=0D
- include/hw/block/swim.h                       |  12 +-=0D
- include/hw/boards.h                           |   3 +-=0D
- include/hw/char/avr_usart.h                   |   4 +-=0D
- include/hw/char/bcm2835_aux.h                 |   4 +-=0D
- include/hw/char/cadence_uart.h                |   4 +-=0D
- include/hw/char/cmsdk-apb-uart.h              |   4 +-=0D
- include/hw/char/digic-uart.h                  |   4 +-=0D
- include/hw/char/escc.h                        |   4 +-=0D
- include/hw/char/ibex_uart.h                   |   4 +-=0D
- include/hw/char/imx_serial.h                  |   4 +-=0D
- include/hw/char/nrf51_uart.h                  |   4 +-=0D
- include/hw/char/pl011.h                       |   4 +-=0D
- include/hw/char/serial.h                      |  11 +-=0D
- include/hw/char/stm32f2xx_usart.h             |   4 +-=0D
- include/hw/clock.h                            |   4 +-=0D
- include/hw/core/generic-loader.h              |   4 +-=0D
- include/hw/core/split-irq.h                   |   4 +-=0D
- include/hw/cpu/a15mpcore.h                    |   4 +-=0D
- include/hw/cpu/a9mpcore.h                     |   4 +-=0D
- include/hw/cpu/arm11mpcore.h                  |   4 +-=0D
- include/hw/cpu/cluster.h                      |   4 +-=0D
- include/hw/cpu/core.h                         |   4 +-=0D
- include/hw/display/bcm2835_fb.h               |   4 +-=0D
- include/hw/display/dpcd.h                     |   4 +-=0D
- include/hw/display/i2c-ddc.h                  |   4 +-=0D
- include/hw/display/macfb.h                    |   9 +-=0D
- include/hw/display/xlnx_dp.h                  |   4 +-=0D
- include/hw/dma/bcm2835_dma.h                  |   4 +-=0D
- include/hw/dma/i8257.h                        |   4 +-=0D
- include/hw/dma/pl080.h                        |   4 +-=0D
- include/hw/dma/xlnx-zdma.h                    |   4 +-=0D
- include/hw/dma/xlnx-zynq-devcfg.h             |   4 +-=0D
- include/hw/dma/xlnx_dpdma.h                   |   4 +-=0D
- include/hw/gpio/aspeed_gpio.h                 |   5 +-=0D
- include/hw/gpio/bcm2835_gpio.h                |   4 +-=0D
- include/hw/gpio/imx_gpio.h                    |   4 +-=0D
- include/hw/gpio/nrf51_gpio.h                  |   4 +-=0D
- include/hw/hyperv/vmbus-bridge.h              |   4 +-=0D
- include/hw/hyperv/vmbus.h                     |   6 +-=0D
- include/hw/i2c/aspeed_i2c.h                   |   5 +-=0D
- include/hw/i2c/i2c.h                          |   5 +-=0D
- include/hw/i2c/imx_i2c.h                      |   4 +-=0D
- include/hw/i2c/microbit_i2c.h                 |   4 +-=0D
- include/hw/i2c/ppc4xx_i2c.h                   |   4 +-=0D
- include/hw/i2c/smbus_slave.h                  |   2 +-=0D
- include/hw/i386/ich9.h                        |   4 +-=0D
- include/hw/i386/intel_iommu.h                 |   4 +-=0D
- include/hw/i386/ioapic_internal.h             |   5 +-=0D
- include/hw/i386/microvm.h                     |   5 +-=0D
- include/hw/i386/pc.h                          |   4 +-=0D
- include/hw/i386/x86-iommu.h                   |   5 +-=0D
- include/hw/i386/x86.h                         |   5 +-=0D
- include/hw/ide/ahci.h                         |  12 +-=0D
- include/hw/ide/internal.h                     |   8 +-=0D
- include/hw/ide/pci.h                          |   4 +-=0D
- include/hw/input/adb.h                        |   8 +-=0D
- include/hw/input/i8042.h                      |   4 +-=0D
- include/hw/intc/allwinner-a10-pic.h           |   4 +-=0D
- include/hw/intc/aspeed_vic.h                  |   4 +-=0D
- include/hw/intc/bcm2835_ic.h                  |   4 +-=0D
- include/hw/intc/bcm2836_control.h             |   4 +-=0D
- include/hw/intc/heathrow_pic.h                |   4 +-=0D
- include/hw/intc/ibex_plic.h                   |   4 +-=0D
- include/hw/intc/imx_avic.h                    |   4 +-=0D
- include/hw/intc/imx_gpcv2.h                   |   4 +-=0D
- include/hw/intc/mips_gic.h                    |   4 +-=0D
- include/hw/intc/realview_gic.h                |   4 +-=0D
- include/hw/intc/rx_icu.h                      |   4 +-=0D
- include/hw/intc/xlnx-pmu-iomod-intc.h         |   4 +-=0D
- include/hw/intc/xlnx-zynqmp-ipi.h             |   4 +-=0D
- include/hw/ipack/ipack.h                      |   6 +-=0D
- include/hw/ipmi/ipmi.h                        |   6 +-=0D
- include/hw/isa/i8259_internal.h               |   5 +-=0D
- include/hw/isa/isa.h                          |   7 +-=0D
- include/hw/isa/pc87312.h                      |   4 +-=0D
- include/hw/m68k/mcf_fec.h                     |   4 +-=0D
- include/hw/mem/nvdimm.h                       |   5 +-=0D
- include/hw/mem/pc-dimm.h                      |   2 +-=0D
- include/hw/mips/cps.h                         |   4 +-=0D
- include/hw/misc/a9scu.h                       |   4 +-=0D
- include/hw/misc/allwinner-cpucfg.h            |   4 +-=0D
- include/hw/misc/allwinner-h3-ccu.h            |   4 +-=0D
- include/hw/misc/allwinner-h3-dramc.h          |   4 +-=0D
- include/hw/misc/allwinner-h3-sysctrl.h        |   4 +-=0D
- include/hw/misc/allwinner-sid.h               |   4 +-=0D
- include/hw/misc/arm11scu.h                    |   4 +-=0D
- include/hw/misc/armsse-cpuid.h                |   4 +-=0D
- include/hw/misc/armsse-mhu.h                  |   4 +-=0D
- include/hw/misc/aspeed_scu.h                  |   5 +-=0D
- include/hw/misc/aspeed_sdmc.h                 |   5 +-=0D
- include/hw/misc/aspeed_xdma.h                 |   4 +-=0D
- include/hw/misc/auxbus.h                      |  11 +-=0D
- include/hw/misc/avr_power.h                   |   4 +-=0D
- include/hw/misc/bcm2835_mbox.h                |   4 +-=0D
- include/hw/misc/bcm2835_mphi.h                |   3 +-=0D
- include/hw/misc/bcm2835_property.h            |   4 +-=0D
- include/hw/misc/bcm2835_rng.h                 |   4 +-=0D
- include/hw/misc/bcm2835_thermal.h             |   4 +-=0D
- include/hw/misc/grlib_ahb_apb_pnp.h           |   8 +-=0D
- include/hw/misc/imx25_ccm.h                   |   4 +-=0D
- include/hw/misc/imx31_ccm.h                   |   4 +-=0D
- include/hw/misc/imx6_ccm.h                    |   4 +-=0D
- include/hw/misc/imx6_src.h                    |   4 +-=0D
- include/hw/misc/imx6ul_ccm.h                  |   4 +-=0D
- include/hw/misc/imx7_ccm.h                    |   8 +-=0D
- include/hw/misc/imx7_gpr.h                    |   4 +-=0D
- include/hw/misc/imx7_snvs.h                   |   4 +-=0D
- include/hw/misc/imx_ccm.h                     |   5 +-=0D
- include/hw/misc/imx_rngc.h                    |   4 +-=0D
- include/hw/misc/iotkit-secctl.h               |   4 +-=0D
- include/hw/misc/iotkit-sysctl.h               |   4 +-=0D
- include/hw/misc/iotkit-sysinfo.h              |   4 +-=0D
- include/hw/misc/mac_via.h                     |  12 +-=0D
- include/hw/misc/macio/cuda.h                  |   8 +-=0D
- include/hw/misc/macio/gpio.h                  |   4 +-=0D
- include/hw/misc/macio/macio.h                 |  20 +-=0D
- include/hw/misc/macio/pmu.h                   |   8 +-=0D
- include/hw/misc/max111x.h                     |   4 +-=0D
- include/hw/misc/mips_cmgcr.h                  |   4 +-=0D
- include/hw/misc/mips_cpc.h                    |   4 +-=0D
- include/hw/misc/mips_itu.h                    |   4 +-=0D
- include/hw/misc/mos6522.h                     |   5 +-=0D
- include/hw/misc/mps2-fpgaio.h                 |   4 +-=0D
- include/hw/misc/mps2-scc.h                    |   4 +-=0D
- include/hw/misc/msf2-sysreg.h                 |   4 +-=0D
- include/hw/misc/nrf51_rng.h                   |   4 +-=0D
- include/hw/misc/stm32f2xx_syscfg.h            |   4 +-=0D
- include/hw/misc/stm32f4xx_exti.h              |   4 +-=0D
- include/hw/misc/stm32f4xx_syscfg.h            |   4 +-=0D
- include/hw/misc/tz-mpc.h                      |   4 +-=0D
- include/hw/misc/tz-msc.h                      |   4 +-=0D
- include/hw/misc/tz-ppc.h                      |   4 +-=0D
- include/hw/misc/unimp.h                       |   4 +-=0D
- include/hw/misc/zynq-xadc.h                   |   4 +-=0D
- include/hw/net/allwinner-sun8i-emac.h         |   4 +-=0D
- include/hw/net/allwinner_emac.h               |   4 +-=0D
- include/hw/net/cadence_gem.h                  |   4 +-=0D
- include/hw/net/ftgmac100.h                    |   8 +-=0D
- include/hw/net/imx_fec.h                      |   4 +-=0D
- include/hw/net/msf2-emac.h                    |   4 +-=0D
- include/hw/nubus/mac-nubus-bridge.h           |   4 +-=0D
- include/hw/nubus/nubus.h                      |   8 +-=0D
- include/hw/nvram/fw_cfg.h                     |   9 +-=0D
- include/hw/nvram/nrf51_nvm.h                  |   4 +-=0D
- include/hw/pci-bridge/simba.h                 |   4 +-=0D
- include/hw/pci-host/designware.h              |   8 +-=0D
- include/hw/pci-host/gpex.h                    |   8 +-=0D
- include/hw/pci-host/i440fx.h                  |   4 +-=0D
- include/hw/pci-host/pnv_phb3.h                |   7 +-=0D
- include/hw/pci-host/pnv_phb4.h                |  11 +-=0D
- include/hw/pci-host/q35.h                     |   8 +-=0D
- include/hw/pci-host/sabre.h                   |   8 +-=0D
- include/hw/pci-host/spapr.h                   |   4 +-=0D
- include/hw/pci-host/uninorth.h                |   4 +-=0D
- include/hw/pci-host/xilinx-pcie.h             |   8 +-=0D
- include/hw/pci/pci.h                          |   4 +-=0D
- include/hw/pci/pci_bridge.h                   |   3 +-=0D
- include/hw/pci/pci_host.h                     |   4 +-=0D
- include/hw/pci/pcie_host.h                    |   3 +-=0D
- include/hw/pci/pcie_port.h                    |   6 +-=0D
- include/hw/pcmcia.h                           |   5 +-=0D
- include/hw/platform-bus.h                     |   4 +-=0D
- include/hw/ppc/mac_dbdma.h                    |   3 +-=0D
- include/hw/ppc/openpic.h                      |   4 +-=0D
- include/hw/ppc/pnv.h                          |   2 +-=0D
- include/hw/ppc/pnv_core.h                     |   6 +-=0D
- include/hw/ppc/pnv_homer.h                    |   2 +-=0D
- include/hw/ppc/pnv_occ.h                      |   2 +-=0D
- include/hw/ppc/pnv_pnor.h                     |   4 +-=0D
- include/hw/ppc/pnv_psi.h                      |  10 +-=0D
- include/hw/ppc/pnv_xive.h                     |   2 +-=0D
- include/hw/ppc/spapr.h                        |  13 +-=0D
- include/hw/ppc/spapr_cpu_core.h               |   2 +-=0D
- include/hw/ppc/spapr_tpm_proxy.h              |   4 +-=0D
- include/hw/ppc/spapr_vio.h                    |   6 +-=0D
- include/hw/ppc/xics.h                         |   2 +-=0D
- include/hw/ppc/xive.h                         |  14 +-=0D
- include/hw/qdev-core.h                        |   4 +-=0D
- include/hw/riscv/opentitan.h                  |   4 +-=0D
- include/hw/riscv/riscv_hart.h                 |   4 +-=0D
- include/hw/rtc/allwinner-rtc.h                |   5 +-=0D
- include/hw/rtc/aspeed_rtc.h                   |   4 +-=0D
- include/hw/rtc/goldfish_rtc.h                 |   4 +-=0D
- include/hw/rtc/mc146818rtc.h                  |   4 +-=0D
- include/hw/rtc/pl031.h                        |   4 +-=0D
- include/hw/rtc/xlnx-zynqmp-rtc.h              |   4 +-=0D
- include/hw/s390x/3270-ccw.h                   |   5 +-=0D
- include/hw/s390x/css-bridge.h                 |   8 +-=0D
- include/hw/s390x/event-facility.h             |   2 +-=0D
- include/hw/s390x/s390-virtio-ccw.h            |   5 +-=0D
- include/hw/s390x/s390_flic.h                  |   6 +-=0D
- include/hw/s390x/sclp.h                       |   2 +-=0D
- include/hw/s390x/storage-attributes.h         |   5 +-=0D
- include/hw/s390x/storage-keys.h               |   5 +-=0D
- include/hw/s390x/tod.h                        |   5 +-=0D
- include/hw/s390x/vfio-ccw.h                   |   4 +-=0D
- include/hw/scsi/esp.h                         |   4 +-=0D
- include/hw/scsi/scsi.h                        |   7 +-=0D
- include/hw/sd/allwinner-sdhost.h              |   5 +-=0D
- include/hw/sd/aspeed_sdhci.h                  |   4 +-=0D
- include/hw/sd/bcm2835_sdhost.h                |   4 +-=0D
- include/hw/sd/sd.h                            |   7 +-=0D
- include/hw/sparc/sparc32_dma.h                |  16 +-=0D
- include/hw/ssi/aspeed_smc.h                   |   5 +-=0D
- include/hw/ssi/imx_spi.h                      |   4 +-=0D
- include/hw/ssi/mss-spi.h                      |   4 +-=0D
- include/hw/ssi/pl022.h                        |   4 +-=0D
- include/hw/ssi/ssi.h                          |   2 +-=0D
- include/hw/ssi/stm32f2xx_spi.h                |   4 +-=0D
- include/hw/ssi/xilinx_spips.h                 |  11 +-=0D
- include/hw/sysbus.h                           |   2 +-=0D
- include/hw/timer/a9gtimer.h                   |   4 +-=0D
- include/hw/timer/allwinner-a10-pit.h          |   4 +-=0D
- include/hw/timer/arm_mptimer.h                |   4 +-=0D
- include/hw/timer/armv7m_systick.h             |   4 +-=0D
- include/hw/timer/aspeed_timer.h               |   5 +-=0D
- include/hw/timer/avr_timer16.h                |   4 +-=0D
- include/hw/timer/bcm2835_systmr.h             |   4 +-=0D
- include/hw/timer/cmsdk-apb-dualtimer.h        |   4 +-=0D
- include/hw/timer/cmsdk-apb-timer.h            |   4 +-=0D
- include/hw/timer/digic-timer.h                |   4 +-=0D
- include/hw/timer/i8254.h                      |   5 +-=0D
- include/hw/timer/imx_epit.h                   |   4 +-=0D
- include/hw/timer/mss-timer.h                  |   4 +-=0D
- include/hw/timer/nrf51_timer.h                |   4 +-=0D
- include/hw/usb.h                              |   8 +-=0D
- include/hw/usb/chipidea.h                     |   4 +-=0D
- include/hw/usb/imx-usb-phy.h                  |   4 +-=0D
- include/hw/virtio/vhost-scsi-common.h         |   4 +-=0D
- include/hw/virtio/vhost-scsi.h                |   4 +-=0D
- include/hw/virtio/vhost-user-blk.h            |   4 +-=0D
- include/hw/virtio/vhost-user-fs.h             |   4 +-=0D
- include/hw/virtio/vhost-user-scsi.h           |   4 +-=0D
- include/hw/virtio/vhost-user-vsock.h          |   4 +-=0D
- include/hw/virtio/vhost-vsock-common.h        |   4 +-=0D
- include/hw/virtio/vhost-vsock.h               |   4 +-=0D
- include/hw/virtio/virtio-balloon.h            |   4 +-=0D
- include/hw/virtio/virtio-blk.h                |   4 +-=0D
- include/hw/virtio/virtio-crypto.h             |   4 +-=0D
- include/hw/virtio/virtio-gpu-pci.h            |   4 +-=0D
- include/hw/virtio/virtio-gpu.h                |  10 +-=0D
- include/hw/virtio/virtio-input.h              |  14 +-=0D
- include/hw/virtio/virtio-iommu.h              |   4 +-=0D
- include/hw/virtio/virtio-mem.h                |   2 +-=0D
- include/hw/virtio/virtio-mmio.h               |   4 +-=0D
- include/hw/virtio/virtio-net.h                |   4 +-=0D
- include/hw/virtio/virtio-pmem.h               |   2 +-=0D
- include/hw/virtio/virtio-rng.h                |   4 +-=0D
- include/hw/virtio/virtio-scsi.h               |   8 +-=0D
- include/hw/virtio/virtio-serial.h             |   9 +-=0D
- include/hw/virtio/virtio.h                    |   4 +-=0D
- include/hw/watchdog/cmsdk-apb-watchdog.h      |   4 +-=0D
- include/hw/watchdog/wdt_aspeed.h              |   5 +-=0D
- include/hw/watchdog/wdt_imx2.h                |   4 +-=0D
- include/hw/xen/xen-block.h                    |  12 +-=0D
- include/hw/xen/xen-bus.h                      |   6 +-=0D
- include/io/channel-buffer.h                   |   4 +-=0D
- include/io/channel-command.h                  |   4 +-=0D
- include/io/channel-file.h                     |   4 +-=0D
- include/io/channel-socket.h                   |   4 +-=0D
- include/io/channel-tls.h                      |   4 +-=0D
- include/io/channel-websock.h                  |   4 +-=0D
- include/io/channel.h                          |   2 +-=0D
- include/io/dns-resolver.h                     |   4 +-=0D
- include/io/net-listener.h                     |   4 +-=0D
- include/net/can_emu.h                         |   3 +-=0D
- include/net/can_host.h                        |   5 +-=0D
- include/net/filter.h                          |   4 +-=0D
- include/qom/object.h                          |  20 +-=0D
- include/scsi/pr-manager.h                     |   2 +-=0D
- include/sysemu/cryptodev.h                    |   2 +-=0D
- include/sysemu/hostmem.h                      |   2 +-=0D
- include/sysemu/rng-random.h                   |   4 +-=0D
- include/sysemu/rng.h                          |   2 +-=0D
- include/sysemu/tpm_backend.h                  |   2 +-=0D
- include/sysemu/vhost-user-backend.h           |   4 +-=0D
- include/ui/console.h                          |   4 +-=0D
- target/alpha/cpu-qom.h                        |   2 +-=0D
- target/arm/cpu-qom.h                          |   2 +-=0D
- target/avr/cpu-qom.h                          |   2 +-=0D
- target/cris/cpu-qom.h                         |   2 +-=0D
- target/hppa/cpu-qom.h                         |   2 +-=0D
- target/i386/cpu-qom.h                         |   2 +-=0D
- target/lm32/cpu-qom.h                         |   2 +-=0D
- target/m68k/cpu-qom.h                         |   2 +-=0D
- target/microblaze/cpu-qom.h                   |   2 +-=0D
- target/mips/cpu-qom.h                         |   2 +-=0D
- target/moxie/cpu.h                            |   2 +-=0D
- target/nios2/cpu.h                            |   2 +-=0D
- target/openrisc/cpu.h                         |   2 +-=0D
- target/ppc/cpu-qom.h                          |   2 +-=0D
- target/riscv/cpu.h                            |   2 +-=0D
- target/rx/cpu-qom.h                           |   2 +-=0D
- target/s390x/cpu-qom.h                        |   2 +-=0D
- target/sh4/cpu-qom.h                          |   2 +-=0D
- target/sparc/cpu-qom.h                        |   2 +-=0D
- target/tilegx/cpu.h                           |   2 +-=0D
- target/tricore/cpu-qom.h                      |   2 +-=0D
- target/unicore32/cpu-qom.h                    |   2 +-=0D
- target/xtensa/cpu-qom.h                       |   2 +-=0D
- authz/list.c                                  |   1 -=0D
- authz/listfile.c                              |   1 -=0D
- authz/pamacct.c                               |   1 -=0D
- authz/simple.c                                |   1 -=0D
- backends/cryptodev-builtin.c                  |   5 +-=0D
- backends/cryptodev-vhost-user.c               |   4 +-=0D
- backends/dbus-vmstate.c                       |   5 +-=0D
- backends/hostmem-file.c                       |   4 +-=0D
- backends/hostmem-memfd.c                      |   4 +-=0D
- backends/rng-builtin.c                        |   4 +-=0D
- backends/rng-egd.c                            |   4 +-=0D
- backends/tpm/tpm_emulator.c                   |   4 +-=0D
- backends/tpm/tpm_passthrough.c                |   4 +-=0D
- backends/vhost-user.c                         |   1 -=0D
- crypto/secret_keyring.c                       |   1 -=0D
- hw/acpi/piix4.c                               |   4 +-=0D
- hw/alpha/typhoon.c                            |   4 +-=0D
- hw/arm/collie.c                               |   4 +-=0D
- hw/arm/highbank.c                             |   4 +-=0D
- hw/arm/integratorcp.c                         |  12 +-=0D
- hw/arm/microbit.c                             |   4 +-=0D
- hw/arm/mps2-tz.c                              |   5 +-=0D
- hw/arm/mps2.c                                 |   5 +-=0D
- hw/arm/musca.c                                |   5 +-=0D
- hw/arm/musicpal.c                             |  32 +-=0D
- hw/arm/palm.c                                 |   4 +-=0D
- hw/arm/pxa2xx.c                               |  12 +-=0D
- hw/arm/pxa2xx_gpio.c                          |   4 +-=0D
- hw/arm/pxa2xx_pic.c                           |   4 +-=0D
- hw/arm/sbsa-ref.c                             |   4 +-=0D
- hw/arm/spitz.c                                |  25 +-=0D
- hw/arm/stellaris.c                            |   8 +-=0D
- hw/arm/strongarm.c                            |  24 +-=0D
- hw/arm/tosa.c                                 |   8 +-=0D
- hw/arm/versatilepb.c                          |   4 +-=0D
- hw/arm/vexpress.c                             |   5 +-=0D
- hw/arm/xilinx_zynq.c                          |   4 +-=0D
- hw/arm/xlnx-versal-virt.c                     |   4 +-=0D
- hw/arm/xlnx-zcu102.c                          |   4 +-=0D
- hw/arm/z2.c                                   |   8 +-=0D
- hw/audio/ac97.c                               |   4 +-=0D
- hw/audio/adlib.c                              |   4 +-=0D
- hw/audio/es1370.c                             |   3 +-=0D
- hw/audio/gus.c                                |   4 +-=0D
- hw/audio/hda-codec.c                          |   3 +-=0D
- hw/audio/marvell_88w8618.c                    |   4 +-=0D
- hw/audio/milkymist-ac97.c                     |   4 +-=0D
- hw/audio/pcspk.c                              |   4 +-=0D
- hw/audio/pl041.c                              |   4 +-=0D
- hw/audio/sb16.c                               |   4 +-=0D
- hw/audio/wm8750.c                             |   4 +-=0D
- hw/block/fdc.c                                |  16 +-=0D
- hw/block/m25p80.c                             |   5 +-=0D
- hw/block/nand.c                               |   3 +-=0D
- hw/block/onenand.c                            |   4 +-=0D
- hw/char/debugcon.c                            |   4 +-=0D
- hw/char/exynos4210_uart.c                     |   4 +-=0D
- hw/char/grlib_apbuart.c                       |   4 +-=0D
- hw/char/ipoctal232.c                          |   3 +-=0D
- hw/char/lm32_juart.c                          |   4 +-=0D
- hw/char/lm32_uart.c                           |   4 +-=0D
- hw/char/mcf_uart.c                            |   4 +-=0D
- hw/char/milkymist-uart.c                      |   4 +-=0D
- hw/char/parallel.c                            |   4 +-=0D
- hw/char/serial-isa.c                          |   4 +-=0D
- hw/char/serial-pci.c                          |   4 +-=0D
- hw/char/spapr_vty.c                           |   4 +-=0D
- hw/char/xilinx_uartlite.c                     |   4 +-=0D
- hw/cpu/realview_mpcore.c                      |   4 +-=0D
- hw/display/ads7846.c                          |   4 +-=0D
- hw/display/artist.c                           |   4 +-=0D
- hw/display/bochs-display.c                    |   4 +-=0D
- hw/display/cg3.c                              |   4 +-=0D
- hw/display/cirrus_vga.c                       |   4 +-=0D
- hw/display/cirrus_vga_isa.c                   |   4 +-=0D
- hw/display/exynos4210_fimd.c                  |   4 +-=0D
- hw/display/g364fb.c                           |   4 +-=0D
- hw/display/jazz_led.c                         |   4 +-=0D
- hw/display/milkymist-tmu2.c                   |   4 +-=0D
- hw/display/milkymist-vgafb.c                  |   4 +-=0D
- hw/display/next-fb.c                          |   4 +-=0D
- hw/display/pl110.c                            |   4 +-=0D
- hw/display/sii9022.c                          |   4 +-=0D
- hw/display/sm501.c                            |   8 +-=0D
- hw/display/ssd0303.c                          |   4 +-=0D
- hw/display/ssd0323.c                          |   4 +-=0D
- hw/display/tcx.c                              |   4 +-=0D
- hw/display/vga-isa.c                          |   4 +-=0D
- hw/display/vga-pci.c                          |   4 +-=0D
- hw/dma/i82374.c                               |   4 +-=0D
- hw/dma/pl330.c                                |   3 +-=0D
- hw/dma/puv3_dma.c                             |   4 +-=0D
- hw/dma/pxa2xx_dma.c                           |   4 +-=0D
- hw/dma/rc4030.c                               |   4 +-=0D
- hw/dma/xilinx_axidma.c                        |   4 +-=0D
- hw/gpio/gpio_key.c                            |   4 +-=0D
- hw/gpio/max7310.c                             |   4 +-=0D
- hw/gpio/mpc8xxx.c                             |   4 +-=0D
- hw/gpio/pl061.c                               |   4 +-=0D
- hw/gpio/puv3_gpio.c                           |   4 +-=0D
- hw/gpio/zaurus.c                              |   4 +-=0D
- hw/hppa/dino.c                                |   4 +-=0D
- hw/hppa/lasi.c                                |   4 +-=0D
- hw/hyperv/hyperv.c                            |   4 +-=0D
- hw/hyperv/hyperv_testdev.c                    |   4 +-=0D
- hw/i2c/bitbang_i2c.c                          |   4 +-=0D
- hw/i2c/exynos4210_i2c.c                       |   4 +-=0D
- hw/i2c/mpc_i2c.c                              |   4 +-=0D
- hw/i2c/smbus_eeprom.c                         |   4 +-=0D
- hw/i2c/smbus_ich9.c                           |   4 +-=0D
- hw/i386/kvm/clock.c                           |   4 +-=0D
- hw/i386/kvmvapic.c                            |   4 +-=0D
- hw/i386/port92.c                              |   4 +-=0D
- hw/i386/vmmouse.c                             |   4 +-=0D
- hw/i386/vmport.c                              |   4 +-=0D
- hw/i386/xen/xen_platform.c                    |   4 +-=0D
- hw/i386/xen/xen_pvdevice.c                    |   4 +-=0D
- hw/ide/isa.c                                  |   4 +-=0D
- hw/ide/microdrive.c                           |   4 +-=0D
- hw/ide/sii3112.c                              |   4 +-=0D
- hw/input/adb-kbd.c                            |   5 +-=0D
- hw/input/adb-mouse.c                          |   5 +-=0D
- hw/input/lm832x.c                             |   4 +-=0D
- hw/input/milkymist-softusb.c                  |   4 +-=0D
- hw/input/pl050.c                              |   4 +-=0D
- hw/intc/arm_gicv2m.c                          |   4 +-=0D
- hw/intc/exynos4210_combiner.c                 |   4 +-=0D
- hw/intc/exynos4210_gic.c                      |   8 +-=0D
- hw/intc/grlib_irqmp.c                         |   4 +-=0D
- hw/intc/lm32_pic.c                            |   4 +-=0D
- hw/intc/nios2_iic.c                           |   4 +-=0D
- hw/intc/ompic.c                               |   4 +-=0D
- hw/intc/openpic_kvm.c                         |   4 +-=0D
- hw/intc/pl190.c                               |   4 +-=0D
- hw/intc/puv3_intc.c                           |   4 +-=0D
- hw/intc/slavio_intctl.c                       |   4 +-=0D
- hw/ipack/tpci200.c                            |   4 +-=0D
- hw/ipmi/ipmi_bmc_extern.c                     |   4 +-=0D
- hw/ipmi/isa_ipmi_bt.c                         |   4 +-=0D
- hw/ipmi/isa_ipmi_kcs.c                        |   4 +-=0D
- hw/ipmi/pci_ipmi_bt.c                         |   4 +-=0D
- hw/ipmi/pci_ipmi_kcs.c                        |   4 +-=0D
- hw/ipmi/smbus_ipmi.c                          |   4 +-=0D
- hw/isa/i82378.c                               |   4 +-=0D
- hw/isa/piix4.c                                |   4 +-=0D
- hw/isa/vt82c686.c                             |  16 +-=0D
- hw/m68k/mcf_intc.c                            |   4 +-=0D
- hw/m68k/next-cube.c                           |   4 +-=0D
- hw/m68k/next-kbd.c                            |   4 +-=0D
- hw/microblaze/xlnx-zynqmp-pmu.c               |   4 +-=0D
- hw/mips/gt64xxx_pci.c                         |   4 +-=0D
- hw/mips/malta.c                               |   4 +-=0D
- hw/misc/applesmc.c                            |   4 +-=0D
- hw/misc/arm_integrator_debug.c                |   4 +-=0D
- hw/misc/arm_l2x0.c                            |   4 +-=0D
- hw/misc/arm_sysctl.c                          |   4 +-=0D
- hw/misc/debugexit.c                           |   4 +-=0D
- hw/misc/eccmemctl.c                           |   4 +-=0D
- hw/misc/empty_slot.c                          |   4 +-=0D
- hw/misc/exynos4210_clk.c                      |   4 +-=0D
- hw/misc/exynos4210_pmu.c                      |   4 +-=0D
- hw/misc/exynos4210_rng.c                      |   4 +-=0D
- hw/misc/milkymist-hpdmc.c                     |   4 +-=0D
- hw/misc/milkymist-pfpu.c                      |   4 +-=0D
- hw/misc/mst_fpga.c                            |   4 +-=0D
- hw/misc/pc-testdev.c                          |   4 +-=0D
- hw/misc/pci-testdev.c                         |   4 +-=0D
- hw/misc/puv3_pm.c                             |   4 +-=0D
- hw/misc/sga.c                                 |   4 +-=0D
- hw/misc/slavio_misc.c                         |   4 +-=0D
- hw/misc/tmp421.c                              |   5 +-=0D
- hw/misc/zynq_slcr.c                           |   4 +-=0D
- hw/net/dp8393x.c                              |   4 +-=0D
- hw/net/e1000e.c                               |   4 +-=0D
- hw/net/etraxfs_eth.c                          |   4 +-=0D
- hw/net/lan9118.c                              |   4 +-=0D
- hw/net/milkymist-minimac2.c                   |   4 +-=0D
- hw/net/mipsnet.c                              |   4 +-=0D
- hw/net/ne2000-isa.c                           |   4 +-=0D
- hw/net/opencores_eth.c                        |   4 +-=0D
- hw/net/pcnet-pci.c                            |   4 +-=0D
- hw/net/rtl8139.c                              |   4 +-=0D
- hw/net/smc91c111.c                            |   4 +-=0D
- hw/net/spapr_llan.c                           |   4 +-=0D
- hw/net/stellaris_enet.c                       |   4 +-=0D
- hw/net/sungem.c                               |   4 +-=0D
- hw/net/sunhme.c                               |   4 +-=0D
- hw/net/xgmac.c                                |   4 +-=0D
- hw/net/xilinx_axienet.c                       |   4 +-=0D
- hw/nvram/ds1225y.c                            |   4 +-=0D
- hw/nvram/spapr_nvram.c                        |   4 +-=0D
- hw/pci-bridge/dec.c                           |   4 +-=0D
- hw/pci-bridge/gen_pcie_root_port.c            |   4 +-=0D
- hw/pci-bridge/pci_bridge_dev.c                |   4 +-=0D
- hw/pci-bridge/pcie_pci_bridge.c               |   4 +-=0D
- hw/pci-host/bonito.c                          |   6 +-=0D
- hw/pci-host/grackle.c                         |   4 +-=0D
- hw/pci-host/i440fx.c                          |   4 +-=0D
- hw/pci-host/ppce500.c                         |   8 +-=0D
- hw/pci-host/prep.c                            |   4 +-=0D
- hw/ppc/mpc8544_guts.c                         |   4 +-=0D
- hw/ppc/ppc440_pcix.c                          |   4 +-=0D
- hw/ppc/ppc440_uc.c                            |   4 +-=0D
- hw/ppc/ppc4xx_pci.c                           |   4 +-=0D
- hw/ppc/ppce500_spin.c                         |   4 +-=0D
- hw/ppc/prep_systemio.c                        |   4 +-=0D
- hw/ppc/rs6000_mc.c                            |   4 +-=0D
- hw/ppc/spapr_rng.c                            |   4 +-=0D
- hw/rtc/ds1338.c                               |   4 +-=0D
- hw/rtc/exynos4210_rtc.c                       |   4 +-=0D
- hw/rtc/m41t80.c                               |   4 +-=0D
- hw/rtc/sun4v-rtc.c                            |   4 +-=0D
- hw/rtc/twl92230.c                             |   4 +-=0D
- hw/scsi/lsi53c895a.c                          |   4 +-=0D
- hw/scsi/scsi-disk.c                           |   5 +-=0D
- hw/scsi/spapr_vscsi.c                         |   4 +-=0D
- hw/scsi/vmw_pvscsi.c                          |   5 +-=0D
- hw/sd/milkymist-memcard.c                     |   4 +-=0D
- hw/sd/pl181.c                                 |   4 +-=0D
- hw/sd/ssi-sd.c                                |   4 +-=0D
- hw/sh4/sh_pci.c                               |   4 +-=0D
- hw/sparc/sun4m.c                              |   8 +-=0D
- hw/sparc64/sun4u.c                            |   8 +-=0D
- hw/ssi/ssi.c                                  |   3 +-=0D
- hw/ssi/xilinx_spi.c                           |   4 +-=0D
- hw/timer/altera_timer.c                       |   4 +-=0D
- hw/timer/arm_timer.c                          |   8 +-=0D
- hw/timer/cadence_ttc.c                        |   4 +-=0D
- hw/timer/exynos4210_mct.c                     |   4 +-=0D
- hw/timer/exynos4210_pwm.c                     |   4 +-=0D
- hw/timer/grlib_gptimer.c                      |   4 +-=0D
- hw/timer/hpet.c                               |   4 +-=0D
- hw/timer/lm32_timer.c                         |   4 +-=0D
- hw/timer/milkymist-sysctl.c                   |   4 +-=0D
- hw/timer/puv3_ost.c                           |   4 +-=0D
- hw/timer/pxa2xx_timer.c                       |   4 +-=0D
- hw/timer/slavio_timer.c                       |   4 +-=0D
- hw/tpm/tpm_tis_isa.c                          |   4 +-=0D
- hw/tpm/tpm_tis_sysbus.c                       |   4 +-=0D
- hw/usb/dev-audio.c                            |   4 +-=0D
- hw/usb/dev-hid.c                              |   4 +-=0D
- hw/usb/dev-hub.c                              |   4 +-=0D
- hw/usb/dev-mtp.c                              |   3 +-=0D
- hw/usb/dev-network.c                          |   4 +-=0D
- hw/usb/dev-serial.c                           |   4 +-=0D
- hw/usb/dev-smartcard-reader.c                 |   7 +-=0D
- hw/usb/dev-uas.c                              |   3 +-=0D
- hw/usb/dev-wacom.c                            |   4 +-=0D
- hw/usb/hcd-ohci-pci.c                         |   4 +-=0D
- hw/usb/host-libusb.c                          |   4 +-=0D
- hw/usb/tusb6010.c                             |   4 +-=0D
- hw/vfio/ap.c                                  |   4 +-=0D
- hw/virtio/virtio-input-pci.c                  |   8 +-=0D
- hw/watchdog/wdt_i6300esb.c                    |   4 +-=0D
- io/dns-resolver.c                             |   1 -=0D
- io/net-listener.c                             |   1 -=0D
- migration/rdma.c                              |   4 +-=0D
- net/can/can_socketcan.c                       |   4 +-=0D
- net/dump.c                                    |   4 +-=0D
- net/filter-buffer.c                           |   4 +-=0D
- net/filter-replay.c                           |   4 +-=0D
- net/filter-rewriter.c                         |   4 +-=0D
- scsi/pr-manager-helper.c                      |   4 +-=0D
- target/i386/sev.c                             |   4 +-=0D
- ui/input-barrier.c                            |   5 +-=0D
- ui/input-linux.c                              |   5 +-=0D
- .../codeconverter/codeconverter/patching.py   | 193 +++--=0D
- .../codeconverter/codeconverter/qom_macros.py | 327 ++++++--=0D
- .../codeconverter/qom_type_info.py            | 741 +++++++++++++++---=0D
- .../codeconverter/test_patching.py            |   3 +-=0D
- .../codeconverter/test_regexps.py             |  26 +-=0D
- scripts/codeconverter/converter.py            |  12 +-=0D
- 634 files changed, 1828 insertions(+), 2401 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+One of the goals of having less boilerplate on QOM declarations
+is to avoid human error.  Requiring an extra argument that is
+never used is an opportunity for mistakes.
+
+Remove the unused argument from OBJECT_DECLARE_TYPE and
+OBJECT_DECLARE_SIMPLE_TYPE.
+
+Coccinelle patch used to convert all users of the macros:
+
+  @@
+  declarer name OBJECT_DECLARE_TYPE;
+  identifier InstanceType, ClassType, lowercase, UPPERCASE;
+  @@
+   OBJECT_DECLARE_TYPE(InstanceType, ClassType,
+  -                    lowercase,
+                       UPPERCASE);
+
+  @@
+  declarer name OBJECT_DECLARE_SIMPLE_TYPE;
+  identifier InstanceType, lowercase, UPPERCASE;
+  @@
+   OBJECT_DECLARE_SIMPLE_TYPE(InstanceType,
+  -                    lowercase,
+                       UPPERCASE);
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Corey Minyard <cminyard@mvista.com>
+Cc: "Cédric Le Goater" <clg@kaod.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org>
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Amit Shah <amit@kernel.org>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>
+Cc: Paul Durrant <paul@xen.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>
+Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Stefan Berger <stefanb@linux.ibm.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Michael Rolnik <mrolnik@gmail.com>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Michael Walle <michael@walle.cc>
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Cc: Anthony Green <green@moxielogic.com>
+Cc: Chris Wulff <crwulff@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Stafford Horne <shorne@gmail.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Cc: qemu-ppc@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Cc: qemu-block@nongnu.org
+Cc: xen-devel@lists.xenproject.org
+Cc: qemu-riscv@nongnu.org
+---
+ hw/audio/intel-hda.h                | 2 +-
+ hw/display/virtio-vga.h             | 2 +-
+ include/authz/base.h                | 2 +-
+ include/authz/list.h                | 2 +-
+ include/authz/listfile.h            | 2 +-
+ include/authz/pamacct.h             | 2 +-
+ include/authz/simple.h              | 2 +-
+ include/crypto/secret_common.h      | 2 +-
+ include/crypto/secret_keyring.h     | 2 +-
+ include/hw/arm/armsse.h             | 2 +-
+ include/hw/hyperv/vmbus.h           | 2 +-
+ include/hw/i2c/i2c.h                | 2 +-
+ include/hw/i2c/smbus_slave.h        | 2 +-
+ include/hw/ipack/ipack.h            | 2 +-
+ include/hw/ipmi/ipmi.h              | 2 +-
+ include/hw/mem/pc-dimm.h            | 2 +-
+ include/hw/ppc/pnv.h                | 2 +-
+ include/hw/ppc/pnv_core.h           | 2 +-
+ include/hw/ppc/pnv_homer.h          | 2 +-
+ include/hw/ppc/pnv_occ.h            | 2 +-
+ include/hw/ppc/pnv_psi.h            | 2 +-
+ include/hw/ppc/pnv_xive.h           | 2 +-
+ include/hw/ppc/spapr_cpu_core.h     | 2 +-
+ include/hw/ppc/spapr_vio.h          | 2 +-
+ include/hw/ppc/xics.h               | 2 +-
+ include/hw/ppc/xive.h               | 2 +-
+ include/hw/s390x/event-facility.h   | 2 +-
+ include/hw/s390x/s390_flic.h        | 2 +-
+ include/hw/s390x/sclp.h             | 2 +-
+ include/hw/sd/sd.h                  | 2 +-
+ include/hw/ssi/ssi.h                | 2 +-
+ include/hw/sysbus.h                 | 2 +-
+ include/hw/virtio/virtio-gpu.h      | 2 +-
+ include/hw/virtio/virtio-input.h    | 2 +-
+ include/hw/virtio/virtio-mem.h      | 2 +-
+ include/hw/virtio/virtio-pmem.h     | 2 +-
+ include/hw/virtio/virtio-serial.h   | 2 +-
+ include/hw/xen/xen-bus.h            | 2 +-
+ include/io/channel.h                | 2 +-
+ include/io/dns-resolver.h           | 2 +-
+ include/io/net-listener.h           | 2 +-
+ include/qom/object.h                | 6 ++----
+ include/scsi/pr-manager.h           | 2 +-
+ include/sysemu/cryptodev.h          | 2 +-
+ include/sysemu/hostmem.h            | 2 +-
+ include/sysemu/rng.h                | 2 +-
+ include/sysemu/tpm_backend.h        | 2 +-
+ include/sysemu/vhost-user-backend.h | 2 +-
+ target/alpha/cpu-qom.h              | 2 +-
+ target/arm/cpu-qom.h                | 2 +-
+ target/avr/cpu-qom.h                | 2 +-
+ target/cris/cpu-qom.h               | 2 +-
+ target/hppa/cpu-qom.h               | 2 +-
+ target/i386/cpu-qom.h               | 2 +-
+ target/lm32/cpu-qom.h               | 2 +-
+ target/m68k/cpu-qom.h               | 2 +-
+ target/microblaze/cpu-qom.h         | 2 +-
+ target/mips/cpu-qom.h               | 2 +-
+ target/moxie/cpu.h                  | 2 +-
+ target/nios2/cpu.h                  | 2 +-
+ target/openrisc/cpu.h               | 2 +-
+ target/ppc/cpu-qom.h                | 2 +-
+ target/riscv/cpu.h                  | 2 +-
+ target/rx/cpu-qom.h                 | 2 +-
+ target/s390x/cpu-qom.h              | 2 +-
+ target/sh4/cpu-qom.h                | 2 +-
+ target/sparc/cpu-qom.h              | 2 +-
+ target/tilegx/cpu.h                 | 2 +-
+ target/tricore/cpu-qom.h            | 2 +-
+ target/unicore32/cpu-qom.h          | 2 +-
+ target/xtensa/cpu-qom.h             | 2 +-
+ backends/dbus-vmstate.c             | 2 +-
+ ui/input-barrier.c                  | 2 +-
+ ui/input-linux.c                    | 2 +-
+ 74 files changed, 75 insertions(+), 77 deletions(-)
+
+diff --git a/hw/audio/intel-hda.h b/hw/audio/intel-hda.h
+index f5cce18fa3..e2372abbdc 100644
+--- a/hw/audio/intel-hda.h
++++ b/hw/audio/intel-hda.h
+@@ -9,7 +9,7 @@
+ 
+ #define TYPE_HDA_CODEC_DEVICE "hda-codec"
+ OBJECT_DECLARE_TYPE(HDACodecDevice, HDACodecDeviceClass,
+-                    hda_codec_device, HDA_CODEC_DEVICE)
++                    HDA_CODEC_DEVICE)
+ 
+ #define TYPE_HDA_BUS "HDA"
+ typedef struct HDACodecBus HDACodecBus;
+diff --git a/hw/display/virtio-vga.h b/hw/display/virtio-vga.h
+index 5c5671c9c1..977ad5edc2 100644
+--- a/hw/display/virtio-vga.h
++++ b/hw/display/virtio-vga.h
+@@ -10,7 +10,7 @@
+  */
+ #define TYPE_VIRTIO_VGA_BASE "virtio-vga-base"
+ OBJECT_DECLARE_TYPE(VirtIOVGABase, VirtIOVGABaseClass,
+-                    virtio_vga_base, VIRTIO_VGA_BASE)
++                    VIRTIO_VGA_BASE)
+ 
+ struct VirtIOVGABase {
+     VirtIOPCIProxy parent_obj;
+diff --git a/include/authz/base.h b/include/authz/base.h
+index 06b5e29f6f..eca170ee1a 100644
+--- a/include/authz/base.h
++++ b/include/authz/base.h
+@@ -28,7 +28,7 @@
+ #define TYPE_QAUTHZ "authz"
+ 
+ OBJECT_DECLARE_TYPE(QAuthZ, QAuthZClass,
+-                    qauthz, QAUTHZ)
++                    QAUTHZ)
+ 
+ 
+ /**
+diff --git a/include/authz/list.h b/include/authz/list.h
+index c5eda0f1bf..f73bc5c50a 100644
+--- a/include/authz/list.h
++++ b/include/authz/list.h
+@@ -27,7 +27,7 @@
+ 
+ #define TYPE_QAUTHZ_LIST "authz-list"
+ 
+-OBJECT_DECLARE_SIMPLE_TYPE(QAuthZList, qauthz_list,
++OBJECT_DECLARE_SIMPLE_TYPE(QAuthZList,
+                            QAUTHZ_LIST)
+ 
+ 
+diff --git a/include/authz/listfile.h b/include/authz/listfile.h
+index 83d78cfa50..51824f3fb2 100644
+--- a/include/authz/listfile.h
++++ b/include/authz/listfile.h
+@@ -27,7 +27,7 @@
+ 
+ #define TYPE_QAUTHZ_LIST_FILE "authz-list-file"
+ 
+-OBJECT_DECLARE_SIMPLE_TYPE(QAuthZListFile, qauthz_list_file,
++OBJECT_DECLARE_SIMPLE_TYPE(QAuthZListFile,
+                            QAUTHZ_LIST_FILE)
+ 
+ 
+diff --git a/include/authz/pamacct.h b/include/authz/pamacct.h
+index 18087cee20..d05c18a3a4 100644
+--- a/include/authz/pamacct.h
++++ b/include/authz/pamacct.h
+@@ -27,7 +27,7 @@
+ 
+ #define TYPE_QAUTHZ_PAM "authz-pam"
+ 
+-OBJECT_DECLARE_SIMPLE_TYPE(QAuthZPAM, qauthz_pam,
++OBJECT_DECLARE_SIMPLE_TYPE(QAuthZPAM,
+                            QAUTHZ_PAM)
+ 
+ 
+diff --git a/include/authz/simple.h b/include/authz/simple.h
+index d3ed05b36f..9f5b979e13 100644
+--- a/include/authz/simple.h
++++ b/include/authz/simple.h
+@@ -26,7 +26,7 @@
+ 
+ #define TYPE_QAUTHZ_SIMPLE "authz-simple"
+ 
+-OBJECT_DECLARE_SIMPLE_TYPE(QAuthZSimple, qauthz_simple,
++OBJECT_DECLARE_SIMPLE_TYPE(QAuthZSimple,
+                            QAUTHZ_SIMPLE)
+ 
+ 
+diff --git a/include/crypto/secret_common.h b/include/crypto/secret_common.h
+index daf00c3b2a..42c7ff7af6 100644
+--- a/include/crypto/secret_common.h
++++ b/include/crypto/secret_common.h
+@@ -26,7 +26,7 @@
+ 
+ #define TYPE_QCRYPTO_SECRET_COMMON "secret_common"
+ OBJECT_DECLARE_TYPE(QCryptoSecretCommon, QCryptoSecretCommonClass,
+-                    qcrypto_secret_common, QCRYPTO_SECRET_COMMON)
++                    QCRYPTO_SECRET_COMMON)
+ 
+ 
+ struct QCryptoSecretCommon {
+diff --git a/include/crypto/secret_keyring.h b/include/crypto/secret_keyring.h
+index 803f3fc28b..3758852cb8 100644
+--- a/include/crypto/secret_keyring.h
++++ b/include/crypto/secret_keyring.h
+@@ -26,7 +26,7 @@
+ #include "crypto/secret_common.h"
+ 
+ #define TYPE_QCRYPTO_SECRET_KEYRING "secret_keyring"
+-OBJECT_DECLARE_SIMPLE_TYPE(QCryptoSecretKeyring, qcrypto_secret_keyring,
++OBJECT_DECLARE_SIMPLE_TYPE(QCryptoSecretKeyring,
+                            QCRYPTO_SECRET_KEYRING)
+ 
+ 
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index b844ef6bc0..77f86771c3 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -109,7 +109,7 @@
+ 
+ #define TYPE_ARM_SSE "arm-sse"
+ OBJECT_DECLARE_TYPE(ARMSSE, ARMSSEClass,
+-                    arm_sse, ARM_SSE)
++                    ARM_SSE)
+ 
+ /*
+  * These type names are for specific IoTKit subsystems; other than
+diff --git a/include/hw/hyperv/vmbus.h b/include/hw/hyperv/vmbus.h
+index 00ad8798c1..6e9d1c16be 100644
+--- a/include/hw/hyperv/vmbus.h
++++ b/include/hw/hyperv/vmbus.h
+@@ -21,7 +21,7 @@
+ #define TYPE_VMBUS_DEVICE "vmbus-dev"
+ 
+ OBJECT_DECLARE_TYPE(VMBusDevice, VMBusDeviceClass,
+-                    vmbus_device, VMBUS_DEVICE)
++                    VMBUS_DEVICE)
+ 
+ #define TYPE_VMBUS "vmbus"
+ typedef struct VMBus VMBus;
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 5b8eef62c6..17e57436ce 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -19,7 +19,7 @@ enum i2c_event {
+ 
+ #define TYPE_I2C_SLAVE "i2c-slave"
+ OBJECT_DECLARE_TYPE(I2CSlave, I2CSlaveClass,
+-                    i2c_slave, I2C_SLAVE)
++                    I2C_SLAVE)
+ 
+ struct I2CSlaveClass {
+     DeviceClass parent_class;
+diff --git a/include/hw/i2c/smbus_slave.h b/include/hw/i2c/smbus_slave.h
+index cb9cb372f9..86bfe0a79e 100644
+--- a/include/hw/i2c/smbus_slave.h
++++ b/include/hw/i2c/smbus_slave.h
+@@ -30,7 +30,7 @@
+ 
+ #define TYPE_SMBUS_DEVICE "smbus-device"
+ OBJECT_DECLARE_TYPE(SMBusDevice, SMBusDeviceClass,
+-                    smbus_device, SMBUS_DEVICE)
++                    SMBUS_DEVICE)
+ 
+ 
+ struct SMBusDeviceClass {
+diff --git a/include/hw/ipack/ipack.h b/include/hw/ipack/ipack.h
+index a59a487853..58c611af25 100644
+--- a/include/hw/ipack/ipack.h
++++ b/include/hw/ipack/ipack.h
+@@ -33,7 +33,7 @@ struct IPackBus {
+ 
+ #define TYPE_IPACK_DEVICE "ipack-device"
+ OBJECT_DECLARE_TYPE(IPackDevice, IPackDeviceClass,
+-                    ipack_device, IPACK_DEVICE)
++                    IPACK_DEVICE)
+ 
+ struct IPackDeviceClass {
+     /*< private >*/
+diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
+index 3fa5a4abd0..5290dab1d6 100644
+--- a/include/hw/ipmi/ipmi.h
++++ b/include/hw/ipmi/ipmi.h
+@@ -177,7 +177,7 @@ struct IPMIInterfaceClass {
+  */
+ #define TYPE_IPMI_BMC "ipmi-bmc"
+ OBJECT_DECLARE_TYPE(IPMIBmc, IPMIBmcClass,
+-                    ipmi_bmc, IPMI_BMC)
++                    IPMI_BMC)
+ 
+ struct IPMIBmc {
+     DeviceState parent;
+diff --git a/include/hw/mem/pc-dimm.h b/include/hw/mem/pc-dimm.h
+index 1d570defc9..aec9527fdd 100644
+--- a/include/hw/mem/pc-dimm.h
++++ b/include/hw/mem/pc-dimm.h
+@@ -22,7 +22,7 @@
+ 
+ #define TYPE_PC_DIMM "pc-dimm"
+ OBJECT_DECLARE_TYPE(PCDIMMDevice, PCDIMMDeviceClass,
+-                    pc_dimm, PC_DIMM)
++                    PC_DIMM)
+ 
+ #define PC_DIMM_ADDR_PROP "addr"
+ #define PC_DIMM_SLOT_PROP "slot"
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index b4b2b24d80..dd2535ab96 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -36,7 +36,7 @@
+ 
+ #define TYPE_PNV_CHIP "pnv-chip"
+ OBJECT_DECLARE_TYPE(PnvChip, PnvChipClass,
+-                    pnv_chip, PNV_CHIP)
++                    PNV_CHIP)
+ 
+ struct PnvChip {
+     /*< private >*/
+diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+index 5cb22c2fa9..fc11edee28 100644
+--- a/include/hw/ppc/pnv_core.h
++++ b/include/hw/ppc/pnv_core.h
+@@ -26,7 +26,7 @@
+ 
+ #define TYPE_PNV_CORE "powernv-cpu-core"
+ OBJECT_DECLARE_TYPE(PnvCore, PnvCoreClass,
+-                    pnv_core, PNV_CORE)
++                    PNV_CORE)
+ 
+ typedef struct PnvChip PnvChip;
+ 
+diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
+index 0978812713..7d29db8b47 100644
+--- a/include/hw/ppc/pnv_homer.h
++++ b/include/hw/ppc/pnv_homer.h
+@@ -25,7 +25,7 @@
+ 
+ #define TYPE_PNV_HOMER "pnv-homer"
+ OBJECT_DECLARE_TYPE(PnvHomer, PnvHomerClass,
+-                    pnv_homer, PNV_HOMER)
++                    PNV_HOMER)
+ #define TYPE_PNV8_HOMER TYPE_PNV_HOMER "-POWER8"
+ DECLARE_INSTANCE_CHECKER(PnvHomer, PNV8_HOMER,
+                          TYPE_PNV8_HOMER)
+diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
+index b79e3440be..6219f588fd 100644
+--- a/include/hw/ppc/pnv_occ.h
++++ b/include/hw/ppc/pnv_occ.h
+@@ -25,7 +25,7 @@
+ 
+ #define TYPE_PNV_OCC "pnv-occ"
+ OBJECT_DECLARE_TYPE(PnvOCC, PnvOCCClass,
+-                    pnv_occ, PNV_OCC)
++                    PNV_OCC)
+ #define TYPE_PNV8_OCC TYPE_PNV_OCC "-POWER8"
+ DECLARE_INSTANCE_CHECKER(PnvOCC, PNV8_OCC,
+                          TYPE_PNV8_OCC)
+diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
+index 0034db44c3..a1fe25b3eb 100644
+--- a/include/hw/ppc/pnv_psi.h
++++ b/include/hw/ppc/pnv_psi.h
+@@ -27,7 +27,7 @@
+ 
+ #define TYPE_PNV_PSI "pnv-psi"
+ OBJECT_DECLARE_TYPE(PnvPsi, PnvPsiClass,
+-                    pnv_psi, PNV_PSI)
++                    PNV_PSI)
+ 
+ #define PSIHB_XSCOM_MAX         0x20
+ 
+diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
+index 29d5debd1c..7928e27963 100644
+--- a/include/hw/ppc/pnv_xive.h
++++ b/include/hw/ppc/pnv_xive.h
+@@ -17,7 +17,7 @@ struct PnvChip;
+ 
+ #define TYPE_PNV_XIVE "pnv-xive"
+ OBJECT_DECLARE_TYPE(PnvXive, PnvXiveClass,
+-                    pnv_xive, PNV_XIVE)
++                    PNV_XIVE)
+ 
+ #define XIVE_BLOCK_MAX      16
+ 
+diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
+index 4022917168..dab3dfc76c 100644
+--- a/include/hw/ppc/spapr_cpu_core.h
++++ b/include/hw/ppc/spapr_cpu_core.h
+@@ -17,7 +17,7 @@
+ 
+ #define TYPE_SPAPR_CPU_CORE "spapr-cpu-core"
+ OBJECT_DECLARE_TYPE(SpaprCpuCore, SpaprCpuCoreClass,
+-                    spapr_cpu_core, SPAPR_CPU_CORE)
++                    SPAPR_CPU_CORE)
+ 
+ #define SPAPR_CPU_CORE_TYPE_NAME(model) model "-" TYPE_SPAPR_CPU_CORE
+ 
+diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
+index 6c40da72ff..aae03ea6ab 100644
+--- a/include/hw/ppc/spapr_vio.h
++++ b/include/hw/ppc/spapr_vio.h
+@@ -29,7 +29,7 @@
+ 
+ #define TYPE_VIO_SPAPR_DEVICE "vio-spapr-device"
+ OBJECT_DECLARE_TYPE(SpaprVioDevice, SpaprVioDeviceClass,
+-                    vio_spapr_device, VIO_SPAPR_DEVICE)
++                    VIO_SPAPR_DEVICE)
+ 
+ #define TYPE_SPAPR_VIO_BUS "spapr-vio-bus"
+ typedef struct SpaprVioBus SpaprVioBus;
+diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+index c5a3cdcadc..00b80b08c2 100644
+--- a/include/hw/ppc/xics.h
++++ b/include/hw/ppc/xics.h
+@@ -49,7 +49,7 @@ typedef struct XICSFabric XICSFabric;
+ 
+ #define TYPE_ICP "icp"
+ OBJECT_DECLARE_TYPE(ICPState, ICPStateClass,
+-                    icp, ICP)
++                    ICP)
+ 
+ #define TYPE_PNV_ICP "pnv-icp"
+ DECLARE_INSTANCE_CHECKER(PnvICPState, PNV_ICP,
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 482fafccfd..26771bb2b3 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -348,7 +348,7 @@ struct XiveRouter {
+ 
+ #define TYPE_XIVE_ROUTER "xive-router"
+ OBJECT_DECLARE_TYPE(XiveRouter, XiveRouterClass,
+-                    xive_router, XIVE_ROUTER)
++                    XIVE_ROUTER)
+ 
+ struct XiveRouterClass {
+     SysBusDeviceClass parent;
+diff --git a/include/hw/s390x/event-facility.h b/include/hw/s390x/event-facility.h
+index 051c1c6576..3ffd575d8f 100644
+--- a/include/hw/s390x/event-facility.h
++++ b/include/hw/s390x/event-facility.h
+@@ -43,7 +43,7 @@
+ 
+ #define TYPE_SCLP_EVENT "s390-sclp-event-type"
+ OBJECT_DECLARE_TYPE(SCLPEvent, SCLPEventClass,
+-                    sclp_event, SCLP_EVENT)
++                    SCLP_EVENT)
+ 
+ #define TYPE_SCLP_CPU_HOTPLUG "sclp-cpu-hotplug"
+ #define TYPE_SCLP_QUIESCE "sclpquiesce"
+diff --git a/include/hw/s390x/s390_flic.h b/include/hw/s390x/s390_flic.h
+index 4b718c8ebf..648ae793a1 100644
+--- a/include/hw/s390x/s390_flic.h
++++ b/include/hw/s390x/s390_flic.h
+@@ -40,7 +40,7 @@ extern const VMStateDescription vmstate_adapter_routes;
+ 
+ #define TYPE_S390_FLIC_COMMON "s390-flic"
+ OBJECT_DECLARE_TYPE(S390FLICState, S390FLICStateClass,
+-                    s390_flic_common, S390_FLIC_COMMON)
++                    S390_FLIC_COMMON)
+ 
+ struct S390FLICState {
+     SysBusDevice parent_obj;
+diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
+index e9f0f7e67c..cd730772f9 100644
+--- a/include/hw/s390x/sclp.h
++++ b/include/hw/s390x/sclp.h
+@@ -183,7 +183,7 @@ typedef struct SCCB {
+ 
+ #define TYPE_SCLP "sclp"
+ OBJECT_DECLARE_TYPE(SCLPDevice, SCLPDeviceClass,
+-                    sclp, SCLP)
++                    SCLP)
+ 
+ struct SCLPEventFacility;
+ 
+diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
+index 54f97a07cd..8dd4c363f5 100644
+--- a/include/hw/sd/sd.h
++++ b/include/hw/sd/sd.h
+@@ -130,7 +130,7 @@ struct SDCardClass {
+ 
+ #define TYPE_SD_BUS "sd-bus"
+ OBJECT_DECLARE_TYPE(SDBus, SDBusClass,
+-                    sd_bus, SD_BUS)
++                    SD_BUS)
+ 
+ struct SDBus {
+     BusState qbus;
+diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
+index 4fe1d85136..fe3028c39d 100644
+--- a/include/hw/ssi/ssi.h
++++ b/include/hw/ssi/ssi.h
+@@ -18,7 +18,7 @@ typedef enum SSICSMode SSICSMode;
+ 
+ #define TYPE_SSI_SLAVE "ssi-slave"
+ OBJECT_DECLARE_TYPE(SSISlave, SSISlaveClass,
+-                    ssi_slave, SSI_SLAVE)
++                    SSI_SLAVE)
+ 
+ #define SSI_GPIO_CS "ssi-gpio-cs"
+ 
+diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
+index 28a9b0f634..3564b7b6a2 100644
+--- a/include/hw/sysbus.h
++++ b/include/hw/sysbus.h
+@@ -17,7 +17,7 @@ DECLARE_INSTANCE_CHECKER(BusState, SYSTEM_BUS,
+ 
+ #define TYPE_SYS_BUS_DEVICE "sys-bus-device"
+ OBJECT_DECLARE_TYPE(SysBusDevice, SysBusDeviceClass,
+-                    sys_bus_device, SYS_BUS_DEVICE)
++                    SYS_BUS_DEVICE)
+ 
+ /**
+  * SysBusDeviceClass:
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 6b45b4799a..7ef405975a 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -26,7 +26,7 @@
+ 
+ #define TYPE_VIRTIO_GPU_BASE "virtio-gpu-base"
+ OBJECT_DECLARE_TYPE(VirtIOGPUBase, VirtIOGPUBaseClass,
+-                    virtio_gpu_base, VIRTIO_GPU_BASE)
++                    VIRTIO_GPU_BASE)
+ 
+ #define TYPE_VIRTIO_GPU "virtio-gpu-device"
+ typedef struct VirtIOGPU VirtIOGPU;
+diff --git a/include/hw/virtio/virtio-input.h b/include/hw/virtio/virtio-input.h
+index 5eb9e7745e..91df34b534 100644
+--- a/include/hw/virtio/virtio-input.h
++++ b/include/hw/virtio/virtio-input.h
+@@ -20,7 +20,7 @@ typedef struct virtio_input_event virtio_input_event;
+ 
+ #define TYPE_VIRTIO_INPUT "virtio-input-device"
+ OBJECT_DECLARE_TYPE(VirtIOInput, VirtIOInputClass,
+-                    virtio_input, VIRTIO_INPUT)
++                    VIRTIO_INPUT)
+ #define VIRTIO_INPUT_GET_PARENT_CLASS(obj) \
+         OBJECT_GET_PARENT_CLASS(obj, TYPE_VIRTIO_INPUT)
+ 
+diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
+index dfc72e14b1..4eeb82d5dd 100644
+--- a/include/hw/virtio/virtio-mem.h
++++ b/include/hw/virtio/virtio-mem.h
+@@ -22,7 +22,7 @@
+ #define TYPE_VIRTIO_MEM "virtio-mem"
+ 
+ OBJECT_DECLARE_TYPE(VirtIOMEM, VirtIOMEMClass,
+-                    virtio_mem, VIRTIO_MEM)
++                    VIRTIO_MEM)
+ 
+ #define VIRTIO_MEM_MEMDEV_PROP "memdev"
+ #define VIRTIO_MEM_NODE_PROP "node"
+diff --git a/include/hw/virtio/virtio-pmem.h b/include/hw/virtio/virtio-pmem.h
+index 56df9a03ce..66b590821e 100644
+--- a/include/hw/virtio/virtio-pmem.h
++++ b/include/hw/virtio/virtio-pmem.h
+@@ -21,7 +21,7 @@
+ #define TYPE_VIRTIO_PMEM "virtio-pmem"
+ 
+ OBJECT_DECLARE_TYPE(VirtIOPMEM, VirtIOPMEMClass,
+-                    virtio_pmem, VIRTIO_PMEM)
++                    VIRTIO_PMEM)
+ 
+ #define VIRTIO_PMEM_ADDR_PROP "memaddr"
+ #define VIRTIO_PMEM_MEMDEV_PROP "memdev"
+diff --git a/include/hw/virtio/virtio-serial.h b/include/hw/virtio/virtio-serial.h
+index 0b7f963611..17359918f7 100644
+--- a/include/hw/virtio/virtio-serial.h
++++ b/include/hw/virtio/virtio-serial.h
+@@ -27,7 +27,7 @@ struct virtio_serial_conf {
+ 
+ #define TYPE_VIRTIO_SERIAL_PORT "virtio-serial-port"
+ OBJECT_DECLARE_TYPE(VirtIOSerialPort, VirtIOSerialPortClass,
+-                    virtio_serial_port, VIRTIO_SERIAL_PORT)
++                    VIRTIO_SERIAL_PORT)
+ 
+ typedef struct VirtIOSerial VirtIOSerial;
+ 
+diff --git a/include/hw/xen/xen-bus.h b/include/hw/xen/xen-bus.h
+index e0e67505b8..1924d93c6c 100644
+--- a/include/hw/xen/xen-bus.h
++++ b/include/hw/xen/xen-bus.h
+@@ -79,7 +79,7 @@ struct XenBusClass {
+ 
+ #define TYPE_XEN_BUS "xen-bus"
+ OBJECT_DECLARE_TYPE(XenBus, XenBusClass,
+-                    xen_bus, XEN_BUS)
++                    XEN_BUS)
+ 
+ void xen_bus_init(void);
+ 
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 245479548a..3c04f0edda 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -27,7 +27,7 @@
+ 
+ #define TYPE_QIO_CHANNEL "qio-channel"
+ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
+-                    qio_channel, QIO_CHANNEL)
++                    QIO_CHANNEL)
+ 
+ 
+ #define QIO_CHANNEL_ERR_BLOCK -2
+diff --git a/include/io/dns-resolver.h b/include/io/dns-resolver.h
+index 9d14a8d98f..01d0bd7a42 100644
+--- a/include/io/dns-resolver.h
++++ b/include/io/dns-resolver.h
+@@ -26,7 +26,7 @@
+ #include "io/task.h"
+ 
+ #define TYPE_QIO_DNS_RESOLVER "qio-dns-resolver"
+-OBJECT_DECLARE_SIMPLE_TYPE(QIODNSResolver, qio_dns_resolver,
++OBJECT_DECLARE_SIMPLE_TYPE(QIODNSResolver,
+                            QIO_DNS_RESOLVER)
+ 
+ 
+diff --git a/include/io/net-listener.h b/include/io/net-listener.h
+index 8145962fbb..ab9f291ed6 100644
+--- a/include/io/net-listener.h
++++ b/include/io/net-listener.h
+@@ -25,7 +25,7 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_QIO_NET_LISTENER "qio-net-listener"
+-OBJECT_DECLARE_SIMPLE_TYPE(QIONetListener, qio_net_listener,
++OBJECT_DECLARE_SIMPLE_TYPE(QIONetListener,
+                            QIO_NET_LISTENER)
+ 
+ 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 4a23fed586..a5ca75fd54 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -614,7 +614,6 @@ struct Object
+  * OBJECT_DECLARE_TYPE:
+  * @InstanceType: instance struct name
+  * @ClassType: class struct name
+- * @module_obj_name: the object name in lowercase with underscore separators
+  * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
+  *
+  * This macro is typically used in a header file, and will:
+@@ -625,7 +624,7 @@ struct Object
+  *
+  * The object struct and class struct need to be declared manually.
+  */
+-#define OBJECT_DECLARE_TYPE(InstanceType, ClassType, module_obj_name, MODULE_OBJ_NAME) \
++#define OBJECT_DECLARE_TYPE(InstanceType, ClassType, MODULE_OBJ_NAME) \
+     typedef struct InstanceType InstanceType; \
+     typedef struct ClassType ClassType; \
+     \
+@@ -637,7 +636,6 @@ struct Object
+ /**
+  * OBJECT_DECLARE_SIMPLE_TYPE:
+  * @InstanceType: instance struct name
+- * @module_obj_name: the object name in lowercase with underscore separators
+  * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
+  *
+  * This does the same as OBJECT_DECLARE_TYPE(), but with no class struct
+@@ -646,7 +644,7 @@ struct Object
+  * This macro should be used unless the class struct needs to have
+  * virtual methods declared.
+  */
+-#define OBJECT_DECLARE_SIMPLE_TYPE(InstanceType, module_obj_name, MODULE_OBJ_NAME) \
++#define OBJECT_DECLARE_SIMPLE_TYPE(InstanceType, MODULE_OBJ_NAME) \
+     typedef struct InstanceType InstanceType; \
+     \
+     G_DEFINE_AUTOPTR_CLEANUP_FUNC(InstanceType, object_unref) \
+diff --git a/include/scsi/pr-manager.h b/include/scsi/pr-manager.h
+index 26bd134531..e4ecbe00f6 100644
+--- a/include/scsi/pr-manager.h
++++ b/include/scsi/pr-manager.h
+@@ -10,7 +10,7 @@
+ #define TYPE_PR_MANAGER "pr-manager"
+ 
+ OBJECT_DECLARE_TYPE(PRManager, PRManagerClass,
+-                    pr_manager, PR_MANAGER)
++                    PR_MANAGER)
+ 
+ struct sg_io_hdr;
+ 
+diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
+index 06726f7014..b458aa4dae 100644
+--- a/include/sysemu/cryptodev.h
++++ b/include/sysemu/cryptodev.h
+@@ -38,7 +38,7 @@
+ #define TYPE_CRYPTODEV_BACKEND "cryptodev-backend"
+ 
+ OBJECT_DECLARE_TYPE(CryptoDevBackend, CryptoDevBackendClass,
+-                    cryptodev_backend, CRYPTODEV_BACKEND)
++                    CRYPTODEV_BACKEND)
+ 
+ 
+ #define MAX_CRYPTO_QUEUE_NUM  64
+diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
+index e5b7a152d3..df5644723a 100644
+--- a/include/sysemu/hostmem.h
++++ b/include/sysemu/hostmem.h
+@@ -21,7 +21,7 @@
+ 
+ #define TYPE_MEMORY_BACKEND "memory-backend"
+ OBJECT_DECLARE_TYPE(HostMemoryBackend, HostMemoryBackendClass,
+-                    memory_backend, MEMORY_BACKEND)
++                    MEMORY_BACKEND)
+ 
+ /* hostmem-ram.c */
+ /**
+diff --git a/include/sysemu/rng.h b/include/sysemu/rng.h
+index cee45a4787..e383f87d20 100644
+--- a/include/sysemu/rng.h
++++ b/include/sysemu/rng.h
+@@ -18,7 +18,7 @@
+ 
+ #define TYPE_RNG_BACKEND "rng-backend"
+ OBJECT_DECLARE_TYPE(RngBackend, RngBackendClass,
+-                    rng_backend, RNG_BACKEND)
++                    RNG_BACKEND)
+ 
+ #define TYPE_RNG_BUILTIN "rng-builtin"
+ 
+diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
+index 7e8a014031..6f078f5f48 100644
+--- a/include/sysemu/tpm_backend.h
++++ b/include/sysemu/tpm_backend.h
+@@ -20,7 +20,7 @@
+ 
+ #define TYPE_TPM_BACKEND "tpm-backend"
+ OBJECT_DECLARE_TYPE(TPMBackend, TPMBackendClass,
+-                    tpm_backend, TPM_BACKEND)
++                    TPM_BACKEND)
+ 
+ 
+ typedef struct TPMBackendCmd {
+diff --git a/include/sysemu/vhost-user-backend.h b/include/sysemu/vhost-user-backend.h
+index 41d5ff43bd..327b0b84f1 100644
+--- a/include/sysemu/vhost-user-backend.h
++++ b/include/sysemu/vhost-user-backend.h
+@@ -22,7 +22,7 @@
+ #include "io/channel.h"
+ 
+ #define TYPE_VHOST_USER_BACKEND "vhost-user-backend"
+-OBJECT_DECLARE_SIMPLE_TYPE(VhostUserBackend, vhost_user_backend,
++OBJECT_DECLARE_SIMPLE_TYPE(VhostUserBackend,
+                            VHOST_USER_BACKEND)
+ 
+ 
+diff --git a/target/alpha/cpu-qom.h b/target/alpha/cpu-qom.h
+index 568fe3fb77..7bb9173c57 100644
+--- a/target/alpha/cpu-qom.h
++++ b/target/alpha/cpu-qom.h
+@@ -26,7 +26,7 @@
+ #define TYPE_ALPHA_CPU "alpha-cpu"
+ 
+ OBJECT_DECLARE_TYPE(AlphaCPU, AlphaCPUClass,
+-                    alpha_cpu, ALPHA_CPU)
++                    ALPHA_CPU)
+ 
+ /**
+  * AlphaCPUClass:
+diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+index 94bbbd4473..a22bd506d0 100644
+--- a/target/arm/cpu-qom.h
++++ b/target/arm/cpu-qom.h
+@@ -28,7 +28,7 @@ struct arm_boot_info;
+ #define TYPE_ARM_CPU "arm-cpu"
+ 
+ OBJECT_DECLARE_TYPE(ARMCPU, ARMCPUClass,
+-                    arm_cpu, ARM_CPU)
++                    ARM_CPU)
+ 
+ #define TYPE_ARM_MAX_CPU "max-" TYPE_ARM_CPU
+ 
+diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
+index 49d63faad2..9fa6989c18 100644
+--- a/target/avr/cpu-qom.h
++++ b/target/avr/cpu-qom.h
+@@ -27,7 +27,7 @@
+ #define TYPE_AVR_CPU "avr-cpu"
+ 
+ OBJECT_DECLARE_TYPE(AVRCPU, AVRCPUClass,
+-                    avr_cpu, AVR_CPU)
++                    AVR_CPU)
+ 
+ /**
+  *  AVRCPUClass:
+diff --git a/target/cris/cpu-qom.h b/target/cris/cpu-qom.h
+index 2b0328113c..2596edc7e3 100644
+--- a/target/cris/cpu-qom.h
++++ b/target/cris/cpu-qom.h
+@@ -26,7 +26,7 @@
+ #define TYPE_CRIS_CPU "cris-cpu"
+ 
+ OBJECT_DECLARE_TYPE(CRISCPU, CRISCPUClass,
+-                    cris_cpu, CRIS_CPU)
++                    CRIS_CPU)
+ 
+ /**
+  * CRISCPUClass:
+diff --git a/target/hppa/cpu-qom.h b/target/hppa/cpu-qom.h
+index 58158f374b..d424f88370 100644
+--- a/target/hppa/cpu-qom.h
++++ b/target/hppa/cpu-qom.h
+@@ -26,7 +26,7 @@
+ #define TYPE_HPPA_CPU "hppa-cpu"
+ 
+ OBJECT_DECLARE_TYPE(HPPACPU, HPPACPUClass,
+-                    hppa_cpu, HPPA_CPU)
++                    HPPA_CPU)
+ 
+ /**
+  * HPPACPUClass:
+diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
+index 0505472e86..f9923cee04 100644
+--- a/target/i386/cpu-qom.h
++++ b/target/i386/cpu-qom.h
+@@ -31,7 +31,7 @@
+ #endif
+ 
+ OBJECT_DECLARE_TYPE(X86CPU, X86CPUClass,
+-                    x86_cpu, X86_CPU)
++                    X86_CPU)
+ 
+ typedef struct X86CPUModel X86CPUModel;
+ 
+diff --git a/target/lm32/cpu-qom.h b/target/lm32/cpu-qom.h
+index e9eb495bf0..245b35cd1d 100644
+--- a/target/lm32/cpu-qom.h
++++ b/target/lm32/cpu-qom.h
+@@ -26,7 +26,7 @@
+ #define TYPE_LM32_CPU "lm32-cpu"
+ 
+ OBJECT_DECLARE_TYPE(LM32CPU, LM32CPUClass,
+-                    lm32_cpu, LM32_CPU)
++                    LM32_CPU)
+ 
+ /**
+  * LM32CPUClass:
+diff --git a/target/m68k/cpu-qom.h b/target/m68k/cpu-qom.h
+index a10429cf67..1ceb160ecb 100644
+--- a/target/m68k/cpu-qom.h
++++ b/target/m68k/cpu-qom.h
+@@ -26,7 +26,7 @@
+ #define TYPE_M68K_CPU "m68k-cpu"
+ 
+ OBJECT_DECLARE_TYPE(M68kCPU, M68kCPUClass,
+-                    m68k_cpu, M68K_CPU)
++                    M68K_CPU)
+ 
+ /*
+  * M68kCPUClass:
+diff --git a/target/microblaze/cpu-qom.h b/target/microblaze/cpu-qom.h
+index 82734b9b2b..e520eefb12 100644
+--- a/target/microblaze/cpu-qom.h
++++ b/target/microblaze/cpu-qom.h
+@@ -26,7 +26,7 @@
+ #define TYPE_MICROBLAZE_CPU "microblaze-cpu"
+ 
+ OBJECT_DECLARE_TYPE(MicroBlazeCPU, MicroBlazeCPUClass,
+-                    microblaze_cpu, MICROBLAZE_CPU)
++                    MICROBLAZE_CPU)
+ 
+ /**
+  * MicroBlazeCPUClass:
+diff --git a/target/mips/cpu-qom.h b/target/mips/cpu-qom.h
+index 93fbbdca1b..826ab13019 100644
+--- a/target/mips/cpu-qom.h
++++ b/target/mips/cpu-qom.h
+@@ -30,7 +30,7 @@
+ #endif
+ 
+ OBJECT_DECLARE_TYPE(MIPSCPU, MIPSCPUClass,
+-                    mips_cpu, MIPS_CPU)
++                    MIPS_CPU)
+ 
+ /**
+  * MIPSCPUClass:
+diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+index d58761ccb1..bd6ab66084 100644
+--- a/target/moxie/cpu.h
++++ b/target/moxie/cpu.h
+@@ -52,7 +52,7 @@ typedef struct CPUMoxieState {
+ #define TYPE_MOXIE_CPU "moxie-cpu"
+ 
+ OBJECT_DECLARE_TYPE(MoxieCPU, MoxieCPUClass,
+-                    moxie_cpu, MOXIE_CPU)
++                    MOXIE_CPU)
+ 
+ /**
+  * MoxieCPUClass:
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 1fa0fdaa35..86bbe1d867 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -33,7 +33,7 @@ typedef struct CPUNios2State CPUNios2State;
+ #define TYPE_NIOS2_CPU "nios2-cpu"
+ 
+ OBJECT_DECLARE_TYPE(Nios2CPU, Nios2CPUClass,
+-                    nios2_cpu, NIOS2_CPU)
++                    NIOS2_CPU)
+ 
+ /**
+  * Nios2CPUClass:
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index d0a8ee657a..bd42faf144 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -30,7 +30,7 @@ struct OpenRISCCPU;
+ #define TYPE_OPENRISC_CPU "or1k-cpu"
+ 
+ OBJECT_DECLARE_TYPE(OpenRISCCPU, OpenRISCCPUClass,
+-                    openrisc_cpu, OPENRISC_CPU)
++                    OPENRISC_CPU)
+ 
+ /**
+  * OpenRISCCPUClass:
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index 5cf806a3a6..5fdb96f04d 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -30,7 +30,7 @@
+ #endif
+ 
+ OBJECT_DECLARE_TYPE(PowerPCCPU, PowerPCCPUClass,
+-                    powerpc_cpu, POWERPC_CPU)
++                    POWERPC_CPU)
+ 
+ typedef struct CPUPPCState CPUPPCState;
+ typedef struct ppc_tb_t ppc_tb_t;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 4c00d35ccd..de275782e6 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -234,7 +234,7 @@ struct CPURISCVState {
+ };
+ 
+ OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
+-                    riscv_cpu, RISCV_CPU)
++                    RISCV_CPU)
+ 
+ /**
+  * RISCVCPUClass:
+diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
+index 6c5321078d..7310558e0c 100644
+--- a/target/rx/cpu-qom.h
++++ b/target/rx/cpu-qom.h
+@@ -27,7 +27,7 @@
+ #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
+ 
+ OBJECT_DECLARE_TYPE(RXCPU, RXCPUClass,
+-                    rx_cpu, RX_CPU)
++                    RX_CPU)
+ 
+ /*
+  * RXCPUClass:
+diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
+index e2b2513711..9f3a0d86c5 100644
+--- a/target/s390x/cpu-qom.h
++++ b/target/s390x/cpu-qom.h
+@@ -26,7 +26,7 @@
+ #define TYPE_S390_CPU "s390x-cpu"
+ 
+ OBJECT_DECLARE_TYPE(S390CPU, S390CPUClass,
+-                    s390_cpu, S390_CPU)
++                    S390_CPU)
+ 
+ typedef struct S390CPUModel S390CPUModel;
+ typedef struct S390CPUDef S390CPUDef;
+diff --git a/target/sh4/cpu-qom.h b/target/sh4/cpu-qom.h
+index 595814b8cb..8903b4b9c7 100644
+--- a/target/sh4/cpu-qom.h
++++ b/target/sh4/cpu-qom.h
+@@ -30,7 +30,7 @@
+ #define TYPE_SH7785_CPU  SUPERH_CPU_TYPE_NAME("sh7785")
+ 
+ OBJECT_DECLARE_TYPE(SuperHCPU, SuperHCPUClass,
+-                    superh_cpu, SUPERH_CPU)
++                    SUPERH_CPU)
+ 
+ /**
+  * SuperHCPUClass:
+diff --git a/target/sparc/cpu-qom.h b/target/sparc/cpu-qom.h
+index 5d7fb727bc..f33949aaee 100644
+--- a/target/sparc/cpu-qom.h
++++ b/target/sparc/cpu-qom.h
+@@ -30,7 +30,7 @@
+ #endif
+ 
+ OBJECT_DECLARE_TYPE(SPARCCPU, SPARCCPUClass,
+-                    sparc_cpu, SPARC_CPU)
++                    SPARC_CPU)
+ 
+ typedef struct sparc_def_t sparc_def_t;
+ /**
+diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
+index d251ff80b8..c194c1a6fd 100644
+--- a/target/tilegx/cpu.h
++++ b/target/tilegx/cpu.h
+@@ -100,7 +100,7 @@ typedef struct CPUTLGState {
+ #define TYPE_TILEGX_CPU "tilegx-cpu"
+ 
+ OBJECT_DECLARE_TYPE(TileGXCPU, TileGXCPUClass,
+-                    tilegx_cpu, TILEGX_CPU)
++                    TILEGX_CPU)
+ 
+ /**
+  * TileGXCPUClass:
+diff --git a/target/tricore/cpu-qom.h b/target/tricore/cpu-qom.h
+index 9e588c4c34..59bfd01bbc 100644
+--- a/target/tricore/cpu-qom.h
++++ b/target/tricore/cpu-qom.h
+@@ -25,7 +25,7 @@
+ #define TYPE_TRICORE_CPU "tricore-cpu"
+ 
+ OBJECT_DECLARE_TYPE(TriCoreCPU, TriCoreCPUClass,
+-                    tricore_cpu, TRICORE_CPU)
++                    TRICORE_CPU)
+ 
+ struct TriCoreCPUClass {
+     /*< private >*/
+diff --git a/target/unicore32/cpu-qom.h b/target/unicore32/cpu-qom.h
+index c914273058..43621e7479 100644
+--- a/target/unicore32/cpu-qom.h
++++ b/target/unicore32/cpu-qom.h
+@@ -17,7 +17,7 @@
+ #define TYPE_UNICORE32_CPU "unicore32-cpu"
+ 
+ OBJECT_DECLARE_TYPE(UniCore32CPU, UniCore32CPUClass,
+-                    unicore32_cpu, UNICORE32_CPU)
++                    UNICORE32_CPU)
+ 
+ /**
+  * UniCore32CPUClass:
+diff --git a/target/xtensa/cpu-qom.h b/target/xtensa/cpu-qom.h
+index 299ce3e63c..41d9859673 100644
+--- a/target/xtensa/cpu-qom.h
++++ b/target/xtensa/cpu-qom.h
+@@ -35,7 +35,7 @@
+ #define TYPE_XTENSA_CPU "xtensa-cpu"
+ 
+ OBJECT_DECLARE_TYPE(XtensaCPU, XtensaCPUClass,
+-                    xtensa_cpu, XTENSA_CPU)
++                    XTENSA_CPU)
+ 
+ typedef struct XtensaConfig XtensaConfig;
+ 
+diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+index 5bffbc4906..bd050e8e9c 100644
+--- a/backends/dbus-vmstate.c
++++ b/backends/dbus-vmstate.c
+@@ -23,7 +23,7 @@
+ 
+ 
+ #define TYPE_DBUS_VMSTATE "dbus-vmstate"
+-OBJECT_DECLARE_SIMPLE_TYPE(DBusVMState, dbus_vmstate,
++OBJECT_DECLARE_SIMPLE_TYPE(DBusVMState,
+                            DBUS_VMSTATE)
+ 
+ 
+diff --git a/ui/input-barrier.c b/ui/input-barrier.c
+index b76697be93..a047919fde 100644
+--- a/ui/input-barrier.c
++++ b/ui/input-barrier.c
+@@ -20,7 +20,7 @@
+ #include "input-barrier.h"
+ 
+ #define TYPE_INPUT_BARRIER "input-barrier"
+-OBJECT_DECLARE_SIMPLE_TYPE(InputBarrier, input_barrier,
++OBJECT_DECLARE_SIMPLE_TYPE(InputBarrier,
+                            INPUT_BARRIER)
+ 
+ 
+diff --git a/ui/input-linux.c b/ui/input-linux.c
+index f02557b012..ab351a4187 100644
+--- a/ui/input-linux.c
++++ b/ui/input-linux.c
+@@ -31,7 +31,7 @@ static bool linux_is_button(unsigned int lnx)
+ }
+ 
+ #define TYPE_INPUT_LINUX "input-linux"
+-OBJECT_DECLARE_SIMPLE_TYPE(InputLinux, input_linux,
++OBJECT_DECLARE_SIMPLE_TYPE(InputLinux,
+                            INPUT_LINUX)
+ 
+ 
+-- 
+2.26.2
 
 
