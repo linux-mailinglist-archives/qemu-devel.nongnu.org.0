@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9787B26C24E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:52:55 +0200 (CEST)
-Received: from localhost ([::1]:45186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF86126C253
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Sep 2020 13:54:26 +0200 (CEST)
+Received: from localhost ([::1]:52760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIVza-00053P-LX
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
+	id 1kIW13-000896-Ts
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 07:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuY-0006Wn-Qq
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuY-0006Vb-7n
  for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50278)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuW-00085i-QN
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIVuW-00085h-IH
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 07:47:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600256859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=aCGoLUB/3C+UKaOM/2a/E5qmcsroF3zxNVaOeTyeKbI=;
- b=JLp5Aad+IV3DQ4gb3uNK5tdlVHvbYIi3wMgDkRYuMzMCUldLSpaY73E/IwFF8TwMU+38FW
- RmP803qyITjbgBZMbs2+m02eTHXb8pfBae+tK7HagqglfY8vFPzPGzOkF3kH92scvBHtad
- Y7p+vGsVCoGYqhQL2ANUQOLzs71jekM=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=A2tV9oeHez2YQrbw8L9rHJdjq76hn2DBGV9d5g/1S2g=;
+ b=NNjk6bIvWPpSS+4zvfjQ8Z7qbOqV7NbPPSYX5tSPPmLEL8cTMC20SDNX+NRs/ehY1bTD4B
+ Pjeq9R7Ol1ZGO5KTr6Ol8/fAIe8PdB1cqliKzdItybxiX9sm4bN54H/o/QpEivrVK5schG
+ qNtkuRHS9FS/vwYhFG4nZgm+m/HQGFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-mfU0nl-6POeNsiWHd5P1Pg-1; Wed, 16 Sep 2020 07:47:36 -0400
-X-MC-Unique: mfU0nl-6POeNsiWHd5P1Pg-1
+ us-mta-89-1sg9L4d6MB2EabpzCcPI6g-1; Wed, 16 Sep 2020 07:47:37 -0400
+X-MC-Unique: 1sg9L4d6MB2EabpzCcPI6g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FCED186DD25;
- Wed, 16 Sep 2020 11:47:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D66D1006712;
+ Wed, 16 Sep 2020 11:47:36 +0000 (UTC)
 Received: from thuth.com (ovpn-113-19.ams2.redhat.com [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 110AD5DA71;
- Wed, 16 Sep 2020 11:47:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 989245DA71;
+ Wed, 16 Sep 2020 11:47:35 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/24] qtests, unit tests and Cirrus-CI fixes / improvements
-Date: Wed, 16 Sep 2020 13:47:07 +0200
-Message-Id: <20200916114731.102080-1-thuth@redhat.com>
-MIME-Version: 1.0
+Subject: [PULL 01/24] iotests: Drop readlink -f
+Date: Wed, 16 Sep 2020 13:47:08 +0200
+Message-Id: <20200916114731.102080-2-thuth@redhat.com>
+In-Reply-To: <20200916114731.102080-1-thuth@redhat.com>
+References: <20200916114731.102080-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:35:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -80,83 +79,42 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+From: Max Reitz <mreitz@redhat.com>
 
-the following changes since commit de39a045bd8d2b49e4f3d07976622c29d58e0bac:
+On macOS, (out of the box) readlink does not have -f.  We do not really
+need readlink here, though, it was just a replacement for realpath
+(which is not available on our BSD test systems), which we needed to
+make the $(dirname) into an absolute path.
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200915-pull-request' into staging (2020-09-15 14:25:05 +0100)
+Instead of using either, just use "cd; pwd" like is done for
+$source_iotests.
 
-are available in the Git repository at:
+Fixes: b1cbc33a3971b6bb005d5ac3569feae35a71de0f
+       ("iotests: Allow running from different directory")
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200914145606.94620-1-mreitz@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qemu-iotests/check | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-16
-
-for you to fetch changes up to 114daec31d64600e5a070abcdb8de2cf74d01e94:
-
-  cirrus: Building freebsd in a single shot (2020-09-16 12:15:07 +0200)
-
-----------------------------------------------------------------
-* Fix "readlink -f" problem in iotests on macOS (to fix the Cirrus-CI tests)
-* Some minor qtest improvements
-* Fix the unit tests to work on MSYS2, too
-* Enable building and testing on MSYS2 in the Cirrus-CI
-* Build FreeBSD with one task again in the Cirrus-CI
-----------------------------------------------------------------
-
-Alexander Bulekov (1):
-      fuzz: Change the way we write qtest log to stderr
-
-Max Reitz (1):
-      iotests: Drop readlink -f
-
-Maxim Levitsky (1):
-      rcu: Implement drain_call_rcu
-
-Thomas Huth (4):
-      tests/qtest/qmp-cmd-test: Use inclusive language
-      tests/socket-helpers: Treat EAI_NONAME as EADDRNOTAVAIL
-      Simplify the .gitignore file
-      qga/commands-win32: Fix problem with redundant protype declaration
-
-Yonggang Luo (17):
-      tests: Convert g_free to g_autofree macro in test-logging.c
-      rcu: fixes test-logging.c by call drain_call_rcu before rmdir_full
-      meson: Disable test-char on msys2/mingw for fixing tests stuck
-      meson: disable crypto tests are empty under win32
-      tests: Fixes test-replication.c on msys2/mingw.
-      tests: test-replication disable /replication/secondary/* on msys2/mingw.
-      osdep: file locking functions are not available on Win32
-      meson: Use -b to ignore CR vs. CR-LF issues on Windows
-      meson: remove empty else and duplicated gio deps
-      vmstate: Fixes test-vmstate.c on msys2/mingw
-      tests: Fixes test-io-channel-socket.c tests under msys2/mingw
-      tests: fixes aio-win32 about aio_remove_fd_handler, get it consistence with aio-posix.c
-      tests: Fixes test-io-channel-file by mask only owner file state mask bits
-      tests: fix test-util-sockets.c
-      tests: Fixes test-qdev-global-props.c
-      ci: Enable msys2 ci in cirrus
-      cirrus: Building freebsd in a single shot
-
- .cirrus.yml                    |  98 ++++++++++++++++++--------
- .gitignore                     | 152 -----------------------------------------
- include/qemu/osdep.h           |   2 +-
- include/qemu/rcu.h             |   1 +
- meson.build                    |   6 --
- qga/commands-win32.c           |   5 +-
- tests/meson.build              |  10 ++-
- tests/qapi-schema/meson.build  |   2 +-
- tests/qemu-iotests/check       |   2 +-
- tests/qtest/fuzz/fuzz.c        |   5 +-
- tests/qtest/qmp-cmd-test.c     |  10 +--
- tests/socket-helpers.c         |   3 +-
- tests/test-io-channel-file.c   |  12 +++-
- tests/test-io-channel-socket.c |   2 +
- tests/test-logging.c           |   5 +-
- tests/test-qdev-global-props.c |   9 ++-
- tests/test-replication.c       |  22 ++++--
- tests/test-util-sockets.c      |   6 +-
- tests/test-vmstate.c           |   3 +-
- util/aio-win32.c               |  12 +++-
- util/rcu.c                     |  55 +++++++++++++++
- 21 files changed, 207 insertions(+), 215 deletions(-)
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index e14a1f354d..678b6e4910 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -44,7 +44,7 @@ then
+         _init_error "failed to obtain source tree name from check symlink"
+     fi
+     source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
+-    build_iotests=$(readlink -f $(dirname "$0"))
++    build_iotests=$(cd "$(dirname "$0")"; pwd)
+ else
+     # called from the source tree
+     source_iotests=$PWD
+-- 
+2.18.2
 
 
