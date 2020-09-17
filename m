@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A155D26DB9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:33:39 +0200 (CEST)
-Received: from localhost ([::1]:47868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD5926DBBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:39:57 +0200 (CEST)
+Received: from localhost ([::1]:39268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIt6Y-0001G1-93
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35754)
+	id 1kItCd-00016A-D7
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
- id 1kIszG-0002Rv-Eb
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:26:06 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55445)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kItAv-000855-DC
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:38:09 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:35229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
- id 1kIszD-0003qF-WA
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:26:05 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d4so1769142wmd.5
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 05:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=blade-group.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=hxuORB+uFMLaG5rwi1PH2mmObmRrvK5jQMFiamDZXzE=;
- b=lGkbGv7W8PHsY6SQoxMJoMXdqV4/0QCwpidTssYXPbKCPXmM9H2uumQ6TSXtUhDaoe
- YECrK+Z7uN5mLUOm8WXEJ0ygPKVuSdIVzTc2wQgM56IiM6HqP7IBiIollffTmpGAK2/p
- ad2da2e9exknrD3Pb2d8A4GHkfqL9l1LX4qBZGPeQP0ndYLZ/oAEWrTBwqjBuJzyDgOS
- Qb9soXOSJ9U1ccdd8iFIxfRLAxlcjnH5ecNXE48NekX5+ePudjPGoT42ExpPjQDFyqxc
- qFbO6nkOlih+pOFqlj77AL6O4KlVLsKMmIu4bCWMoZvO1ByDJxjsqgXzM44Cx+z3h2H8
- AV7w==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kItAr-0005L0-Ie
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:38:08 -0400
+Received: by mail-ed1-x544.google.com with SMTP id i1so2388596edv.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 05:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/qXapW1V4fNhGT3dbUjlruU/kCQYzZed2g1ejpFVACs=;
+ b=PydHCj7cB9qHkY82VUEQN/JPW3nesu/2KB4XKegqlbcfsxY1YI1QuVRMxa9EY7UQnd
+ IU9BJTx8SpP6HOQqgia8Cs8BtLtlaR2LVLi11V7L/ZSrtAlXl0C9qNxaIIp9J9D98SD4
+ hZ7kYeD38xi6ZEl9BXJmX2bNxDTqj2D/ZGQPmO/my3z8D+L1TZ/7qCMc94nqPY2lR0XY
+ 0axwTERy4MLQfKkjey/h4K8Lcz4nF1rZTNErswyDpnY7c5bqaoa3xToiYudmBuenWOaT
+ xSoSkLxTc1zcYqzqxwatc+dL7sd7aX9PH+v1r4hez9b8Z+j2lygonBjRNtcis519RNk4
+ Mtdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hxuORB+uFMLaG5rwi1PH2mmObmRrvK5jQMFiamDZXzE=;
- b=RACKtKPjg2MF04awfwgDWBfyzUqlbsFSjx0qFq5YHqnqJ7JxEwjTodthMvXxw943es
- bGlXwLLcuUxC2mQuHRUT2F54kE2S/VIkkLvi5lS+cgptuDNp6tZ+dmcUyfR9MKt7U5T3
- crf5ZYVPQqLKocKlEtncJ9xLbLWaLfQlf68ibVDyTdUN5ddapZZFwQk1ErCe/3w1HbLh
- hnyhk3UqJoGMimgxVozNjeudbXWmM0ccQOqT1TzJ+iNMrG9/3XkeKpDWGFShKNx9bntD
- P4hKXcm06BWCW8izogXzQEaT+X1rzB/L6/ySlOZhy//pJ3F976f4JbfZ9U/63s+5lfoo
- JmIQ==
-X-Gm-Message-State: AOAM530mbCpAnqi9/hK4nbP/ae29eKCfC2ekGo0ACscLUN994OCCw9nJ
- utPxnZBgJMY+BIyXXm+RLMyCxA==
-X-Google-Smtp-Source: ABdhPJz2yC/mTYzUvINbOg0NNDiAc8aQOaPyb4uEp8wHsiKMAsUoGBgC2Qk5XWVZsCkYWd9/YJGSKA==
-X-Received: by 2002:a1c:4b13:: with SMTP id y19mr9555726wma.75.1600345561795; 
- Thu, 17 Sep 2020 05:26:01 -0700 (PDT)
-Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
- by smtp.gmail.com with ESMTPSA id n4sm38207470wrp.61.2020.09.17.05.26.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 05:26:00 -0700 (PDT)
-Date: Thu, 17 Sep 2020 14:25:59 +0200
-From: Antoine Damhet <antoine.damhet@blade-group.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH] target/i386: always create kvmclock device
-Message-ID: <20200917122559.e7i5o64k7rw7urdh@tartarus>
-References: <20200917111306.819263-1-vkuznets@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/qXapW1V4fNhGT3dbUjlruU/kCQYzZed2g1ejpFVACs=;
+ b=LwRn7BXv6XhfD46PD04pSIhhxf4Etu1MxJufMi0/+/1836CSl8iGxDcM579VlYmtUe
+ PJhDR4UySjs7/T50aRg2FgVP2G8HxZumdnkll3Hp7r9T6f0S58dkJ7qFuVtHI2ueGB0D
+ nGj8/Q930DnnzUIEVial3PhAfes6n2Hqqu1yS5DT6vabDckmd1e0Dl+coi7n/a487rJE
+ vxE7jybZhhJUH/Fqfn1C4vej9hLdBBPttw7vC2ZLeiUdfDGJiK4dh6wzBNN/BXAErE2r
+ v/On+wGRl2w17ry7DDmCES82hydckfZWQ6EfO/ikYcVKcyaHQ8eYZwqmW2zf4YlgBpDR
+ RGng==
+X-Gm-Message-State: AOAM531TWc/qnchDKniZgKUbFp2CvRoFfz24G2BMCWPWVLTnpoIVnnns
+ zD7iwbmqvZlIGBNSD4k0KchcT8dHmrxcNyHczhsH1w==
+X-Google-Smtp-Source: ABdhPJygSD3mHxeh3M2e+ih1Ytbjsayb81aT3udfGq+EXSj4DI9aPYYzaLGblVZ10FfuOvAg/ZTfDvSEmMevDmTx910=
+X-Received: by 2002:aa7:d58e:: with SMTP id r14mr15304405edq.52.1600346281605; 
+ Thu, 17 Sep 2020 05:38:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vikpe6obnxeko6wi"
-Content-Disposition: inline
-In-Reply-To: <20200917111306.819263-1-vkuznets@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x341.google.com
+References: <20200916094705.2625331-1-berrange@redhat.com>
+In-Reply-To: <20200916094705.2625331-1-berrange@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Sep 2020 13:37:50 +0100
+Message-ID: <CAFEAcA8=YdJdL09sVg7eKkZg35Wuzf1y=Vbo9v-hKMJ7T+LPwQ@mail.gmail.com>
+Subject: Re: [PULL 0/8] Block odirect patches
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,113 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 16 Sep 2020 at 10:47, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+>
+> The following changes since commit de39a045bd8d2b49e4f3d07976622c29d58e0b=
+ac:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200915-pull-req=
+uest=3D
+> ' into staging (2020-09-15 14:25:05 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/berrange/qemu tags/block-odirect-pull-request
+>
+> for you to fetch changes up to b18a24a9f889bcf722754046130507d744a1b0b9:
+>
+>   block/file: switch to use qemu_open/qemu_create for improved errors (20=
+20-0=3D
+> 9-16 10:33:48 +0100)
+>
+> ----------------------------------------------------------------
+> block: improve error reporting for unsupported O_DIRECT
+>
+> ----------------------------------------------------------------
+>
+> Daniel P. Berrang=3DC3=3DA9 (8):
+>   monitor: simplify functions for getting a dup'd fdset entry
+>   util: split off a helper for dealing with O_CLOEXEC flag
+>   util: rename qemu_open() to qemu_open_old()
+>   util: refactor qemu_open_old to split off variadic args handling
+>   util: add Error object for qemu_open_internal error reporting
+>   util: introduce qemu_open and qemu_create with error reporting
+>   util: give a specific error message when O_DIRECT doesn't work
+>   block/file: switch to use qemu_open/qemu_create for improved errors
 
---vikpe6obnxeko6wi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 17, 2020 at 01:13:06PM +0200, Vitaly Kuznetsov wrote:
-> QEMU's kvmclock device is only created when KVM PV feature bits for
-> kvmclock (KVM_FEATURE_CLOCKSOURCE/KVM_FEATURE_CLOCKSOURCE2) are
-> exposed to the guest. With 'kvm=3Doff' cpu flag the device is not
-> created and we don't call KVM_GET_CLOCK/KVM_SET_CLOCK upon migration.
-> It was reported that without these call at least Hyper-V TSC page
-> clocksouce (which can be enabled independently) gets broken after
-> migration.
->=20
-> Switch to creating kvmclock QEMU device unconditionally, it seems
-> to always make sense to call KVM_GET_CLOCK/KVM_SET_CLOCK on migration.
-> Use KVM_CAP_ADJUST_CLOCK check instead of CPUID feature bits.
->=20
-> Reported-by: Antoine Damhet <antoine.damhet@blade-group.com>
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  hw/i386/kvm/clock.c    | 6 +-----
->  target/i386/kvm.c      | 5 +++++
->  target/i386/kvm_i386.h | 1 +
->  3 files changed, 7 insertions(+), 5 deletions(-)
->=20
-> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
-> index 64283358f91d..526c9ea5172b 100644
-> --- a/hw/i386/kvm/clock.c
-> +++ b/hw/i386/kvm/clock.c
-> @@ -330,11 +330,7 @@ static const TypeInfo kvmclock_info =3D {
->  /* Note: Must be called after VCPU initialization. */
->  void kvmclock_create(void)
->  {
-> -    X86CPU *cpu =3D X86_CPU(first_cpu);
-> -
-> -    if (kvm_enabled() &&
-> -        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE)=
- |
-> -                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2=
-))) {
-> +    if (kvm_enabled() && kvm_has_adjust_clock()) {
+Applied, thanks.
 
-Shouldn't the old check used when machine type <=3D 5.1 in order to avoid
-migration incompatibility ?
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
->          sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
->      }
->  }
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 4a8b3a41c1bc..20b31b65307b 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -143,6 +143,11 @@ bool kvm_has_adjust_clock_stable(void)
->      return (ret =3D=3D KVM_CLOCK_TSC_STABLE);
->  }
-> =20
-> +bool kvm_has_adjust_clock(void)
-> +{
-> +    return kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
-> +}
-> +
->  bool kvm_has_exception_payload(void)
->  {
->      return has_exception_payload;
-> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-> index 064b8798a26c..0fce4e51d2d6 100644
-> --- a/target/i386/kvm_i386.h
-> +++ b/target/i386/kvm_i386.h
-> @@ -34,6 +34,7 @@
-> =20
->  bool kvm_allows_irq0_override(void);
->  bool kvm_has_smm(void);
-> +bool kvm_has_adjust_clock(void);
->  bool kvm_has_adjust_clock_stable(void);
->  bool kvm_has_exception_payload(void);
->  void kvm_synchronize_all_tsc(void);
-> --=20
-> 2.25.4
->=20
->=20
-
---=20
-Antoine 'xdbob' Damhet
-
---vikpe6obnxeko6wi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAl9jVdUACgkQ3AmjLzzl
-jz41ZggAgr4IGvlzgt8XS4LjT1qYjt+vr7IFjoceBn6d/Cou21MgV/fBGylABPfy
-KJBdJMO4tQ5FCQSlV30sAyFzsoMrKz8B6o4N8i2KVCPPNslH2eQBxaCSutoZWZUO
-xGtapD0xAMHwKqd6gjdyTO5YrEq/PdPH79mDiOn38ZDE422WnWiCEts1yMUX51Hk
-4bCC89fV3w7oDj/lzrJs+kfQpybP/qH67OMv0FqJE5guhkiE27zxbMz+O0n47D0n
-E8UfXTEzXS/9ev1lP8vcuv+IJhm7tT44lEP2TMfl+UdBdMMCPpLKqoeummQ4HlB0
-siWUMcmlB8Lmb+BYnPPF6gbM0rk4wQ==
-=Vqhs
------END PGP SIGNATURE-----
-
---vikpe6obnxeko6wi--
+-- PMM
 
