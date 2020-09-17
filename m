@@ -2,94 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0594C26DB31
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:10:55 +0200 (CEST)
-Received: from localhost ([::1]:42624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4AA26DB73
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:26:07 +0200 (CEST)
+Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIskX-0003Y7-GS
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59728)
+	id 1kIszG-00017v-Aa
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kIsjb-000384-RE
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:09:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46751
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kIsja-0001kh-8w
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:09:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600344593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=abBBFR1Y2UxM9EfpNxeZU8aFA0XSAIUvz2SAb7IJX6E=;
- b=Qy5XReJVRL+N9CQCyaAOSQWk7+kq41TWSjMXER10v3WA0MQmpuB3jKgPFY+iHrt4S1VrAY
- v50T25AVPSgzzh9zewFh9ddAGAqV+l58X5XZ5f/fYV2bjGbniCUsPmOdoL/vx0fQZwEu4c
- xsrJuNRya5iCD39rwo3U6v14kc2og9A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-yejLpCJJM8aSP5jHneAoZw-1; Thu, 17 Sep 2020 08:09:51 -0400
-X-MC-Unique: yejLpCJJM8aSP5jHneAoZw-1
-Received: by mail-wr1-f72.google.com with SMTP id 33so796963wrk.12
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 05:09:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=abBBFR1Y2UxM9EfpNxeZU8aFA0XSAIUvz2SAb7IJX6E=;
- b=VOR+x377wUSXl5ubM3NliQSQTLc3QfZKevtKyiL0YW9rUuY4cqJl2mRDLDFeAlqxF+
- cHPl0X3I0TkgYypbFHmFzovW1AWMAC0woLP+ws+zidPUyZfpkJWmcB6gekOFohYoLLKh
- xC4QqV7G74UMaVpFEVxy7wEQ/v5tVrL4c7YLogD2GAu0vEY3hSFeAWEln9EfZBNZJLZ2
- V02TKflfXa2uYOO93dijsKQxmawZauFgBSjWFJ4uRu66Nd48+SoDCP9kDEznwg7fGef4
- hqUR2ljTW1HjO8BXpJ09ZGLBHDdLPxTr3juE7e9gbdZtkIxLazBeZGPCH5FAr7lgQiDy
- kkeg==
-X-Gm-Message-State: AOAM530PKVoisEaJqDWXE1aaKcEWobx7AmpsbAzRBHsiRKfx5VAZEZg3
- NtvqBa/W/Q0gySjpNJoUZKXITVQO4gAUJodUdL4xQJu9aW6vyWsW73u46MnAwk/Te1j6ky4VPNC
- NLw5KDEw3KTucAt4=
-X-Received: by 2002:a5d:4e8a:: with SMTP id e10mr32327915wru.329.1600344590370; 
- Thu, 17 Sep 2020 05:09:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxAO3INnUiOiMhp0EGBV7+U3Gm7i7B2sFdVkPfz+6GKH83fukFr+2UP/C2AxOTHVaS62UUaQ==
-X-Received: by 2002:a5d:4e8a:: with SMTP id e10mr32327895wru.329.1600344590170; 
- Thu, 17 Sep 2020 05:09:50 -0700 (PDT)
-Received: from steredhat (host-79-51-197-141.retail.telecomitalia.it.
- [79.51.197.141])
- by smtp.gmail.com with ESMTPSA id f14sm38549606wrv.72.2020.09.17.05.09.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 05:09:49 -0700 (PDT)
-Date: Thu, 17 Sep 2020 14:09:46 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v2] virtio: skip legacy support check on machine types
- less than 5.1
-Message-ID: <20200917120946.i4phvtpbkgyuouxk@steredhat>
-References: <20200915130514.80989-1-sgarzare@redhat.com>
- <20200916110848.47395807.cohuck@redhat.com>
- <20200917084828.p7j3fc6p4almxbxw@steredhat>
- <20200917112256.796f620d.cohuck@redhat.com>
- <20200917100000.GF2793@work-vm>
- <20200917104721.pbfik4t6zszflama@steredhat>
- <20200917130008.79a1637b.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kIswf-00085t-85; Thu, 17 Sep 2020 08:23:25 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:51242 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kIswc-0003O4-Ed; Thu, 17 Sep 2020 08:23:24 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 586CDECE9633EE63C126;
+ Thu, 17 Sep 2020 20:23:08 +0800 (CST)
+Received: from localhost.localdomain (10.175.104.175) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 17 Sep 2020 20:22:58 +0800
+From: Peng Liang <liangpeng10@huawei.com>
+To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+Subject: [RFC v2 00/10] Support disable/enable CPU features for AArch64
+Date: Thu, 17 Sep 2020 20:14:39 +0800
+Message-ID: <20200917121449.3442059-1-liangpeng10@huawei.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200917130008.79a1637b.cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:47:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=liangpeng10@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 08:23:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,39 +56,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
+ xiexiangyou@huawei.com, Peng Liang <liangpeng10@huawei.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 17, 2020 at 01:00:08PM +0200, Cornelia Huck wrote:
-> On Thu, 17 Sep 2020 12:47:21 +0200
-> Stefano Garzarella <sgarzare@redhat.com> wrote:
-> 
-> > Okay, so I'll leave the device property.
-> > 
-> > 
-> > I also need to update a series [1] that I sent to force virtio version 1
-> > on vhost-vsock devices.
-> > Also in this case I need to care about migration and force it only on new
-> > machine types.
-> > 
-> > Do you think I can reuse the same property also in vhost-vsock-pci and
-> > vhost-vsock-ccw to force virtio version 1, or it is better to add a new
-> > property for each device.
-> > 
-> > The two things (disable legacy check and force version 1) are related,
-> > so maybe I can use a single property in the virtio-device class,
-> 
-> So, 'x-disable-legacy-check==false' -> 'we need to force version 1'?
+QEMU does not support disable/enable CPU features in AArch64 for now.
+This patch series add support for CPU features in AArch64.
 
-Exaclty :-)
+Firstly, we change the isar struct in ARMCPU to an array for
+convenience.  Secondly, we add support to configure CPU feautres in
+AArch64 and make sure that the ID registers can be synchronized to KVM
+so that guest can read the value we configure.  Thirdly, we add a
+mechanism to solve the dependency relationship of some CPU features.
+Last, we add a KVM_CAP_ARM_CPU_FEATURE to check whether KVM supports to
+set CPU features in AArch64.
 
-> Seems reasonable to me.
+Also export CPU features to the result of qmp query-cpu-model-expansion
+so that libvirt can get the supported CPU features.
 
-Thanks for the feedback, I'll go this way!
+Update the ID fields to ARMv8.6 and add some CPU features according to
+the new ID fields.
 
-Stefano
+With related KVM patch set[1], we can disable/enable CPU features in
+AArch64.
+
+[1] https://patchwork.kernel.org/patch/11782361/
+
+v1 -> v2:
+ - adjust the order of patches
+ - only expose AArch64 features which are exposed by kernel via /proc/cpuinfo
+ - add check for conflict CPU features set by user
+ - split the change in linux-headers/linux/kvm.h
+
+Peng Liang (10):
+  linux-header: Introduce KVM_CAP_ARM_CPU_FEATURE
+  target/arm: Update ID fields
+  target/arm: only set ID_PFR1_EL1.GIC for AArch32 guest
+  target/arm: convert isar regs to array
+  target/arm: Introduce kvm_arm_cpu_feature_supported
+  target/arm: register CPU features for property
+  target/arm: Allow ID registers to synchronize to KVM
+  target/arm: Introduce user_mask to indicate whether the feature is set
+    explicitly
+  target/arm: introduce CPU feature dependency mechanism
+  target/arm: Add CPU features to query-cpu-model-expansion
+
+ linux-headers/linux/kvm.h |   1 +
+ target/arm/cpu.h          | 243 +++++++++--------
+ target/arm/internals.h    |  15 +-
+ target/arm/kvm_arm.h      |  10 +
+ hw/intc/armv7m_nvic.c     |  28 +-
+ target/arm/cpu.c          | 555 ++++++++++++++++++++++++++++++--------
+ target/arm/cpu64.c        | 174 ++++++------
+ target/arm/cpu_tcg.c      | 250 ++++++++---------
+ target/arm/helper.c       | 102 ++++---
+ target/arm/kvm.c          |  38 +++
+ target/arm/kvm64.c        |  86 +++---
+ target/arm/monitor.c      |   4 +
+ 12 files changed, 976 insertions(+), 530 deletions(-)
+
+-- 
+2.26.2
 
 
