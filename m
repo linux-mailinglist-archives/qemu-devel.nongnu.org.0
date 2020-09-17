@@ -2,76 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D2B26E2D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:48:17 +0200 (CEST)
-Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8421B26E2C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:46:44 +0200 (CEST)
+Received: from localhost ([::1]:39022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIy12-0003Wl-Rt
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:48:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44426)
+	id 1kIxzX-00029o-IK
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kIxxQ-0000uF-RZ
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:44:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40136)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIxxP-0000rv-Bb
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:44:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kIxxP-00037y-2O
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:44:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIxxN-00036F-3H
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:44:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600364670;
+ s=mimecast20190719; t=1600364666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/yqIInjnTal9RXjvDBvExWKgy52J0VRy7RBX+TE8S7A=;
- b=aCQYz62Zs7fbRqQXa57ekZXlDcPXSIkDeXqxI6CQeEkW1J094o5Z8a6qgsCo5lWWC8Uc4y
- 6hHwxH0mipQU8E1ymgEyYoVqT+Ga6RIlsBWgNT52+8m+VrLiEyi/MY1fHQJ8G/hh9G4Pi5
- Ks/2ev5Ib9FC3PO+7vCnv/KJRUElW/g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-A0C3sWcCNFudyKkEB7s4vw-1; Thu, 17 Sep 2020 13:44:27 -0400
-X-MC-Unique: A0C3sWcCNFudyKkEB7s4vw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B2E9100CAB8;
- Thu, 17 Sep 2020 17:44:26 +0000 (UTC)
-Received: from work-vm (ovpn-114-108.ams2.redhat.com [10.36.114.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11C5560C57;
- Thu, 17 Sep 2020 17:44:12 +0000 (UTC)
-Date: Thu, 17 Sep 2020 18:44:10 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH] target/i386: always create kvmclock device
-Message-ID: <20200917174410.GU2793@work-vm>
-References: <20200917111306.819263-1-vkuznets@redhat.com>
- <20200917122559.e7i5o64k7rw7urdh@tartarus>
- <87ft7gh6gy.fsf@vitty.brq.redhat.com>
- <20200917144237.GK2793@work-vm>
- <875z8ch2m6.fsf@vitty.brq.redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ptAipXyzmutnE6nWZPhfpYge1peg14tFDvE/WTnlswY=;
+ b=i7evsNdsPmWoiLAdsmjbxrzThFZYZ68sU7veEyxA30I7gKQ/mA3oAHrN4r9B+YTK38essq
+ q0rB0m1IZB+cGyTOzAOmD0JpphcvTHn931AHrgUjLFGsGC5GeckNaeAGXNVBiVkZzuaa4e
+ GqH+Pc+rLDnX64pPtT0HPMGFxEcTrrU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-bfked0z3NgCCur2SvLks1A-1; Thu, 17 Sep 2020 13:44:25 -0400
+X-MC-Unique: bfked0z3NgCCur2SvLks1A-1
+Received: by mail-wr1-f70.google.com with SMTP id j7so1162102wro.14
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 10:44:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ptAipXyzmutnE6nWZPhfpYge1peg14tFDvE/WTnlswY=;
+ b=prFPt2iUW7jPzkmzJREsJENcwkf0GPhzfCk/GIBHEOBUe45kuoa9VKmNcpuUlP2mE7
+ w41KtBBE2Pwg/9wpdf1xMUcwUP4Us1/i+05DLBya+jprWaMEUt9Zks70fjH9ach3fDD0
+ FHhhXmMnwTow9mgR5mPE5V+Z4vppfhs9qbo+2gbDi1ft3KD/+It4Sn5MN3EyPYr8c2IB
+ xsBQXtAMy+94GeyPjgaH1lDT/n1llROptwft1xy+EIgfZvNRsu4BYm7VAMh62CXwTcq/
+ n+C4xFPQhTEQQDVXROUXyJ5fsit7K7UCxv3v2tuDJaSqRXr3S2inDYLGxExhxCE2Ae57
+ fY7w==
+X-Gm-Message-State: AOAM532ARLhiU8hsEstyQZpKER0tEvSrLJw3IS2e10LTV3Mb00CJXqJx
+ klrAKcsZFl4uPlYhkywVNHyjOG0OXmbS+AEyxiBeTV4uPc5y1MfyXB8A07aUzthD7M6dI1DynyL
+ p+ypXItQ0LUgwFc0=
+X-Received: by 2002:a1c:f619:: with SMTP id w25mr10951146wmc.62.1600364663757; 
+ Thu, 17 Sep 2020 10:44:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRunJ1OeqMk2dAzV+vpyFRjzFeteuayzoR6Z6Y9MLXU9DeXz6t19IFqrmgO2xZvYlT7SF5kQ==
+X-Received: by 2002:a1c:f619:: with SMTP id w25mr10951122wmc.62.1600364663500; 
+ Thu, 17 Sep 2020 10:44:23 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id s12sm277654wmd.20.2020.09.17.10.44.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Sep 2020 10:44:22 -0700 (PDT)
+Subject: Re: [PATCH] checkpatch: avoid error on cover letter files
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+References: <20200917170212.92672-1-sgarzare@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <d5a967e3-ab0d-621f-45fc-d2d4a2bc116b@redhat.com>
+Date: Thu, 17 Sep 2020 19:44:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <875z8ch2m6.fsf@vitty.brq.redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200917170212.92672-1-sgarzare@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,139 +122,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Antoine Damhet <antoine.damhet@blade-group.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vitaly Kuznetsov (vkuznets@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+On 9/17/20 7:02 PM, Stefano Garzarella wrote:
+> Running checkpatch on a directory that contains a cover letter reports
+> this error:
 > 
-> > * Vitaly Kuznetsov (vkuznets@redhat.com) wrote:
-> >> Antoine Damhet <antoine.damhet@blade-group.com> writes:
-> >> 
-> >> > On Thu, Sep 17, 2020 at 01:13:06PM +0200, Vitaly Kuznetsov wrote:
-> >> >> QEMU's kvmclock device is only created when KVM PV feature bits for
-> >> >> kvmclock (KVM_FEATURE_CLOCKSOURCE/KVM_FEATURE_CLOCKSOURCE2) are
-> >> >> exposed to the guest. With 'kvm=off' cpu flag the device is not
-> >> >> created and we don't call KVM_GET_CLOCK/KVM_SET_CLOCK upon migration.
-> >> >> It was reported that without these call at least Hyper-V TSC page
-> >> >> clocksouce (which can be enabled independently) gets broken after
-> >> >> migration.
-> >> >> 
-> >> >> Switch to creating kvmclock QEMU device unconditionally, it seems
-> >> >> to always make sense to call KVM_GET_CLOCK/KVM_SET_CLOCK on migration.
-> >> >> Use KVM_CAP_ADJUST_CLOCK check instead of CPUID feature bits.
-> >> >> 
-> >> >> Reported-by: Antoine Damhet <antoine.damhet@blade-group.com>
-> >> >> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> >> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> >> >> ---
-> >> >>  hw/i386/kvm/clock.c    | 6 +-----
-> >> >>  target/i386/kvm.c      | 5 +++++
-> >> >>  target/i386/kvm_i386.h | 1 +
-> >> >>  3 files changed, 7 insertions(+), 5 deletions(-)
-> >> >> 
-> >> >> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
-> >> >> index 64283358f91d..526c9ea5172b 100644
-> >> >> --- a/hw/i386/kvm/clock.c
-> >> >> +++ b/hw/i386/kvm/clock.c
-> >> >> @@ -330,11 +330,7 @@ static const TypeInfo kvmclock_info = {
-> >> >>  /* Note: Must be called after VCPU initialization. */
-> >> >>  void kvmclock_create(void)
-> >> >>  {
-> >> >> -    X86CPU *cpu = X86_CPU(first_cpu);
-> >> >> -
-> >> >> -    if (kvm_enabled() &&
-> >> >> -        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
-> >> >> -                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2))) {
-> >> >> +    if (kvm_enabled() && kvm_has_adjust_clock()) {
-> >> >
-> >> > Shouldn't the old check used when machine type <= 5.1 in order to avoid
-> >> > migration incompatibility ?
-> >> 
-> >> Hm, when the check fails we just don't create the device and no error is
-> >> reported, so even if we have kvmclock data in the migration stream but
-> >> fail to create it migration will still succeed, right? (not a migration
-> >> expert here :-)
-> >
-> > When the migration stream is parsed, it'll try and find a "kvmclock"
-> > device to pass the data it's reading to; if one doesn't exist it'll
-> > fail.
+>     Checking /tmp/tmpbnngauy3/0000-cover-letter.patch...
+>     ERROR: Does not appear to be a unified-diff format patch
 > 
-> This may happen with an older machine type when the destination is
-> running an unfixed QEMU and the source has the fix, right?
-
-Yes I think so.
-
-> The solution
-> would be to introduce a flag for older machine types (or for new ones)
-> like 'kvmclock_always'.
-
-Yep sounds the normal answer.
-(You might want to try it first to trigger the bug)
-
-> > The other question is in the incoming direction from an older VM;
-> > you'll have a kvm clock created here, but you won't load the kvm clock
-> > state from the migration stream - what is this clock going to do?
+>     total: 1 errors, 0 warnings, 0 lines checked
 > 
-> This is not really a problem I believe: the clock was absent on the
-> source and things somehow worked for the guest so even if we don't
-> initialize kvmclock properly on the destination nothing bad is expected.
+> Let's skip cover letter as it is already done in the Linux kernel.
 
-OK.
+.. "commits 06330fc40e3f ("checkpatch: avoid NOT_UNIFIED_DIFF errors
+ on cover-letter.patch files") and a08ffbef4ab7 ("checkpatch: fix
+ignoring cover-letter logic")."
 
-Dave
+Maybe complete with that ^^^ ?
 
-> >
-> > Dave
-> >
-> >> >
-> >> >>          sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
-> >> >>      }
-> >> >>  }
-> >> >> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> >> >> index 4a8b3a41c1bc..20b31b65307b 100644
-> >> >> --- a/target/i386/kvm.c
-> >> >> +++ b/target/i386/kvm.c
-> >> >> @@ -143,6 +143,11 @@ bool kvm_has_adjust_clock_stable(void)
-> >> >>      return (ret == KVM_CLOCK_TSC_STABLE);
-> >> >>  }
-> >> >>  
-> >> >> +bool kvm_has_adjust_clock(void)
-> >> >> +{
-> >> >> +    return kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
-> >> >> +}
-> >> >> +
-> >> >>  bool kvm_has_exception_payload(void)
-> >> >>  {
-> >> >>      return has_exception_payload;
-> >> >> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-> >> >> index 064b8798a26c..0fce4e51d2d6 100644
-> >> >> --- a/target/i386/kvm_i386.h
-> >> >> +++ b/target/i386/kvm_i386.h
-> >> >> @@ -34,6 +34,7 @@
-> >> >>  
-> >> >>  bool kvm_allows_irq0_override(void);
-> >> >>  bool kvm_has_smm(void);
-> >> >> +bool kvm_has_adjust_clock(void);
-> >> >>  bool kvm_has_adjust_clock_stable(void);
-> >> >>  bool kvm_has_exception_payload(void);
-> >> >>  void kvm_synchronize_all_tsc(void);
-> >> >> -- 
-> >> >> 2.25.4
-> >> >> 
-> >> >> 
-> >> 
-> >> -- 
-> >> Vitaly
-> >> 
+Regardless:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > 
-> -- 
-> Vitaly
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+>  scripts/checkpatch.pl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index bd3faa154c..3c898f878a 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3005,7 +3005,7 @@ sub process {
+>  		return 1;
+>  	}
+>  
+> -	if (!$is_patch) {
+> +	if (!$is_patch && $filename !~ /cover-letter\.patch$/) {
+>  		ERROR("Does not appear to be a unified-diff format patch\n");
+>  	}
+>  
+> 
 
 
