@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D4626DE3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:29:27 +0200 (CEST)
-Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0039426DDD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:18:30 +0200 (CEST)
+Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIuuc-0005u5-N9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
+	id 1kIuk1-0006Pe-UN
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kIubS-0003Iz-7C
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:09:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41329)
+ id 1kIud9-0005bx-4a
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:11:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kIubQ-0001Vi-2N
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:09:37 -0400
+ id 1kIud7-0001pI-1f
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600351775;
+ s=mimecast20190719; t=1600351879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tyOll9kipGJhNL6A4guWijhalDMqR2rHpL11BxfV3i0=;
- b=LoBj+wMq4OmJbhKHy/ZE81o7n4K0tvOg1cfC+I1NfObTvGaHPyU1cMGGzZD9UMlzNLhOPc
- TDwLX4d4t6SuGuRNsa9mua+zkWpHWJh11Lkd6piawlB5Hpo0Q4tN9qDZ+95Fi3zfAI7SSo
- /YOf0Grup6cWdA81qSEFTRYiPuy+UNc=
+ bh=sXhu9GcCmwyUZjAQJ/Yk/Egm9cYMCsFJjPSDf9klYK4=;
+ b=WfBbY+nQr/4RVcT9qaRI98uYrn7sCH7xsldPNro6KSgvXi5Xxm4SLgW9ocjzk5B8xrN04Z
+ l9JEr+pbFhCHHvsBkL+CV6IutKY9ZeLHx9c5W789N6fnV/JaRRvbqr7KPpiy1BMa/c2JjS
+ NR1Wa/FKCsfcqKniPvVdLumPNWCOkqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-lM8Bn5q3NNifI0UmoLrUrg-1; Thu, 17 Sep 2020 10:09:33 -0400
-X-MC-Unique: lM8Bn5q3NNifI0UmoLrUrg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-148-rnPyouO9P_Ox7cMECAEafg-1; Thu, 17 Sep 2020 10:11:17 -0400
+X-MC-Unique: rnPyouO9P_Ox7cMECAEafg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEC2510BBED5;
- Thu, 17 Sep 2020 14:09:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73A44195E3EA;
+ Thu, 17 Sep 2020 14:11:16 +0000 (UTC)
 Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99E975DA30;
- Thu, 17 Sep 2020 14:09:23 +0000 (UTC)
-Date: Thu, 17 Sep 2020 16:09:22 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6865160FC2;
+ Thu, 17 Sep 2020 14:11:04 +0000 (UTC)
+Date: Thu, 17 Sep 2020 16:11:03 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v7 09/12] piix4: don't reserve hw resources when hotplug
- is off globally
-Message-ID: <20200917160922.2b0f5f58@redhat.com>
-In-Reply-To: <20200917100947.21106-10-ani@anisinha.ca>
+Subject: Re: [PATCH v7 11/12] tests/acpi: unit test exercising global pci
+ hotplug off for i440fx
+Message-ID: <20200917161103.4df553d2@redhat.com>
+In-Reply-To: <20200917100947.21106-12-ani@anisinha.ca>
 References: <20200917100947.21106-1-ani@anisinha.ca>
- <20200917100947.21106-10-ani@anisinha.ca>
+ <20200917100947.21106-12-ani@anisinha.ca>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -83,141 +83,75 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, jusual@redhat.com, qemu-devel@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGll?= =?UTF-8?B?dS1EYXVkw6k=?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Sep 2020 15:39:44 +0530
+On Thu, 17 Sep 2020 15:39:46 +0530
 Ani Sinha <ani@anisinha.ca> wrote:
 
-> When acpi hotplug is turned off for both root pci bus as well as for pci
-> bridges, we should not generate the related ACPI code for DSDT table or
-> initialize related hw ports or reserve hw resources. This change makes
-> sure all those operations are turned off in the case ACPI pci hotplug is
-> off globally.
+> This change adds a unit test to exercise the case when hotplug is disabled
+> both for pci root bus and the pci bridges by passing the following two
+> switches to qemu:
 > 
-> In this change, we also make sure ACPI code for the PCNT method are only
-> added when bsel is enabled for the corresponding pci bus or bridge hotplug
-> is turned on.
+>   -global PIIX4_PM.acpi-root-pci-hotplug=off
+>   -global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off
 > 
-> As q35 machines do not use bsel for it's pci buses at this point in time, this
-> change affects DSDT acpi table for q35 machines as well. Therefore, we will
-> also need to commit the updated golden master DSDT table acpi binary blobs as
-> well. This is done in the following commit. Without the updated table blobs,
-> the unit tests would fail with this patch.
-
-this breaks bisection,
-tables updated by 10/12 should be marked a being changed,
-like it's done with other test cases ex: [1/12]
-
-
+> bios-tables-test-allowed-diff.h documents the fact that a new DSDT acpi gold
+> master binary blob we need to be added to test this. We will do the actual
+> addition in the next patch in the series.
 > 
 > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
 > ---
->  hw/acpi/piix4.c      |  6 ++++--
->  hw/i386/acpi-build.c | 25 ++++++++++++++++++-------
->  2 files changed, 22 insertions(+), 9 deletions(-)
+>  tests/qtest/bios-tables-test-allowed-diff.h |  1 +
+>  tests/qtest/bios-tables-test.c              | 17 +++++++++++++++++
+>  2 files changed, 18 insertions(+)
 > 
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index e6163bb6ce..b70b1f98af 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
->                            "acpi-gpe0", GPE_LEN);
->      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
->  
-> -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> -                    s->use_acpi_hotplug_bridge);
-> +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-> +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> +                        s->use_acpi_hotplug_bridge);
-> +    }
->  
->      s->cpu_hotplug_legacy = true;
->      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index e079b686f5..e41bb0992b 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
->      bool s3_disabled;
->      bool s4_disabled;
->      bool pcihp_bridge_en;
-> +    bool pcihp_root_en;
->      uint8_t s4_val;
->      AcpiFadtData fadt;
->      uint16_t cpu_hp_io_base;
-> @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
->      pm->pcihp_bridge_en =
->          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
->                                   NULL);
-> +    pm->pcihp_root_en =
-> +        object_property_get_bool(obj, "acpi-root-pci-hotplug",
-> +                                 NULL);
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index dfb8523c8b..dea61d94f1 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,2 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/pc/DSDT.hpbrroot",
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index c970556795..3f7f1a8107 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -768,6 +768,21 @@ static void test_acpi_piix4_no_bridge_hotplug(void)
+>      free_test_data(&data);
 >  }
 >  
->  static void acpi_get_misc_info(AcpiMiscInfo *info)
-> @@ -450,10 +454,12 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
->      }
->  
->      /* Append PCNT method to notify about events on local and child buses.
-> -     * Add unconditionally for root since DSDT expects it.
-> +     * Add this method for root bus only when hotplug is enabled since DSDT
-> +     * expects it.
->       */
-> -    method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
-> -
-> +    if (bsel || pcihp_bridge_en) {
-> +        method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
-> +    }
->      /* If bus supports hotplug select it and notify about local events */
->      if (bsel) {
->          uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
-> @@ -479,7 +485,10 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
->              aml_append(method, aml_name("^S%.02X.PCNT", devfn));
->          }
->      }
-> -    aml_append(parent_scope, method);
+> +static void test_acpi_piix4_no_acpi_pci_hotplug(void)
+> +{
+> +    test_data data;
 > +
-> +    if (bsel || pcihp_bridge_en) {
-> +        aml_append(parent_scope, method);
-> +    }
->      qobject_unref(bsel);
->  }
->  
-> @@ -1504,7 +1513,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          build_hpet_aml(dsdt);
->          build_piix4_isa_bridge(dsdt);
->          build_isa_devices_aml(dsdt);
-> -        build_piix4_pci_hotplug(dsdt);
-> +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-> +            build_piix4_pci_hotplug(dsdt);
-> +        }
->          build_piix4_pci0_int(dsdt);
->      } else {
->          sb_scope = aml_scope("_SB");
-> @@ -1546,7 +1557,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      {
->          aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
->  
-> -        if (misc->is_piix4) {
-> +        if (misc->is_piix4 && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
->              method = aml_method("_E01", 0, AML_NOTSERIALIZED);
->              aml_append(method,
->                  aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
-> @@ -1698,7 +1709,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      crs_range_set_free(&crs_range_set);
->  
->      /* reserve PCIHP resources */
-> -    if (pm->pcihp_io_len) {
-> +    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
->          dev = aml_device("PHPR");
->          aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
->          aml_append(dev,
+> +    memset(&data, 0, sizeof(data));
+> +    data.machine = MACHINE_PC;
+> +    data.variant = ".hpbrroot";
+> +    data.required_struct_types = base_required_struct_types;
+> +    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
+> +    test_acpi_one("-global PIIX4_PM.acpi-root-pci-hotplug=off "
+> +                  "-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off "
+> +                  "-device pci-bridge,chassis_nr=1", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_tcg(void)
+>  {
+>      test_data data;
+> @@ -1176,6 +1191,8 @@ int main(int argc, char *argv[])
+>                         test_acpi_piix4_no_root_hotplug);
+>          qtest_add_func("acpi/piix4/pci-hotplug/no_bridge_hotplug",
+>                         test_acpi_piix4_no_bridge_hotplug);
+> +        qtest_add_func("acpi/piix4/pci-hotplug/off",
+> +                       test_acpi_piix4_no_acpi_pci_hotplug);
+>          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+>          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+>          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 
 
