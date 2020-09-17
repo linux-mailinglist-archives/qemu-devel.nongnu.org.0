@@ -2,116 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119D826DEBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:51:20 +0200 (CEST)
-Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFB226DEBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:52:17 +0200 (CEST)
+Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvFm-0007of-Vf
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49356)
+	id 1kIvGi-0000JT-J9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIv8C-0007Ts-80
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:43:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27597)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIv9C-0008Nh-Fl
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:44:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57525
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIv8A-0006ly-MD
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:43:27 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIv99-0006tl-NS
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:44:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600353806;
+ s=mimecast20190719; t=1600353866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RpQKpTZP9Hz6upOzj3ZNbGCC8FqJKupPnlZTQK4JVu0=;
- b=C50OMZGAjzvoRgRmCnUR+4BYP/BJLtmgb6vpn0aV4Zf6OT1Hs0CUGifCZKpq1SrBo3K/eA
- cXv3/QoEdz6hRzj2T7VN67AtDq0HeGiSbjYR8C76YFzqUY5j4ungT6Fad61pZNc9ejpvVX
- Ysk/nIO9mm6hc7/jhYvmG4E/tTh+sGw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-TwgPkXD2MS6um-Xaf7PeNQ-1; Thu, 17 Sep 2020 10:43:06 -0400
-X-MC-Unique: TwgPkXD2MS6um-Xaf7PeNQ-1
-Received: by mail-wm1-f71.google.com with SMTP id x6so836344wmi.1
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 07:43:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=RpQKpTZP9Hz6upOzj3ZNbGCC8FqJKupPnlZTQK4JVu0=;
- b=Gs1Oh1/g9szdzgLIx2e11DpDK8dnAAGSfTow7YdnXB5LZ3detfZZRGL0DCgOPiUlNq
- Utnat0/iRuS3ZiMsvbF4OAp23AsEkdpFQ135rK4YcDJhxhYmQ7UD7prDXtfMF9mvwmA0
- 7DS+g1ZbsRME5aDK4wXnjAO15MpZSBMntLIyCSG3Px6gJpeTk85j/WkBJsYXO1UmLLsa
- CEfehDlRXd055H8VQs64WsbsA0aZ7CZg7STSZrlfyYPl46OO1PxGKiwAW7ZD/JEFr7Ak
- nd74RZjmeKFcv8JVgYcrqMXarZPAeeKjfkVtGA68k9dkxWZy5yicMVEuXw04mrgKlLLm
- cL4w==
-X-Gm-Message-State: AOAM530Hq3YukHrBzppRmI51YvdafbBH1pQLEOfoZRHGbXMB1SYvimZZ
- P7LCSV/MZimQPcbgW0R1eMxEIbwa24NfJLBn3WgRgpaQmgJ+gkANo0M7yrOax6TWXEmUyckyZW8
- dpVPB/gQuBJv6Dbw=
-X-Received: by 2002:a05:600c:2906:: with SMTP id
- i6mr10665390wmd.48.1600353784908; 
- Thu, 17 Sep 2020 07:43:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzO3Iz+linhDZviOC7JMz3zAS5QXHJ4vz/e4hTXW5pHAm4mE/8vPOPWzSClNhzGLp1M6Jkn4A==
-X-Received: by 2002:a05:600c:2906:: with SMTP id
- i6mr10665368wmd.48.1600353784608; 
- Thu, 17 Sep 2020 07:43:04 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id h16sm41834352wre.87.2020.09.17.07.43.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Sep 2020 07:43:02 -0700 (PDT)
-Subject: Re: [PATCH] meson: fix static flag summary
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20200917140700.673171-1-lvivier@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <b4dc586a-dfd0-0fe9-bf23-0a2a6ab2c260@redhat.com>
-Date: Thu, 17 Sep 2020 16:43:01 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=unDP1siSCAtPZQiEhXQdPPPz+yCmUTL8g1y1ZLx0C8A=;
+ b=SS/tMzQ0b79dcaBvTVR4XxJ8Q56bJ53c2s/EsSNeCSFUODmHLOOK7OeXOHLnyNWp2PVifY
+ vNOkdxlodSmEmSSl5QJ4Amm6jnkVZ1p2HFlbufIEgpn0/CsCvmyVW+mRvHDLpvtq+nbfhE
+ AHlFqspJrOhpyacwnkDzMVdLr3GlcvI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-525-XpyUZ4XsMZCTCt7_JputcA-1; Thu, 17 Sep 2020 10:44:24 -0400
+X-MC-Unique: XpyUZ4XsMZCTCt7_JputcA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C4A212BDE2;
+ Thu, 17 Sep 2020 14:44:22 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-38.ams2.redhat.com [10.36.113.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A8AA55764;
+ Thu, 17 Sep 2020 14:44:20 +0000 (UTC)
+Subject: Re: [PATCH v2 07/10] disas: Configure capstone for aarch64 host
+ without libvixl
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200914230210.2185860-1-richard.henderson@linaro.org>
+ <20200914230210.2185860-8-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <2dc0e96c-ed10-c695-d9aa-9a082d929a29@redhat.com>
+Date: Thu, 17 Sep 2020 16:44:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200917140700.673171-1-lvivier@redhat.com>
+In-Reply-To: <20200914230210.2185860-8-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:47:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,34 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, luoyonggang@gmail.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/20 4:07 PM, Laurent Vivier wrote:
-> 'static build:' must display value of CONFIG_STATIC rather than value of
-> CONFIG_TOOLS.
+On 15/09/2020 01.02, Richard Henderson wrote:
+> The ifdef tangle failed to set cap_arch if libvixl itself
+> was not configured (e.g. due to lack of c++ compiler).
 > 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  disas.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meson.build b/meson.build
-> index 5421eca66a02..c174f0ab0948 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1374,7 +1374,7 @@ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
->  summary_info += {'sparse enabled':    meson.get_compiler('c').cmd_array().contains('cgcc')}
->  summary_info += {'strip binaries':    get_option('strip')}
->  summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
-> -summary_info += {'static build':      config_host.has_key('CONFIG_TOOLS')}
-> +summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
->  if targetos == 'darwin'
->    summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
->  endif
+> diff --git a/disas.c b/disas.c
+> index d0ccd4b727..01c8bc6c9e 100644
+> --- a/disas.c
+> +++ b/disas.c
+> @@ -428,9 +428,11 @@ static void initialize_debug_host(CPUDebug *s)
+>  #else
+>  #error unsupported RISC-V ABI
+>  #endif
+> -#elif defined(__aarch64__) && defined(CONFIG_ARM_A64_DIS)
+> -    s->info.print_insn = print_insn_arm_a64;
+> +#elif defined(__aarch64__)
+>      s->info.cap_arch = CS_ARCH_ARM64;
+> +# ifdef CONFIG_ARM_A64_DIS
+> +    s->info.print_insn = print_insn_arm_a64;
+> +# endif
+>  #elif defined(__alpha__)
+>      s->info.print_insn = print_insn_alpha;
+>  #elif defined(__sparc__)
 > 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
