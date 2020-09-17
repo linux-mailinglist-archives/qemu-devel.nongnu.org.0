@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2994726DE5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:37:31 +0200 (CEST)
-Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E4426DE69
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:39:30 +0200 (CEST)
+Received: from localhost ([::1]:34184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIv2P-0008Ju-WD
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
+	id 1kIv4M-0002yh-04
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:39:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIuhk-0004b8-01
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:16:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49765
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIuhd-0002UB-UE
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:16:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600352160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mfk91ZLwcA151obhdySBDXW0lINLBQbPWikVuCPUtVE=;
- b=NFPm6AHxANY7OZfxfPhfCo80q47ubQ3zVQoGbsdBq9wLQQ7MGZmWaL8HmsewhMokZsc6YO
- WLk9lsABvos2rlpY+d0oSvn2Kh5h808hGnj9aSMvo4t+02dqM0wZgSyyBkZ5Y2nk4PF05B
- kMbm6W2xefP14lKM/hakVczlkgMLwBk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-EjDdiXsdPd-4hG4zO6ggdw-1; Thu, 17 Sep 2020 10:15:56 -0400
-X-MC-Unique: EjDdiXsdPd-4hG4zO6ggdw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCDFF10BBED5;
- Thu, 17 Sep 2020 14:15:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 956885DE51;
- Thu, 17 Sep 2020 14:15:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 29D4F113864A; Thu, 17 Sep 2020 16:15:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 10/37] qapi/common.py: delint with pylint
-References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-11-jsnow@redhat.com>
-Date: Thu, 17 Sep 2020 16:15:53 +0200
-In-Reply-To: <20200915224027.2529813-11-jsnow@redhat.com> (John Snow's message
- of "Tue, 15 Sep 2020 18:40:00 -0400")
-Message-ID: <87r1r0pjza.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kIumT-0002xU-Tq; Thu, 17 Sep 2020 10:21:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kIumQ-0003D2-GB; Thu, 17 Sep 2020 10:21:01 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08HE5J80048938; Thu, 17 Sep 2020 10:20:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=pFzLdR4oh7vJzXza9CYBsTxnTeFiRc6b489PWMFCmhQ=;
+ b=UK4j2/bdBgaFZJv32T9SHjYFfPMyUcaxDdZkfXW9A3hIj995knRWS7mknk/qRZLnoq90
+ jQm38RneC+P/cMgAwaN10/fVg6CIo06K9u798TWvsemc7LElmm8C83txw1vtqFw6rYHa
+ RVREWG+pEQk5mtLTXnPVN5qws9YWD2c5A3v+lTrt3qdDiAPIOWbfnI2l/D7tpjazWFvd
+ AeIiXD8Skcx92vY1wZD1q5W2xq1qS8ED4Gseo6LgbImwPavjkGkWtZZ+jL7fbJ2Aox+J
+ N9Hra2ZrdTk7XiiL8ajpdARHjHW/kkt3yVqMv9avxe929WcP+nWxeXUnB9x44v0tZyjJ Gw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33m92r8v30-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Sep 2020 10:20:54 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08HE5anx050067;
+ Thu, 17 Sep 2020 10:20:54 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33m92r8v2h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Sep 2020 10:20:54 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08HEISc8021857;
+ Thu, 17 Sep 2020 14:20:53 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 33k67c4w0e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Sep 2020 14:20:53 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08HEKq7a55771482
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Sep 2020 14:20:52 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A3DDAAC059;
+ Thu, 17 Sep 2020 14:20:52 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6EFD1AC05B;
+ Thu, 17 Sep 2020 14:20:49 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.163.85.51])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Sep 2020 14:20:49 +0000 (GMT)
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: alex.williamson@redhat.com, cohuck@redhat.com
+Subject: [PATCH v4 0/5] s390x/pci: Accomodate vfio DMA limiting
+Date: Thu, 17 Sep 2020 10:20:40 -0400
+Message-Id: <1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:16:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-17_09:2020-09-16,
+ 2020-09-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 clxscore=1015 suspectscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2009170104
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 10:20:55
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,81 +106,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
+ david@redhat.com, schnelle@linux.ibm.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mst@redhat.com, pbonzini@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Kernel commit 492855939bdb added a limit to the number of outstanding DMA
+requests for a type1 vfio container.  However, lazy unmapping in s390 can 
+in fact cause quite a large number of outstanding DMA requests to build up
+prior to being purged, potentially the entire guest DMA space.  This
+results in unexpected 'VFIO_MAP_DMA failed: No space left on device'
+conditions seen in QEMU.
 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/common.py | 16 +++++++---------
->  scripts/qapi/schema.py | 14 +++++++-------
->  2 files changed, 14 insertions(+), 16 deletions(-)
->
-> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-> index 87d87b95e5..c665e67495 100644
-> --- a/scripts/qapi/common.py
-> +++ b/scripts/qapi/common.py
-> @@ -14,6 +14,11 @@
->  import re
->  
->  
-> +EATSPACE = '\033EATSPACE.'
-> +POINTER_SUFFIX = ' *' + EATSPACE
-> +c_name_trans = str.maketrans('.-', '__')
-> +
-> +
+This patchset adds support to qemu to retrieve the number of allowable DMA
+requests via the VFIO_IOMMU_GET_INFO ioctl.  The patches are separated into
+vfio hits which add support for reading in VFIO_IOMMU_GET_INFO capability
+chains and getting the per-container dma_avail value, and s390 hits to 
+track DMA usage on a per-container basis.
 
-You rename and move.  pylint gripes about the names, but it doesn't
-actually ask for the move, as far as I can tell.  Can you explain why
-you move?
+Associated kernel patch:
+https://marc.info/?l=kvm&m=160019703922812&w=2
 
->  # ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
->  # ENUM_NAME -> ENUM_NAME, ENUM_NAME1 -> ENUM_NAME1, ENUM_Name2 -> ENUM_NAME2
->  # ENUM24_Name -> ENUM24_NAME
-> @@ -42,9 +47,6 @@ def c_enum_const(type_name, const_name, prefix=None):
->      return camel_to_upper(type_name) + '_' + c_name(const_name, False).upper()
->  
->  
-> -c_name_trans = str.maketrans('.-', '__')
-> -
-> -
->  # Map @name to a valid C identifier.
->  # If @protect, avoid returning certain ticklish identifiers (like
->  # C keywords) by prepending 'q_'.
-> @@ -89,10 +91,6 @@ def c_name(name, protect=True):
->      return name
->  
->  
-> -eatspace = '\033EATSPACE.'
-> -pointer_suffix = ' *' + eatspace
-> -
-> -
->  class Indent:
->      """
->      Indent-level management.
-> @@ -135,12 +133,12 @@ def pop(self, amount: int = 4) -> int:
->  
->  
->  # Generate @code with @kwds interpolated.
-> -# Obey indent_level, and strip eatspace.
-> +# Obey INDENT level, and strip EATSPACE.
 
-Is the change to INDENT intentional?
+Changes from v3:
+- Patch 2,3: Added RBs provided (thank you!)
+- Patch 4: retry the ioctl in the same manner as vfio_get_region_info
+- Patch 5: switch to static inline functions
+- Patch 5: relocate more code to s390-pci-vfio.*
 
->  def cgen(code, **kwds):
->      raw = code % kwds
->      if INDENT:
->          raw, _ = re.subn(r'^(?!(#|$))', str(INDENT), raw, flags=re.MULTILINE)
-> -    return re.sub(re.escape(eatspace) + r' *', '', raw)
-> +    return re.sub(re.escape(EATSPACE) + r' *', '', raw)
->  
->  
->  def mcgen(code, **kwds):
-[...]
+
+Matthew Rosato (5):
+  linux-headers: update against 5.9-rc5
+  vfio: Create shared routine for scanning info capabilities
+  vfio: Find DMA available capability
+  s390x/pci: Add routine to get the vfio dma available count
+  s390x/pci: Honor DMA limits set by vfio
+
+ hw/s390x/meson.build                               |   1 +
+ hw/s390x/s390-pci-bus.c                            |  16 ++-
+ hw/s390x/s390-pci-bus.h                            |   9 ++
+ hw/s390x/s390-pci-inst.c                           |  45 ++++++-
+ hw/s390x/s390-pci-inst.h                           |   3 +
+ hw/s390x/s390-pci-vfio.c                           |  96 ++++++++++++++
+ hw/s390x/s390-pci-vfio.h                           |  22 ++++
+ hw/vfio/common.c                                   |  52 ++++++--
+ include/hw/vfio/vfio-common.h                      |   2 +
+ include/standard-headers/drm/drm_fourcc.h          | 140 +++++++++++++++++++++
+ include/standard-headers/linux/ethtool.h           |  87 +++++++++++++
+ include/standard-headers/linux/input-event-codes.h |   3 +-
+ include/standard-headers/linux/vhost_types.h       |  11 ++
+ include/standard-headers/linux/virtio_9p.h         |   4 +-
+ include/standard-headers/linux/virtio_blk.h        |  26 ++--
+ include/standard-headers/linux/virtio_config.h     |   8 +-
+ include/standard-headers/linux/virtio_console.h    |   8 +-
+ include/standard-headers/linux/virtio_net.h        |   6 +-
+ include/standard-headers/linux/virtio_scsi.h       |  20 +--
+ linux-headers/asm-generic/unistd.h                 |   6 +-
+ linux-headers/asm-mips/unistd_n32.h                |   1 +
+ linux-headers/asm-mips/unistd_n64.h                |   1 +
+ linux-headers/asm-mips/unistd_o32.h                |   1 +
+ linux-headers/asm-powerpc/kvm.h                    |   5 +
+ linux-headers/asm-powerpc/unistd_32.h              |   1 +
+ linux-headers/asm-powerpc/unistd_64.h              |   1 +
+ linux-headers/asm-s390/kvm.h                       |   7 +-
+ linux-headers/asm-s390/unistd_32.h                 |   1 +
+ linux-headers/asm-s390/unistd_64.h                 |   1 +
+ linux-headers/asm-x86/unistd_32.h                  |   1 +
+ linux-headers/asm-x86/unistd_64.h                  |   1 +
+ linux-headers/asm-x86/unistd_x32.h                 |   1 +
+ linux-headers/linux/kvm.h                          |  10 +-
+ linux-headers/linux/vfio.h                         |  17 ++-
+ linux-headers/linux/vhost.h                        |   2 +
+ 35 files changed, 554 insertions(+), 62 deletions(-)
+ create mode 100644 hw/s390x/s390-pci-vfio.c
+ create mode 100644 hw/s390x/s390-pci-vfio.h
+
+-- 
+1.8.3.1
 
 
