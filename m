@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B4526DB7C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:27:39 +0200 (CEST)
-Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5F926DB54
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:19:13 +0200 (CEST)
+Received: from localhost ([::1]:48466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIt0k-0003Q6-6K
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
+	id 1kIssa-0006MB-2x
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:19:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kIswq-0008Vl-Ak; Thu, 17 Sep 2020 08:23:36 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4763 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1kIsqt-0005bW-9T; Thu, 17 Sep 2020 08:17:27 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4710 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kIswm-0003Q6-O9; Thu, 17 Sep 2020 08:23:35 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 9F85A6E678F74860A763;
- Thu, 17 Sep 2020 20:23:26 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.175) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 17 Sep 2020 20:23:17 +0800
-From: Peng Liang <liangpeng10@huawei.com>
-To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC v2 07/10] target/arm: Allow ID registers to synchronize to KVM
-Date: Thu, 17 Sep 2020 20:14:46 +0800
-Message-ID: <20200917121449.3442059-8-liangpeng10@huawei.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200917121449.3442059-1-liangpeng10@huawei.com>
-References: <20200917121449.3442059-1-liangpeng10@huawei.com>
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1kIsqp-0002oN-P0; Thu, 17 Sep 2020 08:17:26 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 7D2577891D1007D95006;
+ Thu, 17 Sep 2020 20:17:12 +0800 (CST)
+Received: from [10.174.185.104] (10.174.185.104) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 17 Sep 2020 20:17:03 +0800
+Subject: Re: [RFC PATCH 02/12] target/arm/kvm64: make MPIDR consistent with
+ CPU Topology
+To: Andrew Jones <drjones@redhat.com>
+References: <20200917032033.2020-1-fangying1@huawei.com>
+ <20200917032033.2020-3-fangying1@huawei.com>
+ <20200917075330.7sx3xm7gd4mwqqtq@kamzik.brq.redhat.com>
+From: Ying Fang <fangying1@huawei.com>
+Message-ID: <0e8aa66e-2440-07a5-1fa6-5b42ac757a8a@huawei.com>
+Date: Thu, 17 Sep 2020 20:17:02 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
+In-Reply-To: <20200917075330.7sx3xm7gd4mwqqtq@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.104]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=liangpeng10@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 08:23:14
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 08:17:13
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,188 +63,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
- xiexiangyou@huawei.com, Peng Liang <liangpeng10@huawei.com>,
- pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are 2 steps to synchronize the values of system registers from
-CPU state to KVM:
-1. write to the values of system registers from CPU state to
-   (index,value) list by write_cpustate_to_list;
-2. write the values in (index,value) list to KVM by
-   write_list_to_kvmstate;
 
-In step 1, the values of constant system registers are not allowed to
-write to (index,value) list.  However, a constant system register is
-CONSTANT for guest but not for QEMU, which means, QEMU can set/modify
-the value of constant system registers that is different from phsical
-registers when startup.  But if KVM is enabled, guest can not read the
-values of the system registers which QEMU set unless they can be written
-to (index,value) list.  And why not try to write to KVM if kvm_sync is
-true?
 
-At the moment we call write_cpustate_to_list, all ID registers are
-contant, including ID_PFR1_EL1 and ID_AA64PFR0_EL1 because GIC has been
-initialized.  Hence, let's give all ID registers a chance to write to
-KVM.  If the write is successful, then write to (index,value) list.
+On 9/17/2020 3:53 PM, Andrew Jones wrote:
+> On Thu, Sep 17, 2020 at 11:20:23AM +0800, Ying Fang wrote:
+>> MPIDR helps to provide an additional PE identification in a multiprocessor
+>> system. This patch adds support for setting MPIDR from userspace, so that
+>> MPIDR is consistent with CPU topology configured.
+>>
+>> Signed-off-by: Ying Fang <fangying1@huawei.com>
+>> ---
+>>   target/arm/kvm64.c | 46 ++++++++++++++++++++++++++++++++++++++--------
+>>   1 file changed, 38 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+>> index ef1e960285..fcce261a10 100644
+>> --- a/target/arm/kvm64.c
+>> +++ b/target/arm/kvm64.c
+>> @@ -757,10 +757,46 @@ static int kvm_arm_sve_set_vls(CPUState *cs)
+>>   
+>>   #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
+>>   
+>> +static int kvm_arm_set_mp_affinity(CPUState *cs)
+>> +{
+>> +    uint64_t mpidr;
+>> +    ARMCPU *cpu = ARM_CPU(cs);
+>> +
+>> +    if (kvm_check_extension(kvm_state, KVM_CAP_ARM_MP_AFFINITY)) {
+>> +        /* Make MPIDR consistent with CPU topology */
+>> +        MachineState *ms = MACHINE(qdev_get_machine());
+>> +
+>> +        mpidr = (kvm_arch_vcpu_id(cs) % ms->smp.threads) << ARM_AFF0_SHIFT;
+> 
+> We should query KVM first to determine if it wants guests to see their PEs
+> as threads or not. If not, and ms->smp.threads is > 1, then that's an
+> error. And, in any case, if ms->smp.threads == 1, then we shouldn't waste
+> aff0 on it, as that could reduce IPI broadcast performance.
 
-Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-Signed-off-by: Peng Liang <liangpeng10@huawei.com>
----
- target/arm/kvm_arm.h |  3 +++
- target/arm/helper.c  | 46 +++++++++++++++++++++++++++++++++-----------
- target/arm/kvm.c     | 38 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 76 insertions(+), 11 deletions(-)
+Yes, good catch. Should check against smp.threads before filling
+the MPIDR value.
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 33b3f107b47d..cf1c9c9cdb4c 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -479,4 +479,7 @@ static inline const char *its_class_name(void)
-     }
- }
- 
-+int kvm_arm_get_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *target);
-+int kvm_arm_set_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *source);
-+
- #endif
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 26fef7424904..e489d744f15a 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -34,6 +34,7 @@
- #include "arm_ldst.h"
- #include "exec/cpu_ldst.h"
- #endif
-+#include "kvm_arm.h"
- 
- #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
- 
-@@ -353,6 +354,16 @@ static bool raw_accessors_invalid(const ARMCPRegInfo *ri)
-     return true;
- }
- 
-+static inline bool is_id_register(const ARMCPRegInfo *ri)
-+{
-+    /*
-+     * (Op0, Op1, CRn, CRm, Op2) of ID registers is (3, 0, 0, crm, op2),
-+     * where 1<=crm<8, 0<=op2<8.
-+     */
-+    return ri->opc0 == 3 && ri->opc1 == 0 && ri->crn == 0 &&
-+        ri->crm > 0 && ri->crm < 8;
-+}
-+
- bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync)
- {
-     /* Write the coprocessor state from cpu->env to the (index,value) list. */
-@@ -369,30 +380,43 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync)
-             ok = false;
-             continue;
-         }
--        if (ri->type & ARM_CP_NO_RAW) {
-+        /* Let's give ID registers a chance to synchronize to kvm. */
-+        if ((ri->type & ARM_CP_NO_RAW) && !(kvm_sync && is_id_register(ri))) {
-             continue;
-         }
- 
-         newval = read_raw_cp_reg(&cpu->env, ri);
-         if (kvm_sync) {
--            /*
--             * Only sync if the previous list->cpustate sync succeeded.
--             * Rather than tracking the success/failure state for every
--             * item in the list, we just recheck "does the raw write we must
--             * have made in write_list_to_cpustate() read back OK" here.
--             */
--            uint64_t oldval = cpu->cpreg_values[i];
-+            /* Only sync if we can sync to KVM successfully. */
-+            uint64_t oldval;
-+            uint64_t kvmval;
- 
-+            if (kvm_arm_get_one_reg(cpu, cpu->cpreg_indexes[i], &oldval)) {
-+                continue;
-+            }
-             if (oldval == newval) {
-                 continue;
-             }
- 
--            write_raw_cp_reg(&cpu->env, ri, oldval);
--            if (read_raw_cp_reg(&cpu->env, ri) != oldval) {
-+            if (kvm_arm_set_one_reg(cpu, cpu->cpreg_indexes[i], &newval)) {
-+                if (is_id_register(ri)) {
-+                    ok = false;
-+                    error_report("Cannot set ID regsiter %s: %s", ri->name,
-+                                 strerror(errno));
-+                }
-+                continue;
-+            }
-+            if (kvm_arm_get_one_reg(cpu, cpu->cpreg_indexes[i], &kvmval) ||
-+                kvmval != newval) {
-+                if (is_id_register(ri)) {
-+                    ok = false;
-+                    error_report("Setting ID register %s doesn't effect",
-+                                 ri->name);
-+                }
-                 continue;
-             }
- 
--            write_raw_cp_reg(&cpu->env, ri, newval);
-+            kvm_arm_set_one_reg(cpu, cpu->cpreg_indexes[i], &oldval);
-         }
-         cpu->cpreg_values[i] = newval;
-     }
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 2eae73315d6e..5b5cde5e821e 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -490,6 +490,44 @@ out:
-     return ret;
- }
- 
-+int kvm_arm_get_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *target)
-+{
-+    uint32_t v32;
-+    int ret;
-+
-+    switch (regidx & KVM_REG_SIZE_MASK) {
-+    case KVM_REG_SIZE_U32:
-+        ret = kvm_get_one_reg(CPU(cpu), regidx, &v32);
-+        if (ret == 0) {
-+            *target = v32;
-+        }
-+        return ret;
-+    case KVM_REG_SIZE_U64:
-+        return kvm_get_one_reg(CPU(cpu), regidx, target);
-+    default:
-+        return -1;
-+    }
-+}
-+
-+int kvm_arm_set_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *source)
-+{
-+    uint32_t v32;
-+
-+    switch (regidx & KVM_REG_SIZE_MASK) {
-+    case KVM_REG_SIZE_U32:
-+        v32 = *source;
-+        if (v32 != *source) {
-+            error_report("the value of source is too large");
-+            return -1;
-+        }
-+        return kvm_set_one_reg(CPU(cpu), regidx, &v32);
-+    case KVM_REG_SIZE_U64:
-+        return kvm_set_one_reg(CPU(cpu), regidx, source);
-+    default:
-+        return -1;
-+    }
-+}
-+
- bool write_kvmstate_to_list(ARMCPU *cpu)
- {
-     CPUState *cs = CPU(cpu);
--- 
-2.26.2
+> 
+>> +        mpidr |= ((kvm_arch_vcpu_id(cs) / ms->smp.threads % ms->smp.cores)
+>> +                                    & 0xff) << ARM_AFF1_SHIFT;
+>> +        mpidr |= (kvm_arch_vcpu_id(cs) / (ms->smp.cores * ms->smp.threads)
+>> +                                    & 0xff) << ARM_AFF2_SHIFT;
+>> +
+>> +        /* Override mp affinity when KVM is in use */
+>> +        cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+>> +
+>> +        /* Bit 31 is RES1 indicates the ARMv7 Multiprocessing Extensions */
+>> +        mpidr |= (1ULL << 31);
+>> +        return kvm_vcpu_ioctl(cs, KVM_ARM_SET_MP_AFFINITY, &mpidr);
+>> +    } else {
+>> +        /*
+>> +         * When KVM_CAP_ARM_MP_AFFINITY is not supported, it means KVM has its
+>> +         * own idea about MPIDR assignment, so we override our defaults with
+>> +         * what we get from KVM.
+>> +         */
+>> +        int ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
+>> +        if (ret) {
+>> +            error_report("failed to set MPIDR");
+> 
+> We don't need this error, kvm_get_one_reg() has trace support already.
+> Anyway, the wording is wrong since it says 'set' instead of 'get'.
 
+Yes, my careless, I will fix it.
+
+> 
+>> +            return ret;
+>> +        }
+>> +        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
+>> +        return ret;
+>> +    }
+>> +}
+>> +
+>>   int kvm_arch_init_vcpu(CPUState *cs)
+>>   {
+>>       int ret;
+>> -    uint64_t mpidr;
+>>       ARMCPU *cpu = ARM_CPU(cs);
+>>       CPUARMState *env = &cpu->env;
+>>   
+>> @@ -814,16 +850,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>>           }
+>>       }
+>>   
+>> -    /*
+>> -     * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+>> -     * Currently KVM has its own idea about MPIDR assignment, so we
+>> -     * override our defaults with what we get from KVM.
+>> -     */
+>> -    ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
+>> +    ret = kvm_arm_set_mp_affinity(cs);
+>>       if (ret) {
+>>           return ret;
+>>       }
+>> -    cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+>>   
+>>       kvm_arm_init_debug(cs);
+>>   
+>> -- 
+>> 2.23.0
+>>
+>>
+> 
+> Thanks,
+> drew
+> 
+> .
+> 
 
