@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8507D26DF3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:11:36 +0200 (CEST)
-Received: from localhost ([::1]:36240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4717626DF5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:14:53 +0200 (CEST)
+Received: from localhost ([::1]:49136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvZP-0006lG-I8
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:11:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54472)
+	id 1kIvca-0003jQ-7S
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPW-0001i6-CY
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:27 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:51886)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPb-0001im-LN
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:28 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPR-00010Z-Nw
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:21 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id a9so1430148pjg.1
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:01:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPX-00011h-Om
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:27 -0400
+Received: by mail-pf1-x441.google.com with SMTP id n14so1373612pff.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:01:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ughGQhnpv0vI//S8mrXDQnorJKmr6CWqkbIT0eqOuAw=;
- b=PbOC/y9WV/NEGJ22+DSCW/3bSzeRHWJjjjiYEzBftJctfmq7db8Zgx5rBFjBzM3KC9
- +NlUitMB8+rha9f6K07eU9gI+M0iWCp8uFlWhjzqdqpUkLnBe8AwqTIkvXwS0NW50eBz
- csAd5XQeK419LDm5/t1Z3kn8eQS/RUH65q391ibOm6pVor92pzskZ4hSmqBoFXM2GiMm
- xyGlNzmpchrY5Z1dG2fA3/mjJnuboOtjcIyx6yn3YXnZphR5/HclFkts7lxw+LW9J4tZ
- 5C1XzwA9nTaKH9cp5r2sQW+d80Gqn5INeaBGlI66QVwO90rxD89rgA0ge0aT4V1ro/xt
- azEA==
+ bh=V/i6UARRudUJoRdXtPW9d7XXfNZPRvXdDsElEekj7OA=;
+ b=h0p+bUJfNtR6WpKeqJsU6F8ojj3VcnSLGwuYow+H7L5t7jbDUefPU1kxTWuWrc35Gj
+ /FdegjWtpjWN7jisAl4uUWrP/sMHUAoKkFC1zbp5VlNqaB5jOSXj+euYtb4ta3wy+rT7
+ zm0/ld67a7kPF6hqYnR8GoY2qn+YNwzztC0MLx6RQLsnV/RBUM7qj4f4HGIiF7TXQEor
+ 7LNQLmz7pG7Y0Z9c9y8k/zqd7CCGmzAwxXhUVaTDObb7+GyKFIhtjJSZ9yHm1qMLQKGe
+ ipbWOt5HUouwfdkQgLIoJP+e0s2miC45uxgNXEjZV9oBhaQcOarQyQig5eYXHzLZvVl1
+ x+Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ughGQhnpv0vI//S8mrXDQnorJKmr6CWqkbIT0eqOuAw=;
- b=ZSSX3VqkbTclAfI10uV4J1vm0h2LpvgMA94g9nRNuTASNOHt5MoXuBemZL2sBKtdWl
- Ly3/h6ZxghvwjABfTS1VS/ysOisQtoF0LN/0aLY9kLbrJU0Ey9IRhw/Gjl11oPBpwzzE
- CW2iM93RCAXITj7D2b+hNwUVj9myWb5afKglS+DXBDe6N+i87pv/tAP6AmITwCcepMUz
- 2ngFsDhOWqTOrRtOQr6VFBTbBjMCxSUsmOOJfnbbNwGTrzxLgmNBtmu5R7uYe7mKZTgD
- 9K87MydwtZd1BSeX20/Xsi6zXdystSGTNvv/BftkVS8EkxCEMI3WzMzuPlCfBxguPbg8
- Ghtg==
-X-Gm-Message-State: AOAM531yL/z17eU4tQPTSok7hqPAiL1H3n6kgl4NzPrjC7t6M195+E/q
- +KuZuQbhyPv16XcoCQ863hIFJbRqtFV4uoBz
-X-Google-Smtp-Source: ABdhPJx69rgc5ViBo/km+9y0X7nmM0qHRuFVW/rrshmyWwUJ2RQy2m6iNJfu4Qk5j0gqwoIaTJhbnQ==
-X-Received: by 2002:a17:90b:1111:: with SMTP id
- gi17mr9054857pjb.109.1600354875783; 
- Thu, 17 Sep 2020 08:01:15 -0700 (PDT)
+ bh=V/i6UARRudUJoRdXtPW9d7XXfNZPRvXdDsElEekj7OA=;
+ b=ERBPKsglLLMzNear7rnp2lryRNPRuiYX3Zd3K2al6teiYl3pmEGAd5fpdeM3gPXVd3
+ 1Zz4QMV9Z4Z3+E7tmSoT9cMC/Ut4jwikwzBEf+xO8ZeysEKq5nzVLh4CPTDT0BKTHJZI
+ kvRfER8ANMgaqDF02mPb4qy5QctbYEwjP4ZhRNud+eZFbndU6ZGAMa3+NaT36p3Yqwhy
+ LDSjDTsk571nV2m/2e+XExKcqGOTC1kUykqXl4p3Mabsx+svqmtO2KmU7mp0aeyCqasK
+ hXaOPAgChnky1U0WxRI4cxhE8jacJLlSmEFszyT4dUfwWlUFSMlGfooSH3vw4a9TvPuP
+ kWLQ==
+X-Gm-Message-State: AOAM531pknc+5t4uYXrz27LuriYfGiukS+Kenk2EnQn5QxG9bMM8TUOl
+ 0Ucn64czbBe3yG7yCymsNDgO18suN6DcYiRA
+X-Google-Smtp-Source: ABdhPJyHRRbzPkGPGAjSR9na58vs0xyTjNass6PqhsR7iQhd/DxWRArJARejBvUZs6LnRp6jpRgTsg==
+X-Received: by 2002:a62:1902:0:b029:13e:d13d:a12e with SMTP id
+ 2-20020a6219020000b029013ed13da12emr26935896pfz.22.1600354881894; 
+ Thu, 17 Sep 2020 08:01:21 -0700 (PDT)
 Received: from localhost.localdomain ([115.96.151.231])
- by smtp.googlemail.com with ESMTPSA id e10sm17674374pgb.45.2020.09.17.08.01.11
+ by smtp.googlemail.com with ESMTPSA id e10sm17674374pgb.45.2020.09.17.08.01.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 08:01:14 -0700 (PDT)
+ Thu, 17 Sep 2020 08:01:19 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 05/12] i440fx/acpi: do not add hotplug related amls for
- cold plugged bridges
-Date: Thu, 17 Sep 2020 20:30:37 +0530
-Message-Id: <20200917150044.23159-6-ani@anisinha.ca>
+Subject: [PATCH v8 06/12] tests/acpi: list added acpi table binary file for
+ pci bridge hotplug test
+Date: Thu, 17 Sep 2020 20:30:38 +0530
+Message-Id: <20200917150044.23159-7-ani@anisinha.ca>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200917150044.23159-1-ani@anisinha.ca>
 References: <20200917150044.23159-1-ani@anisinha.ca>
-Received-SPF: none client-ip=2607:f8b0:4864:20::1044;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1044.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::441;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -82,150 +82,29 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- jusual@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cold plugged bridges are not hot unpluggable, even when their hotplug
-property (acpi-pci-hotplug-with-bridge-support) is turned off. Please see
-the function acpi_pcihp_pc_no_hotplug(). However, with
-the current implementaton, Windows would try to hot-unplug a pci bridge when
-it's hotplug switch is off. This is regardless of whether there are devices
-attached to the bridge. This is because we add ACPI code like _EJ0 etc for the
-pci slot where the bridge is cold plugged.
-
-In this fix, we identify a cold plugged bridge and for cold plugged bridges,
-we do not add the appropriate ACPI methods that are used by the OS
-to identify a hot-pluggable/unpluggable pci device. After this change, Windows
-does not detect the cold plugged pci bridge as ejectable.
-
-As a result of the patch, the following are the changes to the DSDT ACPI
-table:
-
-@@ -858,38 +858,33 @@
-                     Return (Zero)
-                 }
-
-                 Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-                 {
-                     Return (Zero)
-                 }
-
-                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-                 {
-                     Return (Zero)
-                 }
-             }
-
-             Device (S18)
-             {
--                Name (_SUN, 0x03)  // _SUN: Slot User Number
-                 Name (_ADR, 0x00030000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
-             }
-
-             Device (S20)
-             {
-                 Name (_SUN, 0x04)  // _SUN: Slot User Number
-                 Name (_ADR, 0x00040000)  // _ADR: Address
-                 Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-                 {
-                     PCEJ (BSEL, _SUN)
-                 }
-             }
-
-             Device (S28)
-             {
-                 Name (_SUN, 0x05)  // _SUN: Slot User Number
-                 Name (_ADR, 0x00050000)  // _ADR: Address
-@@ -1148,37 +1143,32 @@
-                     PCEJ (BSEL, _SUN)
-                 }
-             }
-
-             Device (SF8)
-             {
-                 Name (_SUN, 0x1F)  // _SUN: Slot User Number
-                 Name (_ADR, 0x001F0000)  // _ADR: Address
-                 Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-                 {
-                     PCEJ (BSEL, _SUN)
-                 }
-             }
-
-             Method (DVNT, 2, NotSerialized)
-             {
--                If ((Arg0 & 0x08))
--                {
--                    Notify (S18, Arg1)
--                }
--
-                 If ((Arg0 & 0x10))
-                 {
-                     Notify (S20, Arg1)
-                 }
-
-                 If ((Arg0 & 0x20))
-                 {
-                     Notify (S28, Arg1)
-                 }
-
-                 If ((Arg0 & 0x40))
-                 {
-                     Notify (S30, Arg1)
-                 }
-
-                 If ((Arg0 & 0x80))
-
-While at it, I have also updated a stale comment.
+The file 'tests/data/acpi/pc/DSDT.hpbridge' is a newly added acpi table file
+for testing the pci bridge option 'acpi-pci-hotplug-with-bridge-support' under
+i440fx. This change documents this fact.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Suggested-by: Julia Suvorova <jusual@redhat.com>
-Reviewed-by: Julia Suvorova <jusual@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 7a5a8b3521..e079b686f5 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -359,6 +359,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         int slot = PCI_SLOT(i);
-         bool hotplug_enabled_dev;
-         bool bridge_in_acpi;
-+        bool cold_plugged_bridge;
- 
-         if (!pdev) {
-             if (bsel) { /* add hotplug slots for non present devices */
-@@ -380,15 +381,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         pc = PCI_DEVICE_GET_CLASS(pdev);
-         dc = DEVICE_GET_CLASS(pdev);
- 
--        /* When hotplug for bridges is enabled, bridges are
--         * described in ACPI separately (see build_pci_bus_end).
--         * In this case they aren't themselves hot-pluggable.
-+        /*
-+         * Cold plugged bridges aren't themselves hot-pluggable.
-          * Hotplugged bridges *are* hot-pluggable.
-          */
--        bridge_in_acpi = pc->is_bridge && pcihp_bridge_en &&
--            !DEVICE(pdev)->hotplugged;
-+        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
-+        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
- 
--        hotplug_enabled_dev = bsel && dc->hotpluggable && !bridge_in_acpi;
-+        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
- 
-         if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
-             continue;
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..96a9237355 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT.hpbridge",
 -- 
 2.17.1
 
