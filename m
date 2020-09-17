@@ -2,113 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B510C26E065
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:14:07 +0200 (CEST)
-Received: from localhost ([::1]:33554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B32F26E084
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:21:51 +0200 (CEST)
+Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwXu-0003KZ-P9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47198)
+	id 1kIwfM-0000vd-7O
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:21:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kIwVW-0001em-4v
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:11:38 -0400
-Received: from mail-bn8nam12on2057.outbound.protection.outlook.com
- ([40.107.237.57]:12001 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kIwVU-0006C4-49
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:11:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TZMZEvqygOV+GaHYDeMz/WyupZQb9gYPNkZQgY33gl7ubfyEtbMos1XJyxDEKT7fNHcBXzCT8foO2XcYsZSHgDbn23BBmUEkBR7LsWodMOOOvtaqDQOC3+83BmKtgceBz8StMVCj2oMb/dxTHJt5ZMgvmrQha/bBwuBC24MYWfCSFFM/rVWeQJzEBm+gG7GcKMvNbQtRnqEMNp6VnOihSZho5yJ9pmThzba3gZIblOEuI5HQihGqoR80l4m8mIizjYhxbO76JR+vb6mtUVkQJP6byLhjgA+dlsBoQDgS9dS/DtoZ1v0J5opTkuZQk2E72f0DgyWWfFjse3NiLKQ8SQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B/eq/JFdFG5RCwhMtaziUiEDG2xEtqQn/xKir7bYh5g=;
- b=QvfK4GvCK1jvyKrb2RmU3ba7QqwSTaah1d8VUlvz+EmIvOWihQsh711HFO76pBDJGVmAv7IwgyQPSvHdCBMJys23/u4o5qf/L1P8MZXu+pqLu106SOx9bwHUCHfGRDgADgeUR2eNcBrkEhNM5t35dxdVpOdJ+w07wlaAfgmdHxLFLQAjeqgBEeHwBbyAeyVcXYXJzBxugr479AUOzo5mp23OgtkLP9FZHpnInygIrVYFeR+9zf5dODcxdlOXdqXlCM2i0uaj7s0taZf8oSBkdAPt5yDimSiU3Fv9PqC2vl4mOnlqg7F3bqfihGHnwby2qsL6AI/cFHXZFsdFWg0rxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B/eq/JFdFG5RCwhMtaziUiEDG2xEtqQn/xKir7bYh5g=;
- b=knVFBys3ay7FUUA8oNvkykrTKH5O7bTjWrte6SJ7iV6rBWnBbW2IGXeCWAYFAg583oWqh9f8elmV6gyvm3is0oTLXsF/f+J/X7qBcAIEWKlydj0szQF2F4zCXgD1/WYx9lsJfsAj92olubSn9nNUc+To93XnJYwkF1h8tk7owGg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM6PR12MB3179.namprd12.prod.outlook.com (2603:10b6:5:183::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3348.16; Thu, 17 Sep 2020 16:11:32 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346%3]) with mapi id 15.20.3391.011; Thu, 17 Sep 2020
- 16:11:32 +0000
-Subject: Re: [PATCH v3 5/5] sev/i386: Enable an SEV-ES guest based on SEV
- policy
-From: Tom Lendacky <thomas.lendacky@amd.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <cover.1600205384.git.thomas.lendacky@amd.com>
- <8e560a8577066c07b5bf1e5993fbd6d697702384.1600205384.git.thomas.lendacky@amd.com>
- <20200917153429.GL2793@work-vm>
- <81e64c83-f41c-d8f0-3268-ec6185f4a8dc@amd.com>
-Message-ID: <3c401a2d-db30-8d85-c474-5bb56f1c6f16@amd.com>
-Date: Thu, 17 Sep 2020 11:11:30 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIwZX-0005me-Kl
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:15:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22057)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIwZN-0007F7-UH
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:15:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600359336;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=whKUzThs0csxZPNrQen/HPExnkGE5sVOjQqUGE0+2UU=;
+ b=Fl1GMi+U/1CYPPgAMajxAJCvl8cAJWUpAHY/DEhIjSrexaQ1J/bVXRrbyY0uium448sVX7
+ eOfGNmjvL7AgCy1rTxQcmerSFW2omGcEqJRwOxyedKXgAEQV8xLfdgY2L6DBsv3NzCxPHw
+ R0oJOCj7naBDKE2q9KJo53dV1bg6oNI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-Jfw43iEdO0OCnUXXM8Vinw-1; Thu, 17 Sep 2020 12:15:31 -0400
+X-MC-Unique: Jfw43iEdO0OCnUXXM8Vinw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F14910BBED9;
+ Thu, 17 Sep 2020 16:15:30 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-38.ams2.redhat.com [10.36.113.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A941F19930;
+ Thu, 17 Sep 2020 16:15:22 +0000 (UTC)
+Subject: Re: [PATCH] docs: simplify and clarify the platform support rules
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200917155606.1623795-1-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b6a3673d-8767-ba44-7357-1297ff5c6f83@redhat.com>
+Date: Thu, 17 Sep 2020 18:15:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <81e64c83-f41c-d8f0-3268-ec6185f4a8dc@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN6PR04CA0075.namprd04.prod.outlook.com
- (2603:10b6:805:f2::16) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from office-linux.texastahm.com (67.79.209.213) by
- SN6PR04CA0075.namprd04.prod.outlook.com (2603:10b6:805:f2::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.11 via Frontend Transport; Thu, 17 Sep 2020 16:11:31 +0000
-X-Originating-IP: [67.79.209.213]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0e44a48b-031c-4615-9a27-08d85b2457cf
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3179:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB317977C683E61A4782CA3545EC3E0@DM6PR12MB3179.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dVl0ot/Vndp0NR2V6Dx1W8Qd6AMfJvUuHEEfEAUtX6sK072lbQaGcdZ4VG+rP8wffgZao8/mLfz4UcBGSrJO+gQsvgNLSeG3/L30Glit2dVze0AM0FJtovRkc/xzV7Uc53xREtwpk5FFug2hZ/3FEwo7mzWRz0DfaxISi+TxgdVp+NhEsF/PcqKPUKR3VvsqxxaQkuInmQX2qUTvIjih5z55F/UlypXyAS5OYPchlqiLGIOMlFuthonhPCLJn6/GYDGkSliu7B3EQc1pkWW117qzWbOdhP65B95iWArD2aaN8qsug7qwkylyF+gZ62qXzGJkYrNYC68+138IIwmxqb6AL8ssofhCdccXsKWz99w38xYZKTAarsjZ6IwwyrRR
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(346002)(376002)(136003)(396003)(6916009)(31696002)(66556008)(83380400001)(6512007)(66946007)(66476007)(956004)(2616005)(316002)(478600001)(86362001)(2906002)(36756003)(5660300002)(6486002)(54906003)(16526019)(6506007)(31686004)(7416002)(4326008)(186003)(52116002)(8676002)(8936002)(53546011)(26005)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 2NHWQNJoIyBb9BLWLAbAwzIIlY2nZNM16tgzW7Gqz0LBoHdQZW/L7SafshVPoVZrWcW7gZdF1b/UNSCqoaibifnxHyJPzBSFPfJTM5Qcs1LJ6clf/v89CMrlL/XsZFm5TJtL/QBPghIcb0up8CaUe5LwMvqxriKK6+I3juss+iDblII7mbOzGatB5GsNcGnp0Fwga7TIh/4Vl9qkGi04PrFmSO6Hi2cjxR6tjGNAFZrYDSSQwUs3SQJDgt1iOzYrmqwAD13XG5ZvdVSPOfy8uJMIa6BqNzu8K6BcbIngsBRQRQ6QPlkkMZhDB2JopvPPYYPN7+zkP9C6ZjqCJMhGcoIrBfKMr9y1ikl2D/kS6ko3Wwh+QswP46wi2wAfKMGpkUmM2Nr6QA36LRUhHLFjce8wV8rgeVTaVufXzaOZKV7sFWXEqACzsTKiablYJeteOKX6JTQqH7G+IGF/tldMzSEf08MAgKJj4QdTD02PUPUNI84J2GCnUowSbTGCEYlRjgAxWOARzsgTXB6JmAMWUKbCEfYtxj7aDLn2AJx5Ui+ABhPh+uc9lAH6vHdZKrPoN98K6kIRi8EpEMv/B+LL0zg8npk1jg2lzaLEPTSdD6FowEMsWKNIOcVS7Pjc76MThWRszphWmowx2Cc1LSOhlQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e44a48b-031c-4615-9a27-08d85b2457cf
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 16:11:32.6097 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x/FMx82DxKQiV8gaeVsEZrYnxsyJN+DFSIZ8s2jHfsTy4kxePhd48/zmP24RjHm1evWmNVvVwQqX9NigibKURQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3179
-Received-SPF: none client-ip=40.107.237.57;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 12:11:34
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200917155606.1623795-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,75 +83,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/20 11:07 AM, Tom Lendacky wrote:
-> On 9/17/20 10:34 AM, Dr. David Alan Gilbert wrote:
->> * Tom Lendacky (thomas.lendacky@amd.com) wrote:
->>> From: Tom Lendacky <thomas.lendacky@amd.com>
->>>
->>> Update the sev_es_enabled() function return value to be based on the SEV
->>> policy that has been specified. SEV-ES is enabled if SEV is enabled and
->>> the SEV-ES policy bit is set in the policy object.
->>>
->>> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
->>> ---
->>>   target/i386/sev.c | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/target/i386/sev.c b/target/i386/sev.c
->>> index 6ddefc65fa..bcaadaa2f9 100644
->>> --- a/target/i386/sev.c
->>> +++ b/target/i386/sev.c
->>> @@ -70,6 +70,8 @@ struct SevGuestState {
->>>   #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
->>>   #define DEFAULT_SEV_DEVICE      "/dev/sev"
->>> +#define GUEST_POLICY_SEV_ES_BIT (1 << 2)
->>> +
->>
->> I'm surprised that all the policy bits aren't defined in a header 
->> somewhere.
+On 17/09/2020 17.56, Daniel P. Berrangé wrote:
+> The distinction between short life and long life Linux distributions
+> turned out to be redundant. They can both be covered in a simple way
+> by noting support will target the current release, and the previous
+> release for a period of two years or until its EOL. This rule can also
+> apply to the other UNIX based distros, leaving only Windows needing a
+> different set of rules.
 > 
-> I have another version to be issued with changes to use QemuUUID, so I can 
-> look at moving the bits to a header.
-
-Hmmm... and they already are defined in target/i386/sev_i386.h. I guess I 
-was looking for sev.h and didn't notice sev_i386.h. So I'll update to use 
-the values in sev_i386.h.
-
-Thanks,
-Tom
-
+> This also clarifies that Debian LTS is out of scope, because the LTS
+> support is provided by a separate group from the main Debian maintainer
+> team.
 > 
-> Thanks,
-> Tom
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
 > 
->>
->> But other than that,
->>
->>
->> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>
->>>   /* SEV Information Block GUID = 00f771de-1a7e-4fcb-890e-68c77e2fb44e */
->>>   #define SEV_INFO_BLOCK_GUID \
->>>       "\xde\x71\xf7\x00\x7e\x1a\xcb\x4f\x89\x0e\x68\xc7\x7e\x2f\xb4\x4e"
->>> @@ -375,7 +377,7 @@ sev_enabled(void)
->>>   bool
->>>   sev_es_enabled(void)
->>>   {
->>> -    return false;
->>> +    return sev_enabled() && (sev_guest->policy & 
->>> GUEST_POLICY_SEV_ES_BIT);
->>>   }
->>>   uint64_t
->>> -- 
->>> 2.28.0
->>>
+> This is a spin off from the Python 3.5 thread
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg06358.html
+> 
+>  docs/system/build-platforms.rst | 59 ++++++++++-----------------------
+>  1 file changed, 18 insertions(+), 41 deletions(-)
+> 
+> diff --git a/docs/system/build-platforms.rst b/docs/system/build-platforms.rst
+> index 9734eba2f1..03d2fd217f 100644
+> --- a/docs/system/build-platforms.rst
+> +++ b/docs/system/build-platforms.rst
+> @@ -29,51 +29,28 @@ The Repology site https://repology.org is a useful resource to identify
+>  currently shipped versions of software in various operating systems,
+>  though it does not cover all distros listed below.
+>  
+> -Linux OS
+> ---------
+> +Linux OS, macOS, FreeBSD, NetBSD, OpenBSD
+> +-----------------------------------------
+>  
+> -For distributions with frequent, short-lifetime releases, the project
+> -will aim to support all versions that are not end of life by their
+> -respective vendors. For the purposes of identifying supported software
+> -versions, the project will look at Fedora, Ubuntu, and openSUSE distros.
+> -Other short- lifetime distros will be assumed to ship similar software
+> -versions.
+> +The project aims to support the most recent major version at all times. Support
+> +for the previous major version will be dropped 2 years after the new major
+
+I hope it is clear that for Ubuntu, major version means LTS and not each
+and every bi-annual release?
+
+> +version is released or when the vendor itself drops support, whichever comes
+> +first. In this context, third-party efforts to extend the lifetime of a distro
+> +are not considered, even when they are endorsed by the vendor (eg. Debian LTS).
+>  
+> -For distributions with long-lifetime releases, the project will aim to
+> -support the most recent major version at all times. Support for the
+> -previous major version will be dropped 2 years after the new major
+> -version is released, or when it reaches "end of life". For the purposes
+> -of identifying supported software versions, the project will look at
+> -RHEL, Debian, Ubuntu LTS, and SLES distros. Other long-lifetime distros
+> -will be assumed to ship similar software versions.
+> +For the purposes of identifying supported software versions available on Linux,
+> +the project will look at CentOS, Debian, Fedora, openSUSE, RHEL, SLES and
+> +Ubuntu LTS. Other distros will be assumed to ship similar software versions.
+
+Ok, here you explicitly state Ubuntu LTS, so I think it should be clear.
+
+> -Windows
+> --------
+> -
+> -The project supports building with current versions of the MinGW
+> -toolchain, hosted on Linux.
+> -
+> -macOS
+> ------
+> -
+> -The project supports building with the two most recent versions of
+> -macOS, with the current Homebrew package set available.
+> +For FreeBSD, decisions will be made based on the contents of the ports tree;
+> +for macOS, `HomeBrew`_ will be used, although `MacPorts`_ is expected to carry
+> +similar versions.
+>  
+> -FreeBSD
+> +Windows
+>  -------
+>  
+> -The project aims to support all versions which are not end of
+> -life.
+> -
+> -NetBSD
+> -------
+> -
+> -The project aims to support the most recent major version at all times.
+> -Support for the previous major version will be dropped 2 years after the
+> -new major version is released.
+> -
+> -OpenBSD
+> --------
+> +The project supports building with current versions of the MinGW toolchain,
+> +hosted on Linux (Debian/Fedora).
+>  
+> -The project aims to support all versions which are not end of
+> -life.
+> +The version of the Windows API that's currently targeted is Vista / Server
+> +2008.
+> 
+
+Sounds good to me.
+
+Acked-by: Thomas Huth <thuth@redhat.com>
+
 
