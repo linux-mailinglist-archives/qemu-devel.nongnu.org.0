@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC8426DFD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:41:44 +0200 (CEST)
-Received: from localhost ([::1]:54276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F0B26DFD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:41:24 +0200 (CEST)
+Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIw2Z-00073i-H8
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34944)
+	id 1kIw2F-00063r-0A
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:41:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIvsE-0004nn-F1
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:31:02 -0400
-Resent-Date: Thu, 17 Sep 2020 11:31:02 -0400
-Resent-Message-Id: <E1kIvsE-0004nn-F1@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIvsC-00073D-38
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:31:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600356650; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=UJ0qGeAQJGENhbUX7VzesZppaKeIYbh+3gFma/ZcBnyfxBSdkLbYXEmK/+qwocWD2kBqsADXJ9tEF4b6HqIlQVPsbqfA6NUTyRMjO2lTyMjnOoqMt/mCpydV+Pon9QDYNrFOF9NVjaG0xcQEVr3I7GFq4H75eg+WEuIVici9Lrk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600356650;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=PTr/D/2PsQ0Ns+I+p8aTy7bPmaMy3POCqoSL0O3XU9I=; 
- b=lOF+Jt5ZQasAAEbwG4KFxSHOhpzPe3hoMJGh+Gv3RqtxqDIrrRg0M5O1w4YnmRUcW3D0q1boEn7B1iI1uNt8Rm+ilLP52F6NnwxVYYY63n7vsW33L48EvPOpuyc8jjusiLYYBBjNIBnzXOY18A6jzx8HzURH3m5F/Qm9ZWDM58Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 16003566498812.2776726763264605;
- Thu, 17 Sep 2020 08:30:49 -0700 (PDT)
-Subject: Re: [PATCH v8 00/12] i440fx/acpi: addition of feature and bug fixes.
-Message-ID: <160035664785.8478.18308017873577590455@66eaa9a8a123>
-In-Reply-To: <20200917150044.23159-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kIvv2-0006WN-Dp
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:33:56 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46092)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kIvuw-0007SH-LN
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:33:55 -0400
+Received: by mail-pf1-x444.google.com with SMTP id b124so1419582pfg.13
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gzT4rpVgLlQznvuXLMgqlzQk0medGO7o37UVhPCFga8=;
+ b=PbbJ3wcmUAxQ4Ybzb2aXk0ACOn5i5JWvchxhWrnad8/i2nM54eXsy66bfVAiSst5Qx
+ I4fQu97TOtJZ16mtCGoVzUC85Z9geA6fqEf4zS8nRfsR6FQFa/mjzhyr3b8CDuvu/06G
+ b/T/xr/7BdZTsQBM5UDs6vLOHN4MkXk7yisH7vQU1wu3q7c+l6OnZ9AopmE2lHAT+DoW
+ LkTfBU8WL07zSkx5zSeaYIqXJzxmIkeVSyJp1uMTMLgdfx1jdKSQc5GFeLPc0r9LLMMD
+ /9wZKQOX7/BBTlZQPxUixiRLQegROEabdLX4gew0E2ihWcn2R+KujckWELOM5FOfL2g8
+ wfIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gzT4rpVgLlQznvuXLMgqlzQk0medGO7o37UVhPCFga8=;
+ b=ejjAKIkb5lBmbSWW4ZkP5DXSJRZX4L3VQoseBJmqxDWz6fVSwZFdINexGwHaqoPIxJ
+ 1GmmnaA0EYd2Ixcyrm6niibPKvrdxXuLP2dDYtKbApuT5eBAt+HpiuislLUbOtytCVyz
+ DJqGiiGTfDuJN6qu4rbJMWAxdF+2yoDX871Vbm7gvgpeH5wEu8k0U1M9aKnW8eeNDgcC
+ nckcHBm0lNa2sOT6PRoOcssgUSkumEQCatqnRtej0v/6WkvuIPu6VyoX/guvdtdV+NFQ
+ UtryDUZmp6sWiydPoV275/Xv9OF+LdhWbLye2fLdCwSOEn2BSWUAhWBS/CnXio0DZkgF
+ LIhQ==
+X-Gm-Message-State: AOAM533QiEPEp+Qe4a4GLqKXaXDXJ6J7XCH051oHYEoRfAv26zEtExqt
+ qno50P/cPrbJJ1NBVT0+n0ATxQ==
+X-Google-Smtp-Source: ABdhPJy/yvxlpGRIxOOSAea9oXGBb9WdgRwgF8EtyhgxHfXyDmr50oPI/xhpJ6xAWjtvKXH6VALpPg==
+X-Received: by 2002:a63:e645:: with SMTP id p5mr22491016pgj.276.1600356827624; 
+ Thu, 17 Sep 2020 08:33:47 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id a27sm20864367pfk.52.2020.09.17.08.33.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Sep 2020 08:33:46 -0700 (PDT)
+Subject: Re: [PATCH v1] s390x/tcg: Implement MONITOR CALL
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200917115447.10503-1-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <17b2cca5-f21d-1323-1003-3d9731a698cc@linaro.org>
+Date: Thu, 17 Sep 2020 08:33:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ani@anisinha.ca
-Date: Thu, 17 Sep 2020 08:30:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:07:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200917115447.10503-1-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,21 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com, jusual@redhat.com,
- qemu-devel@nongnu.org, imammedo@redhat.com, ani@anisinha.ca,
- pbonzini@redhat.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxNzE1MDA0NC4yMzE1
-OS0xLWFuaUBhbmlzaW5oYS5jYS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
-ci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCgoKCgoKVGhlIGZ1bGwgbG9n
-IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDkxNzE1MDA0NC4y
-MzE1OS0xLWFuaUBhbmlzaW5oYS5jYS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+On 9/17/20 4:54 AM, David Hildenbrand wrote:
+> Recent upstream Linux uses the MONITOR CALL instruction for things like
+> BUG_ON() and WARN_ON(). We currently inject an operation exception when
+> we hit a MONITOR CALL instruction - which is wrong, as the instruction
+> is not glued to specific CPU features.
+> 
+> Doing a simple WARN_ON_ONCE() currently results in a panic:
+>   [   18.162801] illegal operation: 0001 ilc:2 [#1] SMP
+>   [   18.162889] Modules linked in:
+>   [...]
+>   [   18.165476] Kernel panic - not syncing: Fatal exception: panic_on_oops
+> 
+> With a proper implementation, we now get:
+>   [   18.242754] ------------[ cut here ]------------
+>   [   18.242855] WARNING: CPU: 7 PID: 1 at init/main.c:1534 [...]
+>   [   18.242919] Modules linked in:
+>   [...]
+>   [   18.246262] ---[ end trace a420477d71dc97b4 ]---
+>   [   18.259014] Freeing unused kernel memory: 4220K
+> 
+> To be able to translate it to a NOP easily, mangle the 16 monitor masks
+> bits from the cr8 into the TB flags.
+
+This is a rare situation that does not warrant the use of TB flags.  Better to
+unconditionally call helper_monitor_event, and have the helper function test
+the runtime value of cr8.  If the event is disabled, the helper simply returns.
+
+It should be simpler to write, as well, not having to do this:
+
+> +    /* Copy over the monitor mask bits (16) as two separate bytes. */
+> +    byte = (env->cregs[8] & CR8_MONITOR_MASK) >> 8;
+> +    *flags |= (uint32_t)byte << FLAG_SHIFT_MM0_7;
+> +    byte = env->cregs[8] & CR8_MONITOR_MASK;
+> +    *flags |= (uint32_t)byte << FLAG_SHIFT_MM8_15;
+> +
+> +    QEMU_BUILD_BUG_ON((FLAG_MASK_AFP | FLAG_MASK_VECTOR | FLAG_MASK_MM0_7 |
+> +                       FLAG_MASK_MM8_15) & FLAG_MASK_PSW);
+
+
+r~
 
