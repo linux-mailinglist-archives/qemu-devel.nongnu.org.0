@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D2B26D64D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:21:01 +0200 (CEST)
-Received: from localhost ([::1]:53610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F6726D69F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:30:38 +0200 (CEST)
+Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIpA5-0000Rz-1X
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56506)
+	id 1kIpJN-0005fK-FM
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:30:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1kIp1y-000838-R6; Thu, 17 Sep 2020 04:12:39 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4709 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1kIp1w-00086P-6r; Thu, 17 Sep 2020 04:12:38 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 8FCC1CE623D9618DECB0;
- Thu, 17 Sep 2020 16:12:26 +0800 (CST)
-Received: from [10.174.187.142] (10.174.187.142) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 17 Sep 2020 16:12:18 +0800
-Subject: Re: [PATCH v1 0/2] Add timeout mechanism to qmp actions
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200810145246.1049-1-yezhenyu2@huawei.com>
- <20200810153811.GF14538@linux.fritz.box>
- <c6d75e49-3e36-6a76-fdc8-cdf09e7c3393@huawei.com>
- <20200914144251.GO1252186@redhat.com>
-From: Zhenyu Ye <yezhenyu2@huawei.com>
-Message-ID: <cfbbe585-c252-bc4c-23d7-7e7cfc6224cf@huawei.com>
-Date: Thu, 17 Sep 2020 16:12:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIp2C-0008NE-Ps
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:12:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55835
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIp2A-00088s-UD
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:12:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600330370;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6tMBenZwZgz1qalsrYhPuXgGamXvglozQwBCFf1bGPY=;
+ b=fX5GpzN37/kUSkUZYy+g22q+Q5fgmMXRrRJxmXNukSNgs7blXxEbi3d2egjirZ6hL9Zile
+ qqK6SElANXp7fCaIcz2yaQPYKZoQVQUSC+OuVnqCz3KlEEjGhgU21yZBAJEqxnzbMlJsmy
+ KeVoKPk01lMNwwkCnSPR1z7aeZU//cI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-cOSGnFIfOiSVC2nNvBg0eg-1; Thu, 17 Sep 2020 04:12:46 -0400
+X-MC-Unique: cOSGnFIfOiSVC2nNvBg0eg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16DBD10074B1;
+ Thu, 17 Sep 2020 08:12:45 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B278778814;
+ Thu, 17 Sep 2020 08:12:42 +0000 (UTC)
+Date: Thu, 17 Sep 2020 10:12:39 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 04/12] device_tree: add qemu_fdt_add_path
+Message-ID: <20200917081239.bdfhkofodqvhg3i6@kamzik.brq.redhat.com>
+References: <20200917032033.2020-1-fangying1@huawei.com>
+ <20200917032033.2020-5-fangying1@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200914144251.GO1252186@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.142]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=yezhenyu2@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:50:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.062,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200917032033.2020-5-fangying1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:30:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,74 +81,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, fam@euphon.net, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, armbru@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ Peter Crosthwaite <crosthwaite.peter@gmail.com>,
+ Alexander Graf <agraf@suse.de>, qemu-devel@nongnu.org, alex.chen@huawei.com,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
+On Thu, Sep 17, 2020 at 11:20:25AM +0800, Ying Fang wrote:
+> From: Andrew Jones <drjones@redhat.com>
+> 
+> qemu_fdt_add_path works like qemu_fdt_add_subnode, except it
+> also recursively adds any missing parent nodes.
+> 
+> Cc: Peter Crosthwaite <crosthwaite.peter@gmail.com>
+> Cc: Alexander Graf <agraf@suse.de>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  device_tree.c                | 24 ++++++++++++++++++++++++
+>  include/sysemu/device_tree.h |  1 +
+>  2 files changed, 25 insertions(+)
+> 
+> diff --git a/device_tree.c b/device_tree.c
+> index b335dae707..1854be3a02 100644
+> --- a/device_tree.c
+> +++ b/device_tree.c
+> @@ -524,6 +524,30 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+>      return retval;
+>  }
+>  
+> +int qemu_fdt_add_path(void *fdt, const char *path)
+> +{
+> +    char *parent;
+> +    int offset;
+> +
+> +    offset = fdt_path_offset(fdt, path);
+> +    if (offset < 0 && offset != -FDT_ERR_NOTFOUND) {
+> +        error_report("%s Couldn't find node %s: %s", __func__, path,
+> +                     fdt_strerror(offset));
+> +        exit(1);
+> +    }
+> +
+> +    if (offset != -FDT_ERR_NOTFOUND) {
+> +        return offset;
+> +    }
+> +
+> +    parent = g_strdup(path);
+> +    strrchr(parent, '/')[0] = '\0';
+> +    qemu_fdt_add_path(fdt, parent);
+> +    g_free(parent);
+> +
+> +    return qemu_fdt_add_subnode(fdt, path);
+> +}
 
-On 2020/9/14 22:42, Daniel P. Berrangé wrote:
-> On Tue, Aug 11, 2020 at 09:54:08PM +0800, Zhenyu Ye wrote:
->> Hi Kevin,
->>
->> On 2020/8/10 23:38, Kevin Wolf wrote:
->>> Am 10.08.2020 um 16:52 hat Zhenyu Ye geschrieben:
->>>> Before doing qmp actions, we need to lock the qemu_global_mutex,
->>>> so the qmp actions should not take too long time.
->>>>
->>>> Unfortunately, some qmp actions need to acquire aio context and
->>>> this may take a long time.  The vm will soft lockup if this time
->>>> is too long.
->>>
->>> Do you have a specific situation in mind where getting the lock of an
->>> AioContext can take a long time? I know that the main thread can
->>> block for considerable time, but QMP commands run in the main thread, so
->>> this patch doesn't change anything for this case. It would be effective
->>> if an iothread blocks, but shouldn't everything running in an iothread
->>> be asynchronous and therefore keep the AioContext lock only for a short
->>> time?
->>>
->>
->> Theoretically, everything running in an iothread is asynchronous. However,
->> some 'asynchronous' actions are not non-blocking entirely, such as
->> io_submit().  This will block while the iodepth is too big and I/O pressure
->> is too high.  If we do some qmp actions, such as 'info block', at this time,
->> may cause vm soft lockup.  This series can make these qmp actions safer.
->>
->> I constructed the scene as follow:
->> 1. create a vm with 4 disks, using iothread.
->> 2. add press to the CPU on the host.  In my scene, the CPU usage exceeds 95%.
->> 3. add press to the 4 disks in the vm at the same time.  I used the fio and
->> some parameters are:
->>
->> 	 fio -rw=randrw -bs=1M -size=1G -iodepth=512 -ioengine=libaio -numjobs=4
->>
->> 4. do block query actions, for example, by virsh:
->>
->> 	virsh qemu-monitor-command [vm name] --hmp info block
->>
->> Then the vm will soft lockup, the calltrace is:
-> 
-> [snip]
-> 
->> This problem can be avoided after this series applied.
-> 
-> At what cost though ?   With this timeout, QEMU is going to start
-> reporting bogus failures for various QMP commands when running
-> under high load, even if those commands would actually run
-> successfully.  This will turn into an error report from libvirt
-> which will in turn probably cause an error in the mgmt application
-> using libvirt, and in turn could break the user's automation.
-> 
+Igor didn't like the recursion when I posted this before so I changed
+it when doing the refresh[*] that I gave to Salil Mehta. Salil also
+works for Huawei, are you guys not working together?
 
-I think it's worth reporting an error to avoid the VM softlockup.
-The VM may even crash if kernel.softlockup_panic is configured!
-
-We can increase the timeout value (close to the VM cpu soft lock time)
-to avoid unnecessary errors.
+[*] https://github.com/rhdrjones/qemu/commits/virt-cpu-topology-refresh
 
 Thanks,
-Zhenyu
+drew
+
+> +
+>  void qemu_fdt_dumpdtb(void *fdt, int size)
+>  {
+>      const char *dumpdtb = qemu_opt_get(qemu_get_machine_opts(), "dumpdtb");
+> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+> index 982c89345f..15fb98af98 100644
+> --- a/include/sysemu/device_tree.h
+> +++ b/include/sysemu/device_tree.h
+> @@ -104,6 +104,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
+>  uint32_t qemu_fdt_alloc_phandle(void *fdt);
+>  int qemu_fdt_nop_node(void *fdt, const char *node_path);
+>  int qemu_fdt_add_subnode(void *fdt, const char *name);
+> +int qemu_fdt_add_path(void *fdt, const char *path);
+>  
+>  #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
+>      do {                                                                      \
+> -- 
+> 2.23.0
+> 
+> 
+
 
