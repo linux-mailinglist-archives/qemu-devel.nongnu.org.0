@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9A026DDC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:16:19 +0200 (CEST)
-Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523D826DDDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:19:04 +0200 (CEST)
+Received: from localhost ([::1]:48320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIuhu-0003SU-1A
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35472)
+	id 1kIukZ-00073i-A0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kIuPG-00052D-1Y; Thu, 17 Sep 2020 09:57:02 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:42130)
+ id 1kIuPS-0005BX-BI; Thu, 17 Sep 2020 09:57:14 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:43025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kIuPD-00007K-QL; Thu, 17 Sep 2020 09:57:01 -0400
+ id 1kIuPP-00009e-6C; Thu, 17 Sep 2020 09:57:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=TmK60EUFAI81conxG5UGAneBcLZvi3yffaIRT/v38IY=; 
- b=MQG7fEic4kF6tgdBgMoS+z7N85oA2NuNz/VvwFeTXUkG3QxJjHzc91CBy5krU6wJjbHv7LdkhXd+GArKBHhvVEmafEwptKhWInwtwtyPn/FWAGSb1snIsnplalPM4MwEllhSN4QGJgkvd7RNXOC47ojc3liUmRwGGTg5tAi9LKktbsMzAyTaLaXpyWUZ1VEA701+AL7iz+xcZ0c8xSKjF94unW1AQCdKOrdB2ZzGsCr/VT/neYQfzFUtYH0uGrkcZhgGocTnO+6eTL+immzt4bVHH3iXOy0FBQaY/BCksh/7KdJH/N/izGK+YlG4/CjoAH2JsdQK2Zmnk/uH8tOLMA==;
+ bh=yjgKo1q4R/gohmRWHZikSPqAb3+oUuM4Hqk2gVoUquo=; 
+ b=U1c/6XydtZIPm7i65UAiSMqNbIX50XCSFUoCguYQrtkKSW6J26X9WtjBE7+1jL6uYhlAP6prUzhXb32lMp5ojAx3mzynNKRY2OoCu+hxRW+gpwDlLsx71MLdw6TzU+rg9HSG6Gy5ldXsBlnMXcnOORnBZJ7G0BG4K3XYs1AdD7piWrONgMsgdjSUlm9vDCiE6T6SOvCoYem+Aa39M/Po/cp4M6wS0WrInp+iEznFbKsFX2WjvKObkHqkvbHf245fdZT7WSWJd0mhCVgYLHL9/IMjEhncFiSQqgoMOxCxSW6RGvmAFpn8Fvyc7vYmGhacKCAqYpqJnA0fNRhADeKtiQ==;
 Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
  by fanzine.igalia.com with esmtps 
  (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kIuOp-0001yW-Ud; Thu, 17 Sep 2020 15:56:35 +0200
+ id 1kIuPL-00023P-Bw; Thu, 17 Sep 2020 15:57:07 +0200
 Received: from berto by mail.igalia.com with local (Exim)
- id 1kIuOp-0006XV-LW; Thu, 17 Sep 2020 15:56:35 +0200
+ id 1kIuPL-0006aE-1r; Thu, 17 Sep 2020 15:57:07 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
-Subject: Re: [PATCH 04/14] blockdev: fix drive_backup_prepare() missed error
-In-Reply-To: <20200909185930.26524-5-vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 05/14] block: drop extra error propagation for
+ bdrv_set_backing_hd
+In-Reply-To: <20200909185930.26524-6-vsementsov@virtuozzo.com>
 References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
- <20200909185930.26524-5-vsementsov@virtuozzo.com>
+ <20200909185930.26524-6-vsementsov@virtuozzo.com>
 User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
  (i586-pc-linux-gnu)
-Date: Thu, 17 Sep 2020 15:56:35 +0200
-Message-ID: <w51bli4zeuk.fsf@maestria.local.igalia.com>
+Date: Thu, 17 Sep 2020 15:57:07 +0200
+Message-ID: <w518sd8zeto.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -69,9 +70,8 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 09 Sep 2020 08:59:20 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> We leak local_err and don't report failure to the caller. It's
-> definitely wrong, let's fix.
+On Wed 09 Sep 2020 08:59:21 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> bdrv_set_backing_hd now returns status, let's use it.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
