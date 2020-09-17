@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A3526D89C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:15:27 +0200 (CEST)
-Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB1426D8C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:21:53 +0200 (CEST)
+Received: from localhost ([::1]:53182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIqwo-0005fa-It
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:15:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60674)
+	id 1kIr32-00059M-AM
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kIqtK-0002E2-TZ; Thu, 17 Sep 2020 06:11:50 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kIqtC-0003fI-1L; Thu, 17 Sep 2020 06:11:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600337464; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=ZTVg+pZchzG2dpDtKpGSp+4Ci2k0klPs/82ZFusj7DIZe75vg1frGx2H4WleElqUI8GXOnpKf9lJPQW593a4nAVXrDOolJAdkR87EldsUfNfbf2iWi/si7+LMwYGsa/D2QZXMsfWqByCWNG/C3ZJHBaoZ9PhThwfKVAA9U4NXvo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1600337464;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=UTuYMQajCsak4+oaDskYrKE0CPaiR73H5gTzfyCrnMk=; 
- b=J8Mm3dR/Y5smMBbDezwxtU9+CqqVizbpEzSzdSgoB5muUUQJ8192n3j7DeoWkhCAKsrVd4UmWzKKwb3QRrzHaz5QDv3A3GLye4L6ms7UUX/NlN0RRe0eQuVGMCHQ34tuaKOPVd9Ufl2rmCzBjNpHEgiK8HfymLnmRt/A9UsjW2E=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1600337464; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- bh=UTuYMQajCsak4+oaDskYrKE0CPaiR73H5gTzfyCrnMk=;
- b=Pjd7vzJhiab9PzOZ9xN8VSZcyR7km4i2FNSKMeoIAGuJUnAcitGbnB0/s7EIHSEW
- 25D4tVhN6VyN9zj5QRN9U9NAyRIFDki9Ncqu2zf/YQVg7GbdQ8q+10LCjOWFF2Qrhyl
- gcL+v0QidnNhwRvUl9wu77qDMQidVdqCWX0Qj3yU=
-Received: from localhost (ec2-52-56-101-76.eu-west-2.compute.amazonaws.com
- [52.56.101.76]) by mx.zoho.com.cn
- with SMTPS id 1600337462854190.47417162686747;
- Thu, 17 Sep 2020 18:11:02 +0800 (CST)
-Date: Thu, 17 Sep 2020 10:10:56 +0000
-From: Fam Zheng <fam@euphon.net>
-To: Zhenyu Ye <yezhenyu2@huawei.com>
-Subject: Re: [PATCH v1 0/2] Add timeout mechanism to qmp actions
-Message-ID: <20200917101056.GA2423524@dev>
-References: <20200810145246.1049-1-yezhenyu2@huawei.com>
- <20200810153811.GF14538@linux.fritz.box>
- <c6d75e49-3e36-6a76-fdc8-cdf09e7c3393@huawei.com>
- <20200914132738.GL579094@stefanha-x1.localdomain>
- <7ad220bd-7ee5-1f66-b2e5-7dc57d72eb2e@huawei.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIqv7-0004Up-0K
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:13:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35434)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIquy-0003ok-Kf
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:13:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600337611;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Z0JCFD8Q9vMaSsi4XeoBv+1HcnW56uDaTvNOAVEs1jk=;
+ b=PnNn53m9AuDNE6ObJEjS9WCFeU9F7CApnnSfz11trUGtsE+YAOCwSb75McrEkjacKVmGz9
+ Hh/RUYWKXMubAH94DPYfmhmITp9MnKw77Vq2UNfd4sXxTM8iTYVnzQ6sLJRWThFIjyvYXz
+ 4d35luL0yasngMhixfvZY3OAhtWdZiY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-Qhs0VmtSOoKKSzhXMiQOqw-1; Thu, 17 Sep 2020 06:13:29 -0400
+X-MC-Unique: Qhs0VmtSOoKKSzhXMiQOqw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26889ACE2F
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 10:13:28 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
+ [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5209D60BEC;
+ Thu, 17 Sep 2020 10:13:21 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 6E1D29D5A; Thu, 17 Sep 2020 12:13:20 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] build spice chardevs as module
+Date: Thu, 17 Sep 2020 12:13:16 +0200
+Message-Id: <20200917101320.25285-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7ad220bd-7ee5-1f66-b2e5-7dc57d72eb2e@huawei.com>
-X-ZohoCNMailClient: External
-Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
- helo=sender2-op-o12.zoho.com.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 06:11:21
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,147 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, armbru@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com, mreitz@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-09-17 15:36, Zhenyu Ye wrote:
-> Hi Stefan,
-> 
-> On 2020/9/14 21:27, Stefan Hajnoczi wrote:
-> >>
-> >> Theoretically, everything running in an iothread is asynchronous. However,
-> >> some 'asynchronous' actions are not non-blocking entirely, such as
-> >> io_submit().  This will block while the iodepth is too big and I/O pressure
-> >> is too high.  If we do some qmp actions, such as 'info block', at this time,
-> >> may cause vm soft lockup.  This series can make these qmp actions safer.
-> >>
-> >> I constructed the scene as follow:
-> >> 1. create a vm with 4 disks, using iothread.
-> >> 2. add press to the CPU on the host.  In my scene, the CPU usage exceeds 95%.
-> >> 3. add press to the 4 disks in the vm at the same time.  I used the fio and
-> >> some parameters are:
-> >>
-> >> 	 fio -rw=randrw -bs=1M -size=1G -iodepth=512 -ioengine=libaio -numjobs=4
-> >>
-> >> 4. do block query actions, for example, by virsh:
-> >>
-> >> 	virsh qemu-monitor-command [vm name] --hmp info block
-> >>
-> >> Then the vm will soft lockup, the calltrace is:
-> >>
-> >> [  192.311393] watchdog: BUG: soft lockup - CPU#1 stuck for 42s! [kworker/1:1:33]
-> > 
-> > Hi,
-> > Sorry I haven't had time to investigate this myself yet.
-> > 
-> > Do you also have a QEMU backtrace when the hang occurs?
-> > 
-> > Let's find out if QEMU is stuck in the io_submit(2) syscall or whether
-> > there's an issue in QEMU itself that causes the softlockup (for example,
-> > aio_poll() with the global mutex held).
-> 
-> Sorry for the delay.
-> 
-> I traced the io_submit() within the guest. The maximum execution time exceeds 16s:
-> 
-> 	guest# perf trace -p `pidof -s fio` --duration 1
-> 	    14.808 (3843.082 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	  3861.336 (11470.608 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 15341.998 (479.283 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 15831.380 (3704.997 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 19547.869 (3412.839 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 22966.953 (1080.854 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 24062.689 (6939.813 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 31019.219 (532.147 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 31556.610 (3469.920 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 35038.885 (9007.175 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 44053.578 (16006.405 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 60068.944 (3068.748 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	 63138.474 (13012.499 ms): io_getevents(ctx_id: 281472924459008, min_nr: 511, nr: 511, events: 0x19a83150) = 511
-> 	 76191.073 (2872.657 ms): io_submit(ctx_id: 281472924459008, nr: 1, iocbpp: 0x19a87160          ) = 1
-> 	...
-> 
-> And in the host, the information of sys_enter_io_submit() is:
-> 
-> 	Samples: 3K of event 'syscalls:sys_enter_io_submit', Event count (approx.): 3150
-> 	Children      Self  Trace output
-> 	-   66.70%    66.70%  ctx_id: 0xffff9c044000, nr: 0x00000001, iocbpp: 0xffff9f7fad28
-> 	0xffffae7f871c
-> 	0xffffae8a27c4
-> 	qemu_thread_start
-> 	iothread_run
-> 	aio_poll
-> 	aio_dispatch_ready_handlers
-> 	aio_dispatch_handler
-> 	virtio_queue_host_notifier_aio_read
-> 	virtio_queue_notify_aio_vq
-> 	virtio_blk_data_plane_handle_output
-> 	virtio_blk_handle_vq
-> 	blk_io_unplug
-> 	bdrv_io_unplug
-> 	bdrv_io_unplug
-> 	raw_aio_unplug
-> 	laio_io_unplug
-> 	syscall
-> 
-> 
-> When the hang occurs, the QEMU is blocked at:
-> 
-> 	#0  0x0000ffff95762b64 in ?? () from target:/usr/lib64/libpthread.so.0
-> 	#1  0x0000ffff9575bd88 in pthread_mutex_lock () from target:/usr/lib64/libpthread.so.0
-> 	#2  0x0000aaaabb1f5948 in qemu_mutex_lock_impl (mutex=0xaaaacc8e1860,
-> 	    file=0xaaaabb4e1bd0 "/Images/eillon/CODE/5-opensource/qemu/util/async.c", line=605)
-> 	#3  0x0000aaaabb20acd4 in aio_context_acquire (ctx=0xaaaacc8e1800)
-> 	#4  0x0000aaaabb105e90 in bdrv_query_image_info (bs=0xaaaacc934620,
-> 	    p_info=0xaaaaccc41e18, errp=0xffffca669118)
-> 	#5  0x0000aaaabb105968 in bdrv_block_device_info (blk=0xaaaacdca19f0, bs=0xaaaacc934620,
-> 	    flat=false, errp=0xffffca6692b8)
-> 	#6  0x0000aaaabb1063dc in bdrv_query_info (blk=0xaaaacdca19f0, p_info=0xaaaacd29c9a8,
-> 	    errp=0xffffca6692b8)
-> 	#7  0x0000aaaabb106c14 in qmp_query_block (errp=0x0)
-> 	#8  0x0000aaaabacb8e6c in hmp_info_block (mon=0xffffca6693d0, qdict=0xaaaacd089790)
-> 	#9  0x0000aaaabb0068f0 in handle_hmp_command (mon=0xffffca6693d0,
-> 	    cmdline=0xaaaacc9013ca "")
-> 	#10 0x0000aaaabaab5034 in qmp_human_monitor_command (
-> 	    command_line=0xaaaacc9013c0 "info block", has_cpu_index=false, cpu_index=0,
-> 	    errp=0xffffca6694d8)
-> 	#11 0x0000aaaabb03c720 in qmp_marshal_human_monitor_command (args=0xffff70008070,
-> 	    ret=0xffffca669570, errp=0xffffca669568) at qapi/qapi-commands-misc.c:653
-> 	#12 0x0000aaaabb18fdbc in qmp_dispatch (cmds=0xaaaabbb197c0 <qmp_commands>,
-> 	    request=0xffff70005cc0, allow_oob=false)
-> 	#13 0x0000aaaabb003074 in monitor_qmp_dispatch (mon=0xaaaacc962320, req=0xffff70005cc0)
-> 	#14 0x0000aaaabb003488 in monitor_qmp_bh_dispatcher (data=0x0)
-> 	#15 0x0000aaaabb209d44 in aio_bh_call (bh=0xaaaacc5f0810)
-> 	#16 0x0000aaaabb209e50 in aio_bh_poll (ctx=0xaaaacc5ef320)
-> 	#17 0x0000aaaabb1f1494 in aio_dispatch (ctx=0xaaaacc5ef320)
-> 	#18 0x0000aaaabb20a330 in aio_ctx_dispatch (source=0xaaaacc5ef320, callback=0x0,
-> 	    user_data=0x0)
-> 	#19 0x0000ffff95f00a7c in g_main_context_dispatch ()
-> 	   from target:/usr/lib64/libglib-2.0.so.0
-> 	#20 0x0000aaaabb2128e8 in glib_pollfds_poll ()
-> 	#21 0x0000aaaabb212970 in os_host_main_loop_wait (timeout=64805420)
-> 	#22 0x0000aaaabb212a90 in main_loop_wait (nonblocking=0)
-> 	#23 0x0000aaaabaad63d0 in qemu_main_loop ()
-> 	#24 0x0000aaaabb188b54 in main (argc=117, argv=0xffffca669a68, envp=0xffffca669e18)
-> 
-> And the QEMU process backtrace in kernel is:
-> 	[<0>] __switch_to+0xdc/0x140
-> 	[<0>] futex_wait_queue_me+0xd4/0x158
-> 	[<0>] futex_wait+0xf4/0x230
-> 	[<0>] do_futex+0x46c/0x608
-> 	[<0>] __arm64_sys_futex+0x13c/0x188
-> 	[<0>] el0_svc_common+0x80/0x1b8
-> 	[<0>] el0_svc_handler+0x38/0x78
-> 	[<0>] el0_svc+0x10/0x14
-> 	[<0>] 0xffffffffffffffff
+v3:=0D
+ - fix spice-app=0D
+ - init objects before spice=0D
+ - meson cleanup=0D
+=0D
+Gerd Hoffmann (4):=0D
+  ui/spice-app: don't use qemu_chr_open_spice_port directly=0D
+  chardev/spice: make qemu_chr_open_spice_port static=0D
+  chardev/spice: simplify chardev setup=0D
+  chardev/spice: build spice chardevs as module=0D
+=0D
+ include/chardev/spice.h |  4 ----=0D
+ include/ui/qemu-spice.h |  1 -=0D
+ chardev/spice.c         | 37 ++++++++++---------------------------=0D
+ softmmu/vl.c            |  9 +++++----=0D
+ ui/spice-app.c          | 34 ++++++++++++++++++++++------------=0D
+ ui/spice-core.c         |  2 --=0D
+ util/module.c           |  2 ++=0D
+ chardev/meson.build     |  7 ++++++-=0D
+ 8 files changed, 45 insertions(+), 51 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-Hi Zhenyu,
-
-Did you by any chance capture the kernel stack where io_submit is stuck?
-
-Thanks,
-Fam
 
