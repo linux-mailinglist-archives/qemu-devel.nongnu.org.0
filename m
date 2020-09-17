@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E285F26D63E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:18:40 +0200 (CEST)
-Received: from localhost ([::1]:47702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AB626D5A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:06:58 +0200 (CEST)
+Received: from localhost ([::1]:38540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIp7o-0006Rw-14
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52488)
+	id 1kIowT-0007fk-TX
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIokx-0000tN-Dv
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:55:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59708
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIokt-0005cU-G7
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:55:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600329298;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q2BG5rCClRnxTXp7V01u26k/q4s6NXbVN/xm0zQlx78=;
- b=UC410e+l9NF3v2padxD89sXMNfdT5oLl+XFcF9exLdaIXBbOVBkBC2ZtzVEWakLzU82ITC
- arXFqsN+3u2f+wkH/RJ1dgD2B70u4o+tWc2MB73bEzf9FY60xO10QMkYDSiUevqY5KnWCY
- r9/+dmxdmouzKGZjGOWwVSaq/Ie8tZo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-8FHvsjiHOzG2fZjb10W64Q-1; Thu, 17 Sep 2020 03:54:54 -0400
-X-MC-Unique: 8FHvsjiHOzG2fZjb10W64Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F3BA100856B;
- Thu, 17 Sep 2020 07:54:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 167ED68876;
- Thu, 17 Sep 2020 07:54:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 91400113864A; Thu, 17 Sep 2020 09:54:51 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 06/37] qapi: delint using flake8
-References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-7-jsnow@redhat.com>
- <87wo0tor80.fsf@dusky.pond.sub.org>
- <8238685e-f4a4-cf2f-2511-5e4473f5fdd3@redhat.com>
-Date: Thu, 17 Sep 2020 09:54:51 +0200
-In-Reply-To: <8238685e-f4a4-cf2f-2511-5e4473f5fdd3@redhat.com> (John Snow's
- message of "Wed, 16 Sep 2020 10:29:59 -0400")
-Message-ID: <87a6xog7n8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kIomo-0003Ew-Bp
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:57:02 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43028)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kIomm-0005uX-Lj
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:56:58 -0400
+Received: by mail-wr1-x443.google.com with SMTP id k15so948954wrn.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 00:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HL3zRK0nuV3qNcHAHpU0fldw/pUl1Ru8nVonYr0YVZM=;
+ b=RZ3vWpcEmpJ0UDZFie0YopmhFjEJZ8hNzMsKpUB8u/4EHsB8C8Zjv/RU+gnNELZhDP
+ hF3pQMwRDM5TcL635z3hWV8m9o/Ru+noH0C9B1wptzdafcIbJDkHRMZszEeBOGoTwop6
+ g23CJ/ps1ZRBIBhFQQhhahamqo+XbVtk7khMk9Bi4qka3zyDtAlZRD6H7EOsELBgQkLS
+ fEYrKR/WE5dfzTYM1DtJ+KoDClj0K0q/jnODOYxV3OOIXwxn826wUtZwi+fT5H10xmYa
+ pakBXzLtRIjvuARDgG/WveHOrlVL1eBsZ/QQqDJA/hSYoDAQGIap8/G7JI+4B132y0/9
+ /Zbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HL3zRK0nuV3qNcHAHpU0fldw/pUl1Ru8nVonYr0YVZM=;
+ b=TBIV2CZYAglYryWOAKRT9ZqbVJnOJcKeqCc60ADKoMxHkFt0a1pl9I2u9F2QkOvy4D
+ kz+t5vHKY15nD2tEZMHaru8MUAFIDLmN/sniBWH3gifIdM+w6l07xIZkprZ/CMF1fRmx
+ bFU1Z3N64l6bTrTwVv0e6dFLdyRP9vWgNZTaY5+atwimcbzvg/HO5CowE3PW3agaw3r+
+ u0GXY7UY3j6nYFMs4YvRN/GHAkTEgF68Ppx6SozJgraOhNvR8PpYWQmaUMQZKLDf9Tfb
+ eSubl4WL1V2V2+5i/jPsvrng9vu/Xx0iowQs6WguSLXmPIoEOVa2mcJnOAL5olEmer/m
+ obfA==
+X-Gm-Message-State: AOAM530TDxQcvOI0pseYm5DmvB0eNf9mWErOaGsS8aA3l784DK4z+ar8
+ N9AMhN3zORobDRN8Oafemyo=
+X-Google-Smtp-Source: ABdhPJyJTJtOnQIBEp/YJxcUOSVMejGylzWkj3l4DmUs7xaaTJuc4WuL3hey1vA7e7wlnw9/OO8RUQ==
+X-Received: by 2002:adf:e488:: with SMTP id i8mr32670030wrm.116.1600329414267; 
+ Thu, 17 Sep 2020 00:56:54 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id 63sm10910765wrc.63.2020.09.17.00.56.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Sep 2020 00:56:53 -0700 (PDT)
+Subject: Re: [PATCH V9 0/6] mips: Add Loongson-3 machine support
+To: Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7c38105a-831f-b306-9250-8d0c43fc4108@amsat.org>
+Date: Thu, 17 Sep 2020 09:56:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:16:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.062,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,104 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Hi Huacai,
 
-> On 9/16/20 8:12 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> Petty style guide fixes and line length enforcement.  Not a big win, not
->>> a big loss, but flake8 passes 100% on the qapi module, which gives us an
->>> easy baseline to enforce hereafter.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>   scripts/qapi/.flake8     |  2 ++
->>>   scripts/qapi/commands.py |  3 ++-
->>>   scripts/qapi/schema.py   |  8 +++++---
->>>   scripts/qapi/visit.py    | 15 ++++++++++-----
->>>   4 files changed, 19 insertions(+), 9 deletions(-)
->>>   create mode 100644 scripts/qapi/.flake8
->>>
->>> diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
->>> new file mode 100644
->>> index 0000000000..45d8146f3f
->>> --- /dev/null
->>> +++ b/scripts/qapi/.flake8
->>> @@ -0,0 +1,2 @@
->>> +[flake8]
->>> +extend-ignore = E722  # Pylint handles this, but smarter.
->> I guess you mean pylint's W0702 a.k.a. bare-except.  What's wrong
->> with
->> flake8's E722 compared to pylint's W0702?
->> 
->
-> Flake8 will warn on *any* bare except, but Pylint's is context-aware
-> and will suppress the warning if you re-raise the exception.
+On 9/16/20 4:12 AM, Huacai Chen wrote:
+> Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
+> R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
+> Loongson-3A R4 is the newest and its ISA is almost the superset of all
+> others. To reduce complexity, in QEMU we just define two CPU types:
+> 
+> 1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
+>    suitable for TCG because Loongson-3A R1 has fewest ASE.
+> 2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
+>    suitable for KVM because Loongson-3A R4 has the VZ ASE.
+> 
+[...]
 
-Should this information be worked into the comment?
+> Of course the upstream kernel is also usable (though it is "unstable"
+> now):
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> 
+> How to use QEMU/Loongson-3?
+> 1, Download kernel source from the above URL;
+> 2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
+> 3, Boot a Loongson-3A4000 host with this kernel (for KVM mode);
+> 4, Build QEMU-master with this patchset;
+> 5, modprobe kvm (only necessary for KVM mode);
+> 6, Use QEMU with TCG:
+>        qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
+>    Use QEMU with KVM:
+>        qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
 
-> I don't actually think this comes up in the qapi code base, but it
-> does come up in the ./python/qemu code base.
->
-> (One of my goals is unifying the lint checking regime for both packages.)
->
->>> \ No newline at end of file
->> So put one there :)
->> 
->
-> Whupps, okay.
->
->>> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
->>> index e1df0e341f..2e4b4de0fa 100644
->>> --- a/scripts/qapi/commands.py
->>> +++ b/scripts/qapi/commands.py
->>> @@ -69,7 +69,8 @@ def gen_call(name, arg_type, boxed, ret_type):
->>>   def gen_marshal_output(ret_type):
->>>       return mcgen('''
->>>   -static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
->>> QObject **ret_out, Error **errp)
->>> +static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out,
->>> +                                          Error **errp)
->> The continued parameter list may become misalignd in generated C.
->> E.g.
->>      static void qmp_marshal_output_BlockInfoList(BlockInfoList
->> *ret_in, QObject **ret_out,
->>                                                Error **errp)
->>      {
->>      ...
->>      }
->> Do we care?
->> 
->
-> Yeah, I don't know. Do we?
+Can you add a KVM-only build CI job?
+Simply building, not running test, as there is no MIPS CI.
 
-I care, but I also care for automated style checks.
+See for example commit 41e1f0e2256 (".travis.yml: Add a KVM-only
+s390x job"), but add it to GitLab instead.
 
-> It actually seemed more annoying to try and get flake8 to make an
-> exception for these handful of examples.
->
-> Path of least resistance led me here, but I can try and appease both
-> systems if you'd prefer.
+Thanks!
 
-Up to now, I ran the style checkers manually, and this was just one of
-several complaints to ignore, so I left the code alone.
-
-If it gets in the way of running them automatically, and messing up the
-generated code slightly is the easiest way to get it out of the way,
-then I can accept the slight mess.
-
->> More of the same below.
->> 
->>>   {
->>>       Visitor *v;
->>>   
->> [...]
->> 
-
+Phil.
 
