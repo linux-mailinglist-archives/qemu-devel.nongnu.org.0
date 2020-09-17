@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18AB426E0EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:41:03 +0200 (CEST)
-Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D026326E0F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:42:04 +0200 (CEST)
+Received: from localhost ([::1]:60834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwxy-0000al-6I
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:41:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52934)
+	id 1kIwyx-0002SV-TE
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIwpo-0001dZ-R1
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:32:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54355
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIwpm-00016O-2S
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:32:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600360350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G/+2B1QTVsfkvEpleoK9Oe/xpXKu7ymxbSeK3NCNw9A=;
- b=XmVTxAAmiRHWBOkAGYYy6U6PMwXDwhtPa136j1eb461xHQT4zTw1lsjq5CiT8E+cUJspfw
- jPealsrGyxtt4uVbm6LSVRMDZn+U/BaHtq3ncqw1k4QXuPIpUFTEdFQEckXSFnlAG1exPw
- HWWumDlfwjONzUBeudJ50U//8M5yV+s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-Eoq6UJGUNEyn6YYYlb2uRg-1; Thu, 17 Sep 2020 12:32:26 -0400
-X-MC-Unique: Eoq6UJGUNEyn6YYYlb2uRg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F7BC1007473;
- Thu, 17 Sep 2020 16:32:25 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-38.ams2.redhat.com [10.36.113.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5154355760;
- Thu, 17 Sep 2020 16:32:18 +0000 (UTC)
-Subject: Re: [PATCH v2 10/10] disas/capstone: Add skipdata hook for s390x
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200914230210.2185860-1-richard.henderson@linaro.org>
- <20200914230210.2185860-11-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3ef7d250-dc30-fb8d-3211-f0d45f5e2152@redhat.com>
-Date: Thu, 17 Sep 2020 18:32:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kIwqE-0001wl-Tc; Thu, 17 Sep 2020 12:33:02 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:35338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kIwqD-00019M-1m; Thu, 17 Sep 2020 12:33:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=5i0goaiC1isRgsxJwWXNDDZLK0Oc/YnTnxrxLGHDrjQ=; 
+ b=h1sWkZuJNP/SZ6f000BDfCxwywtjQmddyqJvRRSFvvKfLJze2IUbHduI8+bYj+iL7qBW8opegCbB1xZ5wBKzBXPCdvRZ0q7XXb0i4s3fws2hknafRmR3XPahnKEZ4bpv4GzFnitLtfDaHON9oUDZJgKT9NrX7FvexRMUwopxuOhBkxYKiGtLLFmgzoTiaE3Jbnw/cxHTuVhC4zVTy1mSH49fa4m+XhO5s/GfKw20vUDXbCkQZL93yesmhUdOtsdk9a2HHHK1RYfO1QAN6Q3PVd+32BQAegSW/clwgxw4JT/d7cbeQj9BMPWH1ONhESzLGyhiJgnpn7c2Y41GCSJjvg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kIwq9-000656-7M; Thu, 17 Sep 2020 18:32:57 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kIwq8-00017z-UN; Thu, 17 Sep 2020 18:32:56 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH 09/14] block/qcow2: qcow2_get_specific_info(): drop error
+ propagation
+In-Reply-To: <20200909185930.26524-10-vsementsov@virtuozzo.com>
+References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
+ <20200909185930.26524-10-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 17 Sep 2020 18:32:56 +0200
+Message-ID: <w51y2l85pon.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200914230210.2185860-11-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:16:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 09:56:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,91 +64,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, luoyonggang@gmail.com,
- alex.bennee@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, pavel.dovgaluk@ispras.ru,
+ qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org, stefanha@redhat.com,
+ pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/09/2020 01.02, Richard Henderson wrote:
-> It is always possible to tell the length of an insn, even if the
-> actual insn is unknown.  Skip the correct number of bytes, so that
-> we stay in sync with the instruction stream.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  disas/capstone.c | 42 +++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 41 insertions(+), 1 deletion(-)
-> 
-> diff --git a/disas/capstone.c b/disas/capstone.c
-> index b48f83958d..0a9ef9c892 100644
-> --- a/disas/capstone.c
-> +++ b/disas/capstone.c
-> @@ -16,6 +16,39 @@
+On Wed 09 Sep 2020 08:59:25 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+
+> + * On success return true with bm_list set (probably to NULL, if no bitmaps),
+
+" probably " ? :-)
+
+> + * on failure return false with errp set.
 >   */
->  static __thread cs_insn *cap_insn;
->  
-> +/*
-> + * The capstone library always skips 2 bytes for S390X.
-> + * This is less than ideal, since we can tell from the first two bits
-> + * the size of the insn and thus stay in sync with the insn stream.
-> + */
-> +static size_t CAPSTONE_API
-> +cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
-> +                      size_t offset, void *user_data)
-> +{
-> +    size_t ilen;
-> +
-> +    /* See get_ilen() in target/s390x/internal.h.  */
-> +    switch (code[offset] >> 6) {
-> +    case 0:
-> +        ilen = 2;
-> +        break;
-> +    case 1:
-> +    case 2:
-> +        ilen = 4;
-> +        break;
-> +    default:
-> +        ilen = 6;
-> +        break;
-> +    }
-> +
-> +    return ilen;
-> +}
-> +
-> +static const cs_opt_skipdata cap_skipdata_s390x = {
-> +    .mnemonic = ".byte",
-> +    .callback = cap_skipdata_s390x_cb
-> +};
-> +
->  /*
->   * Initialize the Capstone library.
->   *
-> @@ -42,13 +75,20 @@ static cs_err cap_disas_start(disassemble_info *info, csh *handle)
->      /* "Disassemble" unknown insns as ".byte W,X,Y,Z".  */
->      cs_option(*handle, CS_OPT_SKIPDATA, CS_OPT_ON);
->  
-> -    if (info->cap_arch == CS_ARCH_X86) {
-> +    switch (info->cap_arch) {
-> +    case CS_ARCH_SYSZ:
-> +        cs_option(*handle, CS_OPT_SKIPDATA_SETUP,
-> +                  (uintptr_t)&cap_skipdata_s390x);
-> +        break;
-> +
-> +    case CS_ARCH_X86:
->          /*
->           * We don't care about errors (if for some reason the library
->           * is compiled without AT&T syntax); the user will just have
->           * to deal with the Intel syntax.
->           */
->          cs_option(*handle, CS_OPT_SYNTAX, CS_OPT_SYNTAX_ATT);
-> +        break;
->      }
->  
->      /* Allocate temp space for cs_disasm_iter.  */
-> 
+> -Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
+> -                                                Error **errp)
+> +bool qcow2_get_bitmap_info_list(BlockDriverState *bs,
+> +                                Qcow2BitmapInfoList **info_list, Error **errp)
+>  {
+>      BDRVQcow2State *s = bs->opaque;
+>      Qcow2BitmapList *bm_list;
+>      Qcow2Bitmap *bm;
+> -    Qcow2BitmapInfoList *list = NULL;
+> -    Qcow2BitmapInfoList **plist = &list;
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+So here 'list' points at NULL and 'plist' at &list.
 
+> -        *plist = obj;
+> -        plist = &obj->next;
+
+In the original code 'plist' is updated when you add a new element, so
+it always points at the end of the list. But 'list' is unchanged and it
+still points at the first element.
+
+So the caller receives a pointer to the first element.
+
+> +        *info_list = obj;
+> +        info_list = &obj->next;
+
+But in the new code there is only one variable (passed by the caller),
+which always points at the end of the list.
+
+Berto
 
