@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EED26E046
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:08:24 +0200 (CEST)
-Received: from localhost ([::1]:44892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A1626E074
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:18:31 +0200 (CEST)
+Received: from localhost ([::1]:40958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwSN-0004Tw-5P
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
+	id 1kIwc8-0006at-Pi
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIwO3-0000Ht-44
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:03:55 -0400
-Resent-Date: Thu, 17 Sep 2020 12:03:55 -0400
-Resent-Message-Id: <E1kIwO3-0000Ht-44@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIwO0-0004Ub-0I
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:03:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600358619; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Wl+14Qw37Yh6nlBqBlgF1Y/dxtY7uPN+IQnBWE24qzYo1rRb5ISIOW0slCXF2q4RBaXS+EdsbC1ECZ4vkiKYYOuA515L92TRT5Jd+Z6cmzMp7fxasNkrhtNHPel0IckEm4VFq/aCW8IdNYH6of/e0i8YiVeKgb6CZkVi6ZwvGy4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600358619;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=aEpmrd+eb5zHSiS/AKElwwldrxWnzLODPC8XNi0PSkQ=; 
- b=ItqhMw17jAQ0setVTGIeXNfX3aZjKFZg70jsbvuD16sBnMcmtcIJDqq6m8yQnl2XU1f0QYrn4q6yDxV5EazxS/Bb0d8OdagXVoXN054GI0W3633ZxgK35j3snAL26A6tiQ9aA+D/GP1IjwoasDSf8vRiInz0HeEfV2bg9/jlmaI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600358616358270.22960269451323;
- Thu, 17 Sep 2020 09:03:36 -0700 (PDT)
-Subject: Re: [PATCH] docs: simplify and clarify the platform support rules
-Message-ID: <160035861418.8478.212178184531337619@66eaa9a8a123>
-In-Reply-To: <20200917155606.1623795-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1kIwRb-0004il-OA
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:07:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33535
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1kIwRY-0005PX-Ry
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:07:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600358850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=583Sphf240XXswK6/Dx0U3zYzKResmLZ18k71zP1X/M=;
+ b=TdxPQ5pNqHA4GHeD5q+rBC94iiS7d42wzjQ64/fe5J5q4FvOHJJm3NobyEcEM3YUeLd+aa
+ qpg/IYIzpapOi8urXYsuX2apixIhFLz6NlNfSRpyyB5CArvHfnygpso+2n/6s0vQOGD91H
+ IL8hfWgOfzRyKsknL8i3lD7zQgVDupI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-efHzKWRYPy-6vRzXIo0SiQ-1; Thu, 17 Sep 2020 12:07:12 -0400
+X-MC-Unique: efHzKWRYPy-6vRzXIo0SiQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A80991009464;
+ Thu, 17 Sep 2020 16:07:09 +0000 (UTC)
+Received: from harajuku.usersys.redhat.com (unknown [10.40.192.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7894A55762;
+ Thu, 17 Sep 2020 16:07:03 +0000 (UTC)
+Message-ID: <b679e646f4dd8ebea753892c0cec27e54ba8f407.camel@redhat.com>
+Subject: Re: Python 3.5 EOL; when can require 3.6?
+From: Andrea Bolognani <abologna@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>
+Date: Thu, 17 Sep 2020 18:07:00 +0200
+In-Reply-To: <871rj0o1yk.fsf@dusky.pond.sub.org>
+References: <875z8eupyp.fsf@dusky.pond.sub.org>
+ <CAFEAcA8q8J1n2UqsNbHgNwEedA8pZ6fNA7obCR1REN-33nvmkg@mail.gmail.com>
+ <d07189e2-0683-2eb9-44e0-a275688fa8b4@redhat.com>
+ <9d4363e8-7bb8-8255-9914-6d9bc36cec79@redhat.com>
+ <871rj0o1yk.fsf@dusky.pond.sub.org>
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Thu, 17 Sep 2020 09:03:36 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:07:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 08:56:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,18 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxNzE1NTYwNi4xNjIz
-Nzk1LTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgYnVp
-bGQgdGVzdCBvbiBGcmVlQlNEIGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoK
-CgoKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
-LzIwMjAwOTE3MTU1NjA2LjE2MjM3OTUtMS1iZXJyYW5nZUByZWRoYXQuY29tL3Rlc3RpbmcuRnJl
-ZUJTRC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Thu, 2020-09-17 at 17:30 +0200, Markus Armbruster wrote:
+> Thomas Huth <thuth@redhat.com> writes:
+> > Sorry, I forgot to check Debian. If I got that right, Debian 9 still
+> > uses Python 3.5 by default. So I guess that means we can not deprecate
+> > Python 3.5 yet?
+> 
+> Discussed before:
+> 
+>     Subject: Re: [PATCH] qapi: Fix code generation with Python 3.5
+>     Date: Sat, 18 Jan 2020 07:54:18 +0100
+>     Message-ID: <87lfq5s19h.fsf@dusky.pond.sub.org>
+>     https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg03855.html
+> 
+> Short version: Debian != Debian LTS.  We support Debian until EOL, not
+> LTS.  Debian 9 reached EOL in July.
+
+FWIW, this is the same policy the libvirt project follows, and we
+have formalized it at
+
+  https://libvirt.org/platforms.html
+
+with Debian LTS being called out explicitly as not supported.
+
+It would be *fantastic* if we could keep the platform support policy
+used by QEMU and libvirt as aligned as reasonably possible.
+
+-- 
+Andrea Bolognani / Red Hat / Virtualization
+
 
