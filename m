@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A569426D4F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 09:45:03 +0200 (CEST)
-Received: from localhost ([::1]:58336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41A926D4FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 09:47:20 +0200 (CEST)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIobG-0004oG-JZ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 03:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49394)
+	id 1kIodT-0006GH-Pe
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 03:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIoaE-0003yj-EP
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:43:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57136
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIoaC-0004G3-GM
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:43:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600328635;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GwRM6QfSQQ2f/WvLuklLyFy6L+D8x/mCtxQFpC7zjKE=;
- b=d+lvZoWCGP1tlxVqnMuBk7Kiv4tgkhNEZ7vxyDNUKn1fsrLpNLsAOKmyG7K8Gtdz+dRHjJ
- 0rjJf/Ftta0oFbLbHhueV+/KbwkOY8VUlb4btSW3Mm2WBdMHvsPVBjPJEQhTYKmYT4OUWR
- dDrWVoLRWUZSyVeUiRedj/T3qEwQfmI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-Ec0LdK0yNAmzzi1rM0_Rgg-1; Thu, 17 Sep 2020 03:43:53 -0400
-X-MC-Unique: Ec0LdK0yNAmzzi1rM0_Rgg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86C52805EE2;
- Thu, 17 Sep 2020 07:43:52 +0000 (UTC)
-Received: from thuth.com (ovpn-113-38.ams2.redhat.com [10.36.113.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8847878805;
- Thu, 17 Sep 2020 07:43:47 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH v2] migration: Silence compiler warning in
- global_state_store_running()
-Date: Thu, 17 Sep 2020 09:43:44 +0200
-Message-Id: <20200917074344.168785-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kIocD-0005io-QA
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:46:01 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kIocB-0004cc-TX
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:46:01 -0400
+Received: by mail-wm1-x333.google.com with SMTP id w2so980015wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 00:45:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=H+hTpqZmErOf8ZNO2YSrErbxTZtquE+GI8wzJNjaE3Y=;
+ b=iOKozWIkxkhm6hZCCKubb91RIiMzG7WMYnDLhrpGQqo/dxlW6brz7YBaRBzSkddABX
+ 1G7jLHy+miFXVK6tXj5VUtgi/NlGGLHdHJn/Np+Cj9ueOFI68OuvF5Va+6HGtgPrnqAa
+ w5imY104FiJwTOaePigVJyIomt9k5E1zPDYKIfrXSPoTSKtLSL01Ci1fovLWrVmj1mGH
+ GwMY/Qf+fvRAXczOQnaGxbnRlG5zU6tZtuy4xRIQ+B6Tb54dTMXFO4fyhNvTdhNReiVA
+ bo0RkM2p7azHBzBmCovjY4jMTSRi3B8tRowA2b/Qkteu5V/R74CSAuPlgV4vwUlRwR8/
+ L0LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H+hTpqZmErOf8ZNO2YSrErbxTZtquE+GI8wzJNjaE3Y=;
+ b=cfQneyP1H6LXSHSWq346SEjQ5XKMdhuIvmTq0tscOfxvF0vTvdxhkpNf0hSaphx///
+ PDOCgHvVfC9AvcQCzkjuwJtY0Y4ggfqVg4RzkDVlS2bevM41kk7/gZh8qwyZOfEisuvz
+ oUsw6//IlxINae8pZgXzhEGuqJFZg/3MAggobqkiV4E6NkOEn1q1v5GcfUL6RyiivPki
+ DJQKSBJjbeG5UKtaeMFUn940HbLfdxR24mYSmLwMNWY6HJT/4pVfMTO5vcR/83oQnebs
+ xKPALtGQDTu+8siwi2czm6H8ZROE8ffU7DSDmr92c1h1XtYccSf1HwaDA+FOiY12OZRq
+ bl1A==
+X-Gm-Message-State: AOAM533AMafLSRNRp1xOqhG3UryX+AvIqIlf/X5GCs58G8JqVdelSU4F
+ MOwa8GUc01zQsRsder6BWqA=
+X-Google-Smtp-Source: ABdhPJyS7LiP6drntmO7KnDWPEuFHIeTj8d121Vpo8Sll25RTZ3bjo61c4pF6DfwP/Hpzm1x+zpyCg==
+X-Received: by 2002:a1c:e90b:: with SMTP id q11mr8478899wmc.39.1600328757397; 
+ Thu, 17 Sep 2020 00:45:57 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id a17sm40573552wra.24.2020.09.17.00.45.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Sep 2020 00:45:56 -0700 (PDT)
+Subject: =?UTF-8?Q?Re=3a_Why_QEMU_translates_one_instruction_to_a_TB?=
+ =?UTF-8?B?77yf?=
+To: casmac <climber.cui@qq.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <tencent_EAC696641F035EB7E9885302EAAE37455907@qq.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7f78871a-01a8-f00f-4dcb-5ba95ed1fee4@amsat.org>
+Date: Thu, 17 Sep 2020 09:45:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <tencent_EAC696641F035EB7E9885302EAAE37455907@qq.com>
+Content-Type: text/plain; charset=gb18030
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:30:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 9
+X-Spam_score: 0.9
+X-Spam_bar: /
+X-Spam_report: (0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,52 +91,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GCC 9.3.0 on Ubuntu complains:
+On 9/17/20 8:25 AM, casmac wrote:
+> Hi all,
+>      We try to add DSP architecure to QEMU 4.2. To load the COFF format
+> object file, we have added loader code to load content from
+>   the object file. 
+[...]
 
-In file included from /usr/include/string.h:495,
-                 from /home/travis/build/huth/qemu/include/qemu/osdep.h:87,
-                 from ../migration/global_state.c:13:
-In function 鈥榮trncpy鈥�,
-    inlined from 鈥榞lobal_state_store_running鈥� at ../migration/global_state.c:47:5:
-/usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
- 鈥榑_builtin_strncpy鈥� specified bound 100 equals destination size [-Werror=stringop-truncation]
-  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     The COFF loader works functionally, but we then found that sometimes
+> QEMU is down-graded - it treats each instruction as one TB. In version
+> 4.2,  debugging shows
+> that get_page_addr_code_host() from accel/tcg/cputlb.c returns -1, as
+> shown below.
+> 
+> accel/tcg/cputlb.c:
+> tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong
+> addr,
+>                                         void **hostp)
+> {
+>     uintptr_t mmu_idx = cpu_mmu_index(env, true);
+>     uintptr_t index = tlb_index(env, mmu_idx, addr);
+>     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+>     void *p;
+> 
+>     //.....
+>     if (unlikely(entry->addr_code & TLB_MMIO)) {
+>         /* The region is not backed by RAM.  */
+>         if (hostp) {
+>             *hostp = NULL;
+>         }
+>         return -1;        /* debugging falls to this branch, after this
+> point QEMU translate one instruction to a TB  */
+>     }
+>     //.......
+> }   
+> 
+>     One intresting fact is that this somehow depends on the linker
+> command file. The object file generated by the following linker command
+> file(per_instr.lds)
+> will "trigger" the problem. But QEMU work well with the object file
+> linked by the other linker command file (ok.lds).
+>     What cause get_page_addr_code_hostp() function to return -1? I have
+> no clue at all. Any advise is appreciated!!
 
-... but we apparently really want to do a strncpy here - the size is already
-checked with the assert() statement right in front of it. To silence the
-warning, simply replace it with our strpadcpy() function.
+Maybe the "execute from small-MMU-region RAM" problem?
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Use strpadcpy instead of QEMU_NONSTRING (and yes, this time it seems
-     to really silence the compiler warning :-))
-
- migration/global_state.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/migration/global_state.c b/migration/global_state.c
-index 25311479a4..a33947ca32 100644
---- a/migration/global_state.c
-+++ b/migration/global_state.c
-@@ -44,8 +44,8 @@ void global_state_store_running(void)
- {
-     const char *state = RunState_str(RUN_STATE_RUNNING);
-     assert(strlen(state) < sizeof(global_state.runstate));
--    strncpy((char *)global_state.runstate,
--           state, sizeof(global_state.runstate));
-+    strpadcpy((char *)global_state.runstate, sizeof(global_state.runstate),
-+              state, '\0');
- }
- 
- bool global_state_received(void)
--- 
-2.18.2
-
+See:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg549660.html
 
