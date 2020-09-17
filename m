@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA0726DF03
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:04:03 +0200 (CEST)
-Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE1726DF20
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:08:34 +0200 (CEST)
+Received: from localhost ([::1]:52632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvS6-0003LF-8a
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
+	id 1kIvWT-0001WG-U3
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kIvJT-0003yW-9B
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:55:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kIvJP-0008D5-Or
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:55:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600354501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d9ntLIU7TziRVeQTZErYPgJDAtJOdY+7ISQ+St0WLJs=;
- b=Q2kuho9lpqzzBz7nAknSV2Pa4CJ2BEpXGx9Xw4NWtU/DiZDp+F/Sy4DyryiRDCGWEN7slW
- oCndcYMQG+oCw3bRNuayyqfvz+5xEwz1TdV2rPHTi/ynIoAUxmMQDM86pRuHGCQ+0Rxzhi
- +UmSzQXn/VdUGU9hXqhjaX181h7meho=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-UPc2LrEvPtWO6etWaqHKPQ-1; Thu, 17 Sep 2020 10:54:41 -0400
-X-MC-Unique: UPc2LrEvPtWO6etWaqHKPQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBB8F89BBC3;
- Thu, 17 Sep 2020 14:54:32 +0000 (UTC)
-Received: from localhost (ovpn-119-217.rdu2.redhat.com [10.10.119.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 375899916D;
- Thu, 17 Sep 2020 14:54:00 +0000 (UTC)
-Date: Thu, 17 Sep 2020 10:53:59 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: Python 3.5 EOL; when can require 3.6?
-Message-ID: <20200917145359.GN7594@habkost.net>
-References: <875z8eupyp.fsf@dusky.pond.sub.org>
- <495bd2bd-4f38-8fe2-e758-82acbecd0d04@redhat.com>
- <436800a3-7645-52f7-5fea-134d883c0a7b@redhat.com>
- <87d02lzv2k.fsf@linaro.org> <20200916135737.GP1535709@redhat.com>
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kIvK2-0004SE-3i; Thu, 17 Sep 2020 10:55:42 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:44142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kIvJu-0008Jl-TZ; Thu, 17 Sep 2020 10:55:39 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id 4so613779ooh.11;
+ Thu, 17 Sep 2020 07:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=usTzWWB1b5+Hisy8z9tMIqE9ldY8Kkf2c4GjMrfGkek=;
+ b=rHn+NU74QDSFSXwB1cPYeK242pW3zHqGYqaUzwLbUQ0HcZ1389jOkBBUIlyGa9n8sg
+ MsbJnIcVo2c8HBUv2wwomU16GldtfyWz8A84yJ1bjn6C7R6KiaTUSWYY39HvlSl5uKXA
+ wYh/tO7B90yyF+xCuUqTJp/bJM5x25a+2jh6pJmNo8sfuYQHR63D9HA6nic2+2dh5QkI
+ IBAp/2eXWmBiLKMVYtR5NNlotYORGieWUMhDl6ebb41l9fnBSWEn3gTTsBDJNcJKGPSI
+ raQ1uUrCyt1m5tC9yLD2hTfrjTdH89JG9dZVk1unj09T10ZHOEBBrJ/oC7C0sxaxtzCC
+ whFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=usTzWWB1b5+Hisy8z9tMIqE9ldY8Kkf2c4GjMrfGkek=;
+ b=QYTIRWBnDdhXH6Mno8/ZlpP8LqLTbkbFu+LhNDbPGmiXCCTvVgz7IuxZRwWCdyyfs0
+ q5pfORIqybfMie99BglqKbZXj+aSQKg+GHhmtpxBoe4dSpj5WAfU1L7Xke7RDOcS9X6s
+ h9heQGYWiu9syYSsKOOBN4V7uCJVdVrD59p11BRs09nzuboQ/HzXWuyO0+CQ3Irsy9TT
+ r9BNk9dNouN8YeICNXHldlOAtwkFytKSVZNMS0x2eXsAieS/ylVH3NupIRFP1800+5PR
+ GQfvQQ2HHyCD1xMrnBMkTn93K+T4jdMNvaJz5xUy33YeWpoCthPFq7B4pmpS9avB7YaR
+ 4ivA==
+X-Gm-Message-State: AOAM531Yq9SWAAiccFrvEyt6koi379Fq1nOw6IKCGggfKDv8tIleKqjz
+ rXurEDM1irHWO0cMUUrRj+BvFJ0ZD6qtsSE2Rr0=
+X-Google-Smtp-Source: ABdhPJxRZdbdCOjEDJ6ZkxXbw6v4s4taDCYCT3ErSjSgSJC8WHKzTw8V/OMwygN+yo5f2IzQp0Ume+wUXwz636yiE2A=
+X-Received: by 2002:a4a:ae4c:: with SMTP id a12mr21304856oon.60.1600354532816; 
+ Thu, 17 Sep 2020 07:55:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200916135737.GP1535709@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200917094455.822379-1-stefanha@redhat.com>
+ <20200917094455.822379-3-stefanha@redhat.com>
+In-Reply-To: <20200917094455.822379-3-stefanha@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 17 Sep 2020 22:54:56 +0800
+Message-ID: <CAKXe6SJP6NAtkMuH4YU59XdVPTeEdT5K6yBpNgddHEN9EKvcnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] virtio-blk: undo destructive iov_discard_*()
+ operations
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,55 +80,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 16, 2020 at 02:57:37PM +0100, Daniel P. Berrangé wrote:
-> On Wed, Sep 16, 2020 at 02:53:55PM +0100, Alex Bennée wrote:
-> > 
-> > Thomas Huth <thuth@redhat.com> writes:
-> > 
-> > > On 16/09/2020 09.53, Philippe Mathieu-Daudé wrote:
-> > >> On 9/16/20 9:43 AM, Markus Armbruster wrote:
-> > >>> We require Python 3.5.  It will reach its "end of life" at the end of
-> > >>> September 2020[*].  Any reason not to require 3.6 for 5.2?  qemu-iotests
-> > >>> already does for its Python parts.
-> > >>>
-> > >>>
-> > >>> [*] https://www.python.org/downloads/release/python-3510/
-> > >> 
-> > >> Not answering your question, but it would help to start a table
-> > >> of "oldest package released" versions, with our supported distributions
-> > >> as columns and package names as row.
-> > >> 
-> > >> This way when new distributions are released (and oldest dropped from
-> > >> our side) we can add/remove a column and see the oldest version we aim
-> > >> to support.
-> > >
-> > > That's quite a bit of extra work - I think it's enough to look up the
-> > > versions on repology instead, e.g.:
-> > >
-> > > https://repology.org/project/python/versions
-> > 
-> > Hmm are there any magic runes to limit the list to only the distros we
-> > care about?
-> 
-> No, thats the hard bit. Basically have to search through the list looking
-> for the two most recent versions of RHEL, Ubuntu, Debian, Fedora, etc
+Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8817=E6=
+=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=885:47=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Fuzzing discovered that virtqueue_unmap_sg() is being called on modified
+> req->in/out_sg iovecs. This means dma_memory_map() and
+> dma_memory_unmap() calls do not have matching memory addresses.
+>
+> Fuzzing discovered that non-RAM addresses trigger a bug:
+>
+>   void address_space_unmap(AddressSpace *as, void *buffer, hwaddr len,
+>                            bool is_write, hwaddr access_len)
+>   {
+>       if (buffer !=3D bounce.buffer) {
+>           ^^^^^^^^^^^^^^^^^^^^^^^
+>
+> A modified iov->iov_base is no longer recognized as a bounce buffer and
+> the wrong branch is taken.
+>
+> There are more potential bugs: dirty memory is not tracked correctly and
+> MemoryRegion refcounts can be leaked.
+>
+> Use the new iov_discard_undo() API to restore elem->in/out_sg before
+> virtqueue_push() is called.
+>
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1890360
+> Fixes: 827805a2492c1bbf1c0712ed18ee069b4ebf3dd6 ("virtio-blk: Convert Vir=
+tIOBlockReq.out to structrue")
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-I'm using the following command to query Repology from the command line:
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
- $ curl -s 'https://repology.org/api/v1/project/python' |  \
-   jq -r 'group_by(.repo) | .[] | "\(.[0].repo): \(map(.version))"' | \
-   egrep -i 'fedora|ubuntu|debian|rhel|centos|bsd|suse|sles'
-
--- 
-Eduardo
-
+> ---
+>  include/hw/virtio/virtio-blk.h |  2 ++
+>  hw/block/virtio-blk.c          | 11 +++++++++--
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-bl=
+k.h
+> index 29c9f32353..df3876d49c 100644
+> --- a/include/hw/virtio/virtio-blk.h
+> +++ b/include/hw/virtio/virtio-blk.h
+> @@ -72,6 +72,8 @@ typedef struct VirtIOBlockReq {
+>      int64_t sector_num;
+>      VirtIOBlock *dev;
+>      VirtQueue *vq;
+> +    IOVDiscardUndo inhdr_undo;
+> +    IOVDiscardUndo outhdr_undo;
+>      struct virtio_blk_inhdr *in;
+>      struct virtio_blk_outhdr out;
+>      QEMUIOVector qiov;
+> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> index 2204ba149e..bac2d6fa2b 100644
+> --- a/hw/block/virtio-blk.c
+> +++ b/hw/block/virtio-blk.c
+> @@ -80,6 +80,8 @@ static void virtio_blk_req_complete(VirtIOBlockReq *req=
+, unsigned char status)
+>      trace_virtio_blk_req_complete(vdev, req, status);
+>
+>      stb_p(&req->in->status, status);
+> +    iov_discard_undo(&req->inhdr_undo);
+> +    iov_discard_undo(&req->outhdr_undo);
+>      virtqueue_push(req->vq, &req->elem, req->in_len);
+>      if (s->dataplane_started && !s->dataplane_disabled) {
+>          virtio_blk_data_plane_notify(s->dataplane, req->vq);
+> @@ -632,10 +634,12 @@ static int virtio_blk_handle_request(VirtIOBlockReq=
+ *req, MultiReqBuffer *mrb)
+>          return -1;
+>      }
+>
+> -    iov_discard_front(&out_iov, &out_num, sizeof(req->out));
+> +    iov_discard_front_undoable(&out_iov, &out_num, sizeof(req->out),
+> +                               &req->outhdr_undo);
+>
+>      if (in_iov[in_num - 1].iov_len < sizeof(struct virtio_blk_inhdr)) {
+>          virtio_error(vdev, "virtio-blk request inhdr too short");
+> +        iov_discard_undo(&req->outhdr_undo);
+>          return -1;
+>      }
+>
+> @@ -644,7 +648,8 @@ static int virtio_blk_handle_request(VirtIOBlockReq *=
+req, MultiReqBuffer *mrb)
+>      req->in =3D (void *)in_iov[in_num - 1].iov_base
+>                + in_iov[in_num - 1].iov_len
+>                - sizeof(struct virtio_blk_inhdr);
+> -    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr));
+> +    iov_discard_back_undoable(in_iov, &in_num, sizeof(struct virtio_blk_=
+inhdr),
+> +                              &req->inhdr_undo);
+>
+>      type =3D virtio_ldl_p(vdev, &req->out.type);
+>
+> @@ -739,6 +744,8 @@ static int virtio_blk_handle_request(VirtIOBlockReq *=
+req, MultiReqBuffer *mrb)
+>
+>          if (unlikely(iov_to_buf(out_iov, out_num, 0, &dwz_hdr,
+>                                  sizeof(dwz_hdr)) !=3D sizeof(dwz_hdr))) =
+{
+> +            iov_discard_undo(&req->inhdr_undo);
+> +            iov_discard_undo(&req->outhdr_undo);
+>              virtio_error(vdev, "virtio-blk discard/write_zeroes header"
+>                           " too short");
+>              return -1;
+> --
+> 2.26.2
+>
 
