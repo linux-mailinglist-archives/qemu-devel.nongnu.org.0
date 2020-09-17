@@ -2,60 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5AE26E19E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:03:04 +0200 (CEST)
-Received: from localhost ([::1]:46118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFBC26E1B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:05:11 +0200 (CEST)
+Received: from localhost ([::1]:50694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIxJH-0004iv-RG
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59796)
+	id 1kIxLK-0006dG-67
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:05:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kIxHs-0003hz-0s
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:01:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31604)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIxHt-0003iq-Ge
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:01:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kIxHp-0005Pp-DV
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:01:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIxHq-0005Q4-Ev
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:01:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600362092;
+ s=mimecast20190719; t=1600362093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AOcg7erdQiG6t1re3jBjRLL6u+BC9P88PDt8o+CU52k=;
- b=ez/sMK6MBIRNC4TbsSwUqlbi9k4T8zFbfaYnGVqDVLMcH1JEsC1dC6XybtO0VZkjmJam54
- qrQTYXCMy2Bq5nlxyMfzFunxe1i5JcWqWcU8cIK+MNULDfFUs/GW6HkcT7B/j09Dnm4+z5
- k036HCaHAwE3XigljIQLjAPZjc8uRpk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-etVH8VP5NKa1lqdHXXr32w-1; Thu, 17 Sep 2020 13:01:30 -0400
-X-MC-Unique: etVH8VP5NKa1lqdHXXr32w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 618EF800467;
- Thu, 17 Sep 2020 17:01:28 +0000 (UTC)
-Received: from work-vm (ovpn-114-108.ams2.redhat.com [10.36.114.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9306078803;
- Thu, 17 Sep 2020 17:01:22 +0000 (UTC)
-Date: Thu, 17 Sep 2020 18:01:19 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [PATCH v3 4/5] sev/i386: Don't allow a system reset under an
- SEV-ES guest
-Message-ID: <20200917170119.GR2793@work-vm>
-References: <cover.1600205384.git.thomas.lendacky@amd.com>
- <058dcb33a9cc223e3180133d29e7a92bfdc40938.1600205384.git.thomas.lendacky@amd.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=67fKgAft+sJNq/MKgW8S3a1w3i5qeWx6p/YWGXtSgNU=;
+ b=egV3DjpRiv5Rv3XxyHJu8nFfq1SK8VOeMkOeK2PQjBBAzTvUS8/xHT/YzIMILP8+ry1ZMm
+ v95gJ+ijPu/p/G9feBX/BPw5EaDVNapHQcgfzRJLYspn9ALS/MkgzrzONwI0PCvGGq/O1j
+ +b4my987pFBjxTJYgrOHKLgOsDVqGqg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-1ndBMkNCNtiRrJCa50egXw-1; Thu, 17 Sep 2020 13:01:26 -0400
+X-MC-Unique: 1ndBMkNCNtiRrJCa50egXw-1
+Received: by mail-wr1-f71.google.com with SMTP id x15so1112992wrm.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 10:01:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=67fKgAft+sJNq/MKgW8S3a1w3i5qeWx6p/YWGXtSgNU=;
+ b=OMB1rYqyHlhoqsp+dPnRWq+Yhpy0c2VPKzucomjvwl9ALL7tbtSgF/dLllNmkd1C82
+ 4o7n2+cyjYJ6//WIlR5gJ0uPRlAr6bFw3p35kaZVtlSHunDQRAE/CNJvGekdPVwW6W12
+ /LWpsNZ6OUw2HwU311b/X1RMBoScfaUojgSHGDfAcFdIvqGouTIPgYbLrngW7gKktqdF
+ +oH15YcqzU+VwP1JN+f7WLP/Rht35bF44w9ySsqHQ4qwPx1TXUcpXqSSZsrmq8wY4q5C
+ BawmxRKnjWzGq7FrsxVok4EISImS+aJgiPib/Y0Cknzy+6rD6LEaz5u38E+T7gaZkSVP
+ /Y9A==
+X-Gm-Message-State: AOAM532DBX1ct5HLsAiDu1K4jz7qG/aeAE0BJSGTlgW8qhZrPq/MGHdS
+ wKsaYUCjg11prcEd/CPdD2bVlVkIe6CBlSoKULwjnOHEbJ2P2xeZ0Ncenb7DtJ4VFSTxsya3Bu7
+ tPrnf9PPEkOoo8j8=
+X-Received: by 2002:a1c:c256:: with SMTP id s83mr11115083wmf.93.1600362085010; 
+ Thu, 17 Sep 2020 10:01:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9oMil8bqOf42o26mbehVUW5BTH8Go5KvmsJx2kSHEnzFUJf46geowch8uHLOdQs8LSgyvpQ==
+X-Received: by 2002:a1c:c256:: with SMTP id s83mr11115048wmf.93.1600362084787; 
+ Thu, 17 Sep 2020 10:01:24 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id k8sm245041wrl.42.2020.09.17.10.01.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Sep 2020 10:01:24 -0700 (PDT)
+Subject: Re: [PATCH] tests/acceptance: Disable tests dependent of unreliable
+ apt.armbian.com
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200917163954.50514-1-philmd@redhat.com>
+ <308aaf63-a9a4-256e-a29f-9d0bd1c53532@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <450f5b49-6309-5806-9ab2-4fad6a06e180@redhat.com>
+Date: Thu, 17 Sep 2020 19:01:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <058dcb33a9cc223e3180133d29e7a92bfdc40938.1600205384.git.thomas.lendacky@amd.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <308aaf63-a9a4-256e-a29f-9d0bd1c53532@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -64,8 +109,9 @@ X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,137 +124,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Tom Lendacky (thomas.lendacky@amd.com) wrote:
-> From: Tom Lendacky <thomas.lendacky@amd.com>
+On 9/17/20 6:53 PM, Thomas Huth wrote:
+> On 17/09/2020 18.39, Philippe Mathieu-Daudé wrote:
+>> Armbian servers are not very reliable and confused the GitLab CI
+>> users a few times this month (path updated, archives moved, and
+>> now the SSL: CERTIFICATE_VERIFY_FAILED "certificate has expired"
+>> error). Time to disable these tests.
+>> Users can still use the artifacts from the cache (or manually add
+>> them to the cache).
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  tests/acceptance/boot_linux_console.py | 10 ++++++++++
+>>  tests/acceptance/replay_kernel.py      |  2 ++
+>>  2 files changed, 12 insertions(+)
 > 
-> An SEV-ES guest does not allow register state to be altered once it has
-> been measured. When a SEV-ES guest issues a reboot command, Qemu will
-> reset the vCPU state and resume the guest. This will cause failures under
-> SEV-ES, so prevent that from occurring.
-> 
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-> ---
->  accel/kvm/kvm-all.c       | 9 +++++++++
->  include/sysemu/cpus.h     | 2 ++
->  include/sysemu/hw_accel.h | 5 +++++
->  include/sysemu/kvm.h      | 2 ++
->  softmmu/cpus.c            | 5 +++++
->  softmmu/vl.c              | 5 ++++-
->  6 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 20725b0368..63153b6e53 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -2388,6 +2388,15 @@ void kvm_flush_coalesced_mmio_buffer(void)
->      s->coalesced_flush_in_progress = false;
->  }
->  
-> +bool kvm_cpu_check_resettable(void)
-> +{
-> +    /*
-> +     * If we have a valid reset vector override, then SEV-ES is active
-> +     * and the CPU can't be reset.
-> +     */
-> +    return !kvm_state->reset_valid;
+> These failures in the Gitlab-CI are quite annoying, indeed.
 
-This seems a bit weird since it's in generic rather than x86 specific
-code.
+I'd rather not go via this path, but since we don't save the
+artifacts cache, I can't find a better way to not block all
+the other developers using GitLab CI.
 
-Dave
+But I prefer we disable the tests until something better
+emerge, rather that having the developers stopping running
+these tests. So this is a quick band-aid patch.
 
-> +}
-> +
->  static void do_kvm_cpu_synchronize_state(CPUState *cpu, run_on_cpu_data arg)
->  {
->      if (!cpu->vcpu_dirty) {
-> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-> index 3c1da6a018..6d688c757f 100644
-> --- a/include/sysemu/cpus.h
-> +++ b/include/sysemu/cpus.h
-> @@ -24,6 +24,8 @@ void dump_drift_info(void);
->  void qemu_cpu_kick_self(void);
->  void qemu_timer_notify_cb(void *opaque, QEMUClockType type);
->  
-> +bool cpu_is_resettable(void);
-> +
->  void cpu_synchronize_all_states(void);
->  void cpu_synchronize_all_post_reset(void);
->  void cpu_synchronize_all_post_init(void);
-> diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-> index e128f8b06b..8b4536e7ae 100644
-> --- a/include/sysemu/hw_accel.h
-> +++ b/include/sysemu/hw_accel.h
-> @@ -17,6 +17,11 @@
->  #include "sysemu/hvf.h"
->  #include "sysemu/whpx.h"
->  
-> +static inline bool cpu_check_resettable(void)
-> +{
-> +    return kvm_enabled() ? kvm_cpu_check_resettable() : true;
-> +}
-> +
->  static inline void cpu_synchronize_state(CPUState *cpu)
->  {
->      if (kvm_enabled()) {
-> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> index f74cfa85ab..eb94bbbff9 100644
-> --- a/include/sysemu/kvm.h
-> +++ b/include/sysemu/kvm.h
-> @@ -494,6 +494,8 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
->  
->  #endif /* NEED_CPU_H */
->  
-> +bool kvm_cpu_check_resettable(void);
-> +
->  void kvm_cpu_synchronize_state(CPUState *cpu);
->  void kvm_cpu_synchronize_post_reset(CPUState *cpu);
->  void kvm_cpu_synchronize_post_init(CPUState *cpu);
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index a802e899ab..32f286643f 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -927,6 +927,11 @@ void hw_error(const char *fmt, ...)
->      abort();
->  }
->  
-> +bool cpu_is_resettable(void)
-> +{
-> +    return cpu_check_resettable();
-> +}
-> +
->  void cpu_synchronize_all_states(void)
->  {
->      CPUState *cpu;
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 4eb9d1f7fd..422fbb1650 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1475,7 +1475,10 @@ void qemu_system_guest_crashloaded(GuestPanicInformation *info)
->  
->  void qemu_system_reset_request(ShutdownCause reason)
->  {
-> -    if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
-> +    if (!cpu_is_resettable()) {
-> +        error_report("cpus are not resettable, terminating");
-> +        shutdown_requested = reason;
-> +    } else if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
->          shutdown_requested = reason;
->      } else {
->          reset_requested = reason;
-> -- 
-> 2.28.0
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> 
+
+Thanks!
+
+Phil.
 
 
