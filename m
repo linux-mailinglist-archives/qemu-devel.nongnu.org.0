@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF2626DF24
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:10:09 +0200 (CEST)
-Received: from localhost ([::1]:60854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D763826DF47
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:12:57 +0200 (CEST)
+Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvY0-0004wY-4r
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53968)
+	id 1kIvai-0000Hq-Q0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
- id 1kIvOV-0000wG-0H
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:00:19 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51991)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPP-0001WS-PJ
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:15 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
- id 1kIvOS-0000cm-CW
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:00:17 -0400
-Received: by mail-wm1-x343.google.com with SMTP id w2so2290469wmi.1
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:00:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvP8-0000si-Nu
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:15 -0400
+Received: by mail-pl1-x631.google.com with SMTP id u9so1274697plk.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=blade-group.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3SVM8rXotF623Io9IrHQcUlHf3E7vAYuPYcMdJ6OHtw=;
- b=ehIKjKV7pmr32yaIhdGMJIAFOqt3I9hahdx3XadTaNQTqukmy1t7uMyAmIibVW4TQH
- J9rGKGyT8FN/uwjjo3N5moqhJ2DnkhkDv2kGUN9ZoJwoC/eFCw/x2mBPF4VZvKYNhW9P
- 1GsYpCaBp1WY581RFfmB7DqRWH4RO+KUufLDveNKSjS+uJHD2HjXJ/6ielxWxoCsNboC
- WuOrd4DUkuIIIma6JdSNTChsTbLIor6eA1cXU2mnxY9L+sph1mST87JoS1TB9RGicWQa
- wC0rBQxpuSvV+EC0qBvdBG2OzQP8KYYAKWPVfrZFY0HW6BWrJpMitKaV8xqfTDh38kxy
- w/oQ==
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=y+k9Fl1Snln5TQyJuSkHxx0wDGWPg6vrEjCT/djZxTM=;
+ b=XoXH3FAuMWj//g5qkMgBG2PSoRaon53SkRW0unKkt8YYn6nGX3DWuRa03E9AH0JbnJ
+ rl1A/StZT4DPe91TgniVJDtFoctJNs4thUrJbPRj3RZVOGHZR7h9ppmsA16gOwJgHkm8
+ aiNMYq4KhxJ+FGDzpIvDux6sx1TXfI8WRziMLKA+xRbXedaXj5i4ZCOV/MIKXA47tIHW
+ SAMWXB4MXSaMoOGLvsZM6Df6eob5Ge7S6IhfhrCJ4hPB8r/E8PN6kIH2pmpkfN/yAEo5
+ I1UoKpdk4QF/GkT6qLyhCvgtu1M+DQjY5GZSbyB3vURsfTJqx/U3cG+EaBuvUFr3LXAY
+ 2v3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3SVM8rXotF623Io9IrHQcUlHf3E7vAYuPYcMdJ6OHtw=;
- b=mViASPbSl771v+xze5LvycxIyaG6Cgcv8zX+kTTrdj92F5qsAAHSMzduzFgW8A5qO5
- cNCfkVMSNkFPj4AYWNQKCS4JBaFEWi95bP99T8Rh2L1u9tLjwQ1js6xn3Tuv3YE1sBvl
- veNidDjnEcWNXjJse32pIFtKKKPkduq1WXnHEUHELY2zO6TZGYg5XDF1ZWPJga+jlTm8
- DMrjZPo7cFNZKUBw+dpWE8PrYOyR51dLt3eKndVqhSKlPQ4VQwUUpnr66aOkNjmqt8R7
- Kdsnnj+wnz/xXd25YfOfzGSnisN+7ImIAq+mfO/LoiQgS5ZQHt6ko+E0VH1xz8rmazRu
- gP6g==
-X-Gm-Message-State: AOAM532XbmuoeM3rTj1jqBm+s5weP1pKXcWFCzkdAY6CAPA9JWlJgCNx
- WSo7sHNdD87yUI5c5pETDH4xbw==
-X-Google-Smtp-Source: ABdhPJzNmxfhpX4UOuH3PFmeD4Lo9LMIVBbEvlDXjPnQT6N96OsWsm2ECLa6h7VGI2oUJdvArflQyQ==
-X-Received: by 2002:a1c:65c1:: with SMTP id z184mr10023712wmb.61.1600354813954; 
- Thu, 17 Sep 2020 08:00:13 -0700 (PDT)
-Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
- by smtp.gmail.com with ESMTPSA id h17sm41580596wro.27.2020.09.17.08.00.12
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=y+k9Fl1Snln5TQyJuSkHxx0wDGWPg6vrEjCT/djZxTM=;
+ b=Gnqm5fa+vOzPFCRAvi6P4KE60jN500rEULmGHFIvbZmQZdSUEzuWhlII9bYYV03em3
+ t7+o/9IxMSZqwoLO0w8sKqkxrdmQ+gYVoL73+E50sS+fKY7mOpRg0M48Ehf/QYD8q9JZ
+ nlQpKFj09a9GLpuRLQBNR2Zgu4tn+DjpTmbDtFeyFGn73gf+Bec9mZHla28dYt5zipXa
+ Ilg0uKmHmTK1vRXhiijsWozPVR3N+xcJHOgG9Zt1RoNMWbcs/4uouiJc2VJs5j0f+OEW
+ Gkj3QW+kqwc9L+9vbNcwOLLNrCTvnRrG3n3o5EeXt1qdntUku/VLiLpJRcvS5OLX4CKf
+ iv5A==
+X-Gm-Message-State: AOAM5329GVsv5W+5Lw4VDOa3SV6NpGEeyMsWDSw3h6MKoKul2wDjttc4
+ jWgia8/ESTliRXCf7TeL8bc6JFnhqwPkzLgt
+X-Google-Smtp-Source: ABdhPJzn44jCpiXNunPi86DM13GJD37dAO+6va5Ms5tc526gIz6cVbgm2exm3rbfG0BGBfoo/jq6dw==
+X-Received: by 2002:a17:902:e9d2:b029:d1:e5e7:be63 with SMTP id
+ 18-20020a170902e9d2b02900d1e5e7be63mr11258119plk.61.1600354854471; 
+ Thu, 17 Sep 2020 08:00:54 -0700 (PDT)
+Received: from localhost.localdomain ([115.96.151.231])
+ by smtp.googlemail.com with ESMTPSA id e10sm17674374pgb.45.2020.09.17.08.00.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 08:00:13 -0700 (PDT)
-Date: Thu, 17 Sep 2020 17:00:12 +0200
-From: Antoine Damhet <antoine.damhet@blade-group.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] target/i386: always create kvmclock device
-Message-ID: <20200917150012.wtub7y7wfrcepnkb@tartarus>
-References: <20200917111306.819263-1-vkuznets@redhat.com>
- <20200917122559.e7i5o64k7rw7urdh@tartarus>
- <87ft7gh6gy.fsf@vitty.brq.redhat.com>
- <20200917144237.GK2793@work-vm>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5je6uqn7y7r526nw"
-Content-Disposition: inline
-In-Reply-To: <20200917144237.GK2793@work-vm>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x343.google.com
+ Thu, 17 Sep 2020 08:00:53 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/12] i440fx/acpi: addition of feature and bug fixes.
+Date: Thu, 17 Sep 2020 20:30:32 +0530
+Message-Id: <20200917150044.23159-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2607:f8b0:4864:20::631;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x631.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,67 +77,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---5je6uqn7y7r526nw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 17, 2020 at 03:42:37PM +0100, Dr. David Alan Gilbert wrote:
-
-[...]
-
-> > >
-> > > Shouldn't the old check used when machine type <=3D 5.1 in order to a=
-void
-> > > migration incompatibility ?
-> >=20
-> > Hm, when the check fails we just don't create the device and no error is
-> > reported, so even if we have kvmclock data in the migration stream but
-> > fail to create it migration will still succeed, right? (not a migration
-> > expert here :-)
->=20
-> When the migration stream is parsed, it'll try and find a "kvmclock"
-> device to pass the data it's reading to; if one doesn't exist it'll
-> fail.
->=20
-> The other question is in the incoming direction from an older VM;
-> you'll have a kvm clock created here, but you won't load the kvm clock
-> state from the migration stream - what is this clock going to do?
-
-I guess that if the migration succeed (and the VMState keeps it's
-initial value) the timestamp will be restored to 0 which is the current
-behavior.
-
->=20
-> Dave
+In v8, I have updated the commit log for patch #9 mentioning the tables that
+are being updated with patch #10.
 
 
-[...]
+Ani Sinha (12):
+  tests/acpi: mark addition of table DSDT.roothp for unit testing root
+    pci hotplug
+  tests/acpi: add new unit test to test hotplug off/on feature on the
+    root pci bus
+  tests/acpi: add a new ACPI table in order to test root pci hotplug
+    on/off
+  Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
+    non-hotpluggable bus
+  i440fx/acpi: do not add hotplug related amls for cold plugged bridges
+  tests/acpi: list added acpi table binary file for pci bridge hotplug
+    test
+  tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support'
+    bridge flag
+  tests/acpi: add newly added acpi DSDT table blob for pci bridge
+    hotplug flag
+  piix4: don't reserve hw resources when hotplug is off globally
+  tests/acpi: update golden master DSDT binary table blobs for q35
+  tests/acpi: unit test exercising global pci hotplug off for i440fx
+  tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx
+    hotplug
 
---=20
-Antoine 'xdbob' Damhet
+ hw/acpi/pcihp.c                   |  15 +++++++++
+ hw/acpi/piix4.c                   |   6 ++--
+ hw/i386/acpi-build.c              |  37 ++++++++++++++--------
+ tests/data/acpi/pc/DSDT.hpbridge  | Bin 0 -> 4895 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot  | Bin 0 -> 2953 bytes
+ tests/data/acpi/pc/DSDT.roothp    | Bin 0 -> 5130 bytes
+ tests/data/acpi/q35/DSDT          | Bin 7678 -> 7670 bytes
+ tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 8994 bytes
+ tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7688 bytes
+ tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8133 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9323 bytes
+ tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7745 bytes
+ tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9029 bytes
+ tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8801 bytes
+ tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7676 bytes
+ tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8276 bytes
+ tests/qtest/bios-tables-test.c    |  49 ++++++++++++++++++++++++++++++
+ 17 files changed, 92 insertions(+), 15 deletions(-)
+ create mode 100644 tests/data/acpi/pc/DSDT.hpbridge
+ create mode 100644 tests/data/acpi/pc/DSDT.hpbrroot
+ create mode 100644 tests/data/acpi/pc/DSDT.roothp
 
---5je6uqn7y7r526nw
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.17.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAl9jefkACgkQ3AmjLzzl
-jz69TwgAl8ilg5AhjL20olk8/q9lqrdl7ENnCjz/FPNwzOAovfiQKfuykgIE/95L
-x/Kuo/hJJjmyEPTXJpKDPu3oxv8llSqxP1MvcAYJVVuvQfgrGP3VfdjnRIdKUZ/5
-HDQnFV+NLfE4Vp3inI2BtQeQbiNTiEnOAaXilHIh42JRUgcPFKQTmZqZBwWXlLSR
-d2mKq6Qd9GNE74Emh3K0saIFCaUBDWSGpcuX7KnYKOR1mRYPdbQRwKyKO+mbjFPw
-L5EpQX+h5535EpJCz7xfFd+xLz7A/9dGpXC9qplIqftJ0N3szYWaoLiNqkgxTR9M
-TPdqUjJmFk0pYzqdiza8YlG14UJXdw==
-=lI3M
------END PGP SIGNATURE-----
-
---5je6uqn7y7r526nw--
 
