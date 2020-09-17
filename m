@@ -2,55 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C7C26DE41
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:30:24 +0200 (CEST)
-Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E8126DE29
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:25:07 +0200 (CEST)
+Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIuvW-0007Pm-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40300)
+	id 1kIuqP-00083b-VK
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kIufG-0000m6-IO; Thu, 17 Sep 2020 10:13:34 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47217)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kIufD-00023T-Oj; Thu, 17 Sep 2020 10:13:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=PBo7i6LtCiPlUwO7xMF9oMS0OJtodZpQ1CxytP6yGe4=; 
- b=nYfYKEZI0TsF03bkc0XNJIIEtGILXK8VT0DquOY/LXdnLyE2Dxf40+yYsmYr1pYpMfsBWV3Amxc9zLmkkemkEgqYrEaO1Z0AhblrdRXg7xlPL5G8iKhqMipm+MMLO9IGllsfgsF8Uf0Y5TNO4e3MFX/+td2cvJekMkrTlYXlQD9ci2kQRVy9PaP9pbu5CybWdOr90OkkayASfPjdVzm0qOK8gtPaq+e1jtBaB9BBDbQDQkODb7NmdkFwkTaOwCxR6ZHfiZxfMPL0Z6LRpvbAwvIXtQkkBtizItTMpcvqkDCwcKFQ+TSDUIcVnJKM8finH0ab+7HfHFs4xe1W3h732Q==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kIufA-0004Ot-B7; Thu, 17 Sep 2020 16:13:28 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kIufA-00083X-0m; Thu, 17 Sep 2020 16:13:28 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 01/14] block: return status from bdrv_append and friends
-In-Reply-To: <20200909185930.26524-2-vsementsov@virtuozzo.com>
-References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
- <20200909185930.26524-2-vsementsov@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 17 Sep 2020 16:13:28 +0200
-Message-ID: <w51y2l8xzhz.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIujW-0006TT-RS
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:17:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIujU-0002is-W5
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:17:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600352275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=24jWfzjlkhKIxJSSL2cfwfuNqp054IGNzwVqyyudGDU=;
+ b=dtm32XLKjJ25IuMjyDjFafsLsa1RGQF6a61yY6bta6E8gOL+100ymZTPDTMRN9De/13qz8
+ V6+LlNcL9MTXzHkpOP3Ujv4bee+CGXaqcNHa/Fox3Dks8JJu2OIdX5OGcS+QSFjrX+De54
+ ivJnAyL6fKvnhILx/tIgbvyik/FeHbU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-uv6sBA1LPgKMCWz0VKr2vA-1; Thu, 17 Sep 2020 10:17:53 -0400
+X-MC-Unique: uv6sBA1LPgKMCWz0VKr2vA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDBFF1074643;
+ Thu, 17 Sep 2020 14:17:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB5CC19D6C;
+ Thu, 17 Sep 2020 14:17:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5E4A8113864A; Thu, 17 Sep 2020 16:17:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 11/37] qapi/common.py: Replace one-letter 'c' variable
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-12-jsnow@redhat.com>
+Date: Thu, 17 Sep 2020 16:17:51 +0200
+In-Reply-To: <20200915224027.2529813-12-jsnow@redhat.com> (John Snow's message
+ of "Tue, 15 Sep 2020 18:40:01 -0400")
+Message-ID: <87mu1opjw0.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 09:56:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,25 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, pavel.dovgaluk@ispras.ru,
- qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org, stefanha@redhat.com,
- pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 09 Sep 2020 08:59:17 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> The recommended use of qemu error api assumes returning status together
-> with setting errp and avoid void functions with errp parameter. Let's
-> improve bdrv_append and some friends to reduce error-propagation
-> overhead in further patches.
->
-> Choose int return status, because bdrv_replace_node() has call to
-> bdrv_check_update_perm(), which reports int status, which seems correct
-> to propagate.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+John Snow <jsnow@redhat.com> writes:
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/common.py | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index c665e67495..4c079755d3 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -30,14 +30,14 @@ def camel_to_upper(value):
+>      new_name = ''
+>      length = len(c_fun_str)
+>      for i in range(length):
+> -        c = c_fun_str[i]
+> -        # When c is upper and no '_' appears before, do more checks
+> -        if c.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
+> +        char = c_fun_str[i]
+> +        # When char is upper and no '_' appears before, do more checks
 
-Berto
+Good opportunity to tweak the language: "When char is upper case".
+
+> +        if char.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
+>              if i < length - 1 and c_fun_str[i + 1].islower():
+>                  new_name += '_'
+>              elif c_fun_str[i - 1].isdigit():
+>                  new_name += '_'
+> -        new_name += c
+> +        new_name += char
+>      return new_name.lstrip('_').upper()
+
 
