@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858B226DF8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:24:09 +0200 (CEST)
-Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4080126DF55
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:14:24 +0200 (CEST)
+Received: from localhost ([::1]:46240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvlY-0004Bu-E5
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54690)
+	id 1kIvc7-0002X4-6i
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPx-0001rk-8v
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:49 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:44693)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvQ3-00022h-US
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:55 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:40544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPq-00014C-Bd
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:48 -0400
-Received: by mail-pl1-x634.google.com with SMTP id j7so1259165plk.11
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:01:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kIvPv-00014k-Bz
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:01:55 -0400
+Received: by mail-pl1-x643.google.com with SMTP id bd2so1268817plb.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6UU5A+9H4Z/dLJEWQ38ya4Y2aQ8zcVu71hsNkLRoxQI=;
- b=rd7taU5liupjYnqTDqc+eKHMkulIFPfBPJmq4NEa8bMVjlLHct1Jc8eIMRIpRTAzGG
- zFhWYlz0q8BXzA190pl79IWWnMzO3PVKWX1JIpdDEC3CuyJN1/EFVC0gpsMCKRqmsmhX
- sJCAQ3P2HKCLXMc264AfhoyEGM9ySAMADifksajkwvPe0y2IUnnOR+IST8kXI95kI1hT
- BjQlNuXrkEPJsrdjw8gJ6z4HN4RKZhzp/IFUegHV4ftBTSCPsGiFna53+dAG25AXOuuq
- 6Rh/PVqOb4goDMtJqWea8xXN7Zd4f58MPIQO6H+wt0hEcuTHBszaiNdBqTFv2FlppDhy
- 7qqA==
+ bh=AWrCdAS9YrXdNthcKajxbUJ0zahd1eQ0Rfl6scNbHz8=;
+ b=OzUDEI7Gv75rdIJnkoFyg5mBCyEAHMEWkKYn7kEMChWgSVfIhiiXTHNyjgh3MwFsoI
+ +T8jP/soCEPNkBDyJqQ2Y2/h66uyyHAxtkosA3nwDdsMYyCFYzCtq9onwz74uAibSa/w
+ 6kvH3W5L5lMhpLRya2fifiN+Mh+UT20UpaldAyp17a5SNaMItl0xX3vp/xpxPJ8NxVUw
+ 1ZyEChVc4UTILiG9rkDrVwqw9mgzC0V7RL1CiBjdskymJZEVLY6dBsvC7RHHcIkq0H8i
+ RrtPOzd8H3D7aqXHKPt8kVbJ+e8eoLQLPwRx4QhcA/C6/zXlgoevRwPdT1olYv3PQbuC
+ 5ghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=6UU5A+9H4Z/dLJEWQ38ya4Y2aQ8zcVu71hsNkLRoxQI=;
- b=V2P1atvmIUm0BYqEQPns7ZCsuDnR3HGT1/Xyw3TwKVUGe4c/eNYxXXb42FB6CUAvqK
- y6/zruY/b6I/9unpvTpe/3iorxA9chTnSA41MTejsPe2FVsroAMzwOK8vgKktYcn2JhN
- fU5kcBVjjUzyZDFllU7WkufNIz21AVBSYSNMb22Eg7rUOXzbBtiRoJfIRTTtqHa0i4Pd
- i6UsanPLhfLqOt/UnqZhL3RP0KMoeA7wybpoNgCA16eUIwJ4Ur+ntr2vWD6e95LffU3J
- tbJ88/MWEkxhR+Uqkb8OFfoeV+Ti9Nlhvv2MRhU1Q14Pg1PZTEdQ4MiWLJmrKK7k6LVR
- nwog==
-X-Gm-Message-State: AOAM533VzN7O6dlcCimOSzBdCFWcIKO7jgRqjZ3cfSAjsjsaCgRoB8cZ
- mqspDm4B+8QOH+5+Xni2zhim3KAf96FZ9Hyi
-X-Google-Smtp-Source: ABdhPJyecPF01aQD79n8MaLf5hb9L/9KRkXnpunu5/2uDILSB4wLVk1dP+j748jErUNghiZam7Q3Gw==
-X-Received: by 2002:a17:90a:d914:: with SMTP id
- c20mr9117053pjv.34.1600354899913; 
- Thu, 17 Sep 2020 08:01:39 -0700 (PDT)
+ bh=AWrCdAS9YrXdNthcKajxbUJ0zahd1eQ0Rfl6scNbHz8=;
+ b=qmNU3Fp9896+6TVqavk3r1udqeqHx3NSoO5KWvVn0Nfrk8Bm+hIpq4yzqXyWMq5wZU
+ tkuP5fdm85y1Gg9WFaaEbiY2f43y6p4PGq6i2Y2U1e7QqJ/HbBFkmrjgo/AQnfPMh/bw
+ Jy1JzHv8EoLVHQ94B3IE21ZS2lk9d9MnMxdNS0TihDOW3l0TJadLDa59AUI2LF7w2shs
+ T3GyAczy+7ztzRulk/cmhRqB229OQK5pGpkNtmoEFxVg7Md/f+IvoCidL8JTNDB5ObhX
+ GegADuEiOAnMcDimqFomlXWhOJ4r9jiSWE2VSUkcywdoM8QgnmV7dENglTQhBwrDo6D2
+ p/Xg==
+X-Gm-Message-State: AOAM532Jl1yoWYN7tFHLA5qc8KF8QZEcyIp5qiu22EycNsJOfJ/EeP57
+ GcghFefheNtZh5x/W9K9d7MqNRFSfhXk94J1
+X-Google-Smtp-Source: ABdhPJx9WFpAsWXfILgjpERpMFXAc8TfI3/QVPZlQy+82wp6fVeZ48rHnEuOPAej3tbIOHub4neltg==
+X-Received: by 2002:a17:902:9f84:b029:d1:cc21:9a49 with SMTP id
+ g4-20020a1709029f84b02900d1cc219a49mr17442678plq.9.1600354903920; 
+ Thu, 17 Sep 2020 08:01:43 -0700 (PDT)
 Received: from localhost.localdomain ([115.96.151.231])
- by smtp.googlemail.com with ESMTPSA id e10sm17674374pgb.45.2020.09.17.08.01.36
+ by smtp.googlemail.com with ESMTPSA id e10sm17674374pgb.45.2020.09.17.08.01.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 08:01:39 -0700 (PDT)
+ Thu, 17 Sep 2020 08:01:43 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 10/12] tests/acpi: update golden master DSDT binary table
- blobs for q35
-Date: Thu, 17 Sep 2020 20:30:42 +0530
-Message-Id: <20200917150044.23159-11-ani@anisinha.ca>
+Subject: [PATCH v8 11/12] tests/acpi: unit test exercising global pci hotplug
+ off for i440fx
+Date: Thu, 17 Sep 2020 20:30:43 +0530
+Message-Id: <20200917150044.23159-12-ani@anisinha.ca>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200917150044.23159-1-ani@anisinha.ca>
 References: <20200917150044.23159-1-ani@anisinha.ca>
-Received-SPF: none client-ip=2607:f8b0:4864:20::634;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x634.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::643;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -88,179 +88,66 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the change d7f82561fe ("piix4: don't reserve hw resources when
-hotplug is off globally"), we make changes to the ACPI DSDT tables
-such that some ACPI code are not generated when bsel is absent. Since
-as of this point in time, in q35 machines, we do not use bsel for pci
-buses, we need to update the DSDT table blobs.
-This patch updates the DSDT golden master tables for q35 machines.
+This change adds a unit test to exercise the case when hotplug is disabled
+both for pci root bus and the pci bridges by passing the following two
+switches to qemu:
 
-Following is a typical diff between the q35 acpi DSDT table blobs:
+  -global PIIX4_PM.acpi-root-pci-hotplug=off
+  -global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off
 
-@@ -1,30 +1,30 @@
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20180105 (64-bit version)
-  * Copyright (c) 2000 - 2018 Intel Corporation
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT, Tue Sep 15 18:52:47 2020
-+ * Disassembly of /tmp/aml-3O0DR0, Tue Sep 15 18:52:47 2020
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00001DFE (7678)
-+ *     Length           0x00001DF6 (7670)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xAC
-+ *     Checksum         0x17
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
- DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
- {
-     Scope (\)
-     {
-         OperationRegion (DBG, SystemIO, 0x0402, One)
-         Field (DBG, ByteAcc, NoLock, Preserve)
-         {
-             DBGB,   8
-         }
-
-@@ -3113,24 +3113,20 @@
-                 Name (_ADR, 0x00010000)  // _ADR: Address
-                 Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
-                 {
-                     Return (Zero)
-                 }
-
-                 Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-                 {
-                     Return (Zero)
-                 }
-
-                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-                 {
-                     Return (Zero)
-                 }
-             }
--
--            Method (PCNT, 0, NotSerialized)
--            {
--            }
-         }
-     }
- }
+bios-tables-test-allowed-diff.h documents the fact that a new DSDT acpi gold
+master binary blob we need to be added to test this. We will do the actual
+addition in the next patch in the series.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/data/acpi/q35/DSDT          | Bin 7678 -> 7670 bytes
- tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 8994 bytes
- tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7688 bytes
- tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8133 bytes
- tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9323 bytes
- tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7745 bytes
- tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9029 bytes
- tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8801 bytes
- tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7676 bytes
- tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8276 bytes
- 10 files changed, 0 insertions(+), 0 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |  1 +
+ tests/qtest/bios-tables-test.c              | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index bba8884073a27427b88ac0d733c9c87330a59366..4fad91b72e279b744b0528fd687c862d3a3d5cfa 100644
-GIT binary patch
-delta 33
-pcmexo{mq)oCD<k8n=AtZqxeRyWwM-ZEHUxHPVoYElXuD50sy=Q3Pb<^
-
-delta 42
-ycmexn{m+`qCD<k8pDY6d<C=|J%VfFySYqOXo#F-DSSIh3wPhD!3vl)eVE_Owj0{Tv
-
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index 9cac92418b5fcc2767dc74603d599642b59623fe..e4df7d1ca89578dd81be3539c8f83f073bb8db25 100644
-GIT binary patch
-delta 33
-pcmZ4Gw#bdkCD<iINtuCx@ySN6OG=z>EHUxHPVoYElb<Qs0syHh3KIYT
-
-delta 42
-xcmZ4Fw#tpmCD<iIOPPUzv2r8VB_%FDmYDcpr+5K3mdQ_*Y}rNF0-XIq7y$jZ3mO0b
-
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index f08b7245f59aad491fcaa60e2bab1085c369ea1c..065399174575442201cc09ffa4939ddf90ac81b4 100644
-GIT binary patch
-delta 33
-ocmeCT>9FB)33dtLkYiwAT)&ZPnJlLVYfOBwQ@nt~<ejqq0G06xDgXcg
-
-delta 41
-wcmeCM>9^r>33dtLmt$aH^xnv|OqSE1H6}jTDPF*R@=jTQb`iD!XTJ~z0NaZSF#rGn
-
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index 57d859cef9fa16a8f125c4b338611c8472699f38..8d2395e3cb4383b30e3840caed0d09ccad0c7323 100644
-GIT binary patch
-delta 33
-ocmX?Wf7G7KCD<k8s5}D$<AjY|rShC^EHUxHPVoYElRM>Y0kO^r)&Kwi
-
-delta 42
-xcmX?Vf7YJMCD<k8tULn)qv}SkQh6>vmYDcpr+5K3mdPFRw(KHo0nUCQ3;+bB3f%wz
-
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index 9d5bd5744e2ba2e0f6126c3aba0bb36af865e499..df7422051c6feadeaa3b6733ad7efa67c339b49d 100644
-GIT binary patch
-delta 33
-ocmezD@!EsSCD<h-TZMsvF>)i9v<jyiOH6#QQ@nuPWPKG|0ILxQ{r~^~
-
-delta 42
-xcmaFu@!5mRCD<jTScQRs@!du)X%#L%mYDcpr+5K3mdSc5w(KHo0nUCQ3;+_P3k3iG
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index 5cd11de6a8fe47324e5f922823a22746882f19f5..c4ce5cc0ede822ea82656d078d7a8b7eee4a7516 100644
-GIT binary patch
-delta 33
-ocmX?UbI^v%CD<jzQI3Iu(Q6~uM_EocmYDcpr+5Lo$*gj=0Hl8i@&Et;
-
-delta 42
-xcmX?TbJB*(CD<jzQ;vaw@%~1xkFs2TEHUxHPVoY6ER$K}Y}rNF0-XIq7yt{`3i$v4
-
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 05a7a73ec43130d5c3018bb462fd84981bfb151c..84614ffc1452358053b4c2be4b2edcb4d56a9ae6 100644
-GIT binary patch
-delta 33
-ocmX@>cGQi_CD<jzRhfZ-kz*s*S0zq2mYDcpr+5Lo$(+iz0Hk>c=Kufz
-
-delta 42
-xcmX@=cGiu{CD<jzSDAr<aqdR0uS#5gEHUxHPVoY6ER#8uZP`WG0-XIq7yt`p3hn>^
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index efd3f1188f2b55da1514212d4be081a61c2a96e9..d8dd702b69cc24a6b58b8eaa79ea02439a2a7dd9 100644
-GIT binary patch
-delta 33
-ocmaFi^3a9LCD<h-QHg<paqmX1|B9R*tTFMyPVoW`lZBN00lUBo5&!@I
-
-delta 41
-wcmaFp^1_A7CD<h-Ly3WbF>)i<e??Az)|mKUr+5MP$wEs0>>_Ld&VC^b00^lI82|tP
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index 1978b55f1255402bf9bade0b91150b5cb49789a4..f36d22063a6eed4fb107ffd0e10477a2d6d7a983 100644
-GIT binary patch
-delta 33
-pcmZp%`D4xH66_N4N0xzs@!&?THL{#;EHUxHPVoYElMl$+0sy+k3XK2&
-
-delta 42
-xcmexk-D1P#66_MfBFDhM7`l;bjVzZROH6#QQ@ns1%jEsCw(KHo0nUCQ3;^@W3X}i<
-
-diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
-index 638de3872673d17b1958497d0e62c83653de1602..203030a61a92c204bb93c43fe79e546471ae2985 100644
-GIT binary patch
-delta 38
-ucmccZaK(YkCD<h-M1g^U@x?~2O|qOGnlbUgPVoW`laI>UZRU~-WC8&31`DbH
-
-delta 45
-zcmccOaNB{)CD<h-T7iLqv1KFICRt8@&6xOLr+5MP$wy`F*hJU@oc%&JGsy)p0RTF+
-B45<JB
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..dea61d94f1 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT.hpbrroot",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index c970556795..3f7f1a8107 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -768,6 +768,21 @@ static void test_acpi_piix4_no_bridge_hotplug(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_piix4_no_acpi_pci_hotplug(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_PC;
++    data.variant = ".hpbrroot";
++    data.required_struct_types = base_required_struct_types;
++    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
++    test_acpi_one("-global PIIX4_PM.acpi-root-pci-hotplug=off "
++                  "-global PIIX4_PM.acpi-pci-hotplug-with-bridge-support=off "
++                  "-device pci-bridge,chassis_nr=1", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg(void)
+ {
+     test_data data;
+@@ -1176,6 +1191,8 @@ int main(int argc, char *argv[])
+                        test_acpi_piix4_no_root_hotplug);
+         qtest_add_func("acpi/piix4/pci-hotplug/no_bridge_hotplug",
+                        test_acpi_piix4_no_bridge_hotplug);
++        qtest_add_func("acpi/piix4/pci-hotplug/off",
++                       test_acpi_piix4_no_acpi_pci_hotplug);
+         qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+         qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+         qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 -- 
 2.17.1
 
