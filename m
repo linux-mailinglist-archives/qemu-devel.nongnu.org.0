@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362C426D7C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 11:36:44 +0200 (CEST)
-Received: from localhost ([::1]:60374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513AC26D7D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 11:39:28 +0200 (CEST)
+Received: from localhost ([::1]:37580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIqLL-00043J-1d
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 05:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50310)
+	id 1kIqNy-0006mB-J3
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 05:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kIqJj-0003FI-59
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:35:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32370)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIqMo-0006Ki-Gf
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:38:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kIqJh-000728-NY
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:35:02 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kIqMi-0007WP-18
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:38:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600335300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1600335487;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2MYXUR9I6MV6uFzEDEiz8aG+hCoy/OoqhdzzXBtpbQw=;
- b=GJ6VASJ5sCzo2+Ibv+wFQjRTPYqPx6b/H0hdEJ8aQMckHWl8FwFhDBlhvTo7Ft2AuJy6ji
- NP2WXRd9TZ41fEA5TKB898nFhCLyJYEqwBgniS+y3eKqZPBEvG1JgdL922ncPF0tcGrZhZ
- 56338z9A/2TgAMoCUFzZCxvaw1ROqJ0=
+ bh=cTDXyBM6kDc0Fk7doLQSjsRo4EWnmIGY+mAh8+vEQk8=;
+ b=C/kRQYWK9/eP6D6h1yVX/MjqIwzKaHF/9xbatqmkEhvT4FhfUUdjqnPRFdxWSTg6cwCwo/
+ by33yk8QM1ttbiQ2XKtTBlrZuVmLY+muTVO75o0l2CmJFGESazr9rYcfhOCCDGEFAJZutM
+ alVoeyporozmWK1R/eixUsHgFNxoxEw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-IHOQw-W2OFq5CPfZdc83Gw-1; Thu, 17 Sep 2020 05:34:56 -0400
-X-MC-Unique: IHOQw-W2OFq5CPfZdc83Gw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-223-It1_qH4DPr2wH340MNU6eg-1; Thu, 17 Sep 2020 05:38:03 -0400
+X-MC-Unique: It1_qH4DPr2wH340MNU6eg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0F2D107465A;
- Thu, 17 Sep 2020 09:34:54 +0000 (UTC)
-Received: from localhost (ovpn-114-232.ams2.redhat.com [10.36.114.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1468760FC2;
- Thu, 17 Sep 2020 09:34:50 +0000 (UTC)
-Date: Thu, 17 Sep 2020 10:34:50 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Li Qiang <liq3ea@gmail.com>
-Subject: Re: [PATCH 2/3] virtio-blk: undo destructive iov_discard_*()
- operations
-Message-ID: <20200917093450.GA809514@stefanha-x1.localdomain>
-References: <20200812104918.107116-1-stefanha@redhat.com>
- <20200812104918.107116-3-stefanha@redhat.com>
- <CAKXe6SJqS61dUaKjbXb4-TGMcDLCG-ss2Mo0WaHYa32bcgO0TQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF200195D563;
+ Thu, 17 Sep 2020 09:38:01 +0000 (UTC)
+Received: from redhat.com (ovpn-114-29.ams2.redhat.com [10.36.114.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D1BA1002D41;
+ Thu, 17 Sep 2020 09:37:59 +0000 (UTC)
+Date: Thu, 17 Sep 2020 10:37:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: QEMU policy for real file tests
+Message-ID: <20200917093756.GC1568038@redhat.com>
+References: <1836935.RIYQIvKipu@silver>
+ <87y2l8ycs3.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAKXe6SJqS61dUaKjbXb4-TGMcDLCG-ss2Mo0WaHYa32bcgO0TQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <87y2l8ycs3.fsf@linaro.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,7 +71,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,59 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---gKMricLos+KVdGMg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 16, 2020 at 11:38:36PM +0800, Li Qiang wrote:
-> Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8812=
-=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=886:51=E5=86=99=E9=81=93=EF=BC=
-=9A
-> > @@ -644,7 +648,8 @@ static int virtio_blk_handle_request(VirtIOBlockReq=
- *req, MultiReqBuffer *mrb)
-> >      req->in =3D (void *)in_iov[in_num - 1].iov_base
-> >                + in_iov[in_num - 1].iov_len
-> >                - sizeof(struct virtio_blk_inhdr);
-> > -    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr))=
-;
-> > +    iov_discard_back_undoable(in_iov, &in_num, sizeof(struct virtio_bl=
-k_inhdr),
-> > +                              &req->inhdr_undo);
+On Thu, Sep 17, 2020 at 10:26:36AM +0100, Alex Bennée wrote:
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
+> 
+> > Hi,
 > >
-> >      type =3D virtio_ldl_p(vdev, &req->out.type);
-> >
->=20
-> It seems there is another error path need to do the undo operations.
-> case VIRTIO_BLK_T_WRITE_ZEROS & ~VIRTIO_BLK_T_OUT
-> handler has an error path.
+> > is there a QEMU policy for test cases that create/write/read/delete real files 
+> > and directories? E.g. should they be situated at a certain location and is any 
+> > measure of sandboxing required?
+> 
+> I don't think we have a hard and fast policy. It also depends on what
+> you are doing the test in - but ideally you should use a secure mktempd
+> (that can't clash) and clean-up after you are finished. This is a bit
+> easier in python than shell I think.
 
-Yes, thank you! I'll fix it in the next revision.
+mktempd will end up on /tmp usually which can be tmpfs and size limited,
+so be mindful of the size of files you create. Don't assume you can
+create multi-GB sized files !  Creating a temp dir underneath the build
+dir (effectively CWD of the test) is a reasonable alternative.
 
-Stefan
+> For example iotests end up in $BUILD_DIR/scratch (driven by TEST_DIR
+> being set somewhere) whereas the gdb stub tests use socket_dir =
+> TemporaryDirectory("qemu-gdbstub") which get auto-cleaned when it
+> finishes.
 
---gKMricLos+KVdGMg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9jLbkACgkQnKSrs4Gr
-c8hHNgf/VSW+x1LLTHAwZfFXLBBBD4gzq0N8DATFSwxY+V1jzAcQx5uTKjfGHwwx
-2+idy8NH1RE8uWtTY0BRdT9g+pes769icivhICzRArEIBK/w5lg7LG7wzmR3t0R3
-1jGWveqnuHKDw6Z+RDfFfgrB/KpkEqwyAxWnImm2WDZgQhi1UHWRnOXs0mZLxqW0
-SLI6I9y1XLzTugHuWm/kxU8EgiASA3HPZWJL+J/Ql1rqCj3vsKdj8PGW2TVw+nlG
-bgT3bC7TfAxjtHFbyjrTmKgWyLSf616WH9ajxGYjwi53l5U26DgZmcWVjhnEjrzx
-sKa4QYIlX1k56RzlJE9JIZRTMokCYQ==
-=87cm
------END PGP SIGNATURE-----
-
---gKMricLos+KVdGMg--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
