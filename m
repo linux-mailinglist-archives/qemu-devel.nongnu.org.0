@@ -2,96 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73A326DE70
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:40:00 +0200 (CEST)
-Received: from localhost ([::1]:35562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C05826DE7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:42:19 +0200 (CEST)
+Received: from localhost ([::1]:40232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIv4p-0003Xk-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42782)
+	id 1kIv74-0005Za-Br
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIuml-00039v-KO; Thu, 17 Sep 2020 10:21:19 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25068
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIumj-0003El-EF; Thu, 17 Sep 2020 10:21:19 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08HE1AGJ135889; Thu, 17 Sep 2020 10:21:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references; s=pp1;
- bh=RxRg8sUNHKPGl8OE5YoVaukakpX+288Oum32VfuyrVU=;
- b=Wv6chcV+YWFombNGfS9YbfsTPjike26mzy8ltbfC208loB9claVR4YBO4MMsWV3WC5EH
- t62p+jsjewOqHfdM/+P7n/DfdvC+oNYs2kn/3aorsBN9H9Goo7bO2IvdQx2QcBNIvdZ7
- tgsuM0wCaoZU9hNvRhw4wqCpdu3IuE3T1hyWOziz5Xy9WnSqFrrPudltpyc323A0a3HH
- yrO0HhcZXt1eNjp8nEwchVFh/U6B9MEE3XdEdicJefge6NZPOCRC1Fl10G1xyuoYL0lj
- B6Z5cOChq/0vamg3FAMqKm5o52ZuZbrJ1Y7UZLr5bBofvb5pNQB+3ULWOl9po1bHFHoI rQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33m7kb4fd4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 10:21:15 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08HE1YnU138119;
- Thu, 17 Sep 2020 10:21:15 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33m7kb4fcs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 10:21:15 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08HEIV1X021874;
- Thu, 17 Sep 2020 14:21:14 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 33k67c4w30-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 14:21:14 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08HELE2l56033588
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Sep 2020 14:21:14 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E397CAC059;
- Thu, 17 Sep 2020 14:21:13 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C9CE4AC05E;
- Thu, 17 Sep 2020 14:21:08 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.85.51])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 17 Sep 2020 14:21:08 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: alex.williamson@redhat.com, cohuck@redhat.com
-Subject: [PATCH v4 5/5] s390x/pci: Honor DMA limits set by vfio
-Date: Thu, 17 Sep 2020 10:20:45 -0400
-Message-Id: <1600352445-21110-6-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com>
-References: <1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-17_09:2020-09-16,
- 2020-09-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 impostorscore=0 priorityscore=1501 mlxscore=0 adultscore=0
- mlxlogscore=999 clxscore=1015 phishscore=0 spamscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009170104
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 10:21:03
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kIuqp-0001ir-Uh
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:25:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kIuqk-0003xs-T2
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:25:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600352725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lUukFYmtVHu/eF7KiDGlHHhUC6qw89O8/TNBxEzhavQ=;
+ b=NA5xjhCPaGwx2kwnCjLKDMl2T84d++ou8rKrOBe931ZyXAyz7DCXULQQ5t6zvJX1T3VCL3
+ qGrhLKqhkCWMR6GRK5nTwbr5hNjFrINkLD03Pw+PwPkSajsoYZhT6Az0Fy01HBfndtTgnk
+ P44rviRnNSSyIbh+Lz9rVRrztDIyzds=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-VaBMppz7MGCyZO95tcRFSA-1; Thu, 17 Sep 2020 10:25:22 -0400
+X-MC-Unique: VaBMppz7MGCyZO95tcRFSA-1
+Received: by mail-ej1-f69.google.com with SMTP id f17so962566ejq.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 07:25:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lUukFYmtVHu/eF7KiDGlHHhUC6qw89O8/TNBxEzhavQ=;
+ b=aHxj/5FJQqBGlKioSwcgtTzCAvzdsxnILWU5vm2PcS9ruq5toVYfrBMqccfDWopexy
+ +/aqHmk5OkrdiJOlHtCo3lCb5dmzzcCFBMjzqPqRQyEUzcBF4NCpTqFg0+E1JuBvWqDm
+ pm/wNUheno/6x+XLt+9XMM/IX/nR9R92BBEMNRZ7HdF7G0sLW+7PQZJjBq5YSnxChEgq
+ bfsSxryLGXIvjsaYheziNzfhS4opeO//VWerOaPUgHGILZ+oBYqzuaDGPfS0HFZn3Q5B
+ 8Pm5gjnRyqeS6F6R4ETz7tQ8WOD/z3jv4CvW7Em24QmHwq2T8jGX16xK/pFjg58DhPYT
+ DaSw==
+X-Gm-Message-State: AOAM530ivKep+mX6RbzXzenKBhJrKTdQ5JokF+WRW7aosI7Uj3TfUE3Z
+ IYQ1oTlQBghHNgdLZnYB31Ry5QnKFqV/dHp/Rwgtcb0zDaFFCid1mg9nUQ617Y3E7DO/tSN/K7I
+ SKUMuDfETAbgopQJc7xhOG6FGnkFF6H4=
+X-Received: by 2002:a17:906:3748:: with SMTP id
+ e8mr28005628ejc.71.1600352721446; 
+ Thu, 17 Sep 2020 07:25:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwF0c94xPkOWvgwVL9MpB2uCAXsCPl9nf1iSu8I6+x83J2FmxOLWHJVr5JTdgiOqW4WDmia85LYLJxmZ02c27Q=
+X-Received: by 2002:a17:906:3748:: with SMTP id
+ e8mr28005605ejc.71.1600352721174; 
+ Thu, 17 Sep 2020 07:25:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200917140700.673171-1-lvivier@redhat.com>
+In-Reply-To: <20200917140700.673171-1-lvivier@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 17 Sep 2020 16:25:09 +0200
+Message-ID: <CABgObfb4L4jCYeeE6gbpCY6cJws7v34+tJ3FWOqaKFDP_91hEQ@mail.gmail.com>
+Subject: Re: [PATCH] meson: fix static flag summary
+To: Laurent Vivier <lvivier@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000761c6705af8327d4"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,320 +92,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- david@redhat.com, schnelle@linux.ibm.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mst@redhat.com, pbonzini@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: qemu-trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When an s390 guest is using lazy unmapping, it can result in a very
-large number of oustanding DMA requests, far beyond the default
-limit configured for vfio.  Let's track DMA usage similar to vfio
-in the host, and trigger the guest to flush their DMA mappings
-before vfio runs out.
+--000000000000761c6705af8327d4
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-bus.c  | 16 +++++++++++-----
- hw/s390x/s390-pci-bus.h  |  9 +++++++++
- hw/s390x/s390-pci-inst.c | 45 +++++++++++++++++++++++++++++++++++++++------
- hw/s390x/s390-pci-inst.h |  3 +++
- hw/s390x/s390-pci-vfio.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- hw/s390x/s390-pci-vfio.h |  5 +++++
- 6 files changed, 109 insertions(+), 11 deletions(-)
+Oops. :)
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 92146a2..561baf7 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -17,6 +17,7 @@
- #include "cpu.h"
- #include "s390-pci-bus.h"
- #include "s390-pci-inst.h"
-+#include "s390-pci-vfio.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/qdev-properties.h"
- #include "hw/pci/pci_bridge.h"
-@@ -764,6 +765,7 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
-     s->bus_no = 0;
-     QTAILQ_INIT(&s->pending_sei);
-     QTAILQ_INIT(&s->zpci_devs);
-+    QTAILQ_INIT(&s->zpci_dma_limit);
- 
-     css_register_io_adapters(CSS_IO_ADAPTER_PCI, true, false,
-                              S390_ADAPTER_SUPPRESSIBLE, errp);
-@@ -941,17 +943,18 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-             }
-         }
- 
-+        pbdev->pdev = pdev;
-+        pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
-+        pbdev->iommu->pbdev = pbdev;
-+        pbdev->state = ZPCI_FS_DISABLED;
-+
-         if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
-             pbdev->fh |= FH_SHM_VFIO;
-+            pbdev->iommu->dma_limit = s390_pci_start_dma_count(s, pbdev);
-         } else {
-             pbdev->fh |= FH_SHM_EMUL;
-         }
- 
--        pbdev->pdev = pdev;
--        pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
--        pbdev->iommu->pbdev = pbdev;
--        pbdev->state = ZPCI_FS_DISABLED;
--
-         if (s390_pci_msix_init(pbdev)) {
-             error_setg(errp, "MSI-X support is mandatory "
-                        "in the S390 architecture");
-@@ -1004,6 +1007,9 @@ static void s390_pcihost_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         pbdev->fid = 0;
-         QTAILQ_REMOVE(&s->zpci_devs, pbdev, link);
-         g_hash_table_remove(s->zpci_table, &pbdev->idx);
-+        if (pbdev->iommu->dma_limit) {
-+            s390_pci_end_dma_count(s, pbdev->iommu->dma_limit);
-+        }
-         qdev_unrealize(dev);
-     }
- }
-diff --git a/hw/s390x/s390-pci-bus.h b/hw/s390x/s390-pci-bus.h
-index 0458059..f166fd9 100644
---- a/hw/s390x/s390-pci-bus.h
-+++ b/hw/s390x/s390-pci-bus.h
-@@ -270,6 +270,13 @@ typedef struct S390IOTLBEntry {
-     uint64_t perm;
- } S390IOTLBEntry;
- 
-+typedef struct S390PCIDMACount {
-+    int id;
-+    int users;
-+    uint32_t avail;
-+    QTAILQ_ENTRY(S390PCIDMACount) link;
-+} S390PCIDMACount;
-+
- struct S390PCIIOMMU {
-     Object parent_obj;
-     S390PCIBusDevice *pbdev;
-@@ -281,6 +288,7 @@ struct S390PCIIOMMU {
-     uint64_t pba;
-     uint64_t pal;
-     GHashTable *iotlb;
-+    S390PCIDMACount *dma_limit;
- };
- 
- typedef struct S390PCIIOMMUTable {
-@@ -356,6 +364,7 @@ struct S390pciState {
-     GHashTable *zpci_table;
-     QTAILQ_HEAD(, SeiContainer) pending_sei;
-     QTAILQ_HEAD(, S390PCIBusDevice) zpci_devs;
-+    QTAILQ_HEAD(, S390PCIDMACount) zpci_dma_limit;
- };
- 
- S390pciState *s390_get_phb(void);
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 2f7a7d7..d09bd55 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -32,6 +32,20 @@
-         }                                                          \
-     } while (0)
- 
-+static inline void inc_dma_avail(S390PCIIOMMU *iommu)
-+{
-+    if (iommu->dma_limit) {
-+        iommu->dma_limit->avail++;
-+    }
-+}
-+
-+static inline void dec_dma_avail(S390PCIIOMMU *iommu)
-+{
-+    if (iommu->dma_limit) {
-+        iommu->dma_limit->avail--;
-+    }
-+}
-+
- static void s390_set_status_code(CPUS390XState *env,
-                                  uint8_t r, uint64_t status_code)
- {
-@@ -572,7 +586,8 @@ int pcistg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-     return 0;
- }
- 
--static void s390_pci_update_iotlb(S390PCIIOMMU *iommu, S390IOTLBEntry *entry)
-+static uint32_t s390_pci_update_iotlb(S390PCIIOMMU *iommu,
-+                                      S390IOTLBEntry *entry)
- {
-     S390IOTLBEntry *cache = g_hash_table_lookup(iommu->iotlb, &entry->iova);
-     IOMMUTLBEntry notify = {
-@@ -585,14 +600,15 @@ static void s390_pci_update_iotlb(S390PCIIOMMU *iommu, S390IOTLBEntry *entry)
- 
-     if (entry->perm == IOMMU_NONE) {
-         if (!cache) {
--            return;
-+            goto out;
-         }
-         g_hash_table_remove(iommu->iotlb, &entry->iova);
-+        inc_dma_avail(iommu);
-     } else {
-         if (cache) {
-             if (cache->perm == entry->perm &&
-                 cache->translated_addr == entry->translated_addr) {
--                return;
-+                goto out;
-             }
- 
-             notify.perm = IOMMU_NONE;
-@@ -606,9 +622,13 @@ static void s390_pci_update_iotlb(S390PCIIOMMU *iommu, S390IOTLBEntry *entry)
-         cache->len = PAGE_SIZE;
-         cache->perm = entry->perm;
-         g_hash_table_replace(iommu->iotlb, &cache->iova, cache);
-+        dec_dma_avail(iommu);
-     }
- 
-     memory_region_notify_iommu(&iommu->iommu_mr, 0, notify);
-+
-+out:
-+    return iommu->dma_limit ? iommu->dma_limit->avail : 1;
- }
- 
- int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-@@ -620,6 +640,7 @@ int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-     S390PCIIOMMU *iommu;
-     S390IOTLBEntry entry;
-     hwaddr start, end;
-+    uint32_t dma_avail;
- 
-     if (env->psw.mask & PSW_MASK_PSTATE) {
-         s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-@@ -658,6 +679,11 @@ int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-     }
- 
-     iommu = pbdev->iommu;
-+    if (iommu->dma_limit) {
-+        dma_avail = iommu->dma_limit->avail;
-+    } else {
-+        dma_avail = 1;
-+    }
-     if (!iommu->g_iota) {
-         error = ERR_EVENT_INVALAS;
-         goto err;
-@@ -675,8 +701,9 @@ int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-         }
- 
-         start += entry.len;
--        while (entry.iova < start && entry.iova < end) {
--            s390_pci_update_iotlb(iommu, &entry);
-+        while (entry.iova < start && entry.iova < end &&
-+               (dma_avail > 0 || entry.perm == IOMMU_NONE)) {
-+            dma_avail = s390_pci_update_iotlb(iommu, &entry);
-             entry.iova += PAGE_SIZE;
-             entry.translated_addr += PAGE_SIZE;
-         }
-@@ -689,7 +716,13 @@ err:
-         s390_pci_generate_error_event(error, pbdev->fh, pbdev->fid, start, 0);
-     } else {
-         pbdev->fmb.counter[ZPCI_FMB_CNT_RPCIT]++;
--        setcc(cpu, ZPCI_PCI_LS_OK);
-+        if (dma_avail > 0) {
-+            setcc(cpu, ZPCI_PCI_LS_OK);
-+        } else {
-+            /* vfio DMA mappings are exhausted, trigger a RPCIT */
-+            setcc(cpu, ZPCI_PCI_LS_ERR);
-+            s390_set_status_code(env, r1, ZPCI_RPCIT_ST_INSUFF_RES);
-+        }
-     }
-     return 0;
- }
-diff --git a/hw/s390x/s390-pci-inst.h b/hw/s390x/s390-pci-inst.h
-index fa3bf8b..8ee3a3c 100644
---- a/hw/s390x/s390-pci-inst.h
-+++ b/hw/s390x/s390-pci-inst.h
-@@ -254,6 +254,9 @@ typedef struct ClpReqRspQueryPciGrp {
- #define ZPCI_STPCIFC_ST_INVAL_DMAAS   28
- #define ZPCI_STPCIFC_ST_ERROR_RECOVER 40
- 
-+/* Refresh PCI Translations status codes */
-+#define ZPCI_RPCIT_ST_INSUFF_RES      16
-+
- /* FIB function controls */
- #define ZPCI_FIB_FC_ENABLED     0x80
- #define ZPCI_FIB_FC_ERROR       0x40
-diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-index f86654d..2809028 100644
---- a/hw/s390x/s390-pci-vfio.c
-+++ b/hw/s390x/s390-pci-vfio.c
-@@ -12,7 +12,9 @@
- #include <sys/ioctl.h>
- 
- #include "qemu/osdep.h"
-+#include "s390-pci-bus.h"
- #include "s390-pci-vfio.h"
-+#include "hw/vfio/pci.h"
- #include "hw/vfio/vfio-common.h"
- 
- /*
-@@ -52,3 +54,43 @@ retry:
-     return vfio_get_info_dma_avail(info, avail);
- }
- 
-+S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
-+                                          S390PCIBusDevice *pbdev)
-+{
-+    S390PCIDMACount *cnt;
-+    uint32_t avail;
-+    VFIOPCIDevice *vpdev = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
-+    int id;
-+
-+    assert(vpdev);
-+
-+    id = vpdev->vbasedev.group->container->fd;
-+
-+    if (!s390_pci_update_dma_avail(id, &avail)) {
-+        return NULL;
-+    }
-+
-+    QTAILQ_FOREACH(cnt, &s->zpci_dma_limit, link) {
-+        if (cnt->id  == id) {
-+            cnt->users++;
-+            return cnt;
-+        }
-+    }
-+
-+    cnt = g_new0(S390PCIDMACount, 1);
-+    cnt->id = id;
-+    cnt->users = 1;
-+    cnt->avail = avail;
-+    QTAILQ_INSERT_TAIL(&s->zpci_dma_limit, cnt, link);
-+    return cnt;
-+}
-+
-+void s390_pci_end_dma_count(S390pciState *s, S390PCIDMACount *cnt)
-+{
-+    assert(cnt);
-+
-+    cnt->users--;
-+    if (cnt->users == 0) {
-+        QTAILQ_REMOVE(&s->zpci_dma_limit, cnt, link);
-+    }
-+}
-diff --git a/hw/s390x/s390-pci-vfio.h b/hw/s390x/s390-pci-vfio.h
-index 2a5a261..7d466a2 100644
---- a/hw/s390x/s390-pci-vfio.h
-+++ b/hw/s390x/s390-pci-vfio.h
-@@ -12,6 +12,11 @@
- #ifndef HW_S390_PCI_VFIO_H
- #define HW_S390_PCI_VFIO_H
- 
-+#include "s390-pci-bus.h"
-+
- bool s390_pci_update_dma_avail(int fd, unsigned int *avail);
-+S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
-+                                          S390PCIBusDevice *pbdev);
-+void s390_pci_end_dma_count(S390pciState *s, S390PCIDMACount *cnt);
- 
- #endif
--- 
-1.8.3.1
+Paolo
+
+Il gio 17 set 2020, 16:07 Laurent Vivier <lvivier@redhat.com> ha scritto:
+
+> 'static build:' must display value of CONFIG_STATIC rather than value of
+> CONFIG_TOOLS.
+>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 5421eca66a02..c174f0ab0948 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1374,7 +1374,7 @@ summary_info += {'gprof enabled':
+>  config_host.has_key('CONFIG_GPROF')}
+>  summary_info += {'sparse enabled':
+> meson.get_compiler('c').cmd_array().contains('cgcc')}
+>  summary_info += {'strip binaries':    get_option('strip')}
+>  summary_info += {'profiler':
+> config_host.has_key('CONFIG_PROFILER')}
+> -summary_info += {'static build':      config_host.has_key('CONFIG_TOOLS')}
+> +summary_info += {'static build':
+> config_host.has_key('CONFIG_STATIC')}
+>  if targetos == 'darwin'
+>    summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
+>  endif
+> --
+> 2.26.2
+>
+>
+
+--000000000000761c6705af8327d4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Oops. :)<div dir=3D"auto"><br></div><div dir=3D"auto">Pao=
+lo</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">Il gio 17 set 2020, 16:07 Laurent Vivier &lt;<a href=3D"mailto:lviv=
+ier@redhat.com">lvivier@redhat.com</a>&gt; ha scritto:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex">&#39;static build:&#39; must display value of CONFIG_ST=
+ATIC rather than value of<br>
+CONFIG_TOOLS.<br>
+<br>
+Signed-off-by: Laurent Vivier &lt;<a href=3D"mailto:lvivier@redhat.com" tar=
+get=3D"_blank" rel=3D"noreferrer">lvivier@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0meson.build | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meson.build b/meson.build<br>
+index 5421eca66a02..c174f0ab0948 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -1374,7 +1374,7 @@ summary_info +=3D {&#39;gprof enabled&#39;:=C2=A0 =C2=
+=A0 =C2=A0config_host.has_key(&#39;CONFIG_GPROF&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;sparse enabled&#39;:=C2=A0 =C2=A0 meson.get_c=
+ompiler(&#39;c&#39;).cmd_array().contains(&#39;cgcc&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;strip binaries&#39;:=C2=A0 =C2=A0 get_option(=
+&#39;strip&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;profiler&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 config_host.has_key(&#39;CONFIG_PROFILER&#39;)}<br>
+-summary_info +=3D {&#39;static build&#39;:=C2=A0 =C2=A0 =C2=A0 config_host=
+.has_key(&#39;CONFIG_TOOLS&#39;)}<br>
++summary_info +=3D {&#39;static build&#39;:=C2=A0 =C2=A0 =C2=A0 config_host=
+.has_key(&#39;CONFIG_STATIC&#39;)}<br>
+=C2=A0if targetos =3D=3D &#39;darwin&#39;<br>
+=C2=A0 =C2=A0summary_info +=3D {&#39;Cocoa support&#39;: config_host.has_ke=
+y(&#39;CONFIG_COCOA&#39;)}<br>
+=C2=A0endif<br>
+-- <br>
+2.26.2<br>
+<br>
+</blockquote></div>
+
+--000000000000761c6705af8327d4--
 
 
