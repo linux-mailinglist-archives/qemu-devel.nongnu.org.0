@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61BB26DE26
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:24:35 +0200 (CEST)
-Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5BB26DE2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:26:50 +0200 (CEST)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIupu-00078c-Lq
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37962)
+	id 1kIus5-0002Y8-Vm
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:26:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kIuXW-0006Gv-NE
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:05:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51784)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1kIuZj-0000s1-1E
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:07:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kIuXR-00013Y-6W
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:05:34 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1kIuZg-0001Lq-Ph
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:07:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600351528;
+ s=mimecast20190719; t=1600351667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9AEO/Ywr/S+BDVLDie2YE6CfI2puhF16qbGPgHHcxi4=;
- b=eTL4OpCm+wW8Fx2S+XVbSJ4pheJa70nKq07nHM0EhgPzAqNyozso/jTqfPuHluLIHGGXq+
- Umb/R8zP/MNuZ1Eil0ROre8teTPa4uqFti0RH6DSC2xGHpXJmd9eFiMIphrH5zxPnLEkrL
- DtsC8zNSLOJoZUPO1+WWCBQ81d+PaPY=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/aQkfdKDYeKp+KVe5l0rvqnE/WMDo0KQmvm30c+fiOA=;
+ b=OZ+AqbuR6saMb7+g+xBVRmPbG2crX7ZBjwoqqA2BlgSKF/l3zYsdRystBqhMOL3fZIQdyd
+ Vi4Yl0gpPih9vFQFiE/55hsX8lG2c09zEvWgQFXm13DVCvjp8N7svvbF1JtROcJryd0aRy
+ CZTm64tPkkp0SdcGOWihSRtLHkZycsw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-yj7kLlxXO9KqrkhBqWeVfg-1; Thu, 17 Sep 2020 10:05:25 -0400
-X-MC-Unique: yj7kLlxXO9KqrkhBqWeVfg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-417-3P0NX76aNDu0K5Qaacuqqw-1; Thu, 17 Sep 2020 10:07:26 -0400
+X-MC-Unique: 3P0NX76aNDu0K5Qaacuqqw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6F4A1084C81;
- Thu, 17 Sep 2020 14:05:23 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 777075DE51;
- Thu, 17 Sep 2020 14:05:21 +0000 (UTC)
-Date: Thu, 17 Sep 2020 16:05:15 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [RFC PATCH 02/12] target/arm/kvm64: make MPIDR consistent with
- CPU Topology
-Message-ID: <20200917140515.eg2s7nz2vm2mhktd@kamzik.brq.redhat.com>
-References: <20200917032033.2020-1-fangying1@huawei.com>
- <20200917032033.2020-3-fangying1@huawei.com>
- <20200917075330.7sx3xm7gd4mwqqtq@kamzik.brq.redhat.com>
- <20200917105934.3rki6xwv5t4glxxi@kamzik.brq.redhat.com>
- <a6c1ab83-0853-30c2-089c-8e2a667cbdad@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A49457053;
+ Thu, 17 Sep 2020 14:07:02 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-113-15.ams2.redhat.com [10.36.113.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F14BD60BEC;
+ Thu, 17 Sep 2020 14:07:00 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] meson: fix static flag summary
+Date: Thu, 17 Sep 2020 16:07:00 +0200
+Message-Id: <20200917140700.673171-1-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a6c1ab83-0853-30c2-089c-8e2a667cbdad@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -84,143 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 17, 2020 at 09:19:34PM +0800, Ying Fang wrote:
-> 
-> 
-> On 9/17/2020 6:59 PM, Andrew Jones wrote:
-> > On Thu, Sep 17, 2020 at 09:53:35AM +0200, Andrew Jones wrote:
-> > > On Thu, Sep 17, 2020 at 11:20:23AM +0800, Ying Fang wrote:
-> > > > MPIDR helps to provide an additional PE identification in a multiprocessor
-> > > > system. This patch adds support for setting MPIDR from userspace, so that
-> > > > MPIDR is consistent with CPU topology configured.
-> > > > 
-> > > > Signed-off-by: Ying Fang <fangying1@huawei.com>
-> > > > ---
-> > > >   target/arm/kvm64.c | 46 ++++++++++++++++++++++++++++++++++++++--------
-> > > >   1 file changed, 38 insertions(+), 8 deletions(-)
-> > > > 
-> > > > diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> > > > index ef1e960285..fcce261a10 100644
-> > > > --- a/target/arm/kvm64.c
-> > > > +++ b/target/arm/kvm64.c
-> > > > @@ -757,10 +757,46 @@ static int kvm_arm_sve_set_vls(CPUState *cs)
-> > > >   #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
-> > > > +static int kvm_arm_set_mp_affinity(CPUState *cs)
-> > > > +{
-> > > > +    uint64_t mpidr;
-> > > > +    ARMCPU *cpu = ARM_CPU(cs);
-> > > > +
-> > > > +    if (kvm_check_extension(kvm_state, KVM_CAP_ARM_MP_AFFINITY)) {
-> > > > +        /* Make MPIDR consistent with CPU topology */
-> > > > +        MachineState *ms = MACHINE(qdev_get_machine());
-> > > > +
-> > > > +        mpidr = (kvm_arch_vcpu_id(cs) % ms->smp.threads) << ARM_AFF0_SHIFT;
-> > > 
-> > > We should query KVM first to determine if it wants guests to see their PEs
-> > > as threads or not. If not, and ms->smp.threads is > 1, then that's an
-> > > error. And, in any case, if ms->smp.threads == 1, then we shouldn't waste
-> > > aff0 on it, as that could reduce IPI broadcast performance.
-> > > 
-> > > > +        mpidr |= ((kvm_arch_vcpu_id(cs) / ms->smp.threads % ms->smp.cores)
-> > > > +                                    & 0xff) << ARM_AFF1_SHIFT;
-> > > > +        mpidr |= (kvm_arch_vcpu_id(cs) / (ms->smp.cores * ms->smp.threads)
-> > > > +                                    & 0xff) << ARM_AFF2_SHIFT;
-> > 
-> > Also, as pointed out in the KVM thread, we should not be attempting to
-> > describe topology with the MPIDR at all. Alexandru pointed out [*] as
-> > evidence for that.
-> > 
-> > However, we do need to consider the limits on Aff0 imposed by the GIC.
-> > See hw/arm/virt.c:virt_cpu_mp_affinity() for how we currently do it
-> > for TCG. We should do something similar for KVM guests when we're taking
-> > full control of the MPIDR.
-> > 
-> > [*] https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/commit/?id=3102bc0e6ac7
-> > 
-> > Thanks,
-> > drew
-> 
-> Thanks for your information on MPIDR. As described in [*], MPIDR cannot
-> be trusted as the actual topology. After applying:
-> arm64: topology: Stop using MPIDR for topology information
-> 
-> Can we just use topology information from ACPI or fdt as topology and ignore
-> MPIDR ?
+'static build:' must display value of CONFIG_STATIC rather than value of
+CONFIG_TOOLS.
 
-Well the MPIDR will still be used as a unique identifier and it must
-still confirm to the architecture (e.g. 0-15 for Aff0 for gicv3), but,
-yes, the point is that the guest kernel should never try to use it for
-topology information. The guest kernel should only use DT or ACPI.
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-drew
-
-> 
-> > 
-> > > > +
-> > > > +        /* Override mp affinity when KVM is in use */
-> > > > +        cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
-> > > > +
-> > > > +        /* Bit 31 is RES1 indicates the ARMv7 Multiprocessing Extensions */
-> > > > +        mpidr |= (1ULL << 31);
-> > > > +        return kvm_vcpu_ioctl(cs, KVM_ARM_SET_MP_AFFINITY, &mpidr);
-> > > > +    } else {
-> > > > +        /*
-> > > > +         * When KVM_CAP_ARM_MP_AFFINITY is not supported, it means KVM has its
-> > > > +         * own idea about MPIDR assignment, so we override our defaults with
-> > > > +         * what we get from KVM.
-> > > > +         */
-> > > > +        int ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
-> > > > +        if (ret) {
-> > > > +            error_report("failed to set MPIDR");
-> > > 
-> > > We don't need this error, kvm_get_one_reg() has trace support already.
-> > > Anyway, the wording is wrong since it says 'set' instead of 'get'.
-> > > 
-> > > > +            return ret;
-> > > > +        }
-> > > > +        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
-> > > > +        return ret;
-> > > > +    }
-> > > > +}
-> > > > +
-> > > >   int kvm_arch_init_vcpu(CPUState *cs)
-> > > >   {
-> > > >       int ret;
-> > > > -    uint64_t mpidr;
-> > > >       ARMCPU *cpu = ARM_CPU(cs);
-> > > >       CPUARMState *env = &cpu->env;
-> > > > @@ -814,16 +850,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-> > > >           }
-> > > >       }
-> > > > -    /*
-> > > > -     * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
-> > > > -     * Currently KVM has its own idea about MPIDR assignment, so we
-> > > > -     * override our defaults with what we get from KVM.
-> > > > -     */
-> > > > -    ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
-> > > > +    ret = kvm_arm_set_mp_affinity(cs);
-> > > >       if (ret) {
-> > > >           return ret;
-> > > >       }
-> > > > -    cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
-> > > >       kvm_arm_init_debug(cs);
-> > > > -- 
-> > > > 2.23.0
-> > > > 
-> > > > 
-> > > 
-> > > Thanks,
-> > > drew
-> > 
-> > .
-> > 
-> 
+diff --git a/meson.build b/meson.build
+index 5421eca66a02..c174f0ab0948 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1374,7 +1374,7 @@ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
+ summary_info += {'sparse enabled':    meson.get_compiler('c').cmd_array().contains('cgcc')}
+ summary_info += {'strip binaries':    get_option('strip')}
+ summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
+-summary_info += {'static build':      config_host.has_key('CONFIG_TOOLS')}
++summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+ if targetos == 'darwin'
+   summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
+ endif
+-- 
+2.26.2
 
 
