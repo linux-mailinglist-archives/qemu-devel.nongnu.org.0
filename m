@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA9326E5FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 22:00:42 +0200 (CEST)
-Received: from localhost ([::1]:48226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DF026E5F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 21:59:20 +0200 (CEST)
+Received: from localhost ([::1]:43742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJ05A-0007Ch-UM
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 16:00:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59342)
+	id 1kJ03q-0005Mu-W8
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 15:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kJ00R-0002i4-B1; Thu, 17 Sep 2020 15:55:50 -0400
+ id 1kJ00g-0002t4-Hz; Thu, 17 Sep 2020 15:56:02 -0400
 Received: from mail-db8eur05on2124.outbound.protection.outlook.com
  ([40.107.20.124]:28615 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kJ00P-0005s0-3n; Thu, 17 Sep 2020 15:55:47 -0400
+ id 1kJ00Z-0005s0-JA; Thu, 17 Sep 2020 15:56:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LxTNufmmMe56nFqOy95g3EqwdsOXjFmRmoJBDMG4Co/lHtAAPmGMOixVBDBoFZefDG2pbX8wOJ1PqbcAwODJRmLFLtUjmZqUCuBAx2kuGv6Ty1IZl1fTKC/Zk/xrIg7yieUqmv//LyRDwB80z5pEBTEK5ii86CRIchdCZQ/e6kuuJX5eATi2cqW7uHOIPrmnbx+RWo9jePwUfe5wX65jU43pZccCJewIZQmCZ4qO6L5/WU3FrJ0FCehKDzLiq+wt4pHJS7Nyzej74P4JWoyLHh1qfkcsLDFp1uPX7xn9jaAYTwxyGfmYJJyHfnVrDLYYZhF7oWOY6OCgqnltWP24qQ==
+ b=icDs3AmfU/jGuUDpZNQoGj9cBFQNe94/ZZI2IJcdoyxvW1vcFm7MdMZyKqy98sGteeJOXq4xijaAwmJaADaLS5znfuwhdgk0M/oxk6Z6J0sxGz4Nfw8h7CCj9Uk5bcsRKZG61uT5cBpwZMeCZztU4ZIUQPdDxcvmUCwxyYpYngzV4AMauI7snfh2bq99Tp+StWZiltjwrAywCsvnN3cxTd1Hqnf1wEFd0bINkd9rs/bCO+ZfnIxJw6pLae7duY0BLkH2HaBaQWgoBgkEUnyJ2TGcmdKgpoEjgd1dmMnvRmoqzz7WgJuSoqq2QTsuA8WTK+BkbXNN0AUxibvWLxyEtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DaMH8ULPhyuTSfPQNZhjxzXKd7dZ6HlIt5uGFLm1EiQ=;
- b=SQ8lWJ4G6w+2FTEg2FUwOlt2kzje+4ccXRXklsvFJP6hQ0XX5SMwqwIXwZ4FJKZENoZZUBukHGBTo+1QV7UOEo+x4f5CglKsBGY5Q/mKfIaLeTNJZznXK+Ym1RcU4L5oMNZRGdVlxifpEiCjqvuh1Y3odzklva2NHMGPADH+qSKv5okae5o1p5k62DN3Apa2rxjHupOZtxD4562TySD4ZtM9OEoS3pk7Pjg8jmVMg1bIoIwiN8QUKm3oO1t9cxEK/l/WTr2Vmh0GjOzbJuEfFgiEdQxcny6pLCavDSJ+/mI2ArUj9LoBMAQpj3m0pnqHtbO7mpD2dsxg6a3T5owULw==
+ bh=sAwAjiQVUm3xU700PhqcZagEGRihHemRUG8ZBQaQTMM=;
+ b=M6qsqmmEoCVs48bcHDRV/ORghv4TBuZUBDgL96NRiiVX7A/7Mc3VNjvp+gBLXgT0yZtKO0Tjk650sKocs35BDZbq2iuxDOppqViJK5Mn+NgVTSGIaDa89u0dTCFWaiEfMF5pwepwi9XiXfVeXakqVr9sHG7ZkPQdMZi3jhMt9bsZYYtFRrvE/k9P0FXk5S06vTvyQN9rTIRRz0hOTYFWD60Ws7nlgqvvS9UPXAP+CnAWAAkN3vgB7NegXA3SHlKRS7f2wI77Pn6Y68a396+ZR1yahk/ZtD2PfJjFzWyTEiipskR2lQTIBEYWudFS0/P/2mZexf8REaB4pfYjNVC6Kw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DaMH8ULPhyuTSfPQNZhjxzXKd7dZ6HlIt5uGFLm1EiQ=;
- b=XVAa32c8RPZIpqOjwWUzTZNXqdIJLajW7d8yrMzdK8m0bNNUw+NAinGxPmDvylEW2VDri2c+jb5rdAcNduUr1k1ye4KnhkwBE2B4RO6Olmciji8Lbtj/mDWRBM0bjNjVHJqJQckISBBqw0qgIzBm7BlhlGQ+P9wKa4ziSRG2sjU=
+ bh=sAwAjiQVUm3xU700PhqcZagEGRihHemRUG8ZBQaQTMM=;
+ b=I5WEodxhx8IMMq8dCmYpeyk7vbBixdJkbu2XnTA6vkH2YHtdtHVJAINWt6ZNsOGY9W9uhI8YeQLeS+ZRjDnlWCY59HOqtgQUq0S9UYB+W0CosiNGvkPgAQafq24P0lAgki1KRms8txfTxhq+Ui7L8qLZ4MqVCY50k4IlnUgnNFc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3032.eurprd08.prod.outlook.com (2603:10a6:209:43::31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Thu, 17 Sep
- 2020 19:55:37 +0000
+ 2020 19:55:42 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Thu, 17 Sep 2020
- 19:55:37 +0000
+ 19:55:42 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, berto@igalia.com,
  vsementsov@virtuozzo.com, eblake@redhat.com, jsnow@redhat.com,
  stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
  ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com, groug@kaod.org
-Subject: [PATCH v2 03/13] block: check return value of bdrv_open_child and
- drop error propagation
-Date: Thu, 17 Sep 2020 22:55:09 +0300
-Message-Id: <20200917195519.19589-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 07/13] blockjob: return status from block_job_set_speed()
+Date: Thu, 17 Sep 2020 22:55:13 +0300
+Message-Id: <20200917195519.19589-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200917195519.19589-1-vsementsov@virtuozzo.com>
 References: <20200917195519.19589-1-vsementsov@virtuozzo.com>
@@ -67,32 +66,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.75) by
  AM4PR05CA0011.eurprd05.prod.outlook.com (2603:10a6:205::24) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.11 via Frontend Transport; Thu, 17 Sep 2020 19:55:36 +0000
+ 15.20.3391.11 via Frontend Transport; Thu, 17 Sep 2020 19:55:41 +0000
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.75]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3456e897-4b91-4ffa-ed15-08d85b43a5e1
+X-MS-Office365-Filtering-Correlation-Id: 2adffbd5-85b8-47b9-d168-08d85b43a861
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3032:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3032F0F3E95C335C00DE9F13C13E0@AM6PR08MB3032.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:126;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB303254A2ADF70C41AF1C5199C13E0@AM6PR08MB3032.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w01m83ZnXjpP47RrSScpNhKmnOJCz/GPn6mvie2tnLbCGj4OBqK6j05l43JR58ZIJv4cCrDj+U+S8eMxMCC70Y4buNImGkF+GIX5HZ7ZsQncqhuXmaT4HHDmgC1XIEY99G6cPpRKWIXQ13mfgiftolMTNjvzeY3sqjqCT52gBJqaZVYnN1oF5AvLlJBo89B11Z7o1nlfGV+1qXHGvH+brud64ao5XAG341XjX7COPb+FyvgD+dDpSaViLVQuodPTbmjre93KPoWZurxmXYewq++Xjdt0LuBq4Y8Tu3sOAwXAHNHJqYQ046oOsdEKHCqveZrXeQNpYUpAf218ZDyonQ==
+X-Microsoft-Antispam-Message-Info: c6R34owuwBY3Ku4nStkzUtM4FRDEri5RjETEJ/6ZoaoBc3jy6ooPNpUPmuC5nOYfbsn5KYnH3Cj5HNTnZ/jIKQek8XZQRRaxfxon+9i/LPHF2Ii2b1648S+OinS0Tum6qp0ynodvIf9gwyY+5nkyUFQVm6Du6Km5FWLe/B+ZV0RNuxAQQ1F/ghui9ZwQgpGx92XJj0yx4UUBn+nejwC3s72oncdHzD2uTw7Po/qOtu4vPopje/BLnYbqBdNh+1lCdDm9kyiaL77G0gzhQJL2rzBRu7pQiHg+2Q4iTrXXpLCype1Y/klBrpW8UOwIC8T5o4FsJoIo0u3szbSzBBzedg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(346002)(376002)(39840400004)(396003)(136003)(26005)(186003)(316002)(6486002)(4326008)(86362001)(478600001)(6666004)(16526019)(8936002)(956004)(6512007)(2616005)(6916009)(6506007)(2906002)(7416002)(36756003)(5660300002)(83380400001)(66476007)(66946007)(1076003)(8676002)(52116002)(66556008);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 9I1CSO+G5EKkKVCmkMKkbSYAq/aNKiAZGgxXFcKGEbnV+UPONzpP1o0yzW5w0sWSeiwLRRSGNDSJpd4foTKiog1QyYAwnmjJ3BYeqxlmJPNV1JJfbyxwa3p0NPg2IApBGiwGFrK3zNAvNc9b8IX+S0kADFSFNPaFNJb6OVq2THEWnI+HgVZMd5YFjQjreh5dGPWgDgehzQBe0KnK2CCnv1CUI88VzljN5mTrW1bxSvTJU/dN1l7gua05eDPAt0nQeyBA4TuCDSxMi5sYsUoNoUL5y5NV2G09HkaGVdMixuxaGPhAIqhFtmxMk4xysXR3hPJ+oZDr5RuNA9RHXZNwDRsLBRUnrc5SfOD3PS2n7snFPewOjOsv+3pny1ljdAWBqy4laWr3t+sQN6yIp1hqrXKoLgnD7nvcC0OTBNWr9fL4YMIGKg3yJPbaNPJLacQvIWK9govLT2Xc/jxv3fQbfT2wy7G/JZoW6G0Vi1Kqi/lHoU9TOXBUqIDPy6f5zC7LV9TaZGl2NcIjFhyC0qKo+vMmQWSiPawR8M+sACEa55SxjsvJse8reokqJ5PKT4Z6SVrXKxjqMFe+Bdz9ap0S9gwFWq14U9ghpzF25G0pI6FBdq4t4QG3gPWsBd7BUirnDizRIhwfBgcZKy6F3NBKOA==
+X-MS-Exchange-AntiSpam-MessageData: nsp8uJIYkoJZ/cylw6uOHTStWxMkFwu05Hx0Pl5M18hWj/15E9yWHh7R+z7r4EyuApevrXH5ula4XTjJNcHId2XNoQKPqBWLxsyk6k9kFo7nEWWffMU0teyQNFuvdN1P7MnVmQudKPukPNTEkv0I7lqL1S7WOs3foEU0z64m4E3hEj0g8nlT5YAOhu6x/a1MDVv/T9VkpwH5651q+mGKaj/Rx5mJFsx3zu7K8jCj/YiO/QAjwgtmCrdQvHnKVdWFR0i3yLb0VtKqC/FfrGOsdCow0lSfb/SgPCzmwlxtzhrChvkQgK5Rb4nYhE/0IwRzpdT4srCQ7YlfqGGlwKJiSLXRfdgs8C4GsUDz+QFZNdvnifTZ4Goh9AJScG2LSnmE3pD8ryKeF1WTD3OLkUVGcJq1Drds/zOVRLTNf0Mn+haL30JLqQT1p0TDnuOibdp7XPOxMBfpxE6IO8U/erJIHLMmDz8/9be797DQUX23FsZ3vhpIeQGOGtdAm21BQ/OTVu5V0iptzyjjpodwhQ0DeVtKVMGMJkmxMd61Qv8r6qBh0vPNZPUiMms4iYTxTJQqywdbBYLHV37Hz1c8jeNH3ONMvTvplmfP2HRLPnH1TTOmXRxJO4PRaS2iayTsjo9iSu/y+oA4O1LmoG5ERKq6XQ==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3456e897-4b91-4ffa-ed15-08d85b43a5e1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2adffbd5-85b8-47b9-d168-08d85b43a861
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 19:55:37.8491 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 19:55:42.0347 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +Xup9j3hQ7cNkr+6b1tNi5oKLL6U+c1Fqk4+Tt1QZ4+HpqMHaPgziqCUyQ0N4/BbMb75ogdNWFuvO9gF6Av1Te5y0K0WN+z8wDXIjNEqAUY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7RGIrpohbrvgCNOHPzBmLv0BmLl6f6NthDFgi/QO+SDV4Ap7v8ClWmPRXZyfjqsqGM/SKKwWwgF4qjUtgFsIpwvCcnvbGcAHyPXgEX811Sc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3032
 Received-SPF: pass client-ip=40.107.20.124;
  envelope-from=vsementsov@virtuozzo.com;
@@ -121,195 +120,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is generated by cocci script:
-
-@@
-symbol bdrv_open_child, errp, local_err;
-expression file;
-@@
-
-  file = bdrv_open_child(...,
--                        &local_err
-+                        errp
-                        );
-- if (local_err)
-+ if (!file)
-  {
-      ...
--     error_propagate(errp, local_err);
-      ...
-  }
-
-with command
-
-spatch --sp-file x.cocci --macro-file scripts/cocci-macro-file.h \
---in-place --no-show-diff --max-width 80 --use-gitgrep block
+Better to return status together with setting errp. It allows to avoid
+error propagation in the caller.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
 ---
- block/blkdebug.c     |  6 ++----
- block/blklogwrites.c | 10 ++++------
- block/blkreplay.c    |  6 ++----
- block/blkverify.c    | 11 ++++-------
- block/qcow2.c        |  5 ++---
- block/quorum.c       |  6 ++----
- 6 files changed, 16 insertions(+), 28 deletions(-)
+ include/block/blockjob.h |  2 +-
+ blockjob.c               | 18 ++++++++----------
+ 2 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index eecbf3e5c4..5716b817ae 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -464,7 +464,6 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/include/block/blockjob.h b/include/block/blockjob.h
+index 35faa3aa26..d200f33c10 100644
+--- a/include/block/blockjob.h
++++ b/include/block/blockjob.h
+@@ -139,7 +139,7 @@ bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs);
+  * Set a rate-limiting parameter for the job; the actual meaning may
+  * vary depending on the job type.
+  */
+-void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
++bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
+ 
+ /**
+  * block_job_query:
+diff --git a/blockjob.c b/blockjob.c
+index 470facfd47..afddf7a1fb 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -254,28 +254,30 @@ static bool job_timer_pending(Job *job)
+     return timer_pending(&job->sleep_timer);
+ }
+ 
+-void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
++bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
  {
-     BDRVBlkdebugState *s = bs->opaque;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     int ret;
-     uint64_t align;
+     int64_t old_speed = job->speed;
  
-@@ -494,10 +493,9 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
-     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options, "image",
-                                bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
--                               false, &local_err);
--    if (local_err) {
-+                               false, errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto out;
+-    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp)) {
+-        return;
++    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
++        return false;
+     }
+     if (speed < 0) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "speed",
+                    "a non-negative value");
+-        return;
++        return false;
      }
  
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index 13ae63983b..b7579370a3 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -157,19 +157,17 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
-     /* Open the file */
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY, false,
--                               &local_err);
--    if (local_err) {
-+                               errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
+     ratelimit_set_speed(&job->limit, speed, BLOCK_JOB_SLICE_TIME);
+ 
+     job->speed = speed;
+     if (speed && speed <= old_speed) {
+-        return;
++        return true;
      }
  
-     /* Open the log file */
-     s->log_file = bdrv_open_child(NULL, options, "log", bs, &child_of_bds,
--                                  BDRV_CHILD_METADATA, false, &local_err);
--    if (local_err) {
-+                                  BDRV_CHILD_METADATA, false, errp);
-+    if (!s->log_file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
+     /* kick only if a timer is pending */
+     job_enter_cond(&job->job, job_timer_pending);
++
++    return true;
+ }
  
-diff --git a/block/blkreplay.c b/block/blkreplay.c
-index 30a0f5d57a..4a247752fd 100644
---- a/block/blkreplay.c
-+++ b/block/blkreplay.c
-@@ -23,16 +23,14 @@ typedef struct Request {
- static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
-                           Error **errp)
- {
--    Error *local_err = NULL;
-     int ret;
+ int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
+@@ -448,12 +450,8 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
  
-     /* Open the image file */
-     bs->file = bdrv_open_child(NULL, options, "image", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
--                               false, &local_err);
--    if (local_err) {
-+                               false, errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
- 
-diff --git a/block/blkverify.c b/block/blkverify.c
-index 4aed53ab59..95ae73e2aa 100644
---- a/block/blkverify.c
-+++ b/block/blkverify.c
-@@ -112,7 +112,6 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
- {
-     BDRVBlkverifyState *s = bs->opaque;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     int ret;
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
-@@ -125,20 +124,18 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
-     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-raw"), options, "raw",
-                                bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
--                               false, &local_err);
--    if (local_err) {
-+                               false, errp);
-+    if (!bs->file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
- 
-     /* Open the test file */
-     s->test_file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options,
-                                    "test", bs, &child_of_bds, BDRV_CHILD_DATA,
--                                   false, &local_err);
--    if (local_err) {
-+                                   false, errp);
-+    if (!s->test_file) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
- 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index b05512718c..41a29072e6 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1612,9 +1612,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-     /* Open external data file */
-     s->data_file = bdrv_open_child(NULL, options, "data-file", bs,
-                                    &child_of_bds, BDRV_CHILD_DATA,
--                                   true, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                   true, errp);
-+    if (!s->data_file) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/quorum.c b/block/quorum.c
-index e846a7e892..2ebe0ba16d 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -900,7 +900,6 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-                        Error **errp)
- {
-     BDRVQuorumState *s = bs->opaque;
--    Error *local_err = NULL;
-     QemuOpts *opts = NULL;
-     const char *pattern_str;
-     bool *opened;
-@@ -978,9 +977,8 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
- 
-         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
-                                          &child_of_bds, BDRV_CHILD_DATA, false,
--                                         &local_err);
+     /* Only set speed when necessary to avoid NotSupported error */
+     if (speed != 0) {
+-        Error *local_err = NULL;
+-
+-        block_job_set_speed(job, speed, &local_err);
 -        if (local_err) {
++        if (!block_job_set_speed(job, speed, errp)) {
+             job_early_fail(&job->job);
 -            error_propagate(errp, local_err);
-+                                         errp);
-+        if (!s->children[i]) {
-             ret = -EINVAL;
-             goto close_exit;
+             return NULL;
          }
+     }
 -- 
 2.21.3
 
