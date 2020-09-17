@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0119E26E0D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:36:31 +0200 (CEST)
-Received: from localhost ([::1]:46882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18AB426E0EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:41:03 +0200 (CEST)
+Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwta-00050z-05
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52598)
+	id 1kIwxy-0000al-6I
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:41:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwor-0000g6-Hi
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52891)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIwpo-0001dZ-R1
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:32:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54355
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwon-0000wM-8I
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:37 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIwpm-00016O-2S
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:32:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600360290;
+ s=mimecast20190719; t=1600360350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hoKGRGT2V6fv30rJh8pJxgu9hLwQjaS3tEMU4jSGQIA=;
- b=ZQFF8kD2q2asTYxThS/xv6Es/xDt+5rnh2wdJT1eKYJrrfZxlBg1/Zzrkq7hXgKSJoD0Ky
- Bgg4OSkALmVXF+38fBLyqTC1ZR0pxBIetDVEzv0eV2RXyJs390OgexcH97CeAQRnrcdfre
- a/Pqd+XSLWDS88MSKGbZCK9qB+hX6FM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-49SMtp39My2o844oh3QTtg-1; Thu, 17 Sep 2020 12:31:29 -0400
-X-MC-Unique: 49SMtp39My2o844oh3QTtg-1
-Received: by mail-wm1-f69.google.com with SMTP id t8so705813wmj.6
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:31:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hoKGRGT2V6fv30rJh8pJxgu9hLwQjaS3tEMU4jSGQIA=;
- b=X86wQ4njdkALt999FGaFYbpcJcZcAnE9GAnjMgMsWLvA6m/GVvs5Tbc2ZU7gZfrNgW
- u9rt52epWCRMU/7+2ej6DehjhuvoiGtnGFYvu2dL62DF5q+beKmE4xo+5sl1/iYtzzmq
- yLb987K3oAsv+ZdJXFGC+vZyBjXuHt+jd5VYsBu+CZ69CxiOmSuDaFTS9hwTQCRpnqod
- HCjyIS03+pVz4aXNychvMj1lqdDYGM+OgcV+b2tcqOmFjzNy+jMazL+ljIrn+/4J+w2Q
- eJfROSmVyc1TZQmeLNasLvJGVmTJNNg08lrgx4WMJ6M/s1bF1GfOIZJLQTTp4PjiD3Zf
- Yo8Q==
-X-Gm-Message-State: AOAM533SIQBvLL4LItkh5rj5oO5E1SQeOiJSpGOoM2CAsvU3V4gSop68
- Buf+zwSpwd0llnss2ehRdjpDHsOmh7TVIvEUKpLtuFtehTMyaoTkxCD0DZeUL9+YQr5hCbMGKwP
- hLqNPiqg1IxJ7CM4=
-X-Received: by 2002:a05:6000:12c3:: with SMTP id
- l3mr35041007wrx.164.1600360287755; 
- Thu, 17 Sep 2020 09:31:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXPAP0gqwaUGtUWZKXaggU2xICD+f79soDWmMyd2fwP1yolvt5oTi7L6fQSKK2/5UDxgx7ZA==
-X-Received: by 2002:a05:6000:12c3:: with SMTP id
- l3mr35040986wrx.164.1600360287607; 
- Thu, 17 Sep 2020 09:31:27 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id b11sm154973wrt.38.2020.09.17.09.31.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 09:31:27 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] qemu/bswap: Let cpu_to_endian() functions handle constant
- expressions
-Date: Thu, 17 Sep 2020 18:31:06 +0200
-Message-Id: <20200917163106.49351-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200917163106.49351-1-philmd@redhat.com>
-References: <20200917163106.49351-1-philmd@redhat.com>
+ bh=G/+2B1QTVsfkvEpleoK9Oe/xpXKu7ymxbSeK3NCNw9A=;
+ b=XmVTxAAmiRHWBOkAGYYy6U6PMwXDwhtPa136j1eb461xHQT4zTw1lsjq5CiT8E+cUJspfw
+ jPealsrGyxtt4uVbm6LSVRMDZn+U/BaHtq3ncqw1k4QXuPIpUFTEdFQEckXSFnlAG1exPw
+ HWWumDlfwjONzUBeudJ50U//8M5yV+s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-Eoq6UJGUNEyn6YYYlb2uRg-1; Thu, 17 Sep 2020 12:32:26 -0400
+X-MC-Unique: Eoq6UJGUNEyn6YYYlb2uRg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F7BC1007473;
+ Thu, 17 Sep 2020 16:32:25 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-38.ams2.redhat.com [10.36.113.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5154355760;
+ Thu, 17 Sep 2020 16:32:18 +0000 (UTC)
+Subject: Re: [PATCH v2 10/10] disas/capstone: Add skipdata hook for s390x
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200914230210.2185860-1-richard.henderson@linaro.org>
+ <20200914230210.2185860-11-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <3ef7d250-dc30-fb8d-3211-f0d45f5e2152@redhat.com>
+Date: Thu, 17 Sep 2020 18:32:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200914230210.2185860-11-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,47 +83,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, luoyonggang@gmail.com,
+ alex.bennee@linaro.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_to_endian() and endian_to_cpu() can be extended to handle
-constant expressions. That way the programmer doesn't need to
-remember the const_X() API exists.
+On 15/09/2020 01.02, Richard Henderson wrote:
+> It is always possible to tell the length of an insn, even if the
+> actual insn is unknown.  Skip the correct number of bytes, so that
+> we stay in sync with the instruction stream.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  disas/capstone.c | 42 +++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 41 insertions(+), 1 deletion(-)
+> 
+> diff --git a/disas/capstone.c b/disas/capstone.c
+> index b48f83958d..0a9ef9c892 100644
+> --- a/disas/capstone.c
+> +++ b/disas/capstone.c
+> @@ -16,6 +16,39 @@
+>   */
+>  static __thread cs_insn *cap_insn;
+>  
+> +/*
+> + * The capstone library always skips 2 bytes for S390X.
+> + * This is less than ideal, since we can tell from the first two bits
+> + * the size of the insn and thus stay in sync with the insn stream.
+> + */
+> +static size_t CAPSTONE_API
+> +cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
+> +                      size_t offset, void *user_data)
+> +{
+> +    size_t ilen;
+> +
+> +    /* See get_ilen() in target/s390x/internal.h.  */
+> +    switch (code[offset] >> 6) {
+> +    case 0:
+> +        ilen = 2;
+> +        break;
+> +    case 1:
+> +    case 2:
+> +        ilen = 4;
+> +        break;
+> +    default:
+> +        ilen = 6;
+> +        break;
+> +    }
+> +
+> +    return ilen;
+> +}
+> +
+> +static const cs_opt_skipdata cap_skipdata_s390x = {
+> +    .mnemonic = ".byte",
+> +    .callback = cap_skipdata_s390x_cb
+> +};
+> +
+>  /*
+>   * Initialize the Capstone library.
+>   *
+> @@ -42,13 +75,20 @@ static cs_err cap_disas_start(disassemble_info *info, csh *handle)
+>      /* "Disassemble" unknown insns as ".byte W,X,Y,Z".  */
+>      cs_option(*handle, CS_OPT_SKIPDATA, CS_OPT_ON);
+>  
+> -    if (info->cap_arch == CS_ARCH_X86) {
+> +    switch (info->cap_arch) {
+> +    case CS_ARCH_SYSZ:
+> +        cs_option(*handle, CS_OPT_SKIPDATA_SETUP,
+> +                  (uintptr_t)&cap_skipdata_s390x);
+> +        break;
+> +
+> +    case CS_ARCH_X86:
+>          /*
+>           * We don't care about errors (if for some reason the library
+>           * is compiled without AT&T syntax); the user will just have
+>           * to deal with the Intel syntax.
+>           */
+>          cs_option(*handle, CS_OPT_SYNTAX, CS_OPT_SYNTAX_ATT);
+> +        break;
+>      }
+>  
+>      /* Allocate temp space for cs_disasm_iter.  */
+> 
 
-Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/qemu/bswap.h | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index de256cea3ab..8827e4760b9 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -191,12 +191,16 @@ static inline void bswap64s(uint64_t *s)
- #define CPU_CONVERT(endian, size, type)\
- static inline type endian ## size ## _to_cpu(type v)\
- {\
--    return glue(endian, _bswap)(v, size);\
-+    return __builtin_constant_p(v) ?\
-+           const_ ## endian ## size(v) :\
-+           glue(endian, _bswap)(v, size);\
- }\
- \
- static inline type cpu_to_ ## endian ## size(type v)\
- {\
--    return glue(endian, _bswap)(v, size);\
-+    return __builtin_constant_p(v) ?\
-+           const_ ## endian ## size(v) :\
-+           glue(endian, _bswap)(v, size);\
- }\
- \
- static inline void endian ## size ## _to_cpus(type *p)\
--- 
-2.26.2
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
