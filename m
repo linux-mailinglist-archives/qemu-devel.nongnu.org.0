@@ -2,51 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792F626DB91
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:31:23 +0200 (CEST)
-Received: from localhost ([::1]:41770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A155D26DB9E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:33:39 +0200 (CEST)
+Received: from localhost ([::1]:47868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIt4M-00072m-FP
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:31:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
+	id 1kIt6Y-0001G1-93
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kIswr-00008I-Rq; Thu, 17 Sep 2020 08:23:37 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:51600 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kIswp-0003R9-EG; Thu, 17 Sep 2020 08:23:37 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 66995CFAC79B39438DFC;
- Thu, 17 Sep 2020 20:23:32 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.175) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 17 Sep 2020 20:23:23 +0800
-From: Peng Liang <liangpeng10@huawei.com>
-To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC v2 10/10] target/arm: Add CPU features to
- query-cpu-model-expansion
-Date: Thu, 17 Sep 2020 20:14:49 +0800
-Message-ID: <20200917121449.3442059-11-liangpeng10@huawei.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200917121449.3442059-1-liangpeng10@huawei.com>
-References: <20200917121449.3442059-1-liangpeng10@huawei.com>
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1kIszG-0002Rv-Eb
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:26:06 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55445)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1kIszD-0003qF-WA
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:26:05 -0400
+Received: by mail-wm1-x341.google.com with SMTP id d4so1769142wmd.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 05:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=blade-group.com; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=hxuORB+uFMLaG5rwi1PH2mmObmRrvK5jQMFiamDZXzE=;
+ b=lGkbGv7W8PHsY6SQoxMJoMXdqV4/0QCwpidTssYXPbKCPXmM9H2uumQ6TSXtUhDaoe
+ YECrK+Z7uN5mLUOm8WXEJ0ygPKVuSdIVzTc2wQgM56IiM6HqP7IBiIollffTmpGAK2/p
+ ad2da2e9exknrD3Pb2d8A4GHkfqL9l1LX4qBZGPeQP0ndYLZ/oAEWrTBwqjBuJzyDgOS
+ Qb9soXOSJ9U1ccdd8iFIxfRLAxlcjnH5ecNXE48NekX5+ePudjPGoT42ExpPjQDFyqxc
+ qFbO6nkOlih+pOFqlj77AL6O4KlVLsKMmIu4bCWMoZvO1ByDJxjsqgXzM44Cx+z3h2H8
+ AV7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hxuORB+uFMLaG5rwi1PH2mmObmRrvK5jQMFiamDZXzE=;
+ b=RACKtKPjg2MF04awfwgDWBfyzUqlbsFSjx0qFq5YHqnqJ7JxEwjTodthMvXxw943es
+ bGlXwLLcuUxC2mQuHRUT2F54kE2S/VIkkLvi5lS+cgptuDNp6tZ+dmcUyfR9MKt7U5T3
+ crf5ZYVPQqLKocKlEtncJ9xLbLWaLfQlf68ibVDyTdUN5ddapZZFwQk1ErCe/3w1HbLh
+ hnyhk3UqJoGMimgxVozNjeudbXWmM0ccQOqT1TzJ+iNMrG9/3XkeKpDWGFShKNx9bntD
+ P4hKXcm06BWCW8izogXzQEaT+X1rzB/L6/ySlOZhy//pJ3F976f4JbfZ9U/63s+5lfoo
+ JmIQ==
+X-Gm-Message-State: AOAM530mbCpAnqi9/hK4nbP/ae29eKCfC2ekGo0ACscLUN994OCCw9nJ
+ utPxnZBgJMY+BIyXXm+RLMyCxA==
+X-Google-Smtp-Source: ABdhPJz2yC/mTYzUvINbOg0NNDiAc8aQOaPyb4uEp8wHsiKMAsUoGBgC2Qk5XWVZsCkYWd9/YJGSKA==
+X-Received: by 2002:a1c:4b13:: with SMTP id y19mr9555726wma.75.1600345561795; 
+ Thu, 17 Sep 2020 05:26:01 -0700 (PDT)
+Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
+ by smtp.gmail.com with ESMTPSA id n4sm38207470wrp.61.2020.09.17.05.26.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Sep 2020 05:26:00 -0700 (PDT)
+Date: Thu, 17 Sep 2020 14:25:59 +0200
+From: Antoine Damhet <antoine.damhet@blade-group.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH] target/i386: always create kvmclock device
+Message-ID: <20200917122559.e7i5o64k7rw7urdh@tartarus>
+References: <20200917111306.819263-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=liangpeng10@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 08:23:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vikpe6obnxeko6wi"
+Content-Disposition: inline
+In-Reply-To: <20200917111306.819263-1-vkuznets@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,39 +85,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
- xiexiangyou@huawei.com, Peng Liang <liangpeng10@huawei.com>,
- pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add CPU features to the result of query-cpu-model-expansion so that
-other applications (such as libvirt) can know the supported CPU
-features.
 
-Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-Signed-off-by: Peng Liang <liangpeng10@huawei.com>
----
- target/arm/monitor.c | 4 ++++
- 1 file changed, 4 insertions(+)
+--vikpe6obnxeko6wi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index ba6e01abd037..bcc4209e950d 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -104,6 +104,10 @@ static const char *cpu_model_advertised_features[] = {
-     "sve640", "sve768", "sve896", "sve1024", "sve1152", "sve1280",
-     "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
-     "kvm-no-adjvtime",
-+    "aes", "sha1", "sha2", "crc32", "atomics", "asimdrdm", "sha3", "sm3", "sm4",
-+    "asimddp", "asimdfhm", "flagm", "rng", "dcpop", "jscvt", "fcma", "lrcpc",
-+    "frint", "sb", "i8mm", "bf16", "dgh", "fp", "asimd", "dit", "bt", "sbss",
-+    "uscat", "fphp", "asimdhp", "pmull", "sha512", "flagm2", "dcpodp", "ilrcpc",
-     NULL
- };
- 
--- 
-2.26.2
+On Thu, Sep 17, 2020 at 01:13:06PM +0200, Vitaly Kuznetsov wrote:
+> QEMU's kvmclock device is only created when KVM PV feature bits for
+> kvmclock (KVM_FEATURE_CLOCKSOURCE/KVM_FEATURE_CLOCKSOURCE2) are
+> exposed to the guest. With 'kvm=3Doff' cpu flag the device is not
+> created and we don't call KVM_GET_CLOCK/KVM_SET_CLOCK upon migration.
+> It was reported that without these call at least Hyper-V TSC page
+> clocksouce (which can be enabled independently) gets broken after
+> migration.
+>=20
+> Switch to creating kvmclock QEMU device unconditionally, it seems
+> to always make sense to call KVM_GET_CLOCK/KVM_SET_CLOCK on migration.
+> Use KVM_CAP_ADJUST_CLOCK check instead of CPUID feature bits.
+>=20
+> Reported-by: Antoine Damhet <antoine.damhet@blade-group.com>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>  hw/i386/kvm/clock.c    | 6 +-----
+>  target/i386/kvm.c      | 5 +++++
+>  target/i386/kvm_i386.h | 1 +
+>  3 files changed, 7 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+> index 64283358f91d..526c9ea5172b 100644
+> --- a/hw/i386/kvm/clock.c
+> +++ b/hw/i386/kvm/clock.c
+> @@ -330,11 +330,7 @@ static const TypeInfo kvmclock_info =3D {
+>  /* Note: Must be called after VCPU initialization. */
+>  void kvmclock_create(void)
+>  {
+> -    X86CPU *cpu =3D X86_CPU(first_cpu);
+> -
+> -    if (kvm_enabled() &&
+> -        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE)=
+ |
+> -                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2=
+))) {
+> +    if (kvm_enabled() && kvm_has_adjust_clock()) {
 
+Shouldn't the old check used when machine type <=3D 5.1 in order to avoid
+migration incompatibility ?
+
+>          sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+>      }
+>  }
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 4a8b3a41c1bc..20b31b65307b 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -143,6 +143,11 @@ bool kvm_has_adjust_clock_stable(void)
+>      return (ret =3D=3D KVM_CLOCK_TSC_STABLE);
+>  }
+> =20
+> +bool kvm_has_adjust_clock(void)
+> +{
+> +    return kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
+> +}
+> +
+>  bool kvm_has_exception_payload(void)
+>  {
+>      return has_exception_payload;
+> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+> index 064b8798a26c..0fce4e51d2d6 100644
+> --- a/target/i386/kvm_i386.h
+> +++ b/target/i386/kvm_i386.h
+> @@ -34,6 +34,7 @@
+> =20
+>  bool kvm_allows_irq0_override(void);
+>  bool kvm_has_smm(void);
+> +bool kvm_has_adjust_clock(void);
+>  bool kvm_has_adjust_clock_stable(void);
+>  bool kvm_has_exception_payload(void);
+>  void kvm_synchronize_all_tsc(void);
+> --=20
+> 2.25.4
+>=20
+>=20
+
+--=20
+Antoine 'xdbob' Damhet
+
+--vikpe6obnxeko6wi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAl9jVdUACgkQ3AmjLzzl
+jz41ZggAgr4IGvlzgt8XS4LjT1qYjt+vr7IFjoceBn6d/Cou21MgV/fBGylABPfy
+KJBdJMO4tQ5FCQSlV30sAyFzsoMrKz8B6o4N8i2KVCPPNslH2eQBxaCSutoZWZUO
+xGtapD0xAMHwKqd6gjdyTO5YrEq/PdPH79mDiOn38ZDE422WnWiCEts1yMUX51Hk
+4bCC89fV3w7oDj/lzrJs+kfQpybP/qH67OMv0FqJE5guhkiE27zxbMz+O0n47D0n
+E8UfXTEzXS/9ev1lP8vcuv+IJhm7tT44lEP2TMfl+UdBdMMCPpLKqoeummQ4HlB0
+siWUMcmlB8Lmb+BYnPPF6gbM0rk4wQ==
+=Vqhs
+-----END PGP SIGNATURE-----
+
+--vikpe6obnxeko6wi--
 
