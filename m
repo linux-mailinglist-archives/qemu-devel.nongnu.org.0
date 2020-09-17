@@ -2,99 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68C526DE1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:23:13 +0200 (CEST)
-Received: from localhost ([::1]:35878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED20926DE2B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:25:21 +0200 (CEST)
+Received: from localhost ([::1]:44246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIuoa-0005EP-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37432)
+	id 1kIuqe-0000Dv-Ey
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kIuVn-0004Y6-CX
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:03:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42042)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kIuVk-0000sO-PA
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:03:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600351422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sVwYuxYbJoH78nZ0XOw6xC4UCzhBUnJ1adwr+R9/UX0=;
- b=dho6U7OYoIIeBe0Lzw8fa2Ii5iDvXUR25h+MM0UedW68aCQvZNsWm8jCBEqWhizw2iGDVS
- kHr0GlBUqt1+3oyS/WmuKOf4eSg404u61tb/jITPc5kGGHI5Ugpnjw1xyUlPUSO02P2R/P
- XB4DRHQyaf9BT2jI0Icavj4YKQZwpmI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-RxzxuUC9PPOmtWgzYKxMjw-1; Thu, 17 Sep 2020 10:03:36 -0400
-X-MC-Unique: RxzxuUC9PPOmtWgzYKxMjw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A858107464E;
- Thu, 17 Sep 2020 14:03:35 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-65.ams2.redhat.com
- [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57BD13782;
- Thu, 17 Sep 2020 14:03:30 +0000 (UTC)
-Subject: Re: [PATCH 3/3] block: enable long IO requests report by default
-To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200810101447.7380-1-den@openvz.org>
- <20200810101447.7380-4-den@openvz.org>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <64d46bf2-32d8-abe0-2ce5-6580d5b8db78@redhat.com>
-Date: Thu, 17 Sep 2020 16:03:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kIuWi-0005VC-9p
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:04:44 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:49599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kIuWa-0000wH-3x
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:04:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ZNiJsORcp4Qu2yaXOyJKbh2peAVLBuxy6it8UMI6dZ4=; b=aCU77zBzGr5EzYymatgQmhLxes
+ bEY2FoWNLsW/sw7lGZ46Is8BbZvQBz9Z+NmqiTwp39fzMSqq992/ptthKvWqzQpj+7tX1Kre6vjxK
+ Li+OgGM5KvELe3lqn0PmSwpGM0mAAwINBBP2jj6hgz2KcGxCDNOM+FkQfyqR4i2sn8wIzWEPNDIZh
+ NPgBA7wl3LtOIaPH8sWeZelDFw7u2q+SYaBK3HD5jHgwXVjLX7TrpITrVkB/Hhx2JmEFc3DAZEBJi
+ sz3qvhbA8PUdamvIXMTJ13KU+VTdg59nc6RPxDB1W6W27W4Dr172RKuC0aWIueQR8FE3ljjPwlLhS
+ Vd2hweqQ==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: QEMU policy for real file tests
+Date: Thu, 17 Sep 2020 16:04:32 +0200
+Message-ID: <1957763.100GGpGQLh@silver>
+In-Reply-To: <CAFEAcA8yTpHE2WaBL3B8fbQtetqmH5uXgCudtfHXuYuA+LpavQ@mail.gmail.com>
+References: <1836935.RIYQIvKipu@silver>
+ <a60c566c-986c-2534-3e8e-6a3ff23b9d00@redhat.com>
+ <CAFEAcA8yTpHE2WaBL3B8fbQtetqmH5uXgCudtfHXuYuA+LpavQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200810101447.7380-4-den@openvz.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tLqdTy83dzs2caEcVio6DHw5NIk8R4qpc"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 08:06:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,82 +68,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tLqdTy83dzs2caEcVio6DHw5NIk8R4qpc
-Content-Type: multipart/mixed; boundary="TMwLah7Ecv4HUHOIuj6Jr7hFjG5qRtqp2"
+On Donnerstag, 17. September 2020 14:40:42 CEST Peter Maydell wrote:
+> (Ideally we'd put in some more consistent framework for temp files
+> used by tests to put them all in a single subdir or something, for
+> convenience in cleaning up afterwards.)
 
---TMwLah7Ecv4HUHOIuj6Jr7hFjG5qRtqp2
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Yes, a unified interface for creating and auto wiping these, as well as 
+communicating limits for them would be nice to allow test cases adapting to 
+low quota vs. generous environments automatically.
 
-On 10.08.20 12:14, Denis V. Lunev wrote:
-> Latency threshold is set to 10 seconds following guest request timeout
-> on legacy storage controller.
->=20
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> CC: Stefan Hajnoczi <stefanha@redhat.com>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Max Reitz <mreitz@redhat.com>
-> ---
->  blockdev.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/blockdev.c b/blockdev.c
-> index 66158d1292..733fdd36da 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -622,8 +622,13 @@ static BlockBackend *blockdev_init(const char *file,=
- QDict *bs_opts,
-> =20
->          bs->detect_zeroes =3D detect_zeroes;
-> =20
-> +        /*
-> +         * Set log threshold to 10 seconds. Timeout choosen by observati=
-on
+For now I take Thomas' advice of 4GB as very rough barrier to stay away from.
 
-*chosen
+On Donnerstag, 17. September 2020 15:11:18 CEST Peter Maydell wrote:
+> On Thu, 17 Sep 2020 at 14:04, Thomas Huth <thuth@redhat.com> wrote:
+> > On 17/09/2020 14.06, Christian Schoenebeck wrote:
+> > [...]
+> > 
+> > > Final question: if at some later point one large file needs to be
+> > > created for some test case, is there some approximate size limit to
+> > > stay below for not causing issues with free CI cloud services?
+> > 
+> > FWIW, I know that 4G is already too big for some containers on Travis,
+> > see commit 178d383f10e15f5e5a7.
+> 
+> Yes. Also "it's sparse" doesn't always help -- eg on OSX there is
+> no sparse-file support so a 4GB file really does take 4GB even
+> if it's mostly zeroes...
 
-> +         * of the guest behavior with legacy storage controllers. Linux
-> +         * could remount FS read-only if journal write takes this time.
-> +         */
->          block_acct_setup(blk_get_stats(blk), account_invalid, account_fa=
-iled,
-> -                qemu_opt_get_number(opts, "latency-log-threshold", 0));
-> +                qemu_opt_get_number(opts, "latency-log-threshold", 10000=
-));
+While I agree not using sparse files for test cases, as many environments 
+don't support them; as a side note though: macOS actually supports sparse 
+files for a long time, both on APFS and HPFS+ volumes. There is F_PUNCHHOLE 
+and F_PREALLOCATE for that purpose and st_size reflects the logical file size, 
+whereas st_blocks*S_BLKSIZE returns the actual allocated physical file size.
 
-Yeah, why not.
+Best regards,
+Christian Schoenebeck
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---TMwLah7Ecv4HUHOIuj6Jr7hFjG5qRtqp2--
-
---tLqdTy83dzs2caEcVio6DHw5NIk8R4qpc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9jbLAACgkQ9AfbAGHV
-z0DOYAf/ZV3KP3G78yIW+x40ZPgCUHaj8AnbOlR3xKubwdQXrGME3swKqySZv4ZF
-K5X5Hr8a3Mv4lZ6M91mR2SAY8jEvKs7eUeB3d+V4B/1k2NzIkrp1EGCgNqQxSXLu
-tV29m5qI4fO7dtNB5p+pX7cDbuH+FwOK5WbDRc56Bwn/gmBxKcXrr/Yx8OHACt8P
-yol8mcl+0tFwF+seEcwSAxwtnE/DAtcjbGGCAhaJjVxGuk/TcUTo2QGDN8SzENzR
-EdFhF4PxbPykumYexhbWtQXVUcSqHinHgumc2Gb/TrHu8Zn0knhat0mHWATqOicK
-uqbimMZad4guywZj2FCO9VJ+sDq1SA==
-=PfCd
------END PGP SIGNATURE-----
-
---tLqdTy83dzs2caEcVio6DHw5NIk8R4qpc--
 
 
