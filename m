@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A08A26D5CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:09:05 +0200 (CEST)
-Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FC726D583
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:02:38 +0200 (CEST)
+Received: from localhost ([::1]:52002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIoyW-00033o-EF
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
+	id 1kIosH-0001Dg-Jv
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:02:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kIohU-0004md-4C; Thu, 17 Sep 2020 03:51:28 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4756 helo=huawei.com)
+ id 1kIohX-0004np-Od; Thu, 17 Sep 2020 03:51:31 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4708 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kIohQ-0005Me-Or; Thu, 17 Sep 2020 03:51:27 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 963C769EBC8088F2A804;
- Thu, 17 Sep 2020 15:51:20 +0800 (CST)
-Received: from localhost (10.174.187.87) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 15:51:13 +0800
+ id 1kIohS-0005Mw-6x; Thu, 17 Sep 2020 03:51:31 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 64A337430B9064DC29CE;
+ Thu, 17 Sep 2020 15:51:23 +0800 (CST)
+Received: from localhost (10.174.187.87) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 15:51:16 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH V3 06/10] linux-user/: fix some comment spelling errors
-Date: Thu, 17 Sep 2020 15:50:25 +0800
-Message-ID: <20200917075029.313-7-zhaolichang@huawei.com>
+Subject: [PATCH V3 07/10] block/: fix some comment spelling errors
+Date: Thu, 17 Sep 2020 15:50:26 +0800
+Message-ID: <20200917075029.313-8-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200917075029.313-1-zhaolichang@huawei.com>
 References: <20200917075029.313-1-zhaolichang@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.87]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
+Received-SPF: pass client-ip=45.249.212.190;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:37:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:50:46
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -58,131 +58,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhaolichang <zhaolichang@huawei.com>, Alex Bennee <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I found that there are many spelling errors in the comments of qemu,
 so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the linux-user folder.
+and finally found some spelling errors in the block folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: Alex Bennee <alex.bennee@linaro.org>
 ---
- linux-user/aarch64/signal.c              | 2 +-
- linux-user/cris/target_syscall.h         | 4 ++--
- linux-user/flat.h                        | 2 +-
- linux-user/flatload.c                    | 4 ++--
- linux-user/host/ppc64/safe-syscall.inc.S | 2 +-
- linux-user/syscall.c                     | 4 ++--
- 6 files changed, 9 insertions(+), 9 deletions(-)
+ block/block-copy.c | 2 +-
+ block/linux-aio.c  | 2 +-
+ block/mirror.c     | 2 +-
+ block/vhdx.c       | 2 +-
+ block/vhdx.h       | 4 ++--
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index cd521ee42d..d50c1ae583 100644
---- a/linux-user/aarch64/signal.c
-+++ b/linux-user/aarch64/signal.c
-@@ -78,7 +78,7 @@ struct target_sve_context {
-     struct target_aarch64_ctx head;
-     uint16_t vl;
-     uint16_t reserved[3];
--    /* The actual SVE data immediately follows.  It is layed out
-+    /* The actual SVE data immediately follows.  It is laid out
-      * according to TARGET_SVE_SIG_{Z,P}REG_OFFSET, based off of
-      * the original struct pointer.
-      */
-diff --git a/linux-user/cris/target_syscall.h b/linux-user/cris/target_syscall.h
-index d109a6b42a..19e1281403 100644
---- a/linux-user/cris/target_syscall.h
-+++ b/linux-user/cris/target_syscall.h
-@@ -4,7 +4,7 @@
- #define UNAME_MACHINE "cris"
- #define UNAME_MINIMUM_RELEASE "2.6.32"
- 
--/* pt_regs not only specifices the format in the user-struct during
-+/* pt_regs not only specifies the format in the user-struct during
-  * ptrace but is also the frame format used in the kernel prologue/epilogues
-  * themselves
+diff --git a/block/block-copy.c b/block/block-copy.c
+index cd9bc47c8f..5eb8912e0a 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -321,7 +321,7 @@ static coroutine_fn int block_copy_task_run(AioTaskPool *pool,
+  * Do copy of cluster-aligned chunk. Requested region is allowed to exceed
+  * s->len only to cover last cluster when s->len is not aligned to clusters.
+  *
+- * No sync here: nor bitmap neighter intersecting requests handling, only copy.
++ * No sync here: neither bitmap nor intersecting requests handling, only copy.
+  *
+  * Returns 0 on success.
   */
-@@ -32,7 +32,7 @@ struct target_pt_regs {
-         unsigned long spc;
-         unsigned long ccs;
-         unsigned long srp;
--        unsigned long erp; /* This is actually the debugged process' PC */
-+        unsigned long erp; /* This is actually the debugged process's PC */
-         /* For debugging purposes; saved only when needed. */
-         unsigned long exs;
-         unsigned long eda;
-diff --git a/linux-user/flat.h b/linux-user/flat.h
-index 1e44b33443..ed518e2013 100644
---- a/linux-user/flat.h
-+++ b/linux-user/flat.h
-@@ -43,7 +43,7 @@ struct flat_hdr {
- 	abi_ulong reloc_count;  /* Number of relocation records */
- 	abi_ulong flags;
- 	abi_ulong build_date;   /* When the program/library was built */
--	abi_ulong filler[5];    /* Reservered, set to zero */
-+	abi_ulong filler[5];    /* Reserved, set to zero */
- };
+diff --git a/block/linux-aio.c b/block/linux-aio.c
+index 3c0527c2bf..772ff860ea 100644
+--- a/block/linux-aio.c
++++ b/block/linux-aio.c
+@@ -222,7 +222,7 @@ static void qemu_laio_process_completions(LinuxAioState *s)
  
- #define FLAT_FLAG_RAM    0x0001 /* load program entirely into RAM */
-diff --git a/linux-user/flatload.c b/linux-user/flatload.c
-index 8fb448f0bf..14d2999d15 100644
---- a/linux-user/flatload.c
-+++ b/linux-user/flatload.c
-@@ -442,7 +442,7 @@ static int load_flat_file(struct linux_binprm * bprm,
-     indx_len = (indx_len + 15) & ~(abi_ulong)15;
+     /* If we are nested we have to notify the level above that we are done
+      * by setting event_max to zero, upper level will then jump out of it's
+-     * own `for` loop.  If we are the last all counters droped to zero. */
++     * own `for` loop.  If we are the last all counters dropped to zero. */
+     s->event_max = 0;
+     s->event_idx = 0;
+ }
+diff --git a/block/mirror.c b/block/mirror.c
+index 26acf4af6f..c798a1e54e 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -479,7 +479,7 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlockJob *s)
  
-     /*
--     * Alloate the address space.
-+     * Allocate the address space.
-      */
-     probe_guest_base(bprm->filename, 0,
-                      text_len + data_len + extra + indx_len);
-@@ -794,7 +794,7 @@ int load_flt_binary(struct linux_binprm *bprm, struct image_info *info)
- #error here
-     for (i = MAX_SHARED_LIBS-1; i>0; i--) {
-             if (libinfo[i].loaded) {
--                    /* Push previos first to call address */
-+                    /* Push previous first to call address */
-                     --sp;
-                     if (put_user_ual(start_addr, sp))
-                         return -EFAULT;
-diff --git a/linux-user/host/ppc64/safe-syscall.inc.S b/linux-user/host/ppc64/safe-syscall.inc.S
-index 8ed73a5b86..875133173b 100644
---- a/linux-user/host/ppc64/safe-syscall.inc.S
-+++ b/linux-user/host/ppc64/safe-syscall.inc.S
-@@ -84,7 +84,7 @@ safe_syscall_end:
+     job_pause_point(&s->common.job);
  
- 	/* code path when we didn't execute the syscall */
- 0:	addi	3, 0, -TARGET_ERESTARTSYS
--	ld 14, 16(1) /* restore r14 to its orginal value */
-+	ld 14, 16(1) /* restore r14 to its original value */
- 	blr
- 	.cfi_endproc
+-    /* Find the number of consective dirty chunks following the first dirty
++    /* Find the number of consecutive dirty chunks following the first dirty
+      * one, and wait for in flight requests in them. */
+     bdrv_dirty_bitmap_lock(s->dirty_bitmap);
+     while (nb_chunks * s->granularity < s->buf_size) {
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 356ec4c455..99cc3d12bb 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -1073,7 +1073,7 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
+         goto fail;
+     }
  
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 55ac5c3208..897d20c076 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -481,7 +481,7 @@ _syscall4(int, sys_prlimit64, pid_t, pid, int, resource,
+-    /* endian convert populated BAT field entires */
++    /* endian convert populated BAT field entries */
+     for (i = 0; i < s->bat_entries; i++) {
+         s->bat[i] = le64_to_cpu(s->bat[i]);
+     }
+diff --git a/block/vhdx.h b/block/vhdx.h
+index 0b74924cee..e385e484b4 100644
+--- a/block/vhdx.h
++++ b/block/vhdx.h
+@@ -212,7 +212,7 @@ typedef struct QEMU_PACKED VHDXLogDataSector {
+     uint32_t    sequence_high;          /* 4 MSB of 8 byte sequence_number */
+     uint8_t     data[4084];             /* raw data, bytes 8-4091 (inclusive).
+                                            see the data descriptor field for the
+-                                           other mising bytes */
++                                           other missing bytes */
+     uint32_t    sequence_low;           /* 4 LSB of 8 byte sequence_number */
+ } VHDXLogDataSector;
  
+@@ -257,7 +257,7 @@ typedef struct QEMU_PACKED VHDXMetadataTableHeader {
  
- #if defined(TARGET_NR_timer_create)
--/* Maxiumum of 32 active POSIX timers allowed at any one time. */
-+/* Maximum of 32 active POSIX timers allowed at any one time. */
- static timer_t g_posix_timers[32] = { 0, } ;
- 
- static inline int next_free_host_timer(void)
-@@ -8180,7 +8180,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     switch(num) {
-     case TARGET_NR_exit:
-         /* In old applications this may be used to implement _exit(2).
--           However in threaded applictions it is used for thread termination,
-+           However in threaded applications it is used for thread termination,
-            and _exit_group is used for application termination.
-            Do thread termination if we have more then one thread.  */
- 
+ #define VHDX_META_FLAGS_IS_USER         0x01    /* max 1024 entries */
+ #define VHDX_META_FLAGS_IS_VIRTUAL_DISK 0x02    /* virtual disk metadata if set,
+-                                                   otherwise file metdata */
++                                                   otherwise file metadata */
+ #define VHDX_META_FLAGS_IS_REQUIRED     0x04    /* parse must understand this
+                                                    entry to open the file */
+ typedef struct QEMU_PACKED VHDXMetadataTableEntry {
 -- 
 2.26.2.windows.1
 
