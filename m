@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C3226DC35
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:58:06 +0200 (CEST)
-Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA0B26DC3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:58:15 +0200 (CEST)
+Received: from localhost ([::1]:39644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kItUD-0005B5-4q
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44706)
+	id 1kItUM-0005Ou-4U
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kItSY-0003xc-9o
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:56:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49140)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kItSh-00046c-IX
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:56:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kItSW-00088F-Mz
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:56:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kItSf-00088p-PX
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600347379;
+ s=mimecast20190719; t=1600347388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=g+JIRtCOQhd9rrbISI0jitknswVNuZUqP3zehTqn8nM=;
- b=ObEV35XEy+WIaiwjb8hxadDEz29mXW+PbmJiTW5hY9rwBe168xGILEyqU28C/lIqQ3bHKk
- 14XmRtiRUrj6HI35CHnDQ+pVWBn7dzL+MSwOibw7Jt/u8BXvU9sfXyP0eVfHy92G9tj1Uc
- 6s2uWvwpS+N/uSLCP2n7p88XobNKS04=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=obmJ0KeESULi/hgxDtnBfOOj724RUrftZtPg5W4xKw4=;
+ b=I1L8rF64h+t0UqBfU8gHz8GoFhK1VeKjr7AhCfnLBthyCZ6w/F5kpElAlzWfjIPuEv17al
+ lqIpZExpEjwjnpRMkGe3p2rqHbXgbHT1qZPhWFP59OosEmcJScEcl3tDMEWobQLii7S0s3
+ sKTckCUNtRGgxH3nG1iL5fZm9eY67tc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-xlvGcf5fNAif__ZP-D3lYw-1; Thu, 17 Sep 2020 08:56:18 -0400
-X-MC-Unique: xlvGcf5fNAif__ZP-D3lYw-1
+ us-mta-263-UXnOU7PuMnCBa71688tj3Q-1; Thu, 17 Sep 2020 08:56:25 -0400
+X-MC-Unique: UXnOU7PuMnCBa71688tj3Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 316D41891EA6;
- Thu, 17 Sep 2020 12:55:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F0508DEA4F;
+ Thu, 17 Sep 2020 12:55:43 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0224E75261;
- Thu, 17 Sep 2020 12:55:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06E567880F;
+ Thu, 17 Sep 2020 12:55:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 72BF8113864A; Thu, 17 Sep 2020 14:55:40 +0200 (CEST)
+ id 7856611386A0; Thu, 17 Sep 2020 14:55:40 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] qpm: Minor error value corrections
-Date: Thu, 17 Sep 2020 14:55:38 +0200
-Message-Id: <20200917125540.597786-1-armbru@redhat.com>
+Subject: [PATCH 1/2] qom: Clean up object_property_get_enum()'s error value
+Date: Thu, 17 Sep 2020 14:55:39 +0200
+Message-Id: <20200917125540.597786-2-armbru@redhat.com>
+In-Reply-To: <20200917125540.597786-1-armbru@redhat.com>
+References: <20200917125540.597786-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -83,15 +86,86 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster (2):
-  qom: Clean up object_property_get_enum()'s error value
-  qom: Correct error values in two contracts
+object_property_get_enum() is the only object_property_FOO() that is
+documented to return an undefined value on error.  It does no such
+thing, actually: it returns 0 on some errors, and -1 on others.
 
- include/qom/object.h       | 10 +++++-----
- qom/object.c               |  6 +++---
- tests/check-qom-proplist.c |  2 ++
- 3 files changed, 10 insertions(+), 8 deletions(-)
+Needlessly complicated.  Always return -1 on error, and adjust the
+contract.
 
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ include/qom/object.h       | 6 +++---
+ qom/object.c               | 6 +++---
+ tests/check-qom-proplist.c | 2 ++
+ 3 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 056f67ab3b..f75547a3fe 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1687,9 +1687,9 @@ uint64_t object_property_get_uint(Object *obj, const char *name,
+  * @typename: the name of the enum data type
+  * @errp: returns an error if this function fails
+  *
+- * Returns: the value of the property, converted to an integer, or
+- * undefined if an error occurs (including when the property value is not
+- * an enum).
++ * Returns: the value of the property, converted to an integer (which
++ * can't be negative), or -1 on error (including when the property
++ * value is not an enum).
+  */
+ int object_property_get_enum(Object *obj, const char *name,
+                              const char *typename, Error **errp);
+diff --git a/qom/object.c b/qom/object.c
+index 387efb25eb..cecad35b99 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1564,21 +1564,21 @@ int object_property_get_enum(Object *obj, const char *name,
+     EnumProperty *enumprop;
+ 
+     if (prop == NULL) {
+-        return 0;
++        return -1;
+     }
+ 
+     if (!g_str_equal(prop->type, typename)) {
+         error_setg(errp, "Property %s on %s is not '%s' enum type",
+                    name, object_class_get_name(
+                        object_get_class(obj)), typename);
+-        return 0;
++        return -1;
+     }
+ 
+     enumprop = prop->opaque;
+ 
+     str = object_property_get_str(obj, name, errp);
+     if (!str) {
+-        return 0;
++        return -1;
+     }
+ 
+     ret = qapi_enum_parse(enumprop->lookup, str, -1, errp);
+diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
+index 1571606c1c..1b76581980 100644
+--- a/tests/check-qom-proplist.c
++++ b/tests/check-qom-proplist.c
+@@ -491,6 +491,7 @@ static void test_dummy_getenum(void)
+                                    "av",
+                                    "BadAnimal",
+                                    &err);
++    g_assert(val == -1);
+     error_free_or_abort(&err);
+ 
+     /* A non-enum property name */
+@@ -498,6 +499,7 @@ static void test_dummy_getenum(void)
+                                    "iv",
+                                    "DummyAnimal",
+                                    &err);
++    g_assert(val == -1);
+     error_free_or_abort(&err);
+ 
+     object_unparent(OBJECT(dobj));
 -- 
 2.26.2
 
