@@ -2,72 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A7B26DDB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:13:39 +0200 (CEST)
-Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494C626DDB3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:13:08 +0200 (CEST)
+Received: from localhost ([::1]:57184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIufK-00086l-Iu
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:13:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35080)
+	id 1kIuep-0007Ig-98
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIuO2-0002r2-Hm
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:55:46 -0400
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:36110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kIuNy-0008OI-Uj
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:55:46 -0400
-Received: by mail-lj1-x22d.google.com with SMTP id r24so2124527ljm.3
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 06:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=QbxLOORekCrvx4ikhYGgSXES7hdsdpUTxWTOpXnLCVw=;
- b=K7hSEvMt9S2NeE+NnFxGU0lj1WTlDU65wT8bWUTY08wZoVZD5I2OBZiJ45H50aSn0s
- FxgBvJOqY5ZB/bT25q4yZngWSsftcgeX2M4Mno8+h0Fo0BRL+c6Xi+ThS/r3Lndw09mF
- PAuek4Zu84aDccz569h69J8rzvm8jsDJzgIXiYd5mW23cLKhRN6JRcVOEMqnpS5PMd6p
- DKXcam9LKlhAVyU4OQr8b7ZLL7DMR9bd9Gb1mE5v4ErsIWdQ41dT1R8JfIDHW8ui2TfG
- uGaqkdjbIYlPwVKb7JqOJb5wvq9zCHqrEPjO0WfjEKyM9ZChE9h8g1zKzJT0cDqguf4R
- 7T1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=QbxLOORekCrvx4ikhYGgSXES7hdsdpUTxWTOpXnLCVw=;
- b=onqbS5Ghrb4wAiafnA1HHoMXzXQ3EXe7qMCZwXUt9Gj9xX5P+ERnh7PZ9A8QdZwzKo
- HqNo2DIHIGweQrChoto7R5dL9tFpOU5Sb+Vp0Q33p8789YPFeXGlE2xPYk5uN9la0txw
- rDbDpbOKgeojC6PuNoxOSGHiZWBxLw8swneXye4XHLpb4Z6JlmqYZj74piiZ7AOj3Dhj
- 02SQhd0rel5vS5e6U0Ikrjg07hEJSEehEZGpJkzEcALQO/884jc3NfjfEh1FCR1hVtNI
- xRjQ2tgOwlBe6+S93XdT8mIoi2J8fNbxBSIaZSY0Mxh2jYziz4psMFJ1VvpdMPwwNpYx
- ZsOA==
-X-Gm-Message-State: AOAM530m7WpHw77FOjKjuKHFzW4wPXhhhZJw/rO6ckrWeZAkjv3VrcJX
- SYjWs7cfdZ2GbVsRCHMlN8VzZTzuARns61P/4KQ=
-X-Google-Smtp-Source: ABdhPJz7MJKlgq2K2US0+e7RlwViCU7jumxCpoKpYSJU9DiOpUXGKRFOIyPT5A+9VQhlSmbI6it8VseHAWWdm0PHnSc=
-X-Received: by 2002:a2e:86d3:: with SMTP id n19mr10976362ljj.368.1600350940521; 
- Thu, 17 Sep 2020 06:55:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kIuP1-0004bP-V9
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:56:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kIuOy-00007R-Pw
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:56:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600351004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4818CxCjiwhdz5zVab9qnC9Jda5Li4EiBm6/bb8+Mac=;
+ b=ZZvmKa8ja7K6r1WD3Ug8d5X0vsGPyqQy2SQfHvancFLZdHhgH8wHgyIfSJkiM6tDir643m
+ IinsWuO50picMTC9GAWqtJOcsaJt58djzzoB9cxv7ztXlmEFXoKtKDHN1jP6K7hwIgvf/z
+ u2DB+I6uueiHVcpBearvdvdnqiFMW94=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-kSdSrYhBPP-FU0kE0aSb7w-1; Thu, 17 Sep 2020 09:56:40 -0400
+X-MC-Unique: kSdSrYhBPP-FU0kE0aSb7w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29ECF6408A;
+ Thu, 17 Sep 2020 13:56:39 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-65.ams2.redhat.com
+ [10.36.113.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B3EB5DA30;
+ Thu, 17 Sep 2020 13:56:34 +0000 (UTC)
+Subject: Re: [PATCH 2/3] block: add logging facility for long standing IO
+ requests
+To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200810101447.7380-1-den@openvz.org>
+ <20200810101447.7380-3-den@openvz.org>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <1971fbff-b255-d0c1-bc07-553242512bcd@redhat.com>
+Date: Thu, 17 Sep 2020 15:56:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <22951108-74c2-a98b-9316-b17c4d8188e0@redhat.com>
- <f90ee77c-11f8-e025-8f4f-38e78e0fe618@redhat.com>
- <20200917093442.GB1568038@redhat.com>
-In-Reply-To: <20200917093442.GB1568038@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 17 Sep 2020 21:55:30 +0800
-Message-ID: <CAE2XoE8KLoNmEL19KveohbSxLZgPMbNXdY6nfN_xUG5AQ2pAQQ@mail.gmail.com>
-Subject: Re: Use patchew to push successfully applied series to GitLab
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000536af905af82bdca"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x22d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200810101447.7380-3-den@openvz.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="LxeLl1op6K7MwPHl8fIwgtcx3PqkNoCeR"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,193 +109,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: patchew-devel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000536af905af82bdca
-Content-Type: text/plain; charset="UTF-8"
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--LxeLl1op6K7MwPHl8fIwgtcx3PqkNoCeR
+Content-Type: multipart/mixed; boundary="nZzs2Y0w1MjLwJz4r3gIByLYdMblVnZz4"
+
+--nZzs2Y0w1MjLwJz4r3gIByLYdMblVnZz4
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 17, 2020 at 5:36 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
->
-> On Thu, Sep 17, 2020 at 10:53:14AM +0200, Paolo Bonzini wrote:
-> > On 17/09/20 10:16, Philippe Mathieu-Daud=C3=A9 wrote:
-> > > patchew is currently pushing successfully applied series
-> > > (using the cover Message-ID as tag) to GitHub.
-> > > This is very handy (no need to apply patches manually):
-> > > https://github.com/patchew-project/qemu/tags
-> > >
-> > > Can we push the same that to an equivalent GitLab account?
-> > > We could then have a script replying to the series if the
-> > > series fails CI. Doing so would save reviewer/tester time
-> > > (I'd rather have a series not failing on our CI tests before
-> > > starting to review/test it).
-> >
-> > Yes, we could.  Indeed we could also look at the pipeline result instea=
-d
-> > of needing Patchew's custom testers (using a webhook).  It would be a
-> > bit on the heavy side for GitLab's resources; while right now they're
-> > still providing unlimited CI time, in principle the "gold" tier provide=
-s
-> > "only" 833 hours and a full CI run takes more or less 1.
->
-> Yep, this is a limitation of the patchew model where we have a central
-> service testing each contributors patches, instead of having the CI jobs
-> running in context of a user's fork and thus havin the CI usage cost
-> ammoritized across all user's accounts.
->
-> In a merge request workflow, this pretty much "just works" because the
-> CI jobs alwas run in the user's fork before the merge request is opened,
-> or when force-pushed.
->
-> Assuming we're not adopting a merge request workflow in the near term,
-> I wonder if we could do something clever to improve our mailing list
-> workflow CI to get jobs running mostly in user's forks.
->
-> A large number of contributors use "git-publish" to send patches. That
-> is already capable of optionally pushing to a public git server for
-> pull requests.
->
-> What if we used git-publish to always push to gitlab when submitting
-> patches, and have it include the gitlab ref in the cover letter.
->
-> That would trigger CI jobs in the user's fork, and patchew would not
-> have to run anything itself. It would merely monitor the user's fork
-> and report back to the list if the job failed. Patchew would ony then
-> have to run stuff in its own shared fork if the user didn't include
-> a gitlab ref in their cover letter.  At least this works for x86
-> Linux stuff. Doesn't work for any scenario needing custom runners.
->
-> Still if our regular contributors went this way, the shared fork
-> could have much lower build job load than we see today.
->
-> > So it would work great but we would have to set up our own runners,
-> > and/or have a cheaper pipeline for this gating CI.  Is that possible to
-> > configure in Gitlab?
->
-> The ideal situation is that we have one set of defined jobs that are
-> used universally by the person merging to git master, by patchew, by
-> any contributors before posting.
->
-> In terms of traditional build jobs, we have a huge number defined in
-> GitLab CI but it is only a partially overlapping set vs patchew,
-> principally because the GitLab jobs are x86 only. For the non-x86 stuff
-we would have to define
-> jobs that target custom runners and then have custom runners registered
-> against Patchew's account. If quota becomes a problem, we'd nede x86
-custom
-> runners too.
->
-> The other useful part of patchew is the "checkpatch.pl" validation.
-> We should really create a job in GitLab CI that covers this, as it
-> is something that's useful for developers to get right before posting.
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-https://www.instagram.com/dberrange :|
->
->
-I agreed all, from these days experience on contributing to qemu, you
-suggestion improve most aspect
-I feel not good.
+On 10.08.20 12:14, Denis V. Lunev wrote:
+> There are severe delays with IO requests processing if QEMU is running in
+> virtual machine or over software defined storage. Such delays potentially
+> results in unpredictable guest behavior. For example, guests over IDE or
+> SATA drive could remount filesystem read-only if write is performed
+> longer than 10 seconds.
+>=20
+> Such reports are very complex to process. Some good starting point for th=
+is
+> seems quite reasonable. This patch provides one. It adds logging of such
+> potentially dangerous long IO operations.
+>=20
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> CC: Stefan Hajnoczi <stefanha@redhat.com>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Max Reitz <mreitz@redhat.com>
+> ---
+>  block/accounting.c         | 59 +++++++++++++++++++++++++++++++++++++-
+>  blockdev.c                 |  7 ++++-
+>  include/block/accounting.h |  5 +++-
+>  3 files changed, 68 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/block/accounting.c b/block/accounting.c
+> index 8d41c8a83a..24f48c84b8 100644
+> --- a/block/accounting.c
+> +++ b/block/accounting.c
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+[...]
 
---000000000000536af905af82bdca
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> @@ -182,6 +185,58 @@ void block_latency_histograms_clear(BlockAcctStats *=
+stats)
+>      }
+>  }
+> =20
+> +static const char *block_account_type(enum BlockAcctType type)
+> +{
+> +    switch (type) {
+> +    case BLOCK_ACCT_READ:
+> +        return "READ";
+> +    case BLOCK_ACCT_WRITE:
+> +        return "WRITE";
+> +    case BLOCK_ACCT_FLUSH:
+> +        return "DISCARD";
+> +    case BLOCK_ACCT_UNMAP:
+> +        return "TRUNCATE";
 
-<div dir=3D"ltr"><br><br>On Thu, Sep 17, 2020 at 5:36 PM Daniel P. Berrang=
-=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&g=
-t; wrote:<br>&gt;<br>&gt; On Thu, Sep 17, 2020 at 10:53:14AM +0200, Paolo B=
-onzini wrote:<br>&gt; &gt; On 17/09/20 10:16, Philippe Mathieu-Daud=C3=A9 w=
-rote:<br>&gt; &gt; &gt; patchew is currently pushing successfully applied s=
-eries<br>&gt; &gt; &gt; (using the cover Message-ID as tag) to GitHub.<br>&=
-gt; &gt; &gt; This is very handy (no need to apply patches manually):<br>&g=
-t; &gt; &gt; <a href=3D"https://github.com/patchew-project/qemu/tags">https=
-://github.com/patchew-project/qemu/tags</a><br>&gt; &gt; &gt;<br>&gt; &gt; =
-&gt; Can we push the same that to an equivalent GitLab account?<br>&gt; &gt=
-; &gt; We could then have a script replying to the series if the<br>&gt; &g=
-t; &gt; series fails CI. Doing so would save reviewer/tester time<br>&gt; &=
-gt; &gt; (I&#39;d rather have a series not failing on our CI tests before<b=
-r>&gt; &gt; &gt; starting to review/test it).<br>&gt; &gt;<br>&gt; &gt; Yes=
-, we could.=C2=A0 Indeed we could also look at the pipeline result instead<=
-br>&gt; &gt; of needing Patchew&#39;s custom testers (using a webhook).=C2=
-=A0 It would be a<br>&gt; &gt; bit on the heavy side for GitLab&#39;s resou=
-rces; while right now they&#39;re<br>&gt; &gt; still providing unlimited CI=
- time, in principle the &quot;gold&quot; tier provides<br>&gt; &gt; &quot;o=
-nly&quot; 833 hours and a full CI run takes more or less 1.<br>&gt;<br>&gt;=
- Yep, this is a limitation of the patchew model where we have a central<br>=
-&gt; service testing each contributors patches, instead of having the CI jo=
-bs<br>&gt; running in context of a user&#39;s fork and thus havin the CI us=
-age cost<br>&gt; ammoritized across all user&#39;s accounts.<br>&gt;<br>&gt=
-; In a merge request workflow, this pretty much &quot;just works&quot; beca=
-use the<br>&gt; CI jobs alwas run in the user&#39;s fork before the merge r=
-equest is opened,<br>&gt; or when force-pushed.<br>&gt;<br>&gt; Assuming we=
-&#39;re not adopting a merge request workflow in the near term,<br>&gt; I w=
-onder if we could do something clever to improve our mailing list<br>&gt; w=
-orkflow CI to get jobs running mostly in user&#39;s forks.<br>&gt;<br>&gt; =
-A large number of contributors use &quot;git-publish&quot; to send patches.=
- That<br>&gt; is already capable of optionally pushing to a public git serv=
-er for<br>&gt; pull requests.<br>&gt;<br>&gt; What if we used git-publish t=
-o always push to gitlab when submitting<br>&gt; patches, and have it includ=
-e the gitlab ref in the cover letter.<br>&gt;<br>&gt; That would trigger CI=
- jobs in the user&#39;s fork, and patchew would not<br>&gt; have to run any=
-thing itself. It would merely monitor the user&#39;s fork<br>&gt; and repor=
-t back to the list if the job failed. Patchew would ony then<br>&gt; have t=
-o run stuff in its own shared fork if the user didn&#39;t include<br>&gt; a=
- gitlab ref in their cover letter.=C2=A0 At least this works for x86<br>&gt=
-; Linux stuff. Doesn&#39;t work for any scenario needing custom runners.<br=
->&gt;<br>&gt; Still if our regular contributors went this way, the shared f=
-ork<br>&gt; could have much lower build job load than we see today.<br>&gt;=
-<br>&gt; &gt; So it would work great but we would have to set up our own ru=
-nners,<br>&gt; &gt; and/or have a cheaper pipeline for this gating CI.=C2=
-=A0 Is that possible to<br>&gt; &gt; configure in Gitlab?<br>&gt;<br>&gt; T=
-he ideal situation is that we have one set of defined jobs that are<br>&gt;=
- used universally by the person merging to git master, by patchew, by<br>&g=
-t; any contributors before posting.<br>&gt;<br>&gt; In terms of traditional=
- build jobs, we have a huge number defined in<br>&gt; GitLab CI but it is o=
-nly a partially overlapping set vs patchew,<br>&gt; principally because the=
- GitLab jobs are x86 only. For the non-x86 stuff we would have to define<br=
->&gt; jobs that target custom runners and then have custom runners register=
-ed<br>&gt; against Patchew&#39;s account. If quota becomes a problem, we&#3=
-9;d nede x86 custom<br>&gt; runners too.<br>&gt;<br>&gt; The other useful p=
-art of patchew is the &quot;<a href=3D"http://checkpatch.pl">checkpatch.pl<=
-/a>&quot; validation.<br>&gt; We should really create a job in GitLab CI th=
-at covers this, as it<br>&gt; is something that&#39;s useful for developers=
- to get right before posting.<br>&gt;<br>&gt; Regards,<br>&gt; Daniel<br>&g=
-t; --<br>&gt; |: <a href=3D"https://berrange.com">https://berrange.com</a> =
-=C2=A0 =C2=A0 =C2=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.flickr.com/phot=
-os/dberrange">https://www.flickr.com/photos/dberrange</a> :|<br>&gt; |: <a =
-href=3D"https://libvirt.org">https://libvirt.org</a> =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -o- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://fsto=
-p138.berrange.com">https://fstop138.berrange.com</a> :|<br>&gt; |: <a href=
-=3D"https://entangle-photo.org">https://entangle-photo.org</a> =C2=A0 =C2=
-=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.instagram.com/dberrange">https:/=
-/www.instagram.com/dberrange</a> :|<br>&gt;<br>&gt;<br>I agreed all, from t=
-hese days experience on contributing to qemu, you suggestion improve most a=
-spect<div>I feel not good.<br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=
-=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
+I don=E2=80=99t understand how FLUSH translates to DISCARD, and UNMAP to TR=
+UNCATE.
 
---000000000000536af905af82bdca--
+> +    case BLOCK_ACCT_NONE:
+> +        return "NONE";
+> +    case BLOCK_MAX_IOTYPE:
+> +        break;
+> +    }
+> +    return "UNKNOWN";
+> +}
+> +
+> +static void block_acct_report_long(BlockAcctStats *stats,
+> +                                   BlockAcctCookie *cookie, int64_t late=
+ncy_ns)
+> +{
+> +    unsigned latency_ms =3D latency_ns / SCALE_MS;
+> +    int64_t start_time_host_s;
+> +    char buf[64];
+> +    struct tm t;
+> +    BlockDriverState *bs;
+> +
+> +    if (cookie->type =3D=3D BLOCK_ACCT_NONE) {
+> +        return;
+> +    }
+> +    if (stats->latency_log_threshold_ms =3D=3D 0) {
+> +        return;
+> +    }
+> +    if (latency_ms < stats->latency_log_threshold_ms) {
+> +        return;
+> +    }
+> +
+> +    start_time_host_s =3D cookie->start_time_ns / NANOSECONDS_PER_SECOND=
+;
+> +    strftime(buf, sizeof(buf), "%m-%d %H:%M:%S",
+> +             localtime_r(&start_time_host_s, &t));
+> +
+> +    bs =3D blk_bs(blk_stats2blk(stats));
+> +    qemu_log("long %s[%ld] IO request: %d.03%d since %s.%03d bs: %s(%s, =
+%s)\n",
+> +             block_account_type(cookie->type), cookie->bytes,
+> +             (int)(latency_ms / 1000), (int)(latency_ms % 1000), buf,
+
+Why not just latency_ms * .001f and %.3f?
+
+> +             (int)((cookie->start_time_ns / 1000000) % 1000),
+
+s/1000000/SCALE_MS/? (But I=E2=80=99m not sure whether that=E2=80=99s what =
+the SCALE_?S
+are for.)
+
+> +             bs =3D=3D NULL ? "unknown" : bdrv_get_node_name(bs),
+> +             bs =3D=3D NULL ? "unknown" : bdrv_get_format_name(bs),
+> +             bs =3D=3D NULL ? "unknown" : bs->filename);
+
+Now that I=E2=80=99m writing this response already, I wonder whether a QMP =
+event
+wouldn=E2=80=99t be nice.  (But considering that accounting apparently just
+doesn=E2=80=99t with -blockdev, I suppose that=E2=80=99s not that big of a =
+worry.)
+
+> +}
+> +
+>  static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie =
+*cookie,
+>                                   bool failed)
+>  {
+
+[...]
+
+> diff --git a/blockdev.c b/blockdev.c
+> index 3848a9c8ab..66158d1292 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -622,7 +622,8 @@ static BlockBackend *blockdev_init(const char *file, =
+QDict *bs_opts,
+> =20
+>          bs->detect_zeroes =3D detect_zeroes;
+> =20
+> -        block_acct_setup(blk_get_stats(blk), account_invalid, account_fa=
+iled);
+> +        block_acct_setup(blk_get_stats(blk), account_invalid, account_fa=
+iled,
+> +                qemu_opt_get_number(opts, "latency-log-threshold", 0));
+
+latency_log_threshold_ms is an unsigned int and so this will silently
+overflow for values >=3D 2^32.
+
+(Or for user-specified values < 0, which are wrapped around.)
+
+> =20
+>          if (!parse_stats_intervals(blk_get_stats(blk), interval_list, er=
+rp)) {
+>              blk_unref(blk);
+> @@ -3727,6 +3728,10 @@ QemuOptsList qemu_common_drive_opts =3D {
+>              .type =3D QEMU_OPT_BOOL,
+>              .help =3D "whether to account for failed I/O operations "
+>                      "in the statistics",
+> +        },{
+> +            .name =3D "latency-log-threshold",
+> +            .type =3D QEMU_OPT_NUMBER,
+> +            .help =3D "threshold for long I/O report (disabled if <=3D0)=
+, in ms",
+
+Because of that overflow, negative values will not necessarily disable
+reporting, because truncating them to 32 bit may make them small
+absolute values again.
+
+In any case, I=E2=80=99d just say =E2=80=9Cdisabled if 0=E2=80=9D, and not =
+mention anything
+about <0.
+
+Max
+
+
+--nZzs2Y0w1MjLwJz4r3gIByLYdMblVnZz4--
+
+--LxeLl1op6K7MwPHl8fIwgtcx3PqkNoCeR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9jaxEACgkQ9AfbAGHV
+z0COywf+NrxiFSSiYBr576iXPPFvcD4+QbXXydeG2ALE3HS8xak4qHkiT37sB5k/
+aH1khTqLXMOfwCrV2HNu+d7DHuwaK/1RcRKOdRWk8c5tjw4PtrtkpGtZHEqWdLty
+i0ZlWbgiZa+U4wI8kGJnXhsfzbd4T6bOhnb6bW6eFkINebzTA/cVidYLwu4L+qKs
+BLW6z7+TH6FdDCh0RRKeMBY1fYQX6mXxXBhHn/zMY2w2OyoK2VZcmjRUW6aF/9OV
+8UqGZdrM1vvdlpV50zGOHZJy5wTpuH9ur+3WwzZRtmTPAFMq+P+EHcXOsw2ojn2m
+DxIJYgOi86yi9LFtFTqMUTF9WN0/2g==
+=eezJ
+-----END PGP SIGNATURE-----
+
+--LxeLl1op6K7MwPHl8fIwgtcx3PqkNoCeR--
+
 
