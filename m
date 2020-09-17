@@ -2,103 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAA326DF5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:15:08 +0200 (CEST)
-Received: from localhost ([::1]:49586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A3F26DF89
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:23:52 +0200 (CEST)
+Received: from localhost ([::1]:36322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvcp-0003uW-6v
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
+	id 1kIvlH-0003P4-7S
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIvTC-00068j-97; Thu, 17 Sep 2020 11:05:10 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIvT9-0001Pw-S4; Thu, 17 Sep 2020 11:05:09 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08HEu3GX168524; Thu, 17 Sep 2020 11:05:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8NSebJ6ejs+2jYXFr8RVjNEJi+RFzmzRl7KZU3lBgxc=;
- b=mwyv1IpjmQWqtDNo1VcRCnyY12/NXNUx0jv/syMEY4kHUeRuKoEQdtiSvV6QNzsRSTed
- 40VJHEY3/s9MVFy3SN/On5HZj7qdhmn2IQBqV4ztL/4mmqTaiNQ8WnRi2juS8lXBCWdC
- S2KsMWdGqv9w41rDFDsVop0fiwQzvX+02U7eP9yT0tm+RE+fMlHE55u56hjmBQHNkmi7
- uW3kKIYErdvIEvlEmRC6Bk/7HMnI2Ar3ToFKvTc7o3lpR8m47LA+rHueNhgv2yqDGm5t
- z1Kvzt1/aJgu0fE5LtL6sYQKjketaE3QUJ9m4HupFk34sjTeAi9YqCIcwPrKSnwzQgHn 5Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33ma0er8en-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 11:05:06 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08HF0GHu179710;
- Thu, 17 Sep 2020 11:05:05 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33ma0er8e5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 11:05:05 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08HF2mcW012287;
- Thu, 17 Sep 2020 15:05:04 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 33k5v9hhqd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 15:05:04 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08HF53Kj39715264
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Sep 2020 15:05:03 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 161FE6E059;
- Thu, 17 Sep 2020 15:05:03 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ADE216E054;
- Thu, 17 Sep 2020 15:05:01 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.85.51])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 17 Sep 2020 15:05:01 +0000 (GMT)
-Subject: Re: [PATCH v4 0/5] s390x/pci: Accomodate vfio DMA limiting
-To: qemu-devel@nongnu.org, no-reply@patchew.org
-References: <160035396423.8478.4968781368528580151@66eaa9a8a123>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <3855da1b-4cd8-a664-56b9-66dff4db9c26@linux.ibm.com>
-Date: Thu, 17 Sep 2020 11:05:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1kIvYN-0006Sc-DR; Thu, 17 Sep 2020 11:10:31 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1kIvYK-0002Ud-PB; Thu, 17 Sep 2020 11:10:31 -0400
+Received: by mail-lj1-x242.google.com with SMTP id u21so2345710ljl.6;
+ Thu, 17 Sep 2020 08:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=t93QmXvWf49oJ6tHh5ukHLlQ/jL/PlDziVbWsUzfxF0=;
+ b=RnlkCLKvtnpPscBbHjg9Td1Sh3EXBregPZZtqPvfyuswaehWutH6DEUrO+8CkL290G
+ WZrhdK33LXAuhyYehGrNXwyQPvCjj3rW184P+SEugJSEGotXRApPE3B4sqbtYGy1OO6N
+ 4FWGYNiOS1xOmIJkhawM3FFzzskd3uJQZqMJrsuc/CzS1UU+O2nlRhSOGNA+PYtgFK+Z
+ VrgS3krcO3DWQahKZCim8/QIokhYjM4Sv2ieiOjCBUVaBsSp1pMkoqm+W17p4Kt0b+k5
+ g6I+TDe+qyUxgjvKEazlf66EuHXQFyIoxOgwvBYBM8apfYvTgCYeH74s2RLNjNtIQJAt
+ cnDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=t93QmXvWf49oJ6tHh5ukHLlQ/jL/PlDziVbWsUzfxF0=;
+ b=V5ZhDYqGa7uY3Yy1UdjB1JUrkydwmdsNEEem7+TsRPSKMPYQIvX3zArZ2jmG1WFU7n
+ JDYiQn6hobnHH/zXPwZbbkzd1vT2IGUx7PdURKkPq9y/XLAZd1z5WyBYQijoEeUJ0ywp
+ XbNXwBMwwfZNo7nVjVQLIj2fR74Iv/5sqbc8/k2aMOzwh/78T4enoC/0orJN1WKt4qQO
+ RHc1LQYsWmEMYuAvFXua0UYgmypv/n+8DQhSLvrCag+QMBDfVy1pHSgIFXs+5kLxQHjv
+ dViJKsVPanq5TrB9Rsf5hrhFtF4Y5wdC/F01S+TY6y+WnthPoUJFFGn5WOahgv8nVkSH
+ OCsg==
+X-Gm-Message-State: AOAM533iQLBpjLmoz7RtCg4g8wo5wJh+SmzFMB9PIKC558fIE9zpVnmJ
+ 7iK9JL1q1n5u9FZDZi1cStY=
+X-Google-Smtp-Source: ABdhPJw8ZFgDz0jPnFCTa6k7FECtkyXOf/5XXjr9iOygWZ9fUbXZ34A6KPIvMEsGeFecJV1k4f3+Tg==
+X-Received: by 2002:a2e:6f1c:: with SMTP id k28mr9517475ljc.297.1600355425763; 
+ Thu, 17 Sep 2020 08:10:25 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ o8sm5234603lfn.179.2020.09.17.08.10.24
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 17 Sep 2020 08:10:25 -0700 (PDT)
+Date: Thu, 17 Sep 2020 17:10:23 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 2/9] m25p80: Add the n25q256a SFDP table
+Message-ID: <20200917151022.vy5u6x5an23cnzhn@fralle-msi>
+References: <20200902093107.608000-1-clg@kaod.org>
+ <20200902093107.608000-3-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <160035396423.8478.4968781368528580151@66eaa9a8a123>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-17_10:2020-09-16,
- 2020-09-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1011 mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 bulkscore=0 mlxlogscore=999 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009170113
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 10:21:03
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200902093107.608000-3-clg@kaod.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,44 +88,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- david@redhat.com, cohuck@redhat.com, schnelle@linux.ibm.com,
- alex.williamson@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, mst@redhat.com, pbonzini@redhat.com, philmd@redhat.com,
- rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/20 10:46 AM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the docker-quick@centos7 build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-> 
-> 
+Hi Cedric,
 
-Errors seem to be of the flavor
-
-'N/A. Internal error while reading log file'
-and
-'No space left on device'
-
-seems like a patchew disk issue rather than something with this patchset?
-
+On [2020 Sep 02] Wed 11:31:00, Cédric Le Goater wrote:
+> The same values were collected on 4 differents OpenPower systems,
+> palmettos, romulus and tacoma.
 > 
+> The SFDP table size is defined as being 0x100 bytes but it could be
+> bigger. Only the mandatory table for basic features is available at
+> byte 0x30.
 > 
-> 
-> 
-> The full log is available at
-> http://patchew.org/logs/1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com/testing.docker-quick@centos7/?type=message.
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
+>  hw/block/m25p80_sfdp.h |  2 ++
+>  hw/block/m25p80.c      |  6 +++--
+>  hw/block/m25p80_sfdp.c | 58 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/block/meson.build   |  1 +
+>  4 files changed, 65 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/block/m25p80_sfdp.c
 > 
+> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+> index 230b07ef3308..d3a0a778ae84 100644
+> --- a/hw/block/m25p80_sfdp.h
+> +++ b/hw/block/m25p80_sfdp.h
+> @@ -15,4 +15,6 @@
+>   */
+>  #define M25P80_SFDP_MAX_SIZE  (1 << 24)
+>  
+> +extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
 
+s/extern//
+
+> +
+>  #endif
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 4d6133b3594e..dbfd88b41a12 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -234,11 +234,13 @@ static const FlashPartInfo known_devices[] = {
+>      { INFO("n25q128a11",  0x20bb18,      0,  64 << 10, 256, ER_4K) },
+>      { INFO("n25q128a13",  0x20ba18,      0,  64 << 10, 256, ER_4K) },
+>      { INFO("n25q256a11",  0x20bb19,      0,  64 << 10, 512, ER_4K) },
+> -    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K) },
+> +    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K),
+> +      .sfdp_read = m25p80_sfdp_n25q256a },
+>      { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
+>      { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>      { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+> -    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
+> +    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K),
+> +      .sfdp_read = m25p80_sfdp_n25q256a },
+>      { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>      { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
+>      { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
+> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+> new file mode 100644
+> index 000000000000..24ec05de79a1
+> --- /dev/null
+> +++ b/hw/block/m25p80_sfdp.c
+> @@ -0,0 +1,58 @@
+> +/*
+> + * M25P80 Serial Flash Discoverable Parameter (SFDP)
+> + *
+> + * Copyright (c) 2020, IBM Corporation.
+> + *
+> + * This code is licensed under the GPL version 2 or later. See the
+> + * COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/host-utils.h"
+> +#include "m25p80_sfdp.h"
+> +
+> +#define define_sfdp_read(model)                                       \
+> +    uint8_t m25p80_sfdp_##model(uint32_t addr)                        \
+> +    {                                                                 \
+> +        assert(is_power_of_2(sizeof(sfdp_##model)));                  \
+> +        return sfdp_##model[addr & (sizeof(sfdp_##model) - 1)];       \
+> +    }
+> +
+> +/*
+> + * Micron
+> + */
+> +static const uint8_t sfdp_n25q256a[] = {
+> +    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x00, 0xff,
+> +    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x0f,
+> +    0x29, 0xeb, 0x27, 0x6b, 0x08, 0x3b, 0x27, 0xbb,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x27, 0xbb,
+> +    0xff, 0xff, 0x29, 0xeb, 0x0c, 0x20, 0x10, 0xd8,
+> +    0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+
+Looking at the SFDP spec I have it says that reserved locations (unused or not
+yet defined memory in the address space) are recommended to return 0xFF. Do you
+think we could use that and somehow and return 0xFF by default above instead of
+having them in the array? (The file will not grow as fast then)
+
+Best regards,
+Francisco Iglesias
+
+> +};
+> +define_sfdp_read(n25q256a);
+> diff --git a/hw/block/meson.build b/hw/block/meson.build
+> index 78cad8f7cba1..6f0380a12081 100644
+> --- a/hw/block/meson.build
+> +++ b/hw/block/meson.build
+> @@ -10,6 +10,7 @@ softmmu_ss.add(when: 'CONFIG_ONENAND', if_true: files('onenand.c'))
+>  softmmu_ss.add(when: 'CONFIG_PFLASH_CFI01', if_true: files('pflash_cfi01.c'))
+>  softmmu_ss.add(when: 'CONFIG_PFLASH_CFI02', if_true: files('pflash_cfi02.c'))
+>  softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80.c'))
+> +softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80_sfdp.c'))
+>  softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
+>  softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
+>  softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('tc58128.c'))
+> -- 
+> 2.25.4
+> 
 
