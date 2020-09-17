@@ -2,113 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2842726E361
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 20:18:24 +0200 (CEST)
-Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9B726E368
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 20:21:32 +0200 (CEST)
+Received: from localhost ([::1]:44760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIyUA-0001E7-Ij
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 14:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54972)
+	id 1kIyXD-0002iT-3x
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 14:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kIySN-0000le-Pd
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 14:16:31 -0400
-Received: from mail-bn8nam12on2062.outbound.protection.outlook.com
- ([40.107.237.62]:13472 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kIySK-000862-Lv
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 14:16:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hxlmt8JXKVhIgjdJHperqauk2b1Ahg/U6segiNKn52Y8DwmKsvi695XFvt1nh80xcEe89WIkzKhmtfUU6QHBIF9Ijw40untSJU0RJiW+O4g7YRgDERbQTMy77ex0o5O/lqpN88WrO1I9uFocXiiOTq+v9jOy1XvWEGS+zgYcXMhdeSZVpTZD3jjtKPn5JVdiNwv3BO5SyCfsmvQ9Y2/kIYDeQ/yUDOya5+n/FKXNx1fBK7Je0PA2zxsvH2SgTUnlLQj9wBBAApTbBWN/EqrsYilTSq10I3CA9mD/xrnms/8gAavah2Vg12gR6ZmZ/3J0wYQwQlqPQMydxciR5q3hqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zWyb4CoBtyeRFcK59T0/2xziiC4tkc7lzKjmB+k2ReY=;
- b=SL5+k+iiTKTSmO7qLARAhLfsUZ/9xNlFS00UGMOIYjSHgxAdm401hNIht5wnKT4o+M1C/MZ/4fMb3t0n/YHG4QIZ9MEcEfiZKa+jS7eQ3eHKqMYsDGcgZHbe0CQExMTon5b9+Cssc1CcuCW0WpNp9OQTbQO6jjzOlbVwUnLt7GATzstME6+ivNW8j1YDOtkhIkjH4kDcGwol2hifCU+YjFtovvUpESW1gEG8i74/ratYL29ncuCK2hjuvoWWyc80enMekcKc4N6xohg30C/dNS3ruqS8SFlrVdewVv3iDha/jGqIr/Wa4xquuM8wGapiy5znbeVKo+rxANKwLeLcTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zWyb4CoBtyeRFcK59T0/2xziiC4tkc7lzKjmB+k2ReY=;
- b=UJOYywOuhFEY7go5SxleNKoSEoxEu+oe3L3EY8XdK1QLWLYZeoDuDyoObhUvSWNGyS6wt9QaaxEWjghaSKl7/k4FYrxqXxyxQPMs6mbvJ8Ie/15z1s3qVQVcZxs2xHfpSudh/D+U9GOv98UUaZKN7cFLwIm40v9dkrTgzD5yoUY=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM6PR12MB3084.namprd12.prod.outlook.com (2603:10b6:5:117::25) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.11; Thu, 17 Sep 2020 18:16:24 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346%3]) with mapi id 15.20.3391.011; Thu, 17 Sep 2020
- 18:16:24 +0000
-Subject: Re: [PATCH v3 4/5] sev/i386: Don't allow a system reset under an
- SEV-ES guest
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <cover.1600205384.git.thomas.lendacky@amd.com>
- <058dcb33a9cc223e3180133d29e7a92bfdc40938.1600205384.git.thomas.lendacky@amd.com>
- <20200917170119.GR2793@work-vm>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <c54ec30c-21f6-db4f-72c4-b0825482a960@amd.com>
-Date: Thu, 17 Sep 2020 13:16:21 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIyU2-0001Tj-QZ
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 14:18:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56063)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIyTz-0008Cq-T4
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 14:18:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600366690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QtqKI2rT0OVk41taCapzcwPTjjMwiwvysKm37WcO2XI=;
+ b=AyuPD8teMdJfOw95bWmg8usIaCyZExUFNCKn0BblLipcE6tsxtonPQSGCdHiOdHkpwBPJy
+ bu7IvORtKckplhI1+AgFDJKzszhmag8BzUhLM1jsUI0tBJxsRci4f6k319IzBnEPxicasn
+ Z3z32NYK/VLZg+ok9D+VuHamHEzCM30=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-rRmt9ikoM_eto731L-kwAw-1; Thu, 17 Sep 2020 14:18:05 -0400
+X-MC-Unique: rRmt9ikoM_eto731L-kwAw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29EC51007B2C;
+ Thu, 17 Sep 2020 18:18:04 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E46D968871;
+ Thu, 17 Sep 2020 18:18:02 +0000 (UTC)
+Subject: Re: [PATCH 13/37] qapi/common.py: add notational type hints
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-14-jsnow@redhat.com>
+ <87h7rwpj8d.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <d1f725b3-c23c-d619-5cd2-ead63e3faa9a@redhat.com>
+Date: Thu, 17 Sep 2020 14:18:02 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200917170119.GR2793@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0701CA0038.namprd07.prod.outlook.com
- (2603:10b6:803:2d::31) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from office-linux.texastahm.com (67.79.209.213) by
- SN4PR0701CA0038.namprd07.prod.outlook.com (2603:10b6:803:2d::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.15 via Frontend
- Transport; Thu, 17 Sep 2020 18:16:23 +0000
-X-Originating-IP: [67.79.209.213]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: de4330b6-a329-4246-2b3d-08d85b35c922
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3084:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB30840F4E9970D802ADA79DFBEC3E0@DM6PR12MB3084.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aIq3u3pdSjC9JdmUFvdwCSYvuFiqmhaAt7ZfxeMObUTwAi+A4LmvRZqHOLU6fGrdiQA3ZkM6pT85OrCI5huynuFOOQ8rAq+S5JTkUg/9LiUxuoqovGrcV4TZRzSSgubo30uuqqL1b794KcVXaUdKWENliLfiu6qxHIKd0/EJQBc3XUmFHVe7zjAMNwipZdIMv70/5sPhkNudDDW5wdGCadqOHkRv3mq6UYbdNOjYdM478CGSAilfa94ccsrEnuVm6XtB7/tubJsavenIs1omaz4HY7ibUL6RrUxiGUewofXxxlxzTFHsTa4zRJ6Ze/8nSIMNqcK8gEr57GH2vVOUeBMjszwkw8v2WqRmoauw+FhrdFsKg4fqtw4fd2YXXTXf
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(376002)(346002)(136003)(39860400002)(66556008)(8936002)(66946007)(66476007)(6486002)(2616005)(956004)(6916009)(6512007)(31686004)(4326008)(26005)(6506007)(53546011)(83380400001)(2906002)(7416002)(8676002)(316002)(52116002)(5660300002)(16526019)(186003)(478600001)(86362001)(36756003)(54906003)(31696002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: I//aKAIoaNtNumeFdpFDENEcYd0tSXMFvmcdzU0d6ZDtoXJ1BRuXvob2ZK74ZxAEaXMM3Zw27XZp0p+1kp1Bch8xl6QJu0GgzrOypJmi6vlH4vXAziVY7rtoMDtXx6S/5BShSi/FFouTSg9eSEG7rHfjZm7i9uTXhtW2xl4iwLaX6xSmObteg8R/g8EEBOZ/8jvJumhvhxGNvujRHyjMOXt2uxB48H271U5kqFKqCuGpuIAUVcafHfPQxxtrHURO+ajjqMyaqPoSsHxtP/D0YWZ7hKLRrtGtbZ81xO1JOY0nyo1EbqI11r5aoeRLBbEB2qZ3Td4VOWs+jn2VEe7sbIGewot+rysoIaLVno0sFsbKNgcAZK2J/07Df0cbzs0N1v3nbl2aVvgn79YpDo5Mtzv1CVwJ2Oa6RbWr5dV4tn+fyQHyvaL4/p1sE08mzBswI7uNlPeOZYu3aVStI0VGXNYsQvhixMjKv1x1X3t8cUJmfp6Wxr7DPxDZejjvqTUcBW7SMk3UM7OIHP4aqhAnGD/BX4VjYcXByNwZv4qY7l//1M3u9ydpx2joEwjYvT7i3mFLMQXWkphoRN1sfUQwQHO/2B9P0dUjaO5dYdIJpPnegZW6pDBZGh926Qu/i9VqFi1/bzkNKfsCvsuA7/r4jw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de4330b6-a329-4246-2b3d-08d85b35c922
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 18:16:24.1517 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F0fqy8VJHLmchm/sgt8EOvluB2k6ZGko/AemAi4KCOjFhw4G6YnYHQE/TAIKggYKisRSQfkTl4wDV15Vso7PaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3084
-Received-SPF: none client-ip=40.107.237.62;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 14:16:26
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87h7rwpj8d.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,142 +84,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/20 12:01 PM, Dr. David Alan Gilbert wrote:
-> * Tom Lendacky (thomas.lendacky@amd.com) wrote:
->> From: Tom Lendacky <thomas.lendacky@amd.com>
->>
->> An SEV-ES guest does not allow register state to be altered once it has
->> been measured. When a SEV-ES guest issues a reboot command, Qemu will
->> reset the vCPU state and resume the guest. This will cause failures under
->> SEV-ES, so prevent that from occurring.
->>
->> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+On 9/17/20 10:32 AM, Markus Armbruster wrote:
+> Question on the subject line: what makes a type hint notational?
+> 
+
+My cover letter explains that every time I use this phrase, I mean to 
+state that "This patch adds exclusively type notations and makes no 
+functional changes to the runtime operation whatsoever."
+
+i.e. notations-only.
+
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> Signed-off-by: John Snow <jsnow@redhat.com>
 >> ---
->>   accel/kvm/kvm-all.c       | 9 +++++++++
->>   include/sysemu/cpus.h     | 2 ++
->>   include/sysemu/hw_accel.h | 5 +++++
->>   include/sysemu/kvm.h      | 2 ++
->>   softmmu/cpus.c            | 5 +++++
->>   softmmu/vl.c              | 5 ++++-
->>   6 files changed, 27 insertions(+), 1 deletion(-)
+>>   scripts/qapi/common.py | 27 ++++++++++++++++-----------
+>>   1 file changed, 16 insertions(+), 11 deletions(-)
 >>
->> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->> index 20725b0368..63153b6e53 100644
->> --- a/accel/kvm/kvm-all.c
->> +++ b/accel/kvm/kvm-all.c
->> @@ -2388,6 +2388,15 @@ void kvm_flush_coalesced_mmio_buffer(void)
->>       s->coalesced_flush_in_progress = false;
->>   }
+>> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+>> index 4c079755d3..af01348b35 100644
+>> --- a/scripts/qapi/common.py
+>> +++ b/scripts/qapi/common.py
+>> @@ -12,6 +12,7 @@
+>>   # See the COPYING file in the top-level directory.
 >>   
->> +bool kvm_cpu_check_resettable(void)
->> +{
->> +    /*
->> +     * If we have a valid reset vector override, then SEV-ES is active
->> +     * and the CPU can't be reset.
->> +     */
->> +    return !kvm_state->reset_valid;
+>>   import re
+>> +from typing import Optional, Union, Sequence
+>>   
+>>   
+>>   EATSPACE = '\033EATSPACE.'
+>> @@ -22,7 +23,7 @@
+>>   # ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
+>>   # ENUM_NAME -> ENUM_NAME, ENUM_NAME1 -> ENUM_NAME1, ENUM_Name2 -> ENUM_NAME2
+>>   # ENUM24_Name -> ENUM24_NAME
+>> -def camel_to_upper(value):
+>> +def camel_to_upper(value: str) -> str:
+>>       c_fun_str = c_name(value, False)
+>>       if value.isupper():
+>>           return c_fun_str
+>> @@ -41,7 +42,9 @@ def camel_to_upper(value):
+>>       return new_name.lstrip('_').upper()
+>>   
+>>   
+>> -def c_enum_const(type_name, const_name, prefix=None):
+>> +def c_enum_const(type_name: str,
+>> +                 const_name: str,
+>> +                 prefix: Optional[str] = None) -> str:
+>>       if prefix is not None:
+>>           type_name = prefix
+>>       return camel_to_upper(type_name) + '_' + c_name(const_name, False).upper()
+>> @@ -56,7 +59,7 @@ def c_enum_const(type_name, const_name, prefix=None):
+>>   # into substrings of a generated C function name.
+>>   # '__a.b_c' -> '__a_b_c', 'x-foo' -> 'x_foo'
+>>   # protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
+>> -def c_name(name, protect=True):
+>> +def c_name(name: str, protect: bool = True) -> str:
+>>       # ANSI X3J11/88-090, 3.1.1
+>>       c89_words = set(['auto', 'break', 'case', 'char', 'const', 'continue',
+>>                        'default', 'do', 'double', 'else', 'enum', 'extern',
+>> @@ -134,24 +137,24 @@ def pop(self, amount: int = 4) -> int:
+>>   
+>>   # Generate @code with @kwds interpolated.
+>>   # Obey INDENT level, and strip EATSPACE.
+>> -def cgen(code, **kwds):
+>> +def cgen(code: str, **kwds: Union[str, int]) -> str:
 > 
-> This seems a bit weird since it's in generic rather than x86 specific
-> code.
-
-I could push it down to arch specific code. Is there a way to do that 
-without defining the function for all the other arches?
-
-Thanks,
-Tom
-
+> Hmm.
 > 
-> Dave
+> The @kwds values can be anything, provided they match the conversion
+> specifiers in @code:
 > 
->> +}
->> +
->>   static void do_kvm_cpu_synchronize_state(CPUState *cpu, run_on_cpu_data arg)
->>   {
->>       if (!cpu->vcpu_dirty) {
->> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
->> index 3c1da6a018..6d688c757f 100644
->> --- a/include/sysemu/cpus.h
->> +++ b/include/sysemu/cpus.h
->> @@ -24,6 +24,8 @@ void dump_drift_info(void);
->>   void qemu_cpu_kick_self(void);
->>   void qemu_timer_notify_cb(void *opaque, QEMUClockType type);
+>>       raw = code % kwds
+> 
+> Your type hint adds a restriction that wasn't there before.
+> 
+> Is there a better way?
+> 
+
+Maybe there are format-like type annotation tricks you can do to enforce 
+this, but I did not research them. I tried to resist "improving" our 
+usage of the old % formatter prematurely. I may do a wholesale f-string 
+conversion at some point, but not now, it's not important.
+
+In practice, we pass strings and integers. This typing *is* artificially 
+restrictive, though. We can declare the type to be "Any" and allow the 
+function to fail or succeed at runtime if you'd prefer.
+
+>>       if INDENT:
+>>           raw, _ = re.subn(r'^(?!(#|$))', str(INDENT), raw, flags=re.MULTILINE)
+>>       return re.sub(re.escape(EATSPACE) + r' *', '', raw)
 >>   
->> +bool cpu_is_resettable(void);
->> +
->>   void cpu_synchronize_all_states(void);
->>   void cpu_synchronize_all_post_reset(void);
->>   void cpu_synchronize_all_post_init(void);
->> diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
->> index e128f8b06b..8b4536e7ae 100644
->> --- a/include/sysemu/hw_accel.h
->> +++ b/include/sysemu/hw_accel.h
->> @@ -17,6 +17,11 @@
->>   #include "sysemu/hvf.h"
->>   #include "sysemu/whpx.h"
 >>   
->> +static inline bool cpu_check_resettable(void)
->> +{
->> +    return kvm_enabled() ? kvm_cpu_check_resettable() : true;
->> +}
->> +
->>   static inline void cpu_synchronize_state(CPUState *cpu)
->>   {
->>       if (kvm_enabled()) {
->> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
->> index f74cfa85ab..eb94bbbff9 100644
->> --- a/include/sysemu/kvm.h
->> +++ b/include/sysemu/kvm.h
->> @@ -494,6 +494,8 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
->>   
->>   #endif /* NEED_CPU_H */
->>   
->> +bool kvm_cpu_check_resettable(void);
->> +
->>   void kvm_cpu_synchronize_state(CPUState *cpu);
->>   void kvm_cpu_synchronize_post_reset(CPUState *cpu);
->>   void kvm_cpu_synchronize_post_init(CPUState *cpu);
->> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
->> index a802e899ab..32f286643f 100644
->> --- a/softmmu/cpus.c
->> +++ b/softmmu/cpus.c
->> @@ -927,6 +927,11 @@ void hw_error(const char *fmt, ...)
->>       abort();
->>   }
->>   
->> +bool cpu_is_resettable(void)
->> +{
->> +    return cpu_check_resettable();
->> +}
->> +
->>   void cpu_synchronize_all_states(void)
->>   {
->>       CPUState *cpu;
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index 4eb9d1f7fd..422fbb1650 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -1475,7 +1475,10 @@ void qemu_system_guest_crashloaded(GuestPanicInformation *info)
->>   
->>   void qemu_system_reset_request(ShutdownCause reason)
->>   {
->> -    if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
->> +    if (!cpu_is_resettable()) {
->> +        error_report("cpus are not resettable, terminating");
->> +        shutdown_requested = reason;
->> +    } else if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
->>           shutdown_requested = reason;
->>       } else {
->>           reset_requested = reason;
->> -- 
->> 2.28.0
->>
+>> -def mcgen(code, **kwds):
+>> +def mcgen(code: str, **kwds: Union[str, int]) -> str:
+> 
+> Likewise.
+> 
+
+Unresearched idea: It's possible that we can subclass the 
+string.Formatter class and extend it to perform our special variable 
+replacements (chomping EATSPACE, etc.)
+
+And *maybe* because it inherits from the standard formatter, we would 
+benefit from any analysis Mypy performs on such things.
+
+Basically, replace mcgen/cgen with class CFormatter(string.Formatter).
+
+(maybe. assume that none of what I just said will work or is feasible.)
+
+--js
+
 
