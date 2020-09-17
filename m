@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF3426D07B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 03:18:00 +0200 (CEST)
-Received: from localhost ([::1]:54770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEB726D154
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 04:48:08 +0200 (CEST)
+Received: from localhost ([::1]:53794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIiYh-00011U-DL
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 21:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56002)
+	id 1kIjxu-0003N6-Ol
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 22:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kIiXe-0008ST-9B; Wed, 16 Sep 2020 21:16:54 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:60757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kIiXb-0002Rq-Oh; Wed, 16 Sep 2020 21:16:53 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BsJvy2J37z9sVj; Thu, 17 Sep 2020 11:16:46 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1600305406;
- bh=bgcul57NhEMdzuaeviqp/zLLnzvP6O8eAApf8ed9dG8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cgPKKaR4MDDp0CQMNHHsoS1OCDK15BqHT6IGxL0It3Gk4wi/OmNbbDADVNSFbK4WZ
- XEGGIiFztwhJMszCx26Qu8kCTcrLSV3dlUxzWawhp8Ugvq9C1H0edugWbSqZE6pCyS
- XJFHRRqQk8HonvIc7Rbs/A9HA0NHHMhSxE+P32XA=
-Date: Thu, 17 Sep 2020 11:15:25 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [SPAM] Re: [PATCH 14/15] spapr: Simplify error handling in
- spapr_memory_plug()
-Message-ID: <20200917011525.GI5258@yekko.fritz.box>
-References: <20200914123505.612812-1-groug@kaod.org>
- <20200914123505.612812-15-groug@kaod.org>
- <11f0dcb7-7923-0164-df69-4911b3293663@virtuozzo.com>
- <20200915134340.0cc3f9eb@bahia.lan>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kIjx7-0002iM-KN
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 22:47:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30259)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kIjx4-0006dO-N4
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 22:47:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600310832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=78zHJiEeULje0l5YBCQ95qjmLDHg4lx0S+twWKM3bSM=;
+ b=S8lHVisA0b5Rv9LGdWnpoy3whbDd3lvBVuiMsjFZYF67drIAOrju9LB0xz7dqCxyKLGvpk
+ CQvSHSYNRbC0Wb0kv5YXREzXaf1RzXwetHM7aEZTp2iUz3bRmZUFVW87vZq4zrUVNL+0gQ
+ l4UqP6VlCRI7plqID+0AzHMVCwFW/XE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-WOoE--kqMza4_O5moOhj8A-1; Wed, 16 Sep 2020 22:47:10 -0400
+X-MC-Unique: WOoE--kqMza4_O5moOhj8A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28FBC1074640;
+ Thu, 17 Sep 2020 02:47:08 +0000 (UTC)
+Received: from localhost (ovpn-119-217.rdu2.redhat.com [10.10.119.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7ED3610021AA;
+ Thu, 17 Sep 2020 02:47:03 +0000 (UTC)
+Date: Wed, 16 Sep 2020 22:47:02 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 2/2] qom: Use DECLARE_INTERFACE_CHECKER macro
+Message-ID: <20200917024702.GM7594@habkost.net>
+References: <20200916223258.599367-1-ehabkost@redhat.com>
+ <20200916223258.599367-3-ehabkost@redhat.com>
+ <20200917004434.GF5258@yekko.fritz.box>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZOudaV4lSIjFTlHv"
+In-Reply-To: <20200917004434.GF5258@yekko.fritz.box>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200915134340.0cc3f9eb@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 22:47:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,105 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Corey Minyard <minyard@acm.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-ppc@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 17, 2020 at 10:44:34AM +1000, David Gibson wrote:
+[...]
+> > diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
+> > index 9adf1e4706..96aa63919a 100644
+> > --- a/include/hw/acpi/acpi_dev_interface.h
+> > +++ b/include/hw/acpi/acpi_dev_interface.h
+> > @@ -21,9 +21,8 @@ typedef enum {
+> >  typedef struct AcpiDeviceIfClass AcpiDeviceIfClass;
+> >  DECLARE_CLASS_CHECKERS(AcpiDeviceIfClass, ACPI_DEVICE_IF,
+> >                         TYPE_ACPI_DEVICE_IF)
+> > -#define ACPI_DEVICE_IF(obj) \
+> > -     INTERFACE_CHECK(AcpiDeviceIf, (obj), \
+> > -                     TYPE_ACPI_DEVICE_IF)
+> > +DECLARE_INTERFACE_CHECKER(AcpiDeviceIf, ACPI_DEVICE_IF,
+> > +                          TYPE_ACPI_DEVICE_IF)
+> >  
+> >  typedef struct AcpiDeviceIf AcpiDeviceIf;
 
---ZOudaV4lSIjFTlHv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is broken because the typedef needs to be before
+DECLARE_INTERFACE_CHECKER.  I will send v2.
 
-On Tue, Sep 15, 2020 at 01:43:40PM +0200, Greg Kurz wrote:
-> On Tue, 15 Sep 2020 13:58:53 +0300
-> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
->=20
-> > 14.09.2020 15:35, Greg Kurz wrote:
-> > > As recommended in "qapi/error.h", add a bool return value to
-> > > spapr_add_lmbs() and spapr_add_nvdimm(), and use them instead
-> > > of local_err in spapr_memory_plug().
-> > >=20
-> > > Since object_property_get_uint() only returns 0 on failure, use
-> > > that as well.
-> >=20
-> > Why are you sure? Can't the property be 0 itself?
-> >=20
->=20
-> Hmmm... I've based this assumption on the header:
->=20
->  * Returns: the value of the property, converted to an unsigned integer, =
-or 0
->  * an error occurs (including when the property value is not an integer).
->=20
-> but looking at the implementation, I don't see any check that
-> a property cannot be 0 indeed...
+-- 
+Eduardo
 
-Yeah, indeed I'm pretty sure it can.
-
-> It's a bit misleading to mention this in the header though. I
-> understand that the function should return something, which
-> should have a some explicitly assigned value to avoid compilers
-> or static analyzers to yell, but the written contract should be
-> that the value is _undefined_ IMHO.
-
-Hrm... I think the description could be clearer, but returning 0
-explicitly on the failure case has some benefits too.  If 0 is a
-reasonable default for when the property isn't present (which is a
-plausibly common case) then it means you can just get a value and
-ignore errors.
-
-> In its present form, the only way to know if the property is
-> valid is to pass a non-NULL errp actually. I'd rather even see
-> that in the contract, and an assert() in the code.
-
-Maybe... see above.
-
-> An alternative would be to convert it to have a bool return
-> value and get the actual uint result with a pointer argument.
-
-I don't think this is a good idea.  Returning success/failure as the
-return value is a good rule of thumb because it reduces the amount of
-checking of out-of-band information you need to do.  If you move to
-returning the actual value you're trying to get out of band in this
-sense, it kind of defeats that purpose.
-
-I think this one is a case where it is reasonable to make it required
-to explicitly check the error value.
-
-> > > Also call ERRP_GUARD() to be able to check the status of void
-> > > function pc_dimm_plug() with *errp.
->=20
-> I'm now hesitating to either check *errp for object_property_get_uint()
-> too or simply drop this patch...
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ZOudaV4lSIjFTlHv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9iuK0ACgkQbDjKyiDZ
-s5KC7w/+P2BGehqqYJs5jbRaYUtMh+84IpHnFgo12owErch3dwpldfC2WkaUA9gB
-oqKg9cDWBpVstmEgSboq5sm5eN42KH/Ef9f8WXmEMP2k6eNn1IJAghFdkJQ+npg2
-+OmivfizBX/82HIVPsuUL+4ys/JtznNd0zb+0qNETcRJPAxVkFqfNsjpmOc4uf1l
-MWPWlLqXRccbM90YSxkQntWyvRUbcQL8WUDH8AGV4xObtzzSujXb3ft6V8dv1k8V
-5tZKo/g/cu1Jj20WujX0iX/Fjgfd07+Olbs0m0PX5IDSDroRAm7HKPaa2+A2B3+j
-mmmP477zied8t1Wnpb8nPKi6Q5AOZvBpt2Qr8eQfQ9aA7E/13SoGvarPzJDMnO7d
-PiGZkac6komQqf3ryDAqpyo3inUIYE3+l0Fg+tGTEOocdmh5szW1ZfqBFNlHaivR
-RUNtTNt58fZCncuPHpwqPHQxEuimImfdeuS0ZG/yJcxHg3JxcppK9SqPDM1axX+t
-KYlbAGTxZCtpc5eWnfQLJVRggVhuG/PxclzLBAUDSh7ew4LYFYubFKfa4siA+V6S
-ss/lwcG5YuYnxQn0VZ1O7UjPaLeou12YnGXneCo/J3Pz9SOn545IxstnitWwA1Q9
-TCEVeN9SmcWPXGg/CZ9SsKMDzTfLjGYE1nED3rN5P6Y7S/MQ0jc=
-=9TfS
------END PGP SIGNATURE-----
-
---ZOudaV4lSIjFTlHv--
 
