@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7632526DEE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:59:38 +0200 (CEST)
-Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1947C26DF81
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:22:11 +0200 (CEST)
+Received: from localhost ([::1]:60960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvNp-0007la-78
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
+	id 1kIvje-0001OZ-2a
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kIvGq-0001dC-6o; Thu, 17 Sep 2020 10:52:25 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:45578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kIvGj-0007ww-RT; Thu, 17 Sep 2020 10:52:23 -0400
-Received: by mail-lj1-x243.google.com with SMTP id c2so2270941ljj.12;
- Thu, 17 Sep 2020 07:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=Qija0jniBOLs5N6qr7SKNOjdKkyl4mPPcNefiWT4QYE=;
- b=qsDTBJkLNNCfon4VjloRdn8NUtflELX6D2rK+s/bvkr0wlqeR3ySqwm7Oqi475Bj0v
- HzoHgV4TprymlErNRQK+X0WOu2NqRZNyID8Hky1Bc/qBiS27QHozRP9XccIyml6MatF0
- YHYYUMkgaKZmEsutrz5L7J6h2nfswB1V0LoO4u7qvMN6FNXXOHTAnnLRL6HhnQUd2tCs
- eIQfDr5c8fZu6K8OUH9pY4U7lHyxnqrPP0R1+I0WeZFfSvCA30/1ail+UZZoWVzKQKDc
- 4P5HRxsSKSQxJtlPFe/N033PDct5dekZb8qWhRrZfauNZjyUhXZnq1E72igJu/24A2ys
- YqPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=Qija0jniBOLs5N6qr7SKNOjdKkyl4mPPcNefiWT4QYE=;
- b=VMLwMpF9LzeR6aRsIJaFxkRr7jIP7F/FdxDNCI5vLdhmNenc9QgczScKsgn6D/mBu4
- 6NwFL+1HXytsSMpuAwoOGDHmwMrwz1i2f99bGw7tiViYY2v2VWRscZRwoIPkWAOQFDa1
- SqJKu37LYR6ytIv1Rvj1VT2zn0dMEGp+79faHUJHzaUhrdyD7yjn1/unjH6j445PVh7+
- DL/SXtQEwO8eiuERJw09oRQMGeJ8ujvGc2kwOf7VxSHz4/3/FElNq8pqbU7L6EBav5+Q
- 0MzL2HozN2ypsljk+0XNqGt/nHnQ98nz5QKn3ld0y0MXEPCCiE1wLvaeJ7hMYm6zgw2R
- bm+g==
-X-Gm-Message-State: AOAM532ShOoPaSuGDQdv9sxapZEUT74Y4qZKkOMuTYTwG34lSCVxTQWI
- rJnG1Ob+o0CXa3gixoLlnC0ITZEuf60=
-X-Google-Smtp-Source: ABdhPJwRlu6HRSBsRnR2GtOYe1OIbbb10cB/FKG7IhA4EdoV8h0uVu7tX8/y7O67wzWOcA1AzaQT7w==
-X-Received: by 2002:a2e:8e71:: with SMTP id t17mr9765887ljk.413.1600354335125; 
- Thu, 17 Sep 2020 07:52:15 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- b7sm5543039lfq.36.2020.09.17.07.52.14
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 17 Sep 2020 07:52:14 -0700 (PDT)
-Date: Thu, 17 Sep 2020 16:52:12 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 8/9] arm/aspeed: Replace mx25l25635e chip model
-Message-ID: <20200917145211.nwoc5ijytqjfb7c7@fralle-msi>
-References: <20200902093107.608000-1-clg@kaod.org>
- <20200902093107.608000-9-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kIvbA-0002V9-CM
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:13:24 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29261
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kIvb7-0003AZ-6w
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:13:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600355599;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lTTXm1sCCee6TwMCsLggshFrJmrqgTdlUV5hd+ay7rc=;
+ b=iV6rFsh/ZKe08CVrd7lU4QeHA+QL00Rwog7FHvller7LAWPNAWqaTcPzSTtZ9NPJxptRzw
+ FBdqL2i19PL+ynsiq24kVHC2ALgTNKwfkE2cdcECke1c9FRShzvvwrB5GVztifCe5QB5TH
+ IT0vZ2YT6nizYSMrh+zptsbKzWmODB8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-bBdnxmvmO3ue5c7ZRnsTPA-1; Thu, 17 Sep 2020 11:13:03 -0400
+X-MC-Unique: bBdnxmvmO3ue5c7ZRnsTPA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F8268BF133;
+ Thu, 17 Sep 2020 15:13:01 +0000 (UTC)
+Received: from localhost (ovpn-112-183.ams2.redhat.com [10.36.112.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16C17610F2;
+ Thu, 17 Sep 2020 15:13:00 +0000 (UTC)
+Date: Thu, 17 Sep 2020 11:42:25 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/3] block/nvme: Use atomic operations instead of
+ 'volatile' keyword
+Message-ID: <20200917104225.GD809514@stefanha-x1.localdomain>
+References: <20200916204004.1511985-1-philmd@redhat.com>
+ <20200916204004.1511985-3-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <20200916204004.1511985-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NtwzykIc2mflq5ck"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200902093107.608000-9-clg@kaod.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:47:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIMWL_WL_HIGH=-2.997, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,57 +83,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On [2020 Sep 02] Wed 11:31:06, Cédric Le Goater wrote:
-> A mx25l25635f chip model is generally found on these machines. It's
-> newer and uses 4B opcodes which is better to exercise the support in
-> the Linux kernel.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+--NtwzykIc2mflq5ck
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+On Wed, Sep 16, 2020 at 10:40:03PM +0200, Philippe Mathieu-Daud=E9 wrote:
 
+I think the current use of volatile is fine. It's widely used in device
+drivers (see Linux and DPDK) so I'm not sure eliminating it is
+worthwhile.
+
+> Follow docs/devel/atomics.rst guidelines and use atomic operations.
+>=20
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  hw/arm/aspeed.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 8bfb1c79ddc5..df65d949b7e6 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -609,7 +609,7 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
->      amc->soc_name  = "ast2400-a1";
->      amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
->      amc->fmc_model = "n25q256a";
-> -    amc->spi_model = "mx25l25635e";
-> +    amc->spi_model = "mx25l25635f";
->      amc->num_cs    = 1;
->      amc->i2c_init  = palmetto_bmc_i2c_init;
->      mc->default_ram_size       = 256 * MiB;
-> @@ -643,7 +643,7 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
->      amc->soc_name  = "ast2500-a1";
->      amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
->      amc->fmc_model = "w25q256";
-> -    amc->spi_model = "mx25l25635e";
-> +    amc->spi_model = "mx25l25635f";
->      amc->num_cs    = 1;
->      amc->i2c_init  = ast2500_evb_i2c_init;
->      mc->default_ram_size       = 512 * MiB;
-> @@ -710,7 +710,7 @@ static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
->      mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
->      amc->soc_name  = "ast2500-a1";
->      amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
-> -    amc->fmc_model = "mx25l25635e";
-> +    amc->fmc_model = "mx25l25635f";
->      amc->spi_model = "mx66l1g45g";
->      amc->num_cs    = 2;
->      amc->i2c_init  = witherspoon_bmc_i2c_init;
-> -- 
-> 2.25.4
-> 
+>  block/nvme.c | 38 ++++++++++++++++++++------------------
+>  1 file changed, 20 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/block/nvme.c b/block/nvme.c
+> index b91749713e0..be80ea1f410 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -46,7 +46,7 @@ typedef struct {
+>      uint8_t  *queue;
+>      uint64_t iova;
+>      /* Hardware MMIO register */
+> -    volatile uint32_t *doorbell;
+> +    uint32_t *doorbell;
+>  } NVMeQueue;
+> =20
+>  typedef struct {
+> @@ -82,7 +82,7 @@ typedef struct {
+>  } NVMeQueuePair;
+> =20
+>  /* Memory mapped registers */
+> -typedef volatile struct {
+> +typedef struct {
+>      NvmeBar ctrl;
+>      struct {
+>          uint32_t sq_tail;
+> @@ -273,8 +273,7 @@ static void nvme_kick(NVMeQueuePair *q)
+>      trace_nvme_kick(s, q->index);
+>      assert(!(q->sq.tail & 0xFF00));
+>      /* Fence the write to submission queue entry before notifying the de=
+vice. */
+> -    smp_wmb();
+> -    *q->sq.doorbell =3D cpu_to_le32(q->sq.tail);
+> +    atomic_rcu_set(q->sq.doorbell, cpu_to_le32(q->sq.tail));
+
+I suggest using smp_wmb()/smp_rmb() instead of atomic operations since
+operation doesn't actually need to be atomic.
+
+This hunk can be dropped from the patch, the existing behavior is
+already correct.
+
+> @@ -734,10 +731,11 @@ static int nvme_init(BlockDriverState *bs, const ch=
+ar *device, int namespace,
+>      timeout_ms =3D MIN(500 * ((cap >> 24) & 0xFF), 30000);
+> =20
+>      /* Reset device to get a clean state. */
+> -    s->regs->ctrl.cc &=3D const_le32(0xFE);
+> +    atomic_set(&s->regs->ctrl.cc,
+> +               cpu_to_le32(atomic_read(&s->regs->ctrl.cc) & const_le32(0=
+xFE)));
+>      /* Wait for CSTS.RDY =3D 0. */
+>      deadline =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * S=
+CALE_MS;
+> -    while (s->regs->ctrl.csts & const_le32(0x1)) {
+> +    while (atomic_read(&s->regs->ctrl.csts) & const_le32(0x1)) {
+>          if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
+>              error_setg(errp, "Timeout while waiting for device to reset =
+(%"
+>                               PRId64 " ms)",
+
+Linux drivers use readl()/writel() to perform memory loads/stores with
+appropriate constraints for MMIO accesses (e.g. the instructions cannot
+be optimized by the compiler). QEMU lacks an API like this because it
+didn't contain userspace drivers before block/nvme.c.
+
+The semantics needed here are that the compiler must perform the memory
+access and cannot optimize it.
+
+Please introduce an API for hardware register accesses instead of
+(ab)using atomics.
+
+Stefan
+
+--NtwzykIc2mflq5ck
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9jPZEACgkQnKSrs4Gr
+c8ibnQf+LxuIQH+KqHjPg3oX36adr5koZ5RWLfPnjTsosidRay717buN5z/OswFm
+eJirrlLtXTp6ugAmZx2iFyd5xOrSFlyAPbGo6nHa2IvVo9AGfxJHf2WgGPgL/EyD
+X2mERZlTyqyjEa2fgvd4etQPxnDPIlAd0xAuowNtVIL5Yy5cOk6MHoBZ0iBEfxRV
+5n014+NQNWS+hTpOxPsX8ecNxhXCsQs1FkeLbS7xO1wzSxXtexxL5mgJ9gk2nUmj
+QJdH+pGDIysgOu/4OIUIHcv60/c/qvnrC+IbTph71plK8YRjFgABaorbQmdk+/fz
+w2o/v+eUIVzBfeVgFwAaqKDN48KCJA==
+=Gwuo
+-----END PGP SIGNATURE-----
+
+--NtwzykIc2mflq5ck--
+
 
