@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740A326E061
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:12:43 +0200 (CEST)
-Received: from localhost ([::1]:59660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E9426E050
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:10:37 +0200 (CEST)
+Received: from localhost ([::1]:52794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwWY-0002SE-IB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44516)
+	id 1kIwUW-0007oO-3f
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:10:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kIwNH-0007vR-8f; Thu, 17 Sep 2020 12:03:07 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kIwN5-000496-LK; Thu, 17 Sep 2020 12:03:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600358476; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=VJG+wmXShuy7YFvBKjxaENeYeLKhDo5rVMmcjueYZcHQu7LQZ3dbcJjrcskOup8fM5xHwdmjc/CqIDwFFQtZaTfYKbIa8fI2TxcZQdT4hoBMO6c0T6JL1X8CbumLtkYzVn6HtcdFYCo5hytLiXY3FrV0QryN//pAuXxzV+hCGpU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1600358476;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=KLPw0xg5wW2NuCB7I6yMoI/ufMVfvSXKW6X0IBEVc+U=; 
- b=TItZdnkludFeZPOrLevaYSHQC068XFEWQgmShzpPBhF1MpPHfXlbIxq1utqe9BXEyBzRXkxPmezI8MkRtijgKCklYQ2entwvGJFU/rVrdXdObrGDnH48vaJbPlzfFOam3qi3cWoPR91xTbeLD8Llmre94jfvYS8k1IePZPZ4T1Q=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1600358476; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- bh=KLPw0xg5wW2NuCB7I6yMoI/ufMVfvSXKW6X0IBEVc+U=;
- b=AMRxCB5WIBqazo0VIPdJsbkX/NRqjJ3mHe8ek/Iguqct5gu9M+O6jfOAQQs9x5Yg
- e8NYUifVCmw+uGxDVcY8h7xcgwD6T96zA5JgxUaqo0MgtWDo0woY37ivAnWKgtILh+C
- L3xB2Mic9qkJVSCHciVgx/BXBF1wEDL4X8aq/xeo=
-Received: from localhost (ec2-52-56-101-76.eu-west-2.compute.amazonaws.com
- [52.56.101.76]) by mx.zoho.com.cn
- with SMTPS id 1600358473568625.6813746852993;
- Fri, 18 Sep 2020 00:01:13 +0800 (CST)
-Date: Thu, 17 Sep 2020 16:01:06 +0000
-From: Fam Zheng <fam@euphon.net>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v1 0/2] Add timeout mechanism to qmp actions
-Message-ID: <20200917160054.GA2453251@dev>
-References: <20200810145246.1049-1-yezhenyu2@huawei.com>
- <20200810153811.GF14538@linux.fritz.box>
- <c6d75e49-3e36-6a76-fdc8-cdf09e7c3393@huawei.com>
- <20200914132738.GL579094@stefanha-x1.localdomain>
- <7ad220bd-7ee5-1f66-b2e5-7dc57d72eb2e@huawei.com>
- <20200917154415.GB839531@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kIwMX-0006rx-77
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:02:21 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kIwMU-0004Dv-MK
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:02:20 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id j7so1348080plk.11
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=nHVFqRghFBFymH0OR9d+PHUQPv0jCtcWv1PluEHLWxc=;
+ b=NR5bwBWGPIojYmeRQgg4Yz1rmNOTWcsc/Mpfyj7DeARMkO4jn4LV9xEmjwkWrSMOGp
+ s6mhGS7KgOU4Me5krI+H6hTH9zlUgvSVUeox5yhjK+4M15RyRcFIaRh7Z7H41SMX0QHb
+ rZzFzacJQR37kCZobjG1xeNjiw9zylvK81e7hee5iRWcxEnpavHA9tMbxV2nelfr41PH
+ uSndwkfh/W//q8Lx20OML61eNgZx0w0vt7P7wrlqY3awZ5O0xpk96tkJrn/CEGATVYQs
+ URjzzWaYxMJQoBf1MWO+HnqBXqU9V/YtnBylBclm+EogTfOdVoaQJ47Jo6dbaZnXsgDg
+ 34Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=nHVFqRghFBFymH0OR9d+PHUQPv0jCtcWv1PluEHLWxc=;
+ b=X0nTTZKEEHrflfG6zqEYtF+s7oIG1cY43MI+b8f80lE9CsRNncy+4NNqd1uP3phntk
+ OocNGO9bd5BA4/spBG4AoD9cbJPCqFmd5oVg7GPIq0atTpJ6KT69Kdmb3tgbyKi1up+A
+ Ry+wvMQVeyhaC6hjyDYMFBcPvWRBYyxrEO1IEo4yc0D5cKWXHKrb1JKdi8xF05xVM0iu
+ XvFnQ75UDlJ+LSVRSS3qSu/1/+lMsxhjW34ChPrNQZ0w4rJjFCBV7EweUj/bh0SmUbmK
+ 1HizuaF7g+wEBjytQRbqKZbOUZv1NLvQBQQiYbFESh+8BhYwyqOF3HBT25ZInO74Xlky
+ 9IbQ==
+X-Gm-Message-State: AOAM53260RQyDHYBStZ1npRXoE0/CrusyIQTf3wM1BuT4SbZ33H4yFSs
+ 3zS4XbUtAqDO+JQdQJ+uHn6rEAHSB/84GuW2Xn6slTnK7mjcSw==
+X-Google-Smtp-Source: ABdhPJxcEphk5LdLqHsNd3UKt06bhzQujLcVLj7FNusrz5WqBOlg909vRYGpnkzsbOFilo9XiWA5ejDo5aDQmYwPOR4=
+X-Received: by 2002:a17:902:be11:b029:d1:bb21:4c9c with SMTP id
+ r17-20020a170902be11b02900d1bb214c9cmr25779289pls.8.1600358535629; Thu, 17
+ Sep 2020 09:02:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200917154415.GB839531@stefanha-x1.localdomain>
-X-ZohoCNMailClient: External
-Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
- helo=sender2-op-o12.zoho.com.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 12:01:57
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 17 Sep 2020 17:02:04 +0100
+Message-ID: <CAJSP0QUiNJZXtdiYZFVu_OLkPfWbX=F3JVkLSrqOHsJUL+MSTg@mail.gmail.com>
+Subject: Reminder: Outreachy open source internships initial application
+ deadline Sept 20
+To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=stefanha@gmail.com; helo=mail-pl1-x62d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,69 +77,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Zhenyu Ye <yezhenyu2@huawei.com>, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, armbru@redhat.com, pbonzini@redhat.com,
- mreitz@redhat.com
+Cc: Julia Suvorova <jusual@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-09-17 16:44, Stefan Hajnoczi wrote:
-> On Thu, Sep 17, 2020 at 03:36:57PM +0800, Zhenyu Ye wrote:
-> > When the hang occurs, the QEMU is blocked at:
-> > 
-> > 	#0  0x0000ffff95762b64 in ?? () from target:/usr/lib64/libpthread.so.0
-> > 	#1  0x0000ffff9575bd88 in pthread_mutex_lock () from target:/usr/lib64/libpthread.so.0
-> > 	#2  0x0000aaaabb1f5948 in qemu_mutex_lock_impl (mutex=0xaaaacc8e1860,
-> > 	    file=0xaaaabb4e1bd0 "/Images/eillon/CODE/5-opensource/qemu/util/async.c", line=605)
-> > 	#3  0x0000aaaabb20acd4 in aio_context_acquire (ctx=0xaaaacc8e1800)
-> > 	#4  0x0000aaaabb105e90 in bdrv_query_image_info (bs=0xaaaacc934620,
-> > 	    p_info=0xaaaaccc41e18, errp=0xffffca669118)
-> > 	#5  0x0000aaaabb105968 in bdrv_block_device_info (blk=0xaaaacdca19f0, bs=0xaaaacc934620,
-> > 	    flat=false, errp=0xffffca6692b8)
-> > 	#6  0x0000aaaabb1063dc in bdrv_query_info (blk=0xaaaacdca19f0, p_info=0xaaaacd29c9a8,
-> > 	    errp=0xffffca6692b8)
-> > 	#7  0x0000aaaabb106c14 in qmp_query_block (errp=0x0)
-> > 	#8  0x0000aaaabacb8e6c in hmp_info_block (mon=0xffffca6693d0, qdict=0xaaaacd089790)
-> 
-> Great, this shows that the main loop thread is stuck waiting for the
-> AioContext lock.
-> 
-> Please post backtraces from all QEMU threads ((gdb) thread apply all bt)
-> so we can figure out which thread is holding up the main loop.
+Hi,
+QEMU is participating in the Outreachy December-March open source
+internship program. The internships are 12 weeks of full-time paid
+remote work contributing to QEMU/KVM. For more information about
+eligibility and what the internships are like, please see
+https://outreachy.org/.
 
-I think that is reflected in the perf backtrace posted by Zheny already:
+The initial application deadline is Sept 20 and it only takes 5-30
+minutes to complete:
+https://www.outreachy.org/apply/
 
-And in the host, the information of sys_enter_io_submit() is:
+If you or someone you know are considering doing an internship with
+QEMU, Linux kernel, or another participating organization, please
+remember to submit an initial application by September 20th!
 
-Samples: 3K of event 'syscalls:sys_enter_io_submit', Event count
-(approx.): 3150
-   Children      Self  Trace output
-   -   66.70%    66.70%  ctx_id: 0xffff9c044000,
-   nr: 0x00000001, iocbpp: 0xffff9f7fad28
-   0xffffae7f871c
-   0xffffae8a27c4
-   qemu_thread_start
-   iothread_run
-   aio_poll
-   aio_dispatch_ready_handlers
-   aio_dispatch_handler
-   virtio_queue_host_notifier_aio_read
-   virtio_queue_notify_aio_vq
-   virtio_blk_data_plane_handle_output
-   virtio_blk_handle_vq
-   blk_io_unplug
-   bdrv_io_unplug
-   bdrv_io_unplug
-   raw_aio_unplug
-   laio_io_unplug
-   syscall
-
-So the iothread is blocked by a slow io_submit holding the AioContext
-lock.
-
-It would be interesting to know what in kernel is blocking io_submit
-from returning.
-
-Fam
+Stefan
 
