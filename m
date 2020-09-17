@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A96426DD42
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 15:56:21 +0200 (CEST)
-Received: from localhost ([::1]:35506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC5A26DD55
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 15:58:54 +0200 (CEST)
+Received: from localhost ([::1]:43890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIuOa-0002Cv-L9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 09:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34240)
+	id 1kIuR3-0005vz-GF
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 09:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuM3-0008HO-Kk
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22874)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuM4-0008Ji-Eb
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:53:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuLz-00082N-BK
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:53:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuM0-00082s-9L
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:53:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600350817;
+ s=mimecast20190719; t=1600350819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ChUqQNnAXkzHIQx9TB59mjS7APRGCrp3vPf9nY/htpQ=;
- b=OMhOhh9YPu6+BDdzy3TCPEBcxlsSmf+1vZzcBqNdJptMwT/odfS94jPxSiGegQ5yVZgHIF
- LwKOAAHnEeoJt+myFteEGqs5cVSX7lM+Dn797NhJtohtWLfyoEkPa1pZ5Jy0XoZ2pxGbL/
- 4HHb0n1EsvNyqgdz0v0q9MpDooMO0AM=
+ bh=Y+PVz2MpfLfRicNjuH1LTOEzfqVbAcIOIGoxgEQDM3g=;
+ b=cM/10c+rUUmxINXnZpG9GwEJ4P+a+5p8VP8fteVr3sa4Ea48zroU39j9eU+SjQPB8FHNd8
+ qp78RxqBaaPjD9wgBPq5zSWkmMsb02gsEnnlfyKFUUJvwFvwyaHYUyW7HruK6Y2xu8UfQT
+ WKeLex2NnH/xznyp3QImsQtpC3sFPUA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-f7NAHvD-OS-D0mVTn9xnag-1; Thu, 17 Sep 2020 09:53:35 -0400
-X-MC-Unique: f7NAHvD-OS-D0mVTn9xnag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-142-l13mXQDSNyOFqLEIgPUkNA-1; Thu, 17 Sep 2020 09:53:36 -0400
+X-MC-Unique: l13mXQDSNyOFqLEIgPUkNA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63A22107465C;
- Thu, 17 Sep 2020 13:53:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41B52186DD4C;
+ Thu, 17 Sep 2020 13:53:35 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E266367CF0;
- Thu, 17 Sep 2020 13:53:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6BCF5DE51;
+ Thu, 17 Sep 2020 13:53:34 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B69899A8F; Thu, 17 Sep 2020 15:53:23 +0200 (CEST)
+ id C30DF9982; Thu, 17 Sep 2020 15:53:23 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/21] acpi: ged: add control regs
-Date: Thu, 17 Sep 2020 15:53:06 +0200
-Message-Id: <20200917135323.18022-5-kraxel@redhat.com>
+Subject: [PULL 05/21] acpi: ged: add x86 device variant.
+Date: Thu, 17 Sep 2020 15:53:07 +0200
+Message-Id: <20200917135323.18022-6-kraxel@redhat.com>
 In-Reply-To: <20200917135323.18022-1-kraxel@redhat.com>
 References: <20200917135323.18022-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -68,7 +68,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,115 +91,88 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add control regs (sleep, reset) for hw-reduced acpi.
+Set AcpiDeviceIfClass->madt_cpu,
+otherwise identical to TYPE_ACPI_GED.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-id: 20200915120909.20838-5-kraxel@redhat.com
+Message-id: 20200915120909.20838-6-kraxel@redhat.com
 ---
- include/hw/acpi/generic_event_device.h | 12 +++++++
- hw/acpi/generic_event_device.c         | 44 ++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ include/hw/acpi/generic_event_device.h |  4 +++
+ hw/i386/generic_event_device_x86.c     | 36 ++++++++++++++++++++++++++
+ hw/i386/meson.build                    |  1 +
+ 3 files changed, 41 insertions(+)
+ create mode 100644 hw/i386/generic_event_device_x86.c
 
 diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
-index 1be05a3c0f8c..38aec526f944 100644
+index 38aec526f944..241151662b45 100644
 --- a/include/hw/acpi/generic_event_device.h
 +++ b/include/hw/acpi/generic_event_device.h
-@@ -74,6 +74,17 @@ DECLARE_INSTANCE_CHECKER(AcpiGedState, ACPI_GED,
+@@ -71,6 +71,10 @@ typedef struct AcpiGedState AcpiGedState;
+ DECLARE_INSTANCE_CHECKER(AcpiGedState, ACPI_GED,
+                          TYPE_ACPI_GED)
+ 
++#define TYPE_ACPI_GED_X86 "acpi-ged-x86"
++#define ACPI_GED_X86(obj) \
++    OBJECT_CHECK(AcpiGedX86State, (obj), TYPE_ACPI_GED_X86)
++
  #define ACPI_GED_EVT_SEL_OFFSET    0x0
  #define ACPI_GED_EVT_SEL_LEN       0x4
  
-+#define ACPI_GED_REG_SLEEP_CTL     0x00
-+#define ACPI_GED_REG_SLEEP_STS     0x01
-+#define ACPI_GED_REG_RESET         0x02
-+#define ACPI_GED_REG_COUNT         0x03
+diff --git a/hw/i386/generic_event_device_x86.c b/hw/i386/generic_event_device_x86.c
+new file mode 100644
+index 000000000000..e26fb02a2ef6
+--- /dev/null
++++ b/hw/i386/generic_event_device_x86.c
+@@ -0,0 +1,36 @@
++/*
++ * x86 variant of the generic event device for hw reduced acpi
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ */
 +
-+/* ACPI_GED_REG_RESET value for reset*/
-+#define ACPI_GED_RESET_VALUE       0x42
++#include "qemu/osdep.h"
++#include "hw/acpi/generic_event_device.h"
++#include "hw/i386/pc.h"
 +
-+/* ACPI_GED_REG_SLEEP_CTL.SLP_TYP value for S5 (aka poweroff) */
-+#define ACPI_GED_SLP_TYP_S5        0x05
-+
- #define GED_DEVICE      "GED"
- #define AML_GED_EVT_REG "EREG"
- #define AML_GED_EVT_SEL "ESEL"
-@@ -89,6 +100,7 @@ DECLARE_INSTANCE_CHECKER(AcpiGedState, ACPI_GED,
- 
- typedef struct GEDState {
-     MemoryRegion evt;
-+    MemoryRegion regs;
-     uint32_t     sel;
- } GEDState;
- 
-diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-index b8abdefa1c77..491df80a5cc7 100644
---- a/hw/acpi/generic_event_device.c
-+++ b/hw/acpi/generic_event_device.c
-@@ -20,6 +20,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qemu/error-report.h"
-+#include "sysemu/runstate.h"
- 
- static const uint32_t ged_supported_events[] = {
-     ACPI_GED_MEM_HOTPLUG_EVT,
-@@ -176,6 +177,45 @@ static const MemoryRegionOps ged_evt_ops = {
-     },
- };
- 
-+static uint64_t ged_regs_read(void *opaque, hwaddr addr, unsigned size)
++static void acpi_ged_x86_class_init(ObjectClass *class, void *data)
 +{
-+    return 0;
++    AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_CLASS(class);
++
++    adevc->madt_cpu = pc_madt_cpu_entry;
 +}
 +
-+static void ged_regs_write(void *opaque, hwaddr addr, uint64_t data,
-+                           unsigned int size)
-+{
-+    bool slp_en;
-+    int slp_typ;
-+
-+    switch (addr) {
-+    case ACPI_GED_REG_SLEEP_CTL:
-+        slp_typ = (data >> 2) & 0x07;
-+        slp_en  = (data >> 5) & 0x01;
-+        if (slp_en && slp_typ == 5) {
-+            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+        }
-+        return;
-+    case ACPI_GED_REG_SLEEP_STS:
-+        return;
-+    case ACPI_GED_REG_RESET:
-+        if (data == ACPI_GED_RESET_VALUE) {
-+            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+        }
-+        return;
++static const TypeInfo acpi_ged_x86_info = {
++    .name          = TYPE_ACPI_GED_X86,
++    .parent        = TYPE_ACPI_GED,
++    .class_init    = acpi_ged_x86_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_HOTPLUG_HANDLER },
++        { TYPE_ACPI_DEVICE_IF },
++        { }
 +    }
-+}
-+
-+static const MemoryRegionOps ged_regs_ops = {
-+    .read = ged_regs_read,
-+    .write = ged_regs_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
 +};
 +
- static void acpi_ged_device_plug_cb(HotplugHandler *hotplug_dev,
-                                     DeviceState *dev, Error **errp)
- {
-@@ -332,6 +372,10 @@ static void acpi_ged_initfn(Object *obj)
-      sysbus_init_mmio(sbd, &s->container_memhp);
-      acpi_memory_hotplug_init(&s->container_memhp, OBJECT(dev),
-                               &s->memhp_state, 0);
++static void acpi_ged_x86_register_types(void)
++{
++    type_register_static(&acpi_ged_x86_info);
++}
 +
-+    memory_region_init_io(&ged_st->regs, obj, &ged_regs_ops, ged_st,
-+                          TYPE_ACPI_GED "-regs", ACPI_GED_REG_COUNT);
-+    sysbus_init_mmio(sbd, &ged_st->regs);
- }
++type_init(acpi_ged_x86_register_types)
+diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+index 63918fbe22f9..1a7d1a685d77 100644
+--- a/hw/i386/meson.build
++++ b/hw/i386/meson.build
+@@ -18,6 +18,7 @@ i386_ss.add(when: 'CONFIG_VMPORT', if_true: files('vmport.c'))
+ i386_ss.add(when: 'CONFIG_VTD', if_true: files('intel_iommu.c'))
  
- static void acpi_ged_class_init(ObjectClass *class, void *data)
+ i386_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-common.c'))
++i386_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device_x86.c'))
+ i386_ss.add(when: 'CONFIG_PC', if_true: files(
+   'pc.c',
+   'pc_sysfw.c',
 -- 
 2.27.0
 
