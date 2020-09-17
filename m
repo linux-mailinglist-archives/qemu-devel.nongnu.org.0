@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A25926DD68
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:02:09 +0200 (CEST)
-Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5742126DD85
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:07:50 +0200 (CEST)
+Received: from localhost ([::1]:39038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIuUC-0001IW-6x
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34592)
+	id 1kIuZg-00086e-Vf
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuMQ-0000Bp-NU
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:54:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21502)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuMK-0008Um-9J
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:54:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuMA-00086K-FI
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:54:06 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIuM3-00084K-Qh
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 09:53:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600350829;
+ s=mimecast20190719; t=1600350822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6KCenPeUzK5ZyBxIuzmFituXr7VoUzx6fBMypE+JXJg=;
- b=NcvFw7d73Ous6n47XaHx8KvG4Il7d53hw//5togpdqaRFkrBpVW3JAXOwiXAMf07WUHAWQ
- 6dPZgWiJ5SL9vlEMeUCMYUbMqOarRj+9lO6YvXoxsp2zpWBxiwpPmySPG3mk8XNWHrGnPc
- wHLgf8++uqXO+mqC647eCbs9G6ZOnsA=
+ bh=PKcG2d+YGr8WfUNwJYdVrxDHm1+AQbWAXfetZQSmt1s=;
+ b=h+HC6R/iUd/EMCVTKBUrt8yZ/u2acaLsKz+VcbJkobCWukYNFX6Adwuy0oBRLRz9I+txrp
+ N9IysBfH7V7tbxivHGb7rO96FDhCF6B8RRIvvpaERhQA+MRx6OFuEyAmbd5KDRwy2Ki5/Q
+ bygoT9m0ObTw2aC0oSOUILtP5JbxJJI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-3by9eunCMjCavdpMxwMqQQ-1; Thu, 17 Sep 2020 09:53:47 -0400
-X-MC-Unique: 3by9eunCMjCavdpMxwMqQQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-279-b3aCnK5COhOLgbnkbRZb6Q-1; Thu, 17 Sep 2020 09:53:40 -0400
+X-MC-Unique: b3aCnK5COhOLgbnkbRZb6Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 215381084C81;
- Thu, 17 Sep 2020 13:53:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 870E8186DD39;
+ Thu, 17 Sep 2020 13:53:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D30EB7881B;
- Thu, 17 Sep 2020 13:53:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E71919D6C;
+ Thu, 17 Sep 2020 13:53:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 792A731FC7; Thu, 17 Sep 2020 15:53:24 +0200 (CEST)
+ id 8220040BFB; Thu, 17 Sep 2020 15:53:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/21] tests/acpi: update expected data files for microvm
-Date: Thu, 17 Sep 2020 15:53:22 +0200
-Message-Id: <20200917135323.18022-21-kraxel@redhat.com>
+Subject: [PULL 21/21] microvm: enable ramfb
+Date: Thu, 17 Sep 2020 15:53:23 +0200
+Message-Id: <20200917135323.18022-22-kraxel@redhat.com>
 In-Reply-To: <20200917135323.18022-1-kraxel@redhat.com>
 References: <20200917135323.18022-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -91,60 +91,33 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also clear tests/qtest/bios-tables-test-allowed-diff.h
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200915120909.20838-21-kraxel@redhat.com
+Message-id: 20200915120909.20838-22-kraxel@redhat.com
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
- tests/data/acpi/microvm/APIC                | Bin 0 -> 70 bytes
- tests/data/acpi/microvm/DSDT                | Bin 0 -> 365 bytes
- tests/data/acpi/microvm/FACP                | Bin 0 -> 268 bytes
- 4 files changed, 3 deletions(-)
+ hw/i386/microvm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 97c3fa621b7f..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,4 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/APIC",
--"tests/data/acpi/microvm/DSDT",
--"tests/data/acpi/microvm/FACP",
-diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7472c7e830b6c7139720e93dd544d4441556661d 100644
-GIT binary patch
-literal 70
-zcmZ<^@N{-#U|?Xp?&R<65v<@85#a0y6k`O6f!H9Lf#JbFFwFr}2jnsGfW!{`1CcCj
-H|A7Jk<Z=uF
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..b43f427a222a933d3f34aceab6224a2c6115c365 100644
-GIT binary patch
-literal 365
-zcmX9(%SyvQ6upy2n@pNIKA<QF#Sf5arMONe(=?DaG1G?-VTyaft+=UO6kPiQ{RBV7
-z&*`dor`gOs_nbMLa}$-!-w1&98W&=s`tfrq66BBqgUw{=rB<=7xA)_f7<+n>CE=5t
-zE;#2y@U)soH1M>j)Okp0N|?)B()oaTI~2uqaQfeg{#@eeMV8=e3}=mj(J&<k`(T52
-z$G~{<Rw@(SghZmuI3GM<2s%R)5Sg4V4Zd4o6Cc~5X(KC{LI+@fq)z=6m{mw6^ZwPX
-zmdm;SZkF|){d}&e1=QM=t170OdV6g^6IRYjF1Tp2ut@AIEB@GM`K&7N+EF9YHntEE
-jUShi3(B94m0^Q#uSOD0Iklv{mV=rh>BYn|!sEgD;a<EMS
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..0ba5795d622349e1521138e4123544637b4ab9af 100644
-GIT binary patch
-literal 268
-zcmZ>BbPnKQWME*ebMklg2v%^42yk`-iUEZfKx`0ARlp*^z`()4z{IrRAIMxMsv1tD
-QVL<yCp!S2@!U$yp0N^VO0RR91
-
-literal 0
-HcmV?d00001
-
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 8de8ca864963..60d32722301f 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -39,6 +39,7 @@
+ #include "hw/timer/i8254.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/char/serial.h"
++#include "hw/display/ramfb.h"
+ #include "hw/i386/topology.h"
+ #include "hw/i386/e820_memory_layout.h"
+ #include "hw/i386/fw_cfg.h"
+@@ -604,6 +605,8 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc,
+         MICROVM_MACHINE_AUTO_KERNEL_CMDLINE,
+         "Set off to disable adding virtio-mmio devices to the kernel cmdline");
++
++    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
+ }
+ 
+ static const TypeInfo microvm_machine_info = {
 -- 
 2.27.0
 
