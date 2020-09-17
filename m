@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F029826D62A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:14:09 +0200 (CEST)
-Received: from localhost ([::1]:34910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE8626D66D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:25:41 +0200 (CEST)
+Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIp3Q-00016t-Su
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
+	id 1kIpEa-0006iX-1H
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:25:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIowk-0000uc-Cj
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:14 -0400
-Resent-Date: Thu, 17 Sep 2020 04:07:14 -0400
-Resent-Message-Id: <E1kIowk-0000uc-Cj@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIowh-0007Ko-TP
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600330001; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=buxGrlrOH2WaYp9TMoAyu2EbWW7NqyDcPbbCjEzKdqVOY64CqNwxYToPaYt0vEh5YDbRDRzBGH0Ze9yc88QQskBPkiRfV2JXw1cbC5hDoZESGQ30vl7n/SalXyz8UsTN4QoiOHCxyFOq7QeeLFibugFygKRn823pD1Vc2BSMuoc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600330001;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=VyxmvDhQu60v1mejppi4ObQpPzRn+QAl0Ja0tVJjzlE=; 
- b=Lr7lfZic5Msx/GhcZ0SOLxvGTJ6sUTqekbG63mGpD6eISKzUR9m0zf0sgb67wNNSg4r7LVq6+URxgzcJPmFve573eIRzQ3XOpEiYluFo4rpG4GUpkuffSIAAYrNzq7dG91/+aUvIikbO6sa1NFqLdpyBkWHex73E4flwcch8+ko=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600329999570500.97037922096024;
- Thu, 17 Sep 2020 01:06:39 -0700 (PDT)
-Subject: Re: [PATCH v6 00/12] i440fx/acpi: addition of feature and bug fixes.
-Message-ID: <160032999760.8478.8560819129012516657@66eaa9a8a123>
-In-Reply-To: <20200917074733.13612-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIowp-000178-Oz
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIown-0007LE-V5
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600330037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SSTF4VUaJ6vpzBt/h1YAA1NBkaNiGyyr2cahE+V+bTk=;
+ b=Kin2/LuIoy0HHlW3GczuujrCfbHIZWvTunLDm/9sfo87+K+/84kTKudVTDt4qAS0YV5FAf
+ xZzWyAWOYhvmI3QzV4oWx/8GIjEzPNRN3480TRfWa3LJQmDjjVYPxqLaUqpLpQaMudVCBD
+ W9s3QSnWPX9e038dmLGCknYFIK6T080=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-R7MkopIBMTe80I7VfC8aZg-1; Thu, 17 Sep 2020 04:07:13 -0400
+X-MC-Unique: R7MkopIBMTe80I7VfC8aZg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 665DE100747A;
+ Thu, 17 Sep 2020 08:07:11 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4806E78814;
+ Thu, 17 Sep 2020 08:07:09 +0000 (UTC)
+Date: Thu, 17 Sep 2020 10:07:06 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 03/12] target/arm/kvm32: make MPIDR consistent with
+ CPU Topology
+Message-ID: <20200917080706.s4edh2vd2gzjwg6y@kamzik.brq.redhat.com>
+References: <20200917032033.2020-1-fangying1@huawei.com>
+ <20200917032033.2020-4-fangying1@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ani@anisinha.ca
-Date: Thu, 17 Sep 2020 01:06:39 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:07:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200917032033.2020-4-fangying1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,20 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ehabkost@redhat.com, mst@redhat.com, jusual@redhat.com, f4bug@amsat.org,
- qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com, imammedo@redhat.com,
- ani@anisinha.ca, pbonzini@redhat.com, aurelien@aurel32.net, rth@twiddle.net
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxNzA3NDczMy4xMzYx
-Mi0xLWFuaUBhbmlzaW5oYS5jYS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKTi9BLiBJbnRlcm5hbCBlcnJvciB3aGlsZSByZWFkaW5nIGxvZyBmaWxlCgoKClRo
-ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA5
-MTcwNzQ3MzMuMTM2MTItMS1hbmlAYW5pc2luaGEuY2EvdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
-PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
-dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
-dy1kZXZlbEByZWRoYXQuY29t
+On Thu, Sep 17, 2020 at 11:20:24AM +0800, Ying Fang wrote:
+> MPIDR helps to provide an additional PE identification in a multiprocessor
+> system. This patch adds support for setting MPIDR from userspace, so that
+> MPIDR is consistent with CPU topology configured.
+> 
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> ---
+>  target/arm/kvm32.c | 46 ++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 38 insertions(+), 8 deletions(-)
+> 
+> diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+> index 0af46b41c8..85694dc8bf 100644
+> --- a/target/arm/kvm32.c
+> +++ b/target/arm/kvm32.c
+
+This file no longer exists in mainline. Please rebase the whole series.
+
+Thanks,
+drew
+
 
