@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E9426E050
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:10:37 +0200 (CEST)
-Received: from localhost ([::1]:52794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EED26E046
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:08:24 +0200 (CEST)
+Received: from localhost ([::1]:44892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwUW-0007oO-3f
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:10:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
+	id 1kIwSN-0004Tw-5P
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:08:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kIwMX-0006rx-77
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:02:21 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kIwMU-0004Dv-MK
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:02:20 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id j7so1348080plk.11
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:02:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=nHVFqRghFBFymH0OR9d+PHUQPv0jCtcWv1PluEHLWxc=;
- b=NR5bwBWGPIojYmeRQgg4Yz1rmNOTWcsc/Mpfyj7DeARMkO4jn4LV9xEmjwkWrSMOGp
- s6mhGS7KgOU4Me5krI+H6hTH9zlUgvSVUeox5yhjK+4M15RyRcFIaRh7Z7H41SMX0QHb
- rZzFzacJQR37kCZobjG1xeNjiw9zylvK81e7hee5iRWcxEnpavHA9tMbxV2nelfr41PH
- uSndwkfh/W//q8Lx20OML61eNgZx0w0vt7P7wrlqY3awZ5O0xpk96tkJrn/CEGATVYQs
- URjzzWaYxMJQoBf1MWO+HnqBXqU9V/YtnBylBclm+EogTfOdVoaQJ47Jo6dbaZnXsgDg
- 34Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=nHVFqRghFBFymH0OR9d+PHUQPv0jCtcWv1PluEHLWxc=;
- b=X0nTTZKEEHrflfG6zqEYtF+s7oIG1cY43MI+b8f80lE9CsRNncy+4NNqd1uP3phntk
- OocNGO9bd5BA4/spBG4AoD9cbJPCqFmd5oVg7GPIq0atTpJ6KT69Kdmb3tgbyKi1up+A
- Ry+wvMQVeyhaC6hjyDYMFBcPvWRBYyxrEO1IEo4yc0D5cKWXHKrb1JKdi8xF05xVM0iu
- XvFnQ75UDlJ+LSVRSS3qSu/1/+lMsxhjW34ChPrNQZ0w4rJjFCBV7EweUj/bh0SmUbmK
- 1HizuaF7g+wEBjytQRbqKZbOUZv1NLvQBQQiYbFESh+8BhYwyqOF3HBT25ZInO74Xlky
- 9IbQ==
-X-Gm-Message-State: AOAM53260RQyDHYBStZ1npRXoE0/CrusyIQTf3wM1BuT4SbZ33H4yFSs
- 3zS4XbUtAqDO+JQdQJ+uHn6rEAHSB/84GuW2Xn6slTnK7mjcSw==
-X-Google-Smtp-Source: ABdhPJxcEphk5LdLqHsNd3UKt06bhzQujLcVLj7FNusrz5WqBOlg909vRYGpnkzsbOFilo9XiWA5ejDo5aDQmYwPOR4=
-X-Received: by 2002:a17:902:be11:b029:d1:bb21:4c9c with SMTP id
- r17-20020a170902be11b02900d1bb214c9cmr25779289pls.8.1600358535629; Thu, 17
- Sep 2020 09:02:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kIwO3-0000Ht-44
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:03:55 -0400
+Resent-Date: Thu, 17 Sep 2020 12:03:55 -0400
+Resent-Message-Id: <E1kIwO3-0000Ht-44@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kIwO0-0004Ub-0I
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:03:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600358619; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Wl+14Qw37Yh6nlBqBlgF1Y/dxtY7uPN+IQnBWE24qzYo1rRb5ISIOW0slCXF2q4RBaXS+EdsbC1ECZ4vkiKYYOuA515L92TRT5Jd+Z6cmzMp7fxasNkrhtNHPel0IckEm4VFq/aCW8IdNYH6of/e0i8YiVeKgb6CZkVi6ZwvGy4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600358619;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=aEpmrd+eb5zHSiS/AKElwwldrxWnzLODPC8XNi0PSkQ=; 
+ b=ItqhMw17jAQ0setVTGIeXNfX3aZjKFZg70jsbvuD16sBnMcmtcIJDqq6m8yQnl2XU1f0QYrn4q6yDxV5EazxS/Bb0d8OdagXVoXN054GI0W3633ZxgK35j3snAL26A6tiQ9aA+D/GP1IjwoasDSf8vRiInz0HeEfV2bg9/jlmaI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600358616358270.22960269451323;
+ Thu, 17 Sep 2020 09:03:36 -0700 (PDT)
+Subject: Re: [PATCH] docs: simplify and clarify the platform support rules
+Message-ID: <160035861418.8478.212178184531337619@66eaa9a8a123>
+In-Reply-To: <20200917155606.1623795-1-berrange@redhat.com>
 MIME-Version: 1.0
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 17 Sep 2020 17:02:04 +0100
-Message-ID: <CAJSP0QUiNJZXtdiYZFVu_OLkPfWbX=F3JVkLSrqOHsJUL+MSTg@mail.gmail.com>
-Subject: Reminder: Outreachy open source internships initial application
- deadline Sept 20
-To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=stefanha@gmail.com; helo=mail-pl1-x62d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: berrange@redhat.com
+Date: Thu, 17 Sep 2020 09:03:36 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:07:10
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,24 +69,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julia Suvorova <jusual@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-QEMU is participating in the Outreachy December-March open source
-internship program. The internships are 12 weeks of full-time paid
-remote work contributing to QEMU/KVM. For more information about
-eligibility and what the internships are like, please see
-https://outreachy.org/.
-
-The initial application deadline is Sept 20 and it only takes 5-30
-minutes to complete:
-https://www.outreachy.org/apply/
-
-If you or someone you know are considering doing an internship with
-QEMU, Linux kernel, or another participating organization, please
-remember to submit an initial application by September 20th!
-
-Stefan
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxNzE1NTYwNi4xNjIz
+Nzk1LTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgYnVp
+bGQgdGVzdCBvbiBGcmVlQlNEIGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoK
+CgoKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMjAwOTE3MTU1NjA2LjE2MjM3OTUtMS1iZXJyYW5nZUByZWRoYXQuY29tL3Rlc3RpbmcuRnJl
+ZUJTRC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
+UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
+IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
