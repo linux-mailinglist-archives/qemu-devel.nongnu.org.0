@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358C326D182
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:23:44 +0200 (CEST)
-Received: from localhost ([::1]:46734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A149926D188
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:26:37 +0200 (CEST)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIkWM-0006ib-Nx
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47770)
+	id 1kIkZA-0002ww-NS
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUM-0004uv-Ez; Wed, 16 Sep 2020 23:21:38 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4701 helo=huawei.com)
+ id 1kIkUR-00054e-DZ; Wed, 16 Sep 2020 23:21:43 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4747 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkTp-0004Qh-L7; Wed, 16 Sep 2020 23:21:38 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 98A92AAABFA1E255AFE5;
- Thu, 17 Sep 2020 11:20:59 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:20:51 +0800
+ id 1kIkUM-0004RL-LY; Wed, 16 Sep 2020 23:21:43 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id D3C28BAC7ABDFF61A6C6;
+ Thu, 17 Sep 2020 11:21:08 +0800 (CST)
+Received: from localhost (10.174.185.104) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:20:58 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 05/12] hw/arm/virt: DT: add cpu-map
-Date: Thu, 17 Sep 2020 11:20:26 +0800
-Message-ID: <20200917032033.2020-6-fangying1@huawei.com>
+Subject: [RFC PATCH 06/12] hw/arm/virt-acpi-build: distinguish possible and
+ present cpus
+Date: Thu, 17 Sep 2020 11:20:27 +0800
+Message-ID: <20200917032033.2020-7-fangying1@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20200917032033.2020-1-fangying1@huawei.com>
 References: <20200917032033.2020-1-fangying1@huawei.com>
@@ -36,9 +37,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.104]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:21:09
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -60,98 +61,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, drjones@redhat.com,
  zhang.zhanghailiang@huawei.com, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
+ qemu-arm@nongnu.org, alistair.francis@wdc.com,
+ Ying Fang <fangying1@huawei.com>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
-
-Support devicetree CPU topology descriptions.
+When building ACPI tables regarding CPUs we should always build
+them for the number of possible CPUs, not the number of present
+CPUs. We then ensure only the present CPUs are enabled.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- hw/arm/virt.c         | 37 ++++++++++++++++++++++++++++++++++++-
- include/hw/arm/virt.h |  1 +
- 2 files changed, 37 insertions(+), 1 deletion(-)
+ hw/arm/virt-acpi-build.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index acf9bfbece..71f7dbb317 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -348,7 +348,10 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-     int cpu;
-     int addr_cells = 1;
-     const MachineState *ms = MACHINE(vms);
--
-+    VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-+    unsigned int smp_cores = ms->smp.cores;
-+    unsigned int smp_threads = ms->smp.threads;
-+    bool cpu_topology_enabled = !vmc->ignore_cpu_topology;
-     /*
-      * From Documentation/devicetree/bindings/arm/cpus.txt
-      *  On ARM v8 64-bit systems value should be set to 2,
-@@ -404,8 +407,37 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-                 ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
-         }
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 9efd7a3881..f1d574b5d3 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -56,14 +56,18 @@
  
-+        qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle",
-+                              qemu_fdt_alloc_phandle(vms->fdt));
-+
-         g_free(nodename);
-     }
-+    if (cpu_topology_enabled) {
-+        /* Add vcpu topology by fdt node cpu-map. */
-+        qemu_fdt_add_subnode(vms->fdt, "/cpus/cpu-map");
-+
-+        for (cpu = vms->smp_cpus - 1; cpu >= 0; cpu--) {
-+            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
-+            char *map_path;
-+
-+            if (smp_threads > 1) {
-+                map_path = g_strdup_printf(
-+                           "/cpus/cpu-map/%s%d/%s%d/%s%d",
-+                           "cluster", cpu / (smp_cores * smp_threads),
-+                           "core", (cpu / smp_threads) % smp_cores,
-+                           "thread", cpu % smp_threads);
-+            } else {
-+                map_path = g_strdup_printf(
-+                           "/cpus/cpu-map/%s%d/%s%d",
-+                           "cluster", cpu / smp_cores,
-+                           "core", cpu % smp_cores);
-+            }
-+            qemu_fdt_add_path(vms->fdt, map_path);
-+            qemu_fdt_setprop_phandle(vms->fdt, map_path, "cpu", cpu_path);
-+            g_free(map_path);
-+            g_free(cpu_path);
-+        }
-+    }
- }
+ #define ARM_SPI_BASE 32
  
- static void fdt_add_its_gic_node(VirtMachineState *vms)
-@@ -2553,8 +2585,11 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 2)
- 
- static void virt_machine_5_1_options(MachineClass *mc)
+-static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
++static void acpi_dsdt_add_cpus(Aml *scope, VirtMachineState *vms)
  {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+
-     virt_machine_5_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-+    vmc->ignore_cpu_topology = true;
- }
- DEFINE_VIRT_MACHINE(5, 1)
+     uint16_t i;
++    CPUArchIdList *possible_cpus = MACHINE(vms)->possible_cpus;
  
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index dff67e1bef..d37c6b7858 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -119,6 +119,7 @@ typedef struct {
-     MachineClass parent;
-     bool disallow_affinity_adjustment;
-     bool no_its;
-+    bool ignore_cpu_topology;
-     bool no_pmu;
-     bool claim_edge_triggered_timers;
-     bool smbios_old_sys_ver;
+-    for (i = 0; i < smp_cpus; i++) {
++    for (i = 0; i < possible_cpus->len; i++) {
+         Aml *dev = aml_device("C%.03X", i);
+         aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
+         aml_append(dev, aml_name_decl("_UID", aml_int(i)));
++        if (possible_cpus->cpus[i].cpu == NULL) {
++            aml_append(dev, aml_name_decl("_STA", aml_int(0)));
++        }
+         aml_append(scope, dev);
+     }
+ }
+@@ -635,6 +639,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     const int *irqmap = vms->irqmap;
+     AcpiMadtGenericDistributor *gicd;
+     AcpiMadtGenericMsiFrame *gic_msi;
++    int possible_cpus = MACHINE(vms)->possible_cpus->len;
+     int i;
+ 
+     acpi_data_push(table_data, sizeof(AcpiMultipleApicTable));
+@@ -645,7 +650,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     gicd->base_address = cpu_to_le64(memmap[VIRT_GIC_DIST].base);
+     gicd->version = vms->gic_version;
+ 
+-    for (i = 0; i < vms->smp_cpus; i++) {
++    for (i = 0; i < possible_cpus; i++) {
+         AcpiMadtGenericCpuInterface *gicc = acpi_data_push(table_data,
+                                                            sizeof(*gicc));
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
+@@ -660,7 +665,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+         gicc->cpu_interface_number = cpu_to_le32(i);
+         gicc->arm_mpidr = cpu_to_le64(armcpu->mp_affinity);
+         gicc->uid = cpu_to_le32(i);
+-        gicc->flags = cpu_to_le32(ACPI_MADT_GICC_ENABLED);
++        if (i < vms->smp_cpus) {
++            gicc->flags = cpu_to_le32(ACPI_MADT_GICC_ENABLED);
++        }
+ 
+         if (arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
+             gicc->performance_interrupt = cpu_to_le32(PPI(VIRTUAL_PMU_IRQ));
+@@ -764,7 +771,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+      * the RTC ACPI device at all when using UEFI.
+      */
+     scope = aml_scope("\\_SB");
+-    acpi_dsdt_add_cpus(scope, vms->smp_cpus);
++    acpi_dsdt_add_cpus(scope, vms);
+     acpi_dsdt_add_uart(scope, &memmap[VIRT_UART],
+                        (irqmap[VIRT_UART] + ARM_SPI_BASE));
+     if (vmc->acpi_expose_flash) {
 -- 
 2.23.0
 
