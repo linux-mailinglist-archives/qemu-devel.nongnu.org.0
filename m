@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E6E26D186
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:25:47 +0200 (CEST)
-Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C98326D184
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:24:08 +0200 (CEST)
+Received: from localhost ([::1]:48374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIkYM-0001l5-Rs
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:25:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47854)
+	id 1kIkWl-0007OT-4j
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUN-0004w5-QJ; Wed, 16 Sep 2020 23:21:39 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:44680 helo=huawei.com)
+ id 1kIkUP-0004yf-1g; Wed, 16 Sep 2020 23:21:41 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4699 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkTp-0004QL-M3; Wed, 16 Sep 2020 23:21:39 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 765CCAFAF5B114C6D711;
+ id 1kIkUM-0004QM-Ev; Wed, 16 Sep 2020 23:21:40 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 7A375E32711B65A2A2E3;
  Thu, 17 Sep 2020 11:20:53 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:20:44 +0800
+Received: from localhost (10.174.185.104) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:20:45 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 01/12] linux headers: Update linux header with
- KVM_ARM_SET_MP_AFFINITY
-Date: Thu, 17 Sep 2020 11:20:22 +0800
-Message-ID: <20200917032033.2020-2-fangying1@huawei.com>
+Subject: [RFC PATCH 02/12] target/arm/kvm64: make MPIDR consistent with CPU
+ Topology
+Date: Thu, 17 Sep 2020 11:20:23 +0800
+Message-ID: <20200917032033.2020-3-fangying1@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20200917032033.2020-1-fangying1@huawei.com>
 References: <20200917032033.2020-1-fangying1@huawei.com>
@@ -37,9 +37,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.104]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=fangying1@huawei.com;
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:53
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -66,32 +66,85 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+MPIDR helps to provide an additional PE identification in a multiprocessor
+system. This patch adds support for setting MPIDR from userspace, so that
+MPIDR is consistent with CPU topology configured.
+
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- linux-headers/linux/kvm.h | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/kvm64.c | 46 ++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 38 insertions(+), 8 deletions(-)
 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index a28c366737..461a2302e7 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_PPC_SECURE_GUEST 181
- #define KVM_CAP_HALT_POLL 182
- #define KVM_CAP_ASYNC_PF_INT 183
-+#define KVM_CAP_ARM_MP_AFFINITY 187
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index ef1e960285..fcce261a10 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -757,10 +757,46 @@ static int kvm_arm_sve_set_vls(CPUState *cs)
  
- #ifdef KVM_CAP_IRQ_ROUTING
+ #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
  
-@@ -1470,6 +1471,8 @@ struct kvm_s390_ucas_mapping {
- #define KVM_S390_SET_CMMA_BITS      _IOW(KVMIO, 0xb9, struct kvm_s390_cmma_log)
- /* Memory Encryption Commands */
- #define KVM_MEMORY_ENCRYPT_OP      _IOWR(KVMIO, 0xba, unsigned long)
-+/* Available with KVM_CAP_ARM_MP_AFFINITY */
-+#define KVM_ARM_SET_MP_AFFINITY    _IOWR(KVMIO, 0xbb, unsigned long)
++static int kvm_arm_set_mp_affinity(CPUState *cs)
++{
++    uint64_t mpidr;
++    ARMCPU *cpu = ARM_CPU(cs);
++
++    if (kvm_check_extension(kvm_state, KVM_CAP_ARM_MP_AFFINITY)) {
++        /* Make MPIDR consistent with CPU topology */
++        MachineState *ms = MACHINE(qdev_get_machine());
++
++        mpidr = (kvm_arch_vcpu_id(cs) % ms->smp.threads) << ARM_AFF0_SHIFT;
++        mpidr |= ((kvm_arch_vcpu_id(cs) / ms->smp.threads % ms->smp.cores)
++                                    & 0xff) << ARM_AFF1_SHIFT;
++        mpidr |= (kvm_arch_vcpu_id(cs) / (ms->smp.cores * ms->smp.threads)
++                                    & 0xff) << ARM_AFF2_SHIFT;
++
++        /* Override mp affinity when KVM is in use */
++        cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
++
++        /* Bit 31 is RES1 indicates the ARMv7 Multiprocessing Extensions */
++        mpidr |= (1ULL << 31);
++        return kvm_vcpu_ioctl(cs, KVM_ARM_SET_MP_AFFINITY, &mpidr);
++    } else {
++        /*
++         * When KVM_CAP_ARM_MP_AFFINITY is not supported, it means KVM has its
++         * own idea about MPIDR assignment, so we override our defaults with
++         * what we get from KVM.
++         */
++        int ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
++        if (ret) {
++            error_report("failed to set MPIDR");
++            return ret;
++        }
++        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
++        return ret;
++    }
++}
++
+ int kvm_arch_init_vcpu(CPUState *cs)
+ {
+     int ret;
+-    uint64_t mpidr;
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
  
- struct kvm_enc_region {
- 	__u64 addr;
+@@ -814,16 +850,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         }
+     }
+ 
+-    /*
+-     * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+-     * Currently KVM has its own idea about MPIDR assignment, so we
+-     * override our defaults with what we get from KVM.
+-     */
+-    ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
++    ret = kvm_arm_set_mp_affinity(cs);
+     if (ret) {
+         return ret;
+     }
+-    cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+ 
+     kvm_arm_init_debug(cs);
+ 
 -- 
 2.23.0
 
