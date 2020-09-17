@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8949426D185
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:24:20 +0200 (CEST)
-Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B66FD26D183
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:23:45 +0200 (CEST)
+Received: from localhost ([::1]:47040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIkWx-00080m-FK
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47912)
+	id 1kIkWO-0006qQ-MG
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUQ-00052P-Ef; Wed, 16 Sep 2020 23:21:42 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4700 helo=huawei.com)
+ id 1kIkUO-0004y2-Q8; Wed, 16 Sep 2020 23:21:40 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:53514 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUM-0004Qc-F4; Wed, 16 Sep 2020 23:21:42 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 31AAEAEDCE52875C0B5F;
+ id 1kIkTp-0004Qe-Nj; Wed, 16 Sep 2020 23:21:40 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 876F151E885C02A826EF;
  Thu, 17 Sep 2020 11:20:58 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:20:47 +0800
+Received: from localhost (10.174.185.104) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:20:49 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 03/12] target/arm/kvm32: make MPIDR consistent with CPU
- Topology
-Date: Thu, 17 Sep 2020 11:20:24 +0800
-Message-ID: <20200917032033.2020-4-fangying1@huawei.com>
+Subject: [RFC PATCH 04/12] device_tree: add qemu_fdt_add_path
+Date: Thu, 17 Sep 2020 11:20:25 +0800
+Message-ID: <20200917032033.2020-5-fangying1@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20200917032033.2020-1-fangying1@huawei.com>
 References: <20200917032033.2020-1-fangying1@huawei.com>
@@ -37,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.104]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:58
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -60,92 +59,73 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, drjones@redhat.com,
- zhang.zhanghailiang@huawei.com, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, alistair.francis@wdc.com,
- Ying Fang <fangying1@huawei.com>, imammedo@redhat.com
+ zhang.zhanghailiang@huawei.com,
+ Peter Crosthwaite <crosthwaite.peter@gmail.com>,
+ Alexander Graf <agraf@suse.de>, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MPIDR helps to provide an additional PE identification in a multiprocessor
-system. This patch adds support for setting MPIDR from userspace, so that
-MPIDR is consistent with CPU topology configured.
+From: Andrew Jones <drjones@redhat.com>
 
-Signed-off-by: Ying Fang <fangying1@huawei.com>
+qemu_fdt_add_path works like qemu_fdt_add_subnode, except it
+also recursively adds any missing parent nodes.
+
+Cc: Peter Crosthwaite <crosthwaite.peter@gmail.com>
+Cc: Alexander Graf <agraf@suse.de>
+Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- target/arm/kvm32.c | 46 ++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 38 insertions(+), 8 deletions(-)
+ device_tree.c                | 24 ++++++++++++++++++++++++
+ include/sysemu/device_tree.h |  1 +
+ 2 files changed, 25 insertions(+)
 
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index 0af46b41c8..85694dc8bf 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -201,11 +201,47 @@ int kvm_arm_cpreg_level(uint64_t regidx)
+diff --git a/device_tree.c b/device_tree.c
+index b335dae707..1854be3a02 100644
+--- a/device_tree.c
++++ b/device_tree.c
+@@ -524,6 +524,30 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+     return retval;
+ }
  
- #define ARM_CPU_ID_MPIDR       0, 0, 0, 5
- 
-+static int kvm_arm_set_mp_affinity(CPUState *cs)
++int qemu_fdt_add_path(void *fdt, const char *path)
 +{
-+    uint32_t mpidr;
-+    ARMCPU *cpu = ARM_CPU(cs);
++    char *parent;
++    int offset;
 +
-+    if (kvm_check_extension(kvm_state, KVM_CAP_ARM_MP_AFFINITY)) {
-+        /* Make MPIDR consistent with CPU topology */
-+        MachineState *ms = MACHINE(qdev_get_machine());
-+
-+        mpidr = (kvm_arch_vcpu_id(cs) % ms->smp.threads) << ARM_AFF0_SHIFT;
-+        mpidr |= ((kvm_arch_vcpu_id(cs) / ms->smp.threads % ms->smp.cores)
-+                                        & 0xff) << ARM_AFF1_SHIFT;
-+        mpidr |= (kvm_arch_vcpu_id(cs) / (ms->smp.cores * ms->smp.threads)
-+                                       & 0xff) << ARM_AFF2_SHIFT;
-+
-+        /* Override mp affinity when KVM is in use */
-+        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
-+
-+        /* Bit 31 is RES1 indicates the ARMv7 Multiprocessing Extensions */
-+        mpidr |= (1ULL << 31);
-+        return kvm_vcpu_ioctl(cs, KVM_ARM_SET_MP_AFFINITY, &mpidr);
-+    } else {
-+        /*
-+         * When KVM_CAP_ARM_MP_AFFINITY is not supported, it means KVM has its
-+         * own idea about MPIDR assignment, so we override our defaults with
-+         * what we get from KVM.
-+         */
-+        int ret = kvm_get_one_reg(cs, ARM_CP15_REG32(ARM_CPU_ID_MPIDR), &mpidr);
-+        if (ret) {
-+            error_report("failed to set MPIDR");
-+            return ret;
-+        }
-+        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
-+        return ret;
++    offset = fdt_path_offset(fdt, path);
++    if (offset < 0 && offset != -FDT_ERR_NOTFOUND) {
++        error_report("%s Couldn't find node %s: %s", __func__, path,
++                     fdt_strerror(offset));
++        exit(1);
 +    }
++
++    if (offset != -FDT_ERR_NOTFOUND) {
++        return offset;
++    }
++
++    parent = g_strdup(path);
++    strrchr(parent, '/')[0] = '\0';
++    qemu_fdt_add_path(fdt, parent);
++    g_free(parent);
++
++    return qemu_fdt_add_subnode(fdt, path);
 +}
 +
- int kvm_arch_init_vcpu(CPUState *cs)
+ void qemu_fdt_dumpdtb(void *fdt, int size)
  {
-     int ret;
-     uint64_t v;
--    uint32_t mpidr;
-     struct kvm_one_reg r;
-     ARMCPU *cpu = ARM_CPU(cs);
+     const char *dumpdtb = qemu_opt_get(qemu_get_machine_opts(), "dumpdtb");
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index 982c89345f..15fb98af98 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -104,6 +104,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
+ uint32_t qemu_fdt_alloc_phandle(void *fdt);
+ int qemu_fdt_nop_node(void *fdt, const char *node_path);
+ int qemu_fdt_add_subnode(void *fdt, const char *name);
++int qemu_fdt_add_path(void *fdt, const char *path);
  
-@@ -244,16 +280,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         return -EINVAL;
-     }
- 
--    /*
--     * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
--     * Currently KVM has its own idea about MPIDR assignment, so we
--     * override our defaults with what we get from KVM.
--     */
--    ret = kvm_get_one_reg(cs, ARM_CP15_REG32(ARM_CPU_ID_MPIDR), &mpidr);
-+    ret = kvm_arm_set_mp_affinity(cs);
-     if (ret) {
-         return ret;
-     }
--    cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
- 
-     /* Check whether userspace can specify guest syndrome value */
-     kvm_arm_init_serror_injection(cs);
+ #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
+     do {                                                                      \
 -- 
 2.23.0
 
