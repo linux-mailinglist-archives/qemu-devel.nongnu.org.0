@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B575526D58A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:04:15 +0200 (CEST)
-Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E285F26D63E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:18:40 +0200 (CEST)
+Received: from localhost ([::1]:47702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIotp-00040i-QY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
+	id 1kIp7o-0006Rw-14
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:18:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kIojg-0007uO-I1
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:53:46 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28300
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIokx-0000tN-Dv
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:55:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59708
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kIoje-0005XU-Nv
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:53:44 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIokt-0005cU-G7
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:55:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600329221;
+ s=mimecast20190719; t=1600329298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OQk0xcfrchmDMl0kODBhm1N7A680RbBTTOkOP58qI+c=;
- b=d25Bl2i14nZtAxUjPolGFXGKmpVWP92dwiyww7csty+iobJzRghLsi3/B+fMJNv3Y0Ek9x
- 62/frVeWEEp60cbFCz9rRakIevBycpftjdCeXMpuLvfC0oilO4m8hGI/cb+hjFWtrUF9VH
- 0WZ19ooCW1hYH+zoipPjuG8lZ/6QyXE=
+ bh=Q2BG5rCClRnxTXp7V01u26k/q4s6NXbVN/xm0zQlx78=;
+ b=UC410e+l9NF3v2padxD89sXMNfdT5oLl+XFcF9exLdaIXBbOVBkBC2ZtzVEWakLzU82ITC
+ arXFqsN+3u2f+wkH/RJ1dgD2B70u4o+tWc2MB73bEzf9FY60xO10QMkYDSiUevqY5KnWCY
+ r9/+dmxdmouzKGZjGOWwVSaq/Ie8tZo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-8p4479OhPrGI3jhTq3r3wQ-1; Thu, 17 Sep 2020 03:53:37 -0400
-X-MC-Unique: 8p4479OhPrGI3jhTq3r3wQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-529-8FHvsjiHOzG2fZjb10W64Q-1; Thu, 17 Sep 2020 03:54:54 -0400
+X-MC-Unique: 8FHvsjiHOzG2fZjb10W64Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C445D427F8;
- Thu, 17 Sep 2020 07:53:35 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE765DEC7;
- Thu, 17 Sep 2020 07:53:33 +0000 (UTC)
-Date: Thu, 17 Sep 2020 09:53:30 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [RFC PATCH 02/12] target/arm/kvm64: make MPIDR consistent with
- CPU Topology
-Message-ID: <20200917075330.7sx3xm7gd4mwqqtq@kamzik.brq.redhat.com>
-References: <20200917032033.2020-1-fangying1@huawei.com>
- <20200917032033.2020-3-fangying1@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F3BA100856B;
+ Thu, 17 Sep 2020 07:54:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 167ED68876;
+ Thu, 17 Sep 2020 07:54:53 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 91400113864A; Thu, 17 Sep 2020 09:54:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 06/37] qapi: delint using flake8
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-7-jsnow@redhat.com>
+ <87wo0tor80.fsf@dusky.pond.sub.org>
+ <8238685e-f4a4-cf2f-2511-5e4473f5fdd3@redhat.com>
+Date: Thu, 17 Sep 2020 09:54:51 +0200
+In-Reply-To: <8238685e-f4a4-cf2f-2511-5e4473f5fdd3@redhat.com> (John Snow's
+ message of "Wed, 16 Sep 2020 10:29:59 -0400")
+Message-ID: <87a6xog7n8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200917032033.2020-3-fangying1@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:47:35
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -69,7 +72,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,108 +85,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 17, 2020 at 11:20:23AM +0800, Ying Fang wrote:
-> MPIDR helps to provide an additional PE identification in a multiprocessor
-> system. This patch adds support for setting MPIDR from userspace, so that
-> MPIDR is consistent with CPU topology configured.
-> 
-> Signed-off-by: Ying Fang <fangying1@huawei.com>
-> ---
->  target/arm/kvm64.c | 46 ++++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 38 insertions(+), 8 deletions(-)
-> 
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index ef1e960285..fcce261a10 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -757,10 +757,46 @@ static int kvm_arm_sve_set_vls(CPUState *cs)
->  
->  #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
->  
-> +static int kvm_arm_set_mp_affinity(CPUState *cs)
-> +{
-> +    uint64_t mpidr;
-> +    ARMCPU *cpu = ARM_CPU(cs);
-> +
-> +    if (kvm_check_extension(kvm_state, KVM_CAP_ARM_MP_AFFINITY)) {
-> +        /* Make MPIDR consistent with CPU topology */
-> +        MachineState *ms = MACHINE(qdev_get_machine());
-> +
-> +        mpidr = (kvm_arch_vcpu_id(cs) % ms->smp.threads) << ARM_AFF0_SHIFT;
+John Snow <jsnow@redhat.com> writes:
 
-We should query KVM first to determine if it wants guests to see their PEs
-as threads or not. If not, and ms->smp.threads is > 1, then that's an
-error. And, in any case, if ms->smp.threads == 1, then we shouldn't waste
-aff0 on it, as that could reduce IPI broadcast performance.
-
-> +        mpidr |= ((kvm_arch_vcpu_id(cs) / ms->smp.threads % ms->smp.cores)
-> +                                    & 0xff) << ARM_AFF1_SHIFT;
-> +        mpidr |= (kvm_arch_vcpu_id(cs) / (ms->smp.cores * ms->smp.threads)
-> +                                    & 0xff) << ARM_AFF2_SHIFT;
-> +
-> +        /* Override mp affinity when KVM is in use */
-> +        cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
-> +
-> +        /* Bit 31 is RES1 indicates the ARMv7 Multiprocessing Extensions */
-> +        mpidr |= (1ULL << 31);
-> +        return kvm_vcpu_ioctl(cs, KVM_ARM_SET_MP_AFFINITY, &mpidr);
-> +    } else {
-> +        /*
-> +         * When KVM_CAP_ARM_MP_AFFINITY is not supported, it means KVM has its
-> +         * own idea about MPIDR assignment, so we override our defaults with
-> +         * what we get from KVM.
-> +         */
-> +        int ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
-> +        if (ret) {
-> +            error_report("failed to set MPIDR");
-
-We don't need this error, kvm_get_one_reg() has trace support already.
-Anyway, the wording is wrong since it says 'set' instead of 'get'.
-
-> +            return ret;
-> +        }
-> +        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
-> +        return ret;
-> +    }
-> +}
-> +
->  int kvm_arch_init_vcpu(CPUState *cs)
->  {
->      int ret;
-> -    uint64_t mpidr;
->      ARMCPU *cpu = ARM_CPU(cs);
->      CPUARMState *env = &cpu->env;
->  
-> @@ -814,16 +850,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
->          }
->      }
->  
-> -    /*
-> -     * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
-> -     * Currently KVM has its own idea about MPIDR assignment, so we
-> -     * override our defaults with what we get from KVM.
-> -     */
-> -    ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
-> +    ret = kvm_arm_set_mp_affinity(cs);
->      if (ret) {
->          return ret;
->      }
-> -    cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
->  
->      kvm_arm_init_debug(cs);
->  
-> -- 
-> 2.23.0
-> 
+> On 9/16/20 8:12 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> Petty style guide fixes and line length enforcement.  Not a big win, not
+>>> a big loss, but flake8 passes 100% on the qapi module, which gives us an
+>>> easy baseline to enforce hereafter.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/.flake8     |  2 ++
+>>>   scripts/qapi/commands.py |  3 ++-
+>>>   scripts/qapi/schema.py   |  8 +++++---
+>>>   scripts/qapi/visit.py    | 15 ++++++++++-----
+>>>   4 files changed, 19 insertions(+), 9 deletions(-)
+>>>   create mode 100644 scripts/qapi/.flake8
+>>>
+>>> diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
+>>> new file mode 100644
+>>> index 0000000000..45d8146f3f
+>>> --- /dev/null
+>>> +++ b/scripts/qapi/.flake8
+>>> @@ -0,0 +1,2 @@
+>>> +[flake8]
+>>> +extend-ignore = E722  # Pylint handles this, but smarter.
+>> I guess you mean pylint's W0702 a.k.a. bare-except.  What's wrong
+>> with
+>> flake8's E722 compared to pylint's W0702?
+>> 
 >
+> Flake8 will warn on *any* bare except, but Pylint's is context-aware
+> and will suppress the warning if you re-raise the exception.
 
-Thanks,
-drew 
+Should this information be worked into the comment?
+
+> I don't actually think this comes up in the qapi code base, but it
+> does come up in the ./python/qemu code base.
+>
+> (One of my goals is unifying the lint checking regime for both packages.)
+>
+>>> \ No newline at end of file
+>> So put one there :)
+>> 
+>
+> Whupps, okay.
+>
+>>> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+>>> index e1df0e341f..2e4b4de0fa 100644
+>>> --- a/scripts/qapi/commands.py
+>>> +++ b/scripts/qapi/commands.py
+>>> @@ -69,7 +69,8 @@ def gen_call(name, arg_type, boxed, ret_type):
+>>>   def gen_marshal_output(ret_type):
+>>>       return mcgen('''
+>>>   -static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
+>>> QObject **ret_out, Error **errp)
+>>> +static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out,
+>>> +                                          Error **errp)
+>> The continued parameter list may become misalignd in generated C.
+>> E.g.
+>>      static void qmp_marshal_output_BlockInfoList(BlockInfoList
+>> *ret_in, QObject **ret_out,
+>>                                                Error **errp)
+>>      {
+>>      ...
+>>      }
+>> Do we care?
+>> 
+>
+> Yeah, I don't know. Do we?
+
+I care, but I also care for automated style checks.
+
+> It actually seemed more annoying to try and get flake8 to make an
+> exception for these handful of examples.
+>
+> Path of least resistance led me here, but I can try and appease both
+> systems if you'd prefer.
+
+Up to now, I ran the style checkers manually, and this was just one of
+several complaints to ignore, so I left the code alone.
+
+If it gets in the way of running them automatically, and messing up the
+generated code slightly is the easiest way to get it out of the way,
+then I can accept the slight mess.
+
+>> More of the same below.
+>> 
+>>>   {
+>>>       Visitor *v;
+>>>   
+>> [...]
+>> 
 
 
