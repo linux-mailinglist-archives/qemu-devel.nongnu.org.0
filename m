@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE8626D66D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:25:41 +0200 (CEST)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F2E26D680
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:27:19 +0200 (CEST)
+Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIpEa-0006iX-1H
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:25:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55110)
+	id 1kIpGA-0000tu-8D
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kIowp-000178-Oz
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28471)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIoxQ-0002NU-1r
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kIown-0007LE-V5
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kIoxN-0007Q0-Rf
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600330037;
+ s=mimecast20190719; t=1600330073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SSTF4VUaJ6vpzBt/h1YAA1NBkaNiGyyr2cahE+V+bTk=;
- b=Kin2/LuIoy0HHlW3GczuujrCfbHIZWvTunLDm/9sfo87+K+/84kTKudVTDt4qAS0YV5FAf
- xZzWyAWOYhvmI3QzV4oWx/8GIjEzPNRN3480TRfWa3LJQmDjjVYPxqLaUqpLpQaMudVCBD
- W9s3QSnWPX9e038dmLGCknYFIK6T080=
+ bh=J8dXbkOQGEdi/cOYHuu2VQPmJLlfoATPsJepYK9WgWs=;
+ b=SD2brI2rCiOJrpFCF5YNkkeX9ZoIZJ5RbHQmaZJ56JChiLCjjZgR2lXhlTsHMS5ERIDaDW
+ dPdsXtxH5l4spIfkYdt/DEg9LlIIDUNXq8z+leSzYwpsZe2tscSU5/9ARrbLak8ngz7vHd
+ FLdpIpVQXT2nIJwISydaVenbPGHkDyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-R7MkopIBMTe80I7VfC8aZg-1; Thu, 17 Sep 2020 04:07:13 -0400
-X-MC-Unique: R7MkopIBMTe80I7VfC8aZg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-130-zIaUMGqcOLq83ISerJWznw-1; Thu, 17 Sep 2020 04:07:50 -0400
+X-MC-Unique: zIaUMGqcOLq83ISerJWznw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 665DE100747A;
- Thu, 17 Sep 2020 08:07:11 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4806E78814;
- Thu, 17 Sep 2020 08:07:09 +0000 (UTC)
-Date: Thu, 17 Sep 2020 10:07:06 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [RFC PATCH 03/12] target/arm/kvm32: make MPIDR consistent with
- CPU Topology
-Message-ID: <20200917080706.s4edh2vd2gzjwg6y@kamzik.brq.redhat.com>
-References: <20200917032033.2020-1-fangying1@huawei.com>
- <20200917032033.2020-4-fangying1@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 967591019625;
+ Thu, 17 Sep 2020 08:07:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D26119D6C;
+ Thu, 17 Sep 2020 08:07:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AF5C1113864A; Thu, 17 Sep 2020 10:07:47 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 09/37] qapi/common.py: Add indent manager
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-10-jsnow@redhat.com>
+ <87k0wtiwlb.fsf@dusky.pond.sub.org>
+ <37ea889c-746e-bea9-a719-6bee9e86f1a8@redhat.com>
+Date: Thu, 17 Sep 2020 10:07:47 +0200
+In-Reply-To: <37ea889c-746e-bea9-a719-6bee9e86f1a8@redhat.com> (John Snow's
+ message of "Wed, 16 Sep 2020 18:25:04 -0400")
+Message-ID: <87v9gcesh8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200917032033.2020-4-fangying1@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,30 +84,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 17, 2020 at 11:20:24AM +0800, Ying Fang wrote:
-> MPIDR helps to provide an additional PE identification in a multiprocessor
-> system. This patch adds support for setting MPIDR from userspace, so that
-> MPIDR is consistent with CPU topology configured.
-> 
-> Signed-off-by: Ying Fang <fangying1@huawei.com>
-> ---
->  target/arm/kvm32.c | 46 ++++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 38 insertions(+), 8 deletions(-)
-> 
-> diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-> index 0af46b41c8..85694dc8bf 100644
-> --- a/target/arm/kvm32.c
-> +++ b/target/arm/kvm32.c
+John Snow <jsnow@redhat.com> writes:
 
-This file no longer exists in mainline. Please rebase the whole series.
+> On 9/16/20 11:13 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> Code style tools really dislike the use of global keywords, because it
+>>> generally involves re-binding the name at runtime which can have strange
+>>> effects depending on when and how that global name is referenced in
+>>> other modules.
+>>>
+>>> Make a little indent level manager instead.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/common.py | 50 +++++++++++++++++++++++++++++-------------
+>>>   scripts/qapi/visit.py  |  7 +++---
+>>>   2 files changed, 38 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+>>> index 4fb265a8bf..87d87b95e5 100644
+>>> --- a/scripts/qapi/common.py
+>>> +++ b/scripts/qapi/common.py
+>>> @@ -93,33 +93,53 @@ def c_name(name, protect=True):
+>>>   pointer_suffix = ' *' + eatspace
+>>>     
+>>> -def genindent(count):
+>>> -    ret = ''
+>>> -    for _ in range(count):
+>>> -        ret += ' '
+>>> -    return ret
+>>> +class Indent:
+>> Since this class name will be used just once...  Indentation or
+>> IndentationManager?
+>> 
+>
+> Indentation is fine, if you'd like. IndentationManager makes me feel
+> ashamed for writing this patch, like I am punishing myself with Java.
 
-Thanks,
-drew
+Hah!  Point taken.
+
+>>> +    """
+>>> +    Indent-level management.
+>>>   +    :param initial: Initial value, default 0.
+>> The only caller passes 0.
+>> Let's drop the parameter, and hardcode the default initial value
+>> until
+>> we have an actual use for another initial value.
+>> 
+>
+> The parameter is nice because it gives meaning to the output of
+> repr(), see below.
+>
+>>> +    """
+>>> +    def __init__(self, initial: int = 0) -> None:
+>>> +        self._level = initial
+>>>   -indent_level = 0
+>>> +    def __int__(self) -> int:
+>>> +        """Return the indent as an integer."""
+>> Isn't "as an integer" obvious?
+>
+> Just a compulsion to write complete sentences that got lost in the sea
+> of many patches. I'll nix this one, because dunder methods do not need 
+> to be documented.
+>
+>> Let's replace "the indent" by "the indentation" globally.
+>> 
+>
+> They're both cromulent as nouns and one is shorter.
+>
+> I'll switch in good faith; do you prefer "Indentation" as a noun?
+
+Use of "indent" as a noun was new to me, but what do I know; you're the
+native speaker.  Use your judgement.  Applies to the class name, too.
+
+>>> +        return self._level
+>>>   +    def __repr__(self) -> str:
+>>> +        return "{}({:d})".format(type(self).__name__, self._level)
+>> Is __repr__ needed?
+>> 
+>
+> Yes; it's used in the underflow exception , and it is nice when using
+> the python shell interactively.
+>
+> repr(Indent(4)) == "Indent(4)"
+
+Meh.  There's another three dozen classes for you to put lipstick on :)
+
+>>>   -def push_indent(indent_amount=4):
+>>> -    global indent_level
+>>> -    indent_level += indent_amount
+>>> +    def __str__(self) -> str:
+>>> +        """Return the indent as a string."""
+>>> +        return ' ' * self._level
+>>>   +    def __bool__(self) -> bool:
+>>> +        """True when there is a non-zero indent."""
+>>> +        return bool(self._level)
+>> This one lets us shorten
+>>      if int(INDENT):
+>> to
+>>      if INDENT:
+>> There's just one instance.  Marginal.  I'm not rejecting it.
+>> 
+>
+> Yep, it's trivial in either direction. Still, because it's a custom
+> type, I thought I'd be courteous and have it support bool().
+>
+>>> -def pop_indent(indent_amount=4):
+>>> -    global indent_level
+>>> -    indent_level -= indent_amount
+>>> +    def push(self, amount: int = 4) -> int:
+>>> +        """Push `amount` spaces onto the indent, default four."""
+>>> +        self._level += amount
+>>> +        return self._level
+>>> +
+>>> +    def pop(self, amount: int = 4) -> int:
+>>> +        """Pop `amount` spaces off of the indent, default four."""
+>>> +        if self._level < amount:
+>>> +            raise ArithmeticError(
+>>> +                "Can't pop {:d} spaces from {:s}".format(amount, repr(self)))
+
+I think assert(amount <= self._level) would do just fine.
+
+>>> +        self._level -= amount
+>>> +        return self._level
+>> The push / pop names never made sense.  The functions don't push
+>> onto /
+>> pop from a stack, they increment / decrement a counter, and so do the
+>> methods.  Good opportunity to fix the naming.
+>> 
+>
+> OK.
+>
+> I briefly thought about using __isub__ and __iadd__ to support
+> e.g. indent += 4, but actually it'd be annoying to have to specify 4
+> everywhere.
+>
+> Since you didn't suggest anything, I am going to change it to
+> 'increase' and 'decrease'.
+
+Works for me.  So would inc and dec.
+
+>> The @amount parameter has never been used.  I don't mind keeping it.
+>> 
+> I'll keep it, because I like having the default amount show up in the
+> signature instead of as a magic constant in the function body.
+>
+>>> +
+>>> +
+>>> +INDENT = Indent(0)
+>> Uh, does this really qualify as a constant?  It looks quite variable
+>> to
+>> me...
+>> 
+>
+> Ever make a mistake? I thought I did once, but I was mistaken.
+
+"If I had any humility, I'd be perfect!"
 
 
