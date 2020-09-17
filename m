@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B0B26D1FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:59:30 +0200 (CEST)
-Received: from localhost ([::1]:47626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D0F26D1F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:57:28 +0200 (CEST)
+Received: from localhost ([::1]:38278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIl4z-0000Ab-3B
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54234)
+	id 1kIl31-0004pq-0W
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kIl0U-0001Ye-2l; Wed, 16 Sep 2020 23:54:50 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4750 helo=huawei.com)
+ id 1kIl1F-00036I-8s; Wed, 16 Sep 2020 23:55:37 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4704 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kIl0R-0008GI-LY; Wed, 16 Sep 2020 23:54:49 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 806265F46172CC8B0096;
- Thu, 17 Sep 2020 11:54:41 +0800 (CST)
-Received: from localhost (10.174.187.87) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:54:35 +0800
+ id 1kIl1C-0008U7-RJ; Wed, 16 Sep 2020 23:55:36 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 50279C795FD683112D79;
+ Thu, 17 Sep 2020 11:55:29 +0800 (CST)
+Received: from localhost (10.174.187.87) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:55:22 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH V2 01/10] qemu/: fix some comment spelling errors
-Date: Thu, 17 Sep 2020 11:54:04 +0800
-Message-ID: <20200917035413.701-2-zhaolichang@huawei.com>
+Subject: [PATCH V2 04/10] scripts/: fix some comment spelling errors
+Date: Thu, 17 Sep 2020 11:54:07 +0800
+Message-ID: <20200917035413.701-5-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200917035413.701-1-zhaolichang@huawei.com>
 References: <20200917035413.701-1-zhaolichang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.174.187.87]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
+Received-SPF: pass client-ip=45.249.212.190;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:21:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:53
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -58,174 +58,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhaolichang <zhaolichang@huawei.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, zhaolichang <zhaolichang@huawei.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I found that there are many spelling errors in the comments of qemu,
 so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the folder.
+and finally found some spelling errors in the scripts folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- Changelog                   | 2 +-
- accel/tcg/user-exec.c       | 2 +-
- audio/audio.c               | 2 +-
- block.c                     | 2 +-
- configure                   | 2 +-
- fsdev/virtfs-proxy-helper.c | 2 +-
- hmp-commands.hx             | 2 +-
- libdecnumber/decNumber.c    | 2 +-
- qemu-img.c                  | 2 +-
- qobject/qdict.c             | 2 +-
- scsi/pr-manager-helper.c    | 2 +-
- 11 files changed, 11 insertions(+), 11 deletions(-)
+ scripts/checkpatch.pl          | 2 +-
+ scripts/clean-header-guards.pl | 2 +-
+ scripts/decodetree.py          | 6 +++---
+ scripts/oss-fuzz/build.sh      | 2 +-
+ scripts/tracetool/__init__.py  | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Changelog b/Changelog
-index 4a90bb9e8b..f7e178ccc0 100644
---- a/Changelog
-+++ b/Changelog
-@@ -241,7 +241,7 @@ version 0.8.0:
- version 0.7.2:
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bd3faa154c..50910899f2 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -1870,7 +1870,7 @@ sub process {
+ 			substr($s, 0, length($c), '');
  
-   - x86_64 fixes (Win2000 and Linux 2.6 boot in 32 bit)
--  - merge self modifying code handling in dirty ram page mecanism.
-+  - merge self modifying code handling in dirty ram page mechanism.
-   - MIPS fixes (Ralf Baechle)
-   - better user net performances
+ 			# Make sure we remove the line prefixes as we have
+-			# none on the first line, and are going to readd them
++			# none on the first line, and are going to re-add them
+ 			# where necessary.
+ 			$s =~ s/\n./\n/gs;
  
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index bb039eb32d..5c96819ded 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -88,7 +88,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-          * use that value directly.  Within cpu_restore_state_from_tb, we
-          * assume PC comes from GETPC(), as used by the helper functions,
-          * so we adjust the address by -GETPC_ADJ to form an address that
--         * is within the call insn, so that the address does not accidentially
-+         * is within the call insn, so that the address does not accidentally
-          * match the beginning of the next guest insn.  However, when the
-          * pc comes from the signal frame it points to the actual faulting
-          * host memory insn and not the return from a call insn.
-diff --git a/audio/audio.c b/audio/audio.c
-index ce8c6dec5f..1a68cfaafb 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1674,7 +1674,7 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
-         head = audio_handle_legacy_opts();
-         /*
-          * In case of legacy initialization, all Audiodevs in the list will have
--         * the same configuration (except the driver), so it does't matter which
-+         * the same configuration (except the driver), so it doesn't matter which
-          * one we chose.  We need an Audiodev to set up AudioState before we can
-          * init a driver.  Also note that dev at this point is still in the
-          * list.
-diff --git a/block.c b/block.c
-index 9538af4884..11ab55f80b 100644
---- a/block.c
-+++ b/block.c
-@@ -2602,7 +2602,7 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+diff --git a/scripts/clean-header-guards.pl b/scripts/clean-header-guards.pl
+index f47d673ad5..a6680253b1 100755
+--- a/scripts/clean-header-guards.pl
++++ b/scripts/clean-header-guards.pl
+@@ -19,7 +19,7 @@
+ # Does the following:
+ # - Header files without a recognizable header guard are skipped.
+ # - Clean up any untidy header guards in-place.  Warn if the cleanup
+-#   renames guard symbols, and explain how to find occurences of these
++#   renames guard symbols, and explain how to find occurrences of these
+ #   symbols that may have to be updated manually.
+ # - Warn about duplicate header guard symbols.  To make full use of
+ #   this warning, you should clean up *all* headers in one run.
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index c02de9865b..60fd3b5e5f 100644
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -94,7 +94,7 @@ def str_indent(c):
  
- /*
-  * Updates @child to change its reference to point to @new_bs, including
-- * checking and applying the necessary permisson updates both to the old node
-+ * checking and applying the necessary permission updates both to the old node
-  * and to @new_bs.
-  *
-  * NULL is passed as @new_bs for removing the reference before freeing @child.
-diff --git a/configure b/configure
-index ce27eafb0a..c74d79bfbc 100755
---- a/configure
-+++ b/configure
-@@ -3411,7 +3411,7 @@ EOF
-     xfs="yes"
-   else
-     if test "$xfs" = "yes" ; then
--      feature_not_found "xfs" "Instal xfsprogs/xfslibs devel"
-+      feature_not_found "xfs" "Install xfsprogs/xfslibs devel"
-     fi
-     xfs=no
-   fi
-diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-index de061a8a0e..15c0e79b06 100644
---- a/fsdev/virtfs-proxy-helper.c
-+++ b/fsdev/virtfs-proxy-helper.c
-@@ -518,7 +518,7 @@ static void statfs_to_prstatfs(ProxyStatFS *pr_stfs, struct statfs *stfs)
  
- /*
-  * Gets stat/statfs information and packs in out_iovec structure
-- * on success returns number of bytes packed in out_iovec struture
-+ * on success returns number of bytes packed in out_iovec structure
-  * otherwise returns -errno
-  */
- static int do_stat(int type, struct iovec *iovec, struct iovec *out_iovec)
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 60f395c276..27c4bbe0f2 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1267,7 +1267,7 @@ ERST
-     },
- SRST
- ``drive_backup``
--  Start a point-in-time copy of a block device to a specificed target.
-+  Start a point-in-time copy of a block device to a specified target.
- ERST
+ def str_fields(fields):
+-    """Return a string uniquely identifing FIELDS"""
++    """Return a string uniquely identifying FIELDS"""
+     r = ''
+     for n in sorted(fields.keys()):
+         r += '_' + n
+@@ -814,7 +814,7 @@ def parse_generic(lineno, parent_pat, name, toks):
+     arg = None
+     fmt = None
+     for t in toks:
+-        # '&Foo' gives a format an explcit argument set.
++        # '&Foo' gives a format an explicit argument set.
+         if re.fullmatch(re_arg_ident, t):
+             tt = t[1:]
+             if arg:
+@@ -903,7 +903,7 @@ def parse_generic(lineno, parent_pat, name, toks):
+     elif not (is_format and width == 0) and width != insnwidth:
+         error(lineno, 'definition has {0} bits'.format(width))
  
-     {
-diff --git a/libdecnumber/decNumber.c b/libdecnumber/decNumber.c
-index 8c197023f4..1ffe458ad8 100644
---- a/libdecnumber/decNumber.c
-+++ b/libdecnumber/decNumber.c
-@@ -5626,7 +5626,7 @@ static const uShort LNnn[90] = {
- /*    would certainly save at least one if it were made ten times     */
- /*    bigger, too (for truncated fractions 0.100 through 0.999).      */
- /*    However, for most practical evaluations, at least four or five  */
--/*    iterations will be neede -- so this would only speed up by      */
-+/*    iterations will be needed -- so this would only speed up by      */
- /*    20-25% and that probably does not justify increasing the table  */
- /*    size.							      */
- /*								      */
-diff --git a/qemu-img.c b/qemu-img.c
-index 1d8c5cd778..3b7700c780 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -1188,7 +1188,7 @@ static int64_t find_nonzero(const uint8_t *buf, int64_t n)
-  * 'pnum' is set to the number of sectors (including and immediately following
-  * the first one) that are known to be in the same allocated/unallocated state.
-  * The function will try to align the end offset to alignment boundaries so
-- * that the request will at least end aligned and consequtive requests will
-+ * that the request will at least end aligned and consecutive requests will
-  * also start at an aligned offset.
-  */
- static int is_allocated_sectors(const uint8_t *buf, int n, int *pnum,
-diff --git a/qobject/qdict.c b/qobject/qdict.c
-index 526de54ceb..1079bd3f6f 100644
---- a/qobject/qdict.c
-+++ b/qobject/qdict.c
-@@ -33,7 +33,7 @@ QDict *qdict_new(void)
- }
+-    # Do not check for fields overlaping fields; one valid usage
++    # Do not check for fields overlapping fields; one valid usage
+     # is to be able to duplicate fields via import.
+     fieldmask = 0
+     for f in flds.values():
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index d16207eb67..0c3ca9e06f 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -69,7 +69,7 @@ mkdir -p "$DEST_DIR/lib/"  # Copy the shared libraries here
  
- /**
-- * tdb_hash(): based on the hash agorithm from gdbm, via tdb
-+ * tdb_hash(): based on the hash algorithm from gdbm, via tdb
-  * (from module-init-tools)
-  */
- static unsigned int tdb_hash(const char *name)
-diff --git a/scsi/pr-manager-helper.c b/scsi/pr-manager-helper.c
-index d735b1e7f6..685ce7f92d 100644
---- a/scsi/pr-manager-helper.c
-+++ b/scsi/pr-manager-helper.c
-@@ -127,7 +127,7 @@ static int pr_manager_helper_initialize(PRManagerHelper *pr_mgr,
-     qio_channel_set_delay(QIO_CHANNEL(sioc), false);
-     pr_mgr->ioc = QIO_CHANNEL(sioc);
+ if ! make "-j$(nproc)" qemu-fuzz-i386; then
+     fatal "Build failed. Please specify a compiler with fuzzing support"\
+-          "using the \$CC and \$CXX environemnt variables"\
++          "using the \$CC and \$CXX environment variables"\
+           "\nFor example: CC=clang CXX=clang++ $0"
+ fi
  
--    /* A simple feature negotation protocol, even though there is
-+    /* A simple feature negotiation protocol, even though there is
-      * no optional feature right now.
-      */
-     r = pr_manager_helper_read(pr_mgr, &flags, sizeof(flags), errp);
+diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py
+index 3ccfa1e116..3ee54be223 100644
+--- a/scripts/tracetool/__init__.py
++++ b/scripts/tracetool/__init__.py
+@@ -34,7 +34,7 @@ def error(*lines):
+ def out(*lines, **kwargs):
+     """Write a set of output lines.
+ 
+-    You can use kwargs as a shorthand for mapping variables when formating all
++    You can use kwargs as a shorthand for mapping variables when formatting all
+     the strings in lines.
+     """
+     lines = [ l % kwargs for l in lines ]
 -- 
 2.26.2.windows.1
 
