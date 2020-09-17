@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A4926D59A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:06:16 +0200 (CEST)
-Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F029826D62A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:14:09 +0200 (CEST)
+Received: from localhost ([::1]:34910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIovn-0006AU-IV
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
+	id 1kIp3Q-00016t-Su
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIosT-0002rK-D4
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:02:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIosR-0006nd-2q
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:02:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600329766;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aKI6bO+KewDYGFWVcYwjFlONiDmtVuiiQyHIWHQgN3o=;
- b=b4wxPjhJ1/kGNfs9ZfuxVx5hDXayXNd+kAajDXOPcvsuManL13tIudwnXyP71xrcbFA6/L
- przaqqsEi0xfdU1puFvRyaTSEDOijx6wviJAPkevA7D+8t7GTwZIHMHV2VAaaj0J2t9Pon
- ZFgmRyMAo4kw8qUmrQ3lbONoiOGGjRM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-zom9mg6lPtWg0DfAtieuDw-1; Thu, 17 Sep 2020 04:02:43 -0400
-X-MC-Unique: zom9mg6lPtWg0DfAtieuDw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DABD48030AA;
- Thu, 17 Sep 2020 08:02:42 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-38.ams2.redhat.com [10.36.113.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55E8610027AB;
- Thu, 17 Sep 2020 08:02:38 +0000 (UTC)
-Subject: Re: [PATCH v2] migration: Silence compiler warning in
- global_state_store_running()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
-References: <20200917074344.168785-1-thuth@redhat.com>
- <da9ed157-dd81-c486-e4ac-d98ca3ac0ee3@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <46f47558-7881-6856-f68b-b4963f39949d@redhat.com>
-Date: Thu, 17 Sep 2020 10:02:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kIowk-0000uc-Cj
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:14 -0400
+Resent-Date: Thu, 17 Sep 2020 04:07:14 -0400
+Resent-Message-Id: <E1kIowk-0000uc-Cj@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kIowh-0007Ko-TP
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 04:07:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600330001; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=buxGrlrOH2WaYp9TMoAyu2EbWW7NqyDcPbbCjEzKdqVOY64CqNwxYToPaYt0vEh5YDbRDRzBGH0Ze9yc88QQskBPkiRfV2JXw1cbC5hDoZESGQ30vl7n/SalXyz8UsTN4QoiOHCxyFOq7QeeLFibugFygKRn823pD1Vc2BSMuoc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600330001;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=VyxmvDhQu60v1mejppi4ObQpPzRn+QAl0Ja0tVJjzlE=; 
+ b=Lr7lfZic5Msx/GhcZ0SOLxvGTJ6sUTqekbG63mGpD6eISKzUR9m0zf0sgb67wNNSg4r7LVq6+URxgzcJPmFve573eIRzQ3XOpEiYluFo4rpG4GUpkuffSIAAYrNzq7dG91/+aUvIikbO6sa1NFqLdpyBkWHex73E4flwcch8+ko=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600329999570500.97037922096024;
+ Thu, 17 Sep 2020 01:06:39 -0700 (PDT)
+Subject: Re: [PATCH v6 00/12] i440fx/acpi: addition of feature and bug fixes.
+Message-ID: <160032999760.8478.8560819129012516657@66eaa9a8a123>
+In-Reply-To: <20200917074733.13612-1-ani@anisinha.ca>
 MIME-Version: 1.0
-In-Reply-To: <da9ed157-dd81-c486-e4ac-d98ca3ac0ee3@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ani@anisinha.ca
+Date: Thu, 17 Sep 2020 01:06:39 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:07:10
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,56 +69,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, mst@redhat.com, jusual@redhat.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com, imammedo@redhat.com,
+ ani@anisinha.ca, pbonzini@redhat.com, aurelien@aurel32.net, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/09/2020 09.47, Philippe Mathieu-Daudé wrote:
-> On 9/17/20 9:43 AM, Thomas Huth wrote:
->> GCC 9.3.0 on Ubuntu complains:
->>
->> In file included from /usr/include/string.h:495,
->>                  from /home/travis/build/huth/qemu/include/qemu/osdep.h:87,
->>                  from ../migration/global_state.c:13:
->> In function ‘strncpy’,
->>     inlined from ‘global_state_store_running’ at ../migration/global_state.c:47:5:
->> /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
->>  ‘__builtin_strncpy’ specified bound 100 equals destination size [-Werror=stringop-truncation]
->>   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
->>       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>
->> ... but we apparently really want to do a strncpy here - the size is already
->> checked with the assert() statement right in front of it. To silence the
->> warning, simply replace it with our strpadcpy() function.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  v2: Use strpadcpy instead of QEMU_NONSTRING (and yes, this time it seems
->>      to really silence the compiler warning :-))
->>
->>  migration/global_state.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/migration/global_state.c b/migration/global_state.c
->> index 25311479a4..a33947ca32 100644
->> --- a/migration/global_state.c
->> +++ b/migration/global_state.c
->> @@ -44,8 +44,8 @@ void global_state_store_running(void)
->>  {
->>      const char *state = RunState_str(RUN_STATE_RUNNING);
->>      assert(strlen(state) < sizeof(global_state.runstate));
->> -    strncpy((char *)global_state.runstate,
->> -           state, sizeof(global_state.runstate));
->> +    strpadcpy((char *)global_state.runstate, sizeof(global_state.runstate),
->> +              state, '\0');
-> 
-> https://www.mail-archive.com/qemu-block@nongnu.org/msg44925.html
-> ;)
-
-Oh, well :-) ... but why did you never pushed to get that merged?
-
- Thomas
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxNzA3NDczMy4xMzYx
+Mi0xLWFuaUBhbmlzaW5oYS5jYS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKTi9BLiBJbnRlcm5hbCBlcnJvciB3aGlsZSByZWFkaW5nIGxvZyBmaWxlCgoKClRo
+ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA5
+MTcwNzQ3MzMuMTM2MTItMS1hbmlAYW5pc2luaGEuY2EvdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
