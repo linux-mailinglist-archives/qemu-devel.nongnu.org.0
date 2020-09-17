@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AB626D5A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:06:58 +0200 (CEST)
-Received: from localhost ([::1]:38540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381A826D64C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:21:01 +0200 (CEST)
+Received: from localhost ([::1]:53434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIowT-0007fk-TX
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
+	id 1kIpA4-0000N0-AP
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:21:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kIomo-0003Ew-Bp
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:57:02 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43028)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1kIonW-0004KX-QP; Thu, 17 Sep 2020 03:57:46 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kIomm-0005uX-Lj
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:56:58 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k15so948954wrn.10
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 00:56:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1kIonT-0005wf-MM; Thu, 17 Sep 2020 03:57:42 -0400
+Received: by mail-wm1-x335.google.com with SMTP id k18so1019858wmj.5;
+ Thu, 17 Sep 2020 00:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HL3zRK0nuV3qNcHAHpU0fldw/pUl1Ru8nVonYr0YVZM=;
- b=RZ3vWpcEmpJ0UDZFie0YopmhFjEJZ8hNzMsKpUB8u/4EHsB8C8Zjv/RU+gnNELZhDP
- hF3pQMwRDM5TcL635z3hWV8m9o/Ru+noH0C9B1wptzdafcIbJDkHRMZszEeBOGoTwop6
- g23CJ/ps1ZRBIBhFQQhhahamqo+XbVtk7khMk9Bi4qka3zyDtAlZRD6H7EOsELBgQkLS
- fEYrKR/WE5dfzTYM1DtJ+KoDClj0K0q/jnODOYxV3OOIXwxn826wUtZwi+fT5H10xmYa
- pakBXzLtRIjvuARDgG/WveHOrlVL1eBsZ/QQqDJA/hSYoDAQGIap8/G7JI+4B132y0/9
- /Zbw==
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:content-language
+ :thread-index; bh=0dCsAB7sgvO3ijWAYy2/up8BNNwtjUjyvJiAJ0hrsQw=;
+ b=Q4g0x1/IsGREWR0kbKpY2l8DwkxU+dS4gTBbw0CpOlamuknmRuFWE9lVdDWmsCGsHY
+ JjPlYSAGVJJxZ/ug9VaBt/H4WqVmuid2Bd6fGItVIfgk/OkTjFvymQAns7fsIwqubg18
+ 7V+K4H4Nskpy1G7d9nzhV0yu9mopqqOcaddrtsllP3Hq2SBL3XQzTS8QgX5YhDLUMtu8
+ SSEcignZB2aUctHKk21XskeVp/fFvCN3SU75mo/BaupV11nzsqipxZoprq3y/bFlmTEa
+ wJtpEELAZLJWuJ072ECkX6OufwippgFlr3ichq1Ni/2+cT1/wox16G8yHIF0LvBXuv39
+ jxSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HL3zRK0nuV3qNcHAHpU0fldw/pUl1Ru8nVonYr0YVZM=;
- b=TBIV2CZYAglYryWOAKRT9ZqbVJnOJcKeqCc60ADKoMxHkFt0a1pl9I2u9F2QkOvy4D
- kz+t5vHKY15nD2tEZMHaru8MUAFIDLmN/sniBWH3gifIdM+w6l07xIZkprZ/CMF1fRmx
- bFU1Z3N64l6bTrTwVv0e6dFLdyRP9vWgNZTaY5+atwimcbzvg/HO5CowE3PW3agaw3r+
- u0GXY7UY3j6nYFMs4YvRN/GHAkTEgF68Ppx6SozJgraOhNvR8PpYWQmaUMQZKLDf9Tfb
- eSubl4WL1V2V2+5i/jPsvrng9vu/Xx0iowQs6WguSLXmPIoEOVa2mcJnOAL5olEmer/m
- obfA==
-X-Gm-Message-State: AOAM530TDxQcvOI0pseYm5DmvB0eNf9mWErOaGsS8aA3l784DK4z+ar8
- N9AMhN3zORobDRN8Oafemyo=
-X-Google-Smtp-Source: ABdhPJyJTJtOnQIBEp/YJxcUOSVMejGylzWkj3l4DmUs7xaaTJuc4WuL3hey1vA7e7wlnw9/OO8RUQ==
-X-Received: by 2002:adf:e488:: with SMTP id i8mr32670030wrm.116.1600329414267; 
- Thu, 17 Sep 2020 00:56:54 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id 63sm10910765wrc.63.2020.09.17.00.56.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Sep 2020 00:56:53 -0700 (PDT)
-Subject: Re: [PATCH V9 0/6] mips: Add Loongson-3 machine support
-To: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7c38105a-831f-b306-9250-8d0c43fc4108@amsat.org>
-Date: Thu, 17 Sep 2020 09:56:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :content-language:thread-index;
+ bh=0dCsAB7sgvO3ijWAYy2/up8BNNwtjUjyvJiAJ0hrsQw=;
+ b=SkPPWuzsK5Oa4WvcocE3MkJ8/rg/r2ZtqpCGJZ9kFdyOHTZD0fQKpcwZ9MtO8tXsKv
+ y7pbHLnynAJVhTjpiO+yPqfzs9rg6FFf76XexZSqs3vLkg+YnFqVoPe/ujanYw9G6FJ+
+ ljudmvy9qsxzfj2AHRT9RI7RWchvp0ejwGC3jXqbiLmqZnUG8I2MI6bnd7ysMZkwHbgh
+ QgAChyihOgQhXmhgxmbd6nzGRHW9OGSmQbAvfnqKjzzOm9M8i6vx2P0fFv2l1Nz/a+3N
+ 4lc7Qtbx2v4CYjRArsfEZfRgers3mAA5FWs5u6QJae5sPquIAJH5g6Fmsgyd1JmivIS1
+ ZlXA==
+X-Gm-Message-State: AOAM530g/IJ3OdOoqBreqU/NVe/dd5mg/5Ai17DFhxy4oOFvzUIHwKxQ
+ px5ATqHxaOGEj+dQZ5lBqWc=
+X-Google-Smtp-Source: ABdhPJwEFP1IvlYvUVQzkk2Mche6UC+K5+G3jqaxP/E6EJ12vTu81AGm1S9kC3+lb5YcGOXL+ZDd4g==
+X-Received: by 2002:a1c:7d55:: with SMTP id y82mr8635606wmc.100.1600329456159; 
+ Thu, 17 Sep 2020 00:57:36 -0700 (PDT)
+Received: from CBGR90WXYV0 (host86-176-94-160.range86-176.btcentralplus.com.
+ [86.176.94.160])
+ by smtp.gmail.com with ESMTPSA id g14sm9401272wrv.25.2020.09.17.00.57.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Sep 2020 00:57:35 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: "'Eduardo Habkost'" <ehabkost@redhat.com>,
+	<qemu-devel@nongnu.org>
+References: <20200916182519.415636-1-ehabkost@redhat.com>
+ <20200916182519.415636-4-ehabkost@redhat.com>
+In-Reply-To: <20200916182519.415636-4-ehabkost@redhat.com>
+Subject: RE: [PATCH 3/5] qom: Remove module_obj_name parameter from
+ OBJECT_DECLARE* macros
+Date: Thu, 17 Sep 2020 08:57:33 +0100
+Message-ID: <007c01d68cc8$347614f0$9d623ed0$@xen.org>
 MIME-Version: 1.0
-In-Reply-To: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQIelPz0+HUIa2jn7mxP/pozU40YBAMHPXtoqMQrdLA=
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.062,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,51 +92,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: paul@xen.org
+Cc: 'Fam Zheng' <fam@euphon.net>, 'Peter Maydell' <peter.maydell@linaro.org>,
+ 'Sarah Harris' <S.E.Harris@kent.ac.uk>, 'Chris Wulff' <crwulff@gmail.com>,
+ 'Sagar Karandikar' <sagark@eecs.berkeley.edu>,
+ "'Michael S. Tsirkin'" <mst@redhat.com>,
+ 'Anthony Green' <green@moxielogic.com>,
+ 'Mark Cave-Ayland' <mark.cave-ayland@ilande.co.uk>,
+ 'Aleksandar Rikalo' <aleksandar.rikalo@syrmia.com>,
+ 'Jiaxun Yang' <jiaxun.yang@flygoat.com>, 'Max Filippov' <jcmvbkbc@gmail.com>,
+ 'Gerd Hoffmann' <kraxel@redhat.com>,
+ "'Edgar E. Iglesias'" <edgar.iglesias@gmail.com>,
+ 'Guan Xuetao' <gxt@mprc.pku.edu.cn>, 'Marek Vasut' <marex@denx.de>,
+ 'Stefano Stabellini' <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ 'Yoshinori Sato' <ysato@users.sourceforge.jp>,
+ 'David Hildenbrand' <david@redhat.com>, 'Halil Pasic' <pasic@linux.ibm.com>,
+ 'Christian Borntraeger' <borntraeger@de.ibm.com>,
+ 'Aleksandar Markovic' <aleksandar.qemu.devel@gmail.com>,
+ "'Gonglei \(Arei\)'" <arei.gonglei@huawei.com>,
+ 'Anthony Perard' <anthony.perard@citrix.com>,
+ =?utf-8?Q?'Marc-Andr=C3=A9_Lureau'?= <marcandre.lureau@redhat.com>,
+ 'Richard Henderson' <rth@twiddle.net>,
+ 'Artyom Tarasenko' <atar4qemu@gmail.com>,
+ 'Laurent Vivier' <lvivier@redhat.com>, 'Thomas Huth' <thuth@redhat.com>,
+ 'Amit Shah' <amit@kernel.org>, 'Alistair Francis' <alistair@alistair23.me>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ 'Michael Rolnik' <mrolnik@gmail.com>,
+ =?utf-8?Q?'C=C3=A9dric_Le_Goater'?= <clg@kaod.org>,
+ 'Igor Mammedov' <imammedo@redhat.com>, qemu-ppc@nongnu.org,
+ 'Stafford Horne' <shorne@gmail.com>, 'Palmer Dabbelt' <palmer@dabbelt.com>,
+ 'David Gibson' <david@gibson.dropbear.id.au>,
+ "'Daniel P. Berrange'" <berrange@redhat.com>, qemu-block@nongnu.org,
+ qemu-riscv@nongnu.org, 'Bastian Koppelmann' <kbastian@mail.uni-paderborn.de>,
+ 'Cornelia Huck' <cohuck@redhat.com>,
+ =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <f4bug@amsat.org>,
+ 'Michael Walle' <michael@walle.cc>, 'Corey Minyard' <cminyard@mvista.com>,
+ 'Paolo Bonzini' <pbonzini@redhat.com>, 'Aurelien Jarno' <aurelien@aurel32.net>,
+ 'Stefan Berger' <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Huacai,
+> -----Original Message-----
+> From: Eduardo Habkost <ehabkost@redhat.com>
+> Sent: 16 September 2020 19:25
+> To: qemu-devel@nongnu.org
+> Cc: Paolo Bonzini <pbonzini@redhat.com>; Daniel P. Berrange =
+<berrange@redhat.com>; Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@redhat.com>; Gerd Hoffmann <kraxel@redhat.com>; =
+Michael S. Tsirkin <mst@redhat.com>;
+> Peter Maydell <peter.maydell@linaro.org>; Corey Minyard =
+<cminyard@mvista.com>; C=C3=A9dric Le Goater
+> <clg@kaod.org>; David Gibson <david@gibson.dropbear.id.au>; Cornelia =
+Huck <cohuck@redhat.com>; Thomas
+> Huth <thuth@redhat.com>; Halil Pasic <pasic@linux.ibm.com>; Christian =
+Borntraeger
+> <borntraeger@de.ibm.com>; Philippe Mathieu-Daud=C3=A9 =
+<f4bug@amsat.org>; Alistair Francis
+> <alistair@alistair23.me>; David Hildenbrand <david@redhat.com>; =
+Laurent Vivier <lvivier@redhat.com>;
+> Amit Shah <amit@kernel.org>; Stefano Stabellini =
+<sstabellini@kernel.org>; Anthony Perard
+> <anthony.perard@citrix.com>; Paul Durrant <paul@xen.org>; Fam Zheng =
+<fam@euphon.net>; Gonglei (Arei)
+> <arei.gonglei@huawei.com>; Igor Mammedov <imammedo@redhat.com>; Stefan =
+Berger <stefanb@linux.ibm.com>;
+> Richard Henderson <rth@twiddle.net>; Michael Rolnik =
+<mrolnik@gmail.com>; Sarah Harris
+> <S.E.Harris@kent.ac.uk>; Edgar E. Iglesias <edgar.iglesias@gmail.com>; =
+Michael Walle
+> <michael@walle.cc>; Aleksandar Markovic =
+<aleksandar.qemu.devel@gmail.com>; Aurelien Jarno
+> <aurelien@aurel32.net>; Jiaxun Yang <jiaxun.yang@flygoat.com>; =
+Aleksandar Rikalo
+> <aleksandar.rikalo@syrmia.com>; Anthony Green <green@moxielogic.com>; =
+Chris Wulff <crwulff@gmail.com>;
+> Marek Vasut <marex@denx.de>; Stafford Horne <shorne@gmail.com>; Palmer =
+Dabbelt <palmer@dabbelt.com>;
+> Sagar Karandikar <sagark@eecs.berkeley.edu>; Bastian Koppelmann =
+<kbastian@mail.uni-paderborn.de>;
+> Yoshinori Sato <ysato@users.sourceforge.jp>; Mark Cave-Ayland =
+<mark.cave-ayland@ilande.co.uk>; Artyom
+> Tarasenko <atar4qemu@gmail.com>; Guan Xuetao <gxt@mprc.pku.edu.cn>; =
+Max Filippov <jcmvbkbc@gmail.com>;
+> qemu-arm@nongnu.org; qemu-ppc@nongnu.org; qemu-s390x@nongnu.org; =
+qemu-block@nongnu.org; xen-
+> devel@lists.xenproject.org; qemu-riscv@nongnu.org
+> Subject: [PATCH 3/5] qom: Remove module_obj_name parameter from =
+OBJECT_DECLARE* macros
+>=20
+> One of the goals of having less boilerplate on QOM declarations
+> is to avoid human error.  Requiring an extra argument that is
+> never used is an opportunity for mistakes.
+>=20
+> Remove the unused argument from OBJECT_DECLARE_TYPE and
+> OBJECT_DECLARE_SIMPLE_TYPE.
+>=20
+> Coccinelle patch used to convert all users of the macros:
+>=20
+>   @@
+>   declarer name OBJECT_DECLARE_TYPE;
+>   identifier InstanceType, ClassType, lowercase, UPPERCASE;
+>   @@
+>    OBJECT_DECLARE_TYPE(InstanceType, ClassType,
+>   -                    lowercase,
+>                        UPPERCASE);
+>=20
+>   @@
+>   declarer name OBJECT_DECLARE_SIMPLE_TYPE;
+>   identifier InstanceType, lowercase, UPPERCASE;
+>   @@
+>    OBJECT_DECLARE_SIMPLE_TYPE(InstanceType,
+>   -                    lowercase,
+>                        UPPERCASE);
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-On 9/16/20 4:12 AM, Huacai Chen wrote:
-> Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
-> R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
-> Loongson-3A R4 is the newest and its ISA is almost the superset of all
-> others. To reduce complexity, in QEMU we just define two CPU types:
-> 
-> 1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
->    suitable for TCG because Loongson-3A R1 has fewest ASE.
-> 2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
->    suitable for KVM because Loongson-3A R4 has the VZ ASE.
-> 
-[...]
+Acked-by: Paul Durrant <paul@xen.org>
 
-> Of course the upstream kernel is also usable (though it is "unstable"
-> now):
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> 
-> How to use QEMU/Loongson-3?
-> 1, Download kernel source from the above URL;
-> 2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
-> 3, Boot a Loongson-3A4000 host with this kernel (for KVM mode);
-> 4, Build QEMU-master with this patchset;
-> 5, modprobe kvm (only necessary for KVM mode);
-> 6, Use QEMU with TCG:
->        qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
->    Use QEMU with KVM:
->        qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
-
-Can you add a KVM-only build CI job?
-Simply building, not running test, as there is no MIPS CI.
-
-See for example commit 41e1f0e2256 (".travis.yml: Add a KVM-only
-s390x job"), but add it to GitLab instead.
-
-Thanks!
-
-Phil.
 
