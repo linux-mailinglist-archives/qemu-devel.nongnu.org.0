@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BCE26E1C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:07:49 +0200 (CEST)
-Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBEC26E1D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:09:37 +0200 (CEST)
+Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIxNs-0001D0-AX
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
+	id 1kIxPc-0003Q0-H9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kIxJy-0006Mh-0Y; Thu, 17 Sep 2020 13:03:46 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:48151)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kIxJw-0005ek-0C; Thu, 17 Sep 2020 13:03:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.64])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id ABBB762C261F;
- Thu, 17 Sep 2020 19:03:39 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 17 Sep
- 2020 19:03:38 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001e665840b-41c7-424d-a326-2d6e643fb57f,
- FF1720B74B3888C93CA5040C1F5ACCC945AC33B8) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH] hw/arm/aspeed: Map the UART5 device unconditionally
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- <qemu-devel@nongnu.org>
-References: <20200905212415.760452-1-f4bug@amsat.org>
- <e640309b-b694-e815-d64d-40dd453e52ef@amsat.org>
- <5e27c1f9-6d11-fa62-ba71-0020ce9d595b@kaod.org>
- <07b21d1d-fb5b-efb0-50f2-54a4b86df444@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <4648c188-cacc-c532-857c-f0206f60e109@kaod.org>
-Date: Thu, 17 Sep 2020 19:03:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kIxMO-0008Ei-5g
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:06:16 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36666)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kIxMM-00062u-9i
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:06:15 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z1so2880552wrt.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 10:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YLGBbGhq3qo921u43dT0Kw2MJiy8JvwoZTD/f0mJQJ0=;
+ b=yEkloMDVdT3b1Au63g6UuGL9fSEHCSZwGlGSzknAoO6XHFumZXiFlCMniJvug19hTF
+ hmWN3KYCbiy3s4wsWGDuUl3T/sj9ezTp0MFGWf462+xsqGPLVJJsXK3lMrLS+rdIxKiV
+ x1a+KVu3xXdi8HlIZhAsycOGhH9OEPkSE0u9XtKSULNA08iQ8tp1KuB5f8M2BCz8dgSn
+ Z92Wk+KqdIe5Q/j2BlUu1hDHCJtwZb4eCEsFs4i2T5ke0cDs5bNew/kw88+IRPLZVgns
+ tsSyRKCZYveSS8eHcQrw9fPT7Od9duDFsK8eT25GcA6kajMdXiP0u7LLEQL7ZrMZvPoJ
+ 2ALA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=YLGBbGhq3qo921u43dT0Kw2MJiy8JvwoZTD/f0mJQJ0=;
+ b=DCCltI9mcW0GyDA3gXAs53cg1U02N/2gc207gWyCblHXXJA2Tt8LS3PnRLX9+Zp8Hj
+ j2hMcq/bsR8U1bY02UTp5168t16cnhQUSjAHauPG6hHghdnZN3MGkdmFotpa1U2D33m+
+ HfezbW0FdG0ZKwMft9bm6WPX6ugKXGs+fWafsc8CGUx7bKfHHDa0MjAGXYtf76WUFlKW
+ MJWSdhYXyMKl7kSVliaDam3CxEJzCs6ak0Che3d7ykJXF7kX8kP7nKtnLj+6DS7oqVqb
+ GLdSvr0/+0esDjx7tVRy5txoRG/fQQunvto5o0n6TvzYda3rr7sQOq9isnAOpoSoJJIT
+ 8bOw==
+X-Gm-Message-State: AOAM532t2jT9tfnHoo4FpK2fU86tA8Av7dTH2ry2TcwOOPfbRwqs0YgU
+ WLdzDD8vFWLETuoKIDY+RsV8GA==
+X-Google-Smtp-Source: ABdhPJyR6c0onzfD0cYiNHiACl2Qjajf1n0EQLuq6wznUwqefxP+bved41rDsHMFzqrTC5tXaYy/bw==
+X-Received: by 2002:a05:6000:11c5:: with SMTP id
+ i5mr33969323wrx.18.1600362372518; 
+ Thu, 17 Sep 2020 10:06:12 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e18sm239522wrx.50.2020.09.17.10.06.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Sep 2020 10:06:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AF3DC1FF7E;
+ Thu, 17 Sep 2020 18:06:10 +0100 (BST)
+References: <20200914230210.2185860-1-richard.henderson@linaro.org>
+ <20200914230210.2185860-5-richard.henderson@linaro.org>
+ <1eb5fb1b-4341-88e9-16b1-f9db78eceadb@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 04/10] disas: Clean up CPUDebug initialization
+In-reply-to: <1eb5fb1b-4341-88e9-16b1-f9db78eceadb@redhat.com>
+Date: Thu, 17 Sep 2020 18:06:10 +0100
+Message-ID: <875z8cxri5.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <07b21d1d-fb5b-efb0-50f2-54a4b86df444@amsat.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3561077f-3dce-4517-a17d-727132410fa7
-X-Ovh-Tracer-Id: 10874785728916392742
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdeggdduuddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeehtdeviefhgfeugfevjeeiveefvedtvdehhfejleduveejieefhfeffeetfeeunecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehfgegsuhhgsegrmhhsrghtrdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 13:03:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,47 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: luoyonggang@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/20 6:57 PM, Philippe Mathieu-Daudé wrote:
-> On 9/16/20 7:51 AM, Cédric Le Goater wrote:
->> On 9/15/20 7:23 PM, Philippe Mathieu-Daudé wrote:
->>> ping?
->>
->> It's reviewed : 
->>
->>   http://patchwork.ozlabs.org/project/qemu-devel/patch/20200905212415.760452-1-f4bug@amsat.org/
->>
-> 
-> Yes I know :) This is part of my routine to check if a
-> patch hasn't been confirmed to be queued 1 week after the
-> last review, to ping the maintainer (because some
-> automatically flush patches older than 1month in their
-> mailbox).
 
-ooh. That's brutal.
+Thomas Huth <thuth@redhat.com> writes:
 
->> I will send a PR when I have more patches.
-> 
-> Ah OK. I didn't know you would keep merging the Aspeed
-> patches. Since this was a single patch, I thought it would
-> go via the usual qemu-arm queue from Peter.
+> On 15/09/2020 01.02, Richard Henderson wrote:
+>> Rename several functions, dropping "generic" and making "host"
+>> vs "target" clearer.  Make a bunch of functions static that are
+>> not used outside this file. Replace INIT_DISASSEMBLE_INFO with
+>> a trio of functions.
+>>=20
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  include/disas/dis-asm.h |  60 --------
+>>  disas.c                 | 326 ++++++++++++++++++----------------------
+>>  2 files changed, 148 insertions(+), 238 deletions(-)
+>>=20
+>> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+>> index 9856bf7921..d2418c977e 100644
+>> --- a/include/disas/dis-asm.h
+>> +++ b/include/disas/dis-asm.h
+>> @@ -461,67 +461,7 @@ int print_insn_riscv32          (bfd_vma, disassemb=
+le_info*);
+>>  int print_insn_riscv64          (bfd_vma, disassemble_info*);
+>>  int print_insn_rx(bfd_vma, disassemble_info *);
+>>=20=20
+>> -#if 0
+>> -/* Fetch the disassembler for a given BFD, if that support is available=
+.  */
+>> -disassembler_ftype disassembler(bfd *);
+>> -#endif
+>> -
+>>  
+>
+> By the way, while you're at it, could you please also remove the form
+> feed character in this file here? ... that looks really confusing in my
+> e-mail client otherwise.
 
-sure. It could also. Fine with me. I have only three for the
-moment. 
+I'm not entirely convinced that is from Richard. I've been seeing rouge
+^L and ^M's from all sorts of normally unix clean contributors. I smell
+mailing list shenanigans.
 
-> No rush, I just wanted to be sure the patch was not lost.
-> Also, once a patch is queued, I understand it is the
-> maintainer responsibility to keep rebasing the patch
-> queued.
-
-yes. I know. I have been taking care of Andrew's ADC patches 
-since 2017 ... cough cough :)
-
-Cheers,
-
-C.
+--=20
+Alex Benn=C3=A9e
 
