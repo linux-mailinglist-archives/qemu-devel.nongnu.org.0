@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279E326D292
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 06:27:07 +0200 (CEST)
-Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 069B126D297
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 06:29:11 +0200 (CEST)
+Received: from localhost ([::1]:59652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIlVh-0007vB-Pc
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 00:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
+	id 1kIlXi-0001Gg-4h
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 00:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIlUW-000720-0y
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 00:25:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41314)
+ id 1kIlUZ-00073s-IY
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 00:25:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIlUT-0004aD-Vo
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 00:25:51 -0400
+ id 1kIlUT-0004a1-W2
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 00:25:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kIlUR-0005h1-VG
+ id 1kIlUR-0005h1-32
  for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 04:25:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C4B952E8109
+ by loganberry.canonical.com (Postfix) with ESMTP id 0ABB62E810A
  for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 04:25:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Sep 2020 04:17:17 -0000
-From: Launchpad Bug Tracker <1816805@bugs.launchpad.net>
+Date: Thu, 17 Sep 2020 04:17:18 -0000
+From: Launchpad Bug Tracker <1852781@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu-20.04 s390x
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ayaurov janitor jnsnow
-X-Launchpad-Bug-Reporter: Andrii Yaurov (ayaurov)
+X-Launchpad-Bug-Commenters: colin-king janitor paelzer th-huth
+X-Launchpad-Bug-Reporter: Colin Ian King (colin-king)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <155067985595.12116.1229580080440735698.malonedeb@gac.canonical.com>
-Message-Id: <160031623722.27044.3078534161299514599.malone@loganberry.canonical.com>
-Subject: [Bug 1816805] Re: Cannot create cdrom device with open tray and cache
- option
+References: <157384084797.7162.9983011521410421204.malonedeb@gac.canonical.com>
+Message-Id: <160031623880.27044.9493162054149325207.malone@loganberry.canonical.com>
+Subject: [Bug 1852781] Re: qemu s390x on focal - applications breaking
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: de1378c19fd2cb07039911a5d6033b3a47677c92
+X-Launchpad-Hash: e4d6942578aed7d73a30e55edf7b567ca032672b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 00:25:47
@@ -73,7 +75,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1816805 <1816805@bugs.launchpad.net>
+Reply-To: Bug 1852781 <1852781@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,30 +88,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1816805
+https://bugs.launchpad.net/bugs/1852781
 
 Title:
-  Cannot create cdrom device with open tray and cache option
+  qemu s390x on focal - applications breaking
 
 Status in QEMU:
   Expired
+Status in Ubuntu on IBM z Systems:
+  Expired
 
 Bug description:
-  When trying to create cdrom device with open tray and either of
-  "cache" or "discard" options specified, I get the following error:
+  Running qemu-system-s390x (1:4.0+dfsg-0ubuntu10) on an x86-64 Focal
+  host with an upgrade of a Eoan s390x VM to a Focal s390x is triggering
+  random breakage, for example:
 
-  qemu-system-x86_64: -drive if=3Dnone,id=3Ddrive-
-  ide0-0-0,readonly=3Don,cache=3Dwriteback,discard=3Dunmap,throttling.iops-
-  total=3D900: Must specify either driver or file
+  sudo apt-get update && sudo apt-get dist-upgrade
 
-  This bug essentially forbids live migration of VMs with open cdrom
-  trays.
+  ...
+  ...
 
-  I was able to find the same bug at RedHat:
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1338638
+  Unpacking debianutils (4.9) over (4.8.6.3) ...
+  Setting up debianutils (4.9) ...
+  Use of uninitialized value $ARGV[0] in string ne at /usr/sbin/update-mime=
+ line 43.
+  (Reading database ... 83640 files and directories currently installed.)
+  Preparing to unpack .../bash_5.0-5ubuntu1_s390x.deb ...
+  Unpacking bash (5.0-5ubuntu1) over (5.0-4ubuntu1) ...
+  Setting up bash (5.0-5ubuntu1) ...
+  [12124.788618] User process fault: interruption code 0007 ilc:3 in bash[2=
+aa3d780000+149000]
+  dpkg: error processing package bash (--configure):
+   installed bash package post-installation script subprocess was killed by=
+ signal (Floating point exception), core du
+  mped
+  Errors were encountered while processing:
+   bash
+  E: Sub-process /usr/bin/dpkg returned an error code (1)
 
-  The bug was encountered in versions 2.5 and 2.11.
+  And now bash is completely broken:
+
+  cking@eoan-s390x:~$ bash
+  [12676.204389] User process fault: interruption code 0007 ilc:3 in bash[2=
+aa14780000+149000]
+
+  Floating point exception (core dumped)
+
+  The upgrade works OK on a s390x, so I'm assuming it's something to do
+  with the qemu emulation.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1816805/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1852781/+subscriptions
 
