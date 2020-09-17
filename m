@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D631126D07A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 03:18:00 +0200 (CEST)
-Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B941D26D081
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 03:19:51 +0200 (CEST)
+Received: from localhost ([::1]:59248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIiYh-00010a-UL
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 21:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56000)
+	id 1kIiaU-0002ss-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 21:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kIiXe-0008SS-Ei; Wed, 16 Sep 2020 21:16:54 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:54857)
+ id 1kIiXf-0008Sm-Dd; Wed, 16 Sep 2020 21:16:55 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53717 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kIiXb-0002Rr-Qj; Wed, 16 Sep 2020 21:16:53 -0400
+ id 1kIiXb-0002Rs-O8; Wed, 16 Sep 2020 21:16:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BsJvx45SDz9sTW; Thu, 17 Sep 2020 11:16:45 +1000 (AEST)
+ id 4BsJvx5WL3z9sVM; Thu, 17 Sep 2020 11:16:45 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1600305405;
- bh=wEzmaPSW3K5cxCNNFB/mq+KFspyBXl4ZaOZdk9xXVLo=;
+ bh=/ykHoG68zyxz4r8AP8iRd7NBsXrdAHAeBSMPe6NAEKc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m/dGoFvdOsSLkFk5yB43KQhJHGQ4lh8/eUQuUyM8CH4+sNGtw2hnrgIwALNKwPKqg
- Qz5H2js2ype7Li+ZGhL7M8cv19xWSNYRQUQnyzZFqBA1yjKZ8vY6ux+BbqTRT4OHVO
- uwYqMkLiOfVADmMywB9kSvmVLDQ91OcUZdu8v9/0=
-Date: Thu, 17 Sep 2020 11:06:22 +1000
+ b=gPHw6j5ei5+oKdHY/JW70ru27c9JAx/wzz52cpI6g9/7FfnYNyaliF+k0Jr7JkVjY
+ qqCIWsWHhr2Awfpn7/6EX7yM6Zs3//ytndUdDvUyrUelsSlWOwZLvkKhbtTjMtAYLM
+ izRr/nFCNVwHUfma2VdWvNTh472rCTRLRnE4zSV8=
+Date: Thu, 17 Sep 2020 11:08:52 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 10/15] spapr: Add a return value to spapr_set_vcpu_id()
-Message-ID: <20200917010622.GG5258@yekko.fritz.box>
+Subject: Re: [PATCH 00/15] spapr: Error handling fixes and cleanups (round 2)
+Message-ID: <20200917010852.GH5258@yekko.fritz.box>
 References: <20200914123505.612812-1-groug@kaod.org>
- <20200914123505.612812-11-groug@kaod.org>
- <740605ab-5310-d2fe-eb20-138b8def0b48@redhat.com>
- <20200915155352.605b0e47@bahia.lan>
+ <20200916024938.GD5258@yekko.fritz.box>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="t4apE7yKrX2dGgJC"
+ protocol="application/pgp-signature"; boundary="PW0Eas8rCkcu1VkF"
 Content-Disposition: inline
-In-Reply-To: <20200915155352.605b0e47@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200916024938.GD5258@yekko.fritz.box>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 21:16:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -62,67 +60,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---t4apE7yKrX2dGgJC
-Content-Type: text/plain; charset=iso-8859-1
+--PW0Eas8rCkcu1VkF
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 15, 2020 at 03:53:52PM +0200, Greg Kurz wrote:
-> On Tue, 15 Sep 2020 15:08:05 +0200
-> Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
+On Wed, Sep 16, 2020 at 12:49:38PM +1000, David Gibson wrote:
+> On Mon, Sep 14, 2020 at 02:34:50PM +0200, Greg Kurz wrote:
+> > Yet another round of sanitizing the error handling in spapr. I've
+> > identified locations that needed fixing with the errp-guard.cocci
+> > coccinelle script. It turns out that a better result is achieved
+> > by fixing manually, especially by converting some void functions
+> > to indicate success/failure with a return value.
 >=20
-> > On 9/14/20 2:35 PM, Greg Kurz wrote:
-> > > As recommended in "qapi/error.h", return true on success and false on
-> > > failure. This allows to reduce error propagation overhead in the call=
-ers.
-> > >=20
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >  include/hw/ppc/spapr.h  | 2 +-
-> > >  hw/ppc/spapr.c          | 5 +++--
-> > >  hw/ppc/spapr_cpu_core.c | 5 +----
-> > >  3 files changed, 5 insertions(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > > index c8cd63bc0667..11682f00e8cc 100644
-> > > --- a/include/hw/ppc/spapr.h
-> > > +++ b/include/hw/ppc/spapr.h
-> > > @@ -909,7 +909,7 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, r=
-un_on_cpu_data arg);
-> > >  #define HTAB_SIZE(spapr)        (1ULL << ((spapr)->htab_shift))
-> > > =20
-> > >  int spapr_get_vcpu_id(PowerPCCPU *cpu);
-> > > -void spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp);
-> > > +bool spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp);
-> >=20
-> > If you have to respin, please add some doc, at least this would
-> > be an improvement:
-> >=20
-> > /* Returns: %true on success, %false on error. */
-> >=20
->=20
-> Yeah, most, not to say all, APIs in the spapr code don't have
-> doc in the header files... which uselessly forces everyone to
-> check what the function actually does. Not sure how to best
-> address that though.
->=20
-> Adding headers everywhere (ie. lot of churn) ? Only in selected places
-> where it isn't obvious ? Also for functions that return integers or
-> pointers ?
->=20
-> I'll cowardly let David decide ;-)
+> 1..4 applied to ppc-for-5.2, I'll look at the rest in due course.
 
-And I'll lazily reply that I'm happy to take patches adding
-documentation, but I'm not going to undertake a big effort to add it
-comprehensively.
+5..13 now applied as well.
+
+>=20
+> >=20
+> > Greg Kurz (15):
+> >   spapr: Fix error leak in spapr_realize_vcpu()
+> >   ppc: Add a return value to ppc_set_compat() and ppc_set_compat_all()
+> >   ppc: Fix return value in cpu_post_load() error path
+> >   spapr: Simplify error handling in callers of ppc_set_compat()
+> >   spapr: Get rid of cas_check_pvr() error reporting
+> >   spapr: Simplify error handling in do_client_architecture_support()
+> >   spapr: Simplify error handling in spapr_vio_busdev_realize()
+> >   spapr: Add a return value to spapr_drc_attach()
+> >   spapr: Simplify error handling in prop_get_fdt()
+> >   spapr: Add a return value to spapr_set_vcpu_id()
+> >   spapr: Simplify error handling in spapr_cpu_core_realize()
+> >   spapr: Add a return value to spapr_nvdimm_validate()
+> >   spapr: Add a return value to spapr_check_pagesize()
+> >   spapr: Simplify error handling in spapr_memory_plug()
+> >   spapr: Simplify error handling in spapr_memory_unplug_request()
+> >=20
+> >  include/hw/ppc/spapr.h        |  4 +-
+> >  include/hw/ppc/spapr_drc.h    |  2 +-
+> >  include/hw/ppc/spapr_nvdimm.h |  4 +-
+> >  target/ppc/cpu.h              |  4 +-
+> >  hw/ppc/spapr.c                | 76 ++++++++++++-----------------------
+> >  hw/ppc/spapr_caps.c           |  7 +++-
+> >  hw/ppc/spapr_cpu_core.c       | 24 +++++------
+> >  hw/ppc/spapr_drc.c            | 17 ++++----
+> >  hw/ppc/spapr_hcall.c          | 34 +++++++---------
+> >  hw/ppc/spapr_nvdimm.c         | 24 +++++------
+> >  hw/ppc/spapr_pci.c            |  5 +--
+> >  hw/ppc/spapr_vio.c            | 12 +++---
+> >  target/ppc/compat.c           | 26 +++++++-----
+> >  target/ppc/machine.c          |  9 +++--
+> >  14 files changed, 108 insertions(+), 140 deletions(-)
+> >=20
+>=20
+
+
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -130,25 +129,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---t4apE7yKrX2dGgJC
+--PW0Eas8rCkcu1VkF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9itowACgkQbDjKyiDZ
-s5IVBhAA3Xl9hjUo8Gg/iwY4GjPNuXjhiQelRjaBriH/hvgnQo9/jS50yxo/iubA
-4l3oaGnCE6mhb1pYmRUdDh2UczxjgSX6LWwL7bYhVKFNGaByV8Ec+FXVXne4FPfz
-MWFU6cJ/ChrHyPtE51goFwrK8n9YgsoE6Djyh+38ZfJwb9+qXfzBUGeADdDHQMxA
-gokv23s46uuhPvdcnlaV1D8K+t/3XjWdIkViL8VQSY3r6oFGK+YWwimDfzXvwoyG
-JNBbVmn7uH0Je6kWso5zLiXkSrsEhnP5+KXM/2cnsVBckDpz4+vefEsXBlInwwZM
-ub4nrJcBSrEoqMm4SFWCfPbF/dq9zACeUA2R7145IyPwlBWqNk1xMOKXlxSrQGw+
-lKE3YLqkKoUb522W8YfC5uhl4ESyn/5JZFa2v0uSs8QxQfDOOEGbZaKefegb9L0k
-0jLMJQT5MuJTFynLhvh17yLdE75Rhm3RwyWMTJHEH14EiXTaPtr8Ttsc6JGwXJEh
-8wVUIrQGF46SODzS0ik/xEb898l3hSDeO4glP9TriG1OCGjAUI7BSOrUpyG629YZ
-ARMuC88i/dP094tF6it7sqx22/DOX+i9IfvuCFvOEMNNN8QzSpaktfStCj+z3034
-yiPTShattioWSJSYoUe6wD+MQLg1jHX5ts6QyhyOP81hEv/Xi98=
-=476E
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9ityQACgkQbDjKyiDZ
+s5J+SQ//Wjq/HTR0XlVJkKt6naCjZs90pgDrAI18iAzpI0JSByt7OmAbZV1pUjLN
+nsIU/WxBf4ihNbAuyUdoDPCp1K+Ib5JkjQym8KOo0wSySKVuhN6EinX8rnIweZnB
+3VxJml/M83qa+odL29K3vnHJfLeBYo3VhI0TYz9ljTbmeewiwq3RgWsC5Nq/T9kr
+CjrC2cAg9hCFxc5cd/I4UVPID5kR1Xd6VWVoXl1hdR/p8h1MOJ4XwOt5Hfp7r6i+
+Oe1nPMfKXKTQz6Lmzpw6gJcIy87tYld4mqhx0sSdoY2YsnpArxd8bdMNaSD0zrsD
+YuPslsRRuCy84qd4IWwY2JL/n+hPIAN454zRtPVivFMn0UGLQZ9AEa50ZKP0XhOL
+EpsozAFMd9Zi5/CC1KvTdpMSQf1qxoNK40ZUW+Hht9eOucs0qpJFya3O8ki1eyQX
+ScOIPLl7MadZg8b7Fvpl4fDU/iG57iaAAu2VdethmKeK6bANu2PHzSVxhMmOid62
+L9B5c7VIgGcWqHVUq7u/7xsEyLREQDHLkuJAenDVai5ZIoNyJ4EGgoPX5zagO4+q
+fDI7MKRTOp7uZuSAT/QylpNgtcwmxk/NcCRZdJ0hdkwRIdWJmApljd+j5hslY3hu
+BcrBGtKyVrbO+wvfdyHiIS3U8yXk1FmsxdR1zZPtCKz+5bQxrm8=
+=a8+I
 -----END PGP SIGNATURE-----
 
---t4apE7yKrX2dGgJC--
+--PW0Eas8rCkcu1VkF--
 
