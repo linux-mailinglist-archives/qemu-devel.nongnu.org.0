@@ -2,94 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FA626DE32
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:27:46 +0200 (CEST)
-Received: from localhost ([::1]:52278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91AE26DE2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:26:09 +0200 (CEST)
+Received: from localhost ([::1]:46774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIusz-0003dM-6F
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42710)
+	id 1kIurQ-0001GD-QM
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:26:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIuma-0002zG-Ly; Thu, 17 Sep 2020 10:21:09 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62016)
+ id 1kIumd-00032l-U7; Thu, 17 Sep 2020 10:21:11 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kIumX-0003Db-EA; Thu, 17 Sep 2020 10:21:08 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1kIumb-0003E0-Mm; Thu, 17 Sep 2020 10:21:11 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08HE2ZFU069209; Thu, 17 Sep 2020 10:21:03 -0400
+ 08HEKWrQ089509; Thu, 17 Sep 2020 10:21:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=1gi5s1Tx693BWL7xgcm3etVQVG7BMtLGNWjUnVDwD3o=;
- b=O1HJA8DqrhVIqXDjLtDS1hsaS0WzuyUUUxkxuvMmYmQ+Swrm/4ZNbpNuWLR0STmyiH/8
- vrtBG1pY5dusGnDLZr29vMrYTLuWMBlxGea8R26GelOtj0skMGLNaeEc9V5pXFddMq+G
- YKWIQYuJ3edsE/V4NTKbiq1U+tJRhTsXmWqOvrBLLzj42y/t4NqkUVGP/TSMDt7kZ6iO
- 5UOgcmGGYpkm/33zoUSnPZxQqVSfKZEayV/zzEc992jeKcb9+NkHqu1mPp2cU9Sw0OBb
- wqw29C0YqaoSmmvLH3Q9YzUQUthJo9hgY2UCrJNSwe3nq1k8tzC/b0PudoQZkyCNDoNc 8g== 
+ : date : message-id : in-reply-to : references; s=pp1;
+ bh=HrOG73Xu/7JUcc3vBp0EmxzkDtGg1qQbREzhmSBIwoc=;
+ b=IlMQ03Lt5NFVED8y0zkQO0cs97XC92IPZEq0mgcPP7AD3qbZAQpy9yvGqCReS/NbJNJf
+ NZM6N8GvQE34zaYTgb399dGvI95FA1SQM8W623yrfr3ObI/Gw1EdqwxkBJ086xVk2YtK
+ 0EUtCya5tjYU/e8xIRJYtAb+dVRR4hsgHQEm53gFfMy61tUrEI6buCgcEDB9wGTtITbh
+ PKCB13PeUrH5Y4YJBAXMxLt4T5pLhHmLZaMRZeYWaXZZkekN3gtYuWjp35YNgROfP5HS
+ mSTKUtWokwKfJd/cdyeGLsW1zCKCsmxGFzFRkGptclw6ZfECShNmFSkxLhoUyfRMD2iU KA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33m95arprt-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33m9fmr0fq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 10:21:03 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08HE3N8x074254;
- Thu, 17 Sep 2020 10:21:03 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33m95arprg-1
+ Thu, 17 Sep 2020 10:21:08 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08HEL1aw092477;
+ Thu, 17 Sep 2020 10:21:07 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33m9fmr0f6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 10:21:03 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08HEILAF017892;
- Thu, 17 Sep 2020 14:21:02 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 33k6591uwf-1
+ Thu, 17 Sep 2020 10:21:07 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08HEHqFC008209;
+ Thu, 17 Sep 2020 14:21:06 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 33k6hecudh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Sep 2020 14:21:02 +0000
+ Thu, 17 Sep 2020 14:21:06 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08HEL1sD46268810
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08HEL5TC40829212
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Sep 2020 14:21:01 GMT
+ Thu, 17 Sep 2020 14:21:05 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6AB01AC05E;
+ by IMSVA (Postfix) with ESMTP id BEA0DAC059;
+ Thu, 17 Sep 2020 14:21:05 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A65B3AC05B;
  Thu, 17 Sep 2020 14:21:01 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3EC7EAC059;
- Thu, 17 Sep 2020 14:20:57 +0000 (GMT)
 Received: from oc4221205838.ibm.com (unknown [9.163.85.51])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 17 Sep 2020 14:20:57 +0000 (GMT)
+ Thu, 17 Sep 2020 14:21:01 +0000 (GMT)
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 To: alex.williamson@redhat.com, cohuck@redhat.com
-Subject: [PATCH v4 2/5] vfio: Create shared routine for scanning info
- capabilities
-Date: Thu, 17 Sep 2020 10:20:42 -0400
-Message-Id: <1600352445-21110-3-git-send-email-mjrosato@linux.ibm.com>
+Subject: [PATCH v4 3/5] vfio: Find DMA available capability
+Date: Thu, 17 Sep 2020 10:20:43 -0400
+Message-Id: <1600352445-21110-4-git-send-email-mjrosato@linux.ibm.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com>
 References: <1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-09-17_09:2020-09-16,
  2020-09-17 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 impostorscore=0 mlxscore=0
- malwarescore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501
- bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=868
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2009170104
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 10:21:03
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 10:20:55
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -116,58 +111,73 @@ Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than duplicating the same loop in multiple locations,
-create a static function to do the work.
+The underlying host may be limiting the number of outstanding DMA
+requests for type 1 IOMMU.  Add helper functions to check for the
+DMA available capability and retrieve the current number of DMA
+mappings allowed.
 
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/vfio/common.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ hw/vfio/common.c              | 31 +++++++++++++++++++++++++++++++
+ include/hw/vfio/vfio-common.h |  2 ++
+ 2 files changed, 33 insertions(+)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 13471ae..e47a4d7 100644
+index e47a4d7..20914bf 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -825,17 +825,12 @@ static void vfio_listener_release(VFIOContainer *container)
-     }
+@@ -849,6 +849,37 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
+     return vfio_get_cap((void *)info, info->cap_offset, id);
  }
  
--struct vfio_info_cap_header *
--vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
 +static struct vfio_info_cap_header *
-+vfio_get_cap(void *ptr, uint32_t cap_offset, uint16_t id)
- {
-     struct vfio_info_cap_header *hdr;
--    void *ptr = info;
--
--    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
--        return NULL;
--    }
- 
--    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-+    for (hdr = ptr + cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-         if (hdr->id == id) {
-             return hdr;
-         }
-@@ -844,6 +839,16 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-     return NULL;
- }
- 
-+struct vfio_info_cap_header *
-+vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
++vfio_get_iommu_type1_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
 +{
-+    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
++    if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
 +        return NULL;
 +    }
 +
 +    return vfio_get_cap((void *)info, info->cap_offset, id);
 +}
 +
++bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
++                             unsigned int *avail)
++{
++    struct vfio_info_cap_header *hdr;
++    struct vfio_iommu_type1_info_dma_avail *cap;
++
++    /* If the capability cannot be found, assume no DMA limiting */
++    hdr = vfio_get_iommu_type1_info_cap(info,
++                                        VFIO_IOMMU_TYPE1_INFO_DMA_AVAIL);
++    if (hdr == NULL) {
++        return false;
++    }
++
++    if (avail != NULL) {
++        cap = (void *) hdr;
++        *avail = cap->avail;
++    }
++
++    return true;
++}
++
  static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
                                            struct vfio_region_info *info)
  {
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index c78f3ff..661a380 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -178,6 +178,8 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
+ void vfio_put_group(VFIOGroup *group);
+ int vfio_get_device(VFIOGroup *group, const char *name,
+                     VFIODevice *vbasedev, Error **errp);
++bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
++                             unsigned int *avail);
+ 
+ extern const MemoryRegionOps vfio_region_ops;
+ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
 -- 
 1.8.3.1
 
