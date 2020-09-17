@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9DE26DEAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:48:34 +0200 (CEST)
-Received: from localhost ([::1]:57994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C4226DED8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 16:57:00 +0200 (CEST)
+Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvD6-0004aY-UA
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50540)
+	id 1kIvLH-0004DU-1w
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 10:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIvBR-0002wM-VP; Thu, 17 Sep 2020 10:46:49 -0400
-Resent-Date: Thu, 17 Sep 2020 10:46:49 -0400
-Resent-Message-Id: <E1kIvBR-0002wM-VP@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIvBP-0007LD-ED; Thu, 17 Sep 2020 10:46:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600353969; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=DbYGZlMDzwTf02Kt5am27UnrChrbYjJeHXPrtG5DabquV7FwtTvpri+3YWXjZwW9VbTd707jpSIwl7mKFIEUek8epVuUUPoOrnK7ezD+Gx+JxZiwIACHTSjI5FLfGJLVWfLMPtMwnlvAPRjRexEhiim8SnZMG1pJkBgi+IuiszM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600353969;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=wpKa+E1ymNcu/wy5Xg9uB9XjbsDZo8zAUudFxKgMo4A=; 
- b=dgzXQpbAF+O4KX/WYdO6Ckk9YPmfSp4mOXBhlf2Mdd6P3TBB9TEWdBihGtEbfnGywQn9zP0RjjMuulKybPbFgwkYxkUUw7MqYFDtO0OXTaKT+C+rp42bcG5COAsoONeiHNHIls6JhaC5Okjqe062shoCzpgEQBg/s7Ba2yPAQUY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600353966591282.5282417696268;
- Thu, 17 Sep 2020 07:46:06 -0700 (PDT)
-Subject: Re: [PATCH v4 0/5] s390x/pci: Accomodate vfio DMA limiting
-Message-ID: <160035396423.8478.4968781368528580151@66eaa9a8a123>
-In-Reply-To: <1600352445-21110-1-git-send-email-mjrosato@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kIvCR-00052I-Dj; Thu, 17 Sep 2020 10:47:51 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:52417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kIvCO-0007R8-OV; Thu, 17 Sep 2020 10:47:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=MAbxPQhcB4q9/bAXd9UpPqfjnp4OiDoyrxWmg9eT538=; 
+ b=Ex4d/vsNPOMgx/ZyFclkot3fs4iPjihPF8pAqX3R6qrW93E6JoezMAKwmrIUGDmteA0LRApiB2sM2nL3pLHsq8/uN3sK3OTNxKjLvxfxxt0toA6VUevLfQ6xsV4tmQnSR7qOCt0gTMnRl7cJi64tIz36nGQzb5MIkyTuZycFpT1f05AMDb9SnkFNtYygENKU1C0lNWuI/9vbr+kE7oNW5UTx0N4y6beHe1nGz8KcJX2mMoN5MIaMRjf0sA6uA1Jswg3iuwOTq6uzRX6vgC/1QF+qRhjMYhEMrfKPwOpXCY+jLRUAd8Hl77ymg9vzz2AhLCkmcPbn/s0wUSny+SVeAA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kIvCI-0000Rv-BY; Thu, 17 Sep 2020 16:47:42 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kIvCI-0002JL-28; Thu, 17 Sep 2020 16:47:42 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH 03/14] block: check return value of bdrv_open_child and
+ drop error propagation
+In-Reply-To: <20200909185930.26524-4-vsementsov@virtuozzo.com>
+References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
+ <20200909185930.26524-4-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 17 Sep 2020 16:47:42 +0200
+Message-ID: <w51v9gcxxwx.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mjrosato@linux.ibm.com
-Date: Thu, 17 Sep 2020 07:46:06 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:07:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 09:56:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,23 +64,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- david@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- schnelle@linux.ibm.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, alex.williamson@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, pavel.dovgaluk@ispras.ru,
+ qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org, stefanha@redhat.com,
+ pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNjAwMzUyNDQ1LTIxMTEwLTEt
-Z2l0LXNlbmQtZW1haWwtbWpyb3NhdG9AbGludXguaWJtLmNvbS8KCgoKSGksCgpUaGlzIHNlcmll
-cyBmYWlsZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5k
-IHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZl
-IERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHku
-CgoKCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xv
-Z3MvMTYwMDM1MjQ0NS0yMTExMC0xLWdpdC1zZW5kLWVtYWlsLW1qcm9zYXRvQGxpbnV4LmlibS5j
-b20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
-Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
-LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Wed 09 Sep 2020 08:59:19 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> This patch is generated by cocci script:
+>
+> @@
+> symbol bdrv_open_child, errp, local_err;
+> expression file;
+> @@
+>
+>   file = bdrv_open_child(...,
+> -                        &local_err
+> +                        errp
+>                         );
+> - if (local_err)
+> + if (!file)
+>   {
+>       ...
+> -     error_propagate(errp, local_err);
+>       ...
+>   }
+>
+> with command
+>
+> spatch --sp-file x.cocci --macro-file scripts/cocci-macro-file.h \
+> --in-place --no-show-diff --max-width 80 --use-gitgrep block
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+
+Berto
 
