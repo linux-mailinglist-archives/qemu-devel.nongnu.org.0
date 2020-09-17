@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC1926E0CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:34:10 +0200 (CEST)
-Received: from localhost ([::1]:40318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB4126E0D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:36:29 +0200 (CEST)
+Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwrJ-0002AQ-OG
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
+	id 1kIwtY-0004uT-1x
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:36:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwoa-0000Pt-7v
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32367)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwog-0000Zj-C9
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwoY-0000ug-C9
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwoe-0000w0-F8
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600360276;
+ s=mimecast20190719; t=1600360283;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XUx+wxXE+REYjw2JhAsBHYVliaS15koys54VhdQ8whA=;
- b=fw3T342bUgpxT3i4dfiOHKmyClmNjM/ZlerwLCsletl5COjS336Tz6eACzr89PlalvRlu6
- nWt/GfoUpERgXbGNxnSWNzQb7xMab0o0b7LmV4voI+uCFajO9c7JdyM6ns+kCX/qjGEwls
- I6ymrpVUou+XBmzhH799cGrX6J8ciWI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-Mz6pEmXfOP2hVhhBpqo0qA-1; Thu, 17 Sep 2020 12:31:14 -0400
-X-MC-Unique: Mz6pEmXfOP2hVhhBpqo0qA-1
-Received: by mail-wr1-f72.google.com with SMTP id x15so1083552wrm.7
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:31:14 -0700 (PDT)
+ bh=ZF+OqmqmstlUkr/dM0RnSgA94FV+mHcH3wKBsCU4Fw8=;
+ b=er/2k1JFAwfgKuKgKh0SFoyDO0lz8vUkjnNV6v9T+6bUBpO/dlFtz0vgGDQmH7sTWthgE/
+ hQz8gzByWIY3dsXoHGzXCvCmSUq2CNV5c/LqOghhAgWrsV2cIsRzEroYIdrG6q3gML9B/r
+ iPLmbfXheZl5GQc2Ny4pOIeSprcnJlw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-74xmJuILPaO6uvovxDHoPw-1; Thu, 17 Sep 2020 12:31:19 -0400
+X-MC-Unique: 74xmJuILPaO6uvovxDHoPw-1
+Received: by mail-wr1-f69.google.com with SMTP id x15so1083632wrm.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:31:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XUx+wxXE+REYjw2JhAsBHYVliaS15koys54VhdQ8whA=;
- b=ev7o4DIkpZG5GwwgcECNKo9MMJm56YPXXbe+6JGmBXD6oxI8lUwKQ3WqSR05NvWTXO
- m3PpOSBesnedWyvyo8cAycz40Js7shu0WcyElyP212q/iT+EfvpJnSytfUSSs2o9pNVv
- iMw18M5xy2Tli1RSF1PPh1mpKv8X5JQN/Dbzgb9oj2aKtAxjrCdKyJA+M2PxTKXsz06l
- iGiCQx/0Z3PMccB6mIY4JCXHHk+yT0aFp8By3p5atFczM4iuLdOCtpAMy9U3UIRy/I4g
- MIIl4dnp0mODtpA06nrBU7yqFj3dXNLCt/qRJpOPer/n3gCKkjXgXpLBCHnzKIFbHgC7
- vh+w==
-X-Gm-Message-State: AOAM531HXDENxYFFh6nWbCraSTyeu4WV5EFbD7YJjs0yMOobH8RjHaeZ
- WoWeiWMBopn7b5xCMfKLokSDHE0Cy8wHQ7ehOrwHclr4aN4I5Obk6MtbwINfwI1ScCrn9yYoLjT
- R2OKLHS2U3chpTdY=
-X-Received: by 2002:a1c:7418:: with SMTP id p24mr10866680wmc.123.1600360273214; 
- Thu, 17 Sep 2020 09:31:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzor+7GYLXEZMyW5/heb19MinyS2qVs6aaYDwSzOhSs7jtOt1BnNonG6FCWL8PMHDRpRd7i0Q==
-X-Received: by 2002:a1c:7418:: with SMTP id p24mr10866656wmc.123.1600360273030; 
- Thu, 17 Sep 2020 09:31:13 -0700 (PDT)
+ bh=ZF+OqmqmstlUkr/dM0RnSgA94FV+mHcH3wKBsCU4Fw8=;
+ b=VLoZszw2vSoQanWERcQDtbPtv40vmrVfTeC8xMtpPPr67U7zBlbu2Em2lc+9JRYRw8
+ sFmxBHkP3Fg41SsRoL7CfRVUgKxZue5ZSyVorE0ehH5KvuMrP3y2JJXa4XcL0sgVuFbw
+ F7Io1gsxsujHPpWmcFAzLOSuBj6ZHGvCKxXgSGYXbI/sQFmGwLJ3Ik1TQtzVDjYr9nr5
+ 2xt6bwJC12bsbov3IOH1V2l2D1fMIhB0SsngyM7RNsyLZW8O61x+EzGy0s0agsK0hoJ8
+ Mp/cHYUVaK59zpo1rGaJAR4KHmugfxTZNNQuADskHwXTeyhPJ4YzhZzXam7GTPVqUYMb
+ TDTg==
+X-Gm-Message-State: AOAM530TGgLFewzChEqPYZHNm2NvU2Sote6LKJv9w9su6GFhQ5DQqjBc
+ WeOM/3MkQSfJZt7hhDTFSERZnVQN0RiwwbMBxK0ZQLaUyx3RCKvLaWZfrW3nsxoKoqTY8Oyo4dB
+ jceVaRfNE1i7hBl8=
+X-Received: by 2002:a5d:49d2:: with SMTP id t18mr31185233wrs.99.1600360278145; 
+ Thu, 17 Sep 2020 09:31:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJk4OJfAAHKtjRC2q3Vdz8KiSyHcc881TPifcw7kwFeh6Gzk4LBfKN0go9mvWayUx4Ka9MpA==
+X-Received: by 2002:a5d:49d2:: with SMTP id t18mr31185212wrs.99.1600360277883; 
+ Thu, 17 Sep 2020 09:31:17 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id t15sm161221wrp.20.2020.09.17.09.31.12
+ by smtp.gmail.com with ESMTPSA id i26sm75223wmb.17.2020.09.17.09.31.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 09:31:12 -0700 (PDT)
+ Thu, 17 Sep 2020 09:31:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] qemu/bswap: Move const_le() definitions around
-Date: Thu, 17 Sep 2020 18:31:03 +0200
-Message-Id: <20200917163106.49351-2-philmd@redhat.com>
+Subject: [PATCH 2/4] qemu/bswap: add const_be16() and const_be32()
+Date: Thu, 17 Sep 2020 18:31:04 +0200
+Message-Id: <20200917163106.49351-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200917163106.49351-1-philmd@redhat.com>
 References: <20200917163106.49351-1-philmd@redhat.com>
@@ -98,75 +98,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we want the cpu_to_endian() macros use the
-const_le() macros, move them earlier, so they
-are defined when we use them.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+We already have the const_le() macros for little endian.
+Implement the big-endian equivalent.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/qemu/bswap.h | 38 +++++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+ include/qemu/bswap.h | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 1d3e4c24e41..c3b4277342b 100644
+index c3b4277342b..6885984e00c 100644
 --- a/include/qemu/bswap.h
 +++ b/include/qemu/bswap.h
-@@ -82,6 +82,25 @@ static inline void bswap64s(uint64_t *s)
- #define be_bswaps(p, size) do { *p = glue(bswap, size)(*p); } while(0)
+@@ -83,7 +83,7 @@ static inline void bswap64s(uint64_t *s)
  #endif
  
-+/*
-+ * Same as cpu_to_le{16,32} described below, except that gcc will
-+ * figure the result is a compile-time constant if you pass in a constant.
-+ * So this can be used to initialize static variables.
-+ */
-+#if defined(HOST_WORDS_BIGENDIAN)
-+# define const_le32(_x)                          \
+ /*
+- * Same as cpu_to_le{16,32} described below, except that gcc will
++ * Same as cpu_to_{be,le}{16,32} described below, except that gcc will
+  * figure the result is a compile-time constant if you pass in a constant.
+  * So this can be used to initialize static variables.
+  */
+@@ -96,11 +96,20 @@ static inline void bswap64s(uint64_t *s)
+ # define const_le16(_x)                          \
+     ((((_x) & 0x00ff) << 8) |                    \
+      (((_x) & 0xff00) >> 8))
++# define const_be32(_x) (_x)
++# define const_be16(_x) (_x)
+ #else
+ # define const_le32(_x) (_x)
+ # define const_le16(_x) (_x)
++# define const_be32(_x)                          \
 +    ((((_x) & 0x000000ffU) << 24) |              \
 +     (((_x) & 0x0000ff00U) <<  8) |              \
 +     (((_x) & 0x00ff0000U) >>  8) |              \
 +     (((_x) & 0xff000000U) >> 24))
-+# define const_le16(_x)                          \
++# define const_be16(_x)                          \
 +    ((((_x) & 0x00ff) << 8) |                    \
 +     (((_x) & 0xff00) >> 8))
-+#else
-+# define const_le32(_x) (_x)
-+# define const_le16(_x) (_x)
-+#endif
-+
+ #endif
+-
  /**
   * Endianness conversion functions between host cpu and specified endianness.
   * (We list the complete set of prototypes produced by the macros below
-@@ -175,25 +194,6 @@ static inline uint32_t qemu_bswap_len(uint32_t value, int len)
-     return bswap32(value) >> (32 - 8 * len);
- }
- 
--/*
-- * Same as cpu_to_le{16,32}, except that gcc will figure the result is
-- * a compile-time constant if you pass in a constant.  So this can be
-- * used to initialize static variables.
-- */
--#if defined(HOST_WORDS_BIGENDIAN)
--# define const_le32(_x)                          \
--    ((((_x) & 0x000000ffU) << 24) |              \
--     (((_x) & 0x0000ff00U) <<  8) |              \
--     (((_x) & 0x00ff0000U) >>  8) |              \
--     (((_x) & 0xff000000U) >> 24))
--# define const_le16(_x)                          \
--    ((((_x) & 0x00ff) << 8) |                    \
--     (((_x) & 0xff00) >> 8))
--#else
--# define const_le32(_x) (_x)
--# define const_le16(_x) (_x)
--#endif
--
- /* Unions for reinterpreting between floats and integers.  */
- 
- typedef union {
 -- 
 2.26.2
 
