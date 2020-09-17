@@ -2,28 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C791626E419
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 20:41:29 +0200 (CEST)
-Received: from localhost ([::1]:35916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5079A26E44A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 20:43:57 +0200 (CEST)
+Received: from localhost ([::1]:41124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIyqW-0003Qh-T2
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 14:41:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59652)
+	id 1kIysu-0005aC-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 14:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kIyom-0002Ji-0k; Thu, 17 Sep 2020 14:39:40 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:58569)
+ id 1kIypu-0003Rp-Nv; Thu, 17 Sep 2020 14:40:50 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:59807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kIyoj-0002CO-UV; Thu, 17 Sep 2020 14:39:39 -0400
+ id 1kIyps-0002Tb-9Y; Thu, 17 Sep 2020 14:40:50 -0400
 Received: from [192.168.100.1] ([82.252.129.222]) by mrelayeu.kundenserver.de
  (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N7iGi-1kVXsm0N6Y-014kpQ; Thu, 17 Sep 2020 20:39:30 +0200
-Subject: Re: [PATCH V3 06/10] linux-user/: fix some comment spelling errors
-To: zhaolichang <zhaolichang@huawei.com>, qemu-trivial@nongnu.org
+ 1MjjKf-1kkZbl1hT1-00lBdi; Thu, 17 Sep 2020 20:40:42 +0200
+Subject: Re: [PATCH V3 08/10] disas/: fix some comment spelling errors
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ zhaolichang <zhaolichang@huawei.com>
 References: <20200917075029.313-1-zhaolichang@huawei.com>
- <20200917075029.313-7-zhaolichang@huawei.com>
+ <20200917075029.313-9-zhaolichang@huawei.com> <871rj0ztbc.fsf@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,35 +68,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <2736342d-21a1-e611-f462-87a497e76a03@vivier.eu>
-Date: Thu, 17 Sep 2020 20:39:29 +0200
+Message-ID: <7bd9cc11-988f-47fc-ce08-2c159c763ea0@vivier.eu>
+Date: Thu, 17 Sep 2020 20:40:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200917075029.313-7-zhaolichang@huawei.com>
+In-Reply-To: <871rj0ztbc.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OpUf0UlFlUhZQy+f9EfQMN3nBfPMtJTASoPK4dvSGlw4gbCrVSL
- gmDHiXxfUbx57Acb2QakI9FLfjCOW6ouHSXP+6KauftETgcIjPAdMRGRFJxzQpRmQQkBuPt
- Ph6rs+ETBZ3TdX4drojzIpsZO0dkJGEccVRQqizlJmcmf1e6ERtmuEe+LYriP1pLct26pw2
- N0KMhEbc71Hi15hhvHxnA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BXRvxzLDuf8=:9oxbtn3rLRbzHPrKU6A5HT
- RewGldrMi0vMHEtJdmrXAOI2yHdzYlDZpAvF6YPCHtTZlUaEcJzZKdNUa1rs76AQFWPXSpheS
- ntMkK9fSQyaNqy1iGlpF2HHB5OvXXBvBQdtDZ4tm809IqkVCLJlrKWbdixVeX+nDF2uqpdqFF
- 4IrWmj5TivEMSlGCsMmTAW1c0WLmDnil4jla8CblfS58RdJgJ7MU0dnkG2rrwtdMcVfWlCIF8
- LePMynEVd2Uz2D7KY8dbmk1ikPM4xM9LQUWbxBtODJJsXi1wEY09TUZ5DEIM0I5+URieNCAeh
- eBgfC1S82mfCMLPsfd4xAEL5nCztAKrjqxMMAJl8s6HS0sZtkY3CxZNbb502qeMTb5vSr0mxC
- 4n95y3f9ojmCUzXOx95OnxEPJm+WCSBSzd8DoN+sD7W5Jzphnxg4PPB3EH6vYDHrVDgvN+o9A
- o+Q1QrGRg5P0Vcn2uSZkYkMTuiNLo4aBiXu9463z2zd2qe5fh7AvYcYqqioHx16mhdeUQXnCl
- 04FYuqKayenvvAmmPYjPBtfLPV0HPt7HP8OaIDt2EtcL31OAYhEeGL3KkW4g+4Q+74tTjP4DS
- eN5hmwLCe8u1XcYTk8mERWPgv6pV+FZ2B0e9f6az1BZjssn8QI0yo60vBJ49qVi2zVlIHcwSa
- W473RUvkL/P9vYhWUg/+j3DqtS22N6IOleJRIveJMvWHwLaF2RY99+d8BjMjf1pnCIzKmPnNO
- swRZm8bT1WclNSp7kZkc5hAuLeHdInZYWLQFR82/HnnYaHoiJ2igNJZKTuGXCcMYMUnPrrFIA
- keOev0vyxZ824gexj0NTybcDrrkji+Yl7wBjmqmiznWphXJnhGpqdQ9lrai00FWeGs9Ruz4
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:cQ3VzOjwpEDPZH07QQT6CfH/PMMpTcrW109AXnccxdUpyDdUdVm
+ 9UicTcsUfU4j2ceTGUPYPO9R1QDeo5BMwGerpW6KJY8UCMAOuifLKJ0jVIgGi61fv/pa6HR
+ zIed5IJmvim33c1BHNHUp2RMU7ap73qwaoANpLk1+CjklXk2Jp3jAoeo1g3Lv+BTPGvN3L2
+ 5b9qm0HZDiNpkMy4IBIZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rbV0DlESwRA=:8/PNG0NBmprYoa0+D49MwG
+ ehqOUFBf9DnQDsD1Ahn7liJ0NMoqEQWpeAUxUeXPFcmTETbTlO1N1yb++xYL9rr7ktC7vEA7T
+ IvueN7kZlN7u5WMHXLBYvGhwg1T7WZfkRnBLdTOd4MWgvY/ftBKfVOaSElOE1peAxm/gBmf3O
+ 0u0S+MU9Xy9sYHdTfwbtpG6GOybMdqhmWJf/5bHPr+tspdmvZb/sj3dAR4zHYmW6Jy9i+reKt
+ sDrDX5e6ggKr/2cLP7y96u55RZ/KbFzWuShXaFx0qwIT9JTwEPr+yJc7Kg15VPjLEAsjwv80c
+ dgOe16qd8Q2Mz4z0SEGhEty4Y/s8KyHhktjL5QnrG1sqc9PHvhdT5hBicdvNhpIJ+mwHVisBJ
+ qoBBfXGLA9+SHyNTs8RYlwNt2ttvXXP+iZA+oXbHl/mnVWsI27xmvjotich5z9QIdu/Lt5J0h
+ /aKjKkG9Ttwnyn0SlZn23JgCYb3HUpcflMcaR+RhH3RqpflVi3ydz+72j7ErJv3dOHIDkgen5
+ uEsokrwAO55+ATO2ont5ibMCfyi2SuiAAIZc75t4nxH5tnWGJXtUC6KGJNudYHUiu5msTrGfI
+ qAlAQFua+0zjqMvEqEk3Vz5QTgyNTr3r+sdUCxEIo1iF4Rb+Lruoq2OTghnJQuI+ZjWp5Fb16
+ NW72lo+dkySbR5G1EOo8vqokNcjujJdTdvv5lf3QI/IecgT84wVDLmxP/jveTDCEvBEcmaBZE
+ LoWBwI9vBv7SqNf5aikp4vqK/tLWfHooH9yBRyNlskyEAuOc4kbM3e/ucmD4T692XTw/zjuRm
+ K/PJ3KJzh0UWat/BJo1QmvksAR+Un80Ry1az0c9vy9X8r0FtsJkP3zMlbnzmRwxY90G6hAo
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 14:39:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 14:36:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -115,136 +116,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Bennee <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/09/2020 à 09:50, zhaolichang a écrit :
-> I found that there are many spelling errors in the comments of qemu,
-> so I used the spellcheck tool to check the spelling errors
-> and finally found some spelling errors in the linux-user folder.
+Le 17/09/2020 à 10:44, Alex Bennée a écrit :
 > 
-> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-> Reviewed-by: Alex Bennee <alex.bennee@linaro.org>
-> ---
->  linux-user/aarch64/signal.c              | 2 +-
->  linux-user/cris/target_syscall.h         | 4 ++--
->  linux-user/flat.h                        | 2 +-
->  linux-user/flatload.c                    | 4 ++--
->  linux-user/host/ppc64/safe-syscall.inc.S | 2 +-
->  linux-user/syscall.c                     | 4 ++--
->  6 files changed, 9 insertions(+), 9 deletions(-)
+> zhaolichang <zhaolichang@huawei.com> writes:
 > 
-> diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-> index cd521ee42d..d50c1ae583 100644
-> --- a/linux-user/aarch64/signal.c
-> +++ b/linux-user/aarch64/signal.c
-> @@ -78,7 +78,7 @@ struct target_sve_context {
->      struct target_aarch64_ctx head;
->      uint16_t vl;
->      uint16_t reserved[3];
-> -    /* The actual SVE data immediately follows.  It is layed out
-> +    /* The actual SVE data immediately follows.  It is laid out
->       * according to TARGET_SVE_SIG_{Z,P}REG_OFFSET, based off of
->       * the original struct pointer.
->       */
-> diff --git a/linux-user/cris/target_syscall.h b/linux-user/cris/target_syscall.h
-> index d109a6b42a..19e1281403 100644
-> --- a/linux-user/cris/target_syscall.h
-> +++ b/linux-user/cris/target_syscall.h
-> @@ -4,7 +4,7 @@
->  #define UNAME_MACHINE "cris"
->  #define UNAME_MINIMUM_RELEASE "2.6.32"
->  
-> -/* pt_regs not only specifices the format in the user-struct during
-> +/* pt_regs not only specifies the format in the user-struct during
->   * ptrace but is also the frame format used in the kernel prologue/epilogues
->   * themselves
->   */
-> @@ -32,7 +32,7 @@ struct target_pt_regs {
->          unsigned long spc;
->          unsigned long ccs;
->          unsigned long srp;
-> -        unsigned long erp; /* This is actually the debugged process' PC */
-> +        unsigned long erp; /* This is actually the debugged process's PC */
->          /* For debugging purposes; saved only when needed. */
->          unsigned long exs;
->          unsigned long eda;
-> diff --git a/linux-user/flat.h b/linux-user/flat.h
-> index 1e44b33443..ed518e2013 100644
-> --- a/linux-user/flat.h
-> +++ b/linux-user/flat.h
-> @@ -43,7 +43,7 @@ struct flat_hdr {
->  	abi_ulong reloc_count;  /* Number of relocation records */
->  	abi_ulong flags;
->  	abi_ulong build_date;   /* When the program/library was built */
-> -	abi_ulong filler[5];    /* Reservered, set to zero */
-> +	abi_ulong filler[5];    /* Reserved, set to zero */
->  };
->  
->  #define FLAT_FLAG_RAM    0x0001 /* load program entirely into RAM */
-> diff --git a/linux-user/flatload.c b/linux-user/flatload.c
-> index 8fb448f0bf..14d2999d15 100644
-> --- a/linux-user/flatload.c
-> +++ b/linux-user/flatload.c
-> @@ -442,7 +442,7 @@ static int load_flat_file(struct linux_binprm * bprm,
->      indx_len = (indx_len + 15) & ~(abi_ulong)15;
->  
->      /*
-> -     * Alloate the address space.
-> +     * Allocate the address space.
->       */
->      probe_guest_base(bprm->filename, 0,
->                       text_len + data_len + extra + indx_len);
-> @@ -794,7 +794,7 @@ int load_flt_binary(struct linux_binprm *bprm, struct image_info *info)
->  #error here
->      for (i = MAX_SHARED_LIBS-1; i>0; i--) {
->              if (libinfo[i].loaded) {
-> -                    /* Push previos first to call address */
-> +                    /* Push previous first to call address */
->                      --sp;
->                      if (put_user_ual(start_addr, sp))
->                          return -EFAULT;
-> diff --git a/linux-user/host/ppc64/safe-syscall.inc.S b/linux-user/host/ppc64/safe-syscall.inc.S
-> index 8ed73a5b86..875133173b 100644
-> --- a/linux-user/host/ppc64/safe-syscall.inc.S
-> +++ b/linux-user/host/ppc64/safe-syscall.inc.S
-> @@ -84,7 +84,7 @@ safe_syscall_end:
->  
->  	/* code path when we didn't execute the syscall */
->  0:	addi	3, 0, -TARGET_ERESTARTSYS
-> -	ld 14, 16(1) /* restore r14 to its orginal value */
-> +	ld 14, 16(1) /* restore r14 to its original value */
->  	blr
->  	.cfi_endproc
->  
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 55ac5c3208..897d20c076 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -481,7 +481,7 @@ _syscall4(int, sys_prlimit64, pid_t, pid, int, resource,
->  
->  
->  #if defined(TARGET_NR_timer_create)
-> -/* Maxiumum of 32 active POSIX timers allowed at any one time. */
-> +/* Maximum of 32 active POSIX timers allowed at any one time. */
->  static timer_t g_posix_timers[32] = { 0, } ;
->  
->  static inline int next_free_host_timer(void)
-> @@ -8180,7 +8180,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->      switch(num) {
->      case TARGET_NR_exit:
->          /* In old applications this may be used to implement _exit(2).
-> -           However in threaded applictions it is used for thread termination,
-> +           However in threaded applications it is used for thread termination,
->             and _exit_group is used for application termination.
->             Do thread termination if we have more then one thread.  */
->  
+>> I found that there are many spelling errors in the comments of qemu,
+>> so I used the spellcheck tool to check the spelling errors
+>> and finally found some spelling errors in the disas folder.
+>>
+>> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 > 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> I suggest on your next posting you CC qemu-trivial@nongnu.org so the
+> patches can get pulled in via the trivial tree.
+
+It was.
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
+> 
+>> ---
+>>  disas/hppa.c | 2 +-
+>>  disas/m68k.c | 8 ++++----
+>>  disas/ppc.c  | 2 +-
+>>  3 files changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/disas/hppa.c b/disas/hppa.c
+>> index 2dbd1fc445..dcf9a47f34 100644
+>> --- a/disas/hppa.c
+>> +++ b/disas/hppa.c
+>> @@ -2021,7 +2021,7 @@ print_insn_hppa (bfd_vma memaddr, disassemble_info *info)
+>>  			fput_fp_reg (GET_FIELD (insn, 6, 10), info);
+>>  		      break;
+>>  
+>> -		      /* 'fA' will not generate a space before the regsiter
+>> +		      /* 'fA' will not generate a space before the register
+>>  			 name.  Normally that is fine.  Except that it
+>>  			 causes problems with xmpyu which has no FP format
+>>  			 completer.  */
+>> diff --git a/disas/m68k.c b/disas/m68k.c
+>> index 863409c67c..aefaecfbd6 100644
+>> --- a/disas/m68k.c
+>> +++ b/disas/m68k.c
+>> @@ -70,7 +70,7 @@ struct floatformat
+>>    unsigned int exp_start;
+>>    unsigned int exp_len;
+>>    /* Bias added to a "true" exponent to form the biased exponent.  It
+>> -     is intentionally signed as, otherwize, -exp_bias can turn into a
+>> +     is intentionally signed as, otherwise, -exp_bias can turn into a
+>>       very large number (e.g., given the exp_bias of 0x3fff and a 64
+>>       bit long, the equation (long)(1 - exp_bias) evaluates to
+>>       4294950914) instead of -16382).  */
+>> @@ -479,7 +479,7 @@ struct m68k_opcode_alias
+>>        and remaining 3 bits of register shifted 9 bits in first word.
+>>        Indicate upper/lower in 1 bit shifted 7 bits in second word.
+>>        Use with `R' or `u' format.
+>> -   n  `m' withouth upper/lower indication. (For M[S]ACx; 4 bits split
+>> +   n  `m' without upper/lower indication. (For M[S]ACx; 4 bits split
+>>        with MSB shifted 6 bits in first word and remaining 3 bits of
+>>        register shifted 9 bits in first word.  No upper/lower
+>>        indication is done.)  Use with `R' or `u' format.
+>> @@ -854,7 +854,7 @@ fetch_arg (unsigned char *buffer,
+>>  
+>>  /* Check if an EA is valid for a particular code.  This is required
+>>     for the EMAC instructions since the type of source address determines
+>> -   if it is a EMAC-load instruciton if the EA is mode 2-5, otherwise it
+>> +   if it is a EMAC-load instruction if the EA is mode 2-5, otherwise it
+>>     is a non-load EMAC instruction and the bits mean register Ry.
+>>     A similar case exists for the movem instructions where the register
+>>     mask is interpreted differently for different EAs.  */
+>> @@ -1080,7 +1080,7 @@ print_indexed (int basereg,
+>>  
+>>  /* Returns number of bytes "eaten" by the operand, or
+>>     return -1 if an invalid operand was found, or -2 if
+>> -   an opcode tabe error was found.
+>> +   an opcode table error was found.
+>>     ADDR is the pc for this arg to be relative to.  */
+>>  
+>>  static int
+>> diff --git a/disas/ppc.c b/disas/ppc.c
+>> index 63e97cfe1d..02be878198 100644
+>> --- a/disas/ppc.c
+>> +++ b/disas/ppc.c
+>> @@ -5226,7 +5226,7 @@ operand_value_powerpc (const struct powerpc_operand *operand,
+>>        if ((operand->flags & PPC_OPERAND_SIGNED) != 0)
+>>  	{
+>>  	  /* BITM is always some number of zeros followed by some
+>> -	     number of ones, followed by some numer of zeros.  */
+>> +	     number of ones, followed by some number of zeros.  */
+>>  	  unsigned long top = operand->bitm;
+>>  	  /* top & -top gives the rightmost 1 bit, so this
+>>  	     fills in any trailing zeros.  */
+> 
+> 
 
 
