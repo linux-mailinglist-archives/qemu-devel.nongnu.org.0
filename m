@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5898B26D187
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:26:19 +0200 (CEST)
-Received: from localhost ([::1]:56236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8104526D19D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:28:41 +0200 (CEST)
+Received: from localhost ([::1]:37416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIkYs-0002FS-7F
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
+	id 1kIkbA-0006Mx-I9
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUP-0004zU-9w; Wed, 16 Sep 2020 23:21:41 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4748 helo=huawei.com)
+ id 1kIkUU-0005C4-82; Wed, 16 Sep 2020 23:21:46 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4703 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUM-0004RS-J7; Wed, 16 Sep 2020 23:21:40 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id F287774951387E5CE419;
- Thu, 17 Sep 2020 11:21:13 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:21:04 +0800
+ id 1kIkUM-0004Rb-Nb; Wed, 16 Sep 2020 23:21:45 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id A07A7DF9F29F525B468D;
+ Thu, 17 Sep 2020 11:21:15 +0800 (CST)
+Received: from localhost (10.174.185.104) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:21:05 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 09/12] target/arm/cpu: Add CPU cache description for arm
-Date: Thu, 17 Sep 2020 11:20:30 +0800
-Message-ID: <20200917032033.2020-10-fangying1@huawei.com>
+Subject: [RFC PATCH 10/12] hw/arm/virt: add fdt cache information
+Date: Thu, 17 Sep 2020 11:20:31 +0800
+Message-ID: <20200917032033.2020-11-fangying1@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20200917032033.2020-1-fangying1@huawei.com>
 References: <20200917032033.2020-1-fangying1@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.104]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:21:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:53
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -65,128 +65,129 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the CPUCacheInfo structure to hold CPU cache information for ARM cpus.
-A classic three level cache topology is used here. The default cache
-capacity is given and userspace can overwrite these values.
+Support devicetree CPU cache information descriptions
 
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- target/arm/cpu.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- target/arm/cpu.h | 27 +++++++++++++++++++++++++++
- 2 files changed, 69 insertions(+)
+ hw/arm/virt.c | 91 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index c179e0752d..efa8e1974a 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -27,6 +27,7 @@
- #include "qapi/visitor.h"
- #include "cpu.h"
- #include "internals.h"
-+#include "qemu/units.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
-@@ -998,6 +999,45 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
-     return (Aff1 << ARM_AFF1_SHIFT) | Aff0;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 71f7dbb317..74b748ae35 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -343,6 +343,89 @@ static void fdt_add_timer_nodes(const VirtMachineState *vms)
+                        GIC_FDT_IRQ_TYPE_PPI, ARCH_TIMER_NS_EL2_IRQ, irqflags);
  }
  
-+static CPUCaches default_cache_info = {
-+    .l1d_cache = &(CPUCacheInfo) {
-+    .type = DATA_CACHE,
-+        .level = 1,
-+        .size = 64 * KiB,
-+        .line_size = 64,
-+        .associativity = 4,
-+        .sets = 256,
-+        .attributes = 0x02,
-+    },
-+    .l1i_cache = &(CPUCacheInfo) {
-+        .type = INSTRUCTION_CACHE,
-+        .level = 1,
-+        .size = 64 * KiB,
-+        .line_size = 64,
-+        .associativity = 4,
-+        .sets = 256,
-+        .attributes = 0x04,
-+    },
-+    .l2_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 2,
-+        .size = 512 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .sets = 1024,
-+        .attributes = 0x0a,
-+    },
-+    .l3_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 3,
-+        .size = 65536 * KiB,
-+        .line_size = 64,
-+        .associativity = 15,
-+        .sets = 2048,
-+        .attributes = 0x0a,
-+    },
-+};
++static void fdt_add_l3cache_nodes(const VirtMachineState *vms)
++{
++    int i;
++    const MachineState *ms = MACHINE(vms);
++    ARMCPU *cpu = ARM_CPU(first_cpu);
++    unsigned int smp_cores = ms->smp.cores;
++    unsigned int sockets = ms->smp.max_cpus / smp_cores;
 +
- static void cpreg_hashtable_data_destroy(gpointer data)
++    for (i = 0; i < sockets; i++) {
++        char *nodename = g_strdup_printf("/cpus/l3-cache%d", i);
++        qemu_fdt_add_subnode(vms->fdt, nodename);
++        qemu_fdt_setprop_string(vms->fdt, nodename, "compatible", "cache");
++        qemu_fdt_setprop_string(vms->fdt, nodename, "cache-unified", "true");
++        qemu_fdt_setprop_cell(vms->fdt, nodename, "cache-level", 3);
++        qemu_fdt_setprop_cell(vms->fdt, nodename, "cache-size",
++                              cpu->caches.l3_cache->size);
++        qemu_fdt_setprop_cell(vms->fdt, nodename, "cache-line-size",
++                              cpu->caches.l3_cache->line_size);
++        qemu_fdt_setprop_cell(vms->fdt, nodename, "cache-sets",
++                              cpu->caches.l3_cache->sets);
++        qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle",
++                              qemu_fdt_alloc_phandle(vms->fdt));
++        g_free(nodename);
++    }
++}
++
++static void fdt_add_l2cache_nodes(const VirtMachineState *vms)
++{
++    int i, j;
++    const MachineState *ms = MACHINE(vms);
++    unsigned int smp_cores = ms->smp.cores;
++    signed int sockets = ms->smp.max_cpus / smp_cores;
++    ARMCPU *cpu = ARM_CPU(first_cpu);
++
++    for (i = 0; i < sockets; i++) {
++        char *next_path = g_strdup_printf("/cpus/l3-cache%d", i);
++        for (j = 0; j < smp_cores; j++) {
++            char *nodename = g_strdup_printf("/cpus/l2-cache%d",
++                                  i * smp_cores + j);
++            qemu_fdt_add_subnode(vms->fdt, nodename);
++            qemu_fdt_setprop_string(vms->fdt, nodename, "compatible", "cache");
++            qemu_fdt_setprop_cell(vms->fdt, nodename, "cache-size",
++                                  cpu->caches.l2_cache->size);
++            qemu_fdt_setprop_cell(vms->fdt, nodename, "cache-line-size",
++                                  cpu->caches.l2_cache->line_size);
++            qemu_fdt_setprop_cell(vms->fdt, nodename, "cache-sets",
++                                  cpu->caches.l2_cache->sets);
++            qemu_fdt_setprop_phandle(vms->fdt, nodename,
++                                  "next-level-cache", next_path);
++            qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle",
++                                  qemu_fdt_alloc_phandle(vms->fdt));
++            g_free(nodename);
++        }
++        g_free(next_path);
++    }
++}
++
++static void fdt_add_l1cache_prop(const VirtMachineState *vms,
++                            char *nodename, int cpu_index)
++{
++
++    ARMCPU *cpu = ARM_CPU(qemu_get_cpu(cpu_index));
++    CPUCaches caches = cpu->caches;
++
++    char *cachename = g_strdup_printf("/cpus/l2-cache%d", cpu_index);
++
++    qemu_fdt_setprop_cell(vms->fdt, nodename, "d-cache-size",
++                          caches.l1d_cache->size);
++    qemu_fdt_setprop_cell(vms->fdt, nodename, "d-cache-line-size",
++                          caches.l1d_cache->line_size);
++    qemu_fdt_setprop_cell(vms->fdt, nodename, "d-cache-sets",
++                          caches.l1d_cache->sets);
++    qemu_fdt_setprop_cell(vms->fdt, nodename, "i-cache-size",
++                          caches.l1i_cache->size);
++    qemu_fdt_setprop_cell(vms->fdt, nodename, "i-cache-line-size",
++                          caches.l1i_cache->line_size);
++    qemu_fdt_setprop_cell(vms->fdt, nodename, "i-cache-sets",
++                          caches.l1i_cache->sets);
++    qemu_fdt_setprop_phandle(vms->fdt, nodename, "next-level-cache",
++                          cachename);
++    g_free(cachename);
++}
++
+ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
  {
-     /*
-@@ -1835,6 +1875,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+     int cpu;
+@@ -378,6 +461,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+     qemu_fdt_setprop_cell(vms->fdt, "/cpus", "#address-cells", addr_cells);
+     qemu_fdt_setprop_cell(vms->fdt, "/cpus", "#size-cells", 0x0);
+ 
++    if (cpu_topology_enabled) {
++        fdt_add_l3cache_nodes(vms);
++        fdt_add_l2cache_nodes(vms);
++    }
++
+     for (cpu = vms->smp_cpus - 1; cpu >= 0; cpu--) {
+         char *nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
+@@ -407,6 +495,9 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+                 ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
          }
-     }
  
-+    cpu->caches = default_cache_info;
-+
-     qemu_init_vcpu(cs);
-     cpu_reset(cs);
++        if (cpu_topology_enabled) {
++            fdt_add_l1cache_prop(vms, nodename, cpu);
++        }
+         qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle",
+                               qemu_fdt_alloc_phandle(vms->fdt));
  
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a1c7d8ebae..e9e3817e20 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -745,6 +745,30 @@ typedef enum ARMPSCIState {
- 
- typedef struct ARMISARegisters ARMISARegisters;
- 
-+/* Cache information type */
-+enum CacheType {
-+    DATA_CACHE,
-+    INSTRUCTION_CACHE,
-+    UNIFIED_CACHE
-+};
-+
-+typedef struct CPUCacheInfo {
-+    enum CacheType type;      /* Cache Type*/
-+    uint8_t level;
-+    uint32_t size;            /* Size in bytes */
-+    uint16_t line_size;       /* Line size in bytes */
-+    uint8_t associativity;    /* Cache associativity */
-+    uint32_t sets;            /* Number of sets */
-+    uint8_t attributes;       /* Cache attributest  */
-+} CPUCacheInfo;
-+
-+typedef struct CPUCaches {
-+        CPUCacheInfo *l1d_cache;
-+        CPUCacheInfo *l1i_cache;
-+        CPUCacheInfo *l2_cache;
-+        CPUCacheInfo *l3_cache;
-+} CPUCaches;
-+
- /**
-  * ARMCPU:
-  * @env: #CPUARMState
-@@ -986,6 +1010,9 @@ struct ARMCPU {
- 
-     /* Generic timer counter frequency, in Hz */
-     uint64_t gt_cntfrq_hz;
-+
-+    /* CPU cache information */
-+    CPUCaches caches;
- };
- 
- unsigned int gt_cntfrq_period_ns(ARMCPU *cpu);
 -- 
 2.23.0
 
