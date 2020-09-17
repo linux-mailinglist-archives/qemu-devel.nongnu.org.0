@@ -2,112 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C519526E2C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:46:08 +0200 (CEST)
-Received: from localhost ([::1]:37570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D2B26E2D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:48:17 +0200 (CEST)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIxyx-0001SQ-EV
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:46:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44294)
+	id 1kIy12-0003Wl-Rt
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kIxx8-0000XB-H6; Thu, 17 Sep 2020 13:44:14 -0400
-Received: from mail-eopbgr50111.outbound.protection.outlook.com
- ([40.107.5.111]:40967 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kIxx5-00031m-HW; Thu, 17 Sep 2020 13:44:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B0dVs4x1JsHYiESZjY6uVFW6k1+bxxcxMuVMj8C2X8S3FQ7PlFKanyK0meDZldQeWbdEKAuF0XRJq1SLA1bVlnWt0SHbZqZl9ARzrP5oWIKt+7OOFLyEbiz1kDdVzTamWyHDHbBK0sFbjbSmG8/zuTCHsTyz2+kcczd+RTmX5EZaWDeGcBlM/fUyPrESbAhmeTqCae0+KLJRehpGC61Ipfcc6O6pU3WL6nJFyu+QrflPE3dV7vHp1DK8YdSkhPeeZc1yEe4rq9jROslG9M1icR1Ut9OgJbBrP2A7ey+rZUsJezgLcLvoR2Gjo3IXzgK8ecIwVMTLoqK1klZIvqsxxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kIoTNMPdIXEP0r/LPxyxr1peL9JaQWB0nMretqCu0Ww=;
- b=HXHwfC0PDloBBtYCtnxp9TwG2tolnU7TSKdE0KxTmPIoEuG81A1FQ/wgoTCcEb96LBY6/3apAFo/4F6WwXGhH7XQZZwzlCKt91HFBNn8418zmlk04qH/eCRS/ktcv+ZGNqQns59o6mtmpfS8HLJwnZj+Y2BBok6RPMbtruqYsXqmcht5TlqW/nAfjCntiC4ZT1eu6Q8hI1D5yNSZqyKY3F0hENKFpYIaqb/4gUiAOw8q5yL9UrNmq5PFGy3eBPSRm39/4Mz0LaqLtR07z5E/y8edycaLRG8UaelIPcjyzYW6df/L1T6U5FbvwQo2OaJZgB4XlZNLKSrKYblmg9/c9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kIoTNMPdIXEP0r/LPxyxr1peL9JaQWB0nMretqCu0Ww=;
- b=sMMOC8QbCpb1WzK4wFGF8JWNoaYPOgamaO1VOi4ReffHVOSfceOtqi9gIdnEpf52tmx32PDNW4QX3BDkcNfsAci9b2HxdYMWNzrGN5yjUcYjJqU4E5/NrnR7WRGU0UTOOsoezMcEINjxnespSv+/Y5U7IJ7NzD48qKR9Y4FvSeg=
-Authentication-Results: kaod.org; dkim=none (message not signed)
- header.d=none;kaod.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13; Thu, 17 Sep
- 2020 17:44:07 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Thu, 17 Sep 2020
- 17:44:06 +0000
-Subject: Re: [PATCH 13/14] block/qcow2: qcow2_do_open: deal with errp
-To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- jsnow@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- pavel.dovgaluk@ispras.ru, ari@tuxera.com, mreitz@redhat.com,
- kwolf@redhat.com, groug@kaod.org
-References: <20200909185930.26524-1-vsementsov@virtuozzo.com>
- <20200909185930.26524-14-vsementsov@virtuozzo.com>
- <w517dsspe3e.fsf@maestria.local.igalia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <2c3af56c-e894-b677-3a5a-1111e04dedd9@virtuozzo.com>
-Date: Thu, 17 Sep 2020 20:44:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
-In-Reply-To: <w517dsspe3e.fsf@maestria.local.igalia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM3PR05CA0137.eurprd05.prod.outlook.com
- (2603:10a6:207:3::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kIxxQ-0000uF-RZ
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:44:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kIxxP-00037y-2O
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:44:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600364670;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/yqIInjnTal9RXjvDBvExWKgy52J0VRy7RBX+TE8S7A=;
+ b=aCQYz62Zs7fbRqQXa57ekZXlDcPXSIkDeXqxI6CQeEkW1J094o5Z8a6qgsCo5lWWC8Uc4y
+ 6hHwxH0mipQU8E1ymgEyYoVqT+Ga6RIlsBWgNT52+8m+VrLiEyi/MY1fHQJ8G/hh9G4Pi5
+ Ks/2ev5Ib9FC3PO+7vCnv/KJRUElW/g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-281-A0C3sWcCNFudyKkEB7s4vw-1; Thu, 17 Sep 2020 13:44:27 -0400
+X-MC-Unique: A0C3sWcCNFudyKkEB7s4vw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B2E9100CAB8;
+ Thu, 17 Sep 2020 17:44:26 +0000 (UTC)
+Received: from work-vm (ovpn-114-108.ams2.redhat.com [10.36.114.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11C5560C57;
+ Thu, 17 Sep 2020 17:44:12 +0000 (UTC)
+Date: Thu, 17 Sep 2020 18:44:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH] target/i386: always create kvmclock device
+Message-ID: <20200917174410.GU2793@work-vm>
+References: <20200917111306.819263-1-vkuznets@redhat.com>
+ <20200917122559.e7i5o64k7rw7urdh@tartarus>
+ <87ft7gh6gy.fsf@vitty.brq.redhat.com>
+ <20200917144237.GK2793@work-vm>
+ <875z8ch2m6.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.75) by
- AM3PR05CA0137.eurprd05.prod.outlook.com (2603:10a6:207:3::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.15 via Frontend Transport; Thu, 17 Sep 2020 17:44:05 +0000
-X-Originating-IP: [185.215.60.75]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 902910ae-73e4-4f74-4291-08d85b31464b
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB544860DEEDA026E1C48A3B42C13E0@AM7PR08MB5448.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:195;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TaTVxFihMuHNN4lhZxYfV8MqE+EaeGtoV/EnBOOEFmhz93EZo/PZ7TkNUburgYdF+nwoz1gu+Zpf30Jgtv0j4dRRtzzwL0z8vegm/9fsHPqK5u45jI7YcSdbH3l2fUnCTRM84MNdYghCjoJJEfROGw9w3e55FE5v1KX6nGQlPa5ELAH5JoUVVl0GSMKNtVHve5DbiiaomDEbxF/FEL7HW7G7j7NJtKrI78TTZ2pXBBLb5q7xRaAKwWNx13b09zy+mJzQFPCeiVYajR4STsNmjX+Y6WQpgg6xTIHzk9+2ZL9IOus5BjRhiQui/omf9gie178jSR3+7++wuNeUrC3jNTDAK34h1FhtwoHlSfYaV//EzL2r6NVP38Gn0zgs/7AS
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(39840400004)(136003)(346002)(376002)(7416002)(2906002)(66476007)(4326008)(66946007)(31686004)(6486002)(31696002)(66556008)(83380400001)(86362001)(8676002)(5660300002)(52116002)(956004)(16526019)(186003)(316002)(26005)(36756003)(2616005)(8936002)(478600001)(16576012)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: VMzDWML6mbzlOcQvVX4H5Ri9YLhuiTFfxXMTWqX8Q4Tn9+Xw0zX5HwRBVQ9BKssG7ACDRFqzFDk9xxla7nEJd8pa38oUqVOmkLTNiK8M79mBeevVfBg13xyI0cwluFkUYdquF4S5812yFgYpe/esEyD4YeNEIVsMwqemaKVfZ9UoCXgrVgcoW91+Mx83Q9AU6cxSYxxaM7fW+qrg12AzczSzj7A5+EGKMHLL1nECJFiV+lIot2M9Zy8SKeciAMXBOqOsp0tLzKjc8FmeOZkhQhDJ8GYEGpa9DF9GJ6Ca9XZyQyJwidlXJG4CGlhE5BWJKrx3zwFoAVrZWfYKbIbPBI3Cnt4gNBx3dxHzCCOar84aGY8+KNKDcSkJjN5mYRvrIw1EFJVktOQGF+R4LCJRDpk1g+UfzfQFWADUa/h4AsIHB4fpyi4RDAOKXHmMR4shocf/eyL83GUzJcVhfVTk8NdeeZc6f+pJltIj2qwxZGEqLTxBUOXr8GwwW3zXfFtICugywIr+bAYSm/e8zNLa9G7alipKlv1HJQ2y6oMFvARj6BBMl8zJfu/5w+gC/qSuDBVVXGWjTPhuA9g6aojZcKUGzTdZkZecSNOuUdEG5woXNi9jiDbM+3GrtXMrtP4oI5MPa9svp08CQvYhr8hEVA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 902910ae-73e4-4f74-4291-08d85b31464b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 17:44:06.6127 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YizHYcQNsXlIfpFWodgeSK2k+dNWJ3pnD98uapnS5+Ic4oJ+9QhaDNvg+tF8ZBM7st46kXMZ12SSaNdc0JGDZ/3nVi5MAtmLOj1x9gc8HH0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
-Received-SPF: pass client-ip=40.107.5.111;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 13:44:08
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <875z8ch2m6.fsf@vitty.brq.redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,72 +84,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Antoine Damhet <antoine.damhet@blade-group.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.09.2020 19:23, Alberto Garcia wrote:
-> On Wed 09 Sep 2020 08:59:29 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
->> 1. Drop extra error propagation
->>
->> 2. Set errp always on failure. Generic bdrv_open_driver supports driver
->> functions which can return negative value and forget to set errp.
->> That's a strange thing.. Let's improve qcow2_do_open to not behave this
->> way. This allows to simplify code in qcow2_co_invalidate_cache().
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/qcow2.c | 16 +++++++---------
->>   1 file changed, 7 insertions(+), 9 deletions(-)
->>
->> diff --git a/block/qcow2.c b/block/qcow2.c
->> index 31dd28d19e..cc4e7dd461 100644
->> --- a/block/qcow2.c
->> +++ b/block/qcow2.c
->> @@ -1292,6 +1292,7 @@ static int validate_compression_type(BDRVQcow2State *s, Error **errp)
->>   static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
->>                                         int flags, Error **errp)
->>   {
->> +    ERRP_GUARD();
+* Vitaly Kuznetsov (vkuznets@redhat.com) wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 > 
-> Why is this necessary?
-
-Because error_append_hint() used in the function. Without ERRP_GUARD, error_append_hint won't work if errp = &error_fatal
-Read more in include/qapi/error.h near ERRP_GUARD definition.
-
-But yes, it's good to not it in commit message.
-
+> > * Vitaly Kuznetsov (vkuznets@redhat.com) wrote:
+> >> Antoine Damhet <antoine.damhet@blade-group.com> writes:
+> >> 
+> >> > On Thu, Sep 17, 2020 at 01:13:06PM +0200, Vitaly Kuznetsov wrote:
+> >> >> QEMU's kvmclock device is only created when KVM PV feature bits for
+> >> >> kvmclock (KVM_FEATURE_CLOCKSOURCE/KVM_FEATURE_CLOCKSOURCE2) are
+> >> >> exposed to the guest. With 'kvm=off' cpu flag the device is not
+> >> >> created and we don't call KVM_GET_CLOCK/KVM_SET_CLOCK upon migration.
+> >> >> It was reported that without these call at least Hyper-V TSC page
+> >> >> clocksouce (which can be enabled independently) gets broken after
+> >> >> migration.
+> >> >> 
+> >> >> Switch to creating kvmclock QEMU device unconditionally, it seems
+> >> >> to always make sense to call KVM_GET_CLOCK/KVM_SET_CLOCK on migration.
+> >> >> Use KVM_CAP_ADJUST_CLOCK check instead of CPUID feature bits.
+> >> >> 
+> >> >> Reported-by: Antoine Damhet <antoine.damhet@blade-group.com>
+> >> >> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> >> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> >> >> ---
+> >> >>  hw/i386/kvm/clock.c    | 6 +-----
+> >> >>  target/i386/kvm.c      | 5 +++++
+> >> >>  target/i386/kvm_i386.h | 1 +
+> >> >>  3 files changed, 7 insertions(+), 5 deletions(-)
+> >> >> 
+> >> >> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+> >> >> index 64283358f91d..526c9ea5172b 100644
+> >> >> --- a/hw/i386/kvm/clock.c
+> >> >> +++ b/hw/i386/kvm/clock.c
+> >> >> @@ -330,11 +330,7 @@ static const TypeInfo kvmclock_info = {
+> >> >>  /* Note: Must be called after VCPU initialization. */
+> >> >>  void kvmclock_create(void)
+> >> >>  {
+> >> >> -    X86CPU *cpu = X86_CPU(first_cpu);
+> >> >> -
+> >> >> -    if (kvm_enabled() &&
+> >> >> -        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
+> >> >> -                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2))) {
+> >> >> +    if (kvm_enabled() && kvm_has_adjust_clock()) {
+> >> >
+> >> > Shouldn't the old check used when machine type <= 5.1 in order to avoid
+> >> > migration incompatibility ?
+> >> 
+> >> Hm, when the check fails we just don't create the device and no error is
+> >> reported, so even if we have kvmclock data in the migration stream but
+> >> fail to create it migration will still succeed, right? (not a migration
+> >> expert here :-)
+> >
+> > When the migration stream is parsed, it'll try and find a "kvmclock"
+> > device to pass the data it's reading to; if one doesn't exist it'll
+> > fail.
 > 
->>       BDRVQcow2State *s = bs->opaque;
->>       unsigned int len, i;
->>       int ret = 0;
->> @@ -1426,6 +1427,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
->>           report_unsupported_feature(errp, feature_table,
->>                                      s->incompatible_features &
->>                                      ~QCOW2_INCOMPAT_MASK);
->> +        error_setg(errp,
->> +                   "qcow2 header contains unknown
->>       incompatible_feature bits");
+> This may happen with an older machine type when the destination is
+> running an unfixed QEMU and the source has the fix, right?
+
+Yes I think so.
+
+> The solution
+> would be to introduce a flag for older machine types (or for new ones)
+> like 'kvmclock_always'.
+
+Yep sounds the normal answer.
+(You might want to try it first to trigger the bug)
+
+> > The other question is in the incoming direction from an older VM;
+> > you'll have a kvm clock created here, but you won't load the kvm clock
+> > state from the migration stream - what is this clock going to do?
 > 
-> I think that this is a mistake because the previous call to
-> report_unsupported_feature() already calls error_setg();
+> This is not really a problem I believe: the clock was absent on the
+> source and things somehow worked for the guest so even if we don't
+> initialize kvmclock properly on the destination nothing bad is expected.
 
-Oops, you are right.
+OK.
 
+Dave
+
+> >
+> > Dave
+> >
+> >> >
+> >> >>          sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
+> >> >>      }
+> >> >>  }
+> >> >> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> >> >> index 4a8b3a41c1bc..20b31b65307b 100644
+> >> >> --- a/target/i386/kvm.c
+> >> >> +++ b/target/i386/kvm.c
+> >> >> @@ -143,6 +143,11 @@ bool kvm_has_adjust_clock_stable(void)
+> >> >>      return (ret == KVM_CLOCK_TSC_STABLE);
+> >> >>  }
+> >> >>  
+> >> >> +bool kvm_has_adjust_clock(void)
+> >> >> +{
+> >> >> +    return kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
+> >> >> +}
+> >> >> +
+> >> >>  bool kvm_has_exception_payload(void)
+> >> >>  {
+> >> >>      return has_exception_payload;
+> >> >> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+> >> >> index 064b8798a26c..0fce4e51d2d6 100644
+> >> >> --- a/target/i386/kvm_i386.h
+> >> >> +++ b/target/i386/kvm_i386.h
+> >> >> @@ -34,6 +34,7 @@
+> >> >>  
+> >> >>  bool kvm_allows_irq0_override(void);
+> >> >>  bool kvm_has_smm(void);
+> >> >> +bool kvm_has_adjust_clock(void);
+> >> >>  bool kvm_has_adjust_clock_stable(void);
+> >> >>  bool kvm_has_exception_payload(void);
+> >> >>  void kvm_synchronize_all_tsc(void);
+> >> >> -- 
+> >> >> 2.25.4
+> >> >> 
+> >> >> 
+> >> 
+> >> -- 
+> >> Vitaly
+> >> 
 > 
->> @@ -2709,11 +2712,11 @@ static void qcow2_close(BlockDriverState *bs)
->>   static void coroutine_fn qcow2_co_invalidate_cache(BlockDriverState *bs,
->>                                                      Error **errp)
->>   {
->> +    ERRP_GUARD();
+> -- 
+> Vitaly
 > 
-> Again, why is this necessary?
-> 
-
-Because it uses error_prepend() after conversion (same reason as for error_append_hint()).
-
-Thanks for review! I'll post v2 soon.
-
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
