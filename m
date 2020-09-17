@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB4126E0D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:36:29 +0200 (CEST)
-Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B51226E0E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:38:26 +0200 (CEST)
+Received: from localhost ([::1]:52252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwtY-0004uT-1x
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:36:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52538)
+	id 1kIwvR-0007Gn-LT
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwog-0000Zj-C9
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48034)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwon-0000ef-Hz
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47135
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwoe-0000w0-F8
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kIwoi-0000wD-HL
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:31:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600360283;
+ s=mimecast20190719; t=1600360287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZF+OqmqmstlUkr/dM0RnSgA94FV+mHcH3wKBsCU4Fw8=;
- b=er/2k1JFAwfgKuKgKh0SFoyDO0lz8vUkjnNV6v9T+6bUBpO/dlFtz0vgGDQmH7sTWthgE/
- hQz8gzByWIY3dsXoHGzXCvCmSUq2CNV5c/LqOghhAgWrsV2cIsRzEroYIdrG6q3gML9B/r
- iPLmbfXheZl5GQc2Ny4pOIeSprcnJlw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-74xmJuILPaO6uvovxDHoPw-1; Thu, 17 Sep 2020 12:31:19 -0400
-X-MC-Unique: 74xmJuILPaO6uvovxDHoPw-1
-Received: by mail-wr1-f69.google.com with SMTP id x15so1083632wrm.7
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:31:19 -0700 (PDT)
+ bh=6ZmkCbrQPhSlo4AKl7/h3xZk9pphOh2PK1eFykfuhSU=;
+ b=ASeobSNEYMPjAa0/wUEcMUB2FYIqjfn+RDOlKR0eUZgPj1z756PATQEtHncXkM07NdTfoF
+ EuipU2UpSXfj6uEtrzA1m81qLDtVEaNxqjjKjO3KHFHEhpTffBH42Eb+9V2s8XOlgRenvE
+ Fw9d9BD6tlK5lPCdlTXtZA6iWHgbtx4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-aeB4kjj1OCaVURN_tsjCjw-1; Thu, 17 Sep 2020 12:31:24 -0400
+X-MC-Unique: aeB4kjj1OCaVURN_tsjCjw-1
+Received: by mail-wr1-f70.google.com with SMTP id a10so1075880wrw.22
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:31:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZF+OqmqmstlUkr/dM0RnSgA94FV+mHcH3wKBsCU4Fw8=;
- b=VLoZszw2vSoQanWERcQDtbPtv40vmrVfTeC8xMtpPPr67U7zBlbu2Em2lc+9JRYRw8
- sFmxBHkP3Fg41SsRoL7CfRVUgKxZue5ZSyVorE0ehH5KvuMrP3y2JJXa4XcL0sgVuFbw
- F7Io1gsxsujHPpWmcFAzLOSuBj6ZHGvCKxXgSGYXbI/sQFmGwLJ3Ik1TQtzVDjYr9nr5
- 2xt6bwJC12bsbov3IOH1V2l2D1fMIhB0SsngyM7RNsyLZW8O61x+EzGy0s0agsK0hoJ8
- Mp/cHYUVaK59zpo1rGaJAR4KHmugfxTZNNQuADskHwXTeyhPJ4YzhZzXam7GTPVqUYMb
- TDTg==
-X-Gm-Message-State: AOAM530TGgLFewzChEqPYZHNm2NvU2Sote6LKJv9w9su6GFhQ5DQqjBc
- WeOM/3MkQSfJZt7hhDTFSERZnVQN0RiwwbMBxK0ZQLaUyx3RCKvLaWZfrW3nsxoKoqTY8Oyo4dB
- jceVaRfNE1i7hBl8=
-X-Received: by 2002:a5d:49d2:: with SMTP id t18mr31185233wrs.99.1600360278145; 
- Thu, 17 Sep 2020 09:31:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJk4OJfAAHKtjRC2q3Vdz8KiSyHcc881TPifcw7kwFeh6Gzk4LBfKN0go9mvWayUx4Ka9MpA==
-X-Received: by 2002:a5d:49d2:: with SMTP id t18mr31185212wrs.99.1600360277883; 
- Thu, 17 Sep 2020 09:31:17 -0700 (PDT)
+ bh=6ZmkCbrQPhSlo4AKl7/h3xZk9pphOh2PK1eFykfuhSU=;
+ b=S+jgpwdI38eMyg3eOXKJM274tssTJ8mEmEFa7gYSOQ9Agsr2ZTdmg+XwIxSxAbPprK
+ PF8W2GcP0kq7IBIGXf88QjJ8SY2u7Vj1uk83TqDyOBeXwb1UHm24rS3i39/LMJJwcfzF
+ JuTaW0Sovo/OjZNnDWWM1qj1+75a2EXXmKwVJZucOtBVSlY0/v9PfL6tpSYAB9hZKdqf
+ kUhNRo/8uScW+sHByfUo3hugDiG4wwhwSRpP7Sk9U8Ao+yrJxvtA0/jvNGPJ83WwDqR7
+ yoFMx5CucnZ+clNKwTtHnCUGVSHNut1i9acoF+/bqv57WLnS8B7sL+bJu7il7M4BsoZu
+ cJSg==
+X-Gm-Message-State: AOAM533GHmEan68wISmaAlmRzHdoHwqHivXPpLkU+FMWi0dXyVnv0XO6
+ WVbZM4hexkm0U5FA/DnPc7t1/yCf7hnTspXyLw4YxDYmM4tnPzDlo2yi2T6mrFEq/Hp4Ku2HzrG
+ UX6hahF7ur4P+WoY=
+X-Received: by 2002:a5d:4710:: with SMTP id y16mr34235502wrq.203.1600360282852; 
+ Thu, 17 Sep 2020 09:31:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwapxxBJVC5uenbUEU+ecvr+hoB+fQfG/HnlNuPjZ/ihRa69d9gvA21veTVXB0QNXjsmzqkwg==
+X-Received: by 2002:a5d:4710:: with SMTP id y16mr34235487wrq.203.1600360282668; 
+ Thu, 17 Sep 2020 09:31:22 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id i26sm75223wmb.17.2020.09.17.09.31.16
+ by smtp.gmail.com with ESMTPSA id s80sm38921wme.41.2020.09.17.09.31.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 09:31:17 -0700 (PDT)
+ Thu, 17 Sep 2020 09:31:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] qemu/bswap: add const_be16() and const_be32()
-Date: Thu, 17 Sep 2020 18:31:04 +0200
-Message-Id: <20200917163106.49351-3-philmd@redhat.com>
+Subject: [PATCH 3/4] qemu/bswap: Add const_le64() and const_be64()
+Date: Thu, 17 Sep 2020 18:31:05 +0200
+Message-Id: <20200917163106.49351-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200917163106.49351-1-philmd@redhat.com>
 References: <20200917163106.49351-1-philmd@redhat.com>
@@ -73,17 +74,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 09:24:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,49 +105,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We already have the const_le() macros for little endian.
-Implement the big-endian equivalent.
+We already have the const_endian() macros for 16-bit and
+32-bit values. Implement the 64-bit equivalent macros.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/qemu/bswap.h | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ include/qemu/bswap.h | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index c3b4277342b..6885984e00c 100644
+index 6885984e00c..de256cea3ab 100644
 --- a/include/qemu/bswap.h
 +++ b/include/qemu/bswap.h
-@@ -83,7 +83,7 @@ static inline void bswap64s(uint64_t *s)
+@@ -83,11 +83,20 @@ static inline void bswap64s(uint64_t *s)
  #endif
  
  /*
-- * Same as cpu_to_le{16,32} described below, except that gcc will
-+ * Same as cpu_to_{be,le}{16,32} described below, except that gcc will
+- * Same as cpu_to_{be,le}{16,32} described below, except that gcc will
++ * Same as cpu_to_{be,le}{16,32,64} described below, except that gcc will
   * figure the result is a compile-time constant if you pass in a constant.
   * So this can be used to initialize static variables.
   */
-@@ -96,11 +96,20 @@ static inline void bswap64s(uint64_t *s)
+ #if defined(HOST_WORDS_BIGENDIAN)
++# define const_le64(_x)                          \
++    ((((_x) & 0x00000000000000ffU) << 56) |      \
++     (((_x) & 0x000000000000ff00U) << 40) |      \
++     (((_x) & 0x0000000000ff0000U) << 24) |      \
++     (((_x) & 0x00000000ff000000U) <<  8) |      \
++     (((_x) & 0x000000ff00000000U) >>  8) |      \
++     (((_x) & 0x0000ff0000000000U) >> 24) |      \
++     (((_x) & 0x00ff000000000000U) >> 40) |      \
++     (((_x) & 0xff00000000000000U) >> 56))
+ # define const_le32(_x)                          \
+     ((((_x) & 0x000000ffU) << 24) |              \
+      (((_x) & 0x0000ff00U) <<  8) |              \
+@@ -96,11 +105,22 @@ static inline void bswap64s(uint64_t *s)
  # define const_le16(_x)                          \
      ((((_x) & 0x00ff) << 8) |                    \
       (((_x) & 0xff00) >> 8))
-+# define const_be32(_x) (_x)
-+# define const_be16(_x) (_x)
++# define const_be64(_x) (_x)
+ # define const_be32(_x) (_x)
+ # define const_be16(_x) (_x)
  #else
++# define const_le64(_x) (_x)
  # define const_le32(_x) (_x)
  # define const_le16(_x) (_x)
-+# define const_be32(_x)                          \
-+    ((((_x) & 0x000000ffU) << 24) |              \
-+     (((_x) & 0x0000ff00U) <<  8) |              \
-+     (((_x) & 0x00ff0000U) >>  8) |              \
-+     (((_x) & 0xff000000U) >> 24))
-+# define const_be16(_x)                          \
-+    ((((_x) & 0x00ff) << 8) |                    \
-+     (((_x) & 0xff00) >> 8))
- #endif
--
- /**
-  * Endianness conversion functions between host cpu and specified endianness.
-  * (We list the complete set of prototypes produced by the macros below
++# define const_be64(_x)                          \
++    ((((_x) & 0x00000000000000ffU) << 56) |      \
++     (((_x) & 0x000000000000ff00U) << 40) |      \
++     (((_x) & 0x0000000000ff0000U) << 24) |      \
++     (((_x) & 0x00000000ff000000U) <<  8) |      \
++     (((_x) & 0x000000ff00000000U) >>  8) |      \
++     (((_x) & 0x0000ff0000000000U) >> 24) |      \
++     (((_x) & 0x00ff000000000000U) >> 40) |      \
++     (((_x) & 0xff00000000000000U) >> 56))
+ # define const_be32(_x)                          \
+     ((((_x) & 0x000000ffU) << 24) |              \
+      (((_x) & 0x0000ff00U) <<  8) |              \
 -- 
 2.26.2
 
