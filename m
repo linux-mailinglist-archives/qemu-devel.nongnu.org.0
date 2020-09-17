@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD2326DFB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:31:45 +0200 (CEST)
-Received: from localhost ([::1]:55756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A42226DFCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:39:25 +0200 (CEST)
+Received: from localhost ([::1]:44128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvsu-00044q-6e
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57878)
+	id 1kIw0K-0002pq-1Q
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIvb7-0002NC-F3
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:13:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32614)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIvqU-0002rF-W7
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:29:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIvb4-0003AG-C6
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:13:20 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIvqR-0006bg-VT
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:29:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600355596;
+ s=mimecast20190719; t=1600356550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hsvX3wnkEsLx2oAxTjaN6+ufS3qwaNHhSfJQ+RGAvF8=;
- b=QRn9EbkC5n41dprPpSOjno+x0wfxZY0gRIyL9plFgddueIhwt+OqHqRQA1XqOr37WHG4se
- 0slblgZfgIr6TURfq5p27xDTBid9G7aw6Ypep/b2Yu6lOggdpaTl8IsnHL/PDk4NgmyVmY
- 8m1Bz7iCB02O99oEKUfdmvQhT2wYXf8=
+ bh=j6AQ108w21LAK39mep8AOEBBvM+iDOpoRFlIol4D9Qc=;
+ b=cvNdR/99K98BGtGbyXyYQCQSRMwS2Q269vH453rmQs/WnwOOIs/DRYs87gAwvcc/9WK6mc
+ tP/0L0XvS/RKL6diHY+jNuLY33mK4v11Mfvcpk6SJDkIlHO+dH8qenhWYtA1MZnCVo8fr3
+ 6sL28WPlrGX5PNPcRALgrRvK7x9ZQP8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-pI35eXPvOV2YGa0iQ16HyQ-1; Thu, 17 Sep 2020 11:12:58 -0400
-X-MC-Unique: pI35eXPvOV2YGa0iQ16HyQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-283-LqSHVl1LNMOLtKK1Txbvbg-1; Thu, 17 Sep 2020 11:29:02 -0400
+X-MC-Unique: LqSHVl1LNMOLtKK1Txbvbg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23AD180EDAF;
- Thu, 17 Sep 2020 15:12:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 063EA8BF143;
+ Thu, 17 Sep 2020 15:29:01 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-113-38.ams2.redhat.com [10.36.113.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3249F99147;
- Thu, 17 Sep 2020 15:12:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30C0F55767;
+ Thu, 17 Sep 2020 15:28:59 +0000 (UTC)
 Subject: Re: [PULL 00/24] qtests, unit tests and Cirrus-CI fixes / improvements
-To: luoyonggang@gmail.com, Peter Maydell <peter.maydell@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200916114731.102080-1-thuth@redhat.com>
- <CAFEAcA-sN1+wsZ9sN6PckR=_74Ncj1y=AVZ9QHj5WpxxsJvQ8A@mail.gmail.com>
- <CAE2XoE_APDazcLgdrv3h1TW_3Fw_qEADhQKb58O74pdeGz=stQ@mail.gmail.com>
+ <CAFEAcA8VyUYJnE3aji6zPQGPD-K+iVGwVNbygYypr+NpSzZBPw@mail.gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <0ab55eef-1c95-83bb-235c-e01a5545a530@redhat.com>
-Date: Thu, 17 Sep 2020 17:12:55 +0200
+Message-ID: <7c21af54-342f-2a29-f700-3b1d3bbd5bc6@redhat.com>
+Date: Thu, 17 Sep 2020 17:28:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE_APDazcLgdrv3h1TW_3Fw_qEADhQKb58O74pdeGz=stQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAFEAcA8VyUYJnE3aji6zPQGPD-K+iVGwVNbygYypr+NpSzZBPw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -84,72 +83,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Yonggang Luo <luoyonggang@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/09/2020 16.40, 罗勇刚(Yonggang Luo) wrote:
+On 17/09/2020 17.14, Peter Maydell wrote:
+> On Wed, 16 Sep 2020 at 12:47, Thomas Huth <thuth@redhat.com> wrote:
+>> ----------------------------------------------------------------
+>> * Fix "readlink -f" problem in iotests on macOS (to fix the Cirrus-CI tests)
+>> * Some minor qtest improvements
+>> * Fix the unit tests to work on MSYS2, too
+>> * Enable building and testing on MSYS2 in the Cirrus-CI
+>> * Build FreeBSD with one task again in the Cirrus-CI
+>> ----------------------------------------------------------------
 > 
-> 
-> On Thu, Sep 17, 2020 at 9:46 PM Peter Maydell <peter.maydell@linaro.org
-> <mailto:peter.maydell@linaro.org>> wrote:
->>
->> On Wed, 16 Sep 2020 at 12:47, Thomas Huth <thuth@redhat.com
-> <mailto:thuth@redhat.com>> wrote:
->> >
->> >  Hi Peter,
->> >
->> > the following changes since commit
-> de39a045bd8d2b49e4f3d07976622c29d58e0bac:
->> >
->> >   Merge remote-tracking branch
-> 'remotes/kraxel/tags/vga-20200915-pull-request' into staging (2020-09-15
-> 14:25:05 +0100)
->> >
->> > are available in the Git repository at:
->> >
->> >   https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-16
->> >
->> > for you to fetch changes up to 114daec31d64600e5a070abcdb8de2cf74d01e94:
->> >
->> >   cirrus: Building freebsd in a single shot (2020-09-16 12:15:07 +0200)
->> >
->> > ----------------------------------------------------------------
->> > * Fix "readlink -f" problem in iotests on macOS (to fix the
-> Cirrus-CI tests)
->> > * Some minor qtest improvements
->> > * Fix the unit tests to work on MSYS2, too
->> > * Enable building and testing on MSYS2 in the Cirrus-CI
->> > * Build FreeBSD with one task again in the Cirrus-CI
->> > ----------------------------------------------------------------
->>
->>
->> Applied, thanks.
->>
->> Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
->> for any user-visible changes.
->>
->> -- PMM
-> 
-> cirrus are too slow:
-> ```
-> 
-> pm215 Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2…
-> …
-> 5e0a8fd2 hours ago
-> 
-> Git stats
-> 
->  80,622 commits
-> --
-> 
-> after two hours still not finished.
+> After merging this one I tried installing GNU sed on my local
+> box so it could run the iotests, but they fail like this
+> because they assume readarray, which doesn't exist in
+> OSX bash
+Ok, sounds like I should respin my patch here:
 
-It now finished successfully:
+https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg04476.html
 
- https://cirrus-ci.com/task/6178816496238592
-
-Sometimes you just have to be a little bit patient :-)
+... and could you install a newer version of bash via homebrew on your
+system?
 
  Thomas
 
