@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C76C26D1FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 06:01:27 +0200 (CEST)
-Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC5526D206
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 06:04:58 +0200 (CEST)
+Received: from localhost ([::1]:39122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIl6s-0002g0-6e
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 00:01:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54980)
+	id 1kIlAH-0008Fd-6b
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 00:04:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kIl2R-0004h9-4f; Wed, 16 Sep 2020 23:56:51 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4706 helo=huawei.com)
+ id 1kIl6O-000391-Qq; Thu, 17 Sep 2020 00:00:56 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33754 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kIl2O-0000Ua-Jc; Wed, 16 Sep 2020 23:56:50 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 77EC5D3B1E63DD802CA3;
- Thu, 17 Sep 2020 11:56:42 +0800 (CST)
-Received: from localhost (10.174.187.87) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:56:33 +0800
+ id 1kIl6M-0001E9-0H; Thu, 17 Sep 2020 00:00:56 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 0907B3AAB3DBC4F0EB91;
+ Thu, 17 Sep 2020 11:57:10 +0800 (CST)
+Received: from localhost (10.174.187.87) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:56:59 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH V2 08/10] disas/: fix some comment spelling errors
-Date: Thu, 17 Sep 2020 11:54:11 +0800
-Message-ID: <20200917035413.701-9-zhaolichang@huawei.com>
+Subject: [PATCH V2 10/10] contrib/: fix some comment spelling errors
+Date: Thu, 17 Sep 2020 11:54:13 +0800
+Message-ID: <20200917035413.701-11-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200917035413.701-1-zhaolichang@huawei.com>
 References: <20200917035413.701-1-zhaolichang@huawei.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.174.187.87]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
+Received-SPF: pass client-ip=45.249.212.32;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:51
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -58,87 +58,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org
+Cc: zhaolichang <zhaolichang@huawei.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I found that there are many spelling errors in the comments of qemu,
 so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the disas folder.
+and finally found some spelling errors in the contrib folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- disas/hppa.c | 2 +-
- disas/m68k.c | 8 ++++----
- disas/ppc.c  | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ contrib/gitdm/filetypes.txt             | 6 +++---
+ contrib/ivshmem-client/ivshmem-client.h | 2 +-
+ contrib/libvhost-user/libvhost-user.c   | 4 ++--
+ contrib/libvhost-user/libvhost-user.h   | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/disas/hppa.c b/disas/hppa.c
-index 2dbd1fc445..dcf9a47f34 100644
---- a/disas/hppa.c
-+++ b/disas/hppa.c
-@@ -2021,7 +2021,7 @@ print_insn_hppa (bfd_vma memaddr, disassemble_info *info)
- 			fput_fp_reg (GET_FIELD (insn, 6, 10), info);
- 		      break;
+diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
+index 9e9c505205..d2d6f6db8d 100644
+--- a/contrib/gitdm/filetypes.txt
++++ b/contrib/gitdm/filetypes.txt
+@@ -22,7 +22,7 @@
+ # in the gitdm sample-config directory.
+ #
+ # This file contains associations parameters regarding filetypes
+-# (documentation, develompent, multimedia, images...)
++# (documentation, development, multimedia, images...)
+ #
+ # format:
+ # filetype <type> <regex> [<comment>]
+@@ -59,8 +59,8 @@ filetype code \.s$	# Assembly
+ filetype code \.S$	# Assembly
+ filetype code \.asm$	# Assembly
+ filetype code \.awk$	# awk
+-filetype code ^common$  # script fragements
+-filetype code ^common.*$  # script fragements
++filetype code ^common$  # script fragments
++filetype code ^common.*$  # script fragments
+ filetype code (qom|qmp)-\w+$  # python script fragments
  
--		      /* 'fA' will not generate a space before the regsiter
-+		      /* 'fA' will not generate a space before the register
- 			 name.  Normally that is fine.  Except that it
- 			 causes problems with xmpyu which has no FP format
- 			 completer.  */
-diff --git a/disas/m68k.c b/disas/m68k.c
-index 863409c67c..aefaecfbd6 100644
---- a/disas/m68k.c
-+++ b/disas/m68k.c
-@@ -70,7 +70,7 @@ struct floatformat
-   unsigned int exp_start;
-   unsigned int exp_len;
-   /* Bias added to a "true" exponent to form the biased exponent.  It
--     is intentionally signed as, otherwize, -exp_bias can turn into a
-+     is intentionally signed as, otherwise, -exp_bias can turn into a
-      very large number (e.g., given the exp_bias of 0x3fff and a 64
-      bit long, the equation (long)(1 - exp_bias) evaluates to
-      4294950914) instead of -16382).  */
-@@ -479,7 +479,7 @@ struct m68k_opcode_alias
-       and remaining 3 bits of register shifted 9 bits in first word.
-       Indicate upper/lower in 1 bit shifted 7 bits in second word.
-       Use with `R' or `u' format.
--   n  `m' withouth upper/lower indication. (For M[S]ACx; 4 bits split
-+   n  `m' without upper/lower indication. (For M[S]ACx; 4 bits split
-       with MSB shifted 6 bits in first word and remaining 3 bits of
-       register shifted 9 bits in first word.  No upper/lower
-       indication is done.)  Use with `R' or `u' format.
-@@ -854,7 +854,7 @@ fetch_arg (unsigned char *buffer,
+ #
+diff --git a/contrib/ivshmem-client/ivshmem-client.h b/contrib/ivshmem-client/ivshmem-client.h
+index fe3cc4a03d..fc45a38060 100644
+--- a/contrib/ivshmem-client/ivshmem-client.h
++++ b/contrib/ivshmem-client/ivshmem-client.h
+@@ -174,7 +174,7 @@ int ivshmem_client_notify_all_vects(const IvshmemClient *client,
+                                     const IvshmemClientPeer *peer);
  
- /* Check if an EA is valid for a particular code.  This is required
-    for the EMAC instructions since the type of source address determines
--   if it is a EMAC-load instruciton if the EA is mode 2-5, otherwise it
-+   if it is a EMAC-load instruction if the EA is mode 2-5, otherwise it
-    is a non-load EMAC instruction and the bits mean register Ry.
-    A similar case exists for the movem instructions where the register
-    mask is interpreted differently for different EAs.  */
-@@ -1080,7 +1080,7 @@ print_indexed (int basereg,
+ /**
+- * Broadcat a notification to all vectors of all peers
++ * Broadcast a notification to all vectors of all peers
+  *
+  * @client: The ivshmem client
+  *
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
+index 53f16bdf08..9d30ff2283 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -684,7 +684,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
  
- /* Returns number of bytes "eaten" by the operand, or
-    return -1 if an invalid operand was found, or -2 if
--   an opcode tabe error was found.
-+   an opcode table error was found.
-    ADDR is the pc for this arg to be relative to.  */
- 
- static int
-diff --git a/disas/ppc.c b/disas/ppc.c
-index 63e97cfe1d..02be878198 100644
---- a/disas/ppc.c
-+++ b/disas/ppc.c
-@@ -5226,7 +5226,7 @@ operand_value_powerpc (const struct powerpc_operand *operand,
-       if ((operand->flags & PPC_OPERAND_SIGNED) != 0)
- 	{
- 	  /* BITM is always some number of zeros followed by some
--	     number of ones, followed by some numer of zeros.  */
-+	     number of ones, followed by some number of zeros.  */
- 	  unsigned long top = operand->bitm;
- 	  /* top & -top gives the rightmost 1 bit, so this
- 	     fills in any trailing zeros.  */
+     /*
+      * If we are in postcopy mode and we receive a u64 payload with a 0 value
+-     * we know all the postcopy client bases have been recieved, and we
++     * we know all the postcopy client bases have been received, and we
+      * should start generating faults.
+      */
+     if (track_ramblocks &&
+@@ -973,7 +973,7 @@ vu_set_mem_table_exec(VuDev *dev, VhostUserMsg *vmsg)
+     for (i = 0; i < dev->max_queues; i++) {
+         if (dev->vq[i].vring.desc) {
+             if (map_ring(dev, &dev->vq[i])) {
+-                vu_panic(dev, "remaping queue %d during setmemtable", i);
++                vu_panic(dev, "remapping queue %d during setmemtable", i);
+             }
+         }
+     }
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index 844c37c648..287ac5fec7 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -424,7 +424,7 @@ typedef struct VuVirtqElement {
+  * @remove_watch: a remove_watch callback
+  * @iface: a VuDevIface structure with vhost-user device callbacks
+  *
+- * Intializes a VuDev vhost-user context.
++ * Initializes a VuDev vhost-user context.
+  *
+  * Returns: true on success, false on failure.
+  **/
 -- 
 2.26.2.windows.1
 
