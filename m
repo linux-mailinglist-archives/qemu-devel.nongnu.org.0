@@ -2,110 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DDA26D63A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:17:00 +0200 (CEST)
-Received: from localhost ([::1]:42280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B575526D58A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 10:04:15 +0200 (CEST)
+Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIp6B-0004FO-Hi
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52068)
+	id 1kIotp-00040i-QY
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 04:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kIojT-0007QT-7U
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:53:31 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kIojO-0005VX-Kq
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:53:28 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a17so949618wrn.6
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 00:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vjqs885BhMGr6YknflvQUiZtCv+iknyrorq318GxXH4=;
- b=Hb1NG5SJ0m+DC29LavQjR9SjvrjPStfigFQQlwMt0KWW4A7IQNYVzePkob/G0mQM+/
- MNh9rUNdH1Tx18vpFphotHLsgUePG4Ayy0Klada4l8Ne3qyqLJ8l7/yLoiMZ7RqxNVvj
- ZhiWFBqrgl9Orl6awesUX+nMH+ph/0DjORziCs1ttRUzgMOzo0uFh+06QA/dWPz2W5Pt
- 3LJfO0VRfD/4p5RY83rOmVG/37bawWz4QzVke/wv8E8Zn22k4xm7ZKKd3FRoa6iXqlMg
- 5LFC++CnbMmpYkw7P05YLx5E4ekf5t7fL475ZNnhdX02hxdOReP/w6hkuEHBTtF/OYah
- sxzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=vjqs885BhMGr6YknflvQUiZtCv+iknyrorq318GxXH4=;
- b=hozX4y++ZTcLKcN/HudhsEXpJbsB9HFVMmx2nR5V2V2CLPgfePEjtKufmLWV7jXj0j
- nTv+vI8b11bTs2QmiGD9pVO3GLwWjCIVZZNvqx4aWZtGaNVlPlyCLvlL7Rb3HMDvjEAA
- jlUfpvDP4mgzgRZY8S6P4W8SlXmDDsKC597QHY8TlQiqH0Fnwb2G2r9VOqwgdYHPajEg
- jqgtiOXjetb3vMIhCoKdFq28jlwmmshAAyiuNjFRamQW1BJIpBGanBmOO0kQISDKcRg+
- Cm/xNi8bbxKRnLaAJhQ34OpgC54E+PqxJfG2C6hDcHAn8eTx3M9jVYnFDFkyIGnRGOHr
- K1Cg==
-X-Gm-Message-State: AOAM533DvwgEX3Jkl5idXnZ4QqB/+RibX+vb8GfQpE4C2JmNLjG9DTHd
- msilRG4fvC5UvsTfug2XxmM=
-X-Google-Smtp-Source: ABdhPJxC/8pUtYVpgH7e32YX3BAjO/eeNQV2lZpqkEIzRIYM35JR0BIJ0G2iukVBpO2rtW5ncc8QYg==
-X-Received: by 2002:adf:df87:: with SMTP id z7mr31618161wrl.239.1600329204787; 
- Thu, 17 Sep 2020 00:53:24 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a15sm39765071wrn.3.2020.09.17.00.53.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Sep 2020 00:53:24 -0700 (PDT)
-Subject: Re: [PATCH V9 6/6] hw/mips: Add Loongson-3 machine support
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Huacai Chen <chenhuacai@gmail.com>
-References: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
- <1600222344-16808-7-git-send-email-chenhc@lemote.com>
- <c3804617-7c65-4082-de76-81e718f6d139@amsat.org>
- <CAAhV-H5OysVNvGzD066eVqA+-k2+GJDjwSGR0hJT0VUh3Ld83A@mail.gmail.com>
- <63a89ba1-a920-c2b9-bd4f-7f523fdda895@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <31d4f14f-bba5-a5a5-d024-668558416083@amsat.org>
-Date: Thu, 17 Sep 2020 09:53:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIojg-0007uO-I1
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:53:46 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28300
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIoje-0005XU-Nv
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 03:53:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600329221;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OQk0xcfrchmDMl0kODBhm1N7A680RbBTTOkOP58qI+c=;
+ b=d25Bl2i14nZtAxUjPolGFXGKmpVWP92dwiyww7csty+iobJzRghLsi3/B+fMJNv3Y0Ek9x
+ 62/frVeWEEp60cbFCz9rRakIevBycpftjdCeXMpuLvfC0oilO4m8hGI/cb+hjFWtrUF9VH
+ 0WZ19ooCW1hYH+zoipPjuG8lZ/6QyXE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-8p4479OhPrGI3jhTq3r3wQ-1; Thu, 17 Sep 2020 03:53:37 -0400
+X-MC-Unique: 8p4479OhPrGI3jhTq3r3wQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C445D427F8;
+ Thu, 17 Sep 2020 07:53:35 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE765DEC7;
+ Thu, 17 Sep 2020 07:53:33 +0000 (UTC)
+Date: Thu, 17 Sep 2020 09:53:30 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 02/12] target/arm/kvm64: make MPIDR consistent with
+ CPU Topology
+Message-ID: <20200917075330.7sx3xm7gd4mwqqtq@kamzik.brq.redhat.com>
+References: <20200917032033.2020-1-fangying1@huawei.com>
+ <20200917032033.2020-3-fangying1@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <63a89ba1-a920-c2b9-bd4f-7f523fdda895@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.062,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200917032033.2020-3-fangying1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 03:47:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,89 +82,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/20 12:47 PM, Philippe Mathieu-Daudé wrote:
-> On 9/16/20 11:49 AM, Huacai Chen wrote:
->> On Wed, Sep 16, 2020 at 3:56 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>> On 9/16/20 4:12 AM, Huacai Chen wrote:
-> [...]
->>>> +static void mips_loongson3_virt_init(MachineState *machine)
->>>> +{
->>>> +    int i;
->>>> +    long bios_size;
->>>> +    MIPSCPU *cpu;
->>>> +    CPUMIPSState *env;
->>>> +    DeviceState *liointc;
->>>> +    char *filename;
->>>> +    const char *kernel_cmdline = machine->kernel_cmdline;
->>>> +    const char *kernel_filename = machine->kernel_filename;
->>>> +    const char *initrd_filename = machine->initrd_filename;
->>>> +    ram_addr_t ram_size = machine->ram_size;
->>>> +    MemoryRegion *address_space_mem = get_system_memory();
->>>> +    MemoryRegion *ram = g_new(MemoryRegion, 1);
->>>> +    MemoryRegion *bios = g_new(MemoryRegion, 1);
->>>> +    MemoryRegion *iomem = g_new(MemoryRegion, 1);
->>>> +
->>>> +    /* TODO: TCG will support all CPU types */
->>>> +    if (!kvm_enabled()) {
->>>> +        if (!machine->cpu_type) {
->>>> +            machine->cpu_type = MIPS_CPU_TYPE_NAME("Loongson-3A1000");
->>>> +        }
->>>> +        if (!strstr(machine->cpu_type, "Loongson-3A1000")) {
->>>> +            error_report("Loongson-3/TCG need cpu type Loongson-3A1000");
->>>> +            exit(1);
->>>> +        }
->>>> +    } else {
->>>> +        if (!machine->cpu_type) {
->>>> +            machine->cpu_type = MIPS_CPU_TYPE_NAME("Loongson-3A4000");
->>>> +        }
->>>> +        if (!strstr(machine->cpu_type, "Loongson-3A4000")) {
->>>> +            error_report("Loongson-3/KVM need cpu type Loongson-3A4000");
->>>> +            exit(1);
->>>> +        }
->>>> +    }
->>>> +
->>>> +    if (ram_size < 512 * MiB) {
->>>> +        error_report("Loongson-3 need at least 512MB memory");
->>>
->>> Typo "needs", but why?
->> Though you told me "QEMU shouldn't assume anything about the guest",
->> but Loongson-3 machine really need at least 512M memory. And as you
->> said, this can simplify the memsize/highmemsize process (always larger
->> than 256).
+On Thu, Sep 17, 2020 at 11:20:23AM +0800, Ying Fang wrote:
+> MPIDR helps to provide an additional PE identification in a multiprocessor
+> system. This patch adds support for setting MPIDR from userspace, so that
+> MPIDR is consistent with CPU topology configured.
 > 
-> OK, that's fine.
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> ---
+>  target/arm/kvm64.c | 46 ++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 38 insertions(+), 8 deletions(-)
 > 
->>
->>>
->>>> +        exit(1);
->>>> +    }
->>>> +
->>>> +    /*
->>>> +     * The whole MMIO range among configure registers doesn't generate
->>>> +     * exception when accessing invalid memory. Create an empty slot to
->>>> +     * emulate this feature.
->>>> +     */
->>>> +    empty_slot_init("fallback", 0, 0x80000000);
->>>
->>> Again, this doesn't look correct (no comment in my previous review).
->> This is written by Jiaxun because this is only needed by TCG, and he
->> said that malta also uses empty_slot_init() here.
-> 
-> IIRC for Malta this is a GT64120 specific hole.
-> 
-> In this case I'd like to know the justification first.
-> Maybe you want to add this hole in the LOONGSON_LIOINTC device...
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index ef1e960285..fcce261a10 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -757,10 +757,46 @@ static int kvm_arm_sve_set_vls(CPUState *cs)
+>  
+>  #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
+>  
+> +static int kvm_arm_set_mp_affinity(CPUState *cs)
+> +{
+> +    uint64_t mpidr;
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +
+> +    if (kvm_check_extension(kvm_state, KVM_CAP_ARM_MP_AFFINITY)) {
+> +        /* Make MPIDR consistent with CPU topology */
+> +        MachineState *ms = MACHINE(qdev_get_machine());
+> +
+> +        mpidr = (kvm_arch_vcpu_id(cs) % ms->smp.threads) << ARM_AFF0_SHIFT;
 
-Which makes me also wonder why are you splitting out 256MB of the RAM?
+We should query KVM first to determine if it wants guests to see their PEs
+as threads or not. If not, and ms->smp.threads is > 1, then that's an
+error. And, in any case, if ms->smp.threads == 1, then we shouldn't waste
+aff0 on it, as that could reduce IPI broadcast performance.
 
-This was a physical restriction of the GT64120 on 32-bit targets.
-Your hardware is virtual and 64-bit...
+> +        mpidr |= ((kvm_arch_vcpu_id(cs) / ms->smp.threads % ms->smp.cores)
+> +                                    & 0xff) << ARM_AFF1_SHIFT;
+> +        mpidr |= (kvm_arch_vcpu_id(cs) / (ms->smp.cores * ms->smp.threads)
+> +                                    & 0xff) << ARM_AFF2_SHIFT;
+> +
+> +        /* Override mp affinity when KVM is in use */
+> +        cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+> +
+> +        /* Bit 31 is RES1 indicates the ARMv7 Multiprocessing Extensions */
+> +        mpidr |= (1ULL << 31);
+> +        return kvm_vcpu_ioctl(cs, KVM_ARM_SET_MP_AFFINITY, &mpidr);
+> +    } else {
+> +        /*
+> +         * When KVM_CAP_ARM_MP_AFFINITY is not supported, it means KVM has its
+> +         * own idea about MPIDR assignment, so we override our defaults with
+> +         * what we get from KVM.
+> +         */
+> +        int ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
+> +        if (ret) {
+> +            error_report("failed to set MPIDR");
+
+We don't need this error, kvm_get_one_reg() has trace support already.
+Anyway, the wording is wrong since it says 'set' instead of 'get'.
+
+> +            return ret;
+> +        }
+> +        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
+> +        return ret;
+> +    }
+> +}
+> +
+>  int kvm_arch_init_vcpu(CPUState *cs)
+>  {
+>      int ret;
+> -    uint64_t mpidr;
+>      ARMCPU *cpu = ARM_CPU(cs);
+>      CPUARMState *env = &cpu->env;
+>  
+> @@ -814,16 +850,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>          }
+>      }
+>  
+> -    /*
+> -     * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+> -     * Currently KVM has its own idea about MPIDR assignment, so we
+> -     * override our defaults with what we get from KVM.
+> -     */
+> -    ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
+> +    ret = kvm_arm_set_mp_affinity(cs);
+>      if (ret) {
+>          return ret;
+>      }
+> -    cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+>  
+>      kvm_arm_init_debug(cs);
+>  
+> -- 
+> 2.23.0
+> 
+>
+
+Thanks,
+drew 
+
 
