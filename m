@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01DE026DF82
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:22:15 +0200 (CEST)
-Received: from localhost ([::1]:33168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F5B26DF08
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:04:57 +0200 (CEST)
+Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvji-00022g-0l
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
+	id 1kIvSy-0004W1-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kIvbD-0002WM-E3
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:13:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21125)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIvEt-00084Z-R7
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:50:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32430
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kIvbA-0003BF-DB
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:13:27 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kIvEq-0007b0-Gn
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:50:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600355603;
+ s=mimecast20190719; t=1600354219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+K6q/3zM53tSz0Jg6jCnfeOCrnRzvzq1LJ9iy5Y99Ls=;
- b=LmDVACJnvQuWfKfO/piWXG81upR2lsWeCFNhzpbasaTuMLbIPOP+z37sTrYHyeOSjZN20V
- gIxMI18HqttOkbCcpKhbocdNc660vaFBAxAl43fR1wwCsW6reXppFZR7HfwvCAIu4qLlME
- EYE0Muo6LXhzCjDvQ7lFyoj6y+L9Xrk=
+ bh=o/0QcecuJGq8/KSPhMXpTHS7wdP+36lNVEd2ZRAlatc=;
+ b=iVbhOPfRInT+1PsXuuEVQ4+rLdz4ETtV04EBU0xsKX8/WTVtPacLAbseJBgv0ATsu8+1Kl
+ nk5Qmc+hPNDFh10lLcUQGfvN5s5RtYMsAsc0pGqP/m5n/hpAxZAPuFPk0y6nRWerkEhceZ
+ kkK0vRernah6WTKinoKE8brUdA+yGKs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-04jssOVcNTioJXi6hRZYTQ-1; Thu, 17 Sep 2020 11:13:04 -0400
-X-MC-Unique: 04jssOVcNTioJXi6hRZYTQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-292-KEU75yaEO6qxnNfkMJJhQA-1; Thu, 17 Sep 2020 10:50:17 -0400
+X-MC-Unique: KEU75yaEO6qxnNfkMJJhQA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF3B78C2211;
- Thu, 17 Sep 2020 15:13:02 +0000 (UTC)
-Received: from localhost (ovpn-112-183.ams2.redhat.com [10.36.112.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 780F65D9CC;
- Thu, 17 Sep 2020 15:13:02 +0000 (UTC)
-Date: Thu, 17 Sep 2020 12:07:53 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 3/3] block/nvme: Align NVMeRegs structure to 4KiB and
- mark it packed
-Message-ID: <20200917110753.GE809514@stefanha-x1.localdomain>
-References: <20200916204004.1511985-1-philmd@redhat.com>
- <20200916204004.1511985-4-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 358D98D6BA1;
+ Thu, 17 Sep 2020 14:50:16 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-38.ams2.redhat.com [10.36.113.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D18755766;
+ Thu, 17 Sep 2020 14:50:14 +0000 (UTC)
+Subject: Re: [PATCH v2 04/10] disas: Clean up CPUDebug initialization
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200914230210.2185860-1-richard.henderson@linaro.org>
+ <20200914230210.2185860-5-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <1eb5fb1b-4341-88e9-16b1-f9db78eceadb@redhat.com>
+Date: Thu, 17 Sep 2020 16:50:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200916204004.1511985-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200914230210.2185860-5-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="84ND8YJRMFlzkrP4"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 09:24:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIMWL_WL_HIGH=-2.997, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,71 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: luoyonggang@gmail.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---84ND8YJRMFlzkrP4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 15/09/2020 01.02, Richard Henderson wrote:
+> Rename several functions, dropping "generic" and making "host"
+> vs "target" clearer.  Make a bunch of functions static that are
+> not used outside this file. Replace INIT_DISASSEMBLE_INFO with
+> a trio of functions.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/disas/dis-asm.h |  60 --------
+>  disas.c                 | 326 ++++++++++++++++++----------------------
+>  2 files changed, 148 insertions(+), 238 deletions(-)
+> 
+> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+> index 9856bf7921..d2418c977e 100644
+> --- a/include/disas/dis-asm.h
+> +++ b/include/disas/dis-asm.h
+> @@ -461,67 +461,7 @@ int print_insn_riscv32          (bfd_vma, disassemble_info*);
+>  int print_insn_riscv64          (bfd_vma, disassemble_info*);
+>  int print_insn_rx(bfd_vma, disassemble_info *);
+>  
+> -#if 0
+> -/* Fetch the disassembler for a given BFD, if that support is available.  */
+> -disassembler_ftype disassembler(bfd *);
+> -#endif
+> -
+>  
 
-On Wed, Sep 16, 2020 at 10:40:04PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> In commit e5ff22ba9fc we changed the doorbells register
-> declaration but forgot to mark the structure packed (as
-> MMIO registers), allowing the compiler to optimize it.
+By the way, while you're at it, could you please also remove the form
+feed character in this file here? ... that looks really confusing in my
+e-mail client otherwise.
 
-Does this patch actually change anything? NvmeBar is already 4096 bytes
-long and struct doorbells has two 32-bit fields, so there is no padding.
-
-I ask because it's not clear whether this patch is a bug fix or a
-cleanup.
-
->  /* Memory mapped registers */
-> -typedef struct {
-> +typedef struct QEMU_PACKED {
->      NvmeBar ctrl;
->      struct {
->          uint32_t sq_tail;
->          uint32_t cq_head;
->      } doorbells[];
-> -} NVMeRegs;
-> +} QEMU_ALIGNED(4 * KiB) NVMeRegs;
-
-I can think of two policies for using packed:
-
-1. Packed is used only when needed to avoid padding.
-
-   But this patch uses it even though there is no padding, so it can't
-   be this policy.
-
-2. Packed is always used on external binary structs (e.g. file formats,
-   network protocols, hardware register layouts, etc).
-
-   But doorbells[] isn't marked packed so it can't be this policy
-   either. The documentation says that nested structs need to be marked
-   packed too:
-   https://gcc.gnu.org/onlinedocs/gcc-10.2.0/gcc/Common-Type-Attributes.htm=
-l#Common-Type-Attributes
-
-So I'm confused about the purpose of this patch. What does it achieve?
-
---84ND8YJRMFlzkrP4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9jQ4kACgkQnKSrs4Gr
-c8izCAf+JQqePQeGrU2IYgL0uc9zFORaJb9Pmsy/r4hnYM5kRJa166lKrRSzhMWb
-K7cn6t64FMFKc9vahK7V3ukqMzoy8OU1Dt94og4/lpOcAz1/7bOP052jyh1hGjVy
-yP9FuHCjs082xzmU/LFz+DIY7FDMKXn7ckpfaX8qAushByj4nv9bwSsyaUgoFX02
-18zusWmahQpFI2bD5RiTbxcJCzsVYbRXyWKPL8h5d3Tb81iBW0ch8EDkREZd1K6P
-Yt60X24pupnLA1+O+5Co0efJQy+LUwgy0j2kMxdLX48Weseoau0qDYzNtCCYLO9H
-A/BhSPiOXWccpaR1yPah5excsXi+tg==
-=QMKC
------END PGP SIGNATURE-----
-
---84ND8YJRMFlzkrP4--
+ Thanks,
+  Thomas
 
 
