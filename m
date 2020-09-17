@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BEB26E1C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:08:05 +0200 (CEST)
-Received: from localhost ([::1]:58234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CDB26E211
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 19:19:25 +0200 (CEST)
+Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIxO8-0001Ws-5g
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33008)
+	id 1kIxZ5-0005l1-V8
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 13:19:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIxMy-0000RR-Nn
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:06:52 -0400
-Resent-Date: Thu, 17 Sep 2020 13:06:52 -0400
-Resent-Message-Id: <E1kIxMy-0000RR-Nn@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kIxMw-00065e-93
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:06:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600362400; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=N7yqbK7Nt4godrTKophopylwrQJDa0XOWFwIq8tvbBtCumq46/iE3tAZ1IGTPjugYe7b4ERayQK1i2usmJuom/1dK3oS5rnKrrLhFE7uF5IcqaSoZUt88JuiD3ghYHAdyw3M1cExR58+E9xWn4F95r85oMDYz0d6HyfCYAxauwc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600362400;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=+U1hM3bd7ClMXYijud1cGapIUbeQsgT6d+vhFoe/MiA=; 
- b=TqevRHujIK3DGfxFMXtM8hPSyI6JtqrsAcYTBUk4/Og9czdotm9mkh3ARrIBYygVBt8P9ZjQHqR9KtM2HH858vx00a3YqrDg4BVM8+FC03oAUDfl7XoovJClsXuoOfoHuxdJ0QEQNrJN2wlrSCE6QwKVXo4tiw9bAiwgwoDBtPw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600362398694686.947421376232;
- Thu, 17 Sep 2020 10:06:38 -0700 (PDT)
-Subject: Re: [PATCH] tests/acceptance: Disable tests dependent of unreliable
- apt.armbian.com
-Message-ID: <160036239659.8478.9529658265350711467@66eaa9a8a123>
-In-Reply-To: <20200917163954.50514-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIxY9-0005J9-At
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:18:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kIxY6-0007Za-8Y
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 13:18:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600363100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1okEQhihADjDEY3mxUsTAZFrzMm4w42lvgu90Li9yfI=;
+ b=Wss59t7r8c5GM8YmxKCn/R4/DcY0ih0N/xJhbuOSFN6iiKlRoEqVTBvnP7z+/p9VT7Bv8K
+ e31Gz43Edw/TuuaH77kteFkoDx/SVs6VX0UWMC5boBmbbEWuYgU3q3DRfTNuiXWfdbCBh3
+ 0K4IGl7p2xI1td6JePhNKTHO5Z/igVM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-pTceZSkBNlmBvav3CiNUlQ-1; Thu, 17 Sep 2020 13:18:18 -0400
+X-MC-Unique: pTceZSkBNlmBvav3CiNUlQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACCCE107464E;
+ Thu, 17 Sep 2020 17:18:17 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86B1068864;
+ Thu, 17 Sep 2020 17:18:16 +0000 (UTC)
+Subject: Re: [PATCH 09/37] qapi/common.py: Add indent manager
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-10-jsnow@redhat.com>
+ <87k0wtiwlb.fsf@dusky.pond.sub.org>
+ <37ea889c-746e-bea9-a719-6bee9e86f1a8@redhat.com>
+ <87v9gcesh8.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <301fb683-9b57-d355-3b08-776ab4869975@redhat.com>
+Date: Thu, 17 Sep 2020 13:18:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Thu, 17 Sep 2020 10:06:38 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:07:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87v9gcesh8.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,19 +86,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ehabkost@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
- kraxel@redhat.com, pavel.dovgaluk@ispras.ru, crosa@redhat.com,
- pbonzini@redhat.com, philmd@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxNzE2Mzk1NC41MDUx
-NC0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBidWlsZCB0
-ZXN0IG9uIEZyZWVCU0QgaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cuCgoKCgoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAy
-MDA5MTcxNjM5NTQuNTA1MTQtMS1waGlsbWRAcmVkaGF0LmNvbS90ZXN0aW5nLkZyZWVCU0QvP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
+On 9/17/20 4:07 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 9/16/20 11:13 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+
+
+>>> Let's replace "the indent" by "the indentation" globally.
+>>>
+>>
+>> They're both cromulent as nouns and one is shorter.
+>>
+>> I'll switch in good faith; do you prefer "Indentation" as a noun?
+> 
+> Use of "indent" as a noun was new to me, but what do I know; you're the
+> native speaker.  Use your judgement.  Applies to the class name, too.
+> 
+
+I made the change; see gitlab commits or wait for v2 to see if it reads 
+better to you.
+
+>>>> +        return self._level
+>>>>    +    def __repr__(self) -> str:
+>>>> +        return "{}({:d})".format(type(self).__name__, self._level)
+>>> Is __repr__ needed?
+>>>
+>>
+>> Yes; it's used in the underflow exception , and it is nice when using
+>> the python shell interactively.
+>>
+>> repr(Indent(4)) == "Indent(4)"
+> 
+> Meh.  There's another three dozen classes for you to put lipstick on :)
+> 
+
+We'll get to them in due time. For now, please admire the lipstick.
+
+
+>>>> +    def pop(self, amount: int = 4) -> int:
+>>>> +        """Pop `amount` spaces off of the indent, default four."""
+>>>> +        if self._level < amount:
+>>>> +            raise ArithmeticError(
+>>>> +                "Can't pop {:d} spaces from {:s}".format(amount, repr(self)))
+> 
+> I think assert(amount <= self._level) would do just fine.
+> 
+
+Secretly, asserts can be disabled in Python just like they can in C code.
+
+My habit: if it's something that should already be true given the nature 
+of how the code is laid out, use an assertion. If I am preventing an 
+erroneous state (Especially from callers in other modules), explicitly 
+raise an exception.
+
+(See the gitlab branch for the updated version of this patch, which has 
+changed the code slightly.)
+
+>>>> +        self._level -= amount
+>>>> +        return self._level
+>>> The push / pop names never made sense.  The functions don't push
+>>> onto /
+>>> pop from a stack, they increment / decrement a counter, and so do the
+>>> methods.  Good opportunity to fix the naming.
+>>>
+>>
+>> OK.
+>>
+>> I briefly thought about using __isub__ and __iadd__ to support
+>> e.g. indent += 4, but actually it'd be annoying to have to specify 4
+>> everywhere.
+>>
+>> Since you didn't suggest anything, I am going to change it to
+>> 'increase' and 'decrease'.
+> 
+> Works for me.  So would inc and dec.
+> 
+
+increase and decrease it is.
+
+>>> The @amount parameter has never been used.  I don't mind keeping it.
+>>>
+>> I'll keep it, because I like having the default amount show up in the
+>> signature instead of as a magic constant in the function body.
+>>
+>>>> +
+>>>> +
+>>>> +INDENT = Indent(0)
+>>> Uh, does this really qualify as a constant?  It looks quite variable
+>>> to
+>>> me...
+>>>
+>>
+>> Ever make a mistake? I thought I did once, but I was mistaken.
+> 
+> "If I had any humility, I'd be perfect!"
+> 
+
+:)
+
 
