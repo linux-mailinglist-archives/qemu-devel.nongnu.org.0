@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A5826D189
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:26:39 +0200 (CEST)
-Received: from localhost ([::1]:58046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD9326D1AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:29:11 +0200 (CEST)
+Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIkZC-00037a-Rl
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:26:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47932)
+	id 1kIkbe-0006sJ-FA
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUR-00054X-Ba; Wed, 16 Sep 2020 23:21:43 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:53794 helo=huawei.com)
+ id 1kIkUT-0005AO-IL; Wed, 16 Sep 2020 23:21:45 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4749 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUM-0004RH-PU; Wed, 16 Sep 2020 23:21:42 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 6DF405B978E71AA35A9D;
- Thu, 17 Sep 2020 11:21:07 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:21:01 +0800
+ id 1kIkUM-0004RU-OT; Wed, 16 Sep 2020 23:21:45 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 3B6E6BB3E86ED2AFA745;
+ Thu, 17 Sep 2020 11:21:14 +0800 (CST)
+Received: from localhost (10.174.185.104) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:21:02 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 07/12] hw/acpi/aml-build: add processor hierarchy node
- structure
-Date: Thu, 17 Sep 2020 11:20:28 +0800
-Message-ID: <20200917032033.2020-8-fangying1@huawei.com>
+Subject: [RFC PATCH 08/12] hw/arm/virt-acpi-build: add PPTT table
+Date: Thu, 17 Sep 2020 11:20:29 +0800
+Message-ID: <20200917032033.2020-9-fangying1@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20200917032033.2020-1-fangying1@huawei.com>
 References: <20200917032033.2020-1-fangying1@huawei.com>
@@ -37,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.104]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:20:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 23:21:09
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -60,92 +59,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, drjones@redhat.com,
- zhang.zhanghailiang@huawei.com, Henglong Fan <fanhenglong@huawei.com>,
- alex.chen@huawei.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- alistair.francis@wdc.com, Ying Fang <fangying1@huawei.com>,
- imammedo@redhat.com
+ zhang.zhanghailiang@huawei.com, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, alistair.francis@wdc.com,
+ Ying Fang <fangying1@huawei.com>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the processor hierarchy node structures to build ACPI information
-for CPU topology. Three helpers are introduced:
+Add the Processor Properties Topology Table (PPTT) to present CPU topology
+information to the guest.
 
-(1) build_socket_hierarchy for socket description structure
-(2) build_processor_hierarchy for processor description structure
-(3) build_smt_hierarchy for thread (logic processor) description structure
-
+Signed-off-by: Andrew Jones <drjones@redhat.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
-Signed-off-by: Henglong Fan <fanhenglong@huawei.com>
 ---
- hw/acpi/aml-build.c         | 37 +++++++++++++++++++++++++++++++++++++
- include/hw/acpi/aml-build.h |  7 +++++++
- 2 files changed, 44 insertions(+)
+ hw/arm/virt-acpi-build.c | 42 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index f6fbc9b95d..13eb6e1345 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1754,6 +1754,43 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms)
-                  table_data->len - slit_start, 1, NULL, NULL);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index f1d574b5d3..b5aa3d3c83 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -594,6 +594,42 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+                  "SRAT", table_data->len - srat_start, 3, NULL, NULL);
  }
  
-+/*
-+ * ACPI 6.3: 5.2.29.1 Processor hierarchy node structure (Type 0)
-+ */
-+void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
++static void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms)
 +{
-+    build_append_byte(tbl, 0);          /* Type 0 - processor */
-+    build_append_byte(tbl, 20);         /* Length, no private resources */
-+    build_append_int_noprefix(tbl, 0, 2);  /* Reserved */
-+    build_append_int_noprefix(tbl, 1, 4);  /* Flags: Physical package */
-+    build_append_int_noprefix(tbl, parent, 4);  /* Parent */
-+    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
-+    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
++    int pptt_start = table_data->len;
++    int uid = 0, cpus = 0, socket;
++    unsigned int smp_cores = ms->smp.cores;
++    unsigned int smp_threads = ms->smp.threads;
++
++    acpi_data_push(table_data, sizeof(AcpiTableHeader));
++
++    for (socket = 0; cpus < ms->possible_cpus->len; socket++) {
++        uint32_t socket_offset = table_data->len - pptt_start;
++        int core;
++
++        build_socket_hierarchy(table_data, 0, socket);
++
++        for (core = 0; core < smp_cores; core++) {
++            uint32_t core_offset = table_data->len - pptt_start;
++            int thread;
++
++            if (smp_threads <= 1) {
++                build_processor_hierarchy(table_data, 2, socket_offset, uid++);
++             } else {
++                build_processor_hierarchy(table_data, 0, socket_offset, core);
++                for (thread = 0; thread < smp_threads; thread++) {
++                    build_smt_hierarchy(table_data, core_offset, uid++);
++                }
++             }
++        }
++        cpus += smp_cores * smp_threads;
++    }
++
++    build_header(linker, table_data,
++                 (void *)(table_data->data + pptt_start), "PPTT",
++                 table_data->len - pptt_start, 2, NULL, NULL);
 +}
 +
-+void build_processor_hierarchy(GArray *tbl, uint32_t flags,
-+                               uint32_t parent, uint32_t id)
-+{
-+    build_append_byte(tbl, 0);          /* Type 0 - processor */
-+    build_append_byte(tbl, 20);         /* Length, no private resources */
-+    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
-+    build_append_int_noprefix(tbl, flags, 4);  /* Flags */
-+    build_append_int_noprefix(tbl, parent, 4); /* Parent */
-+    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
-+    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
-+}
-+
-+void build_smt_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
-+{
-+    build_append_byte(tbl, 0);            /* Type 0 - processor */
-+    build_append_byte(tbl, 20);           /* Length, add private resources */
-+    build_append_int_noprefix(tbl, 0, 2); /* Reserved */
-+    build_append_int_noprefix(tbl, 0x0e, 4);    /* Processor is a thread */
-+    build_append_int_noprefix(tbl, parent , 4); /* parent */
-+    build_append_int_noprefix(tbl, id, 4);      /* ACPI processor ID */
-+    build_append_int_noprefix(tbl, 0, 4);       /* Num of private resources */
-+}
-+
- /* build rev1/rev3/rev5.1 FADT */
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id)
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index d27da03d64..ff4c6a38f3 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -435,6 +435,13 @@ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+ /* GTDT */
+ static void
+ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+@@ -834,6 +870,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+     unsigned dsdt, xsdt;
+     GArray *tables_blob = tables->table_data;
+     MachineState *ms = MACHINE(vms);
++    bool cpu_topology_enabled = !vmc->ignore_cpu_topology;
  
- void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms);
+     table_offsets = g_array_new(false, true /* clear */,
+                                         sizeof(uint32_t));
+@@ -853,6 +890,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+     acpi_add_table(table_offsets, tables_blob);
+     build_madt(tables_blob, tables->linker, vms);
  
-+void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
++    if (cpu_topology_enabled) {
++        acpi_add_table(table_offsets, tables_blob);
++        build_pptt(tables_blob, tables->linker, ms);
++    }
 +
-+void build_processor_hierarchy(GArray *tbl, uint32_t flags,
-+                               uint32_t parent, uint32_t id);
-+
-+void build_smt_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
-+
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id);
+     acpi_add_table(table_offsets, tables_blob);
+     build_gtdt(tables_blob, tables->linker, vms);
  
 -- 
 2.23.0
