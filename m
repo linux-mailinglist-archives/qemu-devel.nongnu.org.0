@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A7226D8AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:19:44 +0200 (CEST)
-Received: from localhost ([::1]:47052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A4E26D8FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:26:15 +0200 (CEST)
+Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIr0x-0002WB-TW
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:19:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60978)
+	id 1kIr7G-0001Wg-Jv
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:26:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIqv5-0004RT-GI
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:13:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55536)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIqv4-0004Nz-B1
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:13:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIquy-0003oz-PV
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:13:39 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kIquy-0003oj-N1
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:13:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600337611;
+ s=mimecast20190719; t=1600337610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ikw6ZSJSNL1C3yQyzxL4x4XRLQOj/adcIHYe9nIreA=;
- b=R12dOJvfiqHQgEjPcMgEo55ASFgJcnFrar/1SKaLJqW6S6yLOQSGKcFH1hvYkrffT6tdOr
- 601nnweSh6f5U8f2+3Yl+9ekr0Uq699QXzli7fSusunavC1MaTFR559ggxF4o3iqqnnnS1
- CLamg0eQHbkZQUWQrbUhmwF7bQ8rabE=
+ bh=p3r3lgt/EHi24STsRj5t7j4/Qr/OSFHY6s4pJhVjn+s=;
+ b=eDpOqIxQDfeY6WemGdzstyFjfqEjSC1RWp3wN6H61Qc/zjLtY7WfIhOgRlyqwbL35J0z8o
+ ERCGLGjwSNwt+uFLUmXBy/7dmpZIc11CUwjGGRy8b2uY+0DO9snCVaP3F/Ksye6IqjMQi3
+ 0QaTsTtuOrgfDGZjXBvOJ2fwJHN60kw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-VvhwetjtOCmDIxtkSZVZlw-1; Thu, 17 Sep 2020 06:13:29 -0400
-X-MC-Unique: VvhwetjtOCmDIxtkSZVZlw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-121-A0mr6awGPbC-c0yXO-BUvg-1; Thu, 17 Sep 2020 06:13:29 -0400
+X-MC-Unique: A0mr6awGPbC-c0yXO-BUvg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86F2A84E242
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2086E18B9F4B
  for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 10:13:28 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FD0575127;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 549FE60CC0;
  Thu, 17 Sep 2020 10:13:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 763EE9CBA; Thu, 17 Sep 2020 12:13:20 +0200 (CEST)
+ id 809829CBC; Thu, 17 Sep 2020 12:13:20 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/4] ui/spice-app: don't use qemu_chr_open_spice_port
- directly
-Date: Thu, 17 Sep 2020 12:13:17 +0200
-Message-Id: <20200917101320.25285-2-kraxel@redhat.com>
+Subject: [PATCH v3 2/4] chardev/spice: make qemu_chr_open_spice_port static
+Date: Thu, 17 Sep 2020 12:13:18 +0200
+Message-Id: <20200917101320.25285-3-kraxel@redhat.com>
 In-Reply-To: <20200917101320.25285-1-kraxel@redhat.com>
 References: <20200917101320.25285-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,75 +86,43 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save the parent object's open function pointer in the (new)
-VCChardevClass struct instead before overwriting it, so we
-can look it up when needed.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/spice-app.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ include/chardev/spice.h | 3 ---
+ chardev/spice.c         | 8 ++++----
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/ui/spice-app.c b/ui/spice-app.c
-index 93e105c6ee82..3fe9d42e939f 100644
---- a/ui/spice-app.c
-+++ b/ui/spice-app.c
-@@ -44,11 +44,15 @@ static char *sock_path;
- struct VCChardev {
-     SpiceChardev parent;
- };
--typedef struct VCChardev VCChardev;
-+
-+struct VCChardevClass {
-+    ChardevClass parent;
-+    void (*parent_open)(Chardev *chr, ChardevBackend *backend,
-+                        bool *be_opened, Error **errp);
-+};
+diff --git a/include/chardev/spice.h b/include/chardev/spice.h
+index 99f26aedde54..1115502cdfbd 100644
+--- a/include/chardev/spice.h
++++ b/include/chardev/spice.h
+@@ -24,7 +24,4 @@ typedef struct SpiceChardev SpiceChardev;
+ DECLARE_INSTANCE_CHECKER(SpiceChardev, SPICE_CHARDEV,
+                          TYPE_CHARDEV_SPICE)
  
- #define TYPE_CHARDEV_VC "chardev-vc"
--DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
--                         TYPE_CHARDEV_VC)
-+OBJECT_DECLARE_TYPE(VCChardev, VCChardevClass, chardev_vc, CHARDEV_VC)
- 
- static ChardevBackend *
- chr_spice_backend_new(void)
-@@ -66,6 +70,7 @@ static void vc_chr_open(Chardev *chr,
-                         bool *be_opened,
-                         Error **errp)
- {
-+    VCChardevClass *vc = CHARDEV_VC_GET_CLASS(chr);
-     ChardevBackend *be;
-     const char *fqdn = NULL;
- 
-@@ -80,7 +85,7 @@ static void vc_chr_open(Chardev *chr,
-     be = chr_spice_backend_new();
-     be->u.spiceport.data->fqdn = fqdn ?
-         g_strdup(fqdn) : g_strdup_printf("org.qemu.console.%s", chr->label);
--    qemu_chr_open_spice_port(chr, be, be_opened, errp);
-+    vc->parent_open(chr, be, be_opened, errp);
-     qapi_free_ChardevBackend(be);
+-void qemu_chr_open_spice_port(Chardev *chr, ChardevBackend *backend,
+-                              bool *be_opened, Error **errp);
+-
+ #endif
+diff --git a/chardev/spice.c b/chardev/spice.c
+index bf7ea1e2940d..051c23a84f4c 100644
+--- a/chardev/spice.c
++++ b/chardev/spice.c
+@@ -296,10 +296,10 @@ static void qemu_chr_open_spice_vmc(Chardev *chr,
+     chr_open(chr, type);
  }
  
-@@ -91,8 +96,11 @@ static void vc_chr_set_echo(Chardev *chr, bool echo)
- 
- static void char_vc_class_init(ObjectClass *oc, void *data)
+-void qemu_chr_open_spice_port(Chardev *chr,
+-                              ChardevBackend *backend,
+-                              bool *be_opened,
+-                              Error **errp)
++static void qemu_chr_open_spice_port(Chardev *chr,
++                                     ChardevBackend *backend,
++                                     bool *be_opened,
++                                     Error **errp)
  {
-+    VCChardevClass *vc = CHARDEV_VC_CLASS(oc);
-     ChardevClass *cc = CHARDEV_CLASS(oc);
- 
-+    vc->parent_open = cc->open;
-+
-     cc->parse = qemu_chr_parse_vc;
-     cc->open = vc_chr_open;
-     cc->chr_set_echo = vc_chr_set_echo;
-@@ -103,6 +111,7 @@ static const TypeInfo char_vc_type_info = {
-     .parent = TYPE_CHARDEV_SPICEPORT,
-     .instance_size = sizeof(VCChardev),
-     .class_init = char_vc_class_init,
-+    .class_size = sizeof(VCChardevClass),
- };
- 
- static void spice_app_atexit(void)
+     ChardevSpicePort *spiceport = backend->u.spiceport.data;
+     const char *name = spiceport->fqdn;
 -- 
 2.27.0
 
