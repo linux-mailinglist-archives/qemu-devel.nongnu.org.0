@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6213726D985
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:50:33 +0200 (CEST)
-Received: from localhost ([::1]:44406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 139FC26D99A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:53:25 +0200 (CEST)
+Received: from localhost ([::1]:53646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIrUm-0001AJ-AI
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:50:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40558)
+	id 1kIrXY-0004yF-5s
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIrT5-0000DF-2H
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:48:47 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kIrT2-0008Ca-P3
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:48:46 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id i26so2551601ejb.12
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 03:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y8R/+zN5FyprwUhVdaC38+E1m7re4VxkWi0ofwGpsIo=;
- b=TodAUhHFwYYrBNpANrFisXXcX4ARcf4+WsmKUzRMpOcCXKbUuptuaAcptOOpwfjRSK
- I2RRDKqAOw4QL86kOD/lZSqvRBrG7W07SqYPvAtZMA5l6yFb9d/LcXIZpmqvS84y3Agc
- qw7lP0b3NIgEGBUSmwKAnUJGjYJXkd87fE5cL6ThmkxXwLnHNnAaWDnDDmFfDqtv2g1U
- VekWbY7mUykaDNzXv1nAstecQJ0MRT7gJNnXs5HyhRSzw6+pjbS78k41VoQjdGrU58la
- 9sKG8aK+ONJPLrRs4Hb1/VFyTOAV8gyFNm6L4Xxh8YQBmWylnCDrbi16iWdjKSQ3W414
- xBnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=y8R/+zN5FyprwUhVdaC38+E1m7re4VxkWi0ofwGpsIo=;
- b=PjbJTIZVKLSjjc79vQG+QBynHalkoNc2D/ilpwfw6UGEsGMCGPzcvHp6/vLbB7n6Z+
- rLMPhI3TC8flcQESSqOEzpMbGJC8CFH9mzxyHVu6GLCfUk9K3jIS5N12ZVIYYg6qUMTE
- 9bEXYY/e+u3iVt6LFV2dXeXY9tGMb1ORhYkoKjrnI6cGhEMZwVADqwAbhth8v/OsHZFj
- Z3Ior9C6kd/UPA7KS9VlJzhNMNH/xa7E/3MYD5bzNuQBUj47Bm3voY/jJE4ZxH6oIxvu
- Yeo61evnoBeOh0KTrCt55qxbpx1VUchT62NlxjFVkQKCy3TMxZQAw1sIwbFdqc+1bV28
- e4Ig==
-X-Gm-Message-State: AOAM532IjQpfdjZKTknkgnBLleucFaOEaW7KsLyRL77640g5cLden5VT
- 5+sswNq+5CKXIAbHLJ0OPnhbgvKoYocJkvq3/nY9Lw==
-X-Google-Smtp-Source: ABdhPJxY8pC1+NEtBu1X4FaeadD/ImD5s7EQAn9p6Pjh/OoZX8nxXPQmyBhtBRFiKU0y/y4Vn+qR33wGuo5AhN7i8rU=
-X-Received: by 2002:a17:906:24d6:: with SMTP id
- f22mr29334810ejb.85.1600339723173; 
- Thu, 17 Sep 2020 03:48:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kIrT3-0000Ba-Hb
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:48:45 -0400
+Resent-Date: Thu, 17 Sep 2020 06:48:45 -0400
+Resent-Message-Id: <E1kIrT3-0000Ba-Hb@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kIrT0-0008CK-PL
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:48:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600339718; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kd55/mvXkEF1VzQqNsGnGzVrOiTXOYEEf6khxHWdWOhyspM1fEOVDJXgJrmr+biIdNq8BKD9usk3LjhHvoeH/5+ImnY54+rqSqqk4Mlo7pidb8nO/s0vfHfWGDTZ6z076yuCTEqycMjRnBLCsATRJ63+GbcawV2O6AifHe5wNLo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600339718;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Zef2QUZs8wBM2c4t71sF4eTN8sqr4lCpM5LlPkf3rts=; 
+ b=KII1hUECuo8JDA0UUGnPrhKNcXoFzpZWsvKjAsWDXF8txjJJ+kenFwC15AzdHt6IC8uisG4gVWAD4qq3II/YvEAigoce3IG0g4Vdf9wjY3p8D1yBAJ1oASszUVBh/eE2dnY6LMYJEKB+CxIsTgqj74kW2egX9xYcKxw33+LgBPo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600339717186648.9895793757954;
+ Thu, 17 Sep 2020 03:48:37 -0700 (PDT)
+Subject: Re: [PATCH] docker.py: always use --rm
+Message-ID: <160033971608.8478.8691948340052312761@66eaa9a8a123>
+In-Reply-To: <20200917104441.31738-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <tencent_51E8948B9AE5AD5676A1A5DE2787377A3A05@qq.com>
-In-Reply-To: <tencent_51E8948B9AE5AD5676A1A5DE2787377A3A05@qq.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Sep 2020 11:48:32 +0100
-Message-ID: <CAFEAcA_Oshc=ciXn-Y-RfF3=ZMfw1s08mQNtjrMeRzVjiAG9+g@mail.gmail.com>
-Subject: Re: Why QEMU treats each instruction as one translation block?
-To: casmac <climber.cui@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Thu, 17 Sep 2020 03:48:37 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 04:18:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,54 +69,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Sep 2020 at 07:11, casmac <climber.cui@qq.com> wrote:
->
->   The loader works functionally, but we then found that sometimes QEMU is down-graded - it treats each instruction as one TB. In version 4.2,  debugging shows
-> that get_page_addr_code_host() from accel/tcg/cputlb.c returns -1, as shown below.
->
-> accel/tcg/cputlb.c:
-> tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
->                                         void **hostp)
-> {
->     uintptr_t mmu_idx = cpu_mmu_index(env, true);
->     uintptr_t index = tlb_index(env, mmu_idx, addr);
->     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
->     void *p;
->
->     //.....
->     if (unlikely(entry->addr_code & TLB_MMIO)) {
->         /* The region is not backed by RAM.  */
->         if (hostp) {
->             *hostp = NULL;
->         }
->         return -1;        /* debugging falls to this branch, after this point QEMU translate one instruction to a TB  */
->     }
->     //.......
-> }
->     One intresting fact is that this somehow depends on the linker command file. The object file generated by the following linker command file(per_instr.lds)
-> will "trigger" the problem. But QEMU work well with the object file linked by the other linker command file (ok.lds).
->     What cause get_page_addr_code_hostp() function to return -1?
-
-This happens when the code has been loaded to something that
-is not "normal RAM" (eg it is a device). That is, if your
-guest ELF file (or COFF file in your case) has headers saying
-"load this code to address X", and address X isn't actually
-RAM (or ROM, or a flash memory that's in read-mode), then
-you'll get the slow-path. In normal usage this almost never
-happens, because only weird ELF files (or ELF files that
-were intended to be run on a completely different machine model)
-try to load code to something other than RAM or ROM.
-
-Exactly when this will happen will depend on the machine model
-you're using and what devices and RAM it puts where in the
-memory map. You should look at what address the code gets
-loaded to and what is present at that address in the board
-model you're using.
-
-thanks
--- PMM
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxNzEwNDQ0MS4zMTcz
+OC0xLXBib256aW5pQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIGJ1aWxk
+IHRlc3Qgb24gRnJlZUJTRCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0YWlscyBiZWxvdy4KCgoK
+CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8y
+MDIwMDkxNzEwNDQ0MS4zMTczOC0xLXBib256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5GcmVlQlNE
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
