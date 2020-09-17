@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D928626DF14
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:06:42 +0200 (CEST)
-Received: from localhost ([::1]:46050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF2626DF24
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 17:10:09 +0200 (CEST)
+Received: from localhost ([::1]:60854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIvUf-00079u-TS
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
+	id 1kIvY0-0004wY-4r
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 11:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kIvMb-00076C-CM
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:58:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kIvMX-0000Lp-Nq
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 10:58:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600354696;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GC0+2S6Hmg1bC/CU+/xWdfNkCLAvxRqEFlCfr9UBf0g=;
- b=gddyZt56dm+TZKn7YxWoKGgo2Z+lLOK2BmE+W1GHl6dfveIemHnx3U785J2uIqr4nnm2Qw
- sTxQZmHSRjT9LVDIFm5SXdO6NjwsrF33uxR7SuuDR8doVJHXZvnWxHCAVnoCdpQZszFifS
- 0PjGBaDFfFCA/VBiUqo4pJ1n0XQEBME=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388--Z8eaRn1NuG-bBbBwiD_ig-1; Thu, 17 Sep 2020 10:58:14 -0400
-X-MC-Unique: -Z8eaRn1NuG-bBbBwiD_ig-1
-Received: by mail-wm1-f69.google.com with SMTP id u5so847492wme.3
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 07:58:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1kIvOV-0000wG-0H
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:00:19 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1kIvOS-0000cm-CW
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 11:00:17 -0400
+Received: by mail-wm1-x343.google.com with SMTP id w2so2290469wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 08:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=blade-group.com; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=3SVM8rXotF623Io9IrHQcUlHf3E7vAYuPYcMdJ6OHtw=;
+ b=ehIKjKV7pmr32yaIhdGMJIAFOqt3I9hahdx3XadTaNQTqukmy1t7uMyAmIibVW4TQH
+ J9rGKGyT8FN/uwjjo3N5moqhJ2DnkhkDv2kGUN9ZoJwoC/eFCw/x2mBPF4VZvKYNhW9P
+ 1GsYpCaBp1WY581RFfmB7DqRWH4RO+KUufLDveNKSjS+uJHD2HjXJ/6ielxWxoCsNboC
+ WuOrd4DUkuIIIma6JdSNTChsTbLIor6eA1cXU2mnxY9L+sph1mST87JoS1TB9RGicWQa
+ wC0rBQxpuSvV+EC0qBvdBG2OzQP8KYYAKWPVfrZFY0HW6BWrJpMitKaV8xqfTDh38kxy
+ w/oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=GC0+2S6Hmg1bC/CU+/xWdfNkCLAvxRqEFlCfr9UBf0g=;
- b=cgrpOthAqrN3pA3jqT4cJRokkLAtSlxotauimB/8zcJGsPr16wHqCecF1Iq63txQKW
- Bzu3w0P1Z/EKHkN6UhciliE0zBZbgnr3h+HUqBdc5rf0MrRsnWVS8UzS2aQ6W79Yfldg
- IDC0ITyMhm9O/hovoQZs9M6/xT1gZtaydaVHvxaZJLgGc+7UjXsKD/DdQXFQF0FmM5ko
- cSQnm6TUYrq/5c6Sph1dCpH0wP0lO6o64DpLWN8CqmIEMwQPRwkqnMk1gLmMyZRaxbgX
- Wa3keVNuFkTrL2C7P9dgLcmrXa2pzQkNxkbO8cNTSAkT3ChoUKqXYSzSHNAHYd/B5pnW
- ilyw==
-X-Gm-Message-State: AOAM532ivZaWdjhF5AhFZFVCxMK+hxBbRpuLErIvo//oK1ROQHbNEWrV
- foEzekECTHJabyW8n8iVFEc8skg1QpREPAg+Ro3CA7hvfxcMoBQPmKbA6GO/tRDG1nPt9IDI3ar
- l7C6tFgCqJ8iWaN4=
-X-Received: by 2002:a1c:7911:: with SMTP id l17mr10359096wme.179.1600354692897; 
- Thu, 17 Sep 2020 07:58:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzEMt0Yb9u0xaRJD3EyRvrVO/Bg2NQs8Cu7mwJUBve+xzOVP8VtbHlLopiHL6tJkFC2bkBzvg==
-X-Received: by 2002:a1c:7911:: with SMTP id l17mr10359072wme.179.1600354692639; 
- Thu, 17 Sep 2020 07:58:12 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id d6sm39843040wrq.67.2020.09.17.07.58.10
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3SVM8rXotF623Io9IrHQcUlHf3E7vAYuPYcMdJ6OHtw=;
+ b=mViASPbSl771v+xze5LvycxIyaG6Cgcv8zX+kTTrdj92F5qsAAHSMzduzFgW8A5qO5
+ cNCfkVMSNkFPj4AYWNQKCS4JBaFEWi95bP99T8Rh2L1u9tLjwQ1js6xn3Tuv3YE1sBvl
+ veNidDjnEcWNXjJse32pIFtKKKPkduq1WXnHEUHELY2zO6TZGYg5XDF1ZWPJga+jlTm8
+ DMrjZPo7cFNZKUBw+dpWE8PrYOyR51dLt3eKndVqhSKlPQ4VQwUUpnr66aOkNjmqt8R7
+ Kdsnnj+wnz/xXd25YfOfzGSnisN+7ImIAq+mfO/LoiQgS5ZQHt6ko+E0VH1xz8rmazRu
+ gP6g==
+X-Gm-Message-State: AOAM532XbmuoeM3rTj1jqBm+s5weP1pKXcWFCzkdAY6CAPA9JWlJgCNx
+ WSo7sHNdD87yUI5c5pETDH4xbw==
+X-Google-Smtp-Source: ABdhPJzNmxfhpX4UOuH3PFmeD4Lo9LMIVBbEvlDXjPnQT6N96OsWsm2ECLa6h7VGI2oUJdvArflQyQ==
+X-Received: by 2002:a1c:65c1:: with SMTP id z184mr10023712wmb.61.1600354813954; 
+ Thu, 17 Sep 2020 08:00:13 -0700 (PDT)
+Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
+ by smtp.gmail.com with ESMTPSA id h17sm41580596wro.27.2020.09.17.08.00.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 07:58:10 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+ Thu, 17 Sep 2020 08:00:13 -0700 (PDT)
+Date: Thu, 17 Sep 2020 17:00:12 +0200
+From: Antoine Damhet <antoine.damhet@blade-group.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Subject: Re: [PATCH] target/i386: always create kvmclock device
-In-Reply-To: <20200917144237.GK2793@work-vm>
+Message-ID: <20200917150012.wtub7y7wfrcepnkb@tartarus>
 References: <20200917111306.819263-1-vkuznets@redhat.com>
  <20200917122559.e7i5o64k7rw7urdh@tartarus>
- <87ft7gh6gy.fsf@vitty.brq.redhat.com> <20200917144237.GK2793@work-vm>
-Date: Thu, 17 Sep 2020 16:58:09 +0200
-Message-ID: <875z8ch2m6.fsf@vitty.brq.redhat.com>
+ <87ft7gh6gy.fsf@vitty.brq.redhat.com>
+ <20200917144237.GK2793@work-vm>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5je6uqn7y7r526nw"
+Content-Disposition: inline
+In-Reply-To: <20200917144237.GK2793@work-vm>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,125 +88,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Antoine Damhet <antoine.damhet@blade-group.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
-> * Vitaly Kuznetsov (vkuznets@redhat.com) wrote:
->> Antoine Damhet <antoine.damhet@blade-group.com> writes:
->> 
->> > On Thu, Sep 17, 2020 at 01:13:06PM +0200, Vitaly Kuznetsov wrote:
->> >> QEMU's kvmclock device is only created when KVM PV feature bits for
->> >> kvmclock (KVM_FEATURE_CLOCKSOURCE/KVM_FEATURE_CLOCKSOURCE2) are
->> >> exposed to the guest. With 'kvm=off' cpu flag the device is not
->> >> created and we don't call KVM_GET_CLOCK/KVM_SET_CLOCK upon migration.
->> >> It was reported that without these call at least Hyper-V TSC page
->> >> clocksouce (which can be enabled independently) gets broken after
->> >> migration.
->> >> 
->> >> Switch to creating kvmclock QEMU device unconditionally, it seems
->> >> to always make sense to call KVM_GET_CLOCK/KVM_SET_CLOCK on migration.
->> >> Use KVM_CAP_ADJUST_CLOCK check instead of CPUID feature bits.
->> >> 
->> >> Reported-by: Antoine Damhet <antoine.damhet@blade-group.com>
->> >> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> >> ---
->> >>  hw/i386/kvm/clock.c    | 6 +-----
->> >>  target/i386/kvm.c      | 5 +++++
->> >>  target/i386/kvm_i386.h | 1 +
->> >>  3 files changed, 7 insertions(+), 5 deletions(-)
->> >> 
->> >> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
->> >> index 64283358f91d..526c9ea5172b 100644
->> >> --- a/hw/i386/kvm/clock.c
->> >> +++ b/hw/i386/kvm/clock.c
->> >> @@ -330,11 +330,7 @@ static const TypeInfo kvmclock_info = {
->> >>  /* Note: Must be called after VCPU initialization. */
->> >>  void kvmclock_create(void)
->> >>  {
->> >> -    X86CPU *cpu = X86_CPU(first_cpu);
->> >> -
->> >> -    if (kvm_enabled() &&
->> >> -        cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
->> >> -                                       (1ULL << KVM_FEATURE_CLOCKSOURCE2))) {
->> >> +    if (kvm_enabled() && kvm_has_adjust_clock()) {
->> >
->> > Shouldn't the old check used when machine type <= 5.1 in order to avoid
->> > migration incompatibility ?
->> 
->> Hm, when the check fails we just don't create the device and no error is
->> reported, so even if we have kvmclock data in the migration stream but
->> fail to create it migration will still succeed, right? (not a migration
->> expert here :-)
->
+--5je6uqn7y7r526nw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Sep 17, 2020 at 03:42:37PM +0100, Dr. David Alan Gilbert wrote:
+
+[...]
+
+> > >
+> > > Shouldn't the old check used when machine type <=3D 5.1 in order to a=
+void
+> > > migration incompatibility ?
+> >=20
+> > Hm, when the check fails we just don't create the device and no error is
+> > reported, so even if we have kvmclock data in the migration stream but
+> > fail to create it migration will still succeed, right? (not a migration
+> > expert here :-)
+>=20
 > When the migration stream is parsed, it'll try and find a "kvmclock"
 > device to pass the data it's reading to; if one doesn't exist it'll
 > fail.
-
-This may happen with an older machine type when the destination is
-running an unfixed QEMU and the source has the fix, right? The solution
-would be to introduce a flag for older machine types (or for new ones)
-like 'kvmclock_always'.
-
->
+>=20
 > The other question is in the incoming direction from an older VM;
 > you'll have a kvm clock created here, but you won't load the kvm clock
 > state from the migration stream - what is this clock going to do?
 
-This is not really a problem I believe: the clock was absent on the
-source and things somehow worked for the guest so even if we don't
-initialize kvmclock properly on the destination nothing bad is expected.
+I guess that if the migration succeed (and the VMState keeps it's
+initial value) the timestamp will be restored to 0 which is the current
+behavior.
 
->
+>=20
 > Dave
->
->> >
->> >>          sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
->> >>      }
->> >>  }
->> >> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
->> >> index 4a8b3a41c1bc..20b31b65307b 100644
->> >> --- a/target/i386/kvm.c
->> >> +++ b/target/i386/kvm.c
->> >> @@ -143,6 +143,11 @@ bool kvm_has_adjust_clock_stable(void)
->> >>      return (ret == KVM_CLOCK_TSC_STABLE);
->> >>  }
->> >>  
->> >> +bool kvm_has_adjust_clock(void)
->> >> +{
->> >> +    return kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
->> >> +}
->> >> +
->> >>  bool kvm_has_exception_payload(void)
->> >>  {
->> >>      return has_exception_payload;
->> >> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
->> >> index 064b8798a26c..0fce4e51d2d6 100644
->> >> --- a/target/i386/kvm_i386.h
->> >> +++ b/target/i386/kvm_i386.h
->> >> @@ -34,6 +34,7 @@
->> >>  
->> >>  bool kvm_allows_irq0_override(void);
->> >>  bool kvm_has_smm(void);
->> >> +bool kvm_has_adjust_clock(void);
->> >>  bool kvm_has_adjust_clock_stable(void);
->> >>  bool kvm_has_exception_payload(void);
->> >>  void kvm_synchronize_all_tsc(void);
->> >> -- 
->> >> 2.25.4
->> >> 
->> >> 
->> 
->> -- 
->> Vitaly
->> 
 
--- 
-Vitaly
 
+[...]
+
+--=20
+Antoine 'xdbob' Damhet
+
+--5je6uqn7y7r526nw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAl9jefkACgkQ3AmjLzzl
+jz69TwgAl8ilg5AhjL20olk8/q9lqrdl7ENnCjz/FPNwzOAovfiQKfuykgIE/95L
+x/Kuo/hJJjmyEPTXJpKDPu3oxv8llSqxP1MvcAYJVVuvQfgrGP3VfdjnRIdKUZ/5
+HDQnFV+NLfE4Vp3inI2BtQeQbiNTiEnOAaXilHIh42JRUgcPFKQTmZqZBwWXlLSR
+d2mKq6Qd9GNE74Emh3K0saIFCaUBDWSGpcuX7KnYKOR1mRYPdbQRwKyKO+mbjFPw
+L5EpQX+h5535EpJCz7xfFd+xLz7A/9dGpXC9qplIqftJ0N3szYWaoLiNqkgxTR9M
+TPdqUjJmFk0pYzqdiza8YlG14UJXdw==
+=lI3M
+-----END PGP SIGNATURE-----
+
+--5je6uqn7y7r526nw--
 
