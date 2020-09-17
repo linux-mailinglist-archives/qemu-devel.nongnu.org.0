@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C1226DBE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:45:04 +0200 (CEST)
-Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA0626DC09
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 14:51:33 +0200 (CEST)
+Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kItHb-0007VE-Gm
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
+	id 1kItNq-0002U3-OO
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 08:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kItEN-0003rV-MX
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:41:44 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:38334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kItEK-0005wi-DW
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:41:43 -0400
-Received: by mail-pf1-x431.google.com with SMTP id l126so1141404pfd.5
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 05:41:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2OdJQRLcdOum/QgVtr/P1Vx3YmopOHbavwZGRPWAftY=;
- b=rJCwUVoRuLNCbzr1KEP5QVECzw9BVWCXL8ciUkI1TBd/7M/c2bPHHtkmHZy3lXXs46
- XCew32pMks8tUIcL71VxE/28Zz0Z1n79ACsS2WASSylHiFcGHvxQRq9c1Pb98bHMsMEs
- abEcg1j0Wtpa/vMI1T45ssA9Kg5frBeGg61/3TX+n0XFByV2DQjF/HUhlVlDQaGzvTWS
- 2nRcjIJW45xJf+/dXjx74KWv20LcCtPqltSgcgXyCDTeGnUUiC2ncQ1EmJOS+SV5Dua0
- rIfwlHKcr+SjuPj23vYU1gKvIIDBJXXsO1w9ilBOV3kkUKI/SoWc77Gd1ypSwzjFwV6P
- rrWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2OdJQRLcdOum/QgVtr/P1Vx3YmopOHbavwZGRPWAftY=;
- b=XYBpjzWncthM18EdQ/2c6qQcT6W+s3gEQo+sXQEjy2KcJ2HEc4cdBbgDTuPsGfxWVf
- jI9mdew/VU3jy8qsTi3SPCc1kwDZuXeEXWVTQvGnGVkf96v+ien/vsSsh9Hi/wkxVeOj
- pZxQYnzKOVY+FOJiI2aeceXxeRd8jQbbSrvohl7CO3gJy4NgwheKTNL/IMh4IjJGMjui
- SEC/twAV0W0cLvZzws/wqcNelvFxPids2UZDKkmsnRj5A8W3CCob3e/4zGbHMeWHoeGC
- f0rkywMOat/T5kSPF9GI6vLge3ARhgUIF25cANbANa+K2ekn76HZDKmgMT3nITkgBLTK
- za9Q==
-X-Gm-Message-State: AOAM532Og3w9vDJz8s0qHVn0Ghyatz8nGbhoECm0sf2q1wB+tgnXOkvc
- OiBos+PKEIZutwfUqwSB6zzJr2sSFBXn4vL2jsB0P5l+qt8=
-X-Google-Smtp-Source: ABdhPJwxTnBu5K2lZGsDWA49dRqz3zdX1eLtixQmO5zEnRPDQAEqItICqQoSnbjSwet1O2AWlsBYTVVBlx9VgcGaoGA=
-X-Received: by 2002:a63:6346:: with SMTP id x67mr22721848pgb.121.1600346497434; 
- Thu, 17 Sep 2020 05:41:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1kItMj-0001zb-TD
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:50:21 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4713 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1kItMc-00074s-Nq
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 08:50:21 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 0D9F22D29E798197F2D2
+ for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 20:49:20 +0800 (CST)
+Received: from [10.174.187.46] (10.174.187.46) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 17 Sep 2020 20:49:12 +0800
+Subject: Re: [PATCH v2 00/10] fix some error memleaks
+To: <qemu-devel@nongnu.org>
+References: <20200831134315.1221-1-pannengyuan@huawei.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
+Message-ID: <69c7b62c-7be6-be1f-0ad4-521720468570@huawei.com>
+Date: Thu, 17 Sep 2020 20:49:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20200824134431.GA35623@stefanha-x1.localdomain>
- <CAJSP0QW3xniHzHS=_Ok1D-NuAViHUShCxYs38YDo-YjUxC_+ZA@mail.gmail.com>
- <709da6a3-d158-270b-fb63-43ef65dfe668@virtuozzo.com>
- <dd5d6d0f-cc52-d3d5-0bbc-c57dcfef6842@virtuozzo.com>
-In-Reply-To: <dd5d6d0f-cc52-d3d5-0bbc-c57dcfef6842@virtuozzo.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 17 Sep 2020 13:41:26 +0100
-Message-ID: <CAJSP0QVRMzw5AAJEPpOChyFK4hUuEe1VE909QvYb6HQGOV_8XA@mail.gmail.com>
-Subject: Re: QEMU 5.0 virtio-blk performance regression with high queue depths
-To: "Denis V. Lunev" <den@virtuozzo.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=stefanha@gmail.com; helo=mail-pf1-x431.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200831134315.1221-1-pannengyuan@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.46]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=pannengyuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 08:17:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,49 +61,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: kuhn.chenqun@huawei.com, zhang.zhanghailiang@huawei.com,
+ euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 16, 2020 at 5:43 PM Denis V. Lunev <den@virtuozzo.com> wrote:
-> On 9/16/20 5:07 PM, Denis V. Lunev wrote:
-> > I will make a check today.
-> >
-> > Talking about our performance measurements, we have not
-> > seen ANY performance degradation, especially 30-40%.
-> > This looking quite strange to me.
-> >
-> > Though there is quite important difference. We are always
-> > using O_DIRECT and 'native' AIO engine.
-> >
-> > Den
->
-> I have put my hands into this and it looks like you are right. There is
-> a difference. It is not as significant for me as in your case, but I observe
-> stable around 10% difference with 128 vs 256 queue size.
->
-> I have checked with:
-> - QEMU 5.1
-> - Fedora 31 in guest
-> - qcow2 (64k, 1Mb) and raw image on host
-> - nocache and both threaded/native IO modes
->
-> The test was run on Thinkpad Carbon X1 gen 6 laptop.
->
-> For the reference, I have seen 330k IOPS for read
-> at max which is looking awesome for native and 220k
-> IOPS for threads.
+ping!
 
-Thanks for confirming! Reverting the commit is unattractive since it
-does improve performance in some cases.
+Anyone queued the rest(patch 01/02/03/07/08/09)?
 
-It would be good to understand the root cause so the regression can be
-fixed without reducing queue-size again.
-
-Do you have time to investigate?
-
-Thanks,
-Stefan
+On 2020/8/31 21:43, Pan Nengyuan wrote:
+> This series fix some Error/GError memleaks.
+> 
+> V2: 
+>   1. remove two patches.(One has aleardy applied. The other has fixed.)
+>   2. change patch 5/10 and 7/10.
+> 
+> Pan Nengyuan (10):
+>   qga/channel-posix: Plug memory leak in ga_channel_write_all()
+>   elf2dmp/qemu_elf: Plug memleak in QEMU_Elf_init
+>   elf2dmp/pdb: Plug memleak in pdb_init_from_file
+>   target/i386/sev: Plug memleak in sev_read_file_base64
+>   ui/gtk-gl-area: Plug memleak in gd_gl_area_create_context()
+>   target/i386/cpu: Fix memleak in x86_cpu_class_check_missing_features
+>   migration/colo: Plug memleaks in colo_process_incoming_thread
+>   blockdev: Fix a memleak in drive_backup_prepare()
+>   block/file-posix: fix a possible undefined behavior
+>   vnc-auth-sasl: Plug memleak in vnc_socket_ip_addr_string
+> 
+>  block/file-posix.c         |  2 +-
+>  blockdev.c                 |  1 +
+>  contrib/elf2dmp/pdb.c      |  1 +
+>  contrib/elf2dmp/qemu_elf.c |  1 +
+>  migration/colo.c           |  5 ++++-
+>  qga/channel-posix.c        |  6 +++++-
+>  target/i386/cpu.c          |  1 +
+>  target/i386/sev.c          |  1 +
+>  ui/gtk-gl-area.c           | 11 +++++++++++
+>  ui/vnc-auth-sasl.c         |  1 +
+>  10 files changed, 27 insertions(+), 3 deletions(-)
+> 
 
