@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC6626D193
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:28:23 +0200 (CEST)
-Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E6E26D186
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 05:25:47 +0200 (CEST)
+Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIkas-00065c-CP
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47982)
+	id 1kIkYM-0001l5-Rs
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 23:25:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUS-00058i-Tx; Wed, 16 Sep 2020 23:21:44 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:44580 helo=huawei.com)
+ id 1kIkUN-0004w5-QJ; Wed, 16 Sep 2020 23:21:39 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:44680 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kIkUM-0004QF-Bt; Wed, 16 Sep 2020 23:21:44 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 02EE63B39BCAAE14CE4B;
- Thu, 17 Sep 2020 11:20:51 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 11:20:42 +0800
+ id 1kIkTp-0004QL-M3; Wed, 16 Sep 2020 23:21:39 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 765CCAFAF5B114C6D711;
+ Thu, 17 Sep 2020 11:20:53 +0800 (CST)
+Received: from localhost (10.174.185.104) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
+ 11:20:44 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 00/12] hw/arm/virt: Introduce cpu and cache topology
- support
-Date: Thu, 17 Sep 2020 11:20:21 +0800
-Message-ID: <20200917032033.2020-1-fangying1@huawei.com>
+Subject: [RFC PATCH 01/12] linux headers: Update linux header with
+ KVM_ARM_SET_MP_AFFINITY
+Date: Thu, 17 Sep 2020 11:20:22 +0800
+Message-ID: <20200917032033.2020-2-fangying1@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20200917032033.2020-1-fangying1@huawei.com>
+References: <20200917032033.2020-1-fangying1@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -64,60 +66,32 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An accurate cpu topology may help improve the cpu scheduler's decision
-making when dealing with multi-core system. So cpu topology description
-is helpful to provide guest with the right view. Cpu cache information may
-also have slight impact on the sched domain, and even userspace software
-may check the cpu cache information to do some optimizations. Thus this patch
-series is posted to provide cpu and cache topology support for arm.
+Signed-off-by: Ying Fang <fangying1@huawei.com>
+---
+ linux-headers/linux/kvm.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-To make the cpu topology consistent with MPIDR, an vcpu ioctl
-KVM_ARM_SET_MP_AFFINITY is introduced so that userspace can set MPIDR
-according to the topology specified [1]. To describe the cpu topology
-both fdt and ACPI are supported. To describe the cpu cache information,
-a default cache hierarchy is given and can be made configurable later.
-The cpu topology is built according to processor hierarchy node structure.
-The cpu cache information is built according to cache type structure.
-
-This patch series is partially based on the patches posted by Andrew Jone
-years ago [2], I jumped in on it since some OS vendor cooperative partners
-are eager for it. Thanks for Andrew's contribution. Please feel free to reply
-to me if there is anything improper.
-
-[1] https://patchwork.kernel.org/cover/11781317
-[2] https://patchwork.ozlabs.org/project/qemu-devel/cover/20180704124923.32483-1-drjones@redhat.com
-
-Andrew Jones (2):
-  device_tree: add qemu_fdt_add_path
-  hw/arm/virt: DT: add cpu-map
-
-Ying Fang (10):
-  linux headers: Update linux header with KVM_ARM_SET_MP_AFFINITY
-  target/arm/kvm64: make MPIDR consistent with CPU Topology
-  target/arm/kvm32: make MPIDR consistent with CPU Topology
-  hw/arm/virt-acpi-build: distinguish possible and present cpus
-  hw/acpi/aml-build: add processor hierarchy node structure
-  hw/arm/virt-acpi-build: add PPTT table
-  target/arm/cpu: Add CPU cache description for arm
-  hw/arm/virt: add fdt cache information
-  hw/acpi/aml-build: build ACPI CPU cache topology information
-  hw/arm/virt-acpi-build: Enable CPU cache topology
-
- device_tree.c                |  24 +++++++
- hw/acpi/aml-build.c          |  68 +++++++++++++++++++
- hw/arm/virt-acpi-build.c     |  99 +++++++++++++++++++++++++--
- hw/arm/virt.c                | 128 ++++++++++++++++++++++++++++++++++-
- include/hw/acpi/acpi-defs.h  |  14 ++++
- include/hw/acpi/aml-build.h  |  11 +++
- include/hw/arm/virt.h        |   1 +
- include/sysemu/device_tree.h |   1 +
- linux-headers/linux/kvm.h    |   3 +
- target/arm/cpu.c             |  42 ++++++++++++
- target/arm/cpu.h             |  27 ++++++++
- target/arm/kvm32.c           |  46 ++++++++++---
- target/arm/kvm64.c           |  46 ++++++++++---
- 13 files changed, 488 insertions(+), 22 deletions(-)
-
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index a28c366737..461a2302e7 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1031,6 +1031,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_PPC_SECURE_GUEST 181
+ #define KVM_CAP_HALT_POLL 182
+ #define KVM_CAP_ASYNC_PF_INT 183
++#define KVM_CAP_ARM_MP_AFFINITY 187
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1470,6 +1471,8 @@ struct kvm_s390_ucas_mapping {
+ #define KVM_S390_SET_CMMA_BITS      _IOW(KVMIO, 0xb9, struct kvm_s390_cmma_log)
+ /* Memory Encryption Commands */
+ #define KVM_MEMORY_ENCRYPT_OP      _IOWR(KVMIO, 0xba, unsigned long)
++/* Available with KVM_CAP_ARM_MP_AFFINITY */
++#define KVM_ARM_SET_MP_AFFINITY    _IOWR(KVMIO, 0xbb, unsigned long)
+ 
+ struct kvm_enc_region {
+ 	__u64 addr;
 -- 
 2.23.0
 
