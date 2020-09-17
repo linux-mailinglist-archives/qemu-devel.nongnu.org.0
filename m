@@ -2,112 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392E326E055
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:11:41 +0200 (CEST)
-Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B510C26E065
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 18:14:07 +0200 (CEST)
+Received: from localhost ([::1]:33554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIwVY-0000id-8W
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46642)
+	id 1kIwXu-0003KZ-P9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 12:14:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kIwTY-0007eE-Iw; Thu, 17 Sep 2020 12:09:36 -0400
-Received: from mail-db8eur05on2118.outbound.protection.outlook.com
- ([40.107.20.118]:51201 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kIwVW-0001em-4v
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:11:38 -0400
+Received: from mail-bn8nam12on2057.outbound.protection.outlook.com
+ ([40.107.237.57]:12001 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kIwTT-0005h6-4o; Thu, 17 Sep 2020 12:09:34 -0400
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kIwVU-0006C4-49
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 12:11:37 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mzY0ECPJmx1d/XVXZtlG6cdFb4sz+IBmvpxEHvjLWIWBL65pSw2zDAa0rfGw1hFkv1cHOsrk/IWjy4z6ENEKOsF7xPnRdb5fz19dH05IIgTEoozJfgUCmfk69uxUNaZLufb8p59MDNhV8BvTgIDlQqgzZlYfMUr762JKux6wC6sIhhYTJ7P6oKmBi9DxPeTz6UPeaciAf33lhJcJHt8DAUUt+EMjg7sc5c/SsC///SxQefFrVe+ZBDSkmG+jL2FO2E3cL6SH5zcdObxmhTu3N9jXDOFhYhDguBUjnE5HaH5yEKHA6h6Sxj2KANWePYF4F9TAiAEWiz7dcT3fmbqpEw==
+ b=TZMZEvqygOV+GaHYDeMz/WyupZQb9gYPNkZQgY33gl7ubfyEtbMos1XJyxDEKT7fNHcBXzCT8foO2XcYsZSHgDbn23BBmUEkBR7LsWodMOOOvtaqDQOC3+83BmKtgceBz8StMVCj2oMb/dxTHJt5ZMgvmrQha/bBwuBC24MYWfCSFFM/rVWeQJzEBm+gG7GcKMvNbQtRnqEMNp6VnOihSZho5yJ9pmThzba3gZIblOEuI5HQihGqoR80l4m8mIizjYhxbO76JR+vb6mtUVkQJP6byLhjgA+dlsBoQDgS9dS/DtoZ1v0J5opTkuZQk2E72f0DgyWWfFjse3NiLKQ8SQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IFmrRlDRG9k2qDhVB5xsr9GjzmfA35jCtROeJwWNhGA=;
- b=eNUh3FTznYGhWeWa6lOwVRdTZuTWKO+J9fk2XAZeiJMMzFmhus172fDpqKrsgxRsi/PdDQyAy33U6D3wjA626f0TPhW/q1+hjz6DnLNuRaB5VlWTf463OFctj1Colyweq0cKmbTfsLCxEaworqoZjjjTu9bTI5zR+mZNd+u9Ll+g7GLjT1wfRMfEvcWtwPW2scx2xnjNnj50efJyGRNY0TEBgSUc8n6fArWbEA4yY2kwP7K9DBojpsYcs/1yMk+1nXS342jsjHG0rjgUM36ouBYrkfczSvsEZhzBarxowN+Q1NKAz1UJGBrAlxddEXmcoxkLlGMD6luucleMtypqrQ==
+ bh=B/eq/JFdFG5RCwhMtaziUiEDG2xEtqQn/xKir7bYh5g=;
+ b=QvfK4GvCK1jvyKrb2RmU3ba7QqwSTaah1d8VUlvz+EmIvOWihQsh711HFO76pBDJGVmAv7IwgyQPSvHdCBMJys23/u4o5qf/L1P8MZXu+pqLu106SOx9bwHUCHfGRDgADgeUR2eNcBrkEhNM5t35dxdVpOdJ+w07wlaAfgmdHxLFLQAjeqgBEeHwBbyAeyVcXYXJzBxugr479AUOzo5mp23OgtkLP9FZHpnInygIrVYFeR+9zf5dODcxdlOXdqXlCM2i0uaj7s0taZf8oSBkdAPt5yDimSiU3Fv9PqC2vl4mOnlqg7F3bqfihGHnwby2qsL6AI/cFHXZFsdFWg0rxQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IFmrRlDRG9k2qDhVB5xsr9GjzmfA35jCtROeJwWNhGA=;
- b=k2m+6X1lNA6IoHxsjpbvt7GL9j5p5/bLNSVZbd9ThnDp6CS7+1BsA3pWVUY/L2UCTKyyxo0KYw+LvlEYUi+Pngo7LLRcjS44R24zRA8hvxJFH8hxh1iEQeXt2ZxU8DBDwb/w7iftUz4uRZU1sEcEtJfr71ITx1pdmbb2eu4htUs=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
- by HE1PR0801MB1771.eurprd08.prod.outlook.com (2603:10a6:3:88::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.17; Thu, 17 Sep
- 2020 16:09:25 +0000
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::fd10:fc33:1bb0:1036]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::fd10:fc33:1bb0:1036%6]) with mapi id 15.20.3391.014; Thu, 17 Sep 2020
- 16:09:25 +0000
-Subject: Re: [PATCH v8 2/7] copy-on-read: add filter append/drop functions
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, armbru@redhat.com,
- jsnow@redhat.com, eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com
-References: <1598633579-221780-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1598633579-221780-3-git-send-email-andrey.shinkevich@virtuozzo.com>
- <9733a257-b864-e8db-7379-f94fbd21045a@redhat.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <25a087d0-0306-574d-432b-0b5635ee7873@virtuozzo.com>
-Date: Thu, 17 Sep 2020 19:09:22 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <9733a257-b864-e8db-7379-f94fbd21045a@redhat.com>
-Content-Type: multipart/alternative;
- boundary="------------257BC0BB94D4F90ABDEC7C35"
-Content-Language: en-GB
-X-ClientProxiedBy: FR2P281CA0033.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::20) To HE1PR0801MB2124.eurprd08.prod.outlook.com
- (2603:10a6:3:89::22)
+ bh=B/eq/JFdFG5RCwhMtaziUiEDG2xEtqQn/xKir7bYh5g=;
+ b=knVFBys3ay7FUUA8oNvkykrTKH5O7bTjWrte6SJ7iV6rBWnBbW2IGXeCWAYFAg583oWqh9f8elmV6gyvm3is0oTLXsF/f+J/X7qBcAIEWKlydj0szQF2F4zCXgD1/WYx9lsJfsAj92olubSn9nNUc+To93XnJYwkF1h8tk7owGg=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM6PR12MB3179.namprd12.prod.outlook.com (2603:10b6:5:183::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3348.16; Thu, 17 Sep 2020 16:11:32 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::299a:8ed2:23fc:6346]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::299a:8ed2:23fc:6346%3]) with mapi id 15.20.3391.011; Thu, 17 Sep 2020
+ 16:11:32 +0000
+Subject: Re: [PATCH v3 5/5] sev/i386: Enable an SEV-ES guest based on SEV
+ policy
+From: Tom Lendacky <thomas.lendacky@amd.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <cover.1600205384.git.thomas.lendacky@amd.com>
+ <8e560a8577066c07b5bf1e5993fbd6d697702384.1600205384.git.thomas.lendacky@amd.com>
+ <20200917153429.GL2793@work-vm>
+ <81e64c83-f41c-d8f0-3268-ec6185f4a8dc@amd.com>
+Message-ID: <3c401a2d-db30-8d85-c474-5bb56f1c6f16@amd.com>
+Date: Thu, 17 Sep 2020 11:11:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <81e64c83-f41c-d8f0-3268-ec6185f4a8dc@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN6PR04CA0075.namprd04.prod.outlook.com
+ (2603:10b6:805:f2::16) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.22) by
- FR2P281CA0033.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::20) with Microsoft
+Received: from office-linux.texastahm.com (67.79.209.213) by
+ SN6PR04CA0075.namprd04.prod.outlook.com (2603:10b6:805:f2::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3412.4 via Frontend Transport; Thu, 17 Sep 2020 16:09:24 +0000
-X-Originating-IP: [109.252.114.22]
+ 15.20.3391.11 via Frontend Transport; Thu, 17 Sep 2020 16:11:31 +0000
+X-Originating-IP: [67.79.209.213]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cb124550-c1ab-44fb-2e63-08d85b240bf7
-X-MS-TrafficTypeDiagnostic: HE1PR0801MB1771:
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0e44a48b-031c-4615-9a27-08d85b2457cf
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3179:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR0801MB17711E0E5156A3BC6644B8F2F43E0@HE1PR0801MB1771.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB317977C683E61A4782CA3545EC3E0@DM6PR12MB3179.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1KgzcWc12RATY4rex8LIUMxcBuQ1YfwYLhs5pBQ/r4leideDERuQxSrjxyGCQ7arNMIpPtoVUP7aMdj5uos2nFNNLsSBkxUK6MhjzAaiuMZc7Xx60Cn458+gyHocJkQYJf5DkBiWcHE7GjOHtn8OXM2DE8ArM0E3N4o1gNnUD0gV0MVLFiAxcEZQ0a8Big22n9mEbMiTOGVdFxd4hSUiNrgVxp7orldB+Y7EZfRGy3CjBm29jiB5gHfRlqjbKIhq5TUsY9EVb7tR5pA3F3Bp3I9Sq/u87QGINDAhvQDggUsKN2FncPpaWKtI8ZXqrDYV7jTjRYpzni0JZU8RhRyJlEp3HT7XWhFAmOXVD9X9mKUobo/5oUrZpquH5qr4LDIE
+X-Microsoft-Antispam-Message-Info: dVl0ot/Vndp0NR2V6Dx1W8Qd6AMfJvUuHEEfEAUtX6sK072lbQaGcdZ4VG+rP8wffgZao8/mLfz4UcBGSrJO+gQsvgNLSeG3/L30Glit2dVze0AM0FJtovRkc/xzV7Uc53xREtwpk5FFug2hZ/3FEwo7mzWRz0DfaxISi+TxgdVp+NhEsF/PcqKPUKR3VvsqxxaQkuInmQX2qUTvIjih5z55F/UlypXyAS5OYPchlqiLGIOMlFuthonhPCLJn6/GYDGkSliu7B3EQc1pkWW117qzWbOdhP65B95iWArD2aaN8qsug7qwkylyF+gZ62qXzGJkYrNYC68+138IIwmxqb6AL8ssofhCdccXsKWz99w38xYZKTAarsjZ6IwwyrRR
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(39840400004)(396003)(366004)(956004)(66946007)(66556008)(31696002)(44832011)(66476007)(16526019)(36756003)(86362001)(4326008)(6486002)(186003)(5660300002)(26005)(52116002)(8676002)(33964004)(2906002)(53546011)(2616005)(6512007)(107886003)(31686004)(478600001)(8936002)(83380400001)(6506007)(316002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: SgS7Xr6TZiIqfN5rKwfCpAxUz8zgXtcUALmwJoif6BlCVX5dV02+RdAXRvjsvUJOEq3/8JFa8l4zJmttEU15LGuSmAvxE38DbK4xAPdN0uGHYRYvbJ2pyvHTK1wM4cwvMD++BCUynF1TKRmMD8xFTNlcMRCMK2VPUBkxS5MTqWqwPfkGZt10C681PqeIAqqdxjAxDKUXxXAfneFU7/3B1mQEWOSHcoo2KNMwXSiCR98KesQ2LSzx4xL85K/1AVNK9QzR6q1Qr8AitSkdp1g3nljqkT9Js1TBqUrzuEcvvVOTRISldBO7+gxxRJm9MP747b45Cf0KJ2sroqo9wWVnBOFzdBapKY5GQLc/Plyu9XHYLCBZqZzP+jGIrbNgK3JGCDHBO1Mo8/LlKfByGqROGANepndAQRmzWOipoDC7FjFFz6c0uDtGM7fbGLJaKEgGLDHULbMDSSjoekaOLjjScpqscWREYxgG9/NqB4aYuiYTRrK+MZTEs4lIe9/A7/T5xxg0OlDljAzURQ/Cl5e3ewiGAMDPCMqly1aV1ejMOzmC4AHK6Pm7u+PjeJgo5cXn35HY6DWuDvktF/rudGVWCFTnDjE/aZquEYTYZ7OTaKkIxptKR/2kVmoExPPch4ZzSwVjMVOfidEjf1MoQsiwjg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb124550-c1ab-44fb-2e63-08d85b240bf7
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(346002)(376002)(136003)(396003)(6916009)(31696002)(66556008)(83380400001)(6512007)(66946007)(66476007)(956004)(2616005)(316002)(478600001)(86362001)(2906002)(36756003)(5660300002)(6486002)(54906003)(16526019)(6506007)(31686004)(7416002)(4326008)(186003)(52116002)(8676002)(8936002)(53546011)(26005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 2NHWQNJoIyBb9BLWLAbAwzIIlY2nZNM16tgzW7Gqz0LBoHdQZW/L7SafshVPoVZrWcW7gZdF1b/UNSCqoaibifnxHyJPzBSFPfJTM5Qcs1LJ6clf/v89CMrlL/XsZFm5TJtL/QBPghIcb0up8CaUe5LwMvqxriKK6+I3juss+iDblII7mbOzGatB5GsNcGnp0Fwga7TIh/4Vl9qkGi04PrFmSO6Hi2cjxR6tjGNAFZrYDSSQwUs3SQJDgt1iOzYrmqwAD13XG5ZvdVSPOfy8uJMIa6BqNzu8K6BcbIngsBRQRQ6QPlkkMZhDB2JopvPPYYPN7+zkP9C6ZjqCJMhGcoIrBfKMr9y1ikl2D/kS6ko3Wwh+QswP46wi2wAfKMGpkUmM2Nr6QA36LRUhHLFjce8wV8rgeVTaVufXzaOZKV7sFWXEqACzsTKiablYJeteOKX6JTQqH7G+IGF/tldMzSEf08MAgKJj4QdTD02PUPUNI84J2GCnUowSbTGCEYlRjgAxWOARzsgTXB6JmAMWUKbCEfYtxj7aDLn2AJx5Ui+ABhPh+uc9lAH6vHdZKrPoN98K6kIRi8EpEMv/B+LL0zg8npk1jg2lzaLEPTSdD6FowEMsWKNIOcVS7Pjc76MThWRszphWmowx2Cc1LSOhlQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e44a48b-031c-4615-9a27-08d85b2457cf
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 16:09:25.3172 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 16:11:32.6097 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gShj+kjpp390yHcCRWlltt20VrcnQWszex2NavLVAsWImEiQMZlR+aoLaJsyarjQSYr0lD92b2B8y5Uiuma0A2RQB+YzhsPHQYamfKOyo8c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1771
-Received-SPF: pass client-ip=40.107.20.118;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 12:09:27
+X-MS-Exchange-CrossTenant-UserPrincipalName: x/FMx82DxKQiV8gaeVsEZrYnxsyJN+DFSIZ8s2jHfsTy4kxePhd48/zmP24RjHm1evWmNVvVwQqX9NigibKURQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3179
+Received-SPF: none client-ip=40.107.237.57;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 12:11:34
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,199 +121,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------257BC0BB94D4F90ABDEC7C35
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 9/17/20 11:07 AM, Tom Lendacky wrote:
+> On 9/17/20 10:34 AM, Dr. David Alan Gilbert wrote:
+>> * Tom Lendacky (thomas.lendacky@amd.com) wrote:
+>>> From: Tom Lendacky <thomas.lendacky@amd.com>
+>>>
+>>> Update the sev_es_enabled() function return value to be based on the SEV
+>>> policy that has been specified. SEV-ES is enabled if SEV is enabled and
+>>> the SEV-ES policy bit is set in the policy object.
+>>>
+>>> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+>>> ---
+>>>   target/i386/sev.c | 4 +++-
+>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/i386/sev.c b/target/i386/sev.c
+>>> index 6ddefc65fa..bcaadaa2f9 100644
+>>> --- a/target/i386/sev.c
+>>> +++ b/target/i386/sev.c
+>>> @@ -70,6 +70,8 @@ struct SevGuestState {
+>>>   #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
+>>>   #define DEFAULT_SEV_DEVICE      "/dev/sev"
+>>> +#define GUEST_POLICY_SEV_ES_BIT (1 << 2)
+>>> +
+>>
+>> I'm surprised that all the policy bits aren't defined in a header 
+>> somewhere.
+> 
+> I have another version to be issued with changes to use QemuUUID, so I can 
+> look at moving the bits to a header.
 
-On 04.09.2020 14:22, Max Reitz wrote:
-> On 28.08.20 18:52, Andrey Shinkevich wrote:
->> Provide API for the COR-filter insertion/removal.
-...
->
->> Also, drop the filter child permissions for an inactive state when the
->> filter node is being removed.
-> Do we need .active for that?  Shouldn’t it be sufficient to just not
-> require BLK_PERM_WRITE_UNCHANGED when no permissions are taken on the
-> node (i.e. perm == 0 in cor_child_perm())?
->
-> Of course, using an .active field works, too.  But Vladimir wanted a
-> similar field in the preallocate filter, and there already is in
-> backup-top.  I feel like there shouldn’t be a need for this.
->
-> .bdrv_child_perm() should generally be able to decide what permissions
-> it needs based on the information it gets.  If every driver needs to
-> keep track of whether it has any parents and feed that information into
-> .bdrv_child_perm() as external state, then something feels wrong.
->
-> If perm == 0 is not sufficient to rule out any parents, we should just
-> explicitly add a boolean that tells .bdrv_child_perm() whether there are
-> any parents or not – shouldn’t be too difficult.
+Hmmm... and they already are defined in target/i386/sev_i386.h. I guess I 
+was looking for sev.h and didn't notice sev_i386.h. So I'll update to use 
+the values in sev_i386.h.
 
+Thanks,
+Tom
 
-The issue is that we fail in the bdrv_check_update_perm() with 
-""Conflicts with use by..." if the *nperm = 0 and the *nshared = 
-BLK_PERM_ALL are not set before the call to the bdrv_replace_node(). The 
-filter is still in the backing chain by that moment and has a parent 
-with child->perm != 0.
-
-The implementation of  the .bdrv_child_perm()in the given patch is 
-similar to one in the block/mirror.c.
-
-How could we resolve the issue at the generic layer?
-
-
-Andrey
-
-
->
->> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/copy-on-read.c | 104 +++++++++++++++++++++++++++++++++++++++++++++++++++
->>   block/copy-on-read.h |  35 +++++++++++++++++
->>   2 files changed, 139 insertions(+)
->>   create mode 100644 block/copy-on-read.h
-> [...]
-
---------------257BC0BB94D4F90ABDEC7C35
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 04.09.2020 14:22, Max Reitz wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:9733a257-b864-e8db-7379-f94fbd21045a@redhat.com">
-      <pre class="moz-quote-pre" wrap="">On 28.08.20 18:52, Andrey Shinkevich wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Provide API for the COR-filter insertion/removal.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    ...<br>
-    <blockquote type="cite" cite="mid:9733a257-b864-e8db-7379-f94fbd21045a@redhat.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Also, drop the filter child permissions for an inactive state when the
-filter node is being removed.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Do we need .active for that?  Shouldn’t it be sufficient to just not
-require BLK_PERM_WRITE_UNCHANGED when no permissions are taken on the
-node (i.e. perm == 0 in cor_child_perm())?
-
-Of course, using an .active field works, too.  But Vladimir wanted a
-similar field in the preallocate filter, and there already is in
-backup-top.  I feel like there shouldn’t be a need for this.
-
-.bdrv_child_perm() should generally be able to decide what permissions
-it needs based on the information it gets.  If every driver needs to
-keep track of whether it has any parents and feed that information into
-.bdrv_child_perm() as external state, then something feels wrong.
-
-If perm == 0 is not sufficient to rule out any parents, we should just
-explicitly add a boolean that tells .bdrv_child_perm() whether there are
-any parents or not – shouldn’t be too difficult.</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>The issue is that we fail in the <span style="color: rgb(29, 28,
-        29); font-family: Slack-Lato, appleLogo, sans-serif; font-size:
-        15px; font-style: normal; font-variant-ligatures:
-        common-ligatures; font-variant-caps: normal; font-weight: 400;
-        letter-spacing: normal; orphans: 2; text-align: left;
-        text-indent: 0px; text-transform: none; white-space: normal;
-        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
-        background-color: rgb(248, 248, 248); text-decoration-style:
-        initial; text-decoration-color: initial; display: inline
-        !important; float: none;"><span></span>bdrv_check_update_perm()</span>
-      with &quot;&quot;Conflicts with use by...&quot; if <span style="color: rgb(29,
-        28, 29); font-family: Slack-Lato, appleLogo, sans-serif;
-        font-size: 15px; font-style: normal; font-variant-ligatures:
-        common-ligatures; font-variant-caps: normal; font-weight: 400;
-        letter-spacing: normal; orphans: 2; text-align: left;
-        text-indent: 0px; text-transform: none; white-space: normal;
-        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
-        background-color: rgb(248, 248, 248); text-decoration-style:
-        initial; text-decoration-color: initial; display: inline
-        !important; float: none;">the *nperm = 0 and the *nshared =
-        BLK_PERM_ALL are not set before the call to the
-        bdrv_replace_node(). The filter is still in the backing chain by
-        that moment and has a parent with child-&gt;perm != 0.</span></p>
-    <p><span style="color: rgb(29, 28, 29); font-family: Slack-Lato,
-        appleLogo, sans-serif; font-size: 15px; font-style: normal;
-        font-variant-ligatures: common-ligatures; font-variant-caps:
-        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
-        text-align: left; text-indent: 0px; text-transform: none;
-        white-space: normal; widows: 2; word-spacing: 0px;
-        -webkit-text-stroke-width: 0px; background-color: rgb(248, 248,
-        248); text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;">The
-        implementation of&nbsp; the </span>.bdrv_child_perm()<span style="color: rgb(29, 28, 29); font-family: Slack-Lato,
-        appleLogo, sans-serif; font-size: 15px; font-style: normal;
-        font-variant-ligatures: common-ligatures; font-variant-caps:
-        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
-        text-align: left; text-indent: 0px; text-transform: none;
-        white-space: normal; widows: 2; word-spacing: 0px;
-        -webkit-text-stroke-width: 0px; background-color: rgb(248, 248,
-        248); text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;"> in the given
-        patch is similar to one in the block/mirror.c.</span></p>
-    <p><span style="color: rgb(29, 28, 29); font-family: Slack-Lato,
-        appleLogo, sans-serif; font-size: 15px; font-style: normal;
-        font-variant-ligatures: common-ligatures; font-variant-caps:
-        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
-        text-align: left; text-indent: 0px; text-transform: none;
-        white-space: normal; widows: 2; word-spacing: 0px;
-        -webkit-text-stroke-width: 0px; background-color: rgb(248, 248,
-        248); text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;">How could we
-        resolve the issue at the generic layer?<br>
-      </span></p>
-    <p><span style="color: rgb(29, 28, 29); font-family: Slack-Lato,
-        appleLogo, sans-serif; font-size: 15px; font-style: normal;
-        font-variant-ligatures: common-ligatures; font-variant-caps:
-        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
-        text-align: left; text-indent: 0px; text-transform: none;
-        white-space: normal; widows: 2; word-spacing: 0px;
-        -webkit-text-stroke-width: 0px; background-color: rgb(248, 248,
-        248); text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;"><br>
-      </span></p>
-    <p>Andrey</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:9733a257-b864-e8db-7379-f94fbd21045a@redhat.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Signed-off-by: Andrey Shinkevich <a class="moz-txt-link-rfc2396E" href="mailto:andrey.shinkevich@virtuozzo.com">&lt;andrey.shinkevich@virtuozzo.com&gt;</a>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <a class="moz-txt-link-rfc2396E" href="mailto:vsementsov@virtuozzo.com">&lt;vsementsov@virtuozzo.com&gt;</a>
----
- block/copy-on-read.c | 104 +++++++++++++++++++++++++++++++++++++++++++++++++++
- block/copy-on-read.h |  35 +++++++++++++++++
- 2 files changed, 139 insertions(+)
- create mode 100644 block/copy-on-read.h
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-[...]
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------257BC0BB94D4F90ABDEC7C35--
+> 
+> Thanks,
+> Tom
+> 
+>>
+>> But other than that,
+>>
+>>
+>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>
+>>>   /* SEV Information Block GUID = 00f771de-1a7e-4fcb-890e-68c77e2fb44e */
+>>>   #define SEV_INFO_BLOCK_GUID \
+>>>       "\xde\x71\xf7\x00\x7e\x1a\xcb\x4f\x89\x0e\x68\xc7\x7e\x2f\xb4\x4e"
+>>> @@ -375,7 +377,7 @@ sev_enabled(void)
+>>>   bool
+>>>   sev_es_enabled(void)
+>>>   {
+>>> -    return false;
+>>> +    return sev_enabled() && (sev_guest->policy & 
+>>> GUEST_POLICY_SEV_ES_BIT);
+>>>   }
+>>>   uint64_t
+>>> -- 
+>>> 2.28.0
+>>>
 
