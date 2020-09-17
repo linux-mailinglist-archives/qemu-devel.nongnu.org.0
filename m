@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C1226D155
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 04:51:28 +0200 (CEST)
-Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04EE26D156
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 04:51:32 +0200 (CEST)
+Received: from localhost ([::1]:57732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIk19-0004ur-RD
-	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 22:51:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42894)
+	id 1kIk1E-00051d-0V
+	for lists+qemu-devel@lfdr.de; Wed, 16 Sep 2020 22:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kIjzd-0003wD-Mj
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 22:49:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37347)
+ id 1kIjzg-0003yO-PA
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 22:49:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kIjzc-0007Ua-09
- for qemu-devel@nongnu.org; Wed, 16 Sep 2020 22:49:53 -0400
+ id 1kIjzf-0007Vk-47
+ for qemu-devel@nongnu.org; Wed, 16 Sep 2020 22:49:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600310991;
+ s=mimecast20190719; t=1600310994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6g0MrqRYMl2fktS7+t7DNPAs0uIrlGIwQEokf5CK5kA=;
- b=eqNiYO7k5EPxume4/iAFeRwKKVdnX8YFrUq+wEtCyKJlMpTxobP45LIGpXvbrDmGSeaXmx
- vW3Bl/hRvCe259Uug+HY5PkxOv7p2tZeCYt27ahc9iUgI2xjVew3iVlsHXiIHuhGJbaICk
- HV/8DGL+Ti8wM0Qds+vnE/fJ8U3VmJw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6t4NlHhdwKw5BoVu7DFbPOCXPgJgsEb6LzNcdyFk6oA=;
+ b=SM95GklKBkZAxthuQzbjayHPmCB7aDAkf2+F776RWTi1dSPixiMX1gFCkLquWZSTu5ER+D
+ oHYK8p+Kca9Wg86vVNzPdJdcXmzwSjvhlbm61GXQ5SedNWJwHgru4saQnWkmmMNLb8CcKW
+ gJn+6xNQI2dR7KRXvAmLZ2LqMF1ZMKc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-9PscgIFMP9CRnOI0ANbLxg-1; Wed, 16 Sep 2020 22:49:49 -0400
-X-MC-Unique: 9PscgIFMP9CRnOI0ANbLxg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-594-WaY2an4wNxqU4fSalvQT8Q-1; Wed, 16 Sep 2020 22:49:50 -0400
+X-MC-Unique: WaY2an4wNxqU4fSalvQT8Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67AD58D49DE;
- Thu, 17 Sep 2020 02:49:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7A5F100746D;
+ Thu, 17 Sep 2020 02:49:49 +0000 (UTC)
 Received: from localhost (ovpn-119-217.rdu2.redhat.com [10.10.119.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F2D868866;
- Thu, 17 Sep 2020 02:49:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E4D719D61;
+ Thu, 17 Sep 2020 02:49:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] qom: DECLARE_INTERFACE_CHECKER macro
-Date: Wed, 16 Sep 2020 22:49:45 -0400
-Message-Id: <20200917024947.707586-1-ehabkost@redhat.com>
+Subject: [PATCH v2 1/2] qom: DECLARE_INTERFACE_CHECKER macro
+Date: Wed, 16 Sep 2020 22:49:46 -0400
+Message-Id: <20200917024947.707586-2-ehabkost@redhat.com>
+In-Reply-To: <20200917024947.707586-1-ehabkost@redhat.com>
+References: <20200917024947.707586-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 22:47:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -83,53 +86,48 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an alternative to the series:=0D
-  Subject: [PATCH 0/3] qom: Replace INTERFACE_CHECK with OBJECT_CHECK=0D
-  https://lore.kernel.org/qemu-devel/20200916193101.511600-1-ehabkost@redha=
-t.com/=0D
-=0D
-Instead of removing INTERFACE_CHECK completely, keep it but use a=0D
-DECLARE_INTERFACE_CHECKER macro to define the type checking functions for=
-=0D
-interface types.=0D
-=0D
-Changes v1 -> v2:=0D
-* Move declaration after typedefs, so the code actually compiles=0D
-=0D
-Link to v1:=0D
-https://lore.kernel.org/qemu-devel/20200916223258.599367-1-ehabkost@redhat.=
-com=0D
-=0D
-Eduardo Habkost (2):=0D
-  qom: DECLARE_INTERFACE_CHECKER macro=0D
-  qom: Use DECLARE_INTERFACE_CHECKER macro=0D
-=0D
- include/hw/acpi/acpi_dev_interface.h |  7 +++----=0D
- include/hw/arm/linux-boot-if.h       |  6 +++---=0D
- include/hw/fw-path-provider.h        |  6 +++---=0D
- include/hw/hotplug.h                 |  6 +++---=0D
- include/hw/intc/intc.h               |  7 +++----=0D
- include/hw/ipmi/ipmi.h               |  6 +++---=0D
- include/hw/isa/isa.h                 |  4 ++--=0D
- include/hw/mem/memory-device.h       |  6 +++---=0D
- include/hw/nmi.h                     |  6 +++---=0D
- include/hw/ppc/pnv_xscom.h           |  4 ++--=0D
- include/hw/ppc/spapr_irq.h           |  4 ++--=0D
- include/hw/ppc/xics.h                |  4 ++--=0D
- include/hw/ppc/xive.h                | 12 ++++++------=0D
- include/hw/rdma/rdma.h               |  7 +++----=0D
- include/hw/rtc/m48t59.h              |  6 +++---=0D
- include/hw/stream.h                  |  6 +++---=0D
- include/hw/vmstate-if.h              |  6 +++---=0D
- include/qom/object.h                 | 14 ++++++++++++++=0D
- include/qom/object_interfaces.h      |  7 +++----=0D
- include/sysemu/tpm.h                 |  6 +++---=0D
- target/arm/idau.h                    |  6 +++---=0D
- tests/check-qom-interface.c          |  6 +++---=0D
- 22 files changed, 76 insertions(+), 66 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The new macro will be similar to DECLARE_INSTANCE_CHECKER,
+but for interface types (that use INTEFACE_CHECK instead of
+OBJECT_CHECK).
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+Changes series v1 -> v2: none
+---
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org
+---
+ include/qom/object.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 056f67ab3b..faf96aed3c 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -571,6 +571,20 @@ struct Object
+     OBJ_NAME(const void *obj) \
+     { return OBJECT_CHECK(InstanceType, obj, TYPENAME); }
+ 
++/**
++ * DECLARE_INTERFACE_CHECKER:
++ * @InstanceType: instance type
++ * @OBJ_NAME: the object name in uppercase with underscore separators
++ * @TYPENAME: type name
++ *
++ * This macro will provide the instance type cast functions for a
++ * QOM interface type.
++ */
++#define DECLARE_INTERFACE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
++    static inline G_GNUC_UNUSED InstanceType * \
++    OBJ_NAME(const void *obj) \
++    { return INTERFACE_CHECK(InstanceType, obj, TYPENAME); }
++
+ /**
+  * DECLARE_CLASS_CHECKERS:
+  * @ClassType: class struct name
+-- 
+2.26.2
 
 
