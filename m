@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478CF26D998
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:52:14 +0200 (CEST)
-Received: from localhost ([::1]:49810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7090026D9C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 13:03:12 +0200 (CEST)
+Received: from localhost ([::1]:58302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIrWP-0003QU-DF
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40876)
+	id 1kIrh1-0007r2-34
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 07:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIrUM-0001qW-8E
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:50:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48956)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIrfO-0007IP-56
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 07:01:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kIrUK-0008Nb-Du
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:50:05 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kIrdh-0001A6-AE
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 07:01:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600339803;
+ s=mimecast20190719; t=1600340383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fYjr+1hVAqR55mBdwPtil7oQai3WMs/M5qjGvHxWJvo=;
- b=QRvtuZ6s3Qp0jjtWEL7CS+NKcPSYhD/lVWGQ+5dPE/s55nDo0nPDm1IxURWZ1H5a1RVm8X
- VjBJmlPpstJH8mN9mBxol0plRErVIfhci9a6G2LVIbyqZ6rl4OyOvUsyw8b+cHaTJ57Yi3
- rPWaO/yynyZX242cqvlniHHtQZPXWE8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-o-QijpvZMEStr1xx_xWHdQ-1; Thu, 17 Sep 2020 06:50:01 -0400
-X-MC-Unique: o-QijpvZMEStr1xx_xWHdQ-1
-Received: by mail-wr1-f72.google.com with SMTP id n15so714948wrv.23
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 03:50:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fYjr+1hVAqR55mBdwPtil7oQai3WMs/M5qjGvHxWJvo=;
- b=fOg1n8oJBpXJZWJ+KxtgCmzmy5T4goXfd/UWktKhKAs0yoRn4Eyx862zKVY4UgYNSm
- kgbvOH5XEuSj8IMsFtBZFcj1KuLghjDUE6uCNfJmVrRKwbod6p+ksXINUQh/Y+zPnVVk
- d1lJ1/5PqeNc+r8wt1zSebLUeKtbn1Vq5zmQR6ggoagK3Dqr406lJGF05jwzNVgIS8nJ
- WqzYjLkQFPMMJ/h1/rQkpLvt2Byp+IWivpuHx+IwxCXNm0g/DVpXGDFIlAFH6HiclwP/
- Vz0LaPnlqwjEPGMl8lOp4w4uqyuxDHeqwXjsRlEABK0HkxWMDlXS4/1JfyfudM7s+pBz
- gTvw==
-X-Gm-Message-State: AOAM532MWSVzzd+fqECYGbKfFx0gLZ35PKhQ2KSQSSptZnUyDDwZcAVk
- nbR+/2ezrbXyK3OsTvZzsMJ+HYcrCnxfAO2dr4jo3nCFN9SXXpKv3/CCSHPbIhIyv+aAkIW7E86
- dxtAO7xT/7Rfe/xY=
-X-Received: by 2002:a05:600c:2312:: with SMTP id
- 18mr3024870wmo.141.1600339800280; 
- Thu, 17 Sep 2020 03:50:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/bEm3SpZzs2H1eboCuNt4lCHTXDhCsqP3P3eZ4dZ4nJRyxtSi707ySRfy1iOIl1AOvOU3Zw==
-X-Received: by 2002:a05:600c:2312:: with SMTP id
- 18mr3024855wmo.141.1600339799993; 
- Thu, 17 Sep 2020 03:49:59 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d003:b94f:6314:4839?
- ([2001:b07:6468:f312:d003:b94f:6314:4839])
- by smtp.gmail.com with ESMTPSA id u186sm10132821wmu.34.2020.09.17.03.49.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Sep 2020 03:49:59 -0700 (PDT)
-Subject: Re: [PATCH] docker.py: always use --rm
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200917104441.31738-1-pbonzini@redhat.com>
- <20200917104817.GE1568038@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <74a587e6-77fc-556b-8d7a-202e8142411b@redhat.com>
-Date: Thu, 17 Sep 2020 12:49:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=ej/hvssTnJCJxA3zx+Yhtavtrh7pF2Z5g5HrQ24eKvg=;
+ b=VlWjrDJvh5sMI71iIHSI/6VIgGvQO7KrZy3FTf49JFFylrIGCMZ8dSARcu1YPIPfAywB7I
+ USvfAkRe52d9oHow0YadVLUvDjpsAzkgpmifojNpnMeeWI/6L0GvyxRsBOQJkNuRSjPkwW
+ U01yEx3XS75uoRHPDZyE1tjQEReNen4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-KxbfH2Y5PI2GfCXGxIPvPw-1; Thu, 17 Sep 2020 06:59:41 -0400
+X-MC-Unique: KxbfH2Y5PI2GfCXGxIPvPw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E9E6AD682;
+ Thu, 17 Sep 2020 10:59:40 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE1FC1002D5D;
+ Thu, 17 Sep 2020 10:59:37 +0000 (UTC)
+Date: Thu, 17 Sep 2020 12:59:34 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 02/12] target/arm/kvm64: make MPIDR consistent with
+ CPU Topology
+Message-ID: <20200917105934.3rki6xwv5t4glxxi@kamzik.brq.redhat.com>
+References: <20200917032033.2020-1-fangying1@huawei.com>
+ <20200917032033.2020-3-fangying1@huawei.com>
+ <20200917075330.7sx3xm7gd4mwqqtq@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200917104817.GE1568038@redhat.com>
+In-Reply-To: <20200917075330.7sx3xm7gd4mwqqtq@kamzik.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -51
-X-Spam_score: -5.2
+X-Spam_score_int: -50
+X-Spam_score: -5.1
 X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,77 +82,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, alistair.francis@wdc.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/09/20 12:48, Daniel P. Berrangé wrote:
-> On Thu, Sep 17, 2020 at 12:44:41PM +0200, Paolo Bonzini wrote:
->> Avoid that containers pile up.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>  tests/docker/Makefile.include | 1 -
->>  tests/docker/docker.py        | 4 ++--
->>  2 files changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
->> index 3daabaa2fd..75704268ff 100644
->> --- a/tests/docker/Makefile.include
->> +++ b/tests/docker/Makefile.include
->> @@ -243,7 +243,6 @@ docker-run: docker-qemu-src
->>  		$(DOCKER_SCRIPT) run 					\
->>  			$(if $(NOUSER),,--run-as-current-user) 		\
->>  			--security-opt seccomp=unconfined		\
->> -			$(if $V,,--rm) 					\
+On Thu, Sep 17, 2020 at 09:53:35AM +0200, Andrew Jones wrote:
+> On Thu, Sep 17, 2020 at 11:20:23AM +0800, Ying Fang wrote:
+> > MPIDR helps to provide an additional PE identification in a multiprocessor
+> > system. This patch adds support for setting MPIDR from userspace, so that
+> > MPIDR is consistent with CPU topology configured.
+> > 
+> > Signed-off-by: Ying Fang <fangying1@huawei.com>
+> > ---
+> >  target/arm/kvm64.c | 46 ++++++++++++++++++++++++++++++++++++++--------
+> >  1 file changed, 38 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> > index ef1e960285..fcce261a10 100644
+> > --- a/target/arm/kvm64.c
+> > +++ b/target/arm/kvm64.c
+> > @@ -757,10 +757,46 @@ static int kvm_arm_sve_set_vls(CPUState *cs)
+> >  
+> >  #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
+> >  
+> > +static int kvm_arm_set_mp_affinity(CPUState *cs)
+> > +{
+> > +    uint64_t mpidr;
+> > +    ARMCPU *cpu = ARM_CPU(cs);
+> > +
+> > +    if (kvm_check_extension(kvm_state, KVM_CAP_ARM_MP_AFFINITY)) {
+> > +        /* Make MPIDR consistent with CPU topology */
+> > +        MachineState *ms = MACHINE(qdev_get_machine());
+> > +
+> > +        mpidr = (kvm_arch_vcpu_id(cs) % ms->smp.threads) << ARM_AFF0_SHIFT;
 > 
-> I guess the intention was that if someone is running verbose they might
-> want to get back into the container after a failure. This is certainly
-> a pain for CI though, because running verbose is desirable but keeping
-> around dead containers is not.
+> We should query KVM first to determine if it wants guests to see their PEs
+> as threads or not. If not, and ms->smp.threads is > 1, then that's an
+> error. And, in any case, if ms->smp.threads == 1, then we shouldn't waste
+> aff0 on it, as that could reduce IPI broadcast performance.
 > 
-> The DEBUG=1 option is likely a better general purpose debugging approach
-> than relying on the dead container being left behind, so
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > +        mpidr |= ((kvm_arch_vcpu_id(cs) / ms->smp.threads % ms->smp.cores)
+> > +                                    & 0xff) << ARM_AFF1_SHIFT;
+> > +        mpidr |= (kvm_arch_vcpu_id(cs) / (ms->smp.cores * ms->smp.threads)
+> > +                                    & 0xff) << ARM_AFF2_SHIFT;
 
-Peter, can you apply this directly in order to unbreak Patchew?
+Also, as pointed out in the KVM thread, we should not be attempting to
+describe topology with the MPIDR at all. Alexandru pointed out [*] as
+evidence for that.
 
-Paolo
+However, we do need to consider the limits on Aff0 imposed by the GIC.
+See hw/arm/virt.c:virt_cpu_mp_affinity() for how we currently do it
+for TCG. We should do something similar for KVM guests when we're taking
+full control of the MPIDR.
 
+[*] https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/commit/?id=3102bc0e6ac7
+
+Thanks,
+drew
+
+> > +
+> > +        /* Override mp affinity when KVM is in use */
+> > +        cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+> > +
+> > +        /* Bit 31 is RES1 indicates the ARMv7 Multiprocessing Extensions */
+> > +        mpidr |= (1ULL << 31);
+> > +        return kvm_vcpu_ioctl(cs, KVM_ARM_SET_MP_AFFINITY, &mpidr);
+> > +    } else {
+> > +        /*
+> > +         * When KVM_CAP_ARM_MP_AFFINITY is not supported, it means KVM has its
+> > +         * own idea about MPIDR assignment, so we override our defaults with
+> > +         * what we get from KVM.
+> > +         */
+> > +        int ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
+> > +        if (ret) {
+> > +            error_report("failed to set MPIDR");
 > 
+> We don't need this error, kvm_get_one_reg() has trace support already.
+> Anyway, the wording is wrong since it says 'set' instead of 'get'.
 > 
->>  			$(if $(DEBUG),-ti,)				\
->>  			$(if $(NETWORK),$(if $(subst $(NETWORK),,1),--net=$(NETWORK)),--net=none) \
->>  			-e TARGET_LIST=$(subst $(SPACE),$(COMMA),$(TARGET_LIST))	\
->> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
->> index 356d7618f1..36b7868406 100755
->> --- a/tests/docker/docker.py
->> +++ b/tests/docker/docker.py
->> @@ -377,7 +377,7 @@ class Docker(object):
->>              if self._command[0] == "podman":
->>                  cmd.insert(0, '--userns=keep-id')
->>  
->> -        ret = self._do_check(["run", "--label",
->> +        ret = self._do_check(["run", "--rm", "--label",
->>                               "com.qemu.instance.uuid=" + label] + cmd,
->>                               quiet=quiet)
->>          if not keep:
->> @@ -616,7 +616,7 @@ class CcCommand(SubCommand):
->>          if argv and argv[0] == "--":
->>              argv = argv[1:]
->>          cwd = os.getcwd()
->> -        cmd = ["--rm", "-w", cwd,
->> +        cmd = ["-w", cwd,
->>                 "-v", "%s:%s:rw" % (cwd, cwd)]
->>          if args.paths:
->>              for p in args.paths:
->> -- 
->> 2.26.2
->>
+> > +            return ret;
+> > +        }
+> > +        cpu->mp_affinity = mpidr & ARM32_AFFINITY_MASK;
+> > +        return ret;
+> > +    }
+> > +}
+> > +
+> >  int kvm_arch_init_vcpu(CPUState *cs)
+> >  {
+> >      int ret;
+> > -    uint64_t mpidr;
+> >      ARMCPU *cpu = ARM_CPU(cs);
+> >      CPUARMState *env = &cpu->env;
+> >  
+> > @@ -814,16 +850,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+> >          }
+> >      }
+> >  
+> > -    /*
+> > -     * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+> > -     * Currently KVM has its own idea about MPIDR assignment, so we
+> > -     * override our defaults with what we get from KVM.
+> > -     */
+> > -    ret = kvm_get_one_reg(cs, ARM64_SYS_REG(ARM_CPU_ID_MPIDR), &mpidr);
+> > +    ret = kvm_arm_set_mp_affinity(cs);
+> >      if (ret) {
+> >          return ret;
+> >      }
+> > -    cpu->mp_affinity = mpidr & ARM64_AFFINITY_MASK;
+> >  
+> >      kvm_arm_init_debug(cs);
+> >  
+> > -- 
+> > 2.23.0
+> > 
+> >
 > 
-> Regards,
-> Daniel
-> 
+> Thanks,
+> drew 
 
 
