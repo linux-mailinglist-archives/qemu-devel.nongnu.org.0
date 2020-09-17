@@ -2,44 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D1D26D8DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:23:27 +0200 (CEST)
-Received: from localhost ([::1]:58910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D329026D8FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 12:28:45 +0200 (CEST)
+Received: from localhost ([::1]:40842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIr4Y-0007Y8-8F
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33546)
+	id 1kIr9g-0003pH-SM
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 06:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1kIqy3-00008u-V4
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:16:43 -0400
-Received: from smtp.gentoo.org ([140.211.166.183]:50704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1kIqy1-0004J5-6h
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:16:43 -0400
-From: Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: riscv32 wait() problem, qemu or glibc?
-Date: Thu, 17 Sep 2020 13:16:30 +0300
-Message-ID: <2156782.iezcSG77Qx@farino>
-Organization: Gentoo Linux
-In-Reply-To: <CAKmqyKOZ+i-zWp06GPyDNDo3ON+D5Q09e=YhPsJQOd4K9uPeVQ@mail.gmail.com>
-References: <9435182.tdPhlSkOF2@farino> <9381423.g9G3TJQzCC@farino>
- <CAKmqyKOZ+i-zWp06GPyDNDo3ON+D5Q09e=YhPsJQOd4K9uPeVQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kIr0m-0003G2-EA
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:19:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kIr0k-0004TF-BF
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 06:19:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600337969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HwUoly3wMecthRf8pzgiF2PpVXIucn3ZJ0uLcABNCok=;
+ b=A56+e2GRT8qOi2OYiZ4UYai8YCmWGMPPzDXwvytLBmPaGCmkrmd4hcrqI+GBhGhsxM+hpf
+ aaLbOO9XV6sbSZF5y0O0VcefNlJMRZnyXE1k0V72Q/JMzC6XoKW1wqUV2sDXU30tWFuYij
+ Dv027BYPw7bx2ZY9+/5EjMd05vDpNPY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-Lg6DX3ftNCqYPceF6Go8Wg-1; Thu, 17 Sep 2020 06:19:27 -0400
+X-MC-Unique: Lg6DX3ftNCqYPceF6Go8Wg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 549048712F5;
+ Thu, 17 Sep 2020 10:19:26 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-65.ams2.redhat.com
+ [10.36.113.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D214F7514A;
+ Thu, 17 Sep 2020 10:19:24 +0000 (UTC)
+Subject: Re: [PATCH v2] qemu-img: Support bitmap --merge into backing image
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200914191009.644842-1-eblake@redhat.com>
+ <f4d640aa-6aec-7dbc-69ae-5a2a6921447d@redhat.com>
+ <07832208-dcc8-8e33-c7e7-05f9c891fec3@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6b3e7ba5-06fc-c733-f635-c1cc41178eea@redhat.com>
+Date: Thu, 17 Sep 2020 12:19:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart4480764.52yBJDM9G5";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=140.211.166.183;
- envelope-from=dilfridge@gentoo.org; helo=smtp.gentoo.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 06:16:38
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <07832208-dcc8-8e33-c7e7-05f9c891fec3@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="E8pNq7L9f6QaDJP8JNi3cux5srbrnOdgm"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 02:01:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.062, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,257 +108,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: GNU C Library <libc-alpha@sourceware.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, eshenitz@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nextPart4480764.52yBJDM9G5
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--E8pNq7L9f6QaDJP8JNi3cux5srbrnOdgm
+Content-Type: multipart/mixed; boundary="h9SGduBELzdgVLvEONw1T4EYz9rlfxoY6"
+
+--h9SGduBELzdgVLvEONw1T4EYz9rlfxoY6
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Am Donnerstag, 17. September 2020, 00:05:10 EEST schrieb Alistair Francis:
-> On Wed, Sep 16, 2020 at 2:09 PM Andreas K. H=FCttel <dilfridge@gentoo.org=
+On 15.09.20 15:31, Eric Blake wrote:
+> On 9/15/20 3:57 AM, Max Reitz wrote:
+>> On 14.09.20 21:10, Eric Blake wrote:
+>>> If you have the chain 'base.qcow2 <- top.qcow2' and want to merge a
+>>> bitmap from top into base, qemu-img was failing with:
+>>>
+>>> qemu-img: Could not open 'top.qcow2': Could not open backing file:
+>>> Failed to get shared "write" lock
+>>> Is another process using the image [base.qcow2]?
+>>>
+>>> The easiest fix is to not open the entire backing chain of either
+>>> image (source or destination); after all, the point of 'qemu-img
+>>> bitmap' is solely to manipulate bitmaps directly within a single qcow2
+>>> image, and this is made more precise if we don't pay attention to
+>>> other images in the chain that may happen to have a bitmap by the same
+>>> name.
+>>>
+>>> However, note that during normal usage, it is a feature that qemu will
+>>> allow a bitmap from a backing image to be exposed by an overlay BDS;
+>>> doing so makes it easier to perform incremental backup, where we have:
+>>>
+>>> Base <- Active <- temporrary
+>>
+>> *temporary
+>>
+>> (Also it=E2=80=99s a bit strange that =E2=80=9CBase=E2=80=9D and =E2=80=
+=9CActive=E2=80=9D are capitalized, but
+>> =E2=80=9Ctemporary=E2=80=9D isn=E2=80=99t)
+>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \--block j=
+ob ->/
+>>>
+>>> with temporary being fed by a block-copy 'sync' job; when exposing
+>>
+>> s/block-copy 'sync'/backup 'sync=3Dnone'/?
 >=20
-wrote:
-> > > My guess is that somewhere in QEMU the types don't match what RV32 is
-> > > using. It's probably worth printing out the size, alignment and value
-> > > of everything at every stage and see what breaks.
-> >=20
-> > Thanks.
+> Will fix both.
 >=20
-> Sorry I can't be more helpful. Hopefully one day I will look into it,
-> but it's not a high priority.
-
-No problem at all. I'm mostly going to postpone this now in favour of=20
-autobuilding bootable images (which needs some non-riscv specific=20
-preparation).=20
-
-Last thing I still did overnight was run the glibc testsuite in quemu-riscv=
-32=20
-user emulation. The summary is below (and as suspected a bit of a massacre)=
-;=20
-I'll look at the details later sometime.=20
-If anyone else wants to poke at it, I've tarred up the full glibc build dir=
-=20
-and uploaded it together with the build log, see
-https://dev.gentoo.org/~dilfridge/rv32-testing/
-
-UNSUPPORTED: crypt/cert
-=46AIL: debug/tst-backtrace4
-=46AIL: debug/tst-backtrace5
-=46AIL: debug/tst-backtrace6
-=46AIL: elf/check-localplt
-UNSUPPORTED: elf/tst-dlopen-self-container
-UNSUPPORTED: elf/tst-dlopen-tlsmodid-container
-XPASS: elf/tst-latepthread
-UNSUPPORTED: elf/tst-ldconfig-bad-aux-cache
-UNSUPPORTED: elf/tst-ldconfig-ld_so_conf-update
-UNSUPPORTED: elf/tst-pldd
-XPASS: elf/tst-protected1a
-XPASS: elf/tst-protected1b
-=46AIL: iconv/tst-iconv_prog
-UNSUPPORTED: io/tst-copy_file_range
-UNSUPPORTED: io/tst-getcwd-abspath
-=46AIL: libio/tst-atime
-UNSUPPORTED: locale/tst-localedef-path-norm
-UNSUPPORTED: localedata/tst-localedef-hardlinks
-=46AIL: malloc/tst-dynarray-fail
-=46AIL: malloc/tst-dynarray-fail-mem
-=46AIL: malloc/tst-interpose-nothread
-=46AIL: malloc/tst-interpose-static-nothread
-=46AIL: malloc/tst-interpose-static-thread
-=46AIL: malloc/tst-interpose-thread
-=46AIL: malloc/tst-mallocfork2
-UNSUPPORTED: malloc/tst-mallocstate
-=46AIL: math/test-double-j1
-=46AIL: math/test-double-y0
-UNSUPPORTED: math/test-fesetexcept-traps
-UNSUPPORTED: math/test-fexcept-traps
-=46AIL: math/test-float-asinh
-=46AIL: math/test-float-cos
-=46AIL: math/test-float-cosh
-=46AIL: math/test-float-erfc
-=46AIL: math/test-float-exp
-=46AIL: math/test-float-j0
-=46AIL: math/test-float-j1
-=46AIL: math/test-float-lgamma
-=46AIL: math/test-float-sin
-=46AIL: math/test-float-tgamma
-=46AIL: math/test-float-y0
-=46AIL: math/test-float32-asinh
-=46AIL: math/test-float32-cos
-=46AIL: math/test-float32-cosh
-=46AIL: math/test-float32-erfc
-=46AIL: math/test-float32-exp
-=46AIL: math/test-float32-j0
-=46AIL: math/test-float32-j1
-=46AIL: math/test-float32-lgamma
-=46AIL: math/test-float32-sin
-=46AIL: math/test-float32-tgamma
-=46AIL: math/test-float32-y0
-=46AIL: math/test-float32x-j1
-=46AIL: math/test-float32x-y0
-=46AIL: math/test-float64-j1
-=46AIL: math/test-float64-y0
-UNSUPPORTED: math/test-matherr
-UNSUPPORTED: math/test-matherr-2
-UNSUPPORTED: math/test-nearbyint-except
-UNSUPPORTED: math/test-nearbyint-except-2
-=46AIL: misc/test-errno-linux
-=46AIL: misc/tst-clone2
-=46AIL: misc/tst-clone3
-=46AIL: misc/tst-gettid-kill
-=46AIL: misc/tst-glibcsyscalls
-=46AIL: misc/tst-memfd_create
-=46AIL: misc/tst-mlock2
-UNSUPPORTED: misc/tst-ofdlocks-compat
-UNSUPPORTED: misc/tst-pkey
-=46AIL: misc/tst-sigcontext-get_pc
-UNSUPPORTED: misc/tst-ttyname
-UNSUPPORTED: nptl/test-cond-printers
-UNSUPPORTED: nptl/test-condattr-printers
-UNSUPPORTED: nptl/test-mutex-printers
-UNSUPPORTED: nptl/test-mutexattr-printers
-UNSUPPORTED: nptl/test-rwlock-printers
-UNSUPPORTED: nptl/test-rwlockattr-printers
-=46AIL: nptl/tst-align-clone
-=46AIL: nptl/tst-cancel-self-canceltype
-=46AIL: nptl/tst-cancel17
-=46AIL: nptl/tst-cancel21
-=46AIL: nptl/tst-cancel21-static
-=46AIL: nptl/tst-cancel24
-=46AIL: nptl/tst-cancel24-static
-=46AIL: nptl/tst-cancelx16
-=46AIL: nptl/tst-cancelx17
-=46AIL: nptl/tst-cancelx18
-=46AIL: nptl/tst-cancelx20
-=46AIL: nptl/tst-cancelx21
-=46AIL: nptl/tst-cancelx4
-=46AIL: nptl/tst-cancelx5
-=46AIL: nptl/tst-cleanupx4
-=46AIL: nptl/tst-cond-except
-=46AIL: nptl/tst-cond24
-=46AIL: nptl/tst-cond25
-=46AIL: nptl/tst-getpid1
-UNSUPPORTED: nptl/tst-mutexpi5
-UNSUPPORTED: nptl/tst-mutexpi5a
-UNSUPPORTED: nptl/tst-mutexpi9
-=46AIL: nptl/tst-oncex3
-=46AIL: nptl/tst-oncex4
-UNSUPPORTED: nptl/tst-pthread-getattr
-=46AIL: nptl/tst-robust-fork
-=46AIL: nptl/tst-robust1
-=46AIL: nptl/tst-robust2
-=46AIL: nptl/tst-robust3
-=46AIL: nptl/tst-robust4
-=46AIL: nptl/tst-robust5
-=46AIL: nptl/tst-robust6
-=46AIL: nptl/tst-robust7
-=46AIL: nptl/tst-robust8
-=46AIL: nptl/tst-robust9
-XPASS: nptl/tst-stack4
-UNSUPPORTED: nss/tst-nss-db-endgrent
-UNSUPPORTED: nss/tst-nss-db-endpwent
-UNSUPPORTED: nss/tst-nss-files-alias-leak
-UNSUPPORTED: nss/tst-nss-files-alias-truncated
-UNSUPPORTED: nss/tst-nss-files-hosts-erange
-UNSUPPORTED: nss/tst-nss-files-hosts-getent
-UNSUPPORTED: nss/tst-nss-files-hosts-long
-UNSUPPORTED: nss/tst-nss-test3
-=46AIL: posix/test-errno
-=46AIL: posix/tst-fexecve
-UNSUPPORTED: posix/tst-glob_lstat_compat
-=46AIL: posix/tst-posix_spawn-setsid
-=46AIL: posix/tst-spawn2
-=46AIL: posix/tst-spawn4
-UNSUPPORTED: posix/tst-spawn4-compat
-UNSUPPORTED: posix/tst-sysconf-empty-chroot
-=46AIL: posix/tst-wait4
-UNSUPPORTED: resolv/tst-p_secstodate
-UNSUPPORTED: resolv/tst-resolv-res_init
-UNSUPPORTED: resolv/tst-resolv-res_init-thread
-UNSUPPORTED: resolv/tst-resolv-threads
-=46AIL: rt/tst-aio4
-=46AIL: rt/tst-mqueue3
-=46AIL: rt/tst-mqueue5
-=46AIL: rt/tst-mqueue6
-=46AIL: rt/tst-mqueue8x
-=46AIL: stdio-common/tst-vfprintf-width-prec
-=46AIL: stdio-common/tst-vfprintf-width-prec-mem
-UNSUPPORTED: stdlib/tst-system
-UNSUPPORTED: string/tst-strerror
-UNSUPPORTED: string/tst-strsignal
-XPASS: support/tst-support_descriptors
-=46AIL: sysvipc/test-sysvmsg
-=46AIL: sysvipc/test-sysvsem
-Summary of test results:
-     95 FAIL
-   3971 PASS
-     48 UNSUPPORTED
-     17 XFAIL
-      5 XPASS
-make[1]: *** [Makefile:634: tests] Error 1
-
-
-
-
-
-
-
+>>
+>>> temporary over NBD, referring to a bitmap that lives only in Active is
+>>> less effort than having to copy a bitmap into temporary [1].=C2=A0 So t=
+he
+>>> testsuite additions in this patch check both where bitmaps get
+>>> allocated (the qemu-img info output), and, when NOT using 'qemu-img
+>>> bitmap', that bitmaps are indeed visible through a backing chain.
+>>
+>> Well.=C2=A0 It is useful over NBD but I would doubt that it isn=E2=80=99=
+t useful in
+>> general.=C2=A0 For example, the QMP commands that refer to bitmaps alway=
+s do
+>> so through a node-name + bitmap-name combination, and they require that
+>> the given bitmap is exactly on the given node.
+>>
+>> So I think this is a very much a case-by-case question.=C2=A0 (And in
+>> practice, NBD seems to be the outlier, not qemu-img bitmap.)
+>>
 >=20
-> > > AFAIK RV32 linux-user mode is pretty much un-tested. So their might be
-> > > all sorts of issues with it unfortunately.
-> >=20
-> > Would you consider qemu system mode more reliable?
+> I'm happy to reword slightly to give that caveat.
 >=20
-> Yes. For RISC-V the softmmu implementations are much more thoroughly test=
-ed.
-> > I need to prepare some bootable riscv gentoo images eventually anyway.
-> > Might as well try a riscv32 one for comparison then if that is more
-> > promising.
-> It would be great to have more distros supporting RV32.
+>>> [1] Full disclosure: prior to the recent commit 374eedd1c4 and
+>>> friends, we were NOT able to see bitmaps through filters, which meant
+>>> that we actually did not have nice clean semantics for uniformly being
+>>> able to pick up bitmaps from anywhere in the backing chain (seen as a
+>>> change in behavior between qemu 4.1 and 4.2 at commit 00e30f05de, when
+>>> block-copy swapped from a one-off to a filter).=C2=A0 Which means libvi=
+rt
+>>> was already coded to copy bitmaps around for the sake of older qemu,
+>>> even though modern qemu no longer needs it.=C2=A0 Oh well.
+>>>
+>>> Fixes: http://bugzilla.redhat.com/1877209
+>>> Reported-by: Eyal Shenitzky <eshenitz@redhat.com>
+>>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>>> ---
+>>>
+>>> In v2:
+>>> - also use BDRV_O_NO_BACKING on source [Max]
+>>> - improved commit message [Max]
+>>>
+>>> =C2=A0 qemu-img.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++--
+>>> =C2=A0 tests/qemu-iotests/291=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ++++++++
+>>> =C2=A0 tests/qemu-iotests/291.out | 56 ++++++++++++++++++++++++++++++++=
+++++++
+>>> =C2=A0 3 files changed, 76 insertions(+), 3 deletions(-)
+>>
+>> The code looks good to me, but I wonder whether in the commit message it
+>> should be noted that we don=E2=80=99t want to let bitmaps from deeper no=
+des
+>> shine through by default everywhere, but just in specific cases where
+>> that=E2=80=99s useful (i.e. only NBD so far AFAIA).
 >=20
-> Alistair
->=20
-> > --
-> > Andreas K. H=FCttel
-> > dilfridge@gentoo.org
-> > Gentoo Linux developer
-> > (council, qa, toolchain, base-system, perl, libreoffice)
+> So is this a Reviewed-by?=C2=A0 I'm happy to queue it through my bitmaps
+> tree, if so.
+
+It wasn=E2=80=99t meant as an R-b, because my R-b depends on how the commit
+message addresses the question of when exactly bitmaps from the backing
+chain should be visible on the top image.  Whether qemu-img bitmap is an
+exception, or whether this is really a case-by-case question.
+
+(I wanted to know whether you agree on including it.  Normally, I=E2=80=99m
+happy to give an R-b on the basis of =E2=80=9Cwith that done=E2=80=9D, but =
+in this case
+I wasn=E2=80=99t entirely sure whether my request was reasonable, but I als=
+o
+felt that in case it was, it wasn=E2=80=99t optional, given that you do hav=
+e an
+entire paragraph in the commit message dedicated to why the backing
+image=E2=80=99s bitmap is visible on an image exported over NBD.)
+
+I have to say I would like to see how you do phrase it in the end, but
+given that you do agree on including it, I can give a
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+Now.
 
 
-=2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer=20
-(council, qa, toolchain, base-system, perl, libreoffice)
---nextPart4480764.52yBJDM9G5
+--h9SGduBELzdgVLvEONw1T4EYz9rlfxoY6--
+
+--E8pNq7L9f6QaDJP8JNi3cux5srbrnOdgm
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQKTBAABCgB9FiEE50NBr50KpJKM5MK59n+4O2olsAAFAl9jN35fFIAAAAAALgAo
-aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEU3
-NDM0MUFGOUQwQUE0OTI4Q0U0QzJCOUY2N0ZCODNCNkEyNUIwMDAACgkQ9n+4O2ol
-sABlnw//RFpL/QZrniuNHlTEsHkU0xcL0GyP0TpVTa+0pAMsTuQnZjwDFDBXcJNH
-luSSliVu4Rk8K5vjTV8DM04XNMPqJZeUdyLxO9SWze4t4CulhIJIktEgRNoE+27X
-/mXTtO0oWQsb/HpRzaVrWPOKplNibePUYBYd6o7EIuVSafnhE3BzG5AWf4xGL9Z0
-snSi0F9jQrYH6cvfXyvYlZ/Ab+GLZXpQCJiIqMnLDECzBv6INQaellrCGBwhiDPg
-2zZwFy9rscyFL4Mq1jO4QNh1MC55V4Nr1rh6vQONyjetingPTkeWHJnAvVdBtmct
-3ydo/JYxeMKUei01ty43XlnqfKOAiubWsJDjYfVT1XYDCWvG8tmps00rTodQX1cH
-fsCZg1bQkhqzE7Mcx5nkUB7fMI1NfJPn8Hoe9wL9GqxewuKqTpyr5BqfrRdSrhSx
-x05E7D1xbWclcwo0spGY8/hbEQLmCwK4f1u/Myv8nJeRjQG1gQa7te9NdDx01DBz
-B9sFiyA4I12Htp0DeBxYNcntZr7HsUjAf8Tpzkw9g5TWNOWZRePwwW9EOSBIKs4K
-of3gV3j97lcgg6BKAnFEc5EQDdBknqpS5KxsYV6FLs6otgA0BYb0ciiRhMgI6V/Z
-TL4csTnFLde4CeVPZ+INbdnjViXPll6MDRac9VtTv5Km7xqLzjA=
-=DTo7
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9jOCsACgkQ9AfbAGHV
+z0Dzlgf+ORL5BZQNJEYqbclvEHCMonMEl/gC2Vhy/jNNKSVFX6CXnBq09eBRHvQs
+3GL2lDKJIdX18xhBxLIei55E+fjCZTybaJmk9n/9lNpveDDdbQKMQPglmvzbZUYP
+FbP0I9IM+/frtqhFIJHIZgG9Skz7zMRR7SXoOh8uStldsj7fQ64zp1AGT7fDzwnP
+hID6eclFOqwG2rzFCdco0M9zekK3Gcx/p7f9ACFf0AmelH5rDIx4fwVwGCp1U6To
+piUtetPTtdpXLpDEMWvNYH3A3+UYQqSacVi5XZ0QmWe4k4s7NPeLYksk2t2HcvXD
+ZVftoUf8g5Bcza88lKiFvekbW+cHXw==
+=xPuE
 -----END PGP SIGNATURE-----
 
---nextPart4480764.52yBJDM9G5--
-
-
+--E8pNq7L9f6QaDJP8JNi3cux5srbrnOdgm--
 
 
