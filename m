@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B417726D77A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 11:18:28 +0200 (CEST)
-Received: from localhost ([::1]:34240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 058EB26D767
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Sep 2020 11:10:09 +0200 (CEST)
+Received: from localhost ([::1]:54636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kIq3f-0000oR-RJ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 05:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45882)
+	id 1kIpvb-0005YC-Kd
+	for lists+qemu-devel@lfdr.de; Thu, 17 Sep 2020 05:10:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIq1u-00005i-JH
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:16:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kIq1s-0004om-7c
- for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:16:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kIq1p-0006OO-AG
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:16:33 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 347FE2E8106
- for <qemu-devel@nongnu.org>; Thu, 17 Sep 2020 09:16:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kIpuI-0004if-Hp
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:08:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kIpuG-0003ce-G7
+ for qemu-devel@nongnu.org; Thu, 17 Sep 2020 05:08:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600333723;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YfBndg2nDAWQTRgP+Jff4xfwzGZebjYRptd5bguIFwk=;
+ b=eN6BV95jRAprdiDDt+yBDJ8QlppxXHEViY1IjqZqaov6dq9+weA+erpu6uIP/MUTNGxbNd
+ o0muArtMGpyZwz8zBBKTo9mUW7NllXCX46lrMMx2Qd3AwCHLuN9RT5q+wx3w0lHwBWJ0cR
+ x46p+Cy1FcLGwS06FqNY2ydDzbQLWto=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-Sk1HMtvGNPyz5dOToW4EOQ-1; Thu, 17 Sep 2020 05:08:41 -0400
+X-MC-Unique: Sk1HMtvGNPyz5dOToW4EOQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B824180B70F;
+ Thu, 17 Sep 2020 09:08:39 +0000 (UTC)
+Received: from work-vm (ovpn-114-108.ams2.redhat.com [10.36.114.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 749F978804;
+ Thu, 17 Sep 2020 09:08:37 +0000 (UTC)
+Date: Thu, 17 Sep 2020 10:08:34 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v10 11/12] migration/dirtyrate: Implement
+ qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+Message-ID: <20200917090834.GC2793@work-vm>
+References: <1600237327-33618-1-git-send-email-zhengchuan@huawei.com>
+ <1600237327-33618-12-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Sep 2020 09:08:24 -0000
-From: Paul Zimmerman <1892604@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brendandg pauldzim petunia2000 pmaydell
-X-Launchpad-Bug-Reporter: Brendan Dolan-Gavitt (brendandg)
-X-Launchpad-Bug-Modifier: Paul Zimmerman (pauldzim)
-References: <159814309088.988.14645850566795174578.malonedeb@wampee.canonical.com>
-Message-Id: <160033370499.14123.5183349641454140923.malone@gac.canonical.com>
-Subject: [Bug 1892604] Re: qemu-system-arm: ../hw/usb/hcd-dwc2.c:666:
- dwc2_glbreg_read: Assertion `addr <= GINTSTS2' failed.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: f09f600c9f7e9b49774fb74065ccbfbf4eb6256a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/17 05:16:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1600237327-33618-12-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/16 20:51:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,82 +82,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1892604 <1892604@bugs.launchpad.net>
+Cc: berrange@redhat.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
+ liq3ea@gmail.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Something very strange is going on with the dwc_otg driver in 2016-05-27-ra=
-spbian-jessie.img. Something is reading and writing incrementally throughou=
-t the register space of the hcd-dwc2 host.
-And adding the "dwc_otg.fiq_fsm_enable=3D0" kernel option does not fix it.
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could be called
+> 
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 
-Brendan, Petunia, is there a reason why you are testing with such an old
-version of Raspbian? I used 2019-09-26-raspbian-buster.img when
-developing the hcd-dwc2 emulation, and it works fine, other than needing
-the "dwc_otg.fiq_fsm_enable=3D0" kernel option.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
--- =
+> ---
+>  migration/dirtyrate.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/migration.json   | 50 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 112 insertions(+)
+> 
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index 2a1a7fa..06f455d 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -61,6 +61,24 @@ static int dirtyrate_set_state(int *state, int old_state, int new_state)
+>      }
+>  }
+>  
+> +static struct DirtyRateInfo *query_dirty_rate_info(void)
+> +{
+> +    int64_t dirty_rate = DirtyStat.dirty_rate;
+> +    struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
+> +
+> +    if (atomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
+> +        info->dirty_rate = dirty_rate;
+> +    } else {
+> +        info->dirty_rate = -1;
+> +    }
+> +
+> +    info->status = CalculatingState;
+> +    info->start_time = DirtyStat.start_time;
+> +    info->calc_time = DirtyStat.calc_time;
+> +
+> +    return info;
+> +}
+> +
+>  static void reset_dirtyrate_stat(void)
+>  {
+>      DirtyStat.total_dirty_samples = 0;
+> @@ -318,6 +336,8 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+>  
+>      msec = config.sample_period_seconds * 1000;
+>      msec = set_sample_page_period(msec, initial_time);
+> +    DirtyStat.start_time = initial_time / 1000;
+> +    DirtyStat.calc_time = msec / 1000;
+>  
+>      rcu_read_lock();
+>      if (!compare_page_hash_info(block_dinfo, block_count)) {
+> @@ -353,3 +373,45 @@ void *get_dirtyrate_thread(void *arg)
+>      }
+>      return NULL;
+>  }
+> +
+> +void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+> +{
+> +    static struct DirtyRateConfig config;
+> +    QemuThread thread;
+> +    int ret;
+> +
+> +    /*
+> +     * If the dirty rate is already being measured, don't attempt to start.
+> +     */
+> +    if (atomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURING) {
+> +        error_setg(errp, "the dirty rate is already being measured.");
+> +        return;
+> +    }
+> +
+> +    if (!is_sample_period_valid(calc_time)) {
+> +        error_setg(errp, "calc-time is out of range[%d, %d].",
+> +                         MIN_FETCH_DIRTYRATE_TIME_SEC,
+> +                         MAX_FETCH_DIRTYRATE_TIME_SEC);
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * Init calculation state as unstarted.
+> +     */
+> +    ret = dirtyrate_set_state(&CalculatingState, CalculatingState,
+> +                              DIRTY_RATE_STATUS_UNSTARTED);
+> +    if (ret == -1) {
+> +        error_setg(errp, "init dirty rate calculation state failed.");
+> +        return;
+> +    }
+> +
+> +    config.sample_period_seconds = calc_time;
+> +    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
+> +    qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+> +                       (void *)&config, QEMU_THREAD_DETACHED);
+> +}
+> +
+> +struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+> +{
+> +    return query_dirty_rate_info();
+> +}
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 061ff25..4b980a0 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1737,3 +1737,53 @@
+>  ##
+>  { 'enum': 'DirtyRateStatus',
+>    'data': [ 'unstarted', 'measuring', 'measured'] }
+> +
+> +##
+> +# @DirtyRateInfo:
+> +#
+> +# Information about current dirty page rate of vm.
+> +#
+> +# @dirty-rate: @dirtyrate describing the dirty page rate of vm
+> +#          in units of MB/s.
+> +#          If this field return '-1', it means querying is not
+> +#          start or not complete.
+> +#
+> +# @status: status containing dirtyrate query status includes
+> +#          'unstarted' or 'measuring' or 'measured'
+> +#
+> +# @start-time: start time in units of second for calculation
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# Since: 5.2
+> +#
+> +##
+> +{ 'struct': 'DirtyRateInfo',
+> +  'data': {'dirty-rate': 'int64',
+> +           'status': 'DirtyRateStatus',
+> +           'start-time': 'int64',
+> +           'calc-time': 'int64'} }
+> +
+> +##
+> +# @calc-dirty-rate:
+> +#
+> +# start calculating dirty page rate for vm
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# Since: 5.2
+> +#
+> +# Example:
+> +#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
+> +#
+> +##
+> +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
+> +
+> +##
+> +# @query-dirty-rate:
+> +#
+> +# query dirty page rate in units of MB/s for vm
+> +#
+> +# Since: 5.2
+> +##
+> +{ 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1892604
-
-Title:
-  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
-  `addr <=3D GINTSTS2' failed.
-
-Status in QEMU:
-  New
-
-Bug description:
-  When trying to run the 2016-05-27 Raspbian image on the emulated
-  raspi2 platform, the system boots but shortly after the login prompt
-  QEMU (master; commit ID ca489cd037e4d50dc6c40570a167504ad7e5a521) dies
-  with:
-
-  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
-  `addr <=3D GINTSTS2' failed.
-
-  Steps to reproduce:
-
-  1. Get the image: wget
-  http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-31/2016=
--05-27
-  -raspbian-jessie.zip
-
-  2. Extract the kernel image and DTB:
-
-  sudo losetup -f --show -P 2016-05-27-raspbian-jessie.img
-  sudo mkdir /mnt/rpi
-  sudo mount /dev/loop11p1 /mnt/rpi/
-  cp /mnt/rpi/kernel7.img .                                                =
-                                                                           =
-                                                                           =
-                                                                   =
-
-  cp /mnt/rpi/bcm2709-rpi-2-b.dtb .                                        =
-                                                                           =
-                                                                           =
-                                                                   =
-
-  sudo umount /mnt/rpi =
-
-  sudo losetup -d /dev/loop11 =
-
-
-  3. Run QEMU:
-  qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.=
-img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.l=
-pm_enable=3D0 root=3D/dev/mmcblk0p2" -sd 2016-05-27-raspbian-jessie.img -sm=
-p 4 -serial stdio -display none
-
-  A few seconds after the login prompt is displayed, QEMU will exit with
-  the assertion failure.
-
-  I also tried changing all of the asserts to if statements that (for
-  MMIO reads) returned 0 and (for writes) just returned, but this
-  resulted in a non-responsive system.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1892604/+subscriptions
 
