@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6680927037E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:45:52 +0200 (CEST)
-Received: from localhost ([::1]:34932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8718B270385
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:48:46 +0200 (CEST)
+Received: from localhost ([::1]:42036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJKSF-0004XM-CE
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:45:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
+	id 1kJKV3-0007iZ-LI
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJKNx-0002nS-6a; Fri, 18 Sep 2020 13:41:25 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37501)
+ id 1kJKNy-0002ne-2e; Fri, 18 Sep 2020 13:41:26 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJKNv-0000Fg-IO; Fri, 18 Sep 2020 13:41:24 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z4so6443834wrr.4;
- Fri, 18 Sep 2020 10:41:22 -0700 (PDT)
+ id 1kJKNw-0000GF-Ln; Fri, 18 Sep 2020 13:41:25 -0400
+Received: by mail-wr1-x441.google.com with SMTP id c18so6437635wrm.9;
+ Fri, 18 Sep 2020 10:41:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BM7THxJfGf+b7XY8piPM2aMZEPnFkfmBjlshGc2heOo=;
- b=Kp8nqvXCh2AozmISeyeO6RDwlKAzJSL4/UIlyk4KnMmav9o4SkaNSVkr13F7XiSFOT
- Jrbhvq8ydOxDF2UgXw4fKkgVy1fQlgTYA8UIl7OhUxICJhHtC9I3xeU1CVjR22DEjAPs
- LVHvRmFovAJw0EHBHDTizsxz2Iu04wkd5G/jHvG/70dzTebvNlfiDMzGDlQO25TZZEVm
- TRTRpDVVoKXFjXM1lzeQU0OxkY33oyd9UTuHkkP3vrqK8DUm1+WnX+CDb7/jhaQtFbDd
- QQwbYMU6QSX7IhGBGBlqRIZvNGlY374yJJ/ZtE1lyq9IGpRiIwCk9K1HckLVKdI/YRXI
- LPDA==
+ bh=+lnXOruvwPuxAjkIojj7o4yQ5aFq/OmvzZbaJBwTWHI=;
+ b=Or9i/vPQpsO73usv3qG+KDnRuo2OOMhVmIb/ORV5OOIw4CEUU2qA6gQrsFnGACFAUs
+ MCoXGhi9qC2bCU/1prPvbxdIir2pbkXDJi8rUqNsA/0Xw+YKOyddmToYHLF4PLQ9qWCo
+ YiX2wpTJ48K2Ls54ztB67sy8lP7kGrU6SDqykStK2/KA+Ffa8/4J3rIcRlHHcmbFCkOB
+ lACBJNRv92pOB5i0N1lg6uf4Vt2hKOzh3vHMHUIAp13jD0gkGPt3EB0B1qXoRsbLQMyF
+ B4hIe4IghQMBoxDh3hXNueItLdw6Fb+yxFsZ2H3TUGWx7dysxHf25OaNc9xazzyQ0W/9
+ ehow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BM7THxJfGf+b7XY8piPM2aMZEPnFkfmBjlshGc2heOo=;
- b=plAlL4m2uQQkFDH+GtL/3N3ZJLooGmOqe5K4jcCrOE47kbIvgJAtq8kIr52RX/63Gi
- NY1QrRzbVpv4iDLf7WKNOQh3DkA/0HkrY1byOvpfVpsCQsSkAAomx9XFAPjpZIesttr1
- DRtShcGOmfzmUJtmrgTXyi1nlzC+VtdDatVX2maQgHnYCv90nTvyDmcVgtRd/Fl9VM4a
- SChVzAVchhYoYGq4iZT9IBOkkNuO9XUewfMBA3mi3QQX59YrOwL70JWDH4cx20kERCWX
- 8oO8dkTf55H94d480gvV8KOHHtxI0mT7W1AiHgtsMGPoKSXObC9uDA3la3kqlis6rcsn
- WjeA==
-X-Gm-Message-State: AOAM533IvKqPKce4hceyUnfUQmfdPy8t2GAKx1XOVkfCX4EpZ1L/rr/r
- rEcuWJC57kVbR7CaR5L+174eu6pJlQo=
-X-Google-Smtp-Source: ABdhPJwFXUqbCrZ1defHjZOJmBn1tgb4uX6EPPvWCEpo2HGADi8/i2q75eKBcz3ouS3xDJeiroJ/BA==
-X-Received: by 2002:adf:df05:: with SMTP id y5mr42456744wrl.39.1600450881480; 
- Fri, 18 Sep 2020 10:41:21 -0700 (PDT)
+ bh=+lnXOruvwPuxAjkIojj7o4yQ5aFq/OmvzZbaJBwTWHI=;
+ b=ld3g2hOEx4ntyCTWyDMUYGCkMWT+WKt1kA1L3pYowCIb+Q2RsFAK2FmiG3cPl/r/VP
+ mKLwW8uZeKDZnhrbt5ZpK0WKi+/ElZsZ9okPWuxua20NQ6uZl2Jf3NuF8nLbSnaxd5Uj
+ 1IBOSyqewNUYpgZQ/0TPD4CpVUae8zENh/ftnOiOKOZ25yfckeHqboHYyiKWN/bXz3tA
+ diJH8r0T4qczRQNbgtfLBcT7mXSM6ivmEPiwZ2zNd/WTkMYJaBdGn2WDOcPuawWFzg+Z
+ hljlWTLtHSjxZVBHctx/FHrJcBoxyGNpxJ7NKjrKCoDhSl215QyFdcYeAqO+Gk1qDt2u
+ 38+Q==
+X-Gm-Message-State: AOAM5306FQadtFaJWYrt0J7JJ/yfufDojeuGj5X189h94imTfSX1/S2D
+ G31MS/zVM7udgdBelQlZc7ECuQyBgdY=
+X-Google-Smtp-Source: ABdhPJyNuXppnabVqj7d9ZQ2+QlTwjxtPPlqmLeVjmVCa2hTDlWfTJW5plEXiufffA9L+CxmYIHu7A==
+X-Received: by 2002:adf:f701:: with SMTP id r1mr39481606wrp.341.1600450882691; 
+ Fri, 18 Sep 2020 10:41:22 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a81sm6356179wmf.32.2020.09.18.10.41.20
+ by smtp.gmail.com with ESMTPSA id a81sm6356179wmf.32.2020.09.18.10.41.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 10:41:20 -0700 (PDT)
+ Fri, 18 Sep 2020 10:41:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/6] hw/sd/sdcard: Introduce the INVALID_ADDRESS definition
-Date: Fri, 18 Sep 2020 19:41:13 +0200
-Message-Id: <20200918174117.180057-3-f4bug@amsat.org>
+Subject: [RFC PATCH 3/6] hw/sd/sdcard: Do not use legal address '0' for
+ INVALID_ADDRESS
+Date: Fri, 18 Sep 2020 19:41:14 +0200
+Message-Id: <20200918174117.180057-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200918174117.180057-1-f4bug@amsat.org>
 References: <20200918174117.180057-1-f4bug@amsat.org>
@@ -86,65 +87,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
+Cc: Alexander Bulekov <alxndr@bu.edu>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+ qemu-block@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'0' is used as a value to indicate an invalid (or unset)
-address. Use a definition instead of a magic value.
+As it is legal to WRITE/ERASE the address/block 0,
+change the value of this definition to an illegal
+address: UINT32_MAX.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+
+Same problem I had with the pflash device last year...
+This break migration :(
+What is the best way to do this?
+---
+ hw/sd/sd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 2606b969e34..30ae435d669 100644
+index 30ae435d669..4c05152f189 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -53,6 +53,8 @@
+@@ -53,7 +53,7 @@
  
  #define SDSC_MAX_CAPACITY   (2 * GiB)
  
-+#define INVALID_ADDRESS     0
-+
+-#define INVALID_ADDRESS     0
++#define INVALID_ADDRESS     UINT32_MAX
+ 
  typedef enum {
      sd_r0 = 0,    /* no response */
-     sd_r1,        /* normal response command */
-@@ -575,8 +577,8 @@ static void sd_reset(DeviceState *dev)
-     sd->wpgrps_size = sect;
-     sd->wp_groups = bitmap_new(sd->wpgrps_size);
-     memset(sd->function_group, 0, sizeof(sd->function_group));
--    sd->erase_start = 0;
--    sd->erase_end = 0;
-+    sd->erase_start = INVALID_ADDRESS;
-+    sd->erase_end = INVALID_ADDRESS;
-     sd->size = size;
-     sd->blk_len = 0x200;
-     sd->pwd_len = 0;
-@@ -750,7 +752,8 @@ static void sd_erase(SDState *sd)
-     uint64_t erase_end = sd->erase_end;
+@@ -666,8 +666,8 @@ static int sd_vmstate_pre_load(void *opaque)
  
-     trace_sdcard_erase(sd->erase_start, sd->erase_end);
--    if (!sd->erase_start || !sd->erase_end) {
-+    if (sd->erase_start == INVALID_ADDRESS
-+            || sd->erase_end == INVALID_ADDRESS) {
-         sd->card_status |= ERASE_SEQ_ERROR;
-         return;
-     }
-@@ -763,8 +766,8 @@ static void sd_erase(SDState *sd)
- 
-     erase_start = sd_addr_to_wpnum(erase_start);
-     erase_end = sd_addr_to_wpnum(erase_end);
--    sd->erase_start = 0;
--    sd->erase_end = 0;
-+    sd->erase_start = INVALID_ADDRESS;
-+    sd->erase_end = INVALID_ADDRESS;
-     sd->csd[14] |= 0x40;
- 
-     for (i = erase_start; i <= erase_end; i++) {
+ static const VMStateDescription sd_vmstate = {
+     .name = "sd-card",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .pre_load = sd_vmstate_pre_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(mode, SDState),
 -- 
 2.26.2
 
