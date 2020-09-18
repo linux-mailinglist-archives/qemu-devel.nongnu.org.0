@@ -2,78 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D070C2705F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:05:30 +0200 (CEST)
-Received: from localhost ([::1]:39532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04680270607
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:10:52 +0200 (CEST)
+Received: from localhost ([::1]:50486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJMdN-0004JJ-U8
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49138)
+	id 1kJMiZ-0001DV-0i
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:10:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLIU-0001QW-Rn
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:56 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:37368)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLIO-0007K6-H1
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:50 -0400
-Received: by mail-pf1-x442.google.com with SMTP id w7so3996317pfi.4
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dgqa26KZVdKCtc03FsTaVbtOnIm76ZLnoLwFdbk/1bU=;
- b=Y4e12SbuIi8Jn/JBd/8XyYpSJ6yTFkJO6choFAuLQ7uC8u9NtV5ySFs2S1nDwZ3wSV
- nqv2Y49zRlWKmn9hCYol1ehE+KWS7z3QbgArJXM6F4blO36wMKQMlFr6OLMEUkpnXr4O
- HV5pBggmVtk1baLSPHONBQ+SCKJgYmSfScoHjZvbS8HWt5G56byqtcfMYO0aa/y5zCP/
- 4wv0iZ+bYZ+MiyfOXVoRVNgsWgju+t5wZqNSq3FaGeYmN7mL4XaIcgzPBDoIhaiFbi4j
- 1ygQEiOZTg6RM3voYigPB31tcsxysIxZ/Wn12cZ7c6WNFzGo1RUHr3zO8xh3dWoaezb9
- 9qvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dgqa26KZVdKCtc03FsTaVbtOnIm76ZLnoLwFdbk/1bU=;
- b=qv+qqmDxc/bguw43c7FFi0QUaDyqRFqGEe78RmmNAvOJCmGlnCZWt+gwEkCJlyqJyf
- 8LVUSbcNDFQmPmCx30zJUyX9d6fhxwqKb9qnd3CMwQRD0u/rfKmkGXCv9ag/gFWQEAVy
- a4TTBauiM59k5rw/836Fg20iGtsh6/J8O7dMf5tUMPU+gUcGO+4+RTiVdqqtpjAfzvLO
- SFS+CaT0v2+Qf61XNLIe51M1edsZsVcc4HD0sWyztwVB/jk5LjcQYAO0bfv3m0nWAsKW
- P2/0nUpjCL33wavZskOKIhX8qPjqiiEVca5rFasAT1pd081rYEqq6EoD+ld7QdObCA88
- IUPQ==
-X-Gm-Message-State: AOAM532QeHc3+3hZ2ezOr73dCLOjQfOdXst4xzpOXQTyo80qNyWp8vur
- AlohhpQkppzuaYw+XKmOqAdlo185hNDjGw==
-X-Google-Smtp-Source: ABdhPJyR7zPMTurcuPHoZLWYvSlnVkKPjXV/Q8wT+AEUsxD24crWalceBiYTe9sO2cG6lKeoAltvcg==
-X-Received: by 2002:a62:503:0:b029:13e:d13d:a0f9 with SMTP id
- 3-20020a6205030000b029013ed13da0f9mr32930391pff.21.1600454379946; 
- Fri, 18 Sep 2020 11:39:39 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.39.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:39:39 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 80/81] target/arm: Implement SVE2 complex integer dot
- product
-Date: Fri, 18 Sep 2020 11:37:50 -0700
-Message-Id: <20200918183751.2787647-81-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
-References: <20200918183751.2787647-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kJLed-0000kI-1X
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:02:43 -0400
+Received: from mail-bn8nam12on2049.outbound.protection.outlook.com
+ ([40.107.237.49]:9025 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kJLea-0001la-GQ
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:02:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QLAuC1qsgY1dWQiownUSY19EnnYlWZ3RhxaTP8Ag05Mko863h6eLJxuk0j06td3vk8V014MElUtyJKAhik6OHyDI5aJYXxgeyvGZi+VARy0d2XFUa+vgBnePt52iSPrrqkcBwF8S2AC1E5WpsnfmQH9J8/0FjWaQQXoEqNdwxdnWAu6tFOQE5x+vZwUkZiscAvatfh4MfWJ8+Fdo9IBwal3o9tCXj4kFfP9cAOvhvVvRxLVXWrQfZPcVmUszZhU7xWbeiQfrts6xNkZu+m/N2ciXAsALJICZK093Oa09ZSdfwb7vjz7YEs0r1/NmslC1WGpKzQ3z5MvwigxlFGNkxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=knhn7QSG9dmoeHRKmlfPWQaIcuuB3klstsH9Ue7WGaA=;
+ b=idOAPcvTB/R8c5TJrO6XwbgHiqhd6kYJIwI++MQPA2WgaHAkcxVhYb1xtvtMxNvShtr7LzsHZjKp4LiRowWDbTXrgLfpBforUWJw7dIx81xjgsauzUKBcm4ougjfFB2p83VCRDeiALMFuOjQyw75tPkdLq9p5e6InZ2piJpOBZSMc/V9I518mXegYxkOJwAHRb004lXa49W9JDddJRClrLbH4sY7bO10ZnMcBIp6fJCtNGzmTcRAza+BuS9AmyFuZKBgB3gNN0B94mJRM4ObVYPy40FTiGGOGU28Q8g4DJthOygcwZ/s5i1OPHXUHGg3QzNVS0UtiyIKf6xY6jlsug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=knhn7QSG9dmoeHRKmlfPWQaIcuuB3klstsH9Ue7WGaA=;
+ b=djYtH00RAHsDGOWAelsjCJS7fx5Aw+4DaNhb3691gDAEOGYTdx66Q07NXvYjx6Ul0LOMutyhTC1bHe2pW5KKAQFXqwa7wy9GromdFpOvVYzDWe1Zlcs5vJYwO7u47QmPMmHk+8op5V66zL5EwY61BdGfgosCXTi+/87VuO1jR9s=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR1201MB0028.namprd12.prod.outlook.com (2603:10b6:4:5a::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.14; Fri, 18 Sep 2020 18:47:34 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::299a:8ed2:23fc:6346]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::299a:8ed2:23fc:6346%3]) with mapi id 15.20.3391.011; Fri, 18 Sep 2020
+ 18:47:34 +0000
+Subject: Re: [PATCH v3 0/5] Qemu SEV-ES guest support
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <cover.1600205384.git.thomas.lendacky@amd.com>
+ <20200917172802.GS2793@work-vm>
+ <de0e9c27-8954-3a77-21db-cad84f334277@amd.com>
+ <20200918100048.GF2816@work-vm>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <57a939bd-9489-2114-730b-bee9ec040b31@amd.com>
+Date: Fri, 18 Sep 2020 13:47:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200918100048.GF2816@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0004.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::9) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from office-linux.texastahm.com (67.79.209.213) by
+ SA0PR11CA0004.namprd11.prod.outlook.com (2603:10b6:806:d3::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.14 via Frontend Transport; Fri, 18 Sep 2020 18:47:32 +0000
+X-Originating-IP: [67.79.209.213]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c458d086-a974-43ae-9d46-08d85c034dd3
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0028:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB00285ECFA32A958FF1C09CDFEC3F0@DM5PR1201MB0028.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CmFuLX92mWCK6wMXK73lc/8KvCaDmDkB5tknH9kpUmvrTPdJ4teAs3J3jsURQubF12mLRwE7bOvwK6bCe8YEcYI/CcQZu1w664BQY5B3cBbjNYheM03gupb6cCDTSWMkdkQBaaT/iD3owlUnhU4Rb9ETZXSvfZ4TjLPigb3v2x5PPC5Z8MvJFj7ROtc+h7JkSnT4SBadj+LnnpS4Vhl9y3oYMHfL/mkV8hVtHW9ZRNx8IuYdbHXsCirRSTUThQLnbfBNQM5LiyLD3FBNtdLWKid7YX3iTLWXBNb/yVPZHjRDJzcVo8zXnYQnEEwkkDQzjWPYPgMfAWP62mvM0OPGii1vcptFx1j5jeD5HvdFYe2GnMwUdwJHvyp1QI0MhGllGjjTEoZw+9TB+wJUBExSBdJYjIi6ehFjMfegQv9gbeAVgcyZBPkHPtkVEGuuoFzZSmefg/YNg+X9R1peRx4ywElBvNgro+r9ttpPMGiYRej8CYBkb4p8akg1jVa/C2ys
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39860400002)(346002)(136003)(376002)(316002)(6486002)(8676002)(6916009)(2616005)(31696002)(7416002)(956004)(966005)(5660300002)(45080400002)(66476007)(54906003)(6512007)(66556008)(478600001)(66946007)(86362001)(52116002)(83380400001)(4326008)(2906002)(31686004)(26005)(53546011)(36756003)(186003)(8936002)(16526019)(6506007)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: bQd0Er7wTbG++uLguLQXFLciJkp2rVE1F4Pz7AMXE8KxI0IJYLVsUPNBjhOwFnvWvFCeNjUqRD69xhz1YuRY3EgNUfCd9WHxuUyZkXTCJDqw0XfJMH4bi291xAIZLiOQ9p6BZ5KHulFVUL5wfg6yst51H/EaWEYdlWVAGPtn4CexaCYdJgCy7a3SF7TtOczIZkuxP1fUUBuQ8AS+ZOTkEQCkO+9REh7shKNG/TMfsjIqqH8unHo3nQYZhzsxqQ6ehJfMyZm98W0MzBJxDprQ86fGOQZcbN9r0LgZDNJBBWRent2ZKUUU364viUQr5pQkPg2tsSRYzf+jM0JTmuRiDMQditpVI7PdTxtgaltodfbin66DQVGWzAEKYMuw6E0gRbppQbC3g/dOaWUqa3Ox4fRnjPQ+8e654B++6n4mnJuSN8z7iWWrKWI0TvrH9fKLNjoLJV8MDl/lkucBieT6Q3oMHfKAsbWEAmtbfX/rKYENKdzrwkfajXT9zY6VsqFujOIKBXKKALgxlA/lfIbIOsrLLWU8YdpYxy8PprjdY0nRPIZO15D1zaT+EmJOxF2/ttJx++P6gwouN0JUmLQC+hUEg/QZv5XWL0AZH9y1QvZ25DKQ3+jzshAnjcgqJtVMzbwl9RShLJBVZuMlR+e1/Q==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c458d086-a974-43ae-9d46-08d85c034dd3
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 18:47:33.9573 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h3BgvAYOFcWd8On8KybcHdyb9TBOH/bHJV5zrjeoe3tvxnTEvyBOYJx1KfLgD/h1pu0tMvyUKgmdEP3qiDgBNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0028
+Received-SPF: none client-ip=40.107.237.49;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 15:02:38
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, LH_URI_DOM_IN_PATH=1.42,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,209 +121,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/helper-sve.h    | 10 ++++
- target/arm/sve.decode      |  9 ++++
- target/arm/sve_helper.c    | 99 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-sve.c | 17 +++++++
- 4 files changed, 135 insertions(+)
+On 9/18/20 5:00 AM, Dr. David Alan Gilbert wrote:
+> * Tom Lendacky (thomas.lendacky@amd.com) wrote:
+>> On 9/17/20 12:28 PM, Dr. David Alan Gilbert wrote:
+>>> * Tom Lendacky (thomas.lendacky@amd.com) wrote:
+>>>> From: Tom Lendacky <thomas.lendacky@amd.com>
+>>>>
+>>>> This patch series provides support for launching an SEV-ES guest.
+>>>>
+>>>> Secure Encrypted Virtualization - Encrypted State (SEV-ES) expands on the
+>>>> SEV support to protect the guest register state from the hypervisor. See
+>>>> "AMD64 Architecture Programmer's Manual Volume 2: System Programming",
+>>>> section "15.35 Encrypted State (SEV-ES)" [1].
+>>>>
+>>>> In order to allow a hypervisor to perform functions on behalf of a guest,
+>>>> there is architectural support for notifying a guest's operating system
+>>>> when certain types of VMEXITs are about to occur. This allows the guest to
+>>>> selectively share information with the hypervisor to satisfy the requested
+>>>> function. The notification is performed using a new exception, the VMM
+>>>> Communication exception (#VC). The information is shared through the
+>>>> Guest-Hypervisor Communication Block (GHCB) using the VMGEXIT instruction.
+>>>> The GHCB format and the protocol for using it is documented in "SEV-ES
+>>>> Guest-Hypervisor Communication Block Standardization" [2].
+>>>>
+>>>> The main areas of the Qemu code that are updated to support SEV-ES are
+>>>> around the SEV guest launch process and AP booting in order to support
+>>>> booting multiple vCPUs.
+>>>>
+>>>> There are no new command line switches required. Instead, the desire for
+>>>> SEV-ES is presented using the SEV policy object. Bit 2 of the SEV policy
+>>>> object indicates that SEV-ES is required.
+>>>>
+>>>> The SEV launch process is updated in two ways. The first is that a the
+>>>> KVM_SEV_ES_INIT ioctl is used to initialize the guest instead of the
+>>>> standard KVM_SEV_INIT ioctl. The second is that before the SEV launch
+>>>> measurement is calculated, the LAUNCH_UPDATE_VMSA SEV API is invoked for
+>>>> each vCPU that Qemu has created. Once the LAUNCH_UPDATE_VMSA API has been
+>>>> invoked, no direct changes to the guest register state can be made.
+>>>>
+>>>> AP booting poses some interesting challenges. The INIT-SIPI-SIPI sequence
+>>>> is typically used to boot the APs. However, the hypervisor is not allowed
+>>>> to update the guest registers. For the APs, the reset vector must be known
+>>>> in advance. An OVMF method to provide a known reset vector address exists
+>>>> by providing an SEV information block, identified by UUID, near the end of
+>>>> the firmware [3]. OVMF will program the jump to the actual reset vector in
+>>>> this area of memory. Since the memory location is known in advance, an AP
+>>>> can be created with the known reset vector address as its starting CS:IP.
+>>>> The GHCB document [2] talks about how SMP booting under SEV-ES is
+>>>> performed. SEV-ES also requires the use of the in-kernel irqchip support
+>>>> in order to minimize the changes required to Qemu to support AP booting.
+>>>
+>>> Some random thoughts:
+>>>     a) Is there something that explicitly disallows SMM?
+>>
+>> There isn't currently. Is there a way to know early on that SMM is enabled?
+>> Could I just call x86_machine_is_smm_enabled() to check that?
+>>
+>>>     b) I think all the interfaces you're using are already defined in
+>>> Linux header files - even if the code to implement them isn't actually
+>>> upstream in the kernel yet (the launch_update in particular) - we
+>>> normally wait for the kernel interface to be accepted before taking the
+>>> QEMU patches, but if the constants are in the headers already I'm not
+>>> sure what the rule is.
+>>
+>> Correct, everything was already present from a Linux header perspective.
+>>
+>>>     c) What happens if QEMU reads the register values from the state if
+>>> the guest is paused - does it just see junk?  I'm just wondering if you
+>>> need to add checks in places it might try to.
+>>
+>> I thought about what to do about calls to read the registers once the guest
+>> state has become encrypted. I think it would take a lot of changes to make
+>> Qemu "protected state aware" for what I see as little gain. Qemu is likely
+>> to see a lot of zeroes or actual register values from the GHCB protocol for
+>> previous VMGEXITs that took place.
+> 
+> Yep, that's fair enough - I was curious if we'll hit anything
+> accidentally still reading it.
+> 
+> How does SEV-ES interact with the 'NODBG' flag of the guest policy - if
+> that's 0, and 'debugging of the guest' is allowed, what can you actually
+> do?
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 9542f01c42..4af5e1a5ce 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2784,3 +2784,13 @@ DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(sve2_cdot_zzzz_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_cdot_zzzz_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(sve2_cdot_idx_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_cdot_idx_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 6708c048e0..84232ff9e5 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -811,6 +811,9 @@ MUL_zzi         00100101 .. 110 000 110 ........ .....          @rdn_i8s
- DOT_zzzz        01000100 1 sz:1 0 rm:5 00000 u:1 rn:5 rd:5 \
-                 ra=%reg_movprfx
- 
-+# SVE2 complex dot product (vectors)
-+CDOT_zzzz       01000100 esz:2 0 rm:5 0001 rot:2 rn:5 rd:5  ra=%reg_movprfx
-+
- #### SVE Multiply - Indexed
- 
- # SVE integer dot product (indexed)
-@@ -849,6 +852,12 @@ SQDMLSLB_zzxw_d 01000100 .. 1 ..... 0011.0 ..... .....          @rrxw_d
- SQDMLSLT_zzxw_s 01000100 .. 1 ..... 0011.1 ..... .....          @rrxw_s
- SQDMLSLT_zzxw_d 01000100 .. 1 ..... 0011.1 ..... .....          @rrxw_d
- 
-+# SVE2 complex integer dot product (indexed)
-+CDOT_zzxw_s     01000100 10 1 index:2 rm:3 0100 rot:2 rn:5 rd:5 \
-+                ra=%reg_movprfx
-+CDOT_zzxw_d     01000100 11 1 index:1 rm:4 0100 rot:2 rn:5 rd:5 \
-+                ra=%reg_movprfx
-+
- # SVE2 complex integer multiply-add (indexed)
- CMLA_zzxz_h     01000100 10 1 index:2 rm:3 0110 rot:2 rn:5 rd:5 \
-                 ra=%reg_movprfx
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index ef04a0f95a..0ff5e0baf8 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -1592,6 +1592,105 @@ void HELPER(sve2_sqrdcmlah_idx_s)(void *vd, void *vn, void *vm,
-     do_cmla_idx_s(vd, vn, vm, va, desc, do_sqrdcmlah_s);
- }
- 
-+/* Note N and M are 4 elements bundled into one unit. */
-+static int32_t do_cdot_s(uint32_t n, uint32_t m, int32_t a,
-+                         int sel_a, int sel_b, int sub_i)
-+{
-+    for (int i = 0; i <= 1; i++) {
-+        int32_t elt1_r = (int8_t)(n >> (16 * i));
-+        int32_t elt1_i = (int8_t)(n >> (16 * i + 8));
-+        int32_t elt2_a = (int8_t)(m >> (16 * i + 8 * sel_a));
-+        int32_t elt2_b = (int8_t)(m >> (16 * i + 8 * sel_b));
-+
-+        a += elt1_r * elt2_a + elt1_i * elt2_b * sub_i;
-+    }
-+    return a;
-+}
-+
-+static int64_t do_cdot_d(uint64_t n, uint64_t m, int64_t a,
-+                         int sel_a, int sel_b, int sub_i)
-+{
-+    for (int i = 0; i <= 1; i++) {
-+        int64_t elt1_r = (int16_t)(n >> (32 * i + 0));
-+        int64_t elt1_i = (int16_t)(n >> (32 * i + 16));
-+        int64_t elt2_a = (int16_t)(m >> (32 * i + 16 * sel_a));
-+        int64_t elt2_b = (int16_t)(m >> (32 * i + 16 * sel_b));
-+
-+        a += elt1_r * elt2_a + elt1_i * elt2_b * sub_i;
-+    }
-+    return a;
-+}
-+
-+void HELPER(sve2_cdot_zzzz_s)(void *vd, void *vn, void *vm,
-+                              void *va, uint32_t desc)
-+{
-+    int opr_sz = simd_oprsz(desc);
-+    int rot = simd_data(desc);
-+    int sel_a = rot & 1;
-+    int sel_b = sel_a ^ 1;
-+    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
-+    uint32_t *d = vd, *n = vn, *m = vm, *a = va;
-+
-+    for (int e = 0; e < opr_sz / 4; e++) {
-+        d[e] = do_cdot_s(n[e], m[e], a[e], sel_a, sel_b, sub_i);
-+    }
-+}
-+
-+void HELPER(sve2_cdot_zzzz_d)(void *vd, void *vn, void *vm,
-+                              void *va, uint32_t desc)
-+{
-+    int opr_sz = simd_oprsz(desc);
-+    int rot = simd_data(desc);
-+    int sel_a = rot & 1;
-+    int sel_b = sel_a ^ 1;
-+    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
-+    uint64_t *d = vd, *n = vn, *m = vm, *a = va;
-+
-+    for (int e = 0; e < opr_sz / 8; e++) {
-+        d[e] = do_cdot_d(n[e], m[e], a[e], sel_a, sel_b, sub_i);
-+    }
-+}
-+
-+void HELPER(sve2_cdot_idx_s)(void *vd, void *vn, void *vm,
-+                             void *va, uint32_t desc)
-+{
-+    int opr_sz = simd_oprsz(desc);
-+    int rot = extract32(desc, SIMD_DATA_SHIFT, 2);
-+    int idx = H4(extract32(desc, SIMD_DATA_SHIFT + 2, 2));
-+    int sel_a = rot & 1;
-+    int sel_b = sel_a ^ 1;
-+    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
-+    uint32_t *d = vd, *n = vn, *m = vm, *a = va;
-+
-+    for (int seg = 0; seg < opr_sz / 4; seg += 4) {
-+        uint32_t seg_m = m[seg + idx];
-+        for (int e = 0; e < 4; e++) {
-+            d[seg + e] = do_cdot_s(n[seg + e], seg_m, a[seg + e],
-+                                   sel_a, sel_b, sub_i);
-+        }
-+    }
-+}
-+
-+void HELPER(sve2_cdot_idx_d)(void *vd, void *vn, void *vm,
-+                             void *va, uint32_t desc)
-+{
-+    int seg, opr_sz = simd_oprsz(desc);
-+    int rot = extract32(desc, SIMD_DATA_SHIFT, 2);
-+    int idx = extract32(desc, SIMD_DATA_SHIFT + 2, 2);
-+    int sel_a = rot & 1;
-+    int sel_b = sel_a ^ 1;
-+    int sub_i = (rot == 0 || rot == 3 ? -1 : 1);
-+    uint64_t *d = vd, *n = vn, *m = vm, *a = va;
-+
-+    for (seg = 0; seg < opr_sz / 8; seg += 2) {
-+        uint64_t seg_m = m[seg + idx];
-+        for (int e = 0; e < 2; e++) {
-+            d[seg + e] = do_cdot_d(n[seg + e], seg_m, a[seg + e],
-+                                   sel_a, sel_b, sub_i);
-+        }
-+    }
-+}
-+
- #define DO_ZZXZ(NAME, TYPE, H, OP) \
- void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
- {                                                                       \
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 92d1297a5c..4893968cdb 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -4151,6 +4151,9 @@ DO_SVE2_RRXR_ROT(CMLA_zzxz_s, gen_helper_sve2_cmla_idx_s)
- DO_SVE2_RRXR_ROT(SQRDCMLAH_zzxz_h, gen_helper_sve2_sqrdcmlah_idx_h)
- DO_SVE2_RRXR_ROT(SQRDCMLAH_zzxz_s, gen_helper_sve2_sqrdcmlah_idx_s)
- 
-+DO_SVE2_RRXR_ROT(CDOT_zzxw_s, gen_helper_sve2_cdot_idx_s)
-+DO_SVE2_RRXR_ROT(CDOT_zzxw_d, gen_helper_sve2_cdot_idx_d)
-+
- #undef DO_SVE2_RRXR_ROT
- 
- /*
-@@ -8355,6 +8358,20 @@ static bool trans_CMLA_zzzz(DisasContext *s, arg_CMLA_zzzz *a)
-     return true;
- }
- 
-+static bool trans_CDOT_zzzz(DisasContext *s, arg_CMLA_zzzz *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2, s) || a->esz < MO_32) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        gen_helper_gvec_4 *fn = (a->esz == MO_32
-+                                 ? gen_helper_sve2_cdot_zzzz_s
-+                                 : gen_helper_sve2_cdot_zzzz_d);
-+        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, a->rot);
-+    }
-+    return true;
-+}
-+
- static bool trans_SQRDCMLAH_zzzz(DisasContext *s, arg_SQRDCMLAH_zzzz *a)
- {
-     static gen_helper_gvec_4 * const fns[] = {
--- 
-2.25.1
+The SEV-ES KVM patches will disallow debugging of the guest, or at least 
+setting breakpoints using the debug registers. Gdb can still break in, but 
+you wont get anything reasonable with register dumps and memory dumps.
 
+The NODBG policy bit enables or disables the DBG_DECRYPT and DBG_ENCRYPT 
+APIs. So if the guest has allowed debugging, memory dumps could be done 
+using those APIs (for encrypted pages). Registers are a different story 
+because you simply can't update from the hypervisor side under SEV-ES.
+
+Under SEV you could do actual debugging if the support was developed and 
+in place.
+
+Thanks,
+Tom
+
+> 
+> Dave
+> 
+>> Thanks,
+>> Tom
+>>
+>>>
+>>> Dave
+>>>
+>>>> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.amd.com%2Fsystem%2Ffiles%2FTechDocs%2F24593.pdf&amp;data=02%7C01%7Cthomas.lendacky%40amd.com%7Cecf88d6f7bd0494d1b0e08d85bb9c19b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637360201727448609&amp;sdata=e6CbpjDDvCUG2q9pk6OSsty0QB5HuhueVAM4t8iygT8%3D&amp;reserved=0
+>>>> [2] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdeveloper.amd.com%2Fwp-content%2Fresources%2F56421.pdf&amp;data=02%7C01%7Cthomas.lendacky%40amd.com%7Cecf88d6f7bd0494d1b0e08d85bb9c19b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637360201727448609&amp;sdata=%2FUzJB5K%2F8rOMF%2B%2BVPXjg%2BJBLgD4uLW6U82Wvf8pXq%2BA%3D&amp;reserved=0
+>>>> [3] 30937f2f98c4 ("OvmfPkg: Use the SEV-ES work area for the SEV-ES AP reset vector")
+>>>>       https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Ftianocore%2Fedk2%2Fcommit%2F30937f2f98c42496f2f143fe8374ae7f7e684847&amp;data=02%7C01%7Cthomas.lendacky%40amd.com%7Cecf88d6f7bd0494d1b0e08d85bb9c19b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637360201727458605&amp;sdata=0FmiYEdIEtDjw1VIGaeeRrto%2FZpvH1esIgE93gXyagM%3D&amp;reserved=0
+>>>>
+>>>> ---
+>>>>
+>>>> These patches are based on commit:
+>>>> d0ed6a69d3 ("Update version for v5.1.0 release")
+>>>>
+>>>> (I tried basing on the latest Qemu commit, but I was having build issues
+>>>> that level)
+>>>>
+>>>> A version of the tree can be found at:
+>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FAMDESE%2Fqemu%2Ftree%2Fsev-es-v11&amp;data=02%7C01%7Cthomas.lendacky%40amd.com%7Cecf88d6f7bd0494d1b0e08d85bb9c19b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637360201727458605&amp;sdata=w1tfrMDgruZBDxNHgKLhpKtQ50Ua%2FMy9IfkSXfne2xg%3D&amp;reserved=0
+>>>>
+>>>> Changes since v2:
+>>>> - Add in-kernel irqchip requirement for SEV-ES guests
+>>>>
+>>>> Changes since v1:
+>>>> - Fixed checkpatch.pl errors/warnings
+>>>>
+>>>> Tom Lendacky (5):
+>>>>     sev/i386: Add initial support for SEV-ES
+>>>>     sev/i386: Require in-kernel irqchip support for SEV-ES guests
+>>>>     sev/i386: Allow AP booting under SEV-ES
+>>>>     sev/i386: Don't allow a system reset under an SEV-ES guest
+>>>>     sev/i386: Enable an SEV-ES guest based on SEV policy
+>>>>
+>>>>    accel/kvm/kvm-all.c       |  73 ++++++++++++++++++++++++++
+>>>>    accel/stubs/kvm-stub.c    |   5 ++
+>>>>    hw/i386/pc_sysfw.c        |  10 +++-
+>>>>    include/sysemu/cpus.h     |   2 +
+>>>>    include/sysemu/hw_accel.h |   5 ++
+>>>>    include/sysemu/kvm.h      |  18 +++++++
+>>>>    include/sysemu/sev.h      |   3 ++
+>>>>    softmmu/cpus.c            |   5 ++
+>>>>    softmmu/vl.c              |   5 +-
+>>>>    target/i386/cpu.c         |   1 +
+>>>>    target/i386/kvm.c         |   2 +
+>>>>    target/i386/sev-stub.c    |   5 ++
+>>>>    target/i386/sev.c         | 105 +++++++++++++++++++++++++++++++++++++-
+>>>>    target/i386/sev_i386.h    |   1 +
+>>>>    14 files changed, 236 insertions(+), 4 deletions(-)
+>>>>
+>>>> -- 
+>>>> 2.28.0
+>>>>
+>>
 
