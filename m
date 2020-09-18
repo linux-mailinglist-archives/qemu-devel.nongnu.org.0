@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C1C26FF15
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:48:17 +0200 (CEST)
-Received: from localhost ([::1]:33384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B476426FF16
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:50:07 +0200 (CEST)
+Received: from localhost ([::1]:35820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJGkK-0006KZ-EA
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:48:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51028)
+	id 1kJGm6-0007PN-O7
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJGil-0005oG-Ow
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:46:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29721)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJGkD-0006cV-NB
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:48:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJGij-00054v-Js
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:46:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJGkC-0005DS-2d
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:48:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600436796;
+ s=mimecast20190719; t=1600436881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=g5inXGDH9UyK2+dZX5lnEBGvLwT+9N22Vj8ZEVId6M4=;
- b=MSK7uPyYRRW4uHa6hbEAt3Di+cwIebMAWYhiCRXv1kFS37w22V6xdtN+41TcOPV6e+C7ez
- BL8MZCdaaOmX9gkBenTZu4nUqYCghgEg3Te3XuNa1weLiOfr/2L4VXJOxMehxaiiG5vcT3
- FG7ItmSL5mES870xFD/rkLtyWm5LaYQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-Utft76p8N3q68OiG9UJYqA-1; Fri, 18 Sep 2020 09:46:33 -0400
-X-MC-Unique: Utft76p8N3q68OiG9UJYqA-1
-Received: by mail-wr1-f72.google.com with SMTP id l17so2136813wrw.11
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 06:46:33 -0700 (PDT)
+ bh=od9XyNeXOZynAGkgITdC9XvFcbAKsOH33JRzkXrOxYM=;
+ b=W+Lcf9R1nrKN3VxolOitxMzVq/Rs1IIXQ9fMeNWvrQ/Vd5hKEueZ18RPZLSOJ9J38Msc7u
+ exYquJeGnrYtJPrnK4tjeEnEJeV3k/bL2PVD/sZ/sM9vNU4KfeqsWt9iygmAct/FSDwwTX
+ Mb7yElGhBg3vNDm4QvB7sqmuX7lm7ko=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-4Jlte2p6NdK9l3W_jBLDag-1; Fri, 18 Sep 2020 09:48:00 -0400
+X-MC-Unique: 4Jlte2p6NdK9l3W_jBLDag-1
+Received: by mail-wm1-f69.google.com with SMTP id m25so2090161wmi.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 06:47:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=g5inXGDH9UyK2+dZX5lnEBGvLwT+9N22Vj8ZEVId6M4=;
- b=YQC0PnPx0ih+waEdb1ce/qHNJkf97VenV8QXI7Xn6agQrPqUZN6THVZUENro5RlWHP
- NkPTRnxskAXlBfUgRyBUZWHkKYjbejPlmfEx/7CM+85iiBVgvlAtsjRSFAV3RPdhfwyA
- JkGTguHezC6V1sYIE8NBiJFx5ASDDoFw+LhqRQmJkJ6OSerCa3t6oP51UbWO++3rE7fn
- xw7/63l82QSEJWsdYn8MuUX0fYeSdkqAwcNo7CeU0RnLG18uGPnqU15HedVjg3lH2RXs
- XXgb8Q8zT0GAYP56v1Xb4o6kgM5GaCUQBUldcMGq9bbtbVry0rGcnH8fjTl1qheSKDvS
- gMoQ==
-X-Gm-Message-State: AOAM533bD8QugWO/XMKZriIY/s+jvV5/mJhbpW0I0TCnMAjB1cakMSEy
- zuLtElW5+g2Wrxc7FRTBvJ0cpr95EcbG/WjwzS53SpFAbNaP0z/8WtmEHGCuUX6Y39j8WPQa8H9
- ZgWi62QCisAQ217w=
-X-Received: by 2002:a05:600c:297:: with SMTP id
- 23mr14958642wmk.184.1600436792252; 
- Fri, 18 Sep 2020 06:46:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEwxZ63vaok/bF1mTJ5Yu0nDUm24m8flnM+0tMk3yDvCVpOZs2LAVWC+54mO0RI9limfAjVQ==
-X-Received: by 2002:a05:600c:297:: with SMTP id
- 23mr14958626wmk.184.1600436792036; 
- Fri, 18 Sep 2020 06:46:32 -0700 (PDT)
+ bh=od9XyNeXOZynAGkgITdC9XvFcbAKsOH33JRzkXrOxYM=;
+ b=UGr4apyhI28Q65j5UFnwoLE/hReYyhhT9SfqVMuXJeTC8ymzUQCw/QQRRYXRuQHvUm
+ mYZeXYCzgCpu1df7k/G472w6wel4oxvBeHj6EVIMwZUWnKUJy9abtazWPYtjJ66a/Gwa
+ UPGug9q/XBFqnGBEqPYVtSS16wlEiJALGUsYtRqwjI5aboLvr61DbYhr31M4uJKxXYai
+ pnT+A5tjcZlJ0GrOZaF+YK0RUjj4AvCMpo9V0f3s9m7liqr5emvdCRwhRvBiQG1spO2O
+ PW0BQu3n6hfFiBT2KXjL0pR5swNHwfl1Z1FDHjvZNWrkUKyz6ATM4FcsN9TzcZ+9ojNA
+ 5mgQ==
+X-Gm-Message-State: AOAM531ErWLDqQ51r3P6ZMPbLE4TheVidoRapaSCSekEd5loRSJ4u5Gz
+ UNFMdDYMX9QPU+XrMzivBTeOfk6MmFdX8wq7vEhPPY75T7+7gTPNm6fmVLF9MwSF8VhFp4oFKMN
+ xzaml1f8gLEODHzs=
+X-Received: by 2002:a1c:7c01:: with SMTP id x1mr15077765wmc.57.1600436878877; 
+ Fri, 18 Sep 2020 06:47:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3Qtsnh319D88WuVZOsv4aHxvMPZbnozfWJhaKNWS5p1C37BX9DM+oyQsY5OdZ5BlSdtFaiA==
+X-Received: by 2002:a1c:7c01:: with SMTP id x1mr15077746wmc.57.1600436878690; 
+ Fri, 18 Sep 2020 06:47:58 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id v4sm4979182wml.46.2020.09.18.06.46.30
+ by smtp.gmail.com with ESMTPSA id w15sm5134498wro.46.2020.09.18.06.47.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Sep 2020 06:46:31 -0700 (PDT)
-Subject: Re: [PATCH 1/3] gitlab: add a CI job for running checkpatch.pl
+ Fri, 18 Sep 2020 06:47:58 -0700 (PDT)
+Subject: Re: [PATCH 3/3] gitlab: assign python helper files to GitLab
+ maintainers section
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200918132903.1848939-1-berrange@redhat.com>
- <20200918132903.1848939-2-berrange@redhat.com>
+ <20200918132903.1848939-4-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,12 +88,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <19bb60cd-1159-6215-6759-c2a10b9f8a66@redhat.com>
-Date: Fri, 18 Sep 2020 15:46:30 +0200
+Message-ID: <70042db8-bed1-523e-a0a9-565bf6d5c74d@redhat.com>
+Date: Fri, 18 Sep 2020 15:47:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200918132903.1848939-2-berrange@redhat.com>
+In-Reply-To: <20200918132903.1848939-4-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -133,73 +132,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/18/20 3:29 PM, Daniel P. Berrangé wrote:
-> This job is advisory since it is expected that certain patches will fail
-> the style checks and checkpatch.pl provides no way to mark exceptions to
-> the rules.
-> 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  .gitlab-ci.d/check-patch.py | 48 +++++++++++++++++++++++++++++++++++++
->  .gitlab-ci.yml              | 12 ++++++++++
->  2 files changed, 60 insertions(+)
->  create mode 100755 .gitlab-ci.d/check-patch.py
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/.gitlab-ci.d/check-patch.py b/.gitlab-ci.d/check-patch.py
-> new file mode 100755
-> index 0000000000..5a14a25b13
-> --- /dev/null
-> +++ b/.gitlab-ci.d/check-patch.py
-> @@ -0,0 +1,48 @@
-> +#!/usr/bin/env python3
-> +#
-> +# check-patch.py: run checkpatch.pl across all commits in a branch
-> +#
-> +# Copyright (C) 2020 Red Hat, Inc.
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +import os
-> +import os.path
-> +import sys
-> +import subprocess
-> +
-> +namespace = "qemu-project"
-> +if len(sys.argv) >= 2:
-> +    namespace = sys.argv[1]
-> +
-> +cwd = os.getcwd()
-> +reponame = os.path.basename(cwd)
-> +repourl = "https://gitlab.com/%s/%s.git" % (namespace, reponame)
-> +
-> +# GitLab CI environment does not give us any direct info about the
-> +# base for the user's branch. We thus need to figure out a common
-> +# ancestor between the user's branch and current git master.
-> +subprocess.check_call(["git", "remote", "add", "check-patch", repourl])
-> +subprocess.check_call(["git", "fetch", "check-patch", "master"],
-> +                      stdout=subprocess.DEVNULL,
-> +                      stderr=subprocess.DEVNULL)
-> +
-> +ancestor = subprocess.check_output(["git", "merge-base",
-> +                                    "check-patch/master", "HEAD"],
-> +                                   universal_newlines=True)
-> +
-> +ancestor = ancestor.strip()
-> +
-> +subprocess.check_call(["git", "remote", "rm", "check-patch"])
-> +
-> +errors = False
-> +
-> +print("\nChecking all commits since %s...\n" % ancestor)
-> +
-> +ret = subprocess.run(["scripts/checkpatch.pl", ancestor + "..."])
-> +
-> +if ret.returncode != 0:
-> +    print("    ❌ FAIL one or more commits failed scripts/checkpatch.pl")
-> +    sys.exit(1)
-> +
-> +sys.exit(0)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3d17cad19a..b60981fb62 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3097,6 +3097,7 @@ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>  S: Maintained
+>  F: .gitlab-ci.yml
+>  F: .gitlab-ci.d/crossbuilds.yml
+> +F: .gitlab-ci.d/*py
 
-Hmm I'm very tempted to add various check I've been reluctant to
-add to checkpatch.pl here, and use check-patch.py instead...
+Squash in 1st patch?
+
+Regardless:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
