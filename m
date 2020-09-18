@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523F82708E1
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 00:19:16 +0200 (CEST)
-Received: from localhost ([::1]:43654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3882708E6
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 00:22:47 +0200 (CEST)
+Received: from localhost ([::1]:48924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJOip-0004PG-EL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 18:19:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37184)
+	id 1kJOmE-0006j3-B8
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 18:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJOfk-0001sX-G6
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:16:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22292)
+ id 1kJOgO-0002Kg-Ro
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:16:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJOfi-0008Ds-L5
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:16:04 -0400
+ id 1kJOgN-0008HI-1y
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:16:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600467361;
+ s=mimecast20190719; t=1600467402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JPqqUYOilUNBsNsCdknHADm98dIjjuf8KGrasiN8234=;
- b=D2k81rNrms3IuJqi0gVFeiolsN2B48mg/jMgzMA+mf3usPOV3/NW02+N37kjhqVMYe3OMa
- 2f38e5ZZSSuYUFxYhI2L2+tdZcd2EJKGlcGFNKuryVq2CAPqe0/kRNaqDo2lUFhhShrmO8
- 5qPXm1xE4wkdRA/DXnQZ/T0+zAN3LtI=
+ bh=rSy8cMPNK12wJT4tPK6F8Zx8qEUYZUJh/r/7/nvOOJo=;
+ b=NcaoD7QQGvQsjhNfHCyx6dg4IunBqG81ZH5rc3RO8fx0vP5O035o4x6hel9rfe/vQkYk8j
+ cgDM0zt0zjk5MHgsTbBPDpdM0gJeXXv8/XWzJBvdWwdL9wCUp5slykiGoTXaMhdlA+l9ls
+ H1kgsHNYn52aNtp/0NcGh90j7v+mMEw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-wYyiDFh9PkiTMZlH21b3-Q-1; Fri, 18 Sep 2020 18:15:59 -0400
-X-MC-Unique: wYyiDFh9PkiTMZlH21b3-Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-416-Yv270QXdOKOozDEfRIM7PQ-1; Fri, 18 Sep 2020 18:16:40 -0400
+X-MC-Unique: Yv270QXdOKOozDEfRIM7PQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A26988EF1D
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 22:15:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1787088EF1E
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 22:16:39 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03C5A55762;
- Fri, 18 Sep 2020 22:15:57 +0000 (UTC)
-Date: Fri, 18 Sep 2020 18:15:57 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1C9A60BEC;
+ Fri, 18 Sep 2020 22:16:38 +0000 (UTC)
+Date: Fri, 18 Sep 2020 18:16:37 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH RFC 05/22] i386: move hyperv_version_id initialization to
+Subject: Re: [PATCH RFC 06/22] i386: move hyperv_limits initialization to
  x86_cpu_realizefn()
-Message-ID: <20200918221557.GD57321@habkost.net>
+Message-ID: <20200918221637.GE57321@habkost.net>
 References: <20200904145431.196885-1-vkuznets@redhat.com>
- <20200904145431.196885-6-vkuznets@redhat.com>
+ <20200904145431.196885-7-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200904145431.196885-6-vkuznets@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200904145431.196885-7-vkuznets@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -86,81 +86,80 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 04, 2020 at 04:54:14PM +0200, Vitaly Kuznetsov wrote:
+On Fri, Sep 04, 2020 at 04:54:15PM +0200, Vitaly Kuznetsov wrote:
 > As a preparation to expanding Hyper-V CPU features early, move
-> hyperv_version_id initialization to x86_cpu_realizefn().
+> hyperv_limits initialization to x86_cpu_realizefn().
 > 
 > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 > ---
->  target/i386/cpu.c |  4 ++++
+>  target/i386/cpu.c |  5 +++++
 >  target/i386/cpu.h |  1 +
->  target/i386/kvm.c | 14 ++++++++++++--
->  3 files changed, 17 insertions(+), 2 deletions(-)
+>  target/i386/kvm.c | 13 ++++++++++++-
+>  3 files changed, 18 insertions(+), 1 deletion(-)
 > 
 > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 16888125a30a..e605399eb8c0 100644
+> index e605399eb8c0..ef3c672cf415 100644
 > --- a/target/i386/cpu.c
 > +++ b/target/i386/cpu.c
-> @@ -6644,6 +6644,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->      cpu->hyperv_interface_id[2] = 0;
->      cpu->hyperv_interface_id[3] = 0;
+> @@ -6648,6 +6648,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>      cpu->hyperv_version_id[0] = 0x00001bbc;
+>      cpu->hyperv_version_id[1] = 0x00060001;
 >  
-> +    /* Hypervisor system identity */
-> +    cpu->hyperv_version_id[0] = 0x00001bbc;
-> +    cpu->hyperv_version_id[1] = 0x00060001;
+> +    /* Hypervisor implementation limits */
+> +    cpu->hyperv_limits[0] = 64;
+> +    cpu->hyperv_limits[1] = 0;
+> +    cpu->hyperv_limits[2] = 0;
 > +
 >      if (cpu->ucode_rev == 0) {
 >          /* The default is the same as KVM's.  */
 >          if (IS_AMD_CPU(env)) {
 > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 91edc54a268c..2630ffd2d4b2 100644
+> index 2630ffd2d4b2..095d0bf75493 100644
 > --- a/target/i386/cpu.h
 > +++ b/target/i386/cpu.h
-> @@ -1661,6 +1661,7 @@ struct X86CPU {
->      OnOffAuto hyperv_no_nonarch_cs;
+> @@ -1662,6 +1662,7 @@ struct X86CPU {
 >      uint32_t hyperv_vendor_id[3];
 >      uint32_t hyperv_interface_id[4];
-> +    uint32_t hyperv_version_id[4];
+>      uint32_t hyperv_version_id[4];
+> +    uint32_t hyperv_limits[3];
 >  
 >      bool check_cpuid;
 >      bool enforce_cpuid;
 > diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index a36c65100cd0..169bae2779a4 100644
+> index 169bae2779a4..720c30e9df17 100644
 > --- a/target/i386/kvm.c
 > +++ b/target/i386/kvm.c
-> @@ -1239,6 +1239,14 @@ static int hyperv_handle_properties(CPUState *cs,
->              cpu->hyperv_interface_id[3] = c->edx;
+> @@ -1253,6 +1253,15 @@ static int hyperv_handle_properties(CPUState *cs,
+>              env->features[FEAT_HYPERV_EBX] = c->ebx;
+>              env->features[FEAT_HYPERV_EDX] = c->eax;
 >          }
->  
-> +        c = cpuid_find_entry(cpuid, HV_CPUID_VERSION, 0);
+> +
+> +        c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
 > +        if (c) {
-> +            cpu->hyperv_version_id[0] = c->eax;
-> +            cpu->hyperv_version_id[1] = c->ebx;
-> +            cpu->hyperv_version_id[2] = c->ecx;
-> +            cpu->hyperv_version_id[3] = c->edx;
+> +            cpu->hv_max_vps = c->eax;
+> +            cpu->hyperv_limits[0] = c->ebx;
+> +            cpu->hyperv_limits[1] = c->ecx;
+> +            cpu->hyperv_limits[2] = c->edx;
 > +        }
 > +
 
-Same questions I had for vendor id: is hyperv_version_id broken
-when using hv-passthrough today?  Should this go to a separate
-patch?
+Sam question I had for vendor id and version id: should it go to
+a separate patch as it changes behavior of hv-passthrough?
 
->          c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
+>          c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
 >          if (c) {
->              env->features[FEAT_HYPERV_EAX] = c->eax;
-> @@ -1328,8 +1336,10 @@ static int hyperv_handle_properties(CPUState *cs,
->  
+>              env->features[FEAT_HV_RECOMM_EAX] = c->eax;
+> @@ -1355,7 +1364,9 @@ static int hyperv_handle_properties(CPUState *cs,
 >      c = &cpuid_ent[cpuid_i++];
->      c->function = HV_CPUID_VERSION;
-> -    c->eax = 0x00001bbc;
-> -    c->ebx = 0x00060001;
-> +    c->eax = cpu->hyperv_version_id[0];
-> +    c->ebx = cpu->hyperv_version_id[1];
-> +    c->ecx = cpu->hyperv_version_id[2];
-> +    c->edx = cpu->hyperv_version_id[3];
+>      c->function = HV_CPUID_IMPLEMENT_LIMITS;
+>      c->eax = cpu->hv_max_vps;
+> -    c->ebx = 0x40;
+> +    c->ebx = cpu->hyperv_limits[0];
+> +    c->ecx = cpu->hyperv_limits[1];
+> +    c->edx = cpu->hyperv_limits[2];
 >  
->      c = &cpuid_ent[cpuid_i++];
->      c->function = HV_CPUID_FEATURES;
+>      if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
+>          __u32 function;
 > -- 
 > 2.25.4
 > 
