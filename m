@@ -2,118 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C4526F9CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:02:07 +0200 (CEST)
-Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D96D926F9EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:08:26 +0200 (CEST)
+Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJDDR-0005ZQ-U9
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:02:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54458)
+	id 1kJDJY-0002QM-7E
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1kJDAc-0004cd-82
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:59:11 -0400
-Received: from mail-eopbgr30119.outbound.protection.outlook.com
- ([40.107.3.119]:57388 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1kJDAZ-0000ZQ-AK
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:59:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iJKVHKUD2CPhM5FvfbSRwUmzjgPQDqT0IjLRwMnrXX8+oTHJQ2TRyxInYlfu1iP5ASSdl340YJcWlJGPVa//OKkLP0OAWyJTJMycMZdtSCgeNalKdH0hgoUXmbPM+UGZOnZqlK6N+zvwNXiipTKe2cdV0lKHLjB7LvV5yKD5BUozaHo/09TOk3CYMw4LJxykgj0MNhjlHHz1heS2KWi8ZBZeA5VJakTMH6cIKLUgneoXrRhiIc1a6Pw7bT/+juvggYhp9kzniffMxxe/MM93ceoODmkN/vjFOJ+48Q0c3sMRRKgu9hygSCQd//SvRGdA+K3LVIpXBQwwOLrxmMEJOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6oTt8ft9QMgryTJVDWknBUfEElRgJ83wpbtSKjHquPo=;
- b=Vsc5ENNg2jhcmyn4lFrvc5MbmtH7rdlEFqI9ALMiEzUhuQpg1uB2WQbOo9jTtygb+5hxfweFXg5uguS5A8EFudEP3R5Kq1B/qwmcIc4t3IUWxtv9L8VxBQK/lEKYzgaVM415lHQHFt9IdHi2U7S218NeTRjRyAZuAfKBgDHklI/Y8aOkbA7gcAXi7XR4AkmuBfu1zDqijlXYQ2YBLoAB3r72c1e0a/GyvJ9DbF252hwYZs46swiR53bYanmRvG0M/bilbj2KULGGw5R33fUr+sQwGS9BhyhOVgeDaIvdJT77z2evMp4XMeUM+3DAPskfYeebIbWALr8rvNaDhKWtoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6oTt8ft9QMgryTJVDWknBUfEElRgJ83wpbtSKjHquPo=;
- b=B5YRrHCVKJx/8PaVH8SDBXEe3BorX4IK5ZNzJYz/oc6DZk1wgB2KvEgfmnqo1czlhUMWMnSjOGWtV28JRj6gK7KgkiOPSdXpQdzgEqNcD+uREuZjWq3HmmsyzRbVMWSi0SC6bcu5u7ZKQSfuZ5tPIz+H4iY1eK9lavnMNJWrDnE=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
- by AM6PR08MB3285.eurprd08.prod.outlook.com (2603:10a6:209:4b::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.19; Fri, 18 Sep
- 2020 09:59:04 +0000
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::948a:2e3c:f9f:66f7]) by AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::948a:2e3c:f9f:66f7%4]) with mapi id 15.20.3391.017; Fri, 18 Sep 2020
- 09:59:04 +0000
-Subject: Re: QEMU 5.0 virtio-blk performance regression with high queue depths
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20200824134431.GA35623@stefanha-x1.localdomain>
- <CAJSP0QW3xniHzHS=_Ok1D-NuAViHUShCxYs38YDo-YjUxC_+ZA@mail.gmail.com>
- <709da6a3-d158-270b-fb63-43ef65dfe668@virtuozzo.com>
- <dd5d6d0f-cc52-d3d5-0bbc-c57dcfef6842@virtuozzo.com>
- <CAJSP0QVRMzw5AAJEPpOChyFK4hUuEe1VE909QvYb6HQGOV_8XA@mail.gmail.com>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-Message-ID: <ec0e4c0b-9570-de7c-66fd-5cb4085ab075@virtuozzo.com>
-Date: Fri, 18 Sep 2020 12:59:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAJSP0QVRMzw5AAJEPpOChyFK4hUuEe1VE909QvYb6HQGOV_8XA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR07CA0009.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::22) To AM6PR08MB4214.eurprd08.prod.outlook.com
- (2603:10a6:20b:8d::30)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJDGs-0001Kp-Bp
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:05:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJDGq-0001MI-0g
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:05:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kJDGo-0000FU-0P
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 10:05:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A0FC12E80EA
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 10:05:33 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.27] (31.148.204.195) by
- AM0PR07CA0009.eurprd07.prod.outlook.com (2603:10a6:208:ac::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3412.7 via Frontend Transport; Fri, 18 Sep 2020 09:59:03 +0000
-X-Originating-IP: [31.148.204.195]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: be35cb68-c90b-4969-af5e-08d85bb97983
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3285:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3285B90B2A50B63AB4C0664AB63F0@AM6PR08MB3285.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xRc8vL27soasfLuz06eK1ScUEP8IFMtJVCebmQ3hH7uBE8I/zAHcq/ka0EUqNukDzFYBJo0Lf1U/+HLF0mdcaah9UL+sWZ8ENem4B//fN6kRaBsDvRZnsSRG8MpvYHKJBxRasy4BuUyw+YYbtftYcouUiem3chiGPnhSk1KkcCvsWBxaveXqq2BSyI7YB1WE6PAgJXYKZarXJzxMGFKcU79UxT+A5b4D2owTj67BRbbEaP8pXKvVTZqZ8Gw5sKPC5NG4iuOv5TN18j/Ad13H4qN+v2Wam/RR4k+kS5COfhlsvT8MNIsf7QAnYzD7f2dkO5PphNaTxZc8ioCpN0Uvb/ZbjzYe6LbBHcGdhyVSwsjH98nUpQ5eWe/BS8YjAQAT
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(396003)(39840400004)(376002)(366004)(66476007)(66556008)(107886003)(86362001)(4326008)(6916009)(66946007)(5660300002)(6486002)(2906002)(956004)(2616005)(83380400001)(8676002)(52116002)(16576012)(31696002)(26005)(53546011)(316002)(36756003)(31686004)(54906003)(16526019)(8936002)(478600001)(186003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 8r8/ogG4WzC7oYnSuQ8uUbWjRIm36C9NLZDHGcy0rV1/0YuWjfjkTvSekmn3a98iqWd5tzQ1D5N/w6uKs+BMfdlOgMU1l25GE3QEWT34dtB5YFD8eBrzjICX4BwO+FYrply5Sfm0bcw7Mzdas2kpahn1WS/+aIan6wK7+yhMCL6aq4QsOY5m+0jEaA+nCs4u6sY7GvQRzHtrr04HamfJCFCa5ktlo/7+Aa/aqOieR/ctbVo3uoQnAGGAxWe/BA3QczQ1leKWTWGQRCeYMZUuBRpBUFecQ3metqbI14fx8Mfn1euKmBbtO76WNnP4FPnZuoyFi6tiALPxtFAMSoacPMN4qsE69wcoBzAGor1t3E2sw6MfAjpAXeNO3gf9FxpkUkwFx+7DRzvAObimqM+X4jyiZoPeVYJmXInf/CFRzvJQkCBZgB4RGpoKCvgZjH4I2ASU+Qxjat/0LZuJabak0UwkKd/l1/flZIZqzop5+29GFQWdAH34PhqMV1ID1IUJ0Gg5+zdZ/6OuhpQ1okaBFJiiR+0P7BMIH+V2PhEi7XyySPQ9IIOcbvCJxuAhFPv1wRWQ2j/eCOjgNAEg15/EUK/AASyk/7QRnQNpKl06HHAPjr4rkWDJVtQkvLnDn8jDKis8bsh+3EX9wWPjIcAUSQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be35cb68-c90b-4969-af5e-08d85bb97983
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4214.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 09:59:04.0124 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jkMh5brgWg4X2T7FtC0vJHhjOGka1wkElu7FZLYQ8oG60lAZPFPKFw/U1KbTy/tjG4LqKI2MZr5bwAXmUQfSSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3285
-Received-SPF: pass client-ip=40.107.3.119; envelope-from=den@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:59:04
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 18 Sep 2020 09:59:50 -0000
+From: Daniel Berrange <1896096@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange fredb74
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+Message-Id: <160042319097.14588.4427790664390865803.malone@gac.canonical.com>
+Subject: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: c466aa4871bef3919c88d3f72df6c4eddd8cdc0a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -122,45 +72,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/20 3:41 PM, Stefan Hajnoczi wrote:
-> On Wed, Sep 16, 2020 at 5:43 PM Denis V. Lunev <den@virtuozzo.com> wrote:
->> On 9/16/20 5:07 PM, Denis V. Lunev wrote:
->>> I will make a check today.
->>>
->>> Talking about our performance measurements, we have not
->>> seen ANY performance degradation, especially 30-40%.
->>> This looking quite strange to me.
->>>
->>> Though there is quite important difference. We are always
->>> using O_DIRECT and 'native' AIO engine.
->>>
->>> Den
->> I have put my hands into this and it looks like you are right. There is
->> a difference. It is not as significant for me as in your case, but I observe
->> stable around 10% difference with 128 vs 256 queue size.
->>
->> I have checked with:
->> - QEMU 5.1
->> - Fedora 31 in guest
->> - qcow2 (64k, 1Mb) and raw image on host
->> - nocache and both threaded/native IO modes
->>
->> The test was run on Thinkpad Carbon X1 gen 6 laptop.
->>
->> For the reference, I have seen 330k IOPS for read
->> at max which is looking awesome for native and 220k
->> IOPS for threads.
-> Thanks for confirming! Reverting the commit is unattractive since it
-> does improve performance in some cases.
->
-> It would be good to understand the root cause so the regression can be
-> fixed without reducing queue-size again.
->
-> Do you have time to investigate?
-I will make a try next week.
+Can you attach the full build log, including all the "configure" output,
+and ideally pass  "V=3D1" as an arg to 'make'
 
-Den
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1896096
+
+Title:
+  Git version: Build process is broken in block_curl.c.o
+
+Status in QEMU:
+  New
+
+Bug description:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
+
+  Configure options used:
+
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
+
+  Error log attached. Here is the beginning:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
