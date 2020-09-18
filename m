@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13FE526F9D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:04:46 +0200 (CEST)
-Received: from localhost ([::1]:48114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF13626F9F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:10:09 +0200 (CEST)
+Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJDG1-0007yO-4R
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:04:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55094)
+	id 1kJDLE-0003Gf-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kJDD8-0006BR-N6
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:01:51 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45475
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kJDD6-0000xl-Vs
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:01:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600423304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+Lm0bYkEsCUwbKg/YLr24YzVsRxeOshS64tNP6MCIaU=;
- b=E8z0bv5XwF3YycB5DNwS+PDwEQtizSGGqDKJtQKI+h6towZE/mwluU9Dm2RGVxnnDED8WR
- GbX0V19pWozXSJTlekbWGJTaOX+uhSF5RTpTRAbr/qgMEW3Rkf9E+NAOqk8SCfB7tBE5Wn
- TsERDo/zNpxX4u57R6d0Na0h0H10hTo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-TkNK4bYXPg27gqRWZHsgoA-1; Fri, 18 Sep 2020 06:01:40 -0400
-X-MC-Unique: TkNK4bYXPg27gqRWZHsgoA-1
-Received: by mail-wm1-f71.google.com with SMTP id s24so1297763wmh.1
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 03:01:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kJDFq-00008P-TW
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:04:34 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kJDFo-0001CG-M1
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:04:34 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id x14so4985767wrl.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 03:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=phlBynLnLto1w5JGDpMDEHuQUGh8TJy8AigmmV345HI=;
+ b=V1fOVukw7JROHxzGmlnS883ct4Q5JWHjXO7lZE9eMS+t72VMukudC30NrOABC5x7ru
+ 7Ur7/PWPO8YNjdLf8ENB690GsczuXjdSeJDPQ/WQMYGgkQuaDxVkHrDKqcYMUJNrW7zP
+ OKZN0kddViEtc/dJpkpzFsW2wYgBMReW53ge+yxDFcVEkesp/NClQjiJsIPgWKgb7CTb
+ KNuvTtm5SysDv51HzRSIa5uy8GucWC5A5JY3/WFBZBGeMTMVcvJ7GJ67BZ7IoYDB6ZCW
+ r9+a8fByumdObJgZKC3bCyLzqAkFB7FJSav4sk152SNSF9RtSKh+zfNONyIspMxSVbzU
+ CTgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+Lm0bYkEsCUwbKg/YLr24YzVsRxeOshS64tNP6MCIaU=;
- b=ujbgXJyQxX0P5ThD3aD97CRa+QeI8cz2USzxCAcMLCU69iaIbCwI70RoB82hjLKuuw
- L6TQj7/3sBIKuOI/ZicyBmHkO5/d/9WpeMuvzX4H9YuscjIouRw8neXowdAWW/1HxxnK
- N7Zl+qElXQ9Mq7CuQdOljH6SATlWZbAZK7B+eZHvpmpc19Yu7uOKxgBtZgAyNSW8wZTx
- krzLW4bDgEcYSlfm+58gkRGvkUpflYq5iXi5UQqtpxn5xuJWFVQCcQmwdC+7QRr29yjf
- 5E79/Si2ApoCZy6oKs9HsTssAEJLqKbEof1Uogq1ey+xBGsEr/7TF1TI5weo5H83LMDL
- K+wA==
-X-Gm-Message-State: AOAM530IKyDAIfL6DzyCcbnwHT1US/fpcUoFRPqw51GjKWMRpiL0OusF
- kKPCVSoQIhx3beeP8nV3p103buw30gwTqKjcoOp0iUL3QDDEzt0hGtdz3vBq/c9aCHhQZl9fb0s
- 2NVWEH0HJ7sy7ikI=
-X-Received: by 2002:adf:e9c1:: with SMTP id l1mr37089823wrn.68.1600423299188; 
- Fri, 18 Sep 2020 03:01:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKW6UqljbW7iqYg6GWIOYQEVd88/Kib2jM1o7NhkZfsU+/IM2BWBHqCHzRiYTieRlkv0foQA==
-X-Received: by 2002:adf:e9c1:: with SMTP id l1mr37089793wrn.68.1600423298947; 
- Fri, 18 Sep 2020 03:01:38 -0700 (PDT)
-Received: from steredhat (host-79-51-197-141.retail.telecomitalia.it.
- [79.51.197.141])
- by smtp.gmail.com with ESMTPSA id k6sm3863822wmf.30.2020.09.18.03.01.37
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=phlBynLnLto1w5JGDpMDEHuQUGh8TJy8AigmmV345HI=;
+ b=L3S4LrBMi0yEqPjh0BTcKM3AnkjG3tt7U1qxHUAlWVt6uuLRW37dNC+/+6ZnVUkhEY
+ Yt0uNbFesI/t06K7PpT9po8dVm9qF6CkND6VzxSfy7c9NEuUt3Yv0HbVJnx+cjIt/unh
+ G7L2cSn0BfKLn46YVI3OqRV9kgUGqfZQXJjs/gZyw0DIvRPYqcM2q5Fh5currNxigvdM
+ bN3VgjDT8WMP+3cKYj2R+Kep4uXsguF3bwpEVtuy1PT1zORZn758ZTQNiRmuIuiG5w6d
+ BoD5VtW6DIwzuIbaahl+kUf25OZHJXv59NuCcynAqHDbnM5cWgJ28WWws1Dyk1zOAmM5
+ tsRw==
+X-Gm-Message-State: AOAM531mAwvqmclmfAyadGmgwwiMOPtVAfpY20O/IcpA9YdWMIuIS2+k
+ 9z1+NBe4Vyi0LLTOSLIlQ3Bqhw==
+X-Google-Smtp-Source: ABdhPJwoHi7hVthAmvYt8ti4XvbmFCoEcq/1q2OQneoolPKybgtFsppUjlKmVOossAwd8FELPnKxdA==
+X-Received: by 2002:a05:6000:118a:: with SMTP id
+ g10mr37927530wrx.67.1600423470596; 
+ Fri, 18 Sep 2020 03:04:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t15sm4273307wrp.20.2020.09.18.03.04.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 03:01:38 -0700 (PDT)
-Date: Fri, 18 Sep 2020 12:01:35 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v3 3/4] vhost-user-vsock-pci: force virtio version 1
-Message-ID: <20200918100135.ue73nl5c5ky5pmv4@steredhat>
-References: <20200918074710.27810-1-sgarzare@redhat.com>
- <20200918074710.27810-4-sgarzare@redhat.com>
- <20200918112316.3987fe77.cohuck@redhat.com>
+ Fri, 18 Sep 2020 03:04:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CA3B51FF7E;
+ Fri, 18 Sep 2020 11:04:28 +0100 (BST)
+References: <tencent_EAC696641F035EB7E9885302EAAE37455907@qq.com>
+ <7f78871a-01a8-f00f-4dcb-5ba95ed1fee4@amsat.org>
+ <tencent_6FBC0FD37CA798D4766FE6B2822DAC3E2908@qq.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: casmac <climber.cui@qq.com>
+Subject: Re: =?utf-8?B?5Zue5aSN77ya?= Why QEMU translates one instruction to
+ a =?utf-8?Q?TB=EF=BC=9F?=
+In-reply-to: <tencent_6FBC0FD37CA798D4766FE6B2822DAC3E2908@qq.com>
+Date: Fri, 18 Sep 2020 11:04:28 +0100
+Message-ID: <871rizxuxf.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200918112316.3987fe77.cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:23:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,85 +92,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Qinghua Cheng <qcheng@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-stable@nongnu.org, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>, Qian Cai <caiqian@redhat.com>
+Cc: "Peter&nbsp;
+ Maydell" <peter.maydell@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 18, 2020 at 11:23:16AM +0200, Cornelia Huck wrote:
-> On Fri, 18 Sep 2020 09:47:09 +0200
-> Stefano Garzarella <sgarzare@redhat.com> wrote:
-> 
-> > Commit 9b3a35ec82 ("virtio: verify that legacy support is not
-> > accidentally on") added a safety check that requires to set
-> > 'disable-legacy=on' on vhost-user-vsock-pci device:
-> > 
-> >     $ ./qemu-system-x86_64 ... \
-> >     -chardev socket,id=char0,reconnect=0,path=/tmp/vhost4.socket \
-> >     -device vhost-user-vsock-pci,chardev=char0
-> >         qemu-system-x86_64: -device vhost-user-vsock-pci,chardev=char0:
-> >         device is modern-only, use disable-legacy=on
-> > 
-> > virtio-vsock was introduced after the release of VIRTIO 1.0
-> > specifications, so it should be 'modern-only'.
-> > 
-> > This patch forces virtio version 1 and removes the 'transitional_name'
-> > property, as done for vhost-vsock-pci, removing the need to specify
-> > 'disable-legacy=on' on vhost-user-vsock-pci device.
-> > 
-> > Cc: qemu-stable@nongnu.org
-> > Suggested-by: Cornelia Huck <cohuck@redhat.com>
-> > Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > ---
-> > v2:
-> >  - fixed commit message [Cornelia]
-> > ---
-> >  hw/virtio/vhost-user-vsock-pci.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
-> > index 763f89984e..14109121e2 100644
-> > --- a/hw/virtio/vhost-user-vsock-pci.c
-> > +++ b/hw/virtio/vhost-user-vsock-pci.c
-> > @@ -41,6 +41,7 @@ static void vhost_user_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> >      VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(vpci_dev);
-> >      DeviceState *vdev = DEVICE(&dev->vdev);
-> >  
-> > +    virtio_pci_force_virtio_1(vpci_dev);
-> 
-> Maybe add a comment
-> 
-> /* unlike vhost-vsock, we do not need to care about pre-5.1 compat */
-> 
-> 
-> to help when we look at this in the future?
 
-Sure, I'll add in v4.
+casmac <climber.cui@qq.com> writes:
 
-> 
-> >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> >  }
-> >  
-> > @@ -69,7 +70,6 @@ static void vhost_user_vsock_pci_instance_init(Object *obj)
-> >  static const VirtioPCIDeviceTypeInfo vhost_user_vsock_pci_info = {
-> >      .base_name             = TYPE_VHOST_USER_VSOCK_PCI,
-> >      .generic_name          = "vhost-user-vsock-pci",
-> > -    .transitional_name     = "vhost-user-vsock-pci-transitional",
-> >      .non_transitional_name = "vhost-user-vsock-pci-non-transitional",
-> >      .instance_size = sizeof(VHostUserVSockPCI),
-> >      .instance_init = vhost_user_vsock_pci_instance_init,
-> 
-> Otherwise,
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> 
+> Hello ,=20
+>
+> &nbsp; thanks for the hints. I modified one parameter of&nbsp; memory_reg=
+ion_init_ram() call ,and the slow-path problem disappeared.=20
+>
+> &nbsp; What I did is , change the RAM size from the exact memory size nee=
+ded to hold the object file section(s), to the size that TI C3X user manual=
+ memory mapping specifies.=20
+>
+> &nbsp; The former size is significantly smaller. But I did not specify th=
+e memory mapping else where in the program, so still unsure about the cause=
+ of conflict.=20
+>
 
-Thanks,
-Stefano
+Well you should be modelling the system - not what is actually loaded.
 
+<snip>
+> &gt; &nbsp; &nbsp; One intresting fact is that this somehow depends on th=
+e linker
+> &gt; command file. The object file generated by the following linker comm=
+and
+> &gt; file(per_instr.lds)
+> &gt; will "trigger" the problem. But QEMU work well with the object file
+> &gt; linked by the other linker command file (ok.lds).
+> &gt; &nbsp; &nbsp; What cause get_page_addr_code_hostp() function to retu=
+rn -1? I have
+> &gt; no clue at all. Any advise is appreciated!!
+>
+> Maybe the "execute from small-MMU-region RAM" problem?
+>
+> See:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg549660.html
+
+That is the change that introduced the ability to do this. On some SoCs
+you often run small amounts of boot code from device memory (or on-chip
+chache) while the main system memory is setup. Usually it's not a large
+amount of code so doing it one instruction at a time isn't a massive
+burden.
+
+You have to do it this way because the underlying instruction may change
+each time you read that memory. In normal system RAM we have
+architectural hints such as flushing events which eventually end up as
+tlb-flush events that ensure code is re-translated when needed.
+
+--=20
+Alex Benn=C3=A9e
 
