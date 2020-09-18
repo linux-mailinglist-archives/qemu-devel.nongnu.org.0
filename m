@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206902705F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:08:15 +0200 (CEST)
-Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDAA27060D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:13:19 +0200 (CEST)
+Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJMg2-0007ol-6C
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53116)
+	id 1kJMkw-0003SL-GR
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLcg-0006yI-Gg
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:00:43 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33279)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLcZ-0001XK-VQ
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:00:41 -0400
-Received: by mail-pl1-x644.google.com with SMTP id d19so3477194pld.0
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 12:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fqh6VGf/wM6lICUERuOk8wcgmre+kvtwDANu+VLducw=;
- b=NacBqVJj7rTj0Ydpuj4EohxLdDl9CdZ6HS8OLqZpHD8wwzKOeDYQ/HKe4em712xPQL
- w4dfgyqyk3TqamIyhV5yaCT8nCNL/+Cr0lCkvC8m6C3ZHCIy9BhbSNSrUv6EdChdfRal
- +mxZqqQYEF5aae6EgXtrvSTtXlR1FwfdwYa6W6pJ7R3kCwegmmHRuKGyHhnxuuU+1FHf
- lHH9oWFEKGFxoLIIUD6gsAe4PRkq7PPscmirwBRvf+eRRxxhjTQPntpLKnHZuigyUnoK
- qJHBpxr3KSAqS2VXP7AtITnVAS0BQ2svTncrU3YtVW7e/V0MyOGOMrNNaoUmKhfRJqIY
- 1Ngw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fqh6VGf/wM6lICUERuOk8wcgmre+kvtwDANu+VLducw=;
- b=oXr+FjxsBuLDGE7xddDuPRC/rYV8vElzpKbBWlnZwQUGSmLd75S9B1De7lNpDqnly2
- 1INeQVzCfg46MtizP0L4+1vJfqbwg0EhSFnyqU872O576uC4Sz/kwpFMruqXWwlGu3Ao
- RQwVcLs5wLB4o6SPWR1UU509GA+H81QztAKCfSfi7Svo51gpZHUDHLAF6urC+wInu47d
- Ce5wMbsKi02U6zaWtuntJ7zZ41w2BN0w35i0D8tYRsae76kx2gysW8PP96kTATxgiIh1
- VPYc0vddbKvoOK95/DSPrv/uA0S8mRewB4jtAH/rm6NrK0EoVLNhfSWmX5K28YTR/nw4
- pGGw==
-X-Gm-Message-State: AOAM532NaIa2ZOV+FvREqsUJKpnE4TgKrBP+ViO7P2L6vvroZSJNjhBt
- aWiYXdOh+pWHftTWWb3W8pNANw==
-X-Google-Smtp-Source: ABdhPJw9g2unZzLz96cTgmJSmmpKQ5F8FaUO4mcE81dZt2XH1KDGx6mmo4J6GfR/YVPu3EYquu9O4A==
-X-Received: by 2002:a17:90a:1425:: with SMTP id
- j34mr13959364pja.106.1600455634303; 
- Fri, 18 Sep 2020 12:00:34 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id i1sm4099685pfk.21.2020.09.18.12.00.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Sep 2020 12:00:33 -0700 (PDT)
-Subject: Re: [PATCH v8 00/17] QEMU cpus.c refactoring part2
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20200916142004.27429-1-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d0bb4af9-55a1-b332-af6f-7601dfb10db7@linaro.org>
-Date: Fri, 18 Sep 2020 12:00:31 -0700
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kJLfh-0001WW-KY
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:03:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kJLfe-0001q5-Rw
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:03:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600455825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Skmux+dPwkJueze15KGJKOG9Q3mgsWJQdldUbHng7ao=;
+ b=dWr8JSy+TV36CvLdxLhGbkEV0VUXYGzvx4YWZVgXA6NTgEPC7NO6nWMj2qI7Lg0W3xQHxn
+ KsZd/jpA/qUkJLkCRP8PHJjBAVFz5ymwmc89ABrheiaeCagf29+b4+FDv0KW17lm3qno4T
+ MEqhQG68E0NMI/fhtU4V3lZDXVRHqvM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-KIRuQKq9Nh2jJX21prAZsw-1; Fri, 18 Sep 2020 15:03:44 -0400
+X-MC-Unique: KIRuQKq9Nh2jJX21prAZsw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6BCB88EF20;
+ Fri, 18 Sep 2020 19:03:42 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E00DA5C641;
+ Fri, 18 Sep 2020 19:03:41 +0000 (UTC)
+Subject: Re: [PATCH 16/37] qapi: establish mypy type-checking baseline
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-17-jsnow@redhat.com>
+ <874knvguzb.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <d8faa68c-6900-5666-943c-98815348fc5b@redhat.com>
+Date: Fri, 18 Sep 2020 15:03:41 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200916142004.27429-1-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <874knvguzb.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.869,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,44 +84,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Colin Xu <colin.xu@intel.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/20 7:19 AM, Claudio Fontana wrote:
-> Motivation and higher level steps:
+On 9/18/20 7:55 AM, Markus Armbruster wrote:
+> Ignorant question: why does this come after PATCH 13 "qapi/common.py:
+> add notational type hints", but before all the other patches adding type
+> hints?
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
+> John Snow <jsnow@redhat.com> writes:
 > 
-> Current state is mostly all reviewed, but I include here a few resolutions
-> of rebasing conflicts and a new patch to use current_machine instead of
-> qdev_get_machine in softmmu context.
+>> Fix two very minor issues, and then establish a mypy type-checking
+>> baseline.
+>>
+>> Like pylint, this should be run from the folder above:
+>>
+>>   > mypy --config-file=qapi/mypy.ini qapi/
 > 
-> It's minor, but if additional reviewing is necessary, here is the whole series again.
+> I get:
 > 
-> CI is all green, and also available at https://github.com/hw-claudio/qemu.git "cpus-refactoring"
+>      $ mypy --config-file qapi/mypy.ini qapi
+>      qapi/mypy.ini: [mypy]: Strict mode is not supported in configuration files: specify individual flags instead (see 'mypy -h' for the list of flags enabled in strict mode)
+>      qapi/types.py:29: error: Need type annotation for 'objects_seen' (hint: "objects_seen: Set[<type>] = ...")
+>      Found 1 error in 1 file (checked 18 source files)
 > 
-> The following changes since commit 5a77bbb53b087f95dbba7ce30b02ac2d7b147a3a:
+> Is this expected?
 > 
->   iotests: Work around failing readlink -f (2020-09-15 18:19:26 +0200)
+> In case it matters:
 > 
-> are available in the Git repository at:
+>      $ mypy --version
+>      mypy 0.761
 > 
->   https://github.com/hw-claudio/qemu.git 
-> 
-> for you to fetch changes up to f9ec667595537400a6bc0aaf094a5ca6bbaacf44:
-> 
->   accel/tcg: use current_machine as it is always set for softmmu (2020-09-15 18:19:27 +0200)
 
-Queuing this to tcg-next, with Phil's suggested change to current_machine in
-the final patch.
+(Warning; FiSH and stgit ahead)
+
+cd ~/src/qemu/scripts
+pipenv --python 3.6
+pipenv shell
+pip install pylint flake8
+
+### Testing mypy 0.770
+
+pip install mypy==0.770
+stg goto qapi-establish-mypy-type
+
+while true; and flake8 qapi/; and pylint --rcfile=qapi/pylintrc qapi/; 
+and mypy --config-file=qapi/mypy.ini qapi/; and stg push; end
+
+pip uninstall mypy
+
+###
 
 
-r~
+
+0.782 - OK
+0.770 - OK
+0.760 - FAIL, Fixable*
+0.750 - OK*
+0.740 - OK*
+0.730 - OK*
+0.720 - OK*
+0.710 - OK** (Does not recognize 'no_implicit_reexport' option)
+0.700 - OK*** (Not compatible with bleeding edge pylint/flake8)
+0.670 - OK***
+0.660 - OK***
+0.650 - OK***
+0.641 - OK***
+0.630 - Fails again.
+
+
+
+0.760 doesn't support strict in the config file (It needs component 
+options), and it wants a few extra annotations where its inference power 
+is weaker. Well, easy enough to fix up.
+
+0.630 fails again and insists that __init__ should have a return type 
+annotation of None. Modern mypy is smart enough to know that's what that 
+type is supposed to be. Arbitrarily, this is my cutoff for what seems 
+reasonable to even want to support.
+
+I still find the lack of "strict=true" in the config file irritating and 
+might ask to target 0.770 or newer. There should be no reason we can't 
+install that in a venv for CI to chew on.
+
+Humbly ask I take the lazy way out and document that we support mypy >= 
+0.770.
+
+--js
+
 
