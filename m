@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF6726FFB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:21:17 +0200 (CEST)
-Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9482426FFBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:24:36 +0200 (CEST)
+Received: from localhost ([::1]:55372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJHGG-00011q-56
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59332)
+	id 1kJHJT-00044j-Mo
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kJHEM-0007wr-2P
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:19:18 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38110)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kJHIj-0003du-M7
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:23:49 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kJHEK-0000jW-5j
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:19:17 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id c8so6277751edv.5
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 07:19:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=u5OioiHsbiQv5o0uN7SOdtZSGMQUdGFzCm6Bc682+VU=;
- b=a2OG8eHXoJa0eNfE3ZSngFWklnX42AnZ6oMH51iZ9UH9c7YQ52RQOMIVbar/StGtzh
- Quv0q+SGO5rFF0tj2Meg554EZyWlL3lUVg9Nej5w3DDoLiG6+hUXcIQqfCuEKOV95ECA
- p4N7AkiMCq7vufZ7WYY6Kq6E31VW21VxjD62XbBgQnddR03wcJG4cQDn2B7nnB2Ri/yv
- US50/gTDaj3u0xmPqWQq+vyYv7UhwiBx3RKH+Kv1tTndVtUoTEqggTzm1dBxZQaNnb62
- UsyFZNcqd6Vtrvvmt3xvFAW5q39TnXDWRgOsOmPVfBcfwntGnsV4x1BBvA8qGMz9ferb
- i2Gg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kJHIi-0001KP-1b
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:23:49 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id d4so5515287wmd.5
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 07:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PSbmsOkPnBP/KgOAMfMarhr/bQYk/9QviVhfdpcb1A8=;
+ b=GqyZtszbH1VZWnaUzThaYcb1HHYpNkOSsKy98rxChY0WzwuHG5oGqRIQhdOSw7joLH
+ qH2N1YlrMM3poT+3MdkfKXSSdamiqZRaetP9Yk6Qm/w3lOmcwSPra6ASnLeMNjBqfAZC
+ 5CVyMYjDSd7yVx++f8jtzETaw2DW4ssHRcaEniX85gbNX1iEmb1/ahjgQQLXCMSgMY3L
+ utNbcL3x9+m3+8108qwXdbZN70WhZPgnZ7u02mDeXkWddfzN3do4yHiGawWtdqkGpQ/m
+ bDy8LZZfuM4Z0FQCTGshR7c9vkKsZ/9FfLqXhsyiQqmS48EP24QT2du5uUbcxvdoyvD2
+ scKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=u5OioiHsbiQv5o0uN7SOdtZSGMQUdGFzCm6Bc682+VU=;
- b=X4AsLFVEIy6zeBUYK29WjGtOhP4rGgOCUk4VYiP2O6z0yEhDJq1cCL2ORSaat4qfhB
- jTnKd3rgldy/lumwo+hJevm5vG3f9uzxjroTgS8TY0VReEmMZdS3ig44SI1BVf+nstpP
- Dwoa8WBdh5+S5zVtrI4qXjvOxQItk7IppUyka6QjbxuBkpFo8WoHO3Iav6s1v2+GFhKs
- DvBBmZWH2aw6nXSu1yFWDYLWXnlgXWefW8e5Wqqha65yVQGJy81S/X2NaXVSRCLC+Cfv
- GUfG3P9QIHgALvMApKxOtCHbrcgXUumZBhERLQ9Ply5e6todFVXWigCzo2CkRMI2STWb
- bOzA==
-X-Gm-Message-State: AOAM5326rbbC2Q/CssINodouzWj3DSb5JFWYhcM+jLoXYc/QfwvJmru/
- oV5HDo5ivBWdd4kjvcS97ohW4ItDbxeVHTaMSk3mUA==
-X-Google-Smtp-Source: ABdhPJwFVgiePcSBCK44GiKBaDw4yPkLgXZkcpxuMoF1n93q19yoV+dDP7z0cLL0cebbjR/iRZdXNY/gbpg+lra/4Ms=
-X-Received: by 2002:a50:f28b:: with SMTP id f11mr38112456edm.44.1600438752382; 
- Fri, 18 Sep 2020 07:19:12 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=PSbmsOkPnBP/KgOAMfMarhr/bQYk/9QviVhfdpcb1A8=;
+ b=DF39wN0bAlnJXDqssKguU6wJO5LfxGddGFIqslwk3G2H6Iq9HHHZIzzwVku2hbfcCw
+ M1tVAd3QpVfGarcUbFXoktVTowCq8gRjLYIoJs1UhNLC+sdu9T+n3g96jjxk9S6TIkXg
+ IBP4voqa/te7iqetJc092bwwhDY/6l9SpXhaliiKgXDEJqfS6xM7aS8PtooB2RWeK/kw
+ 2Ul5kk1nQKyvmMW0MlIkr5kI5zB2OAbYzr/4kF8Y9I1bbmQfxVkmUjwfAaDRuFgkhykO
+ miNeUVCQKACgpd/v/9p761Lbk49Hosk1AlIKzQhjCbS/z+8278NnV/VUNIY8fn8thBB2
+ 476w==
+X-Gm-Message-State: AOAM533HMqQHB9xyRlwO94glMj3xto9T9JkeNXfxgBG0dTdeAM6lys2s
+ TaxgZSPt6XnahP5JM5rZt+dGYQinIAA=
+X-Google-Smtp-Source: ABdhPJxNeZxKW0qY3zv0FT341uTa76eOFFi82hXdQjE79sTAD9cEx5lh5I9lpj7OV4VBHrY04MauAA==
+X-Received: by 2002:a05:600c:414b:: with SMTP id
+ h11mr15975629wmm.20.1600439026356; 
+ Fri, 18 Sep 2020 07:23:46 -0700 (PDT)
+Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id k8sm5854106wma.16.2020.09.18.07.23.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 07:23:45 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/acceptance: Reduce quanta-gsj U-boot+Linux test time
+Date: Fri, 18 Sep 2020 16:23:44 +0200
+Message-Id: <20200918142344.150749-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <CAJ+F1CKSBCwWZjdUJ7Q3w5uGvM0ZLe65Vw05mm8v3t6kNLKUzg@mail.gmail.com>
-In-Reply-To: <CAJ+F1CKSBCwWZjdUJ7Q3w5uGvM0ZLe65Vw05mm8v3t6kNLKUzg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Sep 2020 15:19:00 +0100
-Message-ID: <CAFEAcA8CHK49OChJ9V6g2xj=_9UZLOzy5My0KViWmSEp5Q8_Qg@mail.gmail.com>
-Subject: Re: Deprecating --enable-gprof?
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,23 +87,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Sep 2020 at 14:27, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> configure has --enable-gprof since its creation, but is it actually being=
- used, or is it sporadic enough that we could deprecate it?
+The 'arm_quanta_gsj_initrd' test is timeouting on GitLab CI:
+https://gitlab.com/philmd/qemu/-/jobs/745483978#L846
 
-This reminds me (because I can never keep gprof and gcov straight
-in my head :-)) that now the meson build has landed we should
-probably insist on gcov/gcovr being at least version 4.1, because
-older versions don't correctly handle out of tree builds:
-https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg05823.html
+Use the same trick from the 'arm_quanta_gsj' test to reduce the
+systemd services started and get quicker to the shell prompt.
 
--- PMM
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/acceptance/boot_linux_console.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 4a366ce93e4..7748febbf54 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -638,6 +638,9 @@ def test_arm_quanta_gsj_initrd(self):
+ 
+         self.vm.set_console()
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'initcall_blacklist=npcm_i2c_bus_driver_init '
++                               'systemd.mask=systemd-random-seed.service '
++                               'systemd.mask=dropbearkey.service '
+                                'console=ttyS0,115200n8 '
+                                'earlycon=uart8250,mmio32,0xf0001000')
+         self.vm.add_args('-kernel', kernel_path,
+-- 
+2.26.2
+
 
