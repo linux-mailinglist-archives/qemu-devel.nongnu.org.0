@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157BD270382
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:47:06 +0200 (CEST)
-Received: from localhost ([::1]:38432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716A2270387
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:50:31 +0200 (CEST)
+Received: from localhost ([::1]:46452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJKTK-00067I-Tk
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:47:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
+	id 1kJKWk-0001Aa-6k
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:50:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJKO0-0002oR-C0; Fri, 18 Sep 2020 13:41:32 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36859)
+ id 1kJKO2-0002oY-I5; Fri, 18 Sep 2020 13:41:32 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJKNy-0000Gs-Qc; Fri, 18 Sep 2020 13:41:28 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z1so6461840wrt.3;
- Fri, 18 Sep 2020 10:41:26 -0700 (PDT)
+ id 1kJKNz-0000H6-Sv; Fri, 18 Sep 2020 13:41:29 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s12so6432090wrw.11;
+ Fri, 18 Sep 2020 10:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UJjk8ZR/erxbnrLQ53sw18LTpiI4+fnfSdMDknbc4K0=;
- b=ZhZGCoBsfn+UONcYcwvkGlZcMK6BlUdKqbm+mhCYd58+/Eh4d9YE4vY92e8ZuFUA9p
- PiVzVankmaErjjOayyHAsMXkeNXysviLJKTv8r3Ge9wxeHJfToT+LqV1yNxlWlWa8I2N
- 53zr5EhFIURU4kyDSn6hDMLLENamBoZBJzgdsq+JGm1BZBhcCcRKrlBVu9kJxlpYV+kp
- JK6Gd7hzv/+ZAniAekN4lr78Blr1y4vkYCIDZqG5pDHHhQUwpMnB2sqTI7tLeAc9Yg+H
- D25ug9cmDG7wlP+NUIqRvJ+wzjqUui5gdJW7uozVEprFL0/06YRSmb9/YwaC0YGjRjBE
- /2Qw==
+ bh=9kcH0QEir+isSyR2eHUJqmP++6hsLCDL3S99R+ttmDk=;
+ b=J5DP95l9Z6YtITaZsBXMvA5zs9c6XNvkGG9iYEiiO0+mGUcnYjU11RkaSVFCRrwanu
+ aTIVZ69APuXvTddh+zKnmbmqS58NLRD4Jg02xJNDbOYLjHUU03jg7JgKQroTNrY4PRAj
+ +1n5Iaaqdl2WSTFpmL330WBcUwABfObP2D2K+WbVeh8Gq8vhv1DalRYvNBph6b7VrYGA
+ 2x4n12sStSAa18cyCbwnYmL625Sk0uDPHgH9Hs+xHSCl3W+8lgFnKi9QmvdCJ5ulPNRg
+ soY8qdzX4q75f2pMgY4W4DDKeW2FuefX2ScgQKbX+MXpipU4ukn5/1TnSZFPY7AixTuf
+ k7SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UJjk8ZR/erxbnrLQ53sw18LTpiI4+fnfSdMDknbc4K0=;
- b=W1MWrTUegr23Em4m6jC35AIvEdLoudmHeeQQAoagh/2OpqTXOC/igymIZ3DiBgbFzK
- GV5fxllz6fswCGe3Lx7Bnwlwr0/4ToKDAqXgjel7YJOGWRfaA1EoTJFocMloz/HjHkC/
- BERKHNilJTQaPPNrP5mc4hABZibS+rVtYQWn+uONp8gl5qL8Oekphake+cg5ZksScS/E
- 3zaQ2+5VjPLfLWHLZB8tf6WuCHTSqtB/Z58A3ebaGOu4bkUUNVLKNPf8jupqBn7N7bKi
- ty/AhEW/9yKF3BNIFu6G53Qaf6KWaVA5L3zgLvuYTopzle4qbXyQ4S4PN9xg8QKOuELd
- LEpQ==
-X-Gm-Message-State: AOAM5330ARiP37TCcqVOEuQN6metJ1ntlENfyVuP56buivLESwrITwnT
- V0u4Lr6I8S2VLP/rw/RB4P6MfzromY8=
-X-Google-Smtp-Source: ABdhPJznczTLAPC3R3Zkc7v6W/nZf8C8+osE5w7JYxVujdOV4cbj4HewTfP2XU27rIGGvsfaITRueQ==
-X-Received: by 2002:adf:a18c:: with SMTP id u12mr40631017wru.90.1600450885109; 
- Fri, 18 Sep 2020 10:41:25 -0700 (PDT)
+ bh=9kcH0QEir+isSyR2eHUJqmP++6hsLCDL3S99R+ttmDk=;
+ b=Fu+Jp8pxzcQDIG1jbPoInRJb2hwd7YUWr4LSMRydQSZKsxYEozIglfGC3Z2OSPDHtT
+ 4h54VHQkKkya+2sVbDzfDk9/YS44vV9LcED+gUdppcgMo/tPc+4NYGMHt/YRVUJV6D/G
+ k6yQuYKrnuNS4kZR7bz3IXZqm+uRMBT40qbwaFHRSxNq9G82pBtYRjCMwhi3C/hWlu9K
+ DEq5jZbRspaERe317BWG/zu6PzB41EIGNoi6yCMGp+41iskjalMCQhwDIPrCXHCwM04Z
+ fl/941EhHUpTUa9qI5r0HOhWOWXrblvS+kc1x/5xEmhbbuOvFNlevKGJoan+qu6pkdNS
+ GlYw==
+X-Gm-Message-State: AOAM5338AgOvMQUPLnAAQ+E7NqCOewe5eB0SCKklPyhXZWty6c54C1kf
+ IxCAmVwBoUljxu+0FOaYKIOXvGnsuKA=
+X-Google-Smtp-Source: ABdhPJyMeIFAEVZTdOzB0Pw8v/FaiviAtUokePHmYKA14Cy0LXKynCoXlxQ0mOM+17jsj/hxbXpcqg==
+X-Received: by 2002:adf:f04c:: with SMTP id t12mr39660598wro.121.1600450886130; 
+ Fri, 18 Sep 2020 10:41:26 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a81sm6356179wmf.32.2020.09.18.10.41.23
+ by smtp.gmail.com with ESMTPSA id a81sm6356179wmf.32.2020.09.18.10.41.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 10:41:24 -0700 (PDT)
+ Fri, 18 Sep 2020 10:41:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 5/6] hw/sd/sdcard: Do not attempt to erase out of range
- addresses
-Date: Fri, 18 Sep 2020 19:41:16 +0200
-Message-Id: <20200918174117.180057-6-f4bug@amsat.org>
+Subject: [RFC PATCH 6/6] hw/sd/sdcard: Assert if accessing an illegal group
+Date: Fri, 18 Sep 2020 19:41:17 +0200
+Message-Id: <20200918174117.180057-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200918174117.180057-1-f4bug@amsat.org>
 References: <20200918174117.180057-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,40 +92,34 @@ Cc: Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the Spec v3 is not very clear, v6 states:
+We can not have more group than 'wpgrps_size'.
+Assert if we are accessing a group above this limit.
 
-  If the host provides an out of range address as an argument
-  to CMD32 or CMD33, the card shall indicate OUT_OF_RANGE error
-  in R1 (ERX) for CMD38.
-
-If an address is out of range, do not attempt to erase it:
-return R1 with the error bit set.
-
-Buglink: https://bugs.launchpad.net/bugs/1895310
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/sd/sd.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index ee7b64023aa..4454d168e2f 100644
+index 4454d168e2f..c3febed2434 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -766,6 +766,13 @@ static void sd_erase(SDState *sd)
-         erase_end *= 512;
-     }
+@@ -780,6 +780,7 @@ static void sd_erase(SDState *sd)
+     sd->csd[14] |= 0x40;
  
-+    if (sd->erase_start > sd->size || sd->erase_end > sd->size) {
-+        sd->card_status |= OUT_OF_RANGE;
-+        sd->erase_start = INVALID_ADDRESS;
-+        sd->erase_end = INVALID_ADDRESS;
-+        return;
-+    }
-+
-     erase_start = sd_addr_to_wpnum(erase_start);
-     erase_end = sd_addr_to_wpnum(erase_end);
-     sd->erase_start = INVALID_ADDRESS;
+     for (i = erase_start; i <= erase_end; i++) {
++        assert(i < sd->wpgrps_size);
+         if (test_bit(i, sd->wp_groups)) {
+             sd->card_status |= WP_ERASE_SKIP;
+         }
+@@ -794,6 +795,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
+     wpnum = sd_addr_to_wpnum(addr);
+ 
+     for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
++        assert(wpnum < sd->wpgrps_size);
+         if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
+             ret |= (1 << i);
+         }
 -- 
 2.26.2
 
