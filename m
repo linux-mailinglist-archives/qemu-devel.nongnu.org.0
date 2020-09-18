@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B9E270888
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:50:18 +0200 (CEST)
-Received: from localhost ([::1]:32838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB953270894
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:54:07 +0200 (CEST)
+Received: from localhost ([::1]:37084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJOGn-0003rG-BC
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:50:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48324)
+	id 1kJOKV-0005nx-2N
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJNI2-0002bl-MC
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26955)
+ id 1kJNIG-0002e8-5k
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJNHu-0006FM-8j
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:30 -0400
+ id 1kJNI2-0006Hf-5d
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600462041;
+ s=mimecast20190719; t=1600462047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sloVRPETwUCBYkORpAu5wQoBRshr64vcAyJgldtMwJI=;
- b=VY3d0j4Skl5MH/xjL+VOjK3kHXW8giatAtOZjrkH48ZDti6kelXOWrERlcW7wOlIY8cp1n
- i3dM5/vHRI6hb7v/HmaWMObtPRrQrET1U/8exDdUQ24QHcUHMfbOiZnH7j6A/n+HJgL5P8
- VhirQYA4JAjkOUzdiYUZKr2BuKFPDYU=
+ bh=fLrIDApUcgOCvc/oGCOA8twHr0W5cXxAQ0f1YfYRYiQ=;
+ b=ifm5ce0AWw8KMkhct/35h5ZKvl8+lcOo3LdTDjMjc5LwJMnIRa86rprSYwuTr16e8BJlXU
+ jHjQFl3Gsi/d5ZAkd7gTfx2jFv7fG1RyHYqQds/KA3QxTImiwHD/hY+hlAszCJ0OGYmHlU
+ ttR8iHETImkpGmKs6o7OlppQ8FcsMjQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-1H13snLzPxWc0m2G2rYCag-1; Fri, 18 Sep 2020 16:47:17 -0400
-X-MC-Unique: 1H13snLzPxWc0m2G2rYCag-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-125-Z9VTgYuUOom0GmmcSmLdGQ-1; Fri, 18 Sep 2020 16:47:25 -0400
+X-MC-Unique: Z9VTgYuUOom0GmmcSmLdGQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0F031084C94;
- Fri, 18 Sep 2020 20:47:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 106A184639B;
+ Fri, 18 Sep 2020 20:47:24 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 726785DEC1;
- Fri, 18 Sep 2020 20:47:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCC0468D64;
+ Fri, 18 Sep 2020 20:47:23 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 01/17] sifive_e: Rename memmap enum constants
-Date: Fri, 18 Sep 2020 16:46:58 -0400
-Message-Id: <20200918204714.27276-2-ehabkost@redhat.com>
+Subject: [PULL 08/17] qom: Allow objects to be allocated with increased
+ alignment
+Date: Fri, 18 Sep 2020 16:47:05 -0400
+Message-Id: <20200918204714.27276-9-ehabkost@redhat.com>
 In-Reply-To: <20200918204714.27276-1-ehabkost@redhat.com>
 References: <20200918204714.27276-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,229 +83,126 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the enum constant names conflict with a QOM type check
-macro (SIFIVE_E_PRCI).  This needs to be addressed to allow us to
-transform the QOM type check macros into functions generated by
-OBJECT_DECLARE_TYPE().
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Rename all the constants to SIFIVE_E_DEV_*, to avoid conflicts.
+It turns out that some hosts have a default malloc alignment less
+than that required for vectors.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200911173447.165713-2-ehabkost@redhat.com>
+We assume that, with compiler annotation on CPUArchState, that we
+can properly align the vector portion of the guest state.  Fix the
+alignment of the allocation by using qemu_memalloc when required.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200916004638.2444147-3-richard.henderson@linaro.org>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/riscv/sifive_e.h | 38 ++++++++---------
- hw/riscv/sifive_e.c         | 82 ++++++++++++++++++-------------------
- 2 files changed, 60 insertions(+), 60 deletions(-)
+ include/qom/object.h |  5 +++++
+ qom/object.c         | 36 +++++++++++++++++++++++++++++++++---
+ 2 files changed, 38 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index b1400843c2..83604da805 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -53,25 +53,25 @@ typedef struct SiFiveEState {
-     OBJECT_CHECK(SiFiveEState, (obj), TYPE_RISCV_E_MACHINE)
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 32524d72cc..405a2c67b0 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -691,6 +691,7 @@ struct Object
+         .parent = TYPE_##PARENT_MODULE_OBJ_NAME, \
+         .name = TYPE_##MODULE_OBJ_NAME, \
+         .instance_size = sizeof(ModuleObjName), \
++        .instance_align = __alignof__(ModuleObjName), \
+         .instance_init = module_obj_name##_init, \
+         .instance_finalize = module_obj_name##_finalize, \
+         .class_size = sizeof(ModuleObjName##Class), \
+@@ -770,6 +771,9 @@ struct Object
+  * @instance_size: The size of the object (derivative of #Object).  If
+  *   @instance_size is 0, then the size of the object will be the size of the
+  *   parent object.
++ * @instance_align: The required alignment of the object.  If @instance_align
++ *   is 0, then normal malloc alignment is sufficient; if non-zero, then we
++ *   must use qemu_memalign for allocation.
+  * @instance_init: This function is called to initialize an object.  The parent
+  *   class will have already been initialized so the type is only responsible
+  *   for initializing its own members.
+@@ -807,6 +811,7 @@ struct TypeInfo
+     const char *parent;
  
- enum {
--    SIFIVE_E_DEBUG,
--    SIFIVE_E_MROM,
--    SIFIVE_E_OTP,
--    SIFIVE_E_CLINT,
--    SIFIVE_E_PLIC,
--    SIFIVE_E_AON,
--    SIFIVE_E_PRCI,
--    SIFIVE_E_OTP_CTRL,
--    SIFIVE_E_GPIO0,
--    SIFIVE_E_UART0,
--    SIFIVE_E_QSPI0,
--    SIFIVE_E_PWM0,
--    SIFIVE_E_UART1,
--    SIFIVE_E_QSPI1,
--    SIFIVE_E_PWM1,
--    SIFIVE_E_QSPI2,
--    SIFIVE_E_PWM2,
--    SIFIVE_E_XIP,
--    SIFIVE_E_DTIM
-+    SIFIVE_E_DEV_DEBUG,
-+    SIFIVE_E_DEV_MROM,
-+    SIFIVE_E_DEV_OTP,
-+    SIFIVE_E_DEV_CLINT,
-+    SIFIVE_E_DEV_PLIC,
-+    SIFIVE_E_DEV_AON,
-+    SIFIVE_E_DEV_PRCI,
-+    SIFIVE_E_DEV_OTP_CTRL,
-+    SIFIVE_E_DEV_GPIO0,
-+    SIFIVE_E_DEV_UART0,
-+    SIFIVE_E_DEV_QSPI0,
-+    SIFIVE_E_DEV_PWM0,
-+    SIFIVE_E_DEV_UART1,
-+    SIFIVE_E_DEV_QSPI1,
-+    SIFIVE_E_DEV_PWM1,
-+    SIFIVE_E_DEV_QSPI2,
-+    SIFIVE_E_DEV_PWM2,
-+    SIFIVE_E_DEV_XIP,
-+    SIFIVE_E_DEV_DTIM
- };
+     size_t instance_size;
++    size_t instance_align;
+     void (*instance_init)(Object *obj);
+     void (*instance_post_init)(Object *obj);
+     void (*instance_finalize)(Object *obj);
+diff --git a/qom/object.c b/qom/object.c
+index cecad35b99..a91a6a515a 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -50,6 +50,7 @@ struct TypeImpl
+     size_t class_size;
  
- enum {
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 40bbf530d4..759059cd7b 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -54,25 +54,25 @@ static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
- } sifive_e_memmap[] = {
--    [SIFIVE_E_DEBUG] =    {        0x0,     0x1000 },
--    [SIFIVE_E_MROM] =     {     0x1000,     0x2000 },
--    [SIFIVE_E_OTP] =      {    0x20000,     0x2000 },
--    [SIFIVE_E_CLINT] =    {  0x2000000,    0x10000 },
--    [SIFIVE_E_PLIC] =     {  0xc000000,  0x4000000 },
--    [SIFIVE_E_AON] =      { 0x10000000,     0x8000 },
--    [SIFIVE_E_PRCI] =     { 0x10008000,     0x8000 },
--    [SIFIVE_E_OTP_CTRL] = { 0x10010000,     0x1000 },
--    [SIFIVE_E_GPIO0] =    { 0x10012000,     0x1000 },
--    [SIFIVE_E_UART0] =    { 0x10013000,     0x1000 },
--    [SIFIVE_E_QSPI0] =    { 0x10014000,     0x1000 },
--    [SIFIVE_E_PWM0] =     { 0x10015000,     0x1000 },
--    [SIFIVE_E_UART1] =    { 0x10023000,     0x1000 },
--    [SIFIVE_E_QSPI1] =    { 0x10024000,     0x1000 },
--    [SIFIVE_E_PWM1] =     { 0x10025000,     0x1000 },
--    [SIFIVE_E_QSPI2] =    { 0x10034000,     0x1000 },
--    [SIFIVE_E_PWM2] =     { 0x10035000,     0x1000 },
--    [SIFIVE_E_XIP] =      { 0x20000000, 0x20000000 },
--    [SIFIVE_E_DTIM] =     { 0x80000000,     0x4000 }
-+    [SIFIVE_E_DEV_DEBUG] =    {        0x0,     0x1000 },
-+    [SIFIVE_E_DEV_MROM] =     {     0x1000,     0x2000 },
-+    [SIFIVE_E_DEV_OTP] =      {    0x20000,     0x2000 },
-+    [SIFIVE_E_DEV_CLINT] =    {  0x2000000,    0x10000 },
-+    [SIFIVE_E_DEV_PLIC] =     {  0xc000000,  0x4000000 },
-+    [SIFIVE_E_DEV_AON] =      { 0x10000000,     0x8000 },
-+    [SIFIVE_E_DEV_PRCI] =     { 0x10008000,     0x8000 },
-+    [SIFIVE_E_DEV_OTP_CTRL] = { 0x10010000,     0x1000 },
-+    [SIFIVE_E_DEV_GPIO0] =    { 0x10012000,     0x1000 },
-+    [SIFIVE_E_DEV_UART0] =    { 0x10013000,     0x1000 },
-+    [SIFIVE_E_DEV_QSPI0] =    { 0x10014000,     0x1000 },
-+    [SIFIVE_E_DEV_PWM0] =     { 0x10015000,     0x1000 },
-+    [SIFIVE_E_DEV_UART1] =    { 0x10023000,     0x1000 },
-+    [SIFIVE_E_DEV_QSPI1] =    { 0x10024000,     0x1000 },
-+    [SIFIVE_E_DEV_PWM1] =     { 0x10025000,     0x1000 },
-+    [SIFIVE_E_DEV_QSPI2] =    { 0x10034000,     0x1000 },
-+    [SIFIVE_E_DEV_PWM2] =     { 0x10035000,     0x1000 },
-+    [SIFIVE_E_DEV_XIP] =      { 0x20000000, 0x20000000 },
-+    [SIFIVE_E_DEV_DTIM] =     { 0x80000000,     0x4000 }
- };
+     size_t instance_size;
++    size_t instance_align;
  
- static void sifive_e_machine_init(MachineState *machine)
-@@ -90,9 +90,9 @@ static void sifive_e_machine_init(MachineState *machine)
+     void (*class_init)(ObjectClass *klass, void *data);
+     void (*class_base_init)(ObjectClass *klass, void *data);
+@@ -114,6 +115,7 @@ static TypeImpl *type_new(const TypeInfo *info)
  
-     /* Data Tightly Integrated Memory */
-     memory_region_init_ram(main_mem, NULL, "riscv.sifive.e.ram",
--        memmap[SIFIVE_E_DTIM].size, &error_fatal);
-+        memmap[SIFIVE_E_DEV_DTIM].size, &error_fatal);
-     memory_region_add_subregion(sys_mem,
--        memmap[SIFIVE_E_DTIM].base, main_mem);
-+        memmap[SIFIVE_E_DEV_DTIM].base, main_mem);
+     ti->class_size = info->class_size;
+     ti->instance_size = info->instance_size;
++    ti->instance_align = info->instance_align;
  
-     /* Mask ROM reset vector */
-     uint32_t reset_vec[4];
-@@ -111,7 +111,7 @@ static void sifive_e_machine_init(MachineState *machine)
-         reset_vec[i] = cpu_to_le32(reset_vec[i]);
+     ti->class_init = info->class_init;
+     ti->class_base_init = info->class_base_init;
+@@ -688,16 +690,44 @@ static void object_finalize(void *data)
      }
-     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
--                          memmap[SIFIVE_E_MROM].base, &address_space_memory);
-+                          memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
- 
-     if (machine->kernel_filename) {
-         riscv_load_kernel(machine->kernel_filename, NULL);
-@@ -195,12 +195,12 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* Mask ROM */
-     memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mrom",
--                           memmap[SIFIVE_E_MROM].size, &error_fatal);
-+                           memmap[SIFIVE_E_DEV_MROM].size, &error_fatal);
-     memory_region_add_subregion(sys_mem,
--        memmap[SIFIVE_E_MROM].base, &s->mask_rom);
-+        memmap[SIFIVE_E_DEV_MROM].base, &s->mask_rom);
- 
-     /* MMIO */
--    s->plic = sifive_plic_create(memmap[SIFIVE_E_PLIC].base,
-+    s->plic = sifive_plic_create(memmap[SIFIVE_E_DEV_PLIC].base,
-         (char *)SIFIVE_E_PLIC_HART_CONFIG, 0,
-         SIFIVE_E_PLIC_NUM_SOURCES,
-         SIFIVE_E_PLIC_NUM_PRIORITIES,
-@@ -210,14 +210,14 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         SIFIVE_E_PLIC_ENABLE_STRIDE,
-         SIFIVE_E_PLIC_CONTEXT_BASE,
-         SIFIVE_E_PLIC_CONTEXT_STRIDE,
--        memmap[SIFIVE_E_PLIC].size);
--    sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
--        memmap[SIFIVE_E_CLINT].size, 0, ms->smp.cpus,
-+        memmap[SIFIVE_E_DEV_PLIC].size);
-+    sifive_clint_create(memmap[SIFIVE_E_DEV_CLINT].base,
-+        memmap[SIFIVE_E_DEV_CLINT].size, 0, ms->smp.cpus,
-         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-         SIFIVE_CLINT_TIMEBASE_FREQ, false);
-     create_unimplemented_device("riscv.sifive.e.aon",
--        memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
--    sifive_e_prci_create(memmap[SIFIVE_E_PRCI].base);
-+        memmap[SIFIVE_E_DEV_AON].base, memmap[SIFIVE_E_DEV_AON].size);
-+    sifive_e_prci_create(memmap[SIFIVE_E_DEV_PRCI].base);
- 
-     /* GPIO */
- 
-@@ -226,7 +226,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* Map GPIO registers */
--    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, memmap[SIFIVE_E_GPIO0].base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, memmap[SIFIVE_E_DEV_GPIO0].base);
- 
-     /* Pass all GPIOs to the SOC layer so they are available to the board */
-     qdev_pass_gpios(DEVICE(&s->gpio), dev, NULL);
-@@ -238,27 +238,27 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-                                             SIFIVE_E_GPIO0_IRQ0 + i));
-     }
- 
--    sifive_uart_create(sys_mem, memmap[SIFIVE_E_UART0].base,
-+    sifive_uart_create(sys_mem, memmap[SIFIVE_E_DEV_UART0].base,
-         serial_hd(0), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_UART0_IRQ));
-     create_unimplemented_device("riscv.sifive.e.qspi0",
--        memmap[SIFIVE_E_QSPI0].base, memmap[SIFIVE_E_QSPI0].size);
-+        memmap[SIFIVE_E_DEV_QSPI0].base, memmap[SIFIVE_E_DEV_QSPI0].size);
-     create_unimplemented_device("riscv.sifive.e.pwm0",
--        memmap[SIFIVE_E_PWM0].base, memmap[SIFIVE_E_PWM0].size);
--    sifive_uart_create(sys_mem, memmap[SIFIVE_E_UART1].base,
-+        memmap[SIFIVE_E_DEV_PWM0].base, memmap[SIFIVE_E_DEV_PWM0].size);
-+    sifive_uart_create(sys_mem, memmap[SIFIVE_E_DEV_UART1].base,
-         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_UART1_IRQ));
-     create_unimplemented_device("riscv.sifive.e.qspi1",
--        memmap[SIFIVE_E_QSPI1].base, memmap[SIFIVE_E_QSPI1].size);
-+        memmap[SIFIVE_E_DEV_QSPI1].base, memmap[SIFIVE_E_DEV_QSPI1].size);
-     create_unimplemented_device("riscv.sifive.e.pwm1",
--        memmap[SIFIVE_E_PWM1].base, memmap[SIFIVE_E_PWM1].size);
-+        memmap[SIFIVE_E_DEV_PWM1].base, memmap[SIFIVE_E_DEV_PWM1].size);
-     create_unimplemented_device("riscv.sifive.e.qspi2",
--        memmap[SIFIVE_E_QSPI2].base, memmap[SIFIVE_E_QSPI2].size);
-+        memmap[SIFIVE_E_DEV_QSPI2].base, memmap[SIFIVE_E_DEV_QSPI2].size);
-     create_unimplemented_device("riscv.sifive.e.pwm2",
--        memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
-+        memmap[SIFIVE_E_DEV_PWM2].base, memmap[SIFIVE_E_DEV_PWM2].size);
- 
-     /* Flash memory */
-     memory_region_init_rom(&s->xip_mem, OBJECT(dev), "riscv.sifive.e.xip",
--                           memmap[SIFIVE_E_XIP].size, &error_fatal);
--    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base,
-+                           memmap[SIFIVE_E_DEV_XIP].size, &error_fatal);
-+    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_DEV_XIP].base,
-         &s->xip_mem);
  }
  
++/* Find the minimum alignment guaranteed by the system malloc. */
++#if __STDC_VERSION__ >= 201112L
++typddef max_align_t qemu_max_align_t;
++#else
++typedef union {
++    long l;
++    void *p;
++    double d;
++    long double ld;
++} qemu_max_align_t;
++#endif
++
+ static Object *object_new_with_type(Type type)
+ {
+     Object *obj;
++    size_t size, align;
++    void (*obj_free)(void *);
+ 
+     g_assert(type != NULL);
+     type_initialize(type);
+ 
+-    obj = g_malloc(type->instance_size);
+-    object_initialize_with_type(obj, type->instance_size, type);
+-    obj->free = g_free;
++    size = type->instance_size;
++    align = type->instance_align;
++
++    /*
++     * Do not use qemu_memalign unless required.  Depending on the
++     * implementation, extra alignment implies extra overhead.
++     */
++    if (likely(align <= __alignof__(qemu_max_align_t))) {
++        obj = g_malloc(size);
++        obj_free = g_free;
++    } else {
++        obj = qemu_memalign(align, size);
++        obj_free = qemu_vfree;
++    }
++
++    object_initialize_with_type(obj, size, type);
++    obj->free = obj_free;
+ 
+     return obj;
+ }
 -- 
 2.26.2
 
