@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1777727020E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:26:21 +0200 (CEST)
-Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338312701AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:12:05 +0200 (CEST)
+Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJDI-0000vZ-5A
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36636)
+	id 1kJIzU-0003WF-6J
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kJIv1-0006a5-Pc; Fri, 18 Sep 2020 12:07:27 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:49749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kJIuz-0003BR-CN; Fri, 18 Sep 2020 12:07:27 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 720CA6335169;
- Fri, 18 Sep 2020 18:07:20 +0200 (CEST)
-Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 18 Sep
- 2020 18:07:19 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001cb4bc9a3-75ad-46a8-b6b4-38e53dc00fde,
- 26E73787F9CAC9185D3FF732CC8AC9B997D690EB) smtp.auth=groug@kaod.org
-Date: Fri, 18 Sep 2020 18:07:13 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 13/13] block/qed: bdrv_qed_do_open: deal with errp
-Message-ID: <20200918180713.0c09e11d@bahia.lan>
-In-Reply-To: <20200917195519.19589-14-vsementsov@virtuozzo.com>
-References: <20200917195519.19589-1-vsementsov@virtuozzo.com>
- <20200917195519.19589-14-vsementsov@virtuozzo.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kJIw5-0007tg-Lt
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:08:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54267
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kJIw2-0003Kf-Be
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:08:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600445306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AuYzfdBFpM1V6hSqSRCoz4SfLrz9QXsx43xxOag+H5I=;
+ b=AO6/RpU81viztuhBqwgALuu1KW+AAqJVAn9OIVaw+wN2RcQdQsgbPuhz8ck26HmywEd9KC
+ ersUs4cLw65S/8SHdVU/Ack35OigPDOeBywDGjv+yXWk+Gq3JSK0mbh01YOYmaGow1DNN8
+ 3Y/uNl7uGvdSkbDTNXSlAJ1iVHpuqxI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-570-PiWpYaFMNEGX6UKGgxzMBQ-1; Fri, 18 Sep 2020 12:08:22 -0400
+X-MC-Unique: PiWpYaFMNEGX6UKGgxzMBQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6120E807354;
+ Fri, 18 Sep 2020 16:08:20 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3C2060BEC;
+ Fri, 18 Sep 2020 16:08:19 +0000 (UTC)
+Subject: Re: [PATCH 09/37] qapi/common.py: Add indent manager
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-10-jsnow@redhat.com>
+ <87k0wtiwlb.fsf@dusky.pond.sub.org>
+ <37ea889c-746e-bea9-a719-6bee9e86f1a8@redhat.com>
+ <87v9gcesh8.fsf@dusky.pond.sub.org>
+ <301fb683-9b57-d355-3b08-776ab4869975@redhat.com>
+ <87363fjqv6.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <084495dc-dfb3-084d-ff83-cdfb90cd61f4@redhat.com>
+Date: Fri, 18 Sep 2020 12:08:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <87363fjqv6.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 7cc00237-5be0-4f7e-bf57-1a03f1e3a548
-X-Ovh-Tracer-Id: 15796375693385701819
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdelkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepkhifohhlfhesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 11:15:16
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 08:09:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,147 +88,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, pavel.dovgaluk@ispras.ru,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
- ari@tuxera.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Sep 2020 22:55:19 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+On 9/18/20 6:55 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
 
-> Set errp always on failure. Generic bdrv_open_driver supports driver
-> functions which can return negative value and forget to set errp.
-> That's a strange thing.. Let's improve bdrv_qed_do_open to not behave
-> this way. This allows to simplify code in
-> bdrv_qed_co_invalidate_cache().
+>> We'll get to them in due time. For now, please admire the lipstick.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Alberto Garcia <berto@igalia.com>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  block/qed.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
+> If I take off my glasses and step six feet back, I just might be able to
+> overlook it.
 > 
-> diff --git a/block/qed.c b/block/qed.c
-> index b27e7546ca..f45c640513 100644
-> --- a/block/qed.c
-> +++ b/block/qed.c
-> @@ -393,6 +393,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->  
->      ret = bdrv_pread(bs->file, 0, &le_header, sizeof(le_header));
->      if (ret < 0) {
-> +        error_setg(errp, "Failed to read QED header");
->          return ret;
->      }
->      qed_header_le_to_cpu(&le_header, &s->header);
-> @@ -408,25 +409,30 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->          return -ENOTSUP;
->      }
->      if (!qed_is_cluster_size_valid(s->header.cluster_size)) {
-> +        error_setg(errp, "QED cluster size is invalid");
->          return -EINVAL;
->      }
->  
->      /* Round down file size to the last cluster */
->      file_size = bdrv_getlength(bs->file->bs);
->      if (file_size < 0) {
-> +        error_setg(errp, "Failed to get file length");
->          return file_size;
->      }
->      s->file_size = qed_start_of_cluster(s, file_size);
->  
->      if (!qed_is_table_size_valid(s->header.table_size)) {
-> +        error_setg(errp, "QED table size is invalid");
->          return -EINVAL;
->      }
->      if (!qed_is_image_size_valid(s->header.image_size,
->                                   s->header.cluster_size,
->                                   s->header.table_size)) {
-> +        error_setg(errp, "QED image size is invalid");
->          return -EINVAL;
->      }
->      if (!qed_check_table_offset(s, s->header.l1_table_offset)) {
-> +        error_setg(errp, "QED table offset is invalid");
->          return -EINVAL;
->      }
->  
-> @@ -438,6 +444,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->  
->      /* Header size calculation must not overflow uint32_t */
->      if (s->header.header_size > UINT32_MAX / s->header.cluster_size) {
-> +        error_setg(errp, "QED header size is too large");
->          return -EINVAL;
->      }
->  
-> @@ -445,6 +452,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->          if ((uint64_t)s->header.backing_filename_offset +
->              s->header.backing_filename_size >
->              s->header.cluster_size * s->header.header_size) {
-> +            error_setg(errp, "QED backing filename offset is invalid");
->              return -EINVAL;
->          }
->  
-> @@ -453,6 +461,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->                                bs->auto_backing_file,
->                                sizeof(bs->auto_backing_file));
->          if (ret < 0) {
-> +            error_setg(errp, "Failed to read backing filename");
->              return ret;
->          }
->          pstrcpy(bs->backing_file, sizeof(bs->backing_file),
-> @@ -475,6 +484,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->  
->          ret = qed_write_header_sync(s);
->          if (ret) {
-> +            error_setg(errp, "Failed to update header");
->              return ret;
->          }
->  
-> @@ -487,6 +497,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->  
->      ret = qed_read_l1_table_sync(s);
->      if (ret) {
-> +        error_setg(errp, "Failed to read L1 table");
->          goto out;
->      }
->  
-> @@ -503,6 +514,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
->  
->              ret = qed_check(s, &result, true);
->              if (ret) {
-> +                error_setg(errp, "Image corrupted");
->                  goto out;
->              }
->          }
-> @@ -1537,22 +1549,16 @@ static void coroutine_fn bdrv_qed_co_invalidate_cache(BlockDriverState *bs,
->                                                        Error **errp)
->  {
->      BDRVQEDState *s = bs->opaque;
-> -    Error *local_err = NULL;
->      int ret;
->  
->      bdrv_qed_close(bs);
->  
->      bdrv_qed_init_state(bs);
->      qemu_co_mutex_lock(&s->table_lock);
-> -    ret = bdrv_qed_do_open(bs, NULL, bs->open_flags, &local_err);
-> +    ret = bdrv_qed_do_open(bs, NULL, bs->open_flags, errp);
->      qemu_co_mutex_unlock(&s->table_lock);
-> -    if (local_err) {
-> -        error_propagate_prepend(errp, local_err,
-> -                                "Could not reopen qed layer: ");
-> -        return;
-> -    } else if (ret < 0) {
-> -        error_setg_errno(errp, -ret, "Could not reopen qed layer");
-> -        return;
-> +    if (ret < 0) {
-> +        error_prepend(errp, "Could not reopen qed layer: ");
->      }
->  }
->  
+
+I consider writing a nice __repr__ good habit, I'd prefer not to delete 
+it just because the rest of our code doesn't do so yet. (Give me time.)
+
+I spend a lot of my time in the interactive python console: having nice 
+__repr__ methods is a good habit, not an unsightly blemish.
+
+>>>>>> +    def pop(self, amount: int = 4) -> int:
+>>>>>> +        """Pop `amount` spaces off of the indent, default four."""
+>>>>>> +        if self._level < amount:
+>>>>>> +            raise ArithmeticError(
+>>>>>> +                "Can't pop {:d} spaces from {:s}".format(amount, repr(self)))
+>>> I think assert(amount <= self._level) would do just fine.
+>>>
+>>
+>> Secretly, asserts can be disabled in Python just like they can in C code.
+> 
+> There are compilers that let you switch off array bounds checking.
+> Would you advocate manual bounds checking to protect people from their
+> own folly?
+> 
+>> My habit: if it's something that should already be true given the
+>> nature of how the code is laid out, use an assertion. If I am
+>> preventing an erroneous state (Especially from callers in other
+>> modules), explicitly raise an exception.
+> 
+> I check function preconditions ruthlessly with assert.  There's no sane
+> way to recover anyway.
+> 
+> Without a way to recover, the only benefit is crashing more prettily.
+> If the error is six levels deep in a some fancy-pants framework, then
+> prettier crashes might actually help someone finding the error slightly
+> faster.  But it ain't.
+> 
+> My final argument is local consistency: use of assertions to check
+> preconditions is pervasive in scripts/qapi/.
+> 
+
+You're right that there's no safe recovery from an error such as this. 
+The only actual difference is whether you see AssertionError or 
+ArithmeticError.
+
+One can be disabled (But you rightly shouldn't), the other can't. One 
+has more semantic meaning and information to it.
+
+I prefer what I've currently written.
+
+--js
 
 
