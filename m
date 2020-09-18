@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0289026FDB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:01:54 +0200 (CEST)
-Received: from localhost ([::1]:51678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0A726FDC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:06:24 +0200 (CEST)
+Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJG1R-0007bQ-0o
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:01:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38568)
+	id 1kJG5n-00023E-3a
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJFyb-00065r-QN
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 08:58:57 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35284
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJFya-0006wI-6N
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 08:58:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600433935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z5c+ylU03clNmUQ0Oc0KvH0pzpJvkbd6G/k2xEstVvA=;
- b=AOOZCFGyMkiGpff8zWIpCOSPeYUX065JX4BKf+YsMkmyMU3ufciPXJJ/7RLEUGYG+yDe8L
- pJjl9MbsX7yNMrNzSHAlL9uo/rSWC5QvhtypBhIzT7qGJghcSG+6Ln2k4K6hvoTrd0bY+m
- +q88ny18ul+guZKt1uMqdHdaPUx5oJU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-BX8izdZLMi-I8HTtkAbpsQ-1; Fri, 18 Sep 2020 08:58:53 -0400
-X-MC-Unique: BX8izdZLMi-I8HTtkAbpsQ-1
-Received: by mail-wm1-f70.google.com with SMTP id l26so1443672wmg.7
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 05:58:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJG1u-0000b2-0q
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:02:22 -0400
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:34506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJG1q-0007TU-VT
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:02:21 -0400
+Received: by mail-lj1-x229.google.com with SMTP id v23so5053735ljd.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 06:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=/EFwHhm7whkv6+hZwGDd49b4hwfuH7U0n6jiFuF16ZE=;
+ b=pG4fu7zQQo6GKZlYa5NBpA7RWa5slMEF86Hb8+cFU9VzuwbUkBrk0bxFjzV4mIxDgU
+ 4rXIudnndTGQ+wks3cDEHJM9k4l1NG00od5KS8bftZmuZC1tL+z08+JIejclr0Du6SHE
+ 9Me2MFOcmh94Hw6/WpB1BulfD5N9nXvp3/HtnN1Z1eA6Qi2JFPYbIfxlpuXof8Rvvmi6
+ mgiaB3eYtayzIl2hIzYxlRNYUICohpSl6C6kJBWXr1leLaTrLHrQnIiE3UWZMDGIZgU8
+ QRQcInZw+bOD7I9CzVuhn5Sv2zi0uywcm/GHz2uPTKZcOsfmtSEeE1kPMpvEJfXG+A69
+ VZ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=z5c+ylU03clNmUQ0Oc0KvH0pzpJvkbd6G/k2xEstVvA=;
- b=peNeBg+bhJ3j6DSsa3KpyUhDhPJeg9fkIWUQwGKoeQoFEBDEId3BoupLVU6xLdyCYb
- c0HMEmOXWhZOX5tudLp63uJ4zK8bUalqMyTybVZrfQzQDYX7iuCza7l3v2NSwf8eSBbv
- hq3oLNG9D5gC45hA1Ue/zwUxVaT14GZ2whcARbAfe4eluwJkHwn5c4qKJGh0TKxDD3Q7
- 7EDtdYqSOH48luRZ2AfqLhO86cI12fn1iVdVwDuIzFXMAM3BOQcZosR0TRRqdnQJrYDp
- ayJ0yEmiqXDm5DDCV4CEDV1DhSDjvuTse7UAJ05swuwehS+jn7jqeXGWmqs/Hp0TP9AW
- USRA==
-X-Gm-Message-State: AOAM533zK3nXSPjO+AfHGjZVmL2Np9caSU7hcALXBdBGFgHFvAGcXbuM
- 2ijTGD44d5dBgxkzNyiSTG+ybmkNVa6fZXfR9I9QEfkhjjYgtAdGr89G8ucS0s+ASCfP+zk6/zx
- iwgzhpGtAels087I=
-X-Received: by 2002:adf:f885:: with SMTP id u5mr36432363wrp.382.1600433931669; 
- Fri, 18 Sep 2020 05:58:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2VW+sEa+1SCnLYe157azz3EsCtezgv0LHZWp7pg8buiQYiyXUX1tT6IdXtzFAVNhRdFl0LA==
-X-Received: by 2002:adf:f885:: with SMTP id u5mr36432350wrp.382.1600433931422; 
- Fri, 18 Sep 2020 05:58:51 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:69b4:4715:609f:385f?
- ([2001:b07:6468:f312:69b4:4715:609f:385f])
- by smtp.gmail.com with ESMTPSA id a11sm4962593wmm.18.2020.09.18.05.58.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Sep 2020 05:58:50 -0700 (PDT)
-Subject: Re: [PATCH v3 01/10] capstone: Convert Makefile bits to meson bits
-To: luoyonggang@gmail.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=/EFwHhm7whkv6+hZwGDd49b4hwfuH7U0n6jiFuF16ZE=;
+ b=lhd1FcOMwvs5BbTIcaeWDCvq5egxHtOl1uPbaqROdhIPmrTd+PnjUO13NKCpUKeYwj
+ i978uJBYSFBHOv9yDvy94xJgUa8YqglTJTboJLYZUUYZblVCBX59toxiSUMdGWR/AjLN
+ AqffVdQ7s7i9xf5c42smDEpt1mz4RU0CrMxWxp7RWl+q0My6+VuM5De1ffjkIZDy1JEI
+ w6bRYlUIyYWdjNfrUl9oEIH9u5uUnqCev0LtOzj6kTvDmprgQ0RVAOYLvhTaSi2DUSy+
+ hn07WhgMZ9WpAIn010zYgHAQktny3Vg3a04eJ4Ljc7k6HOO3FjVlBAYEOnHhXu3S8ski
+ uMWQ==
+X-Gm-Message-State: AOAM531Dx1QgAfNH0amHE0A9UG8TszvaZdaUZ0kqW41sOYURaqHxUT1n
+ ++DoVp9PuumsfTvkbcXCR2JULHO+xgpLhXrgDLk=
+X-Google-Smtp-Source: ABdhPJxa34Ow5XZpJS8tEI5MqDDA/UvuW2qAzt2z1Sy3JageUewj4f/4693LGMNGGZy/x4hIeF+WZr0b619GYMFzwkY=
+X-Received: by 2002:a2e:89d6:: with SMTP id c22mr12555145ljk.242.1600434136567; 
+ Fri, 18 Sep 2020 06:02:16 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200917235720.2685978-1-richard.henderson@linaro.org>
  <20200917235720.2685978-2-richard.henderson@linaro.org>
  <047ad15d-e847-a53d-d0ef-443196085e10@redhat.com>
  <CAE2XoE_Dk-h1hyZSBDuf-TZS1i+p2fMtsk5P9ugHpQPARSvmdA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b10357f4-3d0c-9c8a-5f3a-dda3a7706399@redhat.com>
-Date: Fri, 18 Sep 2020 14:58:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <CAE2XoE_Dk-h1hyZSBDuf-TZS1i+p2fMtsk5P9ugHpQPARSvmdA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 07:01:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <b10357f4-3d0c-9c8a-5f3a-dda3a7706399@redhat.com>
+In-Reply-To: <b10357f4-3d0c-9c8a-5f3a-dda3a7706399@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Fri, 18 Sep 2020 21:02:05 +0800
+Message-ID: <CAE2XoE-hVvHcepqvTyyqr5-D=s2kdydGDCCfMeLSi31bL76nOg@mail.gmail.com>
+Subject: Re: [PATCH v3 01/10] capstone: Convert Makefile bits to meson bits
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000003255d905af961cce"
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x229.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,27 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: luoyonggang@gmail.com
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/09/20 10:42, 罗勇刚(Yonggang Luo) wrote:
-> I also have a question that how about convert
->   --disable-capstone) capstone="no"
->   ;;
->   --enable-capstone) capstone="yes"
->   ;;
-> to 
->     --disable-capstone) capstone="disabled"
->   ;;
->   --enable-capstone) capstone="enabled"
->   ;;
-> 
-> for consistence with meson
+--0000000000003255d905af961cce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We can do it but it need not hold this series IMHO.
+On Fri, Sep 18, 2020 at 8:58 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 18/09/20 10:42, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
+> > I also have a question that how about convert
+> >   --disable-capstone) capstone=3D"no"
+> >   ;;
+> >   --enable-capstone) capstone=3D"yes"
+> >   ;;
+> > to
+> >     --disable-capstone) capstone=3D"disabled"
+> >   ;;
+> >   --enable-capstone) capstone=3D"enabled"
+> >   ;;
+> >
+> > for consistence with meson
+>
+> We can do it but it need not hold this series IMHO.
+Fine with that, I am trying to convert iconv and curses from configure to
+meson
+waiting for this series.
+>
+> Paolo
+>
 
-Paolo
 
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--0000000000003255d905af961cce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Fri, Sep 18, 2020 at 8:58 PM Paolo Bonzini &lt;=
+<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<b=
+r>&gt;<br>&gt; On 18/09/20 10:42, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo)=
+ wrote:<br>&gt; &gt; I also have a question that how about convert<br>&gt; =
+&gt; =C2=A0 --disable-capstone) capstone=3D&quot;no&quot;<br>&gt; &gt; =C2=
+=A0 ;;<br>&gt; &gt; =C2=A0 --enable-capstone) capstone=3D&quot;yes&quot;<br=
+>&gt; &gt; =C2=A0 ;;<br>&gt; &gt; to <br>&gt; &gt; =C2=A0 =C2=A0 --disable-=
+capstone) capstone=3D&quot;disabled&quot;<br>&gt; &gt; =C2=A0 ;;<br>&gt; &g=
+t; =C2=A0 --enable-capstone) capstone=3D&quot;enabled&quot;<br>&gt; &gt; =
+=C2=A0 ;;<br>&gt; &gt;<br>&gt; &gt; for consistence with meson<br>&gt;<br>&=
+gt; We can do it but it need not hold this series IMHO.<div>Fine with that,=
+ I am trying to convert iconv and curses from configure to meson</div><div>=
+waiting for this series.<br>&gt;<br>&gt; Paolo<br>&gt;<br><br><br>--<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=
+=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</di=
+v></div>
+
+--0000000000003255d905af961cce--
 
