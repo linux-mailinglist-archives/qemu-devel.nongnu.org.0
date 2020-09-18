@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EBC2702FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:13:38 +0200 (CEST)
-Received: from localhost ([::1]:40916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA652702FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:12:44 +0200 (CEST)
+Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJx3-0001bt-Nc
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54904)
+	id 1kJJwB-0000Wy-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJJuI-000850-MR
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 13:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41892)
+ id 1kJJuM-00085K-DW
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 13:10:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJJuF-0004Qs-BA
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 13:10:46 -0400
+ id 1kJJuG-0004Rc-OS
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 13:10:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kJJuD-0002Ol-GU
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 17:10:41 +0000
+ id 1kJJuE-0002PQ-5z
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 17:10:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4E42C2E80EA
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 17:10:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F7852E806F
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 17:10:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Sep 2020 17:03:36 -0000
+Date: Fri, 18 Sep 2020 17:04:32 -0000
 From: Frederic Bezies <1896096@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier
 X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
 X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
 References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
-Message-Id: <160044861662.1200.17744030833932475220.malone@chaenomeles.canonical.com>
+Message-Id: <160044867287.15086.5087795643900307098.malone@gac.canonical.com>
 Subject: [Bug 1896096] Re: Git version: Build process is broken in
  block_curl.c.o
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: e3802b01386bcd78b6e88cdc388e7bd79daf3456
+X-Launchpad-Hash: af3ae477b8c48252b26a76771a821c20e23ed9f8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
@@ -77,23 +77,13 @@ Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Configure line: configure \
-    --prefix=3D/usr \
-    --sysconfdir=3D/etc \
-    --localstatedir=3D/var \
-    --libexecdir=3D/usr/lib/qemu \
-    --smbd=3D/usr/bin/smbd \
-    --extra-ldflags=3D"-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now" \
-    --enable-modules \
-    --enable-sdl \
-    --disable-werror \
-    --enable-slirp=3Dsystem \
-    --enable-xfsctl \
-    --audio-drv-list=3D"pa alsa sdl"
+And qemu log build using make -V=3D1.
 
-** Attachment added: "config.log"
-   https://bugs.launchpad.net/qemu/+bug/1896096/+attachment/5412259/+files/=
-config.log
+Hope it helps.
+
+** Attachment added: "qemuv1-2.log"
+   https://bugs.launchpad.net/qemu/+bug/1896096/+attachment/5412260/+files/=
+qemuv1-2.log
 
 -- =
 
