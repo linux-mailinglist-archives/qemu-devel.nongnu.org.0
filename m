@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BF32705D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:53:36 +0200 (CEST)
-Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F982705D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:56:22 +0200 (CEST)
+Received: from localhost ([::1]:53118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJMRr-0003Nl-Rw
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:53:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
+	id 1kJMUX-00068k-Tj
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLIF-0001E4-9e
+ id 1kJLIF-0001Eq-Ky
  for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:35 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:56224)
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLIA-0007Hn-NF
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:34 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id q4so3621246pjh.5
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:39:30 -0700 (PDT)
+ id 1kJLIB-0007I9-Qn
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:35 -0400
+Received: by mail-pg1-x542.google.com with SMTP id l191so3982502pgd.5
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R1UphA/dMSFyR0KX0MUh9VNFX6WB6sLnHEkivop59CQ=;
- b=tjxtsOe0r7nuFFUUCucNknIqW4n4prX31YJmIGCYXh8C6CpoxWmrNx46CM7fyArSxE
- X/UZPoy1ktfGI0Fms0LNz6/2Tf4vUS0EeECVOPGHBvPSzbfZbRqUsD9eA0yrz8hlsQmY
- Pp265aIwIMY5XKq7s1ciQFhzw6Myhvc+1YjrlE9Z47w78rdoJkVK/H0QZNBVtTmqyqbD
- RGvA5APK//SH6Vij9yNU+SG0r9qC4AFBSFcqMQQPBT4JQ3+w+eqVC3Mti2jlgTJxKJSQ
- KOcWp39jOgqzBQzAsKrsjAkZ68k5yHXYaYsOy6HSQ9NHBC/Gx2kljyHHieSfKOt98JfH
- EoJQ==
+ bh=LA/sCu8vYjGaVpIHisxYPWbBbKXoMAD3QsjC3nOh9eg=;
+ b=L0Tujru3CR/bek1utfYnMpyyIUtdqd+jKlReBBhrgsPLNTcVJ5+CmY5wJfO0sBJXfB
+ B0qq+bORd3SZzWRCpeRrvwtLk2gOsDrRqL92SqE8XrsDKoq5f5LKuEE6qu+854WmFtLH
+ kvBq8ArjseP70/e0RQ5YF5xADEH5ocXhHSsC2TuN50waprXhCFaOe03kIAVrMjMFa4Ve
+ 0dra77wft0mSGhFeaThM9M95PwgnYaqv2DBzuA8yq56fTHUh9kHrMvUueq6M2wo0806c
+ CvbTVU2G5hlITq4PAN2tBOhimhpFljlxnuqSJFh1e9xzY/9exTgEjDPrcoGa1PKLlpQa
+ PmoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R1UphA/dMSFyR0KX0MUh9VNFX6WB6sLnHEkivop59CQ=;
- b=b/dIfl9JiIjzyNPtZsqtnXMxiKhPjqUCKEBxmGXXvXduiVJFxjo2sJiqAzC+pqLgn3
- QIbEXO3GnDDLLHnhreMRGEw4J14Rpti4y+RiW5ZjgKFA6+AHRdDeYvSJWc9ux8nYtvtY
- ZFVdEf7R92bVlkU7FwGLOXVaYtPsuDvSfL3fAuuQUliqvnJOeQ9hFOVZ/m47Od9smodM
- LIMjBbWGVhJBxKFZ6SBay1VSnlJlZ0dEkmJ767ue56T5rET69pGCB0qgI/tu0b45mvUx
- pZ+A4CElVQtuozm+0DB3X/jh3YaUCZKO9iTGgWnakYwv3bTm9KHMmqcHKJrJAp+/Ly6f
- e49Q==
-X-Gm-Message-State: AOAM530+dbjHU9tk6g9HzIieOv1moIdqDyZ4cfzHf+4HvVc+deDPeU7l
- 6KB6qjGfPeMWS93tAQYsqWZ6pmdJpqO+Og==
-X-Google-Smtp-Source: ABdhPJwoczrxPd13N/SxXy1vkcV9OxEKhf76cV3DBqCuyqVBNrUKWwgjxTXYgrcgMM3EWQWAdMnmCw==
-X-Received: by 2002:a17:90a:d315:: with SMTP id
- p21mr14805065pju.88.1600454368778; 
- Fri, 18 Sep 2020 11:39:28 -0700 (PDT)
+ bh=LA/sCu8vYjGaVpIHisxYPWbBbKXoMAD3QsjC3nOh9eg=;
+ b=o8mbRyJF0ybJ1pEkybevC5L0fI5IQAPxPnO1nyvWgv8mOV0WlqA6jaDL0FmrXx71Gu
+ LT9P7CuHYYhHcTkfqW6EyuSf6JVNMbMXSihVvHDd5rd3CeG0aK5WSK8wHGem7gm2Za1o
+ VfV1RNbhguzeKYyyQBgJ4xU5p1a9UIkmqJ4r1WCgVgEQRU6GEqC9bss8redEmhtcnYQa
+ 8DRZn7fKqTJEKAW2d2FuSjjEjreClk+1XSB/I9p4ppp7kkfMhMvXH8pM4jjzuNkS+CRK
+ PooiRrgfTjTpDbxiWXiHrk2YIHlrYSxUqN8evBNA0fGKhlhLuKxzGk34QrDpSQTphOyE
+ Qkow==
+X-Gm-Message-State: AOAM530hCLQVajzWm0tloTatsr0UHxYZkJ+WIkiyFO/opzWz+B4Ugii+
+ MuaE1tl37ooE/t5JZ/+I3WAY9P4Ksisf1Q==
+X-Google-Smtp-Source: ABdhPJxXqnh83S1+E0A9jOGeX1Y903Et3Vw+EWdSQeDxIMqJNKJiQNGH3vJM5FczKKr/YkzrNKtEkg==
+X-Received: by 2002:aa7:95a6:0:b029:13c:1611:6524 with SMTP id
+ a6-20020aa795a60000b029013c16116524mr33648497pfk.4.1600454370080; 
+ Fri, 18 Sep 2020 11:39:30 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.39.27
+ by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.39.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:39:27 -0700 (PDT)
+ Fri, 18 Sep 2020 11:39:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 72/81] target/arm: Implement SVE2 FCVTLT
-Date: Fri, 18 Sep 2020 11:37:42 -0700
-Message-Id: <20200918183751.2787647-73-richard.henderson@linaro.org>
+Subject: [PATCH v3 73/81] target/arm: Implement SVE2 FCVTXNT, FCVTX
+Date: Fri, 18 Sep 2020 11:37:43 -0700
+Message-Id: <20200918183751.2787647-74-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
 References: <20200918183751.2787647-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,93 +93,121 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Stephen Long <steplong@quicinc.com>
 
 Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200428174332.17162-3-steplong@quicinc.com>
+Message-Id: <20200428174332.17162-4-steplong@quicinc.com>
+[rth: Use do_frint_mode, which avoids a specific runtime helper.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sve.h    |  5 +++++
  target/arm/sve.decode      |  2 ++
- target/arm/sve_helper.c    | 23 +++++++++++++++++++++++
- target/arm/translate-sve.c | 16 ++++++++++++++++
- 4 files changed, 46 insertions(+)
+ target/arm/translate-sve.c | 49 ++++++++++++++++++++++++++++++--------
+ 2 files changed, 41 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 0d8667a7d1..df141aec41 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2739,3 +2739,8 @@ DEF_HELPER_FLAGS_5(sve2_fcvtnt_sh, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_fcvtnt_ds, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(sve2_fcvtlt_hs, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 9ba4bb476e..abe26f2424 100644
+index abe26f2424..6c0e39d553 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1576,4 +1576,6 @@ RAX1            01000101 00 1 ..... 11110 1 ..... .....  @rd_rn_rm_e0
+@@ -1575,6 +1575,8 @@ SM4EKEY         01000101 00 1 ..... 11110 0 ..... .....  @rd_rn_rm_e0
+ RAX1            01000101 00 1 ..... 11110 1 ..... .....  @rd_rn_rm_e0
  
  ### SVE2 floating-point convert precision odd elements
++FCVTXNT_ds      01100100 00 0010 10 101 ... ..... .....  @rd_pg_rn_e0
++FCVTX_ds        01100101 00 0010 10 101 ... ..... .....  @rd_pg_rn_e0
  FCVTNT_sh       01100100 10 0010 00 101 ... ..... .....  @rd_pg_rn_e0
-+FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
  FCVTNT_ds       01100100 11 0010 10 101 ... ..... .....  @rd_pg_rn_e0
-+FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 21023c2f7f..8539493c72 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -7614,3 +7614,26 @@ void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
- 
- DO_FCVTNT(sve2_fcvtnt_sh, uint32_t, uint16_t, H1_4, H1_2, sve_f32_to_f16)
- DO_FCVTNT(sve2_fcvtnt_ds, uint64_t, uint32_t, H1_4, H1_2, float64_to_float32)
-+
-+#define DO_FCVTLT(NAME, TYPEW, TYPEN, HW, HN, OP)                             \
-+void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
-+{                                                                             \
-+    intptr_t i = simd_oprsz(desc);                                            \
-+    uint64_t *g = vg;                                                         \
-+    do {                                                                      \
-+        uint64_t pg = g[(i - 1) >> 6];                                        \
-+        do {                                                                  \
-+            i -= sizeof(TYPEW);                                               \
-+            if (likely((pg >> (i & 63)) & 1)) {                               \
-+                TYPEN nn = *(TYPEN *)(vn + HN(i + sizeof(TYPEN)));            \
-+                *(TYPEW *)(vd + HW(i)) = OP(nn, status);                      \
-+            }                                                                 \
-+        } while (i & 63);                                                     \
-+    } while (i != 0);                                                         \
-+}
-+
-+DO_FCVTLT(sve2_fcvtlt_hs, uint32_t, uint16_t, H1_4, H1_2, sve_f16_to_f32)
-+DO_FCVTLT(sve2_fcvtlt_sd, uint64_t, uint32_t, H1_4, H1_2, float32_to_float64)
-+
-+#undef DO_FCVTLT
-+#undef DO_FCVTNT
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 8a3a646bf5..247288e164 100644
+index 247288e164..7cdb128a5b 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -8241,3 +8241,19 @@ static bool trans_FCVTNT_ds(DisasContext *s, arg_rpr_esz *a)
+@@ -4769,11 +4769,9 @@ static bool trans_FRINTX(DisasContext *s, arg_rpr_esz *a)
+     return do_zpz_ptr(s, a->rd, a->rn, a->pg, a->esz == MO_16, fns[a->esz - 1]);
+ }
+ 
+-static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a, int mode)
++static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a,
++                          int mode, gen_helper_gvec_3_ptr *fn)
+ {
+-    if (a->esz == 0) {
+-        return false;
+-    }
+     if (sve_access_check(s)) {
+         unsigned vsz = vec_full_reg_size(s);
+         TCGv_i32 tmode = tcg_const_i32(mode);
+@@ -4784,7 +4782,7 @@ static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a, int mode)
+         tcg_gen_gvec_3_ptr(vec_full_reg_offset(s, a->rd),
+                            vec_full_reg_offset(s, a->rn),
+                            pred_full_reg_offset(s, a->pg),
+-                           status, vsz, vsz, 0, frint_fns[a->esz - 1]);
++                           status, vsz, vsz, 0, fn);
+ 
+         gen_helper_set_rmode(tmode, tmode, status);
+         tcg_temp_free_i32(tmode);
+@@ -4795,27 +4793,42 @@ static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a, int mode)
+ 
+ static bool trans_FRINTN(DisasContext *s, arg_rpr_esz *a)
+ {
+-    return do_frint_mode(s, a, float_round_nearest_even);
++    if (a->esz == 0) {
++        return false;
++    }
++    return do_frint_mode(s, a, float_round_nearest_even, frint_fns[a->esz - 1]);
+ }
+ 
+ static bool trans_FRINTP(DisasContext *s, arg_rpr_esz *a)
+ {
+-    return do_frint_mode(s, a, float_round_up);
++    if (a->esz == 0) {
++        return false;
++    }
++    return do_frint_mode(s, a, float_round_up, frint_fns[a->esz - 1]);
+ }
+ 
+ static bool trans_FRINTM(DisasContext *s, arg_rpr_esz *a)
+ {
+-    return do_frint_mode(s, a, float_round_down);
++    if (a->esz == 0) {
++        return false;
++    }
++    return do_frint_mode(s, a, float_round_down, frint_fns[a->esz - 1]);
+ }
+ 
+ static bool trans_FRINTZ(DisasContext *s, arg_rpr_esz *a)
+ {
+-    return do_frint_mode(s, a, float_round_to_zero);
++    if (a->esz == 0) {
++        return false;
++    }
++    return do_frint_mode(s, a, float_round_to_zero, frint_fns[a->esz - 1]);
+ }
+ 
+ static bool trans_FRINTA(DisasContext *s, arg_rpr_esz *a)
+ {
+-    return do_frint_mode(s, a, float_round_ties_away);
++    if (a->esz == 0) {
++        return false;
++    }
++    return do_frint_mode(s, a, float_round_ties_away, frint_fns[a->esz - 1]);
+ }
+ 
+ static bool trans_FRECPX(DisasContext *s, arg_rpr_esz *a)
+@@ -8257,3 +8270,19 @@ static bool trans_FCVTLT_sd(DisasContext *s, arg_rpr_esz *a)
      }
-     return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtnt_ds);
+     return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtlt_sd);
  }
 +
-+static bool trans_FCVTLT_hs(DisasContext *s, arg_rpr_esz *a)
++static bool trans_FCVTX_ds(DisasContext *s, arg_rpr_esz *a)
 +{
 +    if (!dc_isar_feature(aa64_sve2, s)) {
 +        return false;
 +    }
-+    return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtlt_hs);
++    return do_frint_mode(s, a, float_round_to_odd, gen_helper_sve_fcvt_ds);
 +}
 +
-+static bool trans_FCVTLT_sd(DisasContext *s, arg_rpr_esz *a)
++static bool trans_FCVTXNT_ds(DisasContext *s, arg_rpr_esz *a)
 +{
 +    if (!dc_isar_feature(aa64_sve2, s)) {
 +        return false;
 +    }
-+    return do_zpz_ptr(s, a->rd, a->rn, a->pg, false, gen_helper_sve2_fcvtlt_sd);
++    return do_frint_mode(s, a, float_round_to_odd, gen_helper_sve2_fcvtnt_ds);
 +}
 -- 
 2.25.1
