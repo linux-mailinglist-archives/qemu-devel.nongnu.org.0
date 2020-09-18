@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25DC270152
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:49:40 +0200 (CEST)
-Received: from localhost ([::1]:49498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9195B270140
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:43:54 +0200 (CEST)
+Received: from localhost ([::1]:39598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJIdn-0001Ry-OM
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54110)
+	id 1kJIYD-0005aQ-Jz
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kJILs-0000zY-T9
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:31:08 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kJILq-0004sI-R9
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:31:08 -0400
-Received: by mail-oi1-x242.google.com with SMTP id t76so7462980oif.7
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 08:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R5bqaJ/iiMTLttQtgEOcouEBZilyiZGd4JsRAWfdhts=;
- b=AVIBtAhS5SnexqQTm+iUm+uyPY4YawWGOqCQ5Ys/lK/BkDEuA08lZw6QZ6mQ17f3Qq
- Dm0E7YjNg/UM2mwI9h53eiR7B1+CJnV7LhFdpnjQnL69ArRIwYRw+tesogsNDSjclxf0
- jASEV+SvT0YULwPrVpVJvdn2M9lVgCS9E26I+mlOTXucpZq/W0MCAHlE/zrISKb0W6a7
- z8CIVdbwUgnNPvRXo4lzHYs81FeUSHuzB7VbSa4mEUcySbJyMitZG+nwEtwKSgthxB1u
- oNfYVQT8Wvaba9GD2vq2gIe/lr9Is64UJJBvv0alDgtqH5d65ewItky125qNtow1OIi/
- FjMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R5bqaJ/iiMTLttQtgEOcouEBZilyiZGd4JsRAWfdhts=;
- b=ZKi5fUcjqvIpOj52CzW0+AuKfACe84bfAHJYPGp8xWKBs/u3sTNuhFw7uSTcn4A7Yj
- Tsr85ji2YCky8sEhivqhJB0U2bI/gSG5K5PA82Qu+PIX2BaxkeBYo7VBejIQnjyKxDiE
- wjkgrcZK3z7nvh+pWRkKacPGTawoQbWtvopjpb7VIA2PpWWubgcsqCx08jlnXweRpFMw
- OhadOGp59IUgwkDpoMFXf8BPEG0ABx6INMH2bOndD1HHCOSgG283yjX4+uuml9TYtrN4
- 6tk7illAQhA+npd8UI7q47uwDrh6qyN095vk/fAwRt6ewqfJPe9508yPS4lkibhMG7Jf
- 6UfQ==
-X-Gm-Message-State: AOAM531sw5mqF5ajjog0sSWNZ/I2B2Ggf5cJe5DkBUNW4lMtDRJZEaUj
- XAjvCci5bmTnhOhpHc5m9dg8c7z0880ekDJq+as=
-X-Google-Smtp-Source: ABdhPJzILo1m9Vs0hZWuEa0tJsz+SRAZaukVFtb1gY2/mo2A5lw6ty4i/MOrE0Xjvy1TxC6G4Vhp9Rkc9YHrPU98TZQ=
-X-Received: by 2002:aca:4894:: with SMTP id v142mr9971129oia.157.1600443064846; 
- Fri, 18 Sep 2020 08:31:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kJIOa-0003fY-N2
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:33:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kJIOU-00059O-KJ
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:33:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600443228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b8GsGdkX/K8PrOYWKImvdC6s3sTCqssArJZqWfYcZyw=;
+ b=JXezOkx/M9FqBUmTy843EpbfEhxGV99AP7hxq6yFx7J1O1wcStlXc3UjH5gzIL+oeQqAg1
+ 8WX1WmI3FKBSVl8HAL0UQjH3YAwsC+/YxpoBI+u8lfEZmZXGNSdz+Z80Q3rRCZhghVP+8g
+ jRxUcV3rShpw7a4fczQUCOtY+8QBDME=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-hqX0TPYRNuyTM0DybJp39w-1; Fri, 18 Sep 2020 11:33:45 -0400
+X-MC-Unique: hqX0TPYRNuyTM0DybJp39w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07CB78B94CA;
+ Fri, 18 Sep 2020 15:33:26 +0000 (UTC)
+Received: from localhost (ovpn-113-209.ams2.redhat.com [10.36.113.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7394410013C1;
+ Fri, 18 Sep 2020 15:33:25 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests/046: Filter request length
+Date: Fri, 18 Sep 2020 17:33:23 +0200
+Message-Id: <20200918153323.108932-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20200918150506.286890-1-mst@redhat.com>
- <20200918150506.286890-8-mst@redhat.com>
-In-Reply-To: <20200918150506.286890-8-mst@redhat.com>
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
-Date: Fri, 18 Sep 2020 11:30:53 -0400
-Message-ID: <CAFubqFs_K3YbwqZ1Xes2_X3t9bhKrfLQnQzS2N2v8_2M0xm28Q@mail.gmail.com>
-Subject: Re: [PULL 07/15] vhost: check queue state in the vhost_dev_set_log
- routine
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=raphael.s.norwitz@gmail.com; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,69 +75,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dima Stepanov <dimastep@yandex-team.ru>, QEMU <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi MST - I think you picked an earlier version of the change with a
-bug. See my comment bellow:
+For its concurrent requests, 046 has always filtered the offset,
+probably because concurrent requests may settle in any order.  However,
+it did not filter the request length, and so if requests with different
+lengths settle in an unexpected order (notably the longer request before
+the shorter request), the test fails (for no good reason).
 
-On Fri, Sep 18, 2020 at 11:11 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> From: Dima Stepanov <dimastep@yandex-team.ru>
->
-> If the vhost-user-blk daemon provides only one virtqueue, but device was
-> added with several queues, then QEMU will send more VHOST-USER command
-> than expected by daemon side. The vhost_virtqueue_start() routine
-> handles such case by checking the return value from the
-> virtio_queue_get_desc_addr() function call. Add the same check to the
-> vhost_dev_set_log() routine.
->
-> Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
-> Message-Id: <2da64fc45789094b6bd6f1c283cac9e47eeeb786.1598865610.git.dimastep@yandex-team.ru>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  hw/virtio/vhost.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index 1b2d735b54..abe0fe3e67 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -835,12 +835,24 @@ out:
->  static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log)
->  {
->      int r, i, idx;
-> +    hwaddr addr;
-> +
->      r = vhost_dev_set_features(dev, enable_log);
->      if (r < 0) {
->          goto err_features;
->      }
->      for (i = 0; i < dev->nvqs; ++i) {
->          idx = dev->vhost_ops->vhost_get_vq_index(dev, dev->vq_index + i);
-> +        addr = virtio_queue_get_desc_addr(dev->vdev, idx);
-> +        if (!addr) {
-> +            /*
-> +             * The queue might not be ready for start. If this
-> +             * is the case there is no reason to continue the process.
-> +             * The similar logic is used by the vhost_virtqueue_start()
-> +             * routine.
-> +             */
+Filter the length, too.
 
-This should be "continue" not "break" right?
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+This has annoyed me for quite some time now, but when rebasing (and
+testing) my FUSE export series, it became apparent that on a FUSE export
+qcow2 images with -o compat=0.10 always fail this test (because the
+first 56k request settles before its accompanying 8k request), so now
+I'm forced to do something about it.
+---
+ tests/qemu-iotests/046     |   3 +-
+ tests/qemu-iotests/046.out | 104 ++++++++++++++++++-------------------
+ 2 files changed, 54 insertions(+), 53 deletions(-)
 
-ref: https://lore.kernel.org/qemu-devel/20200901083616.GA18268@dimastep-nix/
+diff --git a/tests/qemu-iotests/046 b/tests/qemu-iotests/046
+index ed6fae3529..17e71c4b5e 100755
+--- a/tests/qemu-iotests/046
++++ b/tests/qemu-iotests/046
+@@ -186,7 +186,8 @@ EOF
+ }
+ 
+ overlay_io | $QEMU_IO blkdebug::"$TEST_IMG" | _filter_qemu_io |\
+-	sed -e 's/bytes at offset [0-9]*/bytes at offset XXX/g'
++    sed -e 's/[0-9]*\/[0-9]* bytes at offset [0-9]*/XXX\/XXX bytes at offset XXX/g' \
++        -e 's/^[0-9]* KiB/XXX KiB/g'
+ 
+ echo
+ echo "== Verify image content =="
+diff --git a/tests/qemu-iotests/046.out b/tests/qemu-iotests/046.out
+index 66ad987ab3..b1a03f4041 100644
+--- a/tests/qemu-iotests/046.out
++++ b/tests/qemu-iotests/046.out
+@@ -71,74 +71,74 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=6442450944 backing_file=TEST_DIR
+ == Some concurrent requests touching the same cluster ==
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 32768/32768 bytes at offset XXX
+-32 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 57344/57344 bytes at offset XXX
+-56 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 4096/4096 bytes at offset XXX
+-4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 32768/32768 bytes at offset XXX
+-32 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-discard 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 57344/57344 bytes at offset XXX
+-56 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 4096/4096 bytes at offset XXX
+-4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-discard 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 57344/57344 bytes at offset XXX
+-56 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 98304/98304 bytes at offset XXX
+-96 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 81920/81920 bytes at offset XXX
+-80 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 32768/32768 bytes at offset XXX
+-32 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 98304/98304 bytes at offset XXX
+-96 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ == Verify image content ==
+ read 65536/65536 bytes at offset 0
+-- 
+2.26.2
 
-> +            break;
-> +        }
->          r = vhost_virtqueue_set_addr(dev, dev->vqs + i, idx,
->                                       enable_log);
->          if (r < 0) {
-> --
-> MST
->
->
 
