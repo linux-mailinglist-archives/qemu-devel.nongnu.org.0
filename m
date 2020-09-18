@@ -2,82 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585C426FFD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:29:36 +0200 (CEST)
-Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE0126FFF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:32:56 +0200 (CEST)
+Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJHOJ-00075i-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33284)
+	id 1kJHRX-00011a-So
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJHMp-0005oJ-Gj
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:28:03 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJHMl-0001zP-0E
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:28:03 -0400
-Received: by mail-wm1-x343.google.com with SMTP id d4so5527716wmd.5
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 07:27:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=F5C00gZJtS+9ak5BSS8EiAYBAOPbq1WOn4e1VDSe/dQ=;
- b=knOjLBiISqQD6q5AnpIRBJAm1z67M1J93fLzTmr2VJf6E1VEs2yOUo67vgxxuOhT6K
- fDS3mJ4SnSBdEF9HjDLWldyuYGxICeaalRPG7tjP7XSABWincLpcZaoNWuPWCdPekP2a
- XwuGsJi7MlYftdNYKU2o4VRJFi61+NgS23hhekLq2iSEb/1lGfI12C+m95/1h1nYoN1Q
- eHXuS0CK4weawWBuSUTYISFyNJdFuqBMoxIuEEcvc5wWSfdTboZGhnpMf1xvGELEadyi
- ZuU2Mx0jvinUoJ6fPTmtazV1+R31h9Zxw4ZR6zcNVmcZ/NonBtFB4jJeYTwkLCFPtX83
- LWWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=F5C00gZJtS+9ak5BSS8EiAYBAOPbq1WOn4e1VDSe/dQ=;
- b=lERDYgdR0wRqQs9IZmWh8Lgks0Qg6kZByxGjesrvDIdMNDJGdZOMkMjINUAWM0txGv
- BLZ6Y/eOA5UPQcPclrMDL7HhpTOTrYBIWNywhP689T0z7pkxTwoI1QU7/n5h0CoYLfZY
- R3UzYYCp+eRiiw21Q52ziT8qFx+UlgsSFiPuIZ0hJojNPyJC7kiO2Z2QrV4xuTOl80Ir
- Hee4UU149KNs2zh2TT5CrED8Na9ndS8oa0gyQWpX8MVYh6D1Qpac2Wbtta1gUPjyynyl
- DKHlXsHSay7iyrIkFEkOba4spS2kuZN0FNRq/h7YAUkuo/9v4AHHq/6T3n+cRoVQ5/os
- G/XA==
-X-Gm-Message-State: AOAM531806hJZ9FJ05Sck31fYVkqJNYuaqfWSbq9q6BYXljYMIe94leG
- 2+lwmXI4F6Z/Zdm+MBYfusE=
-X-Google-Smtp-Source: ABdhPJxXbPHk4ya0n/tqsnY78C1k+cSBktcXA9cBcNXAV7Ikk1K2yvUs8wOoWKXoOHbSv0jwN23yAA==
-X-Received: by 2002:a1c:2441:: with SMTP id k62mr15805065wmk.178.1600439274250; 
- Fri, 18 Sep 2020 07:27:54 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a81sm5502627wmf.32.2020.09.18.07.27.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Sep 2020 07:27:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kJHMs-0005ts-Ms
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:28:06 -0400
+Resent-Date: Fri, 18 Sep 2020 10:28:06 -0400
+Resent-Message-Id: <E1kJHMs-0005ts-Ms@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kJHMp-0001zj-Ly
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:28:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600439260; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=k5zqeMnMVXeX4Br6ECvoERB6potkzyaUM7cw3LpdxGNcSpjq2dpMzDfZgjkK9mBPOcCJaDe1ev/bZU666dho8iCXQg6ztH3TSSHNxl52mq7VlKQi4cOBAHT8+empDGxRoT39m++MrSvYtzCrzRFEB9+erExrJ2quduSVEnydrPs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600439260;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=yIrfOOMcTa38sEfwUu8L5itGv9KwHaM5VM21GOU4Pf4=; 
+ b=MvIBYA/uBV96rNXGWYrkORUy8Nx36gYa7F7Qegu5I2MRFsoOWvnTJ1bTvBTrjtVaRhiCONObwkmGQK0n3y0PsrLbDpb5DvMntayd4/Be24QZmaY4MFpuoCyQHnCR7g+tdnySewS5dBEXia5I4MGnijRbnEpdAMvGahq6RIsU1Pw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600439258125342.6055865726619;
+ Fri, 18 Sep 2020 07:27:38 -0700 (PDT)
 Subject: Re: [PATCH] tests/acceptance: Reduce quanta-gsj U-boot+Linux test time
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200918142344.150749-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <55648bee-46e6-4055-104d-0c82e8fcfe64@amsat.org>
-Date: Fri, 18 Sep 2020 16:27:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
+Message-ID: <160043925653.8478.8795784068014234430@66eaa9a8a123>
 In-Reply-To: <20200918142344.150749-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.869,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: f4bug@amsat.org
+Date: Fri, 18 Sep 2020 07:27:38 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 09:36:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,40 +69,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, wainersm@redhat.com,
+ hskinnemoen@google.com, crosa@redhat.com, philmd@redhat.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/18/20 4:23 PM, Philippe Mathieu-Daudé wrote:
-> The 'arm_quanta_gsj_initrd' test is timeouting on GitLab CI:
-> https://gitlab.com/philmd/qemu/-/jobs/745483978#L846
-> 
-> Use the same trick from the 'arm_quanta_gsj' test to reduce the
-> systemd services started and get quicker to the shell prompt.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  tests/acceptance/boot_linux_console.py | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 4a366ce93e4..7748febbf54 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -638,6 +638,9 @@ def test_arm_quanta_gsj_initrd(self):
->  
->          self.vm.set_console()
->          kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'initcall_blacklist=npcm_i2c_bus_driver_init '
-> +                               'systemd.mask=systemd-random-seed.service '
-> +                               'systemd.mask=dropbearkey.service '
->                                 'console=ttyS0,115200n8 '
->                                 'earlycon=uart8250,mmio32,0xf0001000')
->          self.vm.add_args('-kernel', kernel_path,
-> 
-
-Bah unfortunately this is still not enough :(
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxODE0MjM0NC4xNTA3
+NDktMS1mNGJ1Z0BhbXNhdC5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIGJ1aWxkIHRl
+c3Qgb24gRnJlZUJTRCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0YWlscyBiZWxvdy4KCgoKCgoK
+VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIw
+MDkxODE0MjM0NC4xNTA3NDktMS1mNGJ1Z0BhbXNhdC5vcmcvdGVzdGluZy5GcmVlQlNELz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
