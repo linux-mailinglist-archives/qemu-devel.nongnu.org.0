@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF9D26F825
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 10:28:41 +0200 (CEST)
-Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B1426F827
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 10:29:01 +0200 (CEST)
+Received: from localhost ([::1]:43676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJBl2-00006J-2W
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 04:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
+	id 1kJBlM-0000dp-5u
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 04:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJBjq-0007nf-8q; Fri, 18 Sep 2020 04:27:26 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36512)
+ id 1kJBkC-00085N-Mw; Fri, 18 Sep 2020 04:27:49 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJBjo-0005ct-LL; Fri, 18 Sep 2020 04:27:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id z9so4644281wmk.1;
- Fri, 18 Sep 2020 01:27:23 -0700 (PDT)
+ id 1kJBkB-0005eJ-Aw; Fri, 18 Sep 2020 04:27:48 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a17so4699167wrn.6;
+ Fri, 18 Sep 2020 01:27:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eXO0wSijbGvC6EIwG3Yxcn6WF4lJBpevedKHEKK4YLs=;
- b=DvmOdwOJmsk0AdAPV02sVPC+ajkV2OcaLcJTbr31v5qfFioE22MTNrNdGysUqsDR2a
- 9EKtVNoVH+MtU0hxtb5lf7dwNze5BwAJSeuP/sqMJRPCW+hfoMuYYvky7WsC89BaHyAN
- e4Gsb7fVuZ+2etzUSTd7Q59KVgVVFYP2fHpH+rm1mFPgeiChgQm1GNdybDphbdMqrkyM
- Sm+efkygIAAePtcYhQ/DHxWSjeDcPQi74xnUd4tIWQxprT+biul1ckAb4EvVEMhUE/RB
- 7xVDhC2jXWCBU9D8MiVwE513R/7T8tBREKQ6wTCXxBtF+xLvLFsn9IdNSenLmVd7hxBg
- UbSw==
+ bh=mkrw5km5VK9LfPXgdELjiSc0W0DAvu+zPnqJ5yNS+Ek=;
+ b=UkJySGthCZI4QCQy78FFDgfJ3E1nAx8VFAn2hVvOXYjfo1Dy8LTgPeUF3IxVWco478
+ KBvfmUD3TkL0AuGv6dnAxq8gDlVL0ODe9HGMKcmOAj5RzHm7vnClbabr/7iFTlq1i83P
+ 8c/FJz4aW1MaSw9o3ejDuoC/wDdQTmXBNAxYy9WyOyuswpSqOJPtzUi6aIfstg+oWqRG
+ WT3V4Q5ov8fbeC1UYjRwBRwPC4ZuAVD50WCBvssV+aQMk0Pvz/a8BIY8rad7vY4ZcrJm
+ kugr7S/C1Ym/wOonnCnm1bXDMYLtZCZvtr5rpJu4+9rn15/KIff3A68MJRrC1/8Kqw67
+ Naug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=eXO0wSijbGvC6EIwG3Yxcn6WF4lJBpevedKHEKK4YLs=;
- b=aP7HuFzcyZDytnbJP3nejMrRNgy3q1eCdFLrcP6ZsfhvzXFbDw4+pgb2uPxTxUYOHm
- 3iE8RcqTjY0sww8SUmpbgAsl5s/59iMaXFV8eM9w2anuNdKNhimOJVHJIrLNxn9mZoyb
- oAUjhIr9+5ECnP5QzjC2QWtIkEDJLqElq4lXYmUJ8PCJQNvzu73U1NVoWuQWRAif8e3c
- +7ySbP3lYHccTXv2i9pu89yEr9+8G7TIajHaA00a29eBjaWM6EnbYcwzJ0vfcSZOB1jf
- ewMijpl3ZQbL1pLq37rHlboLj891g2yaUBYr8Bym9ZU/ki8uBd4Iire/xDGH8JOjoYmE
- eOGQ==
-X-Gm-Message-State: AOAM533FkyHEJcLjZQr/nKfv6beCZRm3fjhToH515IP3Keeadazwu/f3
- PjHKYcrVuJZgzuGra1SwpNK0x9fwtXE=
-X-Google-Smtp-Source: ABdhPJzvbd6+7Qp1LZZNbti1c0gRZY0oS1b5JsvTyibhfUc549mKGVh9iRiBkv1pnSkudriO5PzMfg==
-X-Received: by 2002:a7b:c24b:: with SMTP id b11mr15104135wmj.134.1600417642634; 
- Fri, 18 Sep 2020 01:27:22 -0700 (PDT)
+ bh=mkrw5km5VK9LfPXgdELjiSc0W0DAvu+zPnqJ5yNS+Ek=;
+ b=toKS+HqF81If43p894/if1KgjXqeAQa4W99043hLeqJWC+ILqvy+zUFCslx89Kh91S
+ V/rhUEl5AHv5c31QcWJs/bNMk1Rs79PDeoKDNp8QgGJ7YG8a46HoZbakon9d0/6DZZ4t
+ 5MkVeq10wUEtQaHPZQlkMj81/HXuQEf8E/l/NwMS+Huh6RryxUkU7LtAzdsBE1pl8Hxm
+ oSnNHtG4xbiUJygyRzyR1VCymAUpNqONPLqVSl62jdwgjF1OfeFHtLRyDt/kQa86L2LS
+ eFqHZQ9KuX/JTn87gI2kIp+9l8Gy4W3UIHk9OGsPoJiJsWTP+SppawUffriM3kVE/A64
+ ZFWg==
+X-Gm-Message-State: AOAM533HrRfUEnTvz/0LaRQXtdnkqaw0y4Q9GA5QYK+yPvJnITU9YQad
+ 865t31eindPqJ7yu6J0/sUk=
+X-Google-Smtp-Source: ABdhPJw1jIjNiRO2AXfwORyEGfpMdCsG7s12F5LBSmWzQEsS8p66NgbB/JrBT5xZGWCAiz805kJhFQ==
+X-Received: by 2002:adf:eb8f:: with SMTP id t15mr12969087wrn.417.1600417665377; 
+ Fri, 18 Sep 2020 01:27:45 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u12sm3808528wrt.81.2020.09.18.01.27.20
+ by smtp.gmail.com with ESMTPSA id s2sm4270678wrw.96.2020.09.18.01.27.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Sep 2020 01:27:21 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] hw/sd/sdhci: Fix DMA Transfer Block Size field
- width
+ Fri, 18 Sep 2020 01:27:44 -0700 (PDT)
+Subject: Re: [PATCH 0/4] hw/sd/sdhci: Strengthen multiple DMA transfers
 To: qemu-devel@nongnu.org
-References: <20200901140411.112150-1-f4bug@amsat.org>
+References: <20200903172806.489710-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f6a58eec-c149-ad16-4550-d09f6a162a62@amsat.org>
-Date: Fri, 18 Sep 2020 10:27:20 +0200
+Message-ID: <621986c9-5a52-383b-9cff-fef2696207bc@amsat.org>
+Date: Fri, 18 Sep 2020 10:27:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200901140411.112150-1-f4bug@amsat.org>
+In-Reply-To: <20200903172806.489710-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,25 +88,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, bugs-syssec@rub.de,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-arm@nongnu.org,
+ Ruhr-University <bugs-syssec@rub.de>, Prasad J Pandit <pjp@fedoraproject.org>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/20 4:04 PM, Philippe Mathieu-Daudé wrote:
-> Fix the SDHCI issue reported last week by Alexander:
-> https://bugs.launchpad.net/qemu/+bug/1892960
+On 9/3/20 7:28 PM, Philippe Mathieu-Daudé wrote:
+> Still trying to fix the bugs reported by Aleksander...
 > 
-> The field is 12-bit (4KiB) but the guest can set
-> up to 16-bit (64KiB), leading to OOB access.
+> - Do not send 0 block count
+> - Reduce DMA to MMIO re-entrancy by yielding when pending IRQ
 > 
-> since v1:
-> commited unstaged change in patch #3...
+> Based-on: <20200901140411.112150-1-f4bug@amsat.org>
 > 
-> Philippe Mathieu-Daudé (3):
->   hw/sd/sdhci: Fix qemu_log_mask() format string
->   hw/sd/sdhci: Document the datasheet used
->   hw/sd/sdhci: Fix DMA Transfer Block Size field
+> Philippe Mathieu-Daudé (4):
+>   hw/sd/sdhci: Stop multiple transfers when block count is cleared
+>   hw/sd/sdhci: Resume pending DMA transfers on MMIO accesses
+>   hw/sd/sdhci: Let sdhci_update_irq() return if IRQ was delivered
+>   hw/sd/sdhci: Yield if interrupt delivered during multiple transfer
 
 Thanks, series applied to my sd-next tree.
+
 
