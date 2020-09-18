@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3C5270439
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:40:53 +0200 (CEST)
-Received: from localhost ([::1]:33702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94071270443
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:43:22 +0200 (CEST)
+Received: from localhost ([::1]:42280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJLJU-0000dG-7t
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47704)
+	id 1kJLLr-0004Qt-ST
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLGh-0007HG-E0
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:37:59 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:50841)
+ id 1kJLGi-0007JB-5d
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:00 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:33125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLGe-00072S-Gb
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:37:58 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id fa1so3630623pjb.0
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:37:55 -0700 (PDT)
+ id 1kJLGf-00072b-Gt
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:37:59 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id md22so4603364pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TabxK5GcsIsrrKGcXqH3X6F6TiDqhMqLODq3mwGAI3c=;
- b=AiDSs/6XYZxya0vWpwJc0fvIn9io3MQLOWZUwM5xixG9rkTC62H9HZoXQY9gHikqfO
- AA1GliKS1ON3ynieEtYsA4p1DRra1yH/VvSfLoDjSH2GIqop8JY3tOwPC4+smXSE8I7s
- nKusQtjzk8iuAleqSR3N/MSbEiz/r3U1V16Bf56NEGmoJ6AOQZbPfzm1BogtU0qvrLD3
- RNyUXh6OnzgFrvK8b6GhYHb+k0n/3U2UZMcYUklQi6IxPkyXX0yax0ngmwChox/1EX8r
- bFjCLOcaMZx2b56LAw6brMQLk3ZLE0nmXrr9RmnbV8zSOcFbNKiWb54eEDq8JwjNqfeX
- YPWQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=fBhW7XDEMls1H/wfvRiEP/0AEEm3Vshw5FyVOPuU9nc=;
+ b=ebBXjqUh9BnzS7oUs2hKkTxk0uigH5tQvciOH4Tqrn+KUKkHqRR19oPw3RJALIbE6I
+ dvyd+DMBRqK39QoCo2Td0T3bysIt3qRBXOQlK48IXyiUo2jvWIsC7ulC+LXL+pBTIfON
+ drY5ccboJaMTmK5/LzALak7ogqFCIGhnUNkt94tX39VDZecYdNWiEJxr8cblSU/yR1te
+ nva6Bf2lYFskurgUTGNvTqJa5u9OhjtVubVwptks0cfQo+Dm0FHIipGCVz1MTsvnCtfg
+ oqVT0g5keUO0S6SoC4EkCJbn9TpTScTHh3O7ZQ4erGXjrRtRj97HlpAn5qDWkxp3CGso
+ d4WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TabxK5GcsIsrrKGcXqH3X6F6TiDqhMqLODq3mwGAI3c=;
- b=HEDVvrIN5IY7sKa7HYD6SygyvZvwjE2eSM+wo0N06uDr0n24DRJTldQkAeRLsVJ/un
- 3NNOUT9B+x9Zxdzgu8gHMpr6oY4Ff8XwZAk+kRI9yMNIFAe6cM3PTgJTnU3pFD7GIkMs
- WUW6kcuOe5obLyTm4FiIcNC0gFn+neY/+hpeRK+yvBXJCtai9OpFEqn9tPjyIjhtH8sd
- PKtM3WS2wdyxIWkoiCi50Lvi//g/6qTpzlqX19ACTqsUVcBXXoNQF6f2SPU2kJG9Ydxg
- uVCmWVC7lTLNu9yYo7QLYyntACxd4IJ4Fx5LWKS/dae7XANIcE6RcgOpcCLEFXboroSh
- 4LAw==
-X-Gm-Message-State: AOAM530qKuDLxkM8PpE4wjuFYIQevtH2FI2QtPrwRWV2CmqhN66lxuTl
- 7JobsiBP3iT6ZfWz69CH/AyZEemJwUrAow==
-X-Google-Smtp-Source: ABdhPJzr1qM2pRoqHNfL2nKAgTMMpdMy2PKnvj9JFgsBLJv/hMjfKt24lJnwV6RP3zHY4kRyLvSeMg==
-X-Received: by 2002:a17:90a:f83:: with SMTP id
- 3mr13567625pjz.132.1600454273822; 
- Fri, 18 Sep 2020 11:37:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=fBhW7XDEMls1H/wfvRiEP/0AEEm3Vshw5FyVOPuU9nc=;
+ b=hcj0VIn6UhD0c5mwuSn+ZVPiQReFZ+kT4pXved0I7FFFw+BbEzjZV+oiBUATBeELE6
+ VIsKxPHjJSxzLueg2kvGYHhzuDqW41gIIr1rCJTmjwvlXdTAalMecxmNdHDz0RuKWmxq
+ hDZvHEbPG6FccyMxzynQNiPptbEy3fHDkeP8JYQB0J6LF9vNroktsPRSKpynkroO/m82
+ biTPNuIsrSu3Pl0fQ8yt/E1ixVlvYqddlAWTc58Jb+wdJ5+mNZIs0JChsAeJ9xC3JvVu
+ 1DT57bBl8d0ZCpTXOsu2mpB8v4RBla0uf2Z9x9XaFO5kAiue01cHXONUP4Mwo1csbDUv
+ RUWA==
+X-Gm-Message-State: AOAM533T2S5tG6ZydR2wnKhq49oAIDfUjUwB04B/C9ZfG0Mma3UKCB11
+ 1UCKOp7O2WF8AJYWHWn61Pd2rTSWYlGnXQ==
+X-Google-Smtp-Source: ABdhPJwivMRS6LU1K56Wq9cBT4YMxwYgQSsMgf0tD/nlukG7cNBXezI2W7c9h37Mh+8AMzwCVnRKpg==
+X-Received: by 2002:a17:902:d711:b029:d1:c6b5:ae5f with SMTP id
+ w17-20020a170902d711b02900d1c6b5ae5fmr25678639ply.38.1600454275153; 
+ Fri, 18 Sep 2020 11:37:55 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.37.52
+ by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.37.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:37:53 -0700 (PDT)
+ Fri, 18 Sep 2020 11:37:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/81] target/arm: Implement SVE2
-Date: Fri, 18 Sep 2020 11:36:30 -0700
-Message-Id: <20200918183751.2787647-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 01/81] target/arm: Fix sve_uzp_p vs odd vector lengths
+Date: Fri, 18 Sep 2020 11:36:31 -0700
+Message-Id: <20200918183751.2787647-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
+References: <20200918183751.2787647-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,127 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the first revision that has been fully tested vs ArmIE,
-although only with 128-bit vectors.
+Missed out on compressing the second half of a predicate
+with length vl % 512 > 256.
 
-Since ArmIE does not produce an SVE signal frame, I have a small
-hack in RISU to pull the vector data from the FP frame.  I may try
-an assembly wrapper to capture the larger vector data before it
-gets clobbered by AdvSIMD usage within libc (especially memset),
-but it wasn't especially urgent.
+Adjust all of the x + (y << s) to x | (y << s) as a
+general style fix.  Drop the extract64 because the input
+uint64_t are known to be already zero-extended from the
+current size of the predicate.
 
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/sve_helper.c | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
 
-r~
-
-
-Richard Henderson (63):
-  target/arm: Fix sve_uzp_p vs odd vector lengths
-  target/arm: Fix sve_zip_p vs odd vector lengths
-  target/arm: Fix sve_punpk_p vs odd vector lengths
-  target/arm: Add ID_AA64ZFR0 fields and isar_feature_aa64_sve2
-  target/arm: Implement SVE2 Integer Multiply - Unpredicated
-  target/arm: Implement SVE2 integer pairwise add and accumulate long
-  target/arm: Implement SVE2 integer unary operations (predicated)
-  target/arm: Split out saturating/rounding shifts from neon
-  target/arm: Implement SVE2 saturating/rounding bitwise shift left
-    (predicated)
-  target/arm: Implement SVE2 integer halving add/subtract (predicated)
-  target/arm: Implement SVE2 integer pairwise arithmetic
-  target/arm: Implement SVE2 saturating add/subtract (predicated)
-  target/arm: Implement SVE2 integer add/subtract long
-  target/arm: Implement SVE2 integer add/subtract interleaved long
-  target/arm: Implement SVE2 integer add/subtract wide
-  target/arm: Implement SVE2 integer multiply long
-  target/arm: Implement PMULLB and PMULLT
-  target/arm: Implement SVE2 bitwise shift left long
-  target/arm: Implement SVE2 bitwise exclusive-or interleaved
-  target/arm: Implement SVE2 bitwise permute
-  target/arm: Implement SVE2 complex integer add
-  target/arm: Implement SVE2 integer absolute difference and accumulate
-    long
-  target/arm: Implement SVE2 integer add/subtract long with carry
-  target/arm: Implement SVE2 bitwise shift right and accumulate
-  target/arm: Implement SVE2 bitwise shift and insert
-  target/arm: Implement SVE2 integer absolute difference and accumulate
-  target/arm: Implement SVE2 saturating extract narrow
-  target/arm: Implement SVE2 SHRN, RSHRN
-  target/arm: Implement SVE2 SQSHRUN, SQRSHRUN
-  target/arm: Implement SVE2 UQSHRN, UQRSHRN
-  target/arm: Implement SVE2 SQSHRN, SQRSHRN
-  target/arm: Implement SVE2 WHILEGT, WHILEGE, WHILEHI, WHILEHS
-  target/arm: Implement SVE2 WHILERW, WHILEWR
-  target/arm: Implement SVE2 bitwise ternary operations
-  target/arm: Implement SVE2 saturating multiply-add long
-  target/arm: Implement SVE2 saturating multiply-add high
-  target/arm: Implement SVE2 integer multiply-add long
-  target/arm: Implement SVE2 complex integer multiply-add
-  target/arm: Implement SVE2 XAR
-  target/arm: Pass separate addend to {U,S}DOT helpers
-  target/arm: Pass separate addend to FCMLA helpers
-  target/arm: Split out formats for 2 vectors + 1 index
-  target/arm: Split out formats for 3 vectors + 1 index
-  target/arm: Implement SVE2 integer multiply (indexed)
-  target/arm: Implement SVE2 integer multiply-add (indexed)
-  target/arm: Implement SVE2 saturating multiply-add high (indexed)
-  target/arm: Implement SVE2 saturating multiply-add (indexed)
-  target/arm: Implement SVE2 integer multiply long (indexed)
-  target/arm: Implement SVE2 saturating multiply (indexed)
-  target/arm: Implement SVE2 signed saturating doubling multiply high
-  target/arm: Implement SVE2 saturating multiply high (indexed)
-  target/arm: Implement SVE2 multiply-add long (indexed)
-  target/arm: Implement SVE2 complex integer multiply-add (indexed)
-  target/arm: Implement SVE mixed sign dot product (indexed)
-  target/arm: Implement SVE mixed sign dot product
-  target/arm: Implement SVE2 crypto unary operations
-  target/arm: Implement SVE2 crypto destructive binary operations
-  target/arm: Implement SVE2 crypto constructive binary operations
-  target/arm: Share table of sve load functions
-  target/arm: Implement SVE2 LD1RO
-  target/arm: Implement 128-bit ZIP, UZP, TRN
-  target/arm: Implement SVE2 complex integer dot product
-  target/arm: Enable SVE2 and some extensions
-
-Stephen Long (18):
-  target/arm: Implement SVE2 floating-point pairwise
-  target/arm: Implement SVE2 MATCH, NMATCH
-  target/arm: Implement SVE2 ADDHNB, ADDHNT
-  target/arm: Implement SVE2 RADDHNB, RADDHNT
-  target/arm: Implement SVE2 SUBHNB, SUBHNT
-  target/arm: Implement SVE2 RSUBHNB, RSUBHNT
-  target/arm: Implement SVE2 HISTCNT, HISTSEG
-  target/arm: Implement SVE2 scatter store insns
-  target/arm: Implement SVE2 gather load insns
-  target/arm: Implement SVE2 FMMLA
-  target/arm: Implement SVE2 SPLICE, EXT
-  target/arm: Implement SVE2 TBL, TBX
-  target/arm: Implement SVE2 FCVTNT
-  target/arm: Implement SVE2 FCVTLT
-  target/arm: Implement SVE2 FCVTXNT, FCVTX
-  target/arm: Implement SVE2 FLOGB
-  target/arm: Implement SVE2 bitwise shift immediate
-  target/arm: Implement SVE2 fp multiply-add long
-
- target/arm/cpu.h                |   56 +
- target/arm/helper-sve.h         |  722 ++++++-
- target/arm/helper.h             |  104 +-
- target/arm/translate-a64.h      |    3 +
- target/arm/vec_internal.h       |  143 ++
- target/arm/sve.decode           |  568 +++++-
- target/arm/cpu64.c              |   11 +
- target/arm/helper.c             |    3 +-
- target/arm/kvm64.c              |   11 +
- target/arm/neon_helper.c        |  507 +----
- target/arm/sve_helper.c         | 2175 +++++++++++++++++++--
- target/arm/translate-a64.c      |   67 +-
- target/arm/translate-sve.c      | 3152 +++++++++++++++++++++++++++++--
- target/arm/vec_helper.c         |  767 +++++++-
- target/arm/translate-neon.c.inc |   20 +-
- 15 files changed, 7443 insertions(+), 866 deletions(-)
-
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 4758d46f34..fcb46f150f 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -1938,7 +1938,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+     if (oprsz <= 8) {
+         l = compress_bits(n[0] >> odd, esz);
+         h = compress_bits(m[0] >> odd, esz);
+-        d[0] = extract64(l + (h << (4 * oprsz)), 0, 8 * oprsz);
++        d[0] = l | (h << (4 * oprsz));
+     } else {
+         ARMPredicateReg tmp_m;
+         intptr_t oprsz_16 = oprsz / 16;
+@@ -1952,23 +1952,35 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+             h = n[2 * i + 1];
+             l = compress_bits(l >> odd, esz);
+             h = compress_bits(h >> odd, esz);
+-            d[i] = l + (h << 32);
++            d[i] = l | (h << 32);
+         }
+ 
+-        /* For VL which is not a power of 2, the results from M do not
+-           align nicely with the uint64_t for D.  Put the aligned results
+-           from M into TMP_M and then copy it into place afterward.  */
++        /*
++         * For VL which is not a multiple of 512, the results from M do not
++         * align nicely with the uint64_t for D.  Put the aligned results
++         * from M into TMP_M and then copy it into place afterward.
++         */
+         if (oprsz & 15) {
+-            d[i] = compress_bits(n[2 * i] >> odd, esz);
++            int final_shift = (oprsz & 15) * 2;
++
++            l = n[2 * i + 0];
++            h = n[2 * i + 1];
++            l = compress_bits(l >> odd, esz);
++            h = compress_bits(h >> odd, esz);
++            d[i] = l | (h << final_shift);
+ 
+             for (i = 0; i < oprsz_16; i++) {
+                 l = m[2 * i + 0];
+                 h = m[2 * i + 1];
+                 l = compress_bits(l >> odd, esz);
+                 h = compress_bits(h >> odd, esz);
+-                tmp_m.p[i] = l + (h << 32);
++                tmp_m.p[i] = l | (h << 32);
+             }
+-            tmp_m.p[i] = compress_bits(m[2 * i] >> odd, esz);
++            l = m[2 * i + 0];
++            h = m[2 * i + 1];
++            l = compress_bits(l >> odd, esz);
++            h = compress_bits(h >> odd, esz);
++            tmp_m.p[i] = l | (h << final_shift);
+ 
+             swap_memmove(vd + oprsz / 2, &tmp_m, oprsz / 2);
+         } else {
+@@ -1977,7 +1989,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+                 h = m[2 * i + 1];
+                 l = compress_bits(l >> odd, esz);
+                 h = compress_bits(h >> odd, esz);
+-                d[oprsz_16 + i] = l + (h << 32);
++                d[oprsz_16 + i] = l | (h << 32);
+             }
+         }
+     }
 -- 
 2.25.1
 
