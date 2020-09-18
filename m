@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF472270869
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:37:09 +0200 (CEST)
-Received: from localhost ([::1]:47282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C4A27086C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:39:10 +0200 (CEST)
+Received: from localhost ([::1]:52098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJO45-0005d6-12
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
+	id 1kJO61-000840-2J
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kJO2A-0004i3-Ma
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 17:35:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26096)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kJO56-0006kg-FT
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 17:38:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kJO1q-0003MN-JD
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 17:35:07 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kJO54-0003ld-5W
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 17:38:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600464886;
+ s=mimecast20190719; t=1600465089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=KREMkcKPgdbo+OUhS7kRZApRFJjWQ5PO3gQ6R0JgX/4=;
- b=g7QfQH3YRwnkWYpQhrOYfGfwVOu9IAhqJFuT7pvNUgbd0J76OIaya71xIr64sSXqHb6wdp
- tfYS1FfEz25PiYcEhPxIiUpfEBSo38ZnuJvI83yYFw/Odue3GZfOuECZGcB59xboiaKQSR
- abB+wBLDZkKuBOfLxrpOuiuDMqXq8eY=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3uyJ5JZaJK8JJiVYTLU2EJ6Le4fciimlNUsaF2/e3Xk=;
+ b=AgytyyZECxLLZ3jUP2wa+I4D65Sbn10oOYfeZ824Xv5nbiMXgZg6RNLw5xwRWtW61sotf/
+ MkluSp9AVIthgCFHyqJsrJFsUHNCbLna2Qhqs9jUueUJEWF140aG5JFukVLe9TbikhdCDJ
+ GAxTk6HCf4f7FIJl7OkbHKOVSVP0NBU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-w7qqNkGzN6q5ky_ULhvw0g-1; Fri, 18 Sep 2020 17:34:44 -0400
-X-MC-Unique: w7qqNkGzN6q5ky_ULhvw0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-387-u8pxoVRFPnWjH_uckvpAgg-1; Fri, 18 Sep 2020 17:38:07 -0400
+X-MC-Unique: u8pxoVRFPnWjH_uckvpAgg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BF10801AAB
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 21:34:43 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-113-188.rdu2.redhat.com [10.10.113.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39ACA10013C1;
- Fri, 18 Sep 2020 21:34:37 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 9F2C3222E58; Fri, 18 Sep 2020 17:34:36 -0400 (EDT)
-Date: Fri, 18 Sep 2020 17:34:36 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org
-Subject: tools/virtiofs: Multi threading seems to hurt performance
-Message-ID: <20200918213436.GA3520@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 534031084D79;
+ Fri, 18 Sep 2020 21:38:06 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 096B01992F;
+ Fri, 18 Sep 2020 21:38:02 +0000 (UTC)
+Date: Fri, 18 Sep 2020 17:38:02 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v6 10/10] i386: Simplify CPUID_8000_001E for AMD
+Message-ID: <20200918213802.GA57321@habkost.net>
+References: <159889924378.21294.16494070903874534542.stgit@naples-babu.amd.com>
+ <159889938728.21294.12746724309255308236.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <159889938728.21294.12746724309255308236.stgit@naples-babu.amd.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -76,117 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: pbonzini@redhat.com, imammedo@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
+On Mon, Aug 31, 2020 at 01:43:07PM -0500, Babu Moger wrote:
+> apic_id contains all the information required to build
+> CPUID_8000_001E. core_id and node_id is already part of
+> apic_id generated by x86_topo_ids_from_apicid.
+> 
+> Also remove the restriction on number bits on core_id and
+> node_id.
+> 
+> Remove all the hardcoded values and replace with generalized
+> fields.
+> 
+> Refer the Processor Programming Reference (PPR) documentation
+> available from the bugzilla Link below.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+[...]
+> @@ -6019,7 +5914,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>          break;
+>      case 0x8000001E:
+>          assert(cpu->core_id <= 255);
 
-virtiofsd default thread pool size is 64. To me it feels that in most of
-the cases thread pool size 1 performs better than thread pool size 64.
+I assume we still want to remove this assert()?  Do you plan to
+redo and resubmit
+  Subject: [PATCH] target/i386: Remove core_id assert check in CPUID 0x8000001E
+  https://lore.kernel.org/qemu-devel/159257395689.52908.4409314503988289481.stgit@naples-babu.amd.com
+?
 
-I ran virtiofs-tests.
+> -        encode_topo_cpuid8000001e(cs, cpu,
+> +        encode_topo_cpuid8000001e(cpu, &topo_info,
+>                                    eax, ebx, ecx, edx);
+>          break;
+>      case 0xC0000000:
+> 
+> 
 
-https://github.com/rhvgoyal/virtiofs-tests
-
-And here are the comparision results. To me it seems that by default
-we should switch to 1 thread (Till we can figure out how to make
-multi thread performance better even when single process is doing
-I/O in client).
-
-I am especially more interested in getting performance better for
-single process in client. If that suffers, then it is pretty bad.
-
-Especially look at randread, randwrite, seqwrite performance. seqread
-seems pretty good anyway.
-
-If I don't run who test suite and just ran randread-psync job,
-my throughput jumps from around 40MB/s to 60MB/s. That's a huge
-jump I would say.
-
-Thoughts?
-
-Thanks
-Vivek
-
-
-NAME                    WORKLOAD                Bandwidth       IOPS            
-cache-auto              seqread-psync           690(MiB/s)      172k            
-cache-auto-1-thread     seqread-psync           729(MiB/s)      182k            
-
-cache-auto              seqread-psync-multi     2578(MiB/s)     644k            
-cache-auto-1-thread     seqread-psync-multi     2597(MiB/s)     649k            
-
-cache-auto              seqread-mmap            660(MiB/s)      165k            
-cache-auto-1-thread     seqread-mmap            672(MiB/s)      168k            
-
-cache-auto              seqread-mmap-multi      2499(MiB/s)     624k            
-cache-auto-1-thread     seqread-mmap-multi      2618(MiB/s)     654k            
-
-cache-auto              seqread-libaio          286(MiB/s)      71k             
-cache-auto-1-thread     seqread-libaio          260(MiB/s)      65k             
-
-cache-auto              seqread-libaio-multi    1508(MiB/s)     377k            
-cache-auto-1-thread     seqread-libaio-multi    986(MiB/s)      246k            
-
-cache-auto              randread-psync          35(MiB/s)       9191            
-cache-auto-1-thread     randread-psync          55(MiB/s)       13k             
-
-cache-auto              randread-psync-multi    179(MiB/s)      44k             
-cache-auto-1-thread     randread-psync-multi    209(MiB/s)      52k             
-
-cache-auto              randread-mmap           32(MiB/s)       8273            
-cache-auto-1-thread     randread-mmap           50(MiB/s)       12k             
-
-cache-auto              randread-mmap-multi     161(MiB/s)      40k             
-cache-auto-1-thread     randread-mmap-multi     185(MiB/s)      46k             
-
-cache-auto              randread-libaio         268(MiB/s)      67k             
-cache-auto-1-thread     randread-libaio         254(MiB/s)      63k             
-
-cache-auto              randread-libaio-multi   256(MiB/s)      64k             
-cache-auto-1-thread     randread-libaio-multi   155(MiB/s)      38k             
-
-cache-auto              seqwrite-psync          23(MiB/s)       6026            
-cache-auto-1-thread     seqwrite-psync          30(MiB/s)       7925            
-
-cache-auto              seqwrite-psync-multi    100(MiB/s)      25k             
-cache-auto-1-thread     seqwrite-psync-multi    154(MiB/s)      38k             
-
-cache-auto              seqwrite-mmap           343(MiB/s)      85k             
-cache-auto-1-thread     seqwrite-mmap           355(MiB/s)      88k             
-
-cache-auto              seqwrite-mmap-multi     408(MiB/s)      102k            
-cache-auto-1-thread     seqwrite-mmap-multi     438(MiB/s)      109k            
-
-cache-auto              seqwrite-libaio         41(MiB/s)       10k             
-cache-auto-1-thread     seqwrite-libaio         65(MiB/s)       16k             
-
-cache-auto              seqwrite-libaio-multi   137(MiB/s)      34k             
-cache-auto-1-thread     seqwrite-libaio-multi   214(MiB/s)      53k             
-
-cache-auto              randwrite-psync         22(MiB/s)       5801            
-cache-auto-1-thread     randwrite-psync         30(MiB/s)       7927            
-
-cache-auto              randwrite-psync-multi   100(MiB/s)      25k             
-cache-auto-1-thread     randwrite-psync-multi   151(MiB/s)      37k             
-
-cache-auto              randwrite-mmap          31(MiB/s)       7984            
-cache-auto-1-thread     randwrite-mmap          55(MiB/s)       13k             
-
-cache-auto              randwrite-mmap-multi    124(MiB/s)      31k             
-cache-auto-1-thread     randwrite-mmap-multi    213(MiB/s)      53k             
-
-cache-auto              randwrite-libaio        40(MiB/s)       10k             
-cache-auto-1-thread     randwrite-libaio        64(MiB/s)       16k             
-
-cache-auto              randwrite-libaio-multi  139(MiB/s)      34k             
-cache-auto-1-thread     randwrite-libaio-multi  212(MiB/s)      53k             
-
-
-
-
-
+-- 
+Eduardo
 
 
