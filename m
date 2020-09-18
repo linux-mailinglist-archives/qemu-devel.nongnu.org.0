@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C1A26F890
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 10:45:35 +0200 (CEST)
-Received: from localhost ([::1]:44056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2A326F88E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 10:44:01 +0200 (CEST)
+Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJC1O-00058t-33
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 04:45:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
+	id 1kJBzs-00030T-Uk
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 04:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJBvo-0008Py-OS
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 04:39:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40557)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJBvj-0007Kp-8i
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 04:39:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600418382;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iu3PRXMQqCnnNHWZE2V3pgC2Lg0mBjCRg8JAPEBuzsM=;
- b=dsK5+Dg/QqtyeiMtSM4IsH/4NSQYDQ0Gttc5pBtEaKfjQ38/QliXeR0fpEd7B2E1TzIkv2
- j+8Dv9HnxstlNdN/nVQ24mTyO5bPkACr+2ugKajFVS/RdNIznvx2YEJ4ycLJZ4c6LCGxxl
- p7JUmvT3W8dO67VCSuoS/hStoz1euVs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-cqqQ9y1BPqinQBrhaaLghA-1; Fri, 18 Sep 2020 04:39:40 -0400
-X-MC-Unique: cqqQ9y1BPqinQBrhaaLghA-1
-Received: by mail-wr1-f72.google.com with SMTP id x15so1856154wrm.7
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 01:39:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kJBxN-0001Fo-DA
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 04:41:25 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:43496)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kJBxK-0007n3-Py
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 04:41:25 -0400
+Received: by mail-pf1-x431.google.com with SMTP id f18so2990757pfa.10
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 01:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=GdgweBFiZYARuCVoz1uNH+aYHDiFtvCUWBa8dNRXSzk=;
+ b=ObvCt7GvTbWP8WiCl0okf1dYdh7WBq5xFXfDLw1cJ6imVBfRdTzQBTDraFb4VpFEd8
+ UiLJl+RCXBND2LqcGfE2+ZVvVeLfEr2P8mNLNCE8ywq9Mt6X1yyS54aGmZgqhmffms2g
+ AI23xwMGMsYLOP++cvqN6ZN12mrU7pWVWw1llHnse7wImXWHxM0lNkWr5aA2LL4O1Mdp
+ xsMgyzVqVzM8Pn3NyvCPq0e0E7OfCYc8RL+GB5o5nfV4ST4YgFBi9TCt6X7dibvfy18T
+ g5JYw8s4usU6Z8EC/xUh39R+MtC7O1hDQsYyvGyapE3ptFuxCiz4UuhzHeW59XGik7Ag
+ E+WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iu3PRXMQqCnnNHWZE2V3pgC2Lg0mBjCRg8JAPEBuzsM=;
- b=nje2e7QebilsCXAtXJvr6Uyvra2a5JnBPsg3LEv9d3pyyh8R4cGNI8zz6YAIrsv1/F
- wkNnH9oedKCAzMiOsILoreQWfUSrJ6HmaUw9j97noDDAGqnINDal2dLYrnKiLys6isT5
- jE2vX28NijkjPM+Vy3dPkXjpQiMk09WiJv2TImrRB86tdl+bv2S3tKKdzf6kFW2WVeUQ
- kEP+3mzH0mYZNzojobI8zkswjuZqN/79RsP54maXHc//k82NmDBNfWM8xk/0GDCVocD8
- VQI2nGKI5FeUU3JBFGWi2578wJHkP0p7fKBtcsEgmKrzYp8RlkW5ND+CkeopDscvoY2L
- h7yA==
-X-Gm-Message-State: AOAM533iwEn2uwTyGxz1AfKC47hhKtQmGa3QKyzKoHBqNv0nnR4WqShk
- IqZSnJ6mHYpKDf6M835VlVGIVHAN2ch3S9/Xe/Wom6I5mml/jdQa29OmajPJpN8rgUn4tboc3Wt
- yeuahmYC5LOgEKys=
-X-Received: by 2002:a1c:f20b:: with SMTP id s11mr14842448wmc.144.1600418379644; 
- Fri, 18 Sep 2020 01:39:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYyCp0dUvLcGRQ0XzVY9TBAn3vC36y7BsbLq7xmKJD9xpwpRQT6CHYDrlyA37T0RiTEYEB7Q==
-X-Received: by 2002:a1c:f20b:: with SMTP id s11mr14842427wmc.144.1600418379430; 
- Fri, 18 Sep 2020 01:39:39 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:69b4:4715:609f:385f?
- ([2001:b07:6468:f312:69b4:4715:609f:385f])
- by smtp.gmail.com with ESMTPSA id g8sm3573089wmd.12.2020.09.18.01.39.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Sep 2020 01:39:38 -0700 (PDT)
-Subject: Re: [PATCH] target/i386: always create kvmclock device
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>
-References: <20200917111306.819263-1-vkuznets@redhat.com>
- <20200917122559.e7i5o64k7rw7urdh@tartarus>
- <87ft7gh6gy.fsf@vitty.brq.redhat.com> <20200917144237.GK2793@work-vm>
- <875z8ch2m6.fsf@vitty.brq.redhat.com> <20200917174410.GU2793@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3e22df90-fa06-bf88-70ca-04ec5047d96c@redhat.com>
-Date: Fri, 18 Sep 2020 10:39:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200917174410.GU2793@work-vm>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=GdgweBFiZYARuCVoz1uNH+aYHDiFtvCUWBa8dNRXSzk=;
+ b=MncFPObQIIL3Lgx8ueUERHLv6CUv8KJjJnugtRreTzusgPPIvKkmDnoECNozU3Jtvg
+ KAKSJ6rtRPHcg71BY0uApZXeTEX/qLg7JmZsnAjvw3pNLvAOFTLd7d8RfXeH9iMwi4uo
+ BU6NFSEEzbbTbkR9+okeo0HtakmuGuK2UJzeaOHXYVo6muKoo5BX5hcGZEjtrb2ql5yH
+ bPUKbcVSmtzCufDrfq/lRSnKV+R+1GxlsuuX2daIo6W2W0zKpaBX6PJJ7orRzFxAY6bV
+ g+B74t9oE3n82V+8JW5y7QUC4gyu/Y33qaz/SDZGH7UuCctyzadV68vHKokmSpWd9RUv
+ VdKA==
+X-Gm-Message-State: AOAM533LZSjk+k0K3DpeVP8fZvvL2etmA4G+ITEdKLByQPCdrA9Z89i1
+ W8OsXB2RdCsuDtJhQlrW76+dmA==
+X-Google-Smtp-Source: ABdhPJyQqMxBTUq86BT9AskTLlGpTvspHIoO7eWy4p0+vNpvCzazscyp9Ece1t+97hhQDrqF6TULSg==
+X-Received: by 2002:a63:7018:: with SMTP id l24mr25085668pgc.55.1600418481078; 
+ Fri, 18 Sep 2020 01:41:21 -0700 (PDT)
+Received: from localhost.localdomain ([115.96.124.157])
+ by smtp.googlemail.com with ESMTPSA id gi20sm2120603pjb.28.2020.09.18.01.41.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 01:41:19 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: mst@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH v10 00/13]  i440fx/acpi: addition of feature and bug fixes.
+Date: Fri, 18 Sep 2020 14:10:58 +0530
+Message-Id: <20200918084111.15339-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2607:f8b0:4864:20::431;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x431.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,26 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Antoine Damhet <antoine.damhet@blade-group.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, jusual@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/09/20 19:44, Dr. David Alan Gilbert wrote:
->> This may happen with an older machine type when the destination is
->> running an unfixed QEMU and the source has the fix, right?
-> Yes I think so.
-> 
->> The solution
->> would be to introduce a flag for older machine types (or for new ones)
->> like 'kvmclock_always'.
-> Yep sounds the normal answer.
-> (You might want to try it first to trigger the bug)
-> 
+Final patch series with all the patches reviewed or ack'd and marked as such.
+Thanks Julia and Igor for the reviews. Hope this series gets pulled in soon.
 
-Right -- unqueued it :)
+--Ani
 
-Paolo
+Ani Sinha (13):
+  tests/acpi: mark addition of table DSDT.roothp for unit testing root
+    pci hotplug
+  tests/acpi: add new unit test to test hotplug off/on feature on the
+    root pci bus
+  tests/acpi: add a new ACPI table in order to test root pci hotplug
+    on/off
+  Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
+    non-hotpluggable bus
+  i440fx/acpi: do not add hotplug related amls for cold plugged bridges
+  tests/acpi: list added acpi table binary file for pci bridge hotplug
+    test
+  tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support'
+    bridge flag
+  tests/acpi: add newly added acpi DSDT table blob for pci bridge
+    hotplug flag
+  Add ACPI DSDT tables for q35 that are being updated by the next patch
+  piix4: don't reserve hw resources when hotplug is off globally
+  tests/acpi: update golden master DSDT binary table blobs for q35
+  tests/acpi: unit test exercising global pci hotplug off for i440fx
+  tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx
+    hotplug
+
+ hw/acpi/pcihp.c                   |  15 +++++++++
+ hw/acpi/piix4.c                   |   6 ++--
+ hw/i386/acpi-build.c              |  37 ++++++++++++++--------
+ tests/data/acpi/pc/DSDT.hpbridge  | Bin 0 -> 4895 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot  | Bin 0 -> 2953 bytes
+ tests/data/acpi/pc/DSDT.roothp    | Bin 0 -> 5130 bytes
+ tests/data/acpi/q35/DSDT          | Bin 7678 -> 7670 bytes
+ tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 8994 bytes
+ tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7688 bytes
+ tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8133 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9323 bytes
+ tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7745 bytes
+ tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9029 bytes
+ tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8801 bytes
+ tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7676 bytes
+ tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8276 bytes
+ tests/qtest/bios-tables-test.c    |  49 ++++++++++++++++++++++++++++++
+ 17 files changed, 92 insertions(+), 15 deletions(-)
+ create mode 100644 tests/data/acpi/pc/DSDT.hpbridge
+ create mode 100644 tests/data/acpi/pc/DSDT.hpbrroot
+ create mode 100644 tests/data/acpi/pc/DSDT.roothp
+
+-- 
+2.17.1
 
 
