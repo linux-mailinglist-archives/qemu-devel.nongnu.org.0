@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63B8270273
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:44:34 +0200 (CEST)
-Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9813D270287
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:47:25 +0200 (CEST)
+Received: from localhost ([::1]:48308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJUv-0001gI-QH
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:44:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
+	id 1kJJXg-00043f-Bs
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:47:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJ7V-000524-6y
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22431)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJ7a-00053d-ER
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJ7N-0005Xv-Rd
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:17 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJ7U-0005bN-UZ
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600446011;
+ s=mimecast20190719; t=1600446016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
- b=hRHadY2fnWFJguwLEJayoUaZu1eyG+2YKAQ13HOwm0Meokx1vlEgxe0h9A5YuP2GyxbuBY
- iEnQkxcCnRqZr/dBQw6fnHLCUEReA/5SD5D3/pfTy106sqWZpiPCrlWBZGal+2C0wlJBl9
- BbO04fMD+ZuAtMTxP+MLh+6YkKTaygo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-UjvC5n2yOAeA30Il5G-qNA-1; Fri, 18 Sep 2020 12:20:09 -0400
-X-MC-Unique: UjvC5n2yOAeA30Il5G-qNA-1
-Received: by mail-wr1-f71.google.com with SMTP id l9so2301615wrq.20
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:20:08 -0700 (PDT)
+ bh=5hYvdz2qitSdqwuTuePQGMPUpQ1ZwS4Y5kaurOk3sFU=;
+ b=aChkVy1GmrpxXFERygWpE8Ys6loRmVFCYvvgpHWS4jRMX2hXcBMQd4IWdsJ0KcvoqO4LhY
+ sJLDeU3WtW1cAEynVXocXrpLq2XjXABAs85+9+rRKjIEsFdNW/88rpTWhqFeKTY2zuRQPf
+ 1q03jo9toEh7ymyLL5rKiC3diFtXMdg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-3_sXm3E5Oz-G1hqbbmqgww-1; Fri, 18 Sep 2020 12:20:14 -0400
+X-MC-Unique: 3_sXm3E5Oz-G1hqbbmqgww-1
+Received: by mail-wr1-f72.google.com with SMTP id a10so2293602wrw.22
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:20:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
- b=e4uxF9N8VZYbQQkgyzACBSmdmE8jpl62gSTxQA5znRKKgStoOtqn4vNarEvI2NqZW+
- 7JWH1HQ0xSmDNANW00mbhBsVdkgak3ujPuBOpumDE1GvsqHf3kZcmHJsYLfHT9uiWzFE
- //nDNonL7YJwtbgNhYMc7+vDmwqjxHRRYfCOQ97GgW9o2MQeTQ1pn6pyTvRcLM0WC8Es
- TXBDE7kraQaDOhtHOFWoyd/C5VNGYTXAJbHbmgIvMwLg3tpeeOaM9owe9Fqwuk98ak2S
- QdOM20Mpz9sI20E1l+Q11ZZREe9WJLNfW7mbmOoeqBaD4rRPDTPj8AJ+ds8xEO004Mhi
- MZFQ==
-X-Gm-Message-State: AOAM533sJH33pU304lTM/eXa6ithfEG4nO1Iz6X1rlazij/YSAZ0ekqh
- qiikjyTY0MZPC68oNnCNZe4P8ux0CcRDAsHZQEUUS+dFlHsKp4OyOjyx/CwJYaXK3DmIWZWR3VS
- xihq/GsKdK0h72rU=
-X-Received: by 2002:a5d:67d0:: with SMTP id n16mr41765943wrw.198.1600446007104; 
- Fri, 18 Sep 2020 09:20:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz48ZF6pZHd3DO19ONPD9MqxRhUuQg17211NL58XVLyOTpDEleE/rYHf2Rh3RNUesNJYh9mnQ==
-X-Received: by 2002:a5d:67d0:: with SMTP id n16mr41765922wrw.198.1600446006907; 
- Fri, 18 Sep 2020 09:20:06 -0700 (PDT)
+ bh=5hYvdz2qitSdqwuTuePQGMPUpQ1ZwS4Y5kaurOk3sFU=;
+ b=eRvq3CUGBokn8GlJgAFgKAf3Groq2r2FLEnpamtrSeTNG6DdQvbvh0TiRomMrsAdES
+ Ie+CjHCwJNZtSV/i1zyko3o1jSJTdtU8VLMkEt+ro5eTwhTWxz3q2sxG+aXei6MDR3hx
+ 5KBajVTqhgPKIVEyoI/PYimTfWf4Ug9aVGPtd3Izrw3akxKRCRPT+ExEqrM2hGAen9eN
+ C1SL5+5swiuHzDZJ9joPgH1bNnjTsIRbsB/+TfaX5rhVV4WWzRpfm+YoiIDIWuM4XtLg
+ JTJ1bRUKMqZ0gE28Is7NIpJJSihVN5fKCMxS6xg+HcZrXNXA4sfa/33i2TBeD1I+hgEA
+ DnKg==
+X-Gm-Message-State: AOAM533s6kwom2lRGxyQsHxQkCBIw5wHtqFCJvQEN7ks0jykqpOXlu+s
+ 2awOywN18L2fTip01YPM3brj/DRP2nZSk9w6rHtZdIgI1s0cBYRhPDwp8u+COJ44LwT/dGuCt1S
+ 5rMaLXsXJa9e+Sbw=
+X-Received: by 2002:a1c:7f14:: with SMTP id a20mr16644737wmd.95.1600446012936; 
+ Fri, 18 Sep 2020 09:20:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1ApR7ml4x6BT92Um9hjUsj5pB0B2DKOU7ujzlT8t9p8HNEdkjq7AQtqKVM+LzMsz4LW7kOw==
+X-Received: by 2002:a1c:7f14:: with SMTP id a20mr16644719wmd.95.1600446012767; 
+ Fri, 18 Sep 2020 09:20:12 -0700 (PDT)
 Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
  [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id o129sm5982679wmb.27.2020.09.18.09.20.05
+ by smtp.gmail.com with ESMTPSA id a5sm5930224wrp.37.2020.09.18.09.20.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 09:20:06 -0700 (PDT)
-Date: Fri, 18 Sep 2020 12:20:04 -0400
+ Fri, 18 Sep 2020 09:20:11 -0700 (PDT)
+Date: Fri, 18 Sep 2020 12:20:09 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 03/15] vhost-vdpa: batch updating IOTLB mappings
-Message-ID: <20200918161836.318893-4-mst@redhat.com>
+Subject: [PULL v2 05/15] pc: fix
+ auto_enable_numa_with_memhp/auto_enable_numa_with_memdev for the 5.0 machine
+Message-ID: <20200918161836.318893-6-mst@redhat.com>
 References: <20200918161836.318893-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200918161836.318893-1-mst@redhat.com>
@@ -72,9 +73,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -82,7 +83,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,153 +96,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-stable@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: David Hildenbrand <david@redhat.com>
 
-To speed up the memory mapping updating between vhost-vDPA and vDPA
-device driver, this patch passes the IOTLB batching flags via IOTLB
-API. Two new flags was introduced, VHOST_IOTLB_BATCH_BEGIN is a hint
-that a bathced IOTLB updating may be initiated from the
-userspace. VHOST_IOTLB_BATCH_END is a hint that userspace has finished
-the updating:
+Unfortunately, a typo sneeked in: we want to set
+auto_enable_numa_with_memdev to false, not auto_enable_numa_with_memhp.
 
-VHOST_IOTLB_BATCH_BEGIN
-VHOST_IOTLB_UPDATE/VHOST_IOTLB_INVALIDATE
-...
-VHOST_IOTLB_BATCH_END
-
-Vhost-vDPA can then know that all mappings has been set and can do
-optimization like passing all the mappings to the vDPA device driver.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20200907104903.31551-4-jasowang@redhat.com>
+Cc: qemu-stable@nongnu.org # v5.1
+Fixes: 195784a0cfad (numa: Auto-enable NUMA when any memory devices are possible)
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200820094828.30348-1-david@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-vdpa.h |  1 +
- hw/virtio/vhost-vdpa.c         | 66 ++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
+ hw/i386/pc_q35.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 6455663388..9b81a409da 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -18,6 +18,7 @@ typedef struct vhost_vdpa {
-     int device_fd;
-     uint32_t msg_type;
-     MemoryListener listener;
-+    struct vhost_dev *dev;
- } VhostVDPA;
- 
- extern AddressSpace address_space_memory;
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 4580f3efd8..ba1ae3ea44 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -78,6 +78,46 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-     return ret;
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 622d039717..e1c415f57d 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -382,7 +382,7 @@ static void pc_q35_5_0_machine_options(MachineClass *m)
+     m->numa_mem_supported = true;
+     compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
+-    m->auto_enable_numa_with_memhp = false;
++    m->auto_enable_numa_with_memdev = false;
  }
  
-+static void vhost_vdpa_listener_begin(MemoryListener *listener)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    struct vhost_dev *dev = v->dev;
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+
-+    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-+        return;
-+    }
-+
-+    msg.type = v->msg_type;
-+    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+                     fd, errno, strerror(errno));
-+    }
-+}
-+
-+static void vhost_vdpa_listener_commit(MemoryListener *listener)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    struct vhost_dev *dev = v->dev;
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+
-+    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-+        return;
-+    }
-+
-+    msg.type = v->msg_type;
-+    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+                     fd, errno, strerror(errno));
-+    }
-+}
-+
- static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                            MemoryRegionSection *section)
- {
-@@ -191,6 +231,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-  * depends on the addnop().
-  */
- static const MemoryListener vhost_vdpa_memory_listener = {
-+    .begin = vhost_vdpa_listener_begin,
-+    .commit = vhost_vdpa_listener_commit,
-     .region_add = vhost_vdpa_listener_region_add,
-     .region_del = vhost_vdpa_listener_region_del,
- };
-@@ -226,6 +268,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
-     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
- 
-     v = opaque;
-+    v->dev = dev;
-     dev->opaque =  opaque ;
-     vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
-     dev->backend_features = features;
-@@ -280,6 +323,28 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
-     return !(status & VIRTIO_CONFIG_S_FEATURES_OK);
- }
- 
-+static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
-+{
-+    uint64_t features;
-+    uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-+    int r;
-+
-+    if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-+        return 0;
-+    }
-+
-+    features &= f;
-+    r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
-+    if (r) {
-+        return 0;
-+    }
-+
-+    dev->backend_cap = features;
-+
-+    return 0;
-+}
-+
- int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-                                    uint32_t *device_id)
- {
-@@ -452,6 +517,7 @@ const VhostOps vdpa_ops = {
-         .vhost_set_vring_kick = vhost_vdpa_set_vring_kick,
-         .vhost_set_vring_call = vhost_vdpa_set_vring_call,
-         .vhost_get_features = vhost_vdpa_get_features,
-+        .vhost_set_backend_cap = vhost_vdpa_set_backend_cap,
-         .vhost_set_owner = vhost_vdpa_set_owner,
-         .vhost_set_vring_endian = NULL,
-         .vhost_backend_memslots_limit = vhost_vdpa_memslots_limit,
+ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
 -- 
 MST
 
