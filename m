@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94071270443
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:43:22 +0200 (CEST)
-Received: from localhost ([::1]:42280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBFC27043B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:41:04 +0200 (CEST)
+Received: from localhost ([::1]:33930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJLLr-0004Qt-ST
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47718)
+	id 1kJLJf-0000k8-1F
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLGi-0007JB-5d
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:00 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:33125)
+ id 1kJLGj-0007MR-ND
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:01 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLGf-00072b-Gt
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:37:59 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id md22so4603364pjb.0
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:37:56 -0700 (PDT)
+ id 1kJLGi-00072k-0b
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:01 -0400
+Received: by mail-pl1-x644.google.com with SMTP id k13so3442041plk.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fBhW7XDEMls1H/wfvRiEP/0AEEm3Vshw5FyVOPuU9nc=;
- b=ebBXjqUh9BnzS7oUs2hKkTxk0uigH5tQvciOH4Tqrn+KUKkHqRR19oPw3RJALIbE6I
- dvyd+DMBRqK39QoCo2Td0T3bysIt3qRBXOQlK48IXyiUo2jvWIsC7ulC+LXL+pBTIfON
- drY5ccboJaMTmK5/LzALak7ogqFCIGhnUNkt94tX39VDZecYdNWiEJxr8cblSU/yR1te
- nva6Bf2lYFskurgUTGNvTqJa5u9OhjtVubVwptks0cfQo+Dm0FHIipGCVz1MTsvnCtfg
- oqVT0g5keUO0S6SoC4EkCJbn9TpTScTHh3O7ZQ4erGXjrRtRj97HlpAn5qDWkxp3CGso
- d4WA==
+ bh=rRP60tIXgXyDjfRHhOpTpwQ4z3K7JPkhoQFnyY4gDHg=;
+ b=X6yp7BoK7Iom3GOnwch1Rsj7fljWGvc7tch+klKdqPu+sghEKLxq9lpGz5UZ/QGgYs
+ GTfJM2ep0u1ug5zvIOckbot0H+KaYy3slynYwkFLSXSqwmcm4zNVRUc2fIjGtWQYPfbv
+ ublJxte5uRQTPQXyKaCfrvemQaqigbjjRWGhgtR0B7nhZOKJ+IT5pBnFGMS3/h5I7Ydw
+ OysE6L3FcFZEk8/HONnq6dslgGGEuC0/WEhWrzvsO07aMhQ4JWEfZ5GSGIsXpEMtr6zh
+ JotPkHhbrBm66stBwchsaJg+4xk0NwVAjkF3jkrKVIgn7iBr1Ke0aSEnOdtncGz0vyfH
+ spVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fBhW7XDEMls1H/wfvRiEP/0AEEm3Vshw5FyVOPuU9nc=;
- b=hcj0VIn6UhD0c5mwuSn+ZVPiQReFZ+kT4pXved0I7FFFw+BbEzjZV+oiBUATBeELE6
- VIsKxPHjJSxzLueg2kvGYHhzuDqW41gIIr1rCJTmjwvlXdTAalMecxmNdHDz0RuKWmxq
- hDZvHEbPG6FccyMxzynQNiPptbEy3fHDkeP8JYQB0J6LF9vNroktsPRSKpynkroO/m82
- biTPNuIsrSu3Pl0fQ8yt/E1ixVlvYqddlAWTc58Jb+wdJ5+mNZIs0JChsAeJ9xC3JvVu
- 1DT57bBl8d0ZCpTXOsu2mpB8v4RBla0uf2Z9x9XaFO5kAiue01cHXONUP4Mwo1csbDUv
- RUWA==
-X-Gm-Message-State: AOAM533T2S5tG6ZydR2wnKhq49oAIDfUjUwB04B/C9ZfG0Mma3UKCB11
- 1UCKOp7O2WF8AJYWHWn61Pd2rTSWYlGnXQ==
-X-Google-Smtp-Source: ABdhPJwivMRS6LU1K56Wq9cBT4YMxwYgQSsMgf0tD/nlukG7cNBXezI2W7c9h37Mh+8AMzwCVnRKpg==
-X-Received: by 2002:a17:902:d711:b029:d1:c6b5:ae5f with SMTP id
- w17-20020a170902d711b02900d1c6b5ae5fmr25678639ply.38.1600454275153; 
- Fri, 18 Sep 2020 11:37:55 -0700 (PDT)
+ bh=rRP60tIXgXyDjfRHhOpTpwQ4z3K7JPkhoQFnyY4gDHg=;
+ b=N3ISMWd8b8RbFtvKy+5qJpHnk4E+e86mRf6Cge7FD0wdBDUHXoVsVWsatew/WVZBJW
+ qun5nFdMofTNrR0ZzIXDFKk6iBJI7do0HpOzsLHNL2WTy28razLiW9y9GFFXerKlT0Bw
+ BQnZb1z18lD9RuCrCgGVNIA1fINTJxtEf0A4LRpayCQ8FGDQxeK8o3kAyWo3rZjc1fgb
+ MGikALuKpJY1R1xB2Uq5bRG8bWx1fKb6B+JIsSEHBj2QZjEg2DYX1koYvWz3ZlXCgyEy
+ FvQK/QZU0IQk9CHBYH8wS4fnvLNzCGCFgG/tth6WVWEpIieEKI1ZBxrvCCtnlRvBc+Qz
+ SuQQ==
+X-Gm-Message-State: AOAM533KRBYD6ADZE3QEdE7zbv1HTbHdLQuRu8siyPNBUaS8Ol6X1EVr
+ VXbEHK85xA4SQ4uJdxl7ZoOGYFh8Nrd9Jw==
+X-Google-Smtp-Source: ABdhPJxR1oYdOEKRTmfHQkUrJTsYp4jSTQ58ckutG0XGsOoz/Nld3I3RLOoxvJIz/axJRNkMk7sGOA==
+X-Received: by 2002:a17:90b:f83:: with SMTP id
+ ft3mr14069235pjb.234.1600454276540; 
+ Fri, 18 Sep 2020 11:37:56 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.37.54
+ by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.37.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:37:54 -0700 (PDT)
+ Fri, 18 Sep 2020 11:37:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/81] target/arm: Fix sve_uzp_p vs odd vector lengths
-Date: Fri, 18 Sep 2020 11:36:31 -0700
-Message-Id: <20200918183751.2787647-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 02/81] target/arm: Fix sve_zip_p vs odd vector lengths
+Date: Fri, 18 Sep 2020 11:36:32 -0700
+Message-Id: <20200918183751.2787647-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
 References: <20200918183751.2787647-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,82 +90,84 @@ Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missed out on compressing the second half of a predicate
-with length vl % 512 > 256.
+Wrote too much with low-half zip (zip1) with vl % 512 != 0.
 
-Adjust all of the x + (y << s) to x | (y << s) as a
-general style fix.  Drop the extract64 because the input
-uint64_t are known to be already zero-extended from the
-current size of the predicate.
+Adjust all of the x + (y << s) to x | (y << s) as a style fix.
+
+We only ever have exact overlap between D, M, and N.  Therefore
+we only need a single temporary, and we do not need to check for
+partial overlap.
 
 Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve_helper.c | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+ target/arm/sve_helper.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 4758d46f34..fcb46f150f 100644
+index fcb46f150f..b8651ae173 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -1938,7 +1938,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-     if (oprsz <= 8) {
-         l = compress_bits(n[0] >> odd, esz);
-         h = compress_bits(m[0] >> odd, esz);
--        d[0] = extract64(l + (h << (4 * oprsz)), 0, 8 * oprsz);
-+        d[0] = l | (h << (4 * oprsz));
+@@ -1870,6 +1870,7 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+     intptr_t oprsz = extract32(pred_desc, 0, SIMD_OPRSZ_BITS) + 2;
+     int esz = extract32(pred_desc, SIMD_DATA_SHIFT, 2);
+     intptr_t high = extract32(pred_desc, SIMD_DATA_SHIFT + 2, 1);
++    int esize = 1 << esz;
+     uint64_t *d = vd;
+     intptr_t i;
+ 
+@@ -1882,33 +1883,35 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+         mm = extract64(mm, high * half, half);
+         nn = expand_bits(nn, esz);
+         mm = expand_bits(mm, esz);
+-        d[0] = nn + (mm << (1 << esz));
++        d[0] = nn | (mm << esize);
      } else {
-         ARMPredicateReg tmp_m;
-         intptr_t oprsz_16 = oprsz / 16;
-@@ -1952,23 +1952,35 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-             h = n[2 * i + 1];
-             l = compress_bits(l >> odd, esz);
-             h = compress_bits(h >> odd, esz);
--            d[i] = l + (h << 32);
-+            d[i] = l | (h << 32);
+-        ARMPredicateReg tmp_n, tmp_m;
++        ARMPredicateReg tmp;
+ 
+         /* We produce output faster than we consume input.
+            Therefore we must be mindful of possible overlap.  */
+-        if ((vn - vd) < (uintptr_t)oprsz) {
+-            vn = memcpy(&tmp_n, vn, oprsz);
+-        }
+-        if ((vm - vd) < (uintptr_t)oprsz) {
+-            vm = memcpy(&tmp_m, vm, oprsz);
++        if (vd == vn) {
++            vn = memcpy(&tmp, vn, oprsz);
++            if (vd == vm) {
++                vm = vn;
++            }
++        } else if (vd == vm) {
++            vm = memcpy(&tmp, vm, oprsz);
+         }
+         if (high) {
+             high = oprsz >> 1;
          }
  
--        /* For VL which is not a power of 2, the results from M do not
--           align nicely with the uint64_t for D.  Put the aligned results
--           from M into TMP_M and then copy it into place afterward.  */
-+        /*
-+         * For VL which is not a multiple of 512, the results from M do not
-+         * align nicely with the uint64_t for D.  Put the aligned results
-+         * from M into TMP_M and then copy it into place afterward.
-+         */
-         if (oprsz & 15) {
--            d[i] = compress_bits(n[2 * i] >> odd, esz);
-+            int final_shift = (oprsz & 15) * 2;
-+
-+            l = n[2 * i + 0];
-+            h = n[2 * i + 1];
-+            l = compress_bits(l >> odd, esz);
-+            h = compress_bits(h >> odd, esz);
-+            d[i] = l | (h << final_shift);
+-        if ((high & 3) == 0) {
++        if ((oprsz & 7) == 0) {
+             uint32_t *n = vn, *m = vm;
+             high >>= 2;
  
-             for (i = 0; i < oprsz_16; i++) {
-                 l = m[2 * i + 0];
-                 h = m[2 * i + 1];
-                 l = compress_bits(l >> odd, esz);
-                 h = compress_bits(h >> odd, esz);
--                tmp_m.p[i] = l + (h << 32);
-+                tmp_m.p[i] = l | (h << 32);
+-            for (i = 0; i < DIV_ROUND_UP(oprsz, 8); i++) {
++            for (i = 0; i < oprsz / 8; i++) {
+                 uint64_t nn = n[H4(high + i)];
+                 uint64_t mm = m[H4(high + i)];
+ 
+                 nn = expand_bits(nn, esz);
+                 mm = expand_bits(mm, esz);
+-                d[i] = nn + (mm << (1 << esz));
++                d[i] = nn | (mm << esize);
              }
--            tmp_m.p[i] = compress_bits(m[2 * i] >> odd, esz);
-+            l = m[2 * i + 0];
-+            h = m[2 * i + 1];
-+            l = compress_bits(l >> odd, esz);
-+            h = compress_bits(h >> odd, esz);
-+            tmp_m.p[i] = l | (h << final_shift);
- 
-             swap_memmove(vd + oprsz / 2, &tmp_m, oprsz / 2);
          } else {
-@@ -1977,7 +1989,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
-                 h = m[2 * i + 1];
-                 l = compress_bits(l >> odd, esz);
-                 h = compress_bits(h >> odd, esz);
--                d[oprsz_16 + i] = l + (h << 32);
-+                d[oprsz_16 + i] = l | (h << 32);
+             uint8_t *n = vn, *m = vm;
+@@ -1920,7 +1923,7 @@ void HELPER(sve_zip_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+ 
+                 nn = expand_bits(nn, esz);
+                 mm = expand_bits(mm, esz);
+-                d16[H2(i)] = nn + (mm << (1 << esz));
++                d16[H2(i)] = nn | (mm << esize);
              }
          }
      }
