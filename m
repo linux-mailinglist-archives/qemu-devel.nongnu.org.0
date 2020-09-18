@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11F626FFAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:20:56 +0200 (CEST)
-Received: from localhost ([::1]:47226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25EC26FFB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:21:22 +0200 (CEST)
+Received: from localhost ([::1]:48548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJHFv-0000YH-KJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59280)
+	id 1kJHGL-000164-FV
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kJHED-0007tI-PS
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:19:09 -0400
-Resent-Date: Fri, 18 Sep 2020 10:19:09 -0400
-Resent-Message-Id: <E1kJHED-0007tI-PS@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kJHEB-0000iE-NH
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:19:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600438740; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SGJTGuW4nY29ACGYACS8Y8BYNIdEhi9H7ZbaX7xBcFNIvovSoQSfy3kYzZWm9nZbfWDgqt0Z9sUlbV55Uk9XlVN3TplmZwxlJHI5Q6oI8/+PxtB2Ow/uJt+dsSnDDSq89vBXJy8BfJAOGd8LxuB4nXr0Xl0wWb1GWbpZgNCi8M0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600438740;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=eBNZbsUfeZEWiO1UQTiW+ge1zUHhpKNZdDFcibZMNvY=; 
- b=kJv8zQj8IfB0TyYe+asZZs2QHbUS1ZlO1Jqn0y1d1q8KRt57kls6+2qpORId0FMUxNipVR2hjcsgmNQbzey7UnrfpYwoAwFnZ8UhEE2EC8TFsMzNd7GQj0696IN1ETX3tcr0eTnoseRTjdkUpPOSVorJuvmgbbmRIDCXgSiYDbI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600438738332911.2180353160552;
- Fri, 18 Sep 2020 07:18:58 -0700 (PDT)
-Subject: Re: [PATCH] virtio-gpu-3d: fix abnormal display after a warm reboot
-Message-ID: <160043873706.8478.8968096260999983790@66eaa9a8a123>
-In-Reply-To: <20200918111632.37354-1-zhangguoqing.kernel@bytedance.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJHEM-0007xX-HG
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:19:18 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:37020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJHEK-0000ja-Ef
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:19:18 -0400
+Received: by mail-lj1-x244.google.com with SMTP id n25so5252530ljj.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 07:19:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=guH+2yAkgh+BxDdqOG/KHxX/WMrWynIe20tywraAe94=;
+ b=E3zacQBRXU578vw9/HiHm1OZpzxlGAbCp91jNWGGYGbD4wlHqg3rfkQRQF9z1ZteBX
+ GT3nrLsI7n4VLGRff0bKof+/BTX7ksKIuwUmgEHtTKjfSQDmfM/5QeCrDpp/h5gFvxU6
+ YWu8WHyYaW4Tyglg/eg/fctDDc4NuDr3IlD4Z7/VP2Ym95gU4/1QEz2ASE5yf7/O88TV
+ 4g2kplva0ABzemKSr7VMT5VDCBnSlBFVkrVxcA7hCz6C67y6SJ8Brs33K9tqOxYHFQin
+ RT4STg5lISEQ4zofTr5wzIw0ypZy2+mrZqDp1HtbtDalb/Lr3vy1mQ0CuZ5Vx9/86Rbt
+ Cg7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=guH+2yAkgh+BxDdqOG/KHxX/WMrWynIe20tywraAe94=;
+ b=Qb9vmza0ALMkXGhMYXqqMzHThUtxUAmiCNpEQWsFbjB0hPyofDYeIc9SwCISHSRXyy
+ hMQ+7kJeZHUoxAoKFfAKtBzIMv6/CG3q44m1mSRzbtkoLK/tpl7Ghav7IDXBrXcXxHJW
+ Djgy0xFRN0cig6lnWsSCaCtG7tYUkNM25wPtOjukpi8TA32OOJhOXnjJiLu11aMiAere
+ IUF3fkvD8dXBfC9NkATySXrHAgyAb0Ay7wy4MO+OHuqcVHvSmI34pFH37WqdZLybCs5H
+ Rr2DE9otpduXAUJg49kn6sg6n8LfMqelNTDX34WU2EKsX9StZdcHmwtWKXPIEM+9PAHH
+ o/2g==
+X-Gm-Message-State: AOAM533XT/0vAtUjgKi6KjVd7XPUNtccvCHwon1KOYGcMSI1m5v/MGJf
+ l7kIdniN5ZSiHNE6FnXWXQs6I7HG7+vYeWJU/Ww=
+X-Google-Smtp-Source: ABdhPJyLGGgFI56zswrBMuDUuNV47hJDChlOQqSa1p6nYo56niCr9D89I450MKyGhZt3lur5ZzGwwtgiDdPwtcgtyKw=
+X-Received: by 2002:a2e:8983:: with SMTP id c3mr12314783lji.171.1600438751908; 
+ Fri, 18 Sep 2020 07:19:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: zhangguoqing.kernel@bytedance.com
-Date: Fri, 18 Sep 2020 07:18:58 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 09:13:24
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20200918132903.1848939-1-berrange@redhat.com>
+ <655b71e6-da6e-38b1-2c80-5d7d9caa8770@redhat.com>
+ <20200918141520.GL1628512@redhat.com>
+In-Reply-To: <20200918141520.GL1628512@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Fri, 18 Sep 2020 22:19:00 +0800
+Message-ID: <CAE2XoE92NV5qhS8x7v-COPkVUfM5GHRP+WSb_e_bOcXx5aorSw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] gitlab: add jobs for checking paches
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004ad56505af972fef"
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,20 +81,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, liuqi.16@bytedance.com,
- zhangguoqing.kernel@bytedance.com, kraxel@redhat.com, mst@redhat.com
+Reply-To: luoyonggang@gmail.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxODExMTYzMi4zNzM1
-NC0xLXpoYW5nZ3VvcWluZy5rZXJuZWxAYnl0ZWRhbmNlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmll
-cyBmYWlsZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5k
-IHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZl
-IERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHku
-CgoKCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xv
-Z3MvMjAyMDA5MTgxMTE2MzIuMzczNTQtMS16aGFuZ2d1b3Fpbmcua2VybmVsQGJ5dGVkYW5jZS5j
-b20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
-Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
-LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+--0000000000004ad56505af972fef
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Sep 18, 2020 at 10:16 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om>
+wrote:
+>
+> On Fri, Sep 18, 2020 at 04:07:22PM +0200, Thomas Huth wrote:
+> > On 18/09/2020 15.29, Daniel P. Berrang=C3=A9 wrote:
+> > > This introduces two new jobs to GitLab. The first runs "checkpatch.pl=
+"
+> > > across all patches, while the second is a dedicated DCO signoff check=
+.
+> >
+> > This feels quite redundant since we're checking the patches with Patche=
+w
+> > already ... or are there plans to get rid of this check in Patchew?
+>
+> patchew only runs once the contributor has sent their patches to the
+> mailing list, whci his too late.
+>
+> We want contributors to test their series in GitLab CI ahead of sending
+> it, so that patchew never has to report any failure, because the code is
+> already perfect once on the list (except if git master has moved and
+> causes conflicts of course).
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+https://www.instagram.com/dberrange :|
+>
+>
+agreed, and ineed patchew are broken now.
+
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--0000000000004ad56505af972fef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Fri, Sep 18, 2020 at 10:16 PM Daniel P. Berrang=
+=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&g=
+t; wrote:<br>&gt;<br>&gt; On Fri, Sep 18, 2020 at 04:07:22PM +0200, Thomas =
+Huth wrote:<br>&gt; &gt; On 18/09/2020 15.29, Daniel P. Berrang=C3=A9 wrote=
+:<br>&gt; &gt; &gt; This introduces two new jobs to GitLab. The first runs =
+&quot;<a href=3D"http://checkpatch.pl">checkpatch.pl</a>&quot;<br>&gt; &gt;=
+ &gt; across all patches, while the second is a dedicated DCO signoff check=
+.<br>&gt; &gt;<br>&gt; &gt; This feels quite redundant since we&#39;re chec=
+king the patches with Patchew<br>&gt; &gt; already ... or are there plans t=
+o get rid of this check in Patchew?<br>&gt;<br>&gt; patchew only runs once =
+the contributor has sent their patches to the<br>&gt; mailing list, whci hi=
+s too late.<br>&gt;<br>&gt; We want contributors to test their series in Gi=
+tLab CI ahead of sending<br>&gt; it, so that patchew never has to report an=
+y failure, because the code is<br>&gt; already perfect once on the list (ex=
+cept if git master has moved and<br>&gt; causes conflicts of course).<br>&g=
+t;<br>&gt; Regards,<br>&gt; Daniel<br>&gt; --<br>&gt; |: <a href=3D"https:/=
+/berrange.com">https://berrange.com</a> =C2=A0 =C2=A0 =C2=A0-o- =C2=A0 =C2=
+=A0<a href=3D"https://www.flickr.com/photos/dberrange">https://www.flickr.c=
+om/photos/dberrange</a> :|<br>&gt; |: <a href=3D"https://libvirt.org">https=
+://libvirt.org</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 -o- =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0<a href=3D"https://fstop138.berrange.com">https://fstop138=
+.berrange.com</a> :|<br>&gt; |: <a href=3D"https://entangle-photo.org">http=
+s://entangle-photo.org</a> =C2=A0 =C2=A0-o- =C2=A0 =C2=A0<a href=3D"https:/=
+/www.instagram.com/dberrange">https://www.instagram.com/dberrange</a> :|<br=
+>&gt;<br>&gt;<br>agreed, and ineed patchew are broken now.<br><br>--<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=
+=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</di=
+v>
+
+--0000000000004ad56505af972fef--
 
