@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4102707A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:57:10 +0200 (CEST)
-Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF082707AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:59:32 +0200 (CEST)
+Received: from localhost ([::1]:38528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJNRN-0007MD-SF
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
+	id 1kJNTf-0000f5-4O
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJNI7-0002ck-Ny
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44020)
+ id 1kJNIG-0002eA-8p
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJNHv-0006Fy-TJ
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:34 -0400
+ id 1kJNI2-0006Hi-5e
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:47:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600462043;
+ s=mimecast20190719; t=1600462047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dMkREXu3O51Oc94RWLTL6PmoyQuNR6EO5v7agZ1eleg=;
- b=eC3fVDMIpQF50YikuyKNFzj8h6iuDU7dkULtPtL/EHgAYqePjT3U+YxK3r3EWZHdeUWbkH
- 5Z0us+wZZM8JgTk3PqrAJTnWP4FEiVayKDCdY1i7QNGNqP8ayVySGFXilSKg4cYlhVVjG3
- A2iW0KkPKCY7JnY8czrUoEgrw9uuuUI=
+ bh=HviHr4FunOqEL8xT9/OsOQVp4aiu61kBo5y3Tq38Pn4=;
+ b=DbBsngHvgmXj6Tr9dpHX7eblcSqgiOBbDdV39I4I42yy0eGMYY6po8GApgyMCoHMMPSncT
+ 4/UgmDe5NjBdxwFFHYr6KCdkew/geQwXHA2uqO2ClCR3qNe0X1joOFNT+wKMkAOvxRLfud
+ suQn0OPoLvbQFEXSXdCnBmvxU03G9RM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-TWD-VXMUP5W33Ubsy2xSJA-1; Fri, 18 Sep 2020 16:47:20 -0400
-X-MC-Unique: TWD-VXMUP5W33Ubsy2xSJA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-480-Sg7VU-CkN6KHCs2BL0TeMA-1; Fri, 18 Sep 2020 16:47:24 -0400
+X-MC-Unique: Sg7VU-CkN6KHCs2BL0TeMA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFE36800C78;
- Fri, 18 Sep 2020 20:47:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F372F800C78;
+ Fri, 18 Sep 2020 20:47:22 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FDAE7881F;
- Fri, 18 Sep 2020 20:47:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8ECE55778;
+ Fri, 18 Sep 2020 20:47:22 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/17] sifive: Use DECLARE_*CHECKER* macros
-Date: Fri, 18 Sep 2020 16:47:01 -0400
-Message-Id: <20200918204714.27276-5-ehabkost@redhat.com>
+Subject: [PULL 07/17] qom: Correct error values in two contracts
+Date: Fri, 18 Sep 2020 16:47:04 -0400
+Message-Id: <20200918204714.27276-8-ehabkost@redhat.com>
 In-Reply-To: <20200918204714.27276-1-ehabkost@redhat.com>
 References: <20200918204714.27276-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,131 +82,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- $ ./scripts/codeconverter/converter.py -i \
-   --pattern=TypeCheckMacro $(git grep -l '' -- '*.[ch]')
+From: Markus Armbruster <armbru@redhat.com>
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+object_property_get_bool()'s contract claims it returns NULL on error.
+Pasto; it returns false.
+
+object_property_get_int()'s contract claims it returns "negative".  It
+actually returns -1.  All the other object_property_get_FOO()
+contracts specify the exact error value, so do the same here.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200831210740.126168-12-ehabkost@redhat.com>
+Message-Id: <20200917125540.597786-3-armbru@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/intc/sifive_plic.h           | 4 ++--
- include/hw/char/sifive_uart.h   | 4 ++--
- include/hw/gpio/sifive_gpio.h   | 3 ++-
- include/hw/misc/sifive_e_prci.h | 4 ++--
- include/hw/misc/sifive_test.h   | 4 ++--
- include/hw/misc/sifive_u_otp.h  | 4 ++--
- include/hw/misc/sifive_u_prci.h | 4 ++--
- 7 files changed, 14 insertions(+), 13 deletions(-)
+ include/qom/object.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/sifive_plic.h b/hw/intc/sifive_plic.h
-index aa6ae13c3a..b75b1f145d 100644
---- a/hw/intc/sifive_plic.h
-+++ b/hw/intc/sifive_plic.h
-@@ -27,8 +27,8 @@
- #define TYPE_SIFIVE_PLIC "riscv.sifive.plic"
- 
- typedef struct SiFivePLICState SiFivePLICState;
--#define SIFIVE_PLIC(obj) \
--    OBJECT_CHECK(SiFivePLICState, (obj), TYPE_SIFIVE_PLIC)
-+DECLARE_INSTANCE_CHECKER(SiFivePLICState, SIFIVE_PLIC,
-+                         TYPE_SIFIVE_PLIC)
- 
- typedef enum PLICMode {
-     PLICMode_U,
-diff --git a/include/hw/char/sifive_uart.h b/include/hw/char/sifive_uart.h
-index 2bb72ac80b..3e962be659 100644
---- a/include/hw/char/sifive_uart.h
-+++ b/include/hw/char/sifive_uart.h
-@@ -53,8 +53,8 @@ enum {
- #define TYPE_SIFIVE_UART "riscv.sifive.uart"
- 
- typedef struct SiFiveUARTState SiFiveUARTState;
--#define SIFIVE_UART(obj) \
--    OBJECT_CHECK(SiFiveUARTState, (obj), TYPE_SIFIVE_UART)
-+DECLARE_INSTANCE_CHECKER(SiFiveUARTState, SIFIVE_UART,
-+                         TYPE_SIFIVE_UART)
- 
- struct SiFiveUARTState {
-     /*< private >*/
-diff --git a/include/hw/gpio/sifive_gpio.h b/include/hw/gpio/sifive_gpio.h
-index af991fa44e..fc53785c9d 100644
---- a/include/hw/gpio/sifive_gpio.h
-+++ b/include/hw/gpio/sifive_gpio.h
-@@ -19,7 +19,8 @@
- 
- #define TYPE_SIFIVE_GPIO "sifive_soc.gpio"
- typedef struct SIFIVEGPIOState SIFIVEGPIOState;
--#define SIFIVE_GPIO(obj) OBJECT_CHECK(SIFIVEGPIOState, (obj), TYPE_SIFIVE_GPIO)
-+DECLARE_INSTANCE_CHECKER(SIFIVEGPIOState, SIFIVE_GPIO,
-+                         TYPE_SIFIVE_GPIO)
- 
- #define SIFIVE_GPIO_PINS 32
- 
-diff --git a/include/hw/misc/sifive_e_prci.h b/include/hw/misc/sifive_e_prci.h
-index de1e502eea..262ca16181 100644
---- a/include/hw/misc/sifive_e_prci.h
-+++ b/include/hw/misc/sifive_e_prci.h
-@@ -53,8 +53,8 @@ enum {
- #define TYPE_SIFIVE_E_PRCI      "riscv.sifive.e.prci"
- 
- typedef struct SiFiveEPRCIState SiFiveEPRCIState;
--#define SIFIVE_E_PRCI(obj) \
--    OBJECT_CHECK(SiFiveEPRCIState, (obj), TYPE_SIFIVE_E_PRCI)
-+DECLARE_INSTANCE_CHECKER(SiFiveEPRCIState, SIFIVE_E_PRCI,
-+                         TYPE_SIFIVE_E_PRCI)
- 
- struct SiFiveEPRCIState {
-     /*< private >*/
-diff --git a/include/hw/misc/sifive_test.h b/include/hw/misc/sifive_test.h
-index dc54b7af0c..88a38d00c5 100644
---- a/include/hw/misc/sifive_test.h
-+++ b/include/hw/misc/sifive_test.h
-@@ -25,8 +25,8 @@
- #define TYPE_SIFIVE_TEST "riscv.sifive.test"
- 
- typedef struct SiFiveTestState SiFiveTestState;
--#define SIFIVE_TEST(obj) \
--    OBJECT_CHECK(SiFiveTestState, (obj), TYPE_SIFIVE_TEST)
-+DECLARE_INSTANCE_CHECKER(SiFiveTestState, SIFIVE_TEST,
-+                         TYPE_SIFIVE_TEST)
- 
- struct SiFiveTestState {
-     /*< private >*/
-diff --git a/include/hw/misc/sifive_u_otp.h b/include/hw/misc/sifive_u_otp.h
-index 4572534f50..82c9176c8f 100644
---- a/include/hw/misc/sifive_u_otp.h
-+++ b/include/hw/misc/sifive_u_otp.h
-@@ -51,8 +51,8 @@
- #define TYPE_SIFIVE_U_OTP           "riscv.sifive.u.otp"
- 
- typedef struct SiFiveUOTPState SiFiveUOTPState;
--#define SIFIVE_U_OTP(obj) \
--    OBJECT_CHECK(SiFiveUOTPState, (obj), TYPE_SIFIVE_U_OTP)
-+DECLARE_INSTANCE_CHECKER(SiFiveUOTPState, SIFIVE_U_OTP,
-+                         TYPE_SIFIVE_U_OTP)
- 
- struct SiFiveUOTPState {
-     /*< private >*/
-diff --git a/include/hw/misc/sifive_u_prci.h b/include/hw/misc/sifive_u_prci.h
-index 83eab43686..d9ebf40b7f 100644
---- a/include/hw/misc/sifive_u_prci.h
-+++ b/include/hw/misc/sifive_u_prci.h
-@@ -60,8 +60,8 @@
- #define TYPE_SIFIVE_U_PRCI      "riscv.sifive.u.prci"
- 
- typedef struct SiFiveUPRCIState SiFiveUPRCIState;
--#define SIFIVE_U_PRCI(obj) \
--    OBJECT_CHECK(SiFiveUPRCIState, (obj), TYPE_SIFIVE_U_PRCI)
-+DECLARE_INSTANCE_CHECKER(SiFiveUPRCIState, SIFIVE_U_PRCI,
-+                         TYPE_SIFIVE_U_PRCI)
- 
- struct SiFiveUPRCIState {
-     /*< private >*/
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 494827b4d1..32524d72cc 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1624,7 +1624,7 @@ bool object_property_set_bool(Object *obj, const char *name,
+  * @name: the name of the property
+  * @errp: returns an error if this function fails
+  *
+- * Returns: the value of the property, converted to a boolean, or NULL if
++ * Returns: the value of the property, converted to a boolean, or false if
+  * an error occurs (including when the property value is not a bool).
+  */
+ bool object_property_get_bool(Object *obj, const char *name,
+@@ -1649,7 +1649,7 @@ bool object_property_set_int(Object *obj, const char *name,
+  * @name: the name of the property
+  * @errp: returns an error if this function fails
+  *
+- * Returns: the value of the property, converted to an integer, or negative if
++ * Returns: the value of the property, converted to an integer, or -1 if
+  * an error occurs (including when the property value is not an integer).
+  */
+ int64_t object_property_get_int(Object *obj, const char *name,
 -- 
 2.26.2
 
