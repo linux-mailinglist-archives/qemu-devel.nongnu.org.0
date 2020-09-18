@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B63D270181
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:00:35 +0200 (CEST)
-Received: from localhost ([::1]:49030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A617270169
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:55:08 +0200 (CEST)
+Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJIoK-0005RH-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:00:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59768)
+	id 1kJIj5-0007oI-45
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:55:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJIfD-00041z-CJ
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:51:07 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59496)
+ id 1kJIf7-0003tK-LX
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:51:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJIfA-00084D-FP
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:51:06 -0400
+ id 1kJIf4-00080L-7K
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:51:01 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kJIf8-0001tC-AI
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 15:51:02 +0000
+ id 1kJIf0-0001sv-QI
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 15:50:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E50942E810A
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 15:51:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2DECE2E810A
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 15:50:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Sep 2020 15:38:32 -0000
-From: Paolo Bonzini <1895703@bugs.launchpad.net>
+Date: Fri, 18 Sep 2020 15:40:19 -0000
+From: Frederic Bezies <1896096@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: buildsys tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahmedkrmn bonzini philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
-References: <160018860889.17103.9156462398304890013.malonedeb@soybean.canonical.com>
-Message-Id: <160044351241.14375.13726627260977644715.malone@gac.canonical.com>
-Subject: [Bug 1895703] Re: performance degradation in tcg since Meson switch
+X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+Message-Id: <160044361912.17815.5397414525560654181.malone@soybean.canonical.com>
+Subject: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 584b5ae445e61a730d30d06d7f33772f3b618de6
+X-Launchpad-Hash: 1270d0176e175c957ba1f34d106bec3d6960cebe
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
@@ -73,45 +72,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895703 <1895703@bugs.launchpad.net>
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I get
+I used these settings until Qemu 5.1.0 was released and it worked. These
+flags are used by archlinux for stable qemu release packaging.
 
-$ qemu-m68k ./matmult_double-m68k
-Error while loading /home/pbonzini/matmult_double-m68k: Permission denied
+See https://github.com/archlinux/svntogit-
+packages/blob/packages/qemu/trunk/PKGBUILD
+
+Since qemu moved to meson, it breaks. I don't know why it used to work
+before. Thanks for your answer anyway.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895703
+https://bugs.launchpad.net/bugs/1896096
 
 Title:
-  performance degradation in tcg since Meson switch
+  Git version: Build process is broken in block_curl.c.o
 
 Status in QEMU:
   New
 
 Bug description:
-  The buildsys conversion to Meson (1d806cef0e3..7fd51e68c34)
-  introduced a degradation in performance in some TCG targets:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
 
-  --------------------------------------------------------
-  Test Program: matmult_double
-  --------------------------------------------------------
-  Target              Instructions     Previous    Latest
-                                       1d806cef   7fd51e68
-  ----------  --------------------  ----------  ----------
-  alpha              3 233 957 639       -----     +7.472%
-  m68k               3 919 110 506       -----    +18.433%
-  --------------------------------------------------------
+  Configure options used:
 
-  Original report from Ahmed Karaman with further testing done
-  by Aleksandar Markovic:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg740279.html
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
+
+  Error log attached. Here is the beginning:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895703/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
