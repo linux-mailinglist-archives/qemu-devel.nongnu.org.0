@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4DE270738
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:41:58 +0200 (CEST)
-Received: from localhost ([::1]:43114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5ECB27077A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:51:34 +0200 (CEST)
+Received: from localhost ([::1]:52494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJNCf-0006yJ-4m
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:41:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46470)
+	id 1kJNLx-0002dJ-AC
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:51:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kJN7a-0004tu-Ht; Fri, 18 Sep 2020 16:36:44 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:44993)
+ id 1kJN7w-000596-Gb; Fri, 18 Sep 2020 16:37:04 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:48301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kJN7Y-0004yx-VS; Fri, 18 Sep 2020 16:36:42 -0400
+ id 1kJN7u-0004zC-Uz; Fri, 18 Sep 2020 16:37:04 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2CA63580226;
- Fri, 18 Sep 2020 16:36:40 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id A0F19580228;
+ Fri, 18 Sep 2020 16:36:41 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Fri, 18 Sep 2020 16:36:40 -0400
+ by compute7.internal (MEProxy); Fri, 18 Sep 2020 16:36:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- jAOuhAAf23VmKCf10RNUPVfZ5x/ccJIQFO986jexd6U=; b=pEWNLFFqqcxwAGvx
- 289XpvY9Zf4EJ46zyvZRNp/T5ydw5UgQmemYO1m2CrBvUZCI5R9qvdHax+ial2Fo
- UZqyRQViiYjD7kNF6ubofAxHJRMSDJzCmrWcro1hn+3EXkz0xmPFl4XuS/NMnzcn
- R/G7hidoZZFIiRYpQN4rFEliifOGQrcYX43nuDiBuxVGLNKyR2iY1BJLQVRXDOLi
- fPKBqLyzqlIZytw6zGQsnj23KQdoxcpvLnbTR9Gm7w8jDPLVLtb8EGj7f0S+HFKc
- nPrfWs3BT4HRHGNt8xAsmQIUCcahVmObHX3B0R4Ye7+E7hzaR68DD4uDI3jKUjYD
- NcQZNg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=NU3i7wZQJ1iMp
+ 0eJQz5wKZXs58UpNvmKz/fJmjx6HEY=; b=T6Fyv5on5zjJi49aDrYZtXdlD3v48
+ wJg3gWDuK/pDdU662Ei4vtgYBLduAiF9UvaqZRWbwI2misf5xLnz+CUSoyXpqxNw
+ KZJIgD2cTrIcpdtkVDtZUfJTMjSejBPcbzXpjzWVUDwa9f6qZanfGbQtm+bQ1mb6
+ fFsBu64bly2Os9QZb2/6+DiqU2walHjhQB2WA7YTJ8l7DhwkcradbVPjpAYHvqAb
+ 9u1yMw3anV8SQk/O27TgyWx9Wh1iY2i8upRdOuZFrf26o2SyWrSC2HR8APmJ+rXu
+ nbd09mrsXxI2g4mjt7sxwcCMK8YjE5brtjXvZaBN40zAPapesw0aCppAw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=jAOuhAAf23VmKCf10RNUPVfZ5x/ccJIQFO986jexd
- 6U=; b=pxU9NiHCt6wrYB11nr1q7JgUkw8lQIJ3fKdFLnJD81uqEmwEEpaCYBGAr
- AeyBpRnvvHrjYxp9BmMwLRq4psgBY8ZFqdnLD83Yod18FXQuc/s6xyJ3RrEUgFS6
- XXBmaF86YBDJjAb3BKdMKqZS7Ip/nksplMMIfL0/h9dOZ2j6q3pR5JgcnZdogwDH
- ws06dFfKfMwCSx5+C/3V4iA+lZp4I6c7sZXzgJbuwWt1ZgL6tNKMPRSfkl74NtTa
- ROP+STFQnfkHnx6MtVWf0m0fajowr6wB2yw9u7mmPAdOP8sBsYkWTDs452ynCtpD
- falMLItAKPcFi4dIaOwS63rmF64VQ==
-X-ME-Sender: <xms:VxplXzHpP7UI1EBWIH230YFnjGvb356MkQS4NhLg16Xe2G7hhnAl8g>
- <xme:VxplXwVs2lbOhpp4FsqleviPtkVG3-ZXD32kBBLxEAidrJWgsxpf40ikgSB4fHALK
- ymLn8MNTvzHcLmW_yI>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=NU3i7wZQJ1iMp0eJQz5wKZXs58UpNvmKz/fJmjx6HEY=; b=nLN+GYnt
+ vNZzBOUCrHp/1t0XaR2s8H/PF/suBtaowSlhMW4VlEJuSWyZIOuXlG618tag6pmF
+ MtmBdHqnIzGULVe5fiHix2B8g2NFewLwLKT5TloRhnrmvtE0xWxf4jmnQc8Wxtgc
+ R9SGUfJAHPXID2l65WzhaBpXJ1bgyWMxdGDj/RP4c6VHKgwhU+KRz8ruGVTmp/hN
+ RnXzEOmvou3PC6JuJQX0KQnf6rRaM4LdUx8MiPCW9FWSZ12ATZtR0p1vpbFQssYZ
+ 5nkyDdwWU0/+LEtD0+vEUrJSpun0HKo/WUZmcUjtmPJtgWr7t+6kYL+7O9bcwdsQ
+ PNXEp0ksf4AKmA==
+X-ME-Sender: <xms:WRplX3UvqTXclcUJ9FRqkzpIye0GG50cfBE0t-qovjGY1jCXqav-yQ>
+ <xme:WRplX_luflcpESTos_BPPAtobrM677mj_kzH5O2YkiV1d3eSKC4HExyeGrgQjdB7b
+ faBhcGv0hixDv5CYbM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdduhedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepteevuedugeevieehgeeileeufeetvddtkeetfeelgeehudfhjeeuledvhfff
- tdegnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepvd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:VxplX1LUCBq5JSPXJAcEbwMy9afsg89cD9moWlaVi0WRPUriT5UAsA>
- <xmx:VxplXxF__yAbWxIzpu-YvTyt4Xn-tQPNH8gSJswPK8KeQ9UubULyZA>
- <xmx:VxplX5Uk4rY7sNMLbm5jZIcH1t1g5F5O9l1sdUds29jsBUx-mxGcUg>
- <xmx:WBplX1p1vdpNAjXGE-8Abl7tpOpj5qkhSgEYpxLrVZmXNxUroS1CFs44bMA>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeehne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:WRplXzZOdQsaAh_yZsDUirUcRy2fLx35iazY5Boh7Q2xg3y-iKtsuw>
+ <xmx:WRplXyU94nd1-3LyZGBdry68kpOb9Fwx6nYDzJVOqy3Fr8yIdxtUgw>
+ <xmx:WRplXxkLo_6pwv7SWi2jhIjCoy5zh205Ksqu9y0FQhR7EchtJTLlzg>
+ <xmx:WRplX3WpNc_qyFgt1rMihL8E-A0PebOdpjOY4EAO7ByKVbcKAguiNQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 619513064610;
- Fri, 18 Sep 2020 16:36:38 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id F0A6E3064683;
+ Fri, 18 Sep 2020 16:36:39 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/17] hw/block/nvme: default request status to success
-Date: Fri, 18 Sep 2020 22:36:14 +0200
-Message-Id: <20200918203621.602915-11-its@irrelevant.dk>
+Subject: [PATCH v2 11/17] hw/block/nvme: harden cmb access
+Date: Fri, 18 Sep 2020 22:36:15 +0200
+Message-Id: <20200918203621.602915-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200918203621.602915-1-its@irrelevant.dk>
 References: <20200918203621.602915-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
  helo=new1-smtp.messagingengine.com
@@ -99,51 +97,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Make the default request status NVME_SUCCESS so only error status codes
-have to be set.
+Since the controller has only supported PRPs so far it has not been
+required to check the ending address (addr + len - 1) of the CMB access
+for validity since it has been guaranteed to be in range of the CMB.
+
+This changes when the controller adds support for SGLs (next patch), so
+add that check.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/nvme.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index e6790c196d2b..7e6cbd3f1058 100644
+index 7e6cbd3f1058..a440f6617f70 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -230,6 +230,7 @@ static void nvme_req_clear(NvmeRequest *req)
+@@ -142,7 +142,12 @@ static inline void *nvme_addr_to_cmb(NvmeCtrl *n, hwaddr addr)
+ 
+ static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
  {
-     req->ns = NULL;
-     memset(&req->cqe, 0x0, sizeof(req->cqe));
-+    req->status = NVME_SUCCESS;
- }
- 
- static void nvme_req_exit(NvmeRequest *req)
-@@ -546,8 +547,6 @@ static void nvme_process_aers(void *opaque)
-         result->log_page = event->result.log_page;
-         g_free(event);
- 
--        req->status = NVME_SUCCESS;
--
-         trace_pci_nvme_aer_post_cqe(result->event_type, result->event_info,
-                                     result->log_page);
- 
-@@ -626,7 +625,6 @@ static void nvme_rw_cb(void *opaque, int ret)
- 
-     if (!ret) {
-         block_acct_done(stats, acct);
--        req->status = NVME_SUCCESS;
-     } else {
-         uint16_t status;
- 
+-    if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr)) {
++    hwaddr hi = addr + size - 1;
++    if (hi < addr) {
++        return 1;
++    }
++
++    if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr) && nvme_addr_is_cmb(n, hi)) {
+         memcpy(buf, nvme_addr_to_cmb(n, addr), size);
+         return 0;
+     }
 -- 
 2.28.0
 
