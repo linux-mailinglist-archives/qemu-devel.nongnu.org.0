@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660DD27008D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:09:43 +0200 (CEST)
-Received: from localhost ([::1]:36948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE0B2700A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:13:58 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJI18-0001mg-Dv
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47324)
+	id 1kJI5F-0005tl-ES
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJHxo-0006Ud-Ig
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:06:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41584)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJHxo-0006V4-US
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:06:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJHxg-0000Xl-8H
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJHxl-0000Xs-Ay
  for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:06:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600441566;
+ s=mimecast20190719; t=1600441568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Msq8goiUIrREy947KknDtEH1ZqD2k0E/AfsZQGv/SGY=;
- b=fHkQrovObSS9Jz8QZXCt78/wlMrDSs2UPdG6rrN+GAbb20lZ3LPIURImNfINExQWPT40jG
- zaYz+3s3iuhnxzi4LHJ0RODqUYG5dec4G+jkMD3qsm0ElTY72t7Bd3bwU4Mk/M2KMsq/B0
- QUxhCyUV9owSMSHno4IH/O8QcOwomLk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-MBWuNL6CMHaDIe1O9qtFgg-1; Fri, 18 Sep 2020 11:06:03 -0400
-X-MC-Unique: MBWuNL6CMHaDIe1O9qtFgg-1
-Received: by mail-wm1-f71.google.com with SMTP id y18so1556263wma.4
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 08:06:03 -0700 (PDT)
+ bh=XM7OAmXTOk6Dn4Gfks418JOy4EEvHfub5qqdEwcobzE=;
+ b=UQIiQBY4LSGWsR3Sm8O6xKLWsweA+sKYwgK8K7Hdi7+JL2kDpagP/hoquxJs6bb/Y2PiUd
+ QSrigaMukSus2CpieYkaC8gvW2YbPHhQAXYm6H6DMaZ7Q/ETSmJgnU6ikQUWJmSRQdmSIw
+ 72krfuboQ+uYjyFMA0+8Upo6Sh11vI8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-ysKByWEkM4GkSNGHuGr5Bg-1; Fri, 18 Sep 2020 11:06:06 -0400
+X-MC-Unique: ysKByWEkM4GkSNGHuGr5Bg-1
+Received: by mail-wr1-f70.google.com with SMTP id v12so2240930wrm.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 08:06:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Msq8goiUIrREy947KknDtEH1ZqD2k0E/AfsZQGv/SGY=;
- b=q+W2n0nFKrmAPAeK2/ZSRYgU2vxdbcIYifP7e83R/VgIPMchXJY3LtWsrw3p2vi5qs
- WH0VYamISDoN8446Vc/d4T0B08Fi2SQwUu4wjLoNi+JP55T3EokiKMAYON8lfqfm/i6a
- v0FJEbHQpjRqLTw2Qm1MIG/Jo1w4khrDBnMa4wXBb5qg4NwO8ZZV5kklHNaHVeHVSpT/
- rF5VG/VYDtnnyZX6CBwMTDAdctSUToTES9dErwQ4W/mFPGiNU/RFPN1ih93nELzfAeDd
- xunrC514njJecw4C4w0GQvhforHJofPVHjRkg8g+Jcm90d5rw/Soaub8bCy+ChTp1XJC
- DwcA==
-X-Gm-Message-State: AOAM5303/EoP7hM+P+egTQkuqlRtZc2hiYW4vFuoKHNqfMVOqyYk2ewp
- kxIkhAS+CBxILzmEEHo7OlWajMNqXSoz0+PHi52U+BJill1dJYeaVXDer9Ei91dlDB34SDa3XL2
- MWL9L2OnC0oQ2gBs=
-X-Received: by 2002:a7b:c938:: with SMTP id h24mr16663379wml.142.1600441561897; 
- Fri, 18 Sep 2020 08:06:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxzFu/g4fy/QgE4IhvRGeeiT1lWBY7OIv6SK7LmwtXsV0bJc+ZMH9VMGEzFk5fY9CAIWpL4w==
-X-Received: by 2002:a7b:c938:: with SMTP id h24mr16663366wml.142.1600441561720; 
- Fri, 18 Sep 2020 08:06:01 -0700 (PDT)
+ bh=XM7OAmXTOk6Dn4Gfks418JOy4EEvHfub5qqdEwcobzE=;
+ b=LuGVXhhAX8fXXOk3PNsxF0Xrlhy/5DuUX/EBZlREIYL0tTj7bCfm2yDLxvvYKqS0M5
+ 1MvYnbVu64wXp8XYfLlntWo2tazKpj1AwFVzjzMpfUK+fJ3q6B0NR5j5YznfqjLE3uIl
+ QXd+BkEd8W7wiVenrjc7h1ddxh4G+EiMpze/z+KoxqEwY/TQLhER9TLfNR33OM+5Ujyr
+ gPqSLmP2PmqsZwIHZT7W4bA8g2c0AQ7LOgZrc8Y+m0NzpiwKWcRKf2tpxWFBbIoXljvP
+ m7tRV/bboTVdrzZNAbVT+CKIB/GHdMzn3JXLhQ1t9PU6m3+/UA/wGNBdgEkSP4O8EDw3
+ n+Bw==
+X-Gm-Message-State: AOAM530xWPOVvA1PUnjBopZ7ifUUkl0T0DqGhiZxfHV5i4B0FGGYtmaC
+ mqDTE2QE+3/0906HujsJQ+y2+RvwXzThwfIvW/m/lJvIvPSPb5cCGGtKFkvoW2RWU4jVd9BBUQ7
+ jMKK/zFBB4KZfOCg=
+X-Received: by 2002:a1c:3b09:: with SMTP id i9mr15605302wma.43.1600441564895; 
+ Fri, 18 Sep 2020 08:06:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzarNa7A1XKUaJ941x5tw5No7cgXMhPmdDp3XgFKqUe7eiisf9aKzOIc+0+Q8yPlGLmqEvlww==
+X-Received: by 2002:a1c:3b09:: with SMTP id i9mr15605274wma.43.1600441564683; 
+ Fri, 18 Sep 2020 08:06:04 -0700 (PDT)
 Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
  [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id q12sm5531115wrs.48.2020.09.18.08.06.00
+ by smtp.gmail.com with ESMTPSA id d83sm5668107wmf.23.2020.09.18.08.06.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 08:06:00 -0700 (PDT)
-Date: Fri, 18 Sep 2020 11:05:59 -0400
+ Fri, 18 Sep 2020 08:06:04 -0700 (PDT)
+Date: Fri, 18 Sep 2020 11:06:02 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/15] virtio-mem: detach the element from the virtqueue when
- error occurs
-Message-ID: <20200918150506.286890-5-mst@redhat.com>
+Subject: [PULL 05/15] pc: fix
+ auto_enable_numa_with_memhp/auto_enable_numa_with_memdev for the 5.0 machine
+Message-ID: <20200918150506.286890-6-mst@redhat.com>
 References: <20200918150506.286890-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200918150506.286890-1-mst@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -96,55 +96,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@163.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-stable@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: David Hildenbrand <david@redhat.com>
 
-If error occurs while processing the virtio request we should call
-'virtqueue_detach_element' to detach the element from the virtqueue
-before free the elem.
+Unfortunately, a typo sneeked in: we want to set
+auto_enable_numa_with_memdev to false, not auto_enable_numa_with_memhp.
 
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Message-Id: <20200816142245.17556-1-liq3ea@163.com>
-Fixes: 910b25766b ("virtio-mem: Paravirtualized memory hot(un)plug")
-Acked-by: David Hildenbrand <david@redhat.com>
+Cc: qemu-stable@nongnu.org # v5.1
+Fixes: 195784a0cfad (numa: Auto-enable NUMA when any memory devices are possible)
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200820094828.30348-1-david@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/i386/pc_q35.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 8fbec77ccc..7c8ca9f28b 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -318,6 +318,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
-         if (iov_to_buf(elem->out_sg, elem->out_num, 0, &req, len) < len) {
-             virtio_error(vdev, "virtio-mem protocol violation: invalid request"
-                          " size: %d", len);
-+            virtqueue_detach_element(vq, elem, 0);
-             g_free(elem);
-             return;
-         }
-@@ -327,6 +328,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
-             virtio_error(vdev, "virtio-mem protocol violation: not enough space"
-                          " for response: %zu",
-                          iov_size(elem->in_sg, elem->in_num));
-+            virtqueue_detach_element(vq, elem, 0);
-             g_free(elem);
-             return;
-         }
-@@ -348,6 +350,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
-         default:
-             virtio_error(vdev, "virtio-mem protocol violation: unknown request"
-                          " type: %d", type);
-+            virtqueue_detach_element(vq, elem, 0);
-             g_free(elem);
-             return;
-         }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 0cb9c18cd4..b95759df60 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -382,7 +382,7 @@ static void pc_q35_5_0_machine_options(MachineClass *m)
+     m->numa_mem_supported = true;
+     compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
+-    m->auto_enable_numa_with_memhp = false;
++    m->auto_enable_numa_with_memdev = false;
+ }
+ 
+ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
 -- 
 MST
 
