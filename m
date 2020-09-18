@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9422E27038C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:52:26 +0200 (CEST)
-Received: from localhost ([::1]:48572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157BD270382
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:47:06 +0200 (CEST)
+Received: from localhost ([::1]:38432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJKYb-0002Ep-NQ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:52:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36198)
+	id 1kJKTK-00067I-Tk
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJKNz-0002oK-5H; Fri, 18 Sep 2020 13:41:31 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34374)
+ id 1kJKO0-0002oR-C0; Fri, 18 Sep 2020 13:41:32 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJKNx-0000Gb-S1; Fri, 18 Sep 2020 13:41:26 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l15so7162673wmh.1;
- Fri, 18 Sep 2020 10:41:24 -0700 (PDT)
+ id 1kJKNy-0000Gs-Qc; Fri, 18 Sep 2020 13:41:28 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z1so6461840wrt.3;
+ Fri, 18 Sep 2020 10:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9qL0PD5p90+XPqlO1VLzLa4jpbVXhICHWwCAyjStqAk=;
- b=kc8vt670RThIdeLyqUfZB8/x40+sNMqw/aWLn9hZe9RgTgt8uquese1vzigY6nk2rn
- cYtHls0KTtwC9eQCBFkxYrB6TqqNDSQaMYOQPUYfVbw113+SMPiQi8CxBFu0002BYsmS
- hSzSMSgEtsQn2S7NxBnOK6baIajMlAscgVdVeb9+hybNmgcGwGsnPI4zmFoH4Trs3FxQ
- lLNHK4/av0wiZNRYpR46sv/h3R0B5EPX05DPuc5JxHfykItIobn1YAeuzlTEnAHATh0s
- SDFJJoxrqVmp7QKj+B+KSOPFMcYBNru+qN7WMzYMtF0aaaHORgWAKG3BJX6zploNCZNg
- UnGg==
+ bh=UJjk8ZR/erxbnrLQ53sw18LTpiI4+fnfSdMDknbc4K0=;
+ b=ZhZGCoBsfn+UONcYcwvkGlZcMK6BlUdKqbm+mhCYd58+/Eh4d9YE4vY92e8ZuFUA9p
+ PiVzVankmaErjjOayyHAsMXkeNXysviLJKTv8r3Ge9wxeHJfToT+LqV1yNxlWlWa8I2N
+ 53zr5EhFIURU4kyDSn6hDMLLENamBoZBJzgdsq+JGm1BZBhcCcRKrlBVu9kJxlpYV+kp
+ JK6Gd7hzv/+ZAniAekN4lr78Blr1y4vkYCIDZqG5pDHHhQUwpMnB2sqTI7tLeAc9Yg+H
+ D25ug9cmDG7wlP+NUIqRvJ+wzjqUui5gdJW7uozVEprFL0/06YRSmb9/YwaC0YGjRjBE
+ /2Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9qL0PD5p90+XPqlO1VLzLa4jpbVXhICHWwCAyjStqAk=;
- b=WajeOC8j/pq4ofD21B+jnzSlad6obY0s0bP21vAC+8gU86zb9OYEZ1xAA/x5VlfFj0
- VRSe/tQKxn93GLsR/LK4duY1jc9ZA/itAxFzWcggH9tz7SyKI8PRYIGY3OqcrVkbKPNr
- arfsdG210s/Z7y4nwsUiY9ECuSEIkVU7KqtC5Gigp2jstmfuvYhaQu4VixWef3aFkpUS
- 48l7/Zdgs4rQgBpmqUn1olgqWFYM9IXU+apKh53X2xNh3dxf9i/ozrEFU471ygvW/1/Q
- gvNdB4ZRzsZKINHs+nEDcKJ4IHDMxs5ztxX64PAEuWPG7MxcfMpcivOYNADLSaneRB8j
- weBg==
-X-Gm-Message-State: AOAM533QtkFEZ7vcDjLp/dle0d0bYVBQNOYUM6h9vujNQQDuty6pVqGd
- S4T/ymG/ClTIplLEC6aZgJEeI6HX8t0=
-X-Google-Smtp-Source: ABdhPJxhSHxBRUHQMt9KdRkjOhKY6YC4yv2/MaFbOc1nmsMQh+gPeo0sncyIECuXISgziq6IjriccQ==
-X-Received: by 2002:a05:600c:2cc1:: with SMTP id
- l1mr16314746wmc.78.1600450883801; 
- Fri, 18 Sep 2020 10:41:23 -0700 (PDT)
+ bh=UJjk8ZR/erxbnrLQ53sw18LTpiI4+fnfSdMDknbc4K0=;
+ b=W1MWrTUegr23Em4m6jC35AIvEdLoudmHeeQQAoagh/2OpqTXOC/igymIZ3DiBgbFzK
+ GV5fxllz6fswCGe3Lx7Bnwlwr0/4ToKDAqXgjel7YJOGWRfaA1EoTJFocMloz/HjHkC/
+ BERKHNilJTQaPPNrP5mc4hABZibS+rVtYQWn+uONp8gl5qL8Oekphake+cg5ZksScS/E
+ 3zaQ2+5VjPLfLWHLZB8tf6WuCHTSqtB/Z58A3ebaGOu4bkUUNVLKNPf8jupqBn7N7bKi
+ ty/AhEW/9yKF3BNIFu6G53Qaf6KWaVA5L3zgLvuYTopzle4qbXyQ4S4PN9xg8QKOuELd
+ LEpQ==
+X-Gm-Message-State: AOAM5330ARiP37TCcqVOEuQN6metJ1ntlENfyVuP56buivLESwrITwnT
+ V0u4Lr6I8S2VLP/rw/RB4P6MfzromY8=
+X-Google-Smtp-Source: ABdhPJznczTLAPC3R3Zkc7v6W/nZf8C8+osE5w7JYxVujdOV4cbj4HewTfP2XU27rIGGvsfaITRueQ==
+X-Received: by 2002:adf:a18c:: with SMTP id u12mr40631017wru.90.1600450885109; 
+ Fri, 18 Sep 2020 10:41:25 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a81sm6356179wmf.32.2020.09.18.10.41.22
+ by smtp.gmail.com with ESMTPSA id a81sm6356179wmf.32.2020.09.18.10.41.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 10:41:23 -0700 (PDT)
+ Fri, 18 Sep 2020 10:41:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 4/6] hw/sd/sdcard: Reset both start/end addresses on error
-Date: Fri, 18 Sep 2020 19:41:15 +0200
-Message-Id: <20200918174117.180057-5-f4bug@amsat.org>
+Subject: [RFC PATCH 5/6] hw/sd/sdcard: Do not attempt to erase out of range
+ addresses
+Date: Fri, 18 Sep 2020 19:41:16 +0200
+Message-Id: <20200918174117.180057-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200918174117.180057-1-f4bug@amsat.org>
 References: <20200918174117.180057-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,39 +93,40 @@ Cc: Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From the Spec "4.3.5 Erase":
+While the Spec v3 is not very clear, v6 states:
 
-  The host should adhere to the following command
-  sequence: ERASE_WR_BLK_START, ERASE_WR_BLK_END and
-  ERASE (CMD38).
+  If the host provides an out of range address as an argument
+  to CMD32 or CMD33, the card shall indicate OUT_OF_RANGE error
+  in R1 (ERX) for CMD38.
 
-  If an erase (CMD38) or address setting (CMD32, 33)
-  command is received out of sequence, the card shall
-  set the ERASE_SEQ_ERROR bit in the status register
-  and reset the whole sequence.
+If an address is out of range, do not attempt to erase it:
+return R1 with the error bit set.
 
-Reset both addresses if the ERASE command occured
-out of sequence (one of the start/end address is
-not set).
-
+Buglink: https://bugs.launchpad.net/bugs/1895310
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/sd/sd.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 4c05152f189..ee7b64023aa 100644
+index ee7b64023aa..4454d168e2f 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -755,6 +755,8 @@ static void sd_erase(SDState *sd)
-     if (sd->erase_start == INVALID_ADDRESS
-             || sd->erase_end == INVALID_ADDRESS) {
-         sd->card_status |= ERASE_SEQ_ERROR;
-+        sd->erase_start = INVALID_ADDRESS;
-+        sd->erase_end = INVALID_ADDRESS;
-         return;
+@@ -766,6 +766,13 @@ static void sd_erase(SDState *sd)
+         erase_end *= 512;
      }
  
++    if (sd->erase_start > sd->size || sd->erase_end > sd->size) {
++        sd->card_status |= OUT_OF_RANGE;
++        sd->erase_start = INVALID_ADDRESS;
++        sd->erase_end = INVALID_ADDRESS;
++        return;
++    }
++
+     erase_start = sd_addr_to_wpnum(erase_start);
+     erase_end = sd_addr_to_wpnum(erase_end);
+     sd->erase_start = INVALID_ADDRESS;
 -- 
 2.26.2
 
