@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B97227013A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:41:36 +0200 (CEST)
-Received: from localhost ([::1]:60202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E871270130
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:37:40 +0200 (CEST)
+Received: from localhost ([::1]:51462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJIVz-0002C3-J2
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53676)
+	id 1kJISB-0006yM-JT
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kJIKG-0007vO-Ip
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:29:30 -0400
-Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:43585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kJIKE-0004X9-7V
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:29:28 -0400
-Received: by mail-ua1-x943.google.com with SMTP id v5so1984913uau.10
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 08:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sFJHbyUj6uuBk8ba6cqOJ304O4LOCReKl4ZHNukt8IY=;
- b=Fb06HV1uVXs2vE2Fx5IxJDQu8FLrSWl9wM1lhp/gYXFkOL3pf4z+wRx+FR23prZZVm
- NTjbMpF8zo5/3MC5nqLANiKSk8Ur/4aZq9VmUTjAGH1QK0vvKhzlMrZAjJuuAfj3wZg5
- A0FgCblPL8/WlFeh/RodWsEI1oieeSPVwMfMxe59tK2p6t2p8NMEIyBeEwub5Tn+bDun
- soLKjmS+9Ecn2ibFw7dwzwpR0utabw+zaPaVI70YA2BCijmoWVoioJ3veDsnKhRonU/4
- YOi3L9MKdDbFlvEhb9MJvpC5nqUqBz1Fz/uC4Fav+pW0IW1o9o1TpqvqAl+As/f41Q7/
- QOjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sFJHbyUj6uuBk8ba6cqOJ304O4LOCReKl4ZHNukt8IY=;
- b=efdGnOAAPDx91rLONq1pSXonI6O6St1cyyq17XkL0WP95Mc42w8UGD2cHHhIwpnsgh
- xulS9mirG7U31uTBysdqYSjWBF1njJvc9psYAmGxjBF+BWbBJyKB+CtFtjZiRoEOYDo7
- HpQQDJO7FomAe0lCpjM1EudB0d7j4SKNTPdBdI+f9yAYcrTAlLlX+aqyipewxMb2SLBL
- P3/Kj13D884rGkEEOowJKagK/DBjVeZlgRRBGEKQv0bd2/BD5x35ok7A9uSAcEVhIsBV
- 5M2ET++FqcNprFSeOn1856mPpXJ6n1wm6q17zM1iwNtEq0A8w1lWQwBkfcDTNf2cCxB/
- P4JA==
-X-Gm-Message-State: AOAM531GKwBLRa9l3+rPBmZLtLcq3s6Nk5QEzZ/5dZqxOr0svPcYXNCp
- zDA5bOCz40e4BFUtgbPgpjuSJXA8tuWkTzx1D8Q4wg==
-X-Google-Smtp-Source: ABdhPJyCqhik262ehepGLVVREzw0oimXj+8PGEwamh2z1f5ab7syLeoutEXqCYkwvA985v5rhEgVUrBDb/F1uDSi3hc=
-X-Received: by 2002:ab0:2904:: with SMTP id v4mr18637006uap.15.1600442960499; 
- Fri, 18 Sep 2020 08:29:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kJIL1-00008B-81; Fri, 18 Sep 2020 11:30:15 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:50959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kJIKy-0004dZ-Vj; Fri, 18 Sep 2020 11:30:14 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 95FA25C8D9DF;
+ Fri, 18 Sep 2020 17:30:08 +0200 (CEST)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 18 Sep
+ 2020 17:30:07 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G0063bcf624c-e6cc-4855-9397-331c7f3422d0,
+ 26E73787F9CAC9185D3FF732CC8AC9B997D690EB) smtp.auth=groug@kaod.org
+Date: Fri, 18 Sep 2020 17:30:06 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 12/13] block/qcow2: simplify qcow2_co_invalidate_cache()
+Message-ID: <20200918173006.5f49cb06@bahia.lan>
+In-Reply-To: <20200917195519.19589-13-vsementsov@virtuozzo.com>
+References: <20200917195519.19589-1-vsementsov@virtuozzo.com>
+ <20200917195519.19589-13-vsementsov@virtuozzo.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200918142344.150749-1-f4bug@amsat.org>
- <55648bee-46e6-4055-104d-0c82e8fcfe64@amsat.org>
-In-Reply-To: <55648bee-46e6-4055-104d-0c82e8fcfe64@amsat.org>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Fri, 18 Sep 2020 08:29:09 -0700
-Message-ID: <CAFQmdRZxuHimdZtqwq=Vzoy7iwg2SiNgGTDQwH9oPXGheH6+EA@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance: Reduce quanta-gsj U-boot+Linux test time
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::943;
- envelope-from=hskinnemoen@google.com; helo=mail-ua1-x943.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: b063285c-32d4-4c44-bc91-251037a5f43d
+X-Ovh-Tracer-Id: 15168123547993938363
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehkfiholhhfsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 11:30:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,61 +69,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, berto@igalia.com, pavel.dovgaluk@ispras.ru,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
+ ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 18, 2020 at 7:27 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 9/18/20 4:23 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > The 'arm_quanta_gsj_initrd' test is timeouting on GitLab CI:
-> > https://gitlab.com/philmd/qemu/-/jobs/745483978#L846
-> >
-> > Use the same trick from the 'arm_quanta_gsj' test to reduce the
-> > systemd services started and get quicker to the shell prompt.
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
-> >  tests/acceptance/boot_linux_console.py | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/=
-boot_linux_console.py
-> > index 4a366ce93e4..7748febbf54 100644
-> > --- a/tests/acceptance/boot_linux_console.py
-> > +++ b/tests/acceptance/boot_linux_console.py
-> > @@ -638,6 +638,9 @@ def test_arm_quanta_gsj_initrd(self):
-> >
-> >          self.vm.set_console()
-> >          kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-> > +                               'initcall_blacklist=3Dnpcm_i2c_bus_driv=
-er_init '
-> > +                               'systemd.mask=3Dsystemd-random-seed.ser=
-vice '
-> > +                               'systemd.mask=3Ddropbearkey.service '
-> >                                 'console=3DttyS0,115200n8 '
-> >                                 'earlycon=3Duart8250,mmio32,0xf0001000'=
-)
-> >          self.vm.add_args('-kernel', kernel_path,
-> >
->
-> Bah unfortunately this is still not enough :(
+On Thu, 17 Sep 2020 22:55:18 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
 
-Right, this patch modifies the initrd test, but that's not the one
-that timed out.
+> qcow2_do_open correctly sets errp on each failure path. So, we can
+> simplify code in qcow2_co_invalidate_cache() and drop explicit error
+> propagation. We should use ERRP_GUARD() (accordingly to comment in
+> include/qapi/error.h) together with error_append() call which we add to
+> avoid problems with error_fatal.
+> 
 
-(10/40) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_qu=
-anta_gsj:
- INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-Timeout reached\nOriginal status: ERROR\n{'name':
-'10-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_quanta=
-_gsj',
-'logdir': '/builds/philmd/qemu/build/tests/results/job-2020-09-18T13.41-b9.=
-..
-(90.81 s)
- (11/40) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_q=
-uanta_gsj_initrd:
- PASS (27.00 s)
+The wording gives the impression that we add error_append() to avoid problems
+with error_fatal which is certainly not true. Also it isn't _append() but
+_prepend() :)
 
-Havard
+What about ?
+
+"Add ERRP_GUARD() as mandated by the documentation in include/qapi/error.h
+ to avoid problems with the error_prepend() call if errp is &error_fatal."
+
+With that fixed,
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/qcow2.c | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
+> 
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 2b6ec4b757..cd5f48d3fb 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -2702,11 +2702,11 @@ static void qcow2_close(BlockDriverState *bs)
+>  static void coroutine_fn qcow2_co_invalidate_cache(BlockDriverState *bs,
+>                                                     Error **errp)
+>  {
+> +    ERRP_GUARD();
+>      BDRVQcow2State *s = bs->opaque;
+>      int flags = s->flags;
+>      QCryptoBlock *crypto = NULL;
+>      QDict *options;
+> -    Error *local_err = NULL;
+>      int ret;
+>  
+>      /*
+> @@ -2724,16 +2724,11 @@ static void coroutine_fn qcow2_co_invalidate_cache(BlockDriverState *bs,
+>  
+>      flags &= ~BDRV_O_INACTIVE;
+>      qemu_co_mutex_lock(&s->lock);
+> -    ret = qcow2_do_open(bs, options, flags, &local_err);
+> +    ret = qcow2_do_open(bs, options, flags, errp);
+>      qemu_co_mutex_unlock(&s->lock);
+>      qobject_unref(options);
+> -    if (local_err) {
+> -        error_propagate_prepend(errp, local_err,
+> -                                "Could not reopen qcow2 layer: ");
+> -        bs->drv = NULL;
+> -        return;
+> -    } else if (ret < 0) {
+> -        error_setg_errno(errp, -ret, "Could not reopen qcow2 layer");
+> +    if (ret < 0) {
+> +        error_prepend(errp, "Could not reopen qcow2 layer: ");
+>          bs->drv = NULL;
+>          return;
+>      }
+
 
