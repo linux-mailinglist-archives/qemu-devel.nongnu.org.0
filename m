@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8255326FABC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:38:30 +0200 (CEST)
-Received: from localhost ([::1]:40030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0877726FAC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:41:31 +0200 (CEST)
+Received: from localhost ([::1]:44520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJDmf-0005cx-Kh
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
+	id 1kJDpa-0007bm-4B
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:41:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDj7-00025i-Rf
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:34:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34064)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDjB-00027h-AQ
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:34:53 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55152
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDj5-0005CI-07
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:34:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDj9-0005Cs-FW
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:34:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600425286;
+ s=mimecast20190719; t=1600425289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XVUCVNO4APeMaNsoKSKvJekSTv+7JAP5Fuqg/doiR1U=;
- b=ii6A64mS/fC7hSSxmfWfIl1++n8D82K1OLIQsukUPbmeC0SwNiYWYz4HlVnoKR6TimmYxm
- IPaLUeCu593waY0rcQTP0S0RHl2Bf22KH43DvaozDdGH34ug5Mxjp8iSAsVyslOn3+fQRC
- 1lh12QUktKI2CMGHD42j3VcMCCd7GUA=
+ bh=2IoJkg+kP5sX6VTlmD7njXXu8i6+0nbOqNOoc2rm+NI=;
+ b=cp8Xw6ilHiAnUwj4sEiCjPV6S8LlGf7YoXZ99j5wDxh2BPYXu4NUgyMj/doaEmhsLrqECA
+ wQEu8RZxsUxSORGuQZKXpZ4rleI5D7VtgHlk+3/awYQH9xRaUkTOfcfh5a7S/Q/W5HRTS5
+ 4tzcWe3JYyrz7fUXZAHg4RB/e2jJYnA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-R7NwxjSuPSiaN-K5fa1uZw-1; Fri, 18 Sep 2020 06:34:44 -0400
-X-MC-Unique: R7NwxjSuPSiaN-K5fa1uZw-1
+ us-mta-506-i6rMKuARPqCBC3x43gss6Q-1; Fri, 18 Sep 2020 06:34:48 -0400
+X-MC-Unique: i6rMKuARPqCBC3x43gss6Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B8F9188C12D;
- Fri, 18 Sep 2020 10:34:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DCFA84E241;
+ Fri, 18 Sep 2020 10:34:47 +0000 (UTC)
 Received: from thuth.com (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C23166198C;
- Fri, 18 Sep 2020 10:34:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 994EB619C4;
+ Fri, 18 Sep 2020 10:34:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH 3/6] migration: Silence compiler warning in
- global_state_store_running()
-Date: Fri, 18 Sep 2020 12:34:27 +0200
-Message-Id: <20200918103430.297167-4-thuth@redhat.com>
+Subject: [PATCH 4/6] travis.yml: Drop the default softmmu builds
+Date: Fri, 18 Sep 2020 12:34:28 +0200
+Message-Id: <20200918103430.297167-5-thuth@redhat.com>
 In-Reply-To: <20200918103430.297167-1-thuth@redhat.com>
 References: <20200918103430.297167-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:23:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,44 +85,44 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GCC 9.3.0 on Ubuntu complains:
+The total runtime of all Travis jobs is very long and we are testing
+all softmmu targets in the gitlab-CI already - so we can speed up the
+Travis testing a little bit by not testing the softmmu targets here
+anymore.
 
-In file included from /usr/include/string.h:495,
-                 from /home/travis/build/huth/qemu/include/qemu/osdep.h:87,
-                 from ../migration/global_state.c:13:
-In function ‘strncpy’,
-    inlined from ‘global_state_store_running’ at ../migration/global_state.c:47:5:
-/usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
- ‘__builtin_strncpy’ specified bound 100 equals destination size [-Werror=stringop-truncation]
-  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-... but we apparently really want to do a strncpy here - the size is already
-checked with the assert() statement right in front of it. To silence the
-warning, simply replace it with our strpadcpy() function.
-
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com> (two years ago)
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- migration/global_state.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .travis.yml | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/migration/global_state.c b/migration/global_state.c
-index 25311479a4..a33947ca32 100644
---- a/migration/global_state.c
-+++ b/migration/global_state.c
-@@ -44,8 +44,8 @@ void global_state_store_running(void)
- {
-     const char *state = RunState_str(RUN_STATE_RUNNING);
-     assert(strlen(state) < sizeof(global_state.runstate));
--    strncpy((char *)global_state.runstate,
--           state, sizeof(global_state.runstate));
-+    strpadcpy((char *)global_state.runstate, sizeof(global_state.runstate),
-+              state, '\0');
- }
+diff --git a/.travis.yml b/.travis.yml
+index c75221dca3..1fc49b0746 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -123,20 +123,6 @@ jobs:
+         - CONFIG="--disable-system --static"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
  
- bool global_state_received(void)
+-
+-    # we split the system builds as it takes a while to build them all
+-    - name: "GCC (main-softmmu)"
+-      env:
+-        - CONFIG="--disable-user --target-list=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+-
+-    - name: "GCC (other-softmmu)"
+-      env:
+-       - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+-
+     # Just build tools and run minimal unit and softfloat checks
+     - name: "GCC check-unit and check-softfloat"
+       env:
 -- 
 2.18.2
 
