@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E8D2701FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:19:48 +0200 (CEST)
-Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3D22701AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:11:54 +0200 (CEST)
+Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJ6x-0003cx-0f
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:19:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
+	id 1kJIzJ-00039R-9O
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kJIrA-0001Sl-Ci; Fri, 18 Sep 2020 12:03:32 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:46540)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1kJIrP-0001YX-W7
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:03:44 -0400
+Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:36574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kJIr6-00022V-SQ; Fri, 18 Sep 2020 12:03:27 -0400
-Received: by mail-pg1-x530.google.com with SMTP id 34so3715979pgo.13;
- Fri, 18 Sep 2020 09:03:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PObA7qDGq61ijr7OJQ2hN5JLm532x4zIpGeZLkEIZQA=;
- b=kX6f/voLwJOw0o2dwrI/hSRiRr0e70gkxbESJRPqMdP72YaiVpEbRuqAkEwILl030R
- StzMxjQzwPojyBH/KHQG8Onw+0C4mpH4NT0fH/CkceU+BITzwr6HXheV2Ks/hQbrji4B
- kyUdprsRQJhbjcrQOnsQr3VMI5fFlMd2JwbawlBqIukEGc6auTDCv8Jlt/QBUeb7CcD9
- 5Chxg7OHzN1GbWfzRMnb7iFYcOBa0n1/teKUn4vgJ/7CjJJ+bmFkVDCBC8T2OKQdU0O3
- DKxWzMmdmPIbnHclORYdzFY5xN/ZKAB45wT9KZB9mIownfmk3oylcH/cAcXMLudT8NXr
- 1slA==
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1kJIrN-00025n-Hz
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:03:43 -0400
+Received: by mail-ua1-x942.google.com with SMTP id h15so2032403uab.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:03:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eJavmv98RDqSBNFvj7aK5O8bgkPapC6Wlwlb1ma1DNU=;
+ b=vVaNxCPnsb4rR+kbb2Dkh2+2b9g74u79SoP2b9ggL31OBYTwYFrvQBM6clnhEjrMn2
+ A7uisB8Cnc2goInSxNeVTvsLsEqCp6JESzUOyqUsbMxLK3EImOnMKPe/nJ0y4Ysjr79b
+ CFcPo6SGErW64voTXVYvBqzO2Y+4nSnr4ile8MhORGPUCa+aMTUHLGFFXu+XMAWPRXTO
+ 97oKUST2c9oq66eDdO949jf80Tw55KB3cUvr0wzQFBTD2c4k6D8VXrbnEgi64CS7oUas
+ zHarJYxsZ5yXkeX5N2aXuS/gcog1iradK8o/H8hoRT2VSYIljnFDKcKddOZrxi/v4SCU
+ W+wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PObA7qDGq61ijr7OJQ2hN5JLm532x4zIpGeZLkEIZQA=;
- b=BquUohqCkNpLbVVSaKeYRpLWnZgycwkAMekEz1I7BEFmCTuW20HVBAPUkg+YyMKis1
- K+kYh6aKCnNt2sGDO692Z2dY6wMjd5nyox7KLGaoRPjJvztb4DEaIvkPydbdDGOSV+Zm
- u7rkznwPcHEL6FbP5j44X9GZuT1YvMtlmu9/tujJkGZC1mibvwLtKQ68EVjgiecT07hR
- XI1zca3kLpwZ/33zkfUXXpjD7fI9UuJTysyBcZ8WDqcJUQMxZj9H+uN5WtXE5Y87aUPB
- 11otRaG+zkcZ/ET+YudmphkyiWWXjKpZLpgWt4k05Lul8Cp19cJKDhQkrlmAQdH9akml
- Hy+A==
-X-Gm-Message-State: AOAM533D1/RGCugjGvA/RDb57vZIjUeV9cdJJt+RKGd6AtMAxQVHEudF
- m+a2dV6NtkZO3ld7r/WGYpmApAo4nFG0Tg==
-X-Google-Smtp-Source: ABdhPJznQLSEJA67dSUaA/DWNICyBJExQtHOSWK7WtSskwsNl9tws4GTTVLi4TVkAW6xsyaFmuY7pQ==
-X-Received: by 2002:a63:1226:: with SMTP id h38mr26912298pgl.196.1600445002486; 
- Fri, 18 Sep 2020 09:03:22 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id z22sm16889012pjq.2.2020.09.18.09.03.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 09:03:21 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/4] configure: Fixes ncursesw detection under msys2/mingw
- by convert them to meson
-Date: Sat, 19 Sep 2020 00:02:50 +0800
-Message-Id: <20200918160250.1141-5-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200918160250.1141-1-luoyonggang@gmail.com>
-References: <20200918160250.1141-1-luoyonggang@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eJavmv98RDqSBNFvj7aK5O8bgkPapC6Wlwlb1ma1DNU=;
+ b=mz+o0m5MgSoiCWmXFM8sVyS2hVgXM1zuajX0nz++DTnIt5eyAST7qLmaMWtiru7Mw0
+ Ox/ExxsvdtEcEKO8kb5vlmeZxozH+2aePfitFoDqYPOyyUp1RCPxTlJlKSYY3Ff+Vnia
+ 5MhhADGOuPrDxCXu+Ju8JSNgaBN8iZOhZDNcaG+UK7AW9kVXMxE6ifeSXfh6fq+aBlgf
+ hrT9hwK9GYwpc4c4yEjcpdTit9ZT+UVbq3MLbPidnXl/oSiAh7yM1CH2Rq4dyQ/RpmOj
+ xKRNUBiSAZjjygG8R2jv2MKlccw8hyEs9wcFGQUOSETtdmdhPEWvLAwFtDGGUCiYpYg+
+ rruA==
+X-Gm-Message-State: AOAM532EmGSeEFPuQWeMuWrZYAy586H6Omuzc+CMsl5Eu8L+9ZHdR3bz
+ EsTp4+Mhnz4md70OVOizRdsu+/pHnVAKjEvFPV+Lqg==
+X-Google-Smtp-Source: ABdhPJxTXGjua3c8yJRONL9rQrMomxiXYi5dyXFEa+TNEZyQpPKbnECJoZpvlr5zhBiqF1hUK6kKawhGLe9R9g6S9vE=
+X-Received: by 2002:ab0:390:: with SMTP id 16mr19303355uau.12.1600445019152;
+ Fri, 18 Sep 2020 09:03:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x530.google.com
+References: <20200918143355.153522-1-f4bug@amsat.org>
+In-Reply-To: <20200918143355.153522-1-f4bug@amsat.org>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Fri, 18 Sep 2020 09:03:27 -0700
+Message-ID: <CAFQmdRasDewYnSCO9djseL+koX_cbST-faXUPLXroCTAU+o3wA@mail.gmail.com>
+Subject: Re: [PATCH v2] tests/acceptance: Skip slow quanta-gsj U-boot+Linux
+ test
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::942;
+ envelope-from=hskinnemoen@google.com; helo=mail-ua1-x942.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,341 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mingw pkg-config are showing following absolute path and contains : as the separator,
+On Fri, Sep 18, 2020 at 7:33 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> The 'arm_quanta_gsj_initrd' test is timeouting on GitLab CI:
+> https://gitlab.com/philmd/qemu/-/jobs/745483978#L846
+> and also sometimes on my workstation, so proceed as with
+> the other slow tests: do not run it by default.
+> The test can still be run setting the AVOCADO_TIMEOUT_EXPECTED
+> environment variable.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
--D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC:/CI-Tools/msys64/mingw64/include/ncursesw:-I/usr/include/ncursesw:
--DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -pipe -lncursesw -lgnurx -ltre -lintl -liconv
--DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lncursesw
--DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lcursesw
--DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
--DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lncursesw
--DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lcursesw
--DNCURSES_WIDECHAR -I/usr/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
--DNCURSES_WIDECHAR -I/usr/include/ncursesw -lncursesw
--DNCURSES_WIDECHAR -I/usr/include/ncursesw -lcursesw
+Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+Tested-by: Havard Skinnemoen <hskinnemoen@google.com>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
----
- configure         | 121 +++-------------------------------------------
- meson.build       |  80 +++++++++++++++++++++++++-----
- meson_options.txt |   4 ++
- ui/meson.build    |   2 +-
- 4 files changed, 80 insertions(+), 127 deletions(-)
+Thanks!
 
-diff --git a/configure b/configure
-index 21c010140c..2ddb034aa5 100755
---- a/configure
-+++ b/configure
-@@ -396,7 +396,8 @@ unset target_list_exclude
- 
- brlapi=""
- curl=""
--curses=""
-+iconv="auto"
-+curses="auto"
- docs=""
- fdt=""
- netmap="no"
-@@ -1285,13 +1286,13 @@ for opt do
-   ;;
-   --disable-safe-stack) safe_stack="no"
-   ;;
--  --disable-curses) curses="no"
-+  --disable-curses) curses="disabled"
-   ;;
--  --enable-curses) curses="yes"
-+  --enable-curses) curses="enabled"
-   ;;
--  --disable-iconv) iconv="no"
-+  --disable-iconv) iconv="disabled"
-   ;;
--  --enable-iconv) iconv="yes"
-+  --enable-iconv) iconv="enabled"
-   ;;
-   --disable-curl) curl="no"
-   ;;
-@@ -3581,105 +3582,6 @@ EOF
-   fi
- fi
- 
--##########################################
--# iconv probe
--if test "$iconv" != "no" ; then
--  cat > $TMPC << EOF
--#include <iconv.h>
--int main(void) {
--  iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
--  return conv != (iconv_t) -1;
--}
--EOF
--  iconv_prefix_list="/usr/local:/usr"
--  iconv_lib_list=":-liconv"
--  IFS=:
--  for iconv_prefix in $iconv_prefix_list; do
--    IFS=:
--    iconv_cflags="-I$iconv_prefix/include"
--    iconv_ldflags="-L$iconv_prefix/lib"
--    for iconv_link in $iconv_lib_list; do
--      unset IFS
--      iconv_lib="$iconv_ldflags $iconv_link"
--      echo "looking at iconv in '$iconv_cflags' '$iconv_lib'" >> config.log
--      if compile_prog "$iconv_cflags" "$iconv_lib" ; then
--        iconv_found=yes
--        break
--      fi
--    done
--    if test "$iconv_found" = yes ; then
--      break
--    fi
--  done
--  if test "$iconv_found" = "yes" ; then
--    iconv=yes
--  else
--    if test "$iconv" = "yes" ; then
--      feature_not_found "iconv" "Install iconv devel"
--    fi
--    iconv=no
--  fi
--fi
--
--##########################################
--# curses probe
--if test "$iconv" = "no" ; then
--  # curses will need iconv
--  curses=no
--fi
--if test "$curses" != "no" ; then
--  if test "$mingw32" = "yes" ; then
--    curses_inc_list="$($pkg_config --cflags ncurses 2>/dev/null):"
--    curses_lib_list="$($pkg_config --libs ncurses 2>/dev/null):-lpdcurses"
--  else
--    curses_inc_list="$($pkg_config --cflags ncursesw 2>/dev/null):-I/usr/include/ncursesw:"
--    curses_lib_list="$($pkg_config --libs ncursesw 2>/dev/null):-lncursesw:-lcursesw"
--  fi
--  curses_found=no
--  cat > $TMPC << EOF
--#include <locale.h>
--#include <curses.h>
--#include <wchar.h>
--#include <langinfo.h>
--int main(void) {
--  const char *codeset;
--  wchar_t wch = L'w';
--  setlocale(LC_ALL, "");
--  resize_term(0, 0);
--  addwstr(L"wide chars\n");
--  addnwstr(&wch, 1);
--  add_wch(WACS_DEGREE);
--  codeset = nl_langinfo(CODESET);
--  return codeset != 0;
--}
--EOF
--  IFS=:
--  for curses_inc in $curses_inc_list; do
--    # Make sure we get the wide character prototypes
--    curses_inc="-DNCURSES_WIDECHAR $curses_inc"
--    IFS=:
--    for curses_lib in $curses_lib_list; do
--      unset IFS
--      if compile_prog "$curses_inc" "$curses_lib" ; then
--        curses_found=yes
--        break
--      fi
--    done
--    if test "$curses_found" = yes ; then
--      break
--    fi
--  done
--  unset IFS
--  if test "$curses_found" = "yes" ; then
--    curses=yes
--  else
--    if test "$curses" = "yes" ; then
--      feature_not_found "curses" "Install ncurses devel"
--    fi
--    curses=no
--  fi
--fi
--
- ##########################################
- # curl probe
- if test "$curl" != "no" ; then
-@@ -6527,16 +6429,6 @@ if test "$have_x11" = "yes" && test "$need_x11" = "yes"; then
-   echo "X11_CFLAGS=$x11_cflags" >> $config_host_mak
-   echo "X11_LIBS=$x11_libs" >> $config_host_mak
- fi
--if test "$iconv" = "yes" ; then
--  echo "CONFIG_ICONV=y" >> $config_host_mak
--  echo "ICONV_CFLAGS=$iconv_cflags" >> $config_host_mak
--  echo "ICONV_LIBS=$iconv_lib" >> $config_host_mak
--fi
--if test "$curses" = "yes" ; then
--  echo "CONFIG_CURSES=y" >> $config_host_mak
--  echo "CURSES_CFLAGS=$curses_inc" >> $config_host_mak
--  echo "CURSES_LIBS=$curses_lib" >> $config_host_mak
--fi
- if test "$pipe2" = "yes" ; then
-   echo "CONFIG_PIPE2=y" >> $config_host_mak
- fi
-@@ -7816,6 +7708,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
-+        -Diconv=$iconv -Dcurses=$curses \
-         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim \
-         -Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-diff --git a/meson.build b/meson.build
-index ace15dc8c0..3088566ff4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -340,6 +340,71 @@ if targetos == 'linux' and not get_option('mpath').disabled()
-   endif
- endif
- 
-+iconv = not_found
-+if not get_option('iconv').disabled()
-+  libiconv = cc.find_library('iconv', static: enable_static)
-+  if libiconv.found()
-+    if cc.links('''
-+      #include <iconv.h>
-+      int main(void) {
-+        iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
-+        return conv != (iconv_t) -1;
-+      }''', dependencies: [libiconv])
-+      iconv = declare_dependency(dependencies: [libiconv])
-+    endif
-+  endif
-+endif
-+if get_option('iconv').enabled() and not iconv.found()
-+  error('Cannot detect iconv API')
-+endif
-+
-+curses = not_found
-+if iconv.found() and not get_option('curses').disabled()
-+  curses_libname_list = ['ncursesw', 'ncurses', 'cursesw', 'pdcurses']
-+  foreach curses_libname : curses_libname_list
-+      libcurses = dependency(curses_libname,
-+                             required: false,
-+                             method: 'pkg-config',
-+                             static: enable_static)
-+
-+      if not libcurses.found()
-+        dirs = ['/usr/include/ncursesw']
-+        if targetos == 'windows'
-+          dirs = []
-+        endif
-+        libcurses = cc.find_library(curses_libname,
-+                                    required: false,
-+                                    dirs: dirs,
-+                                    static: enable_static)
-+      endif
-+      if libcurses.found()
-+        if cc.links('''
-+          #include <locale.h>
-+          #include <curses.h>
-+          #include <wchar.h>
-+          int main(void) {
-+            wchar_t wch = L'w';
-+            setlocale(LC_ALL, "");
-+            resize_term(0, 0);
-+            addwstr(L"wide chars\n");
-+            addnwstr(&wch, 1);
-+            add_wch(WACS_DEGREE);
-+            return 0;
-+          }''', compile_args: '-DNCURSES_WIDECHAR', dependencies: [libcurses])
-+          curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [libcurses])
-+          break
-+        endif
-+      endif
-+  endforeach
-+endif
-+if get_option('curses').enabled() and not curses.found()
-+  if not iconv.found()
-+    error('Cannot detect iconv API')
-+  else
-+    error('Cannot detect curses API')
-+  endif
-+endif
-+
- brlapi = not_found
- if 'CONFIG_BRLAPI' in config_host
-   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
-@@ -418,16 +483,6 @@ if 'CONFIG_X11' in config_host
-   x11 = declare_dependency(compile_args: config_host['X11_CFLAGS'].split(),
-                            link_args: config_host['X11_LIBS'].split())
- endif
--curses = not_found
--if 'CONFIG_CURSES' in config_host
--  curses = declare_dependency(compile_args: config_host['CURSES_CFLAGS'].split(),
--                              link_args: config_host['CURSES_LIBS'].split())
--endif
--iconv = not_found
--if 'CONFIG_ICONV' in config_host
--  iconv = declare_dependency(compile_args: config_host['ICONV_CFLAGS'].split(),
--                             link_args: config_host['ICONV_LIBS'].split())
--endif
- vnc = not_found
- png = not_found
- jpeg = not_found
-@@ -544,6 +599,7 @@ config_host_data.set('CONFIG_COCOA', cocoa.found())
- config_host_data.set('CONFIG_LIBUDEV', libudev.found())
- config_host_data.set('CONFIG_MPATH', mpathpersist.found())
- config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
-+config_host_data.set('CONFIG_CURSES', curses.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('CONFIG_VNC', vnc.found())
-@@ -1521,8 +1577,8 @@ if config_host.has_key('CONFIG_NETTLE')
- endif
- summary_info += {'libtasn1':          config_host.has_key('CONFIG_TASN1')}
- summary_info += {'PAM':               config_host.has_key('CONFIG_AUTH_PAM')}
--summary_info += {'iconv support':     config_host.has_key('CONFIG_ICONV')}
--summary_info += {'curses support':    config_host.has_key('CONFIG_CURSES')}
-+summary_info += {'iconv support':     iconv.found()}
-+summary_info += {'curses support':    curses.found()}
- # TODO: add back version
- summary_info += {'virgl support':     config_host.has_key('CONFIG_VIRGL')}
- summary_info += {'curl support':      config_host.has_key('CONFIG_CURL')}
-diff --git a/meson_options.txt b/meson_options.txt
-index 46ea1d889a..a5d155a535 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -15,6 +15,10 @@ option('cocoa', type : 'feature', value : 'auto',
-        description: 'Cocoa user interface (macOS only)')
- option('mpath', type : 'feature', value : 'auto',
-        description: 'Multipath persistent reservation passthrough')
-+option('iconv', type : 'feature', value : 'auto',
-+       description: 'Font glyph conversion support')
-+option('curses', type : 'feature', value : 'auto',
-+       description: 'curses UI')
- option('sdl', type : 'feature', value : 'auto',
-        description: 'SDL user interface')
- option('sdl_image', type : 'feature', value : 'auto',
-diff --git a/ui/meson.build b/ui/meson.build
-index 8a080c38e3..78ad792ffb 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -39,7 +39,7 @@ specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: opengl)
- 
- ui_modules = {}
- 
--if config_host.has_key('CONFIG_CURSES')
-+if curses.found()
-   curses_ss = ss.source_set()
-   curses_ss.add(when: [curses, iconv], if_true: [files('curses.c'), pixman])
-   ui_modules += {'curses' : curses_ss}
--- 
-2.28.0.windows.1
-
+> ---
+> Supersedes: <20200918142344.150749-1-f4bug@amsat.org>
+> ---
+>  tests/acceptance/boot_linux_console.py | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index 4a366ce93e4..9b58f6f9003 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -568,6 +568,7 @@ def test_arm_cubieboard_sata(self):
+>                                                  'sda')
+>          # cubieboard's reboot is not functioning; omit reboot test.
+>
+> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
+ut')
+>      def test_arm_quanta_gsj(self):
+>          """
+>          :avocado: tags=3Darch:arm
+> --
+> 2.26.2
+>
 
