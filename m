@@ -2,91 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053F6270040
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:53:53 +0200 (CEST)
-Received: from localhost ([::1]:58236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93420270058
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:57:39 +0200 (CEST)
+Received: from localhost ([::1]:36176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJHlo-0002Bf-3v
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38848)
+	id 1kJHpS-0005LO-KO
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJHjT-0001dq-Ha
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:51:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44660)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJHjN-00053a-HU
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:51:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600440680;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HVJrLM4iPJvQpKsuJIwSq+X7vQzxM0Qhxuif4uCbAFE=;
- b=dRSDNWtOWBPX+IMzdoTLL6Gd12p+qwJP70ofiBliRu4qHFl0XN6Y1WeVaXRzCd7hkOOfbr
- DAPs2Uj0gO6KIu9oJe4kA7EPjb2JzaQxQ4eI+0WwFECDuZBsCT9t4gIboWFGFC86LsVyil
- qcMC9FqZXWKYDjJ/u6970wkc9Xq5ivU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-tuLJ-yCWOfO3I5P78QGzKg-1; Fri, 18 Sep 2020 10:51:13 -0400
-X-MC-Unique: tuLJ-yCWOfO3I5P78QGzKg-1
-Received: by mail-wm1-f70.google.com with SMTP id w3so2152293wmg.4
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 07:51:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=xMdPu6HXSYE5JKzuz+Yi72t4VlETr8fODa3A0GdpDLM=;
- b=P7TY07W48HqUQaVbL5Nt8+5lCt+qYj5Y7o0uVNro5kuIEOLBYlAdcaY27YLgYok9p0
- uiwOfrTMtycFtOOfu3N8F8fI1iZcDKX1z/5AMqvh9PB2yHFZLWm65t6ORT8jjVzxZk7s
- ZeUBUM2Ujcg7+JgybwvFItK/lTo/zwuEFIMwNaGHYjtIuF1azZ1k8WGhKTwDT+jvoWxO
- OjgyY/sMgKSu7sdnQgSyWDyl2KBmU8ezxHfaWPeuUZPtucVjQBMxzJiXr4T7mdZ1200y
- yx9njIqToNh3JpSqjMabo04eLVQDfr4TNOsbwYlVuXMOoRHgADw2Kqotlk0D8iJpK1T5
- 6mOQ==
-X-Gm-Message-State: AOAM531nRWMo04uwJnSjqH3iBAke6LFPNg3gTlAakuNCuZNtu0wOd8Ct
- brDqAY3dpqlnq7lbJXF7wYDz58nXsjh8plOj1zNDXl3g22+MFSpAY0tZprGTjUu+zYX3PijoCk4
- 35Jyyp+WQXZyPUKk=
-X-Received: by 2002:a05:600c:2742:: with SMTP id
- 2mr15398153wmw.136.1600440672385; 
- Fri, 18 Sep 2020 07:51:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwwblMd55aq/lUZX+vJGgnXBLyEYc1TtoDdmCSrx+afXf8VaQFY4ffl3x7NoYXbr+GBvN0i/A==
-X-Received: by 2002:a05:600c:2742:: with SMTP id
- 2mr15398129wmw.136.1600440672186; 
- Fri, 18 Sep 2020 07:51:12 -0700 (PDT)
-Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
- [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id f16sm5527363wrp.47.2020.09.18.07.51.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 07:51:11 -0700 (PDT)
-Date: Fri, 18 Sep 2020 10:51:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v10 00/13] i440fx/acpi: addition of feature and bug fixes.
-Message-ID: <20200918105036-mutt-send-email-mst@kernel.org>
-References: <20200918084111.15339-1-ani@anisinha.ca>
- <2fe7283a-6d5b-c62f-52cb-35dc6d94bad5@redhat.com>
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1kJHnK-0003cm-5L; Fri, 18 Sep 2020 10:55:27 -0400
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:3996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1kJHnC-0005w4-Th; Fri, 18 Sep 2020 10:55:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1600440919;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MI2M58kBJ1OEcBYbATKIFzPQ8de4fGGgBCGB9RvSrMg=;
+ b=NUM3J8jTCMvTCI68CQa+jOkYOHJMlEzynfU61iQVXd2lxuA+vClL33q5
+ CqjgSD6DuQezD0jBs/BQhoqxsTlyLb9AjHibla/Ip68bF9byq3um8q+w3
+ BbHuBOKjx7FwUmPdm6soI7xV1/8o4ryfe0d1IsgqTxloZ7ugjziawi+6j s=;
+Authentication-Results: esa2.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: 9wn8DzkPAbEk+42aOJVeszh+QmSzR9AvwPVOCi6VmW7cV2vboCHk7xkXWQNhkIbHCVz185d4To
+ BUlLS2ddAaQO+UXpoyJPFdWHrrzsWumGuKyUKCF6MUoh4C1nwPLmh811tBylJFN6xoiPSvkDR2
+ YjqZZLU1SaJ/vYoe7NL4BR0IL6bJ/ogYg7RdH0VDhQDOa+9kg6gAFQw6ya7uDKNukk6mIlxWt0
+ aZ5O9km/hof9UHErR6905Y3AE4wwbKQsvamqU0CBf5q6LFolTywo1UUDWZeg9fEE9Ldc1an9w5
+ u/s=
+X-SBRS: 2.7
+X-MesageID: 27038931
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.77,274,1596513600"; d="scan'208";a="27038931"
+To: <qemu-devel@nongnu.org>
+CC: Paul Durrant <paul@xen.org>, Stefano Stabellini <sstabellini@kernel.org>, 
+ Anthony PERARD <anthony.perard@citrix.com>, John Snow <jsnow@redhat.com>, 
+ <qemu-block@nongnu.org>
+Subject: [PATCH] xen: rework pci_piix3_xen_ide_unplug
+Date: Fri, 18 Sep 2020 15:52:56 +0100
+Message-ID: <20200918145256.1886250-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <2fe7283a-6d5b-c62f-52cb-35dc6d94bad5@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.71.145.153;
+ envelope-from=anthony.perard@citrix.com; helo=esa2.hc3370-68.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 10:55:13
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,33 +72,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, jusual@redhat.com,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Anthony PERARD <anthony.perard@citrix.com>
+From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-On Fri, Sep 18, 2020 at 11:55:54AM +0200, Philippe Mathieu-Daudé wrote:
-> On 9/18/20 10:40 AM, Ani Sinha wrote:
-> > Final patch series with all the patches reviewed or ack'd and marked as such.
-> > Thanks Julia and Igor for the reviews. Hope this series gets pulled in soon.
-> 
-> FYI there is no need to collect tags on the final version.
+This is to allow IDE disks to be unplugged when adding to QEMU via:
+    -drive file=/root/disk_file,if=none,id=ide-disk0,format=raw
+    -device ide-hd,drive=ide-disk0,bus=ide.0,unit=0
 
-Right but if a new version is posted then yes you want to
-include tags.
+as the current code only works for disk added with:
+    -drive file=/root/disk_file,if=ide,index=0,media=disk,format=raw
 
-> Tools already do that for you, see:
-> https://patchew.org/QEMU/20200918072325.9933-1-ani@anisinha.ca/
-> 
-> The maintainer can import the patches with the proper Message-Id /
-> Reviewed-by / Acked-by / Tested-by tags added using:
-> https://patchew.org/QEMU/20200918072325.9933-1-ani@anisinha.ca/mbox
-> 
-> Regards,
-> 
-> Phil.
+Since the code already have the IDE controller as `dev`, we don't need
+to use the legacy DriveInfo to find all the drive we want to unplug.
+We can simply use `blk` from the controller, as it kind of was already
+assume to be the same, by setting it to NULL.
+
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+ hw/ide/piix.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index b402a936362b..16fcbe58d6fe 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -164,30 +164,29 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
+ {
+     PCIIDEState *pci_ide;
+-    DriveInfo *di;
+     int i;
+     IDEDevice *idedev;
++    IDEBus *idebus;
++    BlockBackend *blk;
+ 
+     pci_ide = PCI_IDE(dev);
+ 
+     for (i = aux ? 1 : 0; i < 4; i++) {
+-        di = drive_get_by_index(IF_IDE, i);
+-        if (di != NULL && !di->media_cd) {
+-            BlockBackend *blk = blk_by_legacy_dinfo(di);
+-            DeviceState *ds = blk_get_attached_dev(blk);
++        idebus = &pci_ide->bus[i / 2];
++        blk = idebus->ifs[i % 2].blk;
+ 
+-            blk_drain(blk);
+-            blk_flush(blk);
+-
+-            if (ds) {
+-                blk_detach_dev(blk, ds);
+-            }
+-            pci_ide->bus[di->bus].ifs[di->unit].blk = NULL;
++        if (blk && idebus->ifs[i%2].drive_kind != IDE_CD) {
+             if (!(i % 2)) {
+-                idedev = pci_ide->bus[di->bus].master;
++                idedev = idebus->master;
+             } else {
+-                idedev = pci_ide->bus[di->bus].slave;
++                idedev = idebus->slave;
+             }
++
++            blk_drain(blk);
++            blk_flush(blk);
++
++            blk_detach_dev(blk, DEVICE(idedev));
++            idebus->ifs[i % 2].blk = NULL;
+             idedev->conf.blk = NULL;
+             monitor_remove_blk(blk);
+             blk_unref(blk);
+-- 
+Anthony PERARD
 
 
