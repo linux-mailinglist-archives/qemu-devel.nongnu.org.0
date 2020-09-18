@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D90F26F946
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:27:39 +0200 (CEST)
-Received: from localhost ([::1]:58460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B424A26F937
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:26:30 +0200 (CEST)
+Received: from localhost ([::1]:52376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJCg6-00042W-6z
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46700)
+	id 1kJCez-0001YE-ON
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kJCcy-0000Ex-G9
+ id 1kJCcz-0000F3-VF
  for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:24:27 -0400
-Received: from mga05.intel.com ([192.55.52.43]:42395)
+Received: from mga05.intel.com ([192.55.52.43]:42397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kJCcv-0004Px-9M
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:24:23 -0400
-IronPort-SDR: t7kgBNAN0EF6OE+HEZUgS6tD25FINZceC43STbD4CaSJbekzjiT8KX7lYq5r0dvTwJPy2ddjBV
- uBSw5wnjxkUw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="244733388"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="244733388"
+ id 1kJCcx-0004Q2-IQ
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:24:24 -0400
+IronPort-SDR: G/wtuVaietPm90NCdT2k9SslQfaS1rcMTWXFRBp8EVgOBNH7KBOA/pjkykenjnLXs3G52HmsVw
+ 9N/Zj1deJAtQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="244733404"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="244733404"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 02:24:16 -0700
-IronPort-SDR: Gzj36Tfc27pgsJjAg6qps2pEJC9thjg43j/a0maHr0Zdu48c/H5iksrtJ6zAFXwbTZdGpGqVgf
- qdSfexOUBLoQ==
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="484130678"
+ 18 Sep 2020 02:24:18 -0700
+IronPort-SDR: xMoTIc6hXolT03sj8/ghLbsOwbNIFJRTBlFZwDP8t9rwQCfc7/CY4W8bPXH9c++dLu1YvrEDD6
+ hEcpC34EaRew==
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="484130695"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 02:24:14 -0700
+ 18 Sep 2020 02:24:16 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 1/4] net/colo-compare.c: Fix compare_timeout format issue
-Date: Fri, 18 Sep 2020 17:22:00 +0800
-Message-Id: <20200918092203.20384-2-chen.zhang@intel.com>
+Subject: [PATCH 2/4] net/colo-compare.c: Change the timer clock type
+Date: Fri, 18 Sep 2020 17:22:01 +0800
+Message-Id: <20200918092203.20384-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200918092203.20384-1-chen.zhang@intel.com>
 References: <20200918092203.20384-1-chen.zhang@intel.com>
@@ -72,60 +72,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-This parameter need compare with the return of qemu_clock_get_ms(),
-it is uinit64_t. So we need fix this issue here.
+The virtual clock only runs during the emulation. It stops
+when the virtual machine is stopped.
+The host clock should be used for device models that emulate accurate
+real time sources. It will continue to run when the virtual machine
+is suspended. COLO need to know the host time here.
 
 Reported-by: Derek Su <dereksu@qnap.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ net/colo-compare.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 3a45d64175..7cba573dae 100644
+index 7cba573dae..3b72309d08 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -120,7 +120,7 @@ struct CompareState {
-     SendCo out_sendco;
-     SendCo notify_sendco;
-     bool vnet_hdr;
--    uint32_t compare_timeout;
-+    uint64_t compare_timeout;
-     uint32_t expired_scan_cycle;
+@@ -905,7 +905,7 @@ static void check_old_packet_regular(void *opaque)
  
-     /*
-@@ -1081,9 +1081,9 @@ static void compare_get_timeout(Object *obj, Visitor *v,
-                                 Error **errp)
- {
-     CompareState *s = COLO_COMPARE(obj);
--    uint32_t value = s->compare_timeout;
-+    uint64_t value = s->compare_timeout;
- 
--    visit_type_uint32(v, name, &value, errp);
-+    visit_type_uint64(v, name, &value, errp);
+     /* if have old packet we will notify checkpoint */
+     colo_old_packet_check(s);
+-    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
+               s->expired_scan_cycle);
  }
  
- static void compare_set_timeout(Object *obj, Visitor *v,
-@@ -1146,9 +1146,9 @@ static void set_max_queue_size(Object *obj, Visitor *v,
-                                Error **errp)
+@@ -939,10 +939,10 @@ static void colo_compare_timer_init(CompareState *s)
  {
-     Error *local_err = NULL;
--    uint32_t value;
-+    uint64_t value;
+     AioContext *ctx = iothread_get_aio_context(s->iothread);
  
--    visit_type_uint32(v, name, &value, &local_err);
-+    visit_type_uint64(v, name, &value, &local_err);
-     if (local_err) {
-         goto out;
-     }
-@@ -1396,7 +1396,7 @@ static void colo_compare_init(Object *obj)
-     object_property_add_str(obj, "notify_dev",
-                             compare_get_notify_dev, compare_set_notify_dev);
- 
--    object_property_add(obj, "compare_timeout", "uint32",
-+    object_property_add(obj, "compare_timeout", "uint64",
-                         compare_get_timeout,
-                         compare_set_timeout, NULL, NULL);
+-    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_VIRTUAL,
++    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_HOST,
+                                 SCALE_MS, check_old_packet_regular,
+                                 s);
+-    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
+               s->expired_scan_cycle);
+ }
  
 -- 
 2.17.1
