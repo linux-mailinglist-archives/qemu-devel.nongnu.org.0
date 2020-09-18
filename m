@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7EA26F5C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 08:13:39 +0200 (CEST)
-Received: from localhost ([::1]:42450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C0926F5E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 08:26:34 +0200 (CEST)
+Received: from localhost ([::1]:44942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJ9eL-0007J2-VV
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 02:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46658)
+	id 1kJ9qq-0000eP-Qo
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 02:26:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <climber.cui@qq.com>)
- id 1kJ9dS-0006s9-Lj
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 02:12:42 -0400
-Received: from smtpbgau1.qq.com ([54.206.16.166]:35503)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <climber.cui@qq.com>)
- id 1kJ9dI-0001uD-L3
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 02:12:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1600409534; bh=E8qvKbLd/tdloN67zRIQ5cVLI0p2kn+9/6NOYTu0mQo=;
- h=From:To:Subject:Mime-Version:Date:Message-ID;
- b=naYJk8Gw2zV9ngoxV33FWpiCmQJtTTSDWQEoR3+ZYpDkWBwQClY84ee3n1tNjyBi/
- D7+IiOC2gDMdfiTtq67B/r5IN1urnMRZSoXe+wMZpBgXpcOJhsllQujaUnrKBwMCOq
- Xw96MnizMx08fw8guOrB2VjkGky70/qXclQ/BZAg=
-X-QQ-FEAT: y/Yfw/TLgL6V0qiGfa8oKyjoJkLaKP5ZMyO7w6xqe9futDAbray5jGAyhOv7x
- pYLsAQSfdzM6k3Mec4kyt1gE8/dAPq8aJt11mWuYBXLri9Rp79S9HhtKak1WzSQ0i3dLSAn
- 0F5ON9ZukYad6YP/cafEtUIMYmB+nITKNkKTVi5divLIdJ79+2q+xz1yR3pjEx1fRWfJiGj
- zubQYZ+p1rAIM5MYyQ6Ur/JppTJupXWvQgmHVkFUeknvNs7X8ubyX2skSC9dY8Ks/G6L4AI
- 2Wtp5qxhLz1WnDBqaUCLDVGHS8v++1xl0AVg==
-X-QQ-SSF: 00000000000000F000000000000000D
-X-QQ-XMAILINFO: MoPlkZp6QhD48cqNqJUm01LyzgOTpGWhC+ZvoDeujsR+bg+IKvZuFromGUun5L
- roOHz1oJ6zh2/IoqLiO1rbJ/0BU8U51jH3ehybfe7o6DUjr4ZVjccmpWlUKEvJhAx9QatDDfSM97J
- KS3R8kajT4T4ueXQsy2Ilsb3gB8RmHTfPoC2ybcafcYKvAA2HREf0yevn9eCyYfcSjphXAd9n4GU7
- +aj53HdR9jrT8UnxD4LiRn5tKTq0vUGuwzsLqLy7g440KUggWkf5SQ9tUnu2TXPDya5PUm6OmGzY8
- MMnBFfNW+0zzTe0PTkZEGFUbpl8dhOnKDx6fGSIYhzj2Yx9ckOycWF2R/ORJGzCwt15oF3w18qW0l
- f+YfUjfNF3pPI+hLdshNAZBNbovKac0m+FrVXJp9kEZQvXLDS9x6/gQ5NaeBwtBvQXx9om3EJCbXW
- Qf3BJLboMReqJ7CJPl51rz0hHSYI7BHHObAlZoi9SAOZFNzSzOvXaoZQ3Nti5VqknxGTEFlhtni28
- v0mJUdXWp1SSaRbbBaeZlcy5D80DkZyGyLnrBjCjb+xFdTgYfSqI+uyeDmz/bLnkS6IN+BlOSmk3I
- pWWUTb94wsMMZ2wu67ClCaVoACj51/vtEKmb+eqEdfcmph0gx3u64Un+xDbuMiBZ0nLwzFbrbpRak
- 7JmKB71yILcoOl0vlfhidc3kg+LlpwC17PdSNcXUjiNOmsug+nrWElxM6u1UyT3yr5s3eCBuE/R9B
- N0rNy90j3jcxI3Yderf8QGbrGsMsWEuW6Chs/fkqV54ulRw==
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 255.184.2.73
-In-Reply-To: <7f78871a-01a8-f00f-4dcb-5ba95ed1fee4@amsat.org>
-References: <tencent_EAC696641F035EB7E9885302EAAE37455907@qq.com>
- <7f78871a-01a8-f00f-4dcb-5ba95ed1fee4@amsat.org>
-X-QQ-STYLE: 
-X-QQ-mid: webmail725t1600409532t958626
-From: "=?gb18030?B?Y2FzbWFj?=" <climber.cui@qq.com>
-To: "=?gb18030?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
-Subject: =?gb18030?B?u9i4tKO6IFdoeSBRRU1VIHRyYW5zbGF0ZXMgb25l?=
- =?gb18030?B?IGluc3RydWN0aW9uIHRvIGEgVEKjvw==?=
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_5F644FBC_152E9B88_3EF3C24A"
-Content-Transfer-Encoding: 8Bit
-Date: Fri, 18 Sep 2020 14:12:12 +0800
-X-Priority: 3
-Message-ID: <tencent_6FBC0FD37CA798D4766FE6B2822DAC3E2908@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-ReplyHash: 4157812945
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Fri, 18 Sep 2020 14:12:13 +0800 (CST)
-Feedback-ID: webmail:qq.com:bgforeign:bgforeign11
-X-QQ-Bgrelay: 1
-Received-SPF: pass client-ip=54.206.16.166; envelope-from=climber.cui@qq.com;
- helo=smtpbgau1.qq.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 02:12:18
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: 53
-X-Spam_score: 5.3
-X-Spam_bar: +++++
-X-Spam_report: (5.3 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- DKIM_INVALID=0.1, DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001,
- FROM_EXCESS_BASE64=0.001, HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
-X-Spam_action: reject
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kJ9p8-0000Bi-8d
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 02:24:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kJ9p2-0003f6-5n
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 02:24:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600410278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=32cwReohcqNY3CPE939sO3L6V4oQznrYvlCJbPPXjIY=;
+ b=jTwNoYIcO8xSSLksj77igaFnhiwEAcBbfROL2y2ICnLbK2jF6M2GCPuefiuLwvClJTXxaW
+ DAW4rI+rvuChTcnnCUqYYSJKVfkKD2QGQ5ScpsUFhQvItRvhA4oMKs9zceIXH1Tb6pjHng
+ 4pmFCGd/2/Gmhz8tHo8BcekW7GvfFfg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-6F0xJOEiO-G5UJr7VMykvg-1; Fri, 18 Sep 2020 02:24:36 -0400
+X-MC-Unique: 6F0xJOEiO-G5UJr7VMykvg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F4845708B;
+ Fri, 18 Sep 2020 06:24:34 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51A101972A;
+ Fri, 18 Sep 2020 06:24:25 +0000 (UTC)
+Date: Fri, 18 Sep 2020 08:24:23 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v8 09/12] piix4: don't reserve hw resources when hotplug
+ is off globally
+Message-ID: <20200918082423.644c3a08@redhat.com>
+In-Reply-To: <20200917150044.23159-10-ani@anisinha.ca>
+References: <20200917150044.23159-1-ani@anisinha.ca>
+ <20200917150044.23159-10-ani@anisinha.ca>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,164 +82,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?gb18030?B?UGV0ZXImbmJzcDtNYXlkZWxs?= <peter.maydell@linaro.org>,
- =?gb18030?B?QWxleCZuYnNwO0Jlbm6opmU=?= <alex.bennee@linaro.org>,
- =?gb18030?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkqKY=?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ jusual@redhat.com, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+On Thu, 17 Sep 2020 20:30:41 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-------=_NextPart_5F644FBC_152E9B88_3EF3C24A
-Content-Type: text/plain;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
+> When acpi hotplug is turned off for both root pci bus as well as for pci
+> bridges, we should not generate the related ACPI code for DSDT table or
+> initialize related hw ports or reserve hw resources. This change makes
+> sure all those operations are turned off in the case ACPI pci hotplug is
+> off globally.
+> 
+> In this change, we also make sure ACPI code for the PCNT method are only
+> added when bsel is enabled for the corresponding pci bus or bridge hotplug
+> is turned on.
+> 
+> As q35 machines do not use bsel for it's pci buses at this point in time, this
+> change affects DSDT acpi table for q35 machines as well. Therefore, we will
+> also need to commit the updated golden master DSDT table acpi binary blobs as
+> well. Follwoing is the list of blobs which needs updating:
+> 
+>  tests/data/acpi/q35/DSDT
+>  tests/data/acpi/q35/DSDT.acpihmat
+>  tests/data/acpi/q35/DSDT.bridge
+>  tests/data/acpi/q35/DSDT.cphp
+>  tests/data/acpi/q35/DSDT.dimmpxm
+>  tests/data/acpi/q35/DSDT.ipmibt
+>  tests/data/acpi/q35/DSDT.memhp
+>  tests/data/acpi/q35/DSDT.mmio64
+>  tests/data/acpi/q35/DSDT.numamem
+>  tests/data/acpi/q35/DSDT.tis
+> 
+> These tables are updated in the following commit. Without the updated table
+> blobs, the unit tests would fail with this patch.
 
-SGVsbG8gLCANCg0KJm5ic3A7IHRoYW5rcyBmb3IgdGhlIGhpbnRzLiBJIG1vZGlmaWVkIG9u
-ZSBwYXJhbWV0ZXIgb2YmbmJzcDsgbWVtb3J5X3JlZ2lvbl9pbml0X3JhbSgpIGNhbGwgLGFu
-ZCB0aGUgc2xvdy1wYXRoIHByb2JsZW0gZGlzYXBwZWFyZWQuIA0KDQombmJzcDsgV2hhdCBJ
-IGRpZCBpcyAsIGNoYW5nZSB0aGUgUkFNIHNpemUgZnJvbSB0aGUgZXhhY3QgbWVtb3J5IHNp
-emUgbmVlZGVkIHRvIGhvbGQgdGhlIG9iamVjdCBmaWxlIHNlY3Rpb24ocyksIHRvIHRoZSBz
-aXplIHRoYXQgVEkgQzNYIHVzZXIgbWFudWFsIG1lbW9yeSBtYXBwaW5nIHNwZWNpZmllcy4g
-DQoNCiZuYnNwOyBUaGUgZm9ybWVyIHNpemUgaXMgc2lnbmlmaWNhbnRseSBzbWFsbGVyLiBC
-dXQgSSBkaWQgbm90IHNwZWNpZnkgdGhlIG1lbW9yeSBtYXBwaW5nIGVsc2Ugd2hlcmUgaW4g
-dGhlIHByb2dyYW0sIHNvIHN0aWxsIHVuc3VyZSBhYm91dCB0aGUgY2F1c2Ugb2YgY29uZmxp
-Y3QuIA0KDQoNCg0KJm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNwOyAmbmJz
-cDsmbmJzcDsmbmJzcDsgbWVtb3J5X3JlZ2lvbl9pbml0X3JhbShhcnlfc2VjdF9jaGFpbltp
-XS5tZW1fcmVnaW9uLCBOVUxMLCBhcnlfc2VjdF9jaGFpbltpXS5zX25hbWUsDQombmJzcDsm
-bmJzcDsmbmJzcDsgJm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNwOyAmbmJz
-cDsmbmJzcDsmbmJzcDsgJm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyAvKmFyeV9zZWN0X2NoYWluW2ldLmNoYWluX3NpemUqNCovJm5ic3A7IGFy
-eV9zZWN0X2NoYWluW2ldLnJlZ2lvbl9zaXplLCZuYnNwOyAmYW1wO2Vycm9yX2ZhdGFsKTsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgLy9yZWdpb25fc2l6ZSBpcyBmaXhlZCBh
-cyBzcGVjaWZpZWQgaW4gQ1BVIG1hbnVhbCAsIHJlZ2lvbl9zaXplJmd0O2NoYWluX3NpemUq
-NA0KJm5ic3A7IA0KDQpiZXN0IHJlZ2FyZHMsICZuYnNwOyANCg0KeGlhb2xlaQ0KDQoNCiZu
-YnNwOw0KDQpPbiA5LzE3LzIwIDg6MjUgQU0sIGNhc21hYyB3cm90ZToNCiZndDsgSGkgYWxs
-LA0KJmd0OyAmbmJzcDsmbmJzcDsgJm5ic3A7IFdlIHRyeSB0byBhZGQgRFNQIGFyY2hpdGVj
-dXJlIHRvIFFFTVUgNC4yLiBUbyBsb2FkIHRoZSBDT0ZGIGZvcm1hdA0KJmd0OyBvYmplY3Qg
-ZmlsZSwgd2UgaGF2ZSBhZGRlZCBsb2FkZXIgY29kZSB0byBsb2FkIGNvbnRlbnQgZnJvbQ0K
-Jmd0OyAmbmJzcDsgdGhlIG9iamVjdCBmaWxlLiANClsuLi5dDQoNCiZndDsgJm5ic3A7ICZu
-YnNwOyBUaGUgQ09GRiBsb2FkZXIgd29ya3MgZnVuY3Rpb25hbGx5LCBidXQgd2UgdGhlbiBm
-b3VuZCB0aGF0IHNvbWV0aW1lcw0KJmd0OyBRRU1VIGlzIGRvd24tZ3JhZGVkIC0gaXQgdHJl
-YXRzIGVhY2ggaW5zdHJ1Y3Rpb24gYXMgb25lIFRCLiBJbiB2ZXJzaW9uDQomZ3Q7IDQuMiwm
-bmJzcDsgZGVidWdnaW5nIHNob3dzDQomZ3Q7IHRoYXQgZ2V0X3BhZ2VfYWRkcl9jb2RlX2hv
-c3QoKSBmcm9tIGFjY2VsL3RjZy9jcHV0bGIuYyByZXR1cm5zIC0xLCBhcw0KJmd0OyBzaG93
-biBiZWxvdy4NCiZndDsgDQomZ3Q7IGFjY2VsL3RjZy9jcHV0bGIuYzoNCiZndDsgdGJfcGFn
-ZV9hZGRyX3QgZ2V0X3BhZ2VfYWRkcl9jb2RlX2hvc3RwKENQVUFyY2hTdGF0ZSAqZW52LCB0
-YXJnZXRfdWxvbmcNCiZndDsgYWRkciwNCiZndDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyB2b2lkICoqaG9z
-dHApDQomZ3Q7IHsNCiZndDsgJm5ic3A7ICZuYnNwOyB1aW50cHRyX3QgbW11X2lkeCA9IGNw
-dV9tbXVfaW5kZXgoZW52LCB0cnVlKTsNCiZndDsgJm5ic3A7ICZuYnNwOyB1aW50cHRyX3Qg
-aW5kZXggPSB0bGJfaW5kZXgoZW52LCBtbXVfaWR4LCBhZGRyKTsNCiZndDsgJm5ic3A7ICZu
-YnNwOyBDUFVUTEJFbnRyeSAqZW50cnkgPSB0bGJfZW50cnkoZW52LCBtbXVfaWR4LCBhZGRy
-KTsNCiZndDsgJm5ic3A7ICZuYnNwOyB2b2lkICpwOw0KJmd0OyANCiZndDsgJm5ic3A7ICZu
-YnNwOyAvLy4uLi4uDQomZ3Q7ICZuYnNwOyAmbmJzcDsgaWYgKHVubGlrZWx5KGVudHJ5LSZn
-dDthZGRyX2NvZGUgJmFtcDsgVExCX01NSU8pKSB7DQomZ3Q7ICZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyAmbmJzcDsgLyogVGhlIHJlZ2lvbiBpcyBub3QgYmFja2VkIGJ5IFJB
-TS4mbmJzcDsgKi8NCiZndDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNw
-OyBpZiAoaG9zdHApIHsNCiZndDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyAqaG9zdHAgPSBOVUxMOw0KJmd0OyAmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgJm5ic3A7IH0NCiZndDsgJm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyByZXR1cm4gLTE7Jm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7IC8qIGRlYnVnZ2luZyBmYWxscyB0byB0aGlzIGJyYW5jaCwgYWZ0ZXIgdGhp
-cw0KJmd0OyBwb2ludCBRRU1VIHRyYW5zbGF0ZSBvbmUgaW5zdHJ1Y3Rpb24gdG8gYSBUQiZu
-YnNwOyAqLw0KJmd0OyAmbmJzcDsgJm5ic3A7IH0NCiZndDsgJm5ic3A7ICZuYnNwOyAvLy4u
-Li4uLi4NCiZndDsgfSZuYnNwOyAmbmJzcDsNCiZndDsgDQomZ3Q7ICZuYnNwOyAmbmJzcDsg
-T25lIGludHJlc3RpbmcgZmFjdCBpcyB0aGF0IHRoaXMgc29tZWhvdyBkZXBlbmRzIG9uIHRo
-ZSBsaW5rZXINCiZndDsgY29tbWFuZCBmaWxlLiBUaGUgb2JqZWN0IGZpbGUgZ2VuZXJhdGVk
-IGJ5IHRoZSBmb2xsb3dpbmcgbGlua2VyIGNvbW1hbmQNCiZndDsgZmlsZShwZXJfaW5zdHIu
-bGRzKQ0KJmd0OyB3aWxsICJ0cmlnZ2VyIiB0aGUgcHJvYmxlbS4gQnV0IFFFTVUgd29yayB3
-ZWxsIHdpdGggdGhlIG9iamVjdCBmaWxlDQomZ3Q7IGxpbmtlZCBieSB0aGUgb3RoZXIgbGlu
-a2VyIGNvbW1hbmQgZmlsZSAob2subGRzKS4NCiZndDsgJm5ic3A7ICZuYnNwOyBXaGF0IGNh
-dXNlIGdldF9wYWdlX2FkZHJfY29kZV9ob3N0cCgpIGZ1bmN0aW9uIHRvIHJldHVybiAtMT8g
-SSBoYXZlDQomZ3Q7IG5vIGNsdWUgYXQgYWxsLiBBbnkgYWR2aXNlIGlzIGFwcHJlY2lhdGVk
-ISENCg0KTWF5YmUgdGhlICJleGVjdXRlIGZyb20gc21hbGwtTU1VLXJlZ2lvbiBSQU0iIHBy
-b2JsZW0/DQoNClNlZToNCmh0dHBzOi8vd3d3Lm1haWwtYXJjaGl2ZS5jb20vcWVtdS1kZXZl
-bEBub25nbnUub3JnL21zZzU0OTY2MC5odG1s
+adding this to commit description doesn't help,
+'make check' still fails if we apply patches till this point.
+which leads to broken bisection.
 
-------=_NextPart_5F644FBC_152E9B88_3EF3C24A
-Content-Type: text/html;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
-
-PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
-YXJzZXQ9R0IxODAzMCI+PGRpdj5IZWxsbyAsIDxicj48L2Rpdj48ZGl2PiZuYnNwOyB0aGFu
-a3MgZm9yIHRoZSBoaW50cy4gSSBtb2RpZmllZCBvbmUgcGFyYW1ldGVyIG9mJm5ic3A7IG1l
-bW9yeV9yZWdpb25faW5pdF9yYW0oKSBjYWxsICxhbmQgdGhlIHNsb3ctcGF0aCBwcm9ibGVt
-IGRpc2FwcGVhcmVkLiA8YnI+PC9kaXY+PGRpdj4mbmJzcDsgV2hhdCBJIGRpZCBpcyAsIGNo
-YW5nZSB0aGUgUkFNIHNpemUgZnJvbSB0aGUgZXhhY3QgbWVtb3J5IHNpemUgbmVlZGVkIHRv
-IGhvbGQgdGhlIG9iamVjdCBmaWxlIHNlY3Rpb24ocyksIHRvIHRoZSBzaXplIHRoYXQgVEkg
-QzNYIHVzZXIgbWFudWFsIG1lbW9yeSBtYXBwaW5nIHNwZWNpZmllcy4gPGJyPjwvZGl2Pjxk
-aXY+Jm5ic3A7IFRoZSBmb3JtZXIgc2l6ZSBpcyBzaWduaWZpY2FudGx5IHNtYWxsZXIuIEJ1
-dCBJIGRpZCBub3Qgc3BlY2lmeSB0aGUgbWVtb3J5IG1hcHBpbmcgZWxzZSB3aGVyZSBpbiB0
-aGUgcHJvZ3JhbSwgc28gc3RpbGwgdW5zdXJlIGFib3V0IHRoZSBjYXVzZSBvZiBjb25mbGlj
-dC4gPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZu
-YnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsmbmJzcDsmbmJzcDsgbWVtb3J5X3JlZ2lvbl9pbml0
-X3JhbShhcnlfc2VjdF9jaGFpbltpXS5tZW1fcmVnaW9uLCBOVUxMLCBhcnlfc2VjdF9jaGFp
-bltpXS5zX25hbWUsPGJyPiZuYnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsmbmJzcDsmbmJzcDsg
-Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsmbmJzcDsmbmJz
-cDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IC8qYXJ5X3NlY3RfY2hhaW5baV0u
-Y2hhaW5fc2l6ZSo0Ki8mbmJzcDsgYXJ5X3NlY3RfY2hhaW5baV0ucmVnaW9uX3NpemUsJm5i
-c3A7ICZhbXA7ZXJyb3JfZmF0YWwpOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAv
-L3JlZ2lvbl9zaXplIGlzIGZpeGVkIGFzIHNwZWNpZmllZCBpbiBDUFUgbWFudWFsICwgcmVn
-aW9uX3NpemUmZ3Q7Y2hhaW5fc2l6ZSo0PC9kaXY+PGRpdj4mbmJzcDsgPGJyPjwvZGl2Pjxk
-aXY+YmVzdCByZWdhcmRzLCAmbmJzcDsgPGJyPjwvZGl2PjxkaXY+eGlhb2xlaTwvZGl2Pjxk
-aXY+PGJyPjwvZGl2PjxkaXY+Jm5ic3A7PGJyPjwvZGl2PjxkaXY+T24gOS8xNy8yMCA4OjI1
-IEFNLCBjYXNtYWMgd3JvdGU6PGJyPiZndDsgSGkgYWxsLDxicj4mZ3Q7ICZuYnNwOyZuYnNw
-OyAmbmJzcDsgV2UgdHJ5IHRvIGFkZCBEU1AgYXJjaGl0ZWN1cmUgdG8gUUVNVSA0LjIuIFRv
-IGxvYWQgdGhlIENPRkYgZm9ybWF0PGJyPiZndDsgb2JqZWN0IGZpbGUsIHdlIGhhdmUgYWRk
-ZWQgbG9hZGVyIGNvZGUgdG8gbG9hZCBjb250ZW50IGZyb208YnI+Jmd0OyAmbmJzcDsgdGhl
-IG9iamVjdCBmaWxlLiA8YnI+Wy4uLl08YnI+PGJyPiZndDsgJm5ic3A7ICZuYnNwOyBUaGUg
-Q09GRiBsb2FkZXIgd29ya3MgZnVuY3Rpb25hbGx5LCBidXQgd2UgdGhlbiBmb3VuZCB0aGF0
-IHNvbWV0aW1lczxicj4mZ3Q7IFFFTVUgaXMgZG93bi1ncmFkZWQgLSBpdCB0cmVhdHMgZWFj
-aCBpbnN0cnVjdGlvbiBhcyBvbmUgVEIuIEluIHZlcnNpb248YnI+Jmd0OyA0LjIsJm5ic3A7
-IGRlYnVnZ2luZyBzaG93czxicj4mZ3Q7IHRoYXQgZ2V0X3BhZ2VfYWRkcl9jb2RlX2hvc3Qo
-KSBmcm9tIGFjY2VsL3RjZy9jcHV0bGIuYyByZXR1cm5zIC0xLCBhczxicj4mZ3Q7IHNob3du
-IGJlbG93Ljxicj4mZ3Q7IDxicj4mZ3Q7IGFjY2VsL3RjZy9jcHV0bGIuYzo8YnI+Jmd0OyB0
-Yl9wYWdlX2FkZHJfdCBnZXRfcGFnZV9hZGRyX2NvZGVfaG9zdHAoQ1BVQXJjaFN0YXRlICpl
-bnYsIHRhcmdldF91bG9uZzxicj4mZ3Q7IGFkZHIsPGJyPiZndDsgJm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyB2
-b2lkICoqaG9zdHApPGJyPiZndDsgezxicj4mZ3Q7ICZuYnNwOyAmbmJzcDsgdWludHB0cl90
-IG1tdV9pZHggPSBjcHVfbW11X2luZGV4KGVudiwgdHJ1ZSk7PGJyPiZndDsgJm5ic3A7ICZu
-YnNwOyB1aW50cHRyX3QgaW5kZXggPSB0bGJfaW5kZXgoZW52LCBtbXVfaWR4LCBhZGRyKTs8
-YnI+Jmd0OyAmbmJzcDsgJm5ic3A7IENQVVRMQkVudHJ5ICplbnRyeSA9IHRsYl9lbnRyeShl
-bnYsIG1tdV9pZHgsIGFkZHIpOzxicj4mZ3Q7ICZuYnNwOyAmbmJzcDsgdm9pZCAqcDs8YnI+
-Jmd0OyA8YnI+Jmd0OyAmbmJzcDsgJm5ic3A7IC8vLi4uLi48YnI+Jmd0OyAmbmJzcDsgJm5i
-c3A7IGlmICh1bmxpa2VseShlbnRyeS0mZ3Q7YWRkcl9jb2RlICZhbXA7IFRMQl9NTUlPKSkg
-ezxicj4mZ3Q7ICZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsgLyogVGhl
-IHJlZ2lvbiBpcyBub3QgYmFja2VkIGJ5IFJBTS4mbmJzcDsgKi88YnI+Jmd0OyAmbmJzcDsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgJm5ic3A7IGlmIChob3N0cCkgezxicj4mZ3Q7ICZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAm
-bmJzcDsgKmhvc3RwID0gTlVMTDs8YnI+Jmd0OyAmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsgJm5ic3A7IH08YnI+Jmd0OyAmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsg
-Jm5ic3A7IHJldHVybiAtMTsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgLyogZGVidWdn
-aW5nIGZhbGxzIHRvIHRoaXMgYnJhbmNoLCBhZnRlciB0aGlzPGJyPiZndDsgcG9pbnQgUUVN
-VSB0cmFuc2xhdGUgb25lIGluc3RydWN0aW9uIHRvIGEgVEImbmJzcDsgKi88YnI+Jmd0OyAm
-bmJzcDsgJm5ic3A7IH08YnI+Jmd0OyAmbmJzcDsgJm5ic3A7IC8vLi4uLi4uLjxicj4mZ3Q7
-IH0mbmJzcDsgJm5ic3A7PGJyPiZndDsgPGJyPiZndDsgJm5ic3A7ICZuYnNwOyBPbmUgaW50
-cmVzdGluZyBmYWN0IGlzIHRoYXQgdGhpcyBzb21laG93IGRlcGVuZHMgb24gdGhlIGxpbmtl
-cjxicj4mZ3Q7IGNvbW1hbmQgZmlsZS4gVGhlIG9iamVjdCBmaWxlIGdlbmVyYXRlZCBieSB0
-aGUgZm9sbG93aW5nIGxpbmtlciBjb21tYW5kPGJyPiZndDsgZmlsZShwZXJfaW5zdHIubGRz
-KTxicj4mZ3Q7IHdpbGwgInRyaWdnZXIiIHRoZSBwcm9ibGVtLiBCdXQgUUVNVSB3b3JrIHdl
-bGwgd2l0aCB0aGUgb2JqZWN0IGZpbGU8YnI+Jmd0OyBsaW5rZWQgYnkgdGhlIG90aGVyIGxp
-bmtlciBjb21tYW5kIGZpbGUgKG9rLmxkcykuPGJyPiZndDsgJm5ic3A7ICZuYnNwOyBXaGF0
-IGNhdXNlIGdldF9wYWdlX2FkZHJfY29kZV9ob3N0cCgpIGZ1bmN0aW9uIHRvIHJldHVybiAt
-MT8gSSBoYXZlPGJyPiZndDsgbm8gY2x1ZSBhdCBhbGwuIEFueSBhZHZpc2UgaXMgYXBwcmVj
-aWF0ZWQhITxicj48YnI+TWF5YmUgdGhlICJleGVjdXRlIGZyb20gc21hbGwtTU1VLXJlZ2lv
-biBSQU0iIHByb2JsZW0/PGJyPjxicj5TZWU6PGJyPmh0dHBzOi8vd3d3Lm1haWwtYXJjaGl2
-ZS5jb20vcWVtdS1kZXZlbEBub25nbnUub3JnL21zZzU0OTY2MC5odG1sPGJyPjxicj48L2Rp
-dj4=
-
-------=_NextPart_5F644FBC_152E9B88_3EF3C24A--
+I'm curious, what is not clear in process description at
+the start of tests/qtest/bios-tables-test.c.
+You did that for new tests, but so some reason you are avoiding
+to  follow the same rules with this patch.
 
 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  hw/acpi/piix4.c      |  6 ++++--
+>  hw/i386/acpi-build.c | 25 ++++++++++++++++++-------
+>  2 files changed, 22 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index e6163bb6ce..b70b1f98af 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+>                            "acpi-gpe0", GPE_LEN);
+>      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
+>  
+> -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> -                    s->use_acpi_hotplug_bridge);
+> +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
+> +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+> +                        s->use_acpi_hotplug_bridge);
+> +    }
+>  
+>      s->cpu_hotplug_legacy = true;
+>      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index e079b686f5..e41bb0992b 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
+>      bool s3_disabled;
+>      bool s4_disabled;
+>      bool pcihp_bridge_en;
+> +    bool pcihp_root_en;
+>      uint8_t s4_val;
+>      AcpiFadtData fadt;
+>      uint16_t cpu_hp_io_base;
+> @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+>      pm->pcihp_bridge_en =
+>          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
+>                                   NULL);
+> +    pm->pcihp_root_en =
+> +        object_property_get_bool(obj, "acpi-root-pci-hotplug",
+> +                                 NULL);
+>  }
+>  
+>  static void acpi_get_misc_info(AcpiMiscInfo *info)
+> @@ -450,10 +454,12 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+>      }
+>  
+>      /* Append PCNT method to notify about events on local and child buses.
+> -     * Add unconditionally for root since DSDT expects it.
+> +     * Add this method for root bus only when hotplug is enabled since DSDT
+> +     * expects it.
+>       */
+> -    method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
+> -
+> +    if (bsel || pcihp_bridge_en) {
+> +        method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
+> +    }
+>      /* If bus supports hotplug select it and notify about local events */
+>      if (bsel) {
+>          uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
+> @@ -479,7 +485,10 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+>              aml_append(method, aml_name("^S%.02X.PCNT", devfn));
+>          }
+>      }
+> -    aml_append(parent_scope, method);
+> +
+> +    if (bsel || pcihp_bridge_en) {
+> +        aml_append(parent_scope, method);
+> +    }
+>      qobject_unref(bsel);
+>  }
+>  
+> @@ -1504,7 +1513,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          build_hpet_aml(dsdt);
+>          build_piix4_isa_bridge(dsdt);
+>          build_isa_devices_aml(dsdt);
+> -        build_piix4_pci_hotplug(dsdt);
+> +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+> +            build_piix4_pci_hotplug(dsdt);
+> +        }
+>          build_piix4_pci0_int(dsdt);
+>      } else {
+>          sb_scope = aml_scope("_SB");
+> @@ -1546,7 +1557,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>      {
+>          aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+>  
+> -        if (misc->is_piix4) {
+> +        if (misc->is_piix4 && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
+>              method = aml_method("_E01", 0, AML_NOTSERIALIZED);
+>              aml_append(method,
+>                  aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
+> @@ -1698,7 +1709,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>      crs_range_set_free(&crs_range_set);
+>  
+>      /* reserve PCIHP resources */
+> -    if (pm->pcihp_io_len) {
+> +    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
+>          dev = aml_device("PHPR");
+>          aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
+>          aml_append(dev,
 
 
