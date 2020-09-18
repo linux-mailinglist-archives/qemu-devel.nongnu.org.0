@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6339F2705C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:47:33 +0200 (CEST)
-Received: from localhost ([::1]:60148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446D02705CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:51:35 +0200 (CEST)
+Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJMM0-0005bf-Ew
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:47:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48892)
+	id 1kJMPu-0000YU-9o
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:51:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLIC-000162-F5
+ id 1kJLIC-00015J-5h
  for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:32 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:37671)
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLI7-0007Gk-2B
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:32 -0400
-Received: by mail-pg1-x529.google.com with SMTP id l71so3988702pge.4
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:39:23 -0700 (PDT)
+ id 1kJLI7-0007Gu-1f
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:31 -0400
+Received: by mail-pf1-x441.google.com with SMTP id b124so3979287pfg.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Eth0Qo7lxODtnYEXQSTKXdT5egBkmtCsDYgIFXZmsyU=;
- b=VYyt2ZyzRh8URWydhUC2wro4KU2q+TVs6aLIUyO3mDwU8L0id/jtHtsfioA3pgVpNb
- D3phoHJyywAW5dZJ1KSCU4zv7gUwcnCRRGEIfLchT7OIjSDE8B/BIlCMwa0n72UeyHGi
- g14FRwV/4RRSIyjlCPnFJ1ivCxY46M/Lm/3UE6f5x/er2d48LBE11s7yc3uNt2vCMiJe
- GEYoSpXpMVp6w6bdi4w5c4jC5d/LWpgW+gSsZ6xhz/STbhSJG5KjnKVis39mmoumYQMk
- YQ8qYBGgakkksqm99MkPZoPpt2F582lFOMQbqr0PH7ur30fGjo20ykDw49I+IzHeFbQ6
- uz7w==
+ bh=fTY9EyKnQ6jXRZCchX3NoLEfu3cIBUQyjUkKt8lEvrs=;
+ b=Fz+RIHwG6QgcVH3Y6Ol8HK+nEfIJJhGvu8hDaquy4k0z7qd4Vxu95C8LtKj7GSqZ21
+ Xrkf7mkhOf8FqoJXMwMdoXBWv/QMT3+gkJCs8dsoxG9x4FqbAMA7UO5lc++LsJ101aFa
+ 2q8+Qj33+PPps+n+lnXwr2LzmoZhdXHOsBwk/Fr35bjUlmF5/F4gdfTBD6zzGpMP4mJ0
+ E2MtZr27QvW2eKEq2yXCZDmQJX5Mgxu1gTUunRr+ZLD8KP/On0vHBa5G9jK1SZCqpxMU
+ 3ATNQo2tHOWTGshcBDALd0D0ndaLXppfedOOVCp1qwy0WMReqKg65Jg4+zKGrag6xXOD
+ uetw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Eth0Qo7lxODtnYEXQSTKXdT5egBkmtCsDYgIFXZmsyU=;
- b=LA27qlnbtMBVNZG61SIuAwmkGV6jumk+ZdfCtPmU4aQHlA6euGIyqDMAZSOGRBoyGw
- G4onb0NhrfJ+o9vldK/iq8seDeUJf7s5gS+dDSKyARPiVNuc8QQlcdCAcuxZHe9z7xOA
- yRqlx6AjkZLaiQxDBn/GETwybO5EPTtCsu5K7NOcBAmf7MGt+iD0VHnr5xWFi7UOgvSG
- q38ztzOj0wKHTF3YwvVqyTic2vOJOencjfu/QatjF2E0VlmtmhGeu9Bl5JIUQ30wRrbj
- a/f3sBsjx4+p+wM7yONZbdkh2Ac7weKTTrVW/EltwT4HtYbRanLwKhlWpRMAbNgfwpUt
- 303g==
-X-Gm-Message-State: AOAM533rxlsV3jlN2YIprv0wmvxwmuIMG11gxzQxDc95NgQVfZ72jTI2
- gtzYJKulxIpPMUU5/tpvCHoWo/0GFqc1Yg==
-X-Google-Smtp-Source: ABdhPJwQRyw6+u8vzCg0DqkO+2bYsXrUqZ1XdCNqvJp89Ls7oeAG3mhW16CnZFAUZr4mtJKmeRpEyg==
-X-Received: by 2002:a62:3387:0:b029:13f:ed60:b208 with SMTP id
- z129-20020a6233870000b029013fed60b208mr23851107pfz.24.1600454362214; 
- Fri, 18 Sep 2020 11:39:22 -0700 (PDT)
+ bh=fTY9EyKnQ6jXRZCchX3NoLEfu3cIBUQyjUkKt8lEvrs=;
+ b=lmjR54mxx2jQkK6JmH55YjkCSRwoYbPqGqIP2pqkuJZGBgEjp9Mrm8jcZqxM/shznG
+ h3dfXqgoEfFwZqsXwDRP5YeTBXmMteF3Hn2MIw4EdsyZNViTwfsgYU9RkgpCa4UacCsU
+ JQ7AbGsNVe/ss770MRKaiiSrJS925UqUQHyhe6prxH2AKBpoXxDgln8Abb1A+2fqi8g0
+ P3TNiGMAz5s6Yo3Jd5xzFkwKyGnjKW3PLJ6y4r1SlFzoJ879BCq/ohfLMRt8G/T7RsOR
+ UzrpViomSUDkatHugC+as5q/g/REBiUtuLF4LS0HKehfwbVMcbd3el4O42eNTKcbKREr
+ Lrcg==
+X-Gm-Message-State: AOAM533wrep6N4q64P25eIV7xgjH0PbINW9MvwB3Y8I+CAY69qeoMj/D
+ m/D3fahsWxmbNet334Sk724bqAf+bT6mCQ==
+X-Google-Smtp-Source: ABdhPJzWR/51lPbi35CXdNBBzcEaEKf/VIoPeDGChhP4u6WZivw6ABdf3MJ9cNUpIJQ12QfXI24ohw==
+X-Received: by 2002:a62:1dc1:0:b029:13e:d13d:a051 with SMTP id
+ d184-20020a621dc10000b029013ed13da051mr32290667pfd.23.1600454363236; 
+ Fri, 18 Sep 2020 11:39:23 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.39.21
+ by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.39.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:39:21 -0700 (PDT)
+ Fri, 18 Sep 2020 11:39:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 67/81] target/arm: Implement SVE2 crypto unary operations
-Date: Fri, 18 Sep 2020 11:37:37 -0700
-Message-Id: <20200918183751.2787647-68-richard.henderson@linaro.org>
+Subject: [PATCH v3 68/81] target/arm: Implement SVE2 crypto destructive binary
+ operations
+Date: Fri, 18 Sep 2020 11:37:38 -0700
+Message-Id: <20200918183751.2787647-69-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
 References: <20200918183751.2787647-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,42 +92,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve.decode      |  6 ++++++
- target/arm/translate-sve.c | 11 +++++++++++
- 2 files changed, 17 insertions(+)
+ target/arm/cpu.h           |  5 +++++
+ target/arm/sve.decode      |  7 +++++++
+ target/arm/translate-sve.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 50 insertions(+)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index b394e15c0c..f5052a58a4 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3917,6 +3917,11 @@ static inline bool isar_feature_aa64_sve2_bitperm(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, BITPERM) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_sve2_sm4(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SM4) != 0;
++}
++
+ static inline bool isar_feature_aa64_sve2_i8mm(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, I8MM) != 0;
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 0be8a020f6..9b0d0f3a5d 100644
+index 9b0d0f3a5d..2ebf65f376 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1551,3 +1551,9 @@ STNT1_zprz      1110010 .. 00 ..... 001 ... ..... ..... \
- # SVE2 32-bit scatter non-temporal store (vector plus scalar)
- STNT1_zprz      1110010 .. 10 ..... 001 ... ..... ..... \
-                 @rprr_scatter_store xs=0 esz=2 scale=0
+@@ -118,6 +118,8 @@
+ @pd_pn_pm       ........ esz:2 .. rm:4 ....... rn:4 . rd:4      &rrr_esz
+ @rdn_rm         ........ esz:2 ...... ...... rm:5 rd:5 \
+                 &rrr_esz rn=%reg_movprfx
++@rdn_rm_e0      ........ .. ...... ...... rm:5 rd:5 \
++                &rrr_esz rn=%reg_movprfx esz=0
+ @rdn_sh_i8u     ........ esz:2 ...... ...... ..... rd:5 \
+                 &rri_esz rn=%reg_movprfx imm=%sh8_i8u
+ @rdn_i8u        ........ esz:2 ...... ... imm:8 rd:5 \
+@@ -1557,3 +1559,8 @@ STNT1_zprz      1110010 .. 10 ..... 001 ... ..... ..... \
+ # SVE2 crypto unary operations
+ # AESMC and AESIMC
+ AESMC           01000101 00 10000011100 decrypt:1 00000 rd:5
 +
-+### SVE2 Crypto Extensions
-+
-+# SVE2 crypto unary operations
-+# AESMC and AESIMC
-+AESMC           01000101 00 10000011100 decrypt:1 00000 rd:5
++# SVE2 crypto destructive binary operations
++AESE            01000101 00 10001 0 11100 0 ..... .....  @rdn_rm_e0
++AESD            01000101 00 10001 0 11100 1 ..... .....  @rdn_rm_e0
++SM4E            01000101 00 10001 1 11100 0 ..... .....  @rdn_rm_e0
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 4341b83414..3c46fd7e2b 100644
+index 3c46fd7e2b..aa459ed30a 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -8127,3 +8127,14 @@ static bool trans_USDOT_zzzz(DisasContext *s, arg_USDOT_zzzz *a)
+@@ -8138,3 +8138,41 @@ static bool trans_AESMC(DisasContext *s, arg_AESMC *a)
      }
      return true;
  }
 +
-+static bool trans_AESMC(DisasContext *s, arg_AESMC *a)
++static bool do_aese(DisasContext *s, arg_rrr_esz *a, bool decrypt)
 +{
 +    if (!dc_isar_feature(aa64_sve2_aes, s)) {
 +        return false;
 +    }
 +    if (sve_access_check(s)) {
-+        gen_gvec_ool_zz(s, gen_helper_crypto_aesmc, a->rd, a->rd, a->decrypt);
++        gen_gvec_ool_zzz(s, gen_helper_crypto_aese,
++                         a->rd, a->rn, a->rm, decrypt);
 +    }
 +    return true;
++}
++
++static bool trans_AESE(DisasContext *s, arg_rrr_esz *a)
++{
++    return do_aese(s, a, false);
++}
++
++static bool trans_AESD(DisasContext *s, arg_rrr_esz *a)
++{
++    return do_aese(s, a, true);
++}
++
++static bool do_sm4(DisasContext *s, arg_rrr_esz *a, gen_helper_gvec_3 *fn)
++{
++    if (!dc_isar_feature(aa64_sve2_sm4, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        gen_gvec_ool_zzz(s, fn, a->rd, a->rn, a->rm, 0);
++    }
++    return true;
++}
++
++static bool trans_SM4E(DisasContext *s, arg_rrr_esz *a)
++{
++    return do_sm4(s, a, gen_helper_crypto_sm4e);
 +}
 -- 
 2.25.1
