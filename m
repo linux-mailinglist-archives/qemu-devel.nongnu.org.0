@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9187727060F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:13:43 +0200 (CEST)
-Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8424E270697
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:16:39 +0200 (CEST)
+Received: from localhost ([::1]:35914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJMlK-0004Oz-LA
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56886)
+	id 1kJMoA-0007Ad-JX
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:16:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJLuS-0000yk-Q3
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:19:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27562)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJLuX-00017L-2P
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:19:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJLuQ-0003Sh-Cd
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:19:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJLuU-0003UY-MG
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:19:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600456740;
+ s=mimecast20190719; t=1600456745;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tTR/HKkz0PIKVOrnuMLG/MRAH04A7b0129glqi+cKFU=;
- b=BmMZ79qRHABnPw/6/vpVzIn6DVLc7H2bUoJwlpeN/L1oCa1RU09gB7Z+OYAmcqzk+vMu0Y
- AbyUExDgE8uVHCgWgU6wh3LGZT8RNXBa7eX+LuBJGx/3iZTDWaicwELBHUSA9VUmkqvc18
- VkQ5EYQCQ+HkDLRjHTALnfz6ORnj11U=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-vIeVvc25O6SkmzswIa1aRw-1; Fri, 18 Sep 2020 15:18:56 -0400
-X-MC-Unique: vIeVvc25O6SkmzswIa1aRw-1
-Received: by mail-wr1-f69.google.com with SMTP id l15so2488517wro.10
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 12:18:56 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FBIHHB8r1nOsb0mZw6G+oY7DH6xqjhzWoXftpaQtk+I=;
+ b=ZCcwRy83FnJUfJW0dDjMeSdIKQ/rqA+lzj+vTswFXQYWdYpJ37SVlDdq2gBcAtWlwb1ZNS
+ EHCLJEsJ1FBpVyo07+UdeeWIrZFeVVvdG0OUs5greCf2yo4+ROkTImlWUsaLj9tj5SsqpY
+ 0wf/+1OZQ3KtWWdRjO+Tso508gnd0lA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-L-tlpUcDN7iaVq_t0sNSYw-1; Fri, 18 Sep 2020 15:19:01 -0400
+X-MC-Unique: L-tlpUcDN7iaVq_t0sNSYw-1
+Received: by mail-wr1-f71.google.com with SMTP id f18so2483032wrv.19
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 12:19:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tTR/HKkz0PIKVOrnuMLG/MRAH04A7b0129glqi+cKFU=;
- b=lQj9Iqus7U6s+EwTpqlPpZ8rLyKRvhGtAo1zvXZ+pDnVzxedu6N7P/DbBhGRAktuMK
- bJNB+fq4c+b8QM5NQHdzkrNQroKRaOmQbUr8q8zkVExgSAzkwWAtg361HZLMOR9M6g7T
- yupHKpnHa05RK5J8NZpwCeTmV5dQGHI+IOXCrpplXHs5GFodS/MIRD9h8dM95MEwdk9t
- P7ei/FyBLqZkD4UF9IdpMD0TZ/gjE5gD6aJPpNOZl+J7w+n805KfjyLCe7VSIyMyALh8
- DlH275CsjEyP49vTWS62mjG8gUy3UIya6nl+K3QyxdqQyJQ+dTuHfUw45qF8bqIv/1va
- d/gw==
-X-Gm-Message-State: AOAM532gzurO4Bm4XghveEAI3A1zw4tcdZF2z4wvQ1LmcZxfvlvu5RAG
- t2+3ptU8sBNot6q/kU8FMdgbWAM0C99trtn85jxUJTyXhOQfJo7k04GQkop27fTjP0ynQo5Qwxn
- vK4cuOnxyq+aRMK8=
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr42212978wrp.213.1600456734907; 
- Fri, 18 Sep 2020 12:18:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyiLztP+3z1gIBQEREnlD7SllECH4hyI0SDGoEaN6uPooYb2G33OiRwSb5nYgEVekmDTvxHPg==
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr42212962wrp.213.1600456734630; 
- Fri, 18 Sep 2020 12:18:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FBIHHB8r1nOsb0mZw6G+oY7DH6xqjhzWoXftpaQtk+I=;
+ b=bBlaELcKiN26/orPtV5wx428P8/zIkhNk7C9mbNPB5YP5KLQMl+qrwbZYYSM4NEA4d
+ f1L/f15qxnxtBrD+4ie2EGTuJfFQgMRiqfD9Kt0O+GfpnTanpqf0UM/KPkGUWzaFvpCW
+ ZViFhcS3wttwUV09csnRHvPChljGByHCRMPicpfASBiEycZcPaWFH3ie/WFfwjPjBq5n
+ G+OkdvNbry7aoTAsj2ZZVNQsC9v8KuHQ9AaZA8bGxYm5mdhs5A50evrwAd8tZy6JCEO6
+ aqB+IgvFGygXzKQr+G2qK+vRVGNRul5JPoGWMHqU16Ym5KJUFK22v9iq2gtAN9lYoGUp
+ 3Vzw==
+X-Gm-Message-State: AOAM530X1SObTjcfebO1fyfIpCGwfxWR9r9FGyiacmXsvvWnYmwPtxDv
+ FRPUFNiakwesq+Bh3XRNcG976Cd15SmLIFtshb4BzLPhL3ynfoyfmNlGdYO/oJxayVAhlTqCipE
+ KcITjexYZDNw5muU=
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr33818437wro.146.1600456739960; 
+ Fri, 18 Sep 2020 12:18:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCN+ktEBDk9Do3jWEL79vLisgsT1IgnEGh2IhndLS9XaMBUY3gsWd3QZmHDXcCNK/c5huGxw==
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr33818421wro.146.1600456739703; 
+ Fri, 18 Sep 2020 12:18:59 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id q13sm7601310wra.93.2020.09.18.12.18.53
+ by smtp.gmail.com with ESMTPSA id x10sm6737663wmi.37.2020.09.18.12.18.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 12:18:54 -0700 (PDT)
+ Fri, 18 Sep 2020 12:18:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Acceptance patches for 2020-09-18
-Date: Fri, 18 Sep 2020 21:18:50 +0200
-Message-Id: <20200918191852.189151-1-philmd@redhat.com>
+Subject: [PULL 1/2] tests/acceptance: Disable tests dependent of unreliable
+ apt.armbian.com
+Date: Fri, 18 Sep 2020 21:18:51 +0200
+Message-Id: <20200918191852.189151-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200918191852.189151-1-philmd@redhat.com>
+References: <20200918191852.189151-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -92,47 +97,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+Cc: Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 053a4177817db307ec854356e95b5b350800a216:
+Armbian servers are not very reliable and confused the GitLab CI
+users a few times this month (path updated, archives moved, and
+now the SSL: CERTIFICATE_VERIFY_FAILED "certificate has expired"
+error). Time to disable these tests.
+Users can still use the artifacts from the cache (or manually add
+them to the cache).
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-20200918' i=
-nto staging (2020-09-18 16:34:26 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/philmd/qemu.git tags/acceptance-next-20200918
-
-for you to fetch changes up to b6eea069ab3926e110b8ddf037ff7ea7b2c8c1f5:
-
-  tests/acceptance: Skip slow quanta-gsj U-boot+Linux test (2020-09-18 19:46:=
-38 +0200)
-
-----------------------------------------------------------------
-Acceptance tests queue
-
-Get GitLab CI acceptance jobs green again.
-
-CI jobs results:
-  https://gitlab.com/philmd/qemu/-/pipelines/191795388
-----------------------------------------------------------------
-
-Philippe Mathieu-Daud=C3=A9 (2):
-  tests/acceptance: Disable tests dependent of unreliable
-    apt.armbian.com
-  tests/acceptance: Skip slow quanta-gsj U-boot+Linux test
-
- tests/acceptance/boot_linux_console.py | 11 +++++++++++
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20200917163954.50514-1-philmd@redhat.com>
+---
+ tests/acceptance/boot_linux_console.py | 10 ++++++++++
  tests/acceptance/replay_kernel.py      |  3 +++
- 2 files changed, 14 insertions(+)
+ 2 files changed, 13 insertions(+)
 
---=20
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 4a366ce93e4..68534693109 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -485,6 +485,8 @@ def test_arm_exynos4210_initrd(self):
+         self.wait_for_console_pattern('Boot successful.')
+         # TODO user command, for now the uart is stuck
+ 
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
+     def test_arm_cubieboard_initrd(self):
+         """
+         :avocado: tags=arch:arm
+@@ -525,6 +527,8 @@ def test_arm_cubieboard_initrd(self):
+                                                 'system-control@1c00000')
+         # cubieboard's reboot is not functioning; omit reboot test.
+ 
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
+     def test_arm_cubieboard_sata(self):
+         """
+         :avocado: tags=arch:arm
+@@ -651,6 +655,8 @@ def test_arm_quanta_gsj_initrd(self):
+         self.wait_for_console_pattern(
+                 'Give root password for system maintenance')
+ 
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
+     def test_arm_orangepi(self):
+         """
+         :avocado: tags=arch:arm
+@@ -676,6 +682,8 @@ def test_arm_orangepi(self):
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         self.wait_for_console_pattern(console_pattern)
+ 
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
+     def test_arm_orangepi_initrd(self):
+         """
+         :avocado: tags=arch:arm
+@@ -718,6 +726,8 @@ def test_arm_orangepi_initrd(self):
+         # Wait for VM to shut down gracefully
+         self.vm.wait()
+ 
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
+     def test_arm_orangepi_sd(self):
+         """
+         :avocado: tags=arch:arm
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index b79fc8daf8e..952f429cace 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -13,6 +13,7 @@
+ import time
+ 
+ from avocado import skipIf
++from avocado import skipUnless
+ from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import archive
+ from avocado.utils import process
+@@ -127,6 +128,8 @@ def test_arm_virt(self):
+         self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=1)
+ 
+     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
+     def test_arm_cubieboard_initrd(self):
+         """
+         :avocado: tags=arch:arm
+-- 
 2.26.2
 
 
