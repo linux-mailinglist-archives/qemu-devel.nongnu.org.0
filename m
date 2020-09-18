@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E0226FCC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 14:42:51 +0200 (CEST)
-Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7030626FD89
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 14:50:28 +0200 (CEST)
+Received: from localhost ([::1]:60978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJFiz-0005Km-T9
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 08:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34316)
+	id 1kJFqN-0007Tn-2f
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 08:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kJFhj-0004Bm-Va; Fri, 18 Sep 2020 08:41:33 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kJFhf-0004ix-Jt; Fri, 18 Sep 2020 08:41:31 -0400
-Received: by mail-ot1-x343.google.com with SMTP id o8so5239079otl.4;
- Fri, 18 Sep 2020 05:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RfoFIQ3BH7e/fWVNyiH8kKGPwrQpt0OuogqTRvvAgyM=;
- b=tBZmxHmm46WmPOihaZWHR0HeH+GmN3ADektpvyXJmo2o+cF1Y2FIrxHqLCREe9HBCJ
- aG9faTBQsIciHqr9VT/h4k+1mES0EZBNi83ICX6h5D/nSjUpUaXCnLJp48qWjtpkSv5C
- B+1NdT5RHWaYxU4YUIhBy2+v3UIHBj+bYuIQ9wRitNwIwBY6nQXinnY94BCN/jskHMGS
- 135/bH7ZYOG8iB0dE0QQW2Z909PFrvT7/NSLY6ZbV02pJum8ha0jj6wUmk+N86FOR9ia
- D00w50zKb9/W636N7Un7kGYNoY1A5NZKOWNVhmpUKhBwAs2wJwsUYhBsxAfRwrNSAWmv
- ceMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RfoFIQ3BH7e/fWVNyiH8kKGPwrQpt0OuogqTRvvAgyM=;
- b=oca8kuf8ABZyVjjwaXcMnp1pxaCvo3dyOQR4AXid9wv9yVDiHSjYAX0oeNtbLQ5194
- o0MSCr6N0tZERhR51k7YHIQhUvorW6a9+RDlZf7IoYpJn5WCgajLTxYD/TvgzCaUziKl
- N9FvWl3EzAgnlypoHmbkuKur5WiFrSa+U0jtfGF8C5xvvK9Idw0ghKhd8EZGmAxRwvY+
- 34Ptwg7N1QjCN5n7MhBpuoSKC/aVzO8sMch191QgfVNLVJ3bDm6ZtMGMdEKR5elV+7pU
- UC573tpdcEFwgEkoHsGXTEZ5UmHa4jF7QPJhiw6jAmE/yU4HJ0foL+uV71OPnhZjBuY4
- yuMQ==
-X-Gm-Message-State: AOAM533dKffPJn4HWP4SjyOk58AO71nKWrThAYfcZBfw8/EdvY4MPog2
- lYcQdM6gQlG3BHPVMGeKEJ/7zdAUbWRZqJ2yhuM=
-X-Google-Smtp-Source: ABdhPJwPc/dycmkXje87kFh8Ztd035U6VocrjFCCix4m65lWld1tS3rcxq9M39f2UbvZgu7f2Un2AbTOtmHePl5Y79c=
-X-Received: by 2002:a9d:5e11:: with SMTP id d17mr22026428oti.333.1600432885481; 
- Fri, 18 Sep 2020 05:41:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kJFpU-00074R-8Z
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 08:49:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kJFpR-0005mU-UY
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 08:49:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600433367;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NHt28rnB1Fy44zA4S/tuCT5n1OV1JpQUHvEyaQwZbe8=;
+ b=iZUbaWmuJ9YdVmqevEvdVRYMYlt6etDn8mDPWdthFzUBb8S2h8m2sJPjFIjATTdZXNfGXC
+ /vmEqJzjeK/u/rqtTRP9F6AJ5nvi53jjZr468Qw4KM1QDdCo5kIKKdiXJb8ganpw+t8jWo
+ dzNQxCVm/CHOQNuFvVHA872BZuNAkyM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-VwjA-qfQPZSivW7TZdEesQ-1; Fri, 18 Sep 2020 08:49:21 -0400
+X-MC-Unique: VwjA-qfQPZSivW7TZdEesQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 433781882FBB;
+ Fri, 18 Sep 2020 12:49:20 +0000 (UTC)
+Received: from redhat.com (ovpn-114-199.ams2.redhat.com [10.36.114.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FD635D9D5;
+ Fri, 18 Sep 2020 12:49:16 +0000 (UTC)
+Date: Fri, 18 Sep 2020 13:49:13 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] usb: fix u2f build
+Message-ID: <20200918124913.GH1628512@redhat.com>
+References: <20200918110122.9121-1-kraxel@redhat.com>
+ <20200918110312.GF1628512@redhat.com>
 MIME-Version: 1.0
-References: <20200918120301.729794-1-lvivier@redhat.com>
-In-Reply-To: <20200918120301.729794-1-lvivier@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 18 Sep 2020 20:40:49 +0800
-Message-ID: <CAKXe6SJFGWHq6j8bdQ3JtRisL2zQHLf8ctipEM+TtRRuZdCC9Q@mail.gmail.com>
-Subject: Re: [PATCH] vhost-vdpa: don't check g_malloc() return value
-To: Laurent Vivier <lvivier@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200918110312.GF1628512@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,60 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?utf-8?B?Q8Opc2Fy?= Belley <cesar.belley@lse.epita.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8818=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=888:04=E5=86=99=E9=81=93=EF=BC=9A
->
-> On failure, g_malloc() aborts the program, we don't need to check the
-> return value
->
+On Fri, Sep 18, 2020 at 12:03:12PM +0100, Daniel P. Berrangé wrote:
+> On Fri, Sep 18, 2020 at 01:01:22PM +0200, Gerd Hoffmann wrote:
+> > Just use qemu_open_old() for a quick fix, switch
+> > to better error handling left for another day.
+> > 
+> > Fixes: 448058aa99aa ("util: rename qemu_open() to qemu_open_old()")
+> > Cc: César Belley <cesar.belley@lse.epita.fr>
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >  hw/usb/u2f-emulated.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-In fact, I have sent this one month agon.
--->https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg04444.html
+BTW, this breakage shows that we're missing CI coverage for this
+feature. the pre-requisite library needs to be added to any of the
+dockerfiles where it is available and ensure its covered by at least
+one of the gitlab CI jobs that exists.
 
-If you use this you can add my R-b tag:
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  hw/virtio/vhost-vdpa.c | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 4580f3efd8a2..23a4a957ef77 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -321,9 +321,6 @@ static int vhost_vdpa_set_config(struct vhost_dev *de=
-v, const uint8_t *data,
->      int ret;
->      unsigned long config_size =3D offsetof(struct vhost_vdpa_config, buf=
-);
->      config =3D g_malloc(size + config_size);
-> -    if (config =3D=3D NULL) {
-> -        return -1;
-> -    }
->      config->off =3D offset;
->      config->len =3D size;
->      memcpy(config->buf, data, size);
-> @@ -340,9 +337,6 @@ static int vhost_vdpa_get_config(struct vhost_dev *de=
-v, uint8_t *config,
->      int ret;
->
->      v_config =3D g_malloc(config_len + config_size);
-> -    if (v_config =3D=3D NULL) {
-> -        return -1;
-> -    }
->      v_config->len =3D config_len;
->      v_config->off =3D 0;
->      ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
-> --
-> 2.26.2
->
->
 
