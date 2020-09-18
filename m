@@ -2,61 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EC326FE1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:21:56 +0200 (CEST)
-Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1BD26FE2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:24:53 +0200 (CEST)
+Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJGKp-0001HV-Pq
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:21:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1kJGNh-0004vj-1b
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kJGEv-0004hu-67
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:15:49 -0400
-Resent-Date: Fri, 18 Sep 2020 09:15:49 -0400
-Resent-Message-Id: <E1kJGEv-0004hu-67@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kJGEt-0000lF-5u
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:15:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600434938; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LtHPzotVMA38iEbzM/oJYxSohE7txFGypLAGztnFywH9xISgpmrYYhnZvVQQil3t/5WFnkX1JwbMzIOJzG+LfMW2gI/7JZsgK6v0RGGLKLm4u+Jtz8LmCovse8pHOeX13ULS7qf8Pu9XLf6a4vRFjO4YIxB03NuVJWFHfqYGN9I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600434938;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=o78dEpAidMxUC9egYpaY5gF3tncjxR+4TATJgCq0lnA=; 
- b=N4Vp7rrSiMBjJRQm0+BHHJYXunN8N7kjSgym220Cyc71/n8qTGXYS4ABSTydtLZgnte1JrsS8GBCAhSw+N3O6l6p3chYVQtDJCnlTQnes5zaewa27Afn8yG8EGi6U5Sq+DVccXKKlezxAMvtX5hd297/SOnjROzplsiMZkFXfBY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600434938248430.72690166731763;
- Fri, 18 Sep 2020 06:15:38 -0700 (PDT)
-Subject: Re: [PATCH] virtio-gpu-3d: fix abnormal display after a warm reboot
-Message-ID: <160043493690.8478.5815484391787377156@66eaa9a8a123>
-In-Reply-To: <20200918111632.37354-1-zhangguoqing.kernel@bytedance.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kJGK9-00015Z-Rw
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:21:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59300
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kJGK3-0001Qq-6A
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:21:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600435265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+OljBgQWH1o/YapSFq+n0Nms+XYR7jDEp2Uu6M89wJw=;
+ b=FgiS+eMCxqLzpGudNz0BhrH8b2ipjo2qvfqgRBW6FBtDEeCzZajC1/HU2l16dyeBRPFChA
+ XSHiUNbQQ1Qr33nsK+qkUpPtobtQIQV6BOEs89FDL3z5VR6bJK4bIl/L5HOWB5MQjAk4Ke
+ qS2Btq/3f6BdoLCbTmb7QfXsKL7cOUk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-FrVKf3zvNVyvjrkNH0X6PQ-1; Fri, 18 Sep 2020 09:21:00 -0400
+X-MC-Unique: FrVKf3zvNVyvjrkNH0X6PQ-1
+Received: by mail-wr1-f72.google.com with SMTP id b7so2132331wrn.6
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 06:21:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+OljBgQWH1o/YapSFq+n0Nms+XYR7jDEp2Uu6M89wJw=;
+ b=mKYrLsFEB0FFVhoCQkqv+XOEuZzHbmG7sRC+BCaXmB5x10r85YjcydftroiQOTGwqs
+ N6BoZa+8kKJy6qAMDb0cvNvZB3bb6gWKYrIqCbX0ERt46S3obYPZvjrOf9asSZ4vKB2o
+ Fg+0wfDJKINVnTw9PoV87WbcN43uVBUygIYLPCNUUVig5GC5JikM39NcUG/vSrvMHGoO
+ tYOqmejnYDazMM4quGQl3KwjK+mP30CoWHCzGaTtmOVufCVOxCjtVZIsRCwbAoSahKPe
+ gmYCJ8HRjQFkRViUv8FByOdinmbmxDqCuL/lpCVoNLagtCFSiNE9RCD/cIOKzLgP58uL
+ 2gpg==
+X-Gm-Message-State: AOAM533CLggV9txMnQiAGxSGFuUOoSwSbkTLZ4lKbPVpVKYu4ereKYvO
+ Rh2v8uZHBD8gYKM0f18wNByblXwIYszJAbE8bnby9Wy/fPguNhBxl9qZYpnXzQXA17z6x8YTMwa
+ Y5UVfjidq4MEXaRg=
+X-Received: by 2002:a5d:4710:: with SMTP id y16mr39000421wrq.203.1600435259044; 
+ Fri, 18 Sep 2020 06:20:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8RX6a+B1RHYEpJx+rwnAyQIf0fw59CM/F+iC7BCRYGhMfTkfdTAeADIVrCY5JCWW3vjlwEA==
+X-Received: by 2002:a5d:4710:: with SMTP id y16mr39000407wrq.203.1600435258834; 
+ Fri, 18 Sep 2020 06:20:58 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:69b4:4715:609f:385f?
+ ([2001:b07:6468:f312:69b4:4715:609f:385f])
+ by smtp.gmail.com with ESMTPSA id y6sm5347383wrn.41.2020.09.18.06.20.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Sep 2020 06:20:58 -0700 (PDT)
+Subject: Re: [PATCH] configure: move malloc_trim/tcmalloc/jemalloc to meson
+To: luoyonggang@gmail.com
+References: <20200916080608.17689-1-pbonzini@redhat.com>
+ <CAE2XoE82=BjoGF5sXUBE+rTJzDwphBRL8CqRp2Z9FAq83dHXJw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6c21e60d-9bc9-e90d-5df1-31345cee7a7a@redhat.com>
+Date: Fri, 18 Sep 2020 15:20:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: zhangguoqing.kernel@bytedance.com
-Date: Fri, 18 Sep 2020 06:15:38 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 09:13:24
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAE2XoE82=BjoGF5sXUBE+rTJzDwphBRL8CqRp2Z9FAq83dHXJw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 08:09:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,19 +102,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, liuqi.16@bytedance.com,
- zhangguoqing.kernel@bytedance.com, kraxel@redhat.com, mst@redhat.com
+Cc: qemu-level <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxODExMTYzMi4zNzM1
-NC0xLXpoYW5nZ3VvcWluZy5rZXJuZWxAYnl0ZWRhbmNlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmll
-cyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJl
-bG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKTi9BLiBJbnRlcm5hbCBlcnJvciB3aGlsZSByZWFk
-aW5nIGxvZyBmaWxlCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
-ZXcub3JnL2xvZ3MvMjAyMDA5MTgxMTE2MzIuMzczNTQtMS16aGFuZ2d1b3Fpbmcua2VybmVsQGJ5
-dGVkYW5jZS5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
-ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
-ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 18/09/20 14:55, 罗勇刚(Yonggang Luo) wrote:
+> 
+>>  if test "$tcmalloc" = "yes" && test "$jemalloc" = "yes" ; then
+>>      echo "ERROR: tcmalloc && jemalloc can't be used at the same time"
+>>      exit 1
+>> -fi
+> This patch looks good for me, but I still have a small advice than move
+> thse judgement from
+> configure to meson, because finally they need to be converted.
+> and getting tcmalloc /  jemalloc to be "enabled" "disabled" for consistence
+> 
+
+This error cannot apply to meson.build because it uses a single
+multi-choice option "-Dmalloc=system|tcmalloc|jemalloc".
+
+Paolo
+
 
