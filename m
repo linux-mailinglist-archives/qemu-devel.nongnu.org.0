@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDB82700D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:23:34 +0200 (CEST)
-Received: from localhost ([::1]:44216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D801270083
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:07:05 +0200 (CEST)
+Received: from localhost ([::1]:55638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJIEX-0008W8-HL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
+	id 1kJHya-0006Cy-4K
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJI2L-0004WA-OM
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:10:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50146)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJI2E-0001DR-TG
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 11:10:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kJI2C-0004pn-J9
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 15:10:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8F9102E80EC
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 15:10:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kJHvc-0003hS-QI; Fri, 18 Sep 2020 11:04:00 -0400
+Resent-Date: Fri, 18 Sep 2020 11:04:00 -0400
+Resent-Message-Id: <E1kJHvc-0003hS-QI@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kJHvY-00082t-HZ; Fri, 18 Sep 2020 11:04:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600441419; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=U9MTxLcpTF0+cqtj3f1Qld14a9uu/PRDYRg6I7aSZdDf1/ccL52JSy6wvetqHCPWb77D8R1WWuPY4MgJvP2jIXp6g2RekGUy9aGi5JOBo4NUixWqIvAn4l3XQRrUb0xY5GOA03K0qM5zDZGiQr/C/XpQIC8dQZYFwRMSj5cfFGU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600441419;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=DjWPCci+NtaRCicU4n5yUHwGHIIp7ltJjkpOjvCxXy4=; 
+ b=mxevKEHDAfF0tLtERMtQ6Sra5YrrIzSMKJEUtofNc/mHOuo0HMbP92TPENW39WgfBzRdItmiBmG9ugwYX2Dhxc6IXBGlbC+O0wi/ngTrDmMDYBox/+g+dO9Z4WNWDO+qN0/T7YikHA8IX8g6Aqo0VNcTZ1VOfuzP3xV92Ad/2Uc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600441419266113.11221122737277;
+ Fri, 18 Sep 2020 08:03:39 -0700 (PDT)
+Subject: Re: [PATCH] xen: rework pci_piix3_xen_ide_unplug
+Message-ID: <160044141773.8478.11884277035033315344@66eaa9a8a123>
+In-Reply-To: <20200918145256.1886250-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Sep 2020 15:00:59 -0000
-From: Paolo Bonzini <1896096@bugs.launchpad.net>
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier
-X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
-X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
-References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
-Message-Id: <160044125917.1325.11539808421637066626.malone@chaenomeles.canonical.com>
-Subject: [Bug 1896096] Re: Git version: Build process is broken in
- block_curl.c.o
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 26f8d2aa4d98ed8b16e0746bafb12fe1225b7cce
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
+Date: Fri, 18 Sep 2020 08:03:39 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 09:36:49
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,64 +67,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: sstabellini@kernel.org, qemu-block@nongnu.org, paul@xen.org,
+ qemu-devel@nongnu.org, anthony.perard@citrix.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cc  -o block-curl.so  -Wl,--as-needed -Wl,--allow-shlib-undefined
--shared -fPIC -Wl,--start-group -Wl,-soname,block-curl.so -Wl,--whole-
-archive libblock-curl.a -Wl,--no-whole-archive -Wl,--warn-common
--Wl,-z,relro -Wl,-z,now -m64 -Wl,-O1,--sort-common,--as-
-needed,-z,relro,-z,now -fstack-protector-strong -O2 -g -fPIE -DPIE
--std=3Dgnu99 -Wall -g -pie -Wl,-O1,--sort-common,--as-
-needed,-z,relro,-z,now libmodule-common.a -lcurl -Wl,--export-dynamic
--pthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -Wl,--end-group
-
-It could be because of -pie overriding -shared.  You wrote that you have
---extra-ldflags=3D"$LDFLAGS" but what is $LDFLAGS?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896096
-
-Title:
-  Git version: Build process is broken in block_curl.c.o
-
-Status in QEMU:
-  New
-
-Bug description:
-  Gcc version: 10.2.0
-  Glusterfs: 8.1
-  Libguestfs: 1.42
-
-  Configure options used:
-
-  configure \
-      --prefix=3D/usr \
-      --sysconfdir=3D/etc \
-      --localstatedir=3D/var \
-      --libexecdir=3D/usr/lib/qemu \
-      --extra-ldflags=3D"$LDFLAGS" \
-      --smbd=3D/usr/bin/smbd \
-      --enable-modules \
-      --enable-sdl \
-      --disable-werror \
-      --enable-slirp=3Dsystem \
-      --enable-xfsctl \
-      --audio-drv-list=3D"pa alsa sdl"
-      =
-
-  Error log attached. Here is the beginning:
-
-  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
-1.o: in function `_start':
-  (.text+0x24): undefined reference to `main'
-  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
-t':
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxODE0NTI1Ni4xODg2
+MjUwLTEtYW50aG9ueS5wZXJhcmRAY2l0cml4LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKTi9BLiBJbnRlcm5hbCBlcnJvciB3aGlsZSByZWFkaW5nIGxv
+ZyBmaWxlCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3Jn
+L2xvZ3MvMjAyMDA5MTgxNDUyNTYuMTg4NjI1MC0xLWFudGhvbnkucGVyYXJkQGNpdHJpeC5jb20v
+dGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0
+b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5k
+IHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
