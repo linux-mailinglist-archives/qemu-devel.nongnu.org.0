@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7652702AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:55:22 +0200 (CEST)
-Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63B8270273
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:44:34 +0200 (CEST)
+Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJfN-0002Kn-IJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:55:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40584)
+	id 1kJJUv-0001gI-QH
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:44:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJJ84-0005Lk-ED
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35350)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJJ7s-0005lh-VB
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kJJ7j-0005RZ-LN
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 16:20:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9FA022E804B
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 16:20:35 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Sep 2020 16:12:50 -0000
-From: Frederic Bezies <1896096@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJ7V-000524-6y
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22431)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJ7N-0005Xv-Rd
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:20:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600446011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
+ b=hRHadY2fnWFJguwLEJayoUaZu1eyG+2YKAQ13HOwm0Meokx1vlEgxe0h9A5YuP2GyxbuBY
+ iEnQkxcCnRqZr/dBQw6fnHLCUEReA/5SD5D3/pfTy106sqWZpiPCrlWBZGal+2C0wlJBl9
+ BbO04fMD+ZuAtMTxP+MLh+6YkKTaygo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-UjvC5n2yOAeA30Il5G-qNA-1; Fri, 18 Sep 2020 12:20:09 -0400
+X-MC-Unique: UjvC5n2yOAeA30Il5G-qNA-1
+Received: by mail-wr1-f71.google.com with SMTP id l9so2301615wrq.20
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:20:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
+ b=e4uxF9N8VZYbQQkgyzACBSmdmE8jpl62gSTxQA5znRKKgStoOtqn4vNarEvI2NqZW+
+ 7JWH1HQ0xSmDNANW00mbhBsVdkgak3ujPuBOpumDE1GvsqHf3kZcmHJsYLfHT9uiWzFE
+ //nDNonL7YJwtbgNhYMc7+vDmwqjxHRRYfCOQ97GgW9o2MQeTQ1pn6pyTvRcLM0WC8Es
+ TXBDE7kraQaDOhtHOFWoyd/C5VNGYTXAJbHbmgIvMwLg3tpeeOaM9owe9Fqwuk98ak2S
+ QdOM20Mpz9sI20E1l+Q11ZZREe9WJLNfW7mbmOoeqBaD4rRPDTPj8AJ+ds8xEO004Mhi
+ MZFQ==
+X-Gm-Message-State: AOAM533sJH33pU304lTM/eXa6ithfEG4nO1Iz6X1rlazij/YSAZ0ekqh
+ qiikjyTY0MZPC68oNnCNZe4P8ux0CcRDAsHZQEUUS+dFlHsKp4OyOjyx/CwJYaXK3DmIWZWR3VS
+ xihq/GsKdK0h72rU=
+X-Received: by 2002:a5d:67d0:: with SMTP id n16mr41765943wrw.198.1600446007104; 
+ Fri, 18 Sep 2020 09:20:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz48ZF6pZHd3DO19ONPD9MqxRhUuQg17211NL58XVLyOTpDEleE/rYHf2Rh3RNUesNJYh9mnQ==
+X-Received: by 2002:a5d:67d0:: with SMTP id n16mr41765922wrw.198.1600446006907; 
+ Fri, 18 Sep 2020 09:20:06 -0700 (PDT)
+Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
+ [109.65.116.225])
+ by smtp.gmail.com with ESMTPSA id o129sm5982679wmb.27.2020.09.18.09.20.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 09:20:06 -0700 (PDT)
+Date: Fri, 18 Sep 2020 12:20:04 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier
-X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
-X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
-References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
-Message-Id: <160044557014.21075.1431968160944824398.malone@wampee.canonical.com>
-Subject: [Bug 1896096] Re: Git version: Build process is broken in
- block_curl.c.o
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 9cb9b4d20bd1fdcfc365713e508becc3eba6ec65
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PULL v2 03/15] vhost-vdpa: batch updating IOTLB mappings
+Message-ID: <20200918161836.318893-4-mst@redhat.com>
+References: <20200918161836.318893-1-mst@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200918161836.318893-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,55 +95,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even with LDFLAGS tweaking, it breaks. Anyway, thanks for your help
-here.
+From: Jason Wang <jasowang@redhat.com>
 
--- =
+To speed up the memory mapping updating between vhost-vDPA and vDPA
+device driver, this patch passes the IOTLB batching flags via IOTLB
+API. Two new flags was introduced, VHOST_IOTLB_BATCH_BEGIN is a hint
+that a bathced IOTLB updating may be initiated from the
+userspace. VHOST_IOTLB_BATCH_END is a hint that userspace has finished
+the updating:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896096
+VHOST_IOTLB_BATCH_BEGIN
+VHOST_IOTLB_UPDATE/VHOST_IOTLB_INVALIDATE
+...
+VHOST_IOTLB_BATCH_END
 
-Title:
-  Git version: Build process is broken in block_curl.c.o
+Vhost-vDPA can then know that all mappings has been set and can do
+optimization like passing all the mappings to the vDPA device driver.
 
-Status in QEMU:
-  Invalid
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20200907104903.31551-4-jasowang@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/virtio/vhost-vdpa.h |  1 +
+ hw/virtio/vhost-vdpa.c         | 66 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
 
-Bug description:
-  Gcc version: 10.2.0
-  Glusterfs: 8.1
-  Libguestfs: 1.42
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index 6455663388..9b81a409da 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -18,6 +18,7 @@ typedef struct vhost_vdpa {
+     int device_fd;
+     uint32_t msg_type;
+     MemoryListener listener;
++    struct vhost_dev *dev;
+ } VhostVDPA;
+ 
+ extern AddressSpace address_space_memory;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 4580f3efd8..ba1ae3ea44 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -78,6 +78,46 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+     return ret;
+ }
+ 
++static void vhost_vdpa_listener_begin(MemoryListener *listener)
++{
++    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
++    struct vhost_dev *dev = v->dev;
++    struct vhost_msg_v2 msg;
++    int fd = v->device_fd;
++
++    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
++        return;
++    }
++
++    msg.type = v->msg_type;
++    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
++
++    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
++        error_report("failed to write, fd=%d, errno=%d (%s)",
++                     fd, errno, strerror(errno));
++    }
++}
++
++static void vhost_vdpa_listener_commit(MemoryListener *listener)
++{
++    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
++    struct vhost_dev *dev = v->dev;
++    struct vhost_msg_v2 msg;
++    int fd = v->device_fd;
++
++    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
++        return;
++    }
++
++    msg.type = v->msg_type;
++    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
++
++    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
++        error_report("failed to write, fd=%d, errno=%d (%s)",
++                     fd, errno, strerror(errno));
++    }
++}
++
+ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+                                            MemoryRegionSection *section)
+ {
+@@ -191,6 +231,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+  * depends on the addnop().
+  */
+ static const MemoryListener vhost_vdpa_memory_listener = {
++    .begin = vhost_vdpa_listener_begin,
++    .commit = vhost_vdpa_listener_commit,
+     .region_add = vhost_vdpa_listener_region_add,
+     .region_del = vhost_vdpa_listener_region_del,
+ };
+@@ -226,6 +268,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+ 
+     v = opaque;
++    v->dev = dev;
+     dev->opaque =  opaque ;
+     vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
+     dev->backend_features = features;
+@@ -280,6 +323,28 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
+     return !(status & VIRTIO_CONFIG_S_FEATURES_OK);
+ }
+ 
++static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
++{
++    uint64_t features;
++    uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
++        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
++    int r;
++
++    if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
++        return 0;
++    }
++
++    features &= f;
++    r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
++    if (r) {
++        return 0;
++    }
++
++    dev->backend_cap = features;
++
++    return 0;
++}
++
+ int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+                                    uint32_t *device_id)
+ {
+@@ -452,6 +517,7 @@ const VhostOps vdpa_ops = {
+         .vhost_set_vring_kick = vhost_vdpa_set_vring_kick,
+         .vhost_set_vring_call = vhost_vdpa_set_vring_call,
+         .vhost_get_features = vhost_vdpa_get_features,
++        .vhost_set_backend_cap = vhost_vdpa_set_backend_cap,
+         .vhost_set_owner = vhost_vdpa_set_owner,
+         .vhost_set_vring_endian = NULL,
+         .vhost_backend_memslots_limit = vhost_vdpa_memslots_limit,
+-- 
+MST
 
-  Configure options used:
-
-  configure \
-      --prefix=3D/usr \
-      --sysconfdir=3D/etc \
-      --localstatedir=3D/var \
-      --libexecdir=3D/usr/lib/qemu \
-      --extra-ldflags=3D"$LDFLAGS" \
-      --smbd=3D/usr/bin/smbd \
-      --enable-modules \
-      --enable-sdl \
-      --disable-werror \
-      --enable-slirp=3Dsystem \
-      --enable-xfsctl \
-      --audio-drv-list=3D"pa alsa sdl"
-      =
-
-  Error log attached. Here is the beginning:
-
-  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
-1.o: in function `_start':
-  (.text+0x24): undefined reference to `main'
-  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
-t':
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
