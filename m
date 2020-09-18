@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCEE26FDD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:08:24 +0200 (CEST)
-Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690E626FDFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 15:15:03 +0200 (CEST)
+Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJG7j-0003pv-LX
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40286)
+	id 1kJGEA-0002tz-H0
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 09:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kJG5G-0002XW-AS
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:05:50 -0400
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:35902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kJG5D-0007u5-W7
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:05:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1600434348;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=BoGDFpFFYUpaaA9V9Ooztf+Q0Oxwk9qidQhm4hl0oUo=;
- b=dqt8K2jB5mgmNNThFx3mHlkttaoFNHYB+/s7++g/+wF9Dh7JH0ZtCRxX
- MI5c+IJ6a8eNHIPY2waiaPfQWPgNY/R0rt/iIpQTJ/u3e+M5ySquDj4it
- G/c4chx0/9O/a/C0jV/Xs7+A+HLmJheLNlA6VXbeUB/5cQSaXTZio2eeG 8=;
-Authentication-Results: esa3.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: gLSSquyV0jzY8+nFH93+9dmZjBGO0WJzkufAg8J34+5fcvTERGFTBLPFJ6/JFhOytEsL1sH9B4
- +QMdPaJdrnWEk+INzM4dSme8PTC+1slSKhZIim+BhoNCw02mLfGcDPZLNftJh0iNaZoYJ6Rkh9
- 19IaUpoawlw0noMIBqg3LzmqyQubMaLDuHIpqitICVDMzNj3Vs0uS5L3hipUeX/ij4WnSirYle
- 4UGwQ00Mmtd2vr0CAR/A4MpN8s09z+cAP+0/buxpnY4Fq1PN9gopxEB0OS+Lynv7x9smQQ3a+s
- eEk=
-X-SBRS: 2.7
-X-MesageID: 26995297
-X-Ironport-Server: esa3.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.77,274,1596513600"; d="scan'208";a="26995297"
-To: <qemu-devel@nongnu.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Anthony PERARD
- <anthony.perard@citrix.com>
-Subject: [PATCH] meson: fix installation of keymaps
-Date: Fri, 18 Sep 2020 14:03:54 +0100
-Message-ID: <20200918130354.1879275-1-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <karthik.poduval@gmail.com>)
+ id 1kJG5p-000355-DG
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:06:25 -0400
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:34433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <karthik.poduval@gmail.com>)
+ id 1kJG5m-0007y5-Le
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 09:06:24 -0400
+Received: by mail-vs1-xe29.google.com with SMTP id y190so3544226vsy.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 06:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=sVkyti8mmaTMEkSLXb0fOwKWVFb/PuOs8VhJGJfxyTU=;
+ b=nOO4hCgXa/J/8r6tGoz1A94e2I4BMN4V0CEttr2fRnChcXl7yVO0Nkyw4Ml0hykVcR
+ 4y6hXgrAhpjVqHn4Xb96WAuIluTywOdjb/ofmLEBeGS6vPEYa0UoJo1V+Na3ZbnTNlEJ
+ N7k07NTStL9PnrQUol9IxLTnR+p7dckXXc0GkCiaQKtw7IoyrWGIJzA/aWU55Wcx7HiX
+ aC/MB8RZhMAWyFveE/ifSTl7cCa7VU6zfmC4PwONLuSoHcGbD0+o2C2m7j3BObwQQP9I
+ Xbpvl+C4zmLe4cKqD98bySNcYFMA2oNX8MaCgq4QApvMhs3Bhi84TYICdaQA8/WXmDyW
+ ntrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=sVkyti8mmaTMEkSLXb0fOwKWVFb/PuOs8VhJGJfxyTU=;
+ b=nA9GDWVY11ITNJLGfWPl3YWFq666W0uoVbkRzT/wHZ/GnD7i74p3/+mQqyTZ1cpUOn
+ Yfcf7jiteJxZJHdXKJUQylvrTe6Iuf8jLxeozjgEtgcZSwLO46UEDFF+OmvDPRSHWXYd
+ AFQmITG0IriLIUDw4QPs7l4kDFrEgJ9iZMqVF7zbD27gAg7F+JVMHQqjcUbDrpGTnq7O
+ XtKRdxTssiG/ZbtlFpocefXxhXj56rUofT1D+yajCe0GKu51aZ5nLMDoGe7xV5yhHjyX
+ 8HW8Mtibd3+78Zu8KVSNPYaVSnodfCllhngUhWHZALglYe+dZtC6H/UpazPJ03xE0WNN
+ cYlA==
+X-Gm-Message-State: AOAM533Jwkdt9+qfMr+iqVfc838+cSVxSW3edjAATVri0gnmyzIGPYkD
+ mQ71R9cuyYnyQfBZ7RswxEmpch93fmNky6PQM5P7MygfOTixOQ==
+X-Google-Smtp-Source: ABdhPJzCtxplU053su54LZMz4w6VdLZHQ2ooar8HoawoGVpxGmxTBYtKb2kFuX3IenRFNnX18RPGtdlxJi8mFSbTWxk=
+X-Received: by 2002:a67:8a46:: with SMTP id m67mr21568513vsd.28.1600434380813; 
+ Fri, 18 Sep 2020 06:06:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.145.155;
- envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 09:05:42
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: karthik poduval <karthik.poduval@gmail.com>
+Date: Fri, 18 Sep 2020 06:06:09 -0700
+Message-ID: <CAFP0Ok82wY26BfVToT7K_0CCngr9N27UV3iaou_5QOE-Nmw1BQ@mail.gmail.com>
+Subject: Heterogeneous/AMP example in mainline?
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000c1381c05af962a41"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=karthik.poduval@gmail.com; helo=mail-vs1-xe29.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, HTML_OBFUSCATE_05_10=0.26, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 18 Sep 2020 09:10:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,43 +78,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Anthony PERARD <anthony.perard@citrix.com>
-From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+--000000000000c1381c05af962a41
+Content-Type: text/plain; charset="UTF-8"
 
----
-I don't know much about meson, but without "install:true" to the
-custom_target(), the keymaps files doen't get install when running
-`make install`. Only the files "sl" and "sv" are installed.
-So "install:true" seems necessary here.
+Hi All,
 
-I've tried both with and without `qemu-keymap` (or xkbcommon).
----
- pc-bios/keymaps/meson.build | 2 ++
- 1 file changed, 2 insertions(+)
+Was sifting through the heterogeneous QEMU effort in archives here
+https://lists.gnu.org/archive/html/qemu-devel/2015-10/msg06256.html
 
-diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
-index 2e2e0dfa3b79..05eda6c0d26d 100644
---- a/pc-bios/keymaps/meson.build
-+++ b/pc-bios/keymaps/meson.build
-@@ -47,6 +47,7 @@ foreach km, args: keymaps
-                        build_by_default: true,
-                        output: km,
-                        command: [native_qemu_keymap, '-f', '@OUTPUT@', args.split()],
-+                       install: true,
-                        install_dir: qemu_datadir / 'keymaps')
-   else
-     # copy from source tree
-@@ -55,6 +56,7 @@ foreach km, args: keymaps
-                        input: km,
-                        output: km,
-                        command: ['cp', '@INPUT@', '@OUTPUT@'],
-+                       install: true,
-                        install_dir: qemu_datadir / 'keymaps')
-   endif
- endforeach
+Did this effort make it to the mainline ? Are there any examples of AMP
+SoC's in the mainline ?
+
 -- 
-Anthony PERARD
+Regards,
+Karthik Poduval
 
+--000000000000c1381c05af962a41
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi All,=C2=A0<div><br></div><div>Was sifting through the h=
+eterogeneous QEMU effort in archives here <a href=3D"https://lists.gnu.org/=
+archive/html/qemu-devel/2015-10/msg06256.html">https://lists.gnu.org/archiv=
+e/html/qemu-devel/2015-10/msg06256.html</a>=C2=A0</div><div><br></div><div>=
+Did this effort make it to the mainline ? Are there any examples of AMP SoC=
+&#39;s in the mainline ?</div><div><br>-- <br>Regards,<br>Karthik Poduval</=
+div></div>
+
+--000000000000c1381c05af962a41--
 
