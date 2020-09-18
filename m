@@ -2,70 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB5F2703D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:21:48 +0200 (CEST)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5406E2703F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:26:08 +0200 (CEST)
+Received: from localhost ([::1]:55834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJL11-00076I-TE
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43542)
+	id 1kJL5D-0002It-BW
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJKxS-0006ES-FH
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:18:07 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42993
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJKxN-0004QM-Hx
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:18:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600453080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=+fpSnj/Ida+2LLnaKEHXhTjNQv1SMk8PTytkYhiQ4Aw=;
- b=ZYDbIBeX2s4ilXmK2rE9B6zIy76OZOfVPDOXW16I7rDijJJoIb0mewOTOnPMh32f2STfh2
- j1QAEj7E72CRuwyU6z1OGjjmitKdK+8cB2tyEd4STQ5uMXBz15+KEjDmKuh+ptPpGv/bZU
- GCB0/+mXLGRkqDThkeHBL0vEy+LWGfI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-lHf6rYHdOtqULVdTqdwVXQ-1; Fri, 18 Sep 2020 14:17:58 -0400
-X-MC-Unique: lHf6rYHdOtqULVdTqdwVXQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 369141084C94;
- Fri, 18 Sep 2020 18:17:52 +0000 (UTC)
-Received: from localhost (ovpn-119-217.rdu2.redhat.com [10.10.119.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 19E5173676;
- Fri, 18 Sep 2020 18:17:16 +0000 (UTC)
-Date: Fri, 18 Sep 2020 14:17:14 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org, paul@xen.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/5] qom: Convert more declarations to OBJECT_DECLARE*
-Message-ID: <20200918181714.GD7594@habkost.net>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kJKzU-0007F2-Tr; Fri, 18 Sep 2020 14:20:14 -0400
+Received: from mail-eopbgr70107.outbound.protection.outlook.com
+ ([40.107.7.107]:9358 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kJKzP-0004bj-GR; Fri, 18 Sep 2020 14:20:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fMekIhwbKP2z/Q5hlaWlBJKTOv72SYwmB9pB7sbcSsRSLevDeKMZ6eLSLC6EVvpl7nNUr0sqcZchA6krjo6wuAzr+PA6nAVnxu2B7hrveZX3gL4rLmdzXMPPoITJgi/px3WyONwHYMpdP1gxNEDdbZUO/MvDKjrB0jVQSMXGhs1pIOFyk21eXyjK9p705PAlvfr8Lx8SdphL2HdO2xqxLpDNeAN/fHGhNb+4QTKm1DBqJijg5SZaEZ9Sd0B7wrp+alEZUMUa2E23Q3gbCf2TEnFSQJrz3N2fOpQQqcGFWsz1KNGH0A/42VFvku4Le8jkX16lTchBdn6RYfpWWqpMuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5QTxfPcxRUVJ+qZBB614QeQVAmCt0o7Hf7eI3PNeiRk=;
+ b=Xwg4u38/hMZmGFeME3LkrlwSOhsdNq0MlF1j3r1/RsdsEKSFsfMhD2I2VqW6BGvxPoII+WZMQmI1L9u+orX7bizM3dxr2qALjrFGf43qtiuuThi5FGdCNfwiNd3qHjhq93b8ZXWRslT8IwRzM5RqmNvh0xsGgk715mY9M7a3cLmzknSfuSiMuZ54bVFLciCpqtu4ajXVsAs1KfDP0FeFpnUKOfRA/A53GXAad9XjGOf9nxeZMocf3gvYRfGkal6YmiESnSPYavLJttUKZssvLvBQaz1KyfIrwO86yv8IfEPvyLPVJ4DcYCyB1SKDVBmXMHN8oqXDOVcMdnlQcLIWbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5QTxfPcxRUVJ+qZBB614QeQVAmCt0o7Hf7eI3PNeiRk=;
+ b=a0Gms9gCvM9Px5HgM0Swwwrb+8Tqf8nOnYpUpBc6yolnXQsVJocI1EK8V80IpwcLAOPn94Z+Os7DPxaSZRrGTFkoVdzRwFTZmgQ+hkAKJZp04fVGLq76aJleLdtAXLFPW9F34yUvekt6xFIhdbAjs/B+gFFDFxSuceYilJ/0f/U=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3096.eurprd08.prod.outlook.com (2603:10a6:209:43::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.15; Fri, 18 Sep
+ 2020 18:20:04 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Fri, 18 Sep 2020
+ 18:20:04 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, armbru@redhat.com,
+ eblake@redhat.com, fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com,
+ kwolf@redhat.com, den@openvz.org
+Subject: [PATCH v6 00/15] preallocate filter
+Date: Fri, 18 Sep 2020 21:19:36 +0300
+Message-Id: <20200918181951.21752-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM4PR05CA0019.eurprd05.prod.outlook.com (2603:10a6:205::32)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200916182519.415636-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 11:06:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kvm.sw.ru (185.215.60.106) by
+ AM4PR05CA0019.eurprd05.prod.outlook.com (2603:10a6:205::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.13 via Frontend Transport; Fri, 18 Sep 2020 18:20:03 +0000
+X-Mailer: git-send-email 2.21.3
+X-Originating-IP: [185.215.60.106]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9c4a34e4-ac6a-4ac2-f8af-08d85bff76a1
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3096:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3096E8E8D65108BE12636E6AC13F0@AM6PR08MB3096.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:626;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: w8+lS6WFa3oAgZiTHh8eWuQ/bh9m40ENBkTxKXMe8KCLU3ttN3kks60MrPjUuvVcbH8wyaddsrBK8G1EYY1ON2V0qM1jPZXwlWzcS0RXE2gHuzrdquFxCmF37EyS/v4Od9iQZOM5CChCF4vxKQILous2roe2HWXRRgF5QRGMrSJu3gkifABP8U6Rgu7GRBuZEGQfqA0prjZAbxBMdI3i2iYi5VXS5tQ+UUe99+IaHQhhqHTDjLvQqxWBAmihDjfx7Ov2VUKVJaKs7avcIa/+OddPSrPL8nWtLX58ult30+n/Fz5Cj3lKDxc0rhqC3IkLtfEwsbbmNqUarDMoFT3IdldNPsmehCxeMRXqoJzwT20VnD5UOGq5a3paJ8Hv8vMK
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(366004)(39830400003)(376002)(396003)(136003)(2616005)(956004)(4326008)(1076003)(6916009)(316002)(6486002)(6666004)(478600001)(86362001)(83380400001)(5660300002)(6506007)(8936002)(186003)(16526019)(107886003)(66946007)(26005)(36756003)(66556008)(66476007)(2906002)(52116002)(6512007)(8676002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: u8tjOMG6Q11kri1GY4VWlHdpExQxZUIkYx/tIAYJRUk5P6D9dcq4J1h3/I6L/7057uoB1R4BLzcbg6l8UF16xbXMFSi41jYQWkyAfMt4po/rWX5HH8IcR6X66gi6iVaxheq6XLyOmNMXKy1kojhDP9D7vxgin/cgw6ZolWF9FrEynu8C/GEj4ejN6j1Jmqe+KmrMx2IEPpk2RCtQO4MLWpTazY+A38qW29OXpF/k34IJR2r99xYLNQpeyiwmT51VJoWV67E3a2Kp2zxhWeIay5bN4SWe+h/ZY5jfaPQV7deykwSRmcy7o0pC8r5DkDo7MNU6H+870dD2+bfS93Tz4xDP8U1HtehBbu3qaW4DYKa2U/7Pm1yU2/KPSHkLToHRn/lD23YgpMiyD+4NxxRSSpPJzya+X8qUogmO6eg2nUZQPuFDZan0wxPphdCRO2bxeJsLWqhajoqzRREgAcSN2O9Tjse6wYwSJtnABBbitKrt688uAG9DImehA8gxbtTuSEeZY/RfeAFiUuFznFBxrA8RLuVrp9ZB+zEHm3pBHZL5EyO4j4KM2wkJKU13AXysRZQ5am5Nt3BMzmtath1BCyz2CW20Y+bVhjihEPQPe0kbPkgc+WTu3oseoGt7LC1mY46eyZ+WyYSH7f82quqNLA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c4a34e4-ac6a-4ac2-f8af-08d85bff76a1
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 18:20:04.1146 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: di8Qqil1YWEX/WNzruSSlde+hhx40tqgR/LMOkh+dTcogzB69TyhvpDoctJbJKl+TtRJvt5YL4qfHxcvaomLr+/I0nOzq7zHZo4W52fIdus=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3096
+Received-SPF: pass client-ip=40.107.7.107;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 14:20:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,734 +115,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Jan Kiszka <jan.kiszka@web.de>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Alberto Garcia <berto@igalia.com>, Paul Burton <paulburton@kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-block@nongnu.org,
- Anthony Green <green@moxielogic.com>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Chris Wulff <crwulff@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Zhang Chen <chen.zhang@intel.com>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, Anup Patel <anup.patel@wdc.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huacai Chen <chenhc@lemote.com>,
- Max Reitz <mreitz@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eric Farman <farman@linux.ibm.com>,
- Amit Shah <amit@kernel.org>, Greg Kurz <groug@kaod.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
- qemu-riscv@nongnu.org, Ben Warren <ben@skyportsystems.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Radoslaw Biernacki <rad@semihalf.com>,
- qemu-s390x@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Jason Wang <jasowang@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Rob Herring <robh@kernel.org>,
- kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Leif Lindholm <leif@nuviainc.com>, Antony Pavlov <antonynpavlov@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Sergio Lopez <slp@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabien Chouteau <chouteau@adacore.com>, xen-devel@lists.xenproject.org,
- Laszlo Ersek <lersek@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Sven Schnelle <svens@stackframe.org>, Marek Vasut <marex@denx.de>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- David Gibson <david@gibson.dropbear.id.au>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Thomas Huth <huth@tuxfamily.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 16, 2020 at 02:25:14PM -0400, Eduardo Habkost wrote:
-> This converts many QOM types to use OBJECT_DECLARE* instead of
-> manually using DECLARE*_CHECKER*.
-> 
-> Before doing that, I'm simplifying the OBJECT_DECLARE* API to
-> make it easier to use and more difficult to misuse.  The
-> module_obj_name and ParentClassType parameters were removed
-> because they are not needed.
+Hi all!
 
-I'm queueing this on machine-next.
+Here is a filter, which does preallocation on write.
 
-> 
-> Eduardo Habkost (5):
->   scripts/codeconverter: Update to latest version
->   qom: Remove ParentClassType argument from OBJECT_DECLARE_SIMPLE_TYPE
->   qom: Remove module_obj_name parameter from OBJECT_DECLARE* macros
->   [automated] Use OBJECT_DECLARE_TYPE when possible
->   [automated] Use OBJECT_DECLARE_SIMPLE_TYPE when possible
-> 
->  hw/9pfs/virtio-9p.h                           |   4 +-
->  hw/audio/intel-hda.h                          |   6 +-
->  hw/display/ati_int.h                          |   4 +-
->  hw/display/qxl.h                              |   4 +-
->  hw/display/virtio-vga.h                       |   2 +-
->  hw/i386/amd_iommu.h                           |   4 +-
->  hw/misc/tmp105.h                              |   4 +-
->  hw/net/fsl_etsec/etsec.h                      |   3 +-
->  hw/net/tulip.h                                |   4 +-
->  hw/ppc/e500-ccsr.h                            |   4 +-
->  hw/ppc/e500.h                                 |   5 +-
->  hw/ppc/mac.h                                  |   4 +-
->  hw/s390x/ccw-device.h                         |   4 +-
->  hw/s390x/ipl.h                                |   4 +-
->  hw/s390x/s390-pci-bus.h                       |  16 +-
->  hw/s390x/virtio-ccw.h                         |  57 +-
->  hw/usb/ccid.h                                 |   5 +-
->  hw/usb/hcd-dwc2.h                             |   3 +-
->  hw/usb/hcd-ehci.h                             |  13 +-
->  hw/usb/hcd-ohci.h                             |   4 +-
->  hw/usb/hcd-xhci.h                             |   4 +-
->  hw/vfio/pci.h                                 |   4 +-
->  hw/virtio/virtio-pci.h                        |   5 +-
->  hw/xen/xen_pt.h                               |   4 +-
->  include/authz/base.h                          |   2 +-
->  include/authz/list.h                          |   4 +-
->  include/authz/listfile.h                      |   4 +-
->  include/authz/pamacct.h                       |   4 +-
->  include/authz/simple.h                        |   4 +-
->  include/block/throttle-groups.h               |   4 +-
->  include/chardev/char.h                        |   4 +-
->  include/crypto/secret_common.h                |   2 +-
->  include/crypto/secret_keyring.h               |   4 +-
->  include/hw/acpi/generic_event_device.h        |   4 +-
->  include/hw/acpi/vmgenid.h                     |   4 +-
->  include/hw/adc/stm32f2xx_adc.h                |   4 +-
->  include/hw/arm/allwinner-a10.h                |   4 +-
->  include/hw/arm/allwinner-h3.h                 |   4 +-
->  include/hw/arm/armsse.h                       |   2 +-
->  include/hw/arm/armv7m.h                       |   8 +-
->  include/hw/arm/aspeed_soc.h                   |   5 +-
->  include/hw/arm/bcm2835_peripherals.h          |   4 +-
->  include/hw/arm/bcm2836.h                      |   5 +-
->  include/hw/arm/digic.h                        |   4 +-
->  include/hw/arm/exynos4210.h                   |   4 +-
->  include/hw/arm/fsl-imx25.h                    |   4 +-
->  include/hw/arm/fsl-imx31.h                    |   4 +-
->  include/hw/arm/fsl-imx6.h                     |   4 +-
->  include/hw/arm/fsl-imx6ul.h                   |   4 +-
->  include/hw/arm/fsl-imx7.h                     |   4 +-
->  include/hw/arm/msf2-soc.h                     |   4 +-
->  include/hw/arm/nrf51_soc.h                    |   4 +-
->  include/hw/arm/omap.h                         |   4 +-
->  include/hw/arm/pxa.h                          |  15 +-
->  include/hw/arm/smmu-common.h                  |   5 +-
->  include/hw/arm/smmuv3.h                       |   5 +-
->  include/hw/arm/stm32f205_soc.h                |   4 +-
->  include/hw/arm/stm32f405_soc.h                |   4 +-
->  include/hw/arm/virt.h                         |   5 +-
->  include/hw/arm/xlnx-versal.h                  |   4 +-
->  include/hw/arm/xlnx-zynqmp.h                  |   4 +-
->  include/hw/block/flash.h                      |   8 +-
->  include/hw/block/swim.h                       |  12 +-
->  include/hw/boards.h                           |   3 +-
->  include/hw/char/avr_usart.h                   |   4 +-
->  include/hw/char/bcm2835_aux.h                 |   4 +-
->  include/hw/char/cadence_uart.h                |   4 +-
->  include/hw/char/cmsdk-apb-uart.h              |   4 +-
->  include/hw/char/digic-uart.h                  |   4 +-
->  include/hw/char/escc.h                        |   4 +-
->  include/hw/char/ibex_uart.h                   |   4 +-
->  include/hw/char/imx_serial.h                  |   4 +-
->  include/hw/char/nrf51_uart.h                  |   4 +-
->  include/hw/char/pl011.h                       |   4 +-
->  include/hw/char/serial.h                      |  11 +-
->  include/hw/char/stm32f2xx_usart.h             |   4 +-
->  include/hw/clock.h                            |   4 +-
->  include/hw/core/generic-loader.h              |   4 +-
->  include/hw/core/split-irq.h                   |   4 +-
->  include/hw/cpu/a15mpcore.h                    |   4 +-
->  include/hw/cpu/a9mpcore.h                     |   4 +-
->  include/hw/cpu/arm11mpcore.h                  |   4 +-
->  include/hw/cpu/cluster.h                      |   4 +-
->  include/hw/cpu/core.h                         |   4 +-
->  include/hw/display/bcm2835_fb.h               |   4 +-
->  include/hw/display/dpcd.h                     |   4 +-
->  include/hw/display/i2c-ddc.h                  |   4 +-
->  include/hw/display/macfb.h                    |   9 +-
->  include/hw/display/xlnx_dp.h                  |   4 +-
->  include/hw/dma/bcm2835_dma.h                  |   4 +-
->  include/hw/dma/i8257.h                        |   4 +-
->  include/hw/dma/pl080.h                        |   4 +-
->  include/hw/dma/xlnx-zdma.h                    |   4 +-
->  include/hw/dma/xlnx-zynq-devcfg.h             |   4 +-
->  include/hw/dma/xlnx_dpdma.h                   |   4 +-
->  include/hw/gpio/aspeed_gpio.h                 |   5 +-
->  include/hw/gpio/bcm2835_gpio.h                |   4 +-
->  include/hw/gpio/imx_gpio.h                    |   4 +-
->  include/hw/gpio/nrf51_gpio.h                  |   4 +-
->  include/hw/hyperv/vmbus-bridge.h              |   4 +-
->  include/hw/hyperv/vmbus.h                     |   6 +-
->  include/hw/i2c/aspeed_i2c.h                   |   5 +-
->  include/hw/i2c/i2c.h                          |   5 +-
->  include/hw/i2c/imx_i2c.h                      |   4 +-
->  include/hw/i2c/microbit_i2c.h                 |   4 +-
->  include/hw/i2c/ppc4xx_i2c.h                   |   4 +-
->  include/hw/i2c/smbus_slave.h                  |   2 +-
->  include/hw/i386/ich9.h                        |   4 +-
->  include/hw/i386/intel_iommu.h                 |   4 +-
->  include/hw/i386/ioapic_internal.h             |   5 +-
->  include/hw/i386/microvm.h                     |   5 +-
->  include/hw/i386/pc.h                          |   4 +-
->  include/hw/i386/x86-iommu.h                   |   5 +-
->  include/hw/i386/x86.h                         |   5 +-
->  include/hw/ide/ahci.h                         |  12 +-
->  include/hw/ide/internal.h                     |   8 +-
->  include/hw/ide/pci.h                          |   4 +-
->  include/hw/input/adb.h                        |   8 +-
->  include/hw/input/i8042.h                      |   4 +-
->  include/hw/intc/allwinner-a10-pic.h           |   4 +-
->  include/hw/intc/aspeed_vic.h                  |   4 +-
->  include/hw/intc/bcm2835_ic.h                  |   4 +-
->  include/hw/intc/bcm2836_control.h             |   4 +-
->  include/hw/intc/heathrow_pic.h                |   4 +-
->  include/hw/intc/ibex_plic.h                   |   4 +-
->  include/hw/intc/imx_avic.h                    |   4 +-
->  include/hw/intc/imx_gpcv2.h                   |   4 +-
->  include/hw/intc/mips_gic.h                    |   4 +-
->  include/hw/intc/realview_gic.h                |   4 +-
->  include/hw/intc/rx_icu.h                      |   4 +-
->  include/hw/intc/xlnx-pmu-iomod-intc.h         |   4 +-
->  include/hw/intc/xlnx-zynqmp-ipi.h             |   4 +-
->  include/hw/ipack/ipack.h                      |   6 +-
->  include/hw/ipmi/ipmi.h                        |   6 +-
->  include/hw/isa/i8259_internal.h               |   5 +-
->  include/hw/isa/isa.h                          |   7 +-
->  include/hw/isa/pc87312.h                      |   4 +-
->  include/hw/m68k/mcf_fec.h                     |   4 +-
->  include/hw/mem/nvdimm.h                       |   5 +-
->  include/hw/mem/pc-dimm.h                      |   2 +-
->  include/hw/mips/cps.h                         |   4 +-
->  include/hw/misc/a9scu.h                       |   4 +-
->  include/hw/misc/allwinner-cpucfg.h            |   4 +-
->  include/hw/misc/allwinner-h3-ccu.h            |   4 +-
->  include/hw/misc/allwinner-h3-dramc.h          |   4 +-
->  include/hw/misc/allwinner-h3-sysctrl.h        |   4 +-
->  include/hw/misc/allwinner-sid.h               |   4 +-
->  include/hw/misc/arm11scu.h                    |   4 +-
->  include/hw/misc/armsse-cpuid.h                |   4 +-
->  include/hw/misc/armsse-mhu.h                  |   4 +-
->  include/hw/misc/aspeed_scu.h                  |   5 +-
->  include/hw/misc/aspeed_sdmc.h                 |   5 +-
->  include/hw/misc/aspeed_xdma.h                 |   4 +-
->  include/hw/misc/auxbus.h                      |  11 +-
->  include/hw/misc/avr_power.h                   |   4 +-
->  include/hw/misc/bcm2835_mbox.h                |   4 +-
->  include/hw/misc/bcm2835_mphi.h                |   3 +-
->  include/hw/misc/bcm2835_property.h            |   4 +-
->  include/hw/misc/bcm2835_rng.h                 |   4 +-
->  include/hw/misc/bcm2835_thermal.h             |   4 +-
->  include/hw/misc/grlib_ahb_apb_pnp.h           |   8 +-
->  include/hw/misc/imx25_ccm.h                   |   4 +-
->  include/hw/misc/imx31_ccm.h                   |   4 +-
->  include/hw/misc/imx6_ccm.h                    |   4 +-
->  include/hw/misc/imx6_src.h                    |   4 +-
->  include/hw/misc/imx6ul_ccm.h                  |   4 +-
->  include/hw/misc/imx7_ccm.h                    |   8 +-
->  include/hw/misc/imx7_gpr.h                    |   4 +-
->  include/hw/misc/imx7_snvs.h                   |   4 +-
->  include/hw/misc/imx_ccm.h                     |   5 +-
->  include/hw/misc/imx_rngc.h                    |   4 +-
->  include/hw/misc/iotkit-secctl.h               |   4 +-
->  include/hw/misc/iotkit-sysctl.h               |   4 +-
->  include/hw/misc/iotkit-sysinfo.h              |   4 +-
->  include/hw/misc/mac_via.h                     |  12 +-
->  include/hw/misc/macio/cuda.h                  |   8 +-
->  include/hw/misc/macio/gpio.h                  |   4 +-
->  include/hw/misc/macio/macio.h                 |  20 +-
->  include/hw/misc/macio/pmu.h                   |   8 +-
->  include/hw/misc/max111x.h                     |   4 +-
->  include/hw/misc/mips_cmgcr.h                  |   4 +-
->  include/hw/misc/mips_cpc.h                    |   4 +-
->  include/hw/misc/mips_itu.h                    |   4 +-
->  include/hw/misc/mos6522.h                     |   5 +-
->  include/hw/misc/mps2-fpgaio.h                 |   4 +-
->  include/hw/misc/mps2-scc.h                    |   4 +-
->  include/hw/misc/msf2-sysreg.h                 |   4 +-
->  include/hw/misc/nrf51_rng.h                   |   4 +-
->  include/hw/misc/stm32f2xx_syscfg.h            |   4 +-
->  include/hw/misc/stm32f4xx_exti.h              |   4 +-
->  include/hw/misc/stm32f4xx_syscfg.h            |   4 +-
->  include/hw/misc/tz-mpc.h                      |   4 +-
->  include/hw/misc/tz-msc.h                      |   4 +-
->  include/hw/misc/tz-ppc.h                      |   4 +-
->  include/hw/misc/unimp.h                       |   4 +-
->  include/hw/misc/zynq-xadc.h                   |   4 +-
->  include/hw/net/allwinner-sun8i-emac.h         |   4 +-
->  include/hw/net/allwinner_emac.h               |   4 +-
->  include/hw/net/cadence_gem.h                  |   4 +-
->  include/hw/net/ftgmac100.h                    |   8 +-
->  include/hw/net/imx_fec.h                      |   4 +-
->  include/hw/net/msf2-emac.h                    |   4 +-
->  include/hw/nubus/mac-nubus-bridge.h           |   4 +-
->  include/hw/nubus/nubus.h                      |   8 +-
->  include/hw/nvram/fw_cfg.h                     |   9 +-
->  include/hw/nvram/nrf51_nvm.h                  |   4 +-
->  include/hw/pci-bridge/simba.h                 |   4 +-
->  include/hw/pci-host/designware.h              |   8 +-
->  include/hw/pci-host/gpex.h                    |   8 +-
->  include/hw/pci-host/i440fx.h                  |   4 +-
->  include/hw/pci-host/pnv_phb3.h                |   7 +-
->  include/hw/pci-host/pnv_phb4.h                |  11 +-
->  include/hw/pci-host/q35.h                     |   8 +-
->  include/hw/pci-host/sabre.h                   |   8 +-
->  include/hw/pci-host/spapr.h                   |   4 +-
->  include/hw/pci-host/uninorth.h                |   4 +-
->  include/hw/pci-host/xilinx-pcie.h             |   8 +-
->  include/hw/pci/pci.h                          |   4 +-
->  include/hw/pci/pci_bridge.h                   |   3 +-
->  include/hw/pci/pci_host.h                     |   4 +-
->  include/hw/pci/pcie_host.h                    |   3 +-
->  include/hw/pci/pcie_port.h                    |   6 +-
->  include/hw/pcmcia.h                           |   5 +-
->  include/hw/platform-bus.h                     |   4 +-
->  include/hw/ppc/mac_dbdma.h                    |   3 +-
->  include/hw/ppc/openpic.h                      |   4 +-
->  include/hw/ppc/pnv.h                          |   2 +-
->  include/hw/ppc/pnv_core.h                     |   6 +-
->  include/hw/ppc/pnv_homer.h                    |   2 +-
->  include/hw/ppc/pnv_occ.h                      |   2 +-
->  include/hw/ppc/pnv_pnor.h                     |   4 +-
->  include/hw/ppc/pnv_psi.h                      |  10 +-
->  include/hw/ppc/pnv_xive.h                     |   2 +-
->  include/hw/ppc/spapr.h                        |  13 +-
->  include/hw/ppc/spapr_cpu_core.h               |   2 +-
->  include/hw/ppc/spapr_tpm_proxy.h              |   4 +-
->  include/hw/ppc/spapr_vio.h                    |   6 +-
->  include/hw/ppc/xics.h                         |   2 +-
->  include/hw/ppc/xive.h                         |  14 +-
->  include/hw/qdev-core.h                        |   4 +-
->  include/hw/riscv/opentitan.h                  |   4 +-
->  include/hw/riscv/riscv_hart.h                 |   4 +-
->  include/hw/rtc/allwinner-rtc.h                |   5 +-
->  include/hw/rtc/aspeed_rtc.h                   |   4 +-
->  include/hw/rtc/goldfish_rtc.h                 |   4 +-
->  include/hw/rtc/mc146818rtc.h                  |   4 +-
->  include/hw/rtc/pl031.h                        |   4 +-
->  include/hw/rtc/xlnx-zynqmp-rtc.h              |   4 +-
->  include/hw/s390x/3270-ccw.h                   |   5 +-
->  include/hw/s390x/css-bridge.h                 |   8 +-
->  include/hw/s390x/event-facility.h             |   2 +-
->  include/hw/s390x/s390-virtio-ccw.h            |   5 +-
->  include/hw/s390x/s390_flic.h                  |   6 +-
->  include/hw/s390x/sclp.h                       |   2 +-
->  include/hw/s390x/storage-attributes.h         |   5 +-
->  include/hw/s390x/storage-keys.h               |   5 +-
->  include/hw/s390x/tod.h                        |   5 +-
->  include/hw/s390x/vfio-ccw.h                   |   4 +-
->  include/hw/scsi/esp.h                         |   4 +-
->  include/hw/scsi/scsi.h                        |   7 +-
->  include/hw/sd/allwinner-sdhost.h              |   5 +-
->  include/hw/sd/aspeed_sdhci.h                  |   4 +-
->  include/hw/sd/bcm2835_sdhost.h                |   4 +-
->  include/hw/sd/sd.h                            |   7 +-
->  include/hw/sparc/sparc32_dma.h                |  16 +-
->  include/hw/ssi/aspeed_smc.h                   |   5 +-
->  include/hw/ssi/imx_spi.h                      |   4 +-
->  include/hw/ssi/mss-spi.h                      |   4 +-
->  include/hw/ssi/pl022.h                        |   4 +-
->  include/hw/ssi/ssi.h                          |   2 +-
->  include/hw/ssi/stm32f2xx_spi.h                |   4 +-
->  include/hw/ssi/xilinx_spips.h                 |  11 +-
->  include/hw/sysbus.h                           |   2 +-
->  include/hw/timer/a9gtimer.h                   |   4 +-
->  include/hw/timer/allwinner-a10-pit.h          |   4 +-
->  include/hw/timer/arm_mptimer.h                |   4 +-
->  include/hw/timer/armv7m_systick.h             |   4 +-
->  include/hw/timer/aspeed_timer.h               |   5 +-
->  include/hw/timer/avr_timer16.h                |   4 +-
->  include/hw/timer/bcm2835_systmr.h             |   4 +-
->  include/hw/timer/cmsdk-apb-dualtimer.h        |   4 +-
->  include/hw/timer/cmsdk-apb-timer.h            |   4 +-
->  include/hw/timer/digic-timer.h                |   4 +-
->  include/hw/timer/i8254.h                      |   5 +-
->  include/hw/timer/imx_epit.h                   |   4 +-
->  include/hw/timer/mss-timer.h                  |   4 +-
->  include/hw/timer/nrf51_timer.h                |   4 +-
->  include/hw/usb.h                              |   8 +-
->  include/hw/usb/chipidea.h                     |   4 +-
->  include/hw/usb/imx-usb-phy.h                  |   4 +-
->  include/hw/virtio/vhost-scsi-common.h         |   4 +-
->  include/hw/virtio/vhost-scsi.h                |   4 +-
->  include/hw/virtio/vhost-user-blk.h            |   4 +-
->  include/hw/virtio/vhost-user-fs.h             |   4 +-
->  include/hw/virtio/vhost-user-scsi.h           |   4 +-
->  include/hw/virtio/vhost-user-vsock.h          |   4 +-
->  include/hw/virtio/vhost-vsock-common.h        |   4 +-
->  include/hw/virtio/vhost-vsock.h               |   4 +-
->  include/hw/virtio/virtio-balloon.h            |   4 +-
->  include/hw/virtio/virtio-blk.h                |   4 +-
->  include/hw/virtio/virtio-crypto.h             |   4 +-
->  include/hw/virtio/virtio-gpu-pci.h            |   4 +-
->  include/hw/virtio/virtio-gpu.h                |  10 +-
->  include/hw/virtio/virtio-input.h              |  14 +-
->  include/hw/virtio/virtio-iommu.h              |   4 +-
->  include/hw/virtio/virtio-mem.h                |   2 +-
->  include/hw/virtio/virtio-mmio.h               |   4 +-
->  include/hw/virtio/virtio-net.h                |   4 +-
->  include/hw/virtio/virtio-pmem.h               |   2 +-
->  include/hw/virtio/virtio-rng.h                |   4 +-
->  include/hw/virtio/virtio-scsi.h               |   8 +-
->  include/hw/virtio/virtio-serial.h             |   9 +-
->  include/hw/virtio/virtio.h                    |   4 +-
->  include/hw/watchdog/cmsdk-apb-watchdog.h      |   4 +-
->  include/hw/watchdog/wdt_aspeed.h              |   5 +-
->  include/hw/watchdog/wdt_imx2.h                |   4 +-
->  include/hw/xen/xen-block.h                    |  12 +-
->  include/hw/xen/xen-bus.h                      |   6 +-
->  include/io/channel-buffer.h                   |   4 +-
->  include/io/channel-command.h                  |   4 +-
->  include/io/channel-file.h                     |   4 +-
->  include/io/channel-socket.h                   |   4 +-
->  include/io/channel-tls.h                      |   4 +-
->  include/io/channel-websock.h                  |   4 +-
->  include/io/channel.h                          |   2 +-
->  include/io/dns-resolver.h                     |   4 +-
->  include/io/net-listener.h                     |   4 +-
->  include/net/can_emu.h                         |   3 +-
->  include/net/can_host.h                        |   5 +-
->  include/net/filter.h                          |   4 +-
->  include/qom/object.h                          |  20 +-
->  include/scsi/pr-manager.h                     |   2 +-
->  include/sysemu/cryptodev.h                    |   2 +-
->  include/sysemu/hostmem.h                      |   2 +-
->  include/sysemu/rng-random.h                   |   4 +-
->  include/sysemu/rng.h                          |   2 +-
->  include/sysemu/tpm_backend.h                  |   2 +-
->  include/sysemu/vhost-user-backend.h           |   4 +-
->  include/ui/console.h                          |   4 +-
->  target/alpha/cpu-qom.h                        |   2 +-
->  target/arm/cpu-qom.h                          |   2 +-
->  target/avr/cpu-qom.h                          |   2 +-
->  target/cris/cpu-qom.h                         |   2 +-
->  target/hppa/cpu-qom.h                         |   2 +-
->  target/i386/cpu-qom.h                         |   2 +-
->  target/lm32/cpu-qom.h                         |   2 +-
->  target/m68k/cpu-qom.h                         |   2 +-
->  target/microblaze/cpu-qom.h                   |   2 +-
->  target/mips/cpu-qom.h                         |   2 +-
->  target/moxie/cpu.h                            |   2 +-
->  target/nios2/cpu.h                            |   2 +-
->  target/openrisc/cpu.h                         |   2 +-
->  target/ppc/cpu-qom.h                          |   2 +-
->  target/riscv/cpu.h                            |   2 +-
->  target/rx/cpu-qom.h                           |   2 +-
->  target/s390x/cpu-qom.h                        |   2 +-
->  target/sh4/cpu-qom.h                          |   2 +-
->  target/sparc/cpu-qom.h                        |   2 +-
->  target/tilegx/cpu.h                           |   2 +-
->  target/tricore/cpu-qom.h                      |   2 +-
->  target/unicore32/cpu-qom.h                    |   2 +-
->  target/xtensa/cpu-qom.h                       |   2 +-
->  authz/list.c                                  |   1 -
->  authz/listfile.c                              |   1 -
->  authz/pamacct.c                               |   1 -
->  authz/simple.c                                |   1 -
->  backends/cryptodev-builtin.c                  |   5 +-
->  backends/cryptodev-vhost-user.c               |   4 +-
->  backends/dbus-vmstate.c                       |   5 +-
->  backends/hostmem-file.c                       |   4 +-
->  backends/hostmem-memfd.c                      |   4 +-
->  backends/rng-builtin.c                        |   4 +-
->  backends/rng-egd.c                            |   4 +-
->  backends/tpm/tpm_emulator.c                   |   4 +-
->  backends/tpm/tpm_passthrough.c                |   4 +-
->  backends/vhost-user.c                         |   1 -
->  crypto/secret_keyring.c                       |   1 -
->  hw/acpi/piix4.c                               |   4 +-
->  hw/alpha/typhoon.c                            |   4 +-
->  hw/arm/collie.c                               |   4 +-
->  hw/arm/highbank.c                             |   4 +-
->  hw/arm/integratorcp.c                         |  12 +-
->  hw/arm/microbit.c                             |   4 +-
->  hw/arm/mps2-tz.c                              |   5 +-
->  hw/arm/mps2.c                                 |   5 +-
->  hw/arm/musca.c                                |   5 +-
->  hw/arm/musicpal.c                             |  32 +-
->  hw/arm/palm.c                                 |   4 +-
->  hw/arm/pxa2xx.c                               |  12 +-
->  hw/arm/pxa2xx_gpio.c                          |   4 +-
->  hw/arm/pxa2xx_pic.c                           |   4 +-
->  hw/arm/sbsa-ref.c                             |   4 +-
->  hw/arm/spitz.c                                |  25 +-
->  hw/arm/stellaris.c                            |   8 +-
->  hw/arm/strongarm.c                            |  24 +-
->  hw/arm/tosa.c                                 |   8 +-
->  hw/arm/versatilepb.c                          |   4 +-
->  hw/arm/vexpress.c                             |   5 +-
->  hw/arm/xilinx_zynq.c                          |   4 +-
->  hw/arm/xlnx-versal-virt.c                     |   4 +-
->  hw/arm/xlnx-zcu102.c                          |   4 +-
->  hw/arm/z2.c                                   |   8 +-
->  hw/audio/ac97.c                               |   4 +-
->  hw/audio/adlib.c                              |   4 +-
->  hw/audio/es1370.c                             |   3 +-
->  hw/audio/gus.c                                |   4 +-
->  hw/audio/hda-codec.c                          |   3 +-
->  hw/audio/marvell_88w8618.c                    |   4 +-
->  hw/audio/milkymist-ac97.c                     |   4 +-
->  hw/audio/pcspk.c                              |   4 +-
->  hw/audio/pl041.c                              |   4 +-
->  hw/audio/sb16.c                               |   4 +-
->  hw/audio/wm8750.c                             |   4 +-
->  hw/block/fdc.c                                |  16 +-
->  hw/block/m25p80.c                             |   5 +-
->  hw/block/nand.c                               |   3 +-
->  hw/block/onenand.c                            |   4 +-
->  hw/char/debugcon.c                            |   4 +-
->  hw/char/exynos4210_uart.c                     |   4 +-
->  hw/char/grlib_apbuart.c                       |   4 +-
->  hw/char/ipoctal232.c                          |   3 +-
->  hw/char/lm32_juart.c                          |   4 +-
->  hw/char/lm32_uart.c                           |   4 +-
->  hw/char/mcf_uart.c                            |   4 +-
->  hw/char/milkymist-uart.c                      |   4 +-
->  hw/char/parallel.c                            |   4 +-
->  hw/char/serial-isa.c                          |   4 +-
->  hw/char/serial-pci.c                          |   4 +-
->  hw/char/spapr_vty.c                           |   4 +-
->  hw/char/xilinx_uartlite.c                     |   4 +-
->  hw/cpu/realview_mpcore.c                      |   4 +-
->  hw/display/ads7846.c                          |   4 +-
->  hw/display/artist.c                           |   4 +-
->  hw/display/bochs-display.c                    |   4 +-
->  hw/display/cg3.c                              |   4 +-
->  hw/display/cirrus_vga.c                       |   4 +-
->  hw/display/cirrus_vga_isa.c                   |   4 +-
->  hw/display/exynos4210_fimd.c                  |   4 +-
->  hw/display/g364fb.c                           |   4 +-
->  hw/display/jazz_led.c                         |   4 +-
->  hw/display/milkymist-tmu2.c                   |   4 +-
->  hw/display/milkymist-vgafb.c                  |   4 +-
->  hw/display/next-fb.c                          |   4 +-
->  hw/display/pl110.c                            |   4 +-
->  hw/display/sii9022.c                          |   4 +-
->  hw/display/sm501.c                            |   8 +-
->  hw/display/ssd0303.c                          |   4 +-
->  hw/display/ssd0323.c                          |   4 +-
->  hw/display/tcx.c                              |   4 +-
->  hw/display/vga-isa.c                          |   4 +-
->  hw/display/vga-pci.c                          |   4 +-
->  hw/dma/i82374.c                               |   4 +-
->  hw/dma/pl330.c                                |   3 +-
->  hw/dma/puv3_dma.c                             |   4 +-
->  hw/dma/pxa2xx_dma.c                           |   4 +-
->  hw/dma/rc4030.c                               |   4 +-
->  hw/dma/xilinx_axidma.c                        |   4 +-
->  hw/gpio/gpio_key.c                            |   4 +-
->  hw/gpio/max7310.c                             |   4 +-
->  hw/gpio/mpc8xxx.c                             |   4 +-
->  hw/gpio/pl061.c                               |   4 +-
->  hw/gpio/puv3_gpio.c                           |   4 +-
->  hw/gpio/zaurus.c                              |   4 +-
->  hw/hppa/dino.c                                |   4 +-
->  hw/hppa/lasi.c                                |   4 +-
->  hw/hyperv/hyperv.c                            |   4 +-
->  hw/hyperv/hyperv_testdev.c                    |   4 +-
->  hw/i2c/bitbang_i2c.c                          |   4 +-
->  hw/i2c/exynos4210_i2c.c                       |   4 +-
->  hw/i2c/mpc_i2c.c                              |   4 +-
->  hw/i2c/smbus_eeprom.c                         |   4 +-
->  hw/i2c/smbus_ich9.c                           |   4 +-
->  hw/i386/kvm/clock.c                           |   4 +-
->  hw/i386/kvmvapic.c                            |   4 +-
->  hw/i386/port92.c                              |   4 +-
->  hw/i386/vmmouse.c                             |   4 +-
->  hw/i386/vmport.c                              |   4 +-
->  hw/i386/xen/xen_platform.c                    |   4 +-
->  hw/i386/xen/xen_pvdevice.c                    |   4 +-
->  hw/ide/isa.c                                  |   4 +-
->  hw/ide/microdrive.c                           |   4 +-
->  hw/ide/sii3112.c                              |   4 +-
->  hw/input/adb-kbd.c                            |   5 +-
->  hw/input/adb-mouse.c                          |   5 +-
->  hw/input/lm832x.c                             |   4 +-
->  hw/input/milkymist-softusb.c                  |   4 +-
->  hw/input/pl050.c                              |   4 +-
->  hw/intc/arm_gicv2m.c                          |   4 +-
->  hw/intc/exynos4210_combiner.c                 |   4 +-
->  hw/intc/exynos4210_gic.c                      |   8 +-
->  hw/intc/grlib_irqmp.c                         |   4 +-
->  hw/intc/lm32_pic.c                            |   4 +-
->  hw/intc/nios2_iic.c                           |   4 +-
->  hw/intc/ompic.c                               |   4 +-
->  hw/intc/openpic_kvm.c                         |   4 +-
->  hw/intc/pl190.c                               |   4 +-
->  hw/intc/puv3_intc.c                           |   4 +-
->  hw/intc/slavio_intctl.c                       |   4 +-
->  hw/ipack/tpci200.c                            |   4 +-
->  hw/ipmi/ipmi_bmc_extern.c                     |   4 +-
->  hw/ipmi/isa_ipmi_bt.c                         |   4 +-
->  hw/ipmi/isa_ipmi_kcs.c                        |   4 +-
->  hw/ipmi/pci_ipmi_bt.c                         |   4 +-
->  hw/ipmi/pci_ipmi_kcs.c                        |   4 +-
->  hw/ipmi/smbus_ipmi.c                          |   4 +-
->  hw/isa/i82378.c                               |   4 +-
->  hw/isa/piix4.c                                |   4 +-
->  hw/isa/vt82c686.c                             |  16 +-
->  hw/m68k/mcf_intc.c                            |   4 +-
->  hw/m68k/next-cube.c                           |   4 +-
->  hw/m68k/next-kbd.c                            |   4 +-
->  hw/microblaze/xlnx-zynqmp-pmu.c               |   4 +-
->  hw/mips/gt64xxx_pci.c                         |   4 +-
->  hw/mips/malta.c                               |   4 +-
->  hw/misc/applesmc.c                            |   4 +-
->  hw/misc/arm_integrator_debug.c                |   4 +-
->  hw/misc/arm_l2x0.c                            |   4 +-
->  hw/misc/arm_sysctl.c                          |   4 +-
->  hw/misc/debugexit.c                           |   4 +-
->  hw/misc/eccmemctl.c                           |   4 +-
->  hw/misc/empty_slot.c                          |   4 +-
->  hw/misc/exynos4210_clk.c                      |   4 +-
->  hw/misc/exynos4210_pmu.c                      |   4 +-
->  hw/misc/exynos4210_rng.c                      |   4 +-
->  hw/misc/milkymist-hpdmc.c                     |   4 +-
->  hw/misc/milkymist-pfpu.c                      |   4 +-
->  hw/misc/mst_fpga.c                            |   4 +-
->  hw/misc/pc-testdev.c                          |   4 +-
->  hw/misc/pci-testdev.c                         |   4 +-
->  hw/misc/puv3_pm.c                             |   4 +-
->  hw/misc/sga.c                                 |   4 +-
->  hw/misc/slavio_misc.c                         |   4 +-
->  hw/misc/tmp421.c                              |   5 +-
->  hw/misc/zynq_slcr.c                           |   4 +-
->  hw/net/dp8393x.c                              |   4 +-
->  hw/net/e1000e.c                               |   4 +-
->  hw/net/etraxfs_eth.c                          |   4 +-
->  hw/net/lan9118.c                              |   4 +-
->  hw/net/milkymist-minimac2.c                   |   4 +-
->  hw/net/mipsnet.c                              |   4 +-
->  hw/net/ne2000-isa.c                           |   4 +-
->  hw/net/opencores_eth.c                        |   4 +-
->  hw/net/pcnet-pci.c                            |   4 +-
->  hw/net/rtl8139.c                              |   4 +-
->  hw/net/smc91c111.c                            |   4 +-
->  hw/net/spapr_llan.c                           |   4 +-
->  hw/net/stellaris_enet.c                       |   4 +-
->  hw/net/sungem.c                               |   4 +-
->  hw/net/sunhme.c                               |   4 +-
->  hw/net/xgmac.c                                |   4 +-
->  hw/net/xilinx_axienet.c                       |   4 +-
->  hw/nvram/ds1225y.c                            |   4 +-
->  hw/nvram/spapr_nvram.c                        |   4 +-
->  hw/pci-bridge/dec.c                           |   4 +-
->  hw/pci-bridge/gen_pcie_root_port.c            |   4 +-
->  hw/pci-bridge/pci_bridge_dev.c                |   4 +-
->  hw/pci-bridge/pcie_pci_bridge.c               |   4 +-
->  hw/pci-host/bonito.c                          |   6 +-
->  hw/pci-host/grackle.c                         |   4 +-
->  hw/pci-host/i440fx.c                          |   4 +-
->  hw/pci-host/ppce500.c                         |   8 +-
->  hw/pci-host/prep.c                            |   4 +-
->  hw/ppc/mpc8544_guts.c                         |   4 +-
->  hw/ppc/ppc440_pcix.c                          |   4 +-
->  hw/ppc/ppc440_uc.c                            |   4 +-
->  hw/ppc/ppc4xx_pci.c                           |   4 +-
->  hw/ppc/ppce500_spin.c                         |   4 +-
->  hw/ppc/prep_systemio.c                        |   4 +-
->  hw/ppc/rs6000_mc.c                            |   4 +-
->  hw/ppc/spapr_rng.c                            |   4 +-
->  hw/rtc/ds1338.c                               |   4 +-
->  hw/rtc/exynos4210_rtc.c                       |   4 +-
->  hw/rtc/m41t80.c                               |   4 +-
->  hw/rtc/sun4v-rtc.c                            |   4 +-
->  hw/rtc/twl92230.c                             |   4 +-
->  hw/scsi/lsi53c895a.c                          |   4 +-
->  hw/scsi/scsi-disk.c                           |   5 +-
->  hw/scsi/spapr_vscsi.c                         |   4 +-
->  hw/scsi/vmw_pvscsi.c                          |   5 +-
->  hw/sd/milkymist-memcard.c                     |   4 +-
->  hw/sd/pl181.c                                 |   4 +-
->  hw/sd/ssi-sd.c                                |   4 +-
->  hw/sh4/sh_pci.c                               |   4 +-
->  hw/sparc/sun4m.c                              |   8 +-
->  hw/sparc64/sun4u.c                            |   8 +-
->  hw/ssi/ssi.c                                  |   3 +-
->  hw/ssi/xilinx_spi.c                           |   4 +-
->  hw/timer/altera_timer.c                       |   4 +-
->  hw/timer/arm_timer.c                          |   8 +-
->  hw/timer/cadence_ttc.c                        |   4 +-
->  hw/timer/exynos4210_mct.c                     |   4 +-
->  hw/timer/exynos4210_pwm.c                     |   4 +-
->  hw/timer/grlib_gptimer.c                      |   4 +-
->  hw/timer/hpet.c                               |   4 +-
->  hw/timer/lm32_timer.c                         |   4 +-
->  hw/timer/milkymist-sysctl.c                   |   4 +-
->  hw/timer/puv3_ost.c                           |   4 +-
->  hw/timer/pxa2xx_timer.c                       |   4 +-
->  hw/timer/slavio_timer.c                       |   4 +-
->  hw/tpm/tpm_tis_isa.c                          |   4 +-
->  hw/tpm/tpm_tis_sysbus.c                       |   4 +-
->  hw/usb/dev-audio.c                            |   4 +-
->  hw/usb/dev-hid.c                              |   4 +-
->  hw/usb/dev-hub.c                              |   4 +-
->  hw/usb/dev-mtp.c                              |   3 +-
->  hw/usb/dev-network.c                          |   4 +-
->  hw/usb/dev-serial.c                           |   4 +-
->  hw/usb/dev-smartcard-reader.c                 |   7 +-
->  hw/usb/dev-uas.c                              |   3 +-
->  hw/usb/dev-wacom.c                            |   4 +-
->  hw/usb/hcd-ohci-pci.c                         |   4 +-
->  hw/usb/host-libusb.c                          |   4 +-
->  hw/usb/tusb6010.c                             |   4 +-
->  hw/vfio/ap.c                                  |   4 +-
->  hw/virtio/virtio-input-pci.c                  |   8 +-
->  hw/watchdog/wdt_i6300esb.c                    |   4 +-
->  io/dns-resolver.c                             |   1 -
->  io/net-listener.c                             |   1 -
->  migration/rdma.c                              |   4 +-
->  net/can/can_socketcan.c                       |   4 +-
->  net/dump.c                                    |   4 +-
->  net/filter-buffer.c                           |   4 +-
->  net/filter-replay.c                           |   4 +-
->  net/filter-rewriter.c                         |   4 +-
->  scsi/pr-manager-helper.c                      |   4 +-
->  target/i386/sev.c                             |   4 +-
->  ui/input-barrier.c                            |   5 +-
->  ui/input-linux.c                              |   5 +-
->  .../codeconverter/codeconverter/patching.py   | 193 +++--
->  .../codeconverter/codeconverter/qom_macros.py | 327 ++++++--
->  .../codeconverter/qom_type_info.py            | 741 +++++++++++++++---
->  .../codeconverter/test_patching.py            |   3 +-
->  .../codeconverter/test_regexps.py             |  26 +-
->  scripts/codeconverter/converter.py            |  12 +-
->  634 files changed, 1828 insertions(+), 2401 deletions(-)
-> 
-> -- 
-> 2.26.2
-> 
+In Virtuozzo we have to deal with some custom distributed storage
+solution, where allocation is very-very expensive operation. We have to
+workaround it in Qemu, so here is a new filter.
+
+Still, the filter shows good results for me even for xfs and ext4.
+
+Here are results, produced by new benchmark (last 4 patches):
+
+All results are in iops (larger means better)
+
+----------------------------------  -----------  -----------
+                                    A            B
+                                    no-prealloc  prealloc
+ssd-ext4, aligned sequential 16k    19934±1.2%   27108±0.27%
+                                                  A+36±2%
+ssd-xfs, aligned sequential 16k     15528±5.5%   25953±3.3%
+                                                  A+67±11%
+hdd-ext4, aligned sequential 16k    5079±29%     3165±11%
+                                                  A-38±36%
+hdd-xfs, aligned sequential 16k     4096±95%     3321±7.6%
+                                                  A-19±101%
+ssd-ext4, unaligned sequential 64k  19969±1.9%   27043±0.49%
+                                                  A+35±3%
+ssd-xfs, unaligned sequential 64k   15403±2.8%   25725±6.4%
+                                                  A+67±13%
+hdd-ext4, unaligned sequential 64k  5250±17%     3239±8.7%
+                                                  A-38±23%
+hdd-xfs, unaligned sequential 64k   5291±8.2%    3336±4.2%
+                                                  A-37±11%
+----------------------------------  -----------  -----------
+
+Note: it's on Fedora 30, kernel 5.6.13-100.fc30.x86_64
+
+The tests are actually qemu-img bench, run like:
+
+  ./qemu-img create -f qcow2 $img 16G
+
+aligned:
+  ./qemu-img bench -c 10000 -d 64 -f qcow2  -s 16k -t none -n -w $img
+
+unaligned
+  ./qemu-img bench -c 10000 -d 64 -f qcow2 -o 1k -s 64k -t none -n -w $img
+
+and for preallocation, you'll drop -f qcow2, add --image-opts, and
+instead of just $img use
+  driver=qcow2,file.driver=preallocate,file.file.driver=file,file.file.filename=$img 
+
+v6:
+05: add Max's r-b
+06: add Max's r-b
+07: new
+08: Changed a lot. really. no .active now, support more use-cases.
+    Somehow, now I see performance benefit on xfs too :)
+    probably due to .zero_start feature.
+09: new
+10: new
+11: mostly rewritten, a lot more cases, drop r-b
+12-15: new, to produce final benchmark table
+
+Vladimir Sementsov-Ogievskiy (15):
+  block: simplify comment to BDRV_REQ_SERIALISING
+  block/io.c: drop assertion on double waiting for request serialisation
+  block/io: split out bdrv_find_conflicting_request
+  block/io: bdrv_wait_serialising_requests_locked: drop extra bs arg
+  block: bdrv_mark_request_serialising: split non-waiting function
+  block: introduce BDRV_REQ_NO_WAIT flag
+  block: bdrv_check_perm(): process children anyway
+  block: introduce preallocate filter
+  qemu-io: add preallocate mode parameter for truncate command
+  iotests: qemu_io_silent: support --image-opts
+  iotests: add 298 to test new preallocate filter driver
+  scripts/simplebench: support iops
+  scripts/simplebench: improve view of ascii table
+  scripts/simplebench: improve ascii table: add difference line
+  scripts/simplebench: add bench_prealloc.py
+
+ docs/system/qemu-block-drivers.rst.inc |  26 ++
+ qapi/block-core.json                   |  20 +-
+ include/block/block.h                  |  20 +-
+ include/block/block_int.h              |   3 +-
+ block.c                                |  10 +-
+ block/file-posix.c                     |   2 +-
+ block/io.c                             | 130 +++---
+ block/preallocate.c                    | 556 +++++++++++++++++++++++++
+ qemu-io-cmds.c                         |  46 +-
+ block/meson.build                      |   1 +
+ scripts/simplebench/bench_prealloc.py  | 128 ++++++
+ scripts/simplebench/simplebench.py     | 103 ++++-
+ tests/qemu-iotests/298                 | 186 +++++++++
+ tests/qemu-iotests/298.out             |   5 +
+ tests/qemu-iotests/group               |   1 +
+ tests/qemu-iotests/iotests.py          |   7 +-
+ 16 files changed, 1146 insertions(+), 98 deletions(-)
+ create mode 100644 block/preallocate.c
+ create mode 100755 scripts/simplebench/bench_prealloc.py
+ create mode 100644 tests/qemu-iotests/298
+ create mode 100644 tests/qemu-iotests/298.out
 
 -- 
-Eduardo
+2.21.3
 
 
