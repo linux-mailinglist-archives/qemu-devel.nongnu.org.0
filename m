@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E06B2705D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:56:04 +0200 (CEST)
-Received: from localhost ([::1]:52188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844082705C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:44:31 +0200 (CEST)
+Received: from localhost ([::1]:53442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJMUF-0005fb-KS
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48988)
+	id 1kJMJ4-0002lW-KJ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:44:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLIF-0001FW-Qp
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:35 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:37362)
+ id 1kJLII-0001KX-05
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:38 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLID-0007IR-FC
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:35 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id u9so3436627plk.4
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:39:32 -0700 (PDT)
+ id 1kJLIF-0007Iw-Dm
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:39:37 -0400
+Received: by mail-pl1-x641.google.com with SMTP id bg9so3442895plb.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z1orP7HFlYzRLm2Pcn97VdxmYxBZDG4R6KQe+ppPCwg=;
- b=DBYDQH6xrLJW86330Fzwf7Shu3z5ioNzQdeYW/GUL0dj0kYBP0iDplqglhIRWe4mxd
- cw6pxaYuKTqZnxXzV+XwfMcGcR2iuyPrSDt7W0VhVPK3iTZmmw+DAEsimQP2Bo6i9+p3
- x6qjTRiJIehn8AxNoUfrrCJytgZha+btSUcFL9TWtZRE3HeKFL2n2uokgGXiRIy8Hds7
- qkGkxZG+5a9o/OJ0MeRjsbVWtog/imwq0YvVlxFWm7Z2ErKK64tUsliSRHnws9BpTIEQ
- TVK+VEHDWQdp+QhCXIb7MU6R2zjE4DIyfflNfHwIQY7bLVgFfj5o8RM9RDZJ0ujRj/CM
- 487A==
+ bh=fN08oCx6IsIsE+2nRMY1biK7h4DO3wFZOWz01E+dS1w=;
+ b=TJP+7xrP3Rjd2PknVwTmYKhsiFw9pW3RfIPElL+JjvoRtAL8DUpYpp/RD8p/PyAB7s
+ TcReht6b7U4p2vu4NpcawVBpHhSkqCcfoyB3/yTZ7jIgG4oe5L2nnJU0+IgOw2S9yzPm
+ cAZ7RRWptnxFaDpATA9ri2XzzKOmmVeGUA1wm+bl5RQz5DhkUD6qz24eOVUiPB9KYxw5
+ jS8maK/TP+1x75H43ElqRbJulsm5+2VMrBEX36h1bxTCEOSr1ch/++VH7U54cCcbR8it
+ VjW1Bveg/Zepx3rlWRU9lpu6XxAX9+kWSIj07j7a5xB1ZP9dQ8Wjs1fT19C1rJp20w6N
+ 7xlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z1orP7HFlYzRLm2Pcn97VdxmYxBZDG4R6KQe+ppPCwg=;
- b=k/01um9TaBCVbFm+MGMwvH7o7rzlPlPQM3z0g96pQ7UjPSt4rNexob0r/+lZOjM0J3
- yh1p+s0qDu202LTMgpfc03Ndv1sGSSNOfQ1YHB0RIWKfachcIFrVWtcakPbt4kCIYUOv
- NuTAeh0UrBm2oTj6gNSYRDumjWj47jshSpwBpUR+j7B3q/kWpTo2sV6pZjg2e0eXcnK6
- WzHp0iGYEnCkYAuLAz3dZjzV5dgouygma5JN7UBRwDbhsrQJ8QT9187q4CR0E37YTZgL
- TQyufpKejxxPYMp+xwNvUlAv0cRgfbHZHK4ASRFnYPPT0NpcNOKKyLr71bQ9qy3hhfZr
- 0z7Q==
-X-Gm-Message-State: AOAM5335Uow55xs2cIvVOGG62pChtmsF6F9DRbEMSyKL18gEWl4YR5xp
- JCy4Wr8DWXkOmomyKbaPhqbiYb4cWgJorw==
-X-Google-Smtp-Source: ABdhPJzE818py0OGl7HGtkq8t3F6HNawK9CCeqMOYgK2kPlkT0+DX6X7vPTUdrYkk35iJliB1v+CnA==
-X-Received: by 2002:a17:902:b109:b029:d1:e5e7:be53 with SMTP id
- q9-20020a170902b109b02900d1e5e7be53mr17160356plr.45.1600454371671; 
- Fri, 18 Sep 2020 11:39:31 -0700 (PDT)
+ bh=fN08oCx6IsIsE+2nRMY1biK7h4DO3wFZOWz01E+dS1w=;
+ b=cRXtcoU/rfj5N2NvlmcDrumga3cttksfZdo28I/9efWfAD28B1WxBosRuMLB65WGBB
+ 5cdZe8LNfDHeu41B2O40AhfH+IwK6KGqKX2qH1iBATmfh9PBQ8oPRlI3mZMvMcoOra1I
+ jj1CuYB5eyYOwOrZpAkrBe8yWJKSWW1ErauZcdVvsr0e+JNMNR8nh0l1dagST19lpQz5
+ XHWb08EX32unBnYFggVPliNgaJf/XbmBptbIMcAikmZAdYeR4pQA5dRt12cJgL2eas2y
+ o6lddPMf8X1RJXwT24qx78QLOdcTsvTbjdBVwpJQSBp6dXsX2+hNlSR0+twMla6gnDpj
+ WkMw==
+X-Gm-Message-State: AOAM532V4I0i7tKTAvGpXvsyNe7mLVCKD9mSZiDCBem6fAmsBNrFFBB8
+ J4o5llxyspiCzbNWZnqy9/2uaj3C+UTlaQ==
+X-Google-Smtp-Source: ABdhPJzLC6x0kfth2lnRWzGtC3Hj58C2QIH3bVMiIQib2BQzrBd/AVgtg8qdQGB+12fyvcnljqn4Kg==
+X-Received: by 2002:a17:902:c151:b029:d1:9bd3:6855 with SMTP id
+ 17-20020a170902c151b02900d19bd36855mr34068740plj.38.1600454373412; 
+ Fri, 18 Sep 2020 11:39:33 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.39.30
+ by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.39.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:39:30 -0700 (PDT)
+ Fri, 18 Sep 2020 11:39:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 74/81] target/arm: Implement SVE2 FLOGB
-Date: Fri, 18 Sep 2020 11:37:44 -0700
-Message-Id: <20200918183751.2787647-75-richard.henderson@linaro.org>
+Subject: [PATCH v3 75/81] target/arm: Share table of sve load functions
+Date: Fri, 18 Sep 2020 11:37:45 -0700
+Message-Id: <20200918183751.2787647-76-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
 References: <20200918183751.2787647-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,144 +85,316 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org,
- Stephen Long <steplong@quicinc.com>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+The table used by do_ldrq is a subset of the table used by do_ld_zpa;
+we can share them by passing dtype instead of msz to do_ldrq.
 
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200430191405.21641-1-steplong@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Fixed esz index and c++ comments
-v3: Fixed denormal arithmetic and raise invalid.
----
- target/arm/helper-sve.h    |  4 +++
- target/arm/sve.decode      |  3 +++
- target/arm/sve_helper.c    | 52 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-sve.c | 24 ++++++++++++++++++
- 4 files changed, 83 insertions(+)
+ target/arm/translate-sve.c | 254 ++++++++++++++++++-------------------
+ 1 file changed, 126 insertions(+), 128 deletions(-)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index df141aec41..f25b403ddb 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2744,3 +2744,7 @@ DEF_HELPER_FLAGS_5(sve2_fcvtlt_hs, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 6c0e39d553..6808ff4194 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -1581,3 +1581,6 @@ FCVTNT_sh       01100100 10 0010 00 101 ... ..... .....  @rd_pg_rn_e0
- FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
- FCVTNT_ds       01100100 11 0010 10 101 ... ..... .....  @rd_pg_rn_e0
- FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
-+
-+### SVE2 floating-point convert to integer
-+FLOGB           01100101 00 011 esz:2 0101 pg:3 rn:5 rd:5  &rpr_esz
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 8539493c72..dc51cb75fc 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -4696,6 +4696,58 @@ DO_ZPZ_FP(sve_ucvt_dh, uint64_t,     , uint64_to_float16)
- DO_ZPZ_FP(sve_ucvt_ds, uint64_t,     , uint64_to_float32)
- DO_ZPZ_FP(sve_ucvt_dd, uint64_t,     , uint64_to_float64)
- 
-+static int16_t do_float16_logb_as_int(float16 a, float_status *s)
-+{
-+    if (float16_is_normal(a)) {
-+        return extract16(a, 10, 5) - 15;
-+    } else if (float16_is_infinity(a)) {
-+        return INT16_MAX;
-+    } else if (float16_is_any_nan(a) || float16_is_zero(a)) {
-+        float_raise(float_flag_invalid, s);
-+        return INT16_MIN;
-+    } else {
-+        /*
-+         * denormal: bias - fractional_zeros
-+         *         = bias + masked_zeros - uint32_zeros
-+         */
-+        return -15 + 22 - clz32(extract16(a, 0, 10));
-+    }
-+}
-+
-+static int32_t do_float32_logb_as_int(float32 a, float_status *s)
-+{
-+    if (float32_is_normal(a)) {
-+        return extract32(a, 23, 8) - 127;
-+    } else if (float32_is_infinity(a)) {
-+        return INT32_MAX;
-+    } else if (float32_is_any_nan(a) || float32_is_zero(a)) {
-+        float_raise(float_flag_invalid, s);
-+        return INT32_MIN;
-+    } else {
-+        /* denormal (see above) */
-+        return -127 + 9 - clz32(extract32(a, 0, 23));
-+    }
-+}
-+
-+static int64_t do_float64_logb_as_int(float64 a, float_status *s)
-+{
-+    if (float64_is_normal(a)) {
-+        return extract64(a, 52, 11) - 1023;
-+    } else if (float64_is_infinity(a)) {
-+        return INT64_MAX;
-+    } else if (float64_is_any_nan(a) || float64_is_zero(a)) {
-+        float_raise(float_flag_invalid, s);
-+        return INT64_MIN;
-+    } else {
-+        /* denormal (see above) */
-+        return -1023 + 12 - clz64(extract64(a, 0, 52));
-+    }
-+}
-+
-+DO_ZPZ_FP(flogb_h, float16, H1_2, do_float16_logb_as_int)
-+DO_ZPZ_FP(flogb_s, float32, H1_4, do_float32_logb_as_int)
-+DO_ZPZ_FP(flogb_d, float64,     , do_float64_logb_as_int)
-+
- #undef DO_ZPZ_FP
- 
- static void do_fmla_zpzzz_h(void *vd, void *vn, void *vm, void *va, void *vg,
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 7cdb128a5b..d6719d99d5 100644
+index d6719d99d5..79af31f12e 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -8286,3 +8286,27 @@ static bool trans_FCVTXNT_ds(DisasContext *s, arg_rpr_esz *a)
-     }
-     return do_frint_mode(s, a, float_round_to_odd, gen_helper_sve2_fcvtnt_ds);
+@@ -5208,128 +5208,130 @@ static void do_mem_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
+     tcg_temp_free_i32(t_desc);
  }
+ 
++/* Indexed by [mte][be][dtype][nreg] */
++static gen_helper_gvec_mem * const ldr_fns[2][2][16][4] = {
++    { /* mte inactive, little-endian */
++      { { gen_helper_sve_ld1bb_r, gen_helper_sve_ld2bb_r,
++          gen_helper_sve_ld3bb_r, gen_helper_sve_ld4bb_r },
++        { gen_helper_sve_ld1bhu_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bsu_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bdu_r, NULL, NULL, NULL },
 +
-+static bool trans_FLOGB(DisasContext *s, arg_rpr_esz *a)
-+{
-+    static gen_helper_gvec_3_ptr * const fns[] = {
-+        NULL,               gen_helper_flogb_h,
-+        gen_helper_flogb_s, gen_helper_flogb_d
-+    };
++        { gen_helper_sve_ld1sds_le_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hh_le_r, gen_helper_sve_ld2hh_le_r,
++          gen_helper_sve_ld3hh_le_r, gen_helper_sve_ld4hh_le_r },
++        { gen_helper_sve_ld1hsu_le_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hdu_le_r, NULL, NULL, NULL },
 +
-+    if (!dc_isar_feature(aa64_sve2, s) || fns[a->esz] == NULL) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        TCGv_ptr status =
-+            fpstatus_ptr(a->esz == MO_16 ? FPST_FPCR_F16 : FPST_FPCR);
-+        unsigned vsz = vec_full_reg_size(s);
++        { gen_helper_sve_ld1hds_le_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hss_le_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1ss_le_r, gen_helper_sve_ld2ss_le_r,
++          gen_helper_sve_ld3ss_le_r, gen_helper_sve_ld4ss_le_r },
++        { gen_helper_sve_ld1sdu_le_r, NULL, NULL, NULL },
 +
-+        tcg_gen_gvec_3_ptr(vec_full_reg_offset(s, a->rd),
-+                           vec_full_reg_offset(s, a->rn),
-+                           pred_full_reg_offset(s, a->pg),
-+                           status, vsz, vsz, 0, fns[a->esz]);
-+        tcg_temp_free_ptr(status);
-+    }
-+    return true;
-+}
++        { gen_helper_sve_ld1bds_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bss_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bhs_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1dd_le_r, gen_helper_sve_ld2dd_le_r,
++          gen_helper_sve_ld3dd_le_r, gen_helper_sve_ld4dd_le_r } },
++
++      /* mte inactive, big-endian */
++      { { gen_helper_sve_ld1bb_r, gen_helper_sve_ld2bb_r,
++          gen_helper_sve_ld3bb_r, gen_helper_sve_ld4bb_r },
++        { gen_helper_sve_ld1bhu_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bsu_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bdu_r, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1sds_be_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hh_be_r, gen_helper_sve_ld2hh_be_r,
++          gen_helper_sve_ld3hh_be_r, gen_helper_sve_ld4hh_be_r },
++        { gen_helper_sve_ld1hsu_be_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hdu_be_r, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1hds_be_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hss_be_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1ss_be_r, gen_helper_sve_ld2ss_be_r,
++          gen_helper_sve_ld3ss_be_r, gen_helper_sve_ld4ss_be_r },
++        { gen_helper_sve_ld1sdu_be_r, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1bds_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bss_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bhs_r, NULL, NULL, NULL },
++        { gen_helper_sve_ld1dd_be_r, gen_helper_sve_ld2dd_be_r,
++          gen_helper_sve_ld3dd_be_r, gen_helper_sve_ld4dd_be_r } } },
++
++    { /* mte active, little-endian */
++      { { gen_helper_sve_ld1bb_r_mte,
++          gen_helper_sve_ld2bb_r_mte,
++          gen_helper_sve_ld3bb_r_mte,
++          gen_helper_sve_ld4bb_r_mte },
++        { gen_helper_sve_ld1bhu_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bsu_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bdu_r_mte, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1sds_le_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hh_le_r_mte,
++          gen_helper_sve_ld2hh_le_r_mte,
++          gen_helper_sve_ld3hh_le_r_mte,
++          gen_helper_sve_ld4hh_le_r_mte },
++        { gen_helper_sve_ld1hsu_le_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hdu_le_r_mte, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1hds_le_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hss_le_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1ss_le_r_mte,
++          gen_helper_sve_ld2ss_le_r_mte,
++          gen_helper_sve_ld3ss_le_r_mte,
++          gen_helper_sve_ld4ss_le_r_mte },
++        { gen_helper_sve_ld1sdu_le_r_mte, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1bds_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bss_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bhs_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1dd_le_r_mte,
++          gen_helper_sve_ld2dd_le_r_mte,
++          gen_helper_sve_ld3dd_le_r_mte,
++          gen_helper_sve_ld4dd_le_r_mte } },
++
++      /* mte active, big-endian */
++      { { gen_helper_sve_ld1bb_r_mte,
++          gen_helper_sve_ld2bb_r_mte,
++          gen_helper_sve_ld3bb_r_mte,
++          gen_helper_sve_ld4bb_r_mte },
++        { gen_helper_sve_ld1bhu_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bsu_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bdu_r_mte, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1sds_be_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hh_be_r_mte,
++          gen_helper_sve_ld2hh_be_r_mte,
++          gen_helper_sve_ld3hh_be_r_mte,
++          gen_helper_sve_ld4hh_be_r_mte },
++        { gen_helper_sve_ld1hsu_be_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hdu_be_r_mte, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1hds_be_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1hss_be_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1ss_be_r_mte,
++          gen_helper_sve_ld2ss_be_r_mte,
++          gen_helper_sve_ld3ss_be_r_mte,
++          gen_helper_sve_ld4ss_be_r_mte },
++        { gen_helper_sve_ld1sdu_be_r_mte, NULL, NULL, NULL },
++
++        { gen_helper_sve_ld1bds_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bss_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1bhs_r_mte, NULL, NULL, NULL },
++        { gen_helper_sve_ld1dd_be_r_mte,
++          gen_helper_sve_ld2dd_be_r_mte,
++          gen_helper_sve_ld3dd_be_r_mte,
++          gen_helper_sve_ld4dd_be_r_mte } } },
++};
++
+ static void do_ld_zpa(DisasContext *s, int zt, int pg,
+                       TCGv_i64 addr, int dtype, int nreg)
+ {
+-    static gen_helper_gvec_mem * const fns[2][2][16][4] = {
+-        { /* mte inactive, little-endian */
+-          { { gen_helper_sve_ld1bb_r, gen_helper_sve_ld2bb_r,
+-            gen_helper_sve_ld3bb_r, gen_helper_sve_ld4bb_r },
+-            { gen_helper_sve_ld1bhu_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bsu_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bdu_r, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1sds_le_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hh_le_r, gen_helper_sve_ld2hh_le_r,
+-              gen_helper_sve_ld3hh_le_r, gen_helper_sve_ld4hh_le_r },
+-            { gen_helper_sve_ld1hsu_le_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hdu_le_r, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1hds_le_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hss_le_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1ss_le_r, gen_helper_sve_ld2ss_le_r,
+-              gen_helper_sve_ld3ss_le_r, gen_helper_sve_ld4ss_le_r },
+-            { gen_helper_sve_ld1sdu_le_r, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1bds_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bss_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bhs_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1dd_le_r, gen_helper_sve_ld2dd_le_r,
+-              gen_helper_sve_ld3dd_le_r, gen_helper_sve_ld4dd_le_r } },
+-
+-          /* mte inactive, big-endian */
+-          { { gen_helper_sve_ld1bb_r, gen_helper_sve_ld2bb_r,
+-              gen_helper_sve_ld3bb_r, gen_helper_sve_ld4bb_r },
+-            { gen_helper_sve_ld1bhu_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bsu_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bdu_r, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1sds_be_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hh_be_r, gen_helper_sve_ld2hh_be_r,
+-              gen_helper_sve_ld3hh_be_r, gen_helper_sve_ld4hh_be_r },
+-            { gen_helper_sve_ld1hsu_be_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hdu_be_r, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1hds_be_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hss_be_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1ss_be_r, gen_helper_sve_ld2ss_be_r,
+-              gen_helper_sve_ld3ss_be_r, gen_helper_sve_ld4ss_be_r },
+-            { gen_helper_sve_ld1sdu_be_r, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1bds_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bss_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bhs_r, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1dd_be_r, gen_helper_sve_ld2dd_be_r,
+-              gen_helper_sve_ld3dd_be_r, gen_helper_sve_ld4dd_be_r } } },
+-
+-        { /* mte active, little-endian */
+-          { { gen_helper_sve_ld1bb_r_mte,
+-              gen_helper_sve_ld2bb_r_mte,
+-              gen_helper_sve_ld3bb_r_mte,
+-              gen_helper_sve_ld4bb_r_mte },
+-            { gen_helper_sve_ld1bhu_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bsu_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bdu_r_mte, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1sds_le_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hh_le_r_mte,
+-              gen_helper_sve_ld2hh_le_r_mte,
+-              gen_helper_sve_ld3hh_le_r_mte,
+-              gen_helper_sve_ld4hh_le_r_mte },
+-            { gen_helper_sve_ld1hsu_le_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hdu_le_r_mte, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1hds_le_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hss_le_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1ss_le_r_mte,
+-              gen_helper_sve_ld2ss_le_r_mte,
+-              gen_helper_sve_ld3ss_le_r_mte,
+-              gen_helper_sve_ld4ss_le_r_mte },
+-            { gen_helper_sve_ld1sdu_le_r_mte, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1bds_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bss_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bhs_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1dd_le_r_mte,
+-              gen_helper_sve_ld2dd_le_r_mte,
+-              gen_helper_sve_ld3dd_le_r_mte,
+-              gen_helper_sve_ld4dd_le_r_mte } },
+-
+-          /* mte active, big-endian */
+-          { { gen_helper_sve_ld1bb_r_mte,
+-              gen_helper_sve_ld2bb_r_mte,
+-              gen_helper_sve_ld3bb_r_mte,
+-              gen_helper_sve_ld4bb_r_mte },
+-            { gen_helper_sve_ld1bhu_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bsu_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bdu_r_mte, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1sds_be_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hh_be_r_mte,
+-              gen_helper_sve_ld2hh_be_r_mte,
+-              gen_helper_sve_ld3hh_be_r_mte,
+-              gen_helper_sve_ld4hh_be_r_mte },
+-            { gen_helper_sve_ld1hsu_be_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hdu_be_r_mte, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1hds_be_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1hss_be_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1ss_be_r_mte,
+-              gen_helper_sve_ld2ss_be_r_mte,
+-              gen_helper_sve_ld3ss_be_r_mte,
+-              gen_helper_sve_ld4ss_be_r_mte },
+-            { gen_helper_sve_ld1sdu_be_r_mte, NULL, NULL, NULL },
+-
+-            { gen_helper_sve_ld1bds_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bss_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1bhs_r_mte, NULL, NULL, NULL },
+-            { gen_helper_sve_ld1dd_be_r_mte,
+-              gen_helper_sve_ld2dd_be_r_mte,
+-              gen_helper_sve_ld3dd_be_r_mte,
+-              gen_helper_sve_ld4dd_be_r_mte } } },
+-    };
+     gen_helper_gvec_mem *fn
+-        = fns[s->mte_active[0]][s->be_data == MO_BE][dtype][nreg];
++        = ldr_fns[s->mte_active[0]][s->be_data == MO_BE][dtype][nreg];
+ 
+     /*
+      * While there are holes in the table, they are not
+@@ -5567,14 +5569,8 @@ static bool trans_LDNF1_zpri(DisasContext *s, arg_rpri_load *a)
+     return true;
+ }
+ 
+-static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int msz)
++static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int dtype)
+ {
+-    static gen_helper_gvec_mem * const fns[2][4] = {
+-        { gen_helper_sve_ld1bb_r,    gen_helper_sve_ld1hh_le_r,
+-          gen_helper_sve_ld1ss_le_r, gen_helper_sve_ld1dd_le_r },
+-        { gen_helper_sve_ld1bb_r,    gen_helper_sve_ld1hh_be_r,
+-          gen_helper_sve_ld1ss_be_r, gen_helper_sve_ld1dd_be_r },
+-    };
+     unsigned vsz = vec_full_reg_size(s);
+     TCGv_ptr t_pg;
+     TCGv_i32 t_desc;
+@@ -5606,7 +5602,9 @@ static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int msz)
+     t_pg = tcg_temp_new_ptr();
+     tcg_gen_addi_ptr(t_pg, cpu_env, poff);
+ 
+-    fns[s->be_data == MO_BE][msz](cpu_env, t_pg, addr, t_desc);
++    gen_helper_gvec_mem *fn
++        = ldr_fns[s->mte_active[0]][s->be_data == MO_BE][dtype][0];
++    fn(cpu_env, t_pg, addr, t_desc);
+ 
+     tcg_temp_free_ptr(t_pg);
+     tcg_temp_free_i32(t_desc);
+@@ -5628,7 +5626,7 @@ static bool trans_LD1RQ_zprr(DisasContext *s, arg_rprr_load *a)
+         TCGv_i64 addr = new_tmp_a64(s);
+         tcg_gen_shli_i64(addr, cpu_reg(s, a->rm), msz);
+         tcg_gen_add_i64(addr, addr, cpu_reg_sp(s, a->rn));
+-        do_ldrq(s, a->rd, a->pg, addr, msz);
++        do_ldrq(s, a->rd, a->pg, addr, a->dtype);
+     }
+     return true;
+ }
+@@ -5638,7 +5636,7 @@ static bool trans_LD1RQ_zpri(DisasContext *s, arg_rpri_load *a)
+     if (sve_access_check(s)) {
+         TCGv_i64 addr = new_tmp_a64(s);
+         tcg_gen_addi_i64(addr, cpu_reg_sp(s, a->rn), a->imm * 16);
+-        do_ldrq(s, a->rd, a->pg, addr, dtype_msz(a->dtype));
++        do_ldrq(s, a->rd, a->pg, addr, a->dtype);
+     }
+     return true;
+ }
 -- 
 2.25.1
 
