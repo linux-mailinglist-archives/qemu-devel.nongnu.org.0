@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FE32708B6
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 00:04:02 +0200 (CEST)
-Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64132708BE
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 00:06:46 +0200 (CEST)
+Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJOU5-000333-On
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 18:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48904)
+	id 1kJOWj-0004uv-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 18:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kJNJR-0003Lh-GN
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:49:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27270)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kJNS8-0008Qc-HY
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:57:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kJNJO-0006Uf-Oe
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:48:57 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kJNS6-0007aN-MI
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:57:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600462133;
+ s=mimecast20190719; t=1600462673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ItsJU/Dhvavx+vu0tFfDepkCUg9sXvnudkLYoCPPh+Q=;
- b=L7+bPsNpMV+gWzta0QJDLygM2J44JOQSeDf5yBwtHb6ZD3HGTgI7Wb9ASZ/yfQx4X1FgdM
- DySz0nOz0T0HnaeZh/twpNfOST1RfduDiQ9MZy+p73+uMP/TgeT6D+su2yCmTPayQyRMcN
- knLNrDEwLgZGhaj/g+cP9quxt5DSlYc=
+ bh=5E9KekElfZ5c25ZojIoGWnFymY3aYNmxoeu9TZdgfr0=;
+ b=D3DzxChKgof9UkTeEbkmuPV2FjxZmyadMhnyHVJJOsrm9w6QUqdxWNwP4imQQEHbAIPLc8
+ vskJZN5k6Zucdb8Y2pE7ni3f06xHf/M1Rar7shWVqiKsE1c0BDfjdRuAIgWDC9M25Qdenx
+ rW+cwN3gmIqqpvs/iR1V2JBDODGFYR4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-5-ujRE9BPAqJ6X8bKDziHQ-1; Fri, 18 Sep 2020 16:48:49 -0400
-X-MC-Unique: 5-ujRE9BPAqJ6X8bKDziHQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-406-FDSptGhhNaSuGK-KPXCBxw-1; Fri, 18 Sep 2020 16:57:51 -0400
+X-MC-Unique: FDSptGhhNaSuGK-KPXCBxw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFB11805EE2;
- Fri, 18 Sep 2020 20:48:48 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E70D5D9E4;
- Fri, 18 Sep 2020 20:48:44 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] meson: replace pc-bios/Makefile
-Date: Sat, 19 Sep 2020 00:47:59 +0400
-Message-Id: <20200918204759.225810-7-marcandre.lureau@redhat.com>
-In-Reply-To: <20200918204759.225810-1-marcandre.lureau@redhat.com>
-References: <20200918204759.225810-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6BEC1014E0D;
+ Fri, 18 Sep 2020 20:57:50 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 959EC78802;
+ Fri, 18 Sep 2020 20:57:43 +0000 (UTC)
+Date: Fri, 18 Sep 2020 16:57:42 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] smp: drop support for deprecated (invalid topologies)
+Message-ID: <20200918205742.GB8041@habkost.net>
+References: <20200911133202.938754-1-imammedo@redhat.com>
+ <20200911110407-mutt-send-email-mst@kernel.org>
+ <20200914093720.6c3583c7@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200914093720.6c3583c7@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,7 +68,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,73 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-s390x@nongnu.org,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Mon, Sep 14, 2020 at 09:37:20AM +0200, Igor Mammedov wrote:
+> On Fri, 11 Sep 2020 11:04:47 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > On Fri, Sep 11, 2020 at 09:32:02AM -0400, Igor Mammedov wrote:
+> > > it's was deprecated since 3.1
+> > > 
+> > > Support for invalid topologies is removed, the user must ensure
+> > > that topologies described with -smp include all possible cpus,
+> > > i.e. (sockets * cores * threads) == maxcpus or QEMU will
+> > > exit with error.
+> > > 
+> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
+> > 
+> > Acked-by: 
+> > 
+> > memory tree I guess?
+> 
+> It would be better for Paolo to take it since he has
+> queued numa deprecations, due to context confilict in
+> deprecated.rst.
+> 
+> Paolo,
+> can you queue this patch as well?
 
-Add an alias target "update-dtb" to recompile the device-tree "sources"
-to the "blob" format.
+I'm queueing this in machine-next (sorry for not noticing it
+before I sent today's pull request).
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- pc-bios/Makefile    | 19 -------------------
- pc-bios/meson.build | 12 ++++++++++++
- 2 files changed, 12 insertions(+), 19 deletions(-)
- delete mode 100644 pc-bios/Makefile
-
-diff --git a/pc-bios/Makefile b/pc-bios/Makefile
-deleted file mode 100644
-index 315288df84..0000000000
---- a/pc-bios/Makefile
-+++ /dev/null
-@@ -1,19 +0,0 @@
--#
--# NOTE: only compilable with x86 cross compile tools
--#
--include ../config-host.mak
--
--DEFINES=
--
--TARGETS=
--
--all: $(TARGETS)
--
--%.o: %.S
--	$(CC) $(DEFINES) -c -o $@ $<
--
--%.dtb: %.dts
--	dtc -I dts -O dtb -o $@ $<
--
--clean:
--	rm -f $(TARGETS) *.o *~
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index d25585ca97..f004df7a4d 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -92,6 +92,18 @@ endif
- subdir('descriptors')
- subdir('keymaps')
- 
-+dtc = find_program('dtc', required: false)
-+if dtc.found()
-+  t = []
-+  foreach f: ['bamboo.dts', 'canyonlands.dts', 'petalogix-ml605.dts', 'petalogix-s3adsp1800.dts']
-+    t += custom_target(f,
-+                       input: f,
-+                       output: '@BASENAME@' + '.dtb',
-+                       command: [dtc, '-I', 'dts', '-O', 'dtb', '-o', '@OUTPUT@', '@INPUT@'])
-+  endforeach
-+  alias_target('update-dtb', t)
-+endif
-+
- if host_machine.cpu_family() in ['x86', 'x86_64']
-   subproject('optionrom')
- endif
 -- 
-2.26.2
+Eduardo
 
 
