@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690E0270831
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:27:01 +0200 (CEST)
-Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F276270852
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:33:17 +0200 (CEST)
+Received: from localhost ([::1]:39698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJNuF-0007TC-V7
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49936)
+	id 1kJO0K-0001U1-2l
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJNOn-00062j-Kt
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:54:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJNOl-00078T-VD
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:54:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600462467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ax0uGfthEG6B1GpW7sHPY5S9dm1f8wzDjrpuN9+bbKE=;
- b=RAr1Dblekr6N/A3MGLMCnFFnpmPO2yR2YXuTDd0hYQD9sQi2pmzBssQbPJAHm1t1Xqn6Sf
- G0rcT4UPJCxjRwkzTa2qDO06c2bTU25EhWHY4k0+telV9/5ODfO8iTh3mNcDkDUAZ3Qvum
- bugUVu9n4AxSZ7f8z+OFhWisYuwEkZI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-0IJKPbMtOi28ZpVVghXmxg-1; Fri, 18 Sep 2020 16:54:25 -0400
-X-MC-Unique: 0IJKPbMtOi28ZpVVghXmxg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBA1E1009454
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 20:54:24 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D8556198E;
- Fri, 18 Sep 2020 20:54:24 +0000 (UTC)
-Date: Fri, 18 Sep 2020 16:54:23 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] qom: simplify object_find_property /
- object_class_find_property
-Message-ID: <20200918205423.GA8041@habkost.net>
-References: <20200914135617.1493072-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kJN83-0005Hd-OQ; Fri, 18 Sep 2020 16:37:11 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:34533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kJN80-0004zm-58; Fri, 18 Sep 2020 16:37:11 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8BA9158015F;
+ Fri, 18 Sep 2020 16:36:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Fri, 18 Sep 2020 16:36:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=oTmjeX5NrZ/Am
+ /nSxt2dbO7kocsLPRIC4wXmzsR2j1E=; b=FhUKRdE8+1IJkMRGYjDiKs2O2YJpI
+ spenj6CtXxARlDDrpkOlZOgZ+oYoISc9urDl6hVRd9fmBk0Yt4Zher9h2xjISR0Z
+ 1eq4lP/AGxIFyZYGWSiIXoPYdtWOc5HcHKK+z9DEoJqIng1ZdAMMmFmgOpNFVbvH
+ 15qcUsw2ST6MF/n7hyFy+JruExAJtGKNwMug9j0PRaMiYB20+Pson42W9/q7JQRj
+ 0qo8dnCWbwLEejm1s43rl2hQU9v13XZGDeojc8RA6Lg78a8liaNW0FWAkXS4aP7d
+ 9t+Flc+aFKO7sQdMQfC2Z/iPG959jkJb2NEx7ZFJNocbX0opLaS+ivSfw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=oTmjeX5NrZ/Am/nSxt2dbO7kocsLPRIC4wXmzsR2j1E=; b=qvLyCe71
+ 7suGq5OHq1pZEdASTENNYG+MQqn4s3SVYCqpwzlDB9zPsLmzDF53QkL2b/RRUhoT
+ cF/ghiPXowJC5CBj5bQfcVfqKLIkztM3E4ug0zQhfUkqnSxzhEe7LNB1NDDkt6Av
+ dJee6Rl+ep1viAuT9jPrg9gNR7GvQn4hJhVVOG2PyPUIHbeo0CxWT/MBejqtapJv
+ k4K31I8PecP0jqgWsIX5kIrkZXkvzK4eo4U4o5L7LX0J+FSSOSAsJjur4vfIOqly
+ dhjx6be1Mv3OICKhUzFhtzbJ2VJbLTA9hCeJkQ//98DvJS/6kKyifx0QX+e2VWg2
+ Qf8ZBJ6JpuW8QQ==
+X-ME-Sender: <xms:XhplX_NJUjjRNl8JoKDnXQldWvxZY53WXnfG4gwYy_lbCzV5HSj5jw>
+ <xme:XhplX5_qcxfSioNJNrNUiQp9G5bX4hMhHoD-EXQAVuYg4gybk-EK1rpAq3qPSsr3f
+ V2qFbd5uBSjFjPPHew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdduhedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeejne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:XhplX-QXGkU2xd47P0FS0MIN8tOfsQJYU02ei2B11Gcif6T2tdtirA>
+ <xmx:XhplXztwpuC8qBaMb6T9z18nLPuL45SMTqLy__x9hYA3Xl2Pi0-3Og>
+ <xmx:XhplX3ePWgy5XT8fZu9b6ejcnVkeNFP8C4BZahGVNkQ05uHzx94SVw>
+ <xmx:XhplX2zBzko5-1oS1uPKDNWSoFxLNCBGsl8-Pho441XnMoyq9ikdi8HNAdk>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B48CC3064610;
+ Fri, 18 Sep 2020 16:36:44 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 14/17] hw/block/nvme: refactor identify active namespace id
+ list
+Date: Fri, 18 Sep 2020 22:36:18 +0200
+Message-Id: <20200918203621.602915-15-its@irrelevant.dk>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200918203621.602915-1-its@irrelevant.dk>
+References: <20200918203621.602915-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20200914135617.1493072-1-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 16:36:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +95,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 14, 2020 at 02:56:17PM +0100, Daniel P. Berrangé wrote:
-> When debugging QEMU it is often useful to put a breakpoint on the
-> error_setg_internal method impl.
-> 
-> Unfortunately the object_property_add / object_class_property_add
-> methods call object_property_find / object_class_property_find methods
-> to check if a property exists already before adding the new property.
-> 
-> As a result there are a huge number of calls to error_setg_internal
-> on startup of most QEMU commands, making it very painful to set a
-> breakpoint on this method.
-> 
-> Most callers of object_find_property and object_class_find_property,
-> however, pass in a NULL for the Error parameter. This simplifies the
-> methods to remove the Error parameter entirely, and then adds some
-> new wrapper methods that are able to raise an Error when needed.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Queued, thanks!
+Prepare to support inactive namespaces.
 
-(Paolo, if you wish to get back to handling of QOM patches when
-you're back, please let me know)
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ hw/block/nvme.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index d2e211c7cbc2..f533eec55c5c 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1471,7 +1471,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+     uint32_t min_nsid = le32_to_cpu(c->nsid);
+     uint32_t *list;
+     uint16_t ret;
+-    int i, j = 0;
++    int j = 0;
+ 
+     trace_pci_nvme_identify_nslist(min_nsid);
+ 
+@@ -1486,11 +1486,11 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+     }
+ 
+     list = g_malloc0(data_len);
+-    for (i = 0; i < n->num_namespaces; i++) {
+-        if (i < min_nsid) {
++    for (int i = 1; i <= n->num_namespaces; i++) {
++        if (i <= min_nsid) {
+             continue;
+         }
+-        list[j++] = cpu_to_le32(i + 1);
++        list[j++] = cpu_to_le32(i);
+         if (j == data_len / sizeof(uint32_t)) {
+             break;
+         }
 -- 
-Eduardo
+2.28.0
 
 
