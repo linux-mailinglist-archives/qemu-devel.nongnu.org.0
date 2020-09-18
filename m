@@ -2,73 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C7D26FC62
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 14:21:29 +0200 (CEST)
-Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4601B26FC7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 14:29:25 +0200 (CEST)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJFOK-0002EY-9o
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 08:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57676)
+	id 1kJFW0-0007GM-CE
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 08:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kJFMP-00013B-65
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 08:19:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26759)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kJFMM-0001pM-Bm
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 08:19:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600431565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pVk+A3jPeV1BzZWDsIrc8b2f1CZefqs8wsDSOav1ga0=;
- b=CJaJqWEguM4LUc/5L3r3zR8d3vBm/LImvqraORDE4gDV97yDCFJuSfz8LJS6A41kVwBqsI
- P41h3ZQpxx36aNimwjdDfTMQQG0G1YQ69tnOOhGbI4d5RxyJauhL2JRZVsl7q7ym25ZAR/
- QJvqbr9pFaBSQ+tdSZB+EKUrZXgoPhA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-7YPN10a6OuCkPc6jCG3XpA-1; Fri, 18 Sep 2020 08:19:23 -0400
-X-MC-Unique: 7YPN10a6OuCkPc6jCG3XpA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F72418BA283;
- Fri, 18 Sep 2020 12:19:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
- [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D31DE7881A;
- Fri, 18 Sep 2020 12:19:12 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 152DC9D78; Fri, 18 Sep 2020 14:19:12 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kJFTw-0006ee-CE; Fri, 18 Sep 2020 08:27:18 -0400
+Received: from mail-eopbgr80108.outbound.protection.outlook.com
+ ([40.107.8.108]:52462 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kJFTs-0002jI-45; Fri, 18 Sep 2020 08:27:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IAiAv6SsVLG+bAo17WbG2lkVIewHsPr870ajjmCVDPmJXmZBll2oKukQpTgcoYekdokC6witoS61gqEckQnc3FqLOgRLShV8CRMOrj91UAdJmnJuHx46Yo9GXIlOjaE3e8mvmi9cl0LJS5X4vqLXRNXrksE5q8YxgJyxR9PMxpMeR+u4uRibE1kIYfnuYOC4k2JLX0dZurlLc1ScBWX/xtLfcr5gMUNHbf20RAsbMtfAAKP+LlJa1t8VxSU3v980Fnb65M0ZikgssG837kSyo8wmwS0K8ADtXh4F+tSHtsGPbAf42s2To0BwI2lb/PS/7F475HAPFV/85xJNuJuh+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g00FOPaOYvhFDEGmsx4ickSFGxdEvJ9xZIvMnUi7xqY=;
+ b=DznwXUKgsmUrNDjNIDHk8ksCaQUf+vmcyu1885OW5gYOMDPqA8Vj2vF+JFk1xqL0Wm72cczoeTjhwd8x3luowrTa0wQ24nq5jmQCBXrWWAYolwAO+FM2a+o1RKdVHMHQVMzhA8Iukpa53JEMjPsD9tI4XP6ENzHng2/Fnx9horz3LE9mUe3nj+95UaU9h6oAEGU7xT/TawmhpW3kXJsY6uOjvrQlNzzUzv/aA/25ozU9hYl+iehpZNax+WD753Rl7yn5hfcm1VFGpPGvnph0be054xQcH/dk8AkyDqjUwA+4Tl8xzKX6Nt69KbPbqFMmswfhfwFgvVePuUII5ooAiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g00FOPaOYvhFDEGmsx4ickSFGxdEvJ9xZIvMnUi7xqY=;
+ b=uK3yfNWOX99QGxMtoYC4cH3nlOGX6nHmQyS7XJVRV5x4ylwrvqAucQhm3CNEx/HzOf1iiMVkDo/+wOdSXrCM6CMgTyqJf4UesAaPX/qC6UVwMx3u2HRO9357Nm22VHgTf/fHDa4SeUbbwzXQOlkEhMYL1jtSxM/vZJQvxbMkSsM=
+Authentication-Results: kaod.org; dkim=none (message not signed)
+ header.d=none;kaod.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4024.eurprd08.prod.outlook.com (2603:10a6:20b:a5::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13; Fri, 18 Sep
+ 2020 12:27:04 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Fri, 18 Sep 2020
+ 12:27:03 +0000
+Subject: Re: [PATCH v2 00/13] block: deal with errp: part I
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] microvm: add pcie support
-Date: Fri, 18 Sep 2020 14:19:11 +0200
-Message-Id: <20200918121911.5194-3-kraxel@redhat.com>
-In-Reply-To: <20200918121911.5194-1-kraxel@redhat.com>
-References: <20200918121911.5194-1-kraxel@redhat.com>
+Cc: qemu-block@nongnu.org, armbru@redhat.com, berto@igalia.com,
+ eblake@redhat.com, jsnow@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, pavel.dovgaluk@ispras.ru, ari@tuxera.com,
+ mreitz@redhat.com, kwolf@redhat.com, groug@kaod.org
+References: <160037373907.8478.1501364519385043356@66eaa9a8a123>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <9681521f-a28a-aee0-668c-0033eb0b10bb@virtuozzo.com>
+Date: Fri, 18 Sep 2020 15:27:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
+In-Reply-To: <160037373907.8478.1501364519385043356@66eaa9a8a123>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR01CA0108.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::49) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.106) by
+ AM0PR01CA0108.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::49) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14 via Frontend
+ Transport; Fri, 18 Sep 2020 12:27:02 +0000
+X-Originating-IP: [185.215.60.106]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f98a0d47-5e8c-4f6e-717d-08d85bce262a
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4024:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4024EF4CE452C8AC240B5864C13F0@AM6PR08MB4024.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UFwRH+mifB9qs0uHtvjvUWzbGEIFpQk+jTLy3aV6+VuJYcy/RVrjcrKXZfdB4FVVcRgQWpF5VjJzu1JUwpIB67JrD8EzzW3JAgAxjidR/o3ynm4p96rGWm64/xYUUZhqAn+Z2AT2NblsQbJvQ7BeL9bmIFpeAaIN7oZULUDhxsa+UyN28Spq0DUSIXZ9xTGXGpDVJsk7hP4DhzvQ0yzs2MNLnE+dSn5jG1X8zEHGgc+skjG+suKAOZlRBXNOSJY2RZZIa3iNc4U9yaP35wEB8yO1R0pQp6KFD5v7XWxreoAslCoOssFox0dilKVDN0Y1wa+zsoqGaDbfFU924jcd6UpEIZhd1DGKl6nFfzdXAHadzG5TA3NB8OKZUysj1MMXbtWUyMu5vfSnaKXdBOOcaoiH6A9i1r7APVChE6Qj4apads/tTVBEeuiyDSRaQ1B0XhlgYJ3YSBpypcOaEEZcsA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(346002)(396003)(39840400004)(136003)(6916009)(6486002)(86362001)(966005)(66556008)(66476007)(66946007)(4744005)(5660300002)(8936002)(316002)(52116002)(16576012)(31696002)(2906002)(8676002)(36756003)(7416002)(83380400001)(4326008)(26005)(16526019)(186003)(31686004)(956004)(2616005)(478600001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: r5t+OmrZF+xzm+J+2UMy+mNA6fUM1U+AxMFL58fKf/InXx1TX/fKOZN0P1jS0QjXBHsOR9byqpZTkz1x80cMHEhn63O9Da04GtMQ6Oo92CO0bi8VUzPXx+U3jzbtuVyjcmAMtt47j67o4b35tmIZbXY1S5FpWJxJB18Jk6E7rNBfjfmyG3iUFhHmF2g72f/U1GmaHI9nBehzN+GiJmurKI3CWYzIZad+CTGSjFRxpRYrvWGswUO9t+qLglByDi6dVhDzTFjq/f787cql4MaYMtg6Ri6Y+EBa5QMIuiV5LZ8YM+B4Q3lKYiLUIzDVWT719OkbU7wn8Rl1hXiLodI423zo4OkUUXzLkHolPTO77LO1CMzfjJyXu0WsF9CThQYITuKXIDPVQGAHuJPnhlKlZUkwm8yvwtcVCTS94z+YXPwr3TuhJcB2FnfvgSX4QSh4gbfu4wBdecYC09Zd8EqvUkU0GjtooA2yzjRHZHZNuRNUHZfuFz3M6/XTi+/tB4bJzgUtd3V0weAsOMeoJIIVHtri4enzy41umBRdhCqOE8FX+i0m5YA/TiEfcKAuqE04PFtS7OsIfEkM9mPiFiN8tUpXy/vAZjHTa/YYSHb0iFAh/T3kaFDX5Mzkj++JS8qMEBqVCMGtiC/7StmeODjwmA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f98a0d47-5e8c-4f6e-717d-08d85bce262a
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 12:27:03.6692 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bv+CI1Qt4bejJexo1eOQcNrU5lgaoL0wQoe0h/X27zbnB82K6KIAvOkGA1q0XIGBzIxMYF0JRewR2Jx+2cL2sg9O6yAHuFFKTp7mY11gQD4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4024
+Received-SPF: pass client-ip=40.107.8.108;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 08:27:05
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,390 +119,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Uses the existing gpex device which is also used as pcie host bridge on
-arm/aarch64.  For now only a 32bit mmio window and no ioport support.
+17.09.2020 23:15, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20200917195519.19589-1-vsementsov@virtuozzo.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series failed build test on FreeBSD host. Please find the details below.
+> 
+> 
+> 
+> 
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/20200917195519.19589-1-vsementsov@virtuozzo.com/testing.FreeBSD/?type=message.
 
-It is disabled by default, use "-machine microvm,pcie=on" to enable.
-ACPI support must be enabled too because the bus is declared in the
-DSDT table.
+Link is broken, it shows: "N/A. Internal error while reading log file"
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/hw/i386/microvm.h |  16 +++-
- hw/i386/acpi-microvm.c    | 163 ++++++++++++++++++++++++++++++++++++++
- hw/i386/microvm.c         |  71 +++++++++++++++++
- hw/i386/Kconfig           |   1 +
- 4 files changed, 247 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
-index 27eadd6c535c..a3bb7a05d705 100644
---- a/include/hw/i386/microvm.h
-+++ b/include/hw/i386/microvm.h
-@@ -42,10 +42,10 @@
-  *   9     |  acpi      | acpi (ged)
-  *  10     |  pci lnk   |
-  *  11     |  pci lnk   |
-- *  12     |  ps2       |
-- *  13     |  fpu       |
-- *  14     |  ide 0     |
-- *  15     |  ide 1     |
-+ *  12     |  ps2       | pcie
-+ *  13     |  fpu       | pcie
-+ *  14     |  ide 0     | pcie
-+ *  15     |  ide 1     | pcie
-  *  16-23  |  pci gsi   | virtio
-  */
- 
-@@ -59,10 +59,17 @@
- #define GED_MMIO_BASE_REGS    (GED_MMIO_BASE + 0x200)
- #define GED_MMIO_IRQ          9
- 
-+#define PCIE_MMIO_BASE        0xc0000000
-+#define PCIE_MMIO_SIZE        0x20000000
-+#define PCIE_ECAM_BASE        0xe0000000
-+#define PCIE_ECAM_SIZE        0x10000000
-+#define PCIE_IRQ_BASE         12
-+
- /* Machine type options */
- #define MICROVM_MACHINE_PIT                 "pit"
- #define MICROVM_MACHINE_PIC                 "pic"
- #define MICROVM_MACHINE_RTC                 "rtc"
-+#define MICROVM_MACHINE_PCIE                "pcie"
- #define MICROVM_MACHINE_ISA_SERIAL          "isa-serial"
- #define MICROVM_MACHINE_OPTION_ROMS         "x-option-roms"
- #define MICROVM_MACHINE_AUTO_KERNEL_CMDLINE "auto-kernel-cmdline"
-@@ -81,6 +88,7 @@ struct MicrovmMachineState {
-     OnOffAuto pic;
-     OnOffAuto pit;
-     OnOffAuto rtc;
-+    OnOffAuto pcie;
-     bool isa_serial;
-     bool option_roms;
-     bool auto_kernel_cmdline;
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index df39c5d3bd90..2e8367a6c039 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -33,6 +33,8 @@
- #include "hw/boards.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/microvm.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pcie_host.h"
- #include "hw/virtio/virtio-mmio.h"
- 
- #include "acpi-common.h"
-@@ -87,6 +89,166 @@ static void acpi_dsdt_add_virtio(Aml *scope,
-     }
- }
- 
-+static void acpi_dsdt_add_pci(Aml *scope, MicrovmMachineState *mms)
-+{
-+    Aml *method, *crs, *ifctx, *UUID, *ifctx1, *elsectx, *buf;
-+    int i, slot_no;
-+    hwaddr base_mmio = PCIE_MMIO_BASE;
-+    hwaddr size_mmio = PCIE_MMIO_SIZE;
-+    hwaddr base_ecam = PCIE_ECAM_BASE;
-+    hwaddr size_ecam = PCIE_ECAM_SIZE;
-+    int nr_pcie_buses = size_ecam / PCIE_MMCFG_SIZE_MIN;
-+
-+    if (mms->pcie != ON_OFF_AUTO_ON) {
-+        return;
-+    }
-+
-+    Aml *dev = aml_device("%s", "PCI0");
-+    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
-+    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
-+    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-+    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-+    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
-+    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
-+
-+    /* Declare the PCI Routing Table. */
-+    Aml *rt_pkg = aml_varpackage(PCI_SLOT_MAX * PCI_NUM_PINS);
-+    for (slot_no = 0; slot_no < PCI_SLOT_MAX; slot_no++) {
-+        for (i = 0; i < PCI_NUM_PINS; i++) {
-+            int gsi = (i + slot_no) % PCI_NUM_PINS;
-+            Aml *pkg = aml_package(4);
-+            aml_append(pkg, aml_int((slot_no << 16) | 0xFFFF));
-+            aml_append(pkg, aml_int(i));
-+            aml_append(pkg, aml_name("GSI%d", gsi));
-+            aml_append(pkg, aml_int(0));
-+            aml_append(rt_pkg, pkg);
-+        }
-+    }
-+    aml_append(dev, aml_name_decl("_PRT", rt_pkg));
-+
-+    /* Create GSI link device */
-+    for (i = 0; i < PCI_NUM_PINS; i++) {
-+        uint32_t irqs =  PCIE_IRQ_BASE + i;
-+        Aml *dev_gsi = aml_device("GSI%d", i);
-+        aml_append(dev_gsi, aml_name_decl("_HID", aml_string("PNP0C0F")));
-+        aml_append(dev_gsi, aml_name_decl("_UID", aml_int(i)));
-+        crs = aml_resource_template();
-+        aml_append(crs,
-+                   aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
-+                                 AML_EXCLUSIVE, &irqs, 1));
-+        aml_append(dev_gsi, aml_name_decl("_PRS", crs));
-+        crs = aml_resource_template();
-+        aml_append(crs,
-+                   aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
-+                                 AML_EXCLUSIVE, &irqs, 1));
-+        aml_append(dev_gsi, aml_name_decl("_CRS", crs));
-+        method = aml_method("_SRS", 1, AML_NOTSERIALIZED);
-+        aml_append(dev_gsi, method);
-+        aml_append(dev, dev_gsi);
-+    }
-+
-+    method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
-+    aml_append(method, aml_return(aml_int(base_ecam)));
-+    aml_append(dev, method);
-+
-+    method = aml_method("_CRS", 0, AML_NOTSERIALIZED);
-+    Aml *rbuf = aml_resource_template();
-+    aml_append(rbuf,
-+        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
-+                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
-+                            nr_pcie_buses));
-+    aml_append(rbuf,
-+        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
-+                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base_mmio,
-+                         base_mmio + size_mmio - 1, 0x0000, size_mmio));
-+
-+    aml_append(method, aml_return(rbuf));
-+    aml_append(dev, method);
-+
-+    /* Declare an _OSC (OS Control Handoff) method */
-+    aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
-+    aml_append(dev, aml_name_decl("CTRL", aml_int(0)));
-+    method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
-+    aml_append(method,
-+        aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
-+
-+    /* PCI Firmware Specification 3.0
-+     * 4.5.1. _OSC Interface for PCI Host Bridge Devices
-+     * The _OSC interface for a PCI/PCI-X/PCI Express hierarchy is
-+     * identified by the Universal Unique IDentifier (UUID)
-+     * 33DB4D5B-1FF7-401C-9657-7441C03DD766
-+     */
-+    UUID = aml_touuid("33DB4D5B-1FF7-401C-9657-7441C03DD766");
-+    ifctx = aml_if(aml_equal(aml_arg(0), UUID));
-+    aml_append(ifctx,
-+        aml_create_dword_field(aml_arg(3), aml_int(4), "CDW2"));
-+    aml_append(ifctx,
-+        aml_create_dword_field(aml_arg(3), aml_int(8), "CDW3"));
-+    aml_append(ifctx, aml_store(aml_name("CDW2"), aml_name("SUPP")));
-+    aml_append(ifctx, aml_store(aml_name("CDW3"), aml_name("CTRL")));
-+
-+    /*
-+     * Allow OS control for all 5 features:
-+     * PCIeHotplug SHPCHotplug PME AER PCIeCapability.
-+     */
-+    aml_append(ifctx, aml_and(aml_name("CTRL"), aml_int(0x1F),
-+                              aml_name("CTRL")));
-+
-+    ifctx1 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(0x1))));
-+    aml_append(ifctx1, aml_or(aml_name("CDW1"), aml_int(0x08),
-+                              aml_name("CDW1")));
-+    aml_append(ifctx, ifctx1);
-+
-+    ifctx1 = aml_if(aml_lnot(aml_equal(aml_name("CDW3"), aml_name("CTRL"))));
-+    aml_append(ifctx1, aml_or(aml_name("CDW1"), aml_int(0x10),
-+                              aml_name("CDW1")));
-+    aml_append(ifctx, ifctx1);
-+
-+    aml_append(ifctx, aml_store(aml_name("CTRL"), aml_name("CDW3")));
-+    aml_append(ifctx, aml_return(aml_arg(3)));
-+    aml_append(method, ifctx);
-+
-+    elsectx = aml_else();
-+    aml_append(elsectx, aml_or(aml_name("CDW1"), aml_int(4),
-+                               aml_name("CDW1")));
-+    aml_append(elsectx, aml_return(aml_arg(3)));
-+    aml_append(method, elsectx);
-+    aml_append(dev, method);
-+
-+    method = aml_method("_DSM", 4, AML_NOTSERIALIZED);
-+
-+    /* PCI Firmware Specification 3.0
-+     * 4.6.1. _DSM for PCI Express Slot Information
-+     * The UUID in _DSM in this context is
-+     * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
-+     */
-+    UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
-+    ifctx = aml_if(aml_equal(aml_arg(0), UUID));
-+    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
-+    uint8_t byte_list[1] = {1};
-+    buf = aml_buffer(1, byte_list);
-+    aml_append(ifctx1, aml_return(buf));
-+    aml_append(ifctx, ifctx1);
-+    aml_append(method, ifctx);
-+
-+    byte_list[0] = 0;
-+    buf = aml_buffer(1, byte_list);
-+    aml_append(method, aml_return(buf));
-+    aml_append(dev, method);
-+
-+    Aml *dev_res0 = aml_device("%s", "RES0");
-+    aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")));
-+    crs = aml_resource_template();
-+    aml_append(crs,
-+        aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
-+                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base_ecam,
-+                         base_ecam + size_ecam - 1, 0x0000, size_ecam));
-+    aml_append(dev_res0, aml_name_decl("_CRS", crs));
-+    aml_append(dev, dev_res0);
-+    aml_append(scope, dev);
-+}
-+
- static void
- build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
-                    MicrovmMachineState *mms)
-@@ -112,6 +274,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
-                   GED_MMIO_IRQ, AML_SYSTEM_MEMORY, GED_MMIO_BASE);
-     acpi_dsdt_add_power_button(sb_scope);
-     acpi_dsdt_add_virtio(sb_scope, mms);
-+    acpi_dsdt_add_pci(sb_scope, mms);
-     aml_append(dsdt, sb_scope);
- 
-     /* ACPI 5.0: Table 7-209 System State Package */
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 60d32722301f..7223f52046d1 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -46,6 +46,7 @@
- #include "hw/virtio/virtio-mmio.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/generic_event_device.h"
-+#include "hw/pci-host/gpex.h"
- 
- #include "cpu.h"
- #include "elf.h"
-@@ -101,6 +102,47 @@ static void microvm_gsi_handler(void *opaque, int n, int level)
-     qemu_set_irq(s->ioapic_irq[n], level);
- }
- 
-+static void create_pcie(MicrovmMachineState *mms)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(mms);
-+    hwaddr base_mmio = PCIE_MMIO_BASE;
-+    hwaddr size_mmio = PCIE_MMIO_SIZE;
-+    hwaddr base_ecam = PCIE_ECAM_BASE;
-+    hwaddr size_ecam = PCIE_ECAM_SIZE;
-+    MemoryRegion *mmio_alias;
-+    MemoryRegion *mmio_reg;
-+    MemoryRegion *ecam_alias;
-+    MemoryRegion *ecam_reg;
-+    DeviceState *dev;
-+    int i;
-+
-+    dev = qdev_new(TYPE_GPEX_HOST);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+    /* Map only the first size_ecam bytes of ECAM space */
-+    ecam_alias = g_new0(MemoryRegion, 1);
-+    ecam_reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-+    memory_region_init_alias(ecam_alias, OBJECT(dev), "pcie-ecam",
-+                             ecam_reg, 0, size_ecam);
-+    memory_region_add_subregion(get_system_memory(), base_ecam, ecam_alias);
-+
-+    /* Map the MMIO window into system address space so as to expose
-+     * the section of PCI MMIO space which starts at the same base address
-+     * (ie 1:1 mapping for that part of PCI MMIO space visible through
-+     * the window).
-+     */
-+    mmio_alias = g_new0(MemoryRegion, 1);
-+    mmio_reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 1);
-+    memory_region_init_alias(mmio_alias, OBJECT(dev), "pcie-mmio",
-+                             mmio_reg, base_mmio, size_mmio);
-+    memory_region_add_subregion(get_system_memory(), base_mmio, mmio_alias);
-+
-+    for (i = 0; i < GPEX_NUM_IRQS; i++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
-+                           x86ms->gsi[PCIE_IRQ_BASE + i]);
-+    }
-+}
-+
- static void microvm_devices_init(MicrovmMachineState *mms)
- {
-     X86MachineState *x86ms = X86_MACHINE(mms);
-@@ -147,6 +189,10 @@ static void microvm_devices_init(MicrovmMachineState *mms)
-         x86ms->acpi_dev = HOTPLUG_HANDLER(dev);
-     }
- 
-+    if (x86_machine_is_acpi_enabled(x86ms) && mms->pcie == ON_OFF_AUTO_ON) {
-+        create_pcie(mms);
-+    }
-+
-     if (mms->pic == ON_OFF_AUTO_ON || mms->pic == ON_OFF_AUTO_AUTO) {
-         qemu_irq *i8259;
- 
-@@ -446,6 +492,23 @@ static void microvm_machine_set_rtc(Object *obj, Visitor *v, const char *name,
-     visit_type_OnOffAuto(v, name, &mms->rtc, errp);
- }
- 
-+static void microvm_machine_get_pcie(Object *obj, Visitor *v, const char *name,
-+                                     void *opaque, Error **errp)
-+{
-+    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
-+    OnOffAuto pcie = mms->pcie;
-+
-+    visit_type_OnOffAuto(v, name, &pcie, errp);
-+}
-+
-+static void microvm_machine_set_pcie(Object *obj, Visitor *v, const char *name,
-+                                     void *opaque, Error **errp)
-+{
-+    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
-+
-+    visit_type_OnOffAuto(v, name, &mms->pcie, errp);
-+}
-+
- static bool microvm_machine_get_isa_serial(Object *obj, Error **errp)
- {
-     MicrovmMachineState *mms = MICROVM_MACHINE(obj);
-@@ -521,6 +584,7 @@ static void microvm_machine_initfn(Object *obj)
-     mms->pic = ON_OFF_AUTO_AUTO;
-     mms->pit = ON_OFF_AUTO_AUTO;
-     mms->rtc = ON_OFF_AUTO_AUTO;
-+    mms->pcie = ON_OFF_AUTO_AUTO;
-     mms->isa_serial = true;
-     mms->option_roms = true;
-     mms->auto_kernel_cmdline = true;
-@@ -587,6 +651,13 @@ static void microvm_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, MICROVM_MACHINE_RTC,
-         "Enable MC146818 RTC");
- 
-+    object_class_property_add(oc, MICROVM_MACHINE_PCIE, "OnOffAuto",
-+                              microvm_machine_get_pcie,
-+                              microvm_machine_set_pcie,
-+                              NULL, NULL);
-+    object_class_property_set_description(oc, MICROVM_MACHINE_PCIE,
-+        "Enable PCIe");
-+
-     object_class_property_add_bool(oc, MICROVM_MACHINE_ISA_SERIAL,
-                                    microvm_machine_get_isa_serial,
-                                    microvm_machine_set_isa_serial);
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index d0bd8b537d55..32aa15533bd8 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -104,6 +104,7 @@ config MICROVM
-     select MC146818RTC
-     select VIRTIO_MMIO
-     select ACPI_HW_REDUCED
-+    select PCI_EXPRESS_GENERIC_BRIDGE
- 
- config X86_IOMMU
-     bool
 -- 
-2.27.0
-
+Best regards,
+Vladimir
 
