@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443AD26F9A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:53:40 +0200 (CEST)
-Received: from localhost ([::1]:58844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EAE26F9C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:01:11 +0200 (CEST)
+Received: from localhost ([::1]:41644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJD5G-0000Ml-Q6
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53166)
+	id 1kJDCY-00055J-Lg
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJD4O-0008Il-Po
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:52:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30294)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJD7g-00022D-K5
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:56:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJD4N-0008Dv-Da
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:52:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJD7c-0000JM-Ep
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:56:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600422761;
+ s=mimecast20190719; t=1600422963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EUXXs9VDvT0gu1zX9dEuHcsAWpPbUe/gqbdle9pook8=;
- b=hFp5IJIP4Ue0FGFkIVF9rmpy3Ta0BrXFFTgvKHFLTurM+z43rSiQxlWb3QwPNgFSB4p+PR
- GCzMsqYIAuGXSJ5XYh7Xbn9ASEgCnZJkQ1HNNyliMC7hyI6xkEWwedvE/4cTx9k242JrzF
- v5b+WE0tu6jvQg2v65pIhFmWsPKb5ng=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-77dZw9uBNBWfO2DyLherWw-1; Fri, 18 Sep 2020 05:52:37 -0400
-X-MC-Unique: 77dZw9uBNBWfO2DyLherWw-1
-Received: by mail-wm1-f71.google.com with SMTP id b14so1288424wmj.3
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 02:52:37 -0700 (PDT)
+ bh=/eGQl/eAjm2Y97EKNaENBuYBqGNme5l5SyopGzpQQGo=;
+ b=bDvhHvNokqQnwxxi982EGJF83tVd8os7i4DPQLa59C/4LpGUOeGqYPW376h5EfuTMEQIpd
+ k53tX9RXNd0ZFV3yJJga/KuirGbfakuFfX+6a5LMFDAEyi1SWD/eN1gfnrzg4J2vQAtJYG
+ lg3L5uFZthYA2wl/+kENATXXIp0qFtg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-IyAhe8GrO-uPKVFsfzRBYw-1; Fri, 18 Sep 2020 05:55:57 -0400
+X-MC-Unique: IyAhe8GrO-uPKVFsfzRBYw-1
+Received: by mail-wm1-f70.google.com with SMTP id m19so101317wmg.6
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 02:55:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=EUXXs9VDvT0gu1zX9dEuHcsAWpPbUe/gqbdle9pook8=;
- b=q5+ICa6T9o9yw1Bm/zPhPJAp76u5dWP478iu2MVfm4RgNvvzn/lUoCGfnXIaBlhkPg
- hH1l38mIIw9w40pZRBe9NiZN5TSUhniN6QntV1W94SOUXpn5GOmYWbXVxc/LXgK1Nzpb
- PcPdd+SDw/Ws3wCZJ4asDlaCPUykzQdlkZtjPgLuyWmQJ6JgYzyAyFpZAFwFKWv3DtEa
- 7WN/5Ug+L0gERgzO7o9IDQaIxyoTYrAIWfkbTgZ6SEMXIIbexNQVRKjyvyZpuhhz2ED+
- pLn8GLoFYbIrOcD61fg0aSyT0iEFj1Ta980iKcSS7ZpbnrwOIG7+pHGJ1o+fSF9Fk38m
- AvhQ==
-X-Gm-Message-State: AOAM5300HqD0s1ZR+be952MdLw02qK10KNcZllqmmqTrtvyS8GA4qKCJ
- oxFspwqL1YdseXyqFL2pKcUvnDGMGSob1bHrpJ2QRmAjJTu08UZ/om/2ja15zlA2ccyYtDvrnsd
- vZBCyTo/41XjilOY=
-X-Received: by 2002:adf:f082:: with SMTP id n2mr36403067wro.35.1600422756680; 
- Fri, 18 Sep 2020 02:52:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCzwA2nKuXZuetC/RMzAI/tjNa/tyNH0pzGoo/PGDl+n3aOso2f2bZRO3XvxnbQp3EEXJ/kA==
-X-Received: by 2002:adf:f082:: with SMTP id n2mr36403050wro.35.1600422756483; 
- Fri, 18 Sep 2020 02:52:36 -0700 (PDT)
+ bh=/eGQl/eAjm2Y97EKNaENBuYBqGNme5l5SyopGzpQQGo=;
+ b=QcuySfyg7w+oB6S066TEGP4ckA7y5WhgSJOISk1YXWTjhWMDz3qh/WnB9v5rLXh7/E
+ I2iYz6jZ7p8PMmqKedP4FCqLWPg1Po+Y5jcPzsUViCIrE7lPAaNj58Dfk7ToZvYO8env
+ A/UPr1/RGov2+hUPnECOt+2NP6ELs3Gt0CjC/iXeJGD5Hh2Nl0NRzVGuTKAuyUaAwbgY
+ bRxmAI2l/f6rKBRXXgwo5e1NS9gkZ1p6O36a1vmfwX9KFSvpTUKmh4e8cGYzxWYcrtC7
+ idKxl0yY0ghZvee1J5ZpLqdT038x3VYoG7OgrAcwTYBudHyeLpaCihkdoyKM05dl4ngD
+ iQfA==
+X-Gm-Message-State: AOAM530GQ+W9Z09zef/C1MiMvOl0TzSfq9/+z1KeVrkQAMfZIL3iKMU+
+ CPpWVd4rZa5DpVcbB+tR93mGeK0gUyxo04pcJszrg1PfGOTqruKT1kGbjOipVAvaa26yZsUAltp
+ qLeyJmN6c/0hbRr8=
+X-Received: by 2002:a1c:750d:: with SMTP id o13mr15467480wmc.54.1600422956728; 
+ Fri, 18 Sep 2020 02:55:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz+lwsxakQ7lp10QmWNW7N0STKPQrwKyt+NMeGPnnY0/kJNzql374PAjJ4n5ZFPAWy13KmCDQ==
+X-Received: by 2002:a1c:750d:: with SMTP id o13mr15467464wmc.54.1600422956543; 
+ Fri, 18 Sep 2020 02:55:56 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id n3sm3959297wmn.39.2020.09.18.02.52.35
+ by smtp.gmail.com with ESMTPSA id a83sm4171121wmh.48.2020.09.18.02.55.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Sep 2020 02:52:35 -0700 (PDT)
-Subject: Re: [PATCH] util: include the target address in socket connect
- failures
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200918093436.1775120-1-berrange@redhat.com>
+ Fri, 18 Sep 2020 02:55:55 -0700 (PDT)
+Subject: Re: [PATCH v10 00/13] i440fx/acpi: addition of feature and bug fixes.
+To: Ani Sinha <ani@anisinha.ca>, mst@redhat.com, qemu-devel@nongnu.org
+References: <20200918084111.15339-1-ani@anisinha.ca>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,22 +85,22 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <205ca5cf-3833-05cd-c2bf-d6e5d6bad1ca@redhat.com>
-Date: Fri, 18 Sep 2020 11:52:34 +0200
+Message-ID: <2fe7283a-6d5b-c62f-52cb-35dc6d94bad5@redhat.com>
+Date: Fri, 18 Sep 2020 11:55:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200918093436.1775120-1-berrange@redhat.com>
+In-Reply-To: <20200918084111.15339-1-ani@anisinha.ca>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -111,7 +109,7 @@ X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,27 +122,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, jusual@redhat.com,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/18/20 11:34 AM, Daniel P. Berrangé wrote:
-> Reporting "Failed to connect socket" is essentially useless for a user
-> attempting to diagnose failure. It needs to include the target addres
-> details. Simiarly when failing to create a socket we should include the
+On 9/18/20 10:40 AM, Ani Sinha wrote:
+> Final patch series with all the patches reviewed or ack'd and marked as such.
+> Thanks Julia and Igor for the reviews. Hope this series gets pulled in soon.
 
-Typos "address", "Similarly".
+FYI there is no need to collect tags on the final version.
+Tools already do that for you, see:
+https://patchew.org/QEMU/20200918072325.9933-1-ani@anisinha.ca/
 
-> socket family info, so the user understands what particular feature was
-> missing in their kernel build (IPv6, VSock in particular).
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/qemu-iotests/162.out |  4 ++--
->  util/qemu-sockets.c        | 32 +++++++++++++++++++-------------
->  2 files changed, 21 insertions(+), 15 deletions(-)
+The maintainer can import the patches with the proper Message-Id /
+Reviewed-by / Acked-by / Tested-by tags added using:
+https://patchew.org/QEMU/20200918072325.9933-1-ani@anisinha.ca/mbox
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Regards,
+
+Phil.
 
 
