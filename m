@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01E7270177
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:58:05 +0200 (CEST)
-Received: from localhost ([::1]:42638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D2A27017D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 17:59:19 +0200 (CEST)
+Received: from localhost ([::1]:46082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJIlw-0002QY-LH
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58320)
+	id 1kJIn8-0003vm-IL
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 11:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kJIaG-0000Od-Ep; Fri, 18 Sep 2020 11:46:00 -0400
-Resent-Date: Fri, 18 Sep 2020 11:46:00 -0400
-Resent-Message-Id: <E1kJIaG-0000Od-Ep@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kJIaC-0007NZ-Sp; Fri, 18 Sep 2020 11:45:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600443939; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VK7pb/VqcNfs6LCkdP5J5u5KNKid478qRK7B9vAq4cAnLA/+jjEo7yoIhv1/nQkJqRk/WIkpeZOou7lb5irMoGpWMk40jWuxc3az245HjO0jQ4e2V1GwaW2p7TgwI8HUogCEAdLGXdRQKZszdBf8WAYo3RAWMbkf9YLcgMh1gVY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600443939;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=WxzP7ZqqJbq5vSa63UydmEn1cNUNJmTbm1wfCZVA/MU=; 
- b=niIkq6tO1K9CdSf1YaszslPk7F6lhaxyz2nbF3wJGzkLDJY4JzxehBXaDhm2JLAM78L29Of2WOoW22tOfKakrVsliTHP+Upc7jhQtZ5mBfQst0aWXoW615CloxBMwOG1h+o2RosxeUWuCGf+SCfNuBsy2c2Bl9bur5BWliTcnOc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600443938859721.1418765066262;
- Fri, 18 Sep 2020 08:45:38 -0700 (PDT)
-Subject: Re: [PATCH v2] tests/check-block: Do not run the iotests with old
- versions of bash
-Message-ID: <160044393753.8478.1712662860788090106@66eaa9a8a123>
-In-Reply-To: <20200918153514.330705-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kJIfn-0004qS-8R; Fri, 18 Sep 2020 11:51:43 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:48916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kJIfi-0008Dx-55; Fri, 18 Sep 2020 11:51:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=vlGMkLik2fCGvhtsP6Ff4U66/4+/UlsPxO5PLsKGIwM=; 
+ b=U0n3vpYeLFVzj2xYvcNJlAnH1P48wshmERUbiNxMvMBPzL+D3g/jsW62VkJUKZLz7XGFhZufaqenqYa/2HBKJDHX2zEqkAPWj06H1J/9n++Z7hSySpIovNcuTL0KP8jMKrwuf3iLojVDkEbiTJBGOxWczVoDNi+PtHWb8d+8vUZ0F+d9+XBOY/nA6O1E6mAkq5rleaGcE02zOhvOtxsKlnR3NuRWUsRyqUdI+FWAV5sR1q8Ox3B60K159EPg0SUJKQ8THcWcvfffyekgSrqWjoIx3VigmWF+QP+H3fte4GeWaND6ed2ce/zATfE9PSZ5adBim91FfeWXlY+FSHNNjw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kJIfa-00057i-Fc; Fri, 18 Sep 2020 17:51:30 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kJIfa-0000EF-5s; Fri, 18 Sep 2020 17:51:30 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Greg Kurz <groug@kaod.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 12/13] block/qcow2: simplify qcow2_co_invalidate_cache()
+In-Reply-To: <20200918173006.5f49cb06@bahia.lan>
+References: <20200917195519.19589-1-vsementsov@virtuozzo.com>
+ <20200917195519.19589-13-vsementsov@virtuozzo.com>
+ <20200918173006.5f49cb06@bahia.lan>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 18 Sep 2020 17:51:30 +0200
+Message-ID: <w51k0wr2id9.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: thuth@redhat.com
-Date: Fri, 18 Sep 2020 08:45:38 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 09:36:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 10:54:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,19 +64,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: kwolf@redhat.com, pavel.dovgaluk@ispras.ru, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxODE1MzUxNC4zMzA3
-MDUtMS10aHV0aEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpOL0EuIEludGVybmFsIGVycm9yIHdoaWxlIHJlYWRpbmcgbG9nIGZpbGUKCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIw
-MDkxODE1MzUxNC4zMzA3MDUtMS10aHV0aEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Fri 18 Sep 2020 05:30:06 PM CEST, Greg Kurz wrote:
+>> qcow2_do_open correctly sets errp on each failure path. So, we can
+>> simplify code in qcow2_co_invalidate_cache() and drop explicit error
+>> propagation. We should use ERRP_GUARD() (accordingly to comment in
+>> include/qapi/error.h) together with error_append() call which we add to
+>> avoid problems with error_fatal.
+>> 
+>
+> The wording gives the impression that we add error_append() to avoid problems
+> with error_fatal which is certainly not true. Also it isn't _append() but
+> _prepend() :)
+>
+> What about ?
+>
+> "Add ERRP_GUARD() as mandated by the documentation in include/qapi/error.h
+>  to avoid problems with the error_prepend() call if errp is
+>  &error_fatal."
+
+I had to go to the individual error functions to see what "it doesn't
+work with &error_fatal" actually means.
+
+So in a case like qcow2_do_open() which has:
+
+   error_setg(errp, ...)
+   error_append_hint(errp, ...)
+
+As far as I can see this works just fine without ERRP_GUARD() and with
+error_fatal, the difference is that if we don't use the guard then the
+process exists during error_setg(), and if we use the guard it exists
+during the implicit error_propagate() call triggered by its destruction
+at the end of the function. In this latter case the printed error
+message would include the hint.
+
+Berto
 
