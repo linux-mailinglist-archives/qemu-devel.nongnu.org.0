@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6936270732
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:40:57 +0200 (CEST)
-Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2E32707A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:58:54 +0200 (CEST)
+Received: from localhost ([::1]:33148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJNBg-0006cx-UK
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46250)
+	id 1kJNT3-0006dU-1H
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kJN7P-0004j9-QA; Fri, 18 Sep 2020 16:36:31 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:58007)
+ id 1kJN7S-0004kO-FY; Fri, 18 Sep 2020 16:36:34 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:46513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kJN7N-0004wP-Fo; Fri, 18 Sep 2020 16:36:31 -0400
+ id 1kJN7N-0004wX-Qq; Fri, 18 Sep 2020 16:36:34 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id F398E5801EE;
- Fri, 18 Sep 2020 16:36:26 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id DF1EF5801F2;
+ Fri, 18 Sep 2020 16:36:27 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Fri, 18 Sep 2020 16:36:26 -0400
+ by compute7.internal (MEProxy); Fri, 18 Sep 2020 16:36:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=+81fWPyS5O+En
- 17bFCxaEDemD8inTiVNp6oK+WilRA8=; b=mXhD0TG+6PBfM23QsQHID9I2YoRAc
- hnfKLCaxON9+4/Ed+9Cagh8I0MC77LoAxcrMUkxL4YE15R+Gbnqh8F1zVyOo25j1
- +gixlDRV6BFCr2kzvGjZNuUGJzlP1/r0DgvaXeTd3g91qWpSe54VcQtzOVCwTV+P
- umspDWmlHZWfWdCxpn9HrariHgZZ6yX1NFNU54MPberb/GFGD49k90Hy4xRnwuhw
- 9699+uORkYodopORrWLliDJAeR2LWi7r64fey7xzUIm4jQU+zJ9BF4j2fQbfsL2l
- fCcM/Ak0wcNEbvUbiXdzWewz2JQ247pcRSNiGna8G70FNeATCr7MQtA/Q==
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ gn31c3w5iM1EbPGIq2NOqpzeSr7S+7R7lzk+sfWK6ss=; b=NYkvGjTLBb3+AeqS
+ 2vP3rgkW15STPs93Y03/0nuO1a8ailXml3mAKV/7JLtHYK7fySPJyzaD36w19HuT
+ 4Jzl6aKnQro3A5Lj9bkmGHE5vIdKXpPWmjOp94ajD745m56wD4Le+DoyBmpsfQah
+ g5n3JXNtZmQVNF+fCdcaaKe21Czuc2jp6ww50irsmo4wt2alPVPyX3gL0V6whrb4
+ vQkflNQE6Wyf9dSO4xivjbMpDjyzdOsp2FucKEuUO2oHWbev4Og1+ga4chlOrnuS
+ lSW3Q57jbcPJjREcJF/MJpFT9Hun28boTm6Qf2YGcBaTC+w4UO+ZnyrHhZxSGGFK
+ 9k9kCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=+81fWPyS5O+En17bFCxaEDemD8inTiVNp6oK+WilRA8=; b=N+kM0QyC
- 9/7fq44UZYjKwLrlNoF4Xsgs+OGy7dW6kZg9BxwRdnZwpGB1CqMTOaBvfDOnx3jb
- eQvaAHDNHbb9uK/Rz+sIXEbuYlpMpu6usXqECB3CTNOj39aemnir3dISsddcj8eS
- 6TxI8h138R0SD3tS+uALBbp/AXtN2QI5U1noJQhDfZCO/Ibp1Fm9Q0XeUwBCiwHR
- l5us8xO+1DS/SwK9/BQyrGGzjFNybKKRN1V6SthKBA7UXQcKnw1y2sEsTcK0ogv1
- Yioo+RuzLzxSKZPdBuqJtns5xaWLJaszL3hocc+h0nqya+cM0ap7phyh3oyhuVn3
- E6jvyzzuN8booA==
-X-ME-Sender: <xms:SRplX3L2hGPQPZtGjBvwiriN0-LIl_N5ARIjDC2VGfLYhOqoXlkWvg>
- <xme:SRplX7J2FSq8CjDC5WLdFf2nYLhHkORO-HxMfOwyvXcNbCidFAhQD5Ev5HZnP8DlW
- 0-qIpFCKkppu2uPuA0>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=gn31c3w5iM1EbPGIq2NOqpzeSr7S+7R7lzk+sfWK6
+ ss=; b=XHfUxDw/uPRWmpC1zswEw2UUb4W5DGocav0nnpbJLTckYHYbsUvNhQkHX
+ h17lcPwAOX45eLFKKzUDix17bmGmjpLvlUg5r0kObTzx9K346xN/QJyLEyf7uF2r
+ RWVgpA9B4UeV1XhWhIK8/N3chrUHfFvg3CF1ax7GNOiWf3mjPP+lF9j9t4mYqtW0
+ zGLUokNkn5pjLcrAfHZqgZIBRJ5CB4AiUiOWFCKsW86bg8e2rTJUVmb0hsJNbfOp
+ JQ/Uy+afXdo1JxlcAAyQb6ZS0AIwlkx3FbyCmAy8iTR3bqVXuyXN/W0fWEAqt/QL
+ A3Z+L/y0akSv59FQHxCIWclQj15tQ==
+X-ME-Sender: <xms:SxplX6GALP5UJdF-bOzSQjhCHbtdhSu02ylf6sAaEbGKBevWT4PhCA>
+ <xme:SxplX7WG5a4BdNy3PNTV7-EMx44yPN9Yzv7MVouvRC5Nkzs9oW6T8-lxtgZT3SyvN
+ 0PWSrQXQxnEQeR-Ako>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdduhedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:ShplX_vNP_ORi1r7LQYG3MGs6tr4mf1AHve1mkcuFQASlbbEkSp2fg>
- <xmx:ShplXwaigbc2iAqKghob6jNcw_VwQe9Mdair7HJgzs4ixiSbgVvDuQ>
- <xmx:ShplX-Ykj2eGRwsz9N3S-U6NViDun0JIUgIJ6nnXzk56xYzBugundA>
- <xmx:ShplX24RclXodMUz-Cco7XhfDgRWs9VOqiko5-Bq9XZQHZqW-Tru0w>
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepteevuedugeevieehgeeileeufeetvddtkeetfeelgeehudfhjeeuledvhfff
+ tdegnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:SxplX0JR_coxAWc0KgUIFV2CAZUur5xgSiLXBnVRGke7JUd3lsw3Yg>
+ <xmx:SxplX0FRmG5tOCtFDOxK55XWvnoaeA3ZWLGDICNx_Act7OeloIbcaQ>
+ <xmx:SxplXwXDCnIPJK9baXaZyp06HRJ2FofkDIYDLlqUZ499X0FVgvpIGA>
+ <xmx:SxplX0oOi05u6q0ewVnMQQDKiDVgwsS4vRIlp2RzeZp6MnvXhPKsT-1mBQY>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9F05E3064610;
- Fri, 18 Sep 2020 16:36:24 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 212DA306467E;
+ Fri, 18 Sep 2020 16:36:26 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/17] hw/block/nvme: fix typo in trace event
-Date: Fri, 18 Sep 2020 22:36:05 +0200
-Message-Id: <20200918203621.602915-2-its@irrelevant.dk>
+Subject: [PATCH v2 02/17] pci: pass along the return value of dma_memory_rw
+Date: Fri, 18 Sep 2020 22:36:06 +0200
+Message-Id: <20200918203621.602915-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200918203621.602915-1-its@irrelevant.dk>
 References: <20200918203621.602915-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
  helo=new1-smtp.messagingengine.com
@@ -97,32 +99,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Fix a typo in the sq doorbell trace event.
+Some devices might want to know the return value of dma_memory_rw, so
+pass it along instead of ignoring it.
+
+There are no existing users of the return value, so this patch should be
+safe.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/trace-events | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/pci/pci.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index ec94c56a4165..8ff4cbc4932c 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -70,7 +70,7 @@ pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint16_t status) "c
- pci_nvme_mmio_read(uint64_t addr) "addr 0x%"PRIx64""
- pci_nvme_mmio_write(uint64_t addr, uint64_t data) "addr 0x%"PRIx64" data 0x%"PRIx64""
- pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
--pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "cqid %"PRIu16" new_tail %"PRIu16""
-+pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "sqid %"PRIu16" new_tail %"PRIu16""
- pci_nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
- pci_nvme_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
- pci_nvme_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index c13ae1f8580b..0ff3feec1573 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -785,8 +785,7 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir)
+ {
+-    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+-    return 0;
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+ }
+ 
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
 -- 
 2.28.0
 
