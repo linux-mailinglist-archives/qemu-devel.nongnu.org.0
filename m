@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A888A270820
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:24:01 +0200 (CEST)
-Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D166A270809
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 23:19:03 +0200 (CEST)
+Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJNrM-0005YB-N1
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48752)
+	id 1kJNmY-0001e8-Uc
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 17:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kJNIv-00034b-19
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:48:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21634)
+ id 1kJNIw-00036O-Cb
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:48:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kJNIs-0006RY-Ne
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:48:24 -0400
+ id 1kJNIu-0006SF-Qb
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 16:48:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600462102;
+ s=mimecast20190719; t=1600462104;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7fg4TsMMjf7HRn66+a8X8Q8KFOO8EknVqk/C/btKAjw=;
- b=RwkCACPdvTduOiz4kgNXl+cK6ZDqvaKzX1Q2rkLn8P6qOhBScURhv/QcSq/K7nj+wmeeYZ
- +rceAN/4ScD4rtmh8I89MU06t1bL0/ZPc3o3Er0dq4Va2zLe5UbkB//xVD0NIEfBasXT+5
- yqphJLVx2y7rNfguEfzDcvn5b/V7/RU=
+ bh=RgtxjQRSf4W9qU5Ip+wO9lc4JihTBmdZDwEbKvkqutE=;
+ b=IaYoB7qZvocPpAL/RiHlHDjJKJmOdQlq9xbRvp/O74fhwCNywRMF03uiig3St6AM9IhGQ8
+ 2ls2LltsaA6y7kLkcNKBsOA6GOQQmx9wXAxGaceQ6sEpyzyCvIgGZXdBbkd36897DAE4fW
+ WFtyk5DWwnZwQvu1ncKnaeyFke6FAB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-QykwkBsFNUmYTrRFby1aFA-1; Fri, 18 Sep 2020 16:48:13 -0400
-X-MC-Unique: QykwkBsFNUmYTrRFby1aFA-1
+ us-mta-509-5nkq1ViOOwi511R4HdoKWw-1; Fri, 18 Sep 2020 16:48:19 -0400
+X-MC-Unique: 5nkq1ViOOwi511R4HdoKWw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E761510A7AE2;
- Fri, 18 Sep 2020 20:48:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC49110A7AE6;
+ Fri, 18 Sep 2020 20:48:18 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6276E61177;
- Fri, 18 Sep 2020 20:48:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF1A260C11;
+ Fri, 18 Sep 2020 20:48:17 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] meson: convert pc-bios/s390-ccw
-Date: Sat, 19 Sep 2020 00:47:54 +0400
-Message-Id: <20200918204759.225810-2-marcandre.lureau@redhat.com>
+Subject: [PATCH 2/6] optionrom: make kvmapic.S compile with clang
+Date: Sat, 19 Sep 2020 00:47:55 +0400
+Message-Id: <20200918204759.225810-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20200918204759.225810-1-marcandre.lureau@redhat.com>
 References: <20200918204759.225810-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -57,10 +57,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -89,383 +89,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Use a fake subproject: this is a simple workaround to avoid the
-incompatible flags (such as gprof) that are set globally for the rest of
-QEMU.
+Clang doesn't support specifying segment prefixes before the
+instruction, and requires specifying them on the address.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure                    |   2 -
- pc-bios/meson.build          |   4 +
- pc-bios/s390-ccw/Makefile    |  62 ------------
- pc-bios/s390-ccw/meson.build | 177 +++++++++++++++++++++++++++++++++++
- pc-bios/s390-ccw/netboot.mak |  62 ------------
- subprojects/s390-ccw         |   1 +
- 6 files changed, 182 insertions(+), 126 deletions(-)
- delete mode 100644 pc-bios/s390-ccw/Makefile
- create mode 100644 pc-bios/s390-ccw/meson.build
- delete mode 100644 pc-bios/s390-ccw/netboot.mak
- create mode 120000 subprojects/s390-ccw
+ pc-bios/optionrom/kvmvapic.S | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 7564479008..3a8733c9be 100755
---- a/configure
-+++ b/configure
-@@ -6462,7 +6462,6 @@ fi
- if test "$cpu" = "s390x" ; then
-   write_c_skeleton
-   if compile_prog "-march=z900" ""; then
--    roms="$roms s390-ccw"
-     # SLOF is required for building the s390-ccw firmware on s390x,
-     # since it is using the libnet code from SLOF for network booting.
-     if test -e "${source_path}/.git" ; then
-@@ -7863,7 +7862,6 @@ LINKS="Makefile"
- LINKS="$LINKS tests/tcg/lm32/Makefile"
- LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
--LINKS="$LINKS pc-bios/s390-ccw/Makefile"
- LINKS="$LINKS roms/seabios/Makefile"
- LINKS="$LINKS pc-bios/qemu-icon.bmp"
- LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index a0d21be432..e5139b3ef5 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -91,3 +91,7 @@ endif
+diff --git a/pc-bios/optionrom/kvmvapic.S b/pc-bios/optionrom/kvmvapic.S
+index aa17a402df..9a615549e6 100644
+--- a/pc-bios/optionrom/kvmvapic.S
++++ b/pc-bios/optionrom/kvmvapic.S
+@@ -104,7 +104,7 @@ mp_get_tpr_eax:
+ 	reenable_vtpr
+ 	push %ecx
  
- subdir('descriptors')
- subdir('keymaps')
-+
-+if host_machine.cpu_family() == 's390x' and cc.has_argument('-march=z900')
-+  subproject('s390-ccw')
-+endif
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-deleted file mode 100644
-index 3eb785048a..0000000000
---- a/pc-bios/s390-ccw/Makefile
-+++ /dev/null
-@@ -1,62 +0,0 @@
--all: build-all
--# Dummy command so that make thinks it has done something
--	@true
--
--include ../../config-host.mak
--CFLAGS = -O2 -g
--
--quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
--cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null > /dev/null \
--	      2>&1 && echo OK), $1, $2)
--
--VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
--set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
--$(call set-vpath, $(SRC_PATH)/pc-bios/s390-ccw)
--
--# Flags for dependency generation
--QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
--
--%.o: %.c
--	$(call quiet-command,$(CC) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
--	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--%.o: %.S
--	$(call quiet-command,$(CCAS) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
--	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
--
--.PHONY : all clean build-all
--
--OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
--	  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
--
--QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
--QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -msoft-float
--QEMU_CFLAGS += -march=z900 -fPIE -fno-strict-aliasing
--QEMU_CFLAGS += -fno-asynchronous-unwind-tables
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
--LDFLAGS += -Wl,-pie -nostdlib
--
--build-all: s390-ccw.img s390-netboot.img
--
--s390-ccw.elf: $(OBJECTS)
--	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),"BUILD","$(TARGET_DIR)$@")
--
--STRIP ?= strip
--
--s390-ccw.img: s390-ccw.elf
--	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
--
--$(OBJECTS): Makefile
--
--ifneq ($(wildcard $(SRC_PATH)/roms/SLOF/lib/libnet),)
--include $(SRC_PATH)/pc-bios/s390-ccw/netboot.mak
--else
--s390-netboot.img:
--	@echo "s390-netboot.img not built since roms/SLOF/ is not available."
--endif
--
--ALL_OBJS = $(sort $(OBJECTS) $(NETOBJS) $(LIBCOBJS) $(LIBNETOBJS))
---include $(ALL_OBJS:%.o=%.d)
--
--clean:
--	rm -f *.o *.d *.img *.elf *~ *.a
-diff --git a/pc-bios/s390-ccw/meson.build b/pc-bios/s390-ccw/meson.build
-new file mode 100644
-index 0000000000..0de5400287
---- /dev/null
-+++ b/pc-bios/s390-ccw/meson.build
-@@ -0,0 +1,177 @@
-+project('s390-ccw')
-+
-+strip = find_program('strip')
-+cc = meson.get_compiler('c')
-+link_args = ['-Wl,-pie', '-nostdlib']
-+
-+# FIXME: find a better way to check/enable slof
-+slof = '../../roms/SLOF'
-+has_slof = cc.has_header('libnet/tftp.h', args: '-I' + meson.current_source_dir() / slof / 'lib')
-+
-+s390_cargs = [
-+  '-ffreestanding',
-+  '-fno-delete-null-pointer-checks',
-+  '-msoft-float',
-+  '-march=z900',
-+  '-fPIE',
-+  '-fno-strict-aliasing',
-+  '-fno-asynchronous-unwind-tables',
-+  cc.get_supported_arguments('-fno-stack-protector')
-+]
-+
-+s390_incs = []
-+
-+s390_srcs = [
-+  'bootmap.c',
-+  'cio.c',
-+  'dasd-ipl.c',
-+  'jump2ipl.c',
-+  'libc.c',
-+  'main.c',
-+  'menu.c',
-+  'sclp.c',
-+  'start.S',
-+  'virtio-blkdev.c',
-+  'virtio-scsi.c',
-+  'virtio.c',
-+]
-+
-+if has_slof
-+  s390_srcs += [
-+    'netmain.c',
-+    'virtio-net.c',
-+  ]
-+  s390_incs += include_directories(slof / 'lib/libnet')
-+  s390_incs += include_directories(slof / 'lib/libc/include')
-+  s390_cargs += '-nostdinc'
-+endif
-+
-+s390_lib = static_library(
-+  's390', s390_srcs,
-+  c_args: s390_cargs,
-+  include_directories: s390_incs,
-+)
-+
-+s390_ccw_elf = executable(
-+  's390-ccw.elf',
-+  link_args: link_args,
-+  objects: s390_lib.extract_objects([
-+    'bootmap.c',
-+    'cio.c',
-+    'dasd-ipl.c',
-+    'jump2ipl.c',
-+    'libc.c',
-+    'main.c',
-+    'menu.c',
-+    'sclp.c',
-+    'start.S',
-+    'virtio-blkdev.c',
-+    'virtio-scsi.c',
-+    'virtio.c',
-+  ]),
-+)
-+
-+custom_target(
-+  's390-ccw.img',
-+  output: 's390-ccw.img',
-+  input: s390_ccw_elf,
-+  command: [strip, '--strip-unneeded', '@INPUT@', '-o', '@OUTPUT@'],
-+  build_by_default: true,
-+)
-+
-+if has_slof
-+  slof_ctype = slof / 'lib/libc/ctype'
-+  slof_str = slof / 'lib/libc/string'
-+  slof_stdlib = slof / 'lib/libc/stdlib'
-+  slof_stdio = slof / 'lib/libc/stdio'
-+
-+  s390_libc = static_library(
-+    's390-libc', files(
-+      slof_ctype / 'isdigit.c',
-+      slof_ctype / 'isxdigit.c',
-+      slof_ctype / 'toupper.c',
-+      slof_str / 'strcat.c',
-+      slof_str / 'strchr.c',
-+      slof_str / 'strrchr.c',
-+      slof_str / 'strcpy.c',
-+      slof_str / 'strlen.c',
-+      slof_str / 'strncpy.c',
-+      slof_str / 'strcmp.c',
-+      slof_str / 'strncmp.c',
-+      slof_str / 'strcasecmp.c',
-+      slof_str / 'strncasecmp.c',
-+      slof_str / 'strstr.c',
-+      slof_str / 'memset.c',
-+      slof_str / 'memcpy.c',
-+      slof_str / 'memmove.c',
-+      slof_str / 'memcmp.c',
-+      slof_stdlib / 'atoi.c',
-+      slof_stdlib / 'atol.c',
-+      slof_stdlib / 'strtoul.c',
-+      slof_stdlib / 'strtol.c',
-+      slof_stdlib / 'rand.c',
-+      slof_stdlib / 'malloc.c',
-+      slof_stdlib / 'free.c',
-+      slof_stdio / 'sprintf.c',
-+      slof_stdio / 'snprintf.c',
-+      slof_stdio / 'vfprintf.c',
-+      slof_stdio / 'vsnprintf.c',
-+      slof_stdio / 'vsprintf.c',
-+      slof_stdio / 'fprintf.c',
-+      slof_stdio / 'printf.c',
-+      slof_stdio / 'putc.c',
-+      slof_stdio / 'puts.c',
-+      slof_stdio / 'putchar.c',
-+      slof_stdio / 'stdchnls.c',
-+      slof_stdio / 'fileno.c',
-+      slof / 'slof/sbrk.c',
-+    ),
-+    c_args: s390_cargs,
-+    include_directories: s390_incs,
-+  )
-+
-+  slof_libnet = slof / 'lib/libnet'
-+  s390_libnet = static_library(
-+    's390-libnet', files(
-+      slof_libnet / 'args.c',
-+      slof_libnet / 'dhcp.c',
-+      slof_libnet / 'dns.c',
-+      slof_libnet / 'icmpv6.c',
-+      slof_libnet / 'ipv6.c',
-+      slof_libnet / 'tcp.c',
-+      slof_libnet / 'udp.c',
-+      slof_libnet / 'bootp.c',
-+      slof_libnet / 'dhcpv6.c',
-+      slof_libnet / 'ethernet.c',
-+      slof_libnet / 'ipv4.c',
-+      slof_libnet / 'ndp.c',
-+      slof_libnet / 'tftp.c',
-+      slof_libnet / 'pxelinux.c',
-+    ),
-+    c_args: [s390_cargs, '-DDHCPARCH=0x1F'],
-+    include_directories: s390_incs,
-+  )
-+
-+  s390_netboot_elf = executable(
-+    's390-netboot.elf',
-+    link_with: [s390_libc, s390_libnet],
-+    link_args: [link_args, '-Ttext=0x7800000'],
-+    objects: s390_lib.extract_objects([
-+      'cio.c',
-+      'jump2ipl.c',
-+      'netmain.c',
-+      'sclp.c',
-+      'start.S',
-+      'virtio-net.c',
-+      'virtio.c',
-+    ]),
-+  )
-+
-+  custom_target(
-+    's390-netboot.img',
-+    output: 's390-netboot.img',
-+    input: s390_netboot_elf,
-+    command: [strip, '--strip-unneeded', '@INPUT@', '-o', '@OUTPUT@'],
-+    build_by_default: true,
-+  )
-+endif
-diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
-deleted file mode 100644
-index 577c023afe..0000000000
---- a/pc-bios/s390-ccw/netboot.mak
-+++ /dev/null
-@@ -1,62 +0,0 @@
--
--SLOF_DIR := $(SRC_PATH)/roms/SLOF
--
--NETOBJS := start.o sclp.o cio.o virtio.o virtio-net.o jump2ipl.o netmain.o
--
--LIBC_INC := -nostdinc -I$(SLOF_DIR)/lib/libc/include
--LIBNET_INC := -I$(SLOF_DIR)/lib/libnet
--
--NETLDFLAGS := $(LDFLAGS) -Ttext=0x7800000
--
--$(NETOBJS): QEMU_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
--
--s390-netboot.elf: $(NETOBJS) libnet.a libc.a
--	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@")
--
--s390-netboot.img: s390-netboot.elf
--	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
--
--# libc files:
--
--LIBC_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
--	      -MMD -MP -MT $@ -MF $(@:%.o=%.d)
--
--CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
--%.o : $(SLOF_DIR)/lib/libc/ctype/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--STRING_OBJS = strcat.o strchr.o strrchr.o strcpy.o strlen.o strncpy.o \
--	      strcmp.o strncmp.o strcasecmp.o strncasecmp.o strstr.o \
--	      memset.o memcpy.o memmove.o memcmp.o
--%.o : $(SLOF_DIR)/lib/libc/string/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--STDLIB_OBJS = atoi.o atol.o strtoul.o strtol.o rand.o malloc.o free.o
--%.o : $(SLOF_DIR)/lib/libc/stdlib/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--STDIO_OBJS = sprintf.o snprintf.o vfprintf.o vsnprintf.o vsprintf.o fprintf.o \
--	     printf.o putc.o puts.o putchar.o stdchnls.o fileno.o
--%.o : $(SLOF_DIR)/lib/libc/stdio/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--sbrk.o: $(SLOF_DIR)/slof/sbrk.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--LIBCOBJS := $(STRING_OBJS) $(CTYPE_OBJS) $(STDLIB_OBJS) $(STDIO_OBJS) sbrk.o
--
--libc.a: $(LIBCOBJS)
--	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
--
--# libnet files:
--
--LIBNETOBJS := args.o dhcp.o dns.o icmpv6.o ipv6.o tcp.o udp.o bootp.o \
--	      dhcpv6.o ethernet.o ipv4.o ndp.o tftp.o pxelinux.o
--LIBNETCFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
--	       -DDHCPARCH=0x1F -MMD -MP -MT $@ -MF $(@:%.o=%.d)
--
--%.o : $(SLOF_DIR)/lib/libnet/%.c
--	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--libnet.a: $(LIBNETOBJS)
--	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
-diff --git a/subprojects/s390-ccw b/subprojects/s390-ccw
-new file mode 120000
-index 0000000000..8a3120224b
---- /dev/null
-+++ b/subprojects/s390-ccw
-@@ -0,0 +1 @@
-+../pc-bios/s390-ccw
-\ No newline at end of file
+-	fs/movzbl pcr_cpu, %eax
++	movzbl %fs:pcr_cpu, %eax
+ 
+ 	mov vcpu_shift, %ecx	; fixup
+ 	shl %cl, %eax
+@@ -178,7 +178,7 @@ mp_set_tpr:
+ 	reenable_vtpr
+ 
+ mp_set_tpr_failed:
+-	fs/movzbl pcr_cpu, %edx
++	movzbl %fs:pcr_cpu, %edx
+ 
+ 	mov vcpu_shift, %ecx	; fixup
+ 	shl %cl, %edx
 -- 
 2.26.2
 
