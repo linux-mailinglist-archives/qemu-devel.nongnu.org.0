@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5CA2708E5
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 00:22:02 +0200 (CEST)
-Received: from localhost ([::1]:47144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35642708EA
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 00:25:00 +0200 (CEST)
+Received: from localhost ([::1]:53864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJOlV-0005zf-A0
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 18:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38064)
+	id 1kJOoN-0000Iu-So
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 18:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJOkT-0005Px-8r
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:20:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39792)
+ id 1kJOlU-0006aA-Ga
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:22:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kJOkP-0000Ox-3m
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:20:56 -0400
+ id 1kJOlS-0000Uy-Ne
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 18:22:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600467651;
+ s=mimecast20190719; t=1600467717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SIQtXAOsqtM1oR4TaQIH/rJT9lHX2iWTxjKAODYSNDk=;
- b=bQYXesedVeL84cl2d8EznyW11UXiM/mS6LpbnROhZXwUmzrHgFxZhXUTwKD98Fkx4DtHwv
- 0t3k/z50mnjxKNiU35dcb0+NJYrN6kloGHZSSzHIblCJevBr6sC4aSFdIClUhHguegQYF6
- LUazl0o3PfNKgWxX9xVaL+ZajmZ76Ds=
+ bh=8iBW8Qiq4fTKnxzsQlhqlJzMjZsLNAbPc1NJbsmqEs4=;
+ b=Kh/KZ45cpEYBZuIvp9A2IurJCEQw57CvQ1Cz8VKpQgVsBkVp2Dh8PLGVJ17AkWLsBjdz+u
+ tTRnwIZBCYeTDNLCThzbEz0jG55tYfzFCiCKZ+tifdETz482mgoP7D5psecUgPgSPAVd1F
+ Y3q1oRI62lOCvbFzEyHkr+86iLRysV0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-GIJgSdXhOFSi3TC435yf-w-1; Fri, 18 Sep 2020 18:20:49 -0400
-X-MC-Unique: GIJgSdXhOFSi3TC435yf-w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-121-vPpEJsYkMM2SBKYM5IibIQ-1; Fri, 18 Sep 2020 18:21:55 -0400
+X-MC-Unique: vPpEJsYkMM2SBKYM5IibIQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B197188C12D;
- Fri, 18 Sep 2020 22:20:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1AEE57052
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 22:21:54 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF75873677;
- Fri, 18 Sep 2020 22:20:47 +0000 (UTC)
-Date: Fri, 18 Sep 2020 18:20:46 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 788FB78803;
+ Fri, 18 Sep 2020 22:21:54 +0000 (UTC)
+Date: Fri, 18 Sep 2020 18:21:53 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [Qemu-devel] [PATCH] i386/kvm: fix FEATURE_HYPERV_EDX value in
- hyperv_passthrough case
-Message-ID: <20200918222046.GF57321@habkost.net>
-References: <20190820103030.12515-1-zhenyuw@linux.intel.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH RFC 07/22] i386: fill in FEAT_HYPERV_EDX from edx instead
+ of eax
+Message-ID: <20200918222153.GG57321@habkost.net>
+References: <20200904145431.196885-1-vkuznets@redhat.com>
+ <20200904145431.196885-8-vkuznets@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20200904145431.196885-8-vkuznets@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190820103030.12515-1-zhenyuw@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -76,43 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 20, 2019 at 06:30:30PM +0800, Zhenyu Wang wrote:
-> Fix typo to use correct edx value for FEATURE_HYPERV_EDX when
-> hyperv_passthrough is enabled.
+On Fri, Sep 04, 2020 at 04:54:16PM +0200, Vitaly Kuznetsov wrote:
+> There was a typo which went unnoticed.
 > 
-> Signed-off-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+> Fixes: e48ddcc6ce13 ("i386/kvm: implement 'hv-passthrough' mode")
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-CCing other maintainers (please use ./scripts/get_maintainer.pl
-to make sure maintainers don't miss patches).
-
-Queued, thanks!
+Similar fix had been submitted at:
+https://lore.kernel.org/qemu-devel/20190820103030.12515-1-zhenyuw@linux.intel.com/
 
 > ---
 >  target/i386/kvm.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 2abc881324..101229bce4 100644
+> index 720c30e9df17..1cb5592d4f7d 100644
 > --- a/target/i386/kvm.c
 > +++ b/target/i386/kvm.c
-> @@ -1152,7 +1152,7 @@ static int hyperv_handle_properties(CPUState *cs,
+> @@ -1251,7 +1251,7 @@ static int hyperv_handle_properties(CPUState *cs,
 >          if (c) {
 >              env->features[FEAT_HYPERV_EAX] = c->eax;
 >              env->features[FEAT_HYPERV_EBX] = c->ebx;
 > -            env->features[FEAT_HYPERV_EDX] = c->eax;
 > +            env->features[FEAT_HYPERV_EDX] = c->edx;
 >          }
->          c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
->          if (c) {
+>  
+>          c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
 > -- 
-> 2.20.1
-> 
+> 2.25.4
 > 
 
 -- 
