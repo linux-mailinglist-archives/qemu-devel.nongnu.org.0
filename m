@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0EC270444
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:43:32 +0200 (CEST)
-Received: from localhost ([::1]:42440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD60D270451
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:47:21 +0200 (CEST)
+Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJLM3-0004Ul-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47736)
+	id 1kJLPk-0007vo-T7
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLGj-0007LL-7n
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:01 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:39426)
+ id 1kJLGk-0007P1-SW
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:02 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:36152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLGh-00072h-Ju
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:00 -0400
-Received: by mail-pf1-x444.google.com with SMTP id n14so3987321pff.6
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:37:59 -0700 (PDT)
+ id 1kJLGj-00072v-3B
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:02 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id b17so3463689pji.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VmRUb+25uU2BYgui1TfG+LmGUzhUne41PY164owiyR4=;
- b=XLcsD7WgzUlsqrCiVEvXnH66HGB35YC5t/YGz1osG45DA4qNpkArIMRwfQJ0gkK4XJ
- gO9KBXPOsjZzuLGGkdTBRng1oLzhlfumnfeIm9HIOc+CTsWmE0vk0zleYXRBIMbJZyYB
- fXbPOG1S89tadiUgECStbuO9c8Qtd+1usUsJFH54+soBdpPNCoCvNy2RNCIOlkqTFl1b
- cIbCCsIY1LYYY/dUW0M3ElDW/moOaQHRumr057BBWd3enFXD4hiYvV5s+sWYueRNiGOx
- YSqSQ15MZuz9oVs80pl+QvImGottaFoqQKUdcYYRuKrpovtmSICzkzzj/1O/x0mwRpyi
- zTEQ==
+ bh=isaI5MdmjrbtBjf8VoptM4IIRi7lAgi5cvu7Yitun8I=;
+ b=H8Sgmka4nfdqcYEWoKnbL5ekuNyccZKjAdONvGtToaQBV3qM313Sz5ukeLFUqHC87c
+ g5iaNnFC4yB95skyKmYxkJRCDmrXoakHByFlMAUtKvITbWL72ltyzFOno4jpxQ8RTdKY
+ UBEb+0vYpaW9421Yub/5Vp7qv7YCRVgrPHCjxRBF8evGtBhp8HJMOTr6/m9ND1j4q8p+
+ va9j8mq/NDX+tJ/P4FSxoYFOA9hX0a/QwqqtAmTwQgDEgpcEjWfWzxjC2nr/JtX64UDr
+ 0HxO6RVNgz5svSSJcUeOvVMj2PClXw3aJlwS587fFUJRCJbKMAvXEmIFAZnckjRqo0kJ
+ bb7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VmRUb+25uU2BYgui1TfG+LmGUzhUne41PY164owiyR4=;
- b=abpOldztRVVzuNvqYhSzOlyVTztrIo6eYEZA/BSKhTfl12JGI+JT6A19KfNeIjZeD6
- y8rHVVAv7ATzmjXw9m9nyxjRqsTGCis8WWh+6r+X/LPZB7rXhyRVJP1wj6abWyJGSzhR
- 9fxO6VWuxuAtKRlT/95aHfo3gj77VDtMxipKS5D+sYC/9PKzuOxfpXkkvTCI0/tXv+0X
- LBVUEJqIigNq9itTfAK1nZz6hRpGKNBUBFFv7R/dtKDuw3UftbIBeUqb5lNBnaFpEimA
- ApPLk0t7h/hPL0fVwsv6VC09zfdbBXxLt2y+Dbc8f+AOCpv1FWxc2us2YEkvQgS8VL39
- jRHg==
-X-Gm-Message-State: AOAM533c/CRRplv6rI8tiFj/IgK/ruALXFnii5h7xg19NkqLh+7CrLeT
- 4p7PZPKSp5IUlCDnWaP/SVc+WTvSX6q7XQ==
-X-Google-Smtp-Source: ABdhPJxSgL/GUqEgJtUeKXgNql7hOOb8Q21mBa3p7fQX4ZCMKBzcm9O/lg0AOerTI4PeJEB4nnbTug==
-X-Received: by 2002:aa7:869a:0:b029:142:2501:34d1 with SMTP id
- d26-20020aa7869a0000b0290142250134d1mr17692667pfo.42.1600454277893; 
- Fri, 18 Sep 2020 11:37:57 -0700 (PDT)
+ bh=isaI5MdmjrbtBjf8VoptM4IIRi7lAgi5cvu7Yitun8I=;
+ b=orK7JpBMLZT70wmOalB9J5NDmmy4LR6Yl2YFG4JMfyuyAYd/Jlznf4L9LMHrkaP/dm
+ MAI7gRgP7S9MpzpeUEfXrI1TWBDV5KFvDk02nAN6otNIrQYDY45N28wx/jpJF7p/HyGv
+ +U6hZszUvk8zYchu8VFFlYPuqPaWfEbC8LB9zuAWWxon7uHLq/+B3HdLMK5NsKS2hZj7
+ BvLqhtqjm2JelMIY3sZz4q7ZBz1YZwJPkK1BjEvPFzM0Pe36fsyVfn7GsHbdigbg5sR+
+ FLMpELJB/SvE/ERDCpBOpRmCU/xDPTE2XPhNrcMLO7Ya1gGPl7MMiC9FLpRc9gPTn9ff
+ DFHg==
+X-Gm-Message-State: AOAM5335B2B62KZQ4erI0njjkKDpEbbXwWvp/dj3xY8vIWYx8Fi8EoxO
+ yS3L3ZGFu3XYt8lEIsVkUHY8zBvCjOorwA==
+X-Google-Smtp-Source: ABdhPJxKhAvvigAIqlJRPyfU4frgfG0YUXRJXM5lVR9LFc/XXYeof+4uBDMYOT6eWQQgM5uNOPJRjA==
+X-Received: by 2002:a17:902:c151:b029:d1:9bd3:6855 with SMTP id
+ 17-20020a170902c151b02900d19bd36855mr34064171plj.38.1600454279433; 
+ Fri, 18 Sep 2020 11:37:59 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.37.56
+ by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.37.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:37:57 -0700 (PDT)
+ Fri, 18 Sep 2020 11:37:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/81] target/arm: Fix sve_punpk_p vs odd vector lengths
-Date: Fri, 18 Sep 2020 11:36:33 -0700
-Message-Id: <20200918183751.2787647-4-richard.henderson@linaro.org>
+Subject: [PATCH v3 04/81] target/arm: Add ID_AA64ZFR0 fields and
+ isar_feature_aa64_sve2
+Date: Fri, 18 Sep 2020 11:36:34 -0700
+Message-Id: <20200918183751.2787647-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
 References: <20200918183751.2787647-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,38 +87,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org,
- alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wrote too much with punpk1 with vl % 512 != 0.
+Will be used for SVE2 isa subset enablement.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: Do not read zfr0 from kvm unless sve is available.
+---
+ target/arm/cpu.h    | 16 ++++++++++++++++
+ target/arm/helper.c |  3 +--
+ target/arm/kvm64.c  | 11 +++++++++++
+ 3 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index b8651ae173..c983cd4356 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -2104,11 +2104,11 @@ void HELPER(sve_punpk_p)(void *vd, void *vn, uint32_t pred_desc)
-             high = oprsz >> 1;
-         }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 6036f61d60..6f80a85fd0 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -920,6 +920,7 @@ struct ARMCPU {
+         uint64_t id_aa64mmfr2;
+         uint64_t id_aa64dfr0;
+         uint64_t id_aa64dfr1;
++        uint64_t id_aa64zfr0;
+     } isar;
+     uint64_t midr;
+     uint32_t revidr;
+@@ -1880,6 +1881,16 @@ FIELD(ID_AA64DFR0, PMSVER, 32, 4)
+ FIELD(ID_AA64DFR0, DOUBLELOCK, 36, 4)
+ FIELD(ID_AA64DFR0, TRACEFILT, 40, 4)
  
--        if ((high & 3) == 0) {
-+        if ((oprsz & 7) == 0) {
-             uint32_t *n = vn;
-             high >>= 2;
++FIELD(ID_AA64ZFR0, SVEVER, 0, 4)
++FIELD(ID_AA64ZFR0, AES, 4, 4)
++FIELD(ID_AA64ZFR0, BITPERM, 16, 4)
++FIELD(ID_AA64ZFR0, BFLOAT16, 20, 4)
++FIELD(ID_AA64ZFR0, SHA3, 32, 4)
++FIELD(ID_AA64ZFR0, SM4, 40, 4)
++FIELD(ID_AA64ZFR0, I8MM, 44, 4)
++FIELD(ID_AA64ZFR0, F32MM, 52, 4)
++FIELD(ID_AA64ZFR0, F64MM, 56, 4)
++
+ FIELD(ID_DFR0, COPDBG, 0, 4)
+ FIELD(ID_DFR0, COPSDBG, 4, 4)
+ FIELD(ID_DFR0, MMAPDBG, 8, 4)
+@@ -3886,6 +3897,11 @@ static inline bool isar_feature_aa64_tts2uxn(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, XNX) != 0;
+ }
  
--            for (i = 0; i < DIV_ROUND_UP(oprsz, 8); i++) {
-+            for (i = 0; i < oprsz / 8; i++) {
-                 uint64_t nn = n[H4(high + i)];
-                 d[i] = expand_bits(nn, 0);
-             }
++static inline bool isar_feature_aa64_sve2(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SVEVER) != 0;
++}
++
+ /*
+  * Feature tests for "does this exist in either 32-bit or 64-bit?"
+  */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 88bd9dd35d..c0b84f9b99 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7414,8 +7414,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 4,
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+-              /* At present, only SVEver == 0 is defined anyway.  */
+-              .resetvalue = 0 },
++              .resetvalue = cpu->isar.id_aa64zfr0 },
+             { .name = "ID_AA64PFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 5,
+               .access = PL1_R, .type = ARM_CP_CONST,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 987b35e33f..904d97bdd6 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -548,6 +548,17 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
+                               ARM64_SYS_REG(3, 0, 0, 7, 2));
+ 
++        /*
++         * Before v5.1, KVM did not support SVE and did not expose
++         * ID_AA64ZFR0_EL1 even as RAZ.  Afterward, KVM still does
++         * not expose the register to "user" requests like this
++         * unless the host supports SVE.
++         */
++        if (isar_feature_aa64_sve(&ahcf->isar)) {
++            err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
++                                  ARM64_SYS_REG(3, 0, 0, 4, 4));
++        }
++
+         /*
+          * Note that if AArch32 support is not present in the host,
+          * the AArch32 sysregs are present to be read, but will
 -- 
 2.25.1
 
