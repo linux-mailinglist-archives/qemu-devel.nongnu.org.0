@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490CD26FFFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:35:36 +0200 (CEST)
-Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D80D270006
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 16:37:57 +0200 (CEST)
+Received: from localhost ([::1]:48146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJHU7-0003BE-Bh
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:35:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
+	id 1kJHWO-000567-Lx
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 10:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJHSa-0002Lq-Uj
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:34:00 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJHSZ-0002hH-4P
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:34:00 -0400
-Received: by mail-wr1-x441.google.com with SMTP id m6so5890840wrn.0
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 07:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=M68lIylRXpevc32y6J6mQmRu2ewIfMOpEuSHDTkUsYk=;
- b=Wr0pU5PSCZzrmZVgfFYZcIMC3L1QSW6QfRODpKQqit5R4aSuab0JFkfEoe5bhry6fC
- VRSA+jv3VY7z0SSGoPPoyupI4SEQputhGuNFEf4Xs5lzgaEklDE3FP14btyL5wDbFBeY
- OZOPCBitRRxR4E8CJowvUIF100hZFDnlyUrVoyQ9arNMusygsEVSM7asGaSyB3Hddw+b
- B6+3Kj8gAJ2CKksWqReqvKCw6j6cbehbpGS/rXbO90zBOcDVCQyuEG0mddmNXT1gyqEH
- iEnmr3TL6MAVK5fCmV2Scm2HbIJIS8RAheO1LDEG+1iMMfp/EVCLWanw66Ks5OTXBRI4
- U5dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=M68lIylRXpevc32y6J6mQmRu2ewIfMOpEuSHDTkUsYk=;
- b=rTV84Vz3TmIF5cAs/1Jzc92A2JXCnG2HmPb7CRc5rueYuRo4edWgjiKUCB0qj1NaCj
- IDXXFihKlkaWHtItYIyWMHBXfOBgsZJzxzv5MP2hT20kHnERIIYHNG875maf9MeZB/ao
- CvxnilqeJ2MPVcG2KWCr3PU/0aB9Agt/AbLnJVUyafcgW2MwzFEm/41fVX07+ilo7skB
- 3NvOtkMDxiSYbhQ3gE31JXf0otGviFDio4fbIGREUAUl+a8QsjqhW680ASJ6/60HeZ+N
- /rxMejvMLta0SqMgp1CSu38q9CwblYbzckyzN6x65PalbZZQ0lR9Xuy3AxSqSBE7Fca2
- MFrQ==
-X-Gm-Message-State: AOAM5317xFm5Azc6FnXf1f9LTolpz2i1a+r1edDFh39tQaHlt7YL+Mjg
- D7t5cvuFMy+g6CzMprEoSAIwSR6rMwA=
-X-Google-Smtp-Source: ABdhPJzkAFlUvjcDyaH8qw8BGyMoHmKg55nDoYz1bWAt/mGLAMTKzvrKFXYmW9kTrz1w0xaeMDb5Bw==
-X-Received: by 2002:adf:ee01:: with SMTP id y1mr39559732wrn.2.1600439637038;
- Fri, 18 Sep 2020 07:33:57 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u17sm5325013wmm.4.2020.09.18.07.33.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 07:33:56 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] tests/acceptance: Skip slow quanta-gsj U-boot+Linux test
-Date: Fri, 18 Sep 2020 16:33:55 +0200
-Message-Id: <20200918143355.153522-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kJHVQ-0004MU-B4
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:36:56 -0400
+Resent-Date: Fri, 18 Sep 2020 10:36:56 -0400
+Resent-Message-Id: <E1kJHVQ-0004MU-B4@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kJHVN-00036t-IV
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 10:36:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600439801; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Emk8AxxbSYIJXBGYP4rah2mRuNVmkqKtqRCFnOcvz8FU+EWRYeSivpqaWP3nL0pruv0zTZFB9pDt6p9G9TQ7fu9ChzN10Sjo9KQop2ntT/c/uciX5cEszNxXrQyAW3P/08MW4mENrXVPZAHqnRS7AU+ZAdV9WvkKrVyl1QPpxTk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600439801;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=TMp/i0JAuJtoz2QLl7SHLyIZROTLzgsRvRgcuQka8ys=; 
+ b=QIuIWg/dbwFfNc9pFv2zmXrEF6AVMSYiwA35UQedcib/aCpFlMipUeg1YHieRt821jeuSqfFXrWKLLAbRPTiCSn7fJfOm/qA1jM7cS5TwpA5x1IGQE3HZ4y99IgcCoaCscpwvuCxCLzTSIeGmVlSKvdtsuAnQ8f1mnThWE/bt08=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600439800424329.67553824914;
+ Fri, 18 Sep 2020 07:36:40 -0700 (PDT)
+Subject: Re: [PATCH v2] tests/acceptance: Skip slow quanta-gsj U-boot+Linux
+ test
+Message-ID: <160043979884.8478.1830639139647431481@66eaa9a8a123>
+In-Reply-To: <20200918143355.153522-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: f4bug@amsat.org
+Date: Fri, 18 Sep 2020 07:36:40 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 09:36:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,41 +70,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Havard Skinnemoen <hskinnemoen@google.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, wainersm@redhat.com,
+ hskinnemoen@google.com, crosa@redhat.com, philmd@redhat.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'arm_quanta_gsj_initrd' test is timeouting on GitLab CI:
-https://gitlab.com/philmd/qemu/-/jobs/745483978#L846
-and also sometimes on my workstation, so proceed as with
-the other slow tests: do not run it by default.
-The test can still be run setting the AVOCADO_TIMEOUT_EXPECTED
-environment variable.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Supersedes: <20200918142344.150749-1-f4bug@amsat.org>
----
- tests/acceptance/boot_linux_console.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 4a366ce93e4..9b58f6f9003 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -568,6 +568,7 @@ def test_arm_cubieboard_sata(self):
-                                                 'sda')
-         # cubieboard's reboot is not functioning; omit reboot test.
- 
-+    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-     def test_arm_quanta_gsj(self):
-         """
-         :avocado: tags=arch:arm
--- 
-2.26.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkxODE0MzM1NS4xNTM1
+MjItMS1mNGJ1Z0BhbXNhdC5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKCk4vQS4gSW50ZXJuYWwgZXJyb3Igd2hpbGUgcmVhZGluZyBsb2cgZmlsZQoKCgpU
+aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAw
+OTE4MTQzMzU1LjE1MzUyMi0xLWY0YnVnQGFtc2F0Lm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
