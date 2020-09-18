@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA4526F947
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:27:39 +0200 (CEST)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4522026F949
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:28:26 +0200 (CEST)
+Received: from localhost ([::1]:33552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJCg6-00042j-Ee
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46738)
+	id 1kJCgr-0005Q9-AY
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kJCcz-0000F2-V2
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:24:27 -0400
-Received: from mga05.intel.com ([192.55.52.43]:42395)
+ id 1kJCd3-0000Fz-3i
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:24:30 -0400
+Received: from mga05.intel.com ([192.55.52.43]:42394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kJCcy-0004Px-Ek
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:24:25 -0400
-IronPort-SDR: kRJzOXA6u2yJW0sYCd7WGg4EUbGVM7dmggvu6K0zxwUDbSkiuN9TUmxfMR8Zs5Ahd7dCSOFIf/
- QgEzA0MXmWBA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="244733422"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="244733422"
+ id 1kJCcz-0004Pi-Pv
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:24:28 -0400
+IronPort-SDR: 8dZIxZgDRLc9n9jlaFahQAEusW6c+g3xxeV7ogr5MzTWD6ep/0sHGhcmWpMYz/F9rZ2KMq8o+V
+ VuWpnSeiKqAw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="244733436"
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="244733436"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 02:24:19 -0700
-IronPort-SDR: Hk1YeSKYFi2jNNqLR2Ptibyo4pzqVLkyhrBayZN/wOcoJ5vzF9AC85XDgWkV7Tpq776wy34L4E
- poHAYPO0iUqQ==
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="484130706"
+ 18 Sep 2020 02:24:21 -0700
+IronPort-SDR: Zc3dnsMBju3jdUGKJcR8ZJOzp8nAfy4gPMUSHjt0O//r9800dWpJU8uzaqJ0AZYybeuVQqDCAL
+ RvkDRo85SDSA==
+X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; d="scan'208";a="484130723"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 02:24:18 -0700
+ 18 Sep 2020 02:24:20 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 3/4] net/colo-compare.c: Add secondary old packet detection
-Date: Fri, 18 Sep 2020 17:22:02 +0800
-Message-Id: <20200918092203.20384-4-chen.zhang@intel.com>
+Subject: [PATCH 4/4] net/colo-compare.c: Increase default queued packet scan
+ frequency
+Date: Fri, 18 Sep 2020 17:22:03 +0800
+Message-Id: <20200918092203.20384-5-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200918092203.20384-1-chen.zhang@intel.com>
 References: <20200918092203.20384-1-chen.zhang@intel.com>
@@ -72,53 +73,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-Detect queued secondary packet to sync VM state in time.
+In my test, use this default parameter looks better.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ net/colo-compare.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 3b72309d08..f7271b976f 100644
+index f7271b976f..6df6a7e66f 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -641,19 +641,26 @@ void colo_compare_unregister_notifier(Notifier *notify)
- static int colo_old_packet_check_one_conn(Connection *conn,
-                                           CompareState *s)
- {
--    GList *result = NULL;
--
--    result = g_queue_find_custom(&conn->primary_list,
--                                 &s->compare_timeout,
--                                 (GCompareFunc)colo_old_packet_check_one);
-+    if (!g_queue_is_empty(&conn->primary_list)) {
-+        if (g_queue_find_custom(&conn->primary_list,
-+                                &s->compare_timeout,
-+                                (GCompareFunc)colo_old_packet_check_one))
-+            goto out;
-+    }
+@@ -52,7 +52,7 @@ static NotifierList colo_compare_notifiers =
+ #define COLO_COMPARE_FREE_PRIMARY     0x01
+ #define COLO_COMPARE_FREE_SECONDARY   0x02
  
--    if (result) {
--        /* Do checkpoint will flush old packet */
--        colo_compare_inconsistency_notify(s);
--        return 0;
-+    if (!g_queue_is_empty(&conn->secondary_list)) {
-+        if (g_queue_find_custom(&conn->secondary_list,
-+                                &s->compare_timeout,
-+                                (GCompareFunc)colo_old_packet_check_one))
-+            goto out;
-     }
+-#define REGULAR_PACKET_CHECK_MS 3000
++#define REGULAR_PACKET_CHECK_MS 1000
+ #define DEFAULT_TIME_OUT_MS 3000
  
-     return 1;
-+
-+out:
-+    /* Do checkpoint will flush old packet */
-+    colo_compare_inconsistency_notify(s);
-+    return 0;
- }
- 
- /*
+ /* #define DEBUG_COLO_PACKETS */
 -- 
 2.17.1
 
