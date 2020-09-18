@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6E526FA00
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:12:08 +0200 (CEST)
-Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FE426FA4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:18:28 +0200 (CEST)
+Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJDN9-0005DY-E4
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:12:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56486)
+	id 1kJDTH-0000LA-EX
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kJDJ9-00037M-Uv
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:07:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49112
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kJDJ3-0001c5-6e
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:07:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600423671;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ShmJGE9dLYYIU+hbjnPcxg43Sl/HJxmj5E5dmxaVeC0=;
- b=byHotec6h6iRd0a5Dm/ca+3XmqJRbAAfYqDno/lWlvLf9mIJZrP57YJ2Cx3Xub7aPXQ1lv
- wyOiRDGJc7/O1Tg5QiPfHFbH6mddDrxtDH2Ggsk6PH61w/cgQoLXbFB3/HBr2kp2+n8fpN
- p3XQ5Cgy2qpCvFBHwGW+39H3DNfwFSM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-FFwYOv68Os2nCbZEJpRUGg-1; Fri, 18 Sep 2020 06:07:48 -0400
-X-MC-Unique: FFwYOv68Os2nCbZEJpRUGg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EC4C61266
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 10:07:47 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA7DA73676;
- Fri, 18 Sep 2020 10:07:40 +0000 (UTC)
-From: marcandre.lureau@redhat.com
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kJDQ2-0006Tt-NW
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:15:06 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kJDPz-0002Sl-43
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:15:06 -0400
+Received: by mail-pf1-x441.google.com with SMTP id d6so3139299pfn.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 03:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=gi1sTDeqggK7aQbauUzxsVt4jcAkBbywPF9Uid5mB6Q=;
+ b=BepP9F+c218MWvxcOLt1ngXhci6CUERJ1jweHDaOgDtkitx6WFtmbLd3PWYT/JNjXw
+ n5EEZ5gZDfiYuqjpjgrnFOLNbiRp8pKqXtuhuXSv54KaaDC+BZEWs41IFgj9ZuyFTNDW
+ AV0hGHDun+nHiMOn04eGgP0R2rATcc5JSI0zFbOG5BgnW9TaOjZzpyies8/LsAwxtLIv
+ zf0IlfADuXFDrzxV24Z3Xh1r97hzX6lu+rBETnNkbJ7qwyu6x0nYC+ZsyRiBfo04g5AZ
+ jAlfaZhTmeWtJa9m+vS09LliTjSQ3MRqmJV6Qz8jOs2D7YAQpG0q/BwlsBzGpCHobsof
+ vnkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=gi1sTDeqggK7aQbauUzxsVt4jcAkBbywPF9Uid5mB6Q=;
+ b=tXd9leigxnLzHAkaURH/bjT2ilujSawiJ2IBtToAdPCnlh2MVm2BGcBEVyRbshLhaL
+ 5XyXvnCfRrMJDV1mtNUheX3seMK8ZpvyaJ7pw6uE6bKCjHNIMpmtqDEsL0bxj3B+/Mw1
+ LIHXY+cN89sT3da1/Knh0ikhgd7u3ocYt3TIwjv/hikbZY8QyMu73UPtZngWkGh71Bmx
+ T3ng5ke34SI/r3pSeHoWO6D/ux/Juh4UWDRq7lrw0rym6yhondjuIybma3gs+OodKd2e
+ K3Li+ecv/TvtW7u+Oy+dO8J4l1dvmtB6ZBNiGvmwuJ1hCYbP3VYC4KC4gpHSxM3RwocQ
+ WWSw==
+X-Gm-Message-State: AOAM531Iyl/vHc8T/Sx42pvtTkwWIU5IrzsnffA74QILDc3bFtxsvLOo
+ AwigBtilwbq+jfwcGeLLteAVKJK+XjBQigp3
+X-Google-Smtp-Source: ABdhPJyoOWBsKkQ5Dn0jw0z+yD7FCD5i77VGpNZbcTyCeLN8MdL8umOEtu3jOmLwECXNpL0OnYC86w==
+X-Received: by 2002:a62:301:0:b029:13c:1611:6587 with SMTP id
+ 1-20020a6203010000b029013c16116587mr31586690pfd.4.1600424101131; 
+ Fri, 18 Sep 2020 03:15:01 -0700 (PDT)
+Received: from localhost.localdomain ([115.96.124.157])
+ by smtp.googlemail.com with ESMTPSA id i20sm2608303pgk.77.2020.09.18.03.14.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 03:15:00 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] spice: remove obsolete callback
-Date: Fri, 18 Sep 2020 14:07:37 +0400
-Message-Id: <20200918100737.91646-1-marcandre.lureau@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:23:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] Add a comment in bios-tables-test.c to clarify the reason
+ behind approach
+Date: Fri, 18 Sep 2020 15:44:41 +0530
+Message-Id: <20200918101441.16395-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2607:f8b0:4864:20::441;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,91 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- kraxel@redhat.com, fziglio@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+A comment blob is added in bios-tables-test.c that explains the process of
+updating the ACPI table blobs when new tests are added or old tests are
+modified or code is committed that affect tests. The explanation would help
+future contributors follow the correct process when making code changes that
+affect ACPI tables.
 
-The "attach_worker" callbacks aren't doing anything in QEMU, but they
-were mandatory until Spice server commit
-6aa1a17c69dc3cc02f338a78b3266e4c00ea1c1a ("spice-qxl: Remove QXLWorker
-definition").
-
-Furthermore, the old spelling is deprecated since commit
-974692bda1e77af92b71ed43b022439448492cb9 ("spice-qxl: Fix typo in
-callback name and remove obsolete parameter")
-
-Compile that code out if Spice server version is recent enough.
-
-Fix compiler deprecation warnings with Spice > 0.14.3 (not released
-yet). We may want to wait until newer version is actually released to
-apply the patch.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/display/qxl.c   | 4 ++++
- ui/spice-display.c | 4 ++++
- 2 files changed, 8 insertions(+)
+ tests/qtest/bios-tables-test.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 11871340e7..a02072dee0 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -518,12 +518,14 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 3f7f1a8107..e51ea26ae8 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -11,7 +11,7 @@
+  */
  
- /* spice display interface callbacks */
+ /*
+- * How to add or update the tests:
++ * How to add or update the tests or commit changes that affect tables:
+  * Contributor:
+  * 1. add empty files for new tables, if any, under tests/data/acpi
+  * 2. list any changed files in tests/qtest/bios-tables-test-allowed-diff.h
+@@ -48,6 +48,24 @@
+  * - patches 2 - n: real changes, may contain multiple patches.
+  * - patch n + 1: update golden master binaries and empty
+  *   tests/qtest/bios-tables-test-allowed-diff.h
++ *
++ * There is a reason why the above process is followed. After every commit we
++ * make sure that the unit tests are not broken.
++ * Listing changed files in patch 1 makes sure every commit that follows which
++ * affect the tests (patches 2 - n) does not break tests.
++ * This is followed by the actual changes (test changes or code changes) that
++ * actually affect the acpi tables.
++ * Finally in patch n + 1, we update the golden master blobs as well as revert
++ * the file additions in bios-tables-test-allowed-diff.h. This makes sure that
++ * the test continues to pass because of updated table blobs while the state of
++ * bios-tables-test-allowed-diff.h is reverted back to the default empty file
++ * condition.
++ *
++ * We could have committed the table updates along with the patches. However,
++ * whereas a code change is easily reviewable and in case of conflicts, easily
++ * addressible, a binary blob is not. Hence, its better to commmit the binary
++ * blob updates as a separate independent commit. Listing the modified table
++ * files additionally helps in bisection in case things are broken.
+  */
  
-+#if SPICE_SERVER_VERSION < 0x000e04 /* release 0.14.4 */
- static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
- {
-     PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
- 
-     trace_qxl_interface_attach_worker(qxl->id);
- }
-+#endif
- 
- static void interface_set_compression_level(QXLInstance *sin, int level)
- {
-@@ -1156,7 +1158,9 @@ static const QXLInterface qxl_interface = {
-     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
-     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
- 
-+#if SPICE_SERVER_VERSION < 0x000e04 /* release 0.14.4 */
-     .attache_worker          = interface_attach_worker,
-+#endif
-     .set_compression_level   = interface_set_compression_level,
- #if SPICE_NEEDS_SET_MM_TIME
-     .set_mm_time             = interface_set_mm_time,
-diff --git a/ui/spice-display.c b/ui/spice-display.c
-index 19632fdf6c..811936ff7f 100644
---- a/ui/spice-display.c
-+++ b/ui/spice-display.c
-@@ -500,10 +500,12 @@ void qemu_spice_display_refresh(SimpleSpiceDisplay *ssd)
- 
- /* spice display interface callbacks */
- 
-+#if SPICE_SERVER_VERSION < 0x000e04 /* release 0.14.4 */
- static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
- {
-     /* nothing to do */
- }
-+#endif
- 
- static void interface_set_compression_level(QXLInstance *sin, int level)
- {
-@@ -709,7 +711,9 @@ static const QXLInterface dpy_interface = {
-     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
-     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
- 
-+#if SPICE_SERVER_VERSION < 0x000e04 /* release 0.14.4 */
-     .attache_worker          = interface_attach_worker,
-+#endif
-     .set_compression_level   = interface_set_compression_level,
- #if SPICE_NEEDS_SET_MM_TIME
-     .set_mm_time             = interface_set_mm_time,
+ #include "qemu/osdep.h"
 -- 
-2.26.2
+2.17.1
 
 
