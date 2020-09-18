@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CF72704EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:22:02 +0200 (CEST)
-Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F68B27054F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:24:09 +0200 (CEST)
+Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJLxJ-0003CU-DG
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
+	id 1kJLzM-0006Z3-HG
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLHC-0008W3-Ae
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:30 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39382)
+ id 1kJLHD-00006t-Aa
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:31 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kJLHA-00077N-Cs
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:29 -0400
-Received: by mail-pg1-x543.google.com with SMTP id d13so3977049pgl.6
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:38:27 -0700 (PDT)
+ id 1kJLHB-00077j-MK
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:38:31 -0400
+Received: by mail-pf1-x442.google.com with SMTP id b124so3977875pfg.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 11:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X/NVWweCrcSG9yvM/pSUZVGJlFvHwlP+Fb2RbDObtgY=;
- b=TprxvJD3gwIhK8PfALgUCowt1L6Tw4uSGW0DTUdFnB7HrVSLD69JSSrR3NRDoxP8Ss
- 0Mny4GKovjiqwYUUNB19WJOP713zjAnrmdlYZTRdzkH/YR5L/Nl2VaUxk0cZ39WBlSKj
- TkiS8tC/QTnbdWhtekNtJmnHZItHlDDbG3PfU4o07N9d/F1anScwNi2p3yy4CAfx2Dee
- ZJI7CfvBUKFyBupwSCIzfdoFJQ2Dh9WUg01dYCJiQBa0WHmPIHjG3LCHwGTbzpwqP5eZ
- fpxKZdq+fKzRJXZVy/T6UD2oieWIWSq64eI8O1j6MgGYRQLp37FdOyPRygogeBNmQTNd
- SKNQ==
+ bh=FnLvIpl6tkY/ABtv3jqDiaV7bxS8ugwGLaJksYt9Yyk=;
+ b=euXPpleqtCkeomfnGxAyEtMI+D77EYq12Sh9xonMCtfGYa3pEU3pBNuBVk9Hn3m7to
+ w+EY7K3KkmBR9bDmFi8a3vk33rN5VvGjMJsZx6WULm6mhliQw+htt1VSTIz9rbNatsKc
+ 1fu+xKSaXZsbhMx1nxopWgvH87JHsnDekVJgiupVFuqVepxA7F2jTyP7Dq2XI7EQd7wU
+ xXKlW6tV5czNKe4n4pRGace/+9YbbxwLFJH+2jQ2ZnpfOUZtn7EUDqIaIu4eadfUp08D
+ vKjy/TJlwLlnnljoiuq83aYKksZz2jWnSf7AQK7eZ4C3S3d26WwZYAfLWauOMckwzkmd
+ jOhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X/NVWweCrcSG9yvM/pSUZVGJlFvHwlP+Fb2RbDObtgY=;
- b=cSz0VzFMo3lzoLbnjZQF0Jow48nlo7S0hdL1bDemKTlRoS5u+VkidKz1zEYqIGYdS8
- zwGDbrFzcgKamGh8HcuDAsN3VDRSCTHQ5YAlwTmXh49rp2NT+kPoS7lsdgQQje+NDZQz
- r57tQqMlU+k7tY3cObGb6XUYAZjjctQYgKewtqogfZ29i7neajJg4tO+bJtaZomMaR7o
- /Ct9A3MUJoCQh4gSyd862iEPkx4yFmdKBWctWN5z14OU6YbDOo2PbA++cOJN9OGm/+FP
- QCK9yycgtFp3j7TvUIyqtjnoVJIrcSCH22mz9mVXEgXoj6eYRw2OB3wyci4/NugETG1J
- CtXQ==
-X-Gm-Message-State: AOAM531LaN1uy1Qow5YBUm7mQPLIjwctkq/KlI6vWA7LUYFo1/ihhUuG
- nf5Mq6B+z6RI8DCGs7zsxsGvRwgmDcrHjQ==
-X-Google-Smtp-Source: ABdhPJw6P5O0rHWYgcJoQRQ5GiHirvO3q2h6zlGlbOBb6Zvu9xRyuptoMmH/WM11NsvVhIp4na1aMg==
-X-Received: by 2002:a62:5a04:0:b029:142:2501:397f with SMTP id
- o4-20020a625a040000b02901422501397fmr17132534pfb.68.1600454306696; 
- Fri, 18 Sep 2020 11:38:26 -0700 (PDT)
+ bh=FnLvIpl6tkY/ABtv3jqDiaV7bxS8ugwGLaJksYt9Yyk=;
+ b=FPZyBiIjKhOzA7y1FSOTOqGDWeUBpkG0z0t6r/VcQPLYMOiQgQHBBtiEe47sKBx6hj
+ DvuYW7hj92PA02t5B6c1zISxEkzgVoFYbnimi2P5BF4sL8n2od+VaHcw5h7y2+7sUYZB
+ QBPpLItqafRM7L60antsOnzcIxXW7gAXPZVL1Ug1AHDRAj11ib17heDmax9UDhHfp9hf
+ HsmrAacluVKpyBjFRrT4npdazjA4JFu+pdnDUvYG1hgVc7uUyL86JyfeyLIXSvCFd+t4
+ ZUydEHRLorf4g3Qb7weqiQdFSgvrTx+U9ZwlayFiiTU7afvSkIRPwJSdsN2imGnvj//U
+ aCmQ==
+X-Gm-Message-State: AOAM533LSmDsCQ8/odiZ/s3cwtUIR5IWqbN7me0FdV5rScGkPMA/606p
+ Z/jbKuIPpu/mJEzeEVTFvpOXpAeKP1bQ9w==
+X-Google-Smtp-Source: ABdhPJxNRtKPQnlVMARrsKDz04Flt+HAhQYWDbu70R48HtijhUc8JV7aS3RjcpFyz5fBuQ0NvrwM2g==
+X-Received: by 2002:a62:1dc1:0:b029:13e:d13d:a051 with SMTP id
+ d184-20020a621dc10000b029013ed13da051mr32287944pfd.23.1600454307941; 
+ Fri, 18 Sep 2020 11:38:27 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.38.25
+ by smtp.gmail.com with ESMTPSA id f4sm3680723pfj.147.2020.09.18.11.38.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 11:38:25 -0700 (PDT)
+ Fri, 18 Sep 2020 11:38:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 25/81] target/arm: Implement SVE2 bitwise shift and insert
-Date: Fri, 18 Sep 2020 11:36:55 -0700
-Message-Id: <20200918183751.2787647-26-richard.henderson@linaro.org>
+Subject: [PATCH v3 26/81] target/arm: Implement SVE2 integer absolute
+ difference and accumulate
+Date: Fri, 18 Sep 2020 11:36:56 -0700
+Message-Id: <20200918183751.2787647-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918183751.2787647-1-richard.henderson@linaro.org>
 References: <20200918183751.2787647-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,40 +92,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve.decode      |  5 +++++
- target/arm/translate-sve.c | 10 ++++++++++
- 2 files changed, 15 insertions(+)
+ target/arm/sve.decode      |  6 ++++++
+ target/arm/translate-sve.c | 21 +++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 7783e9f0d3..90a9d6552a 100644
+index 90a9d6552a..b5450b1d4d 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1261,3 +1261,8 @@ SSRA            01000101 .. 0 ..... 1110 00 ..... .....  @rd_rn_tszimm_shr
- USRA            01000101 .. 0 ..... 1110 01 ..... .....  @rd_rn_tszimm_shr
- SRSRA           01000101 .. 0 ..... 1110 10 ..... .....  @rd_rn_tszimm_shr
- URSRA           01000101 .. 0 ..... 1110 11 ..... .....  @rd_rn_tszimm_shr
+@@ -1266,3 +1266,9 @@ URSRA           01000101 .. 0 ..... 1110 11 ..... .....  @rd_rn_tszimm_shr
+ 
+ SRI             01000101 .. 0 ..... 11110 0 ..... .....  @rd_rn_tszimm_shr
+ SLI             01000101 .. 0 ..... 11110 1 ..... .....  @rd_rn_tszimm_shl
 +
-+## SVE2 bitwise shift and insert
++## SVE2 integer absolute difference and accumulate
 +
-+SRI             01000101 .. 0 ..... 11110 0 ..... .....  @rd_rn_tszimm_shr
-+SLI             01000101 .. 0 ..... 11110 1 ..... .....  @rd_rn_tszimm_shl
++# TODO: Use @rda and %reg_movprfx here.
++SABA            01000101 .. 0 ..... 11111 0 ..... .....  @rd_rn_rm
++UABA            01000101 .. 0 ..... 11111 1 ..... .....  @rd_rn_rm
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 312a47f4b9..33e575ce72 100644
+index 33e575ce72..e21f078af7 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -6438,3 +6438,13 @@ static bool trans_URSRA(DisasContext *s, arg_rri_esz *a)
+@@ -6448,3 +6448,24 @@ static bool trans_SLI(DisasContext *s, arg_rri_esz *a)
  {
-     return do_sve2_fn2i(s, a, gen_gvec_ursra);
+     return do_sve2_fn2i(s, a, gen_gvec_sli);
  }
 +
-+static bool trans_SRI(DisasContext *s, arg_rri_esz *a)
++static bool do_sve2_fn_zzz(DisasContext *s, arg_rrr_esz *a, GVecGen3Fn *fn)
 +{
-+    return do_sve2_fn2i(s, a, gen_gvec_sri);
++    if (!dc_isar_feature(aa64_sve2, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        gen_gvec_fn_zzz(s, fn, a->esz, a->rd, a->rn, a->rm);
++    }
++    return true;
 +}
 +
-+static bool trans_SLI(DisasContext *s, arg_rri_esz *a)
++static bool trans_SABA(DisasContext *s, arg_rrr_esz *a)
 +{
-+    return do_sve2_fn2i(s, a, gen_gvec_sli);
++    return do_sve2_fn_zzz(s, a, gen_gvec_saba);
++}
++
++static bool trans_UABA(DisasContext *s, arg_rrr_esz *a)
++{
++    return do_sve2_fn_zzz(s, a, gen_gvec_uaba);
 +}
 -- 
 2.25.1
