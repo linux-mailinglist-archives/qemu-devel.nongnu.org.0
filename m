@@ -2,109 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C801227042C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:36:14 +0200 (CEST)
-Received: from localhost ([::1]:51436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B2F270446
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:43:53 +0200 (CEST)
+Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJLEz-0004Se-R6
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44472)
+	id 1kJLMO-0004uM-BJ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kJL0M-0007fx-El; Fri, 18 Sep 2020 14:21:07 -0400
-Received: from mail-eopbgr40118.outbound.protection.outlook.com
- ([40.107.4.118]:41027 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kJL0H-0004nY-KJ; Fri, 18 Sep 2020 14:21:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QyRkXGGjjygKfjnoo3RiQvq8rSjtTgH33QQ1zG8JDw/4sYIzQ3MXcmLzSAwVvUPONlBJrZGCcoRe7mgVO74/N60ohDhh9yq//jOpQUDHMrPWbRZuRc3fQEVscBYo+C3dna56XS4tqo3v1CsWEZPK9VHcTcPcD23cO4z/dW3I0A7yOohPS/Rm3uctvghl8BYRrO5vakptq7HODwTJIK2b7s0Ftrv+cJBLemrcb/21ktrnYfIzX5uwTMT26NSSOZ3pErtCzxesEH5U9+upHt1NyNQII88qG2G6MR7cWnhHFe0CKghpP9TTUy0zr/tiOb2QXEjgJ32HtqyicnZVW5tTow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hGXx0477ugW7n4dPTvPsMlMEHRdvyN59tIlfSH9tDOo=;
- b=G3JpwVRdnu1TbsueyN2mpQkzv2zszRirmJtZH2DCE6+3sqEJtgmlYSTK/uC7dDuO2q6J/ljCJV6Iaoo++kq2tahFqL3ESRkiDpTgMFXAIz3m/LTyDNSj6xBFM9RiHVbr5HsTw0BPIlYdtsBnJvzBuX3pyUWt7IyepaGOf0AsHMs58C/c0X8AsSoQ73lpSJhV9FHTXaKc82yr09cWU9QLv13r4iTfL2XzeqTIIDQepKB323ik92uphhNeIyhvRtEM2bkaMul3pTxV09vRW6WWnmWAcGpfKfwnbehHYATKKPh36ed5FeowcT5JOlLqJxgE9atcBdrEjFhe73TsAzOAyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hGXx0477ugW7n4dPTvPsMlMEHRdvyN59tIlfSH9tDOo=;
- b=uXcWuzCM6TYN7ILQ0p3+djj1TfIcOAsFOOCY9F6JnP80udWl0sBDyWmfbGLd+UnHnJcNWB+rPFNGPbQk/bqFYyAnMQ8fiWHTzhYE3p35KSjlKYEIzRxtgnZTBVMN1GFmZuZUIkRleSREYeL90+HeI3RTI5054m8S3fLk5qmcaAI=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1905.eurprd08.prod.outlook.com (2603:10a6:203:43::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Fri, 18 Sep
- 2020 18:20:19 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Fri, 18 Sep 2020
- 18:20:19 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, armbru@redhat.com,
- eblake@redhat.com, fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com,
- kwolf@redhat.com, den@openvz.org
-Subject: [PATCH v6 15/15] scripts/simplebench: add bench_prealloc.py
-Date: Fri, 18 Sep 2020 21:19:51 +0300
-Message-Id: <20200918181951.21752-16-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200918181951.21752-1-vsementsov@virtuozzo.com>
-References: <20200918181951.21752-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM4PR05CA0019.eurprd05.prod.outlook.com (2603:10a6:205::32)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kJL2V-0001FI-0b
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:23:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kJL2Q-00053g-Sd
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:23:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600453392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jq9l+kzdow5XorcSZvdmI7GZ6zKMEcNZ1n30x4cnL6A=;
+ b=fqAmYFfT2rqhgXJ39gefzbpxYjqCaDFbCsYm6prHU8vQxylFOiMeyGeT/jDU389cOaCuet
+ JNFCrOZ0bslwU1vnri4vajtiMSEAO/jUmcK9yAQbhtnmhyeczbtCINmJhzTbhMqO4XwUQ4
+ VGnP92FzVBuD6Ox6h9bMIUXQiickNWY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-LSLnktNPM6S2hlgI4Gel1g-1; Fri, 18 Sep 2020 14:23:08 -0400
+X-MC-Unique: LSLnktNPM6S2hlgI4Gel1g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D00C1084D78;
+ Fri, 18 Sep 2020 18:23:07 +0000 (UTC)
+Received: from localhost (ovpn-119-217.rdu2.redhat.com [10.10.119.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BFD649CBA;
+ Fri, 18 Sep 2020 18:23:04 +0000 (UTC)
+Date: Fri, 18 Sep 2020 14:23:03 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 0/3] qom: Replace INTERFACE_CHECK with OBJECT_CHECK
+Message-ID: <20200918182303.GE7594@habkost.net>
+References: <20200916193101.511600-1-ehabkost@redhat.com>
+ <CAJ+F1CLo=mz6LhRTx0PTF-NiabiaCNwm-U=7VEhQXUmryQoqvw@mail.gmail.com>
+ <40730966-469a-de4d-29bd-03c7c409b3cf@redhat.com>
+ <CAJ+F1CL+mBt3c+GW3DPcfJROrpxWFFM_4vXGQqRb+E9ceS7cag@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.106) by
- AM4PR05CA0019.eurprd05.prod.outlook.com (2603:10a6:205::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.13 via Frontend Transport; Fri, 18 Sep 2020 18:20:19 +0000
-X-Mailer: git-send-email 2.21.3
-X-Originating-IP: [185.215.60.106]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 27181466-6393-4b63-557e-08d85bff8007
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1905:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB19051C624C01FFB10C72E521C13F0@AM5PR0801MB1905.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: keScvEvZxUXz21ggXQStW58rhCLFYppWbDmy0KNdV4414Ea9QupAY6CIdkf6J6z9JcdCuAl2iuQCj5vP4HEshSIrL0xl3W28O9UXGHY3q+g3syl1cmldVOGSxkGeJP9XC4d1pGRjdgJl15vLEFHw+sdum/3PKOqiziX791ZdWJ0K+9Cd0tv309XKL18zjCBvWiiGQEuqDrCFvIikW67q237HtvOU/SP3TvQHMRfkUg7G0npbUrcdK3iWNl9ig+k625frjUj5uKr3fn0ChRyNx1X7am2RFKZp/p9TiodD0yZuzM0QIUvuLp9CjNQcb/cawc6dWasy6UAo5oQYLjrmif+kY82CllLmgoQwAuOxkN6czGrXwTWOqdeqowsW/lkzdCmkZfCEUVbLrShParilR3xbvP8yMxREbSi+Y8ZHVBgWQEDbaViCO+PIjv27v5BUYomGITxYppD5UXU1qaszFq4jzR/npuHf4RjkjrYQMs3OYnFiOcdZ1DTskMeM2nkS
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(376002)(366004)(136003)(346002)(66556008)(8936002)(66946007)(66476007)(107886003)(6506007)(2616005)(5660300002)(2906002)(83380400001)(6486002)(956004)(6666004)(1076003)(186003)(8676002)(52116002)(4326008)(316002)(86362001)(6916009)(478600001)(26005)(36756003)(16526019)(6512007)(2004002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: GNoyOSFNF/esP0Ia/wR1AFkMVLPSyl07bVpQ1fojrujhy+YU+bJ830aA/wwxaZP0sszQ1ojnRE9TjDYmlu3zTqVQiu89MM8wBcH9oMWtTzxBLrjNqjqyKpCwld7eetXsG+EMyAtas/97ro6Yjvbsd7dCeOCQg/QCogLJYKGFUURpFxyr/x+BvEUMky/BgSxwRSjGiJoje6Q8LEe4zF1PRq5vXDU0ytLYHa13Cipch6ZUGmUouktuArQYl0YWZE7eg5hYxMw6bwrd9AnG+xznyN8UTCcb6DwhLKhtyuUc97IWU46hLVFJyukhja/FhuohMG/MmhT+wf5e4iKl171z7KpceewHkDdwbDdX8bulgnBBe6QftQYDY5lP+0eNCCGgjdlwPGJkn2AL/jLMKOdjQ8uxeJMgO5RdTrVEdH9YbdlIWz1odgmOYC0IOGHSScbhamQe9R5m4QyVV/0DYb2nLD8fD/olPkBzENJJF+t71U0aCSqvqjxHojTcKrMtWy+lRpdiXgOgb1qQIPbkfMoshO+V/2AuCFnwCCZ3sYck6eAwlo0gn+b1yNI+dqaSsPbfQSj01uF+BBJ21S5CygyY4j4BsP0b+aXK+PH5xK1RLJ9BwLTd90f6RIiV7oNA1gyKIHtwqKJSD+k01AML7+P3KQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27181466-6393-4b63-557e-08d85bff8007
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 18:20:19.7469 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CKX77NGqCO2xxMtNJy+0WLvqc9Y2xTrse8ze+lsucRvyTBpu27LTGYtjtzfOs6KiYGtFhZbL+V/7gVaZXeq04zHrXb0vT4Hssf9FjufB8CA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1905
-Received-SPF: pass client-ip=40.107.4.118;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 14:20:23
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJ+F1CL+mBt3c+GW3DPcfJROrpxWFFM_4vXGQqRb+E9ceS7cag@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,160 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Benchmark for new preallocate filter.
+On Thu, Sep 17, 2020 at 11:25:30AM +0400, Marc-André Lureau wrote:
+> Hi
+> 
+> On Thu, Sep 17, 2020 at 11:19 AM Philippe Mathieu-Daudé <philmd@redhat.com>
+> wrote:
+> 
+> > On 9/16/20 11:31 PM, Marc-André Lureau wrote:
+> > > Hi
+> > >
+> > > On Wed, Sep 16, 2020 at 11:35 PM Eduardo Habkost <ehabkost@redhat.com
+> > > <mailto:ehabkost@redhat.com>> wrote:
+> > >
+> > >     This series replaces INTERFACE_CHECK with OBJECT_CHECK because
+> > >     both macros are exactly the same.
+> > >
+> > >     The last patch is a new run of the OBJECT_CHECK ->
+> > >     DECLARE*_CHECKER* converter script that will convert the former
+> > >     INTERFACE_CHECK-based macros.
+> > >
+> > >
+> > > Well, at least having a different macro allows to tweak qom
+> > > implementation or replace it with something different more easily.
+> > >
+> > > I have some wip branch somewhere where I actually made Interface a
+> > > different beast than Object (it was saving some fields, and avoiding
+> > > some potentially wrong casts iirc - I didn't bother to upstream that
+> > > yet). Also I have a different branch where I played with GObject to
+> > > replace qom. In both cases, your proposal would have, or would make, the
+> > > work more complicated.
+> >
+> > Considering "wip branch not bothered to upstream" as "fork",
+> > your comment from [*] applies here...
+> >
+> >   You can't blame upstream from doing cleanups and modernization, or
+> >   stagnating. Forks are forks, with all the pain they carry. If they
+> >   want to avoid the maintenance cost, they have to do the extra effort
+> >   to get it upstream. This is also a "sneaky way" to remind them that
+> >   effort is better spent in this direction.
+> >
+> > [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg720284.html
+> >
+> >
+> Fair enough. Note I didn't nack it, but in general the proposal seems to
+> blurry some worthy semantic difference between object & interface. Maybe
+> #define alias INTERFACE_CHECK with OBJECT_CHECK instead ?
 
-Example usage:
-    ./bench_prealloc.py ../../build/qemu-img \
-        ssd-ext4:/path/to/mount/point \
-        ssd-xfs:/path2 hdd-ext4:/path3 hdd-xfs:/path4
+I'm actually considering deleting INTERFACE_CHECK and
+OBJECT_CHECK completely after we finish the boilerplate
+conversion, and tell everybody to use
+OBJECT_DECLARE_INTERFACE/OBJECT_DECLARE_TYPE instead.
 
-The benchmark shows performance improvement (or degradation) when use
-new preallocate filter with qcow2 image.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- scripts/simplebench/bench_prealloc.py | 128 ++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
- create mode 100755 scripts/simplebench/bench_prealloc.py
-
-diff --git a/scripts/simplebench/bench_prealloc.py b/scripts/simplebench/bench_prealloc.py
-new file mode 100755
-index 0000000000..fda4b3410e
---- /dev/null
-+++ b/scripts/simplebench/bench_prealloc.py
-@@ -0,0 +1,128 @@
-+#!/usr/bin/env python3
-+#
-+# Benchmark preallocate filter
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+
-+import sys
-+import os
-+import subprocess
-+import re
-+
-+import simplebench
-+
-+
-+def qemu_img_bench(args):
-+    p = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-+                       universal_newlines=True)
-+
-+    if p.returncode == 0:
-+        try:
-+            m = re.search(r'Run completed in (\d+.\d+) seconds.', p.stdout)
-+            return {'seconds': float(m.group(1))}
-+        except Exception:
-+            return {'error': f'failed to parse qemu-img output: {p.stdout}'}
-+    else:
-+        return {'error': f'qemu-img failed: {p.returncode}: {p.stdout}'}
-+
-+
-+def bench_func(env, case):
-+    fname = f"{case['dir']}/prealloc-test.qcow2"
-+    try:
-+        os.remove(fname)
-+    except OSError:
-+        pass
-+
-+    subprocess.run([env['qemu-img-binary'], 'create', '-f', 'qcow2', fname,
-+                   '16G'], stdout=subprocess.DEVNULL,
-+                   stderr=subprocess.DEVNULL, check=True)
-+
-+    args = [env['qemu-img-binary'], 'bench', '-c', str(case['count']),
-+            '-d', '64', '-s', case['block-size'], '-t', 'none', '-n', '-w']
-+    if env['prealloc']:
-+        args += ['--image-opts',
-+                 'driver=qcow2,file.driver=preallocate,file.file.driver=file,'
-+                 f'file.file.filename={fname}']
-+    else:
-+        args += ['-f', 'qcow2', fname]
-+
-+    return qemu_img_bench(args)
-+
-+
-+def auto_count_bench_func(env, case):
-+    case['count'] = 100
-+    while True:
-+        res = bench_func(env, case)
-+        if 'error' in res:
-+            return res
-+
-+        if res['seconds'] >= 1:
-+            break
-+
-+        case['count'] *= 10
-+
-+    if res['seconds'] < 5:
-+        case['count'] = round(case['count'] * 5 / res['seconds'])
-+        res = bench_func(env, case)
-+        if 'error' in res:
-+            return res
-+
-+    res['iops'] = case['count'] / res['seconds']
-+    return res
-+
-+
-+if __name__ == '__main__':
-+    if len(sys.argv) < 2:
-+        print(f'USAGE: {sys.argv[0]} <qemu-img binary> '
-+              'DISK_NAME:DIR_PATH ...')
-+        exit(1)
-+
-+    qemu_img = sys.argv[1]
-+
-+    envs = [
-+        {
-+            'id': 'no-prealloc',
-+            'qemu-img-binary': qemu_img,
-+            'prealloc': False
-+        },
-+        {
-+            'id': 'prealloc',
-+            'qemu-img-binary': qemu_img,
-+            'prealloc': True
-+        }
-+    ]
-+
-+    aligned_cases = []
-+    unaligned_cases = []
-+
-+    for disk in sys.argv[2:]:
-+        name, path = disk.split(':')
-+        aligned_cases.append({
-+            'id': f'{name}, aligned sequential 16k',
-+            'block-size': '16k',
-+            'dir': path
-+        })
-+        unaligned_cases.append({
-+            'id': f'{name}, unaligned sequential 64k',
-+            'block-size': '16k',
-+            'dir': path
-+        })
-+
-+    result = simplebench.bench(auto_count_bench_func, envs,
-+                               aligned_cases + unaligned_cases, count=5)
-+    print(simplebench.ascii(result))
 -- 
-2.21.3
+Eduardo
 
 
