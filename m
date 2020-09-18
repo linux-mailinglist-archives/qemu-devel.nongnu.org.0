@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EBE26F951
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:31:40 +0200 (CEST)
-Received: from localhost ([::1]:38140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E61B926F962
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:36:16 +0200 (CEST)
+Received: from localhost ([::1]:42880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJCjz-0007Ry-RI
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47674)
+	id 1kJCoR-00019h-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kJChq-0006cn-AU
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:29:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43338)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kJCn1-0000ej-Om
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:34:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kJCho-0004yd-2N
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:29:25 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kJCmz-0005i1-Uh
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:34:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600421363;
+ s=mimecast20190719; t=1600421684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+hqLkXWoU2AMlX+mpUxw9PDHipNSuH//4gVQYG8x6tw=;
- b=F6zyXNCzcdXB48w5E/ve7ATStJpNTVMam/tMAy21iZdYMh5c4aRWGWWRMaoeI7gh9stkT1
- yyzSx1akBgg6WxMj/D+Na/GRRd3Tm6TG7d95HBoBGvCjUePE+xQ5vdEODmS21E0Kc15QnW
- Wj8t8zm/7AIsLyl/Xlq2Z1cbBbJSLko=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bhCgdRonuqJbY5hDJn2SqfLHKZfK3o5DLvfcBi77GYU=;
+ b=OBGUS0805Fl0ywK+OGq1LXj3UT+DkxapDTbumEVKFwh81NNZaJyixv8Ch9tiTgRHX4bUSj
+ vwO09vcycwoT3e5vL7+xLxF3r80vD5vbAouUnKEjkRO2LptQmu8SVGVDvkc4o/RUe6WPWQ
+ hIEZ9JVMDUwaZxJ+9jPYCrqf0Uy9qOE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-33nKtc01O1WCYDaegdbx1A-1; Fri, 18 Sep 2020 05:29:21 -0400
-X-MC-Unique: 33nKtc01O1WCYDaegdbx1A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-292-IRtOO_4iNgKECGMrEX0XNQ-1; Fri, 18 Sep 2020 05:34:42 -0400
+X-MC-Unique: IRtOO_4iNgKECGMrEX0XNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED3811891E85;
- Fri, 18 Sep 2020 09:29:19 +0000 (UTC)
-Received: from gondolin (ovpn-112-191.ams2.redhat.com [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FE8D5D9D5;
- Fri, 18 Sep 2020 09:29:11 +0000 (UTC)
-Date: Fri, 18 Sep 2020 11:29:09 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 2/2] virtio-iommu-pci: force virtio version 1
-Message-ID: <20200918112909.5f797bf4.cohuck@redhat.com>
-In-Reply-To: <20200908193309.20569-3-eric.auger@redhat.com>
-References: <20200908193309.20569-1-eric.auger@redhat.com>
- <20200908193309.20569-3-eric.auger@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E84C188C12D;
+ Fri, 18 Sep 2020 09:34:41 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-113-161.ams2.redhat.com
+ [10.36.113.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 296091002D46;
+ Fri, 18 Sep 2020 09:34:37 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] util: include the target address in socket connect failures
+Date: Fri, 18 Sep 2020 10:34:36 +0100
+Message-Id: <20200918093436.1775120-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 00:20:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -80,64 +78,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, thuth@redhat.com, mst@redhat.com,
- qemu-stable@nongnu.org, qemu-devel@nongnu.org, eric.auger.pro@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  8 Sep 2020 21:33:09 +0200
-Eric Auger <eric.auger@redhat.com> wrote:
+Reporting "Failed to connect socket" is essentially useless for a user
+attempting to diagnose failure. It needs to include the target addres
+details. Simiarly when failing to create a socket we should include the
+socket family info, so the user understands what particular feature was
+missing in their kernel build (IPv6, VSock in particular).
 
-> Commit 9b3a35ec82 ("virtio: verify that legacy support is not
-> accidentally on") added a safety check that requires to set
-> 'disable-legacy=on' on virtio-iommu-pci:
-> 
-> qemu-system-aarch64: -device virtio-iommu-pci: device is modern-only,
-> use disable-legacy=on
-> 
-> virtio-iommu was introduced after the release of VIRTIO 1.0
-> specifications, so it should be 'modern-only'.
-> 
-> This patch forces virtio version 1 and removes the 'transitional_name'
-> property removing the need to specify 'disable-legacy=on' on
-> virtio-iommu-pci device.
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ tests/qemu-iotests/162.out |  4 ++--
+ util/qemu-sockets.c        | 32 +++++++++++++++++++-------------
+ 2 files changed, 21 insertions(+), 15 deletions(-)
 
-Not sure whether this patch has been queued already, and how much we
-care about migration compatibility for virtio-iommu, but would it make
-sense to force modern on 5.1+ compat machines only? (see
-https://lore.kernel.org/qemu-devel/20200918074710.27810-1-sgarzare@redhat.com/)
-
-> 
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> 
-> ---
-> v1 -> v2:
-> - Added Connie's R-b
-> ---
->  hw/virtio/virtio-iommu-pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-> index ba62d60a0a..3b6f7a11c6 100644
-> --- a/hw/virtio/virtio-iommu-pci.c
-> +++ b/hw/virtio/virtio-iommu-pci.c
-> @@ -68,6 +68,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->      object_property_set_link(OBJECT(dev), "primary-bus",
->                               OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
->                               &error_abort);
-> +    virtio_pci_force_virtio_1(vpci_dev);
->      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
->  }
->  
-> @@ -97,7 +98,6 @@ static void virtio_iommu_pci_instance_init(Object *obj)
->  static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
->      .base_name             = TYPE_VIRTIO_IOMMU_PCI,
->      .generic_name          = "virtio-iommu-pci",
-> -    .transitional_name     = "virtio-iommu-pci-transitional",
->      .non_transitional_name = "virtio-iommu-pci-non-transitional",
->      .instance_size = sizeof(VirtIOIOMMUPCI),
->      .instance_init = virtio_iommu_pci_instance_init,
+diff --git a/tests/qemu-iotests/162.out b/tests/qemu-iotests/162.out
+index 5a00d36d17..f8714cb0d2 100644
+--- a/tests/qemu-iotests/162.out
++++ b/tests/qemu-iotests/162.out
+@@ -6,8 +6,8 @@ image: nbd://localhost:PORT
+ image: nbd+unix://?socket=42
+ 
+ === SSH ===
+-qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": "0", "path": "/foo"}': Failed to connect socket: Connection refused
+-qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo': Failed to connect socket: Connection refused
++qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": "0", "path": "/foo"}': Failed to connect to 'localhost:0': Connection refused
++qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo': Failed to connect to 'localhost:0': Connection refused
+ qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": 0.42, "path": "/foo"}': Parameter 'port' expects a number
+ qemu-img: Could not open 'driver=ssh,host=localhost,port=0.42,path=/foo': Parameter 'port' expects a number
+ 
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index b37d288866..dbf8e4dd0c 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -354,15 +354,15 @@ listen_ok:
+     ((rc) == -EINPROGRESS)
+ #endif
+ 
+-static int inet_connect_addr(struct addrinfo *addr, Error **errp);
+-
+-static int inet_connect_addr(struct addrinfo *addr, Error **errp)
++static int inet_connect_addr(const InetSocketAddress *saddr,
++                             struct addrinfo *addr, Error **errp)
+ {
+     int sock, rc;
+ 
+     sock = qemu_socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
+     if (sock < 0) {
+-        error_setg_errno(errp, errno, "Failed to create socket");
++        error_setg_errno(errp, errno, "Failed to create socket family %d",
++                         addr->ai_family);
+         return -1;
+     }
+     socket_set_fast_reuse(sock);
+@@ -376,7 +376,8 @@ static int inet_connect_addr(struct addrinfo *addr, Error **errp)
+     } while (rc == -EINTR);
+ 
+     if (rc < 0) {
+-        error_setg_errno(errp, errno, "Failed to connect socket");
++        error_setg_errno(errp, errno, "Failed to connect to '%s:%s'",
++                         saddr->host, saddr->port);
+         closesocket(sock);
+         return -1;
+     }
+@@ -455,7 +456,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+     for (e = res; e != NULL; e = e->ai_next) {
+         error_free(local_err);
+         local_err = NULL;
+-        sock = inet_connect_addr(e, &local_err);
++        sock = inet_connect_addr(saddr, e, &local_err);
+         if (sock >= 0) {
+             break;
+         }
+@@ -549,7 +550,8 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr,
+     /* create socket */
+     sock = qemu_socket(peer->ai_family, peer->ai_socktype, peer->ai_protocol);
+     if (sock < 0) {
+-        error_setg_errno(errp, errno, "Failed to create socket");
++        error_setg_errno(errp, errno, "Failed to create socket family %d",
++                         peer->ai_family);
+         goto err;
+     }
+     socket_set_fast_reuse(sock);
+@@ -562,7 +564,8 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr,
+ 
+     /* connect to peer */
+     if (connect(sock,peer->ai_addr,peer->ai_addrlen) < 0) {
+-        error_setg_errno(errp, errno, "Failed to connect socket");
++        error_setg_errno(errp, errno, "Failed to connect to '%s:%s'",
++                         addr, port);
+         goto err;
+     }
+ 
+@@ -735,13 +738,15 @@ static bool vsock_parse_vaddr_to_sockaddr(const VsockSocketAddress *vaddr,
+     return true;
+ }
+ 
+-static int vsock_connect_addr(const struct sockaddr_vm *svm, Error **errp)
++static int vsock_connect_addr(const VsockSocketAddress *vaddr,
++                              const struct sockaddr_vm *svm, Error **errp)
+ {
+     int sock, rc;
+ 
+     sock = qemu_socket(AF_VSOCK, SOCK_STREAM, 0);
+     if (sock < 0) {
+-        error_setg_errno(errp, errno, "Failed to create socket");
++        error_setg_errno(errp, errno, "Failed to create socket family %d",
++                         AF_VSOCK);
+         return -1;
+     }
+ 
+@@ -754,7 +759,8 @@ static int vsock_connect_addr(const struct sockaddr_vm *svm, Error **errp)
+     } while (rc == -EINTR);
+ 
+     if (rc < 0) {
+-        error_setg_errno(errp, errno, "Failed to connect socket");
++        error_setg_errno(errp, errno, "Failed to connect to '%s:%s'",
++                         vaddr->cid, vaddr->port);
+         closesocket(sock);
+         return -1;
+     }
+@@ -770,7 +776,7 @@ static int vsock_connect_saddr(VsockSocketAddress *vaddr, Error **errp)
+         return -1;
+     }
+ 
+-    return vsock_connect_addr(&svm, errp);
++    return vsock_connect_addr(vaddr, &svm, errp);
+ }
+ 
+ static int vsock_listen_saddr(VsockSocketAddress *vaddr,
+@@ -994,7 +1000,7 @@ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
+     } while (rc == -EINTR);
+ 
+     if (rc < 0) {
+-        error_setg_errno(errp, -rc, "Failed to connect socket %s",
++        error_setg_errno(errp, -rc, "Failed to connect to '%s'",
+                          saddr->path);
+         goto err;
+     }
+-- 
+2.26.2
 
 
