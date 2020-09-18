@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2980927040E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:32:07 +0200 (CEST)
-Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E6627042B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 20:35:13 +0200 (CEST)
+Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJLB0-0000Hd-4L
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:32:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44390)
+	id 1kJLE0-0003h4-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 14:35:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kJL0D-0007a9-EW; Fri, 18 Sep 2020 14:20:57 -0400
-Received: from mail-eopbgr40122.outbound.protection.outlook.com
- ([40.107.4.122]:8096 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ id 1kJL0F-0007c6-Vf; Fri, 18 Sep 2020 14:21:01 -0400
+Received: from mail-eopbgr40118.outbound.protection.outlook.com
+ ([40.107.4.118]:41027 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kJL0A-0004bq-1D; Fri, 18 Sep 2020 14:20:57 -0400
+ id 1kJL0C-0004nY-EO; Fri, 18 Sep 2020 14:20:59 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a5gxV1lsvf/DLKzCsUdkBJPy8/G5jLF68D9QcSXtSf4ycMqkseyoAMI1VBDzLKTeoyJInFZwIcQdM7ZNPHryYRgtsu/pBdOPv040GbLG73cdPlYq0gqIpUX4fxX6SGTJtuUYjv6uyhwroDfi3nXy65A29y2g2vxXeaeYoq13zZ5hfsuPveTYN0B9w/kaRKOwrRyvzqttnfCGrOp2waYvEuPxudF39/GtoMl1zQ/P77gjzv4xxhbAsdhjzkDjJEZtJYnkKsGqx6cPH+M+TIlb9Mx5vg1XO+4+wrWzav/hg9gAXvjjOY4UmniiNa8rWmxuOuzdiyVV8NEZNsrD5UfUUA==
+ b=fkUuwR4++Yi+pzpB191hN7E9xehMP3/KBIuw8Pg5aWpovDHbnbeTh0FIjkmz3w1slTuA5xnq8H3ijtFwwZjuD33g1H0pXgF2yb+LbTftPYnytjNINkcTEl+iZqrouva7FBBHjbAwDWdmzyGAgUY/+MV0j7UjdHMdnUPxDRlLsG18QogMdXYYAPS6QbgfHgaz6WJVKkHHlkXVEtmIvvI11e3T4GTyJ+3vgE+a0kYCGPiZ+hjiMldWNNEk0NJPu1Izcp/ygONoCbeIkF9YYSjw8Aaa6FtjVAAacyj5sCKoZby3aZMjB/uFzlS26zwljqgs1YUlOdhsNW6shaWgL8tcAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VEUcVvT8Lw3DqzEreEtA4a5wMCTNnPpvL10ZLBJYeWk=;
- b=SiJK2p3Xl6NRb8YCCGckKqqRN/k2yCTEUCXvkwUtu8nIbvYaHTcsZYLwAkWqyheyRrTdU0VCGCXxDJHJm2s+fwHisUvLvJ5jb4MkEIpdxAxlDjF0nhktWeXYSgYTcgDXHT3QrXkYAv/sNiTZWitTf51NWhubLzQBlQMqE/vCuixrJF8RbdaexL7PfVpUKPF2s5vTOu2ZuebMb6gNPAbdhtTRM0whO4h8OrTlmoqMzZ/hbquzRKbypsOSEcM7OgxfxSVVylThU/E+i//2oeAI5nFaDGMaV0QnyS/Lhmzk3swLghul66UPPkUC5WxTJaBjxE2OgRQLn+xA8JFgPb2CIA==
+ bh=Yq8xuOhk5d5JLQAxmxNgkhhkjs/y4dVC0KUNG14nYtU=;
+ b=mAw+eTHfLnq7zicAWWbGrI0X0HUVjBDNw72Ef3dT1MuhtlD02CTznL3OAcIewTrXYYVfJ6oa9MiOPU/qc8y7HMBSzPgo/KDTyeXknN9ZVw0yGZZgPjhW233gbp/tFMhy1yzj+FcVHILSGN+Ts17QjUpBO54KPBMbDqrYPM9PQHTmjER56u1Pe6sWqofgWFoHVt8TC8w799ED/CN8wbTyWKwlCSMubVrhJbBZt493kWWhVm1KRXWnX01WADqaHfyybDpqPH7e/cAqqcEoU7h/Fik7GTmLRkG7iWxyUqgCneslWpRxUITfTnaojZ5C8i6hJhQG9xVVN6HwpQ5VItAkog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VEUcVvT8Lw3DqzEreEtA4a5wMCTNnPpvL10ZLBJYeWk=;
- b=uyQFsVB5ZVvhYXBMNNW5m/9BK+OWD4daGfHKc7+KZLuErINvY0codbQuYNk8HM6j/x4vkOGaAkjmC4J5cCG2rs3fLZ65fUPB5uG3ENUoybgOm9ShX7TQC67fhxlji7ZZOQojH05bysp0ebnPbiB/CkWwYL4ijAYGgH68Qi02HOk=
+ bh=Yq8xuOhk5d5JLQAxmxNgkhhkjs/y4dVC0KUNG14nYtU=;
+ b=HYxw5LRS9XXTpsAH3NgRn45Sk78TDZ4EoxvwVYNQEca/U90YJfQBFe7lKGnptzJtQwYVQ/CZwFheT07NjRiK4byX/WGgfNBQtp0zN+okt/ZtTeHNk91dNfdLUwpGmwv0AVVI2M62XoLrfIc5BKrX3m1RXvqCSN+c6SsoYKSIA74=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM5PR0801MB1905.eurprd08.prod.outlook.com (2603:10a6:203:43::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Fri, 18 Sep
- 2020 18:20:15 +0000
+ 2020 18:20:16 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.019; Fri, 18 Sep 2020
- 18:20:15 +0000
+ 18:20:16 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, armbru@redhat.com,
  eblake@redhat.com, fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, den@openvz.org
-Subject: [PATCH v6 11/15] iotests: add 298 to test new preallocate filter
- driver
-Date: Fri, 18 Sep 2020 21:19:47 +0300
-Message-Id: <20200918181951.21752-12-vsementsov@virtuozzo.com>
+Subject: [PATCH v6 12/15] scripts/simplebench: support iops
+Date: Fri, 18 Sep 2020 21:19:48 +0300
+Message-Id: <20200918181951.21752-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200918181951.21752-1-vsementsov@virtuozzo.com>
 References: <20200918181951.21752-1-vsementsov@virtuozzo.com>
@@ -70,41 +69,42 @@ Received: from kvm.sw.ru (185.215.60.106) by
 X-Mailer: git-send-email 2.21.3
 X-Originating-IP: [185.215.60.106]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 106c410d-2e5f-4f89-0e71-08d85bff7dac
+X-MS-Office365-Filtering-Correlation-Id: 881f40e8-eccc-4667-a586-08d85bff7e39
 X-MS-TrafficTypeDiagnostic: AM5PR0801MB1905:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB190525104D03462ADE47A228C13F0@AM5PR0801MB1905.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB190554191DB5199AFB3E403AC13F0@AM5PR0801MB1905.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PMmnC78hbcJx0YOaRZWUe/vyeIKwpJJAJ2IgKbcpjQxLO9S3/8OcqbDX9AE2NdoOCkOk0DltOA+UKmQ4h5mkh+bQbiY+9NHbV/0fBMlWE10y6Css4W4uNsP9D3ddevWtOS1rspxvMxjp0fo3yRYJvPPoX6ZWISIi+U0PAta5PlQ/GG3yqXwJGSK7ydh5dmLk03uUvkXZuT9OqMrIAFr8pekxPIYbrA2JA0vRLjFhhu3+H6ER1kr0JYNx+i7puLu/LZ2TazIO/+JA3w9F/MMwkfB5l24OhmArum4pN7u13qeRR+vD8L57y0sWkP7IgNHCj7COauejWcABvyzPLBGzha54fzRSVmvfKNKvSHzQ61VF/Yk9k9TJffKbtZh8TX9zqLx9m2fpE3RLh2Sr+5FGzl2SKAxacALH0S1z1X/wEE3epbf2gh+xHWFY5NdWEaNZrEmeB+IzQQtsLy0CTTxGiP3fgQwmCoqH9I6myDAFsnxOZwGRBKGbAi8+FwJuspkA
+X-Microsoft-Antispam-Message-Info: B4GA0XiDkEW0+9ilVlb1TxTnP4C1ITL287QIbeU74CR1h3MfUhAb39n7/khHWfM08zDiotO1hpXf/Wo59ZmwcUg6w7JTJz+bBq8C2K2KAyp9XT9h41hFkOitjChfmnbZIoVLE4v2r49qeTVTWwx3X8Xef3JqF6i/eZ2FboVs78bZizoKJ2HtZKxjCvTy4+5A7Q+CWxVAIZ50PKeMzXZRZ1E7/BUTFceFwLXFVkCeyTH+OXrt9xgNyuv6KHc8YGDlLzyNpZsicrNy7O2gBF1nbgdZZFdwR9ipAIM/fiWK9XyHZXqK4ve5I8re8fy7Ua5DeSo6l+NwS8llbpEWyy6k+fUNUDGRG10q7AhhLQfitVjliQW5ySHI1Dp0Q/JsKoOG
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(376002)(366004)(136003)(346002)(66556008)(8936002)(66946007)(66476007)(107886003)(6506007)(2616005)(5660300002)(2906002)(83380400001)(6486002)(956004)(6666004)(1076003)(186003)(8676002)(52116002)(4326008)(316002)(86362001)(6916009)(478600001)(26005)(36756003)(16526019)(6512007)(2004002);
+ SFS:(4636009)(39840400004)(396003)(376002)(366004)(136003)(346002)(66556008)(8936002)(66946007)(66476007)(107886003)(6506007)(2616005)(5660300002)(2906002)(83380400001)(6486002)(956004)(6666004)(1076003)(186003)(8676002)(52116002)(4326008)(316002)(86362001)(6916009)(478600001)(26005)(36756003)(16526019)(6512007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: AVs5xOTIso66JM4bhs5hfXlxnLCKSTa/6sXEk7JoaM8kCrB7FfmR/cQISw6qQumZGHdzpQRiCHKl+v73R2ZydD51u9Q3Gmft52A/bRwGIPP49xTYAKuz/tgHXu7RI0Z4dVRMrs3lRIC0uswZiXfMC2/qnPGLD4hl+xVXuYQLqp+OGQlepeXsBc22E0A/o2v5kdUSkRacSrwelxu/LdxsjjyDvFFhx1pDEMaPFM6WGiMxLKc4wAyTdyKoeY6eLguYUfe8KbeU61p2T1NenENR5WcAc5wLX2QcO/3jPymsC4HCHtI7sA6AJBQSgPiHEAaBJnJT5z9CxFoa2u5Cy5Mo13ItjrcOIhKjdP5CF531YA65j3Ga2EdHoWd2H2aXH83WQAYC9Wjji7cEZMMGka9zCFIooWhujL8jdzAgtZrOlQDRGmhKcUt4XkfjzHHFDUNXUPur0LBsc7FPQVmIPxXtEqbqaJQ6WoKtDCvXpQdTrry88gxi2HnFi65eIJO1GTBRlslctN1ymGtJc8b3MwqNUFaf9qR301sk18KfVZdbNkzFSNk9Y8g5NQR6U1iPVJcZUOoAfA483qMzh+4N1DQgXMfAzmrQjqZd35N6EGoOB4G5NX5NfuN5n2hiOjNGN8jH/IRIg+LwyxzPZdwkLNtfHg==
+X-MS-Exchange-AntiSpam-MessageData: X4cd2fCU0J5bY40Y3xjlLkSKGwQx/wFEp041skomOsRW9xxHaq+CPmZ5sk5JXtgBwN4qokadqsP1MOX9zY7vlHHK61ZXbYn3Y+0V4n4nmwdt2878j20CRFAUoP9dX3wAQJt6xlyRPIbgsEFhnDedwg3aEamUTsSHpAXo2jOd8pN7+WA5d/SgPypsejoKOjxK5qIQ+IRcDOTOLdyiydMUEX0kEsMqfryYXCgjLjgj+lsDpZs5Hsqp8rxgsWpqtLwXPYsxb0duY4XABrg985V+FHfUGw+BO+KaqKnBZbIqXjzmh0YUP5TxA7jIcLuvGW0mMrFurgq+uy7Ez6RLWHEpX13H9mf175Fs2udfR2fjsbEVjGsTJgf5XTOO5P6NtXQkVh1D5oCeQLBGQ/mmSTeUn8nOiyPYMDl6WZotQPx9QSl8PsNa6ZYHVmdy9kuyyKx4A/j2n+Kg0n5KmRjAqXM88EG2RYT8vK6FZ5NATbcfiEKCXX61fDJZEfQBV50JVKzifjqePLPV/VRQb3oLW1uI6ioCSUkvG53c3QLXVYHjpDVZYhDCu1uydHjOolC8f7YZMmj+FBn3PaAwohkW+X+XM3FhGRSBRktyG38y46aRwKTTmuszM4o1uCn08TtqM2THTG1UOwQ6Rnp3OqEcYlMnkg==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 106c410d-2e5f-4f89-0e71-08d85bff7dac
+X-MS-Exchange-CrossTenant-Network-Message-Id: 881f40e8-eccc-4667-a586-08d85bff7e39
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 18:20:15.8172 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 18:20:16.9024 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UWmV0Iy/O9SODdzS3I/IjYBypvlDE1hlTQiisyArrHG5cI1jRa8LWxMxR9zQWyIewmMxQ+Jxi0D8FMJyKvcWUAv7av4iliQmrYcPFpFRwYc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6GKvOacYWZwta1/hZwsNEmhzfR2dmGSZKov/0NMjFk2DDXZhSE7oGRqaWIC7/mALioyIB1bPEIfRkL7lH4cZ1TAaOXZl52+LkkDiEKBwjaI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1905
-Received-SPF: pass client-ip=40.107.4.122;
+Received-SPF: pass client-ip=40.107.4.118;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 14:20:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 14:20:23
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,230 +120,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Support benchmarks returning not seconds but iops. We'll use it for
+further new test.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/298     | 186 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/298.out |   5 +
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 192 insertions(+)
- create mode 100644 tests/qemu-iotests/298
- create mode 100644 tests/qemu-iotests/298.out
+ scripts/simplebench/simplebench.py | 35 +++++++++++++++++++++++-------
+ 1 file changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
-new file mode 100644
-index 0000000000..fef10f6a7a
---- /dev/null
-+++ b/tests/qemu-iotests/298
-@@ -0,0 +1,186 @@
-+#!/usr/bin/env python3
-+#
-+# Test for preallocate filter
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+
-+MiB = 1024 * 1024
-+disk = os.path.join(iotests.test_dir, 'disk')
-+overlay = os.path.join(iotests.test_dir, 'overlay')
-+refdisk = os.path.join(iotests.test_dir, 'refdisk')
-+drive_opts = f'node-name=disk,driver={iotests.imgfmt},' \
-+    f'file.node-name=filter,file.driver=preallocate,' \
-+    f'file.file.node-name=file,file.file.filename={disk}'
-+
-+
-+class TestPreallocateBase(iotests.QMPTestCase):
-+    def setUp(self):
-+        iotests.qemu_img_create('-f', iotests.imgfmt, disk, str(10 * MiB))
-+
-+    def tearDown(self):
-+        try:
-+            self.check_small()
-+            check = iotests.qemu_img_check(disk)
-+            self.assertFalse('leaks' in check)
-+            self.assertFalse('corruptions' in check)
-+            self.assertEqual(check['check-errors'], 0)
-+        finally:
-+            os.remove(disk)
-+
-+    def check_big(self):
-+        self.assertTrue(os.path.getsize(disk) > 100 * MiB)
-+
-+    def check_small(self):
-+        self.assertTrue(os.path.getsize(disk) < 10 * MiB)
-+
-+
-+class TestQemuImg(TestPreallocateBase):
-+    def test_qemu_img(self):
-+        p = iotests.QemuIoInteractive('--image-opts', drive_opts)
-+
-+        p.cmd('write 0 1M')
-+        p.cmd('flush')
-+
-+        self.check_big()
-+
-+        p.close()
-+
-+
-+class TestPreallocateFilter(TestPreallocateBase):
-+    def setUp(self):
-+        super().setUp()
-+        self.vm = iotests.VM().add_drive(path=None, opts=drive_opts)
-+        self.vm.launch()
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        super().tearDown()
-+
-+    def test_prealloc(self):
-+        self.vm.hmp_qemu_io('drive0', 'write 0 1M')
-+        self.check_big()
-+
-+    def test_external_snapshot(self):
-+        self.test_prealloc()
-+
-+        result = self.vm.qmp('blockdev-snapshot-sync', node_name='disk',
-+                             snapshot_file=overlay,
-+                             snapshot_node_name='overlay')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # on reopen to  r-o base preallocation should be dropped
-+        self.check_small()
-+
-+        self.vm.hmp_qemu_io('drive0', 'write 1M 1M')
-+
-+        result = self.vm.qmp('block-commit', device='overlay')
-+        self.assert_qmp(result, 'return', {})
-+        self.complete_and_wait()
-+
-+        # commit of new megabyte should trigger preallocation
-+        self.check_big()
-+
-+    def test_reopen_opts(self):
-+        result = self.vm.qmp('x-blockdev-reopen', **{
-+            'node-name': 'disk',
-+            'driver': iotests.imgfmt,
-+            'file': {
-+                'node-name': 'filter',
-+                'driver': 'preallocate',
-+                'prealloc-size': 20 * MiB,
-+                'prealloc-align': 5 * MiB,
-+                'file': {
-+                    'node-name': 'file',
-+                    'driver': 'file',
-+                    'filename': disk
-+                }
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.vm.hmp_qemu_io('drive0', 'write 0 1M')
-+        self.assertTrue(os.path.getsize(disk) == 25 * MiB)
-+
-+
-+class TestTruncate(iotests.QMPTestCase):
-+    def setUp(self):
-+        iotests.qemu_img_create('-f', iotests.imgfmt, disk, str(10 * MiB))
-+        iotests.qemu_img_create('-f', iotests.imgfmt, refdisk, str(10 * MiB))
-+
-+    def tearDown(self):
-+        os.remove(disk)
-+        os.remove(refdisk)
-+
-+    def do_test(self, prealloc_mode, new_size):
-+        ret = iotests.qemu_io_silent('--image-opts', '-c', 'write 0 10M', '-c',
-+                                     f'truncate -m {prealloc_mode} {new_size}',
-+                                     drive_opts)
-+        self.assertEqual(ret, 0)
-+
-+        ret = iotests.qemu_io_silent('-f', iotests.imgfmt, '-c', 'write 0 10M',
-+                                     '-c',
-+                                     f'truncate -m {prealloc_mode} {new_size}',
-+                                     refdisk)
-+        self.assertEqual(ret, 0)
-+
-+        stat = os.stat(disk)
-+        refstat = os.stat(refdisk)
-+
-+        # Probably we'll want preallocate filter to keep align to cluster when
-+        # shrink preallocation, so, ignore small differece
-+        self.assertLess(abs(stat.st_size - refstat.st_size), 64 * 1024)
-+
-+        # Preallocate filter may leak some internal clusters (for example, if
-+        # guest write far over EOF, skipping some clusters - they will remain
-+        # fallocated, preallocate filter don't care about such leaks, it drops
-+        # only trailing preallocation.
-+        self.assertLess(abs(stat.st_blocks - refstat.st_blocks) * 512,
-+                        1024 * 1024)
-+
-+    def test_real_shrink(self):
-+        self.do_test('off', '5M')
-+
-+    def test_truncate_inside_preallocated_area__falloc(self):
-+        self.do_test('falloc', '50M')
-+
-+    def test_truncate_inside_preallocated_area__metadata(self):
-+        self.do_test('metadata', '50M')
-+
-+    def test_truncate_inside_preallocated_area__full(self):
-+        self.do_test('full', '50M')
-+
-+    def test_truncate_inside_preallocated_area__off(self):
-+        self.do_test('off', '50M')
-+
-+    def test_truncate_over_preallocated_area__falloc(self):
-+        self.do_test('falloc', '150M')
-+
-+    def test_truncate_over_preallocated_area__metadata(self):
-+        self.do_test('metadata', '150M')
-+
-+    def test_truncate_over_preallocated_area__full(self):
-+        self.do_test('full', '150M')
-+
-+    def test_truncate_over_preallocated_area__off(self):
-+        self.do_test('off', '150M')
-+
-+
-+if __name__ == '__main__':
-+    iotests.main(supported_fmts=['qcow2'])
-diff --git a/tests/qemu-iotests/298.out b/tests/qemu-iotests/298.out
-new file mode 100644
-index 0000000000..fa16b5ccef
---- /dev/null
-+++ b/tests/qemu-iotests/298.out
-@@ -0,0 +1,5 @@
-+.............
-+----------------------------------------------------------------------
-+Ran 13 tests
-+
-+OK
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index ff59cfd2d4..15d5f9619b 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -307,6 +307,7 @@
- 295 rw
- 296 rw
- 297 meta
-+298 auto quick
- 299 auto quick
- 300 migration
- 301 backing quick
+diff --git a/scripts/simplebench/simplebench.py b/scripts/simplebench/simplebench.py
+index 59e7314ff6..716d7fe9b2 100644
+--- a/scripts/simplebench/simplebench.py
++++ b/scripts/simplebench/simplebench.py
+@@ -24,9 +24,12 @@ def bench_one(test_func, test_env, test_case, count=5, initial_run=True):
+ 
+     test_func   -- benchmarking function with prototype
+                    test_func(env, case), which takes test_env and test_case
+-                   arguments and returns {'seconds': int} (which is benchmark
+-                   result) on success and {'error': str} on error. Returned
+-                   dict may contain any other additional fields.
++                   arguments and on success returns dict with 'seconds' or
++                   'iops' (or both) fields, specifying the benchmark result.
++                   If both 'iops' and 'seconds' provided, the 'iops' is
++                   considered the main, and 'seconds' is just an additional
++                   info. On failure test_func should return {'error': str}.
++                   Returned dict may contain any other additional fields.
+     test_env    -- test environment - opaque first argument for test_func
+     test_case   -- test case - opaque second argument for test_func
+     count       -- how many times to call test_func, to calculate average
+@@ -34,6 +37,7 @@ def bench_one(test_func, test_env, test_case, count=5, initial_run=True):
+ 
+     Returns dict with the following fields:
+         'runs':     list of test_func results
++        'dimension': dimension of results, may be 'seconds' or 'iops'
+         'average':  average seconds per run (exists only if at least one run
+                     succeeded)
+         'delta':    maximum delta between test_func result and the average
+@@ -54,11 +58,20 @@ def bench_one(test_func, test_env, test_case, count=5, initial_run=True):
+ 
+     result = {'runs': runs}
+ 
+-    successed = [r for r in runs if ('seconds' in r)]
++    successed = [r for r in runs if ('seconds' in r or 'iops' in r)]
+     if successed:
+-        avg = sum(r['seconds'] for r in successed) / len(successed)
++        dim = 'iops' if ('iops' in successed[0]) else 'seconds'
++        if 'iops' in successed[0]:
++            assert all('iops' in r for r in successed)
++            dim = 'iops'
++        else:
++            assert all('seconds' in r for r in successed)
++            assert all('iops' not in r for r in successed)
++            dim = 'seconds'
++        avg = sum(r[dim] for r in successed) / len(successed)
++        result['dimension'] = dim
+         result['average'] = avg
+-        result['delta'] = max(abs(r['seconds'] - avg) for r in successed)
++        result['delta'] = max(abs(r[dim] - avg) for r in successed)
+ 
+     if len(successed) < count:
+         result['n-failed'] = count - len(successed)
+@@ -118,11 +131,17 @@ def ascii(results):
+     """Return ASCII representation of bench() returned dict."""
+     from tabulate import tabulate
+ 
++    dim = None
+     tab = [[""] + [c['id'] for c in results['envs']]]
+     for case in results['cases']:
+         row = [case['id']]
+         for env in results['envs']:
+-            row.append(ascii_one(results['tab'][case['id']][env['id']]))
++            res = results['tab'][case['id']][env['id']]
++            if dim is None:
++                dim = res['dimension']
++            else:
++                assert dim == res['dimension']
++            row.append(ascii_one(res))
+         tab.append(row)
+ 
+-    return tabulate(tab)
++    return f'All results are in {dim}\n\n' + tabulate(tab)
 -- 
 2.21.3
 
