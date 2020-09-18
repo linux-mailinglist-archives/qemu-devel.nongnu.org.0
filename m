@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718092705C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 21:42:55 +0200 (CEST)
-Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A162705EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:03:34 +0200 (CEST)
+Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJMHW-00011o-Hx
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 15:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56930)
+	id 1kJMbV-0002Ij-BG
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJLuZ-0001CO-5e
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:19:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43982
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kJLuX-0003Uq-7v
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 15:19:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600456747;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yHifekctAkQUw0C78X6fF5aZ8jpanmBPsUw9doBQVOU=;
- b=MQ5FC6iFo0gfKgU3/BAVVVM5laYPyJ0F7fH7b4vaXfRK1pZ3plzFE2J2gcx+VAus1B35Lt
- hoNi2/1OrAYMgkB6YsDeawX55Wfu1ArnaSScy97Rz41iisSh7lO/dnLvgEZq6G/82Bo3li
- 4Y/SABhS6z3MN/gfyaChg9ilMvfTVHs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-WfBDlqpwOvylgKXj6jVQsA-1; Fri, 18 Sep 2020 15:19:06 -0400
-X-MC-Unique: WfBDlqpwOvylgKXj6jVQsA-1
-Received: by mail-wm1-f69.google.com with SMTP id w3so2419532wmg.4
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 12:19:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yHifekctAkQUw0C78X6fF5aZ8jpanmBPsUw9doBQVOU=;
- b=U2RZVBIoEkfn0QEIGpfDcjsdBfRJAfLhFfRqdK7dkXNmZEpYlJqSgS36Rb+tJ4lSDk
- npPNIUlkwfOCDeGG95ZRFrQNLLWwtfoxV4ImnslAmFX6l91MKVTiliKx8gbgZ/L+hQJs
- LnGniUS/S3H0Cur03hVxWgaiA56BDjc+XX+upeIQWgGaIRQ+ydxWTKbth4PydMRaPipw
- zaf4zhGFxXI9j4BpRJEGSK9wq051H9rrLIOEItlUZcRMmmBRtlohShAr4ALUopnZ1Y8L
- VgyZbXn1/4DWDpkM5rbFfbbILoBhWO7RYJgMW3OaC7oQs3mO2yJKMqheunJ6UpzKhd7V
- Fsqw==
-X-Gm-Message-State: AOAM532crU5yZRJznAh48GumEQ6x1RSqkaWsEJ2AsB5C0FqlWGdh6DY1
- vuHPtZ7z0Ui6pksU6zq8x5qn3c4cm/cqkhuIHOGj1ervq07rnnyRI73+d6peK1Nf3KxQ1FKIour
- jwyJiMg1QbsZqKBI=
-X-Received: by 2002:a1c:750d:: with SMTP id o13mr17975848wmc.54.1600456744811; 
- Fri, 18 Sep 2020 12:19:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRrSTn7eFHtH1NWxV1xhkYdYmUFNi06C4my9MoYPOXW1vKVq6wWvmnSfT50ziqy54l4QEPtw==
-X-Received: by 2002:a1c:750d:: with SMTP id o13mr17975836wmc.54.1600456744608; 
- Fri, 18 Sep 2020 12:19:04 -0700 (PDT)
-Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id q13sm7602093wra.93.2020.09.18.12.19.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 12:19:03 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] tests/acceptance: Skip slow quanta-gsj U-boot+Linux test
-Date: Fri, 18 Sep 2020 21:18:52 +0200
-Message-Id: <20200918191852.189151-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200918191852.189151-1-philmd@redhat.com>
-References: <20200918191852.189151-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJLJS-000278-P0
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:40:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJLJQ-0007YA-IP
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 14:40:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kJLJN-0002M4-Ny
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 18:40:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9F7102E80EA
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 18:40:45 +0000 (UTC)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 03:47:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 18 Sep 2020 18:35:09 -0000
+From: Paolo Bonzini <1896096@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+ <160044867287.15086.5087795643900307098.malone@gac.canonical.com>
+Message-Id: <CAHFMJ7spmY=YbtYLuVfqQuGfGwQuoqAwquQKUa6TGRCUYESfQA@mail.gmail.com>
+Subject: Re: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: e682900be6a2ea022c1544aa7bd23b32769b5cc7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,48 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Willian Rampazzo <willianr@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+You have to unset LDFLAGS, or remove -pie. Specifying --extra-ldflags is
+useless because Meson already obeys the LDFLAGS environment variable.
 
-The 'arm_quanta_gsj_initrd' test is timeouting on GitLab CI:
-https://gitlab.com/philmd/qemu/-/jobs/745483978#L846
-and also sometimes on my workstation, so proceed as with
-the other slow tests: do not run it by default.
-The test can still be run setting the AVOCADO_TIMEOUT_EXPECTED
-environment variable.
+Il ven 18 set 2020, 19:11 Frederic Bezies <1896096@bugs.launchpad.net> ha
+scritto:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
-Tested-by: Havard Skinnemoen <hskinnemoen@google.com>
-Message-Id: <20200918143355.153522-1-f4bug@amsat.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- tests/acceptance/boot_linux_console.py | 1 +
- 1 file changed, 1 insertion(+)
+> And qemu log build using make -V=3D1.
+>
+> Hope it helps.
+>
+> ** Attachment added: "qemuv1-2.log"
+>
+> https://bugs.launchpad.net/qemu/+bug/1896096/+attachment/5412260/+files/q=
+emuv1-2.log
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1896096
+>
+> Title:
+>   Git version: Build process is broken in block_curl.c.o
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
+>
+>
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 68534693109..0118ed59156 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -572,6 +572,7 @@ def test_arm_cubieboard_sata(self):
-                                                 'sda')
-         # cubieboard's reboot is not functioning; omit reboot test.
- 
-+    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-     def test_arm_quanta_gsj(self):
-         """
-         :avocado: tags=arch:arm
--- 
-2.26.2
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1896096
+
+Title:
+  Git version: Build process is broken in block_curl.c.o
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
+
+  Configure options used:
+
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
+
+  Error log attached. Here is the beginning:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
