@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3D22701AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:11:54 +0200 (CEST)
-Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1777727020E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:26:21 +0200 (CEST)
+Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJIzJ-00039R-9O
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35472)
+	id 1kJJDI-0000vZ-5A
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kJIrP-0001YX-W7
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:03:44 -0400
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:36574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kJIrN-00025n-Hz
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:03:43 -0400
-Received: by mail-ua1-x942.google.com with SMTP id h15so2032403uab.3
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eJavmv98RDqSBNFvj7aK5O8bgkPapC6Wlwlb1ma1DNU=;
- b=vVaNxCPnsb4rR+kbb2Dkh2+2b9g74u79SoP2b9ggL31OBYTwYFrvQBM6clnhEjrMn2
- A7uisB8Cnc2goInSxNeVTvsLsEqCp6JESzUOyqUsbMxLK3EImOnMKPe/nJ0y4Ysjr79b
- CFcPo6SGErW64voTXVYvBqzO2Y+4nSnr4ile8MhORGPUCa+aMTUHLGFFXu+XMAWPRXTO
- 97oKUST2c9oq66eDdO949jf80Tw55KB3cUvr0wzQFBTD2c4k6D8VXrbnEgi64CS7oUas
- zHarJYxsZ5yXkeX5N2aXuS/gcog1iradK8o/H8hoRT2VSYIljnFDKcKddOZrxi/v4SCU
- W+wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eJavmv98RDqSBNFvj7aK5O8bgkPapC6Wlwlb1ma1DNU=;
- b=mz+o0m5MgSoiCWmXFM8sVyS2hVgXM1zuajX0nz++DTnIt5eyAST7qLmaMWtiru7Mw0
- Ox/ExxsvdtEcEKO8kb5vlmeZxozH+2aePfitFoDqYPOyyUp1RCPxTlJlKSYY3Ff+Vnia
- 5MhhADGOuPrDxCXu+Ju8JSNgaBN8iZOhZDNcaG+UK7AW9kVXMxE6ifeSXfh6fq+aBlgf
- hrT9hwK9GYwpc4c4yEjcpdTit9ZT+UVbq3MLbPidnXl/oSiAh7yM1CH2Rq4dyQ/RpmOj
- xKRNUBiSAZjjygG8R2jv2MKlccw8hyEs9wcFGQUOSETtdmdhPEWvLAwFtDGGUCiYpYg+
- rruA==
-X-Gm-Message-State: AOAM532EmGSeEFPuQWeMuWrZYAy586H6Omuzc+CMsl5Eu8L+9ZHdR3bz
- EsTp4+Mhnz4md70OVOizRdsu+/pHnVAKjEvFPV+Lqg==
-X-Google-Smtp-Source: ABdhPJxTXGjua3c8yJRONL9rQrMomxiXYi5dyXFEa+TNEZyQpPKbnECJoZpvlr5zhBiqF1hUK6kKawhGLe9R9g6S9vE=
-X-Received: by 2002:ab0:390:: with SMTP id 16mr19303355uau.12.1600445019152;
- Fri, 18 Sep 2020 09:03:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kJIv1-0006a5-Pc; Fri, 18 Sep 2020 12:07:27 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:49749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kJIuz-0003BR-CN; Fri, 18 Sep 2020 12:07:27 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 720CA6335169;
+ Fri, 18 Sep 2020 18:07:20 +0200 (CEST)
+Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 18 Sep
+ 2020 18:07:19 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001cb4bc9a3-75ad-46a8-b6b4-38e53dc00fde,
+ 26E73787F9CAC9185D3FF732CC8AC9B997D690EB) smtp.auth=groug@kaod.org
+Date: Fri, 18 Sep 2020 18:07:13 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 13/13] block/qed: bdrv_qed_do_open: deal with errp
+Message-ID: <20200918180713.0c09e11d@bahia.lan>
+In-Reply-To: <20200917195519.19589-14-vsementsov@virtuozzo.com>
+References: <20200917195519.19589-1-vsementsov@virtuozzo.com>
+ <20200917195519.19589-14-vsementsov@virtuozzo.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200918143355.153522-1-f4bug@amsat.org>
-In-Reply-To: <20200918143355.153522-1-f4bug@amsat.org>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Fri, 18 Sep 2020 09:03:27 -0700
-Message-ID: <CAFQmdRasDewYnSCO9djseL+koX_cbST-faXUPLXroCTAU+o3wA@mail.gmail.com>
-Subject: Re: [PATCH v2] tests/acceptance: Skip slow quanta-gsj U-boot+Linux
- test
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::942;
- envelope-from=hskinnemoen@google.com; helo=mail-ua1-x942.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 7cc00237-5be0-4f7e-bf57-1a03f1e3a548
+X-Ovh-Tracer-Id: 15796375693385701819
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdelkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepkhifohhlfhesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 11:15:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,47 +69,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, berto@igalia.com, pavel.dovgaluk@ispras.ru,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
+ ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 18, 2020 at 7:33 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> The 'arm_quanta_gsj_initrd' test is timeouting on GitLab CI:
-> https://gitlab.com/philmd/qemu/-/jobs/745483978#L846
-> and also sometimes on my workstation, so proceed as with
-> the other slow tests: do not run it by default.
-> The test can still be run setting the AVOCADO_TIMEOUT_EXPECTED
-> environment variable.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On Thu, 17 Sep 2020 22:55:19 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
 
-Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
-Tested-by: Havard Skinnemoen <hskinnemoen@google.com>
-
-Thanks!
-
+> Set errp always on failure. Generic bdrv_open_driver supports driver
+> functions which can return negative value and forget to set errp.
+> That's a strange thing.. Let's improve bdrv_qed_do_open to not behave
+> this way. This allows to simplify code in
+> bdrv_qed_co_invalidate_cache().
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Alberto Garcia <berto@igalia.com>
 > ---
-> Supersedes: <20200918142344.150749-1-f4bug@amsat.org>
-> ---
->  tests/acceptance/boot_linux_console.py | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index 4a366ce93e4..9b58f6f9003 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -568,6 +568,7 @@ def test_arm_cubieboard_sata(self):
->                                                  'sda')
->          # cubieboard's reboot is not functioning; omit reboot test.
->
-> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
-ut')
->      def test_arm_quanta_gsj(self):
->          """
->          :avocado: tags=3Darch:arm
-> --
-> 2.26.2
->
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  block/qed.c | 24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
+> 
+> diff --git a/block/qed.c b/block/qed.c
+> index b27e7546ca..f45c640513 100644
+> --- a/block/qed.c
+> +++ b/block/qed.c
+> @@ -393,6 +393,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>  
+>      ret = bdrv_pread(bs->file, 0, &le_header, sizeof(le_header));
+>      if (ret < 0) {
+> +        error_setg(errp, "Failed to read QED header");
+>          return ret;
+>      }
+>      qed_header_le_to_cpu(&le_header, &s->header);
+> @@ -408,25 +409,30 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>          return -ENOTSUP;
+>      }
+>      if (!qed_is_cluster_size_valid(s->header.cluster_size)) {
+> +        error_setg(errp, "QED cluster size is invalid");
+>          return -EINVAL;
+>      }
+>  
+>      /* Round down file size to the last cluster */
+>      file_size = bdrv_getlength(bs->file->bs);
+>      if (file_size < 0) {
+> +        error_setg(errp, "Failed to get file length");
+>          return file_size;
+>      }
+>      s->file_size = qed_start_of_cluster(s, file_size);
+>  
+>      if (!qed_is_table_size_valid(s->header.table_size)) {
+> +        error_setg(errp, "QED table size is invalid");
+>          return -EINVAL;
+>      }
+>      if (!qed_is_image_size_valid(s->header.image_size,
+>                                   s->header.cluster_size,
+>                                   s->header.table_size)) {
+> +        error_setg(errp, "QED image size is invalid");
+>          return -EINVAL;
+>      }
+>      if (!qed_check_table_offset(s, s->header.l1_table_offset)) {
+> +        error_setg(errp, "QED table offset is invalid");
+>          return -EINVAL;
+>      }
+>  
+> @@ -438,6 +444,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>  
+>      /* Header size calculation must not overflow uint32_t */
+>      if (s->header.header_size > UINT32_MAX / s->header.cluster_size) {
+> +        error_setg(errp, "QED header size is too large");
+>          return -EINVAL;
+>      }
+>  
+> @@ -445,6 +452,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>          if ((uint64_t)s->header.backing_filename_offset +
+>              s->header.backing_filename_size >
+>              s->header.cluster_size * s->header.header_size) {
+> +            error_setg(errp, "QED backing filename offset is invalid");
+>              return -EINVAL;
+>          }
+>  
+> @@ -453,6 +461,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>                                bs->auto_backing_file,
+>                                sizeof(bs->auto_backing_file));
+>          if (ret < 0) {
+> +            error_setg(errp, "Failed to read backing filename");
+>              return ret;
+>          }
+>          pstrcpy(bs->backing_file, sizeof(bs->backing_file),
+> @@ -475,6 +484,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>  
+>          ret = qed_write_header_sync(s);
+>          if (ret) {
+> +            error_setg(errp, "Failed to update header");
+>              return ret;
+>          }
+>  
+> @@ -487,6 +497,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>  
+>      ret = qed_read_l1_table_sync(s);
+>      if (ret) {
+> +        error_setg(errp, "Failed to read L1 table");
+>          goto out;
+>      }
+>  
+> @@ -503,6 +514,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+>  
+>              ret = qed_check(s, &result, true);
+>              if (ret) {
+> +                error_setg(errp, "Image corrupted");
+>                  goto out;
+>              }
+>          }
+> @@ -1537,22 +1549,16 @@ static void coroutine_fn bdrv_qed_co_invalidate_cache(BlockDriverState *bs,
+>                                                        Error **errp)
+>  {
+>      BDRVQEDState *s = bs->opaque;
+> -    Error *local_err = NULL;
+>      int ret;
+>  
+>      bdrv_qed_close(bs);
+>  
+>      bdrv_qed_init_state(bs);
+>      qemu_co_mutex_lock(&s->table_lock);
+> -    ret = bdrv_qed_do_open(bs, NULL, bs->open_flags, &local_err);
+> +    ret = bdrv_qed_do_open(bs, NULL, bs->open_flags, errp);
+>      qemu_co_mutex_unlock(&s->table_lock);
+> -    if (local_err) {
+> -        error_propagate_prepend(errp, local_err,
+> -                                "Could not reopen qed layer: ");
+> -        return;
+> -    } else if (ret < 0) {
+> -        error_setg_errno(errp, -ret, "Could not reopen qed layer");
+> -        return;
+> +    if (ret < 0) {
+> +        error_prepend(errp, "Could not reopen qed layer: ");
+>      }
+>  }
+>  
+
 
