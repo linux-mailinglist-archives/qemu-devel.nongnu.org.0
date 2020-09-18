@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C6027021C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:30:00 +0200 (CEST)
-Received: from localhost ([::1]:38810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53652701C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:14:39 +0200 (CEST)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJGp-0004XV-DE
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:29:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37120)
+	id 1kJJ1y-0007Ly-L1
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kJIwr-0000iq-IC; Fri, 18 Sep 2020 12:09:21 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:37419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kJIwp-0003QG-LP; Fri, 18 Sep 2020 12:09:21 -0400
-Received: by mail-lj1-x244.google.com with SMTP id n25so5548393ljj.4;
- Fri, 18 Sep 2020 09:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=rsYfhxRLSpWgsr9CzxyA1x6Nm0my2NfvcK+oJ7qbYu0=;
- b=Ig1fXr4sgKcpbiaZM63NnhbETvUFl7TBGD6R/SVliIe0lpsdNZ5EELEnJrxl/LWeb8
- mr9trAoVds30HYy3G2pi1kHPAxPzB1SET0g19nD/TBgIWSiM0aC49T/t3QETkCBqJe9L
- 7eWAwuJAIS9wXLJ3hvfd8YYp1ccz+oEmMk0ZVtInltDN2bfFOuE2rLAph2blc/Whic7I
- gdmDPYGq3/pFknmmXGC4RO9cbeTiQEgE3wfP7JFd0XRx7uEqj9uPhmWItreIyorlfB+t
- 3VGNRRPUGA7wvHMKyurEnKavQX1ITTAc/TqjzQ9S3PUuoSk7cef2e+iwoVpUXyc7HOkK
- i76A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=rsYfhxRLSpWgsr9CzxyA1x6Nm0my2NfvcK+oJ7qbYu0=;
- b=Ot9bkbMdjb0bhEf8m4H9588j4XgnBFfR54Xw+SD2PYn1odOnlEFzT5yKCFrbureG/R
- 5kOjsA6jHqbvTtox11FkybJY6nwWsiy1Je61NXkHEnAKXak0lqCj+bgb7NyxmXWu5EZy
- ZR/rnLb1Da4on8me11ZC+fx5eJmw2APSTkRdvaas1Gq1NhfC9yeRXnNrdY1hh7C57iDu
- boHMiagFNj2y0BAop4jIZJ4IYqQA+eZVCQoLNApjncDzoTUpx/JhNZ7dXQ+gy6pLsZdd
- mRI+at3KBlVAGx2Ru/e097eu/3/KcU3nWXBxCF/4YVoWhS5HnWcACZ9mU17Dv77ByqS8
- TLig==
-X-Gm-Message-State: AOAM533FxEqAjo/8/R4j4P2sZG+d1faq/FI2HgabASSSC8xnCmfPPwlS
- wmEk5wxyE9IIsQQuJLwCgFAsLEmnC1Am/RkukAnaWBR7cx4=
-X-Google-Smtp-Source: ABdhPJwLZTU6bbC9V63Dp8YpdJU5BzcMP3LddfyrFnOW1QVdYlT08xREnnltcHcoSXqnJseoisqzKfNgaT46E2J8yUQ=
-X-Received: by 2002:a2e:89d6:: with SMTP id c22mr12825907ljk.242.1600445356240; 
- Fri, 18 Sep 2020 09:09:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kJIxb-0002FC-2K; Fri, 18 Sep 2020 12:10:07 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:42899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kJIxZ-0003YT-1B; Fri, 18 Sep 2020 12:10:06 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.134])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id EFED96335409;
+ Fri, 18 Sep 2020 18:10:02 +0200 (CEST)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 18 Sep
+ 2020 18:10:01 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002bbabef1d-fea4-4575-99ea-73d655b18d28,
+ 26E73787F9CAC9185D3FF732CC8AC9B997D690EB) smtp.auth=groug@kaod.org
+Date: Fri, 18 Sep 2020 18:10:00 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 12/13] block/qcow2: simplify qcow2_co_invalidate_cache()
+Message-ID: <20200918181000.415d0016@bahia.lan>
+In-Reply-To: <a009147d-bc03-9549-3d95-1b58ea830099@virtuozzo.com>
+References: <20200917195519.19589-1-vsementsov@virtuozzo.com>
+ <20200917195519.19589-13-vsementsov@virtuozzo.com>
+ <20200918173006.5f49cb06@bahia.lan>
+ <w51k0wr2id9.fsf@maestria.local.igalia.com>
+ <a009147d-bc03-9549-3d95-1b58ea830099@virtuozzo.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200918144512.978-1-luoyonggang@gmail.com>
-In-Reply-To: <20200918144512.978-1-luoyonggang@gmail.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Sat, 19 Sep 2020 00:09:04 +0800
-Message-ID: <CAE2XoE-GoYSFWjaprHH_y__=u0mhp+hK2CaPrOQ=ApWELewCKQ@mail.gmail.com>
-Subject: Re: [PATCH] configure: fixes indent of $meson setup
-To: qemu-level <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000f0f45605af98b861"
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 92770f74-68a3-4bff-9997-bb18f1955ee9
+X-Ovh-Tracer-Id: 15841974643345889723
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepkhifohhlfhesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 11:15:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,104 +72,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, Alberto Garcia <berto@igalia.com>,
+ pavel.dovgaluk@ispras.ru, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
+ jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f0f45605af98b861
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 18 Sep 2020 19:01:34 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
 
-Hi Bonzini, please queue this
+> 18.09.2020 18:51, Alberto Garcia wrote:
+> > On Fri 18 Sep 2020 05:30:06 PM CEST, Greg Kurz wrote:
+> >>> qcow2_do_open correctly sets errp on each failure path. So, we can
+> >>> simplify code in qcow2_co_invalidate_cache() and drop explicit error
+> >>> propagation. We should use ERRP_GUARD() (accordingly to comment in
+> >>> include/qapi/error.h) together with error_append() call which we add to
+> >>> avoid problems with error_fatal.
+> >>>
+> >>
+> >> The wording gives the impression that we add error_append() to avoid problems
+> >> with error_fatal which is certainly not true. Also it isn't _append() but
+> >> _prepend() :)
+> >>
+> >> What about ?
+> >>
+> >> "Add ERRP_GUARD() as mandated by the documentation in include/qapi/error.h
+> >>   to avoid problems with the error_prepend() call if errp is
+> >>   &error_fatal."
+> 
+> OK for me.
+> 
+> > 
+> > I had to go to the individual error functions to see what "it doesn't
+> > work with &error_fatal" actually means.
+> > 
+> > So in a case like qcow2_do_open() which has:
+> > 
+> >     error_setg(errp, ...)
+> >     error_append_hint(errp, ...)
+> > 
+> > As far as I can see this works just fine without ERRP_GUARD() and with
+> > error_fatal, the difference is that if we don't use the guard then the
+> > process exists during error_setg(), and if we use the guard it exists
+> > during the implicit error_propagate() call triggered by its destruction
+> > at the end of the function. In this latter case the printed error
+> > message would include the hint.
+> > 
+> 
+> Yes the only problem is that without ERRP_GUARD we lose the hint in case of error_fatal.
+> 
 
-On Fri, Sep 18, 2020 at 10:45 PM Yonggang Luo <luoyonggang@gmail.com> wrote=
-:
->
-> convert these line from tab to space
->
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> ---
->  configure | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/configure b/configure
-> index 3757e48b17..422b1ef2a3 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7850,10 +7850,10 @@ NINJA=3D${ninja:-$PWD/ninjatool} $meson setup \
->          -Dstrip=3D$(if test "$strip_opt" =3D yes; then echo true; else e=
-cho
-false; fi) \
->          -Db_pie=3D$(if test "$pie" =3D yes; then echo true; else echo fa=
-lse;
-fi) \
->          -Db_coverage=3D$(if test "$gcov" =3D yes; then echo true; else e=
-cho
-false; fi) \
-> -       -Dmalloc=3D$malloc -Dmalloc_trim=3D$malloc_trim \
-> -       -Dcocoa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsdl_image=3D$sdl=
-_image \
-> -       -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg
--Dvnc_png=3D$vnc_png \
-> -       -Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f\
-> +        -Dmalloc=3D$malloc -Dmalloc_trim=3D$malloc_trim \
-> +        -Dcocoa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsdl_image=3D$sd=
-l_image \
-> +        -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg
--Dvnc_png=3D$vnc_png \
-> +        -Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f \
->          $cross_arg \
->          "$PWD" "$source_path"
->
-> --
-> 2.28.0.windows.1
->
+Yeah, so rather:
 
+"Add ERRP_GUARD() as mandated by the documentation in include/qapi/error.h
+ so that error_prepend() is actually called even if errp is &error_fatal."
+
+Cheers,
 
 --
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---000000000000f0f45605af98b861
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Bonzini, please queue this<br><br>On Fri, Sep 18, 2020 =
-at 10:45 PM Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyo=
-nggang@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; convert these line from tab=
- to space<br>&gt;<br>&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto=
-:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt;<br>&gt; ---<br>&gt; =
-=C2=A0configure | 8 ++++----<br>&gt; =C2=A01 file changed, 4 insertions(+),=
- 4 deletions(-)<br>&gt;<br>&gt; diff --git a/configure b/configure<br>&gt; =
-index 3757e48b17..422b1ef2a3 100755<br>&gt; --- a/configure<br>&gt; +++ b/c=
-onfigure<br>&gt; @@ -7850,10 +7850,10 @@ NINJA=3D${ninja:-$PWD/ninjatool} $=
-meson setup \<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dstrip=3D$(if test=
- &quot;$strip_opt&quot; =3D yes; then echo true; else echo false; fi) \<br>=
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Db_pie=3D$(if test &quot;$pie&quot;=
- =3D yes; then echo true; else echo false; fi) \<br>&gt; =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0-Db_coverage=3D$(if test &quot;$gcov&quot; =3D yes; then e=
-cho true; else echo false; fi) \<br>&gt; - =C2=A0 =C2=A0 =C2=A0 -Dmalloc=3D=
-$malloc -Dmalloc_trim=3D$malloc_trim \<br>&gt; - =C2=A0 =C2=A0 =C2=A0 -Dcoc=
-oa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsdl_image=3D$sdl_image \<br>&gt=
-; - =C2=A0 =C2=A0 =C2=A0 -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$=
-vnc_jpeg -Dvnc_png=3D$vnc_png \<br>&gt; - =C2=A0 =C2=A0 =C2=A0 -Dgettext=3D=
-$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f\<br>&gt; + =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-Dmalloc=3D$malloc -Dmalloc_trim=3D$malloc_trim \<br>&gt; + =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-Dcocoa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsd=
-l_image=3D$sdl_image \<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dvnc=3D$vnc -D=
-vnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg -Dvnc_png=3D$vnc_png \<br>&gt; =
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon =
--Du2f=3D$u2f \<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$cross_arg \<br>&g=
-t; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;$PWD&quot; &quot;$source_path&qu=
-ot;<br>&gt;<br>&gt; --<br>&gt; 2.28.0.windows.1<br>&gt;<br><br><br>--<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=
-=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<=
-/div>
-
---000000000000f0f45605af98b861--
+Greg
 
