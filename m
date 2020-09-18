@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338312701AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:12:05 +0200 (CEST)
-Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C6027021C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:30:00 +0200 (CEST)
+Received: from localhost ([::1]:38810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJIzU-0003WF-6J
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36976)
+	id 1kJJGp-0004XV-DE
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kJIw5-0007tg-Lt
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:08:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54267
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kJIw2-0003Kf-Be
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:08:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600445306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AuYzfdBFpM1V6hSqSRCoz4SfLrz9QXsx43xxOag+H5I=;
- b=AO6/RpU81viztuhBqwgALuu1KW+AAqJVAn9OIVaw+wN2RcQdQsgbPuhz8ck26HmywEd9KC
- ersUs4cLw65S/8SHdVU/Ack35OigPDOeBywDGjv+yXWk+Gq3JSK0mbh01YOYmaGow1DNN8
- 3Y/uNl7uGvdSkbDTNXSlAJ1iVHpuqxI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-PiWpYaFMNEGX6UKGgxzMBQ-1; Fri, 18 Sep 2020 12:08:22 -0400
-X-MC-Unique: PiWpYaFMNEGX6UKGgxzMBQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6120E807354;
- Fri, 18 Sep 2020 16:08:20 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3C2060BEC;
- Fri, 18 Sep 2020 16:08:19 +0000 (UTC)
-Subject: Re: [PATCH 09/37] qapi/common.py: Add indent manager
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-10-jsnow@redhat.com>
- <87k0wtiwlb.fsf@dusky.pond.sub.org>
- <37ea889c-746e-bea9-a719-6bee9e86f1a8@redhat.com>
- <87v9gcesh8.fsf@dusky.pond.sub.org>
- <301fb683-9b57-d355-3b08-776ab4869975@redhat.com>
- <87363fjqv6.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <084495dc-dfb3-084d-ff83-cdfb90cd61f4@redhat.com>
-Date: Fri, 18 Sep 2020 12:08:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJIwr-0000iq-IC; Fri, 18 Sep 2020 12:09:21 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:37419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJIwp-0003QG-LP; Fri, 18 Sep 2020 12:09:21 -0400
+Received: by mail-lj1-x244.google.com with SMTP id n25so5548393ljj.4;
+ Fri, 18 Sep 2020 09:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=rsYfhxRLSpWgsr9CzxyA1x6Nm0my2NfvcK+oJ7qbYu0=;
+ b=Ig1fXr4sgKcpbiaZM63NnhbETvUFl7TBGD6R/SVliIe0lpsdNZ5EELEnJrxl/LWeb8
+ mr9trAoVds30HYy3G2pi1kHPAxPzB1SET0g19nD/TBgIWSiM0aC49T/t3QETkCBqJe9L
+ 7eWAwuJAIS9wXLJ3hvfd8YYp1ccz+oEmMk0ZVtInltDN2bfFOuE2rLAph2blc/Whic7I
+ gdmDPYGq3/pFknmmXGC4RO9cbeTiQEgE3wfP7JFd0XRx7uEqj9uPhmWItreIyorlfB+t
+ 3VGNRRPUGA7wvHMKyurEnKavQX1ITTAc/TqjzQ9S3PUuoSk7cef2e+iwoVpUXyc7HOkK
+ i76A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=rsYfhxRLSpWgsr9CzxyA1x6Nm0my2NfvcK+oJ7qbYu0=;
+ b=Ot9bkbMdjb0bhEf8m4H9588j4XgnBFfR54Xw+SD2PYn1odOnlEFzT5yKCFrbureG/R
+ 5kOjsA6jHqbvTtox11FkybJY6nwWsiy1Je61NXkHEnAKXak0lqCj+bgb7NyxmXWu5EZy
+ ZR/rnLb1Da4on8me11ZC+fx5eJmw2APSTkRdvaas1Gq1NhfC9yeRXnNrdY1hh7C57iDu
+ boHMiagFNj2y0BAop4jIZJ4IYqQA+eZVCQoLNApjncDzoTUpx/JhNZ7dXQ+gy6pLsZdd
+ mRI+at3KBlVAGx2Ru/e097eu/3/KcU3nWXBxCF/4YVoWhS5HnWcACZ9mU17Dv77ByqS8
+ TLig==
+X-Gm-Message-State: AOAM533FxEqAjo/8/R4j4P2sZG+d1faq/FI2HgabASSSC8xnCmfPPwlS
+ wmEk5wxyE9IIsQQuJLwCgFAsLEmnC1Am/RkukAnaWBR7cx4=
+X-Google-Smtp-Source: ABdhPJwLZTU6bbC9V63Dp8YpdJU5BzcMP3LddfyrFnOW1QVdYlT08xREnnltcHcoSXqnJseoisqzKfNgaT46E2J8yUQ=
+X-Received: by 2002:a2e:89d6:: with SMTP id c22mr12825907ljk.242.1600445356240; 
+ Fri, 18 Sep 2020 09:09:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87363fjqv6.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 08:09:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200918144512.978-1-luoyonggang@gmail.com>
+In-Reply-To: <20200918144512.978-1-luoyonggang@gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Sat, 19 Sep 2020 00:09:04 +0800
+Message-ID: <CAE2XoE-GoYSFWjaprHH_y__=u0mhp+hK2CaPrOQ=ApWELewCKQ@mail.gmail.com>
+Subject: Re: [PATCH] configure: fixes indent of $meson setup
+To: qemu-level <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000f0f45605af98b861"
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,67 +77,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/18/20 6:55 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+--000000000000f0f45605af98b861
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->> We'll get to them in due time. For now, please admire the lipstick.
-> 
-> If I take off my glasses and step six feet back, I just might be able to
-> overlook it.
-> 
+Hi Bonzini, please queue this
 
-I consider writing a nice __repr__ good habit, I'd prefer not to delete 
-it just because the rest of our code doesn't do so yet. (Give me time.)
+On Fri, Sep 18, 2020 at 10:45 PM Yonggang Luo <luoyonggang@gmail.com> wrote=
+:
+>
+> convert these line from tab to space
+>
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+>  configure | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 3757e48b17..422b1ef2a3 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7850,10 +7850,10 @@ NINJA=3D${ninja:-$PWD/ninjatool} $meson setup \
+>          -Dstrip=3D$(if test "$strip_opt" =3D yes; then echo true; else e=
+cho
+false; fi) \
+>          -Db_pie=3D$(if test "$pie" =3D yes; then echo true; else echo fa=
+lse;
+fi) \
+>          -Db_coverage=3D$(if test "$gcov" =3D yes; then echo true; else e=
+cho
+false; fi) \
+> -       -Dmalloc=3D$malloc -Dmalloc_trim=3D$malloc_trim \
+> -       -Dcocoa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsdl_image=3D$sdl=
+_image \
+> -       -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg
+-Dvnc_png=3D$vnc_png \
+> -       -Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f\
+> +        -Dmalloc=3D$malloc -Dmalloc_trim=3D$malloc_trim \
+> +        -Dcocoa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsdl_image=3D$sd=
+l_image \
+> +        -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg
+-Dvnc_png=3D$vnc_png \
+> +        -Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f \
+>          $cross_arg \
+>          "$PWD" "$source_path"
+>
+> --
+> 2.28.0.windows.1
+>
 
-I spend a lot of my time in the interactive python console: having nice 
-__repr__ methods is a good habit, not an unsightly blemish.
 
->>>>>> +    def pop(self, amount: int = 4) -> int:
->>>>>> +        """Pop `amount` spaces off of the indent, default four."""
->>>>>> +        if self._level < amount:
->>>>>> +            raise ArithmeticError(
->>>>>> +                "Can't pop {:d} spaces from {:s}".format(amount, repr(self)))
->>> I think assert(amount <= self._level) would do just fine.
->>>
->>
->> Secretly, asserts can be disabled in Python just like they can in C code.
-> 
-> There are compilers that let you switch off array bounds checking.
-> Would you advocate manual bounds checking to protect people from their
-> own folly?
-> 
->> My habit: if it's something that should already be true given the
->> nature of how the code is laid out, use an assertion. If I am
->> preventing an erroneous state (Especially from callers in other
->> modules), explicitly raise an exception.
-> 
-> I check function preconditions ruthlessly with assert.  There's no sane
-> way to recover anyway.
-> 
-> Without a way to recover, the only benefit is crashing more prettily.
-> If the error is six levels deep in a some fancy-pants framework, then
-> prettier crashes might actually help someone finding the error slightly
-> faster.  But it ain't.
-> 
-> My final argument is local consistency: use of assertions to check
-> preconditions is pervasive in scripts/qapi/.
-> 
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-You're right that there's no safe recovery from an error such as this. 
-The only actual difference is whether you see AssertionError or 
-ArithmeticError.
+--000000000000f0f45605af98b861
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-One can be disabled (But you rightly shouldn't), the other can't. One 
-has more semantic meaning and information to it.
+<div dir=3D"ltr">Hi Bonzini, please queue this<br><br>On Fri, Sep 18, 2020 =
+at 10:45 PM Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyo=
+nggang@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; convert these line from tab=
+ to space<br>&gt;<br>&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto=
+:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt;<br>&gt; ---<br>&gt; =
+=C2=A0configure | 8 ++++----<br>&gt; =C2=A01 file changed, 4 insertions(+),=
+ 4 deletions(-)<br>&gt;<br>&gt; diff --git a/configure b/configure<br>&gt; =
+index 3757e48b17..422b1ef2a3 100755<br>&gt; --- a/configure<br>&gt; +++ b/c=
+onfigure<br>&gt; @@ -7850,10 +7850,10 @@ NINJA=3D${ninja:-$PWD/ninjatool} $=
+meson setup \<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dstrip=3D$(if test=
+ &quot;$strip_opt&quot; =3D yes; then echo true; else echo false; fi) \<br>=
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Db_pie=3D$(if test &quot;$pie&quot;=
+ =3D yes; then echo true; else echo false; fi) \<br>&gt; =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0-Db_coverage=3D$(if test &quot;$gcov&quot; =3D yes; then e=
+cho true; else echo false; fi) \<br>&gt; - =C2=A0 =C2=A0 =C2=A0 -Dmalloc=3D=
+$malloc -Dmalloc_trim=3D$malloc_trim \<br>&gt; - =C2=A0 =C2=A0 =C2=A0 -Dcoc=
+oa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsdl_image=3D$sdl_image \<br>&gt=
+; - =C2=A0 =C2=A0 =C2=A0 -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$=
+vnc_jpeg -Dvnc_png=3D$vnc_png \<br>&gt; - =C2=A0 =C2=A0 =C2=A0 -Dgettext=3D=
+$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f\<br>&gt; + =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0-Dmalloc=3D$malloc -Dmalloc_trim=3D$malloc_trim \<br>&gt; + =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0-Dcocoa=3D$cocoa -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsd=
+l_image=3D$sdl_image \<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dvnc=3D$vnc -D=
+vnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg -Dvnc_png=3D$vnc_png \<br>&gt; =
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon =
+-Du2f=3D$u2f \<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$cross_arg \<br>&g=
+t; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;$PWD&quot; &quot;$source_path&qu=
+ot;<br>&gt;<br>&gt; --<br>&gt; 2.28.0.windows.1<br>&gt;<br><br><br>--<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=
+=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<=
+/div>
 
-I prefer what I've currently written.
-
---js
-
+--000000000000f0f45605af98b861--
 
