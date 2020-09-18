@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFD7270772
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:50:46 +0200 (CEST)
-Received: from localhost ([::1]:51668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6936270732
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 22:40:57 +0200 (CEST)
+Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJNLB-0002H5-NE
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:50:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46292)
+	id 1kJNBg-0006cx-UK
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 16:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kJN7R-0004jb-4E; Fri, 18 Sep 2020 16:36:33 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:52351)
+ id 1kJN7P-0004j9-QA; Fri, 18 Sep 2020 16:36:31 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:58007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kJN7N-0004wO-ES; Fri, 18 Sep 2020 16:36:32 -0400
+ id 1kJN7N-0004wP-Fo; Fri, 18 Sep 2020 16:36:31 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id F04665801ED;
+ by mailnew.nyi.internal (Postfix) with ESMTP id F398E5801EE;
  Fri, 18 Sep 2020 16:36:26 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
  by compute7.internal (MEProxy); Fri, 18 Sep 2020 16:36:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm1; bh=mqhEPj63bscuS/IshS3/d9+R1S
- bjeugFll2BFQi7Qkc=; b=C7sBks+JqUAAozEiZM71oqHAIBPehbHaJraOylwkWa
- 1QAAfSXU2B12wp3QskXJd5ehMYAnHZXp9xbqLgke/tVSdd9H3CmmWQ+O7qEspEYo
- 27FuElv48mKtuNMvumbnLB+RRrtfsWIVGlhiyVoEXGSZh16/QuYKaxuE2FOAGN/X
- XlI3qjlESMpDq75J6lkpY6MyzG2//DieEcf1l6TAL7jJkuRJyCoXfcZikVkygjQh
- LGEaqLa4QjI22gmlyy+8sSca4wVbGINXF5U7BrcqiWh4sJc0w3Xqww3kDVCKZoVR
- uS4e2M+9dpbe5BJ4kX3C5yDZPOvZH4jZJHgZsfNttl9w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=+81fWPyS5O+En
+ 17bFCxaEDemD8inTiVNp6oK+WilRA8=; b=mXhD0TG+6PBfM23QsQHID9I2YoRAc
+ hnfKLCaxON9+4/Ed+9Cagh8I0MC77LoAxcrMUkxL4YE15R+Gbnqh8F1zVyOo25j1
+ +gixlDRV6BFCr2kzvGjZNuUGJzlP1/r0DgvaXeTd3g91qWpSe54VcQtzOVCwTV+P
+ umspDWmlHZWfWdCxpn9HrariHgZZ6yX1NFNU54MPberb/GFGD49k90Hy4xRnwuhw
+ 9699+uORkYodopORrWLliDJAeR2LWi7r64fey7xzUIm4jQU+zJ9BF4j2fQbfsL2l
+ fCcM/Ak0wcNEbvUbiXdzWewz2JQ247pcRSNiGna8G70FNeATCr7MQtA/Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=mqhEPj
- 63bscuS/IshS3/d9+R1SbjeugFll2BFQi7Qkc=; b=jZvFtzmqg9fiyedsBvvt/6
- 7h3vbDluIOpOy1CqfrzF0zRWNeUhOzqbnjARSnI/F6ZjdZzXtWAXK73rGkNC6lM8
- IlXjdqlpPwvOAbxZpAM8pW5XtLjfi67N1MMkpg1+kFRBFKqv5bSj/zJU7EaFxIEP
- bM03+6N7mLD6LG3QODn2zJwTr2NF553gRyJJcxZlbAxwYn9tWjHPwji8+f5LCIwQ
- ZJji2FXtSonB4quJXs2ZFvsz9FsBotmbfLR5dzwtXHmsUqh0SCeLAnGcxYG40USL
- kRyQJ74p1Lgu7vL6NTRUU0HpfC8Y9JWzYnj39k8Tsmjf6XV/duv2wC0xTMaO9GAQ
- ==
-X-ME-Sender: <xms:SBplX94PGA7qn5-voOOPss1d8RQgWtrCeP9wKb6MXcDaoEwbhiiqiw>
- <xme:SBplX65RHgupaXSajzK9W-Cj6ZI2qKkSgSloItSaVPfLqxM1bOi5IXYElS2_Y0BJA
- 4_7jZYEjHm9VDHyCJE>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=+81fWPyS5O+En17bFCxaEDemD8inTiVNp6oK+WilRA8=; b=N+kM0QyC
+ 9/7fq44UZYjKwLrlNoF4Xsgs+OGy7dW6kZg9BxwRdnZwpGB1CqMTOaBvfDOnx3jb
+ eQvaAHDNHbb9uK/Rz+sIXEbuYlpMpu6usXqECB3CTNOj39aemnir3dISsddcj8eS
+ 6TxI8h138R0SD3tS+uALBbp/AXtN2QI5U1noJQhDfZCO/Ibp1Fm9Q0XeUwBCiwHR
+ l5us8xO+1DS/SwK9/BQyrGGzjFNybKKRN1V6SthKBA7UXQcKnw1y2sEsTcK0ogv1
+ Yioo+RuzLzxSKZPdBuqJtns5xaWLJaszL3hocc+h0nqya+cM0ap7phyh3oyhuVn3
+ E6jvyzzuN8booA==
+X-ME-Sender: <xms:SRplX3L2hGPQPZtGjBvwiriN0-LIl_N5ARIjDC2VGfLYhOqoXlkWvg>
+ <xme:SRplX7J2FSq8CjDC5WLdFf2nYLhHkORO-HxMfOwyvXcNbCidFAhQD5Ev5HZnP8DlW
+ 0-qIpFCKkppu2uPuA0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtdeigdduhedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffogggtgfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepfeduheefudfghfdutdetffefleeutddttefgudeludduudfguefhleeuueeugffg
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:SBplX0dzEyEUYJrO-9IQEX3JmQl2RnRzeiJxPqrUe_jDWNb3-NGl9w>
- <xmx:SBplX2JLMav7XJ5Z6e4fRjkH7LqUV0iZ2WRSxt45YDxRN2TdkZF5Wg>
- <xmx:SBplXxLpUuRP2-nvaEOG3d3W7IX-8lP4zKByDK3XcPCklbKx_he4FQ>
- <xmx:ShplX2qjl0Qd8DIQl1qsQQ0njwsw-1VLJdDq_1_Kx_ej-JOxoAkj_g>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:ShplX_vNP_ORi1r7LQYG3MGs6tr4mf1AHve1mkcuFQASlbbEkSp2fg>
+ <xmx:ShplXwaigbc2iAqKghob6jNcw_VwQe9Mdair7HJgzs4ixiSbgVvDuQ>
+ <xmx:ShplX-Ykj2eGRwsz9N3S-U6NViDun0JIUgIJ6nnXzk56xYzBugundA>
+ <xmx:ShplX24RclXodMUz-Cco7XhfDgRWs9VOqiko5-Bq9XZQHZqW-Tru0w>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 299ED3064674;
- Fri, 18 Sep 2020 16:36:23 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9F05E3064610;
+ Fri, 18 Sep 2020 16:36:24 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/17] hw/block/nvme: multiple namespaces support
-Date: Fri, 18 Sep 2020 22:36:04 +0200
-Message-Id: <20200918203621.602915-1-its@irrelevant.dk>
+Subject: [PATCH v2 01/17] hw/block/nvme: fix typo in trace event
+Date: Fri, 18 Sep 2020 22:36:05 +0200
+Message-Id: <20200918203621.602915-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200918203621.602915-1-its@irrelevant.dk>
+References: <20200918203621.602915-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
  helo=new1-smtp.messagingengine.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 16:36:27
@@ -100,87 +101,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This is the next round of my patches for the nvme device.=0D
-=0D
-This includes a bit of cleanup and two new features:=0D
-=0D
-  * support for scatter/gather lists=0D
-=0D
-  * multiple namespaces support through a new nvme-ns device=0D
-=0D
-Finally, the series wraps up with changing the PCI vendor and device ID to =
-get=0D
-rid of the internal Intel id and as a side-effect get rid of some Linux ker=
-nel=0D
-quirks that no longer applies.=0D
-=0D
-"pci: pass along the return value of dma_memory_rw" has already been posted=
- by=0D
-Philippe in another series, but since it is not applied yet, I am including=
- it=0D
-here.=0D
-=0D
-Changes for v2=0D
-~~~~~~~~~~~~~~=0D
-=0D
-  * Added a new patch ("hw/block/nvme: fix typo in trace event") that does =
-what=0D
-    it says on the tin.=0D
-=0D
-  * Dropped the "hw/block/nvme: support multiple parallel aios per request"=
-=0D
-    patch (Keith).=0D
-=0D
-  * hw/block/nvme: add symbolic command name to trace events=0D
-    Changed to single quote (Philippe)=0D
-=0D
-  * hw/block/nvme: default request status to success=0D
-    Commit message typo fixed (Philippe)=0D
-=0D
-  * hw/block/nvme: change controller pci id=0D
-    Do NOT bump the device id for the legacy Intel id (David)=0D
-=0D
-Gollu Appalanaidu (1):=0D
-  hw/block/nvme: add support for sgl bit bucket descriptor=0D
-=0D
-Klaus Jensen (16):=0D
-  hw/block/nvme: fix typo in trace event=0D
-  pci: pass along the return value of dma_memory_rw=0D
-  hw/block/nvme: handle dma errors=0D
-  hw/block/nvme: commonize nvme_rw error handling=0D
-  hw/block/nvme: alignment style fixes=0D
-  hw/block/nvme: add a lba to bytes helper=0D
-  hw/block/nvme: fix endian conversion=0D
-  hw/block/nvme: add symbolic command name to trace events=0D
-  hw/block/nvme: refactor aio submission=0D
-  hw/block/nvme: default request status to success=0D
-  hw/block/nvme: harden cmb access=0D
-  hw/block/nvme: add support for scatter gather lists=0D
-  hw/block/nvme: refactor identify active namespace id list=0D
-  hw/block/nvme: support multiple namespaces=0D
-  pci: allocate pci id for nvme=0D
-  hw/block/nvme: change controller pci id=0D
-=0D
- docs/specs/nvme.txt    |  23 ++=0D
- docs/specs/pci-ids.txt |   1 +=0D
- hw/block/nvme-ns.h     |  74 ++++=0D
- hw/block/nvme.h        |  94 ++++-=0D
- include/block/nvme.h   |   6 +-=0D
- include/hw/pci/pci.h   |   4 +-=0D
- hw/block/nvme-ns.c     | 167 ++++++++=0D
- hw/block/nvme.c        | 846 ++++++++++++++++++++++++++++++-----------=0D
- hw/core/machine.c      |   1 +=0D
- MAINTAINERS            |   1 +=0D
- hw/block/meson.build   |   2 +-=0D
- hw/block/trace-events  |  22 +-=0D
- 12 files changed, 986 insertions(+), 255 deletions(-)=0D
- create mode 100644 docs/specs/nvme.txt=0D
- create mode 100644 hw/block/nvme-ns.h=0D
- create mode 100644 hw/block/nvme-ns.c=0D
-=0D
--- =0D
-2.28.0=0D
-=0D
+Fix a typo in the sq doorbell trace event.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/trace-events | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index ec94c56a4165..8ff4cbc4932c 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -70,7 +70,7 @@ pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint16_t status) "c
+ pci_nvme_mmio_read(uint64_t addr) "addr 0x%"PRIx64""
+ pci_nvme_mmio_write(uint64_t addr, uint64_t data) "addr 0x%"PRIx64" data 0x%"PRIx64""
+ pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
+-pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "cqid %"PRIu16" new_tail %"PRIu16""
++pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "sqid %"PRIu16" new_tail %"PRIu16""
+ pci_nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+ pci_nvme_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+ pci_nvme_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
+-- 
+2.28.0
+
 
