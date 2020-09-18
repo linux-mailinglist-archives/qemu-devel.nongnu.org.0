@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D8C26F988
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:46:50 +0200 (CEST)
-Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBD526F9B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 11:57:30 +0200 (CEST)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJCyf-0006Oo-LM
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
+	id 1kJD8y-0002iT-VY
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 05:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kJCwx-0005lg-0p
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:45:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57959
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kJCwr-00070T-EQ
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:45:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600422296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jvNrSGVjThtKc87/xpS8AH+Tfv2lE7mOI44q/2+iNKM=;
- b=fLX2kqsxkZaCiy2xOa3pYYQDsc4at/j6WOFfV7p8S06oOuzgrswqHgUJ9Y0UkMZ5XTGD21
- WgdsMau3smdR4h4NmwzV0zNbdqWoXjCk5lFHwFNtTitCXlDJXipHsSvTiWzzxzYgF6Ug1J
- Ez5fnZA7pRgDrdof+jr0Bb+SJQUnmyM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-Zr3a78eQMju3olpJdrMAOQ-1; Fri, 18 Sep 2020 05:44:51 -0400
-X-MC-Unique: Zr3a78eQMju3olpJdrMAOQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F16F1084C84;
- Fri, 18 Sep 2020 09:44:50 +0000 (UTC)
-Received: from localhost (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0862A19D6C;
- Fri, 18 Sep 2020 09:44:49 +0000 (UTC)
-Date: Fri, 18 Sep 2020 10:44:49 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Subject: Re: [PATCH v10 5/7] block/export: vhost-user block device backend
- server
-Message-ID: <20200918094449.GA867958@stefanha-x1.localdomain>
-References: <20200918080912.321299-1-coiby.xu@gmail.com>
- <20200918080912.321299-6-coiby.xu@gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJD7R-0001w0-Hc
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:55:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46880)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJD7L-0000GN-4B
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 05:55:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kJD7I-00073Y-LI
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:55:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7E0E32E80E9
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:55:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200918080912.321299-6-coiby.xu@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:23:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.997,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 18 Sep 2020 09:45:56 -0000
+From: Frederic Bezies <1896096@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange fredb74
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+Message-Id: <160042235616.22300.14639804080797762712.malone@wampee.canonical.com>
+Subject: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 67ae87627e32479ce4be6daa741e7b6cc22c0b66
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,51 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "open list:Block layer core" <qemu-block@nongnu.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, bharatlkmlkvm@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---huq684BweRXVnRxX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Build process is still broken even with a blank new version of git
+source code.
 
-On Fri, Sep 18, 2020 at 04:09:10PM +0800, Coiby Xu wrote:
-> +    case VIRTIO_BLK_T_GET_ID: {
-> +        size_t size =3D MIN(iov_size(&elem->in_sg[0], in_num),
-> +                          VIRTIO_BLK_ID_BYTES);
-> +        snprintf(elem->in_sg[0].iov_base, size, "%s", "vhost_user_blk_se=
-rver");
 
-gcc (GCC) 10.2.1 says:
+Once again, everything start while processing block_curl.so.
 
-../block/export/vhost-user-blk-server.c:178:50: error: =E2=80=98%s=E2=80=99=
- directive output truncated writing 21 bytes into a region of size 20 [-Wer=
-ror=3Dformat-truncation=3D]
-  178 |         snprintf(elem->in_sg[0].iov_base, size, "%s", "vhost_user_b=
-lk_server");
-      |                                                  ^~   ~~~~~~~~~~~~~=
-~~~~~~~~~~
+Here is the beginning of the error log:
 
-I suggest changing this string constant to "vhost_user_blk" for now.
+Linking target block-curl.so
+/usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt1.=
+o: in function `_start':
+(.text+0x24): undefined reference to `main'
+/usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_init':
 
---huq684BweRXVnRxX
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Curl version: 7.72.0 if it matters.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9kgZAACgkQnKSrs4Gr
-c8gExQf/RVyjsgIbNgoSh60yQZuk6FpeDwSAiPmNBb/GXWAuB16m29nhwWMuED4t
-jiFvkiW8ByyllxhF0+YJZDHmNn48uPTvEzZDGbKf6DVAneoAi8CNcioFUh4Ec29/
-mGHGWBnCZl6LbATlZe+iwb3kfuG+n9GGQ1GrVaDS1JmxXpRNqy7S53f7rGw/BVhF
-RLH9Oz8I+cjubSJsQrEw9N3D8yYNBJa0gnkLQBUh8gMCD3VBVdRuiKsGAlCnTmqq
-IumV9uX8kSt1wr2CHPFc7zdu4r2ooExjLunYpDvecEPjIS1fQYV6Isyh8Boi0YvI
-eU38iG5IKt71HN9DKeB9RW4W4D8L4Q==
-=LQfE
------END PGP SIGNATURE-----
+Attaching error log.
 
---huq684BweRXVnRxX--
 
+** Attachment added: "Another error log with a clean source code."
+   https://bugs.launchpad.net/qemu/+bug/1896096/+attachment/5412123/+files/=
+qemu-error-log2
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1896096
+
+Title:
+  Git version: Build process is broken in block_curl.c.o
+
+Status in QEMU:
+  New
+
+Bug description:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
+
+  Configure options used:
+
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
+
+  Error log attached. Here is the beginning:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
