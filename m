@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD6B27028F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:49:13 +0200 (CEST)
-Received: from localhost ([::1]:52202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88F027029B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 18:53:01 +0200 (CEST)
+Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJZO-0005iH-JX
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:49:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41298)
+	id 1kJJd6-00083Q-R8
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 12:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kJJAu-0000It-W3
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:23:53 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45345)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1kJJBU-0000hf-0M
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:24:28 -0400
+Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:34689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kJJAp-00064f-23
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:23:51 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id l17so6592993edq.12
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1kJJBQ-00068k-ME
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:24:27 -0400
+Received: by mail-vs1-xe41.google.com with SMTP id y190so3943157vsy.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=RlWbjW9GVqAevWQvn9I49YN5ZZCXz/CF82ncos7FIlU=;
- b=aMcoCKPQB3KUN6KmtU9Dde1vKmCB20wsKoAo81mMUuncONTiYw6DXJncYPIPjSUqU1
- fNUT8Bb9D+Mxd2BpWsRYRogX4vQkwk0F+zTx3o7LvNCY180a03iDJjHvEclOg6Egvg8f
- +jZE9V45z4ZvH4QhliWij/iflel8XH5TkK/+POFGCleXhFI8vELILZqQ0oyHbV/gXI+r
- Ei1Ccj3TpIcczJZzROofygg+UrTCc1rcMVznV+Oq2lDwphfNmiwUUtf9gDGAX4BHIl1q
- OMMS32wa04hJWxecKBm2HONpP5ekFC2UkzJyeoHjsDvDT7JDGODhYDKLwE0blcojVFr3
- NbVQ==
+ bh=sM/DvbAmUefzPfv9k6dUc54IMv/ZOAiE5sKS7mi8c/Q=;
+ b=jXJDwQcfQDa7yQ2b2J8VWXTOJ1ZoyVUVHZ0/EcT4dwdIs6+11pebKJxLYbQGxJAYsx
+ W6qTSQL+KTBTCmc2Gq0AAVN6YN/9IurgKV1WWCtukCrU/56bLgOwEqRJslkzysmWg3n7
+ 8xYx+bUhw+UkJRt6jvC87m8yKnGDf/URZHFjd9XAQHjosKDRNFw+GKSWG7soZebNCMdI
+ r04GgnFIOwOHzMevmoVjc2L4cXxe+9ssshaBikGAZkucBxUgdZXlVGqe+JGKO3DQ4vJC
+ J1KIzqkhHChb7YkrYHkhLTkzeVUUUcZCxsY9U5UPPCaw6UsqQWo/sfX4BM1kFVg0BGJ2
+ QjJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=RlWbjW9GVqAevWQvn9I49YN5ZZCXz/CF82ncos7FIlU=;
- b=PHa0r7ptdmarr3ZnB3BonkiOO9KcxIsXMrog+el1813l7qG4f1pktSoHt1lPH1U/S1
- 1TDtsKyjavHOKbbO+4Pu1/cHLtOO8S5ddHswMhukuliZIlFbr+morHpjTtVhhQLTGLxl
- eJt4ues4+BFeozaURlYRkgRZFm+REcIuJKgS1b4IdJzuROExkHWThFTXrc6PfFQe38m+
- yUguTaq4UhKdvSMINal4HNr6ChuRsip+hfSTP/17zuZvmgpGsYfYBEPfqDjgtMvKRzFf
- VsEZLSl630ZWsNyyquO8KcdxGWbRMFyWq5uEJF9tZ72Uc35hs/iNh8Z6P4jfbRHvw2L6
- LGmA==
-X-Gm-Message-State: AOAM532E6pIzsMDic9kL953/mjEQII3ZIIsRH2mwTk0aRiX4gl2msqEZ
- 2Hn3rtoV7R+/0i/cOv5ZXc82TarUbw+8JWwQufjX0g==
-X-Google-Smtp-Source: ABdhPJycHUYHrnT6DJEzoyfPd8mzcqWWpaj9akpbyUgagF2GS82Jt4Ql2vnYD8Ke+fEF56jV9DeGQ24hZNoF0EY+tT4=
-X-Received: by 2002:a50:f28b:: with SMTP id f11mr38738478edm.44.1600446224289; 
- Fri, 18 Sep 2020 09:23:44 -0700 (PDT)
+ bh=sM/DvbAmUefzPfv9k6dUc54IMv/ZOAiE5sKS7mi8c/Q=;
+ b=W7RezSZJ4EzcC6VvaC7i5H+2gwJ2duANZMZAcpaoYt1Tpz9dOUzJq1IDpIvlg4XV5K
+ ivlUkXahcy1r94Fo2ThMsFQO2eN/X6g6Lu+L2tc/V/DXrB8aN8b3G39GRJF6sDPHWONK
+ Y6TRj+P6+1WYQ8V/zp7XYjsg8+6J09UwWQ6reGJo+UjwTX8VxomrHOsZkpLJ1cRzM2bx
+ tUok+t70EgzRzm/nVgKdBjhNSzvOUJINeLbvTfxJn7sq/YjkrpthMrEtmwEsJp3dBzH+
+ BizcVvAc2mYDYF2f1bCCseILHC0kOaGNahDCeRne4kgCCF56d/I3/aS+85RYsSKmhKeD
+ lzjw==
+X-Gm-Message-State: AOAM530jETQ7DOC8XulFUpjZbyB4b+CPGEE0Gt42L30pDGDHME/jVgi/
+ 9Bgzdc9NjHukFRRro14GCCa878Bnlzr1shJ7vg/nzw==
+X-Google-Smtp-Source: ABdhPJyW42Z/EtCvWvAqOcKXStP+QhmnNb44gPLa64hvQVUbjwuWzr483zUP62onWEWW/4ucHNtga6YhwwZecHyRR9g=
+X-Received: by 2002:a05:6102:379:: with SMTP id
+ f25mr12705732vsa.47.1600446262954; 
+ Fri, 18 Sep 2020 09:24:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200918152207.157589-1-philmd@redhat.com>
-In-Reply-To: <20200918152207.157589-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Sep 2020 17:23:32 +0100
-Message-ID: <CAFEAcA_gHC3FnPou_vtChOLCdBQLopw+Usn7ZpQy9QTTghyjXg@mail.gmail.com>
-Subject: Re: [PULL 0/1] fw-cfg patches for 2020-09-18
+References: <20200914140641.21369-1-peter.maydell@linaro.org>
+ <20200914140641.21369-33-peter.maydell@linaro.org>
+ <CAP+75-XNAKE8n7MffAsSJFO1EVzAmTZsv4COyZoFWKEOELOO5A@mail.gmail.com>
+ <CAP+75-VmpCCnqLi_uX+GPc=-SF07WXMRZ1BDrNpuEzVOJpvy_A@mail.gmail.com>
+In-Reply-To: <CAP+75-VmpCCnqLi_uX+GPc=-SF07WXMRZ1BDrNpuEzVOJpvy_A@mail.gmail.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Fri, 18 Sep 2020 09:24:11 -0700
+Message-ID: <CAFQmdRZLRDxtQBMj2fQwjwNP3Pp1DZ==Pb+jcfz4E7ivJ7eYGQ@mail.gmail.com>
+Subject: Re: [PULL 32/36] tests/acceptance: console boot tests for quanta-gsj
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Cleber Rosa Junior <crosa@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, 
+ Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e41;
+ envelope-from=hskinnemoen@google.com; helo=mail-vs1-xe41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +88,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Sep 2020 at 16:31, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Fri, Sep 18, 2020 at 6:57 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> The following changes since commit e883b492c221241d28aaa322c6153643609053=
-8a:
+> On Fri, Sep 18, 2020 at 3:52 PM Philippe Mathieu-Daud=C3=A9
+> <philmd@redhat.com> wrote:
+> >
+> > Hi Havard,
+> >
+> > On Mon, Sep 14, 2020 at 5:47 PM Peter Maydell <peter.maydell@linaro.org=
+> wrote:
+> > >
+> > > From: Havard Skinnemoen <hskinnemoen@google.com>
+> > >
+> > > This adds two acceptance tests for the quanta-gsj machine.
+> > >
+> > > One test downloads a lightly patched openbmc flash image from github =
+and
+> > > verifies that it boots all the way to the login prompt.
+> > >
+> > > The other test downloads a kernel, initrd and dtb built from the same
+> > > openbmc source and verifies that the kernel detects all CPUs and boot=
+s
+> > > to the point where it can't find the root filesystem (because we have=
+ no
+> > > flash image in this case).
+> > >
+> > > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > > Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > > Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> > > Message-id: 20200911052101.2602693-15-hskinnemoen@google.com
+> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > > ---
+> > [...]
+> > > +    def test_arm_quanta_gsj_initrd(self):
+> > > +        """
+> > > +        :avocado: tags=3Darch:arm
+> > > +        :avocado: tags=3Dmachine:quanta-gsj
+> > > +        """
+> > > +        initrd_url =3D (
+> > > +                'https://github.com/hskinnemoen/openbmc/releases/dow=
+nload/'
+> > > +                '20200711-gsj-qemu-0/obmc-phosphor-initramfs-gsj.cpi=
+o.xz')
+> > > +        initrd_hash =3D '98fefe5d7e56727b1eb17d5c00311b1b5c945300'
+> > > +        initrd_path =3D self.fetch_asset(initrd_url, asset_hash=3Din=
+itrd_hash)
+> > > +        kernel_url =3D (
+> > > +                'https://github.com/hskinnemoen/openbmc/releases/dow=
+nload/'
+> > > +                '20200711-gsj-qemu-0/uImage-gsj.bin')
+> > > +        kernel_hash =3D 'fa67b2f141d56d39b3c54305c0e8a899c99eb2c7'
+> > > +        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dke=
+rnel_hash)
+> > > +        dtb_url =3D (
+> > > +                'https://github.com/hskinnemoen/openbmc/releases/dow=
+nload/'
+> > > +                '20200711-gsj-qemu-0/nuvoton-npcm730-gsj.dtb')
+> > > +        dtb_hash =3D '18315f7006d7b688d8312d5c727eecd819aa36a4'
+> > > +        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash=
+)
+> > > +
+> > > +        self.vm.set_console()
+> > > +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+> > > +                               'console=3DttyS0,115200n8 '
+> > > +                               'earlycon=3Duart8250,mmio32,0xf000100=
+0')
+> > > +        self.vm.add_args('-kernel', kernel_path,
+> > > +                         '-initrd', initrd_path,
+> > > +                         '-dtb', dtb_path,
+> > > +                         '-append', kernel_command_line)
+> > > +        self.vm.launch()
+> > > +
+> > > +        self.wait_for_console_pattern('Booting Linux on physical CPU=
+ 0x0')
+> > > +        self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socke=
+t 0')
+> > > +        self.wait_for_console_pattern(
+> > > +                'Give root password for system maintenance')
+> >
+> > This test is failing (timeout) on our CI:
 >
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-aspeed-2020091=
-8' into staging (2020-09-18 13:36:42 +0100)
+> Oops I meant to keep the other one: test_arm_quanta_gsj
+> (not test_arm_quanta_gsj_initrd).
 >
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/fw_cfg-20200918
->
-> for you to fetch changes up to 4318432ccd3f7fb69b7169f39dcae3d4ee04f5ea:
->
->   hw/nvram/fw_cfg: fix FWCfgDataGeneratorClass::get_data() consumption (2=
-020-09-18 17:18:18 +0200)
->
-> ----------------------------------------------------------------
-> fw_cfg patches
->
-> Fixes a bug in the recently introduced fw_cfg_add_from_generator().
->
-> CI jobs results:
-> . https://gitlab.com/philmd/qemu/-/pipelines/191714875
-> . https://travis-ci.org/github/philmd/qemu/builds/728288784
-> . https://app.shippable.com/github/philmd/qemu/runs/869/1/console
-> ----------------------------------------------------------------
+> > https://gitlab.com/philmd/qemu/-/jobs/745483978#L857
 
+Sorry about that. It only takes 60-ish seconds on my (admittedly beefy) mac=
+hine.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
+Havard
 
