@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4683226FAB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:36:35 +0200 (CEST)
-Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C84126FAB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 12:36:59 +0200 (CEST)
+Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJDko-0003WB-Ag
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34126)
+	id 1kJDlC-0003tc-3S
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 06:36:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDj0-0001vf-1A
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDj0-0001wC-7v
  for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:34:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38196)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDix-0005B7-Su
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJDiy-0005BG-8v
  for qemu-devel@nongnu.org; Fri, 18 Sep 2020 06:34:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600425279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/lfPD9jK8n9VdJB3d/3wqA1tZmZUI2wjdPBqQfSYjfg=;
- b=U5d7ge3+DjKAiGNoIK5FPQq4t4kwACVnYZghZWwZWFCZFrVrsZhLrSygcTvU3d/7JLmxde
- 9SwZ1YdT2NQVUHg4QTmLenVdacwEuLaNa0g9kCpwSShizbdLPcF3Za7SRapjzUHpOP2Vve
- QgKYW1qYZne7ZHgIcVonrEYF2YeqBws=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=qT6Li75uvxZeJ8KC7IVApxYxhxtkik0Szgg6LPg9L4A=;
+ b=HNFmSaKj+faIZpsC3UoZHA9SKaCXC1cEpEF7LIW60ESvLjb6eqgsIwQUkRRH4DV1Pz27CP
+ /cbCSTcItjilYeV7unDCPMPLBG9d4eGdq69lTzeDE6TkzJ78FEtRTdfV7MIqzgTvXa0lVd
+ CPC5uVjgLzqmhxvoL+g/PcmDS17gVBc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-xEGklGs8P6irvm7Oer88rw-1; Fri, 18 Sep 2020 06:34:35 -0400
-X-MC-Unique: xEGklGs8P6irvm7Oer88rw-1
+ us-mta-61-JRRKplsUMRy2fU4C1uR4_Q-1; Fri, 18 Sep 2020 06:34:37 -0400
+X-MC-Unique: JRRKplsUMRy2fU4C1uR4_Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 244A91009443;
- Fri, 18 Sep 2020 10:34:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41A45188C12D;
+ Fri, 18 Sep 2020 10:34:36 +0000 (UTC)
 Received: from thuth.com (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78B5760BEC;
- Fri, 18 Sep 2020 10:34:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 835BE60BEC;
+ Fri, 18 Sep 2020 10:34:34 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH 0/6] Update Travis from Xenial to Bionic and Focal
-Date: Fri, 18 Sep 2020 12:34:24 +0200
-Message-Id: <20200918103430.297167-1-thuth@redhat.com>
-MIME-Version: 1.0
+Subject: [PATCH 1/6] meson: move libudev test
+Date: Fri, 18 Sep 2020 12:34:25 +0200
+Message-Id: <20200918103430.297167-2-thuth@redhat.com>
+In-Reply-To: <20200918103430.297167-1-thuth@redhat.com>
+References: <20200918103430.297167-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
@@ -81,26 +80,87 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to our support policy, we do not support Xenial anymore.
-Time to switch the Travis jobs to Focal or Bionic instead now.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Paolo Bonzini (2):
-  meson: move libudev test
-  meson: move libmpathpersist test
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20200916162621.100141-2-pbonzini@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ configure   | 14 --------------
+ meson.build |  7 ++++---
+ 2 files changed, 4 insertions(+), 17 deletions(-)
 
-Thomas Huth (4):
-  migration: Silence compiler warning in global_state_store_running()
-  travis.yml: Drop the default softmmu builds
-  travis.yml: Update Travis to use Bionic and Focal instead of Xenial
-  travis.yml: Drop the superfluous Python 3.6 build
-
- .travis.yml              | 46 ++++++--------------
- configure                | 91 ++--------------------------------------
- meson.build              | 85 +++++++++++++++++++++++++++++++++----
- meson_options.txt        |  2 +
- migration/global_state.c |  4 +-
- 5 files changed, 97 insertions(+), 131 deletions(-)
-
+diff --git a/configure b/configure
+index 7564479008..d8bd6829b3 100755
+--- a/configure
++++ b/configure
+@@ -908,7 +908,6 @@ Linux)
+   linux_user="yes"
+   kvm="yes"
+   QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
+-  libudev="yes"
+ ;;
+ esac
+ 
+@@ -6283,15 +6282,6 @@ if test "$libnfs" != "no" ; then
+ fi
+ 
+ ##########################################
+-# Do we have libudev
+-if test "$libudev" != "no" ; then
+-  if $pkg_config libudev && test "$static" != "yes"; then
+-    libudev="yes"
+-    libudev_libs=$($pkg_config --libs libudev)
+-  else
+-    libudev="no"
+-  fi
+-fi
+ 
+ # Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
+ if test "$solaris" = "no" && test "$tsan" = "no"; then
+@@ -7460,10 +7450,6 @@ if test "$gcov" = "yes" ; then
+   echo "CONFIG_GCOV=y" >> $config_host_mak
+ fi
+ 
+-if test "$libudev" != "no"; then
+-    echo "CONFIG_LIBUDEV=y" >> $config_host_mak
+-    echo "LIBUDEV_LIBS=$libudev_libs" >> $config_host_mak
+-fi
+ if test "$fuzzing" != "no"; then
+     echo "CONFIG_FUZZ=y" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index f4d1ab1096..4872498897 100644
+--- a/meson.build
++++ b/meson.build
+@@ -252,8 +252,8 @@ if 'CONFIG_CURL' in config_host
+                             link_args: config_host['CURL_LIBS'].split())
+ endif
+ libudev = not_found
+-if 'CONFIG_LIBUDEV' in config_host
+-  libudev = declare_dependency(link_args: config_host['LIBUDEV_LIBS'].split())
++if target_os == 'linux'
++  libudev = dependency('libudev', static: enable_static)
+ endif
+ brlapi = not_found
+ if 'CONFIG_BRLAPI' in config_host
+@@ -435,6 +435,7 @@ has_gettid = cc.has_function('gettid')
+ 
+ # Create config-host.h
+ 
++config_host_data.set('CONFIG_LIBUDEV', libudev.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+@@ -1515,7 +1516,7 @@ summary_info += {'sheepdog support':  config_host.has_key('CONFIG_SHEEPDOG')}
+ summary_info += {'capstone':          config_host.has_key('CONFIG_CAPSTONE')}
+ summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
+ summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
+-summary_info += {'libudev':           config_host.has_key('CONFIG_LIBUDEV')}
++summary_info += {'libudev':           libudev.found()}
+ summary_info += {'default devices':   config_host['CONFIG_MINIKCONF_MODE'] == '--defconfig'}
+ summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
+ summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
 -- 
 2.18.2
 
