@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA8E2702C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:02:32 +0200 (CEST)
-Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22C72702E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Sep 2020 19:07:52 +0200 (CEST)
+Received: from localhost ([::1]:56408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJJmJ-0007vK-2l
-	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:02:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44036)
+	id 1kJJrU-0004Wg-0U
+	for lists+qemu-devel@lfdr.de; Fri, 18 Sep 2020 13:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJMU-0001vC-JH
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:35:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34226)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kJJMR-0007iK-9w
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:35:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600446946;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wZDOMOo+4KTzwsFlpiGnldWqFJ5sfaKidwjKy4A9jnI=;
- b=EG7xfLJoeAc424/KsM1A2pfW0c+sB26LuJgKlysO3uWiMGOsYvISKbirHDNN4g/I3//QG0
- VOXai7YcQQ677tzZd3lNtzf7Go24BUJrA2+tmb9x3Xhd+Sh1Ei5ME5HKCNCGvuMDANwVE/
- 5awkd+KW23F6qlDtIhfQxZpdq06qP/E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-hOmY4HbZOT-_3wbmAyx9gQ-1; Fri, 18 Sep 2020 12:35:39 -0400
-X-MC-Unique: hOmY4HbZOT-_3wbmAyx9gQ-1
-Received: by mail-wr1-f72.google.com with SMTP id 33so2349633wre.0
- for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 09:35:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wZDOMOo+4KTzwsFlpiGnldWqFJ5sfaKidwjKy4A9jnI=;
- b=sM8xFqATir3K8ing0Ol7baluY1kj3DZKRsygE6QXcqfFZqCxuZgFZTpS8eLG+JEbG3
- Cnppsk0gPq8xGLEoq840/rtZoLgP4P0eT4+yXqqzyoeGsKbnjNOpwMWpBoArqJKB8Noc
- wUUIEOTY3t59qfUHYRt5cvGpZd7/OKqHEHl6U+tBYsLf2rliV/vW2tnzPIQcr71uGaZ/
- xeJSGvSviD9PiHfnhSb9bpz/wUzvNbGrtjkGXmTc1rXuS0BNpwVwiVC5scpBuQ2l769t
- VpjcYuJ+cTb2RsJJ1aVaQ47UTtOmsqinmoTQZK/fyeRw/Eekg9KeAPv8dC9nognMHI4s
- +bJw==
-X-Gm-Message-State: AOAM5305BXe4xKTPi9QqQkKNP/99/vmA7jy963bkzOvwMFoekvHJ0g6t
- DQgwBVE0BKKyKumRFZ4sKB5y23laKwRd957qMNWMKYyyLZ9kpCy8FzZcNjpPipdcR394nkmJJp+
- 6RjRgHv6YX4Swkkk=
-X-Received: by 2002:a5d:4151:: with SMTP id c17mr41519608wrq.302.1600446937705; 
- Fri, 18 Sep 2020 09:35:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEPBr0A7zA5gQGiyFyeAlczpHto2H9ku02wNUzK6pTNtJwlLz3CXh7lJ36IhaCuhoT8eiqrQ==
-X-Received: by 2002:a5d:4151:: with SMTP id c17mr41519583wrq.302.1600446937454; 
- Fri, 18 Sep 2020 09:35:37 -0700 (PDT)
-Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
- [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id u66sm20557957wme.1.2020.09.18.09.35.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 09:35:36 -0700 (PDT)
-Date: Fri, 18 Sep 2020 12:35:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PULL v2 00/15] virtio,pc,acpi: fixes, tests
-Message-ID: <20200918123517-mutt-send-email-mst@kernel.org>
-References: <20200918161836.318893-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJJW5-0003ew-Fc
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:45:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJJVz-0000wl-6P
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 12:45:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kJJVw-0007Wa-G6
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 16:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 746872E8058
+ for <qemu-devel@nongnu.org>; Fri, 18 Sep 2020 16:45:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200918161836.318893-1-mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 01:32:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 18 Sep 2020 16:38:29 -0000
+From: Paolo Bonzini <1896096@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+ <160044557014.21075.1431968160944824398.malone@wampee.canonical.com>
+Message-Id: <CAHFMJ7ve2_UMwzNGvYjK=pQdrAz2S-UfnaNaeQ53kvLUgVwN+w@mail.gmail.com>
+Subject: Re: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: 48a90bc84d974987e1e83a8917e9ed5ea73e7e06
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/18 05:01:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,121 +74,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-found a problem on some build systems. sorry.
-will post v3.
+What's your new configure command line? Attach the config.log and make V=3D1
+log again please.
 
-On Fri, Sep 18, 2020 at 12:19:59PM -0400, Michael S. Tsirkin wrote:
-> changes from v1:
->     rebased on master
->     pick a fixed patch version - noticed by Raphael
-> 
-> The following changes since commit e883b492c221241d28aaa322c61536436090538a:
-> 
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-aspeed-20200918' into staging (2020-09-18 13:36:42 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to b98061bc65dae34cfabcfe2c123a5b14347c6135:
-> 
->   virtio-iommu-pci: force virtio version 1 (2020-09-18 12:18:05 -0400)
-> 
-> ----------------------------------------------------------------
-> virtio,pc,acpi: fixes, tests
-> 
-> Fixes and tests all over the place.
-> Batch iommu updates for vdpa.
-> Removal of deprecated cpu hotplug commands.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> David Hildenbrand (1):
->       pc: fix auto_enable_numa_with_memhp/auto_enable_numa_with_memdev for the 5.0 machine
-> 
-> Dima Stepanov (7):
->       vhost: recheck dev state in the vhost_migration_log routine
->       vhost: check queue state in the vhost_dev_set_log routine
->       tests/qtest/vhost-user-test: prepare the tests for adding new dev class
->       tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
->       tests/qtest/vhost-user-test: add support for the vhost-user-blk device
->       tests/qtest/vhost-user-test: add migrate_reconnect test
->       tests/qtest/vhost-user-test: enable the reconnect tests
-> 
-> Eric Auger (2):
->       virtio-iommu: Check gtrees are non null before destroying them
->       virtio-iommu-pci: force virtio version 1
-> 
-> Igor Mammedov (1):
->       cphp: remove deprecated cpu-add command(s)
-> 
-> Jason Wang (3):
->       linux headers: sync to 5.9-rc4
->       vhost: switch to use IOTLB v2 format
->       vhost-vdpa: batch updating IOTLB mappings
-> 
-> Li Qiang (1):
->       virtio-mem: detach the element from the virtqueue when error occurs
-> 
->  qapi/machine.json                                  |  24 --
->  include/hw/boards.h                                |   1 -
->  include/hw/i386/pc.h                               |   1 -
->  include/hw/virtio/vhost-backend.h                  |   2 +
->  include/hw/virtio/vhost-user-blk.h                 |  10 +
->  include/hw/virtio/vhost-vdpa.h                     |   1 +
->  include/hw/virtio/vhost.h                          |   1 +
->  include/monitor/hmp.h                              |   1 -
->  include/standard-headers/drm/drm_fourcc.h          | 140 ++++++++++
->  include/standard-headers/linux/ethtool.h           |  87 +++++++
->  include/standard-headers/linux/input-event-codes.h |   3 +-
->  include/standard-headers/linux/vhost_types.h       |  11 +
->  include/standard-headers/linux/virtio_9p.h         |   4 +-
->  include/standard-headers/linux/virtio_blk.h        |  26 +-
->  include/standard-headers/linux/virtio_config.h     |   8 +-
->  include/standard-headers/linux/virtio_console.h    |   8 +-
->  include/standard-headers/linux/virtio_net.h        |   6 +-
->  include/standard-headers/linux/virtio_scsi.h       |  20 +-
->  linux-headers/asm-generic/unistd.h                 |   6 +-
->  linux-headers/asm-mips/unistd_n32.h                |   1 +
->  linux-headers/asm-mips/unistd_n64.h                |   1 +
->  linux-headers/asm-mips/unistd_o32.h                |   1 +
->  linux-headers/asm-powerpc/kvm.h                    |   5 +
->  linux-headers/asm-powerpc/unistd_32.h              |   1 +
->  linux-headers/asm-powerpc/unistd_64.h              |   1 +
->  linux-headers/asm-s390/kvm.h                       |   7 +-
->  linux-headers/asm-s390/unistd_32.h                 |   1 +
->  linux-headers/asm-s390/unistd_64.h                 |   1 +
->  linux-headers/asm-x86/unistd_32.h                  |   1 +
->  linux-headers/asm-x86/unistd_64.h                  |   1 +
->  linux-headers/asm-x86/unistd_x32.h                 |   1 +
->  linux-headers/linux/kvm.h                          |   4 +
->  linux-headers/linux/vfio.h                         |   2 +-
->  linux-headers/linux/vhost.h                        |   2 +
->  hw/block/vhost-user-blk.c                          |  19 +-
->  hw/core/machine-hmp-cmds.c                         |  12 -
->  hw/core/machine-qmp-cmds.c                         |  12 -
->  hw/i386/pc.c                                       |  27 --
->  hw/i386/pc_piix.c                                  |   1 -
->  hw/i386/pc_q35.c                                   |   2 +-
->  hw/s390x/s390-virtio-ccw.c                         |  12 -
->  hw/virtio/vhost-backend.c                          |  88 +++++--
->  hw/virtio/vhost-vdpa.c                             |  66 +++++
->  hw/virtio/vhost.c                                  |  49 +++-
->  hw/virtio/virtio-iommu-pci.c                       |   2 +-
->  hw/virtio/virtio-iommu.c                           |   8 +-
->  hw/virtio/virtio-mem.c                             |   3 +
->  tests/qtest/cpu-plug-test.c                        | 100 +------
->  tests/qtest/libqos/virtio-blk.c                    |  14 +-
->  tests/qtest/test-hmp.c                             |   1 -
->  tests/qtest/vhost-user-test.c                      | 290 ++++++++++++++++++---
->  docs/system/deprecated.rst                         |  25 +-
->  hmp-commands.hx                                    |  15 --
->  53 files changed, 813 insertions(+), 323 deletions(-)
-> 
+That said, I noticed that the flags were included twice in the linker
+command line so maybe you've only removed them in one place.
 
+Il ven 18 set 2020, 18:20 Frederic Bezies <1896096@bugs.launchpad.net> ha
+scritto:
+
+> Even with LDFLAGS tweaking, it breaks. Anyway, thanks for your help
+> here.
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1896096
+>
+> Title:
+>   Git version: Build process is broken in block_curl.c.o
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
+>
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1896096
+
+Title:
+  Git version: Build process is broken in block_curl.c.o
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
+
+  Configure options used:
+
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
+
+  Error log attached. Here is the beginning:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
