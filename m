@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A329A27105A
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 21:47:13 +0200 (CEST)
-Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD98927107A
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 22:51:09 +0200 (CEST)
+Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJipE-0002AH-8x
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 15:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
+	id 1kJjp6-0006m0-BQ
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 16:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJink-0001cl-9s
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 15:45:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJini-0008Az-0y
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 15:45:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kJinf-0004bs-LT
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 19:45:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9078F2E80E7
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 19:45:35 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 19 Sep 2020 19:38:01 -0000
-From: Benjamin David Lunt <1896342@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fysnet
-X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
-X-Launchpad-Bug-Modifier: Benjamin David Lunt (fysnet)
-References: <160054207000.14948.11107647546582134186.malonedeb@gac.canonical.com>
-Message-Id: <160054428139.14798.14925272531331087384.malone@gac.canonical.com>
-Subject: [Bug 1896342] Re: IDE ATA IDENTIFY WORD 106
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 45214963f857204ad419d8aee5a1d555a6cf4165
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 15:10:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <hc94@poolhem.se>) id 1kJgxc-0004dC-F5
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 13:47:44 -0400
+Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1]:37034
+ helo=ns12.inleed.net)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hc94@poolhem.se>) id 1kJgxZ-0003Rd-6K
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 13:47:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+ In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=u198mhXbRjsFn2ZOgJPDFzjsb+fgVNw2/BEFi6zEDA4=; b=AVOjWivofzaAAcjgGFCVEYuXV0
+ qAKgXoLFrlW7FZUom5KUuh05Q3Cec0Ge9Y8zIlLTWQ4VpdOs7MQxmggmeegi96p63p681oZy4mhio
+ VsBEMVvNm35c9EmzcHeRkVX3GAle8fIXYgoe9zxZ8oLgYbKkUu1LpjcujYl+1IMDNyyDgDOW32NAL
+ /X9KMBfegLmGcNLJuLGOIzgqdFHUZWTySFp1zc3elrId5mL0j0aFbdjB7X8eJYYF5q0v64u1hlYSO
+ KvUM3RI5UDwKm6byKmZizPonyL/7uBunvt9xw8RpyosAxfxDjPKDcdclBZnhdtZZGn3kLIlTWxi4i
+ nrjP/74w==;
+Received: from [213.115.245.47] (helo=balrog.lkp.se)
+ by ns12.inleed.net with esmtpa (Exim 4.93.0.4)
+ (envelope-from <hc94@poolhem.se>)
+ id 1kJgxW-004z9E-W1; Sat, 19 Sep 2020 19:47:39 +0200
+Date: Sat, 19 Sep 2020 19:47:12 +0200
+From: Henrik Carlqvist <hc94@poolhem.se>
+To: Henrik Carlqvist <hc981@poolhem.se>
+Subject: Ping2: [PATCH v2] Emulate dip switch language layout settings on
+ SUN keyboard
+Message-Id: <20200919194712.1ddd62cf.hc94@poolhem.se>
+In-Reply-To: <20200803222049.2967aeda.hc981@poolhem.se>
+References: <20200803222049.2967aeda.hc981@poolhem.se>
+X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: henrik@poolhem.se
+Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
+ envelope-from=hc94@poolhem.se; helo=ns12.inleed.net
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_SOFTFAIL=0.732, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 19 Sep 2020 16:48:42 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,76 +71,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896342 <1896342@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For more information, Annex-E of the ACS-2 explains this as well.
+Just wanted to check that my patch hasn't been forgotten... I was hoping that
+it would make it into some branch in git.
 
-http://www.t13.org/Documents/UploadedDocuments/docs2009/d2015r2
--ATAATAPI_Command_set_-_2_ACS-2.pdf
+Do you want me to do any more changes to the patch or the description?
 
-See the statement on the top of page 165 as well.  "If bit 13 is set,
-then bits 3:0 are valid".
+Best regards Henrik
 
-Page 119 of that same document states:
-  "13  1 =3D Device has multiple logical sectors per physical sector."
+On Mon, 3 Aug 2020 22:20:49 +0200
+Henrik Carlqvist <hc981@poolhem.se> wrote:
 
-In my opinion, if bit 13 is set and bits 3:0 are valid, then bits 3:0
-should be non-zero.
-
-Therefore, I gather that in QEMU (assuming that get_physical_block_exp()
-returns the same value shown in the example listing above):
-
-1) if get_physical_block_exp() return a non-zero value, bit 13 must be set =
-and bits 3:0 will be non-zero.
-2) if get_physical_block_exp() return a zero value, bit 13 must be clear an=
-d bits 3:0 must be ignored.
-
-Please correct me if I am wrong in these assumptions.
-
-Thanks,
-Ben
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896342
-
-Title:
-  IDE ATA IDENTIFY WORD 106
-
-Status in QEMU:
-  New
-
-Bug description:
-  The code at line 202 in hw/ide/core.c
-   (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/ide/core.c;#l201)
-  hard codes bit 13 set.  However, get_physical_block_exp() can and may ret=
-urn 0, which is a valid response. If get_physical_block_exp() does return z=
-ero, bit 13 should not be set.
-
-  ATAPI8 states (Section 7.17.7.73):
-   "Bit 13 of word 106 shall be set to one to indicate that the device has =
-more than one logical sector per physical sector"
-
-  and gives the examples:
-    Bits (3:0): 0 =3D 2^0 =3D 1 logical sector per physical sector
-    Bits (3:0): 1 =3D 2^1 =3D 2 logical sector per physical sector
-    Bits (3:0): 2 =3D 2^2 =3D 4 logical sector per physical sector
-    Bits (3:0): 3 =3D 2^3 =3D 8 logical sector per physical sector
-
-  Therefore, if bit 13 is set, bits 3:0 must be greater than zero.
-
-  If get_physical_block_exp() returns zero then there is a 1:1 ratio and
-  bit 13 must be 0.
-
-  Just my opinion.
-
-  Thanks,
-  Ben
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896342/+subscriptions
+> This is my second attempt to contribute a patch which makes the -k switch
+> useful for sparc emulation as its value is used to emulate the dip switch
+> in a SUN keyboard for language layout setting.
+> 
+> Unfortunately my glib version is too old to compile later versions of qemu
+> so even though this patch is made from latest git I have only been able to
+> test it myself with qemu version 4.1.1. I think and hope that this patch
+> will compile and work also with the latest version of git as it only affects
+> one file and there hasn't been much changes to that file since tested
+> version 4.1.1.
+> 
+> Best regards Henrik
+> 
+> From e302b02dec32c28297ed20d852c5fba2c1682f5a Mon Sep 17 00:00:00 2001
+> From: Henrik Carlqvist <hc1245@poolhem.se>
+> Date: Mon, 3 Aug 2020 22:11:55 +0200
+> Subject: [PATCH] Emulating sun keyboard language layout dip switches, taking
+>  the value for the dip switches from the "-k" option to qemu.
+> 
+> SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
+> layout of the keyboard. Solaris makes an ioctl to query the value of the
+> dipswitches and uses that value to select keyboard layout. Also the SUN
+> bios like the one in the file ss5.bin uses this value to support at least
+> some keyboard layouts. However, the OpenBIOS provided with qemu is
+> hardcoded to always use an US keyboard layout.
+> 
+> Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
+> this patch uses the command line switch "-k" (keyboard layout) to select
+> dip switch value. A table is used to lookup values from arguments like:
+> 
+> -k fr
+> -k es
+> 
+> But the patch also accepts numeric dip switch values directly to the -k
+> switch:
+> 
+> -k 0x2b
+> -k 43
+> 
+> Both values above are the same and select swedish keyboard as explained in
+> table 3-15 at
+> https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+> 
+> Unless you want to do a full Solaris installation but happen to have
+> access to a bios file, the easiest way to test that the patch works is to:
+> 
+> qemu-system-sparc -k sv -bios /path/to/ss5.bin
+> 
+> If you already happen to have a Solaris installation in a qemu disk image
+> file you can easily try different keyboard layouts after this patch is
+> applied.
+> 
+> Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
+> ---
+>  hw/char/escc.c | 74
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++- 1 file changed,
+> 73 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/char/escc.c b/hw/char/escc.c
+> index 7d16ee8688..7287056b5f 100644
+> --- a/hw/char/escc.c
+> +++ b/hw/char/escc.c
+> @@ -30,6 +30,8 @@
+>  #include "qemu/module.h"
+>  #include "hw/char/escc.h"
+>  #include "ui/console.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qemu/cutils.h"
+>  #include "trace.h"
+>  
+>  /*
+> @@ -175,6 +177,7 @@
+>  #define R_MISC1I 14
+>  #define R_EXTINT 15
+>  
+> +static unsigned char sun_keyboard_layout_dip_switch(void);
+>  static void handle_kbd_command(ESCCChannelState *s, int val);
+>  static int serial_can_receive(void *opaque);
+>  static void serial_receive_byte(ESCCChannelState *s, int ch);
+> @@ -730,6 +733,75 @@ static QemuInputHandler sunkbd_handler = {
+>      .event = sunkbd_handle_event,
+>  };
+>  
+> +static unsigned char sun_keyboard_layout_dip_switch(void)
+> +{
+> +    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
+> +    static unsigned char ret = 0xff;
+> +
+> +    if ((ret == 0xff) && keyboard_layout) {
+> +        int i;
+> +        struct layout_values {
+> +            const char *lang;
+> +            unsigned char dip;
+> +        } languages[] =
+> +    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards
+> */+            {
+> +                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
+> +                                 /* 0x22 is some other US (US_UNIX5.kt)*/
+> +                {"fr",    0x23}, /* France (France5.kt) */
+> +                {"da",    0x24}, /* Denmark (Denmark5.kt) */
+> +                {"de",    0x25}, /* Germany (Germany5.kt) */
+> +                {"it",    0x26}, /* Italy (Italy5.kt) */
+> +                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
+> +                {"no",    0x28}, /* Norway (Norway.kt) */
+> +                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
+> +                {"es",    0x2a}, /* Spain (Spain5.kt) */
+> +                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
+> +                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
+> +                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
+> +                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
+> +                {"ko",    0x2f}, /* Korea (Korea5.kt) */
+> +                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
+> +                {"ja",    0x31}, /* Japan (Japan5.kt) */
+> +                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
+> +                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
+> +                {"pl",    0x34}, /* Poland (Poland5.kt) */
+> +                {"cz",    0x35}, /* Czech (Czech5.kt) */
+> +                {"ru",    0x36}, /* Russia (Russia5.kt) */
+> +                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
+> +                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
+> +                {"gr",    0x39}, /* Greece (Greece5.kt) */
+> +                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
+> +                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
+> +                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
+> +                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
+> +            };
+> +
+> +        for (i = 0;
+> +             i < sizeof(languages) / sizeof(struct layout_values);
+> +             i++) {
+> +            if (!strcmp(keyboard_layout, languages[i].lang)) {
+> +                ret = languages[i].dip;
+> +                return ret;
+> +            }
+> +        }
+> +        /* Found no known language code */
+> +
+> +        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
+> +            unsigned int tmp;
+> +            /* As a fallback we also accept numeric dip switch value */
+> +            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
+> +                ret = (unsigned char)tmp;
+> +            }
+> +        }
+> +    }
+> +    if (ret == 0xff) {
+> +        /* Final fallback if keyboard_layout was not set or recognized */
+> +        ret = 0x21; /* en-us layout */
+> +    }
+> +    return ret;
+> +}
+> +
+>  static void handle_kbd_command(ESCCChannelState *s, int val)
+>  {
+>      trace_escc_kbd_command(val);
+> @@ -751,7 +823,7 @@ static void handle_kbd_command(ESCCChannelState *s, int
+> val)     case 0xf:
+>          clear_queue(s);
+>          put_queue(s, 0xfe);
+> -        put_queue(s, 0x21); /*  en-us layout */
+> +        put_queue(s, sun_keyboard_layout_dip_switch());
+>          break;
+>      default:
+>          break;
+> -- 
+> 2.14.5
 
