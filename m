@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1CB270F54
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:13:17 +0200 (CEST)
-Received: from localhost ([::1]:35318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E13D270F48
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:07:49 +0200 (CEST)
+Received: from localhost ([::1]:44964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfUC-0004LV-G4
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51142)
+	id 1kJfOu-0004uo-6A
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfGw-0005Bl-4p
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28593)
+ id 1kJfGx-0005DY-UP
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfGu-0007M3-A2
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:33 -0400
+ id 1kJfGu-0007MD-Ah
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531170;
+ s=mimecast20190719; t=1600531171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2i+OPwI+aGP3tc5CwQ7IlJ9UEOyq08GnarJOZkVRXCw=;
- b=T8XmHuf7wrfeelH95zwQXAgcjkp8cg5IJ2CYFYpPZtZn8rAQclgOqWKV10BacxH7eveNET
- K4rQy4yhRTeZbRIMU3SOlCmRaOm6ogaPqZU9s1k86zb+BclAA4SyMuqd+MtJXC8PT7ec+B
- pvVPmJnW3Yu4z0sqzZTKoFCd/NOALoA=
+ bh=onQMoCCAGls0VB8cHuzv+FYOkPBuZIpvYqOxHWyox8c=;
+ b=Mk0kyoZZt8UowbGU5AEBp2n2eZRphvY0HRww+fpDAz8ewRGFLwjHHdSZvoNkmlLjT72WW8
+ noFYFSquogc2GatHs8HnE2wYj2CDWiKIcM6Qe0dLqJdUiHduZPOmsh++MNAPBkDTBMKdQb
+ o1giGt1Stj0PwoY/QT48/skcdtKFaSo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-RGqJbOKrPRi1sbCZXQQ3cg-1; Sat, 19 Sep 2020 11:59:26 -0400
-X-MC-Unique: RGqJbOKrPRi1sbCZXQQ3cg-1
+ us-mta-574-dYrovaY0NCeQXKOGcMFjWQ-1; Sat, 19 Sep 2020 11:59:29 -0400
+X-MC-Unique: dYrovaY0NCeQXKOGcMFjWQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2898856BF9;
- Sat, 19 Sep 2020 15:59:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6971F10066FC
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:28 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89BE610016DA;
- Sat, 19 Sep 2020 15:59:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 447D61002388;
+ Sat, 19 Sep 2020 15:59:25 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/57] configure: Do not intent to build WHPX on 32-bit host
-Date: Sat, 19 Sep 2020 11:58:27 -0400
-Message-Id: <20200919155916.1046398-9-pbonzini@redhat.com>
+Subject: [PULL 09/57] MAINTAINERS: add Paolo Bonzini as RCU maintainer
+Date: Sat, 19 Sep 2020 11:58:28 -0400
+Message-Id: <20200919155916.1046398-10-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,40 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Hyper-V is available on 64-bit versions of Windows,
-do not try to build its support on 32-bit versions.
+The RCU code that Paolo maintains is missing a MAINTAINERS file entry.
 
-Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-Message-Id: <20200910054516.405777-1-f4bug@amsat.org>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200909090851.14458-1-stefanha@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/configure b/configure
-index ce27eafb0a..7662b3bf6f 100755
---- a/configure
-+++ b/configure
-@@ -2981,7 +2981,10 @@ fi
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3d17cad19a..9b01385484 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2310,6 +2310,14 @@ F: softmmu/cpus.c
+ F: softmmu/cpu-throttle.c
+ F: qapi/run-state.json
  
- ##########################################
- # Windows Hypervisor Platform accelerator (WHPX) check
--if test "$whpx" != "no" ; then
-+if test "$whpx" = "yes" && test "$ARCH" != "x86_64"; then
-+  error_exit "WHPX requires 64-bit host"
-+fi
-+if test "$whpx" != "no" && test "$ARCH" = "x86_64"; then
-     if check_include "WinHvPlatform.h" && check_include "WinHvEmulation.h"; then
-         whpx="yes"
-     else
++Read, Copy, Update (RCU)
++M: Paolo Bonzini <pbonzini@redhat.com>
++S: Maintained
++F: include/qemu/rcu*.h
++F: tests/rcutorture.c
++F: tests/test-rcu-*.c
++F: util/rcu.c
++
+ Human Monitor (HMP)
+ M: Dr. David Alan Gilbert <dgilbert@redhat.com>
+ S: Maintained
 -- 
 2.26.2
 
