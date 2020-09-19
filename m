@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579F4270F95
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:41:38 +0200 (CEST)
-Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACBD270F9F
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:47:52 +0200 (CEST)
+Received: from localhost ([::1]:58154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfvd-0008Cb-Dt
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52460)
+	id 1kJg1f-0007Ly-Ne
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:47:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJfK5-0008N8-E0
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:02:49 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34398)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJfeM-0001Ex-BZ; Sat, 19 Sep 2020 12:23:46 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:33440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJfK3-0007tD-G0
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:02:49 -0400
-Received: by mail-wm1-x342.google.com with SMTP id l15so8696683wmh.1
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 09:02:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kJfeK-0001ZU-6j; Sat, 19 Sep 2020 12:23:45 -0400
+Received: by mail-lj1-x243.google.com with SMTP id k25so7577726ljk.0;
+ Sat, 19 Sep 2020 09:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FSDTJJm0AiY1cJL804Ya2N20+pLbHfwZZl1522+7sqM=;
- b=e5iqCmCoSDIx81UStpCXLYgMzT3btCrLhxtfTHaqhIF46jZ47TSbGwyj3uahNo/fmk
- 8G0tomDwD4hLZp3ir/4NZbkKZTRT3qFvn8aGtcnsayAEbSKSSpazEqEtCeij/YXr7ZWY
- FUz/45qxUfNMiaFet7Cpg60QGVntAEw3V2/WueJ1L6H0HaUVoOxbwnNRbRz0GUVLePIP
- UbbvWLeS9OZ4HgYNtNGYCtQkPA0Y374RK7HWwaPK0kTrkBo3R2eDkMq1CvaU67vIHp1n
- AaNNth6MRYUEu/H1GAYRw7GNPzj0Ix1O2vNlyA9KnujskwydxNtpvnRQKwiOCQb9GvRk
- Y4PQ==
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=h1dK1H3qIZ3YtwRio+FVOyiBNnTsEnjaiHbmZEifJpc=;
+ b=IsASpxtbYTzFKN5Pb/jq2DCqAuLlJcakbL5rKMoTwJqTu+LkZTMMcrItBa4/ozTBXM
+ wODn57Taqk5qUvuLK1WSqpIhp1+bGK+xT/xe9FKnxTFTLQllckK2QaPGbt/epVeDo57T
+ YkT9RGbnnmIChdzHgsvohlvS8oP6v1oBioQys+MKDbNUd6xk1L804mSjWTyTVnt2mfLX
+ T5IIcgFaTLewib1n4T6FHQhtDOVb3gJmNNCvl+HMtpZU8BkZFOyjrWpPVetopYJZ6OwB
+ FDb3cercUleTbpvNlmotXacpmZslD3mwrJOL+87d3jqoY4wz01MbwLN9+GFsIrSdZmpE
+ RGNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FSDTJJm0AiY1cJL804Ya2N20+pLbHfwZZl1522+7sqM=;
- b=Na329aZFit3e8OCbRSLcND3NYn4JQ4ExJH+Bav1sLaLGK2F189sQkgGDrlZIhTVrlQ
- umZHt+aNe5LdCT4Rq3NnoTAk/EKHHjRTLivyAokqSjiHTIPMTSwxcZiY8cySy3lmgMza
- puxISfznQMnl6kQQUYSIz6sDsVt8Y9thUkP6KHBr4Fdp7WueOXhRGyTEcf4uoKGXEp++
- Duq6vrWU11sGBbHQqrsQkI2r0NKSBWxvG/8IXTQ4E957SbSwfbavrSJq8EOdhEHI6yAX
- RmOrMfwPORWGqCC3PtbJ4VWRuUgrGCu4RsPZD1Q+dFJBMqiAClmJAf1RhclrIddCEadq
- YRhw==
-X-Gm-Message-State: AOAM530s1R6W+RzXHO3lB8rEHLJSlBXv5iE1jN+gvpEdsTVuY3VIJISG
- EiSfhUEvg9PUR5b7YZ6qavM=
-X-Google-Smtp-Source: ABdhPJy2pBs8k6Url+zAMul3o2snoC2P+ywFJNDLodCXkaqY+m7mhGMyZsG7zspurYp0C1CN2vINZw==
-X-Received: by 2002:a1c:7c17:: with SMTP id x23mr22077798wmc.165.1600531365721; 
- Sat, 19 Sep 2020 09:02:45 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id h8sm11885623wrw.68.2020.09.19.09.02.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Sep 2020 09:02:45 -0700 (PDT)
-Subject: Re: [PATCH] configure: fix performance regression due to PIC objects
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200919155639.1045857-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2ae0f4d8-a80e-e682-0752-4051c703046b@amsat.org>
-Date: Sat, 19 Sep 2020 18:02:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=h1dK1H3qIZ3YtwRio+FVOyiBNnTsEnjaiHbmZEifJpc=;
+ b=CxjoFzn9Vj1HYzitYIEIWyLbpAc9WnA/+EvmlvuFM/0E1eYqFREJTCWwGjT1nouFSt
+ 11qe2cHfd9u1xQYtRGSw0WAFmTrrZ4TF/ZUOGaL9Fzkgemarr6PcDCPguuwqnelPZPwH
+ jmi29qXSCEkOl7oVNgNhPLk71/jI5Z7FjqxtP0lv4XArDguO4SVlg0xJjQLgd8rt1vZQ
+ hx6e+Rvrl6zpfmSSYo4fFiZmR25V8BAjr2XAQc4MZM+GXol4btJwcFmsQ6FAAxz3hv7T
+ po7pOGuz/n9DJiJyPhr9phiuxQ1G/e2IaXvXAvRY1D2GrJls6h3hPBcHwuKOEvv1LCev
+ FErQ==
+X-Gm-Message-State: AOAM533LtWEJqD/VG6ptV/Jr8F9cZkKj5N8APQf5MCUvyR2izRatYx0M
+ RSAZNMk8J2MYKLVqq5GS6IagCPBuLk7eu2JP5AA=
+X-Google-Smtp-Source: ABdhPJyl54WJITNX7jUozJdJNDECrHaBqibsGogCe/foCCFcmIpGSceBbOzJiS9YUD2pwGJ6IRKSv2lqsfRTLds19aw=
+X-Received: by 2002:a05:651c:1119:: with SMTP id
+ d25mr12281989ljo.300.1600532621507; 
+ Sat, 19 Sep 2020 09:23:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200919155639.1045857-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+References: <20200918160250.1141-1-luoyonggang@gmail.com>
+ <CAE2XoE9Vf3Zixv6Ds0BmO9O5EWWjPbG-0EkP0BEbPikuCc4SVg@mail.gmail.com>
+ <5c0699e8-62ef-8f29-182f-a0744c727bae@redhat.com>
+In-Reply-To: <5c0699e8-62ef-8f29-182f-a0744c727bae@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Sun, 20 Sep 2020 00:23:31 +0800
+Message-ID: <CAE2XoE-Z5zLjs1aKmghXoXLUm7tguro5GFLBFPOKhv1Uq42b2A@mail.gmail.com>
+Subject: Re: [PATCH v5 0/4] Fixes curses on msys2/mingw
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000005b3f5805afad0ae0"
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,40 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Ahmed Karaman <ahmedkrmn@outlook.com>
+Reply-To: luoyonggang@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-level <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Aleksandar as Ahmed is away.
+--0000000000005b3f5805afad0ae0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/19/20 5:56 PM, Paolo Bonzini wrote:
-> Because most files in QEMU are grouped into static libraries, Meson conservatively
-> compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
-> some TCG tests.
-> 
-> As a stopgap measure, use the b_staticpic option to limit the slowdown to
-> --enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
-> us to use b_staticpic=false and let Meson do the right thing.
-> 
-> Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/configure b/configure
-> index 0004c46525..0786144043 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7414,6 +7414,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
->          -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
->          -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
->          -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-> +        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
->          -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
->  	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
->  	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
-> 
+On Sat, Sep 19, 2020 at 11:03 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 18/09/20 18:10, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
+> >
+> >> Yonggang Luo (4):
+> >>   curses: Fixes compiler error that complain don't have langinfo.h on
+> >>     msys2/mingw
+> >>   curses: Fixes curses compiling errors.
+> >>   win32: Simplify gmtime_r detection not depends on if  _POSIX_C_SOURC=
+E
+> >>     are defined on msys2/mingw
+> >>   configure: Fixes ncursesw detection under msys2/mingw by convert the=
+m
+> >>     to meson
+>
+> Hi, patches 1-3 are okay, but for patch 4 I think it's better to wait
+> for Meson 0.56 which will likely embed all the magic needed to test
+> curses (https://github.com/mesonbuild/meson/pull/7757).
+>
+> Paolo
+>
+Wonderfull, I think there is no need fixing configure anymore, so I convert
+it to meson
 
+Waiting https://github.com/mesonbuild/meson/pull/7757 to be merged.
+In deed when I convert to meson, I am facing a problem that
+DNCURSES_WIDECHAR  can not be tested with the library.
+
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--0000000000005b3f5805afad0ae0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Sat, Sep 19, 2020 at 11:03 PM Paolo Bonzini &lt=
+;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank">pbonzini@redhat.c=
+om</a>&gt; wrote:<br>&gt;<br>&gt; On 18/09/20 18:10, =E7=BD=97=E5=8B=87=E5=
+=88=9A(Yonggang Luo) wrote:<br>&gt; &gt;<br>&gt; &gt;&gt; Yonggang Luo (4):=
+<br>&gt; &gt;&gt; =C2=A0 curses: Fixes compiler error that complain don&#39=
+;t have langinfo.h on<br>&gt; &gt;&gt; =C2=A0 =C2=A0 msys2/mingw<br>&gt; &g=
+t;&gt; =C2=A0 curses: Fixes curses compiling errors.<br>&gt; &gt;&gt; =C2=
+=A0 win32: Simplify gmtime_r detection not depends on if =C2=A0_POSIX_C_SOU=
+RCE<br>&gt; &gt;&gt; =C2=A0 =C2=A0 are defined on msys2/mingw<br>&gt; &gt;&=
+gt; =C2=A0 configure: Fixes ncursesw detection under msys2/mingw by convert=
+ them<br>&gt; &gt;&gt; =C2=A0 =C2=A0 to meson<br>&gt;<br>&gt; Hi, patches 1=
+-3 are okay, but for patch 4 I think it&#39;s better to wait<br>&gt; for Me=
+son 0.56 which will likely embed all the magic needed to test<br>&gt; curse=
+s (<a href=3D"https://github.com/mesonbuild/meson/pull/7757" target=3D"_bla=
+nk">https://github.com/mesonbuild/meson/pull/7757</a>).<br>&gt;<br>&gt; Pao=
+lo<br>&gt;<div>Wonderfull, I think there is no need fixing configure anymor=
+e, so I convert it to meson</div><div><br></div><div>Waiting=C2=A0<a href=
+=3D"https://github.com/mesonbuild/meson/pull/7757" target=3D"_blank">https:=
+//github.com/mesonbuild/meson/pull/7757</a> to be merged.</div><div>In deed=
+ when I convert to meson, I am facing a problem that=C2=A0<br>DNCURSES_WIDE=
+CHAR=C2=A0 can not be tested with the library.=C2=A0<br><br>--<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=
+=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div><=
+/div>
+
+--0000000000005b3f5805afad0ae0--
 
