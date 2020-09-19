@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAAB271009
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:56:39 +0200 (CEST)
-Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3940271006
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:54:09 +0200 (CEST)
+Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJi2I-0008Lr-F9
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1kJhzs-0005lz-PX
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhrv-0006QV-Cj; Sat, 19 Sep 2020 14:45:56 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:36865)
+ id 1kJhrs-0006Pq-RS; Sat, 19 Sep 2020 14:45:56 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:51845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhri-0001Sa-9b; Sat, 19 Sep 2020 14:45:52 -0400
+ id 1kJhra-0001SW-BM; Sat, 19 Sep 2020 14:45:49 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MVrXh-1jsS4z0XG1-00RmE9; Sat, 19 Sep 2020 20:45:20 +0200
+ id 1MidPj-1kw3QF3cff-00fmoJ; Sat, 19 Sep 2020 20:45:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/17] scripts/: fix some comment spelling errors
-Date: Sat, 19 Sep 2020 20:44:46 +0200
-Message-Id: <20200919184451.2129349-13-laurent@vivier.eu>
+Subject: [PULL 13/17] util/: fix some comment spelling errors
+Date: Sat, 19 Sep 2020 20:44:47 +0200
+Message-Id: <20200919184451.2129349-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919184451.2129349-1-laurent@vivier.eu>
 References: <20200919184451.2129349-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ToRF9ijQbLwKLUOyNUID350EhQHEUJaEBCR5GZRbDaA4yqRPpwO
- +3nZ5HNFcERP19jm/r+HzyJnPqechdUX16e6mh8EqaYu8AhisSuWIkeAAjA1CRINQ0NuEto
- pQLIul7JnU4+5LXzBUI/YlvC1eJkSG3q1agAsrFQfaJZDgoJikdNrq6HLcqu2IgkLG1A/2O
- 1VDyQv4pf4gOsvcVtKF8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gkVeuz2F/kQ=:wAj3wbq3wtVHME79IbxU8K
- 2Q3+/WoOtXsvTg5g1P32rwYJguWh6JQ8YY0feKmt3E1s1gUhhjMUaAjh4vex9jzJiv56CC839
- y76kv8gBqvMOiHtDP3fgrczW4r6EWUVUppAssZq+gW4lYk7lwGu8jah+YH44ArUatG512vFSb
- nPwDA604QDsCAYiADazN26M61tWWHnluf1gQvOAdMat8NGkj+zFhMnKDH9h3qiPUls9nstI2J
- LheGOay3OIdPCq6ZtYOvvbB1qIEyqRSI0dEBeMlb3w4lKU756VWdMC3fjCOu/87t2J8WF5NQr
- b3fTc3IgiK5Ce49P0JdWHns+8QLFE1uRSAsmAgmhlATKiOh4vNFOqZG2ZZrYjf7iLCwvfFxeW
- KAZEg/X9/WKQehKH7B1vUMZ4yFgTKHCNZCCNiN8SzwnfxHOIEmxWUurmY42D9vktfBkWSCuse
- L714LdPxRSkXixHfTSJ36W3d9xfaq2wP61Cl9RZQQCYfVZbmTrWxrUyb9ZgVaFvdcIZ12NIOH
- L2LrPWJJxd4EuS4QsNumQysIdlKWsdOea/lNyV9KEQwocU3eHa3vfIvknlXbR9tAsHAoUu0zU
- MFShzWcuSpuWIR/VSae8/rnHZjmmM9XGOG1sgyM4IyLfzMiZr7c0JKSHMys+IYdI8pKNWlFxn
- VI6axrtdATgkcP2O91ME9WvIwByJ1BcSSvwkX+uYNkBAvIvsprca+RssvKhfU2s0zEgbHXDD2
- nCXoTrDBidcufmj2krixTlRTYNbI7AU/tn+07F8+6jvLX6AIbG6OGf4vHOBOirRqoSz/jvy1q
- gN4tLuw9Mp3GN8skaTL7dyhoJZ136EdlFK5URv8VNuZUyvbr2US8SduuU63URIM60FyGpn8
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Ehfi+oTY16DeI5q/etW01GO+5fC510ZRrlSNTH42fayL5cZjRix
+ lKScQ9KKLVWiWK7CGPuUxZu6/4KbPcvPt68tkQUc9nzCrKMGTGV/ZaTZqBUaWgsRuwXDteT
+ 3qo1NVyumoxp/cnlIT9ko090ERgkEGg1oIHEYHQv56FwhwaRybXIU/im5QaSMptvFZhjJST
+ zww4f7hNt8utIfYfGIKUw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WXcGPbfjAeA=:F/jG5bojOVhXBhSx3gewrX
+ ViTQUC5MwKQxe4QF6vCvm/WlllY8Wn8BudpKV3/g4oiCCTTL2eOCd+C+j1G1pHXxQY+80njka
+ fTXOPWFvn1xP4n+uqdGgVNCOAfmff0va29VOEdp7mw6F4MqOX0mhDWE+yjKfC5q4URSbiT99b
+ h+VsvJ7DOgIShTMo5pWvWhNKBEAdU60jojdFglxrpmHiIelCbIjMJ2lxEjJZfItCO97M2yblb
+ AVLrmanB/rCtYuzS9XHDA1y+JOFBWCPNH1G1e6Yt5P6ZV+34hxx69dbNSQk00Tf+qGBKmYNPs
+ lsdDU/MYiGR/1vY9snbkS3wp1L2wMkqJuVhogjSkrrXIvEVNRexyeAiHE7x3fR7sfRbm436Gm
+ Ajjf0tfBV38UQYDcX0jeTUY+we1hoF4XchpzjZMGACIy55OURwxFt7XLQjtfeufS4sJ4oAbgR
+ d8+u9UeD9qkFxbB3BsPb/Q1oM3XXH8anHeQmmKqqbxSJoKymB2AjC5vy+llk4KIbOSm5EgNb9
+ pAf0QR4mSFgrS3ozkLAS8vDq43qoGbPHk9e+k01kjDr07TczZjOazfG+frlseSlbrpe8s+tM0
+ b9GVvdyqPjHSUz6NTY6iQT/W4iJMbnlAFzUPxH+JmxvRtcqo7obsXp3+o2d+m9Joydu8iSWyP
+ Elfjp/GzhhPQbZxUVqnVgSzG/Y3dDZdGPVyT3vzI5KsLfX34lhhjqoS1djlDd00Xft9IPw+63
+ QdA3HbKgMPl8NQeUNdCvULcaKXvx1pXUsOA0mbzi3xZ3BLScjcVk1RgxxSVIl3lgp7El4WWPF
+ XU7OslDrfv+8CM/mPy1zqNUZyqOiqHy8E5Jt7f1lOjQQR3SPdL5Vjq4VmV2ag7f9shWCtrT
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,7 +69,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Alex Bennee <alex.bennee@linaro.org>,
  zhaolichang <zhaolichang@huawei.com>, Michael Tokarev <mjt@tls.msk.ru>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -79,103 +79,99 @@ From: zhaolichang <zhaolichang@huawei.com>
 
 I found that there are many spelling errors in the comments of qemu,
 so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the scripts folder.
+and finally found some spelling errors in the util folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200917075029.313-5-zhaolichang@huawei.com>
+Reviewed-by: Alex Bennee <alex.bennee@linaro.org>
+Message-Id: <20200917075029.313-6-zhaolichang@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/checkpatch.pl          | 2 +-
- scripts/clean-header-guards.pl | 2 +-
- scripts/decodetree.py          | 6 +++---
- scripts/oss-fuzz/build.sh      | 2 +-
- scripts/tracetool/__init__.py  | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
+ util/osdep.c             | 2 +-
+ util/qemu-progress.c     | 2 +-
+ util/qemu-sockets.c      | 2 +-
+ util/qemu-thread-win32.c | 2 +-
+ util/qht.c               | 2 +-
+ util/trace-events        | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bd3faa154c36..50910899f2ee 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1870,7 +1870,7 @@ sub process {
- 			substr($s, 0, length($c), '');
+diff --git a/util/osdep.c b/util/osdep.c
+index 4829c07ff6ed..e50dc2214e36 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -392,7 +392,7 @@ int qemu_unlink(const char *name)
+  * Set errno if fewer than `count' bytes are written.
+  *
+  * This function don't work with non-blocking fd's.
+- * Any of the possibilities with non-bloking fd's is bad:
++ * Any of the possibilities with non-blocking fd's is bad:
+  *   - return a short write (then name is wrong)
+  *   - busy wait adding (errno == EAGAIN) to the loop
+  */
+diff --git a/util/qemu-progress.c b/util/qemu-progress.c
+index 3c2223c1a21c..20d51f8c128b 100644
+--- a/util/qemu-progress.c
++++ b/util/qemu-progress.c
+@@ -131,7 +131,7 @@ void qemu_progress_end(void)
+ /*
+  * Report progress.
+  * @delta is how much progress we made.
+- * If @max is zero, @delta is an absolut value of the total job done.
++ * If @max is zero, @delta is an absolute value of the total job done.
+  * Else, @delta is a progress delta since the last call, as a fraction
+  * of @max.  I.e. the delta is @delta * @max / 100. This allows
+  * relative accounting of functions which may be a different fraction of
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index b37d288866c5..99ce2fd5e61e 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -416,7 +416,7 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
  
- 			# Make sure we remove the line prefixes as we have
--			# none on the first line, and are going to readd them
-+			# none on the first line, and are going to re-add them
- 			# where necessary.
- 			$s =~ s/\n./\n/gs;
+     /* At least FreeBSD and OS-X 10.6 declare AI_V4MAPPED but
+      * then don't implement it in their getaddrinfo(). Detect
+-     * this and retry without the flag since that's preferrable
++     * this and retry without the flag since that's preferable
+      * to a fatal error
+      */
+     if (rc == EAI_BADFLAGS &&
+diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
+index 56a83333da6d..d207b0cb5885 100644
+--- a/util/qemu-thread-win32.c
++++ b/util/qemu-thread-win32.c
+@@ -289,7 +289,7 @@ void qemu_event_wait(QemuEvent *ev)
+             ResetEvent(ev->event);
  
-diff --git a/scripts/clean-header-guards.pl b/scripts/clean-header-guards.pl
-index f47d673ad5c5..a6680253b1fa 100755
---- a/scripts/clean-header-guards.pl
-+++ b/scripts/clean-header-guards.pl
-@@ -19,7 +19,7 @@
- # Does the following:
- # - Header files without a recognizable header guard are skipped.
- # - Clean up any untidy header guards in-place.  Warn if the cleanup
--#   renames guard symbols, and explain how to find occurences of these
-+#   renames guard symbols, and explain how to find occurrences of these
- #   symbols that may have to be updated manually.
- # - Warn about duplicate header guard symbols.  To make full use of
- #   this warning, you should clean up *all* headers in one run.
-diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index c02de9865b27..60fd3b5e5f66 100644
---- a/scripts/decodetree.py
-+++ b/scripts/decodetree.py
-@@ -94,7 +94,7 @@ def str_indent(c):
+             /* Tell qemu_event_set that there are waiters.  No need to retry
+-             * because there cannot be a concurent busy->free transition.
++             * because there cannot be a concurrent busy->free transition.
+              * After the CAS, the event will be either set or busy.
+              */
+             if (atomic_cmpxchg(&ev->value, EV_FREE, EV_BUSY) == EV_SET) {
+diff --git a/util/qht.c b/util/qht.c
+index 67e5d5b9163f..b2e020c398d0 100644
+--- a/util/qht.c
++++ b/util/qht.c
+@@ -49,7 +49,7 @@
+  * it anymore.
+  *
+  * Writers check for concurrent resizes by comparing ht->map before and after
+- * acquiring their bucket lock. If they don't match, a resize has occured
++ * acquiring their bucket lock. If they don't match, a resize has occurred
+  * while the bucket spinlock was being acquired.
+  *
+  * Related Work:
+diff --git a/util/trace-events b/util/trace-events
+index 4e894aa9c38b..24c31803b014 100644
+--- a/util/trace-events
++++ b/util/trace-events
+@@ -28,7 +28,7 @@ qemu_file_monitor_add_watch(void *mon, const char *dirpath, const char *filename
+ qemu_file_monitor_remove_watch(void *mon, const char *dirpath, int64_t id) "File monitor %p remove watch dir='%s' id=%" PRId64
+ qemu_file_monitor_new(void *mon, int fd) "File monitor %p created fd=%d"
+ qemu_file_monitor_enable_watch(void *mon, const char *dirpath, int id) "File monitor %p enable watch dir='%s' id=%u"
+-qemu_file_monitor_disable_watch(void *mon, const char *dirpath, int id) "Fle monitor %p disable watch dir='%s' id=%u"
++qemu_file_monitor_disable_watch(void *mon, const char *dirpath, int id) "File monitor %p disable watch dir='%s' id=%u"
+ qemu_file_monitor_event(void *mon, const char *dirpath, const char *filename, int mask, unsigned int id) "File monitor %p event dir='%s' file='%s' mask=0x%x id=%u"
+ qemu_file_monitor_dispatch(void *mon, const char *dirpath, const char *filename, int ev, void *cb, void *opaque, int64_t id) "File monitor %p dispatch dir='%s' file='%s' ev=%d cb=%p opaque=%p id=%" PRId64
  
- 
- def str_fields(fields):
--    """Return a string uniquely identifing FIELDS"""
-+    """Return a string uniquely identifying FIELDS"""
-     r = ''
-     for n in sorted(fields.keys()):
-         r += '_' + n
-@@ -814,7 +814,7 @@ def parse_generic(lineno, parent_pat, name, toks):
-     arg = None
-     fmt = None
-     for t in toks:
--        # '&Foo' gives a format an explcit argument set.
-+        # '&Foo' gives a format an explicit argument set.
-         if re.fullmatch(re_arg_ident, t):
-             tt = t[1:]
-             if arg:
-@@ -903,7 +903,7 @@ def parse_generic(lineno, parent_pat, name, toks):
-     elif not (is_format and width == 0) and width != insnwidth:
-         error(lineno, 'definition has {0} bits'.format(width))
- 
--    # Do not check for fields overlaping fields; one valid usage
-+    # Do not check for fields overlapping fields; one valid usage
-     # is to be able to duplicate fields via import.
-     fieldmask = 0
-     for f in flds.values():
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index d16207eb6726..0c3ca9e06f02 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -69,7 +69,7 @@ mkdir -p "$DEST_DIR/lib/"  # Copy the shared libraries here
- 
- if ! make "-j$(nproc)" qemu-fuzz-i386; then
-     fatal "Build failed. Please specify a compiler with fuzzing support"\
--          "using the \$CC and \$CXX environemnt variables"\
-+          "using the \$CC and \$CXX environment variables"\
-           "\nFor example: CC=clang CXX=clang++ $0"
- fi
- 
-diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py
-index 3ccfa1e1163d..3ee54be223c6 100644
---- a/scripts/tracetool/__init__.py
-+++ b/scripts/tracetool/__init__.py
-@@ -34,7 +34,7 @@ def error(*lines):
- def out(*lines, **kwargs):
-     """Write a set of output lines.
- 
--    You can use kwargs as a shorthand for mapping variables when formating all
-+    You can use kwargs as a shorthand for mapping variables when formatting all
-     the strings in lines.
-     """
-     lines = [ l % kwargs for l in lines ]
 -- 
 2.26.2
 
