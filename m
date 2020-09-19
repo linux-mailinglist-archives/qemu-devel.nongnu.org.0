@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D2F270F78
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:23:24 +0200 (CEST)
-Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283CA270F8A
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:32:20 +0200 (CEST)
+Received: from localhost ([::1]:34522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfdz-00084j-TO
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51702)
+	id 1kJfmd-0002PZ-62
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:32:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHY-0005fG-Ok
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24110)
+ id 1kJfHO-0005UZ-R3
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHK-0007Se-LJ
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:12 -0400
+ id 1kJfHA-0007Pd-2k
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531197;
+ s=mimecast20190719; t=1600531186;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UIfBhmIgFQZMLNRkQm7YSIR5jHg0102xFvlUer7Sz+Q=;
- b=b3XfYtNKSCIMgYkPNxMyx2CXxhMkgFJ0IwU6woee8RnspL/3cFOelvfKCbQPRIxCo9PGhj
- 9h6hR06dQrxhFi6TEzw70PAWv3FGF+wh2/TY8C7h7NKUL5EWDoCkNHxAr5o45kEoSUYR8W
- JxAN42Y9Dp/oGQw+bsTZY7E2Xgc8+OA=
+ bh=Tkn5x3SmRtENeyRythGpocLhfNHWHtH02D7imFP+YWY=;
+ b=JQBe5siIUV9taLHZAY9OX2TEjRreKLnTHqSrv8JDJm5DWehGt0hjmaJqOkOYvqesPwY+5p
+ dCmbQGBCfzm4v3mRTS0Zo5pimEfBepnFDKeY/6tACBVdTwZtBiv1VFqmBuIH2WfbBmjpxE
+ 8oNevzacmAa5MvU9gcUZUv1nMi7Kvu8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-I2IKDnXlOQ6ds2NNVV7TlQ-1; Sat, 19 Sep 2020 11:59:54 -0400
-X-MC-Unique: I2IKDnXlOQ6ds2NNVV7TlQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-481-5Ovo-FEANNaOD3yxUOM4AA-1; Sat, 19 Sep 2020 11:59:41 -0400
+X-MC-Unique: 5Ovo-FEANNaOD3yxUOM4AA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5B7C56BF2
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 934DC1074644;
+ Sat, 19 Sep 2020 15:59:40 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79FC81002388
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 336DD60C47;
+ Sat, 19 Sep 2020 15:59:40 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 53/57] configure: use a platform-neutral prefix
-Date: Sat, 19 Sep 2020 11:59:12 -0400
-Message-Id: <20200919155916.1046398-54-pbonzini@redhat.com>
+Subject: [PULL 29/57] hw: megasas: consider 'iov_count=0' is an error in
+ megasas_map_sgl
+Date: Sat, 19 Sep 2020 11:58:48 -0400
+Message-Id: <20200919155916.1046398-30-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 11:03:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 06:41:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -81,82 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Li Qiang <liq3ea@163.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the installation is relocatable, there is no need to compile a
-Windows-format prefix into Win32 binaries.  Instead, the prefix will
-only be used to compute installation-relative paths, and it can be
-any string.
+From: Li Qiang <liq3ea@163.com>
 
-Drop the "Program Files" path completely: it is only usable on English
-versions of Windows; therefore, using the NSIS installer to get the
-"correct" path to the Program Files folder is recommended, and NSIS
-works just as well with any prefix.
+Currently in 'megasas_map_sgl' when 'iov_count=0' will just return
+success however the 'cmd' doens't contain any iov. This will cause
+the assert in 'scsi_dma_complete' failed. This is because in
+'dma_blk_cb' the 'dbs->sg_cur_index == dbs->sg->nsg' will be true
+and just call 'dma_complete'. However now there is no aiocb returned.
 
+This fixes the LP#1878263:
+
+-->https://bugs.launchpad.net/qemu/+bug/1878263
+
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Message-Id: <20200815141940.44025-3-liq3ea@163.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+ hw/scsi/megasas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 0e65d4493d..560c8d4d3d 100755
---- a/configure
-+++ b/configure
-@@ -962,7 +962,7 @@ if test "$mingw32" = "yes" ; then
-   # MinGW needs -mthreads for TLS and macro _MT.
-   CFLAGS="-mthreads $CFLAGS"
-   write_c_skeleton;
--  prefix="c:/Program Files/QEMU"
-+  prefix="/qemu"
-   qemu_suffix=""
-   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
- fi
-@@ -7799,17 +7799,9 @@ echo "strip = $(meson_quote $strip)" >> $cross
- echo "windres = $(meson_quote $windres)" >> $cross
- if test -n "$cross_prefix"; then
-     cross_arg="--cross-file config-meson.cross"
--    # Hack: Meson expects an absolute path for the *build* machine
--    # for the prefix, so add a slash in front of a Windows path that
--    # includes a drive letter.
--    #
--    # See https://github.com/mesonbuild/meson/issues/7577.
-     echo "[host_machine]" >> $cross
-     if test "$mingw32" = "yes" ; then
-         echo "system = 'windows'" >> $cross
--        case $prefix in
--            ?:*) pre_prefix=/ ;;
--        esac
-     fi
-     if test "$linux" = "yes" ; then
-         echo "system = 'linux'" >> $cross
-@@ -7838,16 +7830,16 @@ mv $cross config-meson.cross
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index 4cc709d2c6..e24c12d7ee 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -277,7 +277,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
  
- rm -rf meson-private meson-info meson-logs
- NINJA=${ninja:-$PWD/ninjatool} $meson setup \
--        --prefix "${pre_prefix}$prefix" \
--        --libdir "${pre_prefix}$libdir" \
--        --libexecdir "${pre_prefix}$libexecdir" \
--        --bindir "${pre_prefix}$bindir" \
--        --includedir "${pre_prefix}$includedir" \
--        --datadir "${pre_prefix}$datadir" \
--        --mandir "${pre_prefix}$mandir" \
--        --sysconfdir "${pre_prefix}$sysconfdir" \
--        --localstatedir "${pre_prefix}$local_statedir" \
--        -Ddocdir="${pre_prefix}$docdir" \
-+        --prefix "$prefix" \
-+        --libdir "$libdir" \
-+        --libexecdir "$libexecdir" \
-+        --bindir "$bindir" \
-+        --includedir "$includedir" \
-+        --datadir "$datadir" \
-+        --mandir "$mandir" \
-+        --sysconfdir "$sysconfdir" \
-+        --localstatedir "$local_statedir" \
-+        -Ddocdir="$docdir" \
-         -Dqemu_suffix="$qemu_suffix" \
-         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
-         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
+     cmd->flags = le16_to_cpu(cmd->frame->header.flags);
+     iov_count = cmd->frame->header.sge_count;
+-    if (iov_count > MEGASAS_MAX_SGE) {
++    if (!iov_count || iov_count > MEGASAS_MAX_SGE) {
+         trace_megasas_iovec_sgl_overflow(cmd->index, iov_count,
+                                          MEGASAS_MAX_SGE);
+         return -1;
 -- 
 2.26.2
 
