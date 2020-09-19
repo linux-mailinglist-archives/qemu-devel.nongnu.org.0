@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95C3270F82
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:28:42 +0200 (CEST)
-Received: from localhost ([::1]:52578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9454E270F7E
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:26:12 +0200 (CEST)
+Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfj7-0006Z9-W1
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51744)
+	id 1kJfgh-00034L-Lq
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:26:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHa-0005hy-9n
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20974)
+ id 1kJfHZ-0005gY-Da
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHM-0007SL-Kj
+ id 1kJfHM-0007SP-Jm
  for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600531195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FudltPM8rf6jphJZRpA3qlGS4lL865ouE2G0+dnv3Q8=;
- b=bvtUtdV3Bd0fDThODq8dMwFyqDqIbfgCHK1UnwYcIq84ORnQuTH1z6iPMwQgXp+wBjAsEX
- tuMad/dj+QRAuDRly0sKRPjA9SJV7s0oTRi/g5uyhV6RlMioD73dCUusgSwha3RorbWJke
- 9vFXrZigcRrNGC9U4CaB7mGwGKGDGLg=
+ bh=VPwMOZku7UBRQhHSdhV1lO2uk4iu6y/xIf7/rYHqH0c=;
+ b=Yf+IhUSU6ci99EVXlFpoKZ8WrUmPBtNKSMl18vpfP+jtxPnepv7G89AaPNpRLgdt35KsDS
+ otFudrswRPWOb8Rs6wrs0QkoWMW7CnX5SYQr5VIYxRcmPKQ3oaXQ1a64pxiqdYwiBoxzNR
+ p3UjoxcBnE4LhznGqeWjC0STv8KUonA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-zOs4kN8cMti3ALJk6tQZQw-1; Sat, 19 Sep 2020 11:59:52 -0400
-X-MC-Unique: zOs4kN8cMti3ALJk6tQZQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-389-nRK5oXMuMO-1alZS2ANbZQ-1; Sat, 19 Sep 2020 11:59:53 -0400
+X-MC-Unique: nRK5oXMuMO-1alZS2ANbZQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5B1D186DD4B
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E8FD801AAC
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94BE35576A;
- Sat, 19 Sep 2020 15:59:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 437971002388
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 49/57] vl: relocate path to configuration file
-Date: Sat, 19 Sep 2020 11:59:08 -0400
-Message-Id: <20200919155916.1046398-50-pbonzini@redhat.com>
+Subject: [PULL 50/57] qemu-bridge-helper: relocate path to default ACL
+Date: Sat, 19 Sep 2020 11:59:09 -0400
+Message-Id: <20200919155916.1046398-51-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,30 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ qemu-bridge-helper.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index c872657e60..c4f9671c48 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2676,8 +2676,9 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
- static int qemu_read_default_config_file(void)
- {
-     int ret;
-+    g_autofree char *file = get_relocated_path(CONFIG_QEMU_CONFDIR "/qemu.conf");
+diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
+index 88b26747fc..a26e1663f0 100644
+--- a/qemu-bridge-helper.c
++++ b/qemu-bridge-helper.c
+@@ -40,6 +40,7 @@
+ #endif
  
--    ret = qemu_read_config_file(CONFIG_QEMU_CONFDIR "/qemu.conf");
-+    ret = qemu_read_config_file(file);
-     if (ret < 0 && ret != -ENOENT) {
-         return ret;
+ #include "qemu/queue.h"
++#include "qemu/cutils.h"
+ 
+ #include "net/tap-linux.h"
+ 
+@@ -245,6 +246,7 @@ int main(int argc, char **argv)
+     ACLList acl_list;
+     int access_allowed, access_denied;
+     int ret = EXIT_SUCCESS;
++    g_autofree char *acl_file = NULL;
+ 
+ #ifdef CONFIG_LIBCAP_NG
+     /* if we're run from an suid binary, immediately drop privileges preserving
+@@ -257,6 +259,8 @@ int main(int argc, char **argv)
+     }
+ #endif
+ 
++    qemu_init_exec_dir(argv[0]);
++
+     /* parse arguments */
+     for (index = 1; index < argc; index++) {
+         if (strcmp(argv[index], "--use-vnet") == 0) {
+@@ -282,9 +286,10 @@ int main(int argc, char **argv)
+ 
+     /* parse default acl file */
+     QSIMPLEQ_INIT(&acl_list);
+-    if (parse_acl_file(DEFAULT_ACL_FILE, &acl_list) == -1) {
++    acl_file = get_relocated_path(DEFAULT_ACL_FILE);
++    if (parse_acl_file(acl_file, &acl_list) == -1) {
+         fprintf(stderr, "failed to parse default acl file `%s'\n",
+-                DEFAULT_ACL_FILE);
++                acl_file);
+         ret = EXIT_FAILURE;
+         goto cleanup;
      }
 -- 
 2.26.2
