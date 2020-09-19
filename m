@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7E1270F8E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:34:29 +0200 (CEST)
-Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D80270F8B
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:32:59 +0200 (CEST)
+Received: from localhost ([::1]:36978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfoi-00068i-Lg
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51550)
+	id 1kJfnG-0003dH-GT
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHP-0005VU-8p
+ id 1kJfHP-0005Vy-HP
  for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35867)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHA-0007PM-1v
+ id 1kJfH7-0007PE-Tj
  for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600531185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KR0lGvXEtHKULPAHS7WqwZOVqTYA998f3d3hmks2HYk=;
- b=aN5siH44DUQ3UIxZbpoGRkIDx/iT8X/+p61Bl/MudWoswt6vt0u1XjXFyO4Wlbctt0mVNs
- iNgKRwrgrhxev4wnV58XslZ9p2NFopZONsJFml9IDRi5U9kDm/FwNNVMaw3M5EFUZafnRV
- mPwZfted7f9Aw8wg7LY60MxvAYeKy3I=
+ bh=jEzYWG86cyeKXmIpAXs/dJ9Zr+7t46gORXBFadvyXd0=;
+ b=Ep5tKfR4tyzNNQN3gcbE/1NuQZ22lcTcYeYCmxXdDoG6qZgcVB+q910yr3eUJfl6aZ2zzI
+ aIx1iBxmL7lRFjQ2LcbiLS5yHmW4jOcBDe3e7WjvZ0Lqkl+ra//GoTNafMmIhrJ8fxHAxn
+ S5HA6wjkhxprH3kizyJk/Y9+T/a0Rmg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-sTiUHwebMMyJ5iC2q-0s7A-1; Sat, 19 Sep 2020 11:59:42 -0400
-X-MC-Unique: sTiUHwebMMyJ5iC2q-0s7A-1
+ us-mta-21-K2P5L0N9PnK-fJGBUzrodw-1; Sat, 19 Sep 2020 11:59:43 -0400
+X-MC-Unique: K2P5L0N9PnK-fJGBUzrodw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCBA78712D9;
- Sat, 19 Sep 2020 15:59:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27DF256BF2
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6781A1002388;
- Sat, 19 Sep 2020 15:59:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6FD210016DA
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/57] i386/cpu: Clear FEAT_XSAVE_COMP_{LO,
- HI} when XSAVE is not available
-Date: Sat, 19 Sep 2020 11:58:49 -0400
-Message-Id: <20200919155916.1046398-31-pbonzini@redhat.com>
+Subject: [PULL 31/57] meson: move libudev test
+Date: Sat, 19 Sep 2020 11:58:50 -0400
+Message-Id: <20200919155916.1046398-32-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,36 +81,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-
-Per Intel SDM vol 1, 13.2, if CPUID.1:ECX.XSAVE[bit 26] is 0, the
-processor provides no further enumeration through CPUID function 0DH.
-QEMU does not do this for "-cpu host,-xsave".
-
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-Id: <20200716082019.215316-2-xiaoyao.li@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ configure   | 14 --------------
+ meson.build |  7 ++++---
+ 2 files changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 7603784351..053385c2b4 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6372,6 +6372,8 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
-     uint64_t mask;
+diff --git a/configure b/configure
+index 6201e7c732..4a7f577f49 100755
+--- a/configure
++++ b/configure
+@@ -901,7 +901,6 @@ Linux)
+   linux_user="yes"
+   kvm="yes"
+   QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
+-  libudev="yes"
+ ;;
+ esac
  
-     if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
-+        env->features[FEAT_XSAVE_COMP_LO] = 0;
-+        env->features[FEAT_XSAVE_COMP_HI] = 0;
-         return;
-     }
+@@ -6282,15 +6281,6 @@ if test "$libnfs" != "no" ; then
+ fi
  
+ ##########################################
+-# Do we have libudev
+-if test "$libudev" != "no" ; then
+-  if $pkg_config libudev && test "$static" != "yes"; then
+-    libudev="yes"
+-    libudev_libs=$($pkg_config --libs libudev)
+-  else
+-    libudev="no"
+-  fi
+-fi
+ 
+ # Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
+ if test "$solaris" = "no" && test "$tsan" = "no"; then
+@@ -7459,10 +7449,6 @@ if test "$gcov" = "yes" ; then
+   echo "CONFIG_GCOV=y" >> $config_host_mak
+ fi
+ 
+-if test "$libudev" != "no"; then
+-    echo "CONFIG_LIBUDEV=y" >> $config_host_mak
+-    echo "LIBUDEV_LIBS=$libudev_libs" >> $config_host_mak
+-fi
+ if test "$fuzzing" != "no"; then
+     echo "CONFIG_FUZZ=y" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index 5ab9a4dd1e..11213b6e8b 100644
+--- a/meson.build
++++ b/meson.build
+@@ -257,8 +257,8 @@ if 'CONFIG_CURL' in config_host
+                             link_args: config_host['CURL_LIBS'].split())
+ endif
+ libudev = not_found
+-if 'CONFIG_LIBUDEV' in config_host
+-  libudev = declare_dependency(link_args: config_host['LIBUDEV_LIBS'].split())
++if target_os == 'linux'
++  libudev = dependency('libudev', static: enable_static)
+ endif
+ brlapi = not_found
+ if 'CONFIG_BRLAPI' in config_host
+@@ -446,6 +446,7 @@ has_gettid = cc.has_function('gettid')
+ 
+ # Create config-host.h
+ 
++config_host_data.set('CONFIG_LIBUDEV', libudev.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+@@ -1526,7 +1527,7 @@ summary_info += {'sheepdog support':  config_host.has_key('CONFIG_SHEEPDOG')}
+ summary_info += {'capstone':          config_host.has_key('CONFIG_CAPSTONE')}
+ summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
+ summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
+-summary_info += {'libudev':           config_host.has_key('CONFIG_LIBUDEV')}
++summary_info += {'libudev':           libudev.found()}
+ summary_info += {'default devices':   config_host['CONFIG_MINIKCONF_MODE'] == '--defconfig'}
+ summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
+ summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
 -- 
 2.26.2
 
