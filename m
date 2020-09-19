@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0635D270FFD
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:48:10 +0200 (CEST)
-Received: from localhost ([::1]:39654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD598271005
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:53:34 +0200 (CEST)
+Received: from localhost ([::1]:52386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJhu5-0007zs-1a
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51760)
+	id 1kJhzJ-00054w-S3
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhrC-0005vw-A7; Sat, 19 Sep 2020 14:45:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:58745)
+ id 1kJhrD-0005x5-W3; Sat, 19 Sep 2020 14:45:11 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:42173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhr9-0001Ix-4J; Sat, 19 Sep 2020 14:45:09 -0400
+ id 1kJhrC-0001JM-Aq; Sat, 19 Sep 2020 14:45:11 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MHmuE-1kDgEq0RaI-00EwR4; Sat, 19 Sep 2020 20:45:02 +0200
+ id 1MwjO6-1khPuE0TQQ-00y9Aw; Sat, 19 Sep 2020 20:45:04 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/17] hw/gpio/max7310: Remove impossible check
-Date: Sat, 19 Sep 2020 20:44:35 +0200
-Message-Id: <20200919184451.2129349-2-laurent@vivier.eu>
+Subject: [PULL 02/17] hw/ppc/ppc4xx_pci: Replace magic value by the
+ PCI_NUM_PINS definition
+Date: Sat, 19 Sep 2020 20:44:36 +0200
+Message-Id: <20200919184451.2129349-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919184451.2129349-1-laurent@vivier.eu>
 References: <20200919184451.2129349-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EyxM392So1fu6050ScU6cNHvupY9nlc9jRJzbI/5EHVPbpIOlLJ
- ufI/9ZDlvuX+WMPq7eIRanHxvi8ab+CTsPMW8vIMMJjh0kGoSLSiG0zO34YzptGOz80r14S
- 3O38CgSqnOH8HQSmEfhvAFouEBU5DSAq4F0bg/2VuqYMZ0T+JfXiym9C88JAQdPIGj2tH5T
- cnYje+1oWZRpf5vDcchOA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kE7iPQC3Dqk=:Gp12VuHmF8Zu7T0sms0h1g
- P5vdVg2fOGdaqotczCDLksLKURbcYI492MBEzKBwV06uRdXF72lxs+EWuYN6xNm9Tri4jopDT
- zuURX/KzExMAD+PXWDrACW4cF62Wpzi0tnGl9ztX6R0kSwlp+PSEkAM9EwVUe51LYC1vLtqJw
- H1y1tUoV2bM5yvbSbDo4W1Q84TNFPzYXjRthYW7knQaNnLjh3mPvwkOMF5z3te1Xc04Lyng+Q
- PArxde7rBSdFVdy+PLfqiwWMx3b3F/SywOYcwmaKZzFUiSRjYGyR5CiGfrQXQplQfvhSP6EJw
- vKZf1i0ekgCLYRbzdk2M15mRuCCiQZrYFgF/1Hg/kFYJjeTt85fIDF0WKvOgbJB4dIIZAJvGM
- OFeqORn1gzY3KiU0bQe4e2rRwLXRMLBaOznA7YprQXlB+W65SvHfQovRZfT4cabgcI1qGiFiQ
- wJdH47wqMnGl3HaHTDNVykJTtTDYkZduB6cn4t5ZAhMhHwjbK9NJiAEEFheV5M1J445rGisYg
- +gMB6FI45s9hWlpOWxwUt9wQlDh0yPDtNCDmudGMqGzsF5fr+8SPWIyKsDlZxQoxbLzjH4SS1
- vwMwCNQ2UGndZSfiJxiUiPwd1sSubhebYWIyJI2th+9wb9bseOUjjjlduAeZakwNZPr5y/JDn
- a04fDCHet7l239XrpVhoyE1O4kcFRy2K3+A9ORz0fVgruecssxvKqBLKd/E9fYAlJ8oLXXE4s
- CihVuM/4L579AFAyWWlSJ7vWAZ1vPASWe2PxOwed+J9GvGrBlna2FZXOcw03FyJUqz8RTZfvB
- ozd48+ZSx4SXUFppxjOpeCtVMm88c27qlj1n6ht4IzNc3GESNVTZlRFPO4lZHF3I6e96E8Y
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:h/h2VcDIwTiLg/hBUwZ4awmd4hH1wKdZFS7+HpDwoIumxXIBznn
+ YsFVomvgZ2oevY6URh5oj9G3HP4KUomazxXYArjoFvO98qc9mgqDUjkVtReXwpFFvK8mtRN
+ siBxP4t6Fl+Utib8vBOiCbULvcoBf5C5JEF3UvwtzhPIxiJ2ADVDtlFfFwcygxEPM0gMrAd
+ PAsd38Txln/0syX/0+q6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ml0MAjfjsk8=:pPHBOo0xFLotnDC52G50bp
+ NCnFlgCavHHtfGYiEOJ8VUvSwXMgLuVU74r7N4DTavgt3Rg2ocgJo6214C0J261nTO5+VK4rf
+ cUdlkhSAZWvbCEuH6y69G+j1fPAWMTtt0z551NOz1Z9QwcaWpFjuMNdmtBCwg+eokkJZx/ZQ/
+ Oube/cqZquJh0mUjAxaH4l9Vk29yG+lgNQqcfM9abLqb8wOQf70TYuI/st51+X83WKSHYI4s9
+ hMRzXdmzUc4PSktqx4ScDOnPk/barjG+V/R580WPLJNpzPBQOYEobDMgkfmjO3CytQsbdAAcQ
+ xGeeBfYrtDKv1DzOi8KliiO09ZaLWF1SUBMuOETwbXSR7R3/Ey3eFuufm+8iBpn1jlObioUwX
+ ++nD/J0LasaYO9A+zfR7ew5u0mPlc3gRCC87Y3q7Bo83n4rsx33BQww/9/02hTcZd5Z3fR9GR
+ EvlgNCsBdUmyeM8SL6GXjJPg8JlC+Ts8WwO7E+PqXMnG0TFJ2Upqwiqv3/pqJlihV/Fe6/Ty0
+ IZ9UIgrjT3K5n48nrr+iNS1IfvkAcVOBBP09ktuTIIBh61OGIdGaMJDSty/21AIpwxE3Wvx5f
+ z6mA9OuddSRnqO8Ts2zR8yMddvlGNfWf9EyChdULFp4zGt21kKEFV/JawygerMIQuBQ80T3rk
+ UroyEKNccIe+DDrv2i4Hab7ccI2+5yM6NeHr7jy/KRN12kLzu/jP3SgkwvlToAhQZQFS1jtWe
+ YsmbfDW5q31vVOuroKfdmrOm2qNeNZ61wawNFV84vtOtIq9ITCUQ/P5wPCwqTXci+NgKJHdyx
+ DbhVLTnQLJ0Rg9SHscnFIxV16GCvA7KwIgZ1hW6ifU4LHYbbX2GS8IRQJgBd69o6n5TG54G
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,54 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>,
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The max7310_gpio_set() handler is static and only used by
-qdev_init_gpio_in, initialized with 8 IRQs. The 'line'
-argument can not be out of the [0-8[ range.
-Replace the dead code by an assertion.
+Replace the magic '4' value by the PCI_NUM_PINS definition.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200910072325.439344-2-f4bug@amsat.org>
+Message-Id: <20200910072325.439344-3-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/gpio/max7310.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/ppc/ppc4xx_pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/gpio/max7310.c b/hw/gpio/max7310.c
-index 2888d071ac6b..de375892ef11 100644
---- a/hw/gpio/max7310.c
-+++ b/hw/gpio/max7310.c
-@@ -8,9 +8,7 @@
-  */
+diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
+index c24bac96c32f..ca2553bf8b75 100644
+--- a/hw/ppc/ppc4xx_pci.c
++++ b/hw/ppc/ppc4xx_pci.c
+@@ -56,7 +56,7 @@ struct PPC4xxPCIState {
  
- #include "qemu/osdep.h"
--#include "hw/hw.h"
- #include "hw/i2c/i2c.h"
--#include "hw/hw.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "qemu/log.h"
-@@ -175,8 +173,7 @@ static const VMStateDescription vmstate_max7310 = {
- static void max7310_gpio_set(void *opaque, int line, int level)
- {
-     MAX7310State *s = (MAX7310State *) opaque;
--    if (line >= ARRAY_SIZE(s->handler) || line  < 0)
--        hw_error("bad GPIO line");
-+    assert(line >= 0 && line < ARRAY_SIZE(s->handler));
+     struct PCIMasterMap pmm[PPC4xx_PCI_NR_PMMS];
+     struct PCITargetMap ptm[PPC4xx_PCI_NR_PTMS];
+-    qemu_irq irq[4];
++    qemu_irq irq[PCI_NUM_PINS];
  
-     if (level)
-         s->level |= s->direction & (1 << line);
+     MemoryRegion container;
+     MemoryRegion iomem;
 -- 
 2.26.2
 
