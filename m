@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CBD270F4A
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:08:23 +0200 (CEST)
-Received: from localhost ([::1]:46942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1CB270F54
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:13:17 +0200 (CEST)
+Received: from localhost ([::1]:35318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfPS-0005jc-7Z
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
+	id 1kJfUC-0004LV-G4
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfGs-00059g-QG
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36456)
+ id 1kJfGw-0005Bl-4p
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfGq-0007LL-L4
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:30 -0400
+ id 1kJfGu-0007M3-A2
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531168;
+ s=mimecast20190719; t=1600531170;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/wzb7xrxmd0jOnWHmRqv67gtlC1BQG+wJfikvKBTVHI=;
- b=IFzzsSV7R70Jg7sD5Duzz8/dS0t6dBA18qHNu/tsuKRjIoxlVHCsS1W5cboTDDsebYkUet
- NK6Jb4KZ4tHYs8qBPt8scrNlJjB9lOKjIYNh+iKmfWcvT+gJQAXXSdUUJGZAwkNNcrfh3/
- 6LJuEJq3oks3YO3wX9q+bX1M0gbn5NQ=
+ bh=2i+OPwI+aGP3tc5CwQ7IlJ9UEOyq08GnarJOZkVRXCw=;
+ b=T8XmHuf7wrfeelH95zwQXAgcjkp8cg5IJ2CYFYpPZtZn8rAQclgOqWKV10BacxH7eveNET
+ K4rQy4yhRTeZbRIMU3SOlCmRaOm6ogaPqZU9s1k86zb+BclAA4SyMuqd+MtJXC8PT7ec+B
+ pvVPmJnW3Yu4z0sqzZTKoFCd/NOALoA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273--e1jFTitMjKwBFPcCud7aw-1; Sat, 19 Sep 2020 11:59:25 -0400
-X-MC-Unique: -e1jFTitMjKwBFPcCud7aw-1
+ us-mta-558-RGqJbOKrPRi1sbCZXQQ3cg-1; Sat, 19 Sep 2020 11:59:26 -0400
+X-MC-Unique: RGqJbOKrPRi1sbCZXQQ3cg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DEE456BF2;
- Sat, 19 Sep 2020 15:59:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2898856BF9;
+ Sat, 19 Sep 2020 15:59:25 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D5551002388;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89BE610016DA;
  Sat, 19 Sep 2020 15:59:24 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/57] WHPX: vmware cpuid leaf for tsc and apic frequency
-Date: Sat, 19 Sep 2020 11:58:26 -0400
-Message-Id: <20200919155916.1046398-8-pbonzini@redhat.com>
+Subject: [PULL 08/57] configure: Do not intent to build WHPX on 32-bit host
+Date: Sat, 19 Sep 2020 11:58:27 -0400
+Message-Id: <20200919155916.1046398-9-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,11 +56,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 06:41:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 11:03:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -81,227 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sunil Muthuswamy <sunilmut@microsoft.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Newer versions of WHPX provide the capability to query the tsc
-and apic frequency. Expose these through the vmware cpuid leaf.
-This patch doesnt support setting the tsc frequency; that will
-come as a separate fix.
+Hyper-V is available on 64-bit versions of Windows,
+do not try to build its support on 32-bit versions.
 
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Message-Id: <SN4PR2101MB08808DFDDC3F442BBEAADFF4C0710@SN4PR2101MB0880.namprd21.prod.outlook.com>
+Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
+Message-Id: <20200910054516.405777-1-f4bug@amsat.org>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/whp-dispatch.h |  3 +-
- target/i386/whpx-all.c     | 96 +++++++++++++++++++++++++++++++++-----
- 2 files changed, 87 insertions(+), 12 deletions(-)
+ configure | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/whp-dispatch.h b/target/i386/whp-dispatch.h
-index e4695c349f..b18aba20ed 100644
---- a/target/i386/whp-dispatch.h
-+++ b/target/i386/whp-dispatch.h
-@@ -2,10 +2,11 @@
- #define WHP_DISPATCH_H
+diff --git a/configure b/configure
+index ce27eafb0a..7662b3bf6f 100755
+--- a/configure
++++ b/configure
+@@ -2981,7 +2981,10 @@ fi
  
- #include <windows.h>
--
- #include <WinHvPlatform.h>
- #include <WinHvEmulation.h>
- 
-+#define WHV_E_UNKNOWN_CAPABILITY 0x80370300L
-+
- #define LIST_WINHVPLATFORM_FUNCTIONS(X) \
-   X(HRESULT, WHvGetCapability, (WHV_CAPABILITY_CODE CapabilityCode, VOID* CapabilityBuffer, UINT32 CapabilityBufferSizeInBytes, UINT32* WrittenSizeInBytes)) \
-   X(HRESULT, WHvCreatePartition, (WHV_PARTITION_HANDLE* Partition)) \
-diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
-index c78baac6df..3fad7928e8 100644
---- a/target/i386/whpx-all.c
-+++ b/target/i386/whpx-all.c
-@@ -27,6 +27,8 @@
- #include <WinHvPlatform.h>
- #include <WinHvEmulation.h>
- 
-+#define HYPERV_APIC_BUS_FREQUENCY      (200000000ULL)
-+
- struct whpx_state {
-     uint64_t mem_quota;
-     WHV_PARTITION_HANDLE partition;
-@@ -1061,6 +1063,18 @@ static int whpx_vcpu_run(CPUState *cpu)
-             cpu_x86_cpuid(env, cpuid_fn, 0, (UINT32 *)&rax, (UINT32 *)&rbx,
-                 (UINT32 *)&rcx, (UINT32 *)&rdx);
-             switch (cpuid_fn) {
-+            case 0x40000000:
-+                /* Expose the vmware cpu frequency cpuid leaf */
-+                rax = 0x40000010;
-+                rbx = rcx = rdx = 0;
-+                break;
-+
-+            case 0x40000010:
-+                rax = env->tsc_khz;
-+                rbx = env->apic_bus_freq / 1000; /* Hz to KHz */
-+                rcx = rdx = 0;
-+                break;
-+
-             case 0x80000001:
-                 /* Remove any support of OSVW */
-                 rcx &= ~CPUID_EXT3_OSVW;
-@@ -1191,8 +1205,12 @@ int whpx_init_vcpu(CPUState *cpu)
- {
-     HRESULT hr;
-     struct whpx_state *whpx = &whpx_global;
--    struct whpx_vcpu *vcpu;
-+    struct whpx_vcpu *vcpu = NULL;
-     Error *local_error = NULL;
-+    struct CPUX86State *env = (CPUArchState *)(cpu->env_ptr);
-+    X86CPU *x86_cpu = X86_CPU(cpu);
-+    UINT64 freq = 0;
-+    int ret;
- 
-     /* Add migration blockers for all unsupported features of the
-      * Windows Hypervisor Platform
-@@ -1207,7 +1225,8 @@ int whpx_init_vcpu(CPUState *cpu)
-             error_report_err(local_error);
-             migrate_del_blocker(whpx_migration_blocker);
-             error_free(whpx_migration_blocker);
--            return -EINVAL;
-+            ret = -EINVAL;
-+            goto error;
-         }
-     }
- 
-@@ -1215,7 +1234,8 @@ int whpx_init_vcpu(CPUState *cpu)
- 
-     if (!vcpu) {
-         error_report("WHPX: Failed to allocte VCPU context.");
--        return -ENOMEM;
-+        ret = -ENOMEM;
-+        goto error;
-     }
- 
-     hr = whp_dispatch.WHvEmulatorCreateEmulator(
-@@ -1224,8 +1244,8 @@ int whpx_init_vcpu(CPUState *cpu)
-     if (FAILED(hr)) {
-         error_report("WHPX: Failed to setup instruction completion support,"
-                      " hr=%08lx", hr);
--        g_free(vcpu);
--        return -EINVAL;
-+        ret = -EINVAL;
-+        goto error;
-     }
- 
-     hr = whp_dispatch.WHvCreateVirtualProcessor(
-@@ -1234,17 +1254,72 @@ int whpx_init_vcpu(CPUState *cpu)
-         error_report("WHPX: Failed to create a virtual processor,"
-                      " hr=%08lx", hr);
-         whp_dispatch.WHvEmulatorDestroyEmulator(vcpu->emulator);
--        g_free(vcpu);
--        return -EINVAL;
-+        ret = -EINVAL;
-+        goto error;
-     }
- 
--    vcpu->interruptable = true;
-+    /*
-+     * vcpu's TSC frequency is either specified by user, or use the value
-+     * provided by Hyper-V if the former is not present. In the latter case, we
-+     * query it from Hyper-V and record in env->tsc_khz, so that vcpu's TSC
-+     * frequency can be migrated later via this field.
-+     */
-+    if (!env->tsc_khz) {
-+        hr = whp_dispatch.WHvGetCapability(
-+            WHvCapabilityCodeProcessorClockFrequency, &freq, sizeof(freq),
-+                NULL);
-+        if (hr != WHV_E_UNKNOWN_CAPABILITY) {
-+            if (FAILED(hr)) {
-+                printf("WHPX: Failed to query tsc frequency, hr=0x%08lx\n", hr);
-+            } else {
-+                env->tsc_khz = freq / 1000; /* Hz to KHz */
-+            }
-+        }
-+    }
- 
-+    env->apic_bus_freq = HYPERV_APIC_BUS_FREQUENCY;
-+    hr = whp_dispatch.WHvGetCapability(
-+        WHvCapabilityCodeInterruptClockFrequency, &freq, sizeof(freq), NULL);
-+    if (hr != WHV_E_UNKNOWN_CAPABILITY) {
-+        if (FAILED(hr)) {
-+            printf("WHPX: Failed to query apic bus frequency hr=0x%08lx\n", hr);
-+        } else {
-+            env->apic_bus_freq = freq;
-+        }
-+    }
-+
-+    /*
-+     * If the vmware cpuid frequency leaf option is set, and we have a valid
-+     * tsc value, trap the corresponding cpuid's.
-+     */
-+    if (x86_cpu->vmware_cpuid_freq && env->tsc_khz) {
-+        UINT32 cpuidExitList[] = {1, 0x80000001, 0x40000000, 0x40000010};
-+
-+        hr = whp_dispatch.WHvSetPartitionProperty(
-+                whpx->partition,
-+                WHvPartitionPropertyCodeCpuidExitList,
-+                cpuidExitList,
-+                RTL_NUMBER_OF(cpuidExitList) * sizeof(UINT32));
-+
-+        if (FAILED(hr)) {
-+            error_report("WHPX: Failed to set partition CpuidExitList hr=%08lx",
-+                        hr);
-+            ret = -EINVAL;
-+            goto error;
-+        }
-+    }
-+
-+    vcpu->interruptable = true;
-     cpu->vcpu_dirty = true;
-     cpu->hax_vcpu = (struct hax_vcpu_state *)vcpu;
-     qemu_add_vm_change_state_handler(whpx_cpu_update_state, cpu->env_ptr);
- 
-     return 0;
-+
-+error:
-+    g_free(vcpu);
-+
-+    return ret;
- }
- 
- int whpx_vcpu_exec(CPUState *cpu)
-@@ -1493,6 +1568,7 @@ static int whpx_accel_init(MachineState *ms)
-     WHV_CAPABILITY whpx_cap;
-     UINT32 whpx_cap_size;
-     WHV_PARTITION_PROPERTY prop;
-+    UINT32 cpuidExitList[] = {1, 0x80000001};
- 
-     whpx = &whpx_global;
- 
-@@ -1551,7 +1627,6 @@ static int whpx_accel_init(MachineState *ms)
-         goto error;
-     }
- 
--    UINT32 cpuidExitList[] = {1, 0x80000001};
-     hr = whp_dispatch.WHvSetPartitionProperty(
-         whpx->partition,
-         WHvPartitionPropertyCodeCpuidExitList,
-@@ -1579,14 +1654,13 @@ static int whpx_accel_init(MachineState *ms)
-     printf("Windows Hypervisor Platform accelerator is operational\n");
-     return 0;
- 
--  error:
-+error:
- 
-     if (NULL != whpx->partition) {
-         whp_dispatch.WHvDeletePartition(whpx->partition);
-         whpx->partition = NULL;
-     }
- 
--
-     return ret;
- }
- 
+ ##########################################
+ # Windows Hypervisor Platform accelerator (WHPX) check
+-if test "$whpx" != "no" ; then
++if test "$whpx" = "yes" && test "$ARCH" != "x86_64"; then
++  error_exit "WHPX requires 64-bit host"
++fi
++if test "$whpx" != "no" && test "$ARCH" = "x86_64"; then
+     if check_include "WinHvPlatform.h" && check_include "WinHvEmulation.h"; then
+         whpx="yes"
+     else
 -- 
 2.26.2
 
