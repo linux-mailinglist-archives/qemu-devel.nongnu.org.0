@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A6E270B9B
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 09:57:07 +0200 (CEST)
-Received: from localhost ([::1]:46750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E0F270B9C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 09:58:36 +0200 (CEST)
+Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJXk2-0005IW-5C
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 03:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54268)
+	id 1kJXlT-0006io-5z
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 03:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kJTXi-00029e-DX
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 23:28:06 -0400
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kJTXj-0002A2-Vf
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 23:28:07 -0400
 Received: from mga12.intel.com ([192.55.52.136]:53068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kJTXg-0007c2-2A
- for qemu-devel@nongnu.org; Fri, 18 Sep 2020 23:28:05 -0400
-IronPort-SDR: bWuMZvoMqUAEw9A5XcsUY+PRprRlYBu0uWZ5QmW3wm7AgNBCCHEIbR7aqk5WGF1QdD8QwmrqIY
- m/I8dRchgF0g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="139574092"
-X-IronPort-AV: E=Sophos;i="5.77,277,1596524400"; d="scan'208";a="139574092"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kJTXi-0007c2-6w
+ for qemu-devel@nongnu.org; Fri, 18 Sep 2020 23:28:07 -0400
+IronPort-SDR: D6+qoVcVp3TS7XLhj08kRYyg5fxFoqEEYWln7cnMRk+p9H+Ga4ZUI7VPu9WWIDqpVF4TevHAty
+ rvyv4baioOWw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="139574095"
+X-IronPort-AV: E=Sophos;i="5.77,277,1596524400"; d="scan'208";a="139574095"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2020 20:28:01 -0700
-IronPort-SDR: 2FdqkI304e7CtqQiLtK+mIWcuUDYqTHeiBMJPgl/JfUxMGW0tRYAHSm/MqVvzLtJ/WC6Hk6iE1
- 7j6YWAup978Q==
+ 18 Sep 2020 20:28:04 -0700
+IronPort-SDR: gFc/VIGXIb9rGDnpQDn9uowc6hCDC58XOX4qeePT8WRgd8EXW2SbFGaeXspjhOo/a+lcHN5naa
+ WPsMTV2G84sA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,277,1596524400"; d="scan'208";a="303579326"
+X-IronPort-AV: E=Sophos;i="5.77,277,1596524400"; d="scan'208";a="303579340"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by orsmga003.jf.intel.com with ESMTP; 18 Sep 2020 20:27:59 -0700
+ by orsmga003.jf.intel.com with ESMTP; 18 Sep 2020 20:28:02 -0700
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com
-Subject: [PATCH 2/3] Reduce the time of checkpoint for COLO
-Date: Fri, 18 Sep 2020 23:10:22 -0400
-Message-Id: <1600485023-263643-3-git-send-email-lei.rao@intel.com>
+Subject: [PATCH 3/3] Fix the qemu crash when guest shutdown in COLO mode
+Date: Fri, 18 Sep 2020 23:10:23 -0400
+Message-Id: <1600485023-263643-4-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1600485023-263643-1-git-send-email-lei.rao@intel.com>
 References: <1600485023-263643-1-git-send-email-lei.rao@intel.com>
@@ -52,7 +52,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 19 Sep 2020 03:55:07 -0400
+X-Mailman-Approved-At: Sat, 19 Sep 2020 03:55:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,46 +68,32 @@ Cc: leirao <lei.rao@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-we should set ram_bulk_stage to false after ram_state_init,
-otherwise the bitmap will be unused in migration_bitmap_find_dirty.
-all pages in ram cache will be flushed to the ram of secondary guest
-for each checkpoint.
+In COLO mode, if the startup parameters of QEMU include "no-shutdown",
+QEMU will crash when the guest shutdown. The root cause is when the
+guest shutdown, the state of VM will switch COLO to SHUTDOWN. When do
+checkpoint again, the state will be changed to COLO. But the state
+switch is undefined in runstate_transitions_def, we should add it.
+This patch fixes the following:
+qemu-system-x86_64: invalid runstate transition: 'shutdown' -> 'colo'
+Aborted
 
 Signed-off-by: leirao <lei.rao@intel.com>
 ---
- migration/ram.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ softmmu/vl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 76d4fee..6a2b6c1 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3019,6 +3019,17 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
- }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f7b1034..c21606c 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -631,6 +631,7 @@ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_SHUTDOWN, RUN_STATE_PAUSED },
+     { RUN_STATE_SHUTDOWN, RUN_STATE_FINISH_MIGRATE },
+     { RUN_STATE_SHUTDOWN, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_SHUTDOWN, RUN_STATE_COLO },
  
- /*
-+ * we must set ram_bulk_stage to fasle, otherwise in
-+ * migation_bitmap_find_dirty the bitmap will be unused and
-+ * all the pages in ram cache wil be flushed to the ram of
-+ * secondary VM.
-+ */
-+static void colo_set_ram_state(RAMState *rsp)
-+{
-+    rsp->ram_bulk_stage = false;
-+}
-+
-+/*
-  * colo cache: this is for secondary VM, we cache the whole
-  * memory of the secondary VM, it is need to hold the global lock
-  * to call this helper.
-@@ -3062,6 +3073,7 @@ int colo_init_ram_cache(void)
-     }
- 
-     ram_state_init(&ram_state);
-+    colo_set_ram_state(ram_state);
-     return 0;
- }
- 
+     { RUN_STATE_DEBUG, RUN_STATE_SUSPENDED },
+     { RUN_STATE_RUNNING, RUN_STATE_SUSPENDED },
 -- 
 1.8.3.1
 
