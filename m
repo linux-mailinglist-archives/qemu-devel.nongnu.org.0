@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA32271003
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:50:49 +0200 (CEST)
-Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C95271010
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:58:36 +0200 (CEST)
+Received: from localhost ([::1]:37640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJhwe-0002K5-D7
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51846)
+	id 1kJi4B-0002YL-HD
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhrL-0006A9-1A; Sat, 19 Sep 2020 14:45:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:40393)
+ id 1kJhrM-0006Cm-5H; Sat, 19 Sep 2020 14:45:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:60969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhrJ-0001MA-7B; Sat, 19 Sep 2020 14:45:18 -0400
+ id 1kJhrK-0001Mr-9e; Sat, 19 Sep 2020 14:45:19 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MHEPI-1kFK7y1S3E-00DHk0; Sat, 19 Sep 2020 20:45:11 +0200
+ id 1MDN3O-1k9IWV25o6-00AWak; Sat, 19 Sep 2020 20:45:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/17] hw/timer/hpet: Remove unused functions hpet_ram_readb,
- hpet_ram_readw
-Date: Sat, 19 Sep 2020 20:44:40 +0200
-Message-Id: <20200919184451.2129349-7-laurent@vivier.eu>
+Subject: [PULL 08/17] scripts/git.orderfile: Display meson files along with
+ buildsys ones
+Date: Sat, 19 Sep 2020 20:44:42 +0200
+Message-Id: <20200919184451.2129349-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919184451.2129349-1-laurent@vivier.eu>
 References: <20200919184451.2129349-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+f0CKISPN4I8D1fl8jFmTnvM2m0WQPyQPUNg7uFBXkPVaL5b/I2
- nz7ZqSE4jViHlr8m/IKCRbFM0jqUWRH+tlZ0UHWx+rkGtm+yO+v8y2L8vivMq/cpcmrn0j6
- ElVNa10od7F/uF/dQJ/4Hu0kYij5dmYZ7amkRG8DFMRuSY66iLjk5YT5wb1CVkmqAufh/aL
- ld4BVLRtiz8X99O9XCY1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HJAjLwYZTO4=:gIEKMcDlBNpPAMTKHq8Yny
- w8QXeiYp/J+2/v2gLsR1VYSX3T4LMDfKjBwY/JHrTtPM64tMnkLpOiL5IDe0kq0yONu1DZl6f
- XzGwqrYtGYvGzaGeCzOiFQEPvVdyh930A2jo0gChyezjxKfHkdyl0m7fKTLvkShujyfv/+avQ
- pu1SLA7llw4PNlMeYo6C5nKKJCKEjbvGUoVnnnCtEv11XxU8W0NMqK1nLld+gqdZRlm5TW9Np
- yL9oqTIhY6Uj3YgXk0NjHcyQhkZX184rgjeL0cwRw/C1qUwCpMNRkm5swqaJ6n3/cgMwt9iCh
- Fk9Y7AYxCM5fKBmrM+J9ndmNjHPF6cidWu7ljRxtu0LiBr5XkjJ3dlK8gwUy46cP8X8V4N5H/
- J+p1o1KN+SAtj4M6ERimTcsdR47SXEVWI41/6MxPBp/ecX83qj8fwOnrIy5yaR+COpsYwIPde
- dsslxuf3e3r/Vy3Jhen27pGtxItLFC7VEClgpHPjprNsJMx15k8iyPY3KALJQnXQ05sHJJsgp
- KS0uI8r5imILUmdL6vAeBP+5JDqO60uY2JlkyTlfZ1YSqCm22TWKyCgirNfVvr0H2jVmQbpkA
- F98cUDVybyDEY138ZzDbVXeYBEBHXnB9mhe4dHBYRVE5b1UYfOXwNKcqYo0l2RBtcrRHowuAf
- 2m26u9PDVImSc7H16n4cinqMeJjngJ8vjcJE8NcL4Tvk93rIXueWMBApwLV6R7Nla55PDgd0H
- +5ouY6PxT0P8NMlFTazj5gEQtJseD1U8xiqvB4oEXmlEpY5GIy+C+64f+fafcapg4UxPZ2IyE
- Z3twavIoHckkOIDL9df96oLTdr9edwECQCsWHyFR46UkUIkEV7jQuCRQQk5jsG7VLREHx7L
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:A+6bhBMoofjtXKS/JB+fhDqaqGPu2KXHJ17i68ULWgL4QXv03tp
+ zIobRMpTJmNnx+vI0eCugUhvwBLD2NOHkl+1yNgPco3kNlhPYVsONYNGehGkcGFA2UThLzc
+ 96gsnO34xrZyGiP4ItRx2J0AUURnZHobmmH9HedaUIjCZlpfDeKIylOUaiO6jpIy9CdnHi+
+ U2ewdp4RGhx4lHl6oDQgw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Y6zqzLSkU60=:UakqP4WPN9wUIwZxyyYNN1
+ I9AW+zwa3c1qWEwqV6nf1YciYzQQyJkdVnD4JlK8j/acv5mVPJiRfnDGNaJttBhBrZAf3PPxx
+ upETvTCPFSpCH+h3ds/ePd9L4N2jFF/+j+Yf8LKFhIrn1EgEZeraustYIbc9BwwhxCA1lFtPM
+ F8tJpOV9Co7rJVmCcM+OkYCziJxSwPBB1Eql1O/hIkr6AZ0YiAPsVvsrnGcNZmcsm9Iekorzn
+ Ib4S8uWcWPkz7M639mnFjNP7Jl+L7QLKrFaFNqh/u+fM5VcRFP3x02B2skECWkUREHefgUYRc
+ TlLOXw3MO+S3WHQ6PQW266YygkgTSbPBYbrBTr7MuwtOQ2KCKb7Z7DHIgJFEJDQrsYF1ViYdf
+ iqNiWjnzxlTPFjHxL+hn36nb/rd7GAwDjANfYQw1ycmDc9d1v5kwneicyZn6LqhuBDyV+iPo0
+ bpa2Q6HAmvHKUFAhRhQ9spqtY7Fd1ABE4f3rbu575vsMNSWnK0lwdXjgoUUZ1AjixCf99TrRB
+ z30JPnYO2bXuqPXaqtAh5E8kIKs5s34/m7bKiEV/y52Bm499SUgkZRCp67MfJKygUhxMFtrnV
+ HnRQUtTDx0iV1dINhyWQxHhWb+n/pfsiVZ5Sg4SxKj5jiD5KiWNyVhd9umWTZig3Hi8G2Agur
+ PJCo9W84rQ38upCKsdId27cW4CGtu3p9Y1t43xH7YBAp2vXsuPnRvEvmJOOrOrUgZmFj2uAv4
+ /wwpyIHfJ8XqR4AfPKgNUAeRQPCwz8WluJuM/BU6ojS2YaISKuWHZN6X3/K3URPWkL0rbRd5D
+ XO4zxT708YLBBe4vAsGfqVQg/YHhGeDEqdNvvg7ijE7Fl+nMCe/uFhLgeqVrBTZji7aMMyD
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -73,50 +73,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Dov Murik <dovmurik@linux.vnet.ibm.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dov Murik <dovmurik@linux.vnet.ibm.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix compiler error about defined but not used functions when compiling
-with -DHPET_DEBUG by deleting the unused debug functions hpet_ram_readb
-and hpet_ram_readw.
+Since commit a56650518f5 ("configure: integrate Meson in the build
+system") we replaced many Makefile by Meson files. Adapt the
+git.orderfile script to display the new file at the same position.
 
-Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200909083650.46771-2-dovmurik@linux.vnet.ibm.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20200907161222.41915-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/timer/hpet.c | 14 --------------
- 1 file changed, 14 deletions(-)
+ scripts/git.orderfile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 44bbe3a5361e..07ff82b33358 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -419,20 +419,6 @@ static void hpet_del_timer(HPETTimer *t)
-     update_irq(t, 0);
- }
+diff --git a/scripts/git.orderfile b/scripts/git.orderfile
+index 73fd818d7f3e..a021afc2d517 100644
+--- a/scripts/git.orderfile
++++ b/scripts/git.orderfile
+@@ -18,6 +18,7 @@ docs/*
+ configure
+ Makefile*
+ *.mak
++meson.build
  
--#ifdef HPET_DEBUG
--static uint32_t hpet_ram_readb(void *opaque, hwaddr addr)
--{
--    printf("qemu: hpet_read b at %" PRIx64 "\n", addr);
--    return 0;
--}
--
--static uint32_t hpet_ram_readw(void *opaque, hwaddr addr)
--{
--    printf("qemu: hpet_read w at %" PRIx64 "\n", addr);
--    return 0;
--}
--#endif
--
- static uint64_t hpet_ram_read(void *opaque, hwaddr addr,
-                               unsigned size)
- {
+ # qapi schema
+ qapi/*.json
 -- 
 2.26.2
 
