@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5842C271079
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 22:42:37 +0200 (CEST)
-Received: from localhost ([::1]:55916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72EC2271141
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 00:42:49 +0200 (CEST)
+Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJjgp-0004OX-Ud
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 16:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41660)
+	id 1kJlZA-0005Jf-2l
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 18:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJjf8-0003qA-RA
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 16:40:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44342)
+ id 1kJlXI-0004qp-Rx
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 18:40:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJjf6-00065o-Lp
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 16:40:50 -0400
+ id 1kJlXE-00028B-Qm
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 18:40:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kJjf4-0000k9-O5
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 20:40:46 +0000
+ id 1kJlXB-00017A-US
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 22:40:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 790112E80E9
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 20:40:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DA70F2E80E9
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 22:40:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 19 Sep 2020 20:35:22 -0000
-From: Paul Zimmerman <1892604@bugs.launchpad.net>
+Date: Sat, 19 Sep 2020 22:31:47 -0000
+From: Toolybird <1896096@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brendandg pauldzim petunia2000 pmaydell
-X-Launchpad-Bug-Reporter: Brendan Dolan-Gavitt (brendandg)
-X-Launchpad-Bug-Modifier: Paul Zimmerman (pauldzim)
-References: <159814309088.988.14645850566795174578.malonedeb@wampee.canonical.com>
-Message-Id: <160054772262.22139.16709127799849267316.malone@wampee.canonical.com>
-Subject: [Bug 1892604] Re: qemu-system-arm: ../hw/usb/hcd-dwc2.c:666:
- dwc2_glbreg_read: Assertion `addr <= GINTSTS2' failed.
+X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier pmaydell
+ toolybird
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Toolybird (toolybird)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+Message-Id: <160055470726.18094.10303235497441136908.malone@soybean.canonical.com>
+Subject: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 829568ad59380eefd2610e9bf52b0405bd3115f2
+X-Launchpad-Hash: 1f87135e2d869a1686c02b44ab55947e210df0c1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 15:10:41
@@ -72,80 +74,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1892604 <1892604@bugs.launchpad.net>
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I also tried
-http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-09-28/2016-0=
-9-23
--raspbian-jessie.zip, which is the next Raspbian release after the
-cursed one, and it works OK too. So I assume any release after that will
-also work OK. Just in case anyone wants to use the older releases
-because they are smaller than the later ones.
+Looking deeper into this... I believe there are indeed qemu bugs here.
+
+It's actually the qemu configure script which is adding `-pie'
+
+$ echo $LDFLAGS
+-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
+
+Yet meson-logs/meson-log.txt tells me that:
+
+Using 'LDFLAGS' from environment with value: '-g -pie -Wl,-O1,--sort-
+common,--as-needed,-z,relro,-z,now'
+
+Where did the `-pie' come from? Answer: the qemu configure script!
+
+https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dconfigure;h=3D756447900855e=
+0b886ec6eb4e6b6aecf48c20a97;hb=3DHEAD#l2250
+
+Simply unsetting LDFLAGS allows the build to complete successfully.
+
+Not only that, qemu is now ignoring my user supplied CFLAGS from the
+environment. I haven't analysed this one yet but I'm starting to realise
+this hybrid meson/configure script approach is quite complicated.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1892604
+https://bugs.launchpad.net/bugs/1896096
 
 Title:
-  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
-  `addr <=3D GINTSTS2' failed.
+  Git version: Build process is broken in block_curl.c.o
 
 Status in QEMU:
-  New
+  Invalid
 
 Bug description:
-  When trying to run the 2016-05-27 Raspbian image on the emulated
-  raspi2 platform, the system boots but shortly after the login prompt
-  QEMU (master; commit ID ca489cd037e4d50dc6c40570a167504ad7e5a521) dies
-  with:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
 
-  qemu-system-arm: ../hw/usb/hcd-dwc2.c:666: dwc2_glbreg_read: Assertion
-  `addr <=3D GINTSTS2' failed.
+  Configure options used:
 
-  Steps to reproduce:
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
 
-  1. Get the image: wget
-  http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-31/2016=
--05-27
-  -raspbian-jessie.zip
+  Error log attached. Here is the beginning:
 
-  2. Extract the kernel image and DTB:
-
-  sudo losetup -f --show -P 2016-05-27-raspbian-jessie.img
-  sudo mkdir /mnt/rpi
-  sudo mount /dev/loop11p1 /mnt/rpi/
-  cp /mnt/rpi/kernel7.img .                                                =
-                                                                           =
-                                                                           =
-                                                                   =
-
-  cp /mnt/rpi/bcm2709-rpi-2-b.dtb .                                        =
-                                                                           =
-                                                                           =
-                                                                   =
-
-  sudo umount /mnt/rpi =
-
-  sudo losetup -d /dev/loop11 =
-
-
-  3. Run QEMU:
-  qemu-system-arm -M raspi2 -m 1G -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.=
-img -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.l=
-pm_enable=3D0 root=3D/dev/mmcblk0p2" -sd 2016-05-27-raspbian-jessie.img -sm=
-p 4 -serial stdio -display none
-
-  A few seconds after the login prompt is displayed, QEMU will exit with
-  the assertion failure.
-
-  I also tried changing all of the asserts to if statements that (for
-  MMIO reads) returned 0 and (for writes) just returned, but this
-  resulted in a non-responsive system.
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1892604/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
