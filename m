@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD598271005
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:53:34 +0200 (CEST)
-Received: from localhost ([::1]:52386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7FF271002
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 20:50:25 +0200 (CEST)
+Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJhzJ-00054w-S3
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51774)
+	id 1kJhwF-0002Gq-VY
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 14:50:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhrD-0005x5-W3; Sat, 19 Sep 2020 14:45:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:42173)
+ id 1kJhrC-0005w7-SB; Sat, 19 Sep 2020 14:45:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:58959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kJhrC-0001JM-Aq; Sat, 19 Sep 2020 14:45:11 -0400
+ id 1kJhrB-0001J8-9B; Sat, 19 Sep 2020 14:45:10 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MwjO6-1khPuE0TQQ-00y9Aw; Sat, 19 Sep 2020 20:45:04 +0200
+ id 1MgARS-1kxzLz25yI-00hiko; Sat, 19 Sep 2020 20:45:06 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/17] hw/ppc/ppc4xx_pci: Replace magic value by the
- PCI_NUM_PINS definition
-Date: Sat, 19 Sep 2020 20:44:36 +0200
-Message-Id: <20200919184451.2129349-3-laurent@vivier.eu>
+Subject: [PULL 03/17] ui/spice-input: Remove superfluous forward declaration
+Date: Sat, 19 Sep 2020 20:44:37 +0200
+Message-Id: <20200919184451.2129349-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919184451.2129349-1-laurent@vivier.eu>
 References: <20200919184451.2129349-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:h/h2VcDIwTiLg/hBUwZ4awmd4hH1wKdZFS7+HpDwoIumxXIBznn
- YsFVomvgZ2oevY6URh5oj9G3HP4KUomazxXYArjoFvO98qc9mgqDUjkVtReXwpFFvK8mtRN
- siBxP4t6Fl+Utib8vBOiCbULvcoBf5C5JEF3UvwtzhPIxiJ2ADVDtlFfFwcygxEPM0gMrAd
- PAsd38Txln/0syX/0+q6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ml0MAjfjsk8=:pPHBOo0xFLotnDC52G50bp
- NCnFlgCavHHtfGYiEOJ8VUvSwXMgLuVU74r7N4DTavgt3Rg2ocgJo6214C0J261nTO5+VK4rf
- cUdlkhSAZWvbCEuH6y69G+j1fPAWMTtt0z551NOz1Z9QwcaWpFjuMNdmtBCwg+eokkJZx/ZQ/
- Oube/cqZquJh0mUjAxaH4l9Vk29yG+lgNQqcfM9abLqb8wOQf70TYuI/st51+X83WKSHYI4s9
- hMRzXdmzUc4PSktqx4ScDOnPk/barjG+V/R580WPLJNpzPBQOYEobDMgkfmjO3CytQsbdAAcQ
- xGeeBfYrtDKv1DzOi8KliiO09ZaLWF1SUBMuOETwbXSR7R3/Ey3eFuufm+8iBpn1jlObioUwX
- ++nD/J0LasaYO9A+zfR7ew5u0mPlc3gRCC87Y3q7Bo83n4rsx33BQww/9/02hTcZd5Z3fR9GR
- EvlgNCsBdUmyeM8SL6GXjJPg8JlC+Ts8WwO7E+PqXMnG0TFJ2Upqwiqv3/pqJlihV/Fe6/Ty0
- IZ9UIgrjT3K5n48nrr+iNS1IfvkAcVOBBP09ktuTIIBh61OGIdGaMJDSty/21AIpwxE3Wvx5f
- z6mA9OuddSRnqO8Ts2zR8yMddvlGNfWf9EyChdULFp4zGt21kKEFV/JawygerMIQuBQ80T3rk
- UroyEKNccIe+DDrv2i4Hab7ccI2+5yM6NeHr7jy/KRN12kLzu/jP3SgkwvlToAhQZQFS1jtWe
- YsmbfDW5q31vVOuroKfdmrOm2qNeNZ61wawNFV84vtOtIq9ITCUQ/P5wPCwqTXci+NgKJHdyx
- DbhVLTnQLJ0Rg9SHscnFIxV16GCvA7KwIgZ1hW6ifU4LHYbbX2GS8IRQJgBd69o6n5TG54G
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:s/2tQlUDlhHrBU5GriJw/AgUzsxIKA2LOX7Y7ALvXTNNQ3WDnRx
+ gXlHkaaQJMf5pxYefSYvgWRD2qs06WAw2BFZS1biI+2OMotndLwh3d28qz2ebdLYyx8TyE+
+ QPkP1dP/t2wJxYZ72Dsk+pankKE7dXK+o3G0137iREWPaf3xihKLQbnsKP1e/vjhLnpW1CM
+ MQrPrJ4pRebFr7sdUJfUA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uONlk90ihh0=:G3iOqUW3ANj1lOQbfr2R1V
+ Cg6JPIlF4wFCL/kb27cGSHNX6bHWp64w4aKvSjp7B0WQf5xE0E5UPOOQmlxCGHHreny1TIIGE
+ F1PDIsWRZr7hWsNQriLY9g1XM6DSZXTIrU+Mdy72NPhLNuLlP6wat4R/pUInKIzmXx5rVzl3K
+ 6WmHS2ZOsZs53yl5k0V/JLgUdXK5jwgDrh3IQwdVzOZwmFBAhzhjs8u/OsSKFxWui6NVOl809
+ 6eXSqYteUnfPdv+LkJLxiWLT6esy1x51VSm7KdZW6vVlNwTw3QjXyH3uJnnk2CmEmyUS8adkv
+ GU4U2DQ85PaEYGminBt7XDwYv28w0bOmJ8pYAo7rqwkTRyRInf+4G04f8t9dwxQJhAMwTaqon
+ BLiQfH+4t8WWouoazpux0phZaoeJSDZYj5q+lRlZRpilu4uKIOp2OeNz3mO2Gj1QLWG1WQTyT
+ Jlh9FrK59kTnoklKfSLmsWe4TEwNFADrosD9YaCz+qsXDI8kaKRPN3fUw4SOBaB/G4ICfHo5n
+ D19W9WbqpTIGCsPL9Dtl62lKyTyZUhOulFCvNYBQtTLkLQW/cDjCYAw0iw2n8Ommsn1/Iz1eW
+ N22dCxOXRE/i/+hOxfudNw/zfnajffjWyHvcrq4oljhZp6n26XkIb9q+xneGZJoDQzGqr8yUd
+ +87xR11xHVBkMVoUH2bU2lS0m05l6Arn6NevHJ0np6Ni/Qph/sxQpb+aFlgyNYwHLfq0CRieF
+ 0wejDi6hRWTXwpgKtwwDd0jlyH/kFfTCpBd9RZFgqDhYUuAWX+gEGNUOwRuFte/I6cjb7lWEx
+ secYcnI6xIYKdSNfv8MNjs3mx7Rm5dXxZhvqrma3/Xl1HOmOlzMsmwJDfuubbXUe3gl46ck
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 14:45:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,41 +71,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Replace the magic '4' value by the PCI_NUM_PINS definition.
+We only need to forward-declare kbd_push_key() and kbd_get_leds()
+which are used in kbd_interface, not kbd_leds(). Remove this
+superfluous forward declaration.
 
-Suggested-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200910072325.439344-3-f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200909171145.350360-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/ppc/ppc4xx_pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ui/spice-input.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-index c24bac96c32f..ca2553bf8b75 100644
---- a/hw/ppc/ppc4xx_pci.c
-+++ b/hw/ppc/ppc4xx_pci.c
-@@ -56,7 +56,7 @@ struct PPC4xxPCIState {
+diff --git a/ui/spice-input.c b/ui/spice-input.c
+index d5bba231c95c..21990fa9962b 100644
+--- a/ui/spice-input.c
++++ b/ui/spice-input.c
+@@ -36,7 +36,6 @@ typedef struct QemuSpiceKbd {
  
-     struct PCIMasterMap pmm[PPC4xx_PCI_NR_PMMS];
-     struct PCITargetMap ptm[PPC4xx_PCI_NR_PTMS];
--    qemu_irq irq[4];
-+    qemu_irq irq[PCI_NUM_PINS];
+ static void kbd_push_key(SpiceKbdInstance *sin, uint8_t frag);
+ static uint8_t kbd_get_leds(SpiceKbdInstance *sin);
+-static void kbd_leds(void *opaque, int l);
  
-     MemoryRegion container;
-     MemoryRegion iomem;
+ static const SpiceKbdInterface kbd_interface = {
+     .base.type          = SPICE_INTERFACE_KEYBOARD,
 -- 
 2.26.2
 
