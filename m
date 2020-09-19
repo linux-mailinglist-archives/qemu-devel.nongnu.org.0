@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C207C270CD8
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 12:13:39 +0200 (CEST)
-Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9478270CEA
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 12:22:15 +0200 (CEST)
+Received: from localhost ([::1]:60900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJZsA-0003h3-Ca
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 06:13:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49786)
+	id 1kJa0U-00068x-PX
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 06:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJZqr-00034C-7W
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 06:12:18 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44639
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kJZqn-0008VJ-TQ
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 06:12:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600510330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0vBMlPO26mG4Y2b/IgjR2syrRGxKeRiZhYnO6k6ZDeU=;
- b=F8rjrcUV65iDErF+BwXUG3VWESIXVq4KmlQSclZ3qQxry+4Z7xjCAVA1dxi4diwbOqOGfD
- tvdeb3d/kTwix/y5GvP//OkwK0TVrzGa+FFMgQ/vl0ZhRGTA3+yHLg8fbIzOVc917V3D9Z
- BJZ88J7a1sE1u3gAWyjkMW7I3yBMzeQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-w4hNZrDMPNWZHzdlFjdqLg-1; Sat, 19 Sep 2020 06:12:06 -0400
-X-MC-Unique: w4hNZrDMPNWZHzdlFjdqLg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E01611074644;
- Sat, 19 Sep 2020 10:12:04 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25B6F73674;
- Sat, 19 Sep 2020 10:12:03 +0000 (UTC)
-Subject: Re: [PULL 05/24] Simplify the .gitignore file
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200916114731.102080-1-thuth@redhat.com>
- <20200916114731.102080-6-thuth@redhat.com>
- <CAFEAcA-cr39jxB-AZV2Nb7jhN497RF66RTrf2eqsWxJ4Ad8F_w@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <eb9ed18e-c792-eb85-d86e-43b62d28de6c@redhat.com>
-Date: Sat, 19 Sep 2020 12:12:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJZz9-0005iN-Qa
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 06:20:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kJZz0-0000vj-ML
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 06:20:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kJZyx-0006IV-Dz
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 10:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 666C22E80DB
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 10:20:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-cr39jxB-AZV2Nb7jhN497RF66RTrf2eqsWxJ4Ad8F_w@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 06:12:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.869, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 19 Sep 2020 10:15:11 -0000
+From: Frederic Bezies <1896096@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier pmaydell
+ toolybird
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+Message-Id: <160051051209.21513.17496763254824844540.malone@wampee.canonical.com>
+Subject: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
+X-Launchpad-Hash: a7a454c9b1e149f507ff5bbcffe32e425e3e8171
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 05:00:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,47 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/09/2020 19.33, Peter Maydell wrote:
-> On Wed, 16 Sep 2020 at 12:47, Thomas Huth <thuth@redhat.com> wrote:
->>
->> Now that we always do out-of-tree builds (and the in-tree builds are
->> faked via a "build" directory), we can simplify out .gitignore file
->> quite a bit.
->>
->> Message-Id: <20200909080305.258961-1-thuth@redhat.com>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  .gitignore | 152 -----------------------------------------------------
->>  1 file changed, 152 deletions(-)
-> 
-> This change removed .pyc files from the set of things we
-> ignore:
-> 
->> -*.pyc
-> 
-> But the meson build still runs python scripts which live in
-> the source tree, which means python still dumps its bytecode
-> files in the source tree too, and they appear in 'git status' now:
-> 
-> Untracked files:
->   (use "git add <file>..." to include in what will be committed)
-> 
->         docs/sphinx/__pycache__/
->         scripts/qapi/__pycache__/
->         scripts/tracetool/__pycache__/
->         scripts/tracetool/backend/__pycache__/
->         scripts/tracetool/format/__pycache__/
-> 
-> So I think we should put *.pyc back into .gitignore.
+Building log while settings LDFLAGS as is:  export LDFLAGS=3D"-Wl,-O1
+,--sort-common,--as-needed,-z,relro,-z,now"
 
-Ooops, you're right. I'll send a patch.
+** Attachment added: "qemuv1-2.log"
+   https://bugs.launchpad.net/qemu/+bug/1896096/+attachment/5412418/+files/=
+qemuv1-2.log
 
- Thomas
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1896096
+
+Title:
+  Git version: Build process is broken in block_curl.c.o
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
+
+  Configure options used:
+
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
+
+  Error log attached. Here is the beginning:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
