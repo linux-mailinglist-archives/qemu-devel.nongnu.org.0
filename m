@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AA8270F96
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:42:16 +0200 (CEST)
-Received: from localhost ([::1]:42470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15107270F92
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:40:12 +0200 (CEST)
+Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfwF-0000jF-Df
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51648)
+	id 1kJfuE-0005zm-Oh
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:40:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHW-0005bA-KB
+ id 1kJfHW-0005aI-6y
  for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57886)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHG-0007Qg-SV
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:10 -0400
+ id 1kJfHG-0007Qi-PU
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600531190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y+CCxhNxxcmW4M13TN325UTuixWJIJ7Gk7glKz9O1Xc=;
- b=DiFZ/ghYaIlgeCiy2RezibS7W45yAiE7XFoFqQbUUzUJdSov3GI97seoComXitf8CxENv6
- o/lZp/K60j3gMU5ukzmcuDV5s+uk+xvbeU3qtD1VOjShUBOhVdU91GGRPeERTZFUK4F0GT
- 0Ufuw0sOjguUcomzWcZ27RQk/epQrOU=
+ bh=BfhTGlZg8zAkSoUivoYYSWYDf/IGrkLT5tkVAXTyo5k=;
+ b=IZDdlkLSj/9J4wCByWAvmoLsgOKyvXT7Sz5fPTTB2eY90v6OI1nS3WlW2Ek/0OVKIdjl2n
+ YyQjob4hEgFAeARudSkuaYYNbanpxTJRLmEHJBCBQvdPo1w1MjwC5fcOUHuRm5AzePEXZX
+ Ciq2/LEMaGPCYuUenNlLaBNLIFJ2gyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-8daarbd3PUamJUiY4HpObw-1; Sat, 19 Sep 2020 11:59:48 -0400
-X-MC-Unique: 8daarbd3PUamJUiY4HpObw-1
+ us-mta-128-yeXJoRUhMu6e4Yzykh0jDw-1; Sat, 19 Sep 2020 11:59:48 -0400
+X-MC-Unique: yeXJoRUhMu6e4Yzykh0jDw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E69FF1074644;
- Sat, 19 Sep 2020 15:59:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ED2B56BE3;
+ Sat, 19 Sep 2020 15:59:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A849910016DA;
- Sat, 19 Sep 2020 15:59:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D1841002388;
+ Sat, 19 Sep 2020 15:59:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/57] configure: move cocoa option to Meson
-Date: Sat, 19 Sep 2020 11:58:55 -0400
-Message-Id: <20200919155916.1046398-37-pbonzini@redhat.com>
+Subject: [PULL 37/57] configure: do not limit Hypervisor.framework test to
+ Darwin
+Date: Sat, 19 Sep 2020 11:58:56 -0400
+Message-Id: <20200919155916.1046398-38-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +59,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 06:41:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 11:03:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -86,151 +87,52 @@ Cc: Christophe de Dinechin <dinechin@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While detection of the framework was already there, moving
-the option allows for better error reporting.
+Because the target/i386/hvf/meson.build rule culls hvf support
+on non-Darwin systems, a --enable-hvf build is succeeding.
+To fix this, just try the compilation test every time someone
+passes --enable-hvf.
 
 Reported-by: Christophe de Dinechin <dinechin@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 17 +++++++----------
- meson.build       |  9 +++++++--
- meson_options.txt |  2 ++
- ui/meson.build    |  2 +-
- 4 files changed, 17 insertions(+), 13 deletions(-)
+ configure | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/configure b/configure
-index f4499f52a4..96446e10b0 100755
+index 96446e10b0..0e65d4493d 100755
 --- a/configure
 +++ b/configure
-@@ -448,7 +448,7 @@ bsd="no"
- linux="no"
- solaris="no"
- profiler="no"
--cocoa="no"
-+cocoa="auto"
- softmmu="yes"
- linux_user="no"
- bsd_user="no"
-@@ -868,7 +868,7 @@ Darwin)
+@@ -863,7 +863,7 @@ Darwin)
+   bsd="yes"
+   darwin="yes"
+   hax="yes"
+-  hvf="yes"
++  hvf=""
+   if [ "$cpu" = "x86_64" ] ; then
      QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
      QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
+@@ -5818,16 +5818,18 @@ fi
+ 
+ #################################################
+ # Check to see if we have the Hypervisor framework
+-if [ "$darwin" = "yes" ] ; then
++if [ "$hvf" != "no" ] ; then
+   cat > $TMPC << EOF
+ #include <Hypervisor/hv.h>
+ int main() { return 0;}
+ EOF
+   if ! compile_object ""; then
++    if test "$hvf" = "yes"; then
++	error_exit "Hypervisor.framework not available"
++    fi
+     hvf='no'
+   else
+     hvf='yes'
+-    QEMU_LDFLAGS="-framework Hypervisor $QEMU_LDFLAGS"
    fi
--  cocoa="yes"
-+  cocoa="enabled"
-   audio_drv_list="coreaudio try-sdl"
-   audio_possible_drivers="coreaudio sdl"
-   QEMU_LDFLAGS="-framework CoreFoundation -framework IOKit $QEMU_LDFLAGS"
-@@ -1239,10 +1239,10 @@ for opt do
-   ;;
-   --enable-profiler) profiler="yes"
-   ;;
--  --disable-cocoa) cocoa="no"
-+  --disable-cocoa) cocoa="disabled"
-   ;;
-   --enable-cocoa)
--      cocoa="yes" ;
-+      cocoa="enabled" ;
-       audio_drv_list="coreaudio $(echo $audio_drv_list | sed s,coreaudio,,g)"
-   ;;
-   --disable-system) softmmu="no"
-@@ -2387,8 +2387,8 @@ fi
- # cocoa implies not SDL or GTK
- # (the cocoa UI code currently assumes it is always the active UI
- # and doesn't interact well with other UI frontend code)
--if test "$cocoa" = "yes"; then
--    if test "$sdl" = "yes"; then
-+if test "$cocoa" = "enabled"; then
-+    if test "$sdl" = "enabled"; then
-         error_exit "Cocoa and SDL UIs cannot both be enabled at once"
-     fi
-     if test "$gtk" = "yes"; then
-@@ -6552,9 +6552,6 @@ if test "$have_x11" = "yes" && test "$need_x11" = "yes"; then
-   echo "X11_CFLAGS=$x11_cflags" >> $config_host_mak
-   echo "X11_LIBS=$x11_libs" >> $config_host_mak
  fi
--if test "$cocoa" = "yes" ; then
--  echo "CONFIG_COCOA=y" >> $config_host_mak
--fi
- if test "$iconv" = "yes" ; then
-   echo "CONFIG_ICONV=y" >> $config_host_mak
-   echo "ICONV_CFLAGS=$iconv_cflags" >> $config_host_mak
-@@ -7857,7 +7854,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
- 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim \
--	-Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-+	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
- 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
-         $cross_arg \
-diff --git a/meson.build b/meson.build
-index 808980b508..848223778d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -101,7 +101,7 @@ socket = []
- version_res = []
- coref = []
- iokit = []
--cocoa = []
-+cocoa = not_found
- hvf = []
- if targetos == 'windows'
-   socket = cc.find_library('ws2_32')
-@@ -114,7 +114,7 @@ if targetos == 'windows'
- elif targetos == 'darwin'
-   coref = dependency('appleframeworks', modules: 'CoreFoundation')
-   iokit = dependency('appleframeworks', modules: 'IOKit')
--  cocoa = dependency('appleframeworks', modules: 'Cocoa')
-+  cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
-   hvf = dependency('appleframeworks', modules: 'Hypervisor')
- elif targetos == 'sunos'
-   socket = [cc.find_library('socket'),
-@@ -126,6 +126,10 @@ elif targetos == 'haiku'
-             cc.find_library('bsd')]
- endif
  
-+if not cocoa.found() and get_option('cocoa').enabled()
-+  error('Cocoa not available on this platform')
-+endif
-+
- ################
- # Dependencies #
- ################
-@@ -542,6 +546,7 @@ endif
- 
- # Create config-host.h
- 
-+config_host_data.set('CONFIG_COCOA', cocoa.found())
- config_host_data.set('CONFIG_LIBUDEV', libudev.found())
- config_host_data.set('CONFIG_MPATH', mpathpersist.found())
- config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
-diff --git a/meson_options.txt b/meson_options.txt
-index 8a59ec263d..46ea1d889a 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -11,6 +11,8 @@ option('malloc_trim', type : 'feature', value : 'auto',
- option('malloc', type : 'combo', choices : ['system', 'tcmalloc', 'jemalloc'],
-        value: 'system', description: 'choose memory allocator to use')
- 
-+option('cocoa', type : 'feature', value : 'auto',
-+       description: 'Cocoa user interface (macOS only)')
- option('mpath', type : 'feature', value : 'auto',
-        description: 'Multipath persistent reservation passthrough')
- option('sdl', type : 'feature', value : 'auto',
-diff --git a/ui/meson.build b/ui/meson.build
-index dd6c110136..8a080c38e3 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -15,7 +15,7 @@ softmmu_ss.add(files(
- 
- softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('input-linux.c'))
- softmmu_ss.add(when: 'CONFIG_SPICE', if_true: files('spice-core.c', 'spice-input.c', 'spice-display.c'))
--softmmu_ss.add(when: [cocoa, 'CONFIG_COCOA'], if_true: files('cocoa.m'))
-+softmmu_ss.add(when: cocoa, if_true: files('cocoa.m'))
- 
- vnc_ss = ss.source_set()
- vnc_ss.add(files(
 -- 
 2.26.2
 
