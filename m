@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884D1270D7E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 13:12:48 +0200 (CEST)
-Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EEC270D90
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 13:22:10 +0200 (CEST)
+Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJanP-0007Zw-3x
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 07:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59212)
+	id 1kJawT-0002SW-L9
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 07:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJalf-00078U-L8
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 07:11:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47166)
+ id 1kJav8-0001i9-JB
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 07:20:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kJalW-0006ZZ-8A
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 07:10:59 -0400
+ id 1kJav4-0007eN-Lj
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 07:20:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kJalT-0001Yl-TX
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 11:10:47 +0000
+ id 1kJav2-0002fd-8F
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 11:20:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D83A02E80DB
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 11:10:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3B95B2E80DB
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 11:20:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 19 Sep 2020 11:05:23 -0000
-From: Paolo Bonzini <1896096@bugs.launchpad.net>
+Date: Sat, 19 Sep 2020 11:11:21 -0000
+From: Frederic Bezies <1896096@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
@@ -41,18 +41,17 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier pmaydell
  toolybird
 X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
-X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
 References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
- <160051051209.21513.17496763254824844540.malone@wampee.canonical.com>
-Message-Id: <CAHFMJ7sxsFOhij0DCcCD=AgUpYz+PdQHZ+YZVnRvNTGEbZhmiA@mail.gmail.com>
-Subject: Re: [Bug 1896096] Re: Git version: Build process is broken in
+Message-Id: <160051388208.17958.16641224855659046738.malone@soybean.canonical.com>
+Subject: [Bug 1896096] Re: Git version: Build process is broken in
  block_curl.c.o
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 22efa039b3476b4fcc4d474034e7385ca62dde56
+X-Launchpad-Hash: 766b9dfb041bdc72d007c32db0d25e53f4095a0b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 05:00:50
@@ -79,11 +78,8 @@ Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nope, something is overriding your LDFLAGS and adding -pie back. Please
-open a bug on Arch, if they want to enable PIE by default they can do it in
-gcc and binutils.
-
-Adding -pie to LDFLAGS is as nonsensical as adding -shared.
+Well, I'll wait until qemu 5.2.0 is released to see how archlinux work
+around this problem. Thanks anyway for your help.
 
 -- =
 
