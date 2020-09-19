@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55371270F69
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:21:55 +0200 (CEST)
-Received: from localhost ([::1]:60606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D56270F53
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:12:49 +0200 (CEST)
+Received: from localhost ([::1]:33182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfcY-0006Ue-Cd
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51370)
+	id 1kJfTk-0003TQ-2b
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHA-0005Qh-BU
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20843)
+ id 1kJfH8-0005NL-7R
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfGy-0007NZ-OL
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:47 -0400
+ id 1kJfH3-0007Nw-AD
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531176;
+ s=mimecast20190719; t=1600531179;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=79tytawcwJw9LHpxLHI/O73wCTA0ATdaC7xziuc35VA=;
- b=LFL6QpnJnqnq26guHkKRP5MQgtYnVjxWMX2WB6GZAd1t/APm8yvP3QddewUaGUUhe3pVSw
- TmGNp+eKWisCrAkgNLbZIWwPpSmUbOg+V3YGbAgufCnchmK6fO7ldnk2FYOuHwvERnw0IM
- NAxQHIDTXbjF6mTRZofcOt5AmGUs/9Y=
+ bh=HyDKceypEWz+8riJI6yGqoX39X+g88wTAYURoyNIUmU=;
+ b=Sn717IIlAaDD1DbDIU5tsgAVikqY79NhhTH13jbeBO2QgmnAVFWkOXMHqNyo7Buh3G5Ett
+ dGcWb6kyZWWXomlhpDxKdZMTt3HoSa6RkFP40Vx2pwWjTMhPbLMrwNXWoaI7NVw6xzYysL
+ VxyiYsdYh0oxCcMeXX1Sovj2UEdDcFs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-rteOSMfHPQK27UzAEImxFg-1; Sat, 19 Sep 2020 11:59:33 -0400
-X-MC-Unique: rteOSMfHPQK27UzAEImxFg-1
+ us-mta-136-IApZVA_KM0Wa51fUAshrfw-1; Sat, 19 Sep 2020 11:59:34 -0400
+X-MC-Unique: IApZVA_KM0Wa51fUAshrfw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A910C56BF2;
- Sat, 19 Sep 2020 15:59:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F10910066FC;
+ Sat, 19 Sep 2020 15:59:33 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45FEC1975E;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3377196F3;
  Sat, 19 Sep 2020 15:59:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/57] hw/mips/mipssim: Use MMIO serial device on fake ISA I/O
-Date: Sat, 19 Sep 2020 11:58:37 -0400
-Message-Id: <20200919155916.1046398-19-pbonzini@redhat.com>
+Subject: [PULL 19/57] hw/char/serial: Remove TYPE_SERIAL_IO
+Date: Sat, 19 Sep 2020 11:58:38 -0400
+Message-Id: <20200919155916.1046398-20-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -89,51 +89,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The 'mipssim' is not a real hardware, it is a simulator.
+TYPE_SERIAL_IO is a subset of TYPE_SERIAL_MM, and it is
+not used anymore. Remove it.
 
-There is an ISA MMIO space mapped at 0x1fd00000, however
-this is not a real ISA bus (no ISA IRQ). So can not use
-the TYPE_ISA_SERIAL device...
-Instead we have been using a plain MMIO device, but named
-it IO.
-
-TYPE_SERIAL_IO is a subset of TYPE_SERIAL_MM, using
-regshift=0 and endianness=DEVICE_LITTLE_ENDIAN.
-
-Directly use the TYPE_SERIAL_MM device, enforcing the
-regshift/endianness values. 'regshift' default is already
-'0'. 'endianness' is meaningless for 8-bit accesses.
-
-This change breaks migration back compatibility, but
-this is not an issue for the mipssim machine.
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200907011538.818996-2-philmd@redhat.com>
+Message-Id: <20200907011538.818996-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/mips/mipssim.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/char/serial.c         | 41 ----------------------------------------
+ include/hw/char/serial.h | 11 -----------
+ 2 files changed, 52 deletions(-)
 
-diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
-index 1b3b762203..5d4ad74828 100644
---- a/hw/mips/mipssim.c
-+++ b/hw/mips/mipssim.c
-@@ -216,10 +216,11 @@ mips_mipssim_init(MachineState *machine)
-      * MIPS CPU INT2, which is interrupt 4.
-      */
-     if (serial_hd(0)) {
--        DeviceState *dev = qdev_new(TYPE_SERIAL_IO);
-+        DeviceState *dev = qdev_new(TYPE_SERIAL_MM);
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 2386479492..fd80ae5592 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -985,46 +985,6 @@ const MemoryRegionOps serial_io_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
  
-         qdev_prop_set_chr(dev, "chardev", serial_hd(0));
--        qdev_set_legacy_instance_id(dev, 0x3f8, 2);
-+        qdev_prop_set_uint8(dev, "regshift", 0);
-+        qdev_prop_set_uint8(dev, "endianness", DEVICE_LITTLE_ENDIAN);
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[4]);
-         sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8,
+-static void serial_io_realize(DeviceState *dev, Error **errp)
+-{
+-    SerialIO *sio = SERIAL_IO(dev);
+-    SerialState *s = &sio->serial;
+-
+-    if (!qdev_realize(DEVICE(s), NULL, errp)) {
+-        return;
+-    }
+-
+-    memory_region_init_io(&s->io, OBJECT(dev), &serial_io_ops, s, "serial", 8);
+-    sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
+-    sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
+-}
+-
+-static void serial_io_class_init(ObjectClass *klass, void* data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->realize = serial_io_realize;
+-    /* No dc->vmsd: class has no migratable state */
+-}
+-
+-static void serial_io_instance_init(Object *o)
+-{
+-    SerialIO *sio = SERIAL_IO(o);
+-
+-    object_initialize_child(o, "serial", &sio->serial, TYPE_SERIAL);
+-
+-    qdev_alias_all_properties(DEVICE(&sio->serial), o);
+-}
+-
+-
+-static const TypeInfo serial_io_info = {
+-    .name = TYPE_SERIAL_IO,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(SerialIO),
+-    .instance_init = serial_io_instance_init,
+-    .class_init = serial_io_class_init,
+-};
+-
+ static Property serial_properties[] = {
+     DEFINE_PROP_CHR("chardev", SerialState, chr),
+     DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
+@@ -1178,7 +1138,6 @@ static const TypeInfo serial_mm_info = {
+ static void serial_register_types(void)
+ {
+     type_register_static(&serial_info);
+-    type_register_static(&serial_io_info);
+     type_register_static(&serial_mm_info);
+ }
+ 
+diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
+index 264f529a7f..51397a8a18 100644
+--- a/include/hw/char/serial.h
++++ b/include/hw/char/serial.h
+@@ -91,13 +91,6 @@ struct SerialMM {
+ };
+ typedef struct SerialMM SerialMM;
+ 
+-struct SerialIO {
+-    SysBusDevice parent;
+-
+-    SerialState serial;
+-};
+-typedef struct SerialIO SerialIO;
+-
+ extern const VMStateDescription vmstate_serial;
+ extern const MemoryRegionOps serial_io_ops;
+ 
+@@ -111,10 +104,6 @@ DECLARE_INSTANCE_CHECKER(SerialState, SERIAL,
+ DECLARE_INSTANCE_CHECKER(SerialMM, SERIAL_MM,
+                          TYPE_SERIAL_MM)
+ 
+-#define TYPE_SERIAL_IO "serial-io"
+-DECLARE_INSTANCE_CHECKER(SerialIO, SERIAL_IO,
+-                         TYPE_SERIAL_IO)
+-
+ SerialMM *serial_mm_init(MemoryRegion *address_space,
+                          hwaddr base, int regshift,
+                          qemu_irq irq, int baudbase,
 -- 
 2.26.2
 
