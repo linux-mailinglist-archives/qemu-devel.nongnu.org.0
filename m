@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15107270F92
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:40:12 +0200 (CEST)
-Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A15B270F9C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:44:45 +0200 (CEST)
+Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfuE-0005zm-Oh
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:40:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51634)
+	id 1kJfye-00045B-Lv
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHW-0005aI-6y
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44739)
+ id 1kJfHb-0005kW-Ua
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36314
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHG-0007Qi-PU
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:09 -0400
+ id 1kJfHM-0007R2-KQ
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600531190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BfhTGlZg8zAkSoUivoYYSWYDf/IGrkLT5tkVAXTyo5k=;
- b=IZDdlkLSj/9J4wCByWAvmoLsgOKyvXT7Sz5fPTTB2eY90v6OI1nS3WlW2Ek/0OVKIdjl2n
- YyQjob4hEgFAeARudSkuaYYNbanpxTJRLmEHJBCBQvdPo1w1MjwC5fcOUHuRm5AzePEXZX
- Ciq2/LEMaGPCYuUenNlLaBNLIFJ2gyE=
+ bh=e2sJKZqKafTOzd1p5yXwll+9kazSOrzlw8kQ0zp2kLk=;
+ b=ZnukCOnHP8foRx5You4kXVpKurnMV7AORTCKRKsVP0jR5XyGGRkL0z5uRu3RYU0EnSF/4U
+ Il6+q/DdDz4ruuaJ6xNNYdY3uwGFaEyIiOnAeDRRBl/T2Krya3oYV0dWP+LaC/7zT5L3S4
+ 5LGewgyaaqMWmk+lqTllHHHFItE1HG8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-yeXJoRUhMu6e4Yzykh0jDw-1; Sat, 19 Sep 2020 11:59:48 -0400
-X-MC-Unique: yeXJoRUhMu6e4Yzykh0jDw-1
+ us-mta-432-7ZdZ8lw3M2aOvYjGT9OaxQ-1; Sat, 19 Sep 2020 11:59:48 -0400
+X-MC-Unique: 7ZdZ8lw3M2aOvYjGT9OaxQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ED2B56BE3;
- Sat, 19 Sep 2020 15:59:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBC7E186DD4B
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D1841002388;
- Sat, 19 Sep 2020 15:59:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 794B310016DA;
+ Sat, 19 Sep 2020 15:59:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/57] configure: do not limit Hypervisor.framework test to
- Darwin
-Date: Sat, 19 Sep 2020 11:58:56 -0400
-Message-Id: <20200919155916.1046398-38-pbonzini@redhat.com>
+Subject: [PULL 38/57] meson: qtest: set "depends" correctly
+Date: Sat, 19 Sep 2020 11:58:57 -0400
+Message-Id: <20200919155916.1046398-39-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +59,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 11:03:07
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 11:59:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.996,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +82,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe de Dinechin <dinechin@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because the target/i386/hvf/meson.build rule culls hvf support
-on non-Darwin systems, a --enable-hvf build is succeeding.
-To fix this, just try the compilation test every time someone
-passes --enable-hvf.
+This does not have any effect on Meson's behavior itself, since "meson test"
+always rebuilds everything (that is one reason why we are not using it...).
+However, mtest2make can use this information to do a selective rebuild
+for the requested suite.
 
-Reported-by: Christophe de Dinechin <dinechin@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meson.build             | 7 ++++---
+ tests/qtest/meson.build | 2 ++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/configure b/configure
-index 96446e10b0..0e65d4493d 100755
---- a/configure
-+++ b/configure
-@@ -863,7 +863,7 @@ Darwin)
-   bsd="yes"
-   darwin="yes"
-   hax="yes"
--  hvf="yes"
-+  hvf=""
-   if [ "$cpu" = "x86_64" ] ; then
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
-@@ -5818,16 +5818,18 @@ fi
+diff --git a/meson.build b/meson.build
+index 848223778d..f5c9c04e40 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1094,7 +1094,7 @@ common_all = static_library('common',
  
- #################################################
- # Check to see if we have the Hypervisor framework
--if [ "$darwin" = "yes" ] ; then
-+if [ "$hvf" != "no" ] ; then
-   cat > $TMPC << EOF
- #include <Hypervisor/hv.h>
- int main() { return 0;}
- EOF
-   if ! compile_object ""; then
-+    if test "$hvf" = "yes"; then
-+	error_exit "Hypervisor.framework not available"
-+    fi
-     hvf='no'
-   else
-     hvf='yes'
--    QEMU_LDFLAGS="-framework Hypervisor $QEMU_LDFLAGS"
-   fi
- fi
+ feature_to_c = find_program('scripts/feature_to_c.sh')
  
+-emulators = []
++emulators = {}
+ foreach target : target_dirs
+   config_target = config_target_mak[target]
+   target_name = config_target['TARGET_NAME']
+@@ -1213,7 +1213,8 @@ foreach target : target_dirs
+     }]
+   endif
+   foreach exe: execs
+-    emulators += executable(exe['name'], exe['sources'],
++    emulators += {exe['name']:
++         executable(exe['name'], exe['sources'],
+                install: true,
+                c_args: c_args,
+                dependencies: arch_deps + deps + exe['dependencies'],
+@@ -1222,6 +1223,7 @@ foreach target : target_dirs
+                link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
+                link_args: link_args,
+                gui_app: exe['gui'])
++    }
+ 
+     if 'CONFIG_TRACE_SYSTEMTAP' in config_host
+       foreach stp: [
+@@ -1267,7 +1269,6 @@ if xkbcommon.found()
+                            dependencies: [qemuutil, xkbcommon], install: have_tools)
+ endif
+ 
+-qemu_block_tools = []
+ if have_tools
+   qemu_img = executable('qemu-img', [files('qemu-img.c'), hxdep],
+              dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 874b5be62b..359a6cde64 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -228,6 +228,7 @@ foreach dir : target_dirs
+   endif
+ 
+   target_base = dir.split('-')[0]
++  qtest_emulator = emulators['qemu-system-' + target_base]
+   qtests = get_variable('qtests_' + target_base, []) + qtests_generic
+ 
+   qtest_env = environment()
+@@ -248,6 +249,7 @@ foreach dir : target_dirs
+     # FIXME: missing dependency on the emulator binary and qemu-img
+     test('qtest-@0@: @1@'.format(target_base, test),
+          qtest_executables[test],
++         depends: [qemu_img, qtest_emulator],
+          env: qtest_env,
+          args: ['--tap', '-k'],
+          protocol: 'tap',
 -- 
 2.26.2
 
