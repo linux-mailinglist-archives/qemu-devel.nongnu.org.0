@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283CA270F8A
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:32:20 +0200 (CEST)
-Received: from localhost ([::1]:34522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7E1270F8E
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:34:29 +0200 (CEST)
+Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfmd-0002PZ-62
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
+	id 1kJfoi-00068i-Lg
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHO-0005UZ-R3
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44352)
+ id 1kJfHP-0005VU-8p
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHA-0007Pd-2k
+ id 1kJfHA-0007PM-1v
  for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531186;
+ s=mimecast20190719; t=1600531185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Tkn5x3SmRtENeyRythGpocLhfNHWHtH02D7imFP+YWY=;
- b=JQBe5siIUV9taLHZAY9OX2TEjRreKLnTHqSrv8JDJm5DWehGt0hjmaJqOkOYvqesPwY+5p
- dCmbQGBCfzm4v3mRTS0Zo5pimEfBepnFDKeY/6tACBVdTwZtBiv1VFqmBuIH2WfbBmjpxE
- 8oNevzacmAa5MvU9gcUZUv1nMi7Kvu8=
+ bh=KR0lGvXEtHKULPAHS7WqwZOVqTYA998f3d3hmks2HYk=;
+ b=aN5siH44DUQ3UIxZbpoGRkIDx/iT8X/+p61Bl/MudWoswt6vt0u1XjXFyO4Wlbctt0mVNs
+ iNgKRwrgrhxev4wnV58XslZ9p2NFopZONsJFml9IDRi5U9kDm/FwNNVMaw3M5EFUZafnRV
+ mPwZfted7f9Aw8wg7LY60MxvAYeKy3I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-5Ovo-FEANNaOD3yxUOM4AA-1; Sat, 19 Sep 2020 11:59:41 -0400
-X-MC-Unique: 5Ovo-FEANNaOD3yxUOM4AA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-211-sTiUHwebMMyJ5iC2q-0s7A-1; Sat, 19 Sep 2020 11:59:42 -0400
+X-MC-Unique: sTiUHwebMMyJ5iC2q-0s7A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 934DC1074644;
- Sat, 19 Sep 2020 15:59:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCBA78712D9;
+ Sat, 19 Sep 2020 15:59:41 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 336DD60C47;
- Sat, 19 Sep 2020 15:59:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6781A1002388;
+ Sat, 19 Sep 2020 15:59:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/57] hw: megasas: consider 'iov_count=0' is an error in
- megasas_map_sgl
-Date: Sat, 19 Sep 2020 11:58:48 -0400
-Message-Id: <20200919155916.1046398-30-pbonzini@redhat.com>
+Subject: [PULL 30/57] i386/cpu: Clear FEAT_XSAVE_COMP_{LO,
+ HI} when XSAVE is not available
+Date: Sat, 19 Sep 2020 11:58:49 -0400
+Message-Id: <20200919155916.1046398-31-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,43 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Li Qiang <liq3ea@163.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
 
-Currently in 'megasas_map_sgl' when 'iov_count=0' will just return
-success however the 'cmd' doens't contain any iov. This will cause
-the assert in 'scsi_dma_complete' failed. This is because in
-'dma_blk_cb' the 'dbs->sg_cur_index == dbs->sg->nsg' will be true
-and just call 'dma_complete'. However now there is no aiocb returned.
+Per Intel SDM vol 1, 13.2, if CPUID.1:ECX.XSAVE[bit 26] is 0, the
+processor provides no further enumeration through CPUID function 0DH.
+QEMU does not do this for "-cpu host,-xsave".
 
-This fixes the LP#1878263:
-
--->https://bugs.launchpad.net/qemu/+bug/1878263
-
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Message-Id: <20200815141940.44025-3-liq3ea@163.com>
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Message-Id: <20200716082019.215316-2-xiaoyao.li@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/megasas.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index 4cc709d2c6..e24c12d7ee 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -277,7 +277,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 7603784351..053385c2b4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6372,6 +6372,8 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+     uint64_t mask;
  
-     cmd->flags = le16_to_cpu(cmd->frame->header.flags);
-     iov_count = cmd->frame->header.sge_count;
--    if (iov_count > MEGASAS_MAX_SGE) {
-+    if (!iov_count || iov_count > MEGASAS_MAX_SGE) {
-         trace_megasas_iovec_sgl_overflow(cmd->index, iov_count,
-                                          MEGASAS_MAX_SGE);
-         return -1;
+     if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
++        env->features[FEAT_XSAVE_COMP_LO] = 0;
++        env->features[FEAT_XSAVE_COMP_HI] = 0;
+         return;
+     }
+ 
 -- 
 2.26.2
 
