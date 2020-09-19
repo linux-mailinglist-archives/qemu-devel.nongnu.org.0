@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C4D270F94
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:40:51 +0200 (CEST)
-Received: from localhost ([::1]:36980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EEB270F97
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:42:34 +0200 (CEST)
+Received: from localhost ([::1]:44012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfus-0006o9-3I
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
+	id 1kJfwX-0001MO-M1
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHZ-0005gU-FH
+ id 1kJfHZ-0005hR-Q0
  for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53951)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37037
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHL-0007SZ-Dm
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:12 -0400
+ id 1kJfHM-0007Sk-Jg
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531196;
+ s=mimecast20190719; t=1600531198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a0HGQw1MXerVeCfVWbsho895pJdZfvez29NetutVjys=;
- b=OFy+Zy/xSNW3L7pfgt+SQI668BFKpnFeIwNn0BxMmUwKxHEsTsOIUajfAiWtb7N/Hgft+a
- jH4lsUyoVeDk2T/gCy71PUIjrk5Lr40yejmADT0+AzvCJ6IlKeY5xPWUvc0PaZybQUgkTQ
- LcrPz58pNUH9nTer6cGU1UvdEp8rC00=
+ bh=X9eCFYO6l9GJtfOOyYVjpx6vOqeIf53FmvdsQtyCNqE=;
+ b=DYzq765R0jSbouDgBYC3ASL3dnf/7cGejWFe0rXsby0tHEAO8VYjlhhnnsng6kJIW3e2xw
+ 6hyfUx6zBon4iOKTKl8rZGmkdB3YOQfjUfuEO87twdfDm5z7gfdzN+oBL44emfm4TJpCHG
+ yH0z6p6TlIUof6GdB8iA/wBRTbCN3ig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-FNT7KjeaMsmbd6E40XgpDQ-1; Sat, 19 Sep 2020 11:59:54 -0400
-X-MC-Unique: FNT7KjeaMsmbd6E40XgpDQ-1
+ us-mta-240-lJ13Vf9uM1SxFyFue7REnA-1; Sat, 19 Sep 2020 11:59:55 -0400
+X-MC-Unique: lJ13Vf9uM1SxFyFue7REnA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 592941074644
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B6AA1074651;
+ Sat, 19 Sep 2020 15:59:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0721910016DA;
- Sat, 19 Sep 2020 15:59:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D64731002388;
+ Sat, 19 Sep 2020 15:59:53 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 52/57] ui: relocate paths to icons and translations
-Date: Sat, 19 Sep 2020 11:59:11 -0400
-Message-Id: <20200919155916.1046398-53-pbonzini@redhat.com>
+Subject: [PULL 54/57] hw/i386/q35: Remove unreachable Xen code on Q35 machine
+Date: Sat, 19 Sep 2020 11:59:13 -0400
+Message-Id: <20200919155916.1046398-55-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +59,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 06:41:51
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 11:59:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.996,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,100 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Anthony PERARD <anthony.perard@citrix.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Xen accelerator requires specific changes to a machine to be able
+to use it. See for example the 'Xen PC' machine configure its PCI
+bus calling pc_xen_hvm_init_pci(). There is no 'Xen Q35' machine
+declared. This code was probably added while introducing the Q35
+machine, based on the existing PC machine (see commit df2d8b3ed4
+"Introduce q35 pc based chipset emulator"). Remove the unreachable
+code to simplify this file.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <20200722082517.18708-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/gtk.c  | 10 ++++++++--
- ui/sdl2.c |  9 +++++++--
- 2 files changed, 15 insertions(+), 4 deletions(-)
+ hw/i386/pc_q35.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 1c59de2af4..b11594d817 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -51,6 +51,7 @@
- #include <math.h>
- 
- #include "trace.h"
-+#include "qemu/cutils.h"
- #include "ui/input.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-@@ -2202,6 +2203,7 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     GtkDisplayState *s = g_malloc0(sizeof(*s));
-     GdkDisplay *window_display;
-     GtkIconTheme *theme;
-+    char *dir;
- 
-     if (!gtkinit) {
-         fprintf(stderr, "gtk initialization failed\n");
-@@ -2211,7 +2213,9 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     s->opts = opts;
- 
-     theme = gtk_icon_theme_get_default();
--    gtk_icon_theme_prepend_search_path(theme, CONFIG_QEMU_ICONDIR);
-+    dir = get_relocated_path(CONFIG_QEMU_ICONDIR);
-+    gtk_icon_theme_prepend_search_path(theme, dir);
-+    g_free(dir);
-     g_set_prgname("qemu");
- 
-     s->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-@@ -2227,7 +2231,9 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-      * sure that we don't accidentally break implicit assumptions.  */
-     setlocale(LC_MESSAGES, "");
-     setlocale(LC_CTYPE, "C.UTF-8");
--    bindtextdomain("qemu", CONFIG_QEMU_LOCALEDIR);
-+    dir = get_relocated_path(CONFIG_QEMU_LOCALEDIR);
-+    bindtextdomain("qemu", dir);
-+    g_free(dir);
-     bind_textdomain_codeset("qemu", "UTF-8");
-     textdomain("qemu");
- 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index b23a8f0a8e..abad7f981e 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -25,6 +25,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-+#include "qemu/cutils.h"
- #include "ui/console.h"
- #include "ui/input.h"
- #include "ui/sdl2.h"
-@@ -795,6 +796,7 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
-     int i;
-     SDL_SysWMinfo info;
-     SDL_Surface *icon = NULL;
-+    char *dir;
- 
-     assert(o->type == DISPLAY_TYPE_SDL);
- 
-@@ -868,15 +870,18 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 4a37bc3e6d..aa4b6c8e30 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -34,9 +34,7 @@
+ #include "sysemu/arch_init.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/rtc/mc146818rtc.h"
+-#include "hw/xen/xen.h"
+ #include "sysemu/kvm.h"
+-#include "sysemu/xen.h"
+ #include "hw/kvm/clock.h"
+ #include "hw/pci-host/q35.h"
+ #include "hw/qdev-properties.h"
+@@ -179,10 +177,6 @@ static void pc_q35_init(MachineState *machine)
+         x86ms->below_4g_mem_size = machine->ram_size;
      }
  
- #ifdef CONFIG_SDL_IMAGE
--    icon = IMG_Load(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
-+    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
-+    icon = IMG_Load(dir);
- #else
-     /* Load a 32x32x4 image. White pixels are transparent. */
--    icon = SDL_LoadBMP(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
-+    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
-+    icon = SDL_LoadBMP(dir);
-     if (icon) {
-         uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
-         SDL_SetColorKey(icon, SDL_TRUE, colorkey);
+-    if (xen_enabled()) {
+-        xen_hvm_init(pcms, &ram_memory);
+-    }
+-
+     x86_cpus_init(x86ms, pcmc->default_cpu_version);
+ 
+     kvmclock_create();
+@@ -208,10 +202,7 @@ static void pc_q35_init(MachineState *machine)
      }
- #endif
-+    g_free(dir);
-     if (icon) {
-         SDL_SetWindowIcon(sdl2_console[0].real_window, icon);
+ 
+     /* allocate ram and load rom/bios */
+-    if (!xen_enabled()) {
+-        pc_memory_init(pcms, get_system_memory(),
+-                       rom_memory, &ram_memory);
+-    }
++    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
+ 
+     /* create pci host bus */
+     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
+@@ -271,7 +262,7 @@ static void pc_q35_init(MachineState *machine)
+ 
+     assert(pcms->vmport != ON_OFF_AUTO__MAX);
+     if (pcms->vmport == ON_OFF_AUTO_AUTO) {
+-        pcms->vmport = xen_enabled() ? ON_OFF_AUTO_OFF : ON_OFF_AUTO_ON;
++        pcms->vmport = ON_OFF_AUTO_ON;
      }
+ 
+     /* init basic PC hardware */
 -- 
 2.26.2
 
